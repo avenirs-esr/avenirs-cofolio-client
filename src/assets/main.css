@@ -1,0 +1,46 @@
+/* General resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+/* Button styles */
+button {
+    cursor: pointer;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Utility classes */
+.status-green {
+    color: green;
+    font-weight: bold;
+}
+
+.status-red {
+    color: red;
+    font-weight: bold;
+}
+
+.status-purple {
+    color: purple;
+    font-weight: bold;
+}
