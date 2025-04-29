@@ -2,7 +2,7 @@ import { STUDENT_HOME_ROUTE, routes as studentRoutes } from '@/features/student'
 import { routes as teacherRoutes } from '@/features/teacher'
 import { createRouter, createWebHistory } from 'vue-router'
 
-const MAIN_TITLE = 'Gabarit de démarrage VueDsfr'
+const MAIN_TITLE = 'Cofolio'
 
 const routes = [
   ...studentRoutes,
