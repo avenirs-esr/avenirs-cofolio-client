@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.1",
-    "@gouvminint/vue-dsfr": "^6.0.0",
+    "@gouvminint/vue-dsfr": "^8.3.1",
     "@tanstack/vue-query": "^5.74.9",
     "axios": "^1.9.0",
     "focus-trap": "^7.5.4",
