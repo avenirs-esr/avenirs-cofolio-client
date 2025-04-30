@@ -5,7 +5,7 @@ export const TEACHER_HOME_ROUTE = 'teacher-home'
 const routes: RouteRecordRaw[] = [
   {
     path: '/teacher',
-    component: () => import('@/layouts/teacher/TeacherLayout.vue'),
+    component: () => import('@/features/teacher/layouts/TeacherLayout.vue'),
     children: [
       {
         path: '',

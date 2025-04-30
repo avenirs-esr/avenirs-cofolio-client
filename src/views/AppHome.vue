@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvButton } from 'src/ui-library'
+import { AvButton } from '@/ui'
 </script>
 
 <template>

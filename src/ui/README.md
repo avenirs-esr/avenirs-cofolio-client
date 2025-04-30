@@ -1,4 +1,4 @@
-# ui-components
+# ui
 
 Contains **low-level atomic components** like buttons, inputs, and icons.
 
