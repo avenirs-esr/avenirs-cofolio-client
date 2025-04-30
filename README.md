@@ -1,76 +1,112 @@
-# vue-dsfr-project
+# Avenirs Cofolio Client
 
-Ce gabarit possède tous les outils configurés pour développer un projets Vue 3 et VueDsfr avec Vite.
+The Avenirs Cofolio project is a comprehensive portfolio management system designed to support lifelong portfolio development for citizens. It aims to:
 
-## Configuration recommandée
+- Enable continuity in portfolio approaches throughout a citizen's life
+- Facilitate awareness, recognition, and promotion of skills and competencies
+- Support the development of life projects (personal, educational, career orientation, professional development, and civic engagement)
+## Project Structure
 
-- Visual Studio Code avec ces extensions :
-  - [VSCode](https://code.visualstudio.com/)
-  - [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
-  - [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
-  - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-  - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-  - [Vue Ecosystem Snippets](https://marketplace.visualstudio.com/items?itemName=matijao.vue-nuxt-snippets)
+- `src/`: Source code
+  - `assets/`: Static assets
+  - `common/`: Shared utilities and cross-cutting concerns
+    - `api/`: API services and HTTP client configuration
+      - `http.client.ts`: Axios-based HTTP client setup
+    - `composables/`: Reusable Vue composition functions
+    - `exceptions/`: Error handling infrastructure
+  - `components/`: Reusable UI components
+  - `features/`: Feature modules
+    - `student/`: Student module with complete folder structure
+    - `teacher/`: Teacher module with complete folder structure
+  - `layouts/`: Application layouts
+  - `plugins/`: Vue plugins
+  - `router/`: Routing configuration
+  - `store/`: State management
+  - `ui/`: Core UI components
+  - `views/`: Main application views
 
-## Support de TypeScript pour les fichiers `.vue`
+## Project Architecture
 
-TypeScript ne sait pas gérer les informations de type pour les imports dans les fichiers `.vue` par défault, donc la CLI `tsc` est remplacée par `vue-tsc` pour la vérification des types. Dans les éditeurs, il est besoin de l’extension [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) pour rendre le service du langage TypeScript capable de gérer les types des fichiers `.vue`.
+The project follows a feature-based architecture with a clear separation of concerns:
 
-Si le plugin TypeScript ne vous semble pas assez performant, Volar a aussi implémenté un [mode Take Over](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) qui est plus performant. Vous pouvez l’activer en suivant les étapes suivantes :
+### Feature-Based Organization
 
-1. Désactiver l’extension TypeScript incluse
-    1) Lancer `Extensions: Show Built-in Extensions` depuis la palette de commandes VSCode
-    2) Trouver `TypeScript and JavaScript Language Features`, cliquer avec le bouton droit et sélectionner `Disable (Workspace)`
-2. Recharger la fenêtre VSCode en lançant `Developer: Reload Window` depuis la palette de commandes.
+Each feature module (`student`, `teacher`) follows a consistent internal structure:
 
-## Installer les dépendances
+```
+features/
+├── student/                 # Student module
+│   ├── components/          # Student-specific UI components
+│   ├── composables/         # Student-specific Vue composition functions
+│   ├── layouts/             # Layout structures for student views
+│   ├── queries/             # Data fetching logic using TanStack Query
+│   ├── views/               # Student page components
+│   ├── index.ts             # Module entry point and exports
+│   └── routes.ts            # Student route definitions
+├── teacher/                 # Teacher module
+│   ├── components/          # Teacher-specific UI components
+│   ├── composables/         # Teacher-specific Vue composition functions
+│   ├── layouts/             # Layout structures for teacher views
+│   ├── queries/             # Teacher-specific data fetching
+│   ├── views/               # Teacher page components
+│   └── ...                  # Similar structure as student module
+```
 
-```sh
+This modular approach ensures that:
+- Each user role has dedicated, purpose-built interfaces
+- Code is organized by domain rather than technical function
+- Features can be developed, tested, and maintained independently
+- Clear boundaries exist between different parts of the application
+## Setup & Development
+
+```bash
+# Install dependencies
 npm install
-```
 
-### Compilation et Hot-Reload pour le développement
-
-```sh
+# Start development server
 npm run dev
-```
 
-### Vérification des types, Compilation et Minification pour la Production
+# Type checking
+npm run type-check
 
-```sh
-npm run build
-```
+# Lint code
+npm run lint
 
-## Voir l'application avec le code de production
+# Format code
+npm run format
 
-```sh
+# Preview production build
 npm run preview
-```
 
-## Déployer le code de production
+# Build for production
+npm run build
 
-Déployer le contenu du dossier `dist` après avoir généré le code de production.
+# Run all tests (unit + e2e)
+npm run test
 
-### Vérifier la syntaxe et le formattage avec [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
-
-### Lancer les Tests Unitaires avec [Vitest](https://vitest.dev/)
-
-```sh
+# Run only unit tests
 npm run test:unit
+
+# Run unit tests in watch mode
+npm run test:watch
 ```
 
-### Lancer les Tests End-to-End Tests avec [Playwright](https://playwright.dev/)
+## Features
 
-```sh
-npm run test:e2e:dev
-```
+- Student portfolio management
+- Teacher assessment tools
+- Asset organization
+- Progress tracking
 
-### Analyse statique du code avec [ESLint](https://eslint.org/)
+## Tech Stack
 
-```sh
-npm run lint
-```
+- **Frontend Framework**: Vue.js
+- **State Management**: Pinia
+- **Routing**: Vue Router
+- **API Client**: Axios
+- **Data Fetching**: TanStack Vue Query
+- **UI Framework**: DSFR (Design System France) via @gouvminint/vue-dsfr 6.0
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Testing**:
+  - Unit Testing: Vitest 3.1
