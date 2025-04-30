@@ -6,7 +6,7 @@ export const STUDENT_ABOUT_ROUTE = 'student-about'
 const routes: RouteRecordRaw[] = [
   {
     path: '/student',
-    component: () => import('@/layouts/student/StudentLayout.vue'),
+    component: () => import('@/features/student/layouts/StudentLayout.vue'),
     children: [
       {
         path: '',
