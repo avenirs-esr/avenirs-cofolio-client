@@ -16,7 +16,7 @@ const props = defineProps<AvNavigationProps>()
 <style lang="scss" scoped>
 .my-nav-wrapper :deep(.fr-nav__link) {
   display: flex;
-  gap: 8px;
+  gap: 0;
   justify-content: flex-start;
 }
 </style>

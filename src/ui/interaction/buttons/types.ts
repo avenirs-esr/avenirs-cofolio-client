@@ -1,13 +1,8 @@
-export interface AvButtonProps {
-  label: string
+import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
+
+export type AvButtonProps = {
   variant?: 'primary' | 'secondary' | 'tertiary' | 'tertiary-no-outline'
-  size?: 'sm' | 'md' | 'lg'
-  icon?: string
-  iconOnly?: boolean
-  iconRight?: boolean
-  disabled?: boolean
   isLoading?: boolean
-  onClick: (event: MouseEvent) => void
-}
+} & Pick<DsfrButtonProps, 'label' | 'disabled' | 'size' | 'icon' | 'iconRight' | 'iconOnly' | 'onClick'>
 
 export type AvIconButtonProps = { icon: string } & Omit<AvButtonProps, 'iconOnly' | 'iconRight'>

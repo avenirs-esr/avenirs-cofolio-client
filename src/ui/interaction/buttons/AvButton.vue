@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvButtonProps } from './types'
-import { DSFR_ICONS } from '@/utils'
+import { RI_ICONS } from '@/ui'
 
 const props = withDefaults(defineProps<AvButtonProps>(), {
   label: '',
@@ -14,12 +14,14 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   onClick: () => {},
 })
 
-const iconToRender = props.isLoading ? DSFR_ICONS.REFRESH : props.icon
+const loadingIcon = { name: RI_ICONS.LOADER, animation: 'spin' }
+const iconToRender = props.isLoading ? loadingIcon : props.icon
 </script>
 
 <template>
   <DsfrButton
     v-bind="props"
+    :disabled="props.disabled || isLoading"
     :icon="iconToRender"
     :no-outline="props.variant === 'tertiary-no-outline'"
     :secondary="props.variant === 'secondary'"
@@ -27,20 +29,4 @@ const iconToRender = props.isLoading ? DSFR_ICONS.REFRESH : props.icon
   />
 </template>
 
-<style lang="scss" scoped>
-.fr-icon-refresh-line::before,
-.fr-icon-refresh-line::after {
-  animation: spin 1.5s linear infinite;
-  transform-origin: center;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
+<style lang="scss" scoped></style>

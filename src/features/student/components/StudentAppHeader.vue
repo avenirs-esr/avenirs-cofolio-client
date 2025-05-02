@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { AvButton, AvHeader } from '@/ui'
-import { RI_ICONS } from '@/utils'
+import { AvButton, RI_ICONS } from '@/ui'
 import { computed, ref } from 'vue'
+import { STUDENT_MESSAGES_ROUTE, STUDENT_NOTIFICATIONS_ROUTE } from '../routes'
 import StudentNavigation from './StudentNavigation.vue'
 
 const currentRole = ref('student')
@@ -22,12 +22,12 @@ const quickLinksNonAuthenticated = [
 const quickLinksStudent = [
   {
     label: 'Messagerie',
-    to: '/messagerie',
+    to: { name: STUDENT_MESSAGES_ROUTE },
     icon: RI_ICONS.CHAT,
   },
   {
     label: 'Notifications',
-    to: '/notifications',
+    to: { name: STUDENT_NOTIFICATIONS_ROUTE },
     icon: RI_ICONS.NOTIFICATION_FILL,
   },
   {
@@ -91,6 +91,7 @@ function onClick () {
           :icon="RI_ICONS.ARROW_LEFT_RIGHT"
           variant="tertiary-no-outline"
           :on-click
+          is-loading
         />
       </div>
     </div>
