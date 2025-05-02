@@ -91,7 +91,6 @@ function onClick () {
           :icon="RI_ICONS.ARROW_LEFT_RIGHT"
           variant="tertiary-no-outline"
           :on-click
-          is-loading
         />
       </div>
     </div>
