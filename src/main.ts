@@ -15,6 +15,8 @@ import '@gouvfr/dsfr/dist/utility/icons/icons.min.css'
 
 import '@/assets/main.css'
 
+import '@/ui/styles/main.scss'
+
 createApp(App)
   .use(store)
   .use(router)

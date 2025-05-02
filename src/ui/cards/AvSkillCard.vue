@@ -1,13 +1,39 @@
 <script lang="ts" setup>
-import { VIcon } from '@gouvminint/vue-dsfr';
-import { AvSkillAcademicIcon } from '../icons';
+import type { AvSkillCardProps } from './types'
+import { type DsfrBadgeProps, VIcon } from '@gouvminint/vue-dsfr'
+import { AvSkillAcademicIcon } from '../icons'
 import { palette, RI_ICONS } from '../tokens'
-import { defaultAvSkillCardProps } from './defaults';
-import type { AvSkillCardProps } from './types';
+import { defaultAvSkillCardProps } from './defaults'
 
 const props = withDefaults(defineProps<AvSkillCardProps>(), defaultAvSkillCardProps)
 
+function getFirstBadge (): { label: string, type: DsfrBadgeProps['type'] } {
+  if (props.lastValidatedLevel === 0) {
+    switch (props.currentLevelStatus) {
+      case 'toEvaluate':
+        return { label: `Niv. ${props.lastValidatedLevel + 1} à évaluer`, type: 'new' }
+      case 'evaluating':
+        return { label: `Niv. ${props.lastValidatedLevel + 1} en cours d'évaluation`, type: 'info' }
+    }
+  }
+  else {
+    return { label: `Niv. ${props.lastValidatedLevel} validé`, type: 'success' }
+  }
+}
+
+function getSecondBadge (): { label: string, type: DsfrBadgeProps['type'] } {
+  if (props.lastValidatedLevel > 0 && props.lastValidatedLevel < props.maxLevel) {
+    return { label: `Niv. ${props.lastValidatedLevel + 1} à évaluer`, type: 'new' }
+  }
+  else {
+    return { label: '', type: 'info' }
+  }
+}
+
 const IconToRender = props.skill === 'academic' ? AvSkillAcademicIcon : AvSkillAcademicIcon
+const shouldRenderSecondBadge = props.lastValidatedLevel > 0 && props.lastValidatedLevel < props.maxLevel && props.currentLevelStatus !== 'evaluating'
+const firstBadge = getFirstBadge()
+const secondBadge = getSecondBadge()
 </script>
 
 <template>
@@ -31,29 +57,35 @@ const IconToRender = props.skill === 'academic' ? AvSkillAcademicIcon : AvSkillA
         class="av-skill-card__icon"
         :style="{ '--av-skill-card-icon-bg': props.skillColor }"
       >
-      <component :is="IconToRender" size="35" color="white" class="av-skill-card__svg" />
-    </div>
+        <component
+          :is="IconToRender"
+          size="35"
+          color="white"
+          class="av-skill-card__svg"
+        />
+      </div>
     </div>
     <div class="av-skill-card__body">
       <div class="av-skill-card__bodycontent">
         <div class="av-skill-card__line">
-          <VIcon :name="RI_ICONS.ATTACHEMENT" />
-          <span>{{ props.attachements }} traces</span>
+          <VIcon :name="RI_ICONS.ATTACHMENT" />
+          <span class="av-skill-card__desc">{{ props.attachments }} traces</span>
         </div>
         <div class="av-skill-card__line">
-          <VIcon :name="RI_ICONS.ATTACHEMENT" />
-          <span>{{ props.practices }} mises en situation</span>
+          <VIcon :name="RI_ICONS.TEST_TUBE" />
+          <span class="av-skill-card__desc">{{ props.practices }} mises en situation</span>
         </div>
         <div class="av-skill-card__badges">
           <DsfrBadge
-            :label="`Niv. 1 validé`"
-            :type="'success'"
+            :label="firstBadge.label"
+            :type="firstBadge.type"
             small
             ellipsis
           />
           <DsfrBadge
-            :label="`Niv. 2 à évaluer`"
-            :type="'none'"
+            v-if="shouldRenderSecondBadge"
+            :label="secondBadge.label"
+            :type="secondBadge.type"
             small
             ellipsis
           />
@@ -134,6 +166,10 @@ const IconToRender = props.skill === 'academic' ? AvSkillAcademicIcon : AvSkillA
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+  }
+
+  &__desc {
+    font-size: 14px;
   }
 }
 </style>
