@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useNavigation } from '@/common/composables/use-navigation'
 import { AvButton, RI_ICONS } from '@/ui'
 import { computed, ref } from 'vue'
 import { STUDENT_MESSAGES_ROUTE, STUDENT_NOTIFICATIONS_ROUTE } from '../routes'
 import StudentNavigation from './StudentNavigation.vue'
 
+const { navigateToTeacherHome } = useNavigation()
 const currentRole = ref('student')
 
 const quickLinksNonAuthenticated = [
@@ -49,12 +51,7 @@ const userRoleToRender = computed(() => {
 })
 
 function onClick () {
-  if (currentRole.value === 'teacher') {
-    currentRole.value = 'student'
-  }
-  else {
-    currentRole.value = 'teacher'
-  }
+  navigateToTeacherHome()
 }
 </script>
 
