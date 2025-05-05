@@ -172,4 +172,19 @@ const secondBadge = getSecondBadge()
     font-size: 14px;
   }
 }
+
+.fr-badge--success {
+  color: $light-foreground-success;
+  background-color: $light-background-success;
+}
+
+.fr-badge--new {
+  color: $foreground-text1;
+  background-color: $light-background-neutral;
+}
+
+.fr-badge--info {
+  color: $dark-background-primary1;
+  background-color: $light-foreground-primary2;
+}
 </style>
