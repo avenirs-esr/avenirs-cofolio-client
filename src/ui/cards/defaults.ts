@@ -1,8 +1,17 @@
-import type { AvSkillCardProps } from './types'
+import type { AvCardProps, AvSkillCardProps } from './types'
+import { palette } from '../tokens'
+
+export const defaultAvCardProps: AvCardProps = {
+  backgroundColor: palette.background.card,
+  borderColor: palette.foreground.stroke,
+  height: 'auto',
+  width: 'auto',
+  titleBackground: palette.background.surfaceBackground,
+} as const
 
 export const defaultAvSkillCardProps: AvSkillCardProps = {
   title: 'Mon super titre',
-  skillColor: '#7216D4',
+  skillColor: palette.competence.competence1,
   skill: 'academic',
   lastValidatedLevel: 0,
   currentLevelStatus: 'toEvaluate',

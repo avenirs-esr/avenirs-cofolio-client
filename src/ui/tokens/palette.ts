@@ -2,6 +2,7 @@ export const palette = {
   background: {
     card: '#FEFEFE',
     card2: '#FAFAFA',
+    surfaceBackground: '#F6F6F6'
   },
   competence: {
     competence1: '#7216D4',
@@ -22,5 +23,10 @@ export const palette = {
     icon: '#14171A7A',
     stroke: '#14171A29',
     text1: '#14171ACC'
+  },
+  other: { // For nameless colors in Figma
+    border: {
+      skillCard: '#D9D9DA'
+    }
   }
 }
