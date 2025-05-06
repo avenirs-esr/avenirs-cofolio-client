@@ -10,6 +10,9 @@ declare module 'vue' {
     AppToaster: typeof import('./components/AppToaster.vue')['default']
     DsfrAlert: typeof import('@gouvminint/vue-dsfr')['DsfrAlert']
     DsfrHeader: typeof import('@gouvminint/vue-dsfr')['DsfrHeader']
+    DsfrHeaderMenuLinks: typeof import('@gouvminint/vue-dsfr')['DsfrHeaderMenuLinks']
+    DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']
+    DsfrSearchBar: typeof import('@gouvminint/vue-dsfr')['DsfrSearchBar']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
