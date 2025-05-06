@@ -33,6 +33,7 @@ const searchQuery = ref('')
     :service-description="serviceDescription"
     :logo-text="logoText"
     :quick-links="quickLinks"
+    :home-to="{ name: STUDENT_HOME_ROUTE }"
     show-search
   />
 

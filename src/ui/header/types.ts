@@ -18,7 +18,7 @@ export interface AvHeaderProps {
   searchbarId?: string
   serviceTitle?: string
   serviceDescription?: string
-  homeTo?: string
+  homeTo?: string | RouteLocationRaw
   logoText?: string | string[]
   modelValue?: string
   placeholder?: string
