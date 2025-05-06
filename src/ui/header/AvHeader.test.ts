@@ -3,12 +3,12 @@ import { describe, expect, it } from 'vitest'
 import AvHeader from './AvHeader.vue'
 
 describe('avHeader', () => {
-  it('affiche le logo avec texte par défaut', () => {
+  it('display default logo and text', () => {
     const wrapper = mount(AvHeader)
     expect(wrapper.get('[data-testid="header-logo"]')).toBeTruthy()
   })
 
-  it('affiche le titre de service s’il est fourni', () => {
+  it('display service title if provided', () => {
     const wrapper = mount(AvHeader, {
       props: {
         serviceTitle: 'Titre test',
@@ -17,7 +17,7 @@ describe('avHeader', () => {
     expect(wrapper.text()).toContain('Titre test')
   })
 
-  it('ouvre le menu au clic', async () => {
+  it('open menu on click', async () => {
     const wrapper = mount(AvHeader, {
       props: {
         quickLinks: [{ text: 'Lien', to: '/' }],
@@ -29,7 +29,7 @@ describe('avHeader', () => {
     expect(wrapper.find('.fr-header__menu.fr-modal--opened').exists()).toBe(true)
   })
 
-  it('émet un événement de recherche', async () => {
+  it('emits a search event', async () => {
     const wrapper = mount(AvHeader, {
       props: {
         showSearch: true,
