@@ -1,16 +1,16 @@
 import process from 'node:process'
-import { URL, fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import VueDevTools from 'vite-plugin-vue-devtools'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import {
   vueDsfrAutoimportPreset,
   vueDsfrComponentResolver,
 } from '@gouvminint/vue-dsfr'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
+import VueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,8 +25,26 @@ export default defineConfig({
         /\.vue\?vue/,
       ],
       imports: [
-        // @ts-expect-error TS2322
-        'vue',
+        {
+          // @ts-expect-error TS2322
+          vue: [
+            'ref',
+            'computed',
+            'reactive',
+            'watch',
+            'onMounted',
+            'onUnmounted',
+            'defineComponent',
+            'defineProps',
+            'defineEmits',
+            'defineExpose',
+            'withDefaults',
+            'toRef',
+            'toRefs',
+            'provide',
+            'inject',
+          ],
+        },
         // @ts-expect-error TS2322
         'vue-router',
         // @ts-expect-error TS2322

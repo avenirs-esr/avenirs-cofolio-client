@@ -2,6 +2,11 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu({
   vue: true,
+  ignores: [
+    '**/README.md',
+    '.vscode/',
+    'eslint.config.js'
+  ],
 }, {
   rules: {
     // 'style/comma-dangle': ['error', 'always-multiline'],

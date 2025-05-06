@@ -12,6 +12,11 @@ export default mergeConfig(
       setupFiles: [
         fileURLToPath(new URL('./vitest-setup.ts', import.meta.url)),
       ],
+      coverage: {
+        enabled: true,
+        provider: 'v8',
+        reporter: ['text']
+      },
     },
   }),
 )
