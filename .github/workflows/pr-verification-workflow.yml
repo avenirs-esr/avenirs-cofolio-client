@@ -1,0 +1,36 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up Node.js 22 with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 📦 Install dependencies with npm ci
+        run: npm ci
+
+      - name: 🏗️ Build project
+        run: npm run build-only
+
+      - name: 🧠 TypeScript type checking
+        run: npm run type-check
+
+      - name: 🧹 Run ESLint
+        run: npm run lint
+
+      - name: 🧪 Run unit tests with coverage
+        run: npm run test:coverage

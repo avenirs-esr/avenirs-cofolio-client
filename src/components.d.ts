@@ -15,5 +15,6 @@ declare module 'vue' {
     DsfrSearchBar: typeof import('@gouvminint/vue-dsfr')['DsfrSearchBar']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VIcon: typeof import('@gouvminint/vue-dsfr')['VIcon']
   }
 }

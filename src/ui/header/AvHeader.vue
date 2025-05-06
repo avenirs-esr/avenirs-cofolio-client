@@ -6,7 +6,6 @@ import type { DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 
 import type { AvHeaderProps } from './types'
 
-import { computed, onMounted, onUnmounted, provide, ref, toRef } from 'vue'
 import AvLogo from './AvLogo.vue'
 import { registerNavigationLinkKey } from './injection-key'
 

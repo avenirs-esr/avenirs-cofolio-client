@@ -14,7 +14,7 @@ module.exports = {
         'revert'
       ]
     ],
-    'subject-case': [0, 'never', ['start-case', 'pascal-case', 'upper-case']], // allow any case
+    'subject-case': [0, 'never', ['start-case', 'pascal-case', 'upper-case']],
     'type-case': [2, 'always', 'lower-case'],
     'type-empty': [2, 'never'],
   }
