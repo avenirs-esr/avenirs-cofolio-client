@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import useToaster from '@/common/composables/use-toaster'
 import { STUDENT_ABOUT_ROUTE, STUDENT_HOME_ROUTE } from '@/features/student'
+import { AvHeader } from '@/ui'
 
 const toaster = useToaster()
 
@@ -26,7 +27,7 @@ const searchQuery = ref('')
 </script>
 
 <template>
-  <DsfrHeader
+  <AvHeader
     v-model="searchQuery"
     :service-title="serviceTitle"
     :service-description="serviceDescription"
