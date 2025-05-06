@@ -1,5 +1,5 @@
 import type { DsfrLanguageSelectorProps, VIcon } from '@gouvminint/vue-dsfr'
-import type { HTMLAttributes, StyleValue } from 'vue'
+import type { HTMLAttributes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
 export interface AvHeaderMenuLinkProps {
@@ -21,9 +21,6 @@ export interface AvHeaderProps {
   homeTo?: string
   logoText?: string | string[]
   modelValue?: string
-  operatorImgAlt?: string
-  operatorImgSrc?: string
-  operatorImgStyle?: StyleValue
   placeholder?: string
   quickLinks?: (AvHeaderMenuLinkProps & HTMLAttributes)[]
   languageSelector?: DsfrLanguageSelectorProps

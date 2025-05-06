@@ -18,9 +18,6 @@ const props = withDefaults(defineProps<AvHeaderProps>(), {
   homeTo: '/',
   logoText: () => 'Gouvernement',
   modelValue: '',
-  operatorImgAlt: '',
-  operatorImgSrc: '',
-  operatorImgStyle: () => ({}),
   placeholder: 'Rechercher...',
   quickLinks: () => [],
   searchLabel: 'Recherche',
@@ -40,7 +37,6 @@ const emit = defineEmits<{
 
 const slots = defineSlots<{
   'default': () => any
-  'operator': () => any
   'mainnav': () => any
   'before-quick-links': () => any
   'after-quick-links': () => any
@@ -89,7 +85,6 @@ const onQuickLinkClick = hideModal
 
 const title = computed(() => [props.homeLabel, props.serviceTitle].filter(x => x).join(' - '))
 
-const isWithSlotOperator = computed(() => Boolean(slots.operator) || !!props.operatorImgSrc)
 const isWithSlotNav = computed(() => Boolean(slots.mainnav))
 provide(registerNavigationLinkKey, () => {
   return hideModal
@@ -122,21 +117,6 @@ provide(registerNavigationLinkKey, () => {
                   :logo-text="logoText"
                   data-testid="header-logo"
                 />
-              </div>
-              <div
-                v-if="isWithSlotOperator"
-                class="fr-header__operator"
-              >
-                <!-- @slot Slot nommé operator pour le logo opérateur. Sera dans `<div class="fr-header__operator">` -->
-                <slot name="operator">
-                  <img
-                    v-if="operatorImgSrc"
-                    class="fr-responsive-img"
-                    :src="operatorImgSrc"
-                    :alt="operatorImgAlt"
-                    :style="operatorImgStyle"
-                  >
-                </slot>
               </div>
               <div
                 v-if="showSearch || isWithSlotNav || quickLinks?.length"
