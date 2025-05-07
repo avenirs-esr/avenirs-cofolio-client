@@ -19,4 +19,8 @@ const props = defineProps<AvNavigationProps>()
   gap: 1rem;
   justify-content: flex-start;
 }
+
+.my-nav-wrapper :deep(.vicon) {
+  scale: 0.75;
+}
 </style>

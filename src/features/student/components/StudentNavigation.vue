@@ -10,7 +10,7 @@ const navItems = [
     id: useId(),
     to: { name: STUDENT_HOME_ROUTE },
     text: 'ACCUEIL',
-    icon: { name: RI_ICONS.HOME, scale: 1.5 },
+    icon: RI_ICONS.HOME,
   },
   {
     title: 'RÉUSSIR MA FORMATION',
@@ -18,8 +18,8 @@ const navItems = [
       return route.name === STUDENT_EDUCATION_SKILLS_ROUTE || route.name === STUDENT_EDUCATION_ACTIVITIES_ROUTE
     },
     links: [
-      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: { name: RI_ICONS.USER_STAR, scale: 1.5 } },
-      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: { name: RI_ICONS.ATTACHMENT, scale: 1.5 } },
+      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: RI_ICONS.USER_STAR },
+      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: RI_ICONS.GRADUATION_CAP },
     ],
   },
   {
@@ -32,15 +32,15 @@ const navItems = [
     links: [
       {
         to: { name: STUDENT_PROJECT_SKILLS_ROUTE },
-        text: 'Mes compétences complémentaires',
-        icon: { name: RI_ICONS.USER_SETTINGS, scale: 1.5 },
+        text: 'Toutes mes compétences',
+        icon: RI_ICONS.USER_SETTINGS,
       },
       {
         to: { name: STUDENT_PROJECT_EXPERIENCES_ROUTE },
-        text: 'Mes expériences professionnelles',
-        icon: { name: RI_ICONS.ATTACHMENT, scale: 1.5 },
+        text: 'Mon parcours',
+        icon: RI_ICONS.BRIEFCASE,
       },
-      { to: { name: STUDENT_PROJECT_TRAJECTORIES_ROUTE }, text: 'Mes trajectoires', icon: { name: RI_ICONS.SHARE, scale: 1.5 } },
+      { to: { name: STUDENT_PROJECT_TRAJECTORIES_ROUTE }, text: 'Bâtir mon projet', icon: RI_ICONS.SHARE },
     ],
   },
   {
@@ -51,9 +51,9 @@ const navItems = [
         || route.name === STUDENT_TOOLS_RESUMES_ROUTE
     },
     links: [
-      { to: { name: STUDENT_TOOLS_TRACKS_ROUTE }, text: 'Mes traces', icon: { name: RI_ICONS.ATTACHMENT, scale: 1.5 } },
-      { to: { name: STUDENT_TOOLS_PAGES_ROUTE }, text: 'Mes pages libres', icon: { name: RI_ICONS.DRAFT, scale: 1.5 } },
-      { to: { name: STUDENT_TOOLS_RESUMES_ROUTE }, text: 'Mes CV', icon: { name: RI_ICONS.FILE_TEXT, scale: 1.5 } },
+      { to: { name: STUDENT_TOOLS_TRACKS_ROUTE }, text: 'Mes traces', icon: RI_ICONS.ATTACHMENT },
+      { to: { name: STUDENT_TOOLS_PAGES_ROUTE }, text: 'Mes pages libres', icon: RI_ICONS.FILE_COPY },
+      { to: { name: STUDENT_TOOLS_RESUMES_ROUTE }, text: 'Mes CV', icon: RI_ICONS.FILE_USER },
     ],
   },
 ]
@@ -63,4 +63,5 @@ const navItems = [
   <AvNavigation :nav-items="navItems" />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
