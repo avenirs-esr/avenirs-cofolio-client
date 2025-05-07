@@ -4,15 +4,12 @@ import type { AvButtonProps } from './types'
 import { MDI_ICONS } from '@/ui'
 
 const props = withDefaults(defineProps<AvButtonProps>(), {
-  label: '',
   variant: 'primary',
   size: 'md',
-  icon: undefined,
   iconOnly: false,
   iconRight: false,
   disabled: false,
   isLoading: false,
-  onClick: () => {},
 })
 
 const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
