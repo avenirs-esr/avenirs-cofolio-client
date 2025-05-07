@@ -1,10 +1,18 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import type { AvCardProps } from './types'
 
 const props = withDefaults(defineProps<AvCardProps>(), {
   borderColor: '--foreground-stroke',
   titleBackground: '--background-surface-background'
 })
+
+defineSlots<{
+  title?: Slot
+  body?: Slot
+  footer?: Slot
+  default?: Slot
+}>()
 </script>
 
 <template>
