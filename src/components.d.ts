@@ -12,6 +12,7 @@ declare module 'vue' {
     DsfrHeader: typeof import('@gouvminint/vue-dsfr')['DsfrHeader']
     DsfrHeaderMenuLinks: typeof import('@gouvminint/vue-dsfr')['DsfrHeaderMenuLinks']
     DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']
+    DsfrNavigation: typeof import('@gouvminint/vue-dsfr')['DsfrNavigation']
     DsfrSearchBar: typeof import('@gouvminint/vue-dsfr')['DsfrSearchBar']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

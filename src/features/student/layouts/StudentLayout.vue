@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useToaster from '@/common/composables/use-toaster'
-import { STUDENT_ABOUT_ROUTE, STUDENT_HOME_ROUTE } from '@/features/student'
+import { STUDENT_ABOUT_ROUTE, STUDENT_HOME_ROUTE, StudentNavigation } from '@/features/student'
 import { AvHeader } from '@/ui'
 
 const toaster = useToaster()
@@ -35,7 +35,11 @@ const searchQuery = ref('')
     :quick-links="quickLinks"
     :home-to="{ name: STUDENT_HOME_ROUTE }"
     show-search
-  />
+  >
+    <template #mainnav>
+      <StudentNavigation />
+    </template>
+  </AvHeader>
 
   <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
     <router-view />
