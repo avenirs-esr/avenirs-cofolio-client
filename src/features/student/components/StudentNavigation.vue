@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvNavigation, RI_ICONS } from '@/ui'
+import { AvNavigation, MDI_ICONS } from '@/ui'
 import { useId } from 'vue'
 import { STUDENT_EDUCATION_ACTIVITIES_ROUTE, STUDENT_EDUCATION_SKILLS_ROUTE, STUDENT_HOME_ROUTE, STUDENT_PROJECT_EXPERIENCES_ROUTE, STUDENT_PROJECT_SKILLS_ROUTE, STUDENT_PROJECT_TRAJECTORIES_ROUTE, STUDENT_TOOLS_PAGES_ROUTE, STUDENT_TOOLS_RESUMES_ROUTE, STUDENT_TOOLS_TRACKS_ROUTE } from '../routes'
 
@@ -10,7 +10,7 @@ const navItems = [
     id: useId(),
     to: { name: STUDENT_HOME_ROUTE },
     text: 'ACCUEIL',
-    icon: RI_ICONS.HOME,
+    icon: MDI_ICONS.HOME_VARIANT,
   },
   {
     title: 'RÉUSSIR MA FORMATION',
@@ -18,8 +18,8 @@ const navItems = [
       return route.name === STUDENT_EDUCATION_SKILLS_ROUTE || route.name === STUDENT_EDUCATION_ACTIVITIES_ROUTE
     },
     links: [
-      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: RI_ICONS.USER_STAR },
-      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: RI_ICONS.GRADUATION_CAP },
+      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: MDI_ICONS.ACCOUNT_GRADUATION },
+      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: MDI_ICONS.GRADUATION_CAP },
     ],
   },
   {
@@ -33,14 +33,14 @@ const navItems = [
       {
         to: { name: STUDENT_PROJECT_SKILLS_ROUTE },
         text: 'Toutes mes compétences',
-        icon: RI_ICONS.USER_SETTINGS,
+        icon: MDI_ICONS.USER_CARD_DETAILS,
       },
       {
         to: { name: STUDENT_PROJECT_EXPERIENCES_ROUTE },
         text: 'Mon parcours',
-        icon: RI_ICONS.BRIEFCASE,
+        icon: MDI_ICONS.BRIEFCASE_VARIANT,
       },
-      { to: { name: STUDENT_PROJECT_TRAJECTORIES_ROUTE }, text: 'Bâtir mon projet', icon: RI_ICONS.SHARE },
+      { to: { name: STUDENT_PROJECT_TRAJECTORIES_ROUTE }, text: 'Bâtir mon projet', icon: MDI_ICONS.ARROW_DECISION },
     ],
   },
   {
@@ -51,9 +51,9 @@ const navItems = [
         || route.name === STUDENT_TOOLS_RESUMES_ROUTE
     },
     links: [
-      { to: { name: STUDENT_TOOLS_TRACKS_ROUTE }, text: 'Mes traces', icon: RI_ICONS.ATTACHMENT },
-      { to: { name: STUDENT_TOOLS_PAGES_ROUTE }, text: 'Mes pages libres', icon: RI_ICONS.FILE_COPY },
-      { to: { name: STUDENT_TOOLS_RESUMES_ROUTE }, text: 'Mes CV', icon: RI_ICONS.FILE_USER },
+      { to: { name: STUDENT_TOOLS_TRACKS_ROUTE }, text: 'Mes traces', icon: MDI_ICONS.ATTACH_FILE },
+      { to: { name: STUDENT_TOOLS_PAGES_ROUTE }, text: 'Mes pages libres', icon: MDI_ICONS.POST_IT_NOTES },
+      { to: { name: STUDENT_TOOLS_RESUMES_ROUTE }, text: 'Mes CV', icon: MDI_ICONS.FILE_ACCOUNT },
     ],
   },
 ]
