@@ -1,19 +1,21 @@
 <script lang="ts" setup>
 import type { AvCardProps } from './types'
-import { defaultAvCardProps } from './defaults'
 
-const props = withDefaults(defineProps<AvCardProps>(), defaultAvCardProps)
+const props = withDefaults(defineProps<AvCardProps>(), {
+  borderColor: '--foreground-stroke',
+  titleBackground: '--background-surface-background'
+})
 </script>
 
 <template>
   <div
     class="av-card"
-    :style="{ borderColor: props.borderColor, height: props.height, width: props.width }"
+    :style="{ borderColor: `var(${props.borderColor})` }"
   >
     <div
       v-if="$slots.title"
       class="av-card__title"
-      :style="{ background: props.titleBackground }"
+      :style="{ background: `var(${props.titleBackground})` }"
     >
       <slot name="title" />
     </div>
@@ -37,7 +39,7 @@ const props = withDefaults(defineProps<AvCardProps>(), defaultAvCardProps)
 .av-card {
   display: flex;
   flex-direction: column;
-  background-color: $background-card;
+  background-color: var(--background-card);
   border-radius: 1.5rem;
   border: 1px solid transparent;
   overflow: hidden;

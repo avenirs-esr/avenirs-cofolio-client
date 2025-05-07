@@ -61,11 +61,4 @@ export default defineConfig({
     },
     dedupe: ['vue'],
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use "@/ui/styles/palette.scss" as *;`
-      }
-    }
-  },
 })

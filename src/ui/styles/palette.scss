@@ -1,22 +1,6 @@
-$background-card: #FEFEFE;
-$background-card2: #FAFAFA;
-$background-surface-background: #F6F6F6;
+:root {
+  --background-card: #FEFEFE;
+  --background-surface-background: #F6F6F6;
 
-$competence-competence1: #7216D4;
-$competence-competence2: #9E0592;
-$competence-competence3: #2338D1;
-$competence-competence4: #AF0E36;
-
-$dark-background-primary1: #000091;
-
-$light-background-neutral: #E9EAEA;
-$light-background-success: #BDDECA;
-$light-foreground-primary2: #C4D6FF;
-$light-foreground-success: #0F4625;
-
-$foreground-icon: #14171A7A;
-$foreground-stroke: #14171A29;
-$foreground-text1: #14171ACC;
-
-// For nameless colors in Figma
-$other-border-skill-card: #D9D9DA;
+  --foreground-stroke: #14171A29;
+}
