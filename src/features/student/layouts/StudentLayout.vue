@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import useToaster from '@/common/composables/use-toaster'
-import { STUDENT_ABOUT_ROUTE, STUDENT_HOME_ROUTE } from '@/features/student'
+import { STUDENT_ABOUT_ROUTE, STUDENT_HOME_ROUTE, StudentNavigation } from '@/features/student'
 import { AvHeader } from '@/ui'
-import StudentNavigation from '../components/StudentNavigation.vue'
 
 const toaster = useToaster()
 

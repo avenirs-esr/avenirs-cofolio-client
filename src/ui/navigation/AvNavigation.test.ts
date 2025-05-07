@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import AvNavigation from './AvNavigation.vue'
 
-// Mock ciblé du composant DsfrNavigation de vue-dsfr
 vi.mock('vue-dsfr', () => ({
   DsfrNavigation: {
     name: 'DsfrNavigation',

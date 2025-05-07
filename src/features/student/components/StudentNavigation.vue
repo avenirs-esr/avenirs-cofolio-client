@@ -5,6 +5,10 @@ import { STUDENT_EDUCATION_ACTIVITIES_ROUTE, STUDENT_EDUCATION_SKILLS_ROUTE, STU
 
 const route = useRoute()
 
+function isRouteActive (routes: string[]): boolean {
+  return routes.includes(route.name as string)
+}
+
 const navItems = [
   {
     id: useId(),
@@ -15,7 +19,7 @@ const navItems = [
   {
     title: 'RÉUSSIR MA FORMATION',
     get active () {
-      return route.name === STUDENT_EDUCATION_SKILLS_ROUTE || route.name === STUDENT_EDUCATION_ACTIVITIES_ROUTE
+      return isRouteActive([STUDENT_EDUCATION_SKILLS_ROUTE, STUDENT_EDUCATION_ACTIVITIES_ROUTE])
     },
     links: [
       { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: MDI_ICONS.ACCOUNT_GRADUATION },
@@ -25,9 +29,7 @@ const navItems = [
   {
     title: 'CONSTRUIRE MON PROJET DE VIE',
     get active () {
-      return route.name === STUDENT_PROJECT_SKILLS_ROUTE
-        || route.name === STUDENT_PROJECT_EXPERIENCES_ROUTE
-        || route.name === STUDENT_PROJECT_TRAJECTORIES_ROUTE
+      return isRouteActive([STUDENT_PROJECT_SKILLS_ROUTE, STUDENT_PROJECT_EXPERIENCES_ROUTE, STUDENT_PROJECT_TRAJECTORIES_ROUTE])
     },
     links: [
       {
@@ -46,9 +48,7 @@ const navItems = [
   {
     title: 'MES OUTILS',
     get active () {
-      return route.name === STUDENT_TOOLS_TRACKS_ROUTE
-        || route.name === STUDENT_TOOLS_PAGES_ROUTE
-        || route.name === STUDENT_TOOLS_RESUMES_ROUTE
+      return isRouteActive([STUDENT_TOOLS_TRACKS_ROUTE, STUDENT_TOOLS_PAGES_ROUTE, STUDENT_TOOLS_RESUMES_ROUTE])
     },
     links: [
       { to: { name: STUDENT_TOOLS_TRACKS_ROUTE }, text: 'Mes traces', icon: MDI_ICONS.ATTACH_FILE },
