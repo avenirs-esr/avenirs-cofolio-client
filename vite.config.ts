@@ -11,6 +11,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
+import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,8 +26,10 @@ export default defineConfig({
         /\.vue\?vue/,
       ],
       imports: [
-        // @ts-expect-error TS2322
-        'vue',
+        {
+          // @ts-expect-error TS2322
+          vue: autoImportConfig.vue,
+        },
         // @ts-expect-error TS2322
         'vue-router',
         // @ts-expect-error TS2322

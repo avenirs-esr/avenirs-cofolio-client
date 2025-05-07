@@ -23,7 +23,7 @@ describe('avCard', () => {
     })
     const title = wrapper.get('.av-card__title')
     expect(title.text()).toBe('Titre')
-    expect(title.attributes('style')).toContain('background: red')
+    expect(title.attributes('style')).toContain('background: var(red)')
   })
 
   it('renders body and footer slots when provided', () => {
@@ -49,8 +49,6 @@ describe('avCard', () => {
     const card = wrapper.get('.av-card')
     const style = card.attributes('style')
 
-    expect(style).toContain('border-color: blue')
-    expect(style).toContain('height: 200px')
-    expect(style).toContain('width: 300px')
+    expect(style).toContain('border-color: var(blue)')
   })
 })

@@ -7,7 +7,7 @@ const props = withDefaults(defineProps<AvCardProps>(), {
   titleBackground: '--background-surface-background'
 })
 
-defineSlots<{
+const slots = defineSlots<{
   title?: Slot
   body?: Slot
   footer?: Slot
