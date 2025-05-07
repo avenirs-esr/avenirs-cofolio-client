@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   iconRight: false,
   disabled: false,
   isLoading: false,
+  color: '--dark-background-primary1'
 })
 
 const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
@@ -19,6 +20,7 @@ const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
 <template>
   <DsfrButton
     v-bind="props"
+    :class="`fr-btn${props.color}`"
     :disabled="props.disabled || isLoading"
     :icon="iconToRender"
     :no-outline="props.variant === 'tertiary-no-outline'"

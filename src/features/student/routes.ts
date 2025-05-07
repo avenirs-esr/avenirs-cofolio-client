@@ -10,6 +10,8 @@ export const STUDENT_TOOLS_TRACKS_ROUTE = 'student-tools-tracks'
 export const STUDENT_TOOLS_PAGES_ROUTE = 'student-tools-pages'
 export const STUDENT_TOOLS_RESUMES_ROUTE = 'student-tools-resumes'
 export const STUDENT_ABOUT_ROUTE = 'student-about'
+export const STUDENT_MESSAGES_ROUTE = 'student-messages'
+export const STUDENT_NOTIFICATIONS_ROUTE = 'student-notifications'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -75,6 +77,18 @@ const routes: RouteRecordRaw[] = [
         name: STUDENT_ABOUT_ROUTE,
         component: () =>
           import('@/features/student/views/StudentAboutView.vue'),
+      },
+      {
+        path: 'messages',
+        name: STUDENT_MESSAGES_ROUTE,
+        component: () =>
+          import('@/features/student/views/StudentMessagesView.vue'),
+      },
+      {
+        path: 'notifications',
+        name: STUDENT_NOTIFICATIONS_ROUTE,
+        component: () =>
+          import('@/features/student/views/StudentNotificationsView.vue'),
       },
     ],
   },
