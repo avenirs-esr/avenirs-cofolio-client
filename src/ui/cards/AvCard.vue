@@ -21,7 +21,7 @@ defineSlots<{
     :style="{ borderColor: `var(${props.borderColor})` }"
   >
     <div
-      v-if="$slots.title"
+      v-if="slots.title"
       class="av-card__title"
       :style="{ background: `var(${props.titleBackground})` }"
     >
@@ -29,13 +29,13 @@ defineSlots<{
     </div>
     <slot />
     <div
-      v-if="$slots.body"
+      v-if="slots.body"
       class="av-card__body"
     >
       <slot name="body" />
     </div>
     <div
-      v-if="$slots.footer"
+      v-if="slots.footer"
       class="av-card__footer"
     >
       <slot name="footer" />
