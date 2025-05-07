@@ -7,6 +7,7 @@ export const MDI_ICONS = {
   FILE_ACCOUNT: 'mdi:file-account-outline',
   GRADUATION_CAP: 'mdi:graduation-cap-outline',
   HOME_VARIANT: 'mdi:home-variant-outline',
+  LOADING: 'mdi:loading',
   NOTIFICATIONS_NONE: 'mdi:notifications-none',
   POST_IT_NOTES: 'mdi:post-it-notes-outline',
   USER_CARD_DETAILS: 'mdi:user-card-details-outline',
