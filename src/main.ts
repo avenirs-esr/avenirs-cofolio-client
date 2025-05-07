@@ -14,6 +14,7 @@ import '@gouvfr/dsfr/dist/scheme/scheme.min.css'
 import '@gouvfr/dsfr/dist/utility/icons/icons.min.css'
 
 import '@/assets/main.css'
+import '@/ui/styles/palette.scss'
 
 createApp(App)
   .use(store)

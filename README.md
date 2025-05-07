@@ -117,7 +117,6 @@ npm run test:watch
 
 This repository uses [Commitlint](https://commitlint.js.org/) to enforce consistent and conventional commit messages.
 
-
 This setup extends the conventional commit configuration (`@commitlint/config-conventional`) and adds custom rules:
 
 ✅ Allowed Commit Types
