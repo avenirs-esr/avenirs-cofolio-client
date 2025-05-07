@@ -22,7 +22,7 @@ const navItems = [
       return isRouteActive([STUDENT_EDUCATION_SKILLS_ROUTE, STUDENT_EDUCATION_ACTIVITIES_ROUTE])
     },
     links: [
-      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: MDI_ICONS.ACCOUNT_GRADUATION },
+      { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: MDI_ICONS.STAR_SHOOTING },
       { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: MDI_ICONS.GRADUATION_CAP },
     ],
   },
@@ -35,7 +35,7 @@ const navItems = [
       {
         to: { name: STUDENT_PROJECT_SKILLS_ROUTE },
         text: 'Toutes mes compétences',
-        icon: MDI_ICONS.USER_CARD_DETAILS,
+        icon: MDI_ICONS.STARS,
       },
       {
         to: { name: STUDENT_PROJECT_EXPERIENCES_ROUTE },

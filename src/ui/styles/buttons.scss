@@ -1,0 +1,36 @@
+.fr-btn {
+  border-radius: 0.75rem !important;
+}
+.fr-btn.fr-btn--sm {
+  border-radius: 0.5rem !important;
+}
+.fr-btn.fr-btn--close:hover,
+.fr-btn.fr-btn--menu:hover,
+.fr-btn.fr-btn--search:hover,
+.fr-btn.fr-btn--dark-background-primary1.fr-btn--secondary:hover,
+.fr-btn.fr-btn--dark-background-primary1.fr-btn--tertiary:hover,
+.fr-btn.fr-btn--dark-background-primary1.fr-btn--tertiary-no-outline:hover,
+.fr-btn.fr-btn--foregroud-text1.fr-btn--secondary:hover,
+.fr-btn.fr-btn--foregroud-text1.fr-btn--tertiary:hover,
+.fr-btn.fr-btn--foregroud-text1.fr-btn--tertiary-no-outline:hover,
+nav ul li .fr-btn:hover{
+  background-color: var(--dark-background-primary1) !important;
+  color: white !important;
+}
+
+.fr-btn.fr-btn--foregroud-text1.fr-btn--secondary,
+.fr-btn.fr-btn--foregroud-text1.fr-btn--tertiary,
+.fr-btn.fr-btn--foregroud-text1.fr-btn--tertiary-no-outline{
+  background-color: transparent !important;
+  color: var(--foregroud-text1) !important;
+}
+
+.fr-search-bar .fr-btn {
+  border-radius: 0 !important;
+}
+
+.fr-nav__btn:hover,
+.fr-nav__link:hover {
+  background-color: var(--dark-background-primary1) !important;
+  color: white !important;
+}

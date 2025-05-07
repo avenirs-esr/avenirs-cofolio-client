@@ -1,0 +1,36 @@
+:root {
+  --font-family-primary: 'Marianne', 'arial', sans-serif;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --font-size-md: 14px;
+  --line-height-md: 21px;
+  --letter-spacing-md: -0.4%;
+}
+
+.b2-light {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  letter-spacing: var(--letter-spacing-md);
+  color: var(--foreground-text2);
+}
+
+.b2-regular {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  letter-spacing: var(--letter-spacing-md);
+  color: var(--foreground-text2);
+}
+
+.b2-bold {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  letter-spacing: var(--letter-spacing-md);
+  color: var(--foreground-text2);
+}

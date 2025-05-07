@@ -180,10 +180,7 @@ provide(registerNavigationLinkKey, () => {
             </div>
           </div>
           <div class="fr-header__tools">
-            <div
-              v-if="quickLinks?.length || languageSelector"
-              class="fr-header__tools-links"
-            >
+            <div class="fr-header__tools-links">
               <slot name="before-quick-links" />
               <DsfrHeaderMenuLinks
                 v-if="!menuOpened"
