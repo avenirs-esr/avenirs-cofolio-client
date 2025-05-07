@@ -3,6 +3,7 @@ import autoImportConfig from "./auto-import-config.json" with { type: 'json' };
 
 export default antfu({
   vue: true,
+  typescript: true,
   ignores: [
     '**/README.md',
     '.vscode/',
@@ -10,7 +11,6 @@ export default antfu({
   ],
 }, {
   rules: {
-    // 'style/comma-dangle': ['error', 'always-multiline'],
     'no-duplicate-imports': 'error',
     'no-irregular-whitespace': 'warn',
     'vue/no-irregular-whitespace': 'warn',
