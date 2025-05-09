@@ -1,4 +1,4 @@
-import { STUDENT_HOME_ROUTE, routes as studentRoutes } from '@/features/student'
+import { studentHomeRoute, routes as studentRoutes } from '@/features/student'
 import { routes as teacherRoutes } from '@/features/teacher'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -9,9 +9,7 @@ const routes = [
   ...teacherRoutes,
   {
     path: '/',
-    redirect: {
-      name: STUDENT_HOME_ROUTE,
-    },
+    redirect: studentHomeRoute,
   },
 ]
 

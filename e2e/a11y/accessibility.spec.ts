@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 test('Home page should have no accessibility violations', async ({ page }) => {
-  await page.goto('/') // Adjust to your app's dev URL
+  await page.goto('/')
 
   const rawAxeResults = await new AxeBuilder({ page }).analyze()
 

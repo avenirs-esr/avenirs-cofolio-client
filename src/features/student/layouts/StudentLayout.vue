@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 import useToaster from '@/common/composables/use-toaster'
-import { STUDENT_HOME_ROUTE, StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { studentHomeRoute, StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -91,7 +91,7 @@ function selectLanguage (language: DsfrLanguageSelectorElement) {
   <AvHeader
     v-model="searchQuery"
     :service-title="serviceTitle"
-    :home-to="{ name: STUDENT_HOME_ROUTE }"
+    :home-to="studentHomeRoute"
     show-search
     :quick-links="quickLinks"
     :language-selector="languageSelector"
