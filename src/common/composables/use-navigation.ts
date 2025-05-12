@@ -1,5 +1,5 @@
 import { studentHomeRoute, studentMessagesRoute, studentNotificationsRoute } from '@/features/student/routes'
-import { TEACHER_HOME_ROUTE } from '@/features/teacher'
+import { teacherHomeRoute } from '@/features/teacher/routes'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
 export function useNavigation () {
@@ -23,7 +23,7 @@ export function useNavigation () {
 
   const navigateToTeacherHome = (
   ): Promise<NavigationFailure | void | undefined> => {
-    return router.push({ name: TEACHER_HOME_ROUTE, })
+    return router.push(teacherHomeRoute)
   }
 
   return {

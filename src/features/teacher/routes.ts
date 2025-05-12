@@ -2,19 +2,16 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export const TEACHER_HOME_ROUTE = 'teacher-home'
 
+export const teacherHomeRoute = {
+  path: '/',
+  alias: '',
+  name: 'teacher-home',
+  component: () =>
+    import('@/features/teacher/views/TeacherHomeView.vue'),
+}
+
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/teacher',
-    component: () => import('@/features/teacher/layouts/TeacherLayout.vue'),
-    children: [
-      {
-        path: '',
-        name: TEACHER_HOME_ROUTE,
-        component: () =>
-          import('@/features/teacher/views/TeacherHomeView.vue'),
-      },
-    ],
-  },
+  teacherHomeRoute
 ]
 
 export default routes

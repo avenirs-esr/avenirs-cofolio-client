@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useToaster from '@/common/composables/use-toaster'
-import { TEACHER_HOME_ROUTE } from '@/features/teacher'
+import { teacherHomeRoute } from '@/features/teacher/routes'
 
 const toaster = useToaster()
 
@@ -11,7 +11,7 @@ const logoText = ['Ministère', 'de l’intérieur']
 const quickLinks = [
   {
     label: 'Home',
-    to: { name: TEACHER_HOME_ROUTE },
+    to: teacherHomeRoute,
     icon: 'ri-home-4-line',
     iconAttrs: { color: 'var(--red-marianne-425-625)' },
   },
