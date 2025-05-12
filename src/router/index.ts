@@ -1,4 +1,4 @@
-import { studentHomeRoute, routes as studentRoutes } from '@/features/student'
+import studentRoutes, { studentHomeRoute } from '@/features/student/routes'
 import { routes as teacherRoutes } from '@/features/teacher'
 import { createRouter, createWebHistory } from 'vue-router'
 

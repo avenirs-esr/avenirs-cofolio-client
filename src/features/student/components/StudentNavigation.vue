@@ -10,7 +10,7 @@ import {
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentToolsTracksRoute
-} from '@/features/student'
+} from '@/features/student/routes'
 import { AvNavigation, MDI_ICONS } from '@/ui'
 
 import { useId } from 'vue'

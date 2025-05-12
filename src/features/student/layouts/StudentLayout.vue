@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 import useToaster from '@/common/composables/use-toaster'
-import { studentHomeRoute, StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 

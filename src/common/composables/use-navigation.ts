@@ -1,4 +1,4 @@
-import { studentHomeRoute, studentMessagesRoute, studentNotificationsRoute,studentEducationSkillsRoute } from '@/features/student'
+import { studentHomeRoute, studentMessagesRoute, studentNotificationsRoute } from '@/features/student/routes'
 import { TEACHER_HOME_ROUTE } from '@/features/teacher'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
