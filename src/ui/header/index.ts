@@ -1,1 +1,2 @@
-export { default as AvHeader } from './AvHeader.vue'
+export * from './AvHeader'
+export { default as AvLogo } from './AvLogo.vue'

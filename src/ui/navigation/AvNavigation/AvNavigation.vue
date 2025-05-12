@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { AvNavigationProps } from './types'
+import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
+
+export interface AvNavigationProps {
+  navItems: DsfrNavigationProps['navItems']
+}
 
 const props = defineProps<AvNavigationProps>()
 </script>
