@@ -351,5 +351,5 @@ $RECYCLE.BIN/
 .eslintrc-auto-import.json
 auto-imports.d.ts
 
-.a11y
 e2e/.output
+a11y/accessibility-report.html
