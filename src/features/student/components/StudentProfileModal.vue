@@ -16,7 +16,7 @@ const {
     <ul>
       <li>
         <AvButton
-          label="Modifier mon profil"
+          label="Gérer mon profil"
           :icon="MDI_ICONS.PENCIL"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
@@ -40,7 +40,7 @@ const {
       </li>
       <li>
         <AvButton
-          label="Aller sur le passeport de compétence"
+          label="Aller sur le passeport de compétences"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
