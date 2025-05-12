@@ -23,7 +23,7 @@ const navItems = [
     },
     links: [
       { to: { name: STUDENT_EDUCATION_SKILLS_ROUTE }, text: 'Mes compétences', icon: MDI_ICONS.STAR_SHOOTING },
-      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes mises en situation', icon: MDI_ICONS.GRADUATION_CAP },
+      { to: { name: STUDENT_EDUCATION_ACTIVITIES_ROUTE }, text: 'Mes activités de mise en situation', icon: MDI_ICONS.GRADUATION_CAP },
     ],
   },
   {
