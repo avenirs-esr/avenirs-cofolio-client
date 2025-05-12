@@ -1,5 +1,6 @@
 :root {
   --background-card: #FEFEFE;
+  --background-card2: #FAFAFA;
   --background-dialog: #FDFDFD;
   --background-surface-background: #F6F6F6;
 
@@ -8,4 +9,21 @@
   --foreground-stroke: #14171A29;
   --foreground-text1: #14171ACC;
   --foreground-text2: #14171AA3;
+  --foreground-title: #14171AEB;
+
+  --light-background-error: #F9CACC;
+  --light-background-neutral: #E9EAEA;
+  --light-background-primary2: #C4D6FF;
+  --light-background-success: #BDDECA;
+
+  --light-foreground-error: #800108;
+  --light-foreground-success: #0F4625;
+
+  --skill1: #7216D4;
+  --skill2: #9E0592;
+  --skill3: #2338D1;
+  --skill4: #AF0E36;
+
+  // for nameless colors in figma
+  --other-skill-card-border: #D9D9DA
 }

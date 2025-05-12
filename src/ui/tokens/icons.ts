@@ -18,4 +18,5 @@ export const MDI_ICONS = {
   POST_IT_NOTES: 'mdi:post-it-notes-outline',
   STAR_SHOOTING: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',
+  TEST_TUBE_EMPTY: 'mdi:test-tube-empty'
 }
