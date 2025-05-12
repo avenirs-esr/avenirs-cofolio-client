@@ -1,1 +1,1 @@
-export { default as AvCard } from './AvCard.vue'
+export * from './AvCard'

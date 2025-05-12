@@ -1,1 +1,1 @@
-export { default as AvNavigation } from './AvNavigation.vue'
+export * from './AvNavigation'

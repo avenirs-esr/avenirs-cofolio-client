@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
-import type { AvCardProps } from './types'
+
+export interface AvCardProps {
+  borderColor?: string
+  titleBackground?: string
+}
 
 const props = withDefaults(defineProps<AvCardProps>(), {
   borderColor: '--foreground-stroke',

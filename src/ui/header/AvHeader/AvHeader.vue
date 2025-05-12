@@ -2,12 +2,14 @@
  https://vue-ds.fr/composants/DsfrHeader -->
 
 <script lang="ts" setup>
-import type { DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
+import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 
-import type { AvHeaderProps } from './types'
-
-import AvLogo from './AvLogo.vue'
+import type { RouteLocationRaw } from 'vue-router'
+import AvLogo from '../AvLogo.vue'
 import { registerNavigationLinkKey } from './injection-key'
+
+export type AvHeaderProps = { homeTo?: string | RouteLocationRaw } &
+  Omit<DsfrHeaderProps, 'homeTo' | 'operatorImgAlt' | 'operatorImgSrc' | 'operatorImgStyle'>
 
 const props = withDefaults(defineProps<AvHeaderProps>(), {
   searchbarId: 'searchbar-header',
