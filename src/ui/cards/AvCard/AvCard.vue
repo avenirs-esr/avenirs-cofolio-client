@@ -4,12 +4,14 @@ import type { Slot } from 'vue'
 export interface AvCardProps {
   borderColor?: string
   titleBackground?: string
+  titleHeight?: string
 }
 
-const props = withDefaults(defineProps<AvCardProps>(), {
-  borderColor: '--foreground-stroke',
-  titleBackground: '--background-surface-background'
-})
+const {
+  borderColor = '--foreground-stroke',
+  titleBackground = '--background-surface-background',
+  titleHeight
+} = defineProps<AvCardProps>()
 
 const slots = defineSlots<{
   title?: Slot
@@ -22,12 +24,12 @@ const slots = defineSlots<{
 <template>
   <div
     class="av-card"
-    :style="{ borderColor: `var(${props.borderColor})` }"
+    :style="{ borderColor: `var(${borderColor})` }"
   >
     <div
       v-if="slots.title"
       class="av-card__title"
-      :style="{ background: `var(${props.titleBackground})` }"
+      :style="{ background: `var(${titleBackground})`, height: titleHeight }"
     >
       <slot name="title" />
     </div>
