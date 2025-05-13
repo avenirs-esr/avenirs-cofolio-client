@@ -2,12 +2,14 @@
 import type { Slot } from 'vue'
 
 export interface AvCardProps {
+  backgroundColor?: string
   borderColor?: string
   titleBackground?: string
   titleHeight?: string
 }
 
 const {
+  backgroundColor = '--background-card',
   borderColor = '--foreground-stroke',
   titleBackground = '--background-surface-background',
   titleHeight
@@ -24,7 +26,7 @@ const slots = defineSlots<{
 <template>
   <div
     class="av-card"
-    :style="{ borderColor: `var(${borderColor})` }"
+    :style="{ borderColor: `var(${borderColor})`, background: `var(${backgroundColor})` }"
   >
     <div
       v-if="slots.title"
@@ -53,7 +55,6 @@ const slots = defineSlots<{
 .av-card {
   display: flex;
   flex-direction: column;
-  background-color: var(--background-card);
   border-radius: 1.5rem;
   border: 1px solid transparent;
   overflow: hidden;
@@ -61,7 +62,7 @@ const slots = defineSlots<{
   justify-content: space-between;
 
   &__title {
-    margin: -1rem -1rem 1rem -1rem;
+    margin: -1rem -1rem 0 -1rem;
     padding: 1rem;
   }
 }
