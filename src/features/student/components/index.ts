@@ -1,3 +1,4 @@
+export { default as StudentCourseSkillsContainer } from './StudentCourseSkillsContainer.vue'
 export { default as StudentMessagesModal } from './StudentMessagesModal.vue'
 export { default as StudentNavigation } from './StudentNavigation.vue'
 export { default as StudentNotificationsModal } from './StudentNotificationsModal.vue'

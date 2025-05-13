@@ -3,11 +3,14 @@
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
-  --font-size-md: 14px;
-  --font-size-n6: 20px;
-  --line-height-md: 21px;
-  --line-height-n6: 30px;
+  --font-size-md: 0.875rem;
+  --font-size-s1: 1.25rem;
+  --font-size-n6: 1.25rem;
+  --line-height-md: 1.3125rem;
+  --line-height-n6: 1.875rem;
+  --line-height-s1: 1.875rem;
   --letter-spacing-md: -0.4%;
+  --letter-spacing-s1: 0.1%;
 }
 
 .b2-light {
@@ -43,4 +46,13 @@
   font-size: var(--font-size-n6);
   line-height: var(--line-height-n6);
   color: var(--foreground-text2);
+}
+
+.s1-regular {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-s1);
+  line-height: var(--line-height-s1);
+  letter-spacing: var(--letter-spacing-s1);
+  color: var(--foreground-text1);
 }

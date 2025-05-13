@@ -1,6 +1,7 @@
+import type { LevelDTO } from '@/types'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvSkillCard, { type LevelDTO } from './AvSkillCard.vue'
+import AvSkillCard from './AvSkillCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrBadge: {
@@ -25,12 +26,13 @@ vi.doMock('@/ui', () => ({
 describe('avSkillCard.vue', () => {
   const baseProps = {
     skill: {
+      id: 'skill1',
       name: 'Résolution de problème',
       trackCount: 4,
       activityCount: 2,
       levels: [
-        { name: 'Niveau 1', status: 'VALIDATED' },
-        { name: 'Niveau 2', status: 'TO_EVALUATE' },
+        { id: 'Niv1', name: 'Niveau 1', status: 'VALIDATED' },
+        { id: 'Niv2', name: 'Niveau 2', status: 'TO_EVALUATE' },
       ] as LevelDTO[],
     },
     skillColor: '--color-skill',
@@ -63,7 +65,7 @@ describe('avSkillCard.vue', () => {
         ...baseProps,
         skill: {
           ...baseProps.skill,
-          levels: [{ name: 'Niveau 1', status: 'UNDER_REVIEW' }],
+          levels: [{ id: 'Niv1', name: 'Niveau 1', status: 'UNDER_REVIEW' }],
         },
       },
     })

@@ -1,19 +1,8 @@
 <script lang="ts" setup>
+import type { LevelDTO, SkillDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/ui'
 import AvCard from '../AvCard/AvCard.vue'
-
-export interface LevelDTO {
-  name: string
-  status: 'VALIDATED' | 'UNDER_REVIEW' | 'TO_EVALUATE' | 'NOT_VALIDATED'
-}
-
-export interface SkillDTO {
-  name: string
-  trackCount: number
-  activityCount: number
-  levels: Array<LevelDTO>
-}
 
 export interface AvSkillCardProps {
   skill: SkillDTO
