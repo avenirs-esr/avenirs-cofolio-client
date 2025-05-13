@@ -14,9 +14,9 @@ const skills = computed(() => course.skills.slice(0, maxSkillsDisplayed))
     </span>
     <div class="skills-container">
       <AvSkillCard
-        v-for="(item, index) in skills"
-        :key="item.id"
-        :skill="item"
+        v-for="(skill, index) in skills"
+        :key="skill.id"
+        :skill="skill"
         :skill-color="`--skill${index + 1}`"
       />
     </div>
