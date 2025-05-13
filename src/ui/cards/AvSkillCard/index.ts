@@ -1,1 +1,1 @@
-export { default as AvSkillCard, type LevelDTO, type SkillDTO } from './AvSkillCard.vue'
+export { default as AvSkillCard } from './AvSkillCard.vue'
