@@ -1,0 +1,17 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - master
+
+jobs:
+  run-code-quality-checks:
+    name: Code quality and tests check
+    uses: ./.github/workflows/quality-checks.yml
+
+  run-a11y-test-and-deploy-reports:
+    name: Check a11y and deploy reports
+    uses: ./.github/workflows/a11y-test-and-deploy-reports.yml
+    needs: run-code-quality-checks

@@ -1,0 +1,94 @@
+name: Accessibility Check and Deploy
+
+on:
+  workflow_call:
+
+jobs:
+  a11y-test-and-deploy-reports:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.52.0-noble
+      options: --user 1001
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Set up Node.js 22 with npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: 📦 Install dependencies with npm ci
+        run: npm ci
+
+      - name: 🏗️ Build project
+        run: npm run build-only
+
+      - name: Run accessibility test
+        id: a11y-test
+        run: |
+          npm run test:a11y
+        continue-on-error: true
+
+      # Move the report to a temp folder with index.html
+      - name: Move accessibility report to temp folder
+        run: |
+          mkdir -p gh-pages-tmp
+          mv a11y/reports/* gh-pages-tmp/
+
+      # Deploy it to the specific PR subfolder
+      - name: Deploy accessibility report
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: gh-pages-tmp
+          destination_dir: accessibility-reports/${{ github.event.pull_request.number }}
+          allow_empty_commit: true
+          user_name: github-actions
+          user_email: github-actions@github.com
+
+      - name: Comment on PR with dynamic report URLs
+        if: steps.a11y-test.outcome == 'failure'
+        run: |
+          REPO_FULL=${{ github.repository }}
+          REPO_OWNER=$(echo "$REPO_FULL" | cut -d'/' -f1)
+          REPO_NAME=$(echo "$REPO_FULL" | cut -d'/' -f2)
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          BASE_URL="https://${REPO_OWNER}.github.io/${REPO_NAME}/accessibility-reports/${PR_NUMBER}"
+
+          COMMENT_BODY="### ♿ Accessibility Report"
+
+          for DIR in student teacher; do
+            if [ -d "gh-pages-tmp/$DIR" ]; then
+              if [ "$DIR" = "student" ]; then
+                COMMENT_BODY="${COMMENT_BODY}\n\n#### 👨‍🎓 Student universe failed routes reports:"
+              else
+                COMMENT_BODY="${COMMENT_BODY}\n\n#### 👩‍🏫 Teacher universe failed routes reports:"
+              fi
+
+              for FILE in $(find gh-pages-tmp/$DIR -name "*.html" -exec basename {} \;); do
+                COMMENT_BODY="${COMMENT_BODY}\n- [${FILE}](${BASE_URL}/$DIR/${FILE})"
+              done
+            fi
+          done
+
+          echo -e "$COMMENT_BODY"
+
+          curl -s -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{ \"body\": \"$COMMENT_BODY\"}" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
+
+      - name: Check if accessibility tests passed
+        if: steps.a11y-test.outcome == 'failure'
+        run: exit 1

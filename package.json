@@ -19,7 +19,7 @@
     "test:a11y:cleanup": "rimraf a11y/.output",
     "test:watch": "vitest",
     "type-check": "vue-tsc --build --force",
-    "prepare": "husky || true && npx playwright install ",
+    "prepare": "husky || true",
     "commitlint": "commitlint --edit",
     "lint-staged": "lint-staged"
   },

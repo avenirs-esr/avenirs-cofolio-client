@@ -5,6 +5,7 @@ export default defineConfig({
   testDir: './',
   use: {
     baseURL: 'http://localhost:4173',
+    headless: !!process.env.CI
   },
   /* Configure projects for major browsers */
   projects: [
@@ -15,6 +16,8 @@ export default defineConfig({
       }
     },
   ],
+
+  workers: process.env.CI ? 1 : undefined,
 
   outputDir: '.output',
 
@@ -27,6 +30,7 @@ export default defineConfig({
      */
     command: 'npm run preview',
     port: 4173,
-    reuseExistingServer: !process.env.CI
+    reuseExistingServer: true,
+    cwd: '../'
   },
 })

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { LevelDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
-import { STUDENT_EDUCATION_SKILLS_ROUTE } from '@/features/student/routes'
+import { studentEducationSkillsRoute } from '@/features/student/routes'
 import { AvCard, type AvSkillCardProps, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { skill, skillColor, to = { name: STUDENT_EDUCATION_SKILLS_ROUTE } } = defineProps<AvSkillCardProps>()
+const { skill, skillColor, to = studentEducationSkillsRoute } = defineProps<AvSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
 
 function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
