@@ -102,9 +102,11 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
     :on-close="hideProfileModal"
   />
 
-  <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
-    <router-view />
-  </div>
+  <main>
+    <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
+      <router-view />
+    </div>
+  </main>
 
   <AppToaster
     :messages="toaster.messages"
