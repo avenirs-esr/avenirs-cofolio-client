@@ -1,12 +1,6 @@
 <script lang="ts" setup>
+import type { AvCardProps } from '@/ui'
 import type { Slot } from 'vue'
-
-export interface AvCardProps {
-  backgroundColor?: string
-  borderColor?: string
-  titleBackground?: string
-  titleHeight?: string
-}
 
 const {
   backgroundColor = '--background-card',

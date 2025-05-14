@@ -19,9 +19,11 @@ export const MDI_ICONS = {
   SHARE_VARIANT: 'mdi:share-variant-outline',
   STAR_SHOOTING: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',
+  SWAP_HORIZONTAL: 'mdi:swap-horizontal',
+  SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty'
 }
 
 export const RI_ICONS = {
-  ARROW_LEFT_RIGHT: 'ri:arrow-left-right-line',
+  DICE_4: 'ri:dice-4-line',
 }

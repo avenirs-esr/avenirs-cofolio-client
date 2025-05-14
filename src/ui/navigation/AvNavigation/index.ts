@@ -1,1 +1,2 @@
-export { default as AvNavigation, type AvNavigationProps } from './AvNavigation.vue'
+export type { AvNavigationProps } from './AvNavigation.types'
+export { default as AvNavigation } from './AvNavigation.vue'

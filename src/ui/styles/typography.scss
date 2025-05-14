@@ -3,44 +3,47 @@
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
-  --font-size-md: 0.875rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
   --font-size-n4: 2rem;
   --font-size-n5: 1.625rem;
   --font-size-n6: 1.25rem;
   --font-size-s1: 1.25rem;
-  --line-height-md: 1.3125rem;
+  --line-height-sm: 1.3125rem;
+  --line-height-md: 1.5rem;
   --line-height-n4: 3rem;
   --line-height-n5: 2.5rem;
   --line-height-n6: 1.875rem;
   --line-height-s1: 1.875rem;
+  --letter-spacing-sm: -0.4%;
   --letter-spacing-md: -0.4%;
   --letter-spacing-s1: 0.1%;
+}
+
+.b1-bold {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  letter-spacing: var(--letter-spacing-md);
+  color: var(--foreground-text1);
 }
 
 .b2-light {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-light);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
-  letter-spacing: var(--letter-spacing-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  letter-spacing: var(--letter-spacing-sm);
   color: var(--foreground-text2);
 }
 
 .b2-regular {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
-  letter-spacing: var(--letter-spacing-md);
-  color: var(--foreground-text2);
-}
-
-.b2-bold {
-  font-family: var(--font-family-primary);
-  font-weight: var(--font-weight-light);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
-  letter-spacing: var(--letter-spacing-md);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  letter-spacing: var(--letter-spacing-sm);
   color: var(--foreground-text2);
 }
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { AvButton, AvCard, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvButton, AvCard, MDI_ICONS } from '@/ui'
 
 const mockedName = 'Jeanne Moulin'
 const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable,'
@@ -70,7 +70,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
           <li>
             <AvButton
               label="Mon/mes établissement(s)"
-              :icon="RI_ICONS.ARROW_LEFT_RIGHT"
+              :icon="MDI_ICONS.SWAP_HORIZONTAL"
               :icon-right="true"
               :full-width="true"
               variant="tertiary"

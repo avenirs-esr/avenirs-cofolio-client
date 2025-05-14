@@ -17,3 +17,10 @@ export interface CourseDTO {
   name: string
   skills: Array<SkillDTO>
 }
+
+export interface TrackDTO {
+  id: string
+  name: string
+  skillCount: number
+  activityCount: number
+}

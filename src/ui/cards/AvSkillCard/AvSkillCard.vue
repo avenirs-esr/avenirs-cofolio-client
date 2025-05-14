@@ -1,16 +1,8 @@
 <script lang="ts" setup>
-import type { LevelDTO, SkillDTO } from '@/types'
+import type { LevelDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
-import type { RouteLocationRaw } from 'vue-router'
 import { STUDENT_EDUCATION_SKILLS_ROUTE } from '@/features/student/routes'
-import { MDI_ICONS } from '@/ui'
-import AvCard from '../AvCard/AvCard.vue'
-
-export interface AvSkillCardProps {
-  skill: SkillDTO
-  skillColor: string
-  to?: RouteLocationRaw
-}
+import { AvCard, type AvSkillCardProps, MDI_ICONS } from '@/ui'
 
 const { skill, skillColor, to = { name: STUDENT_EDUCATION_SKILLS_ROUTE } } = defineProps<AvSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
