@@ -11,14 +11,13 @@ const __dirname = dirname(__filename)
 
 const parentRoute = routes[0]
 
-const paths = [
+const pathsToTest = [
   parentRoute.path,
 ]
 
 test.describe('teacher routes', () => {
-  paths.forEach((path) => {
+  pathsToTest.forEach((path) => {
     test(`${path} should have no accessibility violations`, async ({ page }) => {
-      // Navigate to each page
       await page.goto(path)
 
       const rawAxeResults = await new AxeBuilder({ page }).analyze()
@@ -26,25 +25,20 @@ test.describe('teacher routes', () => {
       const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 
       if (rawAxeResults.violations.length > 0) {
-        // Generate the HTML report
         const reportHTML = createHtmlReport({
           results: rawAxeResults,
           options: {
             projectKey: `Cofolio A11y Report - Teacher Universe -  ${pageName}`,
-            doNotCreateReportFile: true, // we handle saving manually
+            doNotCreateReportFile: true,
           },
         })
-        // Define a unique path for each report
         const reportPath = resolve(__dirname, `reports/teacher/${pageName}.html`)
 
-        // Ensure the directory exists
         fs.mkdirSync(dirname(reportPath), { recursive: true })
 
-        // Write the HTML report to the file system
         fs.writeFileSync(reportPath, reportHTML)
       }
 
-      // Assert that no accessibility violations exist
       expect(rawAxeResults.violations.length, 'No accessibility violations').toBe(0)
     })
   })

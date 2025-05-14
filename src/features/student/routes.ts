@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export const studentHomeRoute: AvRoute = {
   name: 'student-home',
-  path: '/student',
+  path: '',
   component: () =>
     import('@/features/student/views/StudentHomeView.vue'),
 }
@@ -85,10 +85,7 @@ const routes: RouteRecordRaw[] = [
     path: '/student',
     component: () => import('@/features/student/layouts/StudentLayout.vue'),
     children: [
-      {
-        ...studentHomeRoute,
-        path: ''
-      },
+      studentHomeRoute,
       studentEducationSkillsRoute,
       studentEducationActivitiesRoute,
       studentProjectSkillsRoute,

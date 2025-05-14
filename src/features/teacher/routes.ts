@@ -14,9 +14,7 @@ const routes: RouteRecordRaw[] = [
     path: '/teacher',
     component: () => import('@/features/teacher/layouts/TeacherLayout.vue'),
     children: [
-      {
-        ...teacherHomeRoute,
-      }
+      teacherHomeRoute
     ]
   }
 ]

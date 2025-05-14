@@ -351,5 +351,4 @@ $RECYCLE.BIN/
 .eslintrc-auto-import.json
 auto-imports.d.ts
 
-e2e/.output
 a11y/reports

@@ -39,13 +39,11 @@ jobs:
           npm run test:a11y
         continue-on-error: true
 
-      # Move the report to a temp folder with index.html
       - name: Move accessibility report to temp folder
         run: |
           mkdir -p gh-pages-tmp
           mv a11y/reports/* gh-pages-tmp/
 
-      # Deploy it to the specific PR subfolder
       - name: Deploy accessibility report
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -56,8 +54,9 @@ jobs:
           user_name: github-actions
           user_email: github-actions@github.com
 
-      - name: Comment on PR with dynamic report URLs
+      - name: Generate comment body
         if: steps.a11y-test.outcome == 'failure'
+        id: generate-comment
         run: |
           REPO_FULL=${{ github.repository }}
           REPO_OWNER=$(echo "$REPO_FULL" | cut -d'/' -f1)
@@ -81,13 +80,16 @@ jobs:
             fi
           done
 
-          echo -e "$COMMENT_BODY"
+          echo "comment-body<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMENT_BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
-          curl -s -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{ \"body\": \"$COMMENT_BODY\"}" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments"
+      - name: 💬 Comment on PR with dynamic report URLs
+        if: steps.a11y-test.outcome == 'failure'
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: ${{ steps.generate-comment.outputs.comment-body }}
+          pr-number: ${{ github.event.pull_request.number }}
 
       - name: Check if accessibility tests passed
         if: steps.a11y-test.outcome == 'failure'
