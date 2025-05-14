@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import type { CourseDTO } from '@/types'
-import { AvCard, MDI_ICONS } from '@/ui'
+import { useNavigation } from '@/common/composables/use-navigation'
+import { AvButton, AvCard, MDI_ICONS } from '@/ui'
 import { StudentCourseSkillsContainer } from '../containers'
 
 const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
+
+const { navigateToStudentSkills } = useNavigation()
 </script>
 
 <template>
@@ -33,6 +36,17 @@ const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
         />
       </div>
     </template>
+    <template #footer>
+      <div class="courses-skills-widget-container__footer">
+        <AvButton
+          label="Voir toutes mes compétences"
+          variant="tertiary-no-outline"
+          :on-click="navigateToStudentSkills"
+          :icon="MDI_ICONS.ARROW_RIGHT"
+          size="sm"
+        />
+      </div>
+    </template>
   </AvCard>
 </template>
 
@@ -49,5 +63,11 @@ const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+}
+
+.courses-skills-widget-container__footer {
+  display: flex;
+  flex-direction: row-reverse;
+  padding-top: 1.25rem;
 }
 </style>

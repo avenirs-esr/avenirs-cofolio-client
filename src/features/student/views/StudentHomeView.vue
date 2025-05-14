@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SkillDTO } from '@/types'
-import { StudentCoursesSkillsWidget, StudentOverviewWidget } from '../components'
+import { StudentOverviewWidget, StudentSkillsWidget } from '@/features/student/components'
 
 const mockedSkills: Array<SkillDTO> = [
   {
@@ -73,7 +73,7 @@ const mockedCourses = [
         <StudentOverviewWidget />
       </div>
       <div class="fr-col-8">
-        <StudentCoursesSkillsWidget :courses="mockedCourses" />
+        <StudentSkillsWidget :courses="mockedCourses" />
       </div>
     </div>
   </div>
