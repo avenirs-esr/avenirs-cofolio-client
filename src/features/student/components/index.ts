@@ -1,6 +1,4 @@
 export * from './containers'
-export { default as StudentMessagesModal } from './StudentMessagesModal.vue'
+export * from './modals'
 export { default as StudentNavigation } from './StudentNavigation.vue'
-export { default as StudentNotificationsModal } from './StudentNotificationsModal.vue'
-export { default as StudentProfileModal } from './StudentProfileModal.vue'
 export * from './widgets'

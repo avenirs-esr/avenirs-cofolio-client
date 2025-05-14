@@ -16,7 +16,12 @@ export const MDI_ICONS = {
   NOTIFICATIONS_NONE: 'mdi:notifications-none',
   PENCIL: 'mdi:pencil-outline',
   POST_IT_NOTES: 'mdi:post-it-notes-outline',
+  SHARE_VARIANT: 'mdi:share-variant-outline',
   STAR_SHOOTING: 'mdi:star-shooting-outline',
   STARS: 'mdi:stars',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty'
+}
+
+export const RI_ICONS = {
+  ARROW_LEFT_RIGHT: 'ri:arrow-left-right-line',
 }

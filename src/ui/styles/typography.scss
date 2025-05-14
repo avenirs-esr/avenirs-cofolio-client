@@ -4,10 +4,12 @@
   --font-weight-regular: 400;
   --font-weight-bold: 700;
   --font-size-md: 0.875rem;
-  --font-size-s1: 1.25rem;
+  --font-size-n4: 2rem;
   --font-size-n5: 1.625rem;
   --font-size-n6: 1.25rem;
+  --font-size-s1: 1.25rem;
   --line-height-md: 1.3125rem;
+  --line-height-n4: 3rem;
   --line-height-n5: 2.5rem;
   --line-height-n6: 1.875rem;
   --line-height-s1: 1.875rem;
@@ -40,6 +42,14 @@
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);
   color: var(--foreground-text2);
+}
+
+.n4 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-n4);
+  line-height: var(--line-height-n4);
+  color: var(--foreground-title);
 }
 
 .n5 {
