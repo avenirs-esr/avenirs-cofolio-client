@@ -37,6 +37,11 @@ function levelToBadge (level: LevelDTO) {
 
 const firstBadge = computed(() => levelToBadge(levels[0]))
 const secondBadge = computed(() => levels.length > 1 ? levelToBadge(levels[1]) : undefined)
+const computedHoverBorderColor = computed(() => `var(${skillColor})`)
+
+const theme = ref({
+  hoverBorderColor: computedHoverBorderColor,
+})
 </script>
 
 <template>
@@ -46,13 +51,12 @@ const secondBadge = computed(() => levels.length > 1 ? levelToBadge(levels[1]) :
         border-color="--other-skill-card-border"
         :title-background="skillColor"
         title-height="6.6875rem"
-        :style="{ '--hover-border-color': `var(${skillColor})` }"
       >
         <template #title>
           <div class="av-skill-card__title">
-            <h6 class="n6">
+            <span class="n6">
               {{ name }}
-            </h6>
+            </span>
             <div
               class="av-skill-card__icon"
               :style="{ background: `var(${skillColor})` }"
@@ -101,8 +105,8 @@ const secondBadge = computed(() => levels.length > 1 ? levelToBadge(levels[1]) :
 
 <style lang="scss" scoped>
 .av-card:hover {
-  border: 1px solid var(--hover-border-color) !important;
-  box-shadow: 0 0 0 2px var(--hover-border-color);
+  border: 1px solid v-bind('theme.hoverBorderColor') !important;
+  box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
 }
 
 .av-skill-card {

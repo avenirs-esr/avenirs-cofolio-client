@@ -18,9 +18,9 @@ const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
           color="var(--foreground-icon)"
           scale="1.5"
         />
-        <h5 class="n5">
+        <span class="n5">
           Mes compétences visées par ma formation
-        </h5>
+        </span>
       </div>
     </template>
     <template #body>
