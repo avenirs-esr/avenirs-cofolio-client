@@ -3,6 +3,7 @@ import type { LevelDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import { STUDENT_EDUCATION_SKILLS_ROUTE } from '@/features/student/routes'
 import { AvCard, type AvSkillCardProps, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor, to = { name: STUDENT_EDUCATION_SKILLS_ROUTE } } = defineProps<AvSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
@@ -34,6 +35,8 @@ const computedHoverBorderColor = computed(() => `var(${skillColor})`)
 const theme = ref({
   hoverBorderColor: computedHoverBorderColor,
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -65,7 +68,7 @@ const theme = ref({
           <div class="av-skill-card__body">
             <div class="av-skill-card__line">
               <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-              <span class="av-skill-card__desc">{{ trackCount }} traces</span>
+              <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.trackCount', { count: trackCount }) }}</span>
             </div>
             <div class="av-skill-card__line">
               <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
