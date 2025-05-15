@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables/use-navigation'
 import { AvButton, AvModal, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 const {
   messagesCount,
   showModal,
   onClose
 } = defineProps<{ messagesCount: number, showModal: boolean, onClose: () => void }>()
+
 const { navigateToStudentMessages } = useNavigation()
+const { t } = useI18n()
 
 function navigateToMessages () {
   navigateToStudentMessages()
@@ -17,13 +20,15 @@ function navigateToMessages () {
 
 <template>
   <AvModal
-    :title="messagesCount > 0 ? `${messagesCount} notifications non lues` : 'Aucun nouveau message'"
+    :title="t('feature.student.modals.mailboxModal.title', { count: messagesCount })"
     :icon="MDI_ICONS.CHAT_BUBBLE"
     :opened="showModal"
+    :close-button-label="t('feature.student.modals.mailboxModal.buttons.close')"
+    :close-button-title="t('feature.student.modals.mailboxModal.buttons.close')"
     @close="onClose"
   >
     <div v-if="messagesCount === 0">
-      <span class="b2-light">Vous n’avez aucun nouveau message à consulter.</span>
+      <span class="b2-light">{{ t('feature.student.modals.mailboxModal.bodyNoNew') }}</span>
     </div>
     <div v-else>
       Messages...
@@ -32,14 +37,14 @@ function navigateToMessages () {
       <div class="messages-modal__footer">
         <AvButton
           v-if="messagesCount === 0"
-          label="Aller à ma messagerie"
+          :label="t('feature.student.modals.mailboxModal.buttons.navigate')"
           variant="tertiary-no-outline"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"
         />
         <AvButton
           v-else
-          label="Voir tout"
+          :label="t('feature.student.modals.mailboxModal.buttons.seeAll')"
           variant="tertiary-no-outline"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"

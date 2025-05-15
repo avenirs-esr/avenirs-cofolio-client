@@ -30,5 +30,12 @@
   "css.validate": false,
   "scss.validate": false,
   "[vue]": { "editor.defaultFormatter": "dbaeumer.vscode-eslint" },
-  "[css]": { "editor.defaultFormatter": "stylelint.vscode-stylelint" }
+  "[css]": {
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+  },
+  "i18n-ally.localesPaths": ["src/locales"],
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "i18n-ally.sourceLanguage": "fr",
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.keystyle": "nested"
 }

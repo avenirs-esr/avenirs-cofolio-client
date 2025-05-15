@@ -1,7 +1,115 @@
 {
+  "feature": {
+    "student": {
+      "layout": {
+        "header": {
+          "serviceTitle": "Cofolio Student",
+          "quicklinks": {
+            "mailbox": "Mailbox",
+            "notifications": "Notifications"
+          }
+        }
+      },
+      "modals": {
+        "mailboxModal": {
+          "bodyNoNew": "You have no new messages to consult.",
+          "buttons": {
+            "close": "Close",
+            "navigate": "Go to my mailbox",
+            "seeAll": "See all"
+          },
+          "title": "No new messages | 1 unread message | {count} unread messages"
+        },
+        "notificationsModal": {
+          "bodyNoNew": {
+            "assessedSkill": "A third party will have assessed you on a skill",
+            "comingUpEvent": "An event is coming up",
+            "header": "You will receive a notification in the following cases:",
+            "teacherMessage": "A teacher will send you a message",
+            "validatedTrack": "A track has been validated"
+          },
+          "buttons": {
+            "close": "Close",
+            "seeAll": "See all"
+          },
+          "title": "No notification | 1 unread notification | {count} unread notifications"
+        },
+        "profileModal": {
+          "buttons": {
+            "goToDw": "Go to my DW",
+            "goToSkills": "Go to the skills passport",
+            "logout": "Logout",
+            "manageProfile": "Manage my profile",
+            "seeCalendar": "See my calendar"
+          }
+        }
+      },
+      "navigation": {
+        "tabs": {
+          "education": {
+            "header": "Successful education",
+            "items": {
+              "activities": "My role-playing activities",
+              "skills": "My skills"
+            }
+          },
+          "home": "Home",
+          "project": {
+            "header": "Building my life project",
+            "items": {
+              "experiences": "My career",
+              "skills": "All my skills",
+              "trajectories": "Building my project"
+            }
+          },
+          "tools": {
+            "header": "My tools",
+            "items": {
+              "pages": "My free pages",
+              "resumes": "My resumes",
+              "tracks": "My tracks"
+            }
+          }
+        }
+      },
+      "widgets": {
+        "overview": {
+          "bannerAlt": "Profile banner",
+          "buttons": {
+            "editProfile": "Edit my profile",
+            "establishments": "My establishment(s)",
+            "shareCofolio": "Share my Cofolio",
+            "shareResume": "Share my resume"
+          },
+          "pictureAlt": "Profile picture"
+        },
+        "skills": {
+          "title": "My educational skills",
+          "buttons": {
+            "seeAll": "See all my skills"
+          }
+        }
+      }
+    }
+  },
   "ui": {
     "AvSkillCard": {
-      "trackCount": "1 track | {count} tracks"
+      "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
+      "badgeStatus": {
+        "notValidated": "not validated",
+        "toEvaluate": "to evaluate",
+        "underReview": "under review",
+        "validated": "validated"
+      },
+      "trackCount": "0 track | 1 track | {count} tracks"
+    },
+    "AvTrackCard": {
+      "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
+      "lifeProject": "Life project",
+      "skillCount": "0 skill | 1 skill | {count} skills",
+      "tagLabel": {
+        "group": "Group"
+      }
     }
   }
 }

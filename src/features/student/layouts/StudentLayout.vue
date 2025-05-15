@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 import useToaster from '@/common/composables/use-toaster'
-import { STUDENT_HOME_ROUTE, StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { STUDENT_HOME_ROUTE, StudentMailboxModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const toaster = useToaster()
-const { locale } = useI18n()
-
-const serviceTitle = 'CoFolio Étudiant'
+const { t, locale } = useI18n()
 
 const mockedUserName = 'J. Moulin'
 const mockedNotificationsCount = 2
@@ -16,12 +14,12 @@ const mockedMessageCount = 0
 
 const searchQuery = ref('')
 
-const showMessagesModal = ref(false)
-function displayMessagesModal () {
-  showMessagesModal.value = true
+const showMailboxModal = ref(false)
+function displayMailboxModal () {
+  showMailboxModal.value = true
 }
-function hideMessagesModal () {
-  showMessagesModal.value = false
+function hideMailboxModal () {
+  showMailboxModal.value = false
 }
 
 const showNotificationsModal = ref(false)
@@ -40,19 +38,19 @@ function hideProfileModal () {
   showProfileModal.value = false
 }
 
-const quickLinks: DsfrHeaderProps['quickLinks'] = [
+const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
   {
-    label: 'Messagerie',
+    label: t('feature.student.layout.header.quicklinks.mailbox'),
     to: '',
     icon: MDI_ICONS.CHAT_BUBBLE,
     button: true,
     onClick: ($event: MouseEvent) => {
       $event.preventDefault()
-      displayMessagesModal()
+      displayMailboxModal()
     },
   },
   {
-    label: 'Notifications',
+    label: t('feature.student.layout.header.quicklinks.notifications'),
     to: '',
     icon: mockedNotificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
     button: true,
@@ -71,7 +69,7 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
       displayProfileModal()
     },
   },
-]
+])
 
 const languageSelector = ref({
   id: 'language-selector',
@@ -90,7 +88,7 @@ function selectLanguage (language: DsfrLanguageSelectorElement) {
 <template>
   <AvHeader
     v-model="searchQuery"
-    :service-title="serviceTitle"
+    :service-title="t('feature.student.layout.header.serviceTitle')"
     :home-to="{ name: STUDENT_HOME_ROUTE }"
     show-search
     :quick-links="quickLinks"
@@ -102,10 +100,10 @@ function selectLanguage (language: DsfrLanguageSelectorElement) {
     </template>
   </AvHeader>
 
-  <StudentMessagesModal
+  <StudentMailboxModal
     :messages-count="mockedMessageCount"
-    :show-modal="showMessagesModal"
-    :on-close="hideMessagesModal"
+    :show-modal="showMailboxModal"
+    :on-close="hideMailboxModal"
   />
 
   <StudentNotificationsModal
