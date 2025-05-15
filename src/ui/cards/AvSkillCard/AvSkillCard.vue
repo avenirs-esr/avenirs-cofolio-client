@@ -8,16 +8,18 @@ import { useI18n } from 'vue-i18n'
 const { skill, skillColor, to = { name: STUDENT_EDUCATION_SKILLS_ROUTE } } = defineProps<AvSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
 
+const { t } = useI18n()
+
 function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
     case 'TO_EVALUATE':
-      return { status: 'à évaluer', type: 'new' }
+      return { status: t('ui.AvSkillCard.badgeStatus.toEvaluate'), type: 'new' }
     case 'UNDER_REVIEW':
-      return { status: 'en cours d\'évaluation', type: 'info' }
+      return { status: t('ui.AvSkillCard.badgeStatus.underReview'), type: 'info' }
     case 'VALIDATED':
-      return { status: 'validé', type: 'success' }
+      return { status: t('ui.AvSkillCard.badgeStatus.validated'), type: 'success' }
     case 'NOT_VALIDATED':
-      return { status: 'non validé', type: 'error' }
+      return { status: t('ui.AvSkillCard.badgeStatus.notValidated'), type: 'error' }
   }
 }
 
@@ -35,8 +37,6 @@ const computedHoverBorderColor = computed(() => `var(${skillColor})`)
 const theme = ref({
   hoverBorderColor: computedHoverBorderColor,
 })
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -72,7 +72,7 @@ const { t } = useI18n()
             </div>
             <div class="av-skill-card__line">
               <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
-              <span class="av-skill-card__desc">{{ activityCount }} mises en situation</span>
+              <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.activityCount', { count: activityCount }) }}</span>
             </div>
           </div>
         </template>

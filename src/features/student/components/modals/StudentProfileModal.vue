@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { AvButton, AvModal, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 const {
   showModal,
   onClose,
 } = defineProps<{ showModal: boolean, onClose: () => void }>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -16,7 +19,7 @@ const {
     <ul>
       <li>
         <AvButton
-          label="Gérer mon profil"
+          :label="t('feature.student.modals.profileModal.buttons.manageProfile')"
           :icon="MDI_ICONS.PENCIL"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
@@ -24,7 +27,7 @@ const {
       </li>
       <li>
         <AvButton
-          label="Voir mon agenda"
+          :label="t('feature.student.modals.profileModal.buttons.seeCalendar')"
           :icon="MDI_ICONS.CALENDAR_MONTH"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
@@ -32,7 +35,7 @@ const {
       </li>
       <li>
         <AvButton
-          label="Aller sur mon ENT"
+          :label="t('feature.student.modals.profileModal.buttons.goToDw')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
@@ -40,7 +43,7 @@ const {
       </li>
       <li>
         <AvButton
-          label="Aller sur le passeport de compétences"
+          :label="t('feature.student.modals.profileModal.buttons.goToSkills')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
@@ -48,7 +51,7 @@ const {
       </li>
       <li>
         <AvButton
-          label="Me déconnecter"
+          :label="t('feature.student.modals.profileModal.buttons.logout')"
           :icon="MDI_ICONS.LOGOUT"
           variant="tertiary-no-outline"
           color="--foregroud-text1"
