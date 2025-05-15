@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
+import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 import useToaster from '@/common/composables/use-toaster'
 import { STUDENT_HOME_ROUTE, StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
 import { AvHeader, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 const toaster = useToaster()
+const { locale } = useI18n()
 
 const serviceTitle = 'CoFolio Étudiant'
 
@@ -70,6 +72,19 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
     },
   },
 ]
+
+const languageSelector = ref({
+  id: 'language-selector',
+  languages: [
+    { label: 'Français', codeIso: 'fr' },
+    { label: 'English', codeIso: 'en' },
+  ],
+  currentLanguage: 'fr',
+})
+function selectLanguage (language: DsfrLanguageSelectorElement) {
+  languageSelector.value.currentLanguage = language.codeIso
+  locale.value = language.codeIso
+}
 </script>
 
 <template>
@@ -79,6 +94,8 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
     :home-to="{ name: STUDENT_HOME_ROUTE }"
     show-search
     :quick-links="quickLinks"
+    :language-selector="languageSelector"
+    @language-select="selectLanguage($event)"
   >
     <template #mainnav>
       <StudentNavigation />
@@ -115,6 +132,11 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
 </template>
 
 <style lang="scss" scoped>
+:deep(.fr-header__menu-links > nav .fr-nav__item > .fr-translate__btn) {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
 :deep(.fr-header__menu-links > nav .fr-btns-group > li > .fr-btn) {
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
