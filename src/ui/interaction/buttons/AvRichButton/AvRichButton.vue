@@ -1,0 +1,82 @@
+<script setup lang="ts">
+import type { Slot } from 'vue'
+import type { AvRichButtonProps } from './AvRichButton.types'
+
+const {
+  iconLeft = undefined,
+  iconRight = undefined,
+  borderColor = '--foreground-stroke',
+  hoverBorderColor = '--dark-background-primary1',
+  onClick
+} = defineProps<AvRichButtonProps>()
+
+defineSlots<{
+  default?: Slot
+}>()
+
+const computedBorderColor = computed(() => `var(${borderColor})`)
+const computedHoverBorderColor = computed(() => `var(${hoverBorderColor})`)
+
+const theme = ref({
+  borderColor: computedBorderColor,
+  hoverBorderColor: computedHoverBorderColor
+})
+</script>
+
+<template>
+  <button
+    class="av-rich-button"
+    @click="onClick"
+  >
+    <div class="av-rich-button__line">
+      <div class="av-rich-button__left">
+        <VIcon
+          v-if="iconLeft"
+          :name="iconLeft"
+          scale="1.25"
+          color="var(--dark-background-primary1)"
+        />
+        <slot />
+      </div>
+      <VIcon
+        v-if="iconRight"
+        :name="iconRight"
+        scale="1.25"
+        color="var(--dark-background-primary1)"
+      />
+    </div>
+  </button>
+</template>
+
+<style lang="scss" scoped>
+.av-rich-button {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.75rem;
+  border: 1px solid v-bind('theme.borderColor');
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.av-rich-button:hover {
+  border: 1px solid v-bind('theme.hoverBorderColor');
+  box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+}
+
+.av-rich-button__line {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.av-rich-button__left {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+</style>

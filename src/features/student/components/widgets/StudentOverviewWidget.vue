@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { AvButton, AvCard, MDI_ICONS } from '@/ui'
+import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -44,44 +44,36 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
       <div class="student-overview-widget__footer">
         <ul class="student-overview-widget__actions">
           <li>
-            <AvButton
-              :label="t('feature.student.widgets.overview.buttons.editProfile')"
-              :icon="MDI_ICONS.PENCIL"
-              :icon-right="true"
-              :full-width="true"
-              variant="OUTLINED"
-              theme="SECONDARY"
-            />
+            <AvRichButton
+              :icon-right="MDI_ICONS.PENCIL"
+              :on-click="() => {}"
+            >
+              <span class="b1-regular">{{ t('feature.student.widgets.overview.buttons.editProfile') }}</span>
+            </AvRichButton>
           </li>
           <li>
-            <AvButton
-              :label="t('feature.student.widgets.overview.buttons.shareResume')"
-              :icon="MDI_ICONS.FILE_ACCOUNT"
-              :icon-right="true"
-              :full-width="true"
-              variant="OUTLINED"
-              theme="SECONDARY"
-            />
+            <AvRichButton
+              :icon-right="MDI_ICONS.FILE_ACCOUNT"
+              :on-click="() => {}"
+            >
+              <span class="b1-regular">{{ t('feature.student.widgets.overview.buttons.shareResume') }}</span>
+            </AvRichButton>
           </li>
           <li>
-            <AvButton
-              :label="t('feature.student.widgets.overview.buttons.shareCofolio')"
-              :icon="MDI_ICONS.SHARE_VARIANT"
-              :icon-right="true"
-              :full-width="true"
-              variant="OUTLINED"
-              theme="SECONDARY"
-            />
+            <AvRichButton
+              :icon-right="MDI_ICONS.SHARE_VARIANT"
+              :on-click="() => {}"
+            >
+              <span class="b1-regular">{{ t('feature.student.widgets.overview.buttons.shareCofolio') }}</span>
+            </AvRichButton>
           </li>
           <li>
-            <AvButton
-              :label="t('feature.student.widgets.overview.buttons.establishments')"
-              :icon="MDI_ICONS.SWAP_HORIZONTAL"
-              :icon-right="true"
-              :full-width="true"
-              variant="OUTLINED"
-              theme="SECONDARY"
-            />
+            <AvRichButton
+              :icon-right="MDI_ICONS.SWAP_HORIZONTAL"
+              :on-click="() => {}"
+            >
+              <span class="b1-regular">{{ t('feature.student.widgets.overview.buttons.establishments') }}</span>
+            </AvRichButton>
           </li>
         </ul>
       </div>
@@ -136,6 +128,19 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
   padding: 0;
   margin: 0;
   gap: 1rem;
+}
+
+.student-overview-widget__action-avCard {
+  width: 100%;
+  border-radius: 0.75rem;
+}
+
+.student-overview-widget__action-avCard-line {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 li {
