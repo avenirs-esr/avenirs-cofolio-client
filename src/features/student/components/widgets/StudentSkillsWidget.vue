@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { CourseDTO } from '@/types'
 import { useNavigation } from '@/common/composables/use-navigation'
+import { StudentSkillsWidgetContainer } from '@/features/student/components'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'
-import { StudentCourseSkillsContainer } from '../containers'
+import { useI18n } from 'vue-i18n'
 
 const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
 
+const { t } = useI18n()
 const { navigateToStudentSkills } = useNavigation()
 </script>
 
@@ -22,13 +24,13 @@ const { navigateToStudentSkills } = useNavigation()
           scale="1.5"
         />
         <span class="n5">
-          Mes compétences visées par ma formation
+          {{ t('feature.student.widgets.skills.title') }}
         </span>
       </div>
     </template>
     <template #body>
       <div class="courses-skills-widget-container__body">
-        <StudentCourseSkillsContainer
+        <StudentSkillsWidgetContainer
           v-for="course in courses"
           :key="course.id"
           :course="course"
@@ -39,8 +41,7 @@ const { navigateToStudentSkills } = useNavigation()
     <template #footer>
       <div class="courses-skills-widget-container__footer">
         <AvButton
-          label="Voir toutes mes compétences"
-          variant="tertiary-no-outline"
+          :label="t('feature.student.widgets.skills.buttons.seeAll')"
           :on-click="navigateToStudentSkills"
           :icon="MDI_ICONS.ARROW_RIGHT"
           size="sm"

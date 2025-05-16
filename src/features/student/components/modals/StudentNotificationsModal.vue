@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables/use-navigation'
 import { AvButton, AvModal, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 const {
   notificationCount,
   showModal,
   onClose,
 } = defineProps<{ notificationCount: number, showModal: boolean, onClose: () => void }>()
+
 const { navigateToStudentNotifications } = useNavigation()
+const { t } = useI18n()
 
 function navigateToNotifications () {
   navigateToStudentNotifications()
@@ -17,18 +20,20 @@ function navigateToNotifications () {
 
 <template>
   <AvModal
-    :title="notificationCount > 0 ? `${notificationCount} notifications non lues` : 'Aucune notification'"
+    :title="t('feature.student.modals.notificationsModal.title', { count: notificationCount })"
     :icon="MDI_ICONS.NOTIFICATIONS_NONE"
     :opened="showModal"
+    :close-button-label="t('feature.student.modals.notificationsModal.buttons.close')"
+    :close-button-title="t('feature.student.modals.notificationsModal.buttons.close')"
     @close="onClose"
   >
     <div v-if="notificationCount === 0">
-      <span class="b2-light">Vous recevrez une notification dans les cas suivants : </span>
+      <span class="b2-light">{{ t('feature.student.modals.notificationsModal.bodyNoNew.header') }}</span>
       <ul class="b2-regular">
-        <li><span>Un enseignant vous enverra un message</span></li>
-        <li><span>Un tiers vous aura évalué sur une compétence</span></li>
-        <li><span>Une trace a été validée</span></li>
-        <li><span>Un évènement a lieu prochainement</span></li>
+        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.teacherMessage') }}</span></li>
+        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.assessedSkill') }}</span></li>
+        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.validatedTrack') }}</span></li>
+        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.comingUpEvent') }}</span></li>
       </ul>
     </div>
     <div v-else>
@@ -40,8 +45,7 @@ function navigateToNotifications () {
     >
       <div class="notifications-modal__footer">
         <AvButton
-          label="Voir tout"
-          variant="tertiary-no-outline"
+          :label="t('feature.student.modals.notificationsModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToNotifications"
         />
@@ -51,10 +55,6 @@ function navigateToNotifications () {
 </template>
 
 <style lang="scss" scoped>
-:deep(.vicon) {
-  color: var(--dark-background-primary1) !important;
-}
-
 ul {
   padding-left: 2rem;
 }

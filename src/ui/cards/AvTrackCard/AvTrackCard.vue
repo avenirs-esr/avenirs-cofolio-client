@@ -2,9 +2,12 @@
 import { studentToolsTracksRoute } from '@/features/student/routes'
 import { AvCard, type AvTrackCardProps, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
+import { useI18n } from 'vue-i18n'
 
 const { track, to = studentToolsTracksRoute } = defineProps<AvTrackCardProps>()
 const { name, skillCount, activityCount } = track
+
+const { t } = useI18n()
 
 function getRandomSkillColor () {
   const random = Math.floor(Math.random() * 12) + 1
@@ -57,28 +60,28 @@ const theme = ref({
                   color="var(--white)"
                 />
               </div>
-              <span class="b2-regular">{{ skillCount }} compétences</span>
+              <span class="b2-regular">{{ t('ui.AvTrackCard.skillCount', { count: skillCount }) }}</span>
             </div>
             <div class="av-track-card__line">
               <VIcon
                 :name="MDI_ICONS.TEST_TUBE_EMPTY"
                 color="var(--foreground-text2)"
               />
-              <span class="b2-regular">{{ activityCount }} mise en situation</span>
+              <span class="b2-regular">{{ t('ui.AvTrackCard.activityCount', { count: activityCount }) }}</span>
             </div>
             <div class="av-track-card__line">
               <VIcon
                 :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
                 color="var(--foreground-text2)"
               />
-              <span class="b2-regular">Projet de vie</span>
+              <span class="b2-regular">{{ t('ui.AvTrackCard.lifeProject') }}</span>
             </div>
           </div>
         </template>
         <template #footer>
           <div class="av-track-card__footer">
             <DsfrTag
-              label="Groupe"
+              :label="t('ui.AvTrackCard.tagLabel.group')"
               :icon="RI_ICONS.DICE_4"
             />
           </div>

@@ -8,7 +8,7 @@ const skills = computed(() => course.skills.slice(0, maxSkillsDisplayed))
 </script>
 
 <template>
-  <div class="course-skills-container">
+  <div class="skills-widget-container">
     <span class="s1-regular">
       {{ course.name }}
     </span>
@@ -24,7 +24,7 @@ const skills = computed(() => course.skills.slice(0, maxSkillsDisplayed))
 </template>
 
 <style lang="scss" scoped>
-.course-skills-container {
+.skills-widget-container {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;

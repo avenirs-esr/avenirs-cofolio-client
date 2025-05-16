@@ -2,6 +2,9 @@
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const mockedName = 'Jeanne Moulin'
 const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable,'
@@ -17,7 +20,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
       <div class="student-overview-widget__title">
         <img
           :src="profile_banner_placeholder"
-          alt="Description de l'image"
+          :alt="t('feature.student.widgets.overview.bannerAlt')"
           class="student-overview-widget__banner"
         >
         <div
@@ -25,7 +28,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
         >
           <img
             :src="profile_picture_placeholder"
-            alt="Description de l'image"
+            :alt="t('feature.student.widgets.overview.pictureAlt')"
             class="student-overview-widget__picture"
           >
         </div>
@@ -42,38 +45,42 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
         <ul class="student-overview-widget__actions">
           <li>
             <AvButton
-              label="Modifier mon profil"
+              :label="t('feature.student.widgets.overview.buttons.editProfile')"
               :icon="MDI_ICONS.PENCIL"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
             <AvButton
-              label="Partager mon CV"
+              :label="t('feature.student.widgets.overview.buttons.shareResume')"
               :icon="MDI_ICONS.FILE_ACCOUNT"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
             <AvButton
-              label="Partager mon Cofolio"
+              :label="t('feature.student.widgets.overview.buttons.shareCofolio')"
               :icon="MDI_ICONS.SHARE_VARIANT"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
             <AvButton
-              label="Mon/mes établissement(s)"
+              :label="t('feature.student.widgets.overview.buttons.establishments')"
               :icon="MDI_ICONS.SWAP_HORIZONTAL"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
         </ul>

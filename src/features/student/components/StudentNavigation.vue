@@ -12,63 +12,65 @@ import {
   studentToolsTracksRoute
 } from '@/features/student/routes'
 import { AvNavigation, MDI_ICONS } from '@/ui'
-
 import { useId } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 const route = useRoute()
 
 function isRouteActive (routes: AvRoute[]): boolean {
   return routes.some(avRoute => avRoute.name === route.name)
 }
 
-const navItems = [
+const navItems = computed(() => [
   {
     id: useId(),
     to: studentHomeRoute,
-    text: 'ACCUEIL',
+    text: t('feature.student.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT,
   },
   {
-    title: 'RÉUSSIR MA FORMATION',
+    title: t('feature.student.navigation.tabs.education.header').toUpperCase(),
     get active () {
       return isRouteActive([studentEducationSkillsRoute, studentEducationActivitiesRoute])
     },
     links: [
-      { to: studentEducationSkillsRoute, text: 'Mes compétences', icon: MDI_ICONS.STAR_SHOOTING },
-      { to: studentEducationActivitiesRoute, text: 'Mes activités de mise en situation', icon: MDI_ICONS.GRADUATION_CAP },
+      { to: studentEducationSkillsRoute, text: t('feature.student.navigation.tabs.education.items.skills'), icon: MDI_ICONS.STAR_SHOOTING },
+      { to: studentEducationActivitiesRoute, text: t('feature.student.navigation.tabs.education.items.activities'), icon: MDI_ICONS.GRADUATION_CAP },
     ],
   },
   {
-    title: 'CONSTRUIRE MON PROJET DE VIE',
+    title: t('feature.student.navigation.tabs.project.header').toUpperCase(),
     get active () {
       return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
     },
     links: [
       {
         to: studentProjectSkillsRoute,
-        text: 'Toutes mes compétences',
+        text: t('feature.student.navigation.tabs.project.items.skills'),
         icon: MDI_ICONS.STARS,
       },
       {
         to: studentProjectExperiencesRoute,
-        text: 'Mon parcours',
+        text: t('feature.student.navigation.tabs.project.items.experiences'),
         icon: MDI_ICONS.BRIEFCASE_VARIANT,
       },
-      { to: studentProjectTrajectoriesRoute, text: 'Bâtir mon projet', icon: MDI_ICONS.ARROW_DECISION },
+      { to: studentProjectTrajectoriesRoute, text: t('feature.student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
     ],
   },
   {
-    title: 'MES OUTILS',
+    title: t('feature.student.navigation.tabs.tools.header').toUpperCase(),
     get active () {
       return isRouteActive([studentToolsTracksRoute, studentToolsPagesRoute, studentToolsResumesRoute])
     },
     links: [
-      { to: studentToolsTracksRoute, text: 'Mes traces', icon: MDI_ICONS.ATTACH_FILE },
-      { to: studentToolsPagesRoute, text: 'Mes pages libres', icon: MDI_ICONS.POST_IT_NOTES },
-      { to: studentToolsResumesRoute, text: 'Mes CV', icon: MDI_ICONS.FILE_ACCOUNT },
+      { to: studentToolsTracksRoute, text: t('feature.student.navigation.tabs.tools.items.tracks'), icon: MDI_ICONS.ATTACH_FILE },
+      { to: studentToolsPagesRoute, text: t('feature.student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES },
+      { to: studentToolsResumesRoute, text: t('feature.student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT },
     ],
   },
-]
+])
 </script>
 
 <template>

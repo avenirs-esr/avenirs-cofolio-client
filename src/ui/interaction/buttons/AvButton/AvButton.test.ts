@@ -10,8 +10,8 @@ describe('avButton', () => {
 
     expect(wrapper.findComponent({ name: 'DsfrButton' }).exists()).toBe(true)
     expect(btn.props('secondary')).toBe(false)
-    expect(btn.props('tertiary')).toBe(false)
-    expect(btn.props('noOutline')).toBe(false)
+    expect(btn.props('tertiary')).toBe(true)
+    expect(btn.props('noOutline')).toBe(true)
     expect(btn.props('size')).toBe('md')
     expect(btn.props('disabled')).toBe(false)
     expect(btn.props('icon')).toBe(undefined)
@@ -20,7 +20,7 @@ describe('avButton', () => {
   it('should render with provided props', () => {
     const props = {
       label: 'Click me',
-      variant: 'secondary' as const,
+      variant: 'OUTLINED' as const,
       size: 'lg' as const,
       icon: { name: 'test-icon' },
       disabled: true,
@@ -30,12 +30,11 @@ describe('avButton', () => {
     const btn = wrapper.getComponent({ name: 'DsfrButton' })
 
     expect(btn.props('label')).toBe('Click me')
-    expect(btn.props('secondary')).toBe(true)
+    expect(btn.props('secondary')).toBe(false)
     expect(btn.props('size')).toBe('lg')
     expect(btn.props('icon')).toEqual({ name: 'test-icon' })
     expect(btn.props('disabled')).toBe(true)
-    expect(btn.props('secondary')).toBe(true)
-    expect(btn.props('tertiary')).toBe(false)
+    expect(btn.props('tertiary')).toBe(true)
     expect(btn.props('noOutline')).toBe(false)
   })
 
@@ -55,7 +54,7 @@ describe('avButton', () => {
   it('should compute variant props correctly', () => {
     const wrapper = mount(AvButton, {
       props: {
-        variant: 'tertiary-no-outline',
+        variant: 'DEFAULT',
       },
     })
 

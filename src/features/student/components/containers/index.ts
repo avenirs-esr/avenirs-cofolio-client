@@ -1,1 +1,1 @@
-export { default as StudentCourseSkillsContainer } from './StudentCourseSkillsContainer.vue'
+export { default as StudentSkillsWidgetContainer } from './StudentSkillsWidgetContainer.vue'
