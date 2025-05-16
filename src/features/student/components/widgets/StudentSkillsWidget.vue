@@ -42,7 +42,6 @@ const { navigateToStudentSkills } = useNavigation()
       <div class="courses-skills-widget-container__footer">
         <AvButton
           :label="t('feature.student.widgets.skills.buttons.seeAll')"
-          variant="tertiary-no-outline"
           :on-click="navigateToStudentSkills"
           :icon="MDI_ICONS.ARROW_RIGHT"
           size="sm"

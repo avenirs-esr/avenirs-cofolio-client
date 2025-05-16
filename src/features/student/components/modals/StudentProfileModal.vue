@@ -21,40 +21,40 @@ const { t } = useI18n()
         <AvButton
           :label="t('feature.student.modals.profileModal.buttons.manageProfile')"
           :icon="MDI_ICONS.PENCIL"
-          variant="tertiary-no-outline"
-          color="--foregroud-text1"
+          variant="DEFAULT"
+          theme="SECONDARY"
         />
       </li>
       <li>
         <AvButton
           :label="t('feature.student.modals.profileModal.buttons.seeCalendar')"
           :icon="MDI_ICONS.CALENDAR_MONTH"
-          variant="tertiary-no-outline"
-          color="--foregroud-text1"
+          variant="DEFAULT"
+          theme="SECONDARY"
         />
       </li>
       <li>
         <AvButton
           :label="t('feature.student.modals.profileModal.buttons.goToDw')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
-          variant="tertiary-no-outline"
-          color="--foregroud-text1"
+          variant="DEFAULT"
+          theme="SECONDARY"
         />
       </li>
       <li>
         <AvButton
           :label="t('feature.student.modals.profileModal.buttons.goToSkills')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
-          variant="tertiary-no-outline"
-          color="--foregroud-text1"
+          variant="DEFAULT"
+          theme="SECONDARY"
         />
       </li>
       <li>
         <AvButton
           :label="t('feature.student.modals.profileModal.buttons.logout')"
           :icon="MDI_ICONS.LOGOUT"
-          variant="tertiary-no-outline"
-          color="--foregroud-text1"
+          variant="DEFAULT"
+          theme="SECONDARY"
         />
       </li>
     </ul>

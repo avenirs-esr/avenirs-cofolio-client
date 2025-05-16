@@ -21,12 +21,6 @@ defineSlots<{
 </template>
 
 <style lang="scss" scoped>
-:deep(.fr-btn:hover),
-:deep(.fr-btn:hover *) {
-  background-color: var(--dark-background-primary1);
-  color: white;
-}
-
 :deep(.fr-modal__header),
 :deep(.fr-modal__body),
 :deep(.fr-modal__footer) {

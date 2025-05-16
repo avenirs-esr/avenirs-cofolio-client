@@ -5,7 +5,7 @@
 import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
 
 import type { RouteLocationRaw } from 'vue-router'
-import AvLogo from '../AvLogo.vue'
+import { AvHeaderMenuLinks, AvLogo } from '@/ui/header'
 import { registerNavigationLinkKey } from './injection-key'
 
 export type AvHeaderProps = { homeTo?: string | RouteLocationRaw } &
@@ -184,7 +184,7 @@ provide(registerNavigationLinkKey, () => {
           <div class="fr-header__tools">
             <div class="fr-header__tools-links">
               <slot name="before-quick-links" />
-              <DsfrHeaderMenuLinks
+              <AvHeaderMenuLinks
                 v-if="!menuOpened"
                 :links="quickLinks"
                 :nav-aria-label="quickLinksAriaLabel"
@@ -240,7 +240,7 @@ provide(registerNavigationLinkKey, () => {
                 />
               </template>
               <slot name="before-quick-links" />
-              <DsfrHeaderMenuLinks
+              <AvHeaderMenuLinks
                 v-if="menuOpened"
                 role="navigation"
                 :links="quickLinks"

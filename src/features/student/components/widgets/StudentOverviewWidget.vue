@@ -49,7 +49,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon="MDI_ICONS.PENCIL"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
@@ -58,7 +59,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon="MDI_ICONS.FILE_ACCOUNT"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
@@ -67,7 +69,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon="MDI_ICONS.SHARE_VARIANT"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
           <li>
@@ -76,7 +79,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon="MDI_ICONS.SWAP_HORIZONTAL"
               :icon-right="true"
               :full-width="true"
-              variant="tertiary"
+              variant="OUTLINED"
+              theme="SECONDARY"
             />
           </li>
         </ul>
