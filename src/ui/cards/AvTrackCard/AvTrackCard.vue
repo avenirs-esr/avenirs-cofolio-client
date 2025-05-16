@@ -21,73 +21,72 @@ const theme = ref({
 
 <template>
   <div class="av-track-card">
-    <RouterLink :to="to">
-      <AvCard
-        border-color="--other-skill-card-border"
-        title-background="--background-surface-background"
-        title-height="4.375rem"
-      >
-        <template #title>
-          <div class="av-track-card__title">
-            <div class="av-track-card__titlecontent">
-              <span class="b1-bold av-track-card__titletruncate">
-                {{ name }}
-              </span>
-            </div>
-            <div
-              class="av-track-card__icon"
-              :style="{ background: 'var(--background-surface-background)' }"
-            >
-              <VIcon
-                :name="MDI_ICONS.ATTACH_FILE"
-                color="var(--foreground-text1)"
-                scale="1.75"
-              />
-            </div>
+    <AvCard
+      border-color="--other-skill-card-border"
+      title-background="--background-surface-background"
+      title-height="4.375rem"
+      :to="to"
+    >
+      <template #title>
+        <div class="av-track-card__title">
+          <div class="av-track-card__titlecontent">
+            <span class="b1-bold av-track-card__titletruncate">
+              {{ name }}
+            </span>
           </div>
-        </template>
-        <template #body>
-          <div class="av-track-card__body">
-            <div class="av-track-card__line av-track-card__skillline">
-              <div
-                v-for="n in Math.min(skillCount, 2)"
-                :key="n"
-                class="av-track-card__lineicon"
-                :style="{ backgroundColor: getRandomSkillColor() }"
-              >
-                <VIcon
-                  :name="MDI_ICONS.STAR_SHOOTING"
-                  color="var(--white)"
-                />
-              </div>
-              <span class="b2-regular">{{ t('ui.AvTrackCard.skillCount', { count: skillCount }) }}</span>
-            </div>
-            <div class="av-track-card__line">
-              <VIcon
-                :name="MDI_ICONS.TEST_TUBE_EMPTY"
-                color="var(--foreground-text2)"
-              />
-              <span class="b2-regular">{{ t('ui.AvTrackCard.activityCount', { count: activityCount }) }}</span>
-            </div>
-            <div class="av-track-card__line">
-              <VIcon
-                :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
-                color="var(--foreground-text2)"
-              />
-              <span class="b2-regular">{{ t('ui.AvTrackCard.lifeProject') }}</span>
-            </div>
-          </div>
-        </template>
-        <template #footer>
-          <div class="av-track-card__footer">
-            <DsfrTag
-              :label="t('ui.AvTrackCard.tagLabel.group')"
-              :icon="RI_ICONS.DICE_4"
+          <div
+            class="av-track-card__icon"
+            :style="{ background: 'var(--background-surface-background)' }"
+          >
+            <VIcon
+              :name="MDI_ICONS.ATTACH_FILE"
+              color="var(--foreground-text1)"
+              scale="1.75"
             />
           </div>
-        </template>
-      </AvCard>
-    </RouterLink>
+        </div>
+      </template>
+      <template #body>
+        <div class="av-track-card__body">
+          <div class="av-track-card__line av-track-card__skillline">
+            <div
+              v-for="n in Math.min(skillCount, 2)"
+              :key="n"
+              class="av-track-card__lineicon"
+              :style="{ backgroundColor: getRandomSkillColor() }"
+            >
+              <VIcon
+                :name="MDI_ICONS.STAR_SHOOTING"
+                color="var(--white)"
+              />
+            </div>
+            <span class="b2-regular">{{ t('ui.AvTrackCard.skillCount', { count: skillCount }) }}</span>
+          </div>
+          <div class="av-track-card__line">
+            <VIcon
+              :name="MDI_ICONS.TEST_TUBE_EMPTY"
+              color="var(--foreground-text2)"
+            />
+            <span class="b2-regular">{{ t('ui.AvTrackCard.activityCount', { count: activityCount }) }}</span>
+          </div>
+          <div class="av-track-card__line">
+            <VIcon
+              :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
+              color="var(--foreground-text2)"
+            />
+            <span class="b2-regular">{{ t('ui.AvTrackCard.lifeProject') }}</span>
+          </div>
+        </div>
+      </template>
+      <template #footer>
+        <div class="av-track-card__footer">
+          <DsfrTag
+            :label="t('ui.AvTrackCard.tagLabel.group')"
+            :icon="RI_ICONS.DICE_4"
+          />
+        </div>
+      </template>
+    </AvCard>
   </div>
 </template>
 

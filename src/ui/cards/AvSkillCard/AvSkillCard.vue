@@ -41,60 +41,59 @@ const theme = ref({
 
 <template>
   <div class="av-skill-card">
-    <RouterLink :to="to">
-      <AvCard
-        border-color="--other-skill-card-border"
-        :title-background="skillColor"
-        title-height="6.6875rem"
-      >
-        <template #title>
-          <div class="av-skill-card__title">
-            <span class="n6">
-              {{ name }}
-            </span>
-            <div
-              class="av-skill-card__icon"
-              :style="{ background: `var(${skillColor})` }"
-            >
-              <VIcon
-                :name="MDI_ICONS.STAR_SHOOTING"
-                color="var(--background-card2)"
-                scale="2"
-              />
-            </div>
-          </div>
-        </template>
-        <template #body>
-          <div class="av-skill-card__body">
-            <div class="av-skill-card__line">
-              <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-              <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.trackCount', { count: trackCount }) }}</span>
-            </div>
-            <div class="av-skill-card__line">
-              <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
-              <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.activityCount', { count: activityCount }) }}</span>
-            </div>
-          </div>
-        </template>
-        <template #footer>
-          <div class="av-skill-card__footer">
-            <DsfrBadge
-              :label="firstBadge.label"
-              :type="firstBadge.type"
-              small
-              ellipsis
-            />
-            <DsfrBadge
-              v-if="!!secondBadge"
-              :label="secondBadge.label"
-              :type="secondBadge.type"
-              small
-              ellipsis
+    <AvCard
+      border-color="--other-skill-card-border"
+      :title-background="skillColor"
+      title-height="6.6875rem"
+      :to="to"
+    >
+      <template #title>
+        <div class="av-skill-card__title">
+          <span class="n6">
+            {{ name }}
+          </span>
+          <div
+            class="av-skill-card__icon"
+            :style="{ background: `var(${skillColor})` }"
+          >
+            <VIcon
+              :name="MDI_ICONS.STAR_SHOOTING"
+              color="var(--background-card2)"
+              scale="2"
             />
           </div>
-        </template>
-      </AvCard>
-    </RouterLink>
+        </div>
+      </template>
+      <template #body>
+        <div class="av-skill-card__body">
+          <div class="av-skill-card__line">
+            <VIcon :name="MDI_ICONS.ATTACH_FILE" />
+            <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.trackCount', { count: trackCount }) }}</span>
+          </div>
+          <div class="av-skill-card__line">
+            <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
+            <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.activityCount', { count: activityCount }) }}</span>
+          </div>
+        </div>
+      </template>
+      <template #footer>
+        <div class="av-skill-card__footer">
+          <DsfrBadge
+            :label="firstBadge.label"
+            :type="firstBadge.type"
+            small
+            ellipsis
+          />
+          <DsfrBadge
+            v-if="!!secondBadge"
+            :label="secondBadge.label"
+            :type="secondBadge.type"
+            small
+            ellipsis
+          />
+        </div>
+      </template>
+    </AvCard>
   </div>
 </template>
 

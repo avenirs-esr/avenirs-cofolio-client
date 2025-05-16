@@ -1,15 +1,16 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import { RouterLink } from 'vue-router'
 import AvCard from './AvCard.vue'
 
 describe('avCard', () => {
   it('renders default slot content', () => {
     const wrapper = mount(AvCard, {
       slots: {
-        default: '<p>Contenu principal</p>',
+        default: '<p>Main content</p>',
       },
     })
-    expect(wrapper.text()).toContain('Contenu principal')
+    expect(wrapper.text()).toContain('Main content')
   })
 
   it('renders title slot with correct class and background', () => {
@@ -18,31 +19,30 @@ describe('avCard', () => {
         titleBackground: 'red',
       },
       slots: {
-        title: '<h2>Titre</h2>',
+        title: '<h2>Card Title</h2>',
       },
     })
     const title = wrapper.get('.av-card__title')
-    expect(title.text()).toBe('Titre')
+    expect(title.text()).toBe('Card Title')
     expect(title.attributes('style')).toContain('background: var(red)')
   })
 
   it('renders body and footer slots when provided', () => {
     const wrapper = mount(AvCard, {
       slots: {
-        body: '<div>Corps de la carte</div>',
-        footer: '<div>Pied de carte</div>',
+        body: '<div>Card body</div>',
+        footer: '<div>Card footer</div>',
       },
     })
-    expect(wrapper.get('.av-card__body').text()).toBe('Corps de la carte')
-    expect(wrapper.get('.av-card__footer').text()).toBe('Pied de carte')
+    expect(wrapper.get('.av-card__body').text()).toBe('Card body')
+    expect(wrapper.get('.av-card__footer').text()).toBe('Card footer')
   })
 
   it('applies style props correctly', () => {
     const wrapper = mount(AvCard, {
       props: {
         borderColor: 'blue',
-        height: '200px',
-        width: '300px',
+        backgroundColor: 'white',
       },
     })
 
@@ -50,5 +50,36 @@ describe('avCard', () => {
     const style = card.attributes('style')
 
     expect(style).toContain('border-color: var(blue)')
+    expect(style).toContain('background: var(white)')
+  })
+
+  it('uses RouterLink when "to" prop is provided', () => {
+    const wrapper = mount(AvCard, {
+      props: {
+        to: '/test-route',
+      },
+      global: {
+        stubs: {
+          RouterLink: {
+            template: '<a><slot /></a>',
+          },
+        },
+      },
+      slots: {
+        default: '<span>With RouterLink</span>',
+      },
+    })
+
+    expect(wrapper.findComponent(RouterLink).exists()).toBe(true)
+  })
+
+  it('uses div when "to" prop is not provided', () => {
+    const wrapper = mount(AvCard, {
+      slots: {
+        default: '<span>No RouterLink</span>',
+      },
+    })
+
+    expect(wrapper.element.tagName).toBe('DIV')
   })
 })
