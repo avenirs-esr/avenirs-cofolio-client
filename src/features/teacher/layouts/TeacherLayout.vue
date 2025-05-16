@@ -45,13 +45,4 @@ const searchQuery = ref('')
 </template>
 
 <style lang="scss" scoped>
-:deep(.fr-header__menu-links > nav .fr-nav__item > .fr-translate__btn) {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-}
-
-:deep(.fr-header__menu-links > nav .fr-btns-group > li > .fr-btn) {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-}
 </style>

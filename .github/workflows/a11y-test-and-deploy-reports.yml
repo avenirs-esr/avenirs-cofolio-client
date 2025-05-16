@@ -40,11 +40,13 @@ jobs:
         continue-on-error: true
 
       - name: Move accessibility report to temp folder
+        if: steps.a11y-test.outcome == 'failure'
         run: |
           mkdir -p gh-pages-tmp
           mv a11y/reports/* gh-pages-tmp/
 
       - name: Deploy accessibility report
+        if: steps.a11y-test.outcome == 'failure'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
