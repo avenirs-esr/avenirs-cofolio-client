@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
+import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
+import { useLanguageSwitcher } from '@/common/composables/use-language-switcher'
 import useToaster from '@/common/composables/use-toaster'
 import { StudentMessagesModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader, MDI_ICONS } from '@/ui'
-import { useI18n } from 'vue-i18n'
 
 const toaster = useToaster()
-const { locale } = useI18n()
+const { languageSelector, selectLanguage } = useLanguageSwitcher()
 
 const serviceTitle = 'CoFolio Étudiant'
 
@@ -73,19 +73,6 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
     },
   },
 ]
-
-const languageSelector = ref({
-  id: 'language-selector',
-  languages: [
-    { label: 'Français', codeIso: 'fr' },
-    { label: 'English', codeIso: 'en' },
-  ],
-  currentLanguage: 'fr',
-})
-function selectLanguage (language: DsfrLanguageSelectorElement) {
-  languageSelector.value.currentLanguage = language.codeIso
-  locale.value = language.codeIso
-}
 </script>
 
 <template>

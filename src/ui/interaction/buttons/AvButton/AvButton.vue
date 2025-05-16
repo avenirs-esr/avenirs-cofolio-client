@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@/ui/interaction/buttons/AvButton'
 import type { VIcon } from '@gouvminint/vue-dsfr'
-import { type AvButtonProps, MDI_ICONS } from '@/ui'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 
 const props = withDefaults(defineProps<AvButtonProps>(), {
   variant: 'primary',
