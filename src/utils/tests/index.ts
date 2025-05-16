@@ -1,1 +1,0 @@
-export { mountWithAvCard } from './mountWithAvCard'

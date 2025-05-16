@@ -33,7 +33,7 @@
   "[css]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
-  "i18n-ally.localesPaths": ["src/locales"],
+  "i18n-ally.localesPaths": ["src/locales", "src/features/student/locales", "src/features/teacher/locales"],
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.sourceLanguage": "fr",
   "i18n-ally.sortKeys": true,

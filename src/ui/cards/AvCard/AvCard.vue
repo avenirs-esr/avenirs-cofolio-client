@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import type { AvCardProps } from '@/ui'
 import type { Slot } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const {
   backgroundColor = '--background-card',
   borderColor = '--foreground-stroke',
   titleBackground = '--background-surface-background',
   titleHeight,
-  to = undefined
 } = defineProps<AvCardProps>()
 
 const slots = defineSlots<{
@@ -20,11 +18,9 @@ const slots = defineSlots<{
 </script>
 
 <template>
-  <component
-    :is="to ? RouterLink : 'div'"
+  <div
     class="av-card"
     :style="{ borderColor: `var(${borderColor})`, background: `var(${backgroundColor})` }"
-    :to="to"
   >
     <div
       v-if="slots.title"
@@ -46,7 +42,7 @@ const slots = defineSlots<{
     >
       <slot name="footer" />
     </div>
-  </component>
+  </div>
 </template>
 
 <style lang="scss" scoped>
