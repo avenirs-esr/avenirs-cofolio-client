@@ -38,14 +38,12 @@ function navigateToMessages () {
         <AvButton
           v-if="messagesCount === 0"
           :label="t('feature.student.modals.mailboxModal.buttons.navigate')"
-          variant="tertiary-no-outline"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"
         />
         <AvButton
           v-else
           :label="t('feature.student.modals.mailboxModal.buttons.seeAll')"
-          variant="tertiary-no-outline"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"
         />
@@ -55,10 +53,6 @@ function navigateToMessages () {
 </template>
 
 <style lang="scss" scoped>
-:deep(.vicon) {
-  color: var(--dark-background-primary1) !important;
-}
-
 .messages-modal__footer {
   display: flex;
   flex: 1;

@@ -1,8 +1,8 @@
 import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
 
 export type AvButtonProps = {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'tertiary-no-outline'
+  variant?: 'DEFAULT' | 'OUTLINED'
+  theme?: 'PRIMARY' | 'SECONDARY'
   isLoading?: boolean
-  color?: string
   fullWidth?: boolean
 } & Pick<DsfrButtonProps, 'label' | 'disabled' | 'size' | 'icon' | 'iconRight' | 'iconOnly' | 'onClick'>

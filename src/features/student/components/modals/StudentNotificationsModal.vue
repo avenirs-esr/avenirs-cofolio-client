@@ -46,7 +46,6 @@ function navigateToNotifications () {
       <div class="notifications-modal__footer">
         <AvButton
           :label="t('feature.student.modals.notificationsModal.buttons.seeAll')"
-          variant="tertiary-no-outline"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToNotifications"
         />
@@ -56,10 +55,6 @@ function navigateToNotifications () {
 </template>
 
 <style lang="scss" scoped>
-:deep(.vicon) {
-  color: var(--dark-background-primary1) !important;
-}
-
 ul {
   padding-left: 2rem;
 }
