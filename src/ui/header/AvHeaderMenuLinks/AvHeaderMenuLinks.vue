@@ -3,7 +3,7 @@
 
 <script lang="ts" setup>
 import type { AvHeaderMenuLinksProps } from './AvHeaderMenuLinks.types'
-import { AvButton } from '@/ui/interaction'
+import { AvButton } from '@/ui'
 
 withDefaults(defineProps<AvHeaderMenuLinksProps>(), {
   links: () => [],

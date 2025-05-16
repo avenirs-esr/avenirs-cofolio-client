@@ -1,4 +1,4 @@
-import { mountWithI18n } from '@/utils/tests'
+import { mountWithAvCard } from '@/utils/tests'
 import { describe, expect, it, vi } from 'vitest'
 import AvTrackCard from './AvTrackCard.vue'
 
@@ -38,7 +38,7 @@ describe('avTrackCard.vue', () => {
   } as const
 
   it('renders the track name, skill and activity counts', () => {
-    const wrapper = mountWithI18n(AvTrackCard, {
+    const wrapper = mountWithAvCard(AvTrackCard, {
       props: baseProps,
     })
 
@@ -48,7 +48,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders the fixed label "Projet de vie"', () => {
-    const wrapper = mountWithI18n(AvTrackCard, {
+    const wrapper = mountWithAvCard(AvTrackCard, {
       props: baseProps,
     })
 
@@ -56,7 +56,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders the DsfrTag with label "Groupe"', () => {
-    const wrapper = mountWithI18n(AvTrackCard, {
+    const wrapper = mountWithAvCard(AvTrackCard, {
       props: baseProps,
     })
 
@@ -66,7 +66,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders up to 2 skill icons based on skillCount', () => {
-    const wrapper = mountWithI18n(AvTrackCard, {
+    const wrapper = mountWithAvCard(AvTrackCard, {
       props: {
         track: {
           ...baseProps.track,
