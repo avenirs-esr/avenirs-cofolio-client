@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { STUDENT_TOOLS_TRACKS_ROUTE } from '@/features/student/routes'
+import { studentToolsTracksRoute } from '@/features/student/routes'
 import { AvCard, type AvTrackCardProps, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
-const { track, to = { name: STUDENT_TOOLS_TRACKS_ROUTE } } = defineProps<AvTrackCardProps>()
+const { track, to = studentToolsTracksRoute } = defineProps<AvTrackCardProps>()
 const { name, skillCount, activityCount } = track
 
 const { t } = useI18n()

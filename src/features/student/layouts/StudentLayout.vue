@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
+import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
+import { useLanguageSwitcher } from '@/common/composables/use-language-switcher'
 import useToaster from '@/common/composables/use-toaster'
-import { STUDENT_HOME_ROUTE, StudentMailboxModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { StudentMailboxModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
+
 const toaster = useToaster()
-const { t, locale } = useI18n()
+const { languageSelector, selectLanguage } = useLanguageSwitcher()
 
 const mockedUserName = 'J. Moulin'
 const mockedNotificationsCount = 2
@@ -70,26 +74,13 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
     },
   },
 ])
-
-const languageSelector = ref({
-  id: 'language-selector',
-  languages: [
-    { label: 'Français', codeIso: 'fr' },
-    { label: 'English', codeIso: 'en' },
-  ],
-  currentLanguage: 'fr',
-})
-function selectLanguage (language: DsfrLanguageSelectorElement) {
-  languageSelector.value.currentLanguage = language.codeIso
-  locale.value = language.codeIso
-}
 </script>
 
 <template>
   <AvHeader
     v-model="searchQuery"
     :service-title="t('feature.student.layout.header.serviceTitle')"
-    :home-to="{ name: STUDENT_HOME_ROUTE }"
+    :home-to="studentHomeRoute"
     show-search
     :quick-links="quickLinks"
     :language-selector="languageSelector"
