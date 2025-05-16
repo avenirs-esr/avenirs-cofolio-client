@@ -20,7 +20,10 @@ const theme = ref({
 </script>
 
 <template>
-  <div class="av-track-card">
+  <RouterLink
+    class="av-track-card"
+    :to="to"
+  >
     <AvCard
       border-color="--other-skill-card-border"
       title-background="--background-surface-background"
@@ -87,7 +90,7 @@ const theme = ref({
         </div>
       </template>
     </AvCard>
-  </div>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>

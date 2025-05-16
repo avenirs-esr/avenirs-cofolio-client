@@ -40,7 +40,10 @@ const theme = ref({
 </script>
 
 <template>
-  <div class="av-skill-card">
+  <RouterLink
+    class="av-skill-card"
+    :to="to"
+  >
     <AvCard
       border-color="--other-skill-card-border"
       :title-background="skillColor"
@@ -94,7 +97,7 @@ const theme = ref({
         </div>
       </template>
     </AvCard>
-  </div>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>
@@ -105,6 +108,7 @@ const theme = ref({
 
 .av-skill-card {
   width: 17.25rem;
+  border-radius: 1.5rem;
 }
 
 .av-card {

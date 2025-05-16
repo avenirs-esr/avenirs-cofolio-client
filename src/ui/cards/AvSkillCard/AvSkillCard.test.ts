@@ -1,5 +1,5 @@
 import type { LevelDTO } from '@/types'
-import { mountWithAvCard } from '@/utils/tests'
+import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import AvSkillCard from './AvSkillCard.vue'
 
@@ -36,11 +36,10 @@ describe('avSkillCard.vue', () => {
       ] as LevelDTO[],
     },
     skillColor: '--color-skill',
-    to: '/'
   } as const
 
   it('renders skill name, track and activity counts', () => {
-    const wrapper = mountWithAvCard(AvSkillCard, {
+    const wrapper = mount(AvSkillCard, {
       props: baseProps,
     })
 
@@ -50,7 +49,7 @@ describe('avSkillCard.vue', () => {
   })
 
   it('renders the two expected badges', () => {
-    const wrapper = mountWithAvCard(AvSkillCard, {
+    const wrapper = mount(AvSkillCard, {
       props: baseProps,
     })
 
@@ -61,7 +60,7 @@ describe('avSkillCard.vue', () => {
   })
 
   it('renders only one badge if only one level is present', () => {
-    const wrapper = mountWithAvCard(AvSkillCard, {
+    const wrapper = mount(AvSkillCard, {
       props: {
         ...baseProps,
         skill: {
