@@ -1,10 +1,10 @@
 import tanstackQuery from '@/plugins/tanstack-query'
+import i18nAvPlugin from '@/plugins/vue-i18n'
 import router from '@/router'
 import store from '@/store'
-import { createApp } from 'vue'
 
+import { createApp } from 'vue'
 import App from './App.vue'
-import { i18n } from './i18n'
 
 import '@gouvfr/dsfr/dist/core/core.main.min.css'
 import '@gouvfr/dsfr/dist/component/component.main.min.css'
@@ -21,5 +21,5 @@ createApp(App)
   .use(store)
   .use(router)
   .use(tanstackQuery)
-  .use(i18n)
+  .use(i18nAvPlugin)
   .mount('#app')

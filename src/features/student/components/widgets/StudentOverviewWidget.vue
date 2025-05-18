@@ -20,7 +20,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
       <div class="student-overview-widget__title">
         <img
           :src="profile_banner_placeholder"
-          :alt="t('feature.student.widgets.overview.bannerAlt')"
+          :alt="t('student.widgets.overview.bannerAlt')"
           class="student-overview-widget__banner"
         >
         <div
@@ -28,7 +28,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
         >
           <img
             :src="profile_picture_placeholder"
-            :alt="t('feature.student.widgets.overview.pictureAlt')"
+            :alt="t('student.widgets.overview.pictureAlt')"
             class="student-overview-widget__picture"
           >
         </div>
@@ -45,7 +45,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
         <ul class="student-overview-widget__actions">
           <li>
             <AvButton
-              :label="t('feature.student.widgets.overview.buttons.editProfile')"
+              :label="t('student.widgets.overview.buttons.editProfile')"
               :icon="MDI_ICONS.PENCIL"
               :icon-right="true"
               :full-width="true"
@@ -55,7 +55,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
           </li>
           <li>
             <AvButton
-              :label="t('feature.student.widgets.overview.buttons.shareResume')"
+              :label="t('student.widgets.overview.buttons.shareResume')"
               :icon="MDI_ICONS.FILE_ACCOUNT"
               :icon-right="true"
               :full-width="true"
@@ -65,7 +65,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
           </li>
           <li>
             <AvButton
-              :label="t('feature.student.widgets.overview.buttons.shareCofolio')"
+              :label="t('student.widgets.overview.buttons.shareCofolio')"
               :icon="MDI_ICONS.SHARE_VARIANT"
               :icon-right="true"
               :full-width="true"
@@ -75,7 +75,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
           </li>
           <li>
             <AvButton
-              :label="t('feature.student.widgets.overview.buttons.establishments')"
+              :label="t('student.widgets.overview.buttons.establishments')"
               :icon="MDI_ICONS.SWAP_HORIZONTAL"
               :icon-right="true"
               :full-width="true"

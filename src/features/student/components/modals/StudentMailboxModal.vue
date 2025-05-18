@@ -20,15 +20,15 @@ function navigateToMessages () {
 
 <template>
   <AvModal
-    :title="t('feature.student.modals.mailboxModal.title', { count: messagesCount })"
+    :title="t('student.modals.mailboxModal.title', { count: messagesCount })"
     :icon="MDI_ICONS.CHAT_BUBBLE"
     :opened="showModal"
-    :close-button-label="t('feature.student.modals.mailboxModal.buttons.close')"
-    :close-button-title="t('feature.student.modals.mailboxModal.buttons.close')"
+    :close-button-label="t('student.modals.mailboxModal.buttons.close')"
+    :close-button-title="t('student.modals.mailboxModal.buttons.close')"
     @close="onClose"
   >
     <div v-if="messagesCount === 0">
-      <span class="b2-light">{{ t('feature.student.modals.mailboxModal.bodyNoNew') }}</span>
+      <span class="b2-light">{{ t('student.modals.mailboxModal.bodyNoNew') }}</span>
     </div>
     <div v-else>
       Messages...
@@ -37,13 +37,13 @@ function navigateToMessages () {
       <div class="messages-modal__footer">
         <AvButton
           v-if="messagesCount === 0"
-          :label="t('feature.student.modals.mailboxModal.buttons.navigate')"
+          :label="t('student.modals.mailboxModal.buttons.navigate')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"
         />
         <AvButton
           v-else
-          :label="t('feature.student.modals.mailboxModal.buttons.seeAll')"
+          :label="t('student.modals.mailboxModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMessages"
         />
