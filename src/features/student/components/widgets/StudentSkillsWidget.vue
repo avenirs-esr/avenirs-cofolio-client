@@ -24,7 +24,7 @@ const { navigateToStudentSkills } = useNavigation()
           scale="1.5"
         />
         <span class="n5">
-          {{ t('feature.student.widgets.skills.title') }}
+          {{ t('student.widgets.skills.title') }}
         </span>
       </div>
     </template>
@@ -41,7 +41,7 @@ const { navigateToStudentSkills } = useNavigation()
     <template #footer>
       <div class="courses-skills-widget-container__footer">
         <AvButton
-          :label="t('feature.student.widgets.skills.buttons.seeAll')"
+          :label="t('student.widgets.skills.buttons.seeAll')"
           :on-click="navigateToStudentSkills"
           :icon="MDI_ICONS.ARROW_RIGHT"
           size="sm"

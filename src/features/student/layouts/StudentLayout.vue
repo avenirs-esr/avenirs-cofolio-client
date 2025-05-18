@@ -44,7 +44,7 @@ function hideProfileModal () {
 
 const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
   {
-    label: t('feature.student.layout.header.quicklinks.mailbox'),
+    label: t('student.layout.header.quicklinks.mailbox'),
     to: '',
     icon: MDI_ICONS.CHAT_BUBBLE,
     button: true,
@@ -54,7 +54,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
     },
   },
   {
-    label: t('feature.student.layout.header.quicklinks.notifications'),
+    label: t('student.layout.header.quicklinks.notifications'),
     to: '',
     icon: mockedNotificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
     button: true,
@@ -79,7 +79,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
 <template>
   <AvHeader
     v-model="searchQuery"
-    :service-title="t('feature.student.layout.header.serviceTitle')"
+    :service-title="t('student.layout.header.serviceTitle')"
     :home-to="studentHomeRoute"
     show-search
     :quick-links="quickLinks"

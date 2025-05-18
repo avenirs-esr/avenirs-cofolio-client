@@ -20,20 +20,20 @@ function navigateToNotifications () {
 
 <template>
   <AvModal
-    :title="t('feature.student.modals.notificationsModal.title', { count: notificationCount })"
+    :title="t('student.modals.notificationsModal.title', { count: notificationCount })"
     :icon="MDI_ICONS.NOTIFICATIONS_NONE"
     :opened="showModal"
-    :close-button-label="t('feature.student.modals.notificationsModal.buttons.close')"
-    :close-button-title="t('feature.student.modals.notificationsModal.buttons.close')"
+    :close-button-label="t('student.modals.notificationsModal.buttons.close')"
+    :close-button-title="t('student.modals.notificationsModal.buttons.close')"
     @close="onClose"
   >
     <div v-if="notificationCount === 0">
-      <span class="b2-light">{{ t('feature.student.modals.notificationsModal.bodyNoNew.header') }}</span>
+      <span class="b2-light">{{ t('student.modals.notificationsModal.bodyNoNew.header') }}</span>
       <ul class="b2-regular">
-        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.teacherMessage') }}</span></li>
-        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.assessedSkill') }}</span></li>
-        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.validatedTrack') }}</span></li>
-        <li><span>{{ t('feature.student.modals.notificationsModal.bodyNoNew.comingUpEvent') }}</span></li>
+        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.teacherMessage') }}</span></li>
+        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.assessedSkill') }}</span></li>
+        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.validatedTrack') }}</span></li>
+        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.comingUpEvent') }}</span></li>
       </ul>
     </div>
     <div v-else>
@@ -45,7 +45,7 @@ function navigateToNotifications () {
     >
       <div class="notifications-modal__footer">
         <AvButton
-          :label="t('feature.student.modals.notificationsModal.buttons.seeAll')"
+          :label="t('student.modals.notificationsModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToNotifications"
         />

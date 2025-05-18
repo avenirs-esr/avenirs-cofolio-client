@@ -19,7 +19,7 @@ const { t } = useI18n()
     <ul>
       <li>
         <AvButton
-          :label="t('feature.student.modals.profileModal.buttons.manageProfile')"
+          :label="t('student.modals.profileModal.buttons.manageProfile')"
           :icon="MDI_ICONS.PENCIL"
           variant="DEFAULT"
           theme="SECONDARY"
@@ -27,7 +27,7 @@ const { t } = useI18n()
       </li>
       <li>
         <AvButton
-          :label="t('feature.student.modals.profileModal.buttons.seeCalendar')"
+          :label="t('student.modals.profileModal.buttons.seeCalendar')"
           :icon="MDI_ICONS.CALENDAR_MONTH"
           variant="DEFAULT"
           theme="SECONDARY"
@@ -35,7 +35,7 @@ const { t } = useI18n()
       </li>
       <li>
         <AvButton
-          :label="t('feature.student.modals.profileModal.buttons.goToDw')"
+          :label="t('student.modals.profileModal.buttons.goToDw')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
           variant="DEFAULT"
           theme="SECONDARY"
@@ -43,7 +43,7 @@ const { t } = useI18n()
       </li>
       <li>
         <AvButton
-          :label="t('feature.student.modals.profileModal.buttons.goToSkills')"
+          :label="t('student.modals.profileModal.buttons.goToSkills')"
           :icon="MDI_ICONS.ARROW_TOP_RIGHT"
           variant="DEFAULT"
           theme="SECONDARY"
@@ -51,7 +51,7 @@ const { t } = useI18n()
       </li>
       <li>
         <AvButton
-          :label="t('feature.student.modals.profileModal.buttons.logout')"
+          :label="t('student.modals.profileModal.buttons.logout')"
           :icon="MDI_ICONS.LOGOUT"
           variant="DEFAULT"
           theme="SECONDARY"

@@ -1,6 +1,6 @@
 // setupTests.ts
 import { config } from '@vue/test-utils'
-import { i18n } from './src/i18n'
+import { i18n } from './src/plugins/vue-i18n'
 
 i18n.global.locale.value = 'fr'
 
