@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ResumeDTO } from '@/types'
+import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables/use-navigation'
 import { formatDateToLocaleString } from '@/common/utils'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
@@ -53,7 +54,7 @@ const { navigateToStudentResumes } = useNavigation()
                 <div class="resumes-widget-action__description">
                   <span class="b1-regular">{{ resume.name }}</span>
                   <span class="caption-light">
-                    {{ t('student.widgets.resumes.lastUpdate', { date: formatDateToLocaleString(resume.lastUpdated, locale) }) }}
+                    {{ t('student.widgets.resumes.lastUpdate', { date: formatDateToLocaleString(resume.lastUpdated, locale as AvLocale) }) }}
                   </span>
                 </div>
               </div>

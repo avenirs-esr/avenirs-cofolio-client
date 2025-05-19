@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import AvTrackCard from './AvTrackCard.vue'
+import StudentTrackCard from './StudentTrackCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrTag: {
@@ -27,7 +27,7 @@ vi.doMock('@/ui', () => ({
   },
 }))
 
-describe('avTrackCard.vue', () => {
+describe('studentTrackCard.vue', () => {
   const baseProps = {
     track: {
       id: 'track1',
@@ -38,7 +38,7 @@ describe('avTrackCard.vue', () => {
   } as const
 
   it('renders the track name, skill and activity counts', () => {
-    const wrapper = mount(AvTrackCard, {
+    const wrapper = mount(StudentTrackCard, {
       props: baseProps,
     })
 
@@ -48,7 +48,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders the fixed label "Projet de vie"', () => {
-    const wrapper = mount(AvTrackCard, {
+    const wrapper = mount(StudentTrackCard, {
       props: baseProps,
     })
 
@@ -56,7 +56,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders the DsfrTag with label "Groupe"', () => {
-    const wrapper = mount(AvTrackCard, {
+    const wrapper = mount(StudentTrackCard, {
       props: baseProps,
     })
 
@@ -66,7 +66,7 @@ describe('avTrackCard.vue', () => {
   })
 
   it('renders up to 2 skill icons based on skillCount', () => {
-    const wrapper = mount(AvTrackCard, {
+    const wrapper = mount(StudentTrackCard, {
       props: {
         track: {
           ...baseProps.track,
@@ -75,7 +75,7 @@ describe('avTrackCard.vue', () => {
       },
     })
 
-    const icons = wrapper.findAll('.av-track-card__lineicon')
+    const icons = wrapper.findAll('.student-track-card__lineicon')
     expect(icons).toHaveLength(2)
   })
 })

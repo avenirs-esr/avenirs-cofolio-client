@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import type { StudentTrackCardProps } from './StudentTrackCard.types'
 import { studentToolsTracksRoute } from '@/features/student/routes'
-import { AvCard, type AvTrackCardProps, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvCard, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
-const { track, to = studentToolsTracksRoute } = defineProps<AvTrackCardProps>()
+const { track, to = studentToolsTracksRoute } = defineProps<StudentTrackCardProps>()
 const { name, skillCount, activityCount } = track
 
 const { t } = useI18n()
@@ -21,7 +22,7 @@ const theme = ref({
 
 <template>
   <RouterLink
-    class="av-track-card"
+    class="student-track-card"
     :to="to"
   >
     <AvCard
@@ -31,14 +32,12 @@ const theme = ref({
       :to="to"
     >
       <template #title>
-        <div class="av-track-card__title">
-          <div class="av-track-card__titlecontent">
-            <span class="b1-bold av-track-card__titletruncate">
-              {{ name }}
-            </span>
-          </div>
+        <div class="student-track-card__title">
+          <span class="b1-bold student-track-card__titletruncate">
+            {{ name }}
+          </span>
           <div
-            class="av-track-card__icon"
+            class="student-track-card__icon"
             :style="{ background: 'var(--background-surface-background)' }"
           >
             <VIcon
@@ -50,12 +49,12 @@ const theme = ref({
         </div>
       </template>
       <template #body>
-        <div class="av-track-card__body">
-          <div class="av-track-card__line av-track-card__skillline">
+        <div class="student-track-card__body">
+          <div class="student-track-card__line student-track-card__skillline">
             <div
               v-for="n in Math.min(skillCount, 2)"
               :key="n"
-              class="av-track-card__lineicon"
+              class="student-track-card__lineicon"
               :style="{ backgroundColor: getRandomSkillColor() }"
             >
               <VIcon
@@ -65,14 +64,14 @@ const theme = ref({
             </div>
             <span class="b2-regular">{{ t('ui.AvTrackCard.skillCount', { count: skillCount }) }}</span>
           </div>
-          <div class="av-track-card__line">
+          <div class="student-track-card__line">
             <VIcon
               :name="MDI_ICONS.TEST_TUBE_EMPTY"
               color="var(--foreground-text2)"
             />
             <span class="b2-regular">{{ t('ui.AvTrackCard.activityCount', { count: activityCount }) }}</span>
           </div>
-          <div class="av-track-card__line">
+          <div class="student-track-card__line">
             <VIcon
               :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
               color="var(--foreground-text2)"
@@ -82,7 +81,7 @@ const theme = ref({
         </div>
       </template>
       <template #footer>
-        <div class="av-track-card__footer">
+        <div class="student-track-card__footer">
           <DsfrTag
             :label="t('ui.AvTrackCard.tagLabel.group')"
             :icon="RI_ICONS.DICE_4"
@@ -94,30 +93,32 @@ const theme = ref({
 </template>
 
 <style lang="scss" scoped>
+.av-card {
+  height: 14rem;
+}
+
 .av-card:hover {
   border: 1px solid v-bind('theme.hoverBorderColor') !important;
   box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
 }
 
-.av-card {
-  height: 14rem;
-}
-
-.av-track-card {
+.student-track-card {
+  display: flex;
   width: 17.125rem;
   height: 14rem;
+  border-radius: 1.5rem;
 }
 
-.av-track-card__title {
+.student-track-card__title {
   position: relative
 }
 
-.av-track-card__titlecontent {
+.student-track-card__titlecontent {
   width: 11.25rem;
   height: 3rem;
 }
 
-.av-track-card__titletruncate {
+.student-track-card__titletruncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -128,7 +129,7 @@ const theme = ref({
   overflow-wrap: break-word;
 }
 
-.av-track-card__icon {
+.student-track-card__icon {
   position: absolute;
   width: 2.75rem;
   height: 2.75rem;
@@ -141,20 +142,20 @@ const theme = ref({
   align-items: center;
 }
 
-.av-track-card__body {
+.student-track-card__body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.av-track-card__line {
+.student-track-card__line {
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
     align-items: center;
 }
 
-.av-track-card__lineicon {
+.student-track-card__lineicon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,11 +164,11 @@ const theme = ref({
   border-radius: 0.25rem;
 }
 
-.av-track-card__line.av-track-card__skillline {
+.student-track-card__line.student-track-card__skillline {
     gap: 0.5rem;
 }
 
-.av-track-card__footer {
+.student-track-card__footer {
     display: flex;
     flex-direction: row;
     align-items: center;
