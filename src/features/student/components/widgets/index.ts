@@ -1,3 +1,5 @@
+export { default as StudentEventsWidget } from './StudentEventsWidget.vue'
 export { default as StudentOverviewWidget } from './StudentOverviewWidget.vue'
+export { default as StudentPagesWidget } from './StudentPagesWidget.vue'
 export { default as StudentResumesWidget } from './StudentResumesWidget.vue'
 export { default as StudentSkillsWidget } from './StudentSkillsWidget.vue'

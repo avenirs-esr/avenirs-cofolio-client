@@ -3,6 +3,7 @@
   --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-bold: 700;
+  --font-size-xxs: 0.5rem;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
@@ -81,6 +82,15 @@
   font-size: var(--font-size-n6);
   line-height: var(--line-height-n6);
   color: var(--foreground-text2);
+}
+
+.s1-bold {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-s1);
+  line-height: var(--line-height-s1);
+  letter-spacing: var(--letter-spacing-s1);
+  color: var(--foreground-text1);
 }
 
 .s1-bold {

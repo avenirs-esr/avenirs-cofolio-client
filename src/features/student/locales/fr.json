@@ -84,6 +84,12 @@
       }
     },
     "widgets": {
+      "events": {
+        "buttons": {
+          "seeAll": "Voir tous mes événements"
+        },
+        "title": "Mes 3 prochains événements"
+      },
       "overview": {
         "bannerAlt": "Bannière du profil",
         "buttons": {
@@ -94,12 +100,19 @@
         },
         "pictureAlt": "Photo de profil"
       },
+      "pages": {
+        "buttons": {
+          "seeAll": "Voir toutes mes pages"
+        },
+        "title": "Mes pages libres",
+        "updatedAt": "dernière modification le {date}"
+      },
       "resumes": {
         "buttons": {
           "seeAll": "Voir tous mes CV"
         },
-        "lastUpdate": "dernière modification le {date}",
-        "title": "Mes CV"
+        "title": "Mes CV",
+        "updatedAt": "dernière modification le {date}"
       },
       "skills": {
         "buttons": {

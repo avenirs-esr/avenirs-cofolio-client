@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { ResumeDTO } from '@/types'
+import type { PageDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables/use-navigation'
 import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { resumes } = defineProps<{ resumes: Array<ResumeDTO> }>()
+const { pages } = defineProps<{ pages: Array<PageDTO> }>()
 
 const { locale, t } = useI18n()
 
-const renderedResumes = computed(() => resumes.slice(0, 3))
+const renderedPages = computed(() => pages.slice(0, 3))
 
-const { navigateToStudentResumes } = useNavigation()
+const { navigateToStudentPages } = useNavigation()
 
-function getFormattedUpdatedAt (resume: ResumeDTO) {
-  const parsedDate = parseDateISO(resume.updatedAt)
+function getFormattedUpdatedAt (page: PageDTO) {
+  const parsedDate = parseDateISO(page.updatedAt)
   return formatDateToLocaleString(parsedDate, locale.value as AvLocale)
 }
 </script>
@@ -26,41 +26,41 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
     title-background="--white"
   >
     <template #title>
-      <div class="resumes-widget-container__title">
+      <div class="pages-widget-container__title">
         <VIcon
           :name="MDI_ICONS.FILE_ACCOUNT"
           color="var(--foreground-icon)"
           scale="1.5"
         />
         <span class="s1-bold">
-          {{ t('student.widgets.resumes.title') }}
+          {{ t('student.widgets.pages.title') }}
         </span>
       </div>
     </template>
     <template #body>
-      <div class="resumes-widget-container__body">
-        <ul class="resumes-widget__actions">
+      <div class="pages-widget-container__body">
+        <ul class="pages-widget__actions">
           <li
-            v-for="resume in renderedResumes"
-            :key="resume.id"
+            v-for="page in renderedPages"
+            :key="page.id"
           >
             <AvRichButton
               :icon-right="MDI_ICONS.ARROW_RIGHT"
               custom-padding="0.5rem"
               :on-click="() => {}"
             >
-              <div class="resumes-widget-action__body">
-                <div class="resumes-widget-action__leftIcon">
+              <div class="pages-widget-action__body">
+                <div class="pages-widget-action__leftIcon">
                   <VIcon
                     :name="MDI_ICONS.FILE_ACCOUNT"
                     color="var(--white)"
                     scale="1.25"
                   />
                 </div>
-                <div class="resumes-widget-action__description">
-                  <span class="resume-name b1-regular">{{ resume.name }}</span>
+                <div class="pages-widget-action__description">
+                  <span class="resume-name b1-regular">{{ page.name }}</span>
                   <span class="resume-info caption-light">
-                    {{ t('student.widgets.resumes.updatedAt', { date: getFormattedUpdatedAt(resume) }) }}
+                    {{ t('student.widgets.pages.updatedAt', { date: getFormattedUpdatedAt(page) }) }}
                   </span>
                 </div>
               </div>
@@ -70,10 +70,10 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
       </div>
     </template>
     <template #footer>
-      <div class="resumes-widget-container__footer">
+      <div class="pages-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.resumes.buttons.seeAll')"
-          :on-click="navigateToStudentResumes"
+          :label="t('student.widgets.pages.buttons.seeAll')"
+          :on-click="navigateToStudentPages"
           :icon="MDI_ICONS.ARROW_RIGHT"
           size="sm"
         />
@@ -83,7 +83,7 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
 </template>
 
 <style lang="scss" scoped>
-.resumes-widget-container__title {
+.pages-widget-container__title {
   display: flex;
   flex-direction: row;
   gap: 0.75rem;
@@ -91,13 +91,13 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
   padding-left: 0.75rem;
 }
 
-.resumes-widget-container__body {
+.pages-widget-container__body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.resumes-widget__actions {
+.pages-widget__actions {
   list-style-type:none;
   display: flex;
   flex-direction: column;
@@ -106,7 +106,7 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
   gap: 1rem;
 }
 
-.resumes-widget-action__leftIcon {
+.pages-widget-action__leftIcon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,19 +116,19 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
   background-color: var(--dark-background-primary1);
 }
 
-.resumes-widget-action__description {
+.pages-widget-action__description {
   display: flex;
   flex-direction: column;
   align-items: start;
 }
 
-.resumes-widget-action__body {
+.pages-widget-action__body {
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
 }
 
-.resumes-widget-container__footer {
+.pages-widget-container__footer {
   display: flex;
   flex-direction: row-reverse;
   padding-top: 1.25rem;
