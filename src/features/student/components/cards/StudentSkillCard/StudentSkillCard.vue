@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { LevelDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
+import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { studentEducationSkillsRoute } from '@/features/student/routes'
-import { AvCard, type AvSkillCardProps, MDI_ICONS } from '@/ui'
+import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { skill, skillColor, to = studentEducationSkillsRoute } = defineProps<AvSkillCardProps>()
+const { skill, skillColor, to = studentEducationSkillsRoute } = defineProps<StudentSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
 
 const { t } = useI18n()
@@ -13,13 +14,13 @@ const { t } = useI18n()
 function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
     case 'TO_EVALUATE':
-      return { status: t('ui.AvSkillCard.badgeStatus.toEvaluate'), type: 'new' }
+      return { status: t('student.cards.StudentSkillCard.badgeStatus.toEvaluate'), type: 'new' }
     case 'UNDER_REVIEW':
-      return { status: t('ui.AvSkillCard.badgeStatus.underReview'), type: 'info' }
+      return { status: t('student.cards.StudentSkillCard.badgeStatus.underReview'), type: 'info' }
     case 'VALIDATED':
-      return { status: t('ui.AvSkillCard.badgeStatus.validated'), type: 'success' }
+      return { status: t('student.cards.StudentSkillCard.badgeStatus.validated'), type: 'success' }
     case 'NOT_VALIDATED':
-      return { status: t('ui.AvSkillCard.badgeStatus.notValidated'), type: 'error' }
+      return { status: t('student.cards.StudentSkillCard.badgeStatus.notValidated'), type: 'error' }
   }
 }
 
@@ -41,7 +42,7 @@ const theme = ref({
 
 <template>
   <RouterLink
-    class="av-skill-card"
+    class="student-skill-card"
     :to="to"
   >
     <AvCard
@@ -51,12 +52,12 @@ const theme = ref({
       :to="to"
     >
       <template #title>
-        <div class="av-skill-card__title">
+        <div class="student-skill-card__title">
           <span class="n6">
             {{ name }}
           </span>
           <div
-            class="av-skill-card__icon"
+            class="student-skill-card__icon"
             :style="{ background: `var(${skillColor})` }"
           >
             <VIcon
@@ -68,19 +69,19 @@ const theme = ref({
         </div>
       </template>
       <template #body>
-        <div class="av-skill-card__body">
-          <div class="av-skill-card__line">
+        <div class="student-skill-card__body">
+          <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-            <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.trackCount', { count: trackCount }) }}</span>
+            <span class="student-skill-card__desc">{{ t('student.cards.StudentSkillCard.trackCount', { count: trackCount }) }}</span>
           </div>
-          <div class="av-skill-card__line">
+          <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
-            <span class="av-skill-card__desc">{{ t('ui.AvSkillCard.activityCount', { count: activityCount }) }}</span>
+            <span class="student-skill-card__desc">{{ t('student.cards.StudentSkillCard.activityCount', { count: activityCount }) }}</span>
           </div>
         </div>
       </template>
       <template #footer>
-        <div class="av-skill-card__footer">
+        <div class="student-skill-card__footer">
           <DsfrBadge
             :label="firstBadge.label"
             :type="firstBadge.type"
@@ -101,25 +102,25 @@ const theme = ref({
 </template>
 
 <style lang="scss" scoped>
+.av-card {
+  height: 16.875rem;
+}
+
 .av-card:hover {
   border: 1px solid v-bind('theme.hoverBorderColor') !important;
   box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
 }
 
-.av-skill-card {
+.student-skill-card {
   width: 17.25rem;
   border-radius: 1.5rem;
 }
 
-.av-card {
-  height: 16.875rem;
-}
-
-.av-skill-card__title {
+.student-skill-card__title {
   position: relative
 }
 
-.av-skill-card__icon {
+.student-skill-card__icon {
   position: absolute;
   width: 3.125rem;
   height: 3.125rem;
@@ -132,20 +133,20 @@ const theme = ref({
   align-items: center;
 }
 
-.av-skill-card__body {
+.student-skill-card__body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.av-skill-card__line {
+.student-skill-card__line {
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
     align-items: center;
 }
 
-.av-skill-card__footer {
+.student-skill-card__footer {
     display: flex;
     flex-direction: row;
     align-items: center;

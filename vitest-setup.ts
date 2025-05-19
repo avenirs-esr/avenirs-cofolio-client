@@ -1,12 +1,15 @@
 // setupTests.ts
 import { config } from '@vue/test-utils'
-import { i18n } from './src/plugins/vue-i18n'
-
-i18n.global.locale.value = 'fr'
-
-config.global.plugins = config.global.plugins || []
-config.global.plugins.push(i18n)
+import { beforeAll } from 'vitest'
+import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 
 window.matchMedia = function () {
   return { matches: false }
 }
+
+beforeAll(async () => {
+  i18n.global.locale.value = 'fr'
+  await registerFeatureLocales('student')
+  config.global.plugins = config.global.plugins || []
+  config.global.plugins.push(i18n)
+})
