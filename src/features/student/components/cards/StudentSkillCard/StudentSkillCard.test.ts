@@ -1,7 +1,7 @@
 import type { LevelDTO } from '@/types'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvSkillCard from './AvSkillCard.vue'
+import StudentSkillCard from './StudentSkillCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrBadge: {
@@ -23,7 +23,7 @@ vi.doMock('@/ui', () => ({
   },
 }))
 
-describe('avSkillCard.vue', () => {
+describe('studentSkillCard.vue', () => {
   const baseProps = {
     skill: {
       id: 'skill1',
@@ -39,7 +39,7 @@ describe('avSkillCard.vue', () => {
   } as const
 
   it('renders skill name, track and activity counts', () => {
-    const wrapper = mount(AvSkillCard, {
+    const wrapper = mount(StudentSkillCard, {
       props: baseProps,
     })
 
@@ -49,7 +49,7 @@ describe('avSkillCard.vue', () => {
   })
 
   it('renders the two expected badges', () => {
-    const wrapper = mount(AvSkillCard, {
+    const wrapper = mount(StudentSkillCard, {
       props: baseProps,
     })
 
@@ -60,7 +60,7 @@ describe('avSkillCard.vue', () => {
   })
 
   it('renders only one badge if only one level is present', () => {
-    const wrapper = mount(AvSkillCard, {
+    const wrapper = mount(StudentSkillCard, {
       props: {
         ...baseProps,
         skill: {

@@ -1,15 +1,5 @@
 {
   "ui": {
-    "AvSkillCard": {
-      "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
-      "badgeStatus": {
-        "notValidated": "non validé",
-        "toEvaluate": "à évaluer",
-        "underReview": "en cours d'évaluation",
-        "validated": "validé"
-      },
-      "trackCount": "0 trace | 1 trace | {count} traces"
-    },
     "AvTrackCard": {
       "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
       "lifeProject": "Projet de vie",

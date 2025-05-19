@@ -33,9 +33,7 @@ async function registerFeatureLocales (feature: string) {
   for (const lang of AvAvailableLocales) {
     try {
       const module = await import(`@/features/${feature}/locales/${lang}.json`)
-      i18n.global.mergeLocaleMessage(lang, {
-        [feature]: module.default
-      })
+      i18n.global.mergeLocaleMessage(lang, module.default)
     }
     catch {
       console.warn(`No ${lang} locale found for feature ${feature}`)
@@ -51,4 +49,4 @@ export default {
   }
 }
 
-export { i18n }
+export { i18n, registerFeatureLocales }

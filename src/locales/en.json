@@ -1,15 +1,5 @@
 {
   "ui": {
-    "AvSkillCard": {
-      "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
-      "badgeStatus": {
-        "notValidated": "not validated",
-        "toEvaluate": "to evaluate",
-        "underReview": "under review",
-        "validated": "validated"
-      },
-      "trackCount": "0 track | 1 track | {count} tracks"
-    },
     "AvTrackCard": {
       "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
       "lifeProject": "Life project",

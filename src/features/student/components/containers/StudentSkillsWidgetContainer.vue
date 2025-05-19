@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CourseDTO } from '@/types'
-import { AvSkillCard } from '@/ui'
+import { StudentSkillCard } from '@/features/student/components'
 
 const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: CourseDTO, maxSkillsDisplayed: number }>()
 
@@ -13,7 +13,7 @@ const skills = computed(() => course.skills.slice(0, maxSkillsDisplayed))
       {{ course.name }}
     </span>
     <div class="skills-container">
-      <AvSkillCard
+      <StudentSkillCard
         v-for="(skill, index) in skills"
         :key="skill.id"
         :skill="skill"
