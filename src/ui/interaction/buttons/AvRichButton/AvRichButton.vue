@@ -7,6 +7,7 @@ const {
   iconRight = undefined,
   borderColor = '--foreground-stroke',
   hoverBorderColor = '--dark-background-primary1',
+  customPadding = '1rem',
   onClick
 } = defineProps<AvRichButtonProps>()
 
@@ -19,7 +20,8 @@ const computedHoverBorderColor = computed(() => `var(${hoverBorderColor})`)
 
 const theme = ref({
   borderColor: computedBorderColor,
-  hoverBorderColor: computedHoverBorderColor
+  hoverBorderColor: computedHoverBorderColor,
+  customPadding
 })
 </script>
 
@@ -58,7 +60,7 @@ const theme = ref({
   border-radius: 0.75rem;
   border: 1px solid v-bind('theme.borderColor');
   overflow: hidden;
-  padding: 1rem;
+  padding: v-bind('theme.customPadding');
 }
 
 .av-rich-button:hover {

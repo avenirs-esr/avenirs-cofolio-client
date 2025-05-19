@@ -8,6 +8,13 @@ export const studentHomeRoute: AvRoute = {
     import('@/features/student/views/StudentHomeView.vue'),
 }
 
+export const studentEventsRoute: AvRoute = {
+  path: 'events',
+  name: 'student-events',
+  component: () =>
+    import('@/features/student/views/StudentEventsView.vue'),
+}
+
 export const studentEducationSkillsRoute: AvRoute = {
   path: 'education/skills',
   name: 'student-education-skills',

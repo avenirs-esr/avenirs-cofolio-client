@@ -18,10 +18,24 @@ export interface CourseDTO {
   skills: Array<SkillDTO>
 }
 
+export interface EventDTO {
+  id: string
+  name: string
+  startDate: string
+  endDate: string
+  location: string
+}
+
+export interface PageDTO {
+  id: string
+  name: string
+  updatedAt: string
+}
+
 export interface ResumeDTO {
   id: string
   name: string
-  lastUpdated: Date
+  updatedAt: string
 }
 
 export interface TrackDTO {

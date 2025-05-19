@@ -26,7 +26,7 @@ const theme = ref({
     :to="to"
   >
     <AvCard
-      border-color="--other-skill-card-border"
+      border-color="--other-border-skill-card"
       title-background="--background-surface-background"
       title-height="4.375rem"
       :to="to"
@@ -134,7 +134,7 @@ const theme = ref({
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 0.75rem;
-  border: 1px solid var(--other-skill-card-border);
+  border: 1px solid var(--other-border-skill-card);
   right: 0.75rem;
   top: 2rem;
   display: flex;
