@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { CourseDTO } from '@/types'
 import { useNavigation } from '@/common/composables/use-navigation'
 import { StudentSkillsWidgetContainer } from '@/features/student/components'
+import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { courses } = defineProps<{ courses: Array<CourseDTO> }>()
-
 const { t } = useI18n()
 const { navigateToStudentSkills } = useNavigation()
+const { data: courses } = useStudentCoursesSummaryQuery()
 </script>
 
 <template>
