@@ -112,6 +112,7 @@ const theme = ref({
 }
 
 .student-skill-card {
+  display: flex;
   width: 17.25rem;
   border-radius: 1.5rem;
 }

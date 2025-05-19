@@ -1,7 +1,8 @@
+import type { AvLocale } from '@/types/i18n.types'
 import { format, type Locale, parse } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
-const localesMap: Record<string, Locale> = {
+const localesMap: Record<AvLocale, Locale> = {
   fr,
   en: enUS,
 }
@@ -21,10 +22,10 @@ export function parseDateFR (date: string): Date {
  * @param localeCode
  * @returns date formated to locale string
  */
-export function formatDateToLocaleString (date: Date, localeCode: string): string {
+export function formatDateToLocaleString (date: Date, localeCode: AvLocale): string {
   const locale = localesMap[localeCode] || fr
 
-  const formatByLocale: Record<string, string> = {
+  const formatByLocale: Record<AvLocale, string> = {
     fr: 'd MMMM yyyy',
     en: 'MMMM d, yyyy',
   }
