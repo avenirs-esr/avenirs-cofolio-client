@@ -2,7 +2,9 @@
 import type { ResumeDTO, SkillDTO } from '@/types'
 import { parseDateFR } from '@/common/utils'
 import { StudentOverviewWidget, StudentResumesWidget, StudentSkillsWidget } from '@/features/student/components'
+import { useStudentProfileSummaryQuery } from '@/features/student/queries/use-student-summary.query'
 
+const { data: studentSummary } = useStudentProfileSummaryQuery()
 const mockedSkills: Array<SkillDTO> = [
   {
     id: 'skill1',
@@ -78,7 +80,10 @@ const mockedResumes = [
   <div class="fr-container--fluid">
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="student-home-left-container fr-col-4">
-        <StudentOverviewWidget />
+        <StudentOverviewWidget
+          v-if="studentSummary"
+          :student-summary="studentSummary"
+        />
         <StudentResumesWidget :resumes="mockedResumes" />
       </div>
       <div class="fr-col-8">

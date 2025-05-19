@@ -30,3 +30,12 @@ export interface TrackDTO {
   skillCount: number
   activityCount: number
 }
+
+export interface StudentSummaryDTO {
+  id: string
+  firstname: string
+  lastname: string
+  profilePicture: string
+  coverPicture: string
+  bio: string
+}
