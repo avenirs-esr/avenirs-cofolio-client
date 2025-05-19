@@ -18,6 +18,12 @@ export interface CourseDTO {
   skills: Array<SkillDTO>
 }
 
+export interface ResumeDTO {
+  id: string
+  name: string
+  lastUpdated: Date
+}
+
 export interface TrackDTO {
   id: string
   name: string

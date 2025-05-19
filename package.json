@@ -28,6 +28,7 @@
     "@gouvminint/vue-dsfr": "^6.0.0",
     "@tanstack/vue-query": "^5.74.9",
     "axios": "^1.9.0",
+    "date-fns": "^4.1.0",
     "focus-trap": "^7.5.4",
     "focus-trap-vue": "^4.0.3",
     "pinia": "^2.2.2",

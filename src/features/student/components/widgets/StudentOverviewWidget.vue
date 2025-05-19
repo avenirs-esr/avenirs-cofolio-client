@@ -20,7 +20,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
       <div class="student-overview-widget__title">
         <img
           :src="profile_banner_placeholder"
-          :alt="t('widgets.overview.bannerAlt')"
+          :alt="t('student.widgets.overview.bannerAlt')"
           class="student-overview-widget__banner"
         >
         <div
@@ -28,7 +28,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
         >
           <img
             :src="profile_picture_placeholder"
-            :alt="t('widgets.overview.pictureAlt')"
+            :alt="t('student.widgets.overview.pictureAlt')"
             class="student-overview-widget__picture"
           >
         </div>
@@ -48,7 +48,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon-right="MDI_ICONS.PENCIL"
               :on-click="() => {}"
             >
-              <span class="b1-regular">{{ t('widgets.overview.buttons.editProfile') }}</span>
+              <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
             </AvRichButton>
           </li>
           <li>
@@ -56,7 +56,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon-right="MDI_ICONS.FILE_ACCOUNT"
               :on-click="() => {}"
             >
-              <span class="b1-regular">{{ t('widgets.overview.buttons.shareResume') }}</span>
+              <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareResume') }}</span>
             </AvRichButton>
           </li>
           <li>
@@ -64,7 +64,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon-right="MDI_ICONS.SHARE_VARIANT"
               :on-click="() => {}"
             >
-              <span class="b1-regular">{{ t('widgets.overview.buttons.shareCofolio') }}</span>
+              <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareCofolio') }}</span>
             </AvRichButton>
           </li>
           <li>
@@ -72,7 +72,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
               :icon-right="MDI_ICONS.SWAP_HORIZONTAL"
               :on-click="() => {}"
             >
-              <span class="b1-regular">{{ t('widgets.overview.buttons.establishments') }}</span>
+              <span class="b1-regular">{{ t('student.widgets.overview.buttons.establishments') }}</span>
             </AvRichButton>
           </li>
         </ul>

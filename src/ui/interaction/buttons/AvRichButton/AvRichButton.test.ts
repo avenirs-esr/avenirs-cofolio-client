@@ -17,7 +17,7 @@ describe('avRichButton', () => {
     const wrapper = mount(AvRichButton, {
       props: {
         iconLeft: 'mdi-home',
-        onClick: () => {}
+        onClick: vi.fn()
       },
       global: {
         components: { VIcon }
@@ -31,7 +31,7 @@ describe('avRichButton', () => {
     const wrapper = mount(AvRichButton, {
       props: {
         iconRight: 'mdi-arrow-right',
-        onClick: () => {}
+        onClick: vi.fn()
       },
       global: {
         components: { VIcon }
