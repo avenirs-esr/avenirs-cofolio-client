@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
-import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import type { StudentSummaryDTO } from '@/types'
 import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
+
+const { studentSummary } = defineProps<{
+  studentSummary: StudentSummaryDTO
+}>()
 
 const { t } = useI18n()
 
-const mockedName = 'Jeanne Moulin'
-const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable,'
-  + ' je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+const fullName = computed(() => {
+  const { firstname, lastname } = studentSummary
+  return `${capitalize(firstname)} ${capitalize(lastname)}`
+})
 </script>
 
 <template>
@@ -19,7 +24,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
     <template #title>
       <div class="student-overview-widget__title">
         <img
-          :src="profile_banner_placeholder"
+          :src="studentSummary.coverPicture"
           :alt="t('student.widgets.overview.bannerAlt')"
           class="student-overview-widget__banner"
         >
@@ -27,7 +32,7 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
           class="student-overview-widget__icon"
         >
           <img
-            :src="profile_picture_placeholder"
+            :src="studentSummary.profilePicture"
             :alt="t('student.widgets.overview.pictureAlt')"
             class="student-overview-widget__picture"
           >
@@ -36,8 +41,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
     </template>
     <template #body>
       <div class="student-overview-widget__body">
-        <span class="n4">{{ mockedName }}</span>
-        <span class="b2-light">{{ mockedBio }}</span>
+        <span class="n4">{{ fullName }}</span>
+        <span class="b2-light">{{ studentSummary.bio }}</span>
       </div>
     </template>
     <template #footer>
@@ -103,6 +108,8 @@ const mockedBio = 'Je suis étudiante en chimie et écologie. Passionnée par l�
 .student-overview-widget__banner {
   width: 100%;
   height: auto;
+  max-height: 4.2rem;
+  border-radius: 0.5rem;
 }
 
 .student-overview-widget__picture {
