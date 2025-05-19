@@ -28,36 +28,42 @@ export const studentProjectSkillsRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentProjectSkillsView.vue'),
 }
+
 export const studentProjectExperiencesRoute: AvRoute = {
   path: 'projects/experiences',
   name: 'student-project-experiences',
   component: () =>
     import('@/features/student/views/StudentProjectExperiencesView.vue'),
 }
+
 export const studentProjectTrajectoriesRoute: AvRoute = {
   path: 'projects/trajectories',
   name: 'student-project-trajectories',
   component: () =>
     import('@/features/student/views/StudentProjectTrajectoriesView.vue'),
 }
+
 export const studentToolsTracksRoute: AvRoute = {
   path: 'tools/tracks',
   name: 'student-tools-tracks',
   component: () =>
     import('@/features/student/views/StudentToolsTracksView.vue'),
 }
+
 export const studentToolsPagesRoute: AvRoute = {
   path: 'tools/pages',
   name: 'student-tools-pages',
   component: () =>
     import('@/features/student/views/StudentToolsPagesView.vue'),
 }
+
 export const studentToolsResumesRoute: AvRoute = {
   path: 'tools/resumes',
   name: 'student-tools-resumes',
   component: () =>
     import('@/features/student/views/StudentToolsResumesView.vue'),
 }
+
 export const studentAboutRoute: AvRoute = {
   path: 'about',
   name: 'student-about',
@@ -65,14 +71,12 @@ export const studentAboutRoute: AvRoute = {
     import('@/features/student/views/StudentAboutView.vue'),
 }
 
-export const studentMessagesRoute: AvRoute
-
-  = {
-    path: 'messages',
-    name: 'student-messages',
-    component: () =>
-      import('@/features/student/views/StudentMessagesView.vue')
-  }
+export const studentMessagesRoute: AvRoute = {
+  path: 'messages',
+  name: 'student-messages',
+  component: () =>
+    import('@/features/student/views/StudentMessagesView.vue')
+}
 
 export const studentNotificationsRoute: AvRoute = {
   path: 'notifications',
@@ -80,6 +84,7 @@ export const studentNotificationsRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentNotificationsView.vue')
 }
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/student',

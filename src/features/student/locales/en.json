@@ -94,11 +94,18 @@
         },
         "pictureAlt": "Profile picture"
       },
+      "resumes": {
+        "buttons": {
+          "seeAll": "Voir tous mes CV"
+        },
+        "lastUpdate": "last update on {date}",
+        "title": "My resumes"
+      },
       "skills": {
-        "title": "My educational skills",
         "buttons": {
           "seeAll": "See all my skills"
-        }
+        },
+        "title": "My educational skills"
       }
     }
   }

@@ -94,11 +94,18 @@
         },
         "pictureAlt": "Photo de profil"
       },
+      "resumes": {
+        "buttons": {
+          "seeAll": "Voir tous mes CV"
+        },
+        "lastUpdate": "dernière modification le {date}",
+        "title": "Mes CV"
+      },
       "skills": {
-        "title": "Mes compétences visées par ma formation",
         "buttons": {
           "seeAll": "Voir toutes mes compétences"
-        }
+        },
+        "title": "Mes compétences visées par ma formation"
       }
     }
   }
