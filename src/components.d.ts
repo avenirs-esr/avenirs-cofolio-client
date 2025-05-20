@@ -10,6 +10,7 @@ declare module 'vue' {
     AppToaster: typeof import('./components/AppToaster.vue')['default']
     DsfrAlert: typeof import('@gouvminint/vue-dsfr')['DsfrAlert']
     DsfrBadge: typeof import('@gouvminint/vue-dsfr')['DsfrBadge']
+    DsfrBreadcrumb: typeof import('@gouvminint/vue-dsfr')['DsfrBreadcrumb']
     DsfrButton: typeof import('@gouvminint/vue-dsfr')['DsfrButton']
     DsfrHeader: typeof import('@gouvminint/vue-dsfr')['DsfrHeader']
     DsfrLanguageSelector: typeof import('@gouvminint/vue-dsfr')['DsfrLanguageSelector']

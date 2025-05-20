@@ -1,6 +1,19 @@
 <script setup lang="ts">
+import { PageTitle } from '@/common/components'
+import { studentHomeRoute } from '@/features/student/routes'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const breadcrumbLinks = computed(() => [
+  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.education.items.skills') }
+])
 </script>
 
 <template>
-  <h1>Student education skills page</h1>
+  <PageTitle
+    :title="t('student.views.studentEducationSkillsView.title')"
+    :breadcrumb-links="breadcrumbLinks"
+  />
 </template>

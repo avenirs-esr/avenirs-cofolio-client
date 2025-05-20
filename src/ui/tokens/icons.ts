@@ -1,6 +1,7 @@
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE: 'mdi:account-circle-outline',
   ARROW_DECISION: 'mdi:arrow-decision',
+  ARROW_LEFT: 'mdi:arrow-left-thin',
   ARROW_RIGHT: 'mdi:arrow-right-thin',
   ARROW_TOP_RIGHT: 'mdi:arrow-top-right-thick',
   ATTACH_FILE: 'mdi:attach-file',

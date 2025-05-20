@@ -83,6 +83,38 @@
         }
       }
     },
+    "views": {
+      "studentEducationActivitiesView": {
+        "title": "Mes Activités de Mise en situation (AMS)"
+      },
+      "studentEducationSkillsView": {
+        "title": "Toutes mes compétences"
+      },
+      "studentMailboxView": {
+        "title": "Ma messagerie"
+      },
+      "studentNotificationsView": {
+        "title": "Mes notifications"
+      },
+      "studentProjectExperiencesView": {
+        "title": "(placeholder) Toutes mes expériences"
+      },
+      "studentProjectSkillsView": {
+        "title": "(placeholder) Toutes mes compétences"
+      },
+      "studentProjectTrajectoriesView": {
+        "title": "(placeholder) Bâtir mon projet"
+      },
+      "studentToolsPagesView": {
+        "title": "(placeholder) Toutes mes pages libres"
+      },
+      "studentToolsResumesView": {
+        "title": "(placeholder) Tous mes CV"
+      },
+      "studentToolsTracksView": {
+        "title": "(placeholder) Toutes mes traces"
+      }
+    },
     "widgets": {
       "events": {
         "buttons": {

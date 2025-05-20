@@ -6,7 +6,7 @@ import routes, {
   studentAboutRoute,
   studentEducationActivitiesRoute,
   studentEducationSkillsRoute,
-  studentMessagesRoute,
+  studentMailboxRoute,
   studentNotificationsRoute,
   studentProjectExperiencesRoute,
   studentProjectSkillsRoute,
@@ -32,7 +32,7 @@ const routesToCheck = [
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentAboutRoute,
-  studentMessagesRoute,
+  studentMailboxRoute,
   studentNotificationsRoute
 ]
 const parentRoute = routes[0]

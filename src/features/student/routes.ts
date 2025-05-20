@@ -78,11 +78,11 @@ export const studentAboutRoute: AvRoute = {
     import('@/features/student/views/StudentAboutView.vue'),
 }
 
-export const studentMessagesRoute: AvRoute = {
-  path: 'messages',
-  name: 'student-messages',
+export const studentMailboxRoute: AvRoute = {
+  path: 'mailbox',
+  name: 'student-mailbox',
   component: () =>
-    import('@/features/student/views/StudentMessagesView.vue')
+    import('@/features/student/views/StudentMailboxView.vue')
 }
 
 export const studentNotificationsRoute: AvRoute = {
@@ -107,7 +107,7 @@ const routes: RouteRecordRaw[] = [
       studentToolsPagesRoute,
       studentToolsResumesRoute,
       studentAboutRoute,
-      studentMessagesRoute,
+      studentMailboxRoute,
       studentNotificationsRoute
     ],
   },
