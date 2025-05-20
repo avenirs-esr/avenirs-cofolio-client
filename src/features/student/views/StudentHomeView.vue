@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { EventDTO, PageDTO } from '@/types'
-import { StudentEventsWidget, StudentOverviewWidget, StudentPagesWidget, StudentResumesWidget, StudentSkillsWidget } from '@/features/student/components'
+import { StudentDeliverablesWidget, StudentEventsWidget, StudentOverviewWidget, StudentPagesWidget, StudentResumesWidget, StudentSkillsWidget, StudentTracksWidget } from '@/features/student/components'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 
 const { data: studentSummary } = useStudentSummaryQuery()
@@ -58,6 +58,7 @@ const mockedPages = [
       </div>
       <div class="student-home-right-container fr-col-8">
         <StudentSkillsWidget />
+        <StudentDeliverablesWidget />
         <StudentTracksWidget />
       </div>
     </div>

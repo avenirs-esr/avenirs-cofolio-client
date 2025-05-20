@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions/base-api.exception'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import { type CourseDTO, type DeliverableDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -115,6 +115,44 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
   })
 }
 
+function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<DeliverableDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'deliverables'])
+  return useQuery<DeliverableDTO[], BaseApiException>({
+    queryKey,
+    initialData: [],
+    // TODO: call /me/formations/deliverables/overview when the endpoint and client are ready
+    queryFn: async (): Promise<DeliverableDTO[]> => {
+      return [
+        {
+          id: 'deliverable1',
+          skill: 'Prévenir la pollution à la source',
+          activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+          deliverableUntil: '2025-06-13T08:42:17',
+        },
+        {
+          id: 'deliverable2',
+          skill: 'Mettre en place des filières d’économies circulaires',
+          activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+          deliverableUntil: '2025-07-29T19:15:03'
+        },
+        {
+          id: 'deliverable3',
+          skill: 'Évaluer l’impact environnemental et économique',
+          activity: 'SAE 1.1 Séquence 4 - Un nom de séquence méga long pour tester les ellipses validation des recommandations et élaboration d’un plan d’action',
+          deliverableUntil: '2025-08-07T23:08:51',
+
+        },
+        {
+          id: 'deliverable4',
+          skill: 'Concevoir des synthèses chimiques durables',
+          activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+          deliverableUntil: '2025-09-21T04:26:39'
+        },
+      ]
+    }
+  })
+}
+
 function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
   return useQuery<ResumeDTO[], BaseApiException>({
@@ -180,4 +218,4 @@ function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], 
   })
 }
 
-export { useStudentCoursesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }
+export { useStudentCoursesSummaryQuery, useStudentDeliverablesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }

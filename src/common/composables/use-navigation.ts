@@ -1,9 +1,13 @@
-import { studentEducationSkillsRoute, studentEventsRoute, studentHomeRoute, studentMailboxRoute, studentNotificationsRoute, studentToolsPagesRoute, studentToolsResumesRoute, studentToolsTracksRoute } from '@/features/student/routes'
+import { studentDeliverablesRoute, studentEducationSkillsRoute, studentEventsRoute, studentHomeRoute, studentMailboxRoute, studentNotificationsRoute, studentToolsPagesRoute, studentToolsResumesRoute, studentToolsTracksRoute } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
 export function useNavigation () {
   const router = useRouter()
+
+  const navigateToStudentDeliverables = () => {
+    return router.push(studentDeliverablesRoute)
+  }
 
   const navigateToStudentEvents = () => {
     return router.push(studentEventsRoute)
@@ -43,6 +47,7 @@ export function useNavigation () {
   }
 
   return {
+    navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,
     navigateToStudentMailbox,

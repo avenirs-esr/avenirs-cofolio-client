@@ -2,7 +2,7 @@
   "student": {
     "cards": {
       "studentSkillCard": {
-        "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
+        "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "badgeStatus": {
           "notValidated": "not validated",
           "toEvaluate": "to evaluate",
@@ -12,7 +12,7 @@
         "trackCount": "0 track | 1 track | {count} tracks"
       },
       "studentTrackCard": {
-        "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
+        "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "lifeProject": "Life project",
         "skillCount": "0 skill | 1 skill | {count} skills",
         "tagLabel": {
@@ -93,11 +93,17 @@
       }
     },
     "views": {
+      "studentDeliverablesView": {
+        "title": "(placeholder) All my deliverables"
+      },
       "studentEducationActivitiesView": {
         "title": "My Role-Play Activities (RPA)"
       },
       "studentEducationSkillsView": {
         "title": "All my skills"
+      },
+      "studentEventsView": {
+        "title": "(placeholder) All my events"
       },
       "studentMailboxView": {
         "title": "My mailbox"
@@ -125,6 +131,14 @@
       }
     },
     "widgets": {
+      "deliverables": {
+        "activity": "RPA - {activity}",
+        "buttons": {
+          "seeAll": "See all my deliverables"
+        },
+        "skill": "Skills {skill}",
+        "title": "My next deliverables"
+      },
       "events": {
         "buttons": {
           "seeAll": "See all my events"
