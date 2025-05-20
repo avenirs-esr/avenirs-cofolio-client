@@ -7,13 +7,13 @@ const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
-  { text: t('student.navigation.tabs.project.items.experiences') }
+  { text: t('student.views.studentMailboxView.title') }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentProjectExperiencesView.title')"
+    :title="t('student.views.studentMailboxView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
 </template>

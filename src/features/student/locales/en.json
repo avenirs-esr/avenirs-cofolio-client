@@ -83,6 +83,38 @@
         }
       }
     },
+    "views": {
+      "studentEducationActivitiesView": {
+        "title": "My Role-Play Activities (RPA)"
+      },
+      "studentEducationSkillsView": {
+        "title": "All my skills"
+      },
+      "studentMailboxView": {
+        "title": "My mailbox"
+      },
+      "studentNotificationsView": {
+        "title": "My notifications"
+      },
+      "studentProjectExperiencesView": {
+        "title": "(placeholder) All my experiences"
+      },
+      "studentProjectSkillsView": {
+        "title": "(placeholder) All my skills"
+      },
+      "studentProjectTrajectoriesView": {
+        "title": "(placeholder) Building my project"
+      },
+      "studentToolsPagesView": {
+        "title": "(placeholder) All my free pages"
+      },
+      "studentToolsResumesView": {
+        "title": "(placeholder) All my resumes"
+      },
+      "studentToolsTracksView": {
+        "title": "(placeholder) All my tracks"
+      }
+    },
     "widgets": {
       "events": {
         "buttons": {

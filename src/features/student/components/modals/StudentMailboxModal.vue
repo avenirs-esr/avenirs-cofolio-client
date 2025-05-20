@@ -9,11 +9,11 @@ const {
   onClose
 } = defineProps<{ messagesCount: number, showModal: boolean, onClose: () => void }>()
 
-const { navigateToStudentMessages } = useNavigation()
+const { navigateToStudentMailbox } = useNavigation()
 const { t } = useI18n()
 
-function navigateToMessages () {
-  navigateToStudentMessages()
+function navigateToMailbox () {
+  navigateToStudentMailbox()
   onClose()
 }
 </script>
@@ -39,13 +39,13 @@ function navigateToMessages () {
           v-if="messagesCount === 0"
           :label="t('student.modals.mailboxModal.buttons.navigate')"
           :icon="MDI_ICONS.ARROW_RIGHT"
-          :on-click="navigateToMessages"
+          :on-click="navigateToMailbox"
         />
         <AvButton
           v-else
           :label="t('student.modals.mailboxModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
-          :on-click="navigateToMessages"
+          :on-click="navigateToMailbox"
         />
       </div>
     </template>

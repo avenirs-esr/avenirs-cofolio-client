@@ -42,6 +42,7 @@ const theme = ref({
 <template>
   <DsfrButton
     v-bind="props"
+    class="av-button"
     :class="[variantClass, themeClass, fullWidthClass]"
     :disabled="props.disabled || isLoading"
     :icon="iconToRender"

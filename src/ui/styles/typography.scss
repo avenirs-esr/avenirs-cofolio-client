@@ -7,6 +7,7 @@
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
+  --font-size-n2: 3rem;
   --font-size-n4: 2rem;
   --font-size-n5: 1.625rem;
   --font-size-n6: 1.25rem;
@@ -14,6 +15,7 @@
   --line-height-xs: 1.125rem;
   --line-height-sm: 1.3125rem;
   --line-height-md: 1.5rem;
+  --line-height-n2: 3.5rem;
   --line-height-n4: 3rem;
   --line-height-n5: 2.5rem;
   --line-height-n6: 1.875rem;
@@ -58,6 +60,14 @@
   line-height: var(--line-height-xs);
   letter-spacing: var(--letter-spacing-caption);
   color: var(--foreground-text2);
+}
+
+.n2 {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-light);
+  font-size: var(--font-size-n2);
+  line-height: var(--line-height-n2);
+  color: var(--foreground-title);
 }
 
 .n4 {

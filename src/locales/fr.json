@@ -1,4 +1,9 @@
 {
+  "global": {
+    "buttons": {
+      "goBack": "Retour"
+    }
+  },
   "ui": {
     "AvTrackCard": {
       "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",

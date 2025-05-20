@@ -1,4 +1,9 @@
 {
+  "global": {
+    "buttons": {
+      "goBack": "Go back"
+    }
+  },
   "ui": {
     "AvTrackCard": {
       "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
