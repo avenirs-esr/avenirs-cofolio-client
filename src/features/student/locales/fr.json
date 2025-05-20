@@ -1,7 +1,7 @@
 {
   "student": {
     "cards": {
-      "StudentSkillCard": {
+      "studentSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "badgeStatus": {
           "notValidated": "non validé",
@@ -10,6 +10,15 @@
           "validated": "validé"
         },
         "trackCount": "0 trace | 1 trace | {count} traces"
+      },
+      "studentTrackCard": {
+        "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+        "lifeProject": "Projet de vie",
+        "skillCount": "0 compétence | 1 compétence | {count} compétences",
+        "tagLabel": {
+          "group": "Groupe",
+          "solo": "Individuel"
+        }
       }
     },
     "layout": {
@@ -151,6 +160,12 @@
           "seeAll": "Voir toutes mes compétences"
         },
         "title": "Mes compétences visées par ma formation"
+      },
+      "tracks": {
+        "buttons": {
+          "seeAll": "Voir toutes mes traces"
+        },
+        "title": "Mes dernières traces"
       }
     }
   }

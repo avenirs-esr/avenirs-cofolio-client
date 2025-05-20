@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvRoute } from '@/common/types/router.types'
+import type { AvRoute } from '@/common/types'
 import {
   studentEducationActivitiesRoute,
   studentEducationSkillsRoute,

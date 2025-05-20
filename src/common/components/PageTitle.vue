@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { AvRoute } from '@/common/types'
 import type { DsfrBreadcrumbProps } from '@gouvminint/vue-dsfr'
-import type { RouteLocationRaw } from 'vue-router'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
@@ -12,7 +12,7 @@ const {
 } = defineProps<{
   breadcrumbLinks: DsfrBreadcrumbProps['links']
   title: string
-  back?: RouteLocationRaw
+  back?: AvRoute
 }>()
 
 const router = useRouter()

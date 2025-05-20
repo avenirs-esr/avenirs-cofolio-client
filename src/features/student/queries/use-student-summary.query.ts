@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions/base-api.exception'
-import type { CourseDTO, SkillDTO, StudentSummaryDTO } from '@/types'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { type CourseDTO, LevelStatus, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -37,56 +37,74 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
           name: 'Prévenir la pollution à la source',
           trackCount: 1,
           activityCount: 8,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'TO_EVALUATE' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
+          ]
         },
         {
           id: 'skill2',
           name: 'Mettre en place des filières d’économies circulaires',
           trackCount: 2,
           activityCount: 7,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'TO_EVALUATE' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
+          ]
         },
         {
           id: 'skill3',
           name: 'Évaluer l’impact environnemental et économique',
           trackCount: 3,
           activityCount: 6,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'NOT_VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'UNDER_REVIEW' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
+          ]
         },
         {
           id: 'skill4',
           name: 'Concevoir des synthèses chimiques durables',
           trackCount: 4,
           activityCount: 5,
-          levels: [{ id: 'Niv2', name: 'Niv.2', status: 'VALIDATED' }]
+          levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
         },
         {
           id: 'skill5',
           name: 'BIS Prévenir la pollution à la source',
           trackCount: 5,
           activityCount: 4,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'TO_EVALUATE' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
+          ]
         },
         {
           id: 'skill6',
           name: 'BIS Mettre en place des filières d’économies circulaires',
           trackCount: 6,
           activityCount: 3,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'TO_EVALUATE' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
+          ]
         },
         {
           id: 'skill7',
           name: 'BIS Évaluer l’impact environnemental et économique',
           trackCount: 7,
           activityCount: 2,
-          levels: [{ id: 'Niv1', name: 'Niv.1', status: 'NOT_VALIDATED' }, { id: 'Niv2', name: 'Niv.2', status: 'UNDER_REVIEW' }]
+          levels: [
+            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
+            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
+          ]
         },
         {
           id: 'skill8',
           name: 'BIS Concevoir des synthèses chimiques durables',
           trackCount: 8,
           activityCount: 1,
-          levels: [{ id: 'Niv2', name: 'Niv.2', status: 'VALIDATED' }]
+          levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
         },
       ]
 
@@ -97,4 +115,52 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
   })
 }
 
-export { useStudentCoursesSummaryQuery, useStudentSummaryQuery }
+function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'tracks'])
+  return useQuery<TrackDTO[], BaseApiException>({
+    queryKey,
+    initialData: [],
+    // TODO: call /me/formations/tracks/overview when the endpoint and client are ready
+    queryFn: async (): Promise<TrackDTO[]> => {
+      return [
+        {
+          id: 'track1',
+          name: 'Prévenir la pollution à la source',
+          skillCount: 1,
+          activityCount: 8,
+          type: TrackType.GROUP,
+          filedAt: '2024-05-13T08:42:17',
+          course: 'Master Chimie Verte et Éco-innovations'
+        },
+        {
+          id: 'track2',
+          name: 'Mettre en place des filières d’économies circulaires',
+          skillCount: 2,
+          activityCount: 7,
+          type: TrackType.INDIVIDUAL,
+          filedAt: '2024-11-29T19:15:03'
+        },
+        {
+          id: 'track3',
+          name: 'Évaluer l’impact environnemental et économique',
+          skillCount: 3,
+          activityCount: 6,
+          type: TrackType.INDIVIDUAL,
+          filedAt: '2025-02-07T23:08:51',
+          course: 'Master Chimie Verte et Éco-innovations'
+
+        },
+        {
+          id: 'track4',
+          name: 'Concevoir des synthèses chimiques durables',
+          skillCount: 4,
+          activityCount: 5,
+          type: TrackType.GROUP,
+          filedAt: '2024-08-21T04:26:39'
+        },
+      ]
+    }
+  })
+}
+
+export { useStudentCoursesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }

@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import type { StudentTrackCardProps } from './StudentTrackCard.types'
 import { studentToolsTracksRoute } from '@/features/student/routes'
+import { TrackType } from '@/types'
 import { AvCard, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
 const { track, to = studentToolsTracksRoute } = defineProps<StudentTrackCardProps>()
-const { name, skillCount, activityCount } = track
+const { name, skillCount, activityCount, type, course } = track
 
 const { t } = useI18n()
 
@@ -14,6 +15,11 @@ function getRandomSkillColor () {
   const random = Math.floor(Math.random() * 12) + 1
   return `var(--skill${random})`
 }
+
+const category = computed(() => course ?? t('student.cards.studentTrackCard.lifeProject'))
+const typeInfo = computed(() => type === TrackType.GROUP
+  ? { label: t('student.cards.studentTrackCard.tagLabel.group'), icon: RI_ICONS.DICE_4 }
+  : { label: t('student.cards.studentTrackCard.tagLabel.solo'), icon: RI_ICONS.DICE_1 })
 
 const theme = ref({
   hoverBorderColor: 'var(--dark-background-primary1)',
@@ -50,9 +56,9 @@ const theme = ref({
       </template>
       <template #body>
         <div class="student-track-card__body">
-          <div class="student-track-card__line student-track-card__skillline">
+          <div class="student-track-card__line student-track-card__skills">
             <div
-              v-for="n in Math.min(skillCount, 2)"
+              v-for="n in Math.min(skillCount, 3)"
               :key="n"
               class="student-track-card__lineicon"
               :style="{ backgroundColor: getRandomSkillColor() }"
@@ -62,30 +68,28 @@ const theme = ref({
                 color="var(--white)"
               />
             </div>
-            <span class="b2-regular">{{ t('ui.AvTrackCard.skillCount', { count: skillCount }) }}</span>
+            <span class="b2-regular">{{ t('student.cards.studentTrackCard.skillCount', { count: skillCount }) }}</span>
           </div>
-          <div class="student-track-card__line">
+          <div class="student-track-card__line student-track-card__activities">
             <VIcon
               :name="MDI_ICONS.TEST_TUBE_EMPTY"
               color="var(--foreground-text2)"
             />
-            <span class="b2-regular">{{ t('ui.AvTrackCard.activityCount', { count: activityCount }) }}</span>
+            <span class="b2-regular">{{ t('student.cards.studentTrackCard.activityCount', { count: activityCount }) }}</span>
           </div>
-          <div class="student-track-card__line">
+          <div class="student-track-card__line student-track-card__category">
             <VIcon
               :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
               color="var(--foreground-text2)"
             />
-            <span class="b2-regular">{{ t('ui.AvTrackCard.lifeProject') }}</span>
+            <span class="b2-regular student-track-card__categoryText">{{ category }}</span>
           </div>
-        </div>
-      </template>
-      <template #footer>
-        <div class="student-track-card__footer">
-          <DsfrTag
-            :label="t('ui.AvTrackCard.tagLabel.group')"
-            :icon="RI_ICONS.DICE_4"
-          />
+          <div class="student-track-card__line student-track-card__type">
+            <DsfrTag
+              :label="typeInfo.label"
+              :icon="typeInfo.icon"
+            />
+          </div>
         </div>
       </template>
     </AvCard>
@@ -95,11 +99,16 @@ const theme = ref({
 <style lang="scss" scoped>
 .av-card {
   height: 14rem;
+  width: 100%;
 }
 
 .av-card:hover {
   border: 1px solid v-bind('theme.hoverBorderColor') !important;
   box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+}
+
+.student-track-card__body {
+  padding-top: 1.5rem;
 }
 
 .student-track-card {
@@ -164,20 +173,25 @@ const theme = ref({
   border-radius: 0.25rem;
 }
 
-.student-track-card__line.student-track-card__skillline {
+.student-track-card__line.student-track-card__skills {
     gap: 0.5rem;
 }
 
-.student-track-card__footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.25rem;
+.student-track-card__categoryText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
 }
 
 .fr-tag {
+  display: block;
   color: var(--foreground-text2);
   background-color: var(--light-background-neutral);
+  align-items: center;
+  padding: 0 0.5rem 0 0.5rem;
+  min-height: unset;
+  width: unset;
+  border-radius: 0.25rem;
 }
 </style>

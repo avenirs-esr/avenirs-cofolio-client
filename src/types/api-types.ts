@@ -1,7 +1,14 @@
+export enum LevelStatus {
+  VALIDATED = 'VALIDATED',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  TO_EVALUATE = 'TO_EVALUATE',
+  NOT_VALIDATED = 'NOT_VALIDATED',
+}
+
 export interface LevelDTO {
   id: string
   name: string
-  status: 'VALIDATED' | 'UNDER_REVIEW' | 'TO_EVALUATE' | 'NOT_VALIDATED'
+  status: LevelStatus
 }
 
 export interface SkillDTO {
@@ -38,11 +45,19 @@ export interface ResumeDTO {
   updatedAt: string
 }
 
+export enum TrackType {
+  GROUP = 'GROUP',
+  INDIVIDUAL = 'INDIVIDUAL',
+}
+
 export interface TrackDTO {
   id: string
   name: string
   skillCount: number
   activityCount: number
+  filedAt: string
+  type: TrackType
+  course?: string
 }
 
 export interface StudentSummaryDTO {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { LevelDTO } from '@/types'
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { studentEducationSkillsRoute } from '@/features/student/routes'
+import { type LevelDTO, LevelStatus } from '@/types'
 import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -13,14 +13,14 @@ const { t } = useI18n()
 
 function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
-    case 'TO_EVALUATE':
-      return { status: t('student.cards.StudentSkillCard.badgeStatus.toEvaluate'), type: 'new' }
-    case 'UNDER_REVIEW':
-      return { status: t('student.cards.StudentSkillCard.badgeStatus.underReview'), type: 'info' }
-    case 'VALIDATED':
-      return { status: t('student.cards.StudentSkillCard.badgeStatus.validated'), type: 'success' }
-    case 'NOT_VALIDATED':
-      return { status: t('student.cards.StudentSkillCard.badgeStatus.notValidated'), type: 'error' }
+    case LevelStatus.TO_EVALUATE:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.toEvaluate'), type: 'new' }
+    case LevelStatus.UNDER_REVIEW:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.underReview'), type: 'info' }
+    case LevelStatus.VALIDATED:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.validated'), type: 'success' }
+    case LevelStatus.NOT_VALIDATED:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.notValidated'), type: 'error' }
   }
 }
 
@@ -72,11 +72,11 @@ const theme = ref({
         <div class="student-skill-card__body">
           <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-            <span class="student-skill-card__desc">{{ t('student.cards.StudentSkillCard.trackCount', { count: trackCount }) }}</span>
+            <span class="student-skill-card__desc">{{ t('student.cards.studentSkillCard.trackCount', { count: trackCount }) }}</span>
           </div>
           <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
-            <span class="student-skill-card__desc">{{ t('student.cards.StudentSkillCard.activityCount', { count: activityCount }) }}</span>
+            <span class="student-skill-card__desc">{{ t('student.cards.studentSkillCard.activityCount', { count: activityCount }) }}</span>
           </div>
         </div>
       </template>
@@ -104,6 +104,7 @@ const theme = ref({
 <style lang="scss" scoped>
 .av-card {
   height: 16.875rem;
+  width: 100%;
 }
 
 .av-card:hover {

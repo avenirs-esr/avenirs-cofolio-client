@@ -1,7 +1,7 @@
 {
   "student": {
     "cards": {
-      "StudentSkillCard": {
+      "studentSkillCard": {
         "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
         "badgeStatus": {
           "notValidated": "not validated",
@@ -10,6 +10,15 @@
           "validated": "validated"
         },
         "trackCount": "0 track | 1 track | {count} tracks"
+      },
+      "studentTrackCard": {
+        "activityCount": "0 role-play scenario | 1 role-play scenario | {count} role-play scenarios",
+        "lifeProject": "Life project",
+        "skillCount": "0 skill | 1 skill | {count} skills",
+        "tagLabel": {
+          "group": "Group",
+          "solo": "Individual"
+        }
       }
     },
     "layout": {
@@ -151,6 +160,12 @@
           "seeAll": "See all my skills"
         },
         "title": "My educational skills"
+      },
+      "tracks": {
+        "buttons": {
+          "seeAll": "See all my tracks"
+        },
+        "title": "My last tracks"
       }
     }
   }

@@ -3,15 +3,5 @@
     "buttons": {
       "goBack": "Retour"
     }
-  },
-  "ui": {
-    "AvTrackCard": {
-      "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
-      "lifeProject": "Projet de vie",
-      "skillCount": "0 compétence | 1 compétence | {count} compétences",
-      "tagLabel": {
-        "group": "Groupe"
-      }
-    }
   }
 }

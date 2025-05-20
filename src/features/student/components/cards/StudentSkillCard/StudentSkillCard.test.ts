@@ -1,4 +1,4 @@
-import type { LevelDTO } from '@/types'
+import { type LevelDTO, LevelStatus } from '@/types'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import StudentSkillCard from './StudentSkillCard.vue'
@@ -31,8 +31,8 @@ describe('studentSkillCard.vue', () => {
       trackCount: 4,
       activityCount: 2,
       levels: [
-        { id: 'Niv1', name: 'Niveau 1', status: 'VALIDATED' },
-        { id: 'Niv2', name: 'Niveau 2', status: 'TO_EVALUATE' },
+        { id: 'Niv1', name: 'Niveau 1', status: LevelStatus.VALIDATED },
+        { id: 'Niv2', name: 'Niveau 2', status: LevelStatus.TO_EVALUATE },
       ] as LevelDTO[],
     },
     skillColor: '--color-skill',
@@ -65,7 +65,7 @@ describe('studentSkillCard.vue', () => {
         ...baseProps,
         skill: {
           ...baseProps.skill,
-          levels: [{ id: 'Niv1', name: 'Niveau 1', status: 'UNDER_REVIEW' }],
+          levels: [{ id: 'Niv1', name: 'Niveau 1', status: LevelStatus.UNDER_REVIEW }],
         },
       },
     })

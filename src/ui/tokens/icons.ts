@@ -26,5 +26,6 @@ export const MDI_ICONS = {
 }
 
 export const RI_ICONS = {
+  DICE_1: 'ri:dice-1-line',
   DICE_4: 'ri:dice-4-line',
 }

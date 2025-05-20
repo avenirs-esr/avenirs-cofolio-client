@@ -1,3 +1,4 @@
+import { TrackType } from '@/types'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import StudentTrackCard from './StudentTrackCard.vue'
@@ -34,6 +35,8 @@ describe('studentTrackCard.vue', () => {
       name: 'Parcours scientifique',
       skillCount: 3,
       activityCount: 5,
+      filedAt: '2025-02-07T23:08:51',
+      type: TrackType.GROUP
     },
   } as const
 
@@ -65,7 +68,7 @@ describe('studentTrackCard.vue', () => {
     expect(tag.text()).toBe('Groupe')
   })
 
-  it('renders up to 2 skill icons based on skillCount', () => {
+  it('renders up to 3 skill icons based on skillCount', () => {
     const wrapper = mount(StudentTrackCard, {
       props: {
         track: {
@@ -76,6 +79,6 @@ describe('studentTrackCard.vue', () => {
     })
 
     const icons = wrapper.findAll('.student-track-card__lineicon')
-    expect(icons).toHaveLength(2)
+    expect(icons).toHaveLength(3)
   })
 })
