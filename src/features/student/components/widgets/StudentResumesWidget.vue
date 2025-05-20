@@ -3,15 +3,13 @@ import type { ResumeDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables/use-navigation'
 import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
+import { useStudentResumesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { resumes } = defineProps<{ resumes: Array<ResumeDTO> }>()
-
 const { locale, t } = useI18n()
-
-const renderedResumes = computed(() => resumes.slice(0, 3))
-
+const { data: resumes } = useStudentResumesSummaryQuery()
+const renderedResumes = computed(() => resumes.value.slice(0, 3))
 const { navigateToStudentResumes } = useNavigation()
 
 function getFormattedUpdatedAt (resume: ResumeDTO) {

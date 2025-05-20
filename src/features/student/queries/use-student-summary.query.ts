@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions/base-api.exception'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, LevelStatus, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import { type CourseDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -115,6 +115,23 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
   })
 }
 
+function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
+  return useQuery<ResumeDTO[], BaseApiException>({
+    queryKey,
+    initialData: [],
+    // TODO: call /me/resumes/overview when the endpoint and client are ready
+    queryFn: async (): Promise<ResumeDTO[]> => {
+      return [
+        { id: 'resume1', name: 'cv-version1-05-2024', updatedAt: '2025-05-19T00:00:00.000Z' },
+        { id: 'resume2', name: 'cv-version1-04-2024', updatedAt: '2025-04-25T00:00:00.000Z' },
+        { id: 'resume3', name: 'cv-version1-03-2024-with-a-very-long-name', updatedAt: '2025-03-03T00:00:00.000Z' },
+        { id: 'resume4', name: 'cv-version1-02-2024', updatedAt: '2025-02-08T00:00:00.000Z' },
+      ]
+    }
+  })
+}
+
 function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'tracks'])
   return useQuery<TrackDTO[], BaseApiException>({
@@ -163,4 +180,4 @@ function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], 
   })
 }
 
-export { useStudentCoursesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }
+export { useStudentCoursesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }
