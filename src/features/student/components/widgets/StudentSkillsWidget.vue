@@ -16,7 +16,7 @@ const { data: courses } = useStudentCoursesSummaryQuery()
     title-background="--white"
   >
     <template #title>
-      <div class="courses-skills-widget-container__title">
+      <div class="skills-widget-container__title">
         <VIcon
           :name="MDI_ICONS.STAR_SHOOTING"
           color="var(--foreground-icon)"
@@ -28,7 +28,7 @@ const { data: courses } = useStudentCoursesSummaryQuery()
       </div>
     </template>
     <template #body>
-      <div class="courses-skills-widget-container__body">
+      <div class="skills-widget-container__body">
         <StudentSkillsWidgetContainer
           v-for="course in courses"
           :key="course.id"
@@ -38,7 +38,7 @@ const { data: courses } = useStudentCoursesSummaryQuery()
       </div>
     </template>
     <template #footer>
-      <div class="courses-skills-widget-container__footer">
+      <div class="skills-widget-container__footer">
         <AvButton
           :label="t('student.widgets.skills.buttons.seeAll')"
           :on-click="navigateToStudentSkills"
@@ -51,7 +51,7 @@ const { data: courses } = useStudentCoursesSummaryQuery()
 </template>
 
 <style lang="scss" scoped>
-.courses-skills-widget-container__title {
+.skills-widget-container__title {
   display: flex;
   flex-direction: row;
   gap: 0.75rem;
@@ -59,13 +59,13 @@ const { data: courses } = useStudentCoursesSummaryQuery()
   padding-left: 0.75rem;
 }
 
-.courses-skills-widget-container__body {
+.skills-widget-container__body {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-.courses-skills-widget-container__footer {
+.skills-widget-container__footer {
   display: flex;
   flex-direction: row-reverse;
   padding-top: 1.25rem;
