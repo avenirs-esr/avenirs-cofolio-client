@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { EventDTO, PageDTO, ResumeDTO } from '@/types'
-import { StudentEventsWidget, StudentOverviewWidget, StudentPagesWidget, StudentResumesWidget, StudentSkillsWidget, StudentTracksWidget } from '@/features/student/components'
+import type { EventDTO, PageDTO } from '@/types'
+import { StudentEventsWidget, StudentOverviewWidget, StudentPagesWidget, StudentResumesWidget, StudentSkillsWidget } from '@/features/student/components'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 
 const { data: studentSummary } = useStudentSummaryQuery()
@@ -36,13 +36,6 @@ const mockedEvents = [
   },
 ] as Array<EventDTO>
 
-const mockedResumes = [
-  { id: 'resume1', name: 'cv-version1-05-2024', updatedAt: '2025-05-19' },
-  { id: 'resume2', name: 'cv-version1-04-2024', updatedAt: '2025-04-25' },
-  { id: 'resume3', name: 'cv-version1-03-2024-with-a-very-long-name', updatedAt: '2025-03-03' },
-  { id: 'resume4', name: 'cv-version1-02-2024', updatedAt: '2025-02-08' },
-] as Array<ResumeDTO>
-
 const mockedPages = [
   { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
   { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
@@ -60,7 +53,7 @@ const mockedPages = [
           :student-summary="studentSummary"
         />
         <StudentEventsWidget :events="mockedEvents" />
-        <StudentResumesWidget :resumes="mockedResumes" />
+        <StudentResumesWidget />
         <StudentPagesWidget :pages="mockedPages" />
       </div>
       <div class="student-home-right-container fr-col-8">
