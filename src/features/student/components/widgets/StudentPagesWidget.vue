@@ -57,9 +57,9 @@ function getFormattedUpdatedAt (page: PageDTO) {
                     scale="1.25"
                   />
                 </div>
-                <div class="pages-widget-action__description">
-                  <span class="resume-name b1-regular">{{ page.name }}</span>
-                  <span class="resume-info caption-light">
+                <div class="pages-widget-action__description ellipsis-container">
+                  <span class="ellipsis b1-regular">{{ page.name }}</span>
+                  <span class="ellipsis caption-light">
                     {{ t('student.widgets.pages.updatedAt', { date: getFormattedUpdatedAt(page) }) }}
                   </span>
                 </div>
@@ -114,6 +114,7 @@ function getFormattedUpdatedAt (page: PageDTO) {
   height: 2.5rem;
   border-radius: 0.5rem;
   background-color: var(--dark-background-primary1);
+  flex-shrink: 0;
 }
 
 .pages-widget-action__description {
@@ -132,16 +133,5 @@ function getFormattedUpdatedAt (page: PageDTO) {
   display: flex;
   flex-direction: row-reverse;
   padding-top: 1.25rem;
-}
-
-.resume-name,
-.resume-info {
-  display: block;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-  width: 15rem;
 }
 </style>

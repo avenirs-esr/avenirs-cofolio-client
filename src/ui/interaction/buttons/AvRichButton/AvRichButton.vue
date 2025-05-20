@@ -70,15 +70,13 @@ const theme = ref({
 
 .av-rich-button__line {
   display: flex;
-  flex-direction: row;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
+  text-align: left;
 }
 
 .av-rich-button__left {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
+  flex: 1;
+  overflow: hidden;
 }
 </style>

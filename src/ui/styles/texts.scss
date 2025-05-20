@@ -1,0 +1,17 @@
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.ellipsis-container {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+
+  > .ellipsis {
+    flex: 1;
+    min-width: 0;
+  }
+}

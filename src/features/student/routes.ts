@@ -8,6 +8,13 @@ export const studentHomeRoute: AvRoute = {
     import('@/features/student/views/StudentHomeView.vue'),
 }
 
+export const studentDeliverablesRoute: AvRoute = {
+  path: 'deliverables',
+  name: 'student-deliverables',
+  component: () =>
+    import('@/features/student/views/StudentDeliverablesView.vue'),
+}
+
 export const studentEventsRoute: AvRoute = {
   path: 'events',
   name: 'student-events',
@@ -98,8 +105,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/features/student/layouts/StudentLayout.vue'),
     children: [
       studentHomeRoute,
+      studentDeliverablesRoute,
       studentEducationSkillsRoute,
       studentEducationActivitiesRoute,
+      studentEventsRoute,
       studentProjectSkillsRoute,
       studentProjectExperiencesRoute,
       studentProjectTrajectoriesRoute,

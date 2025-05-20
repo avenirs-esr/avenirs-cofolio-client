@@ -93,11 +93,17 @@
       }
     },
     "views": {
+      "studentDeliverablesView": {
+        "title": "(placeholder) Tous mes rendus"
+      },
       "studentEducationActivitiesView": {
         "title": "Mes Activités de Mise en situation (AMS)"
       },
       "studentEducationSkillsView": {
         "title": "Toutes mes compétences"
+      },
+      "studentEventsView": {
+        "title": "(placeholder) Tous mes événements"
       },
       "studentMailboxView": {
         "title": "Ma messagerie"
@@ -125,6 +131,14 @@
       }
     },
     "widgets": {
+      "deliverables": {
+        "activity": "AMS - {activity}",
+        "buttons": {
+          "seeAll": "Voir tous mes rendus"
+        },
+        "skill": "Compétence {skill}",
+        "title": "Mes prochains rendus"
+      },
       "events": {
         "buttons": {
           "seeAll": "Voir tous mes événements"

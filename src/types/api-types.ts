@@ -25,6 +25,13 @@ export interface CourseDTO {
   skills: Array<SkillDTO>
 }
 
+export interface DeliverableDTO {
+  id: string
+  deliverableUntil: string
+  skill: string
+  activity: string
+}
+
 export interface EventDTO {
   id: string
   name: string

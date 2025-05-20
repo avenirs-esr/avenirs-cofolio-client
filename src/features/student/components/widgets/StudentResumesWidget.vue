@@ -55,9 +55,9 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
                     scale="1.25"
                   />
                 </div>
-                <div class="resumes-widget-action__description">
-                  <span class="resume-name b1-regular">{{ resume.name }}</span>
-                  <span class="resume-info caption-light">
+                <div class="resumes-widget-action__description ellipsis-container">
+                  <span class="ellipsis b1-regular">{{ resume.name }}</span>
+                  <span class="ellipsis caption-light">
                     {{ t('student.widgets.resumes.updatedAt', { date: getFormattedUpdatedAt(resume) }) }}
                   </span>
                 </div>
@@ -112,6 +112,7 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
   height: 2.5rem;
   border-radius: 0.5rem;
   background-color: var(--dark-background-primary1);
+  flex-shrink: 0;
 }
 
 .resumes-widget-action__description {
@@ -130,16 +131,5 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
   display: flex;
   flex-direction: row-reverse;
   padding-top: 1.25rem;
-}
-
-.resume-name,
-.resume-info {
-  display: block;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-  width: 15rem;
 }
 </style>
