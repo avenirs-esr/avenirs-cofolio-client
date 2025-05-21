@@ -42,7 +42,7 @@ const fullName = computed(() => {
     <template #body>
       <div class="student-overview-widget__body">
         <span class="n4">{{ fullName }}</span>
-        <span class="b2-light">{{ studentSummary.bio }}</span>
+        <span class="b2-light student-overview-bio">{{ studentSummary.bio }}</span>
       </div>
     </template>
     <template #footer>
@@ -122,6 +122,13 @@ const fullName = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.student-overview-bio {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 5;
 }
 
 .student-overview-widget__footer {

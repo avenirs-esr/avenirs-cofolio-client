@@ -18,7 +18,7 @@ function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseAp
         lastname: 'Moulin',
         profilePicture: profile_picture_placeholder,
         coverPicture: profile_banner_placeholder,
-        bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+        bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète. Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
       }
     }
   })
