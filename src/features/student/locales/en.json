@@ -120,6 +120,9 @@
       "studentProjectTrajectoriesView": {
         "title": "(placeholder) Building my project"
       },
+      "studentSkillView": {
+        "title": "Skill {skill}"
+      },
       "studentToolsPagesView": {
         "title": "(placeholder) All my free pages"
       },

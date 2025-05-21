@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
-import { studentEducationSkillsRoute } from '@/features/student/routes'
+import { studentSkillRoute } from '@/features/student/routes'
 import { type LevelDTO, LevelStatus } from '@/types'
 import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { skill, skillColor, to = studentEducationSkillsRoute } = defineProps<StudentSkillCardProps>()
+const { skill, skillColor } = defineProps<StudentSkillCardProps>()
 const { name, trackCount, activityCount, levels } = skill
 
 const { t } = useI18n()
@@ -43,13 +43,12 @@ const theme = ref({
 <template>
   <RouterLink
     class="student-skill-card"
-    :to="to"
+    :to="{ name: studentSkillRoute.name, params: { id: skill.id } }"
   >
     <AvCard
       border-color="--other-border-skill-card"
       :title-background="skillColor"
       title-height="6.6875rem"
-      :to="to"
     >
       <template #title>
         <div class="student-skill-card__title">
