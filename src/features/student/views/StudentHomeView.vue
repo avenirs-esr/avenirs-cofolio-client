@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import type { EventDTO, PageDTO } from '@/types'
-import { StudentDeliverablesWidget, StudentEventsWidget, StudentOverviewWidget, StudentPagesWidget, StudentResumesWidget, StudentSkillsWidget, StudentTracksWidget } from '@/features/student/components'
+import {
+  StudentDeliverablesWidget,
+  StudentEventsWidget,
+  StudentOverviewWidget,
+  StudentPagesWidget,
+  StudentResumesWidget,
+  StudentSkillsWidget,
+  StudentTracksWidget
+} from '@/features/student/components'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 
 const { data: studentSummary } = useStudentSummaryQuery()

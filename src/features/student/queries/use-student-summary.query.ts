@@ -71,7 +71,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
         },
         {
           id: 'skill5',
-          name: 'BIS Prévenir la pollution à la source',
+          name: 'Réaliser un circuit électrique',
           trackCount: 5,
           activityCount: 4,
           levels: [
@@ -81,7 +81,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
         },
         {
           id: 'skill6',
-          name: 'BIS Mettre en place des filières d’économies circulaires',
+          name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
           trackCount: 6,
           activityCount: 3,
           levels: [
@@ -91,7 +91,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
         },
         {
           id: 'skill7',
-          name: 'BIS Évaluer l’impact environnemental et économique',
+          name: 'Réaliser une étude de marché',
           trackCount: 7,
           activityCount: 2,
           levels: [
@@ -101,7 +101,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
         },
         {
           id: 'skill8',
-          name: 'BIS Concevoir des synthèses chimiques durables',
+          name: 'Réaliser un cahier des charges fonctionnels',
           trackCount: 8,
           activityCount: 1,
           levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
@@ -109,6 +109,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
       ]
 
       return [
+        { id: 'course2', name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel', skills: mockedSkills },
         { id: 'course1', name: 'Master Chimie Verte et Éco-innovations', skills: mockedSkills },
       ]
     }

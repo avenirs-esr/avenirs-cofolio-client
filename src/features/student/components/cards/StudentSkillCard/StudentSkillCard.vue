@@ -53,7 +53,7 @@ const theme = ref({
     >
       <template #title>
         <div class="student-skill-card__title">
-          <span class="n6">
+          <span class="n6 skill-name">
             {{ name }}
           </span>
           <div
@@ -110,6 +110,13 @@ const theme = ref({
 .av-card:hover {
   border: 1px solid v-bind('theme.hoverBorderColor') !important;
   box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+}
+
+.skill-name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
 }
 
 .student-skill-card {

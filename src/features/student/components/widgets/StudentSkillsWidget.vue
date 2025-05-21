@@ -8,10 +8,13 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { navigateToStudentSkills } = useNavigation()
 const { data: courses } = useStudentCoursesSummaryQuery()
+
+const displayWidget = computed(() => courses.value.length > 0)
 </script>
 
 <template>
   <AvCard
+    v-if="displayWidget"
     background-color="--white"
     title-background="--white"
   >
