@@ -1,3 +1,4 @@
+import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/ui'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -75,5 +76,25 @@ describe('avButton', () => {
     await btn.trigger('click')
 
     expect(onClick).toHaveBeenCalled()
+  })
+
+  describe('avButton - computedSvgScale', () => {
+    it.each([
+      ['small', 1],
+      ['sm', 1],
+      ['medium', 1.5],
+      ['md', 1.5],
+      ['large', 2],
+      ['lg', 2],
+      ['', 1.5]
+    ] as [DsfrButtonProps['size'], number][])('returns correct scale for size: %s', async (size, expectedScale) => {
+      const wrapper = mount<typeof AvButton>(AvButton, {
+        props: {
+          size,
+        },
+      })
+
+      expect(wrapper.vm.computedSvgScale).toBe(expectedScale)
+    })
   })
 })

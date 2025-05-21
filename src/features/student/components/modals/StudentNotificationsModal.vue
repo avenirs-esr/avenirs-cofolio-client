@@ -48,6 +48,7 @@ function navigateToNotifications () {
           :label="t('student.modals.notificationsModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToNotifications"
+          size="sm"
         />
       </div>
     </template>

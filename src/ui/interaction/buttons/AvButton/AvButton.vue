@@ -11,21 +11,21 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   iconRight: false,
   disabled: false,
   isLoading: false,
-  fullWidth: false,
 })
 
 const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
 const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
-const fullWidthClass = computed(() => props.fullWidth ? 'av-button__fullwidth' : undefined)
 const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)
-const computedFlexDirection = computed(() => props.iconRight ? 'row-reverse' : 'row')
 const computedSvgScale = computed(() => {
   switch (props.size) {
+    case 'small':
     case 'sm':
       return 1
+    case 'medium':
     case 'md':
       return 1.5
+    case 'large':
     case 'lg':
       return 2
     default:
@@ -33,17 +33,14 @@ const computedSvgScale = computed(() => {
   }
 })
 
-const theme = ref({
-  flexDirection: computedFlexDirection,
-  scale: computedSvgScale
-})
+defineExpose({ computedSvgScale })
 </script>
 
 <template>
   <DsfrButton
     v-bind="props"
     class="av-button"
-    :class="[variantClass, themeClass, fullWidthClass]"
+    :class="[variantClass, themeClass]"
     :disabled="props.disabled || isLoading"
     :icon="iconToRender"
     :no-outline="props.variant === 'DEFAULT'"
@@ -53,14 +50,7 @@ const theme = ref({
 
 <style lang="scss" scoped>
 :deep(svg) {
-  scale: v-bind('theme.scale');
-}
-
-.av-button__fullwidth {
-  display: flex;
-  flex-direction: v-bind('theme.flexDirection');
-  justify-content: space-between;
-  width: 100%;
+  scale: v-bind('computedSvgScale');
 }
 
 .av-button--variant-default.av-button--theme-primary {
