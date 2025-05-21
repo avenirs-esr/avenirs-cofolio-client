@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { AvRoute } from '@/common/types'
+import { useStudentFeatures } from '@/features/student/composables'
+
 import {
   studentEducationActivitiesRoute,
   studentEducationSkillsRoute,
@@ -11,13 +13,14 @@ import {
   studentToolsResumesRoute,
   studentToolsTracksRoute
 } from '@/features/student/routes'
+import { StudentFeatures } from '@/types'
 import { AvNavigation, MDI_ICONS } from '@/ui'
-import { useId } from 'vue'
-
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
+
+const { hasFeature } = useStudentFeatures()
 
 function isRouteActive (routes: AvRoute[]): boolean {
   return routes.some(avRoute => avRoute.name === route.name)
@@ -25,12 +28,12 @@ function isRouteActive (routes: AvRoute[]): boolean {
 
 const navItems = computed(() => [
   {
-    id: useId(),
     to: studentHomeRoute,
     text: t('student.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT,
   },
   {
+    feature: StudentFeatures.APC,
     title: t('student.navigation.tabs.education.header').toUpperCase(),
     get active () {
       return isRouteActive([studentEducationSkillsRoute, studentEducationActivitiesRoute])
@@ -41,6 +44,7 @@ const navItems = computed(() => [
     ],
   },
   {
+    feature: StudentFeatures.LIFE_PROJECT,
     title: t('student.navigation.tabs.project.header').toUpperCase(),
     get active () {
       return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
@@ -71,10 +75,14 @@ const navItems = computed(() => [
     ],
   },
 ])
+
+const renderedNavItems = computed(() => navItems.value
+  .slice()
+  .filter(item => !item.feature || hasFeature(item.feature as StudentFeatures).value))
 </script>
 
 <template>
-  <AvNavigation :nav-items="navItems" />
+  <AvNavigation :nav-items="renderedNavItems" />
 </template>
 
 <style lang="scss" scoped>

@@ -1,13 +1,20 @@
 import type { BaseApiException } from '@/common/exceptions/base-api.exception'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import {
+  type CourseDTO,
+  LevelStatus,
+  type ResumeDTO,
+  type SkillDTO,
+  type StudentSummaryDTO,
+  type TrackDTO,
+  TrackType
+} from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
-
-const commonQueryKeys = ['user', 'student']
+import { commonStudentQueryKeys } from './utils'
 
 function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'summary'])
+  const queryKey = computed(() => [...commonStudentQueryKeys, 'summary'])
   return useQuery<StudentSummaryDTO, BaseApiException>({
     queryKey,
     // TODO: call /user/{profile}/overview when the endpoint and client are ready
@@ -25,7 +32,7 @@ function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseAp
 }
 
 function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[], BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'skills'])
+  const queryKey = computed(() => [...commonStudentQueryKeys, 'skills'])
   return useQuery<CourseDTO[], BaseApiException>({
     queryKey,
     initialData: [],
@@ -116,7 +123,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[]
 }
 
 function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
+  const queryKey = computed(() => [...commonStudentQueryKeys, 'resumes'])
   return useQuery<ResumeDTO[], BaseApiException>({
     queryKey,
     initialData: [],
@@ -133,7 +140,7 @@ function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[]
 }
 
 function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'tracks'])
+  const queryKey = computed(() => [...commonStudentQueryKeys, 'tracks'])
   return useQuery<TrackDTO[], BaseApiException>({
     queryKey,
     initialData: [],
@@ -180,4 +187,9 @@ function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], 
   })
 }
 
-export { useStudentCoursesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }
+export {
+  useStudentCoursesSummaryQuery,
+  useStudentResumesSummaryQuery,
+  useStudentSummaryQuery,
+  useStudentTracksSummaryQuery
+}

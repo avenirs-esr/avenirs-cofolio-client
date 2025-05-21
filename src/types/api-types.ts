@@ -68,3 +68,8 @@ export interface StudentSummaryDTO {
   coverPicture: string
   bio: string
 }
+
+export enum StudentFeatures {
+  APC = 'APC',
+  LIFE_PROJECT = 'LIFE_PROJECT',
+}

@@ -1,1 +1,2 @@
-export * from '@/features/student/queries/use-student-summary.query'
+export * from './use-student-features.query'
+export * from './use-student-summary.query'
