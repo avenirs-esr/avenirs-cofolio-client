@@ -57,6 +57,13 @@ export const studentProjectTrajectoriesRoute: AvRoute = {
     import('@/features/student/views/StudentProjectTrajectoriesView.vue'),
 }
 
+export const studentSkillRoute: AvRoute = {
+  path: 'skill/:id',
+  name: 'student-skill',
+  component: () =>
+    import('@/features/student/views/StudentSkillView.vue'),
+}
+
 export const studentToolsTracksRoute: AvRoute = {
   path: 'tools/tracks',
   name: 'student-tools-tracks',
@@ -112,6 +119,7 @@ const routes: RouteRecordRaw[] = [
       studentProjectSkillsRoute,
       studentProjectExperiencesRoute,
       studentProjectTrajectoriesRoute,
+      studentSkillRoute,
       studentToolsTracksRoute,
       studentToolsPagesRoute,
       studentToolsResumesRoute,

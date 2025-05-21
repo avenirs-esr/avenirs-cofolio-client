@@ -1,11 +1,10 @@
 @use './typography';
 
-
 .fr-breadcrumb__link {
   @extend .b2-regular;
   color: var(--foreground-text2) !important;
 }
 
-.router-link-active.fr-breadcrumb__link {
+li:not(:last-child) .fr-breadcrumb__link {
   color: var(--dark-background-primary1) !important;
 }
