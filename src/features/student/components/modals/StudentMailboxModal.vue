@@ -40,12 +40,14 @@ function navigateToMailbox () {
           :label="t('student.modals.mailboxModal.buttons.navigate')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMailbox"
+          size="sm"
         />
         <AvButton
           v-else
           :label="t('student.modals.mailboxModal.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT"
           :on-click="navigateToMailbox"
+          size="sm"
         />
       </div>
     </template>
