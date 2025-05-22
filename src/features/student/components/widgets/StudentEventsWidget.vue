@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EventDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables'
 import { getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { compareAsc, format, getDate, isAfter } from 'date-fns'

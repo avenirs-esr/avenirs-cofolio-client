@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PageDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
 import { StudentTrackCard } from '@/features/student/components'
 import { useStudentTracksSummaryQuery } from '@/features/student/queries'
