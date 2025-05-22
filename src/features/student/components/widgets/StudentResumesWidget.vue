@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ResumeDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables'
 import { StudentSkillsWidgetContainer } from '@/features/student/components'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'

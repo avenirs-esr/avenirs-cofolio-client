@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useNavigation } from '@/common/composables/use-navigation'
+import { useNavigation } from '@/common/composables/'
 import { AvButton, AvModal, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
