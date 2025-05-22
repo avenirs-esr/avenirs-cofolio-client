@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import { configDefaults, defineConfig, mergeConfig } from 'vitest/config'
+import { configDefaults, coverageConfigDefaults, defineConfig, mergeConfig } from 'vitest/config'
 import viteConfig from './vite.config'
 
 export default mergeConfig(
@@ -15,7 +15,8 @@ export default mergeConfig(
       coverage: {
         enabled: true,
         provider: 'v8',
-        reporter: ['text']
+        reporter: ['text', 'html'],
+        exclude: ['**/index.ts', ...coverageConfigDefaults.exclude]
       },
     },
   }),
