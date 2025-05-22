@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
-import { useLanguageSwitcher } from '@/common/composables/use-language-switcher'
+import { useLanguageSwitcher } from '@/common/composables/'
 import useToaster from '@/common/composables/use-toaster'
 import { StudentMailboxModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
 import { studentHomeRoute } from '@/features/student/routes'
