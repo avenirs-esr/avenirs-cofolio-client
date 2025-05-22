@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "npm run test:unit",
-    "test:coverage": "vitest run --coverage.enabled=true --coverage.reporter=text --coverage.threshold=85",
+    "test:coverage": "vitest run --coverage.enabled=true --coverage.threshold=85",
     "test:unit": "vitest run",
     "test:a11y": "run-s -c test:a11y:run test:a11y:cleanup",
     "test:a11y:run": "playwright test --config=a11y/playwright.a11y.config.ts",
