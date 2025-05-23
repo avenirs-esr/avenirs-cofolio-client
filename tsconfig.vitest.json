@@ -3,9 +3,13 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
-
     "lib": [],
+    "paths": {
+      "@/*": ["./src/*"],
+      "tests/*": ["./tests/*"]
+    },
     "types": ["node", "jsdom"]
   },
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts", "tests"],
   "exclude": []
 }

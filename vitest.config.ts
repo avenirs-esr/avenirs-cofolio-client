@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, URL } from 'node:url'
 import { configDefaults, coverageConfigDefaults, defineConfig, mergeConfig } from 'vitest/config'
 import viteConfig from './vite.config'
 
@@ -16,8 +16,15 @@ export default mergeConfig(
         enabled: true,
         provider: 'v8',
         reporter: ['text', 'html'],
-        exclude: ['**/index.ts', ...coverageConfigDefaults.exclude]
+        exclude: ['**/index.ts', ...coverageConfigDefaults.exclude, 'a11y/*', 'src/App.vue'],
       },
+    },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        'tests': fileURLToPath(new URL('./tests', import.meta.url))
+      },
+      dedupe: ['vue'],
     },
   }),
 )

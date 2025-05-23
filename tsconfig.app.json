@@ -10,6 +10,6 @@
     },
     "types": []
   },
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts", "a11y"],
-  "exclude": ["src/**/__tests__/*"]
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts"],
+  "exclude": ["src/**/*.test.ts"]
 }
