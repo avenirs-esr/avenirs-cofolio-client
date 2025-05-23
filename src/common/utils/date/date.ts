@@ -1,5 +1,5 @@
 import type { AvLocale } from '@/types/i18n.types'
-import { format, isValid, type Locale, parse } from 'date-fns'
+import { format, isValid, type Locale, parseISO } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
 const localesMap: Record<AvLocale, Locale> = {
@@ -13,19 +13,9 @@ const localesMap: Record<AvLocale, Locale> = {
  * @returns Date
  */
 export function parseDateISO (date: string): Date {
-  const formats = [
-    'yyyy-MM-dd\'T\'HH:mm:ss.SSSxxx',
-    'yyyy-MM-dd\'T\'HH:mm:ssXXX',
-    'yyyy-MM-dd\'T\'HH:mm:ss',
-    'yyyy-MM-dd\'T\'HH:mm',
-    'yyyy-MM-dd'
-  ]
-
-  for (const format of formats) {
-    const parsed = parse(date, format, new Date())
-    if (isValid(parsed)) {
-      return parsed
-    }
+  const parsed = parseISO(date)
+  if (isValid(parsed)) {
+    return parsed
   }
 
   const fallback = new Date(date)
@@ -43,14 +33,14 @@ export function parseDateISO (date: string): Date {
  * @returns date formated to locale string
  */
 export function formatDateToLocaleString (date: Date, localeCode: AvLocale): string {
-  const locale = localesMap[localeCode] || fr
+  const locale = localesMap[localeCode]
 
   const formatByLocale: Record<AvLocale, string> = {
     fr: 'd MMMM yyyy',
     en: 'MMMM d, yyyy',
   }
 
-  const selectedFormat = formatByLocale[localeCode] || formatByLocale.fr
+  const selectedFormat = formatByLocale[localeCode]
 
   return format(date, selectedFormat, { locale })
 }
@@ -62,6 +52,6 @@ export function formatDateToLocaleString (date: Date, localeCode: AvLocale): str
  * @returns first letters of month
  */
 export function getLocalizedAbbrMonth (date: Date, localeCode: AvLocale): string {
-  const locale = localesMap[localeCode] || fr
+  const locale = localesMap[localeCode]
   return format(date, 'MMM', { locale })
 }
