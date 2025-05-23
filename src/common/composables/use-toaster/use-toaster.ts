@@ -1,19 +1,19 @@
 // use-toaster.ts
-const alphanumBase = 'abcdefghijklmnopqrstuvwyz0123456789'
+export const alphanumBase = 'abcdefghijklmnopqrstuvwyz0123456789'
 
 const alphanum = alphanumBase.repeat(10)
 
-function getRandomAlphaNum () {
+export function getRandomAlphaNum () {
   const randomIndex = Math.floor(Math.random() * alphanum.length)
   return alphanum[randomIndex]
 }
 
-function getRandomHtmlId (prefix = '', suffix = '') {
-  return (prefix ? `${prefix}-` : '') + getRandomString(5) + (suffix ? `-${suffix}` : '')
+export function getRandomString (length: number) {
+  return Array.from({ length }).map(getRandomAlphaNum).join('')
 }
 
-function getRandomString (length: number) {
-  return Array.from({ length }).map(getRandomAlphaNum).join('')
+export function getRandomHtmlId (prefix = '', suffix = '') {
+  return (prefix ? `${prefix}-` : '') + getRandomString(5) + (suffix ? `-${suffix}` : '')
 }
 
 export interface Message {
@@ -30,8 +30,9 @@ export interface Message {
 
 const timeouts: Record<string, number> = {}
 const messages: Message[] = reactive([])
+const DEFAULT_TIMEOUT = 10000
 
-export function useToaster (defaultTimeout = 10000) {
+export function useToaster (defaultTimeout = DEFAULT_TIMEOUT) {
   function removeMessage (id: string) {
     const index = messages.findIndex(message => message.id === id)
     clearTimeout(timeouts[id])
@@ -71,6 +72,8 @@ export function useToaster (defaultTimeout = 10000) {
 
   return {
     messages,
+    timeouts,
+    DEFAULT_TIMEOUT,
     addMessage,
     removeMessage,
     addSuccessMessage,
