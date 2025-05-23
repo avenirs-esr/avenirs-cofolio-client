@@ -1,7 +1,7 @@
 import {
   BaseApiException,
   type BaseApiExceptionResponse,
-} from '@/common/exceptions/base-api.exception'
+} from '@/common/exceptions'
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from 'axios'
 
 const httpClient = axios.create({

@@ -1,5 +1,5 @@
 import type { AxiosError, AxiosResponse } from 'axios'
-import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
+import { BaseApiErrorCode } from '@/common/exceptions'
 
 export interface BaseApiExceptionResponse {
   message: string
