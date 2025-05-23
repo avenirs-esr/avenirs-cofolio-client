@@ -1,4 +1,4 @@
-import type { BaseApiException } from '@/common/exceptions/base-api.exception'
+import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { type CourseDTO, type DeliverableDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
