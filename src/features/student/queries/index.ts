@@ -1,2 +1,2 @@
-export * from '@/features/student/queries/use-student-access-control.query'
-export * from '@/features/student/queries/use-student-summary.query'
+export * from './use-student-access-control.query'
+export * from './use-student-summary.query'

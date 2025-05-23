@@ -4,6 +4,7 @@ import { createApp } from 'vue'
 interface MountComposableOptions {
   useTanstack?: boolean
 }
+
 function mountComposable<T> (fn: () => T, { useTanstack = false }: MountComposableOptions): T {
   let composableResult: T | undefined
   const app = createApp({

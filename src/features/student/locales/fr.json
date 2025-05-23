@@ -89,6 +89,9 @@
             "resumes": "Mes CV",
             "tracks": "Mes traces"
           }
+        },
+        "apcUnavailable": {
+          "title": "APC indisponible"
         }
       }
     },

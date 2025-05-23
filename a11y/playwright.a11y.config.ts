@@ -3,6 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './',
+  tsconfig: './tsconfig.a11y.json',
   use: {
     baseURL: 'http://localhost:4173',
     headless: !!process.env.CI

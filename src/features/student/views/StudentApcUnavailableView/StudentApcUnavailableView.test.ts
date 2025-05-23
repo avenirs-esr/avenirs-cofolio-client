@@ -1,9 +1,9 @@
 import { useStudentApcAccess } from '@/features/student/composables'
 import { studentHomeRoute } from '@/features/student/routes'
-import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
+import StudentApcUnavailableView from './StudentApcUnavailableView.vue'
 
 vi.mock('vue-router', () => ({
   useRouter: vi.fn()
