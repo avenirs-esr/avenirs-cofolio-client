@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AvRoute } from '@/common/types'
+import { useStudentApcAccess } from '@/features/student/composables'
 import {
+  studentApcUnavailableRoute,
   studentEducationActivitiesRoute,
   studentEducationSkillsRoute,
   studentHomeRoute,
@@ -19,9 +21,30 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const route = useRoute()
 
+const {
+  isApcVisible,
+  showApcGenericInfoPage,
+  showApcSubmenus,
+} = useStudentApcAccess()
+
 function isRouteActive (routes: AvRoute[]): boolean {
   return routes.some(avRoute => avRoute.name === route.name)
 }
+
+const educationMenu = computed(() => ({
+  title: t('student.navigation.tabs.education.header').toUpperCase(),
+  text: t('student.navigation.tabs.education.header').toUpperCase(),
+  to: showApcGenericInfoPage.value ? studentApcUnavailableRoute : undefined,
+  get active () {
+    return isRouteActive([studentApcUnavailableRoute, studentEducationSkillsRoute, studentEducationActivitiesRoute])
+  },
+  links: showApcSubmenus.value
+    ? [
+        { to: studentEducationSkillsRoute, text: t('student.navigation.tabs.education.items.skills'), icon: MDI_ICONS.STAR_SHOOTING },
+        { to: studentEducationActivitiesRoute, text: t('student.navigation.tabs.education.items.activities'), icon: MDI_ICONS.GRADUATION_CAP },
+      ]
+    : undefined,
+}))
 
 const navItems = computed(() => [
   {
@@ -30,16 +53,11 @@ const navItems = computed(() => [
     text: t('student.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT,
   },
-  {
-    title: t('student.navigation.tabs.education.header').toUpperCase(),
-    get active () {
-      return isRouteActive([studentEducationSkillsRoute, studentEducationActivitiesRoute])
-    },
-    links: [
-      { to: studentEducationSkillsRoute, text: t('student.navigation.tabs.education.items.skills'), icon: MDI_ICONS.STAR_SHOOTING },
-      { to: studentEducationActivitiesRoute, text: t('student.navigation.tabs.education.items.activities'), icon: MDI_ICONS.GRADUATION_CAP },
-    ],
-  },
+  ...(
+    isApcVisible.value
+      ? [educationMenu.value]
+      : []
+  ),
   {
     title: t('student.navigation.tabs.project.header').toUpperCase(),
     get active () {
