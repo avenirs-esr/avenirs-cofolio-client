@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
-import { useLanguageSwitcher } from '@/common/composables/'
-import useToaster from '@/common/composables/use-toaster'
+import { useLanguageSwitcher, useToaster } from '@/common/composables/'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { AvHeader } from '@/ui'
 

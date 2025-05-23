@@ -31,7 +31,7 @@ export interface Message {
 const timeouts: Record<string, number> = {}
 const messages: Message[] = reactive([])
 
-function useToaster (defaultTimeout = 10000) {
+export function useToaster (defaultTimeout = 10000) {
   function removeMessage (id: string) {
     const index = messages.findIndex(message => message.id === id)
     clearTimeout(timeouts[id])
@@ -77,5 +77,3 @@ function useToaster (defaultTimeout = 10000) {
     addErrorMessage,
   }
 }
-
-export default useToaster
