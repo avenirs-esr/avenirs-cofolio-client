@@ -75,3 +75,13 @@ export interface StudentSummaryDTO {
   coverPicture: string
   bio: string
 }
+
+export interface StudentNavigationAccessControlDTO {
+  APC: {
+    enabledByInstitution: boolean
+    hasProgram: boolean
+  }
+  LIFE_PROJECT: {
+    enabledByInstitution: boolean
+  }
+}

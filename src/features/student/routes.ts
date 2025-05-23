@@ -106,6 +106,13 @@ export const studentNotificationsRoute: AvRoute = {
     import('@/features/student/views/StudentNotificationsView.vue')
 }
 
+export const studentApcUnavailableRoute: AvRoute = {
+  path: 'apc-unavailable',
+  name: 'student-apc-unavailable',
+  component: () =>
+    import('@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue')
+}
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/student',
@@ -125,7 +132,8 @@ const routes: RouteRecordRaw[] = [
       studentToolsResumesRoute,
       studentAboutRoute,
       studentMailboxRoute,
-      studentNotificationsRoute
+      studentNotificationsRoute,
+      studentApcUnavailableRoute
     ],
   },
 ]

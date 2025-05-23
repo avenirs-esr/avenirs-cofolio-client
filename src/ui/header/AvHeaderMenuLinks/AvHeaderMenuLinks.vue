@@ -6,7 +6,6 @@ import type { AvHeaderMenuLinksProps } from './AvHeaderMenuLinks.types'
 import { AvButton } from '@/ui'
 
 withDefaults(defineProps<AvHeaderMenuLinksProps>(), {
-  links: () => [],
   navAriaLabel: 'Menu secondaire',
 })
 
