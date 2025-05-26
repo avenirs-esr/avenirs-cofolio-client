@@ -1,5 +1,5 @@
 import type { AvLocale } from '@/types/i18n.types'
-import { format, isValid, type Locale, parseISO } from 'date-fns'
+import { format, getDate, isValid, type Locale, parseISO } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
 const localesMap: Record<AvLocale, Locale> = {
@@ -47,11 +47,22 @@ export function formatDateToLocaleString (date: Date, localeCode: AvLocale): str
 
 /**
  *
- * @param date
+ * @param date yyyy-MM-dd\'T\'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd\'T\'HH:mm:ss | yyyy-MM-dd\'T\'HH:mm | yyyy-MM-dd
  * @param localeCode
  * @returns first letters of month
  */
-export function getLocalizedAbbrMonth (date: Date, localeCode: AvLocale): string {
+export function getLocalizedAbbrMonth (date: string, localeCode: AvLocale): string {
+  const parsedDate = parseDateISO(date)
   const locale = localesMap[localeCode]
-  return format(date, 'MMM', { locale })
+  return format(parsedDate, 'MMM', { locale })
+}
+
+/**
+ *
+ * @param date yyyy-MM-dd\'T\'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd\'T\'HH:mm:ss | yyyy-MM-dd\'T\'HH:mm | yyyy-MM-dd
+ * @returns day number
+ */
+export function getCalendarDate (date: string) {
+  const parsedDate = parseDateISO(date)
+  return getDate(parsedDate)
 }
