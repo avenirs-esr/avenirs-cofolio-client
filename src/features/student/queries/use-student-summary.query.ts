@@ -205,22 +205,6 @@ function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], 
     }
   })
 }
-function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'pages'])
-  return useQuery<PageDTO[], BaseApiException>({
-    queryKey,
-    initialData: [],
-    // TODO: call /me/pages/overview when the endpoint and client are ready
-    queryFn: async (): Promise<PageDTO[]> => {
-      return [
-        { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
-        { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
-        { id: 'page3', name: 'Recherche-stage-SAP-3-avril202', updatedAt: '2024-10-04' },
-        { id: 'page4', name: 'analyse-projet-de-vie', updatedAt: '2024-09-08' },
-      ]
-    }
-  })
-}
 
 function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'pages'])
