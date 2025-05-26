@@ -10,6 +10,9 @@ const { navigateToStudentSkills } = useNavigation()
 const { data: courses } = useStudentCoursesSummaryQuery()
 
 const displayWidget = computed(() => courses.value.length > 0)
+const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
+
+defineExpose({ maxSkillsDisplayed })
 </script>
 
 <template>
@@ -36,7 +39,7 @@ const displayWidget = computed(() => courses.value.length > 0)
           v-for="course in courses"
           :key="course.id"
           :course="course"
-          :max-skills-displayed="courses.length > 1 ? 3 : 6"
+          :max-skills-displayed="maxSkillsDisplayed"
         />
       </div>
     </template>
