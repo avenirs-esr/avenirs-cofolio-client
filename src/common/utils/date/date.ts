@@ -28,11 +28,12 @@ export function parseDateISO (date: string): Date {
 
 /**
  *
- * @param date
+ * @param date yyyy-MM-dd\'T\'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd\'T\'HH:mm:ss | yyyy-MM-dd\'T\'HH:mm | yyyy-MM-dd
  * @param localeCode
  * @returns date formated to locale string
  */
-export function formatDateToLocaleString (date: Date, localeCode: AvLocale): string {
+export function formatDateToLocaleString (date: string, localeCode: AvLocale): string {
+  const parsedDate = parseDateISO(date)
   const locale = localesMap[localeCode]
 
   const formatByLocale: Record<AvLocale, string> = {
@@ -42,7 +43,7 @@ export function formatDateToLocaleString (date: Date, localeCode: AvLocale): str
 
   const selectedFormat = formatByLocale[localeCode]
 
-  return format(date, selectedFormat, { locale })
+  return format(parsedDate, selectedFormat, { locale })
 }
 
 /**

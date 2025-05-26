@@ -1,7 +1,18 @@
 import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, type DeliverableDTO, type EventDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import {
+  type CourseDTO,
+  type DeliverableDTO,
+  type EventDTO,
+  LevelStatus,
+  type PageDTO,
+  type ResumeDTO,
+  type SkillDTO,
+  type StudentSummaryDTO,
+  type TrackDTO,
+  TrackType
+} from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -195,6 +206,23 @@ function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], 
   })
 }
 
+function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'pages'])
+  return useQuery<PageDTO[], BaseApiException>({
+    queryKey,
+    initialData: [],
+    // TODO: call /me/pages/overview when the endpoint and client are ready
+    queryFn: async (): Promise<PageDTO[]> => {
+      return [
+        { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
+        { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
+        { id: 'page3', name: 'Recherche-stage-SAP-3-avril202', updatedAt: '2024-10-04' },
+        { id: 'page4', name: 'analyse-projet-de-vie', updatedAt: '2024-09-08' },
+      ]
+    }
+  })
+}
+
 function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
   return useQuery<ResumeDTO[], BaseApiException>({
@@ -264,6 +292,7 @@ export {
   useStudentCoursesSummaryQuery,
   useStudentDeliverablesSummaryQuery,
   useStudentEventsSummaryQuery,
+  useStudentPagesSummaryQuery,
   useStudentResumesSummaryQuery,
   useStudentSummaryQuery,
   useStudentTracksSummaryQuery

@@ -37,7 +37,7 @@ describe('parseDateISO', () => {
 
 describe('formatDateToLocaleString', () => {
   it('should format a date to provided locale string', () => {
-    const date = new Date('2025-05-23T14:54')
+    const date = '2025-05-23T14:54'
     const formattedFrDate = formatDateToLocaleString(date, 'fr')
     const formattedEnDate = formatDateToLocaleString(date, 'en')
 
