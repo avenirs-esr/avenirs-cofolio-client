@@ -21,7 +21,7 @@ const renderedEvents = computed(() => {
 
 function getEventInfo (event: EventDTO) {
   const parsedStartDate = parseDateISO(event.startDate)
-  const parsedEndDate = parseDateISO(event.startDate)
+  const parsedEndDate = parseDateISO(event.endDate)
   return `${format(parsedStartDate, 'HH:mm')} - ${format(parsedEndDate, 'HH:mm')} • ${event.location}`
 }
 
