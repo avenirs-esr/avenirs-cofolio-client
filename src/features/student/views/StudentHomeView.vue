@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EventDTO, PageDTO } from '@/types'
+import type { PageDTO } from '@/types'
 import {
   StudentDeliverablesWidget,
   StudentEventsWidget,
@@ -12,37 +12,6 @@ import {
 import { useStudentSummaryQuery } from '@/features/student/queries'
 
 const { data: studentSummary } = useStudentSummaryQuery()
-
-const mockedEvents = [
-  {
-    id: 'event1',
-    name: 'Forum de l’écologie et la chimie',
-    startDate: '2025-05-19T08:00',
-    endDate: '2025-05-19T18:00',
-    location: 'Paris'
-  },
-  {
-    id: 'event2',
-    name: 'Super forum de la mécanique quantique',
-    startDate: '2025-06-25T08:30',
-    endDate: '2025-06-25T17:30',
-    location: 'Toulouse'
-  },
-  {
-    id: 'event3',
-    name: 'Le café des associations',
-    startDate: '2025-07-03T09:00',
-    endDate: '2025-07-03T17:00',
-    location: 'Bordeaux'
-  },
-  {
-    id: 'event4',
-    name: 'Assemblée générale ESUP',
-    startDate: '2025-08-08T09:30',
-    endDate: '2025-08-08T12:15',
-    location: 'Brest'
-  },
-] as Array<EventDTO>
 
 const mockedPages = [
   { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
@@ -60,7 +29,7 @@ const mockedPages = [
           v-if="studentSummary"
           :student-summary="studentSummary"
         />
-        <StudentEventsWidget :events="mockedEvents" />
+        <StudentEventsWidget />
         <StudentResumesWidget />
         <StudentPagesWidget :pages="mockedPages" />
       </div>
