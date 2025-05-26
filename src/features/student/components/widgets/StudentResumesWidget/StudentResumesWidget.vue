@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { ResumeDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
-import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
+import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
@@ -11,11 +10,6 @@ const { locale, t } = useI18n()
 const { data: resumes } = useStudentResumesSummaryQuery()
 const renderedResumes = computed(() => resumes.value.slice(0, 3))
 const { navigateToStudentResumes } = useNavigation()
-
-function getFormattedUpdatedAt (resume: ResumeDTO) {
-  const parsedDate = parseDateISO(resume.updatedAt)
-  return formatDateToLocaleString(parsedDate, locale.value as AvLocale)
-}
 </script>
 
 <template>
@@ -58,7 +52,7 @@ function getFormattedUpdatedAt (resume: ResumeDTO) {
                 <div class="resumes-widget-action__description ellipsis-container">
                   <span class="ellipsis b1-regular">{{ resume.name }}</span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.resumes.updatedAt', { date: getFormattedUpdatedAt(resume) }) }}
+                    {{ t('student.widgets.resumes.updatedAt', { date: formatDateToLocaleString(resume.updatedAt, locale as AvLocale) }) }}
                   </span>
                 </div>
               </div>

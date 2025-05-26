@@ -1,23 +1,16 @@
 <script setup lang="ts">
-import type { PageDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
-import { formatDateToLocaleString, parseDateISO } from '@/common/utils'
+import { formatDateToLocaleString } from '@/common/utils'
+import { useStudentPagesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { pages } = defineProps<{ pages: Array<PageDTO> }>()
-
+const { data: pages } = useStudentPagesSummaryQuery()
 const { locale, t } = useI18n()
-
-const renderedPages = computed(() => pages.slice(0, 3))
-
 const { navigateToStudentPages } = useNavigation()
 
-function getFormattedUpdatedAt (page: PageDTO) {
-  const parsedDate = parseDateISO(page.updatedAt)
-  return formatDateToLocaleString(parsedDate, locale.value as AvLocale)
-}
+const renderedPages = computed(() => pages.value.slice(0, 3))
 </script>
 
 <template>
@@ -60,7 +53,7 @@ function getFormattedUpdatedAt (page: PageDTO) {
                 <div class="pages-widget-action__description ellipsis-container">
                   <span class="ellipsis b1-regular">{{ page.name }}</span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.pages.updatedAt', { date: getFormattedUpdatedAt(page) }) }}
+                    {{ t('student.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
                   </span>
                 </div>
               </div>

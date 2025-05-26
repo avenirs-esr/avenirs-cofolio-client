@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { PageDTO } from '@/types'
 import {
   StudentDeliverablesWidget,
   StudentEventsWidget,
@@ -9,13 +8,6 @@ import {
   StudentSkillsWidget,
   StudentTracksWidget
 } from '@/features/student/components'
-
-const mockedPages = [
-  { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
-  { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
-  { id: 'page3', name: 'Recherche-stage-SAP-3-avril202', updatedAt: '2024-10-04' },
-  { id: 'page4', name: 'analyse-projet-de-vie', updatedAt: '2024-09-08' },
-] as Array<PageDTO>
 </script>
 
 <template>
@@ -25,7 +17,7 @@ const mockedPages = [
         <StudentOverviewWidget />
         <StudentEventsWidget />
         <StudentResumesWidget />
-        <StudentPagesWidget :pages="mockedPages" />
+        <StudentPagesWidget />
       </div>
       <div class="student-home-right-container fr-col-8">
         <StudentSkillsWidget />
