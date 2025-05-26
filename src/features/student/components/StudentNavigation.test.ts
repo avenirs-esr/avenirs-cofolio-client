@@ -86,7 +86,7 @@ describe('studentNavigation', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
       expect(navItems).toHaveLength(4)
-      const educationItem = navItems.find((item: any) => item.title === succeedMyEducationMenuTitle)
+      const educationItem = navItems.find((item: any) => item.text === succeedMyEducationMenuTitle)
       expect(educationItem).toBeDefined()
     })
 
@@ -97,7 +97,7 @@ describe('studentNavigation', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 
-      const educationItem = navItems.find((item: any) => item.title === succeedMyEducationMenuTitle)
+      const educationItem = navItems.find((item: any) => item.text === succeedMyEducationMenuTitle)
       expect(educationItem.links).toBeUndefined()
     })
   })

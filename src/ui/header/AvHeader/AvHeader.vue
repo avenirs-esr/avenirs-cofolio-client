@@ -2,11 +2,10 @@
  https://vue-ds.fr/composants/DsfrHeader -->
 
 <script lang="ts" setup>
-import type { DsfrHeaderProps, DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
-
 import type { RouteLocationRaw } from 'vue-router'
+
 import { AvHeaderMenuLinks, AvLogo } from '@/ui/header'
-import { registerNavigationLinkKey } from './injection-key'
+import { type DsfrHeaderProps, type DsfrLanguageSelectorElement, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
 
 export type AvHeaderProps = { homeTo?: string | RouteLocationRaw } &
   Omit<DsfrHeaderProps, 'homeTo' | 'operatorImgAlt' | 'operatorImgSrc' | 'operatorImgStyle'>
@@ -87,9 +86,7 @@ const onQuickLinkClick = hideModal
 const title = computed(() => [props.homeLabel, props.serviceTitle].filter(x => x).join(' - '))
 
 const isWithSlotNav = computed(() => Boolean(slots.mainnav))
-provide(registerNavigationLinkKey, () => {
-  return hideModal
-})
+provide(registerNavigationLinkKey, () => hideModal)
 </script>
 
 <template>

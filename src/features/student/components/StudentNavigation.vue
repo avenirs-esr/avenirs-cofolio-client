@@ -31,24 +31,48 @@ function isRouteActive (routes: AvRoute[]): boolean {
   return routes.some(avRoute => avRoute.name === route.name)
 }
 
-const educationMenu = computed(() => ({
-  title: t('student.navigation.tabs.education.header').toUpperCase(),
-  text: t('student.navigation.tabs.education.header').toUpperCase(),
-  to: showApcGenericInfoPage.value ? studentApcUnavailableRoute : undefined,
-  get active () {
-    return isRouteActive([studentApcUnavailableRoute, studentEducationSkillsRoute, studentEducationActivitiesRoute])
-  },
-  links: showApcSubmenus.value
-    ? [
-        { to: studentEducationSkillsRoute, text: t('student.navigation.tabs.education.items.skills'), icon: MDI_ICONS.STAR_SHOOTING },
-        { to: studentEducationActivitiesRoute, text: t('student.navigation.tabs.education.items.activities'), icon: MDI_ICONS.GRADUATION_CAP },
-      ]
-    : undefined,
-}))
+const educationMenu = computed(() => {
+  const menu: Record<string, any> = {
+    get active () {
+      return isRouteActive([
+        studentApcUnavailableRoute,
+        studentEducationSkillsRoute,
+        studentEducationActivitiesRoute,
+      ])
+    },
+  }
 
+  if (!showApcGenericInfoPage.value) {
+    menu.title = t('student.navigation.tabs.education.header').toUpperCase()
+  }
+  if (!showApcSubmenus.value) {
+    menu.text = t('student.navigation.tabs.education.header').toUpperCase()
+  }
+  if (showApcGenericInfoPage.value) {
+    menu.to = studentApcUnavailableRoute
+  }
+  if (showApcSubmenus.value) {
+    menu.links = [
+      {
+        to: studentEducationSkillsRoute,
+        text: t('student.navigation.tabs.education.items.skills'),
+        icon: MDI_ICONS.STARS,
+      },
+      {
+        to: studentEducationActivitiesRoute,
+        text: t('student.navigation.tabs.education.items.activities'),
+        icon: MDI_ICONS.CALENDAR_MONTH,
+      },
+    ]
+  }
+
+  return menu
+})
+
+const homeItemId = useId()
 const navItems = computed(() => [
   {
-    id: useId(),
+    id: homeItemId,
     to: studentHomeRoute,
     text: t('student.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT,
