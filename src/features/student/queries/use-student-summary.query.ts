@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, type DeliverableDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import { type CourseDTO, type DeliverableDTO, type EventDTO, LevelStatus, type ResumeDTO, type SkillDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -154,6 +154,47 @@ function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<Delive
   })
 }
 
+function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'events'])
+  return useQuery<EventDTO[], BaseApiException>({
+    queryKey,
+    initialData: [],
+    // TODO: call /me/formations/events/overview when the endpoint and client are ready
+    queryFn: async (): Promise<EventDTO[]> => {
+      return [
+        {
+          id: 'event1',
+          name: 'Forum de l’écologie et la chimie',
+          startDate: '2025-05-19T08:00',
+          endDate: '2025-05-19T18:00',
+          location: 'Paris'
+        },
+        {
+          id: 'event2',
+          name: 'Super forum de la mécanique quantique',
+          startDate: '2025-06-25T08:30',
+          endDate: '2025-06-25T17:30',
+          location: 'Toulouse'
+        },
+        {
+          id: 'event3',
+          name: 'Le café des associations',
+          startDate: '2025-07-03T09:00',
+          endDate: '2025-07-03T17:00',
+          location: 'Bordeaux'
+        },
+        {
+          id: 'event4',
+          name: 'Assemblée générale ESUP',
+          startDate: '2025-08-08T09:30',
+          endDate: '2025-08-08T12:15',
+          location: 'Brest'
+        },
+      ] as Array<EventDTO>
+    }
+  })
+}
+
 function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
   return useQuery<ResumeDTO[], BaseApiException>({
@@ -219,4 +260,11 @@ function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], 
   })
 }
 
-export { useStudentCoursesSummaryQuery, useStudentDeliverablesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery }
+export {
+  useStudentCoursesSummaryQuery,
+  useStudentDeliverablesSummaryQuery,
+  useStudentEventsSummaryQuery,
+  useStudentResumesSummaryQuery,
+  useStudentSummaryQuery,
+  useStudentTracksSummaryQuery
+}

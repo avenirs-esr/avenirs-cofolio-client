@@ -3,16 +3,16 @@ import type { EventDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
+import { useStudentEventsSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
-const { events } = defineProps<{ events: Array<EventDTO> }>()
-
+const { data: events } = useStudentEventsSummaryQuery()
 const { t, locale } = useI18n()
 
 const renderedEvents = computed(() => {
-  return events
+  return events.value
     .slice()
     .filter(event => isAfter(parseDateISO(event.startDate), new Date()))
     .sort((a, b) => compareAsc(parseDateISO(a.startDate), parseDateISO(b.startDate)))
