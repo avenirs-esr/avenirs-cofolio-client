@@ -8,15 +8,15 @@ vi.doMock('@gouvminint/vue-dsfr', () => ({
     name: 'DsfrTag',
     props: ['label', 'icon'],
     template: `<div class="fr-tag">{{ label }}</div>`,
-  }
-}))
-
-vi.doMock('@/ui', () => ({
+  },
   VIcon: defineComponent({
     name: 'VIcon',
     props: ['name'],
     template: '<i class="mock-v-icon" />',
   }),
+}))
+
+vi.doMock('@/ui/tokens', () => ({
   MDI_ICONS: {
     ATTACH_FILE: 'mdi-attach-file',
     STAR_SHOOTING: 'mdi-star-shooting',

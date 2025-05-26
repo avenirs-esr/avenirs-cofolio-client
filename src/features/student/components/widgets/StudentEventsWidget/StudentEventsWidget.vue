@@ -2,9 +2,9 @@
 import type { EventDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
-import { getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
+import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
-import { compareAsc, format, getDate, isAfter } from 'date-fns'
+import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
 const { events } = defineProps<{ events: Array<EventDTO> }>()
@@ -18,16 +18,6 @@ const renderedEvents = computed(() => {
     .sort((a, b) => compareAsc(parseDateISO(a.startDate), parseDateISO(b.startDate)))
     .slice(0, 3)
 })
-
-function getCalendarDate (date: string) {
-  const parsedDate = parseDateISO(date)
-  return getDate(parsedDate)
-}
-
-function getAbbrMonth (date: string) {
-  const parsedDate = parseDateISO(date)
-  return getLocalizedAbbrMonth(parsedDate, locale.value as AvLocale).toUpperCase()
-}
 
 function getEventInfo (event: EventDTO) {
   const parsedStartDate = parseDateISO(event.startDate)
@@ -73,7 +63,7 @@ const { navigateToStudentEvents } = useNavigation()
                     {{ getCalendarDate(event.startDate) }}
                   </span>
                   <span class="calendar-month caption-light">
-                    {{ getAbbrMonth(event.startDate) }}
+                    {{ getLocalizedAbbrMonth(event.startDate, locale as AvLocale).toUpperCase() }}
                   </span>
                 </div>
                 <div class="events-widget-action__description ellipsis-container">

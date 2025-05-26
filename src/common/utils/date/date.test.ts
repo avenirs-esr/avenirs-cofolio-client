@@ -78,7 +78,7 @@ describe('getLocalizedAbbrMonth', () => {
 
   it('should format a date to provided locale abbreviated month', () => {
     for (let i = 1; i <= 12; i++) {
-      const date = new Date(`2025-${i}-01`)
+      const date = `2025-${i}-01`
       const abbrFrMonth = getLocalizedAbbrMonth(date, 'fr')
       expect(abbrFrMonth).toBe(abbrFrMonthMap[i])
       const abbrEnMonth = getLocalizedAbbrMonth(date, 'en')

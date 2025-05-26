@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
-import { getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
+import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
-import { compareAsc, getDate, isAfter } from 'date-fns'
+import { compareAsc, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -18,16 +18,6 @@ const renderedDeliverables = computed(() => {
     .sort((a, b) => compareAsc(parseDateISO(a.deliverableUntil), parseDateISO(b.deliverableUntil)))
     .slice(0, 3)
 })
-
-function getCalendarDate (date: string) {
-  const parsedDate = parseDateISO(date)
-  return getDate(parsedDate)
-}
-
-function getAbbrMonth (date: string) {
-  const parsedDate = parseDateISO(date)
-  return getLocalizedAbbrMonth(parsedDate, locale.value as AvLocale).toUpperCase()
-}
 </script>
 
 <template>
@@ -57,7 +47,7 @@ function getAbbrMonth (date: string) {
             <AvRichButton
               :icon-right="MDI_ICONS.ARROW_RIGHT"
               custom-padding="0.5rem"
-              :on-click="() => {}"
+              :on-click="navigateToStudentDeliverables"
             >
               <div class="deliverables-widget-action__body">
                 <div class="deliverables-widget-action__calendar">
@@ -65,7 +55,7 @@ function getAbbrMonth (date: string) {
                     {{ getCalendarDate(deliverable.deliverableUntil) }}
                   </span>
                   <span class="calendar-month caption-light">
-                    {{ getAbbrMonth(deliverable.deliverableUntil) }}
+                    {{ getLocalizedAbbrMonth(deliverable.deliverableUntil, locale as AvLocale).toUpperCase() }}
                   </span>
                 </div>
                 <div class="deliverables-widget-action__description ellipsis-container">
