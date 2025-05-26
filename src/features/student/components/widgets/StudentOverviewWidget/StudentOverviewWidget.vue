@@ -1,23 +1,27 @@
 <script setup lang="ts">
-import type { StudentSummaryDTO } from '@/types'
+import { useStudentSummaryQuery } from '@/features/student/queries'
 import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
-const { studentSummary } = defineProps<{
-  studentSummary: StudentSummaryDTO
-}>()
+const { data: studentSummary } = useStudentSummaryQuery()
 
 const { t } = useI18n()
 
 const fullName = computed(() => {
-  const { firstname, lastname } = studentSummary
+  if (!studentSummary.value) {
+    return
+  }
+  const { firstname, lastname } = studentSummary.value
   return `${capitalize(firstname)} ${capitalize(lastname)}`
 })
+
+defineExpose({ fullName })
 </script>
 
 <template>
   <AvCard
+    v-if="studentSummary"
     background-color="--white"
     title-background="--white"
   >
@@ -50,6 +54,7 @@ const fullName = computed(() => {
         <ul class="student-overview-widget__actions">
           <li>
             <AvRichButton
+              class="av-rich-button--edit-profile"
               :icon-right="MDI_ICONS.PENCIL"
               :on-click="() => {}"
             >
@@ -58,6 +63,7 @@ const fullName = computed(() => {
           </li>
           <li>
             <AvRichButton
+              class="av-rich-button--share-resume"
               :icon-right="MDI_ICONS.FILE_ACCOUNT"
               :on-click="() => {}"
             >
@@ -66,6 +72,7 @@ const fullName = computed(() => {
           </li>
           <li>
             <AvRichButton
+              class="av-rich-button--share-cofolio"
               :icon-right="MDI_ICONS.SHARE_VARIANT"
               :on-click="() => {}"
             >
@@ -74,6 +81,7 @@ const fullName = computed(() => {
           </li>
           <li>
             <AvRichButton
+              class="av-rich-button--establishments"
               :icon-right="MDI_ICONS.SWAP_HORIZONTAL"
               :on-click="() => {}"
             >

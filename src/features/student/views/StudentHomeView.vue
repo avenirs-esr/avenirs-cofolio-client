@@ -9,9 +9,6 @@ import {
   StudentSkillsWidget,
   StudentTracksWidget
 } from '@/features/student/components'
-import { useStudentSummaryQuery } from '@/features/student/queries'
-
-const { data: studentSummary } = useStudentSummaryQuery()
 
 const mockedPages = [
   { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
@@ -25,10 +22,7 @@ const mockedPages = [
   <div class="fr-container--fluid">
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="student-home-left-container fr-col-4">
-        <StudentOverviewWidget
-          v-if="studentSummary"
-          :student-summary="studentSummary"
-        />
+        <StudentOverviewWidget />
         <StudentEventsWidget />
         <StudentResumesWidget />
         <StudentPagesWidget :pages="mockedPages" />
