@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
-import { StudentTrackCard } from '@/features/student/components'
 import { useStudentTracksSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'
 import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
+import { StudentTrackCard } from './components'
 
 const { t } = useI18n()
 const { navigateToStudentTracks } = useNavigation()
