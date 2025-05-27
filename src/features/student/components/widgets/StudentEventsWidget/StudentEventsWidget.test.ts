@@ -72,7 +72,7 @@ describe('studentEventsWidget', () => {
     mockUseStudentEventsSummaryQuery(events)
   })
 
-  it('should only display up to 3 future events sorted by date', () => {
+  it('should only display up to 3 future events sorted by date', async () => {
     const wrapper = mount(StudentEventsWidget)
     const richButtons = wrapper.findAll('.av-rich-button')
 
@@ -86,6 +86,10 @@ describe('studentEventsWidget', () => {
     expect(richButtons[2].text()).toContain(getCalendarDate(events[3].startDate))
     expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(events[3].startDate, 'fr').toUpperCase())
     expect(richButtons[2].text()).toContain(events[3].location)
+
+    await (richButtons[0]).trigger('click')
+    await (richButtons[1]).trigger('click')
+    await (richButtons[2]).trigger('click')
   })
 
   it('should call navigation on button click', async () => {
