@@ -125,16 +125,18 @@ describe('studentSkillsWidget', () => {
   it('should display 1 course and up to 6 skills if 1 course is available', () => {
     mockUseStudentCoursesSummaryQuery(courses.slice().slice(0, 1))
     const wrapper = mount(StudentSkillsWidget)
-    const studentSkillsWidgetContainer = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
-    expect(studentSkillsWidgetContainer).toHaveLength(1)
-    expect(wrapper.vm.maxSkillsDisplayed).toBe(6)
+    const studentSkillsWidgetContainers = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
+    expect(studentSkillsWidgetContainers).toHaveLength(1)
+    expect(studentSkillsWidgetContainers[0].props('maxSkillsDisplayed')).toBe(6)
   })
 
   it('should display 2 courses and up to 3 skills by course if 2 courses are available', () => {
     const wrapper = mount(StudentSkillsWidget)
-    const studentSkillsWidgetContainer = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
-    expect(studentSkillsWidgetContainer).toHaveLength(2)
-    expect(wrapper.vm.maxSkillsDisplayed).toBe(3)
+    const studentSkillsWidgetContainers = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
+    expect(studentSkillsWidgetContainers).toHaveLength(2)
+    studentSkillsWidgetContainers.forEach((container) => {
+      expect(container.props('maxSkillsDisplayed')).toBe(3)
+    })
   })
 
   it('should call navigation on button click', async () => {

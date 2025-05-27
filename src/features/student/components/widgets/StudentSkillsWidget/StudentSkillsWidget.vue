@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
-import { StudentSkillsWidgetContainer } from '@/features/student/components'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
+import { StudentSkillsWidgetContainer } from './components'
 
 const { t } = useI18n()
 const { navigateToStudentSkills } = useNavigation()
@@ -11,8 +11,6 @@ const { data: courses } = useStudentCoursesSummaryQuery()
 
 const displayWidget = computed(() => courses.value.length > 0)
 const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
-
-defineExpose({ maxSkillsDisplayed })
 </script>
 
 <template>

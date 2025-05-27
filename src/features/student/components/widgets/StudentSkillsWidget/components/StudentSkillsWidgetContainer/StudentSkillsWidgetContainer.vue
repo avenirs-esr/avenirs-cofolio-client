@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CourseDTO } from '@/types'
-import { StudentSkillCard } from '@/features/student/components'
+import { StudentSkillCard } from '../StudentSkillCard'
 
 const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: CourseDTO, maxSkillsDisplayed: number }>()
 
