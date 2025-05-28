@@ -5,105 +5,105 @@ export const studentHomeRoute: AvRoute = {
   name: 'student-home',
   path: '',
   component: () =>
-    import('@/features/student/views/StudentHomeView.vue'),
+    import('@/features/student/views/StudentHomeView/StudentHomeView.vue'),
 }
 
 export const studentDeliverablesRoute: AvRoute = {
   path: 'deliverables',
   name: 'student-deliverables',
   component: () =>
-    import('@/features/student/views/StudentDeliverablesView.vue'),
+    import('@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
 }
 
 export const studentEventsRoute: AvRoute = {
   path: 'events',
   name: 'student-events',
   component: () =>
-    import('@/features/student/views/StudentEventsView.vue'),
+    import('@/features/student/views/StudentEventsView/StudentEventsView.vue'),
 }
 
 export const studentEducationSkillsRoute: AvRoute = {
   path: 'education/skills',
   name: 'student-education-skills',
   component: () =>
-    import('@/features/student/views/StudentEducationSkillsView.vue'),
+    import('@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'),
 }
 
 export const studentEducationActivitiesRoute: AvRoute = {
   path: 'education/activities',
   name: 'student-education-activities',
   component: () =>
-    import('@/features/student/views/StudentEducationActivitiesView.vue'),
+    import('@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue'),
 }
 
 export const studentProjectSkillsRoute: AvRoute = {
   path: 'projects/skills',
   name: 'student-project-skills',
   component: () =>
-    import('@/features/student/views/StudentProjectSkillsView.vue'),
+    import('@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'),
 }
 
 export const studentProjectExperiencesRoute: AvRoute = {
   path: 'projects/experiences',
   name: 'student-project-experiences',
   component: () =>
-    import('@/features/student/views/StudentProjectExperiencesView.vue'),
+    import('@/features/student/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'),
 }
 
 export const studentProjectTrajectoriesRoute: AvRoute = {
   path: 'projects/trajectories',
   name: 'student-project-trajectories',
   component: () =>
-    import('@/features/student/views/StudentProjectTrajectoriesView.vue'),
+    import('@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
 }
 
 export const studentSkillRoute: AvRoute = {
   path: 'skill/:id',
   name: 'student-skill',
   component: () =>
-    import('@/features/student/views/StudentSkillView.vue'),
+    import('@/features/student/views/StudentSkillView/StudentSkillView.vue'),
 }
 
 export const studentToolsTracksRoute: AvRoute = {
   path: 'tools/tracks',
   name: 'student-tools-tracks',
   component: () =>
-    import('@/features/student/views/StudentToolsTracksView.vue'),
+    import('@/features/student/views/StudentToolsTracksView/StudentToolsTracksView.vue'),
 }
 
 export const studentToolsPagesRoute: AvRoute = {
   path: 'tools/pages',
   name: 'student-tools-pages',
   component: () =>
-    import('@/features/student/views/StudentToolsPagesView.vue'),
+    import('@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'),
 }
 
 export const studentToolsResumesRoute: AvRoute = {
   path: 'tools/resumes',
   name: 'student-tools-resumes',
   component: () =>
-    import('@/features/student/views/StudentToolsResumesView.vue'),
+    import('@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
 }
 
 export const studentAboutRoute: AvRoute = {
   path: 'about',
   name: 'student-about',
   component: () =>
-    import('@/features/student/views/StudentAboutView.vue'),
+    import('@/features/student/views/StudentAboutView/StudentAboutView.vue'),
 }
 
 export const studentMailboxRoute: AvRoute = {
   path: 'mailbox',
   name: 'student-mailbox',
   component: () =>
-    import('@/features/student/views/StudentMailboxView.vue')
+    import('@/features/student/views/StudentMailboxView/StudentMailboxView.vue')
 }
 
 export const studentNotificationsRoute: AvRoute = {
   path: 'notifications',
   name: 'student-notifications',
   component: () =>
-    import('@/features/student/views/StudentNotificationsView.vue')
+    import('@/features/student/views/StudentNotificationsView/StudentNotificationsView.vue')
 }
 
 export const studentApcUnavailableRoute: AvRoute = {
