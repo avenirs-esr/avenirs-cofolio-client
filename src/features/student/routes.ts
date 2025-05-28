@@ -116,7 +116,7 @@ export const studentApcUnavailableRoute: AvRoute = {
 const routes: RouteRecordRaw[] = [
   {
     path: '/student',
-    component: () => import('@/features/student/layouts/StudentLayout.vue'),
+    component: () => import('@/features/student/layouts/StudentLayout/StudentLayout.vue'),
     children: [
       studentHomeRoute,
       studentDeliverablesRoute,

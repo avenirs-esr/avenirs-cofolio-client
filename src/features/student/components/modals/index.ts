@@ -1,3 +1,3 @@
-export { default as StudentMailboxModal } from './StudentMailboxModal.vue'
-export { default as StudentNotificationsModal } from './StudentNotificationsModal.vue'
-export { default as StudentProfileModal } from './StudentProfileModal.vue'
+export * from './StudentMailboxModal'
+export * from './StudentNotificationsModal'
+export * from './StudentProfileModal'
