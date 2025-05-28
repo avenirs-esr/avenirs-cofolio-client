@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
 import { useLanguageSwitcher, useToaster } from '@/common/composables/'
-import { StudentMailboxModal, StudentNavigation, StudentNotificationsModal, StudentProfileModal } from '@/features/student'
+import {
+  StudentMailboxModal,
+  StudentNavigation,
+  StudentNotificationsModal,
+  StudentProfileModal
+} from '@/features/student'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
@@ -73,6 +78,8 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
     },
   },
 ])
+
+defineExpose({ showMailboxModal, showNotificationsModal, showProfileModal })
 </script>
 
 <template>
