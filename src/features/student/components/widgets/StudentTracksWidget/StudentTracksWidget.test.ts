@@ -3,7 +3,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentTracksSummaryQuery } from '@/features/student/queries'
 import { type TrackDTO, TrackType } from '@/types'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentTracksWidget from './StudentTracksWidget.vue'
 
 const navigateToStudentTracks = vi.fn()
@@ -28,7 +28,7 @@ function mockUseStudentTracksSummaryQuery (payload: TrackDTO[]) {
   mockedUseStudentTracksSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentTracksWidget', () => {
+describe('studentTracksWidget', async () => {
   const tracks: Array<TrackDTO> = [
     {
       id: 'track1',
@@ -68,17 +68,18 @@ describe('studentTracksWidget', () => {
   ]
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentTracksSummaryQuery(tracks)
   })
 
-  it('should display up to 3 tracks', () => {
-    const wrapper = mount(StudentTracksWidget)
+  it('should display up to 3 tracks', async () => {
+    const wrapper = await mountWithRouter(StudentTracksWidget)
     const studentTrackCards = wrapper.findAllComponents({ name: 'StudentTrackCard' })
     expect(studentTrackCards).toHaveLength(3)
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = mount(StudentTracksWidget)
+    const wrapper = await mountWithRouter(StudentTracksWidget)
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 

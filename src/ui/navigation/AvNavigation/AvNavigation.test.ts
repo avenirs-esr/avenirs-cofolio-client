@@ -1,5 +1,5 @@
 import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 import AvNavigation from './AvNavigation.vue'
 
@@ -14,15 +14,19 @@ vi.mock('vue-dsfr', () => ({
 }))
 
 describe('avNavigation', () => {
-  it('should render and pass props to DsfrNavigation', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('should render and pass props to DsfrNavigation', async () => {
     const props = {
       navItems: [
-        { to: '/home', text: 'Home' },
-        { to: '/about', text: 'About' },
+        { to: '/student', text: 'Home student' },
+        { to: '/teacher', text: 'Home teacher' },
       ],
     }
 
-    const wrapper = mount(AvNavigation, {
+    const wrapper = await mountWithRouter(AvNavigation, {
       props,
     })
 

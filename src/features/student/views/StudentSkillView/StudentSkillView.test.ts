@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentSkillView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const mockedSkillName = 'Prévenir la pollution à la source'
 
   const title = `Compétence ${mockedSkillName}`

@@ -1,5 +1,5 @@
 import { type LevelDTO, LevelStatus } from '@/types'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import StudentSkillCard from './StudentSkillCard.vue'
 
@@ -24,6 +24,10 @@ vi.doMock('@/ui/tokens', () => ({
 }))
 
 describe('studentSkillCard.vue', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const baseProps = {
     skill: {
       id: 'skill1',
@@ -38,8 +42,8 @@ describe('studentSkillCard.vue', () => {
     skillColor: '--color-skill',
   } as const
 
-  it('renders skill name, track and activity counts', () => {
-    const wrapper = mount(StudentSkillCard, {
+  it('renders skill name, track and activity counts', async () => {
+    const wrapper = await mountWithRouter(StudentSkillCard, {
       props: baseProps,
     })
 
@@ -48,8 +52,8 @@ describe('studentSkillCard.vue', () => {
     expect(wrapper.text()).toContain('2 mises en situation')
   })
 
-  it('renders the two expected badges', () => {
-    const wrapper = mount(StudentSkillCard, {
+  it('renders the two expected badges', async () => {
+    const wrapper = await mountWithRouter(StudentSkillCard, {
       props: baseProps,
     })
 
@@ -59,8 +63,8 @@ describe('studentSkillCard.vue', () => {
     expect(badges[1].text()).toContain('Niveau 2 à évaluer')
   })
 
-  it('renders only one badge if only one level is present', () => {
-    const wrapper = mount(StudentSkillCard, {
+  it('renders only one badge if only one level is present', async () => {
+    const wrapper = await mountWithRouter(StudentSkillCard, {
       props: {
         ...baseProps,
         skill: {

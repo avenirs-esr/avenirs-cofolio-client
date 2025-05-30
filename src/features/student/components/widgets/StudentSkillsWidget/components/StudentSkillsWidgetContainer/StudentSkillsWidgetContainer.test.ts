@@ -1,5 +1,5 @@
 import { LevelStatus, type SkillDTO } from '@/types'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidgetContainer from './StudentSkillsWidgetContainer.vue'
 
 vi.mock('@/features/student/components', () => ({
@@ -10,6 +10,10 @@ vi.mock('@/features/student/components', () => ({
 }))
 
 describe('studentSkillsWidgetContainer', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const baseProps = {
     course: {
       id: 'course1',
@@ -95,8 +99,8 @@ describe('studentSkillsWidgetContainer', () => {
   } as const
   const longerName = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
 
-  it('should render properly with provided props', () => {
-    const wrapper = mount(StudentSkillsWidgetContainer, {
+  it('should render properly with provided props', async () => {
+    const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
       props: baseProps,
     })
 
@@ -106,8 +110,8 @@ describe('studentSkillsWidgetContainer', () => {
     expect(skillsCards).toHaveLength(baseProps.maxSkillsDisplayed)
   })
 
-  it('should render truncated course name for longer names', () => {
-    const wrapper = mount(StudentSkillsWidgetContainer, {
+  it('should render truncated course name for longer names', async () => {
+    const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
       props: { course: { ...baseProps.course, name: longerName }, maxSkillsDisplayed: baseProps.maxSkillsDisplayed },
     })
 

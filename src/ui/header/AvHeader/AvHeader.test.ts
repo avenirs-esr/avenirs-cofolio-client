@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { nextTick } from 'vue'
 import AvHeader from './AvHeader.vue'
@@ -12,13 +12,13 @@ describe('avHeader', () => {
   const currentLanguage = 'fr'
   const languages = [{ codeIso: 'fr', label: 'Français' }, { codeIso: 'en', label: 'English' }]
 
-  it('display default logo and text', () => {
-    const wrapper = mount(AvHeader)
+  it('display default logo and text', async () => {
+    const wrapper = await mountWithRouter(AvHeader)
     expect(wrapper.get('[data-testid="header-logo"]')).toBeTruthy()
   })
 
-  it('display service title if provided', () => {
-    const wrapper = mount(AvHeader, {
+  it('display service title if provided', async () => {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         serviceTitle,
       },
@@ -26,8 +26,8 @@ describe('avHeader', () => {
     expect(wrapper.text()).toContain(serviceTitle)
   })
 
-  it('should render serviceDescription when provided', () => {
-    const wrapper = mount(AvHeader, {
+  it('should render serviceDescription when provided', async () => {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         serviceTitle,
         serviceDescription
@@ -39,8 +39,8 @@ describe('avHeader', () => {
     expect(el.text()).toBe(serviceDescription)
   })
 
-  it('should not render serviceDescription when not provided', () => {
-    const wrapper = mount(AvHeader, {
+  it('should not render serviceDescription when not provided', async () => {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         serviceTitle,
       },
@@ -51,7 +51,7 @@ describe('avHeader', () => {
   })
 
   it('open menu on click', async () => {
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         quickLinks,
       },
@@ -63,7 +63,7 @@ describe('avHeader', () => {
   })
 
   it('emits a search event', async () => {
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         showSearch,
         modelValue,
@@ -78,7 +78,7 @@ describe('avHeader', () => {
   })
 
   it('should open search modal and close menu when search button is clicked', async () => {
-    const wrapper = mount<typeof AvHeader>(AvHeader, {
+    const wrapper = await mountWithRouter<typeof AvHeader>(AvHeader, {
       props: {
         showSearch,
       },
@@ -98,7 +98,7 @@ describe('avHeader', () => {
   })
 
   it('should close the menu modal when close button is clicked', async () => {
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         serviceTitle,
         quickLinks,
@@ -124,7 +124,7 @@ describe('avHeader', () => {
     closeBtn.focus = focusMock
     document.body.appendChild(closeBtn)
 
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         quickLinks,
       },
@@ -147,7 +147,7 @@ describe('avHeader', () => {
     menuBtn.focus = focusMock
     document.body.appendChild(menuBtn)
 
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         quickLinks,
       },
@@ -169,7 +169,7 @@ describe('avHeader', () => {
     menuBtn.focus = focusMock
     document.body.appendChild(menuBtn)
 
-    mount(AvHeader, {
+    await mountWithRouter(AvHeader, {
       props: {
         quickLinks,
       },
@@ -185,7 +185,7 @@ describe('avHeader', () => {
   })
 
   it('emits "languageSelect" event when DsfrLanguageSelector emits "select"', async () => {
-    const wrapper = mount(AvHeader, {
+    const wrapper = await mountWithRouter(AvHeader, {
       props: {
         languageSelector: {
           currentLanguage,

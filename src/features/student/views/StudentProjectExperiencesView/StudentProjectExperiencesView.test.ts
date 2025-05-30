@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentProjectExperiencesView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const title = '(placeholder) Toutes mes expériences'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: 'Mon parcours' }

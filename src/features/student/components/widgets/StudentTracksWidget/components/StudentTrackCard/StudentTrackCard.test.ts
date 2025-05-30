@@ -1,5 +1,5 @@
 import { TrackType } from '@/types'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 import StudentTrackCard from './StudentTrackCard.vue'
 
@@ -29,6 +29,10 @@ vi.doMock('@/ui/tokens', () => ({
 }))
 
 describe('studentTrackCard.vue', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const baseProps = {
     track: {
       id: 'track1',
@@ -40,8 +44,8 @@ describe('studentTrackCard.vue', () => {
     },
   } as const
 
-  it('renders the track name, skill and activity counts', () => {
-    const wrapper = mount(StudentTrackCard, {
+  it('renders the track name, skill and activity counts', async () => {
+    const wrapper = await mountWithRouter(StudentTrackCard, {
       props: baseProps,
     })
 
@@ -50,16 +54,16 @@ describe('studentTrackCard.vue', () => {
     expect(wrapper.text()).toContain('5 mises en situation')
   })
 
-  it('renders the fixed label "Projet de vie"', () => {
-    const wrapper = mount(StudentTrackCard, {
+  it('renders the fixed label "Projet de vie"', async () => {
+    const wrapper = await mountWithRouter(StudentTrackCard, {
       props: baseProps,
     })
 
     expect(wrapper.text()).toContain('Projet de vie')
   })
 
-  it('renders the DsfrTag with label "Groupe"', () => {
-    const wrapper = mount(StudentTrackCard, {
+  it('renders the DsfrTag with label "Groupe"', async () => {
+    const wrapper = await mountWithRouter(StudentTrackCard, {
       props: baseProps,
     })
 
@@ -68,8 +72,8 @@ describe('studentTrackCard.vue', () => {
     expect(tag.text()).toBe('Groupe')
   })
 
-  it('renders up to 3 skill icons based on skillCount', () => {
-    const wrapper = mount(StudentTrackCard, {
+  it('renders up to 3 skill icons based on skillCount', async () => {
+    const wrapper = await mountWithRouter(StudentTrackCard, {
       props: {
         track: {
           ...baseProps.track,

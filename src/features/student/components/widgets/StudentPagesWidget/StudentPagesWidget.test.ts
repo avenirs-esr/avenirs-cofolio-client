@@ -4,7 +4,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentPagesWidget from './StudentPagesWidget.vue'
 
 const navigateToStudentPages = vi.fn()
@@ -29,7 +29,7 @@ function mockUseStudentPagesSummaryQuery (payload: PageDTO[]) {
   mockedUseStudentPagesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentPagesWidget', () => {
+describe('studentPagesWidget', async () => {
   const pages = [
     { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
     { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
@@ -38,11 +38,12 @@ describe('studentPagesWidget', () => {
   ]
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentPagesSummaryQuery(pages)
   })
 
-  it('should only display up to last 3 pages sorted by date', () => {
-    const wrapper = mount(StudentPagesWidget)
+  it('should only display up to last 3 pages sorted by date', async () => {
+    const wrapper = await mountWithRouter(StudentPagesWidget)
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -55,7 +56,7 @@ describe('studentPagesWidget', () => {
   })
 
   it('should emit click on AvRichButtons', async () => {
-    const wrapper = mount(StudentPagesWidget)
+    const wrapper = await mountWithRouter(StudentPagesWidget)
     const [page1Button, page2Button, page3Button] = wrapper.findAllComponents('.av-rich-button')
 
     expect(page1Button.exists()).toBe(true)
@@ -68,7 +69,7 @@ describe('studentPagesWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = mount(StudentPagesWidget)
+    const wrapper = await mountWithRouter(StudentPagesWidget)
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 

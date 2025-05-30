@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentToolsPagesView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const title = '(placeholder) Toutes mes pages libres'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: 'Mes pages libres' }
