@@ -76,6 +76,13 @@ export interface StudentSummaryDTO {
   bio: string
 }
 
+export interface StudentHeaderSummaryDTO {
+  id: string
+  name: string
+  messagesCount: number
+  notificationsCount: number
+}
+
 export interface StudentNavigationAccessControlDTO {
   APC: {
     enabledByInstitution: boolean

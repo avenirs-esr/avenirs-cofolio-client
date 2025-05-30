@@ -9,6 +9,7 @@ import {
   type PageDTO,
   type ResumeDTO,
   type SkillDTO,
+  type StudentHeaderSummaryDTO,
   type StudentSummaryDTO,
   type TrackDTO,
   TrackType
@@ -206,6 +207,22 @@ function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], 
   })
 }
 
+function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummaryDTO, BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'header'])
+  return useQuery<StudentHeaderSummaryDTO, BaseApiException>({
+    queryKey,
+    // TODO: call /me/header/overview when the endpoint and client are ready
+    queryFn: async (): Promise<StudentHeaderSummaryDTO> => {
+      return {
+        id: '123456789',
+        name: 'J. Moulin',
+        messagesCount: 2,
+        notificationsCount: 2,
+      }
+    }
+  })
+}
+
 function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'pages'])
   return useQuery<PageDTO[], BaseApiException>({
@@ -292,6 +309,7 @@ export {
   useStudentCoursesSummaryQuery,
   useStudentDeliverablesSummaryQuery,
   useStudentEventsSummaryQuery,
+  useStudentHeaderSummaryQuery,
   useStudentPagesSummaryQuery,
   useStudentResumesSummaryQuery,
   useStudentSummaryQuery,
