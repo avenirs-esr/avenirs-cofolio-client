@@ -6,13 +6,13 @@ export const teacherHomeRoute = {
   path: '',
   name: 'teacher-home',
   component: () =>
-    import('@/features/teacher/views/TeacherHomeView.vue'),
+    import('@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'),
 }
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/teacher',
-    component: () => import('@/features/teacher/layouts/TeacherLayout.vue'),
+    component: () => import('@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'),
     children: [
       teacherHomeRoute
     ]

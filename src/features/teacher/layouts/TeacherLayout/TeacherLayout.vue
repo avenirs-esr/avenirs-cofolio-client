@@ -18,6 +18,8 @@ const quickLinks: DsfrHeaderProps['quickLinks'] = [
 ]
 
 const searchQuery = ref('')
+
+defineExpose({ searchQuery })
 </script>
 
 <template>
