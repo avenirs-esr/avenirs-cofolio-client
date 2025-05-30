@@ -1,10 +1,10 @@
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import AvCard from './AvCard.vue'
 
 describe('avCard', () => {
-  it('renders default slot content', () => {
-    const wrapper = mount(AvCard, {
+  it('renders default slot content', async () => {
+    const wrapper = await mountWithRouter(AvCard, {
       slots: {
         default: '<p>Contenu principal</p>',
       },
@@ -12,8 +12,8 @@ describe('avCard', () => {
     expect(wrapper.text()).toContain('Contenu principal')
   })
 
-  it('renders title slot with correct class and background', () => {
-    const wrapper = mount(AvCard, {
+  it('renders title slot with correct class and background', async () => {
+    const wrapper = await mountWithRouter(AvCard, {
       props: {
         titleBackground: 'red',
       },
@@ -26,8 +26,8 @@ describe('avCard', () => {
     expect(title.attributes('style')).toContain('background: var(red)')
   })
 
-  it('renders body and footer slots when provided', () => {
-    const wrapper = mount(AvCard, {
+  it('renders body and footer slots when provided', async () => {
+    const wrapper = await mountWithRouter(AvCard, {
       slots: {
         body: '<div>Corps de la carte</div>',
         footer: '<div>Pied de carte</div>',
@@ -37,8 +37,8 @@ describe('avCard', () => {
     expect(wrapper.get('.av-card__footer').text()).toBe('Pied de carte')
   })
 
-  it('applies style props correctly', () => {
-    const wrapper = mount(AvCard, {
+  it('applies style props correctly', async () => {
+    const wrapper = await mountWithRouter(AvCard, {
       props: {
         borderColor: 'blue',
         height: '200px',

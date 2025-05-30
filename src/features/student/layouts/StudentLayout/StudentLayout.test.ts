@@ -4,24 +4,9 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { MDI_ICONS } from '@/ui'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 import StudentLayout from './StudentLayout.vue'
-
-vi.mock('@/common/composables/', async () => {
-  const actual = await vi.importActual('@/common/composables/')
-  return {
-    ...actual,
-    useToaster: () => ({
-      messages: [],
-      removeMessage: vi.fn(),
-    }),
-    useLanguageSwitcher: () => ({
-      languageSelector: { id: 'lang-selector' },
-      selectLanguage: vi.fn(),
-    }),
-  }
-})
 
 vi.mock('@/features/student', () => ({
   StudentMailboxModal: {
@@ -106,17 +91,18 @@ describe('studentLayout', () => {
   }
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentHeaderSummaryQuery(headerSummary)
   })
 
-  it('should render header and nav correctly', () => {
-    const wrapper = mount(StudentLayout)
+  it('should render header and nav correctly', async () => {
+    const wrapper = await mountWithRouter(StudentLayout)
     expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
     expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
   })
 
   it('should open mailbox modal on click and close it when onClose is called', async () => {
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter(StudentLayout)
     await wrapper.find('[data-testid="mailbox-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="mailbox-modal"]').exists()).toBe(true)
 
@@ -126,7 +112,7 @@ describe('studentLayout', () => {
   })
 
   it('should open notifications modal on click and close it when onClose is called', async () => {
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter(StudentLayout)
     await wrapper.find('[data-testid="notifications-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="notifications-modal"]').exists()).toBe(true)
 
@@ -136,7 +122,7 @@ describe('studentLayout', () => {
   })
 
   it('should open profile modal on click and close it when onClose is called', async () => {
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter(StudentLayout)
     await wrapper.find('[data-testid="profile-btn"]').trigger('click')
     expect(wrapper.find('[data-testid="profile-modal"]').exists()).toBe(true)
 
@@ -145,29 +131,29 @@ describe('studentLayout', () => {
     expect(wrapper.find('[data-testid="profile-modal"]').exists()).toBe(false)
   })
 
-  it('should display AppToaster component', () => {
-    const wrapper = mount(StudentLayout)
+  it('should display AppToaster component', async () => {
+    const wrapper = await mountWithRouter(StudentLayout)
     expect(wrapper.find('[data-testid="toaster"]').exists()).toBe(true)
   })
 
-  it('should use BELL_NOTIFICATION icon when there are notifications', () => {
-    const wrapper = mount(StudentLayout)
+  it('should use BELL_NOTIFICATION icon when there are notifications', async () => {
+    const wrapper = await mountWithRouter(StudentLayout)
     const quickLinks = wrapper.findComponent({ name: 'AvHeader' }).props('quickLinks')
 
     expect(quickLinks[1].icon).toBe(MDI_ICONS.BELL_NOTIFICATION)
   })
 
-  it('should use NOTIFICATIONS_NONE icon when there are no notifications', () => {
+  it('should use NOTIFICATIONS_NONE icon when there are no notifications', async () => {
     mockUseStudentHeaderSummaryQuery({ ...headerSummary, notificationsCount: 0 })
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter(StudentLayout)
     const quickLinks = wrapper.findComponent({ name: 'AvHeader' }).props('quickLinks')
 
     expect(quickLinks[1].icon).toBe(MDI_ICONS.NOTIFICATIONS_NONE)
   })
 
-  it('should use default values if header summary is undefined', () => {
+  it('should use default values if header summary is undefined', async () => {
     mockUseStudentHeaderSummaryQueryUndefined()
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter(StudentLayout)
 
     const quickLinks = wrapper.findComponent({ name: 'AvHeader' }).props('quickLinks')
     expect(quickLinks[1].icon).toBe(MDI_ICONS.NOTIFICATIONS_NONE)
@@ -181,7 +167,7 @@ describe('studentLayout', () => {
   })
 
   it('should update searchQuery when AvHeader emits update:modelValue', async () => {
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter<typeof StudentLayout>(StudentLayout)
     const avHeader = wrapper.findComponent({ name: 'AvHeader' })
     avHeader.vm.$emit('update:modelValue', 'test')
     await wrapper.vm.$nextTick()
@@ -190,7 +176,7 @@ describe('studentLayout', () => {
   })
 
   it('should pass searchQuery as modelValue to AvHeader', async () => {
-    const wrapper = mount(StudentLayout)
+    const wrapper = await mountWithRouter<typeof StudentLayout>(StudentLayout)
     const avHeader = wrapper.findComponent({ name: 'AvHeader' })
     wrapper.vm.searchQuery = 'test'
     await wrapper.vm.$nextTick()
