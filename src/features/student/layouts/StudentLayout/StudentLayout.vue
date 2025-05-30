@@ -7,6 +7,7 @@ import {
   StudentNotificationsModal,
   StudentProfileModal
 } from '@/features/student'
+import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
@@ -15,10 +16,8 @@ const { t } = useI18n()
 
 const toaster = useToaster()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-
-const mockedUserName = 'J. Moulin'
-const mockedNotificationsCount = 2
-const mockedMessageCount = 0
+const { data: headerSummary } = useStudentHeaderSummaryQuery()
+const { name = '', messagesCount = 0, notificationsCount = 0 } = headerSummary.value ?? {}
 
 const searchQuery = ref('')
 
@@ -60,7 +59,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
   {
     label: t('student.layout.header.quicklinks.notifications'),
     to: '',
-    icon: mockedNotificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
+    icon: notificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
     button: true,
     onClick: ($event: MouseEvent) => {
       $event.preventDefault()
@@ -68,7 +67,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
     },
   },
   {
-    label: mockedUserName,
+    label: name,
     to: '',
     icon: MDI_ICONS.ACCOUNT_CIRCLE,
     button: true,
@@ -79,7 +78,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
   },
 ])
 
-defineExpose({ showMailboxModal, showNotificationsModal, showProfileModal })
+defineExpose({ searchQuery, showMailboxModal, showNotificationsModal, showProfileModal })
 </script>
 
 <template>
@@ -98,13 +97,13 @@ defineExpose({ showMailboxModal, showNotificationsModal, showProfileModal })
   </AvHeader>
 
   <StudentMailboxModal
-    :messages-count="mockedMessageCount"
+    :messages-count="messagesCount"
     :show-modal="showMailboxModal"
     :on-close="hideMailboxModal"
   />
 
   <StudentNotificationsModal
-    :notification-count="mockedNotificationsCount"
+    :notifications-count="notificationsCount"
     :show-modal="showNotificationsModal"
     :on-close="hideNotificationsModal"
   />

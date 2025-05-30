@@ -4,10 +4,10 @@ import { AvButton, AvModal, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const {
-  notificationCount,
+  notificationsCount,
   showModal,
   onClose,
-} = defineProps<{ notificationCount: number, showModal: boolean, onClose: () => void }>()
+} = defineProps<{ notificationsCount: number, showModal: boolean, onClose: () => void }>()
 
 const { navigateToStudentNotifications } = useNavigation()
 const { t } = useI18n()
@@ -20,14 +20,14 @@ function navigateToNotifications () {
 
 <template>
   <AvModal
-    :title="t('student.modals.notificationsModal.title', { count: notificationCount })"
+    :title="t('student.modals.notificationsModal.title', { count: notificationsCount })"
     :icon="MDI_ICONS.NOTIFICATIONS_NONE"
     :opened="showModal"
     :close-button-label="t('student.modals.notificationsModal.buttons.close')"
     :close-button-title="t('student.modals.notificationsModal.buttons.close')"
     @close="onClose"
   >
-    <div v-if="notificationCount === 0">
+    <div v-if="notificationsCount === 0">
       <span class="b2-light">{{ t('student.modals.notificationsModal.bodyNoNew.header') }}</span>
       <ul class="b2-regular">
         <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.teacherMessage') }}</span></li>
@@ -40,7 +40,7 @@ function navigateToNotifications () {
       Notifications...
     </div>
     <template
-      v-if="notificationCount > 0"
+      v-if="notificationsCount > 0"
       #footer
     >
       <div class="notifications-modal__footer">
