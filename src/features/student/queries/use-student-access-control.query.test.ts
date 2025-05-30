@@ -1,15 +1,31 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { StudentNavigationAccessControlDTO } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
+import { getStudentNavigationAccess, type NavigationAccessDTO } from '@/api/avenir-esr'
 import { useStudentNavigationAccessControlQuery } from '@/features/student/queries'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { unref } from 'vue'
 
+vi.mock('@/api/avenir-esr')
+
 describe('useStudentNavigationAccessControlQuery', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+  const mockedGetStudentNavigationAccess = vi.mocked(getStudentNavigationAccess)
+
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<StudentNavigationAccessControlDTO, BaseApiException>>(
+    mockedGetStudentNavigationAccess.mockResolvedValue({
+      APC: {
+        enabledByInstitution: true,
+        hasProgram: true
+      },
+      LIFE_PROJECT: {
+        enabledByInstitution: true
+      }
+    })
+    const { data } = mountQueryComposable<UseQueryReturnType<NavigationAccessDTO, BaseApiException>>(
       () => useStudentNavigationAccessControlQuery(),
     )
     await flushPromises()
