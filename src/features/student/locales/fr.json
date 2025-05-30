@@ -32,7 +32,7 @@
     },
     "modals": {
       "mailboxModal": {
-        "bodyNoNew": "Vous n’avez aucun nouveau message à consulter.",
+        "bodyNoNew": "Vous n'avez aucun nouveau message à consulter.",
         "buttons": {
           "close": "Fermer",
           "navigate": "Aller à ma messagerie",
