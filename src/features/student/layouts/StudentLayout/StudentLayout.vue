@@ -17,7 +17,10 @@ const { t } = useI18n()
 const toaster = useToaster()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const { data: headerSummary } = useStudentHeaderSummaryQuery()
-const { name = '', messagesCount = 0, notificationsCount = 0 } = headerSummary.value ?? {}
+
+const name = computed(() => headerSummary.value?.name ?? '')
+const messagesCount = computed(() => headerSummary.value?.messagesCount ?? 0)
+const notificationsCount = computed(() => headerSummary.value?.notificationsCount ?? 0)
 
 const searchQuery = ref('')
 
@@ -59,7 +62,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
   {
     label: t('student.layout.header.quicklinks.notifications'),
     to: '',
-    icon: notificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
+    icon: notificationsCount.value > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
     button: true,
     onClick: ($event: MouseEvent) => {
       $event.preventDefault()
@@ -67,7 +70,7 @@ const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
     },
   },
   {
-    label: name,
+    label: name.value,
     to: '',
     icon: MDI_ICONS.ACCOUNT_CIRCLE,
     button: true,
