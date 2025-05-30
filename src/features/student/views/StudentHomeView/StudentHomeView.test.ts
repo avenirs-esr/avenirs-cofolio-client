@@ -12,6 +12,10 @@ vi.mock('@/features/student/components', () => ({
 }))
 
 describe('studentHomeView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('should render all expected widgets in the correct layout', () => {
     const wrapper = mount(StudentHomeView)
 

@@ -4,7 +4,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentResumesWidget from './StudentResumesWidget.vue'
 
 const navigateToStudentResumes = vi.fn()
@@ -38,11 +38,12 @@ describe('studentPagesWidget', () => {
   ]
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentResumesSummaryQuery(resumes)
   })
 
-  it('should only display up to last 3 resumes sorted by date', () => {
-    const wrapper = mount(StudentResumesWidget)
+  it('should only display up to last 3 resumes sorted by date', async () => {
+    const wrapper = await mountWithRouter(StudentResumesWidget)
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -55,7 +56,7 @@ describe('studentPagesWidget', () => {
   })
 
   it('should emit click on AvRichButtons', async () => {
-    const wrapper = mount(StudentResumesWidget)
+    const wrapper = await mountWithRouter(StudentResumesWidget)
     const [resume1Button, resume2Button, resume3Button] = wrapper.findAllComponents('.av-rich-button')
 
     expect(resume1Button.exists()).toBe(true)
@@ -68,7 +69,7 @@ describe('studentPagesWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = mount(StudentResumesWidget)
+    const wrapper = await mountWithRouter(StudentResumesWidget)
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 

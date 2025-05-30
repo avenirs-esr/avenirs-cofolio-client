@@ -1,4 +1,3 @@
-// setupTests.ts
 import { config } from '@vue/test-utils'
 import { beforeAll } from 'vitest'
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'

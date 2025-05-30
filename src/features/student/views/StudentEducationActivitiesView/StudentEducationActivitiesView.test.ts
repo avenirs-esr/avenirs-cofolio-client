@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentEducationActivitiesView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const title = 'Mes Activités de Mise en situation (AMS)'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: 'Mes activités de mise en situation' }

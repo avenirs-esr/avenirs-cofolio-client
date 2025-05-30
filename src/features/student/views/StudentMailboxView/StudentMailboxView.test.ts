@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentMailboxView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const title = 'Ma messagerie'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: title }

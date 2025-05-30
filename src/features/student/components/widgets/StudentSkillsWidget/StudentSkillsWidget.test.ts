@@ -3,7 +3,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { type CourseDTO, LevelStatus, type SkillDTO } from '@/types'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidget from './StudentSkillsWidget.vue'
 
 const navigateToStudentSkills = vi.fn()
@@ -112,26 +112,27 @@ describe('studentSkillsWidget', () => {
   ]
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentCoursesSummaryQuery(courses)
   })
 
-  it('should display nothing if no course is available', () => {
+  it('should display nothing if no course is available', async () => {
     mockUseStudentCoursesSummaryQuery([])
-    const wrapper = mount(StudentSkillsWidget)
+    const wrapper = await mountWithRouter(StudentSkillsWidget)
     const avCard = wrapper.findComponent({ name: 'AvCard' })
     expect(avCard.exists()).toBe(false)
   })
 
-  it('should display 1 course and up to 6 skills if 1 course is available', () => {
+  it('should display 1 course and up to 6 skills if 1 course is available', async () => {
     mockUseStudentCoursesSummaryQuery(courses.slice().slice(0, 1))
-    const wrapper = mount(StudentSkillsWidget)
+    const wrapper = await mountWithRouter(StudentSkillsWidget)
     const studentSkillsWidgetContainers = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
     expect(studentSkillsWidgetContainers).toHaveLength(1)
     expect(studentSkillsWidgetContainers[0].props('maxSkillsDisplayed')).toBe(6)
   })
 
-  it('should display 2 courses and up to 3 skills by course if 2 courses are available', () => {
-    const wrapper = mount(StudentSkillsWidget)
+  it('should display 2 courses and up to 3 skills by course if 2 courses are available', async () => {
+    const wrapper = await mountWithRouter(StudentSkillsWidget)
     const studentSkillsWidgetContainers = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
     expect(studentSkillsWidgetContainers).toHaveLength(2)
     studentSkillsWidgetContainers.forEach((container) => {
@@ -140,7 +141,7 @@ describe('studentSkillsWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = mount(StudentSkillsWidget)
+    const wrapper = await mountWithRouter(StudentSkillsWidget)
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 

@@ -4,7 +4,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentDeliverablesWidget from './StudentDeliverablesWidget.vue'
 
 const navigateToStudentDeliverables = vi.fn()
@@ -65,11 +65,12 @@ describe('studentDeliverablesWidget', () => {
   ]
 
   beforeEach(() => {
+    vi.clearAllMocks()
     mockUseStudentDeliverablesSummaryQuery(deliverables)
   })
 
-  it('should only display up to 3 future deliverables sorted by date', () => {
-    const wrapper = mount(StudentDeliverablesWidget)
+  it('should only display up to 3 future deliverables sorted by date', async () => {
+    const wrapper = await mountWithRouter(StudentDeliverablesWidget)
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -88,7 +89,7 @@ describe('studentDeliverablesWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = mount(StudentDeliverablesWidget)
+    const wrapper = await mountWithRouter(StudentDeliverablesWidget)
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 

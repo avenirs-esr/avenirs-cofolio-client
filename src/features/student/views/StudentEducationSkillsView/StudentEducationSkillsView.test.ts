@@ -7,6 +7,10 @@ vi.mock('@/common/components/PageTitle', () => ({
 }))
 
 describe('studentEducationSkillsView', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   const title = 'Toutes mes compétences'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: 'Mes compétences' }
