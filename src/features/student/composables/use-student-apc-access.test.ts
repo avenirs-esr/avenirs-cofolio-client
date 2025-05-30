@@ -1,5 +1,5 @@
+import type { NavigationAccessDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { StudentNavigationAccessControlDTO } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentApcAccess } from '@/features/student/composables'
@@ -17,11 +17,11 @@ describe('useStudentApcAccess', () => {
     vi.clearAllMocks()
   })
 
-  function mockUseStudentNavigationAccessControlQuery (payload: StudentNavigationAccessControlDTO) {
-    const mockData: Ref<StudentNavigationAccessControlDTO> = ref(payload)
+  function mockUseStudentNavigationAccessControlQuery (payload: NavigationAccessDTO) {
+    const mockData: Ref<NavigationAccessDTO> = ref(payload)
     const queryMockedData = {
       data: mockData,
-    } as unknown as UseQueryReturnType<StudentNavigationAccessControlDTO, BaseApiException>
+    } as unknown as UseQueryReturnType<NavigationAccessDTO, BaseApiException>
     mockedUseStudentNavigationAccessControlQuery.mockReturnValue(queryMockedData)
   }
 
@@ -116,7 +116,7 @@ describe('useStudentApcAccess', () => {
     beforeEach(() => {
       mockedUseStudentNavigationAccessControlQuery.mockReturnValue({
         data: { value: undefined }
-      } as unknown as UseQueryReturnType<StudentNavigationAccessControlDTO, BaseApiException>)
+      } as unknown as UseQueryReturnType<NavigationAccessDTO, BaseApiException>)
     })
 
     it('should return isApcVisible as false', () => {

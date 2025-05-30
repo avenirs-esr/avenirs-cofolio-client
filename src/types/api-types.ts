@@ -82,13 +82,3 @@ export interface StudentHeaderSummaryDTO {
   messagesCount: number
   notificationsCount: number
 }
-
-export interface StudentNavigationAccessControlDTO {
-  APC: {
-    enabledByInstitution: boolean
-    hasProgram: boolean
-  }
-  LIFE_PROJECT: {
-    enabledByInstitution: boolean
-  }
-}
