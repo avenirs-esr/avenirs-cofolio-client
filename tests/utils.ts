@@ -1,6 +1,8 @@
+import type { AvRoute } from '@/common/types'
 import router from '@/router'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
 import { type Component, createApp } from 'vue'
 
 interface MountComposableOptions {
@@ -40,8 +42,24 @@ async function mountWithRouter<T> (component: Component, options?: ComponentMoun
   return wrapper
 }
 
+function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
+  describe(route.name, () => {
+    it('should have correct route config', () => {
+      expect(route).toMatchObject({ ...expectedConfig, component: expect.any(Function) })
+    })
+
+    it('should dynamically import the component and match it', async () => {
+      const componentLoader = route.component as () => Promise<{ default: unknown }>
+      const componentModule = await componentLoader()
+      expect(componentModule).toBeDefined()
+      expect(componentModule.default).toBe(expectedComponent)
+    })
+  })
+}
+
 export {
   mountComposable,
   mountQueryComposable,
-  mountWithRouter
+  mountWithRouter,
+  testRoute
 }
