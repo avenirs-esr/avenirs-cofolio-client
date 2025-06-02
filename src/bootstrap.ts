@@ -1,4 +1,4 @@
-import tanstackQuery from '@/plugins/tanstack-query'
+import tanstackQuery from '@/plugins/tanstack-query/tanstack-query'
 import i18nAvPlugin from '@/plugins/vue-i18n'
 import router from '@/router'
 import store from '@/store'
