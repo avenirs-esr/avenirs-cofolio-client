@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import routes from '@/features/teacher/routes'
+import routes from '@/features/teacher/routes/routes'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { createHtmlReport } from 'axe-html-reporter'
