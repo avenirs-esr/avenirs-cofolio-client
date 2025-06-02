@@ -1,5 +1,5 @@
 import tanstackQuery from '@/plugins/tanstack-query/tanstack-query'
-import i18nAvPlugin from '@/plugins/vue-i18n'
+import i18nAvPlugin from '@/plugins/vue-i18n/vue-i18n'
 import router from '@/router'
 import store from '@/store'
 import { createApp } from 'vue'
