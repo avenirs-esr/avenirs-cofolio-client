@@ -323,7 +323,6 @@ describe('useStudentTracksSummaryQuery', () => {
       type: TrackType.INDIVIDUAL,
       filedAt: '2025-02-07T23:08:51',
       course: 'Master Chimie Verte et Éco-innovations'
-
     },
     {
       id: 'track4',

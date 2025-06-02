@@ -14,7 +14,7 @@ import routes, {
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentToolsTracksRoute
-} from '@/features/student/routes'
+} from '@/features/student/routes/routes'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { createHtmlReport } from 'axe-html-reporter'
