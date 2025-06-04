@@ -4,5 +4,5 @@ export interface AvRichButtonProps {
   borderColor?: string
   customPadding?: string
   hoverBorderColor?: string
-  onClick: (event: MouseEvent) => void
+  onClick?: (event: MouseEvent) => void
 }
