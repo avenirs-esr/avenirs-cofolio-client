@@ -1,6 +1,7 @@
 import { useStudentApcAccess } from '@/features/student/composables'
 import { studentEducationActivitiesRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
+import { registerNavigationLinkKey } from '@/ui'
 import { mount } from '@vue/test-utils'
 import { vi } from 'vitest'
 import StudentNavigation from './StudentNavigation.vue'
@@ -17,6 +18,9 @@ describe('studentNavigation', () => {
     const wrapper = mount(StudentNavigation, {
       global: {
         plugins: [router],
+        provide: {
+          [registerNavigationLinkKey]: vi.fn()
+        }
       },
     })
 

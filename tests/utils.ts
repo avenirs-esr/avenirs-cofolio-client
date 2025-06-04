@@ -1,5 +1,4 @@
 import type { AvRoute } from '@/common/types'
-import router from '@/router'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
@@ -33,7 +32,17 @@ async function mountWithRouter<T> (component: Component, options?: ComponentMoun
   const wrapper = mount(component, {
     ...options,
     global: {
-      plugins: [router],
+      stubs: {
+        RouterLink: {
+          name: 'RouterLink',
+          props: ['to'],
+          template: '<a :href="to" class="router-link-stub"><slot /></a>'
+        },
+        RouterView: {
+          name: 'RouterView',
+          template: '<div class="router-view-stub"><slot /></div>'
+        },
+      },
       ...(options?.global ?? {}),
     },
   })

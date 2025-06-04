@@ -3,21 +3,38 @@ import { configDefaults, coverageConfigDefaults, defineConfig, mergeConfig } fro
 import viteConfig from './vite.config'
 
 export default ({ mode }: { mode: string }) => {
+  const sharedExclusions = [
+    'e2e/*',
+    'a11y/*',
+    '**/*types.ts',
+    'src/common/types/*',
+    'src/api/**/generated/*',
+    'orval.config.ts',
+    'src/App.vue'
+  ]
+
+  const COVERAGE_THRESHOLD = 85
+
   return mergeConfig(
     viteConfig({ mode }),
     defineConfig({
       test: {
         environment: 'jsdom',
-        exclude: [...configDefaults.exclude, 'e2e/*', 'a11y/*'],
+        exclude: [...configDefaults.exclude, ...sharedExclusions],
         root: fileURLToPath(new URL('./', import.meta.url)),
         setupFiles: [
           fileURLToPath(new URL('./vitest-setup.ts', import.meta.url)),
         ],
         coverage: {
-          enabled: true,
           provider: 'v8',
           reporter: ['text', 'html'],
-          exclude: ['**/index.ts', ...coverageConfigDefaults.exclude, 'a11y/*', 'src/App.vue'],
+          exclude: [...coverageConfigDefaults.exclude, ...sharedExclusions],
+          thresholds: {
+            branches: COVERAGE_THRESHOLD,
+            functions: COVERAGE_THRESHOLD,
+            lines: COVERAGE_THRESHOLD,
+            statements: COVERAGE_THRESHOLD,
+          },
         },
       },
       resolve: {
