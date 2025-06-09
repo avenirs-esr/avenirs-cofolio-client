@@ -2,14 +2,13 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { mockedCourses } from '@/features/student/queries/utils'
 import {
   type CourseOverviewDTO,
   type DeliverableDTO,
   type EventDTO,
-  LevelStatus,
   type PageDTO,
   type ResumeDTO,
-  type SkillOverviewDTO,
   type StudentHeaderSummaryDTO,
   type StudentSummaryDTO,
   type TrackDTO,
@@ -49,87 +48,6 @@ describe('useStudentSummaryQuery', () => {
 })
 
 describe('useStudentCoursesSummaryQuery', () => {
-  const mockedSkills: Array<SkillOverviewDTO> = [
-    {
-      id: 'skill1',
-      name: 'Prévenir la pollution à la source',
-      trackCount: 1,
-      activityCount: 8,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
-    },
-    {
-      id: 'skill2',
-      name: 'Mettre en place des filières d’économies circulaires',
-      trackCount: 2,
-      activityCount: 7,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
-    },
-    {
-      id: 'skill3',
-      name: 'Évaluer l’impact environnemental et économique',
-      trackCount: 3,
-      activityCount: 6,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-      ]
-    },
-    {
-      id: 'skill4',
-      name: 'Concevoir des synthèses chimiques durables',
-      trackCount: 4,
-      activityCount: 5,
-      levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
-    },
-    {
-      id: 'skill5',
-      name: 'Réaliser un circuit électrique',
-      trackCount: 5,
-      activityCount: 4,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
-    },
-    {
-      id: 'skill6',
-      name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-      trackCount: 6,
-      activityCount: 3,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
-    },
-    {
-      id: 'skill7',
-      name: 'Réaliser une étude de marché',
-      trackCount: 7,
-      activityCount: 2,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-      ]
-    },
-    {
-      id: 'skill8',
-      name: 'Réaliser un cahier des charges fonctionnels',
-      trackCount: 8,
-      activityCount: 1,
-      levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
-    },
-  ]
-  const mockedData = [
-    { id: 'course2', name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel', skills: mockedSkills },
-    { id: 'course1', name: 'Master Chimie Verte et Éco-innovations', skills: mockedSkills },
-  ]
-
   it('should return mock data with correct structure', async () => {
     const { data } = mountQueryComposable<UseQueryReturnType<CourseOverviewDTO[], BaseApiException>>(
       () => useStudentCoursesSummaryQuery(),
@@ -141,7 +59,7 @@ describe('useStudentCoursesSummaryQuery', () => {
     expect(result![0]).toHaveProperty('id')
     expect(result![0]).toHaveProperty('name')
     expect(result![0]).toHaveProperty('skills')
-    expect(result).toEqual(mockedData)
+    expect(result).toEqual(mockedCourses)
   })
 })
 
