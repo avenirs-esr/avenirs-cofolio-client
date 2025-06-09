@@ -1,6 +1,21 @@
 {
   "student": {
+    "badges": {
+      "studentLevelBadge": {
+        "status": {
+          "inProgress": "En cours d'acquisition",
+          "notValidated": "Non validé",
+          "underReview": "Soumis pour évaluation",
+          "validated": "Validé"
+        }
+      }
+    },
     "cards": {
+      "studentDetailedSkillCard": {
+        "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+        "feedbackCount": "0 feedback à consulter | 1 feedback à consulter | {count} feedbacks à consulter",
+        "trackCount": "0 trace | 1 trace | {count} traces"
+      },
       "studentSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "badgeStatus": {

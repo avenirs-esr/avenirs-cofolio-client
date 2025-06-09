@@ -12,6 +12,7 @@
   --font-size-n5: 1.625rem;
   --font-size-n6: 1.25rem;
   --font-size-s1: 1.25rem;
+  --font-size-s2: 1.125rem;
   --line-height-xs: 1.125rem;
   --line-height-sm: 1.3125rem;
   --line-height-md: 1.5rem;
@@ -20,10 +21,12 @@
   --line-height-n5: 2.5rem;
   --line-height-n6: 1.875rem;
   --line-height-s1: 1.875rem;
+  --line-height-s2: 1.688rem;
   --letter-spacing-caption: 0.1%;
   --letter-spacing-sm: -0.4%;
   --letter-spacing-md: -0.4%;
   --letter-spacing-s1: 0.1%;
+  --letter-spacing-s2: 0.1%;
 }
 
 .b1-bold {
@@ -118,5 +121,14 @@
   font-size: var(--font-size-s1);
   line-height: var(--line-height-s1);
   letter-spacing: var(--letter-spacing-s1);
+  color: var(--foreground-text1);
+}
+
+.s2-regular {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-s2);
+  line-height: var(--line-height-s2);
+  letter-spacing: var(--letter-spacing-s2);
   color: var(--foreground-text1);
 }

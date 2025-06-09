@@ -195,7 +195,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProgramProgressDTO_Temp"
+                    "$ref": "#/components/schemas/ProgramProgressDTO"
                   }
                 }
               }
@@ -370,7 +370,7 @@
           }
         }
       },
-      "ProgramProgressDTO_Temp": {
+      "ProgramProgressDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -383,12 +383,12 @@
           "skills": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkillDTO_Temp"
+              "$ref": "#/components/schemas/SkillDTO"
             }
           }
         }
       },
-      "SkillDTO_Temp": {
+      "SkillDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -409,12 +409,12 @@
           "levels": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkillLevelDTO_Temp"
+              "$ref": "#/components/schemas/SkillLevelDTO"
             }
           }
         }
       },
-      "SkillLevelDTO_Temp": {
+      "SkillLevelDTO": {
         "type": "object",
         "properties": {
           "id": {

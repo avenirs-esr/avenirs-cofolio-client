@@ -4,7 +4,10 @@
   --background-dialog: #FDFDFD;
   --background-surface-background: #F6F6F6;
 
+  --dark-background-critical: #8B64F4;
   --dark-background-primary1: #000091;
+  --dark-background-warn: #9C3900;
+
   --dark-foreground: #FAFAFAEB;
 
   --foreground-icon: #14171A7A;
@@ -13,10 +16,12 @@
   --foreground-text2: #14171AA3;
   --foreground-title: #14171AEB;
 
+  --light-background-critical: #ECE5FD;
   --light-background-error: #F9CACC;
   --light-background-neutral: #E9EAEA;
   --light-background-primary2: #C4D6FF;
   --light-background-success: #BDDECA;
+  --light-background-warn: #F4CEB8;
 
   --light-foreground-error: #800108;
   --light-foreground-success: #0F4625;
