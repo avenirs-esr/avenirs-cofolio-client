@@ -3,7 +3,7 @@ import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { mockedCourses } from '@/features/student/queries/utils'
 import {
-  type CourseOverviewDTO,
+  type CourseDTO,
   type DeliverableDTO,
   type EventDTO,
   type PageDTO,
@@ -35,13 +35,13 @@ function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseAp
   })
 }
 
-function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseOverviewDTO[], BaseApiException> {
+function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'skills'])
-  return useQuery<CourseOverviewDTO[], BaseApiException>({
+  return useQuery<CourseDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/skills/overview when the endpoint and client are ready
-    queryFn: async (): Promise<CourseOverviewDTO[]> => {
+    queryFn: async (): Promise<CourseDTO[]> => {
       return mockedCourses
     }
   })

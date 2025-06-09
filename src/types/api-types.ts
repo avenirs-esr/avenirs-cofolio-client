@@ -5,24 +5,24 @@ export enum LevelStatus {
   NOT_VALIDATED = 'NOT_VALIDATED',
 }
 
-export interface LevelOverviewDTO {
+export interface LevelDTO {
   id: string
   name: string
   status: LevelStatus
 }
 
-export interface SkillOverviewDTO {
+export interface SkillDTO {
   id: string
   name: string
   trackCount: number
   activityCount: number
-  levels: Array<LevelOverviewDTO>
+  levels: Array<LevelDTO>
 }
 
-export interface CourseOverviewDTO {
+export interface CourseDTO {
   id: string
   name: string
-  skills: Array<SkillOverviewDTO>
+  skills: Array<SkillDTO>
 }
 
 export interface DeliverableDTO {
@@ -84,22 +84,22 @@ export interface StudentHeaderSummaryDTO {
 }
 
 // TODO: waiting for #269
-export type LevelDTO = {
+export type LevelDTO_Temp = {
   shortDescription: string
-} & LevelOverviewDTO
+} & LevelDTO
 
 // TODO: waiting for #269
-export type SkillDTO = {
+export type SkillDTO_Temp = {
   levelCount: number
-  currentLevel: LevelDTO
-} & Omit<SkillOverviewDTO, 'levels'>
+  currentLevel: LevelDTO_Temp
+} & Omit<SkillDTO, 'levels'>
 
 // TODO: waiting for #269
-export interface ProgramProgressDTO {
+export interface ProgramProgressDTO_Temp {
   id: string
   name: string
-  skills: SkillDTO[]
+  skills: SkillDTO_Temp[]
 }
 
 // TODO: waiting for #269
-export type ProgramProgressViewDTO = ProgramProgressDTO[]
+export type ProgramProgressViewDTO_Temp = ProgramProgressDTO_Temp[]

@@ -1,4 +1,4 @@
-import { LevelStatus, type SkillOverviewDTO } from '@/types'
+import { LevelStatus, type SkillDTO } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidgetContainer from './StudentSkillsWidgetContainer.vue'
 
@@ -93,7 +93,7 @@ describe('studentSkillsWidgetContainer', () => {
           activityCount: 1,
           levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
         },
-      ] as Array<SkillOverviewDTO>
+      ] as Array<SkillDTO>
     },
     maxSkillsDisplayed: 3,
   } as const
