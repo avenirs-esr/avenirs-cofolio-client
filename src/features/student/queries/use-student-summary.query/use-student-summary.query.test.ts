@@ -2,7 +2,19 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { type CourseDTO, type DeliverableDTO, type EventDTO, LevelStatus, type PageDTO, type ResumeDTO, type SkillDTO, type StudentHeaderSummaryDTO, type StudentSummaryDTO, type TrackDTO, TrackType } from '@/types'
+import {
+  type CourseOverviewDTO,
+  type DeliverableDTO,
+  type EventDTO,
+  LevelStatus,
+  type PageDTO,
+  type ResumeDTO,
+  type SkillOverviewDTO,
+  type StudentHeaderSummaryDTO,
+  type StudentSummaryDTO,
+  type TrackDTO,
+  TrackType
+} from '@/types'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
@@ -37,7 +49,7 @@ describe('useStudentSummaryQuery', () => {
 })
 
 describe('useStudentCoursesSummaryQuery', () => {
-  const mockedSkills: Array<SkillDTO> = [
+  const mockedSkills: Array<SkillOverviewDTO> = [
     {
       id: 'skill1',
       name: 'Prévenir la pollution à la source',
@@ -119,7 +131,7 @@ describe('useStudentCoursesSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<CourseDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<CourseOverviewDTO[], BaseApiException>>(
       () => useStudentCoursesSummaryQuery(),
     )
     await flushPromises()

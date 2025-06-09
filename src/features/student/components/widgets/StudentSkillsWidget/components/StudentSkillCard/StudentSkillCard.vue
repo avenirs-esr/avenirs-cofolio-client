@@ -2,7 +2,7 @@
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { studentSkillRoute } from '@/features/student/routes'
-import { type LevelDTO, LevelStatus } from '@/types'
+import { type LevelOverviewDTO, LevelStatus } from '@/types'
 import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -11,7 +11,7 @@ const { name, trackCount, activityCount, levels } = skill
 
 const { t } = useI18n()
 
-function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
+function levelStatusToBadgeInfo (status: LevelOverviewDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
     case LevelStatus.TO_EVALUATE:
       return { status: t('student.cards.studentSkillCard.badgeStatus.toEvaluate'), type: 'new' }
@@ -24,7 +24,7 @@ function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, 
   }
 }
 
-function levelToBadge (level: LevelDTO) {
+function levelToBadge (level: LevelOverviewDTO) {
   const { status, type } = levelStatusToBadgeInfo(level.status)
   const label = `${level.name} ${status}`
 

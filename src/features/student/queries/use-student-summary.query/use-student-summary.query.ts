@@ -2,13 +2,13 @@ import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import {
-  type CourseDTO,
+  type CourseOverviewDTO,
   type DeliverableDTO,
   type EventDTO,
   LevelStatus,
   type PageDTO,
   type ResumeDTO,
-  type SkillDTO,
+  type SkillOverviewDTO,
   type StudentHeaderSummaryDTO,
   type StudentSummaryDTO,
   type TrackDTO,
@@ -36,14 +36,14 @@ function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseAp
   })
 }
 
-function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[], BaseApiException> {
+function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'skills'])
-  return useQuery<CourseDTO[], BaseApiException>({
+  return useQuery<CourseOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/skills/overview when the endpoint and client are ready
-    queryFn: async (): Promise<CourseDTO[]> => {
-      const mockedSkills: Array<SkillDTO> = [
+    queryFn: async (): Promise<CourseOverviewDTO[]> => {
+      const mockedSkills: Array<SkillOverviewDTO> = [
         {
           id: 'skill1',
           name: 'Prévenir la pollution à la source',

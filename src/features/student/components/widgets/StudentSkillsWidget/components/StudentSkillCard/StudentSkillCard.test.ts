@@ -1,4 +1,4 @@
-import { type LevelDTO, LevelStatus } from '@/types'
+import { type LevelOverviewDTO, LevelStatus } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import StudentSkillCard from './StudentSkillCard.vue'
@@ -37,7 +37,7 @@ describe('studentSkillCard.vue', () => {
       levels: [
         { id: 'Niv1', name: 'Niveau 1', status: LevelStatus.VALIDATED },
         { id: 'Niv2', name: 'Niveau 2', status: LevelStatus.TO_EVALUATE },
-      ] as LevelDTO[],
+      ] as LevelOverviewDTO[],
     },
     skillColor: '--color-skill',
   } as const
