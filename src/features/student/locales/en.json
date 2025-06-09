@@ -1,6 +1,21 @@
 {
   "student": {
+    "badges": {
+      "studentLevelBadge": {
+        "status": {
+          "inProgress": "Under acquisition",
+          "notValidated": "Not validated",
+          "underReview": "Submitted for evaluation",
+          "validated": "Validated"
+        }
+      }
+    },
     "cards": {
+      "studentDetailedSkillCard": {
+        "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
+        "feedbackCount": "0 feedback to read | 1 feedback to read | {count} feedbacks to read",
+        "trackCount": "0 track | 1 track | {count} tracks"
+      },
       "studentSkillCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "badgeStatus": {
