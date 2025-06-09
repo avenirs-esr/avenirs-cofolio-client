@@ -5,24 +5,24 @@ export enum LevelStatus {
   NOT_VALIDATED = 'NOT_VALIDATED',
 }
 
-export interface LevelDTO {
+export interface LevelOverviewDTO {
   id: string
   name: string
   status: LevelStatus
 }
 
-export interface SkillDTO {
+export interface SkillOverviewDTO {
   id: string
   name: string
   trackCount: number
   activityCount: number
-  levels: Array<LevelDTO>
+  levels: Array<LevelOverviewDTO>
 }
 
-export interface CourseDTO {
+export interface CourseOverviewDTO {
   id: string
   name: string
-  skills: Array<SkillDTO>
+  skills: Array<SkillOverviewDTO>
 }
 
 export interface DeliverableDTO {
