@@ -4,7 +4,7 @@ import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { mockedCourses } from '@/features/student/queries/utils'
 import {
-  type CourseOverviewDTO,
+  type CourseDTO,
   type DeliverableDTO,
   type EventDTO,
   type PageDTO,
@@ -49,7 +49,7 @@ describe('useStudentSummaryQuery', () => {
 
 describe('useStudentCoursesSummaryQuery', () => {
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<CourseOverviewDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<CourseDTO[], BaseApiException>>(
       () => useStudentCoursesSummaryQuery(),
     )
     await flushPromises()

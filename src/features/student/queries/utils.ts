@@ -1,10 +1,10 @@
 import {
-  type CourseOverviewDTO,
+  type CourseDTO,
   LevelStatus,
-  type ProgramProgressDTO,
+  type ProgramProgressDTO_Temp,
 } from '@/types'
 
-export const mockedCourses: CourseOverviewDTO[] = [
+export const mockedCourses: CourseDTO[] = [
   {
     id: 'course-2',
     name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel',
@@ -97,7 +97,7 @@ export const mockedCourses: CourseOverviewDTO[] = [
   },
 ]
 
-export const mockedPrograms: ProgramProgressDTO[] = mockedCourses.map(course => ({
+export const mockedPrograms: ProgramProgressDTO_Temp[] = mockedCourses.map(course => ({
   id: `program-${course.id}`,
   name: course.name,
   skills: [...course.skills].map((skill) => {

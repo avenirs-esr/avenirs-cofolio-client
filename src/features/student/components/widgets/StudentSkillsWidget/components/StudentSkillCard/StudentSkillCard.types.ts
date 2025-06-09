@@ -1,6 +1,6 @@
-import type { SkillOverviewDTO } from '@/types'
+import type { SkillDTO } from '@/types'
 
 export interface StudentSkillCardProps {
-  skill: SkillOverviewDTO
+  skill: SkillDTO
   skillColor: string
 }

@@ -2,7 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
-import { type CourseOverviewDTO, LevelStatus, type SkillOverviewDTO } from '@/types'
+import { type CourseDTO, LevelStatus, type SkillDTO } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidget from './StudentSkillsWidget.vue'
 
@@ -20,16 +20,16 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentCoursesSummaryQuery = vi.mocked(useStudentCoursesSummaryQuery)
 
-function mockUseStudentCoursesSummaryQuery (payload: CourseOverviewDTO[]) {
-  const mockData: Ref<CourseOverviewDTO[]> = ref(payload)
+function mockUseStudentCoursesSummaryQuery (payload: CourseDTO[]) {
+  const mockData: Ref<CourseDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<CourseOverviewDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<CourseDTO[], BaseApiException>
   mockedUseStudentCoursesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 describe('studentSkillsWidget', () => {
-  const mockedSkills: Array<SkillOverviewDTO> = [
+  const mockedSkills: Array<SkillDTO> = [
     {
       id: 'skill1',
       name: 'Prévenir la pollution à la source',
