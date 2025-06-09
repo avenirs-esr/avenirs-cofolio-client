@@ -82,3 +82,24 @@ export interface StudentHeaderSummaryDTO {
   messagesCount: number
   notificationsCount: number
 }
+
+// TODO: waiting for #269
+export type LevelDTO = {
+  shortDescription: string
+} & LevelOverviewDTO
+
+// TODO: waiting for #269
+export type SkillDTO = {
+  levelCount: number
+  currentLevel: LevelDTO
+} & Omit<SkillOverviewDTO, 'levels'>
+
+// TODO: waiting for #269
+export interface ProgramProgressDTO {
+  id: string
+  name: string
+  skills: SkillDTO[]
+}
+
+// TODO: waiting for #269
+export type ProgramProgressViewDTO = ProgramProgressDTO[]

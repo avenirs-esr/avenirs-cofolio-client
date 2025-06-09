@@ -1,6 +1,7 @@
 import {
   type CourseOverviewDTO,
   LevelStatus,
+  type ProgramProgressDTO,
 } from '@/types'
 
 export const mockedCourses: CourseOverviewDTO[] = [
@@ -95,3 +96,46 @@ export const mockedCourses: CourseOverviewDTO[] = [
     ],
   },
 ]
+
+export const mockedPrograms: ProgramProgressDTO[] = mockedCourses.map(course => ({
+  id: `program-${course.id}`,
+  name: course.name,
+  skills: [...course.skills].map((skill) => {
+    const currentLevel = skill.levels.find(lvl => lvl.status !== LevelStatus.VALIDATED)
+      ?? skill.levels[skill.levels.length - 1]
+
+    const levelCount = {
+      'skill-1-1': 5,
+      'skill-1-2': 4,
+      'skill-1-3': 3,
+      'skill-1-4': 3,
+      'skill-2-1': 4,
+      'skill-2-2': 5,
+      'skill-2-3': 1,
+      'skill-2-4': 3,
+    }[skill.id] ?? 3
+
+    const shortDescription = {
+      'skill-1-1': 'Analyser et optimiser les procédés pour prévenir la pollution à la source',
+      'skill-1-2': 'Structurer et déployer des boucles de réutilisation et de valorisation des ressources',
+      'skill-1-3': 'Mesurer les effets écologiques et économiques d’un procédé ou d’un produit',
+      'skill-1-4': 'Développer des voies de synthèse respectueuses de l’environnement et efficaces',
+      'skill-2-1': 'Concevoir et assembler un circuit en respectant les contraintes techniques et de sécurité',
+      'skill-2-2': 'Identifier les dangers électriques spécifiques et appliquer les procédures de consignation',
+      'skill-2-3': 'Analyser les besoins clients et la concurrence pour orienter une offre technique',
+      'skill-2-4': 'Formuler précisément les besoins utilisateurs et les traduire en exigences techniques',
+    }[skill.id] ?? `Description courte de ${currentLevel.name}`
+
+    return {
+      id: skill.id,
+      name: skill.name,
+      trackCount: skill.trackCount,
+      activityCount: skill.activityCount,
+      levelCount,
+      currentLevel: {
+        ...currentLevel,
+        shortDescription,
+      },
+    }
+  }),
+}))
