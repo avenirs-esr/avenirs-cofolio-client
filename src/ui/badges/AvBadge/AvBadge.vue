@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import type { AvBadgeProps } from './AvBadge.types'
+import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 
-const props = defineProps<AvBadgeProps>()
+const props = defineProps<{
+  color: string
+  backgroundColor: string
+  iconPath?: string
+} & DsfrBadgeProps>()
 
 const customIconClass = computed(() => props.iconPath ? 'av-badge--customIcon' : undefined)
 const styleVars = computed(() => ({
