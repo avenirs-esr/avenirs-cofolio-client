@@ -2,7 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentTracksSummaryQuery } from '@/features/student/queries'
-import { type TrackDTO, TrackType } from '@/types'
+import { type TrackOverviewDTO, TrackType } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import StudentTracksWidget from './StudentTracksWidget.vue'
 
@@ -20,16 +20,16 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentTracksSummaryQuery = vi.mocked(useStudentTracksSummaryQuery)
 
-function mockUseStudentTracksSummaryQuery (payload: TrackDTO[]) {
-  const mockData: Ref<TrackDTO[]> = ref(payload)
+function mockUseStudentTracksSummaryQuery (payload: TrackOverviewDTO[]) {
+  const mockData: Ref<TrackOverviewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<TrackDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<TrackOverviewDTO[], BaseApiException>
   mockedUseStudentTracksSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 describe('studentTracksWidget', async () => {
-  const tracks: Array<TrackDTO> = [
+  const tracks: Array<TrackOverviewDTO> = [
     {
       id: 'track1',
       name: 'Prévenir la pollution à la source',

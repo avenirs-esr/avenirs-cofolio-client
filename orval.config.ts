@@ -19,6 +19,7 @@ export default defineConfig({
           path: './../fetch-instance/fetch-instance.ts',
           name: 'customFetch',
         },
+        enumGenerationType: 'enum'
       },
     },
   },

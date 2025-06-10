@@ -4,7 +4,7 @@
       "studentLevelBadge": {
         "status": {
           "inProgress": "En cours d'acquisition",
-          "notValidated": "Non validé",
+          "failed": "Non validé",
           "underReview": "Soumis pour évaluation",
           "validated": "Validé"
         }
@@ -19,8 +19,8 @@
       "studentSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "badgeStatus": {
-          "notValidated": "non validé",
-          "toEvaluate": "à évaluer",
+          "failed": "non validé",
+          "toBeEvaluated": "à évaluer",
           "underReview": "en cours d'évaluation",
           "validated": "validé"
         },

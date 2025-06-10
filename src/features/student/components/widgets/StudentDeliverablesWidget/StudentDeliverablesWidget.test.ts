@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { DeliverableDTO } from '@/types'
+import type { DeliverableOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
@@ -21,11 +21,11 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentDeliverablesSummaryQuery = vi.mocked(useStudentDeliverablesSummaryQuery)
 
-function mockUseStudentDeliverablesSummaryQuery (payload: DeliverableDTO[]) {
-  const mockData: Ref<DeliverableDTO[]> = ref(payload)
+function mockUseStudentDeliverablesSummaryQuery (payload: DeliverableOverviewDTO[]) {
+  const mockData: Ref<DeliverableOverviewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<DeliverableDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<DeliverableOverviewDTO[], BaseApiException>
   mockedUseStudentDeliverablesSummaryQuery.mockReturnValue(queryMockedData)
 }
 

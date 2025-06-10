@@ -1,17 +1,18 @@
 <script lang="ts" setup>
+import type { SkillViewDTO } from '@/types'
+import { SkillLevelStatus } from '@/api/avenir-esr'
 import { StudentLevelBadge } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { LevelStatus, type SkillDTO_Temp } from '@/types'
 import { AvBadge, AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { skill, skillColor } = defineProps<{ skill: SkillDTO_Temp, skillColor: string }>()
-const { name, trackCount, activityCount, levelCount, currentLevel } = skill
+const { skill, skillColor } = defineProps<{ skill: SkillViewDTO, skillColor: string }>()
+const { name, traceCount, activityCount, levelCount, currentSkillLevel } = skill
 
 const { t } = useI18n()
 
 const computedHoverBorderColor = computed(() => `var(${skillColor})`)
-const showLevelBadge = computed(() => currentLevel.status === LevelStatus.TO_EVALUATE || currentLevel.status === LevelStatus.UNDER_REVIEW)
+const showLevelBadge = computed(() => currentSkillLevel.status === SkillLevelStatus.TO_BE_EVALUATED || currentSkillLevel.status === SkillLevelStatus.UNDER_REVIEW)
 // TODO: placeholder waiting for US specific to feedback
 const mockedFeedbackCount = computed(() => Math.floor(Math.random() * 6))
 
@@ -48,10 +49,10 @@ const hoverBorderColor = ref(computedHoverBorderColor)
         <div class="student-detailed-skill-card__body">
           <div class="student-detailed-skill-card__firstLine">
             <div class="student-detailed-skill-card__line">
-              <span class="n6">{{ skill.currentLevel.name }}</span>
+              <span class="n6">{{ skill.currentSkillLevel.name }}</span>
               <StudentLevelBadge
                 v-if="showLevelBadge"
-                :level="currentLevel"
+                :level="currentSkillLevel"
               />
               <AvBadge
                 v-if="mockedFeedbackCount > 0"
@@ -76,12 +77,14 @@ const hoverBorderColor = ref(computedHoverBorderColor)
             </div>
           </div>
           <div class="student-detailed-skill-card__line">
-            <span class="s2-regular">{{ skill.currentLevel.shortDescription }}</span>
+            <span class="s2-regular">{{ skill.currentSkillLevel.shortDescription }}</span>
           </div>
           <div class="student-detailed-skill-card__line">
             <div class="student-detailed-skill-card__counts">
               <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-              <span class="student-detailed-skill-card__desc">{{ t('student.cards.studentDetailedSkillCard.trackCount', { count: trackCount }) }}</span>
+              <span class="student-detailed-skill-card__desc">{{
+                t('student.cards.studentDetailedSkillCard.trackCount', { count: traceCount })
+              }}</span>
             </div>
             <div class="student-detailed-skill-card__counts">
               <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />

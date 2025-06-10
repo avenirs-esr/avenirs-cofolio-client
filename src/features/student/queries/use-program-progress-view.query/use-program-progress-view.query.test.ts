@@ -1,5 +1,5 @@
+import type { ProgramProgressOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { ProgramProgressViewDTO_Temp } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { mockedPrograms } from '@/features/student/queries/utils'
 import { flushPromises } from '@vue/test-utils'
@@ -10,7 +10,7 @@ import { useProgramProgressViewQuery } from './use-program-progress-view.query'
 
 describe('useStudentCoursesSummaryQuery', () => {
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressViewDTO_Temp, BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressOverviewDTO[], BaseApiException>>(
       () => useProgramProgressViewQuery(),
     )
     await flushPromises()

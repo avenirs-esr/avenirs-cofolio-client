@@ -1,8 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
+import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
-import { type CourseDTO, LevelStatus, type SkillDTO } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidget from './StudentSkillsWidget.vue'
 
@@ -20,89 +20,71 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentCoursesSummaryQuery = vi.mocked(useStudentCoursesSummaryQuery)
 
-function mockUseStudentCoursesSummaryQuery (payload: CourseDTO[]) {
-  const mockData: Ref<CourseDTO[]> = ref(payload)
+function mockUseStudentCoursesSummaryQuery (payload: ProgramProgressOverviewDTO[]) {
+  const mockData: Ref<ProgramProgressOverviewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<CourseDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<ProgramProgressOverviewDTO[], BaseApiException>
   mockedUseStudentCoursesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 describe('studentSkillsWidget', () => {
-  const mockedSkills: Array<SkillDTO> = [
+  const mockedSkills: Array<SkillOverviewDTO> = [
     {
       id: 'skill1',
       name: 'Prévenir la pollution à la source',
-      trackCount: 1,
+      traceCount: 1,
       activityCount: 8,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
     },
     {
       id: 'skill2',
       name: 'Mettre en place des filières d’économies circulaires',
-      trackCount: 2,
+      traceCount: 2,
       activityCount: 7,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
     },
     {
       id: 'skill3',
       name: 'Évaluer l’impact environnemental et économique',
-      trackCount: 3,
+      traceCount: 3,
       activityCount: 6,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
     },
     {
       id: 'skill4',
       name: 'Concevoir des synthèses chimiques durables',
-      trackCount: 4,
+      traceCount: 4,
       activityCount: 5,
-      levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
+      currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
     },
     {
       id: 'skill5',
       name: 'Réaliser un circuit électrique',
-      trackCount: 5,
+      traceCount: 5,
       activityCount: 4,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
     },
     {
       id: 'skill6',
       name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-      trackCount: 6,
+      traceCount: 6,
       activityCount: 3,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
     },
     {
       id: 'skill7',
       name: 'Réaliser une étude de marché',
-      trackCount: 7,
+      traceCount: 7,
       activityCount: 2,
-      levels: [
-        { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-        { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-      ]
+      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
     },
     {
       id: 'skill8',
       name: 'Réaliser un cahier des charges fonctionnels',
-      trackCount: 8,
+      traceCount: 8,
       activityCount: 1,
-      levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
+      currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
     },
   ]
 

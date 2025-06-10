@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { PageDTO } from '@/types'
+import type { PageOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
@@ -21,11 +21,11 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentPagesSummaryQuery = vi.mocked(useStudentPagesSummaryQuery)
 
-function mockUseStudentPagesSummaryQuery (payload: PageDTO[]) {
-  const mockData: Ref<PageDTO[]> = ref(payload)
+function mockUseStudentPagesSummaryQuery (payload: PageOverviewDTO[]) {
+  const mockData: Ref<PageOverviewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<PageDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<PageOverviewDTO[], BaseApiException>
   mockedUseStudentPagesSummaryQuery.mockReturnValue(queryMockedData)
 }
 

@@ -1,38 +1,38 @@
 <script lang="ts" setup>
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
+import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import { studentSkillRoute } from '@/features/student/routes'
-import { type LevelDTO, LevelStatus } from '@/types'
 import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
-const { name, trackCount, activityCount, levels } = skill
+const { name, traceCount, activityCount, currentSkillLevel } = skill
 
 const { t } = useI18n()
 
-function levelStatusToBadgeInfo (status: LevelDTO['status']): { status: string, type: DsfrBadgeProps['type'] } {
+function levelStatusToBadgeInfo (status: SkillLevelStatus): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
-    case LevelStatus.TO_EVALUATE:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.toEvaluate'), type: 'new' }
-    case LevelStatus.UNDER_REVIEW:
+    case SkillLevelStatus.NOT_STARTED:
+    case SkillLevelStatus.TO_BE_EVALUATED:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'), type: 'new' }
+    case SkillLevelStatus.UNDER_REVIEW:
       return { status: t('student.cards.studentSkillCard.badgeStatus.underReview'), type: 'info' }
-    case LevelStatus.VALIDATED:
+    case SkillLevelStatus.VALIDATED:
       return { status: t('student.cards.studentSkillCard.badgeStatus.validated'), type: 'success' }
-    case LevelStatus.NOT_VALIDATED:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.notValidated'), type: 'error' }
+    case SkillLevelStatus.FAILED:
+      return { status: t('student.cards.studentSkillCard.badgeStatus.failed'), type: 'error' }
   }
 }
 
-function levelToBadge (level: LevelDTO) {
+function levelToBadge (level: SkillLevelOverviewDTO) {
   const { status, type } = levelStatusToBadgeInfo(level.status)
   const label = `${level.name} ${status}`
 
   return { label, type }
 }
 
-const firstBadge = computed(() => levelToBadge(levels[0]))
-const secondBadge = computed(() => levels.length > 1 ? levelToBadge(levels[1]) : undefined)
+const firstBadge = computed(() => levelToBadge(currentSkillLevel))
 const computedHoverBorderColor = computed(() => `var(${skillColor})`)
 
 const theme = ref({
@@ -71,7 +71,9 @@ const theme = ref({
         <div class="student-skill-card__body">
           <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-            <span class="student-skill-card__desc">{{ t('student.cards.studentSkillCard.trackCount', { count: trackCount }) }}</span>
+            <span class="student-skill-card__desc">{{
+              t('student.cards.studentSkillCard.trackCount', { count: traceCount })
+            }}</span>
           </div>
           <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
@@ -84,13 +86,6 @@ const theme = ref({
           <DsfrBadge
             :label="firstBadge.label"
             :type="firstBadge.type"
-            small
-            ellipsis
-          />
-          <DsfrBadge
-            v-if="!!secondBadge"
-            :label="secondBadge.label"
-            :type="secondBadge.type"
             small
             ellipsis
           />

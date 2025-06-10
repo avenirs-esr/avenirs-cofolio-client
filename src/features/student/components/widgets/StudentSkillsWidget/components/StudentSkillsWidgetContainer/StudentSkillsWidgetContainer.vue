@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { CourseDTO } from '@/types'
+import type { ProgramProgressOverviewDTO } from '@/api/avenir-esr'
 import { StudentSkillCard } from '../StudentSkillCard'
 
-const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: CourseDTO, maxSkillsDisplayed: number }>()
+const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: ProgramProgressOverviewDTO, maxSkillsDisplayed: number }>()
 
 const skills = computed(() => course.skills.slice().slice(0, maxSkillsDisplayed))
 const renderedCourseName = computed(() => course.name.length > 60
