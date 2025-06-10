@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import type { StudentDetailedSkillCardProps } from './StudentDetailedSkillCard.types'
 import { StudentLevelBadge } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { LevelStatus } from '@/types'
+import { LevelStatus, type SkillDTO_Temp } from '@/types'
 import { AvBadge, AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { skill, skillColor } = defineProps<StudentDetailedSkillCardProps>()
+const { skill, skillColor } = defineProps<{ skill: SkillDTO_Temp, skillColor: string }>()
 const { name, trackCount, activityCount, levelCount, currentLevel } = skill
 
 const { t } = useI18n()
@@ -16,9 +15,7 @@ const showLevelBadge = computed(() => currentLevel.status === LevelStatus.TO_EVA
 // TODO: placeholder waiting for US specific to feedback
 const mockedFeedbackCount = computed(() => Math.floor(Math.random() * 6))
 
-const theme = ref({
-  hoverBorderColor: computedHoverBorderColor,
-})
+const hoverBorderColor = ref(computedHoverBorderColor)
 </script>
 
 <template>
@@ -58,6 +55,7 @@ const theme = ref({
               />
               <AvBadge
                 v-if="mockedFeedbackCount > 0"
+                class="student-detailed-skill-card__feedback-badge"
                 :label="t('student.cards.studentDetailedSkillCard.feedbackCount', { count: mockedFeedbackCount })"
                 color="var(--dark-background-warn)"
                 background-color="var(--light-background-warn)"
@@ -102,8 +100,8 @@ const theme = ref({
 }
 
 .av-card:hover {
-  border: 1px solid v-bind('theme.hoverBorderColor') !important;
-  box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+  border: 1px solid v-bind('hoverBorderColor') !important;
+  box-shadow: 0 0 0 2px v-bind('hoverBorderColor');
 }
 
 .student-detailed-skill-card {
