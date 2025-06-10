@@ -1,4 +1,4 @@
-import { type LevelDTO, LevelStatus } from '@/types'
+import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import StudentSkillCard from './StudentSkillCard.vue'
@@ -27,18 +27,15 @@ describe('studentSkillCard.vue', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
-
+  const skill: SkillOverviewDTO = {
+    id: 'skill1',
+    name: 'Résolution de problème',
+    traceCount: 4,
+    activityCount: 2,
+    currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.VALIDATED }
+  }
   const baseProps = {
-    skill: {
-      id: 'skill1',
-      name: 'Résolution de problème',
-      trackCount: 4,
-      activityCount: 2,
-      levels: [
-        { id: 'Niv1', name: 'Niveau 1', status: LevelStatus.VALIDATED },
-        { id: 'Niv2', name: 'Niveau 2', status: LevelStatus.TO_EVALUATE },
-      ] as LevelDTO[],
-    },
+    skill,
     skillColor: '--color-skill',
   } as const
 
@@ -52,25 +49,15 @@ describe('studentSkillCard.vue', () => {
     expect(wrapper.text()).toContain('2 mises en situation')
   })
 
-  it('renders the two expected badges', async () => {
-    const wrapper = await mountWithRouter(StudentSkillCard, {
-      props: baseProps,
-    })
-
-    const badges = wrapper.findAll('.fr-badge')
-    expect(badges).toHaveLength(2)
-    expect(badges[0].text()).toContain('Niveau 1 validé')
-    expect(badges[1].text()).toContain('Niveau 2 à évaluer')
-  })
-
   it('renders only one badge if only one level is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.UNDER_REVIEW },
+    }
     const wrapper = await mountWithRouter(StudentSkillCard, {
       props: {
         ...baseProps,
-        skill: {
-          ...baseProps.skill,
-          levels: [{ id: 'Niv1', name: 'Niveau 1', status: LevelStatus.UNDER_REVIEW }],
-        },
+        skill
       },
     })
 

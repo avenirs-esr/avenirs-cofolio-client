@@ -1,4 +1,4 @@
-import { type LevelDTO, LevelStatus } from '@/types'
+import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 import StudentLevelBadge from './StudentLevelBadge.vue'
@@ -27,10 +27,10 @@ describe('studentLevelBadge', () => {
     },
   }
 
-  const notValidatedLevel = { id: 'NOT_VALIDATED', name: 'NOT_VALIDATED', status: LevelStatus.NOT_VALIDATED } as LevelDTO
-  const toEvaluateLevel = { id: 'TO_EVALUATE', name: 'TO_EVALUATE', status: LevelStatus.TO_EVALUATE } as LevelDTO
-  const underReviewLevel = { id: 'UNDER_REVIEW', name: 'UNDER_REVIEW', status: LevelStatus.UNDER_REVIEW } as LevelDTO
-  const validatedLevel = { id: 'VALIDATED', name: 'VALIDATED', status: LevelStatus.VALIDATED } as LevelDTO
+  const notValidatedLevel = { id: 'NOT_VALIDATED', name: 'NOT_VALIDATED', status: SkillLevelStatus.FAILED } as SkillLevelOverviewDTO
+  const toEvaluateLevel = { id: 'TO_EVALUATE', name: 'TO_EVALUATE', status: SkillLevelStatus.TO_BE_EVALUATED } as SkillLevelOverviewDTO
+  const underReviewLevel = { id: 'UNDER_REVIEW', name: 'UNDER_REVIEW', status: SkillLevelStatus.UNDER_REVIEW } as SkillLevelOverviewDTO
+  const validatedLevel = { id: 'VALIDATED', name: 'VALIDATED', status: SkillLevelStatus.VALIDATED } as SkillLevelOverviewDTO
 
   afterEach(() => {
     vi.clearAllMocks()

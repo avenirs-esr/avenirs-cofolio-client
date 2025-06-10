@@ -1,6 +1,6 @@
-import type { SkillDTO } from '@/types'
+import type { SkillOverviewDTO } from '@/api/avenir-esr'
 
 export interface StudentSkillCardProps {
-  skill: SkillDTO
+  skill: SkillOverviewDTO
   skillColor: string
 }

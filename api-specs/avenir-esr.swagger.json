@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:10001",
+      "url": "http://localhost:10000",
       "description": "Generated server url"
     }
   ],
@@ -171,39 +171,6 @@
         }
       }
     },
-    "/program-progress/skills/overview": {
-      "get": {
-        "tags": [
-          "program-progress-controller"
-        ],
-        "operationId": "getSkillsOverview",
-        "parameters": [
-          {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProgramProgressDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/photo/{profile}/{fileName}": {
       "get": {
         "tags": [
@@ -273,7 +240,73 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProfileDTO"
+                  "$ref": "#/components/schemas/ProfileOverviewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/trace/overview": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTraceOverview",
+        "parameters": [
+          {
+            "name": "X-Signed-Context",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TraceOverviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/program-progress/overview": {
+      "get": {
+        "tags": [
+          "program-progress-controller"
+        ],
+        "operationId": "getSkillsOverview",
+        "parameters": [
+          {
+            "name": "X-Signed-Context",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramProgressOverviewDTO"
+                  }
                 }
               }
             }
@@ -301,9 +334,47 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/NavigationAccessDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/errors": {
+      "get": {
+        "tags": [
+          "ressource-controller"
+        ],
+        "operationId": "getAllErrorCodes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "USER_NOT_FOUND",
+                      "USER_ALREADY_EXISTS",
+                      "USER_NOT_AUTHORIZED",
+                      "USER_CATEGORY_NOT_FOUND",
+                      "BAD_IMAGE_SIZE",
+                      "BAD_IMAGE_TYPE",
+                      "PROGRAM_NOT_FOUND",
+                      "PROGRAM_PROGRESS_NOT_FOUND",
+                      "SKILL_NOT_FOUND",
+                      "SKILL_LEVEL_NOT_FOUND",
+                      "TRACK_NOT_FOUND",
+                      "AMS_NOT_FOUND",
+                      "USER_IS_NOT_STUDENT_EXCEPTION"
+                    ]
+                  }
                 }
               }
             }
@@ -370,66 +441,7 @@
           }
         }
       },
-      "ProgramProgressDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillDTO"
-            }
-          }
-        }
-      },
-      "SkillDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "trackCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "levels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillLevelDTO"
-            }
-          }
-        }
-      },
-      "SkillLevelDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          }
-        }
-      },
-      "ProfileDTO": {
+      "ProfileOverviewDTO": {
         "type": "object",
         "properties": {
           "firstname": {
@@ -447,7 +459,133 @@
           "coverPicture": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "bio",
+          "coverPicture",
+          "firstname",
+          "lastname",
+          "profilePicture"
+        ]
+      },
+      "TraceOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "skillCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "AMSCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "programName": {
+            "type": "string"
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "AMSCount",
+          "createdAt",
+          "isGroup",
+          "programName",
+          "skillCount",
+          "title",
+          "traceId"
+        ]
+      },
+      "ProgramProgressOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillOverviewDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "skills"
+        ]
+      },
+      "SkillLevelOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VALIDATED",
+              "FAILED",
+              "UNDER_REVIEW",
+              "TO_BE_EVALUATED",
+              "NOT_STARTED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "status"
+        ]
+      },
+      "SkillOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "traceCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activityCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentSkillLevel": {
+            "$ref": "#/components/schemas/SkillLevelOverviewDTO"
+          }
+        },
+        "required": [
+          "activityCount",
+          "currentSkillLevel",
+          "id",
+          "name",
+          "traceCount"
+        ]
       },
       "AccessInfoAPC": {
         "type": "object",
@@ -458,7 +596,11 @@
           "hasProgram": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "enabledByInstitution",
+          "hasProgram"
+        ]
       },
       "AccessInfoLifeProject": {
         "type": "object",
@@ -466,7 +608,10 @@
           "enabledByInstitution": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "enabledByInstitution"
+        ]
       },
       "NavigationAccessDTO": {
         "type": "object",
@@ -477,7 +622,11 @@
           "LIFE_PROJECT": {
             "$ref": "#/components/schemas/AccessInfoLifeProject"
           }
-        }
+        },
+        "required": [
+          "APC",
+          "LIFE_PROJECT"
+        ]
       }
     }
   }

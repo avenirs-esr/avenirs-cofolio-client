@@ -1,28 +1,38 @@
+import type {
+  ProfileOverviewDTO,
+  ProgramProgressOverviewDTO
+} from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { mockedCourses } from '@/features/student/queries/utils'
 import {
-  type CourseDTO,
-  type DeliverableDTO,
-  type EventDTO,
-  type PageDTO,
-  type ResumeDTO,
+  type DeliverableOverviewDTO,
+  type EventOverviewDTO,
+  type PageOverviewDTO,
+  type ResumeOverviewDTO,
   type StudentHeaderSummaryDTO,
-  type StudentSummaryDTO,
-  type TrackDTO,
+  type TrackOverviewDTO,
   TrackType
 } from '@/types'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { unref } from 'vue'
-import { useStudentCoursesSummaryQuery, useStudentDeliverablesSummaryQuery, useStudentEventsSummaryQuery, useStudentHeaderSummaryQuery, useStudentPagesSummaryQuery, useStudentResumesSummaryQuery, useStudentSummaryQuery, useStudentTracksSummaryQuery } from './use-student-summary.query'
+import {
+  useStudentCoursesSummaryQuery,
+  useStudentDeliverablesSummaryQuery,
+  useStudentEventsSummaryQuery,
+  useStudentHeaderSummaryQuery,
+  useStudentPagesSummaryQuery,
+  useStudentResumesSummaryQuery,
+  useStudentSummaryQuery,
+  useStudentTracksSummaryQuery
+} from './use-student-summary.query'
 
 describe('useStudentSummaryQuery', () => {
   const mockedData = {
-    id: '123456789',
     firstname: 'Jeanne',
     lastname: 'Moulin',
     profilePicture: profile_picture_placeholder,
@@ -31,13 +41,12 @@ describe('useStudentSummaryQuery', () => {
   }
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<StudentSummaryDTO, BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<ProfileOverviewDTO, BaseApiException>>(
       () => useStudentSummaryQuery(),
     )
     await flushPromises()
     const result = unref(data)
     expect(result).toBeDefined()
-    expect(result).toHaveProperty('id')
     expect(result).toHaveProperty('firstname')
     expect(result).toHaveProperty('lastname')
     expect(result).toHaveProperty('profilePicture')
@@ -49,7 +58,7 @@ describe('useStudentSummaryQuery', () => {
 
 describe('useStudentCoursesSummaryQuery', () => {
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<CourseDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressOverviewDTO[], BaseApiException>>(
       () => useStudentCoursesSummaryQuery(),
     )
     await flushPromises()
@@ -93,7 +102,7 @@ describe('useStudentDeliverablesSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<DeliverableDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<DeliverableOverviewDTO[], BaseApiException>>(
       () => useStudentDeliverablesSummaryQuery(),
     )
     await flushPromises()
@@ -141,7 +150,7 @@ describe('useStudentEventsSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<EventDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<EventOverviewDTO[], BaseApiException>>(
       () => useStudentEventsSummaryQuery(),
     )
     await flushPromises()
@@ -189,7 +198,7 @@ describe('useStudentPagesSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<PageDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<PageOverviewDTO[], BaseApiException>>(
       () => useStudentPagesSummaryQuery(),
     )
     await flushPromises()
@@ -212,7 +221,7 @@ describe('useStudentResumesSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<ResumeDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<ResumeOverviewDTO[], BaseApiException>>(
       () => useStudentResumesSummaryQuery(),
     )
     await flushPromises()
@@ -265,7 +274,7 @@ describe('useStudentTracksSummaryQuery', () => {
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<TrackDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<TrackOverviewDTO[], BaseApiException>>(
       () => useStudentTracksSummaryQuery(),
     )
     await flushPromises()

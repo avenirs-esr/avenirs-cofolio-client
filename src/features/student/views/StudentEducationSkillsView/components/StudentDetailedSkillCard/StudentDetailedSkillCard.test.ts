@@ -1,5 +1,5 @@
+import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { mockedPrograms } from '@/features/student/queries/utils'
-import { LevelStatus } from '@/types'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
@@ -63,32 +63,32 @@ describe('studentDetailedSkillCard.vue', () => {
 
   const skill = mockedPrograms[0].skills[0]
 
-  const skillNotValidated = {
+  const skillNotValidated: SkillOverviewDTO = {
     ...skill,
-    currentLevel: {
-      ...skill.currentLevel,
-      status: LevelStatus.NOT_VALIDATED
+    currentSkillLevel: {
+      ...skill.currentSkillLevel,
+      status: SkillLevelStatus.NOT_STARTED
     }
   }
   const skillToEvaluate = {
     ...skill,
-    currentLevel: {
-      ...skill.currentLevel,
-      status: LevelStatus.TO_EVALUATE
+    currentSkillLevel: {
+      ...skill.currentSkillLevel,
+      status: SkillLevelStatus.TO_BE_EVALUATED
     }
   }
-  const skillUnderReview = {
+  const skillUnderReview: SkillOverviewDTO = {
     ...skill,
-    currentLevel: {
-      ...skill.currentLevel,
-      status: LevelStatus.UNDER_REVIEW
+    currentSkillLevel: {
+      ...skill.currentSkillLevel,
+      status: SkillLevelStatus.UNDER_REVIEW
     }
   }
-  const skillValidated = {
+  const skillValidated: SkillOverviewDTO = {
     ...skill,
-    currentLevel: {
-      ...skill.currentLevel,
-      status: LevelStatus.VALIDATED
+    currentSkillLevel: {
+      ...skill.currentSkillLevel,
+      status: SkillLevelStatus.VALIDATED
     }
   }
 
@@ -122,7 +122,7 @@ describe('studentDetailedSkillCard.vue', () => {
     })
 
     expect(wrapper.text()).toContain(skill.name)
-    expect(wrapper.text()).toContain(`${skill.trackCount} traces`)
+    expect(wrapper.text()).toContain(`${skill.traceCount} traces`)
     expect(wrapper.text()).toContain(`${skill.activityCount} mises en situation`)
   })
 

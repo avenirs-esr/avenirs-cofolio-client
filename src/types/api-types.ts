@@ -1,38 +1,13 @@
-export enum LevelStatus {
-  VALIDATED = 'VALIDATED',
-  UNDER_REVIEW = 'UNDER_REVIEW',
-  TO_EVALUATE = 'TO_EVALUATE',
-  NOT_VALIDATED = 'NOT_VALIDATED',
-}
+import type { SkillLevelOverviewDTO, SkillOverviewDTO } from '@/api/avenir-esr'
 
-export interface LevelDTO {
-  id: string
-  name: string
-  status: LevelStatus
-}
-
-export interface SkillDTO {
-  id: string
-  name: string
-  trackCount: number
-  activityCount: number
-  levels: Array<LevelDTO>
-}
-
-export interface CourseDTO {
-  id: string
-  name: string
-  skills: Array<SkillDTO>
-}
-
-export interface DeliverableDTO {
+export interface DeliverableOverviewDTO {
   id: string
   deliverableUntil: string
   skill: string
   activity: string
 }
 
-export interface EventDTO {
+export interface EventOverviewDTO {
   id: string
   name: string
   startDate: string
@@ -40,13 +15,13 @@ export interface EventDTO {
   location: string
 }
 
-export interface PageDTO {
+export interface PageOverviewDTO {
   id: string
   name: string
   updatedAt: string
 }
 
-export interface ResumeDTO {
+export interface ResumeOverviewDTO {
   id: string
   name: string
   updatedAt: string
@@ -57,7 +32,7 @@ export enum TrackType {
   INDIVIDUAL = 'INDIVIDUAL',
 }
 
-export interface TrackDTO {
+export interface TrackOverviewDTO {
   id: string
   name: string
   skillCount: number
@@ -65,15 +40,6 @@ export interface TrackDTO {
   filedAt: string
   type: TrackType
   course?: string
-}
-
-export interface StudentSummaryDTO {
-  id: string
-  firstname: string
-  lastname: string
-  profilePicture: string
-  coverPicture: string
-  bio: string
 }
 
 export interface StudentHeaderSummaryDTO {
@@ -84,22 +50,19 @@ export interface StudentHeaderSummaryDTO {
 }
 
 // TODO: waiting for #269
-export type LevelDTO_Temp = {
+export type SkillLevelViewDTO = {
   shortDescription: string
-} & LevelDTO
+} & SkillLevelOverviewDTO
 
 // TODO: waiting for #269
-export type SkillDTO_Temp = {
+export type SkillViewDTO = {
   levelCount: number
-  currentLevel: LevelDTO_Temp
-} & Omit<SkillDTO, 'levels'>
+  currentSkillLevel: SkillLevelViewDTO
+} & Omit<SkillOverviewDTO, 'currentSkillLevel'>
 
 // TODO: waiting for #269
-export interface ProgramProgressDTO_Temp {
+export interface ProgramProgressViewDTO {
   id: string
   name: string
-  skills: SkillDTO_Temp[]
+  skills: SkillViewDTO[]
 }
-
-// TODO: waiting for #269
-export type ProgramProgressViewDTO_Temp = ProgramProgressDTO_Temp[]

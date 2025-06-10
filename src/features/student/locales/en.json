@@ -4,7 +4,7 @@
       "studentLevelBadge": {
         "status": {
           "inProgress": "Under acquisition",
-          "notValidated": "Not validated",
+          "failed": "Not validated",
           "underReview": "Submitted for evaluation",
           "validated": "Validated"
         }
@@ -19,8 +19,8 @@
       "studentSkillCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "badgeStatus": {
-          "notValidated": "not validated",
-          "toEvaluate": "to evaluate",
+          "failed": "not validated",
+          "toBeEvaluated": "to evaluate",
           "underReview": "under review",
           "validated": "validated"
         },

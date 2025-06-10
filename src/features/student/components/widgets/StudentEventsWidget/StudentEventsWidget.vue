@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EventDTO } from '@/types'
+import type { EventOverviewDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
@@ -19,7 +19,7 @@ const renderedEvents = computed(() => {
     .slice(0, 3)
 })
 
-function getEventInfo (event: EventDTO) {
+function getEventInfo (event: EventOverviewDTO) {
   const parsedStartDate = parseDateISO(event.startDate)
   const parsedEndDate = parseDateISO(event.endDate)
   return `${format(parsedStartDate, 'HH:mm')} - ${format(parsedEndDate, 'HH:mm')} • ${event.location}`

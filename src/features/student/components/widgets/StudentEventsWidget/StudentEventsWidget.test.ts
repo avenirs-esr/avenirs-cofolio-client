@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { EventDTO } from '@/types'
+import type { EventOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
@@ -21,11 +21,11 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentEventsSummaryQuery = vi.mocked(useStudentEventsSummaryQuery)
 
-function mockUseStudentEventsSummaryQuery (payload: EventDTO[]) {
-  const mockData: Ref<EventDTO[]> = ref(payload)
+function mockUseStudentEventsSummaryQuery (payload: EventOverviewDTO[]) {
+  const mockData: Ref<EventOverviewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<EventDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<EventOverviewDTO[], BaseApiException>
   mockedUseStudentEventsSummaryQuery.mockReturnValue(queryMockedData)
 }
 
@@ -66,7 +66,7 @@ describe('studentEventsWidget', () => {
       endDate: '2225-01-01T12:15',
       location: 'Brest'
     },
-  ] as Array<EventDTO>
+  ] as Array<EventOverviewDTO>
 
   beforeEach(() => {
     vi.clearAllMocks()

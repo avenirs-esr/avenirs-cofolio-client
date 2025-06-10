@@ -1,7 +1,7 @@
-import type { TrackDTO } from '@/types'
+import type { TrackOverviewDTO } from '@/types'
 import type { RouteLocationRaw } from 'vue-router'
 
 export interface StudentTrackCardProps {
-  track: TrackDTO
+  track: TrackOverviewDTO
   to?: RouteLocationRaw
 }

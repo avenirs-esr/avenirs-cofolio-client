@@ -1,5 +1,5 @@
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { StudentSummaryDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
@@ -22,19 +22,19 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
 
-function mockUseStudentSummaryQuery (payload: StudentSummaryDTO) {
-  const mockData: Ref<StudentSummaryDTO> = ref(payload)
+function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
+  const mockData: Ref<ProfileOverviewDTO> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<StudentSummaryDTO, BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
   mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 function mockUseStudentSummaryQueryUndefined () {
-  const mockData: Ref<StudentSummaryDTO | undefined> = ref(undefined)
+  const mockData: Ref<ProfileOverviewDTO | undefined> = ref(undefined)
   mockedUseStudentSummaryQuery.mockReturnValue({
     data: mockData
-  } as unknown as UseQueryDefinedReturnType<StudentSummaryDTO, BaseApiException>)
+  } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>)
 }
 
 describe('studentOverviewWidget', () => {

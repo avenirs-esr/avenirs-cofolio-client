@@ -1,16 +1,16 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { ProgramProgressViewDTO_Temp } from '@/types'
+import type { ProgramProgressViewDTO } from '@/types'
 import { mockedPrograms } from '@/features/student/queries/utils'
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
 
-export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgressViewDTO_Temp, BaseApiException> {
+export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgressViewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'programProgress'])
-  return useQuery<ProgramProgressViewDTO_Temp, BaseApiException>({
+  return useQuery<ProgramProgressViewDTO[], BaseApiException>({
     queryKey,
     // TODO: call /program-progress/view when the endpoint and client are ready
-    queryFn: async (): Promise<ProgramProgressViewDTO_Temp> => {
+    queryFn: async (): Promise<ProgramProgressViewDTO[]> => {
       return mockedPrograms
     }
   })

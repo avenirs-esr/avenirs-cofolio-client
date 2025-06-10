@@ -1,30 +1,29 @@
+import type { ProfileOverviewDTO, ProgramProgressOverviewDTO,
+} from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { mockedCourses } from '@/features/student/queries/utils'
 import {
-  type CourseDTO,
-  type DeliverableDTO,
-  type EventDTO,
-  type PageDTO,
-  type ResumeDTO,
+  type DeliverableOverviewDTO,
+  type EventOverviewDTO,
+  type PageOverviewDTO,
+  type ResumeOverviewDTO,
   type StudentHeaderSummaryDTO,
-  type StudentSummaryDTO,
-  type TrackDTO,
+  type TrackOverviewDTO,
   TrackType
 } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
 
-function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseApiException> {
+function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'summary'])
-  return useQuery<StudentSummaryDTO, BaseApiException>({
+  return useQuery<ProfileOverviewDTO, BaseApiException>({
     queryKey,
     // TODO: call /user/{profile}/overview when the endpoint and client are ready
-    queryFn: async (): Promise<StudentSummaryDTO> => {
+    queryFn: async (): Promise<ProfileOverviewDTO> => {
       return {
-        id: '123456789',
         firstname: 'Jeanne',
         lastname: 'Moulin',
         profilePicture: profile_picture_placeholder,
@@ -35,25 +34,25 @@ function useStudentSummaryQuery (): UseQueryReturnType<StudentSummaryDTO, BaseAp
   })
 }
 
-function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<CourseDTO[], BaseApiException> {
+function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<ProgramProgressOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'skills'])
-  return useQuery<CourseDTO[], BaseApiException>({
+  return useQuery<ProgramProgressOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/skills/overview when the endpoint and client are ready
-    queryFn: async (): Promise<CourseDTO[]> => {
+    queryFn: async (): Promise<ProgramProgressOverviewDTO[]> => {
       return mockedCourses
     }
   })
 }
 
-function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<DeliverableDTO[], BaseApiException> {
+function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<DeliverableOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'deliverables'])
-  return useQuery<DeliverableDTO[], BaseApiException>({
+  return useQuery<DeliverableOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/deliverables/overview when the endpoint and client are ready
-    queryFn: async (): Promise<DeliverableDTO[]> => {
+    queryFn: async (): Promise<DeliverableOverviewDTO[]> => {
       return [
         {
           id: 'deliverable1',
@@ -85,13 +84,13 @@ function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<Delive
   })
 }
 
-function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], BaseApiException> {
+function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'events'])
-  return useQuery<EventDTO[], BaseApiException>({
+  return useQuery<EventOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/events/overview when the endpoint and client are ready
-    queryFn: async (): Promise<EventDTO[]> => {
+    queryFn: async (): Promise<EventOverviewDTO[]> => {
       return [
         {
           id: 'event1',
@@ -121,7 +120,7 @@ function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventDTO[], 
           endDate: '2025-08-08T12:15',
           location: 'Brest'
         },
-      ] as Array<EventDTO>
+      ] as Array<EventOverviewDTO>
     }
   })
 }
@@ -142,13 +141,13 @@ function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummar
   })
 }
 
-function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], BaseApiException> {
+function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'pages'])
-  return useQuery<PageDTO[], BaseApiException>({
+  return useQuery<PageOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/pages/overview when the endpoint and client are ready
-    queryFn: async (): Promise<PageDTO[]> => {
+    queryFn: async (): Promise<PageOverviewDTO[]> => {
       return [
         { id: 'page1', name: 'analyse-ams-13-02-2024', updatedAt: '2025-02-22' },
         { id: 'page2', name: 'projetdevie-trajectoires', updatedAt: '2024-12-20' },
@@ -159,13 +158,13 @@ function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageDTO[], Ba
   })
 }
 
-function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[], BaseApiException> {
+function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
-  return useQuery<ResumeDTO[], BaseApiException>({
+  return useQuery<ResumeOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/resumes/overview when the endpoint and client are ready
-    queryFn: async (): Promise<ResumeDTO[]> => {
+    queryFn: async (): Promise<ResumeOverviewDTO[]> => {
       return [
         { id: 'resume1', name: 'cv-version1-05-2024', updatedAt: '2025-05-19T00:00:00.000Z' },
         { id: 'resume2', name: 'cv-version1-04-2024', updatedAt: '2025-04-25T00:00:00.000Z' },
@@ -176,13 +175,13 @@ function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeDTO[]
   })
 }
 
-function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackDTO[], BaseApiException> {
+function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'tracks'])
-  return useQuery<TrackDTO[], BaseApiException>({
+  return useQuery<TrackOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
     // TODO: call /me/formations/tracks/overview when the endpoint and client are ready
-    queryFn: async (): Promise<TrackDTO[]> => {
+    queryFn: async (): Promise<TrackOverviewDTO[]> => {
       return [
         {
           id: 'track1',

@@ -1,4 +1,5 @@
-import { LevelStatus, type SkillDTO } from '@/types'
+import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+
 import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidgetContainer from './StudentSkillsWidgetContainer.vue'
 
@@ -13,88 +14,70 @@ describe('studentSkillsWidgetContainer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
-
+  const course: ProgramProgressOverviewDTO = {
+    id: 'course1',
+    name: 'Master Chimie Verte et Éco-innovations',
+    skills: [
+      {
+        id: 'skill1',
+        name: 'Prévenir la pollution à la source',
+        traceCount: 1,
+        activityCount: 8,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
+      },
+      {
+        id: 'skill2',
+        name: 'Mettre en place des filières d’économies circulaires',
+        traceCount: 2,
+        activityCount: 7,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED },
+      },
+      {
+        id: 'skill3',
+        name: 'Évaluer l’impact environnemental et économique',
+        traceCount: 3,
+        activityCount: 6,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED },
+      },
+      {
+        id: 'skill4',
+        name: 'Concevoir des synthèses chimiques durables',
+        traceCount: 4,
+        activityCount: 5,
+        currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
+      },
+      {
+        id: 'skill5',
+        name: 'Réaliser un circuit électrique',
+        traceCount: 5,
+        activityCount: 4,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED },
+      },
+      {
+        id: 'skill6',
+        name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
+        traceCount: 6,
+        activityCount: 3,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
+      },
+      {
+        id: 'skill7',
+        name: 'Réaliser une étude de marché',
+        traceCount: 7,
+        activityCount: 2,
+        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
+      },
+      {
+        id: 'skill8',
+        name: 'Réaliser un cahier des charges fonctionnels',
+        traceCount: 8,
+        activityCount: 1,
+        currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
+      },
+    ] as Array<SkillOverviewDTO>
+  }
   const baseProps = {
-    course: {
-      id: 'course1',
-      name: 'Master Chimie Verte et Éco-innovations',
-      skills: [
-        {
-          id: 'skill1',
-          name: 'Prévenir la pollution à la source',
-          trackCount: 1,
-          activityCount: 8,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-          ]
-        },
-        {
-          id: 'skill2',
-          name: 'Mettre en place des filières d’économies circulaires',
-          trackCount: 2,
-          activityCount: 7,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-          ]
-        },
-        {
-          id: 'skill3',
-          name: 'Évaluer l’impact environnemental et économique',
-          trackCount: 3,
-          activityCount: 6,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-          ]
-        },
-        {
-          id: 'skill4',
-          name: 'Concevoir des synthèses chimiques durables',
-          trackCount: 4,
-          activityCount: 5,
-          levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
-        },
-        {
-          id: 'skill5',
-          name: 'Réaliser un circuit électrique',
-          trackCount: 5,
-          activityCount: 4,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-          ]
-        },
-        {
-          id: 'skill6',
-          name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-          trackCount: 6,
-          activityCount: 3,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.TO_EVALUATE }
-          ]
-        },
-        {
-          id: 'skill7',
-          name: 'Réaliser une étude de marché',
-          trackCount: 7,
-          activityCount: 2,
-          levels: [
-            { id: 'Niv1', name: 'Niv.1', status: LevelStatus.NOT_VALIDATED },
-            { id: 'Niv2', name: 'Niv.2', status: LevelStatus.UNDER_REVIEW }
-          ]
-        },
-        {
-          id: 'skill8',
-          name: 'Réaliser un cahier des charges fonctionnels',
-          trackCount: 8,
-          activityCount: 1,
-          levels: [{ id: 'Niv2', name: 'Niv.2', status: LevelStatus.VALIDATED }]
-        },
-      ] as Array<SkillDTO>
-    },
+    course,
     maxSkillsDisplayed: 3,
   } as const
   const longerName = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
