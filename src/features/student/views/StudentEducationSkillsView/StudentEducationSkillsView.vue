@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
+import { useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { useI18n } from 'vue-i18n'
+import StudentEducationSkillsViewContainer from './components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 
 const { t } = useI18n()
+const { data: courses } = useProgramProgressViewQuery()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -13,7 +16,22 @@ const breadcrumbLinks = computed(() => [
 
 <template>
   <PageTitle
-    :title="t('student.views.studentEducationSkillsView.title')"
+    :title="t('student.views.studentEducationSkillsView.title', { count: courses?.length ?? 1 })"
     :breadcrumb-links="breadcrumbLinks"
   />
+  <div class="courses-container">
+    <StudentEducationSkillsViewContainer
+      v-for="course in courses"
+      :key="course.id"
+      :course="course"
+    />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.courses-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+</style>
