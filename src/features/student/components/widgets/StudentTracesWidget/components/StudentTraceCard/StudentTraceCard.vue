@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import type { StudentTrackCardProps } from './StudentTrackCard.types'
-import { studentToolsTracksRoute } from '@/features/student/routes'
-import { TrackType } from '@/types'
+import type { StudentTraceCardProps } from './StudentTraceCard.types'
+import { studentToolsTracesRoute } from '@/features/student/routes'
+import { TraceType } from '@/types'
 import { AvCard, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
-const { track, to = studentToolsTracksRoute } = defineProps<StudentTrackCardProps>()
-const { name, skillCount, activityCount, type, course } = track
+const { trace, to = studentToolsTracesRoute } = defineProps<StudentTraceCardProps>()
+const { name, skillCount, activityCount, type, course } = trace
 
 const { t } = useI18n()
 
@@ -16,10 +16,10 @@ function getRandomSkillColor () {
   return `var(--skill${random})`
 }
 
-const category = computed(() => course ?? t('student.cards.studentTrackCard.lifeProject'))
-const typeInfo = computed(() => type === TrackType.GROUP
-  ? { label: t('student.cards.studentTrackCard.tagLabel.group'), icon: RI_ICONS.DICE_4 }
-  : { label: t('student.cards.studentTrackCard.tagLabel.solo'), icon: RI_ICONS.DICE_1 })
+const category = computed(() => course ?? t('student.cards.studentTraceCard.lifeProject'))
+const typeInfo = computed(() => type === TraceType.GROUP
+  ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4 }
+  : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1 })
 
 const theme = ref({
   hoverBorderColor: 'var(--dark-background-primary1)',
@@ -28,7 +28,7 @@ const theme = ref({
 
 <template>
   <RouterLink
-    class="student-track-card"
+    class="student-trace-card"
     :to="to"
   >
     <AvCard
@@ -38,12 +38,12 @@ const theme = ref({
       :to="to"
     >
       <template #title>
-        <div class="student-track-card__title">
-          <span class="b1-bold student-track-card__titletruncate">
+        <div class="student-trace-card__title">
+          <span class="b1-bold student-trace-card__titletruncate">
             {{ name }}
           </span>
           <div
-            class="student-track-card__icon"
+            class="student-trace-card__icon"
             :style="{ background: 'var(--background-surface-background)' }"
           >
             <VIcon
@@ -55,12 +55,12 @@ const theme = ref({
         </div>
       </template>
       <template #body>
-        <div class="student-track-card__body">
-          <div class="student-track-card__line student-track-card__skills">
+        <div class="student-trace-card__body">
+          <div class="student-trace-card__line student-trace-card__skills">
             <div
               v-for="n in Math.min(skillCount, 3)"
               :key="n"
-              class="student-track-card__lineicon"
+              class="student-trace-card__lineicon"
               :style="{ backgroundColor: getRandomSkillColor() }"
             >
               <VIcon
@@ -68,23 +68,23 @@ const theme = ref({
                 color="var(--white)"
               />
             </div>
-            <span class="b2-regular">{{ t('student.cards.studentTrackCard.skillCount', { count: skillCount }) }}</span>
+            <span class="b2-regular">{{ t('student.cards.studentTraceCard.skillCount', { count: skillCount }) }}</span>
           </div>
-          <div class="student-track-card__line student-track-card__activities">
+          <div class="student-trace-card__line student-trace-card__activities">
             <VIcon
               :name="MDI_ICONS.TEST_TUBE_EMPTY"
               color="var(--foreground-text2)"
             />
-            <span class="b2-regular">{{ t('student.cards.studentTrackCard.activityCount', { count: activityCount }) }}</span>
+            <span class="b2-regular">{{ t('student.cards.studentTraceCard.activityCount', { count: activityCount }) }}</span>
           </div>
-          <div class="student-track-card__line student-track-card__category">
+          <div class="student-trace-card__line student-trace-card__category">
             <VIcon
               :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
               color="var(--foreground-text2)"
             />
-            <span class="b2-regular student-track-card__categoryText">{{ category }}</span>
+            <span class="b2-regular student-trace-card__categoryText">{{ category }}</span>
           </div>
-          <div class="student-track-card__line student-track-card__type">
+          <div class="student-trace-card__line student-trace-card__type">
             <DsfrTag
               :label="typeInfo.label"
               :icon="typeInfo.icon"
@@ -107,27 +107,27 @@ const theme = ref({
   box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
 }
 
-.student-track-card__body {
+.student-trace-card__body {
   padding-top: 1.5rem;
 }
 
-.student-track-card {
+.student-trace-card {
   display: flex;
   width: 17.125rem;
   height: 14rem;
   border-radius: 1.5rem;
 }
 
-.student-track-card__title {
+.student-trace-card__title {
   position: relative
 }
 
-.student-track-card__titlecontent {
+.student-trace-card__titlecontent {
   width: 11.25rem;
   height: 3rem;
 }
 
-.student-track-card__titletruncate {
+.student-trace-card__titletruncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -138,7 +138,7 @@ const theme = ref({
   overflow-wrap: break-word;
 }
 
-.student-track-card__icon {
+.student-trace-card__icon {
   position: absolute;
   width: 2.75rem;
   height: 2.75rem;
@@ -151,20 +151,20 @@ const theme = ref({
   align-items: center;
 }
 
-.student-track-card__body {
+.student-trace-card__body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.student-track-card__line {
+.student-trace-card__line {
     display: flex;
     flex-direction: row;
     gap: 0.75rem;
     align-items: center;
 }
 
-.student-track-card__lineicon {
+.student-trace-card__lineicon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -173,11 +173,11 @@ const theme = ref({
   border-radius: 0.25rem;
 }
 
-.student-track-card__line.student-track-card__skills {
+.student-trace-card__line.student-trace-card__skills {
     gap: 0.5rem;
 }
 
-.student-track-card__categoryText {
+.student-trace-card__categoryText {
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-all;

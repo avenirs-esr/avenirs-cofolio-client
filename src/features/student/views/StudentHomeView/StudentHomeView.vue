@@ -6,7 +6,7 @@ import {
   StudentPagesWidget,
   StudentResumesWidget,
   StudentSkillsWidget,
-  StudentTracksWidget
+  StudentTracesWidget
 } from '@/features/student/components'
 </script>
 
@@ -22,7 +22,7 @@ import {
       <div class="student-home-right-container fr-col-8">
         <StudentSkillsWidget />
         <StudentDeliverablesWidget />
-        <StudentTracksWidget />
+        <StudentTracesWidget />
       </div>
     </div>
   </div>

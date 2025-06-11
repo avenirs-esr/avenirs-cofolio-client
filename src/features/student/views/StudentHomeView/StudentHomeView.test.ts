@@ -8,7 +8,7 @@ vi.mock('@/features/student/components', () => ({
   StudentPagesWidget: { name: 'StudentPagesWidget', template: '<div />' },
   StudentResumesWidget: { name: 'StudentResumesWidget', template: '<div />' },
   StudentSkillsWidget: { name: 'StudentSkillsWidget', template: '<div />' },
-  StudentTracksWidget: { name: 'StudentTracksWidget', template: '<div />' },
+  StudentTracesWidget: { name: 'StudentTracesWidget', template: '<div />' },
 }))
 
 describe('studentHomeView', () => {
@@ -31,6 +31,6 @@ describe('studentHomeView', () => {
     expect(rightContainer.exists()).toBe(true)
     expect(rightContainer.findComponent({ name: 'StudentSkillsWidget' }).exists()).toBe(true)
     expect(rightContainer.findComponent({ name: 'StudentDeliverablesWidget' }).exists()).toBe(true)
-    expect(rightContainer.findComponent({ name: 'StudentTracksWidget' }).exists()).toBe(true)
+    expect(rightContainer.findComponent({ name: 'StudentTracesWidget' }).exists()).toBe(true)
   })
 })

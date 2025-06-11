@@ -32,7 +32,7 @@ function navigateToNotifications () {
       <ul class="b2-regular">
         <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.teacherMessage') }}</span></li>
         <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.assessedSkill') }}</span></li>
-        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.validatedTrack') }}</span></li>
+        <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.validatedTrace') }}</span></li>
         <li><span>{{ t('student.modals.notificationsModal.bodyNoNew.comingUpEvent') }}</span></li>
       </ul>
     </div>

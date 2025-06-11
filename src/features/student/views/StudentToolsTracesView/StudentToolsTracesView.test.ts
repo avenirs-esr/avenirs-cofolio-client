@@ -1,12 +1,12 @@
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
-import StudentToolsTracksView from './StudentToolsTracksView.vue'
+import StudentToolsTracesView from './StudentToolsTracesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
 }))
 
-describe('studentToolsTracksView', () => {
+describe('studentToolsTracesView', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -16,7 +16,7 @@ describe('studentToolsTracksView', () => {
   const currentBreadcrumbLink = { text: 'Mes traces' }
 
   it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentToolsTracksView)
+    const wrapper = mount(StudentToolsTracesView)
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)

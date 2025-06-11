@@ -14,7 +14,7 @@
       "studentDetailedSkillCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "feedbackCount": "0 feedback to read | 1 feedback to read | {count} feedbacks to read",
-        "trackCount": "0 track | 1 track | {count} tracks"
+        "traceCount": "0 trace | 1 trace | {count} traces"
       },
       "studentSkillCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
@@ -24,9 +24,9 @@
           "underReview": "under review",
           "validated": "validated"
         },
-        "trackCount": "0 track | 1 track | {count} tracks"
+        "traceCount": "0 trace | 1 trace | {count} traces"
       },
-      "studentTrackCard": {
+      "studentTraceCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "lifeProject": "Life project",
         "skillCount": "0 skill | 1 skill | {count} skills",
@@ -61,7 +61,7 @@
           "comingUpEvent": "An event is coming up",
           "header": "You will receive a notification in the following cases:",
           "teacherMessage": "A teacher will send you a message",
-          "validatedTrack": "A track has been validated"
+          "validatedTrace": "A trace has been validated"
         },
         "buttons": {
           "close": "Close",
@@ -102,7 +102,7 @@
           "items": {
             "pages": "My free pages",
             "resumes": "My resumes",
-            "tracks": "My tracks"
+            "traces": "My traces"
           }
         },
         "apcUnavailable": {
@@ -147,8 +147,8 @@
       "studentToolsResumesView": {
         "title": "(placeholder) All my resumes"
       },
-      "studentToolsTracksView": {
-        "title": "(placeholder) All my tracks"
+      "studentToolsTracesView": {
+        "title": "(placeholder) All my traces"
       }
     },
     "widgets": {
@@ -196,11 +196,11 @@
         },
         "title": "My educational skills"
       },
-      "tracks": {
+      "traces": {
         "buttons": {
-          "seeAll": "See all my tracks"
+          "seeAll": "See all my traces"
         },
-        "title": "My last tracks"
+        "title": "My last traces"
       }
     }
   }

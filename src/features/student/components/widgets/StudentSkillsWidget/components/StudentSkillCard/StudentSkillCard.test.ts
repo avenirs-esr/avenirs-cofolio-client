@@ -39,7 +39,7 @@ describe('studentSkillCard.vue', () => {
     skillColor: '--color-skill',
   } as const
 
-  it('renders skill name, track and activity counts', async () => {
+  it('renders skill name, trace and activity counts', async () => {
     const wrapper = await mountWithRouter(StudentSkillCard, {
       props: baseProps,
     })

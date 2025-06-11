@@ -7,7 +7,7 @@ import {
   studentNotificationsRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracksRoute
+  studentToolsTracesRoute
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { type NavigationFailure, useRouter } from 'vue-router'
@@ -47,8 +47,8 @@ export function useNavigation () {
     return router.push(studentEducationSkillsRoute)
   }
 
-  const navigateToStudentTracks = () => {
-    return router.push(studentToolsTracksRoute)
+  const navigateToStudentTraces = () => {
+    return router.push(studentToolsTracesRoute)
   }
 
   const navigateToTeacherHome = (
@@ -65,7 +65,7 @@ export function useNavigation () {
     navigateToStudentPages,
     navigateToStudentResumes,
     navigateToStudentSkills,
-    navigateToStudentTracks,
+    navigateToStudentTraces,
     navigateToTeacherHome,
   }
 }

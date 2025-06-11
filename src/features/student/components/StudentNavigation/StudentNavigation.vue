@@ -11,7 +11,7 @@ import {
   studentProjectTrajectoriesRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracksRoute
+  studentToolsTracesRoute
 } from '@/features/student/routes'
 import { AvNavigation, MDI_ICONS } from '@/ui'
 import { useId } from 'vue'
@@ -104,10 +104,10 @@ const navItems = computed(() => [
   {
     title: t('student.navigation.tabs.tools.header').toUpperCase(),
     get active () {
-      return isRouteActive([studentToolsTracksRoute, studentToolsPagesRoute, studentToolsResumesRoute])
+      return isRouteActive([studentToolsTracesRoute, studentToolsPagesRoute, studentToolsResumesRoute])
     },
     links: [
-      { to: studentToolsTracksRoute, text: t('student.navigation.tabs.tools.items.tracks'), icon: MDI_ICONS.ATTACH_FILE },
+      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
       { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES },
       { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT },
     ],

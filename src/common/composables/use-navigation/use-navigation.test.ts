@@ -7,7 +7,7 @@ import {
   studentNotificationsRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracksRoute
+  studentToolsTracesRoute
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { describe, expect, it } from 'vitest'
@@ -77,10 +77,10 @@ describe('useNavigation', () => {
     expect(pushMock).toHaveBeenCalledWith(studentEducationSkillsRoute)
   })
 
-  it('should navigate to student tracks', () => {
-    const { navigateToStudentTracks } = useNavigation()
-    navigateToStudentTracks()
-    expect(pushMock).toHaveBeenCalledWith(studentToolsTracksRoute)
+  it('should navigate to student traces', () => {
+    const { navigateToStudentTraces } = useNavigation()
+    navigateToStudentTraces()
+    expect(pushMock).toHaveBeenCalledWith(studentToolsTracesRoute)
   })
 
   it('should navigate to teacher home', () => {

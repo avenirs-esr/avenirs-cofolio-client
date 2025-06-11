@@ -1,7 +1,7 @@
-import { TrackType } from '@/types'
+import { TraceType } from '@/types'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
-import StudentTrackCard from './StudentTrackCard.vue'
+import StudentTraceCard from './StudentTraceCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrTag: {
@@ -28,24 +28,24 @@ vi.doMock('@/ui/tokens', () => ({
   },
 }))
 
-describe('studentTrackCard.vue', () => {
+describe('studentTraceCard.vue', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   const baseProps = {
-    track: {
-      id: 'track1',
+    trace: {
+      id: 'trace1',
       name: 'Parcours scientifique',
       skillCount: 3,
       activityCount: 5,
       filedAt: '2025-02-07T23:08:51',
-      type: TrackType.GROUP
+      type: TraceType.GROUP
     },
   } as const
 
-  it('renders the track name, skill and activity counts', async () => {
-    const wrapper = await mountWithRouter(StudentTrackCard, {
+  it('renders the trace name, skill and activity counts', async () => {
+    const wrapper = await mountWithRouter(StudentTraceCard, {
       props: baseProps,
     })
 
@@ -55,7 +55,7 @@ describe('studentTrackCard.vue', () => {
   })
 
   it('renders the fixed label "Projet de vie"', async () => {
-    const wrapper = await mountWithRouter(StudentTrackCard, {
+    const wrapper = await mountWithRouter(StudentTraceCard, {
       props: baseProps,
     })
 
@@ -63,7 +63,7 @@ describe('studentTrackCard.vue', () => {
   })
 
   it('renders the DsfrTag with label "Groupe"', async () => {
-    const wrapper = await mountWithRouter(StudentTrackCard, {
+    const wrapper = await mountWithRouter(StudentTraceCard, {
       props: baseProps,
     })
 
@@ -73,16 +73,16 @@ describe('studentTrackCard.vue', () => {
   })
 
   it('renders up to 3 skill icons based on skillCount', async () => {
-    const wrapper = await mountWithRouter(StudentTrackCard, {
+    const wrapper = await mountWithRouter(StudentTraceCard, {
       props: {
-        track: {
-          ...baseProps.track,
+        trace: {
+          ...baseProps.trace,
           skillCount: 5,
         },
       },
     })
 
-    const icons = wrapper.findAll('.student-track-card__lineicon')
+    const icons = wrapper.findAll('.student-trace-card__lineicon')
     expect(icons).toHaveLength(3)
   })
 })
