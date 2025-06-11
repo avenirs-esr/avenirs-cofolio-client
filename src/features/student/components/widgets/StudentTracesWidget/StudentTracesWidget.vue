@@ -2,7 +2,7 @@
 import { useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, IconText, MDI_ICONS } from '@/ui'
 import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import StudentTraceCard from './components/StudentTraceCard/StudentTraceCard.vue'
@@ -25,14 +25,14 @@ const renderedTraces = computed(() => {
   >
     <template #title>
       <div class="traces-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.ATTACH_FILE"
-          color="var(--foreground-icon)"
-          scale="1.5"
+        <IconText
+          :icon="MDI_ICONS.ATTACH_FILE"
+          :text="t('student.widgets.traces.title')"
+          icon-color="var(--foreground-icon)"
+          text-color="var(--foreground-title)"
+          typography-class="n5"
+          gap="0.75rem"
         />
-        <span class="n5">
-          {{ t('student.widgets.traces.title') }}
-        </span>
       </div>
     </template>
     <template #body>

@@ -27,6 +27,7 @@ describe('studentLevelBadge', () => {
     },
   }
 
+  const notStartedLevel = { id: 'NOT_STARTED', name: 'NOT_STARTED', status: SkillLevelStatus.NOT_STARTED } as SkillLevelOverviewDTO
   const notValidatedLevel = { id: 'NOT_VALIDATED', name: 'NOT_VALIDATED', status: SkillLevelStatus.FAILED } as SkillLevelOverviewDTO
   const toEvaluateLevel = { id: 'TO_EVALUATE', name: 'TO_EVALUATE', status: SkillLevelStatus.TO_BE_EVALUATED } as SkillLevelOverviewDTO
   const underReviewLevel = { id: 'UNDER_REVIEW', name: 'UNDER_REVIEW', status: SkillLevelStatus.UNDER_REVIEW } as SkillLevelOverviewDTO
@@ -54,6 +55,27 @@ describe('studentLevelBadge', () => {
       color: 'var(--light-foreground-error)',
       backgroundColor: 'var(--light-background-error)',
       iconPath: '/assets/icons/close-circle-outline.svg'
+    })
+  })
+
+  it('should pass correct properties to AvBadge with notStartedLevel', () => {
+    const wrapper = mount(StudentLevelBadge, {
+      props: { level: notStartedLevel },
+      global: {
+        stubs
+      }
+    })
+
+    const badge = wrapper.findComponent({ name: 'AvBadge' })
+
+    expect(badge.exists()).toBe(true)
+    expect(badge.props()).toMatchObject({
+      label: 'En cours d\'acquisition',
+      small: true,
+      ellipsis: true,
+      color: 'var(--dark-background-primary1)',
+      backgroundColor: 'var(--light-background-primary2)',
+      iconPath: '/assets/icons/hourglass.svg'
     })
   })
 

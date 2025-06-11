@@ -80,6 +80,6 @@ export interface ActivityDTO {
   startedActivityCount: number
   totalActivityCount: number
   skillCount: number
-  trackCount: number
+  traceCount: number
   status: ActivityStatus
 }

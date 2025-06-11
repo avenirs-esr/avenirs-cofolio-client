@@ -12,7 +12,7 @@ export const mockedActivities: ActivityDTO[] = [
     startedActivityCount: 2,
     totalActivityCount: 4,
     skillCount: 2,
-    trackCount: 3,
+    traceCount: 3,
     status: ActivityStatus.IN_PROGRESS
   },
   {
@@ -21,7 +21,7 @@ export const mockedActivities: ActivityDTO[] = [
     startedActivityCount: 1,
     totalActivityCount: 1,
     skillCount: 2,
-    trackCount: 3,
+    traceCount: 3,
     status: ActivityStatus.SUBMITTED
   },
   {
@@ -30,7 +30,7 @@ export const mockedActivities: ActivityDTO[] = [
     startedActivityCount: 0,
     totalActivityCount: 0,
     skillCount: 2,
-    trackCount: 3,
+    traceCount: 3,
     status: ActivityStatus.NOT_STARTED
   },
   {
@@ -39,7 +39,7 @@ export const mockedActivities: ActivityDTO[] = [
     startedActivityCount: 3,
     totalActivityCount: 3,
     skillCount: 1,
-    trackCount: 4,
+    traceCount: 4,
     status: ActivityStatus.COMPLETED
   }
 ]

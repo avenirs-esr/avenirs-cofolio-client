@@ -4,7 +4,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
 import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -35,14 +35,14 @@ const { navigateToStudentEvents } = useNavigation()
   >
     <template #title>
       <div class="events-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.FILE_ACCOUNT"
-          color="var(--foreground-icon)"
-          scale="1.5"
+        <IconText
+          :icon="MDI_ICONS.CALENDAR_MONTH"
+          :text="t('student.widgets.events.title')"
+          icon-color="var(--foreground-icon)"
+          text-color="var(--foreground-text1)"
+          typography-class="s1-bold"
+          gap="0.75rem"
         />
-        <span class="s1-bold">
-          {{ t('student.widgets.events.title') }}
-        </span>
       </div>
     </template>
     <template #body>
@@ -95,10 +95,6 @@ const { navigateToStudentEvents } = useNavigation()
 
 <style lang="scss" scoped>
 .events-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
   padding-left: 0.75rem;
 }
 

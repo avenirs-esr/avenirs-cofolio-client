@@ -142,7 +142,7 @@
               "notStarted": "Not started",
               "submitted": "Submitted"
             },
-            "trackCount": "0 track | 1 track | {count} tracks"
+            "traceCount": "0 trace | 1 trace | {count} traces"
           },
           "title": "My RPA not started, in progress, submitted and completed"
         },

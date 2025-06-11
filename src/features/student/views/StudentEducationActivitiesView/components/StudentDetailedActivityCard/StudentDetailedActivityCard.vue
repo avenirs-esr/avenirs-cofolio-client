@@ -7,7 +7,7 @@ import { AvBadge, AvCard, IconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { activity } = defineProps<{ activity: ActivityDTO }>()
-const { name, startedActivityCount, totalActivityCount, skillCount, trackCount, status } = activity
+const { name, startedActivityCount, totalActivityCount, skillCount, traceCount, status } = activity
 
 const { locale, t } = useI18n()
 
@@ -131,10 +131,18 @@ const statusBadge = computed(() => getStatusBadge(status))
               <IconText
                 :icon="MDI_ICONS.STAR_SHOOTING"
                 :text="t('student.views.studentEducationActivitiesView.container.studentDetailedActivityCard.skillCount', { count: skillCount })"
+                icon-color="var(--foreground-text1)"
+                text-color="var(--foreground-text1)"
+                typography-class="b2-regular"
+                gap="0.5rem"
               />
               <IconText
                 :icon="MDI_ICONS.ATTACH_FILE"
-                :text="t('student.views.studentEducationActivitiesView.container.studentDetailedActivityCard.trackCount', { count: trackCount })"
+                :text="t('student.views.studentEducationActivitiesView.container.studentDetailedActivityCard.traceCount', { count: traceCount })"
+                icon-color="var(--foreground-text1)"
+                text-color="var(--foreground-text1)"
+                typography-class="b2-regular"
+                gap="0.5rem"
               />
             </div>
             <div class="student-detailed-activity-card__line">

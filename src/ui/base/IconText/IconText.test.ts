@@ -19,7 +19,8 @@ describe('studentDetailedSkillCard.vue', () => {
 
   const allProps = {
     ...baseProps,
-    color: '--color',
+    iconColor: 'var(--icon-color)',
+    textColor: 'var(--text-color)',
     typographyClass: 'typography'
   }
 
@@ -53,7 +54,7 @@ describe('studentDetailedSkillCard.vue', () => {
     const vicon = wrapper.findComponent({ name: 'VIcon' })
     expect(vicon.exists()).toBe(true)
     expect(vicon.props('name')).toBe(allProps.icon)
-    expect(vicon.props('color')).toBe(`var(${allProps.color})`)
+    expect(vicon.props('color')).toBe(allProps.iconColor)
 
     const text = wrapper.find('.icon-text--text')
     expect(text.exists()).toBe(true)

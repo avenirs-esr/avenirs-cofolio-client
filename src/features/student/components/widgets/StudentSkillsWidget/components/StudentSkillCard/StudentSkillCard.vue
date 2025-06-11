@@ -3,7 +3,7 @@ import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, MDI_ICONS } from '@/ui'
+import { AvCard, IconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
@@ -69,16 +69,22 @@ const theme = ref({
       </template>
       <template #body>
         <div class="student-skill-card__body">
-          <div class="student-skill-card__line">
-            <VIcon :name="MDI_ICONS.ATTACH_FILE" />
-            <span class="student-skill-card__desc">{{
-              t('student.cards.studentSkillCard.traceCount', { count: traceCount })
-            }}</span>
-          </div>
-          <div class="student-skill-card__line">
-            <VIcon :name="MDI_ICONS.TEST_TUBE_EMPTY" />
-            <span class="student-skill-card__desc">{{ t('student.cards.studentSkillCard.activityCount', { count: activityCount }) }}</span>
-          </div>
+          <IconText
+            :icon="MDI_ICONS.ATTACH_FILE"
+            :text="t('student.cards.studentSkillCard.traceCount', { count: traceCount })"
+            icon-color="var(--foreground-text1)"
+            text-color="var(--foreground-text1)"
+            typography-class="b2-regular"
+            gap="0.75rem"
+          />
+          <IconText
+            :icon="MDI_ICONS.TEST_TUBE_EMPTY"
+            :text="t('student.cards.studentSkillCard.activityCount', { count: activityCount })"
+            icon-color="var(--foreground-text1)"
+            text-color="var(--foreground-text1)"
+            typography-class="b2-regular"
+            gap="0.75rem"
+          />
         </div>
       </template>
       <template #footer>
@@ -140,13 +146,6 @@ const theme = ref({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-}
-
-.student-skill-card__line {
-    display: flex;
-    flex-direction: row;
-    gap: 0.75rem;
-    align-items: center;
 }
 
 .student-skill-card__footer {

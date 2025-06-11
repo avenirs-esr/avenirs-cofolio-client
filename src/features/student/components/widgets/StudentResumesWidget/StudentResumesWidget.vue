@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { locale, t } = useI18n()
@@ -19,14 +19,14 @@ const { navigateToStudentResumes } = useNavigation()
   >
     <template #title>
       <div class="resumes-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.FILE_ACCOUNT"
-          color="var(--foreground-icon)"
-          scale="1.5"
+        <IconText
+          :icon="MDI_ICONS.FILE_ACCOUNT"
+          :text="t('student.widgets.resumes.title')"
+          icon-color="var(--foreground-icon)"
+          text-color="var(--foreground-text1)"
+          typography-class="s1-bold"
+          gap="0.75rem"
         />
-        <span class="s1-bold">
-          {{ t('student.widgets.resumes.title') }}
-        </span>
       </div>
     </template>
     <template #body>
@@ -76,10 +76,6 @@ const { navigateToStudentResumes } = useNavigation()
 
 <style lang="scss" scoped>
 .resumes-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
   padding-left: 0.75rem;
 }
 
