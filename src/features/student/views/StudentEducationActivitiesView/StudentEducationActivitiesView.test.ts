@@ -13,7 +13,7 @@ describe('studentEducationActivitiesView', () => {
 
   const title = 'Mes Activités de Mise en situation (AMS)'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const currentBreadcrumbLink = { text: 'Mes activités de mise en situation' }
+  const currentBreadcrumbLink = { text: 'Mes AMS' }
 
   it('should render PageTitle with correct props', () => {
     const wrapper = mount(StudentEducationActivitiesView)

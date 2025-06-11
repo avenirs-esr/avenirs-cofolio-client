@@ -139,6 +139,7 @@ const statusBadge = computed(() => getStatusBadge(status))
             </div>
             <div class="student-detailed-activity-card__line">
               <AvBadge
+                class="student-detailed-activity-card__status-badge"
                 v-bind="statusBadge"
                 :label="t(statusBadge.labelkey)"
                 small
@@ -149,6 +150,7 @@ const statusBadge = computed(() => getStatusBadge(status))
           <div class="student-detailed-activity-card__line">
             <AvBadge
               v-if="mockedDeliverableCount > 0"
+              class="student-detailed-activity-card__deliverable-badge"
               v-bind="mockedDeliverableBadge"
               :label="t(mockedDeliverableBadge.labelkey, { count: mockedDeliverableCount, date: mockedDelivarableDueDate })"
               small
