@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ProgramProgressDTO_Temp } from '@/types'
+import type { ProgramProgressViewDTO } from '@/types'
 import StudentDetailedSkillCard from '../StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
-const { course } = defineProps<{ course: ProgramProgressDTO_Temp }>()
+const { course } = defineProps<{ course: ProgramProgressViewDTO }>()
 </script>
 
 <template>
