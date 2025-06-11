@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { ProgramProgressDTO_Temp } from '@/types'
+import type { ProgramProgressViewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { mockedPrograms, useProgramProgressViewQuery } from '@/features/student/queries'
@@ -21,11 +21,11 @@ vi.mock(import('@/features/student/queries'), async (importOriginal) => {
 
 const mockedUseProgramProgressViewQuery = vi.mocked(useProgramProgressViewQuery)
 
-function mockUseProgramProgressViewQuery (payload: ProgramProgressDTO_Temp[]) {
-  const mockData: Ref<ProgramProgressDTO_Temp[]> = ref(payload)
+function mockUseProgramProgressViewQuery (payload: ProgramProgressViewDTO[]) {
+  const mockData: Ref<ProgramProgressViewDTO[]> = ref(payload)
   const queryMockedData = {
     data: mockData,
-  } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO_Temp[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<ProgramProgressViewDTO[], BaseApiException>
   mockedUseProgramProgressViewQuery.mockReturnValue(queryMockedData)
 }
 

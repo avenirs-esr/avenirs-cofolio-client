@@ -134,6 +134,7 @@ const hoverBorderColor = ref(computedHoverBorderColor)
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  padding-top: 0.5rem;
 }
 
 .student-detailed-skill-card__firstLine {
