@@ -142,7 +142,7 @@
               "notStarted": "Non initiée",
               "submitted": "Soumise"
             },
-            "trackCount": "0 trace | 1 trace | {count} traces"
+            "traceCount": "0 trace | 1 trace | {count} traces"
           },
           "title": "Mes AMS non initiées, en cours, soumises et terminées"
         },

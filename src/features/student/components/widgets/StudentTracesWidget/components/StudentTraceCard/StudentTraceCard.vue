@@ -2,7 +2,7 @@
 import type { StudentTraceCardProps } from './StudentTraceCard.types'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { TraceType } from '@/types'
-import { AvCard, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvCard, IconText, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
@@ -70,19 +70,25 @@ const theme = ref({
             </div>
             <span class="b2-regular">{{ t('student.cards.studentTraceCard.skillCount', { count: skillCount }) }}</span>
           </div>
-          <div class="student-trace-card__line student-trace-card__activities">
-            <VIcon
-              :name="MDI_ICONS.TEST_TUBE_EMPTY"
-              color="var(--foreground-text2)"
+          <div class="student-trace-card__activities">
+            <IconText
+              :icon="MDI_ICONS.TEST_TUBE_EMPTY"
+              :text="t('student.cards.studentTraceCard.activityCount', { count: activityCount })"
+              icon-color="var(--foreground-text1)"
+              text-color="var(--foreground-text1)"
+              typography-class="b2-regular"
+              gap="0.75rem"
             />
-            <span class="b2-regular">{{ t('student.cards.studentTraceCard.activityCount', { count: activityCount }) }}</span>
           </div>
-          <div class="student-trace-card__line student-trace-card__category">
-            <VIcon
-              :name="MDI_ICONS.SWAP_VERTICAL_VARIANT"
-              color="var(--foreground-text2)"
+          <div class="student-trace-card__category">
+            <IconText
+              :icon="MDI_ICONS.SWAP_VERTICAL_VARIANT"
+              :text="category"
+              icon-color="var(--foreground-text1)"
+              text-color="var(--foreground-text1)"
+              typography-class="b2-regular"
+              gap="0.75rem"
             />
-            <span class="b2-regular student-trace-card__categoryText">{{ category }}</span>
           </div>
           <div class="student-trace-card__line student-trace-card__type">
             <DsfrTag

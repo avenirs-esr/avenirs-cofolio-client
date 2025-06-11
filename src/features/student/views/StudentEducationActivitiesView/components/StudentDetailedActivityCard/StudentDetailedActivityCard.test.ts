@@ -61,7 +61,7 @@ describe('studentDetailedActivityCard.vue', () => {
     startedActivityCount: 2,
     totalActivityCount: 4,
     skillCount: 2,
-    trackCount: 3,
+    traceCount: 3,
     status: ActivityStatus.IN_PROGRESS
   }
 
@@ -99,7 +99,7 @@ describe('studentDetailedActivityCard.vue', () => {
     })
 
     expect(wrapper.text()).toContain(activity.name)
-    expect(wrapper.text()).toContain(`${activity.trackCount} traces`)
+    expect(wrapper.text()).toContain(`${activity.traceCount} traces`)
     expect(wrapper.text()).toContain(`${activity.skillCount} compétence`)
   })
 

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 import routes, {
   studentAboutRoute,
+  studentActivityRoute,
   studentEducationActivitiesRoute,
   studentEducationSkillsRoute,
   studentMailboxRoute,
@@ -23,6 +24,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const routesToCheck = [
+  studentActivityRoute,
   studentEducationSkillsRoute,
   studentEducationActivitiesRoute,
   studentProjectSkillsRoute,

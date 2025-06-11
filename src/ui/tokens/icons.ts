@@ -11,6 +11,7 @@ export const MDI_ICONS = {
   CALENDAR_MONTH: 'mdi:calendar-month-outline',
   CHAT_BUBBLE: 'mdi:chat-bubble-outline',
   FILE_ACCOUNT: 'mdi:file-account-outline',
+  FILE_DOCUMENT_EDIT: 'mdi:file-document-edit-outline',
   GRADUATION_CAP: 'mdi:graduation-cap-outline',
   HOME_VARIANT: 'mdi:home-variant-outline',
   LOADING: 'mdi:loading',

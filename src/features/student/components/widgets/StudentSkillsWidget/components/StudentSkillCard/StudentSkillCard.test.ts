@@ -65,4 +65,89 @@ describe('studentSkillCard.vue', () => {
     expect(badges).toHaveLength(1)
     expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
   })
+
+  it('renders one toBeEvaluated badge if one notStartedLevel is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.NOT_STARTED },
+    }
+    const wrapper = await mountWithRouter(StudentSkillCard, {
+      props: {
+        ...baseProps,
+        skill
+      },
+    })
+
+    const badges = wrapper.findAll('.fr-badge')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toContain('Niveau 1 à évaluer')
+  })
+
+  it('renders one toBeEvaluated badge if one toBeEvaluatedLevel is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.TO_BE_EVALUATED },
+    }
+    const wrapper = await mountWithRouter(StudentSkillCard, {
+      props: {
+        ...baseProps,
+        skill
+      },
+    })
+
+    const badges = wrapper.findAll('.fr-badge')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toContain('Niveau 1 à évaluer')
+  })
+
+  it('renders one underReview badge if one underReviewLevel is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.UNDER_REVIEW },
+    }
+    const wrapper = await mountWithRouter(StudentSkillCard, {
+      props: {
+        ...baseProps,
+        skill
+      },
+    })
+
+    const badges = wrapper.findAll('.fr-badge')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
+  })
+
+  it('renders one validated badge if one validatedLevel is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.VALIDATED },
+    }
+    const wrapper = await mountWithRouter(StudentSkillCard, {
+      props: {
+        ...baseProps,
+        skill
+      },
+    })
+
+    const badges = wrapper.findAll('.fr-badge')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toContain('Niveau 1 validé')
+  })
+
+  it('renders one failed badge if one failedLevel is present', async () => {
+    const skill: SkillOverviewDTO = {
+      ...baseProps.skill,
+      currentSkillLevel: { id: 'Niv1', name: 'Niveau 1', status: SkillLevelStatus.FAILED },
+    }
+    const wrapper = await mountWithRouter(StudentSkillCard, {
+      props: {
+        ...baseProps,
+        skill
+      },
+    })
+
+    const badges = wrapper.findAll('.fr-badge')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toContain('Niveau 1 non validé')
+  })
 })

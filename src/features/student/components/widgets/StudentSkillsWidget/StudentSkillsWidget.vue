@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, IconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import { StudentSkillsWidgetContainer } from './components'
 
@@ -21,14 +21,13 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
   >
     <template #title>
       <div class="skills-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.STAR_SHOOTING"
-          color="var(--foreground-icon)"
-          scale="1.5"
+        <IconText
+          :icon="MDI_ICONS.STAR_SHOOTING"
+          :text="t('student.widgets.skills.title')"
+          icon-color="var(--foreground-icon)"
+          text-color="var(--foreground-text1)"
+          typography-class="n5"
         />
-        <span class="n5">
-          {{ t('student.widgets.skills.title') }}
-        </span>
       </div>
     </template>
     <template #body>
@@ -56,10 +55,6 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
 
 <style lang="scss" scoped>
 .skills-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
   padding-left: 0.75rem;
 }
 

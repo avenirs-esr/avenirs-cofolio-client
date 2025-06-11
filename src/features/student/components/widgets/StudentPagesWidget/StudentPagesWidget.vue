@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { data: pages } = useStudentPagesSummaryQuery()
@@ -20,14 +20,14 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
   >
     <template #title>
       <div class="pages-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.FILE_ACCOUNT"
-          color="var(--foreground-icon)"
-          scale="1.5"
+        <IconText
+          :icon="MDI_ICONS.FILE_DOCUMENT_EDIT"
+          :text="t('student.widgets.pages.title')"
+          icon-color="var(--foreground-icon)"
+          text-color="var(--foreground-text1)"
+          typography-class="s1-bold"
+          gap="0.75rem"
         />
-        <span class="s1-bold">
-          {{ t('student.widgets.pages.title') }}
-        </span>
       </div>
     </template>
     <template #body>
@@ -77,10 +77,6 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
 
 <style lang="scss" scoped>
 .pages-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
   padding-left: 0.75rem;
 }
 
