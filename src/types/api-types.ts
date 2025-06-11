@@ -66,3 +66,20 @@ export interface ProgramProgressViewDTO {
   name: string
   skills: SkillViewDTO[]
 }
+
+export enum ActivityStatus {
+  COMPLETED = 'COMPLETED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  NOT_STARTED = 'NOT_STARTED',
+  SUBMITTED = 'SUBMITTED',
+}
+
+export interface ActivityDTO {
+  id: string
+  name: string
+  startedActivityCount: number
+  totalActivityCount: number
+  skillCount: number
+  trackCount: number
+  status: ActivityStatus
+}

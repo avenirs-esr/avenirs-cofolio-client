@@ -111,10 +111,41 @@
       }
     },
     "views": {
+      "studentActivityView": {
+        "breadcrumb": {
+          "current": {
+            "title": "AMS {activity}"
+          }
+        },
+        "title": "AMS - {activity}"
+      },
       "studentDeliverablesView": {
         "title": "(placeholder) Tous mes rendus"
       },
       "studentEducationActivitiesView": {
+        "breadcrumb": {
+          "current": {
+            "title": "Mes AMS"
+          }
+        },
+        "container": {
+          "studentDetailedActivityCard": {
+            "activityCount": "Acitvité {startedActivityCount}/{totalActivityCount} | Acitvités {startedActivityCount}/{totalActivityCount}",
+            "deliverables": {
+              "toSubmit": "1 rendu à soumettre pour le {date} | {count} rendus à soumettre pour le {date}",
+              "validated": "1 rendu validé | {count} rendus validés"
+            },
+            "skillCount": "0 compétence | 1 compétence | {count} compétences",
+            "status": {
+              "completed": "Terminée",
+              "inProgress": "En cours",
+              "notStarted": "Non initiée",
+              "submitted": "Soumise"
+            },
+            "trackCount": "0 trace | 1 trace | {count} traces"
+          },
+          "title": "Mes AMS non initiées, en cours, soumises et terminées"
+        },
         "title": "Mes Activités de Mise en situation (AMS)"
       },
       "studentEducationSkillsView": {

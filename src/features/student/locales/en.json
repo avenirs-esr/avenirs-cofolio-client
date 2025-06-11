@@ -111,10 +111,41 @@
       }
     },
     "views": {
+      "studentActivityView": {
+        "breadcrumb": {
+          "current": {
+            "title": "RPA {activity}"
+          }
+        },
+        "title": "RPA - {activity}"
+      },
       "studentDeliverablesView": {
         "title": "(placeholder) All my deliverables"
       },
       "studentEducationActivitiesView": {
+        "breadcrumb": {
+          "current": {
+            "title": "My RPA"
+          }
+        },
+        "container": {
+          "studentDetailedActivityCard": {
+            "activityCount": "Activity {startedActivityCount}/{totalActivityCount} | Activities {startedActivityCount}/{totalActivityCount}",
+            "deliverables": {
+              "toSubmit": "1 delivarable to submit for {date} | {count} deliverables to submit for {date}",
+              "validated": "1 validated delivarable | {count} validated deliverables"
+            },
+            "skillCount": "0 skill | 1 skill | {count} skills",
+            "status": {
+              "completed": "Completed",
+              "inProgress": "In progress",
+              "notStarted": "Not started",
+              "submitted": "Submitted"
+            },
+            "trackCount": "0 track | 1 track | {count} tracks"
+          },
+          "title": "My RPA not started, in progress, submitted and completed"
+        },
         "title": "My Role-Play Activities (RPA)"
       },
       "studentEducationSkillsView": {
