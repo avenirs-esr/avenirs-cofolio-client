@@ -93,7 +93,7 @@ describe('studentLevelBadge', () => {
       label: 'Soumis pour évaluation',
       small: true,
       ellipsis: true,
-      color: 'var(--dark-background-critical)',
+      color: 'var(--light-foreground-primary1)',
       backgroundColor: 'var(--light-background-critical)',
       iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
     })

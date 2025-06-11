@@ -1,5 +1,5 @@
 import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
-import { mockedPrograms } from '@/features/student/queries/utils'
+import { mockedPrograms } from '@/features/student/queries/fixtures'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'

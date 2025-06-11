@@ -3,7 +3,7 @@ import type { ProfileOverviewDTO, ProgramProgressOverviewDTO,
 import type { BaseApiException } from '@/common/exceptions'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { mockedCourses } from '@/features/student/queries/utils'
+import { mockedCourses } from '@/features/student/queries/fixtures'
 import {
   type DeliverableOverviewDTO,
   type EventOverviewDTO,

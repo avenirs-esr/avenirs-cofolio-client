@@ -21,7 +21,7 @@ function levelToBadge (status: SkillLevelStatus) {
     case SkillLevelStatus.UNDER_REVIEW:
       return {
         labelkey: 'student.badges.studentLevelBadge.status.underReview',
-        color: 'var(--dark-background-critical)',
+        color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
         iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
       }

@@ -1,7 +1,7 @@
 import type { ProgramProgressOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { mockedPrograms } from '@/features/student/queries/utils'
+import { mockedPrograms } from '@/features/student/queries/fixtures'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
