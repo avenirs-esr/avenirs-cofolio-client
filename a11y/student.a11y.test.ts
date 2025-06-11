@@ -13,7 +13,7 @@ import routes, {
   studentProjectTrajectoriesRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracksRoute
+  studentToolsTracesRoute
 } from '@/features/student/routes/routes'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
@@ -28,7 +28,7 @@ const routesToCheck = [
   studentProjectSkillsRoute,
   studentProjectExperiencesRoute,
   studentProjectTrajectoriesRoute,
-  studentToolsTracksRoute,
+  studentToolsTracesRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentAboutRoute,

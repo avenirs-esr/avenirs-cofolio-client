@@ -370,7 +370,7 @@
                       "PROGRAM_PROGRESS_NOT_FOUND",
                       "SKILL_NOT_FOUND",
                       "SKILL_LEVEL_NOT_FOUND",
-                      "TRACK_NOT_FOUND",
+                      "TRACE_NOT_FOUND",
                       "AMS_NOT_FOUND",
                       "USER_IS_NOT_STUDENT_EXCEPTION"
                     ]

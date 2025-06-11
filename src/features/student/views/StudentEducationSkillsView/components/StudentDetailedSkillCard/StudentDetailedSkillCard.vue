@@ -83,7 +83,7 @@ const hoverBorderColor = ref(computedHoverBorderColor)
             <div class="student-detailed-skill-card__counts">
               <VIcon :name="MDI_ICONS.ATTACH_FILE" />
               <span class="student-detailed-skill-card__desc">{{
-                t('student.cards.studentDetailedSkillCard.trackCount', { count: traceCount })
+                t('student.cards.studentDetailedSkillCard.traceCount', { count: traceCount })
               }}</span>
             </div>
             <div class="student-detailed-skill-card__counts">

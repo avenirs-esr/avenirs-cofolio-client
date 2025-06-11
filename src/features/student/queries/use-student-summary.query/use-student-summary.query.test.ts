@@ -13,8 +13,8 @@ import {
   type PageOverviewDTO,
   type ResumeOverviewDTO,
   type StudentHeaderSummaryDTO,
-  type TrackOverviewDTO,
-  TrackType
+  type TraceOverviewDTO,
+  TraceType
 } from '@/types'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
@@ -28,7 +28,7 @@ import {
   useStudentPagesSummaryQuery,
   useStudentResumesSummaryQuery,
   useStudentSummaryQuery,
-  useStudentTracksSummaryQuery
+  useStudentTracesSummaryQuery
 } from './use-student-summary.query'
 
 describe('useStudentSummaryQuery', () => {
@@ -235,47 +235,47 @@ describe('useStudentResumesSummaryQuery', () => {
   })
 })
 
-describe('useStudentTracksSummaryQuery', () => {
+describe('useStudentTracesSummaryQuery', () => {
   const mockedData = [
     {
-      id: 'track1',
+      id: 'trace1',
       name: 'Prévenir la pollution à la source',
       skillCount: 1,
       activityCount: 8,
-      type: TrackType.GROUP,
+      type: TraceType.GROUP,
       filedAt: '2024-05-13T08:42:17',
       course: 'Master Chimie Verte et Éco-innovations'
     },
     {
-      id: 'track2',
+      id: 'trace2',
       name: 'Mettre en place des filières d’économies circulaires',
       skillCount: 2,
       activityCount: 7,
-      type: TrackType.INDIVIDUAL,
+      type: TraceType.INDIVIDUAL,
       filedAt: '2024-11-29T19:15:03'
     },
     {
-      id: 'track3',
+      id: 'trace3',
       name: 'Évaluer l’impact environnemental et économique',
       skillCount: 3,
       activityCount: 6,
-      type: TrackType.INDIVIDUAL,
+      type: TraceType.INDIVIDUAL,
       filedAt: '2025-02-07T23:08:51',
       course: 'Master Chimie Verte et Éco-innovations'
     },
     {
-      id: 'track4',
+      id: 'trace4',
       name: 'Concevoir des synthèses chimiques durables',
       skillCount: 4,
       activityCount: 5,
-      type: TrackType.GROUP,
+      type: TraceType.GROUP,
       filedAt: '2024-08-21T04:26:39'
     },
   ]
 
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<TrackOverviewDTO[], BaseApiException>>(
-      () => useStudentTracksSummaryQuery(),
+    const { data } = mountQueryComposable<UseQueryReturnType<TraceOverviewDTO[], BaseApiException>>(
+      () => useStudentTracesSummaryQuery(),
     )
     await flushPromises()
     const result = unref(data)

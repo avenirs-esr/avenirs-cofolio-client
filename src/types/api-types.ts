@@ -27,18 +27,18 @@ export interface ResumeOverviewDTO {
   updatedAt: string
 }
 
-export enum TrackType {
+export enum TraceType {
   GROUP = 'GROUP',
   INDIVIDUAL = 'INDIVIDUAL',
 }
 
-export interface TrackOverviewDTO {
+export interface TraceOverviewDTO {
   id: string
   name: string
   skillCount: number
   activityCount: number
   filedAt: string
-  type: TrackType
+  type: TraceType
   course?: string
 }
 

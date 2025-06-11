@@ -14,7 +14,7 @@ import StudentProjectTrajectoriesView from '@/features/student/views/StudentProj
 import StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
 import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
-import StudentToolsTracksView from '@/features/student/views/StudentToolsTracksView/StudentToolsTracksView.vue'
+import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { testRoute } from 'tests/utils'
 import routes, {
   studentAboutRoute,
@@ -32,7 +32,7 @@ import routes, {
   studentSkillRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracksRoute
+  studentToolsTracesRoute
 } from './routes'
 
 testRoute(
@@ -117,12 +117,12 @@ testRoute(
 )
 
 testRoute(
-  studentToolsTracksRoute,
+  studentToolsTracesRoute,
   {
-    path: 'tools/tracks',
-    name: 'student-tools-tracks',
+    path: 'tools/traces',
+    name: 'student-tools-traces',
   },
-  StudentToolsTracksView
+  StudentToolsTracesView
 )
 
 testRoute(
@@ -196,7 +196,7 @@ describe('student root route', () => {
       studentProjectExperiencesRoute,
       studentProjectTrajectoriesRoute,
       studentSkillRoute,
-      studentToolsTracksRoute,
+      studentToolsTracesRoute,
       studentToolsPagesRoute,
       studentToolsResumesRoute,
       studentAboutRoute,

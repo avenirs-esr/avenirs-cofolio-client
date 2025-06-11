@@ -14,7 +14,7 @@
       "studentDetailedSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "feedbackCount": "0 feedback à consulter | 1 feedback à consulter | {count} feedbacks à consulter",
-        "trackCount": "0 trace | 1 trace | {count} traces"
+        "traceCount": "0 trace | 1 trace | {count} traces"
       },
       "studentSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
@@ -24,9 +24,9 @@
           "underReview": "en cours d'évaluation",
           "validated": "validé"
         },
-        "trackCount": "0 trace | 1 trace | {count} traces"
+        "traceCount": "0 trace | 1 trace | {count} traces"
       },
-      "studentTrackCard": {
+      "studentTraceCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "lifeProject": "Projet de vie",
         "skillCount": "0 compétence | 1 compétence | {count} compétences",
@@ -61,7 +61,7 @@
           "comingUpEvent": "Un événement a lieu prochainement",
           "header": "Vous recevrez une notification dans les cas suivants :",
           "teacherMessage": "Un enseignant vous enverra un message",
-          "validatedTrack": "Une trace a été validée"
+          "validatedTrace": "Une trace a été validée"
         },
         "buttons": {
           "close": "Fermer",
@@ -102,7 +102,7 @@
           "items": {
             "pages": "Mes pages libres",
             "resumes": "Mes CV",
-            "tracks": "Mes traces"
+            "traces": "Mes traces"
           }
         },
         "apcUnavailable": {
@@ -147,7 +147,7 @@
       "studentToolsResumesView": {
         "title": "(placeholder) Tous mes CV"
       },
-      "studentToolsTracksView": {
+      "studentToolsTracesView": {
         "title": "(placeholder) Toutes mes traces"
       }
     },
@@ -196,7 +196,7 @@
         },
         "title": "Mes compétences visées par ma formation"
       },
-      "tracks": {
+      "traces": {
         "buttons": {
           "seeAll": "Voir toutes mes traces"
         },

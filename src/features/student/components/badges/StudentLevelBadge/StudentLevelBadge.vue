@@ -43,7 +43,7 @@ function levelToBadge (status: SkillLevelStatus) {
 }
 
 const levelBadge = computed(() => levelToBadge(level.status))
-const label = computed(() => t(levelBadge.value?.labelkey))
+const label = computed(() => t(levelBadge.value.labelkey))
 </script>
 
 <template>

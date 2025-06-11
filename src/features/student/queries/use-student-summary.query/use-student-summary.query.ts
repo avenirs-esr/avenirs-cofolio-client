@@ -10,8 +10,8 @@ import {
   type PageOverviewDTO,
   type ResumeOverviewDTO,
   type StudentHeaderSummaryDTO,
-  type TrackOverviewDTO,
-  TrackType
+  type TraceOverviewDTO,
+  TraceType
 } from '@/types'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
@@ -175,46 +175,46 @@ function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeOverv
   })
 }
 
-function useStudentTracksSummaryQuery (): UseQueryDefinedReturnType<TrackOverviewDTO[], BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'tracks'])
-  return useQuery<TrackOverviewDTO[], BaseApiException>({
+function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'traces'])
+  return useQuery<TraceOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
-    // TODO: call /me/formations/tracks/overview when the endpoint and client are ready
-    queryFn: async (): Promise<TrackOverviewDTO[]> => {
+    // TODO: call /me/formations/traces/overview when the endpoint and client are ready
+    queryFn: async (): Promise<TraceOverviewDTO[]> => {
       return [
         {
-          id: 'track1',
+          id: 'trace1',
           name: 'Prévenir la pollution à la source',
           skillCount: 1,
           activityCount: 8,
-          type: TrackType.GROUP,
+          type: TraceType.GROUP,
           filedAt: '2024-05-13T08:42:17',
           course: 'Master Chimie Verte et Éco-innovations'
         },
         {
-          id: 'track2',
+          id: 'trace2',
           name: 'Mettre en place des filières d’économies circulaires',
           skillCount: 2,
           activityCount: 7,
-          type: TrackType.INDIVIDUAL,
+          type: TraceType.INDIVIDUAL,
           filedAt: '2024-11-29T19:15:03'
         },
         {
-          id: 'track3',
+          id: 'trace3',
           name: 'Évaluer l’impact environnemental et économique',
           skillCount: 3,
           activityCount: 6,
-          type: TrackType.INDIVIDUAL,
+          type: TraceType.INDIVIDUAL,
           filedAt: '2025-02-07T23:08:51',
           course: 'Master Chimie Verte et Éco-innovations'
         },
         {
-          id: 'track4',
+          id: 'trace4',
           name: 'Concevoir des synthèses chimiques durables',
           skillCount: 4,
           activityCount: 5,
-          type: TrackType.GROUP,
+          type: TraceType.GROUP,
           filedAt: '2024-08-21T04:26:39'
         },
       ]
@@ -230,5 +230,5 @@ export {
   useStudentPagesSummaryQuery,
   useStudentResumesSummaryQuery,
   useStudentSummaryQuery,
-  useStudentTracksSummaryQuery
+  useStudentTracesSummaryQuery
 }

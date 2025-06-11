@@ -72,7 +72,7 @@ const theme = ref({
           <div class="student-skill-card__line">
             <VIcon :name="MDI_ICONS.ATTACH_FILE" />
             <span class="student-skill-card__desc">{{
-              t('student.cards.studentSkillCard.trackCount', { count: traceCount })
+              t('student.cards.studentSkillCard.traceCount', { count: traceCount })
             }}</span>
           </div>
           <div class="student-skill-card__line">
