@@ -6,6 +6,7 @@ export const MDI_ICONS = {
   ARROW_TOP_RIGHT: 'mdi:arrow-top-right-thick',
   ATTACH_FILE: 'mdi:attach-file',
   BELL_NOTIFICATION: 'mdi:bell-notification',
+  BOOK_LOCATION: 'mdi:book-location-outline',
   BRIEFCASE_VARIANT: 'mdi:briefcase-variant-outline',
   CALENDAR_MONTH: 'mdi:calendar-month-outline',
   CHAT_BUBBLE: 'mdi:chat-bubble-outline',

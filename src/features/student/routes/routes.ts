@@ -1,6 +1,7 @@
 import type { AvRoute } from '@/common/types/router.types'
 import type StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import type StudentActivityView from '@/features/student/views/StudentActivityView/StudentActivityView.vue'
 import type StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import type StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
 import type StudentEducationActivitiesView from '@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue'
@@ -24,6 +25,15 @@ export const studentHomeRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentHomeView/StudentHomeView.vue') as Promise<{
       default: typeof StudentHomeView
+    }>,
+}
+
+export const studentActivityRoute: AvRoute = {
+  path: 'activity/:id',
+  name: 'student-activity',
+  component: () =>
+    import('@/features/student/views/StudentActivityView/StudentActivityView.vue') as Promise<{
+      default: typeof StudentActivityView
     }>,
 }
 
@@ -170,6 +180,7 @@ const routes: RouteRecordRaw[] = [
     }>,
     children: [
       studentHomeRoute,
+      studentActivityRoute,
       studentDeliverablesRoute,
       studentEducationSkillsRoute,
       studentEducationActivitiesRoute,

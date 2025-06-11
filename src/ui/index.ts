@@ -1,4 +1,5 @@
 export * from './badges'
+export * from './base'
 export * from './cards'
 export * from './header'
 export * from './interaction'
