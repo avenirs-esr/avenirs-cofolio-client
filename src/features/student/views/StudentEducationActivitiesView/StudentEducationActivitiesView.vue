@@ -7,7 +7,7 @@ const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
-  { text: t('student.navigation.tabs.education.items.activities') }
+  { text: t('student.views.studentEducationActivitiesView.breadcrumb.current.title') }
 ])
 </script>
 

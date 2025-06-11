@@ -1,5 +1,48 @@
-import type { ProgramProgressViewDTO, } from '@/types'
 import { type ProgramProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import {
+  type ActivityDTO,
+  ActivityStatus,
+  type ProgramProgressViewDTO,
+} from '@/types'
+
+export const mockedActivities: ActivityDTO[] = [
+  {
+    id: 'ams1',
+    name: 'Stage 2.1 SMB CHIMIOTEK, réalisation d’un audit environnemental et proposition d’un plan d’amélioration des performances d’un procédé...',
+    startedActivityCount: 2,
+    totalActivityCount: 4,
+    skillCount: 2,
+    trackCount: 3,
+    status: ActivityStatus.IN_PROGRESS
+  },
+  {
+    id: 'ams2',
+    name: 'Stage 2.1 SMB CHIMIOTEK, Optimisation d’un procédé industriel pour réduire la production de déchets à la source',
+    startedActivityCount: 1,
+    totalActivityCount: 1,
+    skillCount: 2,
+    trackCount: 3,
+    status: ActivityStatus.SUBMITTED
+  },
+  {
+    id: 'ams3',
+    name: 'AMS SAP 4.1 Conception d’un solvant écologique pour une application industrielle',
+    startedActivityCount: 0,
+    totalActivityCount: 0,
+    skillCount: 2,
+    trackCount: 3,
+    status: ActivityStatus.NOT_STARTED
+  },
+  {
+    id: 'ams4',
+    name: 'SAE 1.1 Réaliser l’audit environnemental d’un procédé de synthèse chimique',
+    startedActivityCount: 3,
+    totalActivityCount: 3,
+    skillCount: 1,
+    trackCount: 4,
+    status: ActivityStatus.COMPLETED
+  }
+]
 
 export const mockedCourses: ProgramProgressOverviewDTO[] = [
   {

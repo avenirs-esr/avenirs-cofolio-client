@@ -1,5 +1,6 @@
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import StudentActivityView from '@/features/student/views/StudentActivityView/StudentActivityView.vue'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
 import StudentEducationActivitiesView from '@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue'
@@ -18,6 +19,7 @@ import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesV
 import { testRoute } from 'tests/utils'
 import routes, {
   studentAboutRoute,
+  studentActivityRoute,
   studentApcUnavailableRoute,
   studentDeliverablesRoute,
   studentEducationActivitiesRoute,
@@ -42,6 +44,15 @@ testRoute(
     name: 'student-home',
   },
   StudentHomeView
+)
+
+testRoute(
+  studentActivityRoute,
+  {
+    path: 'activity/:id',
+    name: 'student-activity',
+  },
+  StudentActivityView
 )
 
 testRoute(
@@ -188,6 +199,7 @@ describe('student root route', () => {
     expect(studentRootRoute?.component).toBeDefined()
     expect(studentRootRoute?.children).toEqual([
       studentHomeRoute,
+      studentActivityRoute,
       studentDeliverablesRoute,
       studentEducationSkillsRoute,
       studentEducationActivitiesRoute,
