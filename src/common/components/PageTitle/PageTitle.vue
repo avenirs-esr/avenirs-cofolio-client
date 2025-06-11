@@ -24,7 +24,7 @@ function goBack () {
 </script>
 
 <template>
-  <div>
+  <div class="page-title-container">
     <DsfrBreadcrumb :links="breadcrumbLinks" />
     <div class="page-title">
       <AvButton
@@ -40,6 +40,9 @@ function goBack () {
 </template>
 
 <style lang="scss" scoped>
+.page-title-container {
+  padding-bottom: 4.5rem;
+}
 .page-title {
   display: flex;
   flex-direction: row;
