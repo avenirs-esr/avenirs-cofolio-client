@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 import StudentLevelBadge from './StudentLevelBadge.vue'
 
-vi.mock('./utils')
-
 describe('studentLevelBadge', () => {
   const stubs = {
     AvBadge: {

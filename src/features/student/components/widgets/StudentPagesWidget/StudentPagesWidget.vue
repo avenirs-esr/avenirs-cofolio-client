@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { data: pages } = useStudentPagesSummaryQuery()
@@ -20,7 +20,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
   >
     <template #title>
       <div class="pages-widget-container__title">
-        <IconText
+        <AvIconText
           :icon="MDI_ICONS.FILE_DOCUMENT_EDIT"
           :text="t('student.widgets.pages.title')"
           icon-color="var(--foreground-icon)"

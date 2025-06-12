@@ -4,7 +4,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { mockedPrograms, useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import StudentEducationSkillsView from './StudentEducationSkillsView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
@@ -35,7 +35,8 @@ describe('studentEducationSkillsView', () => {
       name: 'StudentEducationSkillsViewContainer',
       template: `<div class="student-education-skills-view-container"/>`,
       props: ['course'],
-    }
+    },
+    RouterLink: RouterLinkStub
   }
   beforeEach(() => {
     vi.clearAllMocks()
@@ -49,7 +50,11 @@ describe('studentEducationSkillsView', () => {
   it('should render PageTitle with base title', () => {
     vi.clearAllMocks()
     mockUseProgramProgressViewQuery([mockedPrograms[0]])
-    const wrapper = mount(StudentEducationSkillsView)
+    const wrapper = mount(StudentEducationSkillsView, {
+      global: {
+        stubs
+      }
+    })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)
@@ -60,7 +65,11 @@ describe('studentEducationSkillsView', () => {
   })
 
   it('should render PageTitle with plural title', () => {
-    const wrapper = mount(StudentEducationSkillsView)
+    const wrapper = mount(StudentEducationSkillsView, {
+      global: {
+        stubs
+      }
+    })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title_plural)

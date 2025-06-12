@@ -1,7 +1,7 @@
 import { MDI_ICONS } from '@/ui/tokens'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import IconText from './IconText.vue'
+import AvIconText from './AvIconText.vue'
 
 describe('studentDetailedSkillCard.vue', () => {
   const stubs = {
@@ -25,7 +25,7 @@ describe('studentDetailedSkillCard.vue', () => {
   }
 
   it('should render properly with given and defaults props', async () => {
-    const wrapper = mount(IconText, {
+    const wrapper = mount(AvIconText, {
       props: baseProps,
       global: {
         stubs
@@ -44,7 +44,7 @@ describe('studentDetailedSkillCard.vue', () => {
   })
 
   it('should render properly with given props', async () => {
-    const wrapper = mount(IconText, {
+    const wrapper = mount(AvIconText, {
       props: allProps,
       global: {
         stubs

@@ -3,7 +3,7 @@ import type { AvRoute } from '@/common/types'
 import { useStudentApcAccess } from '@/features/student/composables'
 import {
   studentApcUnavailableRoute,
-  studentEducationActivitiesRoute,
+  studentEducationAmsRoute,
   studentEducationSkillsRoute,
   studentHomeRoute,
   studentProjectExperiencesRoute,
@@ -37,7 +37,7 @@ const educationMenu = computed(() => {
       return isRouteActive([
         studentApcUnavailableRoute,
         studentEducationSkillsRoute,
-        studentEducationActivitiesRoute,
+        studentEducationAmsRoute,
       ])
     },
   }
@@ -59,7 +59,7 @@ const educationMenu = computed(() => {
         icon: MDI_ICONS.STARS,
       },
       {
-        to: studentEducationActivitiesRoute,
+        to: studentEducationAmsRoute,
         text: t('student.navigation.tabs.education.items.activities'),
         icon: MDI_ICONS.CALENDAR_MONTH,
       },

@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { locale, t } = useI18n()
@@ -19,7 +19,7 @@ const { navigateToStudentResumes } = useNavigation()
   >
     <template #title>
       <div class="resumes-widget-container__title">
-        <IconText
+        <AvIconText
           :icon="MDI_ICONS.FILE_ACCOUNT"
           :text="t('student.widgets.resumes.title')"
           icon-color="var(--foreground-icon)"

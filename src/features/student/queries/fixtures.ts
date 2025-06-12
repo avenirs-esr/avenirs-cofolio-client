@@ -1,46 +1,54 @@
 import { type ProgramProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import {
-  type ActivityDTO,
-  ActivityStatus,
+  AmsStatus,
+  type AmsViewDTO,
   type ProgramProgressViewDTO,
 } from '@/types'
 
-export const mockedActivities: ActivityDTO[] = [
+export const mockedAmss: AmsViewDTO[] = [
   {
     id: 'ams1',
-    name: 'Stage 2.1 SMB CHIMIOTEK, réalisation d’un audit environnemental et proposition d’un plan d’amélioration des performances d’un procédé...',
-    startedActivityCount: 2,
-    totalActivityCount: 4,
-    skillCount: 2,
-    traceCount: 3,
-    status: ActivityStatus.IN_PROGRESS
+    title: 'Stage 2.1 SMB CHIMIOTEK, réalisation d’un audit environnemental et proposition d’un plan d’amélioration des performances d’un procédé...',
+    countSkills: 2,
+    countTraces: 3,
+    status: AmsStatus.IN_PROGRESS,
+    progress: {
+      startedActivities: 2,
+      totalActivities: 4
+    }
   },
   {
     id: 'ams2',
-    name: 'Stage 2.1 SMB CHIMIOTEK, Optimisation d’un procédé industriel pour réduire la production de déchets à la source',
-    startedActivityCount: 1,
-    totalActivityCount: 1,
-    skillCount: 2,
-    traceCount: 3,
-    status: ActivityStatus.SUBMITTED
+    title: 'Stage 2.1 SMB CHIMIOTEK, Optimisation d’un procédé industriel pour réduire la production de déchets à la source',
+    countSkills: 2,
+    countTraces: 3,
+    status: AmsStatus.SUBMITTED,
+    progress: {
+      startedActivities: 1,
+      totalActivities: 1
+    }
   },
   {
     id: 'ams3',
-    name: 'AMS SAP 4.1 Conception d’un solvant écologique pour une application industrielle',
-    startedActivityCount: 0,
-    totalActivityCount: 0,
-    skillCount: 2,
-    traceCount: 3,
-    status: ActivityStatus.NOT_STARTED
+    title: 'AMS SAP 4.1 Conception d’un solvant écologique pour une application industrielle',
+    countSkills: 2,
+    countTraces: 3,
+    status: AmsStatus.NOT_STARTED,
+    progress: {
+      startedActivities: 0,
+      totalActivities: 0
+    }
   },
   {
     id: 'ams4',
-    name: 'SAE 1.1 Réaliser l’audit environnemental d’un procédé de synthèse chimique',
-    startedActivityCount: 3,
-    totalActivityCount: 3,
-    skillCount: 1,
-    traceCount: 4,
-    status: ActivityStatus.COMPLETED
+    title: 'SAE 1.1 Réaliser l’audit environnemental d’un procédé de synthèse chimique',
+    countSkills: 1,
+    countTraces: 4,
+    status: AmsStatus.COMPLETED,
+    progress: {
+      startedActivities: 3,
+      totalActivities: 3
+    }
   }
 ]
 

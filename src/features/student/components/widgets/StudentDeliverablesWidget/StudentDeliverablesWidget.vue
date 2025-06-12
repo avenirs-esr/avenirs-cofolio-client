@@ -63,7 +63,7 @@ const renderedDeliverables = computed(() => {
                     {{ t('student.widgets.deliverables.skill', { skill: deliverable.skill }) }}
                   </span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.deliverables.activity', { activity: deliverable.activity }) }}
+                    {{ t('student.widgets.deliverables.ams', { ams: deliverable.activity }) }}
                   </span>
                 </div>
               </div>

@@ -1,1 +1,1 @@
-export { default as IconText } from './IconText/IconText.vue'
+export { default as AvIconText } from './AvIconText/AvIconText.vue'

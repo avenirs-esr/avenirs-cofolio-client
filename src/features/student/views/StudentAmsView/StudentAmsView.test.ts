@@ -1,8 +1,8 @@
-import { studentEducationActivitiesRoute, studentHomeRoute } from '@/features/student/routes'
+import { studentEducationAmsRoute, studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
-import StudentActivityView from './StudentActivityView.vue'
+import StudentAmsView from './StudentAmsView.vue'
 
-describe('studentActivityView', () => {
+describe('studentAmsView', () => {
   const stubs = {
     PageTitle: {
       name: 'PageTitle',
@@ -20,11 +20,11 @@ describe('studentActivityView', () => {
 
   const title = `AMS - ${mockedAmsName}`
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const activitiesBreadcrumbLink = { text: 'Mes AMS', to: studentEducationActivitiesRoute }
+  const activitiesBreadcrumbLink = { text: 'Mes AMS', to: studentEducationAmsRoute }
   const currentBreadcrumbLink = { text: `AMS ${mockedAmsCode}` }
 
   it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentActivityView, {
+    const wrapper = mount(StudentAmsView, {
       global: {
         stubs
       }

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { SkillViewDTO } from '@/types'
 import { SkillLevelStatus } from '@/api/avenir-esr'
-import { StudentLevelBadge } from '@/features/student/components/'
+import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLevelBadge } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvBadge, AvCard, IconText, MDI_ICONS } from '@/ui'
+import { AvBadge, AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<{ skill: SkillViewDTO, skillColor: string }>()
@@ -80,21 +80,15 @@ const hoverBorderColor = ref(computedHoverBorderColor)
             <span class="s2-regular">{{ skill.currentSkillLevel.shortDescription }}</span>
           </div>
           <div class="student-detailed-skill-card__line">
-            <IconText
-              :icon="MDI_ICONS.ATTACH_FILE"
-              :text="t('student.cards.studentDetailedSkillCard.traceCount', { count: traceCount })"
-              icon-color="var(--foreground-text1)"
-              text-color="var(--foreground-text1)"
-              typography-class="b2-regular"
+            <StudentCountTracesIconText
+              :count-traces="traceCount"
               gap="0.75rem"
+              inline
             />
-            <IconText
-              :icon="MDI_ICONS.TEST_TUBE_EMPTY"
-              :text="t('student.cards.studentDetailedSkillCard.activityCount', { count: activityCount })"
-              icon-color="var(--foreground-text1)"
-              text-color="var(--foreground-text1)"
-              typography-class="b2-regular"
+            <StudentCountAmsIconText
+              :count-ams="activityCount"
               gap="0.75rem"
+              inline
             />
           </div>
         </div>

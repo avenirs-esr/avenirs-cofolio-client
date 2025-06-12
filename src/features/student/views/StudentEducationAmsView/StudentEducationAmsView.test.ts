@@ -1,12 +1,12 @@
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
-import StudentEducationActivitiesView from './StudentEducationActivitiesView.vue'
+import StudentEducationAmsView from './StudentEducationAmsView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
 }))
 
-describe('studentEducationActivitiesView', () => {
+describe('studentEducationAmsView', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -16,7 +16,7 @@ describe('studentEducationActivitiesView', () => {
   const currentBreadcrumbLink = { text: 'Mes AMS' }
 
   it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentEducationActivitiesView)
+    const wrapper = mount(StudentEducationAmsView)
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)

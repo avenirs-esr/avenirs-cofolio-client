@@ -1,10 +1,10 @@
 import type { AvRoute } from '@/common/types/router.types'
 import type StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import type StudentActivityView from '@/features/student/views/StudentActivityView/StudentActivityView.vue'
+import type StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import type StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import type StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import type StudentEducationActivitiesView from '@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue'
+import type StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import type StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import type StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
 import type StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
@@ -28,12 +28,12 @@ export const studentHomeRoute: AvRoute = {
     }>,
 }
 
-export const studentActivityRoute: AvRoute = {
+export const studentAmsRoute: AvRoute = {
   path: 'activity/:id',
   name: 'student-activity',
   component: () =>
-    import('@/features/student/views/StudentActivityView/StudentActivityView.vue') as Promise<{
-      default: typeof StudentActivityView
+    import('@/features/student/views/StudentAmsView/StudentAmsView.vue') as Promise<{
+      default: typeof StudentAmsView
     }>,
 }
 
@@ -64,12 +64,12 @@ export const studentEducationSkillsRoute: AvRoute = {
     }>,
 }
 
-export const studentEducationActivitiesRoute: AvRoute = {
+export const studentEducationAmsRoute: AvRoute = {
   path: 'education/activities',
   name: 'student-education-activities',
   component: () =>
-    import('@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue') as Promise<{
-      default: typeof StudentEducationActivitiesView
+    import('@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue') as Promise<{
+      default: typeof StudentEducationAmsView
     }>,
 }
 
@@ -180,10 +180,10 @@ const routes: RouteRecordRaw[] = [
     }>,
     children: [
       studentHomeRoute,
-      studentActivityRoute,
+      studentAmsRoute,
       studentDeliverablesRoute,
       studentEducationSkillsRoute,
-      studentEducationActivitiesRoute,
+      studentEducationAmsRoute,
       studentEventsRoute,
       studentProjectSkillsRoute,
       studentProjectExperiencesRoute,

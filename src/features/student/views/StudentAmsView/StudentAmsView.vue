@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
-import { studentEducationActivitiesRoute, studentHomeRoute } from '@/features/student/routes'
+import { studentEducationAmsRoute, studentHomeRoute } from '@/features/student/routes'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -10,15 +10,15 @@ const mockedAmsName = `${mockedAmsCode} Réaliser l’audit environnemental d’
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
-  { text: t('student.views.studentEducationActivitiesView.breadcrumb.current.title'), to: studentEducationActivitiesRoute },
-  { text: t('student.views.studentActivityView.breadcrumb.current.title', { activity: mockedAmsCode }) }
+  { text: t('student.views.studentEducationAmsView.breadcrumb.current.title'), to: studentEducationAmsRoute },
+  { text: t('student.views.studentAmsView.breadcrumb.current.title', { ams: mockedAmsCode }) }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentActivityView.title', { activity: mockedAmsName })"
+    :title="t('student.views.studentAmsView.title', { ams: mockedAmsName })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentEducationActivitiesRoute"
+    :back="studentEducationAmsRoute"
   />
 </template>
