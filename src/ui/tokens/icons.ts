@@ -1,5 +1,6 @@
 export const MDI_ICONS = {
   ACCOUNT_CIRCLE: 'mdi:account-circle-outline',
+  ALERT_CIRCLE: 'mdi:alert-circle-outline',
   ARROW_DECISION: 'mdi:arrow-decision',
   ARROW_LEFT: 'mdi:arrow-left-thin',
   ARROW_RIGHT: 'mdi:arrow-right-thin',
@@ -10,10 +11,13 @@ export const MDI_ICONS = {
   BRIEFCASE_VARIANT: 'mdi:briefcase-variant-outline',
   CALENDAR_MONTH: 'mdi:calendar-month-outline',
   CHAT_BUBBLE: 'mdi:chat-bubble-outline',
+  CHECK_CIRCLE: 'mdi:check-circle',
+  CLOSE_CIRCLE: 'mdi:close-circle-outline',
   FILE_ACCOUNT: 'mdi:file-account-outline',
   FILE_DOCUMENT_EDIT: 'mdi:file-document-edit-outline',
   GRADUATION_CAP: 'mdi:graduation-cap-outline',
   HOME_VARIANT: 'mdi:home-variant-outline',
+  INFORMATION: 'mdi:information-outline',
   LOADING: 'mdi:loading',
   LOGOUT: 'mdi:logout',
   NOTIFICATIONS_NONE: 'mdi:notifications-none',
@@ -24,7 +28,8 @@ export const MDI_ICONS = {
   STARS: 'mdi:stars',
   SWAP_HORIZONTAL: 'mdi:swap-horizontal',
   SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
-  TEST_TUBE_EMPTY: 'mdi:test-tube-empty'
+  TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
+  WARNING: 'mdi:warning-outline'
 }
 
 export const RI_ICONS = {

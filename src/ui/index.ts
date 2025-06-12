@@ -1,6 +1,7 @@
 export * from './badges'
 export * from './base'
 export * from './cards'
+export * from './feedback'
 export * from './header'
 export * from './interaction'
 export * from './modals'
