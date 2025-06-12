@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, IconText, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import { StudentSkillsWidgetContainer } from './components'
 
@@ -21,7 +21,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
   >
     <template #title>
       <div class="skills-widget-container__title">
-        <IconText
+        <AvIconText
           :icon="MDI_ICONS.STAR_SHOOTING"
           :text="t('student.widgets.skills.title')"
           icon-color="var(--foreground-icon)"

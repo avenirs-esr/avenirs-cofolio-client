@@ -67,19 +67,35 @@ export interface ProgramProgressViewDTO {
   skills: SkillViewDTO[]
 }
 
-export enum ActivityStatus {
-  COMPLETED = 'COMPLETED',
-  IN_PROGRESS = 'IN_PROGRESS',
+export enum AmsStatus {
   NOT_STARTED = 'NOT_STARTED',
+  IN_PROGRESS = 'IN_PROGRESS',
   SUBMITTED = 'SUBMITTED',
+  COMPLETED = 'COMPLETED'
 }
 
-export interface ActivityDTO {
+export interface AmsProgress {
+  startedActivities: number
+  totalActivities: number
+}
+
+export interface AmsViewDTO {
   id: string
-  name: string
-  startedActivityCount: number
-  totalActivityCount: number
-  skillCount: number
-  traceCount: number
-  status: ActivityStatus
+  title: string
+  countSkills: number
+  countTraces: number
+  status: AmsStatus
+  progress: AmsProgress
+}
+
+export interface PaginationInfo {
+  page: number
+  pageSize: number
+  count: number
+  totalPages: number
+}
+
+export interface AmsViewResponse {
+  content: AmsViewDTO[]
+  pagination: PaginationInfo
 }

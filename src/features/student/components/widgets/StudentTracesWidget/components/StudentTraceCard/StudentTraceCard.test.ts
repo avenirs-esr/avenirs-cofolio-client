@@ -1,4 +1,5 @@
 import { TraceType } from '@/types'
+import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 import StudentTraceCard from './StudentTraceCard.vue'
@@ -29,6 +30,15 @@ vi.doMock('@/ui/tokens', () => ({
 }))
 
 describe('studentTraceCard.vue', () => {
+  const stubs = {
+    StudentCountAmsIconText: {
+      name: 'StudentCountAmsIconText',
+      template: `<div class="student-count-ams-icon-text" />`,
+      props: ['countAms']
+    },
+    RouterLink: RouterLinkStub
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -47,11 +57,16 @@ describe('studentTraceCard.vue', () => {
   it('renders the trace name, skill and activity counts', async () => {
     const wrapper = await mountWithRouter(StudentTraceCard, {
       props: baseProps,
+      global: {
+        stubs
+      }
     })
 
     expect(wrapper.text()).toContain('Parcours scientifique')
     expect(wrapper.text()).toContain('3 compétences')
-    expect(wrapper.text()).toContain('5 mises en situation')
+    const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
+    expect(amsIconText.exists()).toBe(true)
+    expect(amsIconText.props()).toMatchObject({ countAms: baseProps.trace.activityCount })
   })
 
   it('renders the fixed label "Projet de vie"', async () => {

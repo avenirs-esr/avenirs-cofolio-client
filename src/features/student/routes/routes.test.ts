@@ -1,9 +1,9 @@
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import StudentActivityView from '@/features/student/views/StudentActivityView/StudentActivityView.vue'
+import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import StudentEducationActivitiesView from '@/features/student/views/StudentEducationActivitiesView/StudentEducationActivitiesView.vue'
+import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
 import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
@@ -19,10 +19,10 @@ import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesV
 import { testRoute } from 'tests/utils'
 import routes, {
   studentAboutRoute,
-  studentActivityRoute,
+  studentAmsRoute,
   studentApcUnavailableRoute,
   studentDeliverablesRoute,
-  studentEducationActivitiesRoute,
+  studentEducationAmsRoute,
   studentEducationSkillsRoute,
   studentEventsRoute,
   studentHomeRoute,
@@ -47,12 +47,12 @@ testRoute(
 )
 
 testRoute(
-  studentActivityRoute,
+  studentAmsRoute,
   {
     path: 'activity/:id',
     name: 'student-activity',
   },
-  StudentActivityView
+  StudentAmsView
 )
 
 testRoute(
@@ -83,12 +83,12 @@ testRoute(
 )
 
 testRoute(
-  studentEducationActivitiesRoute,
+  studentEducationAmsRoute,
   {
     path: 'education/activities',
     name: 'student-education-activities',
   },
-  StudentEducationActivitiesView
+  StudentEducationAmsView
 )
 
 testRoute(
@@ -199,10 +199,10 @@ describe('student root route', () => {
     expect(studentRootRoute?.component).toBeDefined()
     expect(studentRootRoute?.children).toEqual([
       studentHomeRoute,
-      studentActivityRoute,
+      studentAmsRoute,
       studentDeliverablesRoute,
       studentEducationSkillsRoute,
-      studentEducationActivitiesRoute,
+      studentEducationAmsRoute,
       studentEventsRoute,
       studentProjectSkillsRoute,
       studentProjectExperiencesRoute,

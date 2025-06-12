@@ -1,6 +1,14 @@
 {
   "student": {
     "badges": {
+      "studentAmsStatusBadge": {
+        "status": {
+          "completed": "Completed",
+          "inProgress": "In progress",
+          "notStarted": "Not started",
+          "submitted": "Submitted"
+        }
+      },
       "studentLevelBadge": {
         "status": {
           "inProgress": "Under acquisition",
@@ -34,6 +42,17 @@
           "group": "Group",
           "solo": "Individual"
         }
+      }
+    },
+    "iconTexts": {
+      "studentCountAmsIconText": {
+        "text": "0 role-play activity | 1 role-play activity | {count} role-play activities"
+      },
+      "studentCountSkillsIconText": {
+        "text": "0 skill | 1 skill | {count} skills"
+      },
+      "studentCountTracesIconText": {
+        "text": "0 trace | 1 trace | {count} traces"
       }
     },
     "layout": {
@@ -111,37 +130,31 @@
       }
     },
     "views": {
-      "studentActivityView": {
+      "studentAmsView": {
         "breadcrumb": {
           "current": {
-            "title": "RPA {activity}"
+            "title": "RPA {ams}"
           }
         },
-        "title": "RPA - {activity}"
+        "title": "RPA - {ams}"
       },
       "studentDeliverablesView": {
         "title": "(placeholder) All my deliverables"
       },
-      "studentEducationActivitiesView": {
+      "studentEducationAmsView": {
         "breadcrumb": {
           "current": {
             "title": "My RPA"
           }
         },
         "container": {
-          "studentDetailedActivityCard": {
-            "activityCount": "Activity {startedActivityCount}/{totalActivityCount} | Activities {startedActivityCount}/{totalActivityCount}",
+          "StudentDetailedAmsCard": {
+            "activityCount": "Activity {startedActivities}/{totalActivities} | Activities {startedActivities}/{totalActivities}",
             "deliverables": {
               "toSubmit": "1 delivarable to submit for {date} | {count} deliverables to submit for {date}",
               "validated": "1 validated delivarable | {count} validated deliverables"
             },
             "skillCount": "0 skill | 1 skill | {count} skills",
-            "status": {
-              "completed": "Completed",
-              "inProgress": "In progress",
-              "notStarted": "Not started",
-              "submitted": "Submitted"
-            },
             "traceCount": "0 trace | 1 trace | {count} traces"
           },
           "title": "My RPA not started, in progress, submitted and completed"
@@ -184,7 +197,7 @@
     },
     "widgets": {
       "deliverables": {
-        "activity": "RPA - {activity}",
+        "ams": "RPA - {ams}",
         "buttons": {
           "seeAll": "See all my deliverables"
         },

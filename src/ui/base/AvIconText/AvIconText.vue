@@ -5,7 +5,8 @@ const {
   icon,
   text,
   typographyClass = 'b2-regular',
-  gap = '0.25rem'
+  gap = '0.25rem',
+  inline = false
 } = defineProps<{
   textColor?: string
   iconColor?: string
@@ -13,6 +14,7 @@ const {
   text: string
   typographyClass?: string
   gap?: string
+  inline?: boolean
 }>()
 
 const computedIconScale = computed(() => {
@@ -21,10 +23,16 @@ const computedIconScale = computed(() => {
   }
   return '1'
 })
+
+const ellipsisContainerClass = computed(() => !inline ? 'ellipsis-container' : undefined)
+const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
 </script>
 
 <template>
-  <div class="icon-text--container ellipsis-container">
+  <div
+    class="icon-text--container"
+    :class="[ellipsisContainerClass]"
+  >
     <VIcon
       class="icon-text--icon"
       :name="icon"
@@ -32,8 +40,8 @@ const computedIconScale = computed(() => {
       :scale="computedIconScale"
     />
     <span
-      class="icon-text--text ellipsis"
-      :class="[typographyClass]"
+      class="icon-text--text"
+      :class="[ellipsisClass, typographyClass]"
     >
       {{ text }}
     </span>

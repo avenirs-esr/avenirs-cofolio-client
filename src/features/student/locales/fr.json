@@ -1,6 +1,14 @@
 {
   "student": {
     "badges": {
+      "studentAmsStatusBadge": {
+        "status": {
+          "completed": "Terminée",
+          "inProgress": "En cours",
+          "notStarted": "Non initiée",
+          "submitted": "Soumise"
+        }
+      },
       "studentLevelBadge": {
         "status": {
           "inProgress": "En cours d'acquisition",
@@ -34,6 +42,17 @@
           "group": "Groupe",
           "solo": "Individuel"
         }
+      }
+    },
+    "iconTexts": {
+      "studentCountAmsIconText": {
+        "text": "0 mise en situation | 1 mise en situation | {count} mises en situation"
+      },
+      "studentCountSkillsIconText": {
+        "text": "0 compétence | 1 compétence | {count} compétences"
+      },
+      "studentCountTracesIconText": {
+        "text": "0 trace | 1 trace | {count} traces"
       }
     },
     "layout": {
@@ -111,37 +130,31 @@
       }
     },
     "views": {
-      "studentActivityView": {
+      "studentAmsView": {
         "breadcrumb": {
           "current": {
-            "title": "AMS {activity}"
+            "title": "AMS {ams}"
           }
         },
-        "title": "AMS - {activity}"
+        "title": "AMS - {ams}"
       },
       "studentDeliverablesView": {
         "title": "(placeholder) Tous mes rendus"
       },
-      "studentEducationActivitiesView": {
+      "studentEducationAmsView": {
         "breadcrumb": {
           "current": {
             "title": "Mes AMS"
           }
         },
         "container": {
-          "studentDetailedActivityCard": {
-            "activityCount": "Acitvité {startedActivityCount}/{totalActivityCount} | Acitvités {startedActivityCount}/{totalActivityCount}",
+          "StudentDetailedAmsCard": {
+            "activityCount": "Acitvité {startedActivities}/{totalActivities} | Acitvités {startedActivities}/{totalActivities}",
             "deliverables": {
               "toSubmit": "1 rendu à soumettre pour le {date} | {count} rendus à soumettre pour le {date}",
               "validated": "1 rendu validé | {count} rendus validés"
             },
             "skillCount": "0 compétence | 1 compétence | {count} compétences",
-            "status": {
-              "completed": "Terminée",
-              "inProgress": "En cours",
-              "notStarted": "Non initiée",
-              "submitted": "Soumise"
-            },
             "traceCount": "0 trace | 1 trace | {count} traces"
           },
           "title": "Mes AMS non initiées, en cours, soumises et terminées"
@@ -184,7 +197,7 @@
     },
     "widgets": {
       "deliverables": {
-        "activity": "AMS - {activity}",
+        "ams": "AMS - {ams}",
         "buttons": {
           "seeAll": "Voir tous mes rendus"
         },

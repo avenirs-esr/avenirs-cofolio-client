@@ -4,7 +4,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, IconText, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
 import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -35,7 +35,7 @@ const { navigateToStudentEvents } = useNavigation()
   >
     <template #title>
       <div class="events-widget-container__title">
-        <IconText
+        <AvIconText
           :icon="MDI_ICONS.CALENDAR_MONTH"
           :text="t('student.widgets.events.title')"
           icon-color="var(--foreground-icon)"

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { StudentTraceCardProps } from './StudentTraceCard.types'
+import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { TraceType } from '@/types'
-import { AvCard, IconText, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvCard, AvIconText, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
@@ -71,17 +72,13 @@ const theme = ref({
             <span class="b2-regular">{{ t('student.cards.studentTraceCard.skillCount', { count: skillCount }) }}</span>
           </div>
           <div class="student-trace-card__activities">
-            <IconText
-              :icon="MDI_ICONS.TEST_TUBE_EMPTY"
-              :text="t('student.cards.studentTraceCard.activityCount', { count: activityCount })"
-              icon-color="var(--foreground-text1)"
-              text-color="var(--foreground-text1)"
-              typography-class="b2-regular"
+            <StudentCountAmsIconText
+              :count-ams="activityCount"
               gap="0.75rem"
             />
           </div>
           <div class="student-trace-card__category">
-            <IconText
+            <AvIconText
               :icon="MDI_ICONS.SWAP_VERTICAL_VARIANT"
               :text="category"
               icon-color="var(--foreground-text1)"

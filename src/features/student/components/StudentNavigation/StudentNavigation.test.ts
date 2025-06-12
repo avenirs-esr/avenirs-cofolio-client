@@ -1,5 +1,5 @@
 import { useStudentApcAccess } from '@/features/student/composables'
-import { studentEducationActivitiesRoute, studentEducationSkillsRoute } from '@/features/student/routes'
+import { studentEducationAmsRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
 import { registerNavigationLinkKey } from '@/ui'
 import { mount } from '@vue/test-utils'
@@ -138,7 +138,7 @@ describe('studentNavigation', () => {
       const activitiesLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[1]))
       expect(activitiesLink).toBeTruthy()
       expect(activitiesLink!.props('to')).toEqual(
-        expect.objectContaining({ name: studentEducationActivitiesRoute.name })
+        expect.objectContaining({ name: studentEducationAmsRoute.name })
       )
     })
 

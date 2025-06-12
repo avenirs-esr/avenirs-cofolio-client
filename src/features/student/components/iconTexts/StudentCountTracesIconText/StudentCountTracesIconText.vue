@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import { AvIconText, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
+
+const { countTraces, gap = '0.5rem' } = defineProps<{ countTraces: number, gap?: string }>()
+
+const { t } = useI18n()
+</script>
+
+<template>
+  <AvIconText
+    :icon="MDI_ICONS.ATTACH_FILE"
+    :text="t('student.iconTexts.studentCountTracesIconText.text', { count: countTraces })"
+    :gap="gap"
+    icon-color="var(--foreground-text1)"
+    text-color="var(--foreground-text1)"
+    typography-class="b2-regular"
+  />
+</template>
+
+<style lang="scss" scoped></style>

@@ -1,4 +1,5 @@
 import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import StudentSkillCard from './StudentSkillCard.vue'
@@ -24,6 +25,20 @@ vi.doMock('@/ui/tokens', () => ({
 }))
 
 describe('studentSkillCard.vue', () => {
+  const stubs = {
+    StudentCountTracesIconText: {
+      name: 'StudentCountTracesIconText',
+      template: `<div class="student-count-traces-icon-text" />`,
+      props: ['countTraces']
+    },
+    StudentCountAmsIconText: {
+      name: 'StudentCountAmsIconText',
+      template: `<div class="student-count-ams-icon-text" />`,
+      props: ['countAms']
+    },
+    RouterLink: RouterLinkStub
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -42,11 +57,18 @@ describe('studentSkillCard.vue', () => {
   it('renders skill name, trace and activity counts', async () => {
     const wrapper = await mountWithRouter(StudentSkillCard, {
       props: baseProps,
+      global: {
+        stubs
+      }
     })
 
     expect(wrapper.text()).toContain('Résolution de problème')
-    expect(wrapper.text()).toContain('4 traces')
-    expect(wrapper.text()).toContain('2 mises en situation')
+    const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
+    expect(amsIconText.exists()).toBe(true)
+    expect(amsIconText.props()).toMatchObject({ countAms: baseProps.skill.activityCount })
+    const tracesIconText = wrapper.findComponent({ name: 'StudentCountTracesIconText' })
+    expect(tracesIconText.exists()).toBe(true)
+    expect(tracesIconText.props()).toMatchObject({ countTraces: baseProps.skill.traceCount })
   })
 
   it('renders only one badge if only one level is present', async () => {

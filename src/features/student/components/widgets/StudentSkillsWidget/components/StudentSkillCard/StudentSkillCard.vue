@@ -2,8 +2,9 @@
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, IconText, MDI_ICONS } from '@/ui'
+import { AvCard, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
@@ -69,20 +70,12 @@ const theme = ref({
       </template>
       <template #body>
         <div class="student-skill-card__body">
-          <IconText
-            :icon="MDI_ICONS.ATTACH_FILE"
-            :text="t('student.cards.studentSkillCard.traceCount', { count: traceCount })"
-            icon-color="var(--foreground-text1)"
-            text-color="var(--foreground-text1)"
-            typography-class="b2-regular"
+          <StudentCountTracesIconText
+            :count-traces="traceCount"
             gap="0.75rem"
           />
-          <IconText
-            :icon="MDI_ICONS.TEST_TUBE_EMPTY"
-            :text="t('student.cards.studentSkillCard.activityCount', { count: activityCount })"
-            icon-color="var(--foreground-text1)"
-            text-color="var(--foreground-text1)"
-            typography-class="b2-regular"
+          <StudentCountAmsIconText
+            :count-ams="activityCount"
             gap="0.75rem"
           />
         </div>

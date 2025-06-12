@@ -3,14 +3,14 @@ import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDT
 import { mountWithRouter } from 'tests/utils'
 import StudentSkillsWidgetContainer from './StudentSkillsWidgetContainer.vue'
 
-vi.mock('@/features/student/components', () => ({
-  StudentSkillCard: {
-    name: 'StudentSkillCard',
-    template: `<div class="student-skill-card"></div>`,
-  }
-}))
-
 describe('studentSkillsWidgetContainer', () => {
+  const stubs = {
+    StudentSkillCard: {
+      name: 'StudentSkillCard',
+      template: `<div class="student-skill-card"></div>`,
+    }
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -85,6 +85,9 @@ describe('studentSkillsWidgetContainer', () => {
   it('should render properly with provided props', async () => {
     const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
       props: baseProps,
+      global: {
+        stubs
+      }
     })
 
     const skillsCards = wrapper.findAll('.student-skill-card')
@@ -95,7 +98,16 @@ describe('studentSkillsWidgetContainer', () => {
 
   it('should render truncated course name for longer names', async () => {
     const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
-      props: { course: { ...baseProps.course, name: longerName }, maxSkillsDisplayed: baseProps.maxSkillsDisplayed },
+      props: {
+        course: {
+          ...baseProps.course,
+          name: longerName
+        },
+        maxSkillsDisplayed: baseProps.maxSkillsDisplayed
+      },
+      global: {
+        stubs
+      }
     })
 
     expect(wrapper.text()).toContain(`${longerName.slice(0, 60)}...`)
