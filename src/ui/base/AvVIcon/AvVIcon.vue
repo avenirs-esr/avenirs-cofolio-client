@@ -14,8 +14,8 @@ type AvVIConProps = {
 
 const { size: propSize = 1, ...props } = defineProps<AvVIConProps>()
 
-const VIconScaleRemRatio = 16 / 19.19
-const scale = computed(() => VIconScaleRemRatio * propSize)
+const VICON_SCALE_REM_RATIO = 16 / 19.19
+const scale = computed(() => VICON_SCALE_REM_RATIO * propSize)
 const size = computed(() => `${propSize}rem`)
 </script>
 

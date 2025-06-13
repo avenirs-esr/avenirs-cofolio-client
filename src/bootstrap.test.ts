@@ -1,12 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createApp } from 'vue'
 
-vi.mock('vue', () => ({
-  createApp: vi.fn(() => ({
-    use: vi.fn().mockReturnThis(),
-    mount: vi.fn(),
-  })),
-}))
+vi.mock('vue', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue')>()
+
+  return {
+    ...actual,
+    createApp: vi.fn(() => ({
+      use: vi.fn().mockReturnThis(),
+      mount: vi.fn(),
+    })),
+  }
+})
 
 const mockCreateApp = vi.mocked(createApp)
 
