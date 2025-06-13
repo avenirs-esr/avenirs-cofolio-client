@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import type { AvRichButtonProps } from './AvRichButton.types'
+import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 
 const {
   iconLeft = undefined,
@@ -32,19 +33,19 @@ const theme = ref({
   >
     <div class="av-rich-button__line">
       <div class="av-rich-button__left">
-        <VIcon
+        <AvVIcon
           v-if="iconLeft"
           :name="iconLeft"
-          scale="1.25"
           color="var(--dark-background-primary1)"
+          :size="1.5"
         />
         <slot />
       </div>
-      <VIcon
+      <AvVIcon
         v-if="iconRight"
         :name="iconRight"
-        scale="1.25"
         color="var(--dark-background-primary1)"
+        :size="1.5"
       />
     </div>
   </button>

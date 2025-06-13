@@ -9,8 +9,6 @@ export interface Message {
   closeable?: boolean
   titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   timeout?: number
-  style?: Record<string, string>
-  class?: string | Record<string, string> | Array<string | Record<string, string>>
 }
 
 const DEFAULT_TIMEOUT = 5000

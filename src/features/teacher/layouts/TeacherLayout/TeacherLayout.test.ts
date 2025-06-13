@@ -18,15 +18,6 @@ vi.mock('@/ui', async () => {
   }
 })
 
-vi.mock('@/components/AppToaster.vue', () => ({
-  default: {
-    name: 'AppToaster',
-    props: ['messages'],
-    emits: ['close-message'],
-    template: '<div data-testid="toaster">Toaster</div>',
-  },
-}))
-
 describe('teacherLayout', () => {
   beforeEach(() => {
     vi.clearAllMocks()

@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { data: pages } = useStudentPagesSummaryQuery()
@@ -44,10 +44,10 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
             >
               <div class="pages-widget-action__body">
                 <div class="pages-widget-action__leftIcon">
-                  <VIcon
+                  <AvVIcon
                     :name="MDI_ICONS.FILE_ACCOUNT"
                     color="var(--white)"
-                    scale="1.25"
+                    :size="1.5"
                   />
                 </div>
                 <div class="pages-widget-action__description ellipsis-container">

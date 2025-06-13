@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { compareAsc, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -27,10 +27,10 @@ const renderedDeliverables = computed(() => {
   >
     <template #title>
       <div class="deliverables-widget-container__title">
-        <VIcon
-          :name="MDI_ICONS.FILE_ACCOUNT"
+        <AvVIcon
+          :name="MDI_ICONS.WARNING"
           color="var(--foreground-icon)"
-          scale="1.5"
+          :size="2"
         />
         <span class="s1-bold">
           {{ t('student.widgets.deliverables.title') }}

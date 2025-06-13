@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
+
 const {
   textColor = 'var(--foreground-text1)',
   iconColor = 'var(--foreground-text1)',
@@ -17,11 +19,11 @@ const {
   inline?: boolean
 }>()
 
-const computedIconScale = computed(() => {
+const iconSize = computed(() => {
   if (typographyClass.startsWith('n') || typographyClass.startsWith('s')) {
-    return '1.5'
+    return 2
   }
-  return '1'
+  return 1.3125
 })
 
 const ellipsisContainerClass = computed(() => !inline ? 'ellipsis-container' : undefined)
@@ -33,11 +35,11 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
     class="icon-text--container"
     :class="[ellipsisContainerClass]"
   >
-    <VIcon
+    <AvVIcon
       class="icon-text--icon"
       :name="icon"
       :color="iconColor"
-      :scale="computedIconScale"
+      :size="iconSize"
     />
     <span
       class="icon-text--text"

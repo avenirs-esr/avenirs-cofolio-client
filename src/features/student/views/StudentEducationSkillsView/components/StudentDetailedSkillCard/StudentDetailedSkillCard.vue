@@ -3,7 +3,7 @@ import type { SkillViewDTO } from '@/types'
 import { SkillLevelStatus } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLevelBadge } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvBadge, AvCard, MDI_ICONS } from '@/ui'
+import { AvBadge, AvCard, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<{ skill: SkillViewDTO, skillColor: string }>()
@@ -37,10 +37,10 @@ const hoverBorderColor = ref(computedHoverBorderColor)
             class="student-detailed-skill-card__icon"
             :style="{ background: `var(${skillColor})` }"
           >
-            <VIcon
+            <AvVIcon
               :name="MDI_ICONS.STAR_SHOOTING"
               color="var(--background-card2)"
-              scale="2"
+              :size="2.5625"
             />
           </div>
         </div>

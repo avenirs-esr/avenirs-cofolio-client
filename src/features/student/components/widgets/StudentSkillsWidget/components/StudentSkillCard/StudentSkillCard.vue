@@ -4,7 +4,7 @@ import type { StudentSkillCardProps } from './StudentSkillCard.types'
 import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, MDI_ICONS } from '@/ui'
+import { AvCard, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
@@ -60,10 +60,10 @@ const theme = ref({
             class="student-skill-card__icon"
             :style="{ background: `var(${skillColor})` }"
           >
-            <VIcon
+            <AvVIcon
               :name="MDI_ICONS.STAR_SHOOTING"
               color="var(--background-card2)"
-              scale="2"
+              :size="2.0625"
             />
           </div>
         </div>

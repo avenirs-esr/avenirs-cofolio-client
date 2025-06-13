@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { locale, t } = useI18n()
@@ -43,10 +43,10 @@ const { navigateToStudentResumes } = useNavigation()
             >
               <div class="resumes-widget-action__body">
                 <div class="resumes-widget-action__leftIcon">
-                  <VIcon
+                  <AvVIcon
                     :name="MDI_ICONS.FILE_ACCOUNT"
                     color="var(--white)"
-                    scale="1.25"
+                    :size="1.5"
                   />
                 </div>
                 <div class="resumes-widget-action__description ellipsis-container">

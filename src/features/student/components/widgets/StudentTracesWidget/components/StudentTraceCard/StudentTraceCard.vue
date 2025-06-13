@@ -3,7 +3,7 @@ import type { StudentTraceCardProps } from './StudentTraceCard.types'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { TraceType } from '@/types'
-import { AvCard, AvIconText, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 
@@ -47,10 +47,10 @@ const theme = ref({
             class="student-trace-card__icon"
             :style="{ background: 'var(--background-surface-background)' }"
           >
-            <VIcon
+            <AvVIcon
               :name="MDI_ICONS.ATTACH_FILE"
               color="var(--foreground-text1)"
-              scale="1.75"
+              :size="1.9375"
             />
           </div>
         </div>
@@ -64,7 +64,7 @@ const theme = ref({
               class="student-trace-card__lineicon"
               :style="{ backgroundColor: getRandomSkillColor() }"
             >
-              <VIcon
+              <AvVIcon
                 :name="MDI_ICONS.STAR_SHOOTING"
                 color="var(--white)"
               />

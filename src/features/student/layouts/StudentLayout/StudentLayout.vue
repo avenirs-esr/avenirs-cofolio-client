@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
-import { useLanguageSwitcher, useToaster } from '@/common/composables/'
+import { useLanguageSwitcher } from '@/common/composables/'
 import {
   StudentMailboxModal,
   StudentNavigation,
@@ -14,7 +14,6 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const toaster = useToaster()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const { data: headerSummary } = useStudentHeaderSummaryQuery()
 
@@ -121,11 +120,6 @@ defineExpose({ searchQuery, showMailboxModal, showNotificationsModal, showProfil
       <router-view />
     </div>
   </main>
-
-  <AppToaster
-    :messages="toaster.messages"
-    @close-message="toaster.removeMessage($event)"
-  />
 </template>
 
 <style lang="scss" scoped>
