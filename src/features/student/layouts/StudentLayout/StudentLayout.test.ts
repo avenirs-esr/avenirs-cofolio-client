@@ -51,15 +51,6 @@ vi.mock('@/ui', async () => {
   }
 })
 
-vi.mock('@/components/AppToaster.vue', () => ({
-  default: {
-    name: 'AppToaster',
-    props: ['messages'],
-    emits: ['close-message'],
-    template: '<div data-testid="toaster">Toaster</div>',
-  },
-}))
-
 vi.mock('@/features/student/queries', () => ({
   useStudentHeaderSummaryQuery: vi.fn()
 }))
@@ -129,11 +120,6 @@ describe('studentLayout', () => {
     await wrapper.findComponent({ name: 'StudentProfileModal' }).vm.onClose()
     await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-testid="profile-modal"]').exists()).toBe(false)
-  })
-
-  it('should display AppToaster component', async () => {
-    const wrapper = await mountWithRouter(StudentLayout)
-    expect(wrapper.find('[data-testid="toaster"]').exists()).toBe(true)
   })
 
   it('should use BELL_NOTIFICATION icon when there are notifications', async () => {

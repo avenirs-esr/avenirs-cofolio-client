@@ -11,6 +11,7 @@ const {
   id = getRandomId('basic', 'alert'),
   title = '',
   titleTag = 'h3',
+  description,
   type = 'info',
   closeButtonLabel = 'Fermer',
   small = false

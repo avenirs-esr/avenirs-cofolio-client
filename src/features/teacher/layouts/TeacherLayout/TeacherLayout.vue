@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
-import { useLanguageSwitcher, useToaster } from '@/common/composables/'
+import { useLanguageSwitcher } from '@/common/composables/'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { AvHeader } from '@/ui'
 
-const toaster = useToaster()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const serviceTitle = 'CoFolio Enseignant'
 
@@ -38,11 +37,6 @@ defineExpose({ searchQuery })
       <router-view />
     </div>
   </main>
-
-  <AppToaster
-    :messages="toaster.messages"
-    @close-message="toaster.removeMessage($event)"
-  />
 </template>
 
 <style lang="scss" scoped>
