@@ -5,7 +5,7 @@ export interface Message {
   id?: string
   title?: string
   description: string
-  type?: 'info' | 'success' | 'warning' | 'error'
+  type: 'info' | 'success' | 'warning' | 'error'
   closeable?: boolean
   titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   timeout?: number
@@ -55,6 +55,7 @@ export const useToasterStore = defineStore('toaster', () => {
 
   return {
     messages,
+    timeouts,
     addMessage,
     removeMessage,
     addSuccessMessage,

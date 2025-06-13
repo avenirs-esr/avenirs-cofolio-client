@@ -8,6 +8,7 @@ import { MDI_ICONS } from '@/ui/tokens'
 import { type DsfrAlertProps, getRandomId } from '@gouvminint/vue-dsfr'
 
 const {
+  alert = false,
   id = getRandomId('basic', 'alert'),
   title = '',
   titleTag = 'h3',
@@ -32,14 +33,13 @@ const icon = computed(() => {
   switch (type) {
     case 'error':
       return { name: MDI_ICONS.ALERT_CIRCLE, color: 'var(--dark-background-error)' }
-    case 'info':
-      return { name: MDI_ICONS.INFORMATION, color: 'var(--dark-background-primary1)' }
     case 'success':
       return { name: MDI_ICONS.CHECK_CIRCLE, color: 'var(--dark-background-success)' }
     case 'warning':
       return { name: MDI_ICONS.WARNING, color: 'var(--dark-background-warn)' }
+    case 'info':
     default:
-      return { name: '', color: '' }
+      return { name: MDI_ICONS.INFORMATION, color: 'var(--dark-background-primary1)' }
   }
 })
 </script>
@@ -55,7 +55,6 @@ const icon = computed(() => {
     <div class="av-alert--container">
       <div class="av-alert--content">
         <AvVIcon
-          v-if="type"
           v-bind="icon"
           :size="3"
         />

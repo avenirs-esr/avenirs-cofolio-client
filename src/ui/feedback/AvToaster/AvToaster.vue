@@ -9,24 +9,19 @@ const { messages } = storeToRefs(toasterStore)
 const { removeMessage } = toasterStore
 
 function getToasterClass (type: Message['type']) {
-  if (type) {
-    return `av-toaster--${type} av-toaster--icon`
-  }
-  return ''
+  return `av-toaster--${type} av-toaster--icon`
 }
 
 function getToasterStyleVars (type: Message['type']) {
   switch (type) {
     case 'error':
       return { '--icon-path': 'url(/assets/icons/alert-circle-outline.svg)' }
-    case 'info':
-      return { '--icon-path': 'url(/assets/icons/message-badge.svg)' }
     case 'success':
       return { '--icon-path': 'url(/assets/icons/check-cricle.svg)' }
     case 'warning':
       return { '--icon-path': 'url(/assets/icons/warning-outline.svg)' }
-    default:
-      return ''
+    case 'info':
+      return { '--icon-path': 'url(/assets/icons/message-badge.svg)' }
   }
 }
 </script>
