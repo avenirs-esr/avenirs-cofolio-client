@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
+import { useBaseApiExceptionToast } from '@/common/composables'
 import { useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { useI18n } from 'vue-i18n'
 import StudentEducationSkillsViewContainer from './components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 
 const { t } = useI18n()
-const { data: courses } = useProgramProgressViewQuery()
+const { data: courses, error } = useProgramProgressViewQuery()
+useBaseApiExceptionToast(error)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },

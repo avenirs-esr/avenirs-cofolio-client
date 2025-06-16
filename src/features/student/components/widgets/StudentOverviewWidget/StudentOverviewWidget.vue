@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useBaseApiExceptionToast } from '@/common/composables'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
-const { data: studentSummary } = useStudentSummaryQuery()
-
+const { data: studentSummary, error } = useStudentSummaryQuery()
+useBaseApiExceptionToast(error)
 const { t } = useI18n()
 
 const fullName = computed(() => {

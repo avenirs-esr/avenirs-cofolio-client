@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { data: pages } = useStudentPagesSummaryQuery()
-const { locale, t } = useI18n()
+const { data: pages, error } = useStudentPagesSummaryQuery()
+useBaseApiExceptionToast(error)
 const { navigateToStudentPages } = useNavigation()
+const { locale, t } = useI18n()
 
 const renderedPages = computed(() => pages.value.slice(0, 3))
 </script>

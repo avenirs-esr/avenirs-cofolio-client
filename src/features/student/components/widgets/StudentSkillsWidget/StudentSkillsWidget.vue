@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import { StudentSkillsWidgetContainer } from './components'
 
-const { t } = useI18n()
+const { data: courses, error } = useStudentCoursesSummaryQuery()
+useBaseApiExceptionToast(error)
 const { navigateToStudentSkills } = useNavigation()
-const { data: courses } = useStudentCoursesSummaryQuery()
+const { t } = useI18n()
 
 const displayWidget = computed(() => courses.value.length > 0)
 const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)

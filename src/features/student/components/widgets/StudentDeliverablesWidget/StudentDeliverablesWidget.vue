@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { compareAsc, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
-const { t, locale } = useI18n()
+const { data: deliverables, error } = useStudentDeliverablesSummaryQuery()
+useBaseApiExceptionToast(error)
 const { navigateToStudentDeliverables } = useNavigation()
-const { data: deliverables } = useStudentDeliverablesSummaryQuery()
+const { t, locale } = useI18n()
 
 const renderedDeliverables = computed(() => {
   return deliverables.value
