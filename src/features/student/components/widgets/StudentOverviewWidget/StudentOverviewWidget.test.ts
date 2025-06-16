@@ -4,17 +4,21 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { useStudentSummaryQuery } from '@/features/student/queries'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, type Ref } from 'vue'
 import StudentOverviewWidget from './StudentOverviewWidget.vue'
 
 const navigateToStudentDeliverables = vi.fn()
 
-vi.mock('@/common/composables', () => ({
-  useNavigation: () => ({
-    navigateToStudentDeliverables,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentDeliverables,
+    }),
+  }
+})
 
 vi.mock('@/features/student/queries', () => ({
   useStudentSummaryQuery: vi.fn()
@@ -24,8 +28,10 @@ const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
 
 function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
   const mockData: Ref<ProfileOverviewDTO> = ref(payload)
+  const mockError: Ref<null | null> = ref(null)
   const queryMockedData = {
     data: mockData,
+    error: mockError
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
   mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
 }
@@ -97,5 +103,11 @@ describe('studentOverviewWidget', () => {
     await shareResumeButton.trigger('click')
     await shareCofolio.trigger('click')
     await establishmentsButton.trigger('click')
+  })
+
+  testUseBaseApiExceptionToast<ProfileOverviewDTO>({
+    mockedUseQuery: mockedUseStudentSummaryQuery,
+    payload: studentSummary,
+    mountComponent: () => mountWithRouter(StudentOverviewWidget)
   })
 })

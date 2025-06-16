@@ -1,14 +1,19 @@
 import type { AvRoute } from '@/common/types'
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { type ComponentMountingOptions, mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
+import { i18n } from '@/plugins/vue-i18n/vue-i18n'
+import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
+import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, expect, it, type MockedFunction } from 'vitest'
 import { type Component, createApp } from 'vue'
+import { createMockQueryError } from './mocks'
+import { mockAddErrorMessage } from './mocks/toaster'
 
 interface MountComposableOptions {
   useTanstack?: boolean
+  useI18n?: boolean
 }
 
-function mountComposable<T> (fn: () => T, { useTanstack = false }: MountComposableOptions): T {
+function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false }: MountComposableOptions): T {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -16,6 +21,9 @@ function mountComposable<T> (fn: () => T, { useTanstack = false }: MountComposab
       return () => null
     }
   })
+  if (useI18n) {
+    app.use(i18n)
+  }
   const queryClient = new QueryClient()
   if (useTanstack) {
     app.use(VueQueryPlugin, { queryClient })
@@ -32,23 +40,51 @@ async function mountWithRouter<T> (component: Component, options?: ComponentMoun
   const wrapper = mount(component, {
     ...options,
     global: {
+      ...(options?.global ?? {}),
       stubs: {
-        RouterLink: {
-          name: 'RouterLink',
-          props: ['to'],
-          template: '<a :href="to" class="router-link-stub"><slot /></a>'
-        },
+        RouterLink: RouterLinkStub,
         RouterView: {
           name: 'RouterView',
           template: '<div class="router-view-stub"><slot /></div>'
         },
+        ...(options?.global?.stubs ?? {})
       },
-      ...(options?.global ?? {}),
     },
   })
 
   await wrapper.vm.$nextTick()
   return wrapper
+}
+
+function testUseBaseApiExceptionToast<T> ({
+  mockedUseQuery,
+  payload,
+  mountComponent,
+}: {
+  mockedUseQuery: MockedFunction<() => UseQueryDefinedReturnType<T, BaseApiException>>
+  payload: T
+  mountComponent: (() => Promise<unknown>) | (() => unknown)
+}) {
+  it('should add error message on query error', async () => {
+    vi.clearAllMocks()
+    setActivePinia(createPinia())
+
+    const error: BaseApiException = {
+      message: 'error',
+      name: 'mockError',
+      status: 400,
+      code: BaseApiErrorCode.BAD_REQUEST,
+    }
+
+    const queryMockedData = createMockQueryError<T>(payload, error)
+    mockedUseQuery.mockReturnValue(queryMockedData)
+
+    await mountComponent()
+    await flushPromises()
+
+    expect(mockAddErrorMessage).toHaveBeenCalled()
+    expect(mockAddErrorMessage).toHaveBeenCalledWith(error.message)
+  })
 }
 
 function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
@@ -70,5 +106,6 @@ export {
   mountComposable,
   mountQueryComposable,
   mountWithRouter,
-  testRoute
+  testRoute,
+  testUseBaseApiExceptionToast
 }

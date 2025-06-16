@@ -3,16 +3,20 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { type TraceOverviewDTO, TraceType } from '@/types'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import StudentTracesWidget from './StudentTracesWidget.vue'
 
 const navigateToStudentTraces = vi.fn()
 
-vi.mock('@/common/composables', () => ({
-  useNavigation: () => ({
-    navigateToStudentTraces,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentTraces,
+    }),
+  }
+})
 
 vi.mock('@/features/student/queries', () => ({
   useStudentTracesSummaryQuery: vi.fn()
@@ -22,8 +26,10 @@ const mockedUseStudentTracesSummaryQuery = vi.mocked(useStudentTracesSummaryQuer
 
 function mockUseStudentTracesSummaryQuery (payload: TraceOverviewDTO[]) {
   const mockData: Ref<TraceOverviewDTO[]> = ref(payload)
+  const mockError: Ref<null | null> = ref(null)
   const queryMockedData = {
     data: mockData,
+    error: mockError,
   } as unknown as UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException>
   mockedUseStudentTracesSummaryQuery.mockReturnValue(queryMockedData)
 }
@@ -84,5 +90,11 @@ describe('studentTracesWidget', async () => {
     await btn.trigger('click')
 
     expect(navigateToStudentTraces).toHaveBeenCalled()
+  })
+
+  testUseBaseApiExceptionToast<TraceOverviewDTO[]>({
+    mockedUseQuery: mockedUseStudentTracesSummaryQuery,
+    payload: [],
+    mountComponent: () => mountWithRouter(StudentTracesWidget)
   })
 })
