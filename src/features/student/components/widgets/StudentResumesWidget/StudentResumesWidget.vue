@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { locale, t } = useI18n()
-const { data: resumes } = useStudentResumesSummaryQuery()
-const renderedResumes = computed(() => resumes.value.slice(0, 3))
+const { data: resumes, error } = useStudentResumesSummaryQuery()
+useBaseApiExceptionToast(error)
 const { navigateToStudentResumes } = useNavigation()
+const { locale, t } = useI18n()
+
+const renderedResumes = computed(() => resumes.value.slice(0, 3))
 </script>
 
 <template>

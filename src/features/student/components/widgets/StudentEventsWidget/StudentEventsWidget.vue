@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import type { EventOverviewDTO } from '@/types'
 import type { AvLocale } from '@/types/i18n.types'
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
 import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
-const { data: events } = useStudentEventsSummaryQuery()
+const { data: events, error } = useStudentEventsSummaryQuery()
+useBaseApiExceptionToast(error)
+const { navigateToStudentEvents } = useNavigation()
 const { t, locale } = useI18n()
 
 const renderedEvents = computed(() => {
@@ -24,8 +26,6 @@ function getEventInfo (event: EventOverviewDTO) {
   const parsedEndDate = parseDateISO(event.endDate)
   return `${format(parsedStartDate, 'HH:mm')} - ${format(parsedEndDate, 'HH:mm')} • ${event.location}`
 }
-
-const { navigateToStudentEvents } = useNavigation()
 </script>
 
 <template>

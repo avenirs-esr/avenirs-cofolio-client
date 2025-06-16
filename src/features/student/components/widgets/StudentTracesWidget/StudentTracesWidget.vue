@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
@@ -7,9 +7,11 @@ import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import StudentTraceCard from './components/StudentTraceCard/StudentTraceCard.vue'
 
-const { t } = useI18n()
+const { data: traces, error } = useStudentTracesSummaryQuery()
+useBaseApiExceptionToast(error)
 const { navigateToStudentTraces } = useNavigation()
-const { data: traces } = useStudentTracesSummaryQuery()
+const { t } = useI18n()
+
 const renderedTraces = computed(() => {
   return traces.value
     .slice()

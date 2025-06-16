@@ -2,6 +2,9 @@
   "global": {
     "buttons": {
       "goBack": "Retour"
+    },
+    "error": {
+      "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     }
   }
 }

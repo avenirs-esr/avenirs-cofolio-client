@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
-import { useLanguageSwitcher } from '@/common/composables/'
+import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables/'
 import {
   StudentMailboxModal,
   StudentNavigation,
@@ -15,7 +15,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const { data: headerSummary } = useStudentHeaderSummaryQuery()
+const { data: headerSummary, error } = useStudentHeaderSummaryQuery()
+useBaseApiExceptionToast(error)
 
 const name = computed(() => headerSummary.value?.name ?? '')
 const messagesCount = computed(() => headerSummary.value?.messagesCount ?? 0)
