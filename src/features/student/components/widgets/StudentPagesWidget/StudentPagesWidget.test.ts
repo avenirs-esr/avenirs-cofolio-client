@@ -4,16 +4,20 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import StudentPagesWidget from './StudentPagesWidget.vue'
 
 const navigateToStudentPages = vi.fn()
 
-vi.mock('@/common/composables', () => ({
-  useNavigation: () => ({
-    navigateToStudentPages,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentPages,
+    }),
+  }
+})
 
 vi.mock('@/features/student/queries', () => ({
   useStudentPagesSummaryQuery: vi.fn()
@@ -23,8 +27,10 @@ const mockedUseStudentPagesSummaryQuery = vi.mocked(useStudentPagesSummaryQuery)
 
 function mockUseStudentPagesSummaryQuery (payload: PageOverviewDTO[]) {
   const mockData: Ref<PageOverviewDTO[]> = ref(payload)
+  const mockError: Ref<null> = ref(null)
   const queryMockedData = {
     data: mockData,
+    error: mockError
   } as unknown as UseQueryDefinedReturnType<PageOverviewDTO[], BaseApiException>
   mockedUseStudentPagesSummaryQuery.mockReturnValue(queryMockedData)
 }
@@ -74,5 +80,11 @@ describe('studentPagesWidget', async () => {
     await btn.trigger('click')
 
     expect(navigateToStudentPages).toHaveBeenCalled()
+  })
+
+  testUseBaseApiExceptionToast<PageOverviewDTO[]>({
+    mockedUseQuery: mockedUseStudentPagesSummaryQuery,
+    payload: [],
+    mountComponent: () => mountWithRouter(StudentPagesWidget)
   })
 })

@@ -3,16 +3,20 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import StudentSkillsWidget from './StudentSkillsWidget.vue'
 
 const navigateToStudentSkills = vi.fn()
 
-vi.mock('@/common/composables', () => ({
-  useNavigation: () => ({
-    navigateToStudentSkills,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentSkills,
+    }),
+  }
+})
 
 vi.mock('@/features/student/queries', () => ({
   useStudentCoursesSummaryQuery: vi.fn()
@@ -22,8 +26,10 @@ const mockedUseStudentCoursesSummaryQuery = vi.mocked(useStudentCoursesSummaryQu
 
 function mockUseStudentCoursesSummaryQuery (payload: ProgramProgressOverviewDTO[]) {
   const mockData: Ref<ProgramProgressOverviewDTO[]> = ref(payload)
+  const mockError: Ref<null | null> = ref(null)
   const queryMockedData = {
     data: mockData,
+    error: mockError
   } as unknown as UseQueryDefinedReturnType<ProgramProgressOverviewDTO[], BaseApiException>
   mockedUseStudentCoursesSummaryQuery.mockReturnValue(queryMockedData)
 }
@@ -128,5 +134,11 @@ describe('studentSkillsWidget', () => {
     await btn.trigger('click')
 
     expect(navigateToStudentSkills).toHaveBeenCalled()
+  })
+
+  testUseBaseApiExceptionToast<ProgramProgressOverviewDTO[]>({
+    mockedUseQuery: mockedUseStudentCoursesSummaryQuery,
+    payload: [],
+    mountComponent: () => mountWithRouter(StudentSkillsWidget)
   })
 })

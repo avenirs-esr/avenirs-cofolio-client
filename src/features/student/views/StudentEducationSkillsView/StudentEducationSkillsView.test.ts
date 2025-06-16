@@ -5,6 +5,7 @@ import type { Ref } from 'vue'
 import { mockedPrograms, useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount, RouterLinkStub } from '@vue/test-utils'
+import { testUseBaseApiExceptionToast } from 'tests/utils'
 import StudentEducationSkillsView from './StudentEducationSkillsView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
@@ -23,8 +24,10 @@ const mockedUseProgramProgressViewQuery = vi.mocked(useProgramProgressViewQuery)
 
 function mockUseProgramProgressViewQuery (payload: ProgramProgressViewDTO[]) {
   const mockData: Ref<ProgramProgressViewDTO[]> = ref(payload)
+  const mockError: Ref<null | null> = ref(null)
   const queryMockedData = {
     data: mockData,
+    error: mockError,
   } as unknown as UseQueryDefinedReturnType<ProgramProgressViewDTO[], BaseApiException>
   mockedUseProgramProgressViewQuery.mockReturnValue(queryMockedData)
 }
@@ -40,6 +43,7 @@ describe('studentEducationSkillsView', () => {
   }
   beforeEach(() => {
     vi.clearAllMocks()
+    setActivePinia(createPinia())
     mockUseProgramProgressViewQuery(mockedPrograms)
   })
   const title = 'Mes compétences visées par ma formation'
@@ -114,5 +118,11 @@ describe('studentEducationSkillsView', () => {
     const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
 
     expect(containers).toHaveLength(2)
+  })
+
+  testUseBaseApiExceptionToast<ProgramProgressViewDTO[]>({
+    mockedUseQuery: mockedUseProgramProgressViewQuery,
+    payload: [],
+    mountComponent: () => mount(StudentEducationSkillsView)
   })
 })

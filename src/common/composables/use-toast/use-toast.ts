@@ -11,5 +11,5 @@ export function useBaseApiExceptionToast (errorRef: Ref<BaseApiException | BaseA
     if (error) {
       addErrorMessage(error.message || t('global.error.generic'))
     }
-  })
+  }, { immediate: true })
 }
