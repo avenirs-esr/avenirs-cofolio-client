@@ -25,9 +25,14 @@ const {
 
 const renderedOptions = computed(() => removeDuplicates<string | number>(options))
 
-const selectedOptions = ref<(string | number)[]>(
-  Array.isArray(selected) ? selected : selected !== undefined ? [selected] : []
-)
+function getSelectedOptions (selected: string | number | (string | number)[]) {
+  if (Array.isArray(selected)) {
+    return selected
+  }
+  return [selected]
+}
+
+const selectedOptions = ref<(string | number)[]>(getSelectedOptions(selected))
 
 const styleVars = computed(() => ({
   '--icon-path': `url(/assets/icons/check-circle.svg)`,
