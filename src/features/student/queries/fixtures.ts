@@ -2,6 +2,7 @@ import { type ProgramProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-
 import {
   AmsStatus,
   type AmsViewDTO,
+  type AmsViewResponse,
   type ProgramProgressViewDTO,
 } from '@/types'
 
@@ -164,3 +165,13 @@ export const mockedPrograms: ProgramProgressViewDTO[] = mockedCourses.map(course
     }
   }),
 }))
+
+export const mockedAmssPagination: AmsViewResponse = {
+  content: mockedAmss,
+  pagination: {
+    page: 1,
+    pageSize: 10,
+    count: mockedAmss.length,
+    totalPages: 1,
+  },
+}
