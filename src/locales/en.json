@@ -5,6 +5,9 @@
     },
     "error": {
       "generic": "An error has occurred. Please try again later."
+    },
+    "pageSizeSelect": {
+      "label": "Number of results per page:"
     }
   }
 }

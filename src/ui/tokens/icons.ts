@@ -11,6 +11,7 @@ export const MDI_ICONS = {
   BRIEFCASE_VARIANT: 'mdi:briefcase-variant-outline',
   CALENDAR_MONTH: 'mdi:calendar-month-outline',
   CHAT_BUBBLE: 'mdi:chat-bubble-outline',
+  CHECK: 'mdi:check',
   CHECK_CIRCLE: 'mdi:check-circle',
   CLOSE_CIRCLE: 'mdi:close-circle-outline',
   FILE_ACCOUNT: 'mdi:file-account-outline',
