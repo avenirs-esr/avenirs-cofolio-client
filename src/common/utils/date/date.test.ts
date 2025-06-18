@@ -1,5 +1,5 @@
 import { parseISO } from 'date-fns'
-import { formatDateToLocaleString, getLocalizedAbbrMonth, parseDateISO } from './date'
+import { formatDateToLocaleString, getCalendarDate, getDaysUntil, getLocalizedAbbrMonth, parseDateISO } from './date'
 
 describe('parseDateISO', () => {
   it('should parse ISO formats correctly with valid formatted date', () => {
@@ -84,5 +84,25 @@ describe('getLocalizedAbbrMonth', () => {
       const abbrEnMonth = getLocalizedAbbrMonth(date, 'en')
       expect(abbrEnMonth).toBe(abbrEnMonthMap[i])
     }
+  })
+
+  describe('getCalendarDate', () => {
+    it('should return a correct day number', () => {
+      for (let i = 1; i <= 31; i++) {
+        const date = `2025-07-${i}`
+        const calendarDate = getCalendarDate(date)
+        expect(calendarDate).toBe(i)
+      }
+    })
+  })
+
+  describe('getDaysUntil', () => {
+    const nextMonthDate = new Date()
+    nextMonthDate.setDate(nextMonthDate.getDate() + 30)
+
+    it('should return a correct number of days until given date', () => {
+      const daysUntil = getDaysUntil(nextMonthDate)
+      expect(daysUntil).toBe(30)
+    })
   })
 })
