@@ -192,7 +192,16 @@
         "title": "(placeholder) Tous mes CV"
       },
       "studentToolsTracesView": {
-        "title": "(placeholder) Toutes mes traces"
+        "studentDetailedTraceCard": {
+          "daysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
+        },
+        "studentDetailedTraceModal": {
+          "buttons": {
+            "close": "Fermer"
+          },
+          "title": "Détail de ma trace - {trace}"
+        },
+        "title": "Ma bibliothèque de traces"
       }
     },
     "widgets": {

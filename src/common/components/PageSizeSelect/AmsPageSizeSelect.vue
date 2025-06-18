@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PAGE_SIZES, type PageSize } from '@/config'
-import { usePageSizeSelect } from '@/store'
+import { useAmsPageSizeSelect } from '@/store'
 import { AvSelect, type AvSelectProps } from '@/ui'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
@@ -8,8 +8,8 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const options = computed(() => [...PAGE_SIZES])
-const pageSizeSelectorStore = usePageSizeSelect()
-const { pageSizeSelected } = storeToRefs(pageSizeSelectorStore)
+const amsPageSizeSelectStore = useAmsPageSizeSelect()
+const { pageSizeSelected } = storeToRefs(amsPageSizeSelectStore)
 
 function handleSelectChange (val: string | number) {
   const numberVal = Number(val)
@@ -20,7 +20,7 @@ function handleSelectChange (val: string | number) {
 </script>
 
 <template>
-  <div class="page-size-select-container">
+  <div class="ams-page-size-select-container">
     <AvSelect
       :options="options"
       :selected="pageSizeSelected"
@@ -34,7 +34,7 @@ function handleSelectChange (val: string | number) {
 </template>
 
 <style lang="scss" scoped>
-.page-size-select-container {
+.ams-page-size-select-container {
   display: flex;
   flex-direction: row;
   align-items: center;

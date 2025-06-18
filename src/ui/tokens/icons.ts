@@ -18,6 +18,7 @@ export const MDI_ICONS = {
   FILE_DOCUMENT_EDIT: 'mdi:file-document-edit-outline',
   GRADUATION_CAP: 'mdi:graduation-cap-outline',
   HOME_VARIANT: 'mdi:home-variant-outline',
+  HOURGLASS: 'mdi:hourglass',
   INFORMATION: 'mdi:information-outline',
   LOADING: 'mdi:loading',
   LOGOUT: 'mdi:logout',

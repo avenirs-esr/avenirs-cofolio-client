@@ -67,3 +67,20 @@ export function getCalendarDate (date: string) {
   const parsedDate = parseDateISO(date)
   return getDate(parsedDate)
 }
+
+/**
+ *
+ * @param date
+ * @returns days until date
+ */
+export function daysUntil (date: Date): number {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const target = new Date(date)
+  target.setHours(0, 0, 0, 0)
+
+  const diffTime = target.getTime() - today.getTime()
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+  return diffDays
+}
