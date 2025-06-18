@@ -1,5 +1,5 @@
 import type { AmsViewResponse } from '@/types'
-import { mockedAmss, mockedAmssPagination } from '@/features/student/queries'
+import { mockedAmss, mockedAmssPagination } from '@/features/student/queries/fixtures'
 import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'

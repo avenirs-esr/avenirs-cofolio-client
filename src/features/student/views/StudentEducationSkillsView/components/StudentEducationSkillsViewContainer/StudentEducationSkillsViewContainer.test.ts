@@ -1,4 +1,4 @@
-import { mockedPrograms } from '@/features/student/queries'
+import { mockedPrograms } from '@/features/student/queries/fixtures'
 import { mount } from '@vue/test-utils'
 import StudentEducationSkillsViewContainer from './StudentEducationSkillsViewContainer.vue'
 
