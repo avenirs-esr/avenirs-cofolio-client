@@ -73,7 +73,7 @@ export function getCalendarDate (date: string) {
  * @param date
  * @returns days until date
  */
-export function daysUntil (date: Date): number {
+export function getDaysUntil (date: Date): number {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const target = new Date(date)

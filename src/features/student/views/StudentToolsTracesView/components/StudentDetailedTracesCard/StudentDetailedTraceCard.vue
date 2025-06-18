@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { type TraceViewDTO, TraceViewDTOStatus } from '@/api/avenir-esr'
-import { daysUntil, parseDateISO } from '@/common/utils'
+import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { getDaysUntil, parseDateISO } from '@/common/utils'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import StudentDetailedTraceModal from '../StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
@@ -8,8 +8,8 @@ import StudentDetailedTraceModal from '../StudentDetailedTraceModal/StudentDetai
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
 const { title, status, deletionDate } = trace
 
-const daysUntilDeletion = computed(() => status === TraceViewDTOStatus.UNASSOCIATED
-  ? daysUntil(parseDateISO(deletionDate))
+const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED
+  ? getDaysUntil(parseDateISO(deletionDate))
   : -1)
 
 const { t } = useI18n()
@@ -47,7 +47,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
             <AvVIcon
               :name="MDI_ICONS.ATTACH_FILE"
               color="var(--background-card)"
-              :size="1.9375"
+              :size="1.938"
             />
           </div>
         </div>
@@ -55,8 +55,9 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
       <template #body>
         <div class="student-detailed-trace-card__body">
           <AvIconText
+            v-if="getDaysUntilDeletion > 0"
             :icon="MDI_ICONS.HOURGLASS"
-            :text="t('student.views.studentToolsTracesView.studentDetailedTraceCard.daysUntilDeletion', { count: daysUntilDeletion })"
+            :text="t('student.views.studentToolsTracesView.studentDetailedTraceCard.getDaysUntilDeletion', { count: getDaysUntilDeletion })"
             icon-color="var(--foreground-text2)"
             text-color="var(--foreground-text2)"
             typography-class="b2-regular"

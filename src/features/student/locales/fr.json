@@ -193,7 +193,7 @@
       },
       "studentToolsTracesView": {
         "studentDetailedTraceCard": {
-          "daysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
+          "getDaysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
         },
         "studentDetailedTraceModal": {
           "buttons": {

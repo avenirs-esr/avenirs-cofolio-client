@@ -193,11 +193,11 @@
       },
       "studentToolsTracesView": {
         "studentDetailedTraceCard": {
-          "daysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
+          "getDaysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
         },
         "studentDetailedTraceModal": {
           "buttons": {
-            "close": "Fermer"
+            "close": "Close"
           },
           "title": "Detail of my trace - {trace}"
         },
