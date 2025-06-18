@@ -5,7 +5,6 @@ const store = createPinia()
 store.use(piniaPluginPersistedstate)
 
 export default store
-export { useAmsPageSizeSelect } from './page-size-select/ams-page-size-select'
-export { usePageSizeSelect } from './page-size-select/page-size-select'
-export { useTracePageSizeSelect } from './page-size-select/trace-page-size-select'
+export { useAmsPaginationSizePicker } from './pagination-size-picker/ams-pagination-size-picker'
+export { useTracePaginationSizePicker } from './pagination-size-picker/trace-pagination-size-picker'
 export { useToasterStore } from './toaster/toaster'

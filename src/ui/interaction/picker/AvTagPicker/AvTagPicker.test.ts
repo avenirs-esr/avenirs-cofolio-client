@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvSelect from './AvSelect.vue'
+import AvTagPicker from './AvTagPicker.vue'
 
 describe('avButton', () => {
   const stubs = {
@@ -17,7 +17,7 @@ describe('avButton', () => {
       handleSelectChange: vi.fn()
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props
     })
     const label = wrapper.find('.av-select-label')
@@ -31,7 +31,7 @@ describe('avButton', () => {
       handleSelectChange: vi.fn()
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props
     })
     const label = wrapper.find('.av-select-label')
@@ -45,7 +45,7 @@ describe('avButton', () => {
       handleSelectChange: vi.fn(),
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props,
       global: { stubs }
     })
@@ -74,7 +74,7 @@ describe('avButton', () => {
       multiple: false
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props,
       global: { stubs }
     })
@@ -107,7 +107,7 @@ describe('avButton', () => {
       multiple: true
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props,
       global: { stubs }
     })
@@ -140,7 +140,7 @@ describe('avButton', () => {
       multiple: true
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props,
       global: { stubs }
     })
@@ -182,7 +182,7 @@ describe('avButton', () => {
       handleSelectChange: vi.fn()
     }
 
-    const wrapper = mount(AvSelect, {
+    const wrapper = mount(AvTagPicker, {
       props,
       global: { stubs }
     })

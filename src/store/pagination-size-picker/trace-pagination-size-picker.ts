@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 const DEFAULT_PAGE_SIZE = PAGE_SIZES[0]
 
-export const useTracePageSizeSelect = defineStore('tracePageSizeSelect', () => {
+export const useTracePaginationSizePicker = defineStore('tracePaginationSizePicker', () => {
   const pageSizeSelected = ref<PageSize>(DEFAULT_PAGE_SIZE)
 
   return {

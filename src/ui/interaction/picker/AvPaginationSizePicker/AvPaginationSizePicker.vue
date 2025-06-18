@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { PAGE_SIZES, type PageSize } from '@/config'
-import { usePageSizeSelect } from '@/store'
-import { AvSelect, type AvSelectProps } from '@/ui'
-import { storeToRefs } from 'pinia'
+import { type Store, storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
+import AvTagPicker, { type AvTagPickerProps } from '../AvTagPicker/AvTagPicker.vue'
 
+type PageSizeStore = Store<string, { pageSizeSelected: PageSize }, object, object>
+
+const { store } = defineProps<{ store: PageSizeStore }>()
 const { t } = useI18n()
 
 const options = computed(() => [...PAGE_SIZES])
-const pageSizeSelectorStore = usePageSizeSelect()
-const { pageSizeSelected } = storeToRefs(pageSizeSelectorStore)
+const { pageSizeSelected } = storeToRefs(store)
 
 function handleSelectChange (val: string | number) {
   const numberVal = Number(val)
@@ -20,11 +21,11 @@ function handleSelectChange (val: string | number) {
 </script>
 
 <template>
-  <div class="page-size-select-container">
-    <AvSelect
+  <div class="pagination-size-picker-container">
+    <AvTagPicker
       :options="options"
       :selected="pageSizeSelected"
-      :handle-select-change="handleSelectChange as AvSelectProps['handleSelectChange']"
+      :handle-select-change="handleSelectChange as AvTagPickerProps['handleSelectChange']"
       :multiple="false"
       :label="t('global.pageSizeSelect.label')"
       label-typography-class="b2-regular"
@@ -34,7 +35,7 @@ function handleSelectChange (val: string | number) {
 </template>
 
 <style lang="scss" scoped>
-.page-size-select-container {
+.pagination-size-picker-container {
   display: flex;
   flex-direction: row;
   align-items: center;
