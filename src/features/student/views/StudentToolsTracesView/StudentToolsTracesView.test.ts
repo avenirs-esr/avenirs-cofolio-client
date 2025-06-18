@@ -11,8 +11,9 @@ describe('studentToolsTracesView', () => {
     vi.clearAllMocks()
   })
 
-  const title = '(placeholder) Toutes mes traces'
+  const title = 'Ma bibliothèque de traces'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
+  const toolsBreadcrumbLink = { text: 'Mes outils' }
   const currentBreadcrumbLink = { text: 'Mes traces' }
 
   it('should render PageTitle with correct props', () => {
@@ -22,6 +23,7 @@ describe('studentToolsTracesView', () => {
     expect(pageTitle.props('title')).toBe(title)
     expect(pageTitle.props('breadcrumbLinks')).toEqual([
       homeBreadcrumbLink,
+      toolsBreadcrumbLink,
       currentBreadcrumbLink
     ])
   })

@@ -1,12 +1,12 @@
 import { PAGE_SIZES } from '@/config'
-import { usePageSizeSelect } from '@/store/page-size-select/page-size-select'
+import { useAmsPageSizeSelect } from '@/store/page-size-select/ams-page-size-select'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import PageSizeSelect from './PageSizeSelect.vue'
+import AmsPageSizeSelect from './AmsPageSizeSelect.vue'
 
-describe('pageSizeSelect.vue', () => {
+describe('amsPageSizeSelect', () => {
   it('should render the label and options', () => {
-    const wrapper = mount(PageSizeSelect, {
+    const wrapper = mount(AmsPageSizeSelect, {
       global: {
         plugins: [createPinia()]
       }
@@ -22,9 +22,9 @@ describe('pageSizeSelect.vue', () => {
     const pinia = createPinia()
     setActivePinia(pinia)
 
-    const store = usePageSizeSelect()
+    const store = useAmsPageSizeSelect()
 
-    const wrapper = mount(PageSizeSelect, {
+    const wrapper = mount(AmsPageSizeSelect, {
       global: {
         plugins: [pinia]
       }
