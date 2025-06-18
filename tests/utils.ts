@@ -1,19 +1,20 @@
 import type { AvRoute } from '@/common/types'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
-import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
+import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type MockedFunction } from 'vitest'
 import { type Component, createApp } from 'vue'
 import { createMockQueryError } from './mocks'
-import { mockAddErrorMessage } from './mocks/toaster'
 
 interface MountComposableOptions {
   useTanstack?: boolean
   useI18n?: boolean
+  queryClientConfig?: QueryClientConfig
 }
 
-function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false }: MountComposableOptions): T {
+function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, queryClientConfig = {} }: MountComposableOptions): T {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -24,7 +25,7 @@ function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false
   if (useI18n) {
     app.use(i18n)
   }
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient(queryClientConfig)
   if (useTanstack) {
     app.use(VueQueryPlugin, { queryClient })
   }
@@ -32,8 +33,8 @@ function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false
   return composableResult as T
 }
 
-function mountQueryComposable<T> (fn: () => T): T {
-  return mountComposable(fn, { useTanstack: true })
+function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientConfig): T {
+  return mountComposable(fn, { useTanstack: true, queryClientConfig })
 }
 
 async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {

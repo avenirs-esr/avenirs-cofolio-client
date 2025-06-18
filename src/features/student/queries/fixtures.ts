@@ -12,6 +12,7 @@ import {
   type AmsViewDTO,
   type AmsViewResponse,
 } from '@/types'
+import { addDays, format, startOfYear } from 'date-fns'
 
 export const mockedAmss: AmsViewDTO[] = [
   {
@@ -188,3 +189,51 @@ export const mockedTracesConfiguration: TraceConfigurationInfo = {
   maxDayRemainingWarning: 15,
   maxDayRemainingCritical: 7,
 }
+
+const ALL_MOCK_TRACES: TraceViewDTO[] = Array.from({ length: 24 }, (_, index) => {
+  const id = String(index + 1)
+  const letter = String.fromCharCode(65 + (index % 26))
+  const baseDate = startOfYear(new Date(2024, 0, 1))
+  const createdDate = addDays(baseDate, index)
+  const updatedDate = addDays(baseDate, index)
+  const deletionDate = addDays(baseDate, 330 + index)
+
+  return {
+    id,
+    title: `Unassigned Trace ${letter}`,
+    status: TraceStatus.UNASSOCIATED,
+    createdAt: format(createdDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\''),
+    updatedAt: format(updatedDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\''),
+    deletionDate: format(deletionDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'')
+  }
+})
+
+function createMockTracesByPage (pageSize: number, totalItems: number = 24): Record<number, TracesViewResponse> {
+  const totalPages = Math.ceil(totalItems / pageSize)
+  const result: Record<number, TracesViewResponse> = {}
+
+  for (let pageNumber = 0; pageNumber < totalPages; pageNumber++) {
+    const startIndex = pageNumber * pageSize
+    const endIndex = Math.min(startIndex + pageSize, totalItems)
+    const pageTraces = ALL_MOCK_TRACES.slice(startIndex, endIndex)
+
+    result[pageNumber] = {
+      data: {
+        traces: pageTraces,
+        criticalCount: totalItems
+      },
+      page: {
+        number: pageNumber,
+        size: pageSize,
+        totalElements: totalItems,
+        totalPages
+      }
+    }
+  }
+
+  return result
+}
+
+export const mockedTracesByPage: Record<number, TracesViewResponse> = createMockTracesByPage(4, 12)
+export const mockedTracesByPageSize8: Record<number, TracesViewResponse> = createMockTracesByPage(8, 12)
+export const mockedTracesByPageSize12: Record<number, TracesViewResponse> = createMockTracesByPage(12, 12)
