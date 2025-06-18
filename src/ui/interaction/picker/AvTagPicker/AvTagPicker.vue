@@ -3,7 +3,7 @@ import { removeDuplicates } from '@/common/utils'
 import { MDI_ICONS } from '@/ui/tokens'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 
-export interface AvSelectProps {
+export interface AvTagPickerProps {
   options: string[] | number[]
   selected?: string | number | (string | number)[]
   multiple?: boolean
@@ -21,7 +21,7 @@ const {
   selected = [],
   multiple = false,
   handleSelectChange
-} = defineProps<AvSelectProps>()
+} = defineProps<AvTagPickerProps>()
 
 const renderedOptions = computed(() => removeDuplicates<string | number>(options))
 

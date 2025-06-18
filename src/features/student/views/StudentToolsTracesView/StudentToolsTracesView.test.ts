@@ -9,6 +9,7 @@ vi.mock('@/common/components/PageTitle', () => ({
 describe('studentToolsTracesView', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    setActivePinia(createPinia())
   })
 
   const title = 'Ma bibliothèque de traces'
@@ -17,7 +18,10 @@ describe('studentToolsTracesView', () => {
   const currentBreadcrumbLink = { text: 'Mes traces' }
 
   it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentToolsTracesView)
+    const wrapper = mount(StudentToolsTracesView, {
+      stubs: { PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] } },
+      plugins: [createPinia()]
+    })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)
