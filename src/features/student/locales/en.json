@@ -6,7 +6,7 @@
           "completed": "Completed",
           "inProgress": "In progress",
           "notStarted": "Not started",
-          "submitted": "Submitted"
+          "submitted": "Submitted for evaluation"
         }
       },
       "studentLevelBadge": {

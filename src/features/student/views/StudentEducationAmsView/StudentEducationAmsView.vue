@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
+import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { useI18n } from 'vue-i18n'
 
+const { data: amss } = useAmsViewQuery(1, 1)
 const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
@@ -16,4 +19,22 @@ const breadcrumbLinks = computed(() => [
     :title="t('student.views.studentEducationAmsView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
+  <div
+    v-if="amss && amss.content"
+    class="ams-view-container__body"
+  >
+    <StudentDetailedAmsCard
+      v-for="ams in amss.content"
+      :key="ams.id"
+      :ams="ams"
+    />
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.ams-view-container__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+</style>

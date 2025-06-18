@@ -49,8 +49,14 @@ const { t } = useI18n()
                 small
                 ellipsis
               />
-              <StudentCountSkillsIconText :count-skills="countSkills" />
-              <StudentCountTracesIconText :count-traces="countTraces" />
+              <StudentCountSkillsIconText
+                :count-skills="countSkills"
+                inline
+              />
+              <StudentCountTracesIconText
+                :count-traces="countTraces"
+                inline
+              />
             </div>
             <div class="student-detailed-ams-card__line">
               <StudentAmsStatusBadge

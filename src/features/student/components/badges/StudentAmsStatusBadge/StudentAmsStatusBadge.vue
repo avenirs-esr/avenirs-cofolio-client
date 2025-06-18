@@ -26,16 +26,17 @@ function getStatusBadge (status: AmsStatus) {
     case AmsStatus.NOT_STARTED:
       return {
         labelkey: 'student.badges.studentAmsStatusBadge.status.notStarted',
-        color: 'var(--light-foreground-neutral)',
-        backgroundColor: 'var(--light-background-neutral)',
-        iconPath: '/assets/icons/calendar-range-outline.svg'
+        color: 'var(--foreground-text2)',
+        backgroundColor: 'var(--white)',
+        borderColor: 'var(--other-border-skill-card)',
+        iconPath: '/assets/icons/calendar-clock-outline.svg'
       }
     case AmsStatus.SUBMITTED:
       return {
         labelkey: 'student.badges.studentAmsStatusBadge.status.submitted',
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: '/assets/icons/calendar-range-outline.svg'
+        iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
       }
   }
 }
