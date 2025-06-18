@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProgramProgressViewDTO } from '@/types'
+import type { ProgramProgressViewDTO } from '@/api/avenir-esr'
 import StudentDetailedSkillCard from '../StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
 const { course } = defineProps<{ course: ProgramProgressViewDTO }>()

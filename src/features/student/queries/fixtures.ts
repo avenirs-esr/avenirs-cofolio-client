@@ -1,9 +1,8 @@
-import { type ProgramProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { type ProgramProgressOverviewDTO, type ProgramProgressViewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import {
   AmsStatus,
   type AmsViewDTO,
   type AmsViewResponse,
-  type ProgramProgressViewDTO,
 } from '@/types'
 
 export const mockedAmss: AmsViewDTO[] = [

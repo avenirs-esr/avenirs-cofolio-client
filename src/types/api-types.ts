@@ -1,5 +1,3 @@
-import type { SkillLevelOverviewDTO, SkillOverviewDTO } from '@/api/avenir-esr'
-
 export interface DeliverableOverviewDTO {
   id: string
   deliverableUntil: string
@@ -47,24 +45,6 @@ export interface StudentHeaderSummaryDTO {
   name: string
   messagesCount: number
   notificationsCount: number
-}
-
-// TODO: waiting for #269
-export type SkillLevelViewDTO = {
-  shortDescription: string
-} & SkillLevelOverviewDTO
-
-// TODO: waiting for #269
-export type SkillViewDTO = {
-  levelCount: number
-  currentSkillLevel: SkillLevelViewDTO
-} & Omit<SkillOverviewDTO, 'currentSkillLevel'>
-
-// TODO: waiting for #269
-export interface ProgramProgressViewDTO {
-  id: string
-  name: string
-  skills: SkillViewDTO[]
 }
 
 export enum AmsStatus {

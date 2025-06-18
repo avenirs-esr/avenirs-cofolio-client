@@ -171,6 +171,26 @@
         }
       }
     },
+    "/traces/config": {
+      "get": {
+        "tags": [
+          "configuration-controller"
+        ],
+        "operationId": "getTraceConfigInfo",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceConfigurationInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/photo/{profile}/{fileName}": {
       "get": {
         "tags": [
@@ -218,14 +238,6 @@
         "operationId": "getProfile",
         "parameters": [
           {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "profile",
             "in": "path",
             "required": true,
@@ -248,22 +260,64 @@
         }
       }
     },
-    "/me/trace/overview": {
+    "/me/traces/view": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTracesView",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "UNASSOCIATED",
+                "ASSOCIATED"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TracesViewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/overview": {
       "get": {
         "tags": [
           "trace-controller"
         ],
         "operationId": "getTraceOverview",
-        "parameters": [
-          {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -281,6 +335,74 @@
         }
       }
     },
+    "/me/program-progress": {
+      "get": {
+        "tags": [
+          "program-progress-controller"
+        ],
+        "operationId": "getAllProgramProgress",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "fr_FR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramProgressDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/program-progress/view": {
+      "get": {
+        "tags": [
+          "program-progress-controller"
+        ],
+        "operationId": "getSkillsView",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "fr_FR"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProgramProgressViewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/program-progress/overview": {
       "get": {
         "tags": [
@@ -289,11 +411,12 @@
         "operationId": "getSkillsOverview",
         "parameters": [
           {
-            "name": "X-Signed-Context",
+            "name": "Accept-Language",
             "in": "header",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": "fr_FR"
             }
           }
         ],
@@ -322,11 +445,12 @@
         "operationId": "getStudentNavigationAccess",
         "parameters": [
           {
-            "name": "X-Signed-Context",
+            "name": "Accept-Language",
             "in": "header",
-            "required": true,
+            "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "default": "fr_FR"
             }
           }
         ],
@@ -372,7 +496,8 @@
                       "SKILL_LEVEL_NOT_FOUND",
                       "TRACE_NOT_FOUND",
                       "AMS_NOT_FOUND",
-                      "USER_IS_NOT_STUDENT_EXCEPTION"
+                      "USER_IS_NOT_STUDENT_EXCEPTION",
+                      "LANGUAGE_NOT_SUPPORTED"
                     ]
                   }
                 }
@@ -424,6 +549,26 @@
   },
   "components": {
     "schemas": {
+      "SkillLevelStatus": {
+        "type": "string",
+        "description": "Enum for skill level status",
+        "enum": [
+          "VALIDATED",
+          "FAILED",
+          "UNDER_ACQUISITION",
+          "UNDER_REVIEW",
+          "TO_BE_EVALUATED",
+          "NOT_STARTED"
+        ]
+      },
+      "TraceStatus": {
+        "type": "string",
+        "description": "Enum for trace status",
+        "enum": [
+          "UNASSOCIATED",
+          "ASSOCIATED"
+        ]
+      },
       "ProfileUpdateRequest": {
         "type": "object",
         "properties": {
@@ -440,6 +585,28 @@
             "type": "string"
           }
         }
+      },
+      "TraceConfigurationInfo": {
+        "type": "object",
+        "properties": {
+          "maxDayRemaining": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDayRemainingWarning": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxDayRemainingCritical": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "maxDayRemaining",
+          "maxDayRemainingCritical",
+          "maxDayRemainingWarning"
+        ]
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -466,6 +633,106 @@
           "firstname",
           "lastname",
           "profilePicture"
+        ]
+      },
+      "PageInfo": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "number",
+          "size",
+          "totalElements",
+          "totalPages"
+        ]
+      },
+      "TraceViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/TraceStatus",
+            "enum": [
+              "UNASSOCIATED",
+              "ASSOCIATED"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deletionDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "deletionDate",
+          "id",
+          "status",
+          "title",
+          "updatedAt"
+        ]
+      },
+      "TracesResponse": {
+        "type": "object",
+        "properties": {
+          "traces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceViewDTO"
+            }
+          },
+          "criticalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "traces"
+        ]
+      },
+      "TracesViewResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/TracesResponse"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfo"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "TraceOverviewDTO": {
@@ -495,16 +762,133 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deletionDate": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
           "AMSCount",
           "createdAt",
+          "deletionDate",
           "isGroup",
           "programName",
           "skillCount",
           "title",
-          "traceId"
+          "traceId",
+          "updatedAt"
+        ]
+      },
+      "ProgramProgressDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "ProgramProgressViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillViewDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "skills"
+        ]
+      },
+      "SkillLevelViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortDescription": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/SkillLevelStatus",
+            "enum": [
+              "VALIDATED",
+              "FAILED",
+              "UNDER_ACQUISITION",
+              "UNDER_REVIEW",
+              "TO_BE_EVALUATED",
+              "NOT_STARTED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "shortDescription",
+          "status"
+        ]
+      },
+      "SkillViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "traceCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activityCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "levelCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentSkillLevel": {
+            "$ref": "#/components/schemas/SkillLevelViewDTO"
+          }
+        },
+        "required": [
+          "activityCount",
+          "currentSkillLevel",
+          "id",
+          "levelCount",
+          "name",
+          "traceCount"
         ]
       },
       "ProgramProgressOverviewDTO": {
@@ -542,9 +926,11 @@
           },
           "status": {
             "type": "string",
+            "$ref": "#/components/schemas/SkillLevelStatus",
             "enum": [
               "VALIDATED",
               "FAILED",
+              "UNDER_ACQUISITION",
               "UNDER_REVIEW",
               "TO_BE_EVALUATED",
               "NOT_STARTED"

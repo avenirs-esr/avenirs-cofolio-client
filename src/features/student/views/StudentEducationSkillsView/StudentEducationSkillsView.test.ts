@@ -1,5 +1,5 @@
+import type { ProgramProgressViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { ProgramProgressViewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { mockedPrograms, useProgramProgressViewQuery } from '@/features/student/queries'
