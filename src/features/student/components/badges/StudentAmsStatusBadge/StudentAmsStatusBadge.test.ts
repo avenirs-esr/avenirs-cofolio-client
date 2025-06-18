@@ -85,9 +85,9 @@ describe('studentAmsStatusBadge', () => {
       label: 'Non initiée',
       small: true,
       ellipsis: true,
-      color: 'var(--light-foreground-neutral)',
-      backgroundColor: 'var(--light-background-neutral)',
-      iconPath: '/assets/icons/calendar-range-outline.svg'
+      color: 'var(--foreground-text2)',
+      backgroundColor: 'var(--white)',
+      iconPath: '/assets/icons/calendar-clock-outline.svg'
     })
   })
 
@@ -103,12 +103,12 @@ describe('studentAmsStatusBadge', () => {
 
     expect(badge.exists()).toBe(true)
     expect(badge.props()).toMatchObject({
-      label: 'Soumise',
+      label: 'Soumise pour évaluation',
       small: true,
       ellipsis: true,
       color: 'var(--light-foreground-primary1)',
       backgroundColor: 'var(--light-background-critical)',
-      iconPath: '/assets/icons/calendar-range-outline.svg'
+      iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
     })
   })
 })

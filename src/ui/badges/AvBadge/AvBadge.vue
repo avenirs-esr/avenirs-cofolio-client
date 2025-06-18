@@ -4,6 +4,7 @@ import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 const props = defineProps<{
   color: string
   backgroundColor: string
+  borderColor?: string
   iconPath?: string
 } & DsfrBadgeProps>()
 
@@ -29,6 +30,7 @@ const backgroundColor = ref(props.backgroundColor)
 .av-badge {
   color: v-bind('color');
   background-color: v-bind('backgroundColor');
+  border: 1px solid v-bind('borderColor');
 }
 
 .av-badge--customIcon::before {
