@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { SkillLevelViewDTO } from '@/types'
-import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { type SkillLevelOverviewDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { AvBadge } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -10,7 +9,9 @@ const { t } = useI18n()
 
 function levelToBadge (status: SkillLevelStatus) {
   switch (status) {
+    // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case SkillLevelStatus.NOT_STARTED:
+    case SkillLevelStatus.UNDER_ACQUISITION:
     case SkillLevelStatus.TO_BE_EVALUATED:
       return {
         labelkey: 'student.badges.studentLevelBadge.status.inProgress',

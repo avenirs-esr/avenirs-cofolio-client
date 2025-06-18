@@ -14,7 +14,9 @@ const { t } = useI18n()
 
 function levelStatusToBadgeInfo (status: SkillLevelStatus): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
+    // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case SkillLevelStatus.NOT_STARTED:
+    case SkillLevelStatus.UNDER_ACQUISITION:
     case SkillLevelStatus.TO_BE_EVALUATED:
       return { status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'), type: 'new' }
     case SkillLevelStatus.UNDER_REVIEW:
