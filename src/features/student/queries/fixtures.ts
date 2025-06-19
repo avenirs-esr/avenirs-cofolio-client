@@ -1,6 +1,3 @@
-import type {
-  TraceConfigInfoDTO,
-} from '@/types'
 import {
   AmsStatus,
   type AmsViewDTO,
@@ -8,9 +5,10 @@ import {
   type ProgramProgressOverviewDTO,
   type ProgramProgressViewDTO,
   SkillLevelStatus,
+  type TraceConfigurationInfo,
   TraceStatus,
   type TracesViewResponse,
-  type TraceViewDTO,
+  type TraceViewDTO
 } from '@/api/avenir-esr'
 
 export const mockedAmss: AmsViewDTO[] = [
@@ -217,8 +215,10 @@ export function createMockedAmsViewResponse (size: number, totalElements: number
   }
 }
 
-export const mockedTracesConfiguration: TraceConfigInfoDTO = {
-  maxDayBeforeDeletion: 30,
+export const mockedTracesConfiguration: TraceConfigurationInfo = {
+  maxDayRemaining: 30,
+  maxDayRemainingWarning: 15,
+  maxDayRemainingCritical: 7,
 }
 
 export function createMockedTracesViewResponse (size: number, totalElements: number, number: number): TracesViewResponse {

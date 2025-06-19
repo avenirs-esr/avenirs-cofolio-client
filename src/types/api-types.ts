@@ -46,7 +46,3 @@ export interface StudentHeaderSummaryDTO {
   messagesCount: number
   notificationsCount: number
 }
-
-export interface TraceConfigInfoDTO {
-  maxDayBeforeDeletion: number
-}
