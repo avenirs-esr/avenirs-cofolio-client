@@ -25,7 +25,7 @@ const mockedEmptyAmssPagination: AmsViewResponse = {
 
 const mockedUseAmsViewQuery = vi.mocked(useAmsViewQuery)
 
-function mockUseAmsViewQuery (payload: AmsViewResponse) {
+function mockUseAmsViewQuery (payload: AmsViewResponse | null) {
   const mockData = ref(payload)
   const queryMockedData = {
     data: mockData,
@@ -56,6 +56,12 @@ describe('studentEducationAmsView', () => {
 
   it('should not render widget if no AMS is available', async () => {
     mockUseAmsViewQuery(mockedEmptyAmssPagination)
+    const wrapper = mount(StudentEducationAmsView)
+    expect(wrapper.findComponent({ name: 'StudentAmsCard' }).exists()).toBe(false)
+  })
+
+  it('should not render view if ams is null', async () => {
+    mockUseAmsViewQuery(null)
     const wrapper = mount(StudentEducationAmsView)
     expect(wrapper.findComponent({ name: 'StudentAmsCard' }).exists()).toBe(false)
   })
