@@ -3,6 +3,7 @@ import {
   AmsStatus,
   type AmsViewDTO,
   type AmsViewResponse,
+  type TraceConfigInfoDTO,
 } from '@/types'
 
 export const mockedAmss: AmsViewDTO[] = [
@@ -173,4 +174,8 @@ export const mockedAmssPagination: AmsViewResponse = {
     count: mockedAmss.length,
     totalPages: 1,
   },
+}
+
+export const mockedTracesConfiguration: TraceConfigInfoDTO = {
+  maxDayBeforeDeletion: 30,
 }
