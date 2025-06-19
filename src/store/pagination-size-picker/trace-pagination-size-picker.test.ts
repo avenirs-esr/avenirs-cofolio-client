@@ -1,4 +1,4 @@
-import { PAGE_SIZES } from '@/config'
+import { PageSizes } from '@/config'
 import { createPinia, setActivePinia } from 'pinia'
 import { useTracePaginationSizePicker } from './trace-pagination-size-picker'
 
@@ -9,12 +9,12 @@ describe('useTracePaginationSizePicker', () => {
 
   it('should initialize with default page size', () => {
     const store = useTracePaginationSizePicker()
-    expect(store.pageSizeSelected).toBe(PAGE_SIZES[0])
+    expect(store.pageSizeSelected).toBe(PageSizes.FOUR)
   })
 
   it('should update the selected page size', () => {
     const store = useTracePaginationSizePicker()
-    const newValue = PAGE_SIZES[1]
+    const newValue = PageSizes.EIGHT
     store.pageSizeSelected = newValue
     expect(store.pageSizeSelected).toBe(newValue)
   })

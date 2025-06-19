@@ -2,7 +2,7 @@ import type { TracesResponse, TracesViewResponse, TraceViewDTO } from '@/api/ave
 import type { BaseApiException } from '@/common/exceptions'
 import type { PaginatedResponse } from '@/types'
 import { defaultGetNextPageParam, useAvInfiniteQuery } from '@/common/composables/use-infinite-pagination/use-infinite-pagination'
-import { PAGE_SIZES, type PageSize } from '@/config'
+import { PageSizes } from '@/config'
 import { mockedTracesByPage, mockedTracesByPageSize8, mockedTracesByPageSize12 } from '@/features/student/queries/fixtures'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 
@@ -17,10 +17,10 @@ function mapToPaginatedTraces (response: TracesViewResponse): PaginatedResponse<
  * TODO: Remove this function when the API is ready
  */
 async function getMockedTraces (pageParam: number, pageSize: number): Promise<PaginatedResponse<TracesResponse>> {
-  if (pageSize === PAGE_SIZES[1]) {
+  if (pageSize === PageSizes.EIGHT) {
     return mockedTracesByPageSize8[pageParam]
   }
-  if (pageSize === PAGE_SIZES[2]) {
+  if (pageSize === PageSizes.TWELVE) {
     return mockedTracesByPageSize12[pageParam]
   }
   return mockedTracesByPage[pageParam]
@@ -31,7 +31,7 @@ const unassignedTracesCriticalCountQueryKey = [...commonQueryKeys, 'criticalCoun
 
 const TWO_MINUTES = 2 * 60 * 1000
 
-export function useUnassignedTracesQuery (pageSize: PageSize) {
+export function useUnassignedTracesQuery (pageSize: PageSizes) {
   const queryClient = useQueryClient()
 
   return useAvInfiniteQuery<TraceViewDTO[]>({

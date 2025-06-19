@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import { PAGE_SIZES, type PageSize } from '@/config'
+import type { ComputedRef } from 'vue'
+import { PageSizes } from '@/config'
 import { type Store, storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import AvTagPicker, { type AvTagPickerProps } from '../AvTagPicker/AvTagPicker.vue'
 
-type PageSizeStore = Store<string, { pageSizeSelected: PageSize }, object, object>
+type PageSizeStore = Store<string, { pageSizeSelected: PageSizes }, object, object>
 
 const { store } = defineProps<{ store: PageSizeStore }>()
 const { t } = useI18n()
 
-const options = computed(() => [...PAGE_SIZES])
+const options: ComputedRef<number[]> = computed(() => [...Object.values(PageSizes)] as number[])
 const { pageSizeSelected } = storeToRefs(store)
 
 function handleSelectChange (val: string | number) {
   const numberVal = Number(val)
-  if (PAGE_SIZES.includes(numberVal as PageSize)) {
-    pageSizeSelected.value = numberVal as PageSize
+  if (Object.values(PageSizes).includes(numberVal)) {
+    pageSizeSelected.value = numberVal as PageSizes
   }
 }
 </script>

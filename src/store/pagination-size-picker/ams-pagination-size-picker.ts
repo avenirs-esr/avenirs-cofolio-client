@@ -1,10 +1,10 @@
-import { PAGE_SIZES, type PageSize } from '@/config'
+import { PageSizes } from '@/config'
 import { defineStore } from 'pinia'
 
-const DEFAULT_PAGE_SIZE = PAGE_SIZES[0]
+const DEFAULT_PAGE_SIZE = PageSizes.FOUR
 
 export const useAmsPaginationSizePicker = defineStore('amsPaginationSizePicker', () => {
-  const pageSizeSelected = ref<PageSize>(DEFAULT_PAGE_SIZE)
+  const pageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
 
   return {
     pageSizeSelected
