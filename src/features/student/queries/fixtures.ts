@@ -236,3 +236,32 @@ function createMockTracesByPage (pageSize: number, totalItems: number = 24): Rec
 export const mockedTracesByPage: Record<number, TracesViewResponse> = createMockTracesByPage(4, 12)
 export const mockedTracesByPageSize8: Record<number, TracesViewResponse> = createMockTracesByPage(8, 12)
 export const mockedTracesByPageSize12: Record<number, TracesViewResponse> = createMockTracesByPage(12, 12)
+
+export function createMockedTracesViewResponse (size: number, totalElements: number, number: number): TracesViewResponse {
+  const mockedTraces: TraceViewDTO[] = []
+  for (let i = 1; i <= totalElements; i++) {
+    const rawDay = (i % 28) + 1
+    const dayNumber = rawDay < 10 ? `0${rawDay}` : `${rawDay}`
+    const rand = Math.floor(Math.random() * 31) + 1
+    const randomDayNumber = rand < 10 ? `0${rand}` : rand
+    const trace = {
+      id: `trace${i}`,
+      title: `Ma super trace numéro ${i}`,
+      status: TraceStatus.UNASSOCIATED,
+      createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
+      updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
+      deletionDate: `2025-07-${randomDayNumber}T10:42:00.000Z`
+    }
+    mockedTraces.push(trace)
+  }
+
+  const start = number * size
+  const end = start + size
+  const paginatedTraces = mockedTraces.slice(start, end)
+  const totalPages = Math.ceil(totalElements / size)
+
+  return {
+    data: { traces: paginatedTraces },
+    page: { size, totalElements, totalPages, number }
+  }
+}

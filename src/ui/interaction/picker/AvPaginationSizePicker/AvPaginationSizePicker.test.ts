@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import AvPaginationSizePicker from './AvPaginationSizePicker.vue'
 
-describe('pageSizeSelect.vue', () => {
+describe('paginationSizePicker.vue', () => {
   let pinia: Pinia
   beforeEach(() => {
     pinia = createPinia()
