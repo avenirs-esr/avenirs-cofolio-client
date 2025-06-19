@@ -1,5 +1,5 @@
 import type { Pinia } from 'pinia'
-import { PAGE_SIZES } from '@/config'
+import { PageSizes } from '@/config'
 import { useAmsPaginationSizePicker, useTracePaginationSizePicker } from '@/store'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
@@ -23,7 +23,7 @@ describe('pageSizeSelect.vue', () => {
     })
 
     expect(wrapper.text()).toContain('Nombre de résultats par page :')
-    PAGE_SIZES.forEach((size) => {
+    Object.values(PageSizes).forEach((size) => {
       expect(wrapper.text()).toContain(size.toString())
     })
   })
@@ -39,8 +39,8 @@ describe('pageSizeSelect.vue', () => {
     })
 
     const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
-    await avTagPicker.props('handleSelectChange')(PAGE_SIZES[1])
+    await avTagPicker.props('handleSelectChange')(PageSizes.EIGHT)
 
-    expect(store.pageSizeSelected).toBe(PAGE_SIZES[1])
+    expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
   })
 })
