@@ -18,6 +18,6 @@ describe('tracePaginationSizePickerWrapper', () => {
 
     const store = useTracePaginationSizePicker()
     expect(wrapper.findComponent({ name: 'AvPaginationSizePicker' }).exists()).toBe(true)
-    expect(store.pageSizeSelected).toBeDefined()
+    expect(store.paginationSize).toBeDefined()
   })
 })

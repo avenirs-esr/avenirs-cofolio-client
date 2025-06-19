@@ -2,7 +2,6 @@
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { PageTitle } from '@/common/components'
 import { studentHomeRoute } from '@/features/student/routes'
-import { useTracePaginationSizePicker } from '@/store'
 import { useI18n } from 'vue-i18n'
 import StudentToolsTracesViewContainer from './components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 
@@ -16,7 +15,7 @@ const breadcrumbLinks = computed(() => [
 
 function createMockedTraces () {
   const mockedTraces: TraceViewDTO[] = []
-  for (let i = 1; i < 17; i++) {
+  for (let i = 1; i < 18; i++) {
     const dayNumber = i < 10 ? `0${i}` : i
     const rand = Math.floor(Math.random() * 31) + 1
     const randomDayNumber = rand < 10 ? `0${rand}` : rand
@@ -34,8 +33,6 @@ function createMockedTraces () {
 }
 
 const mockedTraces = computed(() => createMockedTraces())
-const { pageSizeSelected } = storeToRefs(useTracePaginationSizePicker())
-const renderedMockedTraces = computed(() => mockedTraces.value.slice().slice(0, pageSizeSelected.value))
 </script>
 
 <template>
@@ -44,5 +41,5 @@ const renderedMockedTraces = computed(() => mockedTraces.value.slice().slice(0, 
     :breadcrumb-links="breadcrumbLinks"
   />
 
-  <StudentToolsTracesViewContainer :traces="renderedMockedTraces" />
+  <StudentToolsTracesViewContainer :traces="mockedTraces" />
 </template>

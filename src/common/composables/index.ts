@@ -1,4 +1,5 @@
 export * from './use-infinite-pagination/use-infinite-pagination'
 export * from './use-language-switcher'
 export * from './use-navigation'
+export * from './use-pagination-pages/use-pagination-pages'
 export * from './use-toast/use-toast'

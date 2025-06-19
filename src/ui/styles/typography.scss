@@ -65,6 +65,15 @@
   color: var(--foreground-text2);
 }
 
+.caption-regular {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  letter-spacing: var(--letter-spacing-caption);
+  color: var(--foreground-text2);
+}
+
 .n2 {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-light);
