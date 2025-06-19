@@ -192,6 +192,15 @@
         "title": "(placeholder) All my resumes"
       },
       "studentToolsTracesView": {
+        "warningMessage": {
+          "unassociated": "You have an unassociated trace. | You have {unassociatedTracesCount} unassociated traces.",
+          "delete": {
+            "loneTrace": "Please note that the trace will be deleted.",
+            "traces": "Please note that **1 of them** will be deleted. | Please note that **{tracesToDeleteCount} of them** will be deleted.",
+            "days": "tomorrow | in the coming {daysWarning} days."
+          },
+          "reminder": "As a reminder, without any action on your part, unassociated traces are deleted within {maxDayBeforeDeletion} days."
+        },
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
         },

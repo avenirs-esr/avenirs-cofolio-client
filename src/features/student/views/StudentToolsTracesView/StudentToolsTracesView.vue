@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { PageTitle } from '@/common/components'
+import { useStudentTracesConfigurationQuery } from '@/features/student/queries/use-student-configuration.query/use-student-configuration.query'
 import { studentHomeRoute } from '@/features/student/routes'
 import { useTracePaginationSizePicker } from '@/store'
 import { useI18n } from 'vue-i18n'
 import StudentToolsTracesViewContainer from './components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
+import StudentToolsTracesViewNotice from './components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 
+const { data: tracesConfig } = useStudentTracesConfigurationQuery()
 const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
@@ -43,6 +46,9 @@ const renderedMockedTraces = computed(() => mockedTraces.value.slice().slice(0, 
     :title="t('student.views.studentToolsTracesView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
-
+  <StudentToolsTracesViewNotice
+    :traces="mockedTraces"
+    :traces-config="tracesConfig"
+  />
   <StudentToolsTracesViewContainer :traces="renderedMockedTraces" />
 </template>

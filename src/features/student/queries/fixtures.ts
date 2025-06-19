@@ -1,9 +1,16 @@
-import { type ProgramProgressOverviewDTO, type ProgramProgressViewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import {
+  type ProgramProgressOverviewDTO,
+  type ProgramProgressViewDTO,
+  SkillLevelStatus,
+  type TraceConfigurationInfo,
+  TraceStatus,
+  type TracesViewResponse,
+  type TraceViewDTO
+} from '@/api/avenir-esr'
 import {
   AmsStatus,
   type AmsViewDTO,
   type AmsViewResponse,
-  type TraceConfigInfoDTO,
 } from '@/types'
 
 export const mockedAmss: AmsViewDTO[] = [
@@ -176,6 +183,8 @@ export const mockedAmssPagination: AmsViewResponse = {
   },
 }
 
-export const mockedTracesConfiguration: TraceConfigInfoDTO = {
-  maxDayBeforeDeletion: 30,
+export const mockedTracesConfiguration: TraceConfigurationInfo = {
+  maxDayRemaining: 30,
+  maxDayRemainingWarning: 15,
+  maxDayRemainingCritical: 7,
 }
