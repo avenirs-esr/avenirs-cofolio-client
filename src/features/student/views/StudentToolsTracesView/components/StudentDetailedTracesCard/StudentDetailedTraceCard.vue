@@ -77,7 +77,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 <style lang="scss" scoped>
 .student-detailed-trace-card {
   display: flex;
-  width: 19.75rem;
+  width: 17.75rem;
   height: 14rem;
   border-radius: 1.5rem;
   text-align: left;

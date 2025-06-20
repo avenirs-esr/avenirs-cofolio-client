@@ -201,6 +201,16 @@
           },
           "title": "Détail de ma trace - {trace}"
         },
+        "studentToolsTracesViewContainer": {
+          "pagination": {
+            "bottom": {
+              "ariaLabel": "Pagination basse"
+            },
+            "top": {
+              "ariaLabel": "Pagination haute"
+            }
+          }
+        },
         "title": "Ma bibliothèque de traces"
       }
     },

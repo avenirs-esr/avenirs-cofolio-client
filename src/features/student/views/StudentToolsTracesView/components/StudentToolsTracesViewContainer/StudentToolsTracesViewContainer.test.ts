@@ -1,58 +1,107 @@
-import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
-import { TracePaginationSizePicker } from '@/common/components'
+import type { TracesViewResponse } from '@/api/avenir-esr'
+import { TracePageSizePicker } from '@/common/components'
+import { createMockedTracesViewResponse, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useTracesStore } from '@/store'
 import { mount } from '@vue/test-utils'
+import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import { describe, expect, it } from 'vitest'
-import StudentDetailedTraceCard from '../StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewContainer from './StudentToolsTracesViewContainer.vue'
 
-describe('studentToolsTracesViewContainer', () => {
-  beforeEach(() => {
-    setActivePinia(createPinia())
-  })
-  const mockedTraces: TraceViewDTO[] = []
-  for (let i = 1; i < 17; i++) {
-    const dayNumber = i < 10 ? `0${i}` : i
-    const rand = Math.floor(Math.random() * 31) + 1
-    const randomDayNumber = rand < 10 ? `0${rand}` : rand
-    const trace = {
-      id: `trace${i}`,
-      title: `Ma super trace numéro ${i}`,
-      status: TraceStatus.UNASSOCIATED,
-      createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
-      updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
-      deletionDate: `2025-07-${randomDayNumber}T10:42:00.000Z`
-    }
-    mockedTraces.push(trace)
+vi.mock('@/features/student/queries', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/student/queries')>()
+
+  return {
+    ...actual,
+    useUnassignedTracesViewQuery: vi.fn(),
   }
+})
 
-  it('should render TracePaginationSizePicker', () => {
-    const wrapper = mount(StudentToolsTracesViewContainer, {
-      props: {
-        traces: mockedTraces,
-      },
-      global: {
-        plugins: [createPinia()]
-      }
-    })
+const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
 
-    expect(wrapper.findComponent(TracePaginationSizePicker).exists()).toBe(true)
+export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
+  const mockReturn = createMockedTracesViewQueryReturn(payload, null)
+  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
+}
+
+export function mockUseUnassignedTracesViewQueryUndefined () {
+  const mockReturn = createMockedTracesViewQueryReturn(undefined, null)
+  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
+}
+
+describe('studentToolsTracesViewContainer', () => {
+  const mockedData = createMockedTracesViewResponse(4, 20, 1)
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    setActivePinia(createPinia())
+    mockUseUnassignedTracesViewQuery(mockedData)
   })
 
-  it('should render one StudentDetailedTraceCard per trace', () => {
+  it('should render TracePageSizePicker', () => {
     const wrapper = mount(StudentToolsTracesViewContainer, {
-      props: {
-        traces: mockedTraces,
-      },
       global: {
         plugins: [createPinia()]
       }
     })
 
-    const cards = wrapper.findAllComponents(StudentDetailedTraceCard)
-    expect(cards).toHaveLength(mockedTraces.length)
+    expect(wrapper.findComponent(TracePageSizePicker).exists()).toBe(true)
+  })
 
-    cards.forEach((cardWrapper, index) => {
-      expect(cardWrapper.props('trace')).toEqual(mockedTraces[index])
+  it('should render correctly with mocked data', async () => {
+    const wrapper = mount(StudentToolsTracesViewContainer, {
+      global: {
+        stubs: ['StudentDetailedTraceCard', 'TracePageSizePicker', 'AvPagination']
+      }
     })
+
+    expect(wrapper.exists()).toBe(true)
+
+    const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
+    expect(cards.length).toBe(4)
+  })
+
+  it('should update currentPage in store when onUpdateCurrentPage is called', async () => {
+    const wrapper = mount(StudentToolsTracesViewContainer, {
+      global: {
+        plugins: [createPinia()]
+      }
+    })
+
+    const store = useTracesStore()
+    expect(store.currentPage).toBe(0)
+
+    const pagination = wrapper.findComponent({ name: 'AvPagination' })
+    await pagination.vm.$emit('update:current-page', 3)
+
+    expect(store.currentPage).toBe(3)
+  })
+
+  it('should reset currentPage to 0 when pageSize changes', async () => {
+    const wrapper = mount(StudentToolsTracesViewContainer, {
+      global: {
+        plugins: [createPinia()]
+      }
+    })
+
+    const store = useTracesStore()
+
+    store.currentPage = 2
+    store.pageSizeSelected = 12
+
+    await wrapper.vm.$nextTick()
+
+    expect(store.currentPage).toBe(0)
+  })
+
+  it('should handle undefined query data', () => {
+    mockUseUnassignedTracesViewQueryUndefined()
+
+    const wrapper = mount(StudentToolsTracesViewContainer, {
+      global: {
+        plugins: [createPinia()]
+      }
+    })
+    const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
+    expect(cards.length).toBe(0)
   })
 })

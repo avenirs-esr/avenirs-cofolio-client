@@ -1,12 +1,20 @@
 {
   "global": {
+    "avPagination": {
+      "ariaLabel": "Pagination",
+      "current": "Page {current} sur {total}",
+      "firstPageTitle": "Première page",
+      "lastPageTitle": "Dernière page",
+      "nextPageTitle": "Page suivante",
+      "prevPageTitle": "Page précédente"
+    },
     "buttons": {
       "goBack": "Retour"
     },
     "error": {
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
-    "pageSizeSelect": {
+    "pageSizePicker": {
       "label": "Nombre de résultats par page :"
     }
   }
