@@ -1,29 +1,32 @@
 <script lang="ts" setup>
-import { TracePaginationSizePicker } from '@/common/components'
+import { TracePageSizePicker } from '@/common/components'
 import { useBaseApiExceptionToast, usePaginationPages } from '@/common/composables'
 import { useTracesViewQuery } from '@/features/student/queries'
-import { useTracePagination, useTracePaginationSizePicker } from '@/store'
+import { useTracePageSizePicker, useTracePagination } from '@/store'
 import { AvPagination } from '@/ui'
+import { useI18n } from 'vue-i18n'
 import StudentDetailedTraceCard from '../StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 
-const paginationSizeStore = useTracePaginationSizePicker()
+const { t } = useI18n()
+const pageSizeStore = useTracePageSizePicker()
 const tracePaginationStore = useTracePagination()
 
 const currentPage = computed(() => tracePaginationStore.currentPage)
-const paginationSize = computed(() => paginationSizeStore.paginationSize)
-const query = useTracesViewQuery(currentPage, paginationSize)
+const pageSize = computed(() => pageSizeStore.pageSize)
+const query = useTracesViewQuery(currentPage, pageSize)
 useBaseApiExceptionToast(query.error)
 
 const traces = computed(() => query.data.value?.data.traces ?? [])
 const pageInfo = computed(() => query.data.value?.page ?? { number: 0, size: 0, totalElements: 0, totalPages: 0 })
+const totalPages = computed(() => pageInfo.value.totalPages)
 
-const pages = computed(() => usePaginationPages(pageInfo.value.totalPages))
+const pages = computed(() => usePaginationPages(totalPages))
 
 function onUpdateCurrentPage (payload: number) {
   tracePaginationStore.currentPage = payload
 }
 
-watch(paginationSize, () => {
+watch(pageSize, () => {
   tracePaginationStore.currentPage = 0
 })
 </script>
@@ -31,10 +34,12 @@ watch(paginationSize, () => {
 <template>
   <div class="student-tools-traces-view-container">
     <div class="top-pagination-container">
-      <TracePaginationSizePicker />
+      <TracePageSizePicker />
       <AvPagination
+        id="top-pagination"
         :current-page="pageInfo.number"
         :pages="pages"
+        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.top.ariaLabel')"
         compact
         @update:current-page="onUpdateCurrentPage"
       />
@@ -48,9 +53,11 @@ watch(paginationSize, () => {
     </div>
     <div class="bottom-pagination-container">
       <AvPagination
+        id="bottom-pagination"
         :items="traces"
         :current-page="pageInfo.number"
         :pages="pages"
+        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.bottom.ariaLabel')"
         @update:current-page="onUpdateCurrentPage"
       />
     </div>

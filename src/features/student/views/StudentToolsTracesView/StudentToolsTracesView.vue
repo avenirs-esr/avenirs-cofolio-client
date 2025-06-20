@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { PageTitle } from '@/common/components'
 import { studentHomeRoute } from '@/features/student/routes'
 import { useI18n } from 'vue-i18n'
@@ -12,27 +11,6 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.tools.header') },
   { text: t('student.navigation.tabs.tools.items.traces') }
 ])
-
-function createMockedTraces () {
-  const mockedTraces: TraceViewDTO[] = []
-  for (let i = 1; i < 18; i++) {
-    const dayNumber = i < 10 ? `0${i}` : i
-    const rand = Math.floor(Math.random() * 31) + 1
-    const randomDayNumber = rand < 10 ? `0${rand}` : rand
-    const trace = {
-      id: `trace${i}`,
-      title: `Ma super trace numéro ${i}`,
-      status: TraceStatus.UNASSOCIATED,
-      createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
-      updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
-      deletionDate: `2025-07-${randomDayNumber}T10:42:00.000Z`
-    }
-    mockedTraces.push(trace)
-  }
-  return mockedTraces
-}
-
-const mockedTraces = computed(() => createMockedTraces())
 </script>
 
 <template>
@@ -41,5 +19,5 @@ const mockedTraces = computed(() => createMockedTraces())
     :breadcrumb-links="breadcrumbLinks"
   />
 
-  <StudentToolsTracesViewContainer :traces="mockedTraces" />
+  <StudentToolsTracesViewContainer />
 </template>
