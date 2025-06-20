@@ -1,17 +1,18 @@
+import type {
+  TraceConfigInfoDTO,
+} from '@/types'
 import {
+  AmsStatus,
+  type AmsViewDTO,
+  type AmsViewResponse,
   type ProgramProgressOverviewDTO,
   type ProgramProgressViewDTO,
   SkillLevelStatus,
   TraceStatus,
   type TracesViewResponse,
-  type TraceViewDTO
+  type TraceViewDTO,
+
 } from '@/api/avenir-esr'
-import {
-  AmsStatus,
-  type AmsViewDTO,
-  type AmsViewResponse,
-  type TraceConfigInfoDTO,
-} from '@/types'
 import { addDays, format, startOfYear } from 'date-fns'
 
 export const mockedAmss: AmsViewDTO[] = [
@@ -175,11 +176,11 @@ export const mockedPrograms: ProgramProgressViewDTO[] = mockedCourses.map(course
 }))
 
 export const mockedAmssPagination: AmsViewResponse = {
-  content: mockedAmss,
-  pagination: {
-    page: 1,
-    pageSize: 10,
-    count: mockedAmss.length,
+  data: mockedAmss,
+  page: {
+    number: 1,
+    size: 10,
+    totalElements: mockedAmss.length,
     totalPages: 1,
   },
 }

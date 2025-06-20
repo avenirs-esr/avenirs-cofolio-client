@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AmsStatus } from '@/types'
+import { AmsStatus } from '@/api/avenir-esr'
 import { AvBadge } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
