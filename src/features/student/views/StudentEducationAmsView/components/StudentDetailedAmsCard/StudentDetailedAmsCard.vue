@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AmsViewDTO } from '@/types'
+import type { AmsViewDTO } from '@/api/avenir-esr'
 import { StudentAmsStatusBadge, StudentCountSkillsIconText, StudentCountTracesIconText } from '@/features/student/components'
 import { studentAmsRoute } from '@/features/student/routes'
 import { AvBadge, AvCard, AvVIcon, MDI_ICONS } from '@/ui'

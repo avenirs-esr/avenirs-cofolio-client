@@ -1,4 +1,4 @@
-import { AmsStatus, type AmsViewDTO } from '@/types'
+import { AmsStatus, type AmsViewDTO } from '@/api/avenir-esr'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'

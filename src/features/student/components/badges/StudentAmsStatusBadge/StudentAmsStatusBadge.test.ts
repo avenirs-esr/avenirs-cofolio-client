@@ -1,4 +1,4 @@
-import { AmsStatus } from '@/types'
+import { AmsStatus } from '@/api/avenir-esr'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 import StudentAmsStatusBadge from './StudentAmsStatusBadge.vue'

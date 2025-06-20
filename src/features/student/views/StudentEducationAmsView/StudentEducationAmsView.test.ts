@@ -1,4 +1,4 @@
-import type { AmsViewResponse } from '@/types'
+import type { AmsViewResponse } from '@/api/avenir-esr'
 import { mockedAmss, mockedAmssPagination } from '@/features/student/queries/fixtures'
 import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
 import { studentHomeRoute } from '@/features/student/routes'
@@ -14,11 +14,11 @@ vi.mock('@/features/student/queries/use-ams-view.query/use-ams-view.query', () =
 }))
 
 const mockedEmptyAmssPagination: AmsViewResponse = {
-  content: [],
-  pagination: {
-    page: 1,
-    pageSize: 10,
-    count: mockedAmss.length,
+  data: [],
+  page: {
+    number: 1,
+    size: 10,
+    totalElements: mockedAmss.length,
     totalPages: 1,
   }
 }

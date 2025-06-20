@@ -1,5 +1,5 @@
+import type { AmsViewResponse } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { AmsViewResponse } from '@/types'
 import { mockedAmssPagination } from '@/features/student/queries/fixtures'
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
