@@ -1,19 +1,43 @@
-import type { TracesViewResponse } from '@/api/avenir-esr'
+import type { TracesViewResponse, TraceViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { Ref } from 'vue'
 import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
-const commonQueryKeys = ['user', 'student']
+const commonQueryKeys = ['user', 'student', 'traces']
+const TWO_MINUTES = 2 * 60 * 1000
 
-export function useTracesViewQuery (page: Ref<number>, pageSize: Ref<number>): UseQueryReturnType<TracesViewResponse, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'traces', { page: page.value, pageSize: pageSize.value }])
-  return useQuery<TracesViewResponse, BaseApiException>({
+export function useUnassignedTracesViewQuery (
+  page: Ref<number>,
+  pageSize: Ref<number>
+): UseQueryReturnType<TracesViewResponse, BaseApiException> & {
+  traces: Ref<TraceViewDTO[]>
+  pageInfo: Ref<TracesViewResponse['page']>
+} {
+  const queryKey = computed(() => [...commonQueryKeys, 'unassigned', { page: page.value, pageSize: pageSize.value }])
+
+  const query = useQuery<TracesViewResponse, BaseApiException, TracesViewResponse, readonly unknown[]>({
     queryKey,
-    // TODO: call /traces/view when the endpoint and client are ready
     queryFn: async (): Promise<TracesViewResponse> => {
-      const mockedTracesViewResponse = createMockedTracesViewResponse(pageSize.value, 20, page.value)
-      return mockedTracesViewResponse
-    }
+    /*
+      // TODO: Uncomment when the API is ready
+      const response = await getTracesView({
+        pageSize,
+        page: pageParam,
+        status: GetTracesViewStatus.UNASSOCIATED
+      })
+    */
+      return createMockedTracesViewResponse(pageSize.value, 20, page.value)
+    },
+    staleTime: TWO_MINUTES,
   })
+
+  const traces = computed(() => query.data.value?.data.traces ?? [])
+  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, size: 0, totalElements: 0, totalPages: 0 })
+
+  return {
+    ...query,
+    traces,
+    pageInfo,
+  }
 }

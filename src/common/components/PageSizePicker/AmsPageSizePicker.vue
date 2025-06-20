@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { useAmsPageSizePicker } from '@/store'
+import { PageSizes } from '@/config'
+import { useAmsStore } from '@/store'
 import { AvPageSizePicker } from '@/ui'
 
-const amsPageSizePickerStore = useAmsPageSizePicker()
+const amsStore = useAmsStore()
+
+function handleSelectChange (val: string | number) {
+  const numberVal = Number(val)
+  if (Object.values(PageSizes).includes(numberVal)) {
+    amsStore.pageSizeSelected = numberVal as PageSizes
+  }
+}
 </script>
 
 <template>
-  <AvPageSizePicker :store="amsPageSizePickerStore" />
+  <AvPageSizePicker
+    :page-size-selected="amsStore.pageSizeSelected"
+    :handle-select-change="handleSelectChange"
+  />
 </template>
 
 <style lang="scss" scoped>

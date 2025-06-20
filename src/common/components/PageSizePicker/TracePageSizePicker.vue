@@ -1,12 +1,23 @@
 <script setup lang="ts">
-import { useTracePageSizePicker } from '@/store'
+import { PageSizes } from '@/config'
+import { useTracesStore } from '@/store'
 import { AvPageSizePicker } from '@/ui'
 
-const tracePageSizePickerStore = useTracePageSizePicker()
+const tracesStore = useTracesStore()
+
+function handleSelectChange (val: string | number) {
+  const numberVal = Number(val)
+  if (Object.values(PageSizes).includes(numberVal)) {
+    tracesStore.pageSizeSelected = numberVal as PageSizes
+  }
+}
 </script>
 
 <template>
-  <AvPageSizePicker :store="tracePageSizePickerStore" />
+  <AvPageSizePicker
+    :page-size-selected="tracesStore.pageSizeSelected"
+    :handle-select-change="handleSelectChange"
+  />
 </template>
 
 <style lang="scss" scoped>
