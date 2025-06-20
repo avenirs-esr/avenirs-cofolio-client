@@ -1,5 +1,5 @@
+import type { TraceConfigurationInfo } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { TraceConfigInfoDTO } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
@@ -9,12 +9,14 @@ import { useStudentTracesConfigurationQuery } from './use-student-configuration.
 
 describe('useStudentConfigurationQuery', () => {
   it('should return maxDayBeforeDeletion for traces config with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<TraceConfigInfoDTO, BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<TraceConfigurationInfo, BaseApiException>>(
       () => useStudentTracesConfigurationQuery(),
     )
     await flushPromises()
     const result = unref(data)
     expect(result).toBeDefined()
-    expect(result).toHaveProperty('maxDayBeforeDeletion')
+    expect(result).toHaveProperty('maxDayRemaining')
+    expect(result).toHaveProperty('maxDayRemainingWarning')
+    expect(result).toHaveProperty('maxDayRemainingCritical')
   })
 })

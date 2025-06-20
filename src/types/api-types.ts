@@ -79,7 +79,3 @@ export interface AmsViewResponse {
   content: AmsViewDTO[]
   pagination: PaginationInfo
 }
-
-export interface TraceConfigInfoDTO {
-  maxDayBeforeDeletion: number
-}

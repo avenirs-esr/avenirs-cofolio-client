@@ -192,6 +192,15 @@
         "title": "(placeholder) Tous mes CV"
       },
       "studentToolsTracesView": {
+        "warningMessage": {
+          "unassociated": "Vous avez une trace non associée. | Vous avez {count} traces non associées.",
+          "delete": {
+            "loneTrace": "Attention, la trace sera supprimée.",
+            "traces": "Attention, **1 d'entre elles** sera supprimée | Attention, **{count} d'entre elles** seront supprimées",
+            "days": "demain. | dans les {count} jours à venir."
+          },
+          "reminder": "Pour rappel, sans aucune action de votre part, les traces non associées sont supprimées sous {count} jours."
+        },
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
         },

@@ -1,15 +1,52 @@
+import type { TraceConfigurationInfo } from '@/api/avenir-esr'
+import { useStudentTracesConfigurationQuery } from '@/features/student/queries/use-student-configuration.query/use-student-configuration.query'
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
+import { describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 import StudentToolsTracesView from './StudentToolsTracesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
 }))
 
+vi.mock('@/features/student/queries/use-student-configuration.query/use-student-configuration.query', () => ({
+  useStudentTracesConfigurationQuery: vi.fn()
+}))
+
+const mockedUseStudentTracesConfigurationQuery = vi.mocked(useStudentTracesConfigurationQuery)
+
+function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo | null) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useStudentTracesConfigurationQuery>
+  mockedUseStudentTracesConfigurationQuery.mockReturnValue(queryMockedData)
+}
 describe('studentToolsTracesView', () => {
+  const stubs = {
+    StudentToolsTracesViewContainer: {
+      name: 'StudentToolsTracesViewContainer',
+      template: `<div class="student-tools-traces-view-container"/>`,
+      props: ['traces'],
+    },
+    StudentToolsTracesViewNotice: {
+      name: 'StudentToolsTracesViewNotice',
+      template: `<div class="student-tools-traces-view-notice"/>`,
+      props: ['traces', 'tracesConfig'],
+    }
+  }
+
+  const mockedTracesConfiguration = {
+    maxDayRemaining: 30,
+    maxDayRemainingWarning: 15,
+    maxDayRemainingCritical: 7
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
+    mockUseStudentTracesConfigurationQuery(mockedTracesConfiguration)
   })
 
   const title = 'Ma bibliothèque de traces'
@@ -30,5 +67,30 @@ describe('studentToolsTracesView', () => {
       toolsBreadcrumbLink,
       currentBreadcrumbLink
     ])
+  })
+
+  it('displays an alert with the correct parameters if unassociated traces are present', async () => {
+    const wrapper = mount(StudentToolsTracesView, {
+      global: {
+        stubs
+      }
+    })
+
+    await nextTick()
+
+    const notice = wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' })
+    expect(notice.exists()).toBe(true)
+  })
+
+  it('injects traces into StudentToolsTracesViewContainer', () => {
+    const wrapper = mount(StudentToolsTracesView, {
+      global: {
+        stubs
+      }
+    })
+    const traceContainer = wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' })
+    expect(traceContainer.exists()).toBe(true)
+    expect(traceContainer.props('traces')).toBeDefined()
+    expect(Array.isArray(traceContainer.props('traces'))).toBe(true)
   })
 })

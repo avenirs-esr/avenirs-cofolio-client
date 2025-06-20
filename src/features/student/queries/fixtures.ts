@@ -2,6 +2,7 @@ import {
   type ProgramProgressOverviewDTO,
   type ProgramProgressViewDTO,
   SkillLevelStatus,
+  type TraceConfigurationInfo,
   TraceStatus,
   type TracesViewResponse,
   type TraceViewDTO
@@ -10,7 +11,6 @@ import {
   AmsStatus,
   type AmsViewDTO,
   type AmsViewResponse,
-  type TraceConfigInfoDTO,
 } from '@/types'
 import { addDays, format, startOfYear } from 'date-fns'
 
@@ -184,8 +184,10 @@ export const mockedAmssPagination: AmsViewResponse = {
   },
 }
 
-export const mockedTracesConfiguration: TraceConfigInfoDTO = {
-  maxDayBeforeDeletion: 30,
+export const mockedTracesConfiguration: TraceConfigurationInfo = {
+  maxDayRemaining: 30,
+  maxDayRemainingWarning: 15,
+  maxDayRemainingCritical: 7,
 }
 
 const ALL_MOCK_TRACES: TraceViewDTO[] = Array.from({ length: 24 }, (_, index) => {
