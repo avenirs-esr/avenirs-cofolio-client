@@ -1,33 +1,28 @@
 <script lang="ts" setup>
 import { TracePageSizePicker } from '@/common/components'
-import { useBaseApiExceptionToast, usePaginationPages } from '@/common/composables'
-import { useTracesViewQuery } from '@/features/student/queries'
-import { useTracePageSizePicker, useTracePagination } from '@/store'
-import { AvPagination } from '@/ui'
+import { useBaseApiExceptionToast } from '@/common/composables'
+import { useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useTracesStore } from '@/store'
+import { AvPagination, getPaginationPages } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import StudentDetailedTraceCard from '../StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 
 const { t } = useI18n()
-const pageSizeStore = useTracePageSizePicker()
-const tracePaginationStore = useTracePagination()
+const tracesStore = useTracesStore()
 
-const currentPage = computed(() => tracePaginationStore.currentPage)
-const pageSize = computed(() => pageSizeStore.pageSize)
-const query = useTracesViewQuery(currentPage, pageSize)
-useBaseApiExceptionToast(query.error)
+const pageSizeSelected = computed(() => tracesStore.pageSizeSelected)
+const { traces, pageInfo, error } = useUnassignedTracesViewQuery(toRef(tracesStore, 'currentPage'), pageSizeSelected)
+useBaseApiExceptionToast(error)
 
-const traces = computed(() => query.data.value?.data.traces ?? [])
-const pageInfo = computed(() => query.data.value?.page ?? { number: 0, size: 0, totalElements: 0, totalPages: 0 })
 const totalPages = computed(() => pageInfo.value.totalPages)
-
-const pages = computed(() => usePaginationPages(totalPages))
+const pages = computed(() => getPaginationPages(totalPages))
 
 function onUpdateCurrentPage (payload: number) {
-  tracePaginationStore.currentPage = payload
+  tracesStore.currentPage = payload
 }
 
-watch(pageSize, () => {
-  tracePaginationStore.currentPage = 0
+watch(pageSizeSelected, () => {
+  tracesStore.currentPage = 0
 })
 </script>
 

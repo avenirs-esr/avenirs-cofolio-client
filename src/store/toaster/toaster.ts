@@ -1,4 +1,3 @@
-import { getRandomId } from '@gouvminint/vue-dsfr'
 import { defineStore } from 'pinia'
 
 export interface Message {
@@ -30,7 +29,7 @@ export const useToasterStore = defineStore('toaster', () => {
       removeMessage(message.id)
     }
 
-    message.id ??= getRandomId('toaster')
+    message.id ??= crypto.randomUUID()
     message.titleTag ??= 'h3'
     message.closeable ??= true
     message.type ??= 'info'

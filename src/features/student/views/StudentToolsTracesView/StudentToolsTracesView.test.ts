@@ -1,10 +1,8 @@
 import type { TracesViewResponse } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
-import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { Ref } from 'vue'
-import { createMockedTracesViewResponse, useTracesViewQuery } from '@/features/student/queries'
+import { createMockedTracesViewResponse, useUnassignedTracesViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
+import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import StudentToolsTracesView from './StudentToolsTracesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
@@ -16,20 +14,15 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 
   return {
     ...actual,
-    useTracesViewQuery: vi.fn(),
+    useUnassignedTracesViewQuery: vi.fn(),
   }
 })
 
-const mockedUseTracesViewQuery = vi.mocked(useTracesViewQuery)
+const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
 
-function mockUseTracesViewQuery (payload: TracesViewResponse) {
-  const mockData: Ref<TracesViewResponse> = ref(payload)
-  const mockError: Ref<null | null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError
-  } as unknown as UseQueryDefinedReturnType<TracesViewResponse, BaseApiException>
-  mockedUseTracesViewQuery.mockReturnValue(queryMockedData)
+export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
+  const mockReturn = createMockedTracesViewQueryReturn(payload, null)
+  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
 describe('studentToolsTracesView', () => {
@@ -38,7 +31,7 @@ describe('studentToolsTracesView', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
-    mockUseTracesViewQuery(mockedData)
+    mockUseUnassignedTracesViewQuery(mockedData)
   })
 
   const stubs = {

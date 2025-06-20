@@ -4,7 +4,7 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
-import { useTracesViewQuery } from './use-traces-view.query'
+import { useUnassignedTracesViewQuery } from './use-traces-view.query'
 
 describe('useTracesViewQuery', async () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('useTracesViewQuery', async () => {
     const mockedData = createMockedTracesViewResponse(4, 20, 1)
 
     const { data } = mountQueryComposable<UseQueryReturnType<TracesViewResponse, BaseApiException>>(
-      () => useTracesViewQuery(ref(1), ref(4))
+      () => useUnassignedTracesViewQuery(ref(1), ref(4))
     )
 
     await flushPromises()
@@ -29,5 +29,16 @@ describe('useTracesViewQuery', async () => {
     expect(data.value?.page.number).toBe(1)
     expect(data.value?.page.totalElements).toBe(20)
     expect(data.value?.page.totalPages).toBe(5)
+  })
+
+  it('should return correct pages array', async () => {
+    const page = ref(1)
+    const pageSize = ref(4)
+
+    const queryReturn = mountQueryComposable(() => useUnassignedTracesViewQuery(page, pageSize))
+
+    await flushPromises()
+
+    expect(queryReturn.pageInfo.value.totalPages).toBe(5)
   })
 })
