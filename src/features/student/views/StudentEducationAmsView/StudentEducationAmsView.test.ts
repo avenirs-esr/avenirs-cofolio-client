@@ -2,7 +2,7 @@ import type { AmsViewResponse } from '@/types'
 import { mockedAmss, mockedAmssPagination } from '@/features/student/queries/fixtures'
 import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
 import { studentHomeRoute } from '@/features/student/routes'
-import { mount } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import StudentEducationAmsView from './StudentEducationAmsView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
@@ -43,8 +43,8 @@ describe('studentEducationAmsView', () => {
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: 'Mes AMS' }
 
-  it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentEducationAmsView)
+  it('should render PageTitle with correct props', async () => {
+    const wrapper = await mountWithRouter(StudentEducationAmsView)
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)
@@ -56,18 +56,18 @@ describe('studentEducationAmsView', () => {
 
   it('should not render widget if no AMS is available', async () => {
     mockUseAmsViewQuery(mockedEmptyAmssPagination)
-    const wrapper = mount(StudentEducationAmsView)
+    const wrapper = await mountWithRouter(StudentEducationAmsView)
     expect(wrapper.findComponent({ name: 'StudentAmsCard' }).exists()).toBe(false)
   })
 
   it('should not render view if ams is null', async () => {
     mockUseAmsViewQuery(null)
-    const wrapper = mount(StudentEducationAmsView)
+    const wrapper = await mountWithRouter(StudentEducationAmsView)
     expect(wrapper.findComponent({ name: 'StudentAmsCard' }).exists()).toBe(false)
   })
 
   it('should render one StudentAmsCard per AMS', async () => {
-    const wrapper = mount(StudentEducationAmsView)
+    const wrapper = await mountWithRouter(StudentEducationAmsView)
     const cards = wrapper.findAllComponents({ name: 'StudentDetailedAmsCard' })
     expect(cards).toHaveLength(4)
     expect(cards[0].props('ams').id).toBe('ams1')
