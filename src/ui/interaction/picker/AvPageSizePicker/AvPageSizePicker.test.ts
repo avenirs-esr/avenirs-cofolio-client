@@ -1,11 +1,11 @@
 import type { Pinia } from 'pinia'
 import { PageSizes } from '@/config'
-import { useAmsPaginationSizePicker, useTracePaginationSizePicker } from '@/store'
+import { useAmsPageSizePicker, useTracePageSizePicker } from '@/store'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvPaginationSizePicker from './AvPaginationSizePicker.vue'
+import AvPageSizePicker from './AvPageSizePicker.vue'
 
-describe('paginationSizePicker.vue', () => {
+describe('avPageSizePicker', () => {
   let pinia: Pinia
   beforeEach(() => {
     pinia = createPinia()
@@ -13,9 +13,9 @@ describe('paginationSizePicker.vue', () => {
   })
 
   it('should render the label and options', () => {
-    const store = useAmsPaginationSizePicker()
+    const store = useAmsPageSizePicker()
 
-    const wrapper = mount(AvPaginationSizePicker, {
+    const wrapper = mount(AvPageSizePicker, {
       props: { store },
       global: {
         plugins: [pinia]
@@ -29,9 +29,9 @@ describe('paginationSizePicker.vue', () => {
   })
 
   it('should update the store when a value is selected', async () => {
-    const store = useTracePaginationSizePicker()
+    const store = useTracePageSizePicker()
 
-    const wrapper = mount(AvPaginationSizePicker, {
+    const wrapper = mount(AvPageSizePicker, {
       props: { store },
       global: {
         plugins: [pinia]
@@ -41,6 +41,6 @@ describe('paginationSizePicker.vue', () => {
     const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
     await avTagPicker.props('handleSelectChange')(PageSizes.EIGHT)
 
-    expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
+    expect(store.pageSize).toBe(PageSizes.EIGHT)
   })
 })

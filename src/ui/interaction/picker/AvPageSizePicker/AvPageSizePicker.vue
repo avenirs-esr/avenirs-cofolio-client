@@ -28,7 +28,7 @@ function handleSelectChange (val: string | number) {
       :selected="pageSizeSelected"
       :handle-select-change="handleSelectChange as AvTagPickerProps['handleSelectChange']"
       :multiple="false"
-      :label="t('global.paginationSizePicker.label')"
+      :label="t('global.pageSizePicker.label')"
       label-typography-class="b2-regular"
       label-color="var(--foreground-text2)"
     />

@@ -14,7 +14,7 @@
     "error": {
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
-    "paginationSizePicker": {
+    "pageSizePicker": {
       "label": "Nombre de résultats par page :"
     }
   }

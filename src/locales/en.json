@@ -14,7 +14,7 @@
     "error": {
       "generic": "An error has occurred. Please try again later."
     },
-    "paginationSizePicker": {
+    "pageSizePicker": {
       "label": "Number of results per page:"
     }
   }
