@@ -1,12 +1,11 @@
-import { mountComposable } from 'tests/utils'
+import { getPaginationPages } from '@/ui/navigation/AvPagination/utils'
 import { describe, expect, it } from 'vitest'
-import { usePaginationPages } from './use-pagination-pages'
 
-describe('usePaginationPages (reactive)', () => {
+describe('getPaginationPages (reactive)', () => {
   it('should return correct pagination pages and update when totalPages changes', async () => {
     const totalPages = ref(2)
 
-    const result = mountComposable(() => usePaginationPages(totalPages), {})
+    const result = getPaginationPages(totalPages)
 
     expect(result).toEqual([
       { title: '1', label: '1', href: '#page-1' },

@@ -1,6 +1,6 @@
+import AvPagination from '@/ui/navigation/AvPagination/AvPagination.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvPagination from './AvPagination.vue'
 
 describe('avPagination', () => {
   const pagesMock = [

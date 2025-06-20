@@ -1,11 +1,9 @@
 import type { TracesViewResponse } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
-import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { Ref } from 'vue'
 import { TracePageSizePicker } from '@/common/components'
-import { createMockedTracesViewResponse, useTracesViewQuery } from '@/features/student/queries'
-import { useTracePageSizePicker, useTracePagination } from '@/store'
+import { createMockedTracesViewResponse, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useTracesStore } from '@/store'
 import { mount } from '@vue/test-utils'
+import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import { describe, expect, it } from 'vitest'
 import StudentToolsTracesViewContainer from './StudentToolsTracesViewContainer.vue'
 
@@ -14,30 +12,20 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 
   return {
     ...actual,
-    useTracesViewQuery: vi.fn(),
+    useUnassignedTracesViewQuery: vi.fn(),
   }
 })
 
-const mockedUseTracesViewQuery = vi.mocked(useTracesViewQuery)
+const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
 
-function mockUseTracesViewQuery (payload: TracesViewResponse) {
-  const mockData: Ref<TracesViewResponse> = ref(payload)
-  const mockError: Ref<null | null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError
-  } as unknown as UseQueryDefinedReturnType<TracesViewResponse, BaseApiException>
-  mockedUseTracesViewQuery.mockReturnValue(queryMockedData)
+export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
+  const mockReturn = createMockedTracesViewQueryReturn(payload, null)
+  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
-function mockUseTracesViewQueryUndefined () {
-  const mockData: Ref<TracesViewResponse | undefined> = ref(undefined)
-  const mockError: Ref<null | null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError
-  } as unknown as UseQueryDefinedReturnType<TracesViewResponse, BaseApiException>
-  mockedUseTracesViewQuery.mockReturnValue(queryMockedData)
+export function mockUseUnassignedTracesViewQueryUndefined () {
+  const mockReturn = createMockedTracesViewQueryReturn(undefined, null)
+  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
 describe('studentToolsTracesViewContainer', () => {
@@ -46,7 +34,7 @@ describe('studentToolsTracesViewContainer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
-    mockUseTracesViewQuery(mockedData)
+    mockUseUnassignedTracesViewQuery(mockedData)
   })
 
   it('should render TracePageSizePicker', () => {
@@ -79,13 +67,13 @@ describe('studentToolsTracesViewContainer', () => {
       }
     })
 
-    const tracePaginationStore = useTracePagination()
-    expect(tracePaginationStore.currentPage).toBe(0)
+    const store = useTracesStore()
+    expect(store.currentPage).toBe(0)
 
     const pagination = wrapper.findComponent({ name: 'AvPagination' })
     await pagination.vm.$emit('update:current-page', 3)
 
-    expect(tracePaginationStore.currentPage).toBe(3)
+    expect(store.currentPage).toBe(3)
   })
 
   it('should reset currentPage to 0 when pageSize changes', async () => {
@@ -95,19 +83,18 @@ describe('studentToolsTracesViewContainer', () => {
       }
     })
 
-    const pageSizeStore = useTracePageSizePicker()
-    const tracePaginationStore = useTracePagination()
+    const store = useTracesStore()
 
-    tracePaginationStore.currentPage = 2
-    pageSizeStore.pageSize = 12
+    store.currentPage = 2
+    store.pageSizeSelected = 12
 
     await wrapper.vm.$nextTick()
 
-    expect(tracePaginationStore.currentPage).toBe(0)
+    expect(store.currentPage).toBe(0)
   })
 
   it('should handle undefined query data', () => {
-    mockUseTracesViewQueryUndefined()
+    mockUseUnassignedTracesViewQueryUndefined()
 
     const wrapper = mount(StudentToolsTracesViewContainer, {
       global: {
