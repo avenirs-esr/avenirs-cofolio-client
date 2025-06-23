@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { TraceConfigurationInfo } from '@/api/avenir-esr'
-import type { UnassignedTracesSummaryDTO } from '@/types'
+import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
 import AvNotice from '@/ui/base/AvNotice/AvNotice.vue'
 import { useI18n } from 'vue-i18n'
 
-const { unassignedTracesSummary, tracesConfig } = defineProps<{ unassignedTracesSummary: UnassignedTracesSummaryDTO | undefined, tracesConfig: TraceConfigurationInfo | undefined }>()
 const { t } = useI18n()
+
+const { data: unassignedTracesSummary } = useUnassignedTracesSummaryQuery()
+const { data: tracesConfig } = useStudentTracesConfigurationQuery()
 
 function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCount: number, criticalDays: number | undefined, maxDayBeforeDeletion: number | undefined): string {
   let message = t('student.views.studentToolsTracesView.warningMessage.unassociated', unassociatedTracesCount)
@@ -26,8 +27,8 @@ function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCoun
   return message
 }
 
-const criticalDays = computed(() => tracesConfig?.maxDayRemainingCritical)
-const maxDayBeforeDeletion = computed(() => tracesConfig?.maxDayRemaining)
+const criticalDays = computed(() => tracesConfig.value?.maxDayRemainingCritical)
+const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxDayRemaining)
 </script>
 
 <template>

@@ -156,7 +156,5 @@ describe('studentToolsTracesViewContainer', () => {
 
     const notice = wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' })
     expect(notice.exists()).toBe(true)
-    expect(notice.props('unassignedTracesSummary')).toEqual(mockedUnassignedTracesSummary)
-    expect(notice.props('tracesConfig')).toEqual(mockedTracesConfiguration)
   })
 })

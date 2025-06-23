@@ -1,7 +1,40 @@
+import type { TraceConfigurationInfo } from '@/api/avenir-esr'
+import type { UnassignedTracesSummaryDTO } from '@/types'
+import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
+import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
-import StudentToolsTracesViewNotice from './StudentToolsTracesViewNotice.vue'
+
+vi.mock('@/features/student/queries', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/student/queries')>()
+
+  return {
+    ...actual,
+    useStudentTracesConfigurationQuery: vi.fn(),
+    useUnassignedTracesSummaryQuery: vi.fn(),
+  }
+})
+
+const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
+
+export function mockUseUnassignedTracesSummaryQuery (payload: UnassignedTracesSummaryDTO) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useUnassignedTracesSummaryQuery>
+  mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
+}
+
+const mockedUseStudentTracesConfigurationQuery = vi.mocked(useStudentTracesConfigurationQuery)
+
+function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo | null) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useStudentTracesConfigurationQuery>
+  mockedUseStudentTracesConfigurationQuery.mockReturnValue(queryMockedData)
+}
 
 describe('studentToolsTracesViewNotice', () => {
   const mockedTracesConfiguration = {
@@ -26,14 +59,12 @@ describe('studentToolsTracesViewNotice', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseStudentTracesConfigurationQuery(mockedTracesConfiguration)
+    mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
   })
 
   it('displays an alert with the correct parameters if unassociated traces are present', async () => {
     const wrapper = mount(StudentToolsTracesViewNotice, {
-      props: {
-        unassignedTracesSummary: mockedUnassignedTracesSummary,
-        tracesConfig: mockedTracesConfiguration
-      },
       global: {
         stubs
       }
@@ -49,11 +80,8 @@ describe('studentToolsTracesViewNotice', () => {
   })
 
   it('displays an alert without the last sentence if it can\'t find the configuration', async () => {
+    mockUseStudentTracesConfigurationQuery(null)
     const wrapper = mount(StudentToolsTracesViewNotice, {
-      props: {
-        unassignedTracesSummary: mockedUnassignedTracesSummary,
-        tracesConfig: undefined
-      },
       global: {
         stubs
       }
@@ -69,11 +97,8 @@ describe('studentToolsTracesViewNotice', () => {
   })
 
   it('should not display an alert if no unassociated traces are present', async () => {
+    mockUseUnassignedTracesSummaryQuery({ total: 0, totalWarnings: 0, totalCriticals: 0 })
     const wrapper = mount(StudentToolsTracesViewNotice, {
-      props: {
-        unassignedTracesSummary: { total: 0, totalWarnings: 0, totalCriticals: 0 },
-        tracesConfig: mockedTracesConfiguration
-      },
       global: {
         stubs
       }
@@ -86,15 +111,13 @@ describe('studentToolsTracesViewNotice', () => {
   })
 
   it('should have correct message when just have one unassociated trace', async () => {
+    mockUseStudentTracesConfigurationQuery({
+      maxDayRemaining: 30,
+      maxDayRemainingWarning: 7,
+      maxDayRemainingCritical: 1
+    })
+    mockUseUnassignedTracesSummaryQuery({ total: 1, totalWarnings: 0, totalCriticals: 1 })
     const wrapper = mount(StudentToolsTracesViewNotice, {
-      props: {
-        unassignedTracesSummary: { total: 1, totalWarnings: 0, totalCriticals: 1 },
-        tracesConfig: {
-          maxDayRemaining: 30,
-          maxDayRemainingWarning: 7,
-          maxDayRemainingCritical: 1
-        }
-      },
       global: {
         stubs
       }

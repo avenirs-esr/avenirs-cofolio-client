@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { TracePageSizePicker } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
-import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useUnassignedTracesViewQuery } from '@/features/student/queries'
+import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
+import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'
 import { AvPagination, getPaginationPages } from '@/ui'
 import { useI18n } from 'vue-i18n'
-import StudentDetailedTraceCard from '../StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
-import StudentToolsTracesViewNotice from '../StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()
@@ -15,8 +15,6 @@ const pageSizeSelected = toRef(tracesStore, 'pageSizeSelected')
 const { traces, pageInfo, error } = useUnassignedTracesViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
-const { data: unassignedTracesSummary } = useUnassignedTracesSummaryQuery()
-const { data: tracesConfig } = useStudentTracesConfigurationQuery()
 const totalPages = computed(() => pageInfo.value.totalPages)
 const pages = computed(() => getPaginationPages(totalPages))
 
@@ -31,10 +29,7 @@ watch(pageSizeSelected, () => {
 
 <template>
   <div class="student-tools-traces-view-container">
-    <StudentToolsTracesViewNotice
-      :unassigned-traces-summary="unassignedTracesSummary"
-      :traces-config="tracesConfig"
-    />
+    <StudentToolsTracesViewNotice />
     <div class="top-pagination-container">
       <TracePageSizePicker />
       <AvPagination
