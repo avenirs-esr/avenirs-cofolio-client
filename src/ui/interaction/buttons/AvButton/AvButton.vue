@@ -18,6 +18,9 @@ const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
 const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)
 const computedSvgScale = computed(() => {
+  if (props.iconScale && !Number.isNaN(props.iconScale)) {
+    return props.iconScale
+  }
   switch (props.size) {
     case 'small':
     case 'sm':

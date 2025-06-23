@@ -199,7 +199,11 @@
           "buttons": {
             "close": "Fermer"
           },
-          "title": "Détail de ma trace - {trace}"
+          "title": "Détail de ma trace - {trace}",
+          "settings": {
+            "ariaLabel": "Paramètres de la trace",
+            "delete": "Supprimer ma trace"
+          }
         },
         "studentToolsTracesViewContainer": {
           "pagination": {
