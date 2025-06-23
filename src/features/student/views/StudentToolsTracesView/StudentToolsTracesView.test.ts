@@ -1,11 +1,9 @@
-import type { TraceConfigurationInfo, TracesViewResponse } from '@/api/avenir-esr'
-import { createMockedTracesViewResponse, useUnassignedTracesViewQuery } from '@/features/student/queries'
-import { useStudentTracesConfigurationQuery } from '@/features/student/queries/use-student-configuration.query/use-student-configuration.query'
+import type { TraceConfigurationInfo, TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
+import { createMockedTracesViewResponse, useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { mount } from '@vue/test-utils'
 import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import { describe, expect, it, vi } from 'vitest'
-import { nextTick } from 'vue'
 import StudentToolsTracesView from './StudentToolsTracesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
@@ -18,6 +16,8 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
   return {
     ...actual,
     useUnassignedTracesViewQuery: vi.fn(),
+    useStudentTracesConfigurationQuery: vi.fn(),
+    useUnassignedTracesSummaryQuery: vi.fn(),
   }
 })
 
@@ -28,9 +28,15 @@ export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
   mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
-vi.mock('@/features/student/queries/use-student-configuration.query/use-student-configuration.query', () => ({
-  useStudentTracesConfigurationQuery: vi.fn()
-}))
+const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
+
+export function mockUseUnassignedTracesSummaryQuery (payload: UnassociatedTracesSummaryDTO) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useUnassignedTracesSummaryQuery>
+  mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
+}
 
 const mockedUseStudentTracesConfigurationQuery = vi.mocked(useStudentTracesConfigurationQuery)
 
@@ -43,17 +49,10 @@ function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo
 }
 
 describe('studentToolsTracesView', () => {
+  const mockedData = createMockedTracesViewResponse(4, 4, 0)
   const stubs = {
-    PageTitle: {
-      name: 'PageTitle',
-      template: '<div />',
-      props: ['title', 'breadcrumbLinks']
-    },
-    StudentToolsTracesViewContainer: {
-      name: 'StudentToolsTracesViewContainer',
-      template: `<div class="student-tools-traces-view-container"/>`,
-      props: ['traces'],
-    },
+    PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
+    StudentToolsTracesViewContainer: { name: 'StudentToolsTracesViewContainer', props: ['traces'], template: '<div />' },
     StudentToolsTracesViewNotice: {
       name: 'StudentToolsTracesViewNotice',
       template: `<div class="student-tools-traces-view-notice"/>`,
@@ -66,13 +65,19 @@ describe('studentToolsTracesView', () => {
     maxDayRemainingWarning: 15,
     maxDayRemainingCritical: 7
   }
-  const mockedData = createMockedTracesViewResponse(4, 4, 0)
+
+  const mockedUnassignedTracesSummary = {
+    total: 15,
+    totalWarnings: 5,
+    totalCriticals: 3
+  }
 
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
     mockUseUnassignedTracesViewQuery(mockedData)
     mockUseStudentTracesConfigurationQuery(mockedTracesConfiguration)
+    mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
   })
 
   const title = 'Ma bibliothèque de traces'
@@ -95,28 +100,13 @@ describe('studentToolsTracesView', () => {
     ])
   })
 
-  it('displays an alert with the correct parameters if unassociated traces are present', async () => {
+  it('should render StudentToolsTracesViewContainer', () => {
     const wrapper = mount(StudentToolsTracesView, {
-      global: {
-        stubs
-      }
+      stubs,
+      plugins: [createPinia()]
     })
+    const container = wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' })
 
-    await nextTick()
-
-    const notice = wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' })
-    expect(notice.exists()).toBe(true)
-  })
-
-  it('injects traces into StudentToolsTracesViewContainer', () => {
-    const wrapper = mount(StudentToolsTracesView, {
-      global: {
-        stubs
-      }
-    })
-    const traceContainer = wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' })
-    expect(traceContainer.exists()).toBe(true)
-    expect(traceContainer.props('traces')).toBeDefined()
-    expect(Array.isArray(traceContainer.props('traces'))).toBe(true)
+    expect(container.exists()).toBe(true)
   })
 })

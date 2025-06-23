@@ -8,7 +8,8 @@ import {
   type TraceConfigurationInfo,
   TraceStatus,
   type TracesViewResponse,
-  type TraceViewDTO
+  type TraceViewDTO,
+  type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
 
 export const mockedAmss: AmsViewDTO[] = [
@@ -189,7 +190,7 @@ function getRandomAmsProgress (status: AmsStatus): AmsViewDTO['progress'] {
   return { startedActivities, totalActivities }
 }
 
-export function createMockedAmsViewResponse (size: number, totalElements: number, number: number): AmsViewResponse {
+export function createMockedAmsViewResponse (pageSize: number, totalElements: number, number: number): AmsViewResponse {
   const mockedAmss: AmsViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const randomStatus = getRandomAmsStatus()
@@ -204,14 +205,14 @@ export function createMockedAmsViewResponse (size: number, totalElements: number
     mockedAmss.push(ams)
   }
 
-  const start = number * size
-  const end = start + size
+  const start = number * pageSize
+  const end = start + pageSize
   const paginatedAmss = mockedAmss.slice(start, end)
-  const totalPages = Math.ceil(totalElements / size)
+  const totalPages = Math.ceil(totalElements / pageSize)
 
   return {
     data: paginatedAmss,
-    page: { size, totalElements, totalPages, number }
+    page: { pageSize, totalElements, totalPages, number }
   }
 }
 
@@ -221,7 +222,7 @@ export const mockedTracesConfiguration: TraceConfigurationInfo = {
   maxDayRemainingCritical: 7,
 }
 
-export function createMockedTracesViewResponse (size: number, totalElements: number, number: number): TracesViewResponse {
+export function createMockedTracesViewResponse (pageSize: number, totalElements: number, number: number): TracesViewResponse {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -239,13 +240,19 @@ export function createMockedTracesViewResponse (size: number, totalElements: num
     mockedTraces.push(trace)
   }
 
-  const start = number * size
-  const end = start + size
+  const start = number * pageSize
+  const end = start + pageSize
   const paginatedTraces = mockedTraces.slice(start, end)
-  const totalPages = Math.ceil(totalElements / size)
+  const totalPages = Math.ceil(totalElements / pageSize)
 
   return {
     data: { traces: paginatedTraces },
-    page: { size, totalElements, totalPages, number }
+    page: { pageSize, totalElements, totalPages, number }
   }
+}
+
+export const mockedUnassignedTracesSummary: UnassociatedTracesSummaryDTO = {
+  total: 20,
+  totalWarnings: 5,
+  totalCriticals: 2,
 }
