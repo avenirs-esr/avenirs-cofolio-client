@@ -11,6 +11,10 @@ export function useStudentTracesConfigurationQuery (): UseQueryReturnType<TraceC
     queryKey,
     // TODO: call /traces/config when the endpoint and client are ready
     queryFn: async (): Promise<TraceConfigurationInfo> => {
+      /*
+      // TODO: Uncomment when the API is ready
+      const response = await getTraceConfigInfo()
+      */
       return mockedTracesConfiguration
     }
   })
