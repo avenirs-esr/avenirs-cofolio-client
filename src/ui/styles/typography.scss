@@ -133,6 +133,15 @@
   color: var(--foreground-text1);
 }
 
+.s2-bold {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-s2);
+  line-height: var(--line-height-s2);
+  letter-spacing: var(--letter-spacing-s2);
+  color: var(--foreground-text1);
+}
+
 .s2-regular {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-regular);
