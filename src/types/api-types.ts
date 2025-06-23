@@ -47,35 +47,8 @@ export interface StudentHeaderSummaryDTO {
   notificationsCount: number
 }
 
-export enum AmsStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  SUBMITTED = 'SUBMITTED',
-  COMPLETED = 'COMPLETED'
-}
-
-export interface AmsProgress {
-  startedActivities: number
-  totalActivities: number
-}
-
-export interface AmsViewDTO {
-  id: string
-  title: string
-  countSkills: number
-  countTraces: number
-  status: AmsStatus
-  progress: AmsProgress
-}
-
-export interface PaginationInfo {
-  page: number
-  pageSize: number
-  count: number
-  totalPages: number
-}
-
-export interface AmsViewResponse {
-  content: AmsViewDTO[]
-  pagination: PaginationInfo
+export interface UnassignedTracesSummaryDTO {
+  total: number
+  totalWarnings: number
+  totalCriticals: number
 }

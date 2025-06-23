@@ -1,18 +1,16 @@
+import type { UnassignedTracesSummaryDTO } from '@/types'
 import {
+  AmsStatus,
+  type AmsViewDTO,
+  type AmsViewResponse,
   type ProgramProgressOverviewDTO,
   type ProgramProgressViewDTO,
   SkillLevelStatus,
   type TraceConfigurationInfo,
   TraceStatus,
   type TracesViewResponse,
-  type TraceViewDTO
+  type TraceViewDTO,
 } from '@/api/avenir-esr'
-import {
-  AmsStatus,
-  type AmsViewDTO,
-  type AmsViewResponse,
-} from '@/types'
-import { addDays, format, startOfYear } from 'date-fns'
 
 export const mockedAmss: AmsViewDTO[] = [
   {
@@ -175,11 +173,11 @@ export const mockedPrograms: ProgramProgressViewDTO[] = mockedCourses.map(course
 }))
 
 export const mockedAmssPagination: AmsViewResponse = {
-  content: mockedAmss,
-  pagination: {
-    page: 1,
-    pageSize: 10,
-    count: mockedAmss.length,
+  data: mockedAmss,
+  page: {
+    number: 1,
+    size: 10,
+    totalElements: mockedAmss.length,
     totalPages: 1,
   },
 }
@@ -190,50 +188,37 @@ export const mockedTracesConfiguration: TraceConfigurationInfo = {
   maxDayRemainingCritical: 7,
 }
 
-const ALL_MOCK_TRACES: TraceViewDTO[] = Array.from({ length: 24 }, (_, index) => {
-  const id = String(index + 1)
-  const letter = String.fromCharCode(65 + (index % 26))
-  const baseDate = startOfYear(new Date(2024, 0, 1))
-  const createdDate = addDays(baseDate, index)
-  const updatedDate = addDays(baseDate, index)
-  const deletionDate = addDays(baseDate, 330 + index)
+export function createMockedTracesViewResponse (size: number, totalElements: number, number: number): TracesViewResponse {
+  const mockedTraces: TraceViewDTO[] = []
+  for (let i = 1; i <= totalElements; i++) {
+    const rawDay = (i % 28) + 1
+    const dayNumber = rawDay < 10 ? `0${rawDay}` : `${rawDay}`
+    const rand = Math.floor(Math.random() * 31) + 1
+    const randomDayNumber = rand < 10 ? `0${rand}` : rand
+    const trace = {
+      id: `trace${i}`,
+      title: `Ma super trace numéro ${i}`,
+      status: TraceStatus.UNASSOCIATED,
+      createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
+      updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
+      deletionDate: `2026-07-${randomDayNumber}T10:42:00.000Z`
+    }
+    mockedTraces.push(trace)
+  }
+
+  const start = number * size
+  const end = start + size
+  const paginatedTraces = mockedTraces.slice(start, end)
+  const totalPages = Math.ceil(totalElements / size)
 
   return {
-    id,
-    title: `Unassigned Trace ${letter}`,
-    status: TraceStatus.UNASSOCIATED,
-    createdAt: format(createdDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\''),
-    updatedAt: format(updatedDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\''),
-    deletionDate: format(deletionDate, 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'')
+    data: { traces: paginatedTraces },
+    page: { size, totalElements, totalPages, number }
   }
-})
-
-function createMockTracesByPage (pageSize: number, totalItems: number = 24): Record<number, TracesViewResponse> {
-  const totalPages = Math.ceil(totalItems / pageSize)
-  const result: Record<number, TracesViewResponse> = {}
-
-  for (let pageNumber = 0; pageNumber < totalPages; pageNumber++) {
-    const startIndex = pageNumber * pageSize
-    const endIndex = Math.min(startIndex + pageSize, totalItems)
-    const pageTraces = ALL_MOCK_TRACES.slice(startIndex, endIndex)
-
-    result[pageNumber] = {
-      data: {
-        traces: pageTraces,
-        criticalCount: totalItems
-      },
-      page: {
-        number: pageNumber,
-        size: pageSize,
-        totalElements: totalItems,
-        totalPages
-      }
-    }
-  }
-
-  return result
 }
 
-export const mockedTracesByPage: Record<number, TracesViewResponse> = createMockTracesByPage(4, 12)
-export const mockedTracesByPageSize8: Record<number, TracesViewResponse> = createMockTracesByPage(8, 12)
-export const mockedTracesByPageSize12: Record<number, TracesViewResponse> = createMockTracesByPage(12, 12)
+export const mockedUnassignedTracesSummary: UnassignedTracesSummaryDTO = {
+  total: 20,
+  totalWarnings: 5,
+  totalCriticals: 2,
+}

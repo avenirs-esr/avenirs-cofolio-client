@@ -20,11 +20,11 @@ const breadcrumbLinks = computed(() => [
     :breadcrumb-links="breadcrumbLinks"
   />
   <div
-    v-if="amss && amss.content"
+    v-if="amss && amss.data"
     class="ams-view-container__body"
   >
     <StudentDetailedAmsCard
-      v-for="ams in amss.content"
+      v-for="ams in amss.data"
       :key="ams.id"
       :ams="ams"
     />

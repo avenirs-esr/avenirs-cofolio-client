@@ -22,7 +22,6 @@ const size = computed(() => `${propSize}rem`)
 <template>
   <div class="av-icon-vicon--container">
     <VIcon
-      class="icon-text--icon"
       v-bind="props"
       :scale="scale"
     />
