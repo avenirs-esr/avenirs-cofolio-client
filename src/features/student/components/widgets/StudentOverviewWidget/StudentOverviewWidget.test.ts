@@ -1,8 +1,8 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { BaseApiException } from '@/common/exceptions'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, type Ref } from 'vue'
@@ -28,7 +28,7 @@ const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
 
 function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
   const mockData: Ref<ProfileOverviewDTO> = ref(payload)
-  const mockError: Ref<null | null> = ref(null)
+  const mockError: Ref<null> = ref(null)
   const queryMockedData = {
     data: mockData,
     error: mockError
@@ -39,7 +39,8 @@ function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
 function mockUseStudentSummaryQueryUndefined () {
   const mockData: Ref<ProfileOverviewDTO | undefined> = ref(undefined)
   mockedUseStudentSummaryQuery.mockReturnValue({
-    data: mockData
+    data: mockData,
+    error: toRef(new BaseApiException('Student summary not found'))
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>)
 }
 
