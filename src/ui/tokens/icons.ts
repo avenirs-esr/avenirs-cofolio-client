@@ -35,7 +35,9 @@ export const MDI_ICONS = {
   SWAP_HORIZONTAL: 'mdi:swap-horizontal',
   SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
-  WARNING: 'mdi:warning-outline'
+  WARNING: 'mdi:warning-outline',
+  DOTS_VERTICAL: 'mdi:dots-vertical',
+  TRASH_CAN_OUTLINE: 'mdi:trash-can-outline',
 }
 
 export const RI_ICONS = {

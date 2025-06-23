@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { useModal } from '@/common/composables'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
@@ -14,13 +15,7 @@ const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED
 
 const { t } = useI18n()
 
-const showModal = ref(false)
-function displayModal () {
-  showModal.value = true
-}
-function hideModal () {
-  showModal.value = false
-}
+const { showModal, displayModal, hideModal } = useModal()
 
 const hoverBorderColor = ref('var(--dark-background-primary1)')
 </script>
@@ -95,12 +90,12 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 }
 
 .student-detailed-trace-card__body {
-  padding-top: 1.5rem;
+  padding-top: var(--spacing-md);
   justify-content: flex-end;
 }
 
 .student-detailed-trace-card__title {
-  position: relative
+  position: relative;
 }
 
 .student-detailed-trace-card__titlecontent {
@@ -128,7 +123,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   position: absolute;
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--other-border-skill-card);
   right: 0.75rem;
   top: 2rem;
