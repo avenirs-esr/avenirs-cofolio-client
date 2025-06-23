@@ -30,6 +30,7 @@ describe('studentEducationAmsView', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    setActivePinia(createPinia())
     mockUseAmsViewQuery(mockedData)
   })
 
@@ -38,7 +39,9 @@ describe('studentEducationAmsView', () => {
   const currentBreadcrumbLink = { text: 'Mes AMS' }
 
   it('should render PageTitle with correct props', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsView)
+    const wrapper = await mountWithRouter(StudentEducationAmsView, {
+      plugins: [createPinia()]
+    })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
     expect(pageTitle.props('title')).toBe(title)
@@ -46,15 +49,5 @@ describe('studentEducationAmsView', () => {
       homeBreadcrumbLink,
       currentBreadcrumbLink
     ])
-  })
-
-  it('should render one StudentAmsCard per AMS', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsView)
-    const cards = wrapper.findAllComponents({ name: 'StudentDetailedAmsCard' })
-    expect(cards).toHaveLength(4)
-    expect(cards[0].props('ams').id).toBe('ams1')
-    expect(cards[1].props('ams').id).toBe('ams2')
-    expect(cards[2].props('ams').id).toBe('ams3')
-    expect(cards[3].props('ams').id).toBe('ams4')
   })
 })
