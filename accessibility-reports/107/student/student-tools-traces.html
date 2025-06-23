@@ -103,7 +103,7 @@
                     <br />
                 </div>
             </div>
-            <h2>axe-core found <span class="badge badge-warning">16</span> violations</h2>
+            <h2>axe-core found <span class="badge badge-warning">8</span> violations</h2>
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -118,14 +118,6 @@
                 <tbody>
                     <tr>
                         <th scope="row"><a href="#1" class="card-link">1</a></th>
-                        <td>Buttons must have discernible text</td>
-                        <td>button-name</td>
-                        <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                        <td>critical</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><a href="#2" class="card-link">2</a></th>
                         <td>Interactive controls must not be nested</td>
                         <td>nested-interactive</td>
                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
@@ -139,257 +131,7 @@
                 <div class="card-body">
                     <div class="violationCardLine">
                         <p class="card-title">
-                            <a id="1">1.</a> Buttons must have discernible text
-                        </p>
-                        <a
-                            href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;button-name?application&#x3D;playwright"
-                            target="_blank"
-                            class="card-link violationCardTitleItem learnMore"
-                            >Learn more</a
-                        >
-                    </div>
-                    <div class="violationCardLine">
-                        <p class="card-subtitle mb-2 text-muted">button-name</p>
-                        <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
-                            WCAG 2 Level A, WCAG 4.1.2
-                        </p>
-                    </div>
-                    <div class="violationCardLine">
-                        <p class="card-text">Ensure buttons have discernible text</p>
-                        <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
-                            critical
-                        </p>
-                    </div>
-                    <div class="violationCardLine">
-                        <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
-                            Issue Tags: 
-                            <span class="badge bg-light text-dark"> cat.name-role-value </span>
-
-                            <span class="badge bg-light text-dark"> wcag2a </span>
-
-                            <span class="badge bg-light text-dark"> wcag412 </span>
-
-                            <span class="badge bg-light text-dark"> section508 </span>
-
-                            <span class="badge bg-light text-dark"> section508.22.a </span>
-
-                            <span class="badge bg-light text-dark"> TTv5 </span>
-
-                            <span class="badge bg-light text-dark"> TT6.a </span>
-
-                            <span class="badge bg-light text-dark"> EN-301-549 </span>
-
-                            <span class="badge bg-light text-dark"> EN-9.4.1.2 </span>
-
-                            <span class="badge bg-light text-dark"> ACT </span>
-                        </p>
-                    </div>
-                    <div class="violationNode">
-                        <table class="table table-sm table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="width: 2%">#</th>
-                                    <th style="width: 49%">Issue Description</th>
-                                    <th style="width: 49%">
-                                        To solve this violation, you need to...
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(1) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(2) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(3) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(4) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(5) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(6) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(7) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>
-                                        <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(8) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
-                                        <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-118397f5&#x3D;&quot;&quot; data-v-d778c2a2&#x3D;&quot;&quot; data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;fr-btn fr-btn--tertiary-no-outline fr-btn--sm inline-flex justify-center av-button av-button--variant-default av-button--theme-primary student-detailed-trace-card__settings-btn&quot; aria-disabled&#x3D;&quot;false&quot; variant&#x3D;&quot;DEFAULT&quot; theme&#x3D;&quot;PRIMARY&quot; isloading&#x3D;&quot;false&quot; style&#x3D;&quot;padding-inline: 0.5rem; --9dc54b86: 1;&quot;&gt;</code></pre>
-                                    </td>
-                                    <td>
-                                        <div class="wrapBreakWord">
-                                            <p>Fix any of the following:</p>
-                                            <ul class="text-muted">
-                                                <li>  Element does not have inner text that is visible to screen readers</li>
-                                                <li>  aria-label attribute does not exist or is empty</li>
-                                                <li>  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty</li>
-                                                <li>  Element has no title attribute</li>
-                                                <li>  Element does not have an implicit (wrapped) &lt;label&gt;</li>
-                                                <li>  Element does not have an explicit &lt;label&gt;</li>
-                                                <li>  Element&#39;s default semantics were not overridden with role&#x3D;&quot;none&quot; or role&#x3D;&quot;presentation&quot;</li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="card violationCard">
-                <div class="card-body">
-                    <div class="violationCardLine">
-                        <p class="card-title">
-                            <a id="2">2.</a> Interactive controls must not be nested
+                            <a id="1">1.</a> Interactive controls must not be nested
                         </p>
                         <a
                             href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;nested-interactive?application&#x3D;playwright"
@@ -444,9 +186,9 @@
                                     <td>1</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(1) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(1) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -456,16 +198,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(1) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(1) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(2) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(2) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -475,16 +217,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(2) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(2) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(3) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(3) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -494,16 +236,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(3) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(3) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(4) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(4) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -513,16 +255,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(4) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(4) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(5) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(5) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -532,16 +274,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(5) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(5) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(6) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(6) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -551,16 +293,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(6) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(6) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>7</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(7) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(7) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -570,16 +312,16 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(7) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(7) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>8</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(8) &gt; .student-detailed-trace-card</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(8) &gt; .student-detailed-trace-card</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;button data-v-3db1c5af&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;button data-v-3916956b&#x3D;&quot;&quot; class&#x3D;&quot;student-detailed-trace-card&quot;&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
@@ -589,7 +331,7 @@
                                             </ul>
                                         </div>
                                         <p><strong>Related node:</strong></p>
-                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;]:nth-child(8) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3db1c5af&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn.justify-center</code></pre>
+                                        <pre><code class="css text-wrap">.student-detailed-trace-card-wrapper[data-v-77d89010&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;]:nth-child(8) &gt; .student-detailed-trace-card &gt; .av-card[data-v-77685945&#x3D;&quot;&quot;][data-v-3916956b&#x3D;&quot;&quot;] &gt; .av-card__title[data-v-77685945&#x3D;&quot;&quot;] &gt; .student-detailed-trace-card__title[data-v-3916956b&#x3D;&quot;&quot;] &gt; .fr-btn--sm.student-detailed-trace-card__settings-btn[aria-label&#x3D;&quot;open trace settings&quot;]</code></pre>
                                     </td>
                                 </tr>
                             </tbody>
@@ -728,7 +470,7 @@
                                         <td>Buttons must have discernible text</td>
                                         <td>button-name</td>
                                         <td>WCAG 2 Level A, WCAG 4.1.2</td>
-                                        <td>20</td>
+                                        <td>28</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">15</th>
