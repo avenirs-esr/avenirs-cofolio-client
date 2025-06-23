@@ -34,7 +34,7 @@ export function useAmsViewQuery (
   })
 
   const amss = computed(() => query.data.value?.data ?? [])
-  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, size: 0, totalElements: 0, totalPages: 0 })
+  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,

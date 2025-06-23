@@ -1,7 +1,7 @@
-import type { TracesViewResponse, TraceViewDTO } from '@/api/avenir-esr'
+import type { TracesViewResponse, TraceViewDTO, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { Ref } from 'vue'
-import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
+import { createMockedTracesViewResponse, mockedUnassignedTracesSummary } from '@/features/student/queries/fixtures'
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student', 'traces']
@@ -33,11 +33,27 @@ export function useUnassignedTracesViewQuery (
   })
 
   const traces = computed(() => query.data.value?.data.traces ?? [])
-  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, size: 0, totalElements: 0, totalPages: 0 })
+  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,
     traces,
     pageInfo,
   }
+}
+
+export function useUnassignedTracesSummaryQuery (): UseQueryReturnType<UnassociatedTracesSummaryDTO, BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'unassigned', 'summary'])
+
+  return useQuery<UnassociatedTracesSummaryDTO, BaseApiException>({
+    queryKey,
+    queryFn: async (): Promise<UnassociatedTracesSummaryDTO> => {
+      /*
+      // TODO: Uncomment when the API is ready
+      const response = await getTracesUnassociatedSummary()
+      */
+      return mockedUnassignedTracesSummary
+    },
+    staleTime: TWO_MINUTES,
+  })
 }

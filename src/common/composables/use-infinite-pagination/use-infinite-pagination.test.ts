@@ -26,7 +26,7 @@ const mockDataByPage: Record<number, PaginatedResponse<TestingDTO[]>> = {
         progress: { startedActivities: 0, totalActivities: 5 },
       }
     ],
-    page: { number: 0, size: 10, totalElements: 30, totalPages: 3 }
+    page: { number: 0, pageSize: 10, totalElements: 30, totalPages: 3 }
   },
   1: {
     data: [
@@ -38,7 +38,7 @@ const mockDataByPage: Record<number, PaginatedResponse<TestingDTO[]>> = {
         progress: { startedActivities: 1, totalActivities: 5 },
       }
     ],
-    page: { number: 1, size: 10, totalElements: 30, totalPages: 3 }
+    page: { number: 1, pageSize: 10, totalElements: 30, totalPages: 3 }
   },
   2: {
     data: [
@@ -50,7 +50,7 @@ const mockDataByPage: Record<number, PaginatedResponse<TestingDTO[]>> = {
         progress: { startedActivities: 5, totalActivities: 5 },
       }
     ],
-    page: { number: 2, size: 10, totalElements: 30, totalPages: 3 }
+    page: { number: 2, pageSize: 10, totalElements: 30, totalPages: 3 }
   }
 }
 

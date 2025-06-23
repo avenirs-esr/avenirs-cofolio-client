@@ -2,10 +2,11 @@
 import { TracePageSizePicker } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
+import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
+import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'
 import { AvPagination, getPaginationPages } from '@/ui'
 import { useI18n } from 'vue-i18n'
-import StudentDetailedTraceCard from '../StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()
@@ -28,6 +29,7 @@ watch(pageSizeSelected, () => {
 
 <template>
   <div class="student-tools-traces-view-container">
+    <StudentToolsTracesViewNotice />
     <div class="top-pagination-container">
       <TracePageSizePicker />
       <AvPagination

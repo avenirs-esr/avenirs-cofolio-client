@@ -1,10 +1,15 @@
-import type { TracesViewResponse } from '@/api/avenir-esr'
+import type { TraceConfigurationInfo, TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { TracePageSizePicker } from '@/common/components'
-import { createMockedTracesViewResponse, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import {
+  createMockedTracesViewResponse,
+  useStudentTracesConfigurationQuery,
+  useUnassignedTracesSummaryQuery,
+  useUnassignedTracesViewQuery
+} from '@/features/student/queries'
 import { useTracesStore } from '@/store'
 import { mount } from '@vue/test-utils'
 import { createMockedTracesViewQueryReturn } from 'tests/mocks'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import StudentToolsTracesViewContainer from './StudentToolsTracesViewContainer.vue'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
@@ -13,6 +18,8 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
   return {
     ...actual,
     useUnassignedTracesViewQuery: vi.fn(),
+    useStudentTracesConfigurationQuery: vi.fn(),
+    useUnassignedTracesSummaryQuery: vi.fn(),
   }
 })
 
@@ -28,13 +35,47 @@ export function mockUseUnassignedTracesViewQueryUndefined () {
   mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
+const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
+
+export function mockUseUnassignedTracesSummaryQuery (payload: UnassociatedTracesSummaryDTO) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useUnassignedTracesSummaryQuery>
+  mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
+}
+
+const mockedUseStudentTracesConfigurationQuery = vi.mocked(useStudentTracesConfigurationQuery)
+
+function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo | null) {
+  const mockData = ref(payload)
+  const queryMockedData = {
+    data: mockData,
+  } as unknown as ReturnType<typeof useStudentTracesConfigurationQuery>
+  mockedUseStudentTracesConfigurationQuery.mockReturnValue(queryMockedData)
+}
+
 describe('studentToolsTracesViewContainer', () => {
   const mockedData = createMockedTracesViewResponse(4, 20, 1)
+
+  const mockedTracesConfiguration = {
+    maxDayRemaining: 30,
+    maxDayRemainingWarning: 15,
+    maxDayRemainingCritical: 7
+  }
+
+  const mockedUnassignedTracesSummary = {
+    total: 15,
+    totalWarnings: 5,
+    totalCriticals: 3
+  }
 
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
     mockUseUnassignedTracesViewQuery(mockedData)
+    mockUseStudentTracesConfigurationQuery(mockedTracesConfiguration)
+    mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
   })
 
   it('should render TracePageSizePicker', () => {
@@ -103,5 +144,16 @@ describe('studentToolsTracesViewContainer', () => {
     })
     const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
     expect(cards.length).toBe(0)
+  })
+
+  it('should notice component with correct props', () => {
+    const wrapper = mount(StudentToolsTracesViewContainer, {
+      global: {
+        stubs: ['StudentToolsTracesViewNotice']
+      }
+    })
+
+    const notice = wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' })
+    expect(notice.exists()).toBe(true)
   })
 })

@@ -1,8 +1,8 @@
-import type { TracesViewResponse } from '@/api/avenir-esr'
+import type { TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
-import { useUnassignedTracesViewQuery } from '@/features/student/queries/use-traces-view.query/use-traces-view.query'
+import { createMockedTracesViewResponse, mockedUnassignedTracesSummary } from '@/features/student/queries/fixtures'
+import { useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries/use-traces-view.query/use-traces-view.query'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 
@@ -40,5 +40,15 @@ describe('useTracesViewQuery', async () => {
     await flushPromises()
 
     expect(queryReturn.pageInfo.value.totalPages).toBe(5)
+  })
+
+  it('should return mockedUnassignedTracesSummary when API is not yet connected', async () => {
+    const { data } = mountQueryComposable<UseQueryReturnType<UnassociatedTracesSummaryDTO, BaseApiException>>(
+      () => useUnassignedTracesSummaryQuery()
+    )
+
+    await flushPromises()
+
+    expect(data.value).toEqual(mockedUnassignedTracesSummary)
   })
 })

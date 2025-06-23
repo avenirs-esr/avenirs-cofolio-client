@@ -312,6 +312,26 @@
         }
       }
     },
+    "/me/traces/unassociated/summary": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTracesUnassociatedSummary",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnassociatedTracesSummaryDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/overview": {
       "get": {
         "tags": [
@@ -481,8 +501,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 0
+              "format": "int32"
             }
           },
           {
@@ -491,8 +510,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 8
+              "format": "int32"
             }
           }
         ],
@@ -712,7 +730,7 @@
       "PageInfo": {
         "type": "object",
         "properties": {
-          "size": {
+          "pageSize": {
             "type": "integer",
             "format": "int32"
           },
@@ -731,7 +749,7 @@
         },
         "required": [
           "number",
-          "size",
+          "pageSize",
           "totalElements",
           "totalPages"
         ]
@@ -807,6 +825,28 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "UnassociatedTracesSummaryDTO": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalWarnings": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCriticals": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "total",
+          "totalCriticals",
+          "totalWarnings"
         ]
       },
       "TraceOverviewDTO": {
