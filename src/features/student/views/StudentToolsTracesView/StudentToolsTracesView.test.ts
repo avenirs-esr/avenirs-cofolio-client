@@ -50,7 +50,7 @@ function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo
 }
 
 describe('studentToolsTracesView', () => {
-  const mockedData = createMockedTracesViewResponse(4, 4, 1)
+  const mockedData = createMockedTracesViewResponse(4, 4, 0)
   const stubs = {
     PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
     StudentToolsTracesViewContainer: { name: 'StudentToolsTracesViewContainer', props: ['traces'], template: '<div />' },
