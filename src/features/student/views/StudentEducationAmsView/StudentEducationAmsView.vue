@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
-import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
+import { useAmsViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { useI18n } from 'vue-i18n'
 
-const { data: amss } = useAmsViewQuery(1, 1)
+const { data: amss } = useAmsViewQuery(ref(1), ref(1))
 const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [

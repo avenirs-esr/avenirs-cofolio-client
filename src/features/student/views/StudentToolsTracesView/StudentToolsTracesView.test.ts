@@ -26,7 +26,7 @@ export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
 }
 
 describe('studentToolsTracesView', () => {
-  const mockedData = createMockedTracesViewResponse(4, 4, 1)
+  const mockedData = createMockedTracesViewResponse(4, 4, 0)
 
   beforeEach(() => {
     vi.clearAllMocks()
