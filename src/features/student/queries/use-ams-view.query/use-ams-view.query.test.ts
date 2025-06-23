@@ -1,34 +1,45 @@
 import type { AmsViewResponse } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { mockedAmss } from '@/features/student/queries/fixtures'
+import { createMockedAmsViewResponse } from '@/features/student/queries/fixtures'
+import { useAmsViewQuery } from '@/features/student/queries/use-ams-view.query/use-ams-view.query'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
-import { unref } from 'vue'
-import { useAmsViewQuery } from './use-ams-view.query'
 
-describe('useStudentAmssQuery', () => {
-  it('should return mock data with correct structure', async () => {
+describe('useAmsViewQuery', async () => {
+  beforeEach(() => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('should return mocked amss data for given page and pageSize', async () => {
+    const mockedData = createMockedAmsViewResponse(4, 20, 1)
+
     const { data } = mountQueryComposable<UseQueryReturnType<AmsViewResponse, BaseApiException>>(
-      () => useAmsViewQuery(1, 4),
+      () => useAmsViewQuery(ref(1), ref(4))
     )
+
     await flushPromises()
-    const result = unref(data)
-    expect(result).toBeDefined()
-    expect(result).toHaveProperty('data')
-    expect(result).toHaveProperty('page')
-    expect(result!.data).toHaveLength(4)
-    expect(result!.data?.[0]).toHaveProperty('id')
-    expect(result!.data?.[0]).toHaveProperty('title')
-    expect(result!.data?.[0]).toHaveProperty('countSkills')
-    expect(result!.data?.[0]).toHaveProperty('countTraces')
-    expect(result!.data?.[0]).toHaveProperty('status')
-    expect(result!.data?.[0]).toHaveProperty('progress')
-    expect(result!.data).toEqual(mockedAmss)
-    expect(result!.page).toHaveProperty('number')
-    expect(result!.page).toHaveProperty('size')
-    expect(result!.page).toHaveProperty('totalElements')
-    expect(result!.page).toHaveProperty('totalPages')
+
+    expect(data.value).toEqual(mockedData)
+    expect(data.value?.data).toHaveLength(4)
+    expect(data.value?.page?.number).toBe(1)
+    expect(data.value?.page?.totalElements).toBe(20)
+    expect(data.value?.page?.totalPages).toBe(5)
+  })
+
+  it('should return correct pages array', async () => {
+    const page = ref(1)
+    const pageSize = ref(4)
+
+    const queryReturn = mountQueryComposable(() => useAmsViewQuery(page, pageSize))
+
+    await flushPromises()
+
+    expect(queryReturn.pageInfo.value.totalPages).toBe(5)
   })
 })

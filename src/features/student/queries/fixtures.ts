@@ -173,14 +173,48 @@ export const mockedPrograms: ProgramProgressViewDTO[] = mockedCourses.map(course
   }),
 }))
 
-export const mockedAmssPagination: AmsViewResponse = {
-  data: mockedAmss,
-  page: {
-    number: 1,
-    size: 10,
-    totalElements: mockedAmss.length,
-    totalPages: 1,
-  },
+function getRandomAmsStatus (): AmsStatus {
+  const statuses = Object.values(AmsStatus)
+  const randomIndex = Math.floor(Math.random() * statuses.length)
+  return statuses[randomIndex]
+}
+
+function getRandomAmsProgress (status: AmsStatus): AmsViewDTO['progress'] {
+  const totalActivities = Math.floor(Math.random() * 5) + 3
+  let startedActivities = totalActivities - 2
+  if (status === AmsStatus.NOT_STARTED) {
+    startedActivities = 0
+  }
+  else if (status === AmsStatus.COMPLETED) {
+    startedActivities = totalActivities
+  }
+  return { startedActivities, totalActivities }
+}
+
+export function createMockedAmsViewResponse (size: number, totalElements: number, number: number): AmsViewResponse {
+  const mockedAmss: AmsViewDTO[] = []
+  for (let i = 1; i <= totalElements; i++) {
+    const randomStatus = getRandomAmsStatus()
+    const ams = {
+      id: `ams${i}`,
+      title: `Ma super activité de mise en situation ${i}`,
+      countSkills: Math.floor(Math.random() * 10),
+      countTraces: Math.floor(Math.random() * 10),
+      status: randomStatus,
+      progress: getRandomAmsProgress(randomStatus)
+    }
+    mockedAmss.push(ams)
+  }
+
+  const start = number * size
+  const end = start + size
+  const paginatedAmss = mockedAmss.slice(start, end)
+  const totalPages = Math.ceil(totalElements / size)
+
+  return {
+    data: paginatedAmss,
+    page: { size, totalElements, totalPages, number }
+  }
 }
 
 export const mockedTracesConfiguration: TraceConfigInfoDTO = {
