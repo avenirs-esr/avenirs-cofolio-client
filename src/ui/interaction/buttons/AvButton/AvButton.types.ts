@@ -5,4 +5,5 @@ export type AvButtonProps = {
   theme?: 'PRIMARY' | 'SECONDARY'
   isLoading?: boolean
   iconScale?: number
+  noRadius?: boolean
 } & Pick<DsfrButtonProps, 'label' | 'disabled' | 'size' | 'icon' | 'iconRight' | 'iconOnly' | 'onClick'>
