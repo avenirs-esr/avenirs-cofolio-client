@@ -11,12 +11,15 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   iconRight: false,
   disabled: false,
   isLoading: false,
+  noRadius: false
 })
 
 const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
 const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
 const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)
+const radiusClass = computed(() => props.noRadius ? 'av-button--no-radius' : '')
+
 const computedSvgScale = computed(() => {
   if (props.iconScale && !Number.isNaN(props.iconScale)) {
     return props.iconScale
@@ -43,7 +46,7 @@ defineExpose({ computedSvgScale })
   <DsfrButton
     v-bind="props"
     class="av-button"
-    :class="[variantClass, themeClass]"
+    :class="[variantClass, themeClass, radiusClass]"
     :disabled="props.disabled || isLoading"
     :icon="iconToRender"
     :no-outline="props.variant === 'DEFAULT'"
@@ -84,7 +87,10 @@ defineExpose({ computedSvgScale })
 }
 
 .av-button--theme-secondary:hover {
-  background-color: var(--foreground-text1) !important;
-  color: white !important;
+  background-color: var(--light-background-neutral) !important;
+}
+
+.fr-btn.av-button--no-radius {
+  border-radius: 0 !important;
 }
 </style>
