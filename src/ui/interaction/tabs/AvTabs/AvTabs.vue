@@ -7,12 +7,13 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: number): void
 }>()
 
-const activeTab = ref(modelValue ?? 0)
+const slots = useSlots()
+const activeTab = ref(modelValue)
 
-const tabItems = useSlots().default?.() || []
+const tabItems = computed(() => slots.default?.() || [])
 
 function selectTab (offset: number) {
-  const totalTabs = tabItems.length
+  const totalTabs = tabItems.value.length
   activeTab.value = (activeTab.value + offset + totalTabs) % totalTabs
 }
 function selectPrevious () {
@@ -25,7 +26,7 @@ function selectFirst () {
   activeTab.value = 0
 }
 function selectLast () {
-  activeTab.value = tabItems.length - 1
+  activeTab.value = tabItems.value.length - 1
 }
 
 watch(() => modelValue, (val) => {
@@ -37,6 +38,8 @@ watch(() => modelValue, (val) => {
 watch(activeTab, (val) => {
   emit('update:modelValue', val)
 })
+
+defineExpose({ activeTab })
 </script>
 
 <template>
