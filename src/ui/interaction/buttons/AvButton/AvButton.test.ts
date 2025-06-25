@@ -1,8 +1,8 @@
 import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/ui'
+import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import AvButton from './AvButton.vue'
 
 describe('avButton', () => {
   it('should render with default props', () => {

@@ -1,5 +1,5 @@
+import { useModal } from '@/common/composables/use-modal/use-modal'
 import { beforeEach, describe, expect } from 'vitest'
-import { useModal } from './use-modal'
 
 describe('useModal', () => {
   describe('given a fresh modal instance', () => {

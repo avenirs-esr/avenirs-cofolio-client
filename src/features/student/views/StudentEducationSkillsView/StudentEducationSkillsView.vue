@@ -3,8 +3,8 @@ import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentEducationSkillsViewContainer from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 import { useI18n } from 'vue-i18n'
-import StudentEducationSkillsViewContainer from './components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 
 const { t } = useI18n()
 const { data: courses, error } = useProgramProgressViewQuery()

@@ -1,8 +1,8 @@
 import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import StudentSkillCard from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillCard/StudentSkillCard.vue'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
-import StudentSkillCard from './StudentSkillCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrBadge: {

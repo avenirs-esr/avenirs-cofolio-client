@@ -1,2 +1,1 @@
-export type { StudentSkillCardProps } from './StudentSkillCard.types'
-export { default as StudentSkillCard } from './StudentSkillCard.vue'
+export { default as StudentSkillCard, type StudentSkillCardProps } from './StudentSkillCard.vue'

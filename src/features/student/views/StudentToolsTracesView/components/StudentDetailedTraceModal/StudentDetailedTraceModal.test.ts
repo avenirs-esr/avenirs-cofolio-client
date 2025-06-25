@@ -1,8 +1,8 @@
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import StudentDetailedTraceModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
 import { MDI_ICONS } from '@/ui'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, vi } from 'vitest'
-import StudentDetailedTraceModal from './StudentDetailedTraceModal.vue'
 
 const navigateToStudentMailbox = vi.fn()
 

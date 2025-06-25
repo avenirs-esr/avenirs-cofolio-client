@@ -1,7 +1,7 @@
+import { createCustomFetch } from '@/api/fetch/fetch-factory/fetch-factory'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import { BaseApiErrorCode, BaseApiException } from '@/common/exceptions'
 import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
-import { createCustomFetch } from './fetch-factory'
 
 describe('createCustomFetch', () => {
   const baseUrl = 'https://avenir.esr.example.com'

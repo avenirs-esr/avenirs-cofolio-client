@@ -1,2 +1,1 @@
-export type { AvHeaderMenuLinksProps } from './AvHeaderMenuLinks.types'
-export { default as AvHeaderMenuLinks } from './AvHeaderMenuLinks.vue'
+export { default as AvHeaderMenuLinks, type AvHeaderMenuLinksProps } from './AvHeaderMenuLinks.vue'

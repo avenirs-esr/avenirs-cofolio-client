@@ -1,6 +1,6 @@
+import AvBadge from '@/ui/badges/AvBadge/AvBadge.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
-import AvBadge from './AvBadge.vue'
 
 describe('avBadge', () => {
   const defaultProps = {

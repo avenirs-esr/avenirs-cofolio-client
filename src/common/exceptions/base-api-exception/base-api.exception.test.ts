@@ -1,6 +1,6 @@
+import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
 import { describe, expect, it } from 'vitest'
-import { BaseApiException } from './base-api.exception'
 
 describe('baseApiException', () => {
   it('should construct with all properties', () => {

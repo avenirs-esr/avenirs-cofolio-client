@@ -1,11 +1,11 @@
 import type { BaseApiErrorBody } from '@/common/exceptions/types'
 import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
-import { describe } from 'vitest'
 import {
   createBasApiExceptionFromResponseBody,
   createBaseApiExceptionFromUnknownError
-} from './utils'
+} from '@/common/exceptions/utils/utils'
+import { describe } from 'vitest'
 
 describe('exceptions utils', () => {
   describe('createBasApiExceptionFromResponseBody', () => {

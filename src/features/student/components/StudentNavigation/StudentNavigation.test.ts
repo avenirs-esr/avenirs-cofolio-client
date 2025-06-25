@@ -1,10 +1,10 @@
+import StudentNavigation from '@/features/student/components/StudentNavigation/StudentNavigation.vue'
 import { useStudentApcAccess } from '@/features/student/composables'
 import { studentEducationAmsRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
 import { registerNavigationLinkKey } from '@/ui'
 import { mount } from '@vue/test-utils'
 import { vi } from 'vitest'
-import StudentNavigation from './StudentNavigation.vue'
 
 vi.mock('@/features/student/composables', () => ({
   useStudentApcAccess: vi.fn(),

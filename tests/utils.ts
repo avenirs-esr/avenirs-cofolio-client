@@ -3,18 +3,18 @@ import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
 import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
-import { mockAddErrorMessage } from 'tests/mocks'
+import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type MockedFunction } from 'vitest'
 import { type Component, createApp } from 'vue'
-import { createMockQueryError } from './mocks'
 
 interface MountComposableOptions {
   useTanstack?: boolean
   useI18n?: boolean
+  usePinia?: boolean
   queryClientConfig?: QueryClientConfig
 }
 
-function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, queryClientConfig = {} }: MountComposableOptions): T {
+function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): T {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -24,6 +24,11 @@ function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false
   })
   if (useI18n) {
     app.use(i18n)
+  }
+  if (usePinia) {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    app.use(pinia)
   }
   const queryClient = new QueryClient(queryClientConfig)
   if (useTanstack) {

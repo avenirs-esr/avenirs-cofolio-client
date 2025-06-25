@@ -1,6 +1,6 @@
 import { studentEducationAmsRoute, studentHomeRoute } from '@/features/student/routes'
+import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import { mount } from '@vue/test-utils'
-import StudentAmsView from './StudentAmsView.vue'
 
 describe('studentAmsView', () => {
   const stubs = {

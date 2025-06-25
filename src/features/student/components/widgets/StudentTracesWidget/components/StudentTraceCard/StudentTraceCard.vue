@@ -1,11 +1,16 @@
 <script lang="ts" setup>
-import type { StudentTraceCardProps } from './StudentTraceCard.types'
+import type { RouteLocationRaw } from 'vue-router'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
-import { TraceType } from '@/types'
+import { type TraceOverviewDTO, TraceType } from '@/types'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@/ui'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
+
+export interface StudentTraceCardProps {
+  trace: TraceOverviewDTO
+  to?: RouteLocationRaw
+}
 
 const { trace, to = studentToolsTracesRoute } = defineProps<StudentTraceCardProps>()
 const { name, skillCount, activityCount, type, course } = trace

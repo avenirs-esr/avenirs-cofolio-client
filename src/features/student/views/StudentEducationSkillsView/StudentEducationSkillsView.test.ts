@@ -5,9 +5,20 @@ import type { Ref } from 'vue'
 import { useProgramProgressViewQuery } from '@/features/student/queries'
 import { mockedPrograms } from '@/features/student/queries/fixtures'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import { mount, RouterLinkStub } from '@vue/test-utils'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentEducationSkillsView from './StudentEducationSkillsView.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
@@ -57,7 +68,8 @@ describe('studentEducationSkillsView', () => {
     mockUseProgramProgressViewQuery([mockedPrograms[0]])
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
-        stubs
+        stubs,
+        plugins: [createPinia()]
       }
     })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
@@ -72,7 +84,8 @@ describe('studentEducationSkillsView', () => {
   it('should render PageTitle with plural title', () => {
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
-        stubs
+        stubs,
+        plugins: [createPinia()]
       }
     })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
@@ -89,7 +102,8 @@ describe('studentEducationSkillsView', () => {
     mockUseProgramProgressViewQuery([])
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
-        stubs
+        stubs,
+        plugins: [createPinia()]
       }
     })
     const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
@@ -102,7 +116,8 @@ describe('studentEducationSkillsView', () => {
     mockUseProgramProgressViewQuery([mockedPrograms[0]])
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
-        stubs
+        stubs,
+        plugins: [createPinia()]
       }
     })
     const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
@@ -113,7 +128,8 @@ describe('studentEducationSkillsView', () => {
   it('should render 2 StudentEducationSkillsViewContainer with 2 course', () => {
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
-        stubs
+        stubs,
+        plugins: [createPinia()]
       }
     })
     const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
@@ -124,6 +140,10 @@ describe('studentEducationSkillsView', () => {
   testUseBaseApiExceptionToast<ProgramProgressViewDTO[]>({
     mockedUseQuery: mockedUseProgramProgressViewQuery,
     payload: [],
-    mountComponent: () => mount(StudentEducationSkillsView)
+    mountComponent: () => mount(StudentEducationSkillsView, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

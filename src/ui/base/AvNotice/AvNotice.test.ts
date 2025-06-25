@@ -1,6 +1,6 @@
+import AvNotice from '@/ui/base/AvNotice/AvNotice.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvNotice from './AvNotice.vue'
 
 describe('avNotice', () => {
   it('displays title correctly', () => {

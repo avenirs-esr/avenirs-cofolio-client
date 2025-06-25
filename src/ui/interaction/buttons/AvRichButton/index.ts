@@ -1,2 +1,1 @@
-export type { AvRichButtonProps } from './AvRichButton.types'
-export { default as AvRichButton } from './AvRichButton.vue'
+export { default as AvRichButton, type AvRichButtonProps } from './AvRichButton.vue'

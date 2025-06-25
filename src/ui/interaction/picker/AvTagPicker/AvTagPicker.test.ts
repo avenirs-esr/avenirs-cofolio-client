@@ -1,6 +1,6 @@
+import AvTagPicker from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvTagPicker from './AvTagPicker.vue'
 
 describe('avButton', () => {
   const stubs = {

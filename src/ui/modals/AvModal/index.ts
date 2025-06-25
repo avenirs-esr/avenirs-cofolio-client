@@ -1,2 +1,1 @@
-export type { AvModalProps } from './AvModal.types'
-export { default as AvModal } from './AvModal.vue'
+export { default as AvModal, type AvModalProps } from './AvModal.vue'

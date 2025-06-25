@@ -1,5 +1,5 @@
+import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import { describe, expect, it, vi } from 'vitest'
-import { FetchInterceptorManager } from './fetch-interceptor-manager'
 
 describe('fetchInterceptorManager', () => {
   const dummyConfig = { baseUrl: 'https://avenir.esr.example.com', defaultHeaders: {} }

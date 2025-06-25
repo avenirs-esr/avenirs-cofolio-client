@@ -8,6 +8,16 @@ import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { mockedCourses } from '@/features/student/queries/fixtures'
 import {
+  useStudentCoursesSummaryQuery,
+  useStudentDeliverablesSummaryQuery,
+  useStudentEventsSummaryQuery,
+  useStudentHeaderSummaryQuery,
+  useStudentPagesSummaryQuery,
+  useStudentResumesSummaryQuery,
+  useStudentSummaryQuery,
+  useStudentTracesSummaryQuery
+} from '@/features/student/queries/use-student-summary.query/use-student-summary.query'
+import {
   type DeliverableOverviewDTO,
   type EventOverviewDTO,
   type PageOverviewDTO,
@@ -20,16 +30,6 @@ import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { unref } from 'vue'
-import {
-  useStudentCoursesSummaryQuery,
-  useStudentDeliverablesSummaryQuery,
-  useStudentEventsSummaryQuery,
-  useStudentHeaderSummaryQuery,
-  useStudentPagesSummaryQuery,
-  useStudentResumesSummaryQuery,
-  useStudentSummaryQuery,
-  useStudentTracesSummaryQuery
-} from './use-student-summary.query'
 
 describe('useStudentSummaryQuery', () => {
   const mockedData = {

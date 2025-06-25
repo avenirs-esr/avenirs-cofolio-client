@@ -1,5 +1,5 @@
+import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
 import { mount } from '@vue/test-utils'
-import StudentHomeView from './StudentHomeView.vue'
 
 vi.mock('@/features/student/components', () => ({
   StudentDeliverablesWidget: { name: 'StudentDeliverablesWidget', template: '<div />' },

@@ -1,5 +1,5 @@
+import StudentProfileModal from '@/features/student/components/modals/StudentProfileModal/StudentProfileModal.vue'
 import { mount } from '@vue/test-utils'
-import StudentProfileModal from './StudentProfileModal.vue'
 
 vi.mock('@/ui', async () => {
   const actual = await vi.importActual<typeof import('@/ui')>('@/ui')

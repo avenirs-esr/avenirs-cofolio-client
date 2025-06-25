@@ -3,9 +3,20 @@ import type { EventOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
+import StudentEventsWidget from '@/features/student/components/widgets/StudentEventsWidget/StudentEventsWidget.vue'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentEventsWidget from './StudentEventsWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentEvents = vi.fn()
 
@@ -80,7 +91,11 @@ describe('studentEventsWidget', () => {
   })
 
   it('should only display up to 3 future events sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentEventsWidget)
+    const wrapper = await mountWithRouter(StudentEventsWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -100,7 +115,11 @@ describe('studentEventsWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentEventsWidget)
+    const wrapper = await mountWithRouter(StudentEventsWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 
@@ -110,6 +129,10 @@ describe('studentEventsWidget', () => {
   testUseBaseApiExceptionToast<EventOverviewDTO[]>({
     mockedUseQuery: mockedUseStudentEventsSummaryQuery,
     payload: [],
-    mountComponent: () => mountWithRouter(StudentEventsWidget)
+    mountComponent: () => mountWithRouter(StudentEventsWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { AvModalProps } from '@/ui'
+import type { DsfrModalProps } from '@gouvminint/vue-dsfr'
 import type { Slot } from 'vue'
+
+export type AvModalProps = DsfrModalProps
 
 const props = defineProps<AvModalProps>()
 defineSlots<{

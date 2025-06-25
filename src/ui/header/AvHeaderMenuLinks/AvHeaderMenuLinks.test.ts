@@ -1,6 +1,6 @@
+import AvHeaderMenuLinks from '@/ui/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import AvHeaderMenuLinks from './AvHeaderMenuLinks.vue'
 
 describe('avHeaderMenuLinks', () => {
   const mockLinks = [

@@ -1,5 +1,5 @@
+import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
 import { mount } from '@vue/test-utils'
-import StudentAboutView from './StudentAboutView.vue'
 
 describe('studentAboutView', () => {
   it('should render h1 properly', () => {

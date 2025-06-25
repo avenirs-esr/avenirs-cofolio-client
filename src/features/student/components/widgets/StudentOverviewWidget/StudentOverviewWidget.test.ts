@@ -3,10 +3,21 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { BaseApiException } from '@/common/exceptions'
+import StudentOverviewWidget from '@/features/student/components/widgets/StudentOverviewWidget/StudentOverviewWidget.vue'
 import { useStudentSummaryQuery } from '@/features/student/queries'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, type Ref } from 'vue'
-import StudentOverviewWidget from './StudentOverviewWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentDeliverables = vi.fn()
 
@@ -60,22 +71,38 @@ describe('studentOverviewWidget', () => {
   })
 
   it('should render the full name capitalized', async () => {
-    const wrapper = await mountWithRouter(StudentOverviewWidget)
+    const wrapper = await mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     expect(wrapper.text()).toContain(`${capitalize(studentSummary.firstname)} ${capitalize(studentSummary.lastname)}`)
   })
 
   it('should display the bio', async () => {
-    const wrapper = await mountWithRouter(StudentOverviewWidget)
+    const wrapper = await mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     expect(wrapper.text()).toContain(studentSummary.bio)
   })
 
   it('should render 4 rich buttons', async () => {
-    const wrapper = await mountWithRouter(StudentOverviewWidget)
+    const wrapper = await mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(4)
   })
 
   it('should show profile and cover images with correct src', async () => {
-    const wrapper = await mountWithRouter(StudentOverviewWidget)
+    const wrapper = await mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const images = wrapper.findAll('img')
     expect(images[0].attributes('src')).toBe(studentSummary.coverPicture)
     expect(images[1].attributes('src')).toBe(studentSummary.profilePicture)
@@ -83,13 +110,21 @@ describe('studentOverviewWidget', () => {
 
   it('should render nothing when studentSummary is undefined', async () => {
     mockUseStudentSummaryQueryUndefined()
-    const wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget)
+    const wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     expect(wrapper.find('*').exists()).toBe(false)
     expect(wrapper.vm.fullName).toBe(undefined)
   })
 
   it('should emit click on AvRichButtons', async () => {
-    const wrapper = await mountWithRouter(StudentOverviewWidget)
+    const wrapper = await mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
     const shareResumeButton = wrapper.findComponent('.av-rich-button--share-resume')
     const shareCofolio = wrapper.findComponent('.av-rich-button--share-cofolio')
@@ -109,6 +144,10 @@ describe('studentOverviewWidget', () => {
   testUseBaseApiExceptionToast<ProfileOverviewDTO>({
     mockedUseQuery: mockedUseStudentSummaryQuery,
     payload: studentSummary,
-    mountComponent: () => mountWithRouter(StudentOverviewWidget)
+    mountComponent: () => mountWithRouter(StudentOverviewWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

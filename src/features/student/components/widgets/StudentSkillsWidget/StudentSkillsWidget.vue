@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
+import { StudentSkillsWidgetContainer } from '@/features/student/components/widgets/StudentSkillsWidget/components'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
-import { StudentSkillsWidgetContainer } from './components'
 
 const { data: courses, error } = useStudentCoursesSummaryQuery()
 useBaseApiExceptionToast(error)

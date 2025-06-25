@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import type { AvButtonProps } from '@/ui/interaction/buttons/AvButton'
-import type { VIcon } from '@gouvminint/vue-dsfr'
+import type { DsfrButtonProps, VIcon } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/ui/tokens/icons'
+
+export type AvButtonProps = {
+  variant?: 'DEFAULT' | 'OUTLINED'
+  theme?: 'PRIMARY' | 'SECONDARY'
+  isLoading?: boolean
+  iconScale?: number
+  noRadius?: boolean
+} & Pick<DsfrButtonProps, 'label' | 'disabled' | 'size' | 'icon' | 'iconRight' | 'iconOnly' | 'onClick'>
 
 const props = withDefaults(defineProps<AvButtonProps>(), {
   variant: 'DEFAULT',

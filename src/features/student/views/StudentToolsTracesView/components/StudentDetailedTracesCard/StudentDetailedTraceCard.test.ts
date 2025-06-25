@@ -1,7 +1,7 @@
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import StudentDetailedTraceCard from './StudentDetailedTraceCard.vue'
 
 describe('studentDetailedTraceCard', () => {
   const stubs = {
