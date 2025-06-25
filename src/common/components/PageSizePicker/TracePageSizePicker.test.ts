@@ -1,47 +1,68 @@
+import type { AvTagPickerOption } from '@/ui'
 import TracePageSizePicker from '@/common/components/PageSizePicker/TracePageSizePicker.vue'
 import { PageSizes } from '@/config'
 import { useTracesStore } from '@/store'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect } from 'vitest'
 
-describe('tracePageSizePickerWrapper', () => {
-  beforeEach(() => {
-    setActivePinia(createPinia())
-  })
+describe('tracePageSizePicker', () => {
+  describe('given a trace page size picker component', () => {
+    let wrapper: VueWrapper
+    let store: ReturnType<typeof useTracesStore>
 
-  it('should render AvPageSizePicker with correct props', () => {
-    const wrapper = mount(TracePageSizePicker, {
-      global: {
-        plugins: [createPinia()],
-      },
+    beforeEach(() => {
+      const pinia = createPinia()
+      setActivePinia(pinia)
+      wrapper = mount(TracePageSizePicker, {
+        global: {
+          plugins: [pinia],
+        },
+      })
+      store = useTracesStore()
     })
 
-    const store = useTracesStore()
-    expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(true)
-    expect(store.pageSizeSelected).toBeDefined()
-  })
+    describe('when the component is rendered', () => {
+      it('then the AvPageSizePicker should be present', () => {
+        expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(true)
+      })
 
-  it('should call handleSelectChange and update store when a valid page size is selected', async () => {
-    const pinia = createPinia()
-    setActivePinia(pinia)
-    const wrapper = mount(TracePageSizePicker, {
-      global: {
-        plugins: [pinia],
-      },
+      it('then the store pageSizeSelected should be defined', () => {
+        expect(store.pageSizeSelected).toBeDefined()
+      })
     })
 
-    const store = useTracesStore()
-    const validValue = PageSizes.TWELVE
-    const invalidValue = 99
+    describe('when a valid page size is selected', () => {
+      const validValue = {
+        label: PageSizes.TWELVE.toString(),
+        value: PageSizes.TWELVE.toString()
+      }
 
-    const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+      beforeEach(async () => {
+        const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+        await picker.props('handleSelectChange')(validValue)
+      })
 
-    await picker.props('handleSelectChange')(validValue)
-    expect(store.pageSizeSelected).toBe(validValue)
+      it('then the store should update with the selected page size', () => {
+        expect(store.pageSizeSelected).toBe(Number(validValue.value))
+      })
+    })
 
-    store.pageSizeSelected = PageSizes.FOUR
-    await picker.props('handleSelectChange')(invalidValue)
-    expect(store.pageSizeSelected).toBe(4)
+    describe('when an invalid page size is selected', () => {
+      const invalidValue: AvTagPickerOption = {
+        label: '99',
+        value: '99'
+      }
+
+      beforeEach(async () => {
+        store.pageSizeSelected = PageSizes.FOUR
+        const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+        await picker.props('handleSelectChange')(invalidValue.value)
+      })
+
+      it('then the store should maintain the previous valid value', () => {
+        expect(store.pageSizeSelected).toBe(4)
+      })
+    })
   })
 })

@@ -148,6 +148,9 @@
           }
         },
         "amsListContainer": {
+          "programProgressSelector": {
+            "label": "My education"
+          },
           "pagination": {
             "bottom": {
               "ariaLabel": "Bottom pagination"

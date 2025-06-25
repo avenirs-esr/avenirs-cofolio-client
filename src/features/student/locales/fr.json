@@ -148,6 +148,9 @@
           }
         },
         "amsListContainer": {
+          "programProgressSelector": {
+            "label": "Mes formations"
+          },
           "pagination": {
             "bottom": {
               "ariaLabel": "Pagination basse"

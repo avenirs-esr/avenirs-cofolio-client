@@ -1,47 +1,68 @@
+import type { AvTagPickerOption } from '@/ui'
 import AmsPageSizePicker from '@/common/components/PageSizePicker/AmsPageSizePicker.vue'
 import { PageSizes } from '@/config'
 import { useAmsStore } from '@/store'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect } from 'vitest'
 
-describe('amsPageSizePickerWrapper', () => {
-  beforeEach(() => {
-    setActivePinia(createPinia())
-  })
+describe('amsPageSizePicker', () => {
+  describe('given a page size picker component', () => {
+    let wrapper: VueWrapper
+    let store: ReturnType<typeof useAmsStore>
 
-  it('should render AvPageSizePicker with correct props', () => {
-    const wrapper = mount(AmsPageSizePicker, {
-      global: {
-        plugins: [createPinia()],
-      },
+    beforeEach(() => {
+      const pinia = createPinia()
+      setActivePinia(pinia)
+      wrapper = mount(AmsPageSizePicker, {
+        global: {
+          plugins: [pinia],
+        },
+      })
+      store = useAmsStore()
     })
 
-    const store = useAmsStore()
-    expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(true)
-    expect(store.pageSizeSelected).toBeDefined()
-  })
+    describe('when the component is rendered', () => {
+      it('then the AvPageSizePicker should be present', () => {
+        expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(true)
+      })
 
-  it('should call handleSelectChange and update store when a valid page size is selected', async () => {
-    const pinia = createPinia()
-    setActivePinia(pinia)
-    const wrapper = mount(AmsPageSizePicker, {
-      global: {
-        plugins: [pinia],
-      },
+      it('then the store pageSizeSelected should be defined', () => {
+        expect(store.pageSizeSelected).toBeDefined()
+      })
     })
 
-    const store = useAmsStore()
-    const validValue = PageSizes.TWELVE
-    const invalidValue = 99
+    describe('when a valid page size is selected', () => {
+      const validValue: AvTagPickerOption = {
+        label: PageSizes.TWELVE.toString(),
+        value: PageSizes.TWELVE.toString()
+      }
 
-    const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+      beforeEach(async () => {
+        const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+        await picker.props('handleSelectChange')(validValue)
+      })
 
-    await picker.props('handleSelectChange')(validValue)
-    expect(store.pageSizeSelected).toBe(validValue)
+      it('then the store should update with the selected page size', () => {
+        expect(store.pageSizeSelected).toBe(Number(validValue.value))
+      })
+    })
 
-    store.pageSizeSelected = PageSizes.FOUR
-    await picker.props('handleSelectChange')(invalidValue)
-    expect(store.pageSizeSelected).toBe(4)
+    describe('when an invalid page size is selected', () => {
+      const invalidValue: AvTagPickerOption = {
+        label: '99',
+        value: '99'
+      }
+
+      beforeEach(async () => {
+        store.pageSizeSelected = PageSizes.FOUR
+        const picker = wrapper.findComponent({ name: 'AvPageSizePicker' })
+        await picker.props('handleSelectChange')(invalidValue)
+      })
+
+      it('then the store should maintain the previous valid value', () => {
+        expect(store.pageSizeSelected).toBe(4)
+      })
+    })
   })
 })

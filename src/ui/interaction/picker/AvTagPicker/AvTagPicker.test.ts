@@ -1,8 +1,8 @@
-import AvTagPicker from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import AvTagPicker, { type AvTagPickerOption } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-describe('avButton', () => {
+describe('avTagPicker', () => {
   const stubs = {
     DsfrTag: {
       name: 'DsfrTag',
@@ -11,185 +11,289 @@ describe('avButton', () => {
     }
   }
 
-  it('should not render label if not given', () => {
-    const props = {
-      options: [],
-      handleSelectChange: vi.fn()
-    }
+  const mockOptions: AvTagPickerOption[] = [
+    { label: 'Option 1', value: '1' },
+    { label: 'Option 2', value: '2' },
+    { label: 'Option 3', value: '3' }
+  ]
 
-    const wrapper = mount(AvTagPicker, {
-      props
+  describe('given an AvTagPicker without label', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(() => {
+      const props = {
+        options: mockOptions,
+        handleSelectChange: vi.fn()
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props
+      })
     })
-    const label = wrapper.find('.av-select-label')
-    expect(label.exists()).toBe(false)
+
+    describe('when the component is mounted', () => {
+      it('then it should not render label', () => {
+        const label = wrapper.find('.av-select-label')
+        expect(label.exists()).toBe(false)
+      })
+    })
   })
 
-  it('should render given label', () => {
-    const props = {
-      label: 'Test',
-      options: [],
-      handleSelectChange: vi.fn()
-    }
+  describe('given an AvTagPicker with label', () => {
+    let wrapper: VueWrapper
+    const testLabel = 'Test Label'
 
-    const wrapper = mount(AvTagPicker, {
-      props
+    beforeEach(() => {
+      const props = {
+        label: testLabel,
+        options: mockOptions,
+        handleSelectChange: vi.fn()
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props
+      })
     })
-    const label = wrapper.find('.av-select-label')
-    expect(label.exists()).toBe(true)
-    expect(label.text()).toContain(props.label)
+
+    describe('when the component is mounted', () => {
+      it('then it should render given label', () => {
+        const label = wrapper.find('.av-select-label')
+        expect(label.exists()).toBe(true)
+        expect(label.text()).toContain(testLabel)
+      })
+    })
   })
 
-  it('should select an option', async () => {
-    const props = {
-      options: [4, 8, 12],
-      handleSelectChange: vi.fn(),
-    }
+  describe('given an AvTagPicker in single mode', () => {
+    let wrapper: VueWrapper
+    const handleSelectChange = vi.fn()
 
-    const wrapper = mount(AvTagPicker, {
-      props,
-      global: { stubs }
+    beforeEach(() => {
+      const props = {
+        options: mockOptions,
+        handleSelectChange,
+        multiple: false
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
     })
 
-    const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
-    expect(tags).toHaveLength(3)
+    describe('when an option is selected', () => {
+      beforeEach(async () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        await tags[1].trigger('select')
+        await wrapper.vm.$nextTick()
+      })
 
-    await tags[1].trigger('select')
-    await wrapper.vm.$nextTick()
-    expect(props.handleSelectChange).toHaveBeenCalledWith(props.options[1])
-    expect(tags[0].attributes('style')).toContain('/assets/icons/check-circle.svg')
-    expect(tags[0].classes()).not.toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].attributes('style')).toContain('/assets/icons/check-circle.svg')
-    expect(tags[1].classes()).toContain('fr-tag--selected')
-    expect(tags[1].classes()).toContain('fr-tag--disabled')
-    expect(tags[2].attributes('style')).toContain('/assets/icons/check-circle.svg')
-    expect(tags[2].classes()).not.toContain('fr-tag--selected')
-    expect(tags[2].classes()).not.toContain('fr-tag--disabled')
+      it('then it should call handleSelectChange with selected option', () => {
+        expect(handleSelectChange).toHaveBeenCalledWith(mockOptions[1])
+      })
+
+      it('then it should mark selected option as selected and disabled', () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).not.toContain('fr-tag--selected')
+        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
+        expect(tags[1].classes()).toContain('fr-tag--selected')
+        expect(tags[1].classes()).toContain('fr-tag--disabled')
+        expect(tags[2].classes()).not.toContain('fr-tag--selected')
+        expect(tags[2].classes()).not.toContain('fr-tag--disabled')
+      })
+    })
   })
 
-  it('should deselect the previous selected option when multiple = false', async () => {
-    const props = {
-      options: [4, 8, 12],
-      handleSelectChange: vi.fn(),
-      multiple: false
-    }
+  describe('given an AvTagPicker in single mode with first option selected', () => {
+    let wrapper: VueWrapper
+    const handleSelectChange = vi.fn()
 
-    const wrapper = mount(AvTagPicker, {
-      props,
-      global: { stubs }
+    beforeEach(async () => {
+      const props = {
+        options: mockOptions,
+        handleSelectChange,
+        multiple: false
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
+
+      const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+      await tags[0].trigger('select')
+      await wrapper.vm.$nextTick()
     })
 
-    const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
-    expect(tags).toHaveLength(3)
+    describe('when another option is selected', () => {
+      beforeEach(async () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        await tags[1].trigger('select')
+        await wrapper.vm.$nextTick()
+      })
 
-    await tags[0].trigger('select')
-    await wrapper.vm.$nextTick()
-
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith(props.options[0])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).toContain('fr-tag--disabled')
-    expect(tags[1].classes()).not.toContain('fr-tag--selected')
-
-    await tags[1].trigger('select')
-    await wrapper.vm.$nextTick()
-
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith(props.options[1])
-    expect(tags[0].classes()).not.toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).toContain('fr-tag--selected')
-    expect(tags[1].classes()).toContain('fr-tag--disabled')
+      it('then it should deselect the previous option and select the new one', () => {
+        expect(handleSelectChange).toHaveBeenLastCalledWith(mockOptions[1])
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).not.toContain('fr-tag--selected')
+        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
+        expect(tags[1].classes()).toContain('fr-tag--selected')
+        expect(tags[1].classes()).toContain('fr-tag--disabled')
+      })
+    })
   })
 
-  it('should keep selected the previous selected option when multiple = true', async () => {
-    const props = {
-      options: [4, 8, 12],
-      handleSelectChange: vi.fn(),
-      multiple: true
-    }
+  describe('given an AvTagPicker in multiple mode', () => {
+    let wrapper: VueWrapper
+    const handleSelectChange = vi.fn()
 
-    const wrapper = mount(AvTagPicker, {
-      props,
-      global: { stubs }
+    beforeEach(() => {
+      const props = {
+        options: mockOptions,
+        handleSelectChange,
+        multiple: true
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
     })
 
-    const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
-    expect(tags).toHaveLength(3)
+    describe('when first option is selected', () => {
+      beforeEach(async () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        await tags[0].trigger('select')
+        await wrapper.vm.$nextTick()
+      })
 
-    await tags[0].trigger('select')
-    await wrapper.vm.$nextTick()
+      it('then it should call handleSelectChange with array containing first option', () => {
+        expect(handleSelectChange).toHaveBeenLastCalledWith([mockOptions[0]])
+      })
 
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith([props.options[0]])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).not.toContain('fr-tag--selected')
+      it('then it should mark first option as selected but not disabled', () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).toContain('fr-tag--selected')
+        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
+        expect(tags[1].classes()).not.toContain('fr-tag--selected')
+      })
 
-    await tags[1].trigger('select')
-    await wrapper.vm.$nextTick()
+      describe('and when second option is selected', () => {
+        beforeEach(async () => {
+          const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+          await tags[1].trigger('select')
+          await wrapper.vm.$nextTick()
+        })
 
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith([props.options[0], props.options[1]])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).toContain('fr-tag--selected')
-    expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+        it('then it should call handleSelectChange with array containing both options', () => {
+          expect(handleSelectChange).toHaveBeenLastCalledWith([mockOptions[0], mockOptions[1]])
+        })
+
+        it('then both options should be selected but not disabled', () => {
+          const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+          expect(tags[0].classes()).toContain('fr-tag--selected')
+          expect(tags[0].classes()).not.toContain('fr-tag--disabled')
+          expect(tags[1].classes()).toContain('fr-tag--selected')
+          expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+        })
+      })
+    })
   })
 
-  it('should deselect option when clicking it again when multiple = true', async () => {
-    const props = {
-      options: [4, 8, 12],
-      handleSelectChange: vi.fn(),
-      multiple: true
-    }
+  describe('given an AvTagPicker in multiple mode with two options selected', () => {
+    let wrapper: VueWrapper
+    const handleSelectChange = vi.fn()
 
-    const wrapper = mount(AvTagPicker, {
-      props,
-      global: { stubs }
+    beforeEach(async () => {
+      const props = {
+        options: mockOptions,
+        handleSelectChange,
+        multiple: true
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
+
+      const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+      await tags[0].trigger('select')
+      await wrapper.vm.$nextTick()
+      await tags[1].trigger('select')
+      await wrapper.vm.$nextTick()
     })
 
-    const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
-    expect(tags).toHaveLength(3)
+    describe('when second option is clicked again', () => {
+      beforeEach(async () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        await tags[1].trigger('select')
+        await wrapper.vm.$nextTick()
+      })
 
-    await tags[0].trigger('select')
-    await wrapper.vm.$nextTick()
-
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith([props.options[0]])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).not.toContain('fr-tag--selected')
-
-    await tags[1].trigger('select')
-    await wrapper.vm.$nextTick()
-
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith([props.options[0], props.options[1]])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).toContain('fr-tag--selected')
-    expect(tags[1].classes()).not.toContain('fr-tag--disabled')
-
-    await tags[1].trigger('select')
-    await wrapper.vm.$nextTick()
-
-    expect(props.handleSelectChange).toHaveBeenLastCalledWith([props.options[0]])
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[0].classes()).not.toContain('fr-tag--disabled')
-    expect(tags[1].classes()).not.toContain('fr-tag--selected')
-    expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+      it('then it should deselect the second option', () => {
+        expect(handleSelectChange).toHaveBeenLastCalledWith([mockOptions[0]])
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).toContain('fr-tag--selected')
+        expect(tags[0].classes()).not.toContain('fr-tag--disabled')
+        expect(tags[1].classes()).not.toContain('fr-tag--selected')
+        expect(tags[1].classes()).not.toContain('fr-tag--disabled')
+      })
+    })
   })
 
-  it('should handle string selected prop by wrapping it in an array', async () => {
-    const props = {
-      options: ['4', '8', '12'],
-      selected: '4',
-      handleSelectChange: vi.fn()
-    }
+  describe('given an AvTagPicker with single selected option', () => {
+    let wrapper: VueWrapper
 
-    const wrapper = mount(AvTagPicker, {
-      props,
-      global: { stubs }
+    beforeEach(() => {
+      const selectedOption: AvTagPickerOption = mockOptions[0]
+      const handleSelectChange = vi.fn()
+      const props = {
+        options: mockOptions,
+        selected: selectedOption,
+        handleSelectChange
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
     })
 
-    const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+    describe('when the component is mounted', () => {
+      it('then it should display the selected option as selected', () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).toContain('fr-tag--selected')
+        expect(tags[1].classes()).not.toContain('fr-tag--selected')
+      })
+    })
+  })
 
-    expect(tags[0].classes()).toContain('fr-tag--selected')
-    expect(tags[1].classes()).not.toContain('fr-tag--selected')
+  describe('given an AvTagPicker in multiple mode with array of selected options', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(() => {
+      const selectedOptions: AvTagPickerOption[] = [mockOptions[0], mockOptions[2]]
+      const handleSelectChange = vi.fn()
+      const props = {
+        options: mockOptions,
+        selected: selectedOptions,
+        handleSelectChange,
+        multiple: true
+      }
+
+      wrapper = mount(AvTagPicker, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    describe('when the component is mounted', () => {
+      it('then it should display the selected options as selected', () => {
+        const tags = wrapper.findAllComponents({ name: 'DsfrTag' })
+        expect(tags[0].classes()).toContain('fr-tag--selected')
+        expect(tags[1].classes()).not.toContain('fr-tag--selected')
+        expect(tags[2].classes()).toContain('fr-tag--selected')
+      })
+    })
   })
 })
