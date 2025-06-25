@@ -147,7 +147,15 @@
             "title": "Mes AMS"
           }
         },
-        "container": {
+        "amsListContainer": {
+          "pagination": {
+            "bottom": {
+              "ariaLabel": "Pagination basse"
+            },
+            "top": {
+              "ariaLabel": "Pagination haute"
+            }
+          },
           "StudentDetailedAmsCard": {
             "activityCount": "Acitvité {startedActivities}/{totalActivities} | Acitvités {startedActivities}/{totalActivities}",
             "deliverables": {
@@ -158,6 +166,10 @@
             "traceCount": "0 trace | 1 trace | {count} traces"
           },
           "title": "Mes AMS non initiées, en cours, soumises et terminées"
+        },
+        "amsViewTabs": {
+          "list": "Liste de mes AMS",
+          "planning": "Planning de mes AMS"
         },
         "title": "Mes Activités de Mise en situation (AMS)"
       },
