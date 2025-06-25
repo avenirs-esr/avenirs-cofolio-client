@@ -37,5 +37,7 @@
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.sourceLanguage": "fr",
   "i18n-ally.sortKeys": true,
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
