@@ -7,7 +7,7 @@ describe('avTab', () => {
     default: '<div class="slot-content">Slot Content</div>',
   }
 
-  describe('given a component with required props', () => {
+  describe('given a tab with required props', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
@@ -19,7 +19,7 @@ describe('avTab', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
+    describe('when the tab is mounted', () => {
       it('then it should render the slot content', () => {
         expect(wrapper.find('.slot-content').exists()).toBe(true)
         expect(wrapper.find('.slot-content').text()).toBe('Slot Content')
@@ -27,7 +27,7 @@ describe('avTab', () => {
     })
   })
 
-  describe('given a component with optional icon prop', () => {
+  describe('given a tab with optional icon prop', () => {
     let wrapper: VueWrapper
     const props = {
       title: 'Test Title',
@@ -41,7 +41,7 @@ describe('avTab', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
+    describe('when the tab is mounted', () => {
       it('then it should accept the icon prop without error', () => {
         expect(wrapper.props()).toMatchObject(props)
       })

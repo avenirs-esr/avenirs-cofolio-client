@@ -18,14 +18,14 @@ describe('avTabs', () => {
     }
   }
 
-  describe('given a component with multiple tabs', () => {
+  describe('given a tab switcher with multiple tabs', () => {
     let wrapper: ReturnType<typeof mount<typeof AvTabs>>
 
     beforeEach(() => {
       wrapper = mount(AvTabs, { props, slots, global: { stubs } })
     })
 
-    describe('when the component is mounted', () => {
+    describe('when the tab switcher is mounted', () => {
       it('then it should render all tabs', () => {
         const tabs = wrapper.findAll('.fr-tabs__tab')
         expect(tabs.length).toBe(3)
@@ -101,7 +101,7 @@ describe('avTabs', () => {
       wrapper = mount(AvTabs, { props })
     })
 
-    describe('when the component is mounted', () => {
+    describe('when the tab switcher is mounted', () => {
       it('then it should not render any tab', () => {
         const tabs = wrapper.findAll('.fr-tabs__tab')
         expect(tabs.length).toBe(0)
