@@ -157,7 +157,7 @@
             }
           },
           "StudentDetailedAmsCard": {
-            "activityCount": "Acitvité {startedActivities}/{totalActivities} | Acitvités {startedActivities}/{totalActivities}",
+            "activityCount": "Activité {startedActivities}/{totalActivities} | Activités {startedActivities}/{totalActivities}",
             "deliverables": {
               "toSubmit": "1 rendu à soumettre pour le {date} | {count} rendus à soumettre pour le {date}",
               "validated": "1 rendu validé | {count} rendus validés"
