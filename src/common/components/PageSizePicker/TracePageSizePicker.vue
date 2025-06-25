@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { PageSizes } from '@/config'
+import { type PageSizes, pageSizeValues } from '@/config'
 import { useTracesStore } from '@/store'
-import { AvPageSizePicker } from '@/ui'
+import { AvPageSizePicker, type AvTagPickerOption } from '@/ui'
 
 const tracesStore = useTracesStore()
 
-function handleSelectChange (val: string | number) {
-  const numberVal = Number(val)
-  if (Object.values(PageSizes).includes(numberVal)) {
+function handleSelectChange (val: AvTagPickerOption): void {
+  const numberVal = Number(val.value)
+  if (pageSizeValues.includes(numberVal)) {
     tracesStore.pageSizeSelected = numberVal as PageSizes
   }
 }

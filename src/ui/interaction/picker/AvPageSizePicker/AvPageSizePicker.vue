@@ -1,26 +1,34 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
 import { PageSizes } from '@/config'
-import AvTagPicker, { type AvTagPickerProps } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
+import AvTagPicker, { type AvTagPickerOption } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
 import { useI18n } from 'vue-i18n'
 
 const { pageSizeSelected, handleSelectChange } = defineProps<{
   pageSizeSelected: PageSizes
-  handleSelectChange: (val: string | number) => void
+  handleSelectChange: (val: AvTagPickerOption) => void
 }>()
 const { t } = useI18n()
 
-const options: ComputedRef<number[]> = computed(() =>
-  Object.values(PageSizes).filter(v => typeof v === 'number') as number[]
-)
+const options: ComputedRef<AvTagPickerOption[]> = computed(() => Object.values(PageSizes)
+  .filter(value => typeof value === 'number')
+  .map(pageNumber => ({
+    label: pageNumber.toString(),
+    value: pageNumber.toString()
+  })))
+
+const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
+  label: pageSizeSelected.toString(),
+  value: pageSizeSelected.toString()
+}))
 </script>
 
 <template>
   <div class="pagination-size-picker-container">
     <AvTagPicker
       :options="options"
-      :selected="pageSizeSelected"
-      :handle-select-change="handleSelectChange as AvTagPickerProps['handleSelectChange']"
+      :selected="selectedOption"
+      :handle-select-change="handleSelectChange"
       :multiple="false"
       :label="t('global.pageSizePicker.label')"
       label-typography-class="b2-regular"

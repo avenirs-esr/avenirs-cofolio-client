@@ -1,51 +1,74 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import { removeDuplicates } from '@/common/utils'
 import { MDI_ICONS } from '@/ui/tokens'
-import { DsfrTag } from '@gouvminint/vue-dsfr'
 
-export interface AvTagPickerProps {
-  options: string[] | number[]
-  selected?: string | number | (string | number)[]
-  multiple?: boolean
+export interface AvTagPickerOption {
+  label: string
+  value: string
+}
+
+interface AvTagPickerBaseProps {
+  options: AvTagPickerOption[]
   label?: string
   labelColor?: string
   labelTypographyClass?: string
-  handleSelectChange: (selected: string | number | (string | number)[]) => void
 }
+
+interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
+  multiple?: false
+  selected?: AvTagPickerOption
+  handleSelectChange: (selected: AvTagPickerOption) => void
+}
+
+interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
+  multiple: true
+  selected?: AvTagPickerOption[]
+  handleSelectChange: (selected: AvTagPickerOption[]) => void
+}
+
+export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
+
+const props = withDefaults(defineProps<AvTagPickerProps>(), {
+  labelColor: 'var(--foreground-text2)',
+  labelTypographyClass: 'b2-regular',
+})
 
 const {
   label,
-  labelColor = 'var(--foreground-text2)',
-  labelTypographyClass = 'b2-regular',
+  labelColor,
+  labelTypographyClass,
   options,
-  selected = [],
-  multiple = false,
+  selected,
+  multiple,
   handleSelectChange
-} = defineProps<AvTagPickerProps>()
+} = props
 
-const renderedOptions = computed(() => removeDuplicates<string | number>(options))
+const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(options))
 
-function getSelectedOptions (selected: string | number | (string | number)[]) {
+function getSelectedOptions (selected?: AvTagPickerOption | AvTagPickerOption[]): AvTagPickerOption[] {
+  if (!selected) {
+    return []
+  }
   if (Array.isArray(selected)) {
     return selected
   }
   return [selected]
 }
 
-const selectedOptions = ref<(string | number)[]>(getSelectedOptions(selected))
+const selectedOptions = ref<AvTagPickerOption[]>(getSelectedOptions(selected))
 
-const styleVars = computed(() => ({
-  '--icon-path': `url(/assets/icons/check-circle.svg)`,
-}))
-
-function isOptionSelected (option: string | number) {
-  return selectedOptions.value.includes(option)
+function isOptionSelected (option: AvTagPickerOption): boolean {
+  return selectedOptions.value.some(selectedOption => selectedOption.value === option.value)
 }
 
-function toggleOption (option: string | number) {
+function toggleOption (option: AvTagPickerOption): void {
   if (multiple) {
-    if (selectedOptions.value.includes(option)) {
-      selectedOptions.value = selectedOptions.value.filter(selectedOption => selectedOption !== option)
+    const isSelected = isOptionSelected(option)
+    if (isSelected) {
+      selectedOptions.value = selectedOptions.value.filter(
+        selectedOption => selectedOption.value !== option.value
+      )
     }
     else {
       selectedOptions.value.push(option)
@@ -58,11 +81,11 @@ function toggleOption (option: string | number) {
   }
 }
 
-function getIcon (option: string | number) {
+function getIcon (option: AvTagPickerOption): string | undefined {
   return isOptionSelected(option) ? MDI_ICONS.CHECK : undefined
 }
 
-function getDisabled (option: string | number) {
+function getDisabled (option: AvTagPickerOption): boolean {
   return isOptionSelected(option) && !multiple
 }
 </script>
@@ -79,13 +102,12 @@ function getDisabled (option: string | number) {
 
     <DsfrTag
       v-for="option in renderedOptions"
-      :key="option"
-      :style="styleVars"
+      :key="option.value"
       :class="{
         'fr-tag--selected': isOptionSelected(option),
         'fr-tag--disabled': getDisabled(option),
       }"
-      :label="option.toString()"
+      :label="option.label"
       :icon="getIcon(option)"
       :disabled="getDisabled(option)"
       selectable

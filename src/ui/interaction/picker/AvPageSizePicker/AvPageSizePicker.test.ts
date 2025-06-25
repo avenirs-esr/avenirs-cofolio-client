@@ -1,49 +1,68 @@
 import type { Pinia } from 'pinia'
-import { PageSizes } from '@/config'
+import { PageSizes, pageSizeValues } from '@/config'
 import { useAmsStore, useTracesStore } from '@/store'
 import AvPageSizePicker from '@/ui/interaction/picker/AvPageSizePicker/AvPageSizePicker.vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, describe, expect, vi } from 'vitest'
 
 describe('avPageSizePicker', () => {
   let pinia: Pinia
+
   beforeEach(() => {
     pinia = createPinia()
     setActivePinia(pinia)
   })
 
-  it('should render the label and options', () => {
-    const store = useAmsStore()
-    const handleSelectChange = vi.fn()
+  describe('given a page size picker with AMS store', () => {
+    let wrapper: VueWrapper
+    let store: ReturnType<typeof useAmsStore>
 
-    const wrapper = mount(AvPageSizePicker, {
-      props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
-      global: {
-        plugins: [pinia]
-      }
+    beforeEach(() => {
+      store = useAmsStore()
+      const handleSelectChange = vi.fn()
+      wrapper = mount(AvPageSizePicker, {
+        props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
+        global: {
+          plugins: [pinia]
+        }
+      })
     })
 
-    let sizes = ''
-    Object.values(PageSizes).filter(v => typeof v === 'number').forEach((size) => {
-      sizes += size.toString()
+    describe('when the component is rendered', () => {
+      it('then it should render the label and options correctly', () => {
+        let sizes = ''
+        pageSizeValues.forEach((size) => {
+          sizes += size.toString()
+        })
+        expect(wrapper.text()).toBe(`Nombre de résultats par page :${sizes}`)
+      })
     })
-    expect(wrapper.text()).toBe(`Nombre de résultats par page :${sizes}`)
   })
 
-  it('should update the store when a value is selected', async () => {
-    const store = useTracesStore()
-    const handleSelectChange = vi.fn()
+  describe('given a page size picker with Traces store', () => {
+    let wrapper: VueWrapper
+    let store: ReturnType<typeof useTracesStore>
 
-    const wrapper = mount(AvPageSizePicker, {
-      props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
-      global: {
-        plugins: [pinia]
-      }
+    beforeEach(() => {
+      store = useTracesStore()
+      const handleSelectChange = vi.fn()
+      wrapper = mount(AvPageSizePicker, {
+        props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
+        global: {
+          plugins: [pinia]
+        }
+      })
     })
 
-    const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
-    await avTagPicker.props('handleSelectChange')(PageSizes.EIGHT)
+    describe('when a value is selected via AvTagPicker', () => {
+      beforeEach(async () => {
+        const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        await avTagPicker.props('handleSelectChange')(PageSizes.EIGHT)
+      })
 
-    expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
+      it('then the store should be updated with the selected value', () => {
+        expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
+      })
+    })
   })
 })
