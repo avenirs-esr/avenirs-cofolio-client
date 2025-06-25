@@ -1,6 +1,12 @@
+import {
+  createVueI18nPlugin,
+  getBrowserLocale,
+  i18n,
+  parseLocaleModules,
+  registerFeatureLocales
+} from '@/plugins/vue-i18n/vue-i18n'
 import { AvAvailableLocales } from '@/types/i18n.types'
 import { describe, expect, it, vi } from 'vitest'
-import { createVueI18nPlugin, getBrowserLocale, i18n, parseLocaleModules, registerFeatureLocales } from './vue-i18n'
 
 describe('parseLocaleModules', () => {
   it('uses default export if present', () => {

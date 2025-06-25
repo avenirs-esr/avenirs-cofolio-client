@@ -1,6 +1,6 @@
+import TanstackQueryPlugin from '@/plugins/tanstack-query/tanstack-query'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import { describe, expect, it, vi } from 'vitest'
-import TanstackQueryPlugin from './tanstack-query'
 
 const useMock = vi.fn()
 const appMock = { use: useMock }

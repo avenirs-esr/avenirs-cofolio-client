@@ -1,6 +1,6 @@
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import { mount } from '@vue/test-utils'
-import StudentToolsPagesView from './StudentToolsPagesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },

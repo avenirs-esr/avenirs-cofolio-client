@@ -1,2 +1,1 @@
-export type { AvCardProps } from './AvCard.types'
-export { default as AvCard } from './AvCard.vue'
+export { default as AvCard, type AvCardProps } from './AvCard.vue'

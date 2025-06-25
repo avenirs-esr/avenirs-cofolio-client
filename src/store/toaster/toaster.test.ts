@@ -1,4 +1,4 @@
-import { type Message, useToasterStore } from './toaster'
+import { type Message, useToasterStore } from '@/store/toaster/toaster'
 
 describe('useToasterStore', () => {
   let toaster: ReturnType<typeof useToasterStore>

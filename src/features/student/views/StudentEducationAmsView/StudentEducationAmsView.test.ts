@@ -1,9 +1,9 @@
 import type { AmsViewResponse } from '@/api/avenir-esr'
 import { createMockedAmsViewResponse, useAmsViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
-import StudentEducationAmsView from './StudentEducationAmsView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },

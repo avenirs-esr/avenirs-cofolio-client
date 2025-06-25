@@ -1,2 +1,1 @@
-export type { AvButtonProps } from './AvButton.types'
-export { default as AvButton } from './AvButton.vue'
+export { default as AvButton, type AvButtonProps } from './AvButton.vue'

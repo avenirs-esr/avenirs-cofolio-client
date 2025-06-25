@@ -1,7 +1,7 @@
 import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
+import routes, { teacherHomeRoute } from '@/features/teacher/routes/routes'
 import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
 import { testRoute } from 'tests/utils'
-import routes, { teacherHomeRoute } from './routes'
 
 testRoute(
   teacherHomeRoute,

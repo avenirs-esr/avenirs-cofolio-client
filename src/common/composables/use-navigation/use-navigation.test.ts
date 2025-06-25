@@ -1,3 +1,4 @@
+import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import {
   studentDeliverablesRoute,
   studentEducationSkillsRoute,
@@ -11,7 +12,6 @@ import {
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { describe, expect, it } from 'vitest'
-import { useNavigation } from './use-navigation'
 
 const pushMock = vi.fn()
 

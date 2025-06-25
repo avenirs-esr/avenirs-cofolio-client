@@ -1,8 +1,8 @@
+import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
-import PageTitle from './PageTitle.vue'
 
 vi.mock('vue-router', () => ({
   useRouter: vi.fn(),

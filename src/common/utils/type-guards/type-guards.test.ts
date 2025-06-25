@@ -1,4 +1,4 @@
-import { hasStringField } from './type-guards'
+import { hasStringField } from '@/common/utils/type-guards/type-guards'
 
 describe('hasStringField', () => {
   it('returns true if the field exists and is a string', () => {

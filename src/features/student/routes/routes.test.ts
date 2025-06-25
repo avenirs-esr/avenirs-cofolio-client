@@ -1,22 +1,4 @@
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
-import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
-import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
-import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
-import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
-import StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
-import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
-import StudentMailboxView from '@/features/student/views/StudentMailboxView/StudentMailboxView.vue'
-import StudentNotificationsView from '@/features/student/views/StudentNotificationsView/StudentNotificationsView.vue'
-import StudentProjectExperiencesView from '@/features/student/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
-import StudentProjectSkillsView from '@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
-import StudentProjectTrajectoriesView from '@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
-import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
-import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
-import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import { testRoute } from 'tests/utils'
 import routes, {
   studentAboutRoute,
   studentAmsRoute,
@@ -35,7 +17,25 @@ import routes, {
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentToolsTracesRoute
-} from './routes'
+} from '@/features/student/routes/routes'
+import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
+import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
+import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
+import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
+import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
+import StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
+import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
+import StudentMailboxView from '@/features/student/views/StudentMailboxView/StudentMailboxView.vue'
+import StudentNotificationsView from '@/features/student/views/StudentNotificationsView/StudentNotificationsView.vue'
+import StudentProjectExperiencesView from '@/features/student/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
+import StudentProjectSkillsView from '@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
+import StudentProjectTrajectoriesView from '@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
+import StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
+import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
+import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
+import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
+import { testRoute } from 'tests/utils'
 
 testRoute(
   studentHomeRoute,

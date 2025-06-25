@@ -1,7 +1,7 @@
+import AvHeader from '@/ui/header/AvHeader/AvHeader.vue'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { nextTick } from 'vue'
-import AvHeader from './AvHeader.vue'
 
 describe('avHeader', () => {
   const serviceTitle = 'Service title'

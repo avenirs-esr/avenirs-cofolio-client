@@ -1,5 +1,5 @@
+import StudentNotificationsModal from '@/features/student/components/modals/StudentNotificationsModal/StudentNotificationsModal.vue'
 import { mount } from '@vue/test-utils'
-import StudentNotificationsModal from './StudentNotificationsModal.vue'
 
 const navigateToStudentNotifications = vi.fn()
 

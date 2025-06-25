@@ -1,10 +1,10 @@
 import type { TraceConfigurationInfo, TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { createMockedTracesViewResponse, useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { mount } from '@vue/test-utils'
 import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import { describe, expect, it, vi } from 'vitest'
-import StudentToolsTracesView from './StudentToolsTracesView.vue'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },

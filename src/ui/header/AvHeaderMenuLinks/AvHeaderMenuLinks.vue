@@ -2,8 +2,13 @@
  https://vue-ds.fr/composants/DsfrHeaderMenuLinks -->
 
 <script lang="ts" setup>
-import type { AvHeaderMenuLinksProps } from './AvHeaderMenuLinks.types'
+import type { DsfrHeaderMenuLinkProps } from '@gouvminint/vue-dsfr'
 import { AvButton } from '@/ui'
+
+export interface AvHeaderMenuLinksProps {
+  links?: Pick<DsfrHeaderMenuLinkProps, 'label' | 'icon' | 'onClick'>[]
+  navAriaLabel?: string
+}
 
 withDefaults(defineProps<AvHeaderMenuLinksProps>(), {
   navAriaLabel: 'Menu secondaire',

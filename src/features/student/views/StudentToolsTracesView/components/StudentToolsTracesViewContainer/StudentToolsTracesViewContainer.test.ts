@@ -6,11 +6,11 @@ import {
   useUnassignedTracesSummaryQuery,
   useUnassignedTracesViewQuery
 } from '@/features/student/queries'
+import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
 import { mount } from '@vue/test-utils'
 import { createMockedTracesViewQueryReturn } from 'tests/mocks'
 import { describe, expect, it, vi } from 'vitest'
-import StudentToolsTracesViewContainer from './StudentToolsTracesViewContainer.vue'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()

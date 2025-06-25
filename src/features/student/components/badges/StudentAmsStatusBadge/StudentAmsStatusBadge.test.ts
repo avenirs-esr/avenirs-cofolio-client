@@ -1,7 +1,7 @@
 import { AmsStatus } from '@/api/avenir-esr'
+import StudentAmsStatusBadge from '@/features/student/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
-import StudentAmsStatusBadge from './StudentAmsStatusBadge.vue'
 
 describe('studentAmsStatusBadge', () => {
   const stubs = {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
+import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
 import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
-import StudentTraceCard from './components/StudentTraceCard/StudentTraceCard.vue'
 
 const { data: traces, error } = useStudentTracesSummaryQuery()
 useBaseApiExceptionToast(error)

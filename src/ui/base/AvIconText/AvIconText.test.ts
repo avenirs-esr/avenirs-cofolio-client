@@ -1,7 +1,7 @@
+import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
 import { MDI_ICONS } from '@/ui/tokens'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvIconText from './AvIconText.vue'
 
 describe('studentDetailedSkillCard.vue', () => {
   const stubs = {

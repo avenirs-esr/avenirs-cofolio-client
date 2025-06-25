@@ -1,6 +1,6 @@
 import { mockedPrograms } from '@/features/student/queries/fixtures'
+import StudentEducationSkillsViewContainer from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 import { mount } from '@vue/test-utils'
-import StudentEducationSkillsViewContainer from './StudentEducationSkillsViewContainer.vue'
 
 describe('studentEducationSkillsViewContainer', () => {
   const stubs = {

@@ -1,11 +1,15 @@
 <script lang="ts" setup>
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
-import type { StudentSkillCardProps } from './StudentSkillCard.types'
-import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { type SkillLevelOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
 import { AvCard, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
+
+export interface StudentSkillCardProps {
+  skill: SkillOverviewDTO
+  skillColor: string
+}
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
 const { name, traceCount, activityCount, currentSkillLevel } = skill

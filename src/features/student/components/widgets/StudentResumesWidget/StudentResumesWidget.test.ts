@@ -3,9 +3,20 @@ import type { ResumeOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
+import StudentResumesWidget from '@/features/student/components/widgets/StudentResumesWidget/StudentResumesWidget.vue'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentResumesWidget from './StudentResumesWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentResumes = vi.fn()
 
@@ -35,7 +46,7 @@ function mockUseStudentResumesSummaryQuery (payload: ResumeOverviewDTO[]) {
   mockedUseStudentResumesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentPagesWidget', () => {
+describe('studentResumesWidget', () => {
   const resumes = [
     { id: 'resume1', name: 'cv-version1-05-2024', updatedAt: '2025-05-19T00:00:00.000Z' },
     { id: 'resume2', name: 'cv-version1-04-2024', updatedAt: '2025-04-25T00:00:00.000Z' },
@@ -49,7 +60,11 @@ describe('studentPagesWidget', () => {
   })
 
   it('should only display up to last 3 resumes sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentResumesWidget)
+    const wrapper = await mountWithRouter(StudentResumesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -62,7 +77,11 @@ describe('studentPagesWidget', () => {
   })
 
   it('should emit click on AvRichButtons', async () => {
-    const wrapper = await mountWithRouter(StudentResumesWidget)
+    const wrapper = await mountWithRouter(StudentResumesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const [resume1Button, resume2Button, resume3Button] = wrapper.findAllComponents('.av-rich-button')
 
     expect(resume1Button.exists()).toBe(true)
@@ -75,7 +94,11 @@ describe('studentPagesWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentResumesWidget)
+    const wrapper = await mountWithRouter(StudentResumesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 
@@ -85,6 +108,10 @@ describe('studentPagesWidget', () => {
   testUseBaseApiExceptionToast<ResumeOverviewDTO[]>({
     mockedUseQuery: mockedUseStudentResumesSummaryQuery,
     payload: [],
-    mountComponent: () => mountWithRouter(StudentResumesWidget)
+    mountComponent: () => mountWithRouter(StudentResumesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

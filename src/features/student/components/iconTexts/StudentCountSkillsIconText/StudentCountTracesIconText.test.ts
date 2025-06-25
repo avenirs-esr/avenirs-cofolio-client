@@ -1,6 +1,6 @@
+import StudentCountSkillsIconText from '@/features/student/components/iconTexts/StudentCountSkillsIconText/StudentCountSkillsIconText.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
-import StudentCountSkillsIconText from './StudentCountSkillsIconText.vue'
 
 describe('studentCountSkillsIconText', () => {
   const stubs = {

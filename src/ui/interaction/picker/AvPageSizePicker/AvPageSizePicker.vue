@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
 import { PageSizes } from '@/config'
+import AvTagPicker, { type AvTagPickerProps } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
 import { useI18n } from 'vue-i18n'
-import AvTagPicker, { type AvTagPickerProps } from '../AvTagPicker/AvTagPicker.vue'
 
 const { pageSizeSelected, handleSelectChange } = defineProps<{
   pageSizeSelected: PageSizes

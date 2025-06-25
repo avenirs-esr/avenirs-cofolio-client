@@ -1,7 +1,7 @@
+import AvRichButton from '@/ui/interaction/buttons/AvRichButton/AvRichButton.vue'
 import { VIcon } from '@gouvminint/vue-dsfr'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import AvRichButton from './AvRichButton.vue'
 
 describe('avRichButton', () => {
   it('renders slot content', () => {

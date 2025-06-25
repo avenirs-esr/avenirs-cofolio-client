@@ -1,8 +1,8 @@
 import type { PaginatedResponse } from '@/types'
+import { defaultGetNextPageParam, useAvInfiniteQuery } from '@/common/composables/use-infinite-pagination/use-infinite-pagination'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { defaultGetNextPageParam, useAvInfiniteQuery } from './use-infinite-pagination'
 
 interface TestingDTO {
   id: string

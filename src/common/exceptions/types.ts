@@ -1,4 +1,4 @@
-import type { BaseApiErrorCode } from './error-codes'
+import type { BaseApiErrorCode } from '@/common/exceptions/error-codes'
 
 export type ErrorDetails = Record<string, unknown>
 

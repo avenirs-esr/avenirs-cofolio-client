@@ -1,10 +1,21 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
+import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { type TraceOverviewDTO, TraceType } from '@/types'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentTracesWidget from './StudentTracesWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentTraces = vi.fn()
 
@@ -79,13 +90,21 @@ describe('studentTracesWidget', async () => {
   })
 
   it('should display up to 3 traces', async () => {
-    const wrapper = await mountWithRouter(StudentTracesWidget)
+    const wrapper = await mountWithRouter(StudentTracesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
     expect(studentTraceCards).toHaveLength(3)
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentTracesWidget)
+    const wrapper = await mountWithRouter(StudentTracesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 
@@ -95,6 +114,10 @@ describe('studentTracesWidget', async () => {
   testUseBaseApiExceptionToast<TraceOverviewDTO[]>({
     mockedUseQuery: mockedUseStudentTracesSummaryQuery,
     payload: [],
-    mountComponent: () => mountWithRouter(StudentTracesWidget)
+    mountComponent: () => mountWithRouter(StudentTracesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

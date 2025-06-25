@@ -1,8 +1,8 @@
+import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { TraceType } from '@/types'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
-import StudentTraceCard from './StudentTraceCard.vue'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
   DsfrTag: {

@@ -1,7 +1,7 @@
+import { useLanguageSwitcher } from '@/common/composables/use-language-switcher/use-language-switcher'
 import { i18n } from '@/plugins/vue-i18n'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { useLanguageSwitcher } from './use-language-switcher'
 
 describe('useLanguageSwitcher', () => {
   const TestComponent = defineComponent({

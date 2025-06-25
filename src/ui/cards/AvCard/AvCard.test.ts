@@ -1,6 +1,6 @@
+import AvCard from '@/ui/cards/AvCard/AvCard.vue'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
-import AvCard from './AvCard.vue'
 
 describe('avCard', () => {
   it('renders default slot content', async () => {

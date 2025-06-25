@@ -1,7 +1,7 @@
 import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import StudentLevelBadge from '@/features/student/components/badges/StudentLevelBadge/StudentLevelBadge.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
-import StudentLevelBadge from './StudentLevelBadge.vue'
 
 describe('studentLevelBadge', () => {
   const stubs = {

@@ -1,7 +1,7 @@
+import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import TeacherLayout from './TeacherLayout.vue'
 
 vi.mock('@/ui', async () => {
   return {

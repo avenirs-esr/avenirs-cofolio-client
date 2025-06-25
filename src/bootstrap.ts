@@ -1,9 +1,9 @@
+import App from '@/App.vue'
 import tanstackQuery from '@/plugins/tanstack-query/tanstack-query'
 import i18nAvPlugin from '@/plugins/vue-i18n/vue-i18n'
 import router from '@/router'
 import store from '@/store'
 import { createApp } from 'vue'
-import App from './App.vue'
 
 import '@gouvfr/dsfr/dist/core/core.main.min.css'
 import '@gouvfr/dsfr/dist/component/component.main.min.css'

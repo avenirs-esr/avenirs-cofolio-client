@@ -1,6 +1,6 @@
+import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import TeacherHomeView from './TeacherHomeView.vue'
 
 describe('teacherHomeView', () => {
   it('should display the page', () => {

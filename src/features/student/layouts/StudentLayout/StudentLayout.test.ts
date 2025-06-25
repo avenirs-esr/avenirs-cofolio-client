@@ -1,12 +1,12 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { StudentHeaderSummaryDTO } from '@/types'
 import type { Ref } from 'vue'
+import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { MDI_ICONS } from '@/ui'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
-import StudentLayout from './StudentLayout.vue'
 
 vi.mock(import('@/features/student/queries'), async (importOriginal) => {
   const actual = await importOriginal()

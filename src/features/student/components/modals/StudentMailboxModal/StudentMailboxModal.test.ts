@@ -1,5 +1,5 @@
+import StudentMailboxModal from '@/features/student/components/modals/StudentMailboxModal/StudentMailboxModal.vue'
 import { mount } from '@vue/test-utils'
-import StudentMailboxModal from './StudentMailboxModal.vue'
 
 const navigateToStudentMailbox = vi.fn()
 

@@ -3,9 +3,20 @@ import type { PageOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
+import StudentPagesWidget from '@/features/student/components/widgets/StudentPagesWidget/StudentPagesWidget.vue'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentPagesWidget from './StudentPagesWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentPages = vi.fn()
 
@@ -49,7 +60,11 @@ describe('studentPagesWidget', async () => {
   })
 
   it('should only display up to last 3 pages sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentPagesWidget)
+    const wrapper = await mountWithRouter(StudentPagesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -62,7 +77,11 @@ describe('studentPagesWidget', async () => {
   })
 
   it('should emit click on AvRichButtons', async () => {
-    const wrapper = await mountWithRouter(StudentPagesWidget)
+    const wrapper = await mountWithRouter(StudentPagesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const [page1Button, page2Button, page3Button] = wrapper.findAllComponents('.av-rich-button')
 
     expect(page1Button.exists()).toBe(true)
@@ -75,7 +94,11 @@ describe('studentPagesWidget', async () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentPagesWidget)
+    const wrapper = await mountWithRouter(StudentPagesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 
@@ -85,6 +108,10 @@ describe('studentPagesWidget', async () => {
   testUseBaseApiExceptionToast<PageOverviewDTO[]>({
     mockedUseQuery: mockedUseStudentPagesSummaryQuery,
     payload: [],
-    mountComponent: () => mountWithRouter(StudentPagesWidget)
+    mountComponent: () => mountWithRouter(StudentPagesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })

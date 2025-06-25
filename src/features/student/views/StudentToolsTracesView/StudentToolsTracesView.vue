@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useI18n } from 'vue-i18n'
-import StudentToolsTracesViewContainer from './components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 
 const { t } = useI18n()
 

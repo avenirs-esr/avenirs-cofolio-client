@@ -1,3 +1,3 @@
-import { createVueApp } from './bootstrap'
+import { createVueApp } from '@/bootstrap'
 
 createVueApp().mount('#app')

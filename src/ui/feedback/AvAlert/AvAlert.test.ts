@@ -1,8 +1,8 @@
 import type { DsfrAlertProps } from '@gouvminint/vue-dsfr'
+import AvAlert from '@/ui/feedback/AvAlert/AvAlert.vue'
 import { MDI_ICONS } from '@/ui/tokens'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import AvAlert from './AvAlert.vue'
 
 describe('avAlert', () => {
   const stubs = {

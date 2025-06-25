@@ -1,5 +1,5 @@
+import { formatTextToUnderlineHtml } from '@/common/utils/string/string'
 import { describe, expect, it } from 'vitest'
-import { formatTextToUnderlineHtml } from './string'
 
 describe('formatTextToUnderlineHtml', () => {
   it('replaces text wrapped in ** with a span with text-underline class', () => {

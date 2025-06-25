@@ -1,8 +1,8 @@
 import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import StudentDetailedTraceCardSettingMenu from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCardSettingMenu/StudentDetailedTraceCardSettingMenu.vue'
 import { MDI_ICONS } from '@/ui'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, vi } from 'vitest'
-import StudentDetailedTraceCardSettingMenu from './StudentDetailedTraceCardSettingMenu.vue'
 
 describe('studentDetailedTraceCardSettingMenu', () => {
   const stubs = {

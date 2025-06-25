@@ -1,8 +1,8 @@
 import { AmsStatus, type AmsViewDTO } from '@/api/avenir-esr'
+import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import StudentDetailedAmsCard from './StudentDetailedAmsCard.vue'
 
 vi.doMock('@/ui/tokens', () => ({
   MDI_ICONS: {

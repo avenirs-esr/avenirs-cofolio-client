@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import type { AvRichButtonProps } from './AvRichButton.types'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
+
+export interface AvRichButtonProps {
+  iconLeft?: string
+  iconRight?: string
+  borderColor?: string
+  customPadding?: string
+  hoverBorderColor?: string
+  onClick?: (event: MouseEvent) => void
+}
 
 const {
   iconLeft = undefined,

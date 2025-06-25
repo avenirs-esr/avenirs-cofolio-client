@@ -3,9 +3,20 @@ import type { DeliverableOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
+import StudentDeliverablesWidget from '@/features/student/components/widgets/StudentDeliverablesWidget/StudentDeliverablesWidget.vue'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
+import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
-import StudentDeliverablesWidget from './StudentDeliverablesWidget.vue'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const navigateToStudentDeliverables = vi.fn()
 
@@ -76,7 +87,11 @@ describe('studentDeliverablesWidget', () => {
   })
 
   it('should only display up to 3 future deliverables sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentDeliverablesWidget)
+    const wrapper = await mountWithRouter(StudentDeliverablesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const richButtons = wrapper.findAll('.av-rich-button')
 
     expect(richButtons).toHaveLength(3)
@@ -95,7 +110,11 @@ describe('studentDeliverablesWidget', () => {
   })
 
   it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentDeliverablesWidget)
+    const wrapper = await mountWithRouter(StudentDeliverablesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
     const btn = wrapper.findComponent({ name: 'AvButton' })
     await btn.trigger('click')
 
@@ -105,6 +124,10 @@ describe('studentDeliverablesWidget', () => {
   testUseBaseApiExceptionToast<DeliverableOverviewDTO[]>({
     mockedUseQuery: mockedUseStudentDeliverablesSummaryQuery,
     payload: [],
-    mountComponent: () => mountWithRouter(StudentDeliverablesWidget)
+    mountComponent: () => mountWithRouter(StudentDeliverablesWidget, {
+      global: {
+        plugins: [createPinia()],
+      },
+    })
   })
 })
