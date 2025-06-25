@@ -1,7 +1,7 @@
 import type { AmsViewResponse } from '@/api/avenir-esr'
 import { AmsPageSizePicker } from '@/common/components'
 import { createMockedAmsViewResponse, useAmsViewQuery } from '@/features/student/queries'
-import StudentEducationAmsViewContainer from '@/features/student/views/StudentEducationAmsView/components/StudentEducationAmsViewContainer/StudentEducationAmsViewContainer.vue'
+import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import { useAmsStore } from '@/store'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
@@ -28,7 +28,7 @@ export function mockUseAmsViewQueryUndefined () {
   mockedUseAmsViewQuery.mockReturnValue(mockReturn)
 }
 
-describe('studentEducationAmsViewContainer', () => {
+describe('amsListContainer', () => {
   const mockedData = createMockedAmsViewResponse(4, 20, 1)
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('studentEducationAmsViewContainer', () => {
   })
 
   it('should render AmsPageSizePicker', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsViewContainer, {
+    const wrapper = await mountWithRouter(AmsListContainer, {
       global: {
         plugins: [createPinia()]
       }
@@ -48,7 +48,7 @@ describe('studentEducationAmsViewContainer', () => {
   })
 
   it('should render correctly with mocked data', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsViewContainer, {
+    const wrapper = await mountWithRouter(AmsListContainer, {
       global: {
         stubs: ['StudentDetailedAmsCard', 'AmsPageSizePicker', 'AvPagination']
       }
@@ -61,7 +61,7 @@ describe('studentEducationAmsViewContainer', () => {
   })
 
   it('should update currentPage in store when onUpdateCurrentPage is called', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsViewContainer, {
+    const wrapper = await mountWithRouter(AmsListContainer, {
       global: {
         plugins: [createPinia()]
       }
@@ -77,7 +77,7 @@ describe('studentEducationAmsViewContainer', () => {
   })
 
   it('should reset currentPage to 0 when pageSize changes', async () => {
-    const wrapper = await mountWithRouter(StudentEducationAmsViewContainer, {
+    const wrapper = await mountWithRouter(AmsListContainer, {
       global: {
         plugins: [createPinia()]
       }
@@ -96,7 +96,7 @@ describe('studentEducationAmsViewContainer', () => {
   it('should handle undefined query data', async () => {
     mockUseAmsViewQueryUndefined()
 
-    const wrapper = await mountWithRouter(StudentEducationAmsViewContainer, {
+    const wrapper = await mountWithRouter(AmsListContainer, {
       global: {
         plugins: [createPinia()]
       }

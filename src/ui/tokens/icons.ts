@@ -16,6 +16,7 @@ export const MDI_ICONS = {
   CLOSE_CIRCLE: 'mdi:close-circle-outline',
   FILE_ACCOUNT: 'mdi:file-account-outline',
   FILE_DOCUMENT_EDIT: 'mdi:file-document-edit-outline',
+  FORMAT_LIST_BULLETED: 'mdi:format-list-bulleted',
   GRADUATION_CAP: 'mdi:graduation-cap-outline',
   HOME_VARIANT: 'mdi:home-variant-outline',
   HOURGLASS: 'mdi:hourglass',

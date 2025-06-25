@@ -42,7 +42,7 @@ const { t } = useI18n()
               <AvBadge
                 v-if="totalActivities > 0"
                 class="student-detailed-ams-card__ams-badge"
-                :label="t('student.views.studentEducationAmsView.container.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
+                :label="t('student.views.studentEducationAmsView.amsListContainer.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
                 color="var(--foreground-text1)"
                 background-color="var(--background-surface-background)"
                 icon-path="/assets/icons/text-box-check-outline.svg"

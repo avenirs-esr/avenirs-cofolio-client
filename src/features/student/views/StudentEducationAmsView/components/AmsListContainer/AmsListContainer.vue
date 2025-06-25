@@ -27,14 +27,14 @@ watch(pageSizeSelected, () => {
 </script>
 
 <template>
-  <div class="student-education-ams-view-container">
+  <div class="ams-list-container">
     <div class="top-pagination-container">
       <AmsPageSizePicker />
       <AvPagination
         id="top-pagination"
         :current-page="pageInfo.number"
         :pages="pages"
-        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.top.ariaLabel')"
+        :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.top.ariaLabel')"
         compact
         @update:current-page="onUpdateCurrentPage"
       />
@@ -52,7 +52,7 @@ watch(pageSizeSelected, () => {
         :items="amss"
         :current-page="pageInfo.number"
         :pages="pages"
-        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.bottom.ariaLabel')"
+        :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.bottom.ariaLabel')"
         @update:current-page="onUpdateCurrentPage"
       />
     </div>
@@ -60,7 +60,7 @@ watch(pageSizeSelected, () => {
 </template>
 
 <style lang="scss" scoped>
-.student-education-ams-view-container {
+.ams-list-container {
   display: flex;
   flex-direction: column;
   width: 100%;
