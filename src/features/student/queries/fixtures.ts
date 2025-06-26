@@ -256,3 +256,5 @@ export const mockedUnassignedTracesSummary: UnassociatedTracesSummaryDTO = {
   totalWarnings: 5,
   totalCriticals: 2,
 }
+
+export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted`

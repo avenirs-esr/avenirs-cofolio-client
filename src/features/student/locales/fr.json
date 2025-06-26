@@ -239,7 +239,10 @@
             }
           }
         },
-        "title": "Ma bibliothèque de traces"
+        "title": "Ma bibliothèque de traces",
+        "errors": {
+          "delete": "Une erreur est survenue lors de la suppression de la trace."
+        }
       }
     },
     "widgets": {

@@ -10,7 +10,7 @@ export default {
             retry: 3,
           },
           mutations: {
-            retry: 2,
+            retry: 1,
           },
         },
       },

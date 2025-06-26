@@ -14,15 +14,6 @@ const {
 const { t } = useI18n()
 const { showSettingsMenu, toggleSettingsMenu, closeSettingsMenu } = useSettingsMenu()
 
-// TODO: Implement the delete trace functionality
-// eslint-disable-next-line unused-imports/no-unused-vars
-function handleDeleteTrace (trace: TraceViewDTO) {
-
-}
-
-/**
- * composable that manages and organize the settings menu for the trace card
- */
 function useSettingsMenu () {
   const showSettingsMenu = ref(false)
 
@@ -78,7 +69,6 @@ function useSettingsMenu () {
           :trace="trace"
           :show="showSettingsMenu"
           @close="closeSettingsMenu"
-          @on-trace-delete="handleDeleteTrace"
         />
       </div>
       <div class="student-detailed-trace-modal__content">
