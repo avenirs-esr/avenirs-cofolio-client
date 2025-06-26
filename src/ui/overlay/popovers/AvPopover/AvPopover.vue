@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { usePopover } from '@/ui/overlay/popovers/AvPopover/usePopover'
+import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
 import { createFocusTrap } from 'focus-trap'
 import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 
