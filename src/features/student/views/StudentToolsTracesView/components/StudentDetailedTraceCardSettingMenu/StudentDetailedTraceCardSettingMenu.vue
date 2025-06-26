@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
+import { useDeleteTraceMutation } from '@/features/student/queries'
+import { useToasterStore } from '@/store'
 import { AvButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -13,10 +16,42 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { addErrorMessage } = useToasterStore()
+const { onClickDeleteTrace } = useDeleteTrace()
 
-function onClickDelete () {
-  emit('onTraceDelete', props.trace)
-  emit('close')
+function useDeleteTrace () {
+  function onDeleteTraceSuccess () {
+    emit('onTraceDelete', props.trace)
+    emit('close')
+  }
+  function onDeleteTraceError (error: BaseApiException) {
+    addErrorMessage({
+      title: t('student.views.studentToolsTracesView.errors.delete'),
+      description: error.message,
+      type: 'error',
+    })
+  }
+
+  const deleteTraceMutation = useDeleteTraceMutation({
+    onError: onDeleteTraceError,
+    onSuccess: onDeleteTraceSuccess
+  })
+
+  // TODO: display confirmation dialog before deleting
+  function onClickDeleteTrace () {
+
+  }
+
+  // TODO: call this function when the user confirms the deletion
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  function onConfirmDeleteTrace () {
+    deleteTraceMutation.mutate({ traceId: props.trace.id })
+  }
+
+  return {
+    onClickDeleteTrace,
+    isDeleteTracePending: deleteTraceMutation.isPending,
+  }
 }
 </script>
 
@@ -33,7 +68,7 @@ function onClickDelete () {
       :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete')"
       :icon-scale="1.3"
       no-radius
-      @click="onClickDelete"
+      @click="onClickDeleteTrace"
     />
   </div>
 </template>

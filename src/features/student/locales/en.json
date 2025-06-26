@@ -239,7 +239,10 @@
             }
           }
         },
-        "title": "My collection of traces"
+        "title": "My collection of traces",
+        "errors": {
+          "delete": "An error occurred while deleting the trace"
+        }
       }
     },
     "widgets": {
