@@ -14,7 +14,7 @@ interface MountComposableOptions {
   queryClientConfig?: QueryClientConfig
 }
 
-function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): T {
+function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): { result: T, unmount: () => void } {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -35,11 +35,16 @@ function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false
     app.use(VueQueryPlugin, { queryClient })
   }
   app.mount(document.createElement('div'))
-  return composableResult as T
+
+  return {
+    result: composableResult as T,
+    unmount: () => app.unmount()
+  }
 }
 
 function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientConfig): T {
-  return mountComposable(fn, { useTanstack: true, queryClientConfig })
+  const { result } = mountComposable(fn, { useTanstack: true, queryClientConfig })
+  return result
 }
 
 async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {

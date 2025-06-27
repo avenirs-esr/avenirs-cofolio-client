@@ -1,3 +1,4 @@
+export * from './use-focus-trap/use-focus-trap'
 export * from './use-infinite-pagination/use-infinite-pagination'
 export * from './use-invalidate-query/use-invalidate-query'
 export * from './use-language-switcher'
