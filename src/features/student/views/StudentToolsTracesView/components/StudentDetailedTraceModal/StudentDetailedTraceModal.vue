@@ -44,10 +44,8 @@ function useSettingsMenu () {
 
 <template>
   <AvModal
-    title=""
     :opened="showModal"
     :close-button-label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.buttons.close')"
-    :close-button-title="t('student.views.studentToolsTracesView.studentDetailedTraceModal.buttons.close')"
     size="lg"
     @close="onClose"
   >

@@ -39,7 +39,6 @@ const stubs = {
   },
   AvModal: {
     name: 'AvModal',
-    props: ['title'],
     template: `<div><slot /><slot name="footer" /></div>`,
     emits: ['close'],
   },
@@ -87,11 +86,6 @@ describe('studentDetailedTraceModal', () => {
     })
 
     describe('when the component is rendered', () => {
-      it('then the modal should have empty title prop', () => {
-        const avModal = wrapper.getComponent({ name: 'AvModal' })
-        expect(avModal.props('title')).toBe('')
-      })
-
       it('then the modal title should contain trace details', () => {
         const modalTitle = wrapper.find('.student-detailed-trace-modal__title')
         expect(modalTitle.exists()).toBe(true)
