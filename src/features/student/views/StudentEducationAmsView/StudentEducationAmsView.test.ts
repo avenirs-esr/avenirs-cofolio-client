@@ -1,37 +1,15 @@
-import type { AmsViewResponse } from '@/api/avenir-esr'
-import { createMockedAmsViewResponse, useAmsViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
-import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
 
 vi.mock('@/common/components/PageTitle', () => ({
   PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
 }))
 
-vi.mock('@/features/student/queries', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/queries')>()
-
-  return {
-    ...actual,
-    useAmsViewQuery: vi.fn(),
-  }
-})
-
-const mockedUseAmsViewQuery = vi.mocked(useAmsViewQuery)
-
-export function mockUseAmsViewQuery (payload: AmsViewResponse) {
-  const mockReturn = createMockedAmsViewQueryReturn(payload, null)
-  mockedUseAmsViewQuery.mockReturnValue(mockReturn)
-}
-
 describe('studentEducationAmsView', () => {
-  const mockedData = createMockedAmsViewResponse(4, 4, 0)
-
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
-    mockUseAmsViewQuery(mockedData)
   })
 
   const title = 'Mes Activités de Mise en situation (AMS)'
@@ -40,7 +18,16 @@ describe('studentEducationAmsView', () => {
 
   it('should render PageTitle with correct props', async () => {
     const wrapper = await mountWithRouter(StudentEducationAmsView, {
-      plugins: [createPinia()]
+      plugins: [createPinia()],
+      global: {
+        stubs: {
+          AmsViewTabs: {
+            name: 'AmsViewTabs',
+            template: '<div />',
+            props: ['amsData']
+          }
+        }
+      }
     })
     const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 

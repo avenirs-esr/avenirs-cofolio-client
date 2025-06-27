@@ -1,4 +1,3 @@
-export * from './fixtures'
 export * from './use-ams-view.query/use-ams-view.query'
 export * from './use-program-progress-view.query/use-program-progress-view.query'
 export * from './use-student-access-control.query/use-student-access-control.query'

@@ -1,17 +1,27 @@
 <script lang="ts" setup>
+import type { ProgramProgressDTO } from '@/api/avenir-esr'
+import type { Ref } from 'vue'
 import { AmsPageSizePicker } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
-import { useAmsViewQuery } from '@/features/student/queries'
+import { useAllMyProgramProgressQuery, useAmsViewQuery } from '@/features/student/queries'
+import ProgramProgressSelector
+  from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { useAmsStore } from '@/store'
 import { AvPagination, getPaginationPages } from '@/ui'
+import isEmpty from 'lodash-es/isEmpty'
+import isNil from 'lodash-es/isNil'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const amsStore = useAmsStore()
 const currentPage = toRef(amsStore, 'currentPage')
 const pageSizeSelected = toRef(amsStore, 'pageSizeSelected')
-const { amss, pageInfo, error } = useAmsViewQuery(currentPage, pageSizeSelected)
+
+const { programs, selectedProgramProgress, onChangeSelectedProgramProgress } = useProgramProgressFilter()
+const selectedProgramProgressId = computed(() => selectedProgramProgress.value?.id)
+
+const { amss, pageInfo, error } = useAmsViewQuery(selectedProgramProgressId, currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
 const totalPages = computed(() => pageInfo.value?.totalPages)
@@ -24,10 +34,41 @@ function onUpdateCurrentPage (pageNumber: number) {
 watch(pageSizeSelected, () => {
   currentPage.value = 0
 }, { immediate: true })
+
+function useProgramProgressFilter () {
+  const { data: programs, isFetched: isAllMyProgramProgressFetched } = useAllMyProgramProgressQuery()
+
+  const selectedProgramProgress: Ref<ProgramProgressDTO | undefined> = ref(
+    !isNil(programs.value) && !isEmpty(programs.value) ? programs.value[0] : undefined
+  )
+
+  function onChangeSelectedProgramProgress (program: ProgramProgressDTO) {
+    selectedProgramProgress.value = program
+    currentPage.value = 0
+  }
+
+  watch(isAllMyProgramProgressFetched, () => {
+    if (isAllMyProgramProgressFetched.value && isNil(selectedProgramProgress.value)) {
+      selectedProgramProgress.value = programs.value?.[0]
+    }
+  })
+
+  return {
+    programs,
+    selectedProgramProgress,
+    onChangeSelectedProgramProgress
+  }
+}
 </script>
 
 <template>
   <div class="ams-list-container">
+    <ProgramProgressSelector
+      v-if="programs && programs?.length > 0"
+      :programs="programs"
+      :selected-program="selectedProgramProgress"
+      @program-selected="onChangeSelectedProgramProgress"
+    />
     <div class="top-pagination-container">
       <AmsPageSizePicker />
       <AvPagination

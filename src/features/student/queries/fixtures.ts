@@ -11,6 +11,7 @@ import {
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
+import { v4 as uuidv4 } from 'uuid'
 
 export const mockedAmss: AmsViewDTO[] = [
   {
@@ -190,13 +191,13 @@ function getRandomAmsProgress (status: AmsStatus): AmsViewDTO['progress'] {
   return { startedActivities, totalActivities }
 }
 
-export function createMockedAmsViewResponse (pageSize: number, totalElements: number, number: number): AmsViewResponse {
+export function createMockedAmsViewResponse (pageSize: number, totalElements: number, number: number, programProgressId: string): AmsViewResponse {
   const mockedAmss: AmsViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const randomStatus = getRandomAmsStatus()
     const ams = {
-      id: `ams${i}`,
-      title: `Ma super activité de mise en situation ${i}`,
+      id: uuidv4(),
+      title: `Ma super activité de mise en situation ${i} - ${programProgressId}`,
       countSkills: Math.floor(Math.random() * 10),
       countTraces: Math.floor(Math.random() * 10),
       status: randomStatus,

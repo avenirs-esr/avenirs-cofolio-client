@@ -1,5 +1,6 @@
 import type { TraceConfigurationInfo, TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
-import { createMockedTracesViewResponse, useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { mount } from '@vue/test-utils'

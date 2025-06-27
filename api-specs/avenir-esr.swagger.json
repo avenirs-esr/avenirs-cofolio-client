@@ -496,6 +496,15 @@
         "operationId": "getAmsView",
         "parameters": [
           {
+            "name": "programProgressId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
