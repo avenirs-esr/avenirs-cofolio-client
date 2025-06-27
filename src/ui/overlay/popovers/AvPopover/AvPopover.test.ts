@@ -3,7 +3,6 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type ComponentPublicInstance, h } from 'vue'
 
-// Mock complet de useFocusTrap
 const initializeFocusTrapMock = vi.fn()
 const cleanupFocusTrapMock = vi.fn()
 
