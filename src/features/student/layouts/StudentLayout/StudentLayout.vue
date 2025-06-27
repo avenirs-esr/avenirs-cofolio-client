@@ -28,6 +28,7 @@ const showMailboxModal = ref(false)
 function displayMailboxModal () {
   showMailboxModal.value = true
 }
+
 function hideMailboxModal () {
   showMailboxModal.value = false
 }
@@ -36,6 +37,7 @@ const showNotificationsModal = ref(false)
 function displayNotificationsModal () {
   showNotificationsModal.value = true
 }
+
 function hideNotificationsModal () {
   showNotificationsModal.value = false
 }
@@ -44,6 +46,7 @@ const showProfileModal = ref(false)
 function displayProfileModal () {
   showProfileModal.value = true
 }
+
 function hideProfileModal () {
   showProfileModal.value = false
 }

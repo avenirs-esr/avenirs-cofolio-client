@@ -54,6 +54,7 @@ function hideModal () {
   searchModalOpened.value = false
   document.getElementById('button-menu')?.focus()
 }
+
 function onKeyDown (e: KeyboardEvent) {
   if (e.key === 'Escape') {
     hideModal()
@@ -76,6 +77,7 @@ function showMenu () {
     document.getElementById('close-button')?.focus()
   })
 }
+
 function showSearchModal () {
   modalOpened.value = true
   menuOpened.value = false

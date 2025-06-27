@@ -16,15 +16,19 @@ function selectTab (offset: number) {
   const totalTabs = tabItems.value.length
   activeTab.value = (activeTab.value + offset + totalTabs) % totalTabs
 }
+
 function selectPrevious () {
   selectTab(-1)
 }
+
 function selectNext () {
   selectTab(1)
 }
+
 function selectFirst () {
   activeTab.value = 0
 }
+
 function selectLast () {
   activeTab.value = tabItems.value.length - 1
 }

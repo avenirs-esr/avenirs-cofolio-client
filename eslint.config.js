@@ -47,6 +47,14 @@ export default antfu({
         importNames: autoImportConfig.vue,
         message: 'This Vue API is auto-imported by unplugin-auto-import. Remove the explicit import.'
       }]
-    }]
+    }],
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: 'function', next: 'function' },
+      { blankLine: 'always', prev: 'class', next: 'class' },
+      { blankLine: 'always', prev: 'return', next: 'return' },
+    ],
+    'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
+
   },
 })
