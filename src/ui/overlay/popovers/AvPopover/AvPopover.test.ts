@@ -3,28 +3,36 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { type ComponentPublicInstance, h } from 'vue'
 
-vi.mock('focus-trap-vue', () => ({
-  FocusTrap: {
-    name: 'FocusTrap',
-    template: '<div><slot /></div>'
-  }
+// Mock complet de useFocusTrap
+const initializeFocusTrapMock = vi.fn()
+const cleanupFocusTrapMock = vi.fn()
+
+vi.mock('@/common/composables/use-focus-trap/use-focus-trap', () => ({
+  useFocusTrap: () => ({
+    initializeFocusTrap: initializeFocusTrapMock,
+    cleanupFocusTrap: cleanupFocusTrapMock
+  })
 }))
 
-describe('avPopover', () => {
+describe('given AvPopover component with mocked useFocusTrap', () => {
   let wrapper: ReturnType<typeof mount<typeof AvPopover>>
 
-  const mountComponent = (popoverSlot?: () => ReturnType<typeof h>) => {
-    wrapper = mount<typeof AvPopover>(AvPopover, {
+  const mountComponent = (slots = {}) => {
+    wrapper = mount(AvPopover, {
       global: {
         stubs: {
-          teleport: true,
+          teleport: {
+            props: ['to'],
+            render () {
+              return this.$slots.default()
+            }
+          }
         }
       },
       slots: {
         trigger: ({ toggle }) => h('button', { class: 'trigger', onClick: toggle }, 'Open'),
-        popover: popoverSlot ?? (() => h('div', { class: 'popover-content' }, [
-          h('button', { autofocus: true }, 'Focusable') // optionnel si besoin de noeud focusable
-        ]))
+        popover: () => h('div', { class: 'popover-content' }, [h('button', 'Focusable')]),
+        ...slots
       },
       attachTo: document.body
     })
@@ -34,87 +42,108 @@ describe('avPopover', () => {
     vi.clearAllMocks()
   })
 
-  describe('initial state', () => {
-    beforeEach(async () => {
+  describe('when in initial state', () => {
+    beforeEach(() => {
       mountComponent()
-      await flushPromises()
     })
 
-    it('should not display the popover by default', () => {
+    it('then it should not display the popover by default', () => {
       expect(wrapper.find('.av-popover').exists()).toBe(false)
+      expect(initializeFocusTrapMock).not.toHaveBeenCalled()
+      expect(cleanupFocusTrapMock).not.toHaveBeenCalled()
     })
   })
 
-  describe('trigger behavior', () => {
+  describe('when trigger is clicked', () => {
     beforeEach(async () => {
       mountComponent()
+      await wrapper.find('.trigger').trigger('click')
+      await wrapper.vm.$nextTick()
       await flushPromises()
     })
 
-    it('should display the popover when the trigger is clicked', async () => {
-      await wrapper.find('.trigger').trigger('click')
-      await flushPromises()
-
+    it('then it should display the popover', () => {
       expect(wrapper.find('.av-popover').exists()).toBe(true)
     })
 
-    it('should render the FocusTrap wrapper when popover is displayed', async () => {
-      await wrapper.find('.trigger').trigger('click')
-      await flushPromises()
-
-      expect(wrapper.findComponent({ name: 'FocusTrap' }).exists()).toBe(true)
+    it('then it should call initializeFocusTrap', () => {
+      expect(initializeFocusTrapMock).toHaveBeenCalled()
     })
 
-    it('should close the popover when pressing Escape', async () => {
-      await wrapper.find('.trigger').trigger('click')
-      await flushPromises()
+    describe('when Escape key pressed', () => {
+      beforeEach(async () => {
+        await wrapper.find('.av-popover').trigger('keydown', { key: 'Escape' })
+        await wrapper.vm.$nextTick()
+      })
 
-      await wrapper.find('.av-popover').trigger('keydown', { key: 'Escape' })
-      await flushPromises()
+      it('then it should close the popover', () => {
+        expect(wrapper.find('.av-popover').exists()).toBe(false)
+      })
 
-      expect(wrapper.find('.av-popover').exists()).toBe(false)
-    })
-  })
-
-  describe('unmount behavior', () => {
-    it('should unmount without error', async () => {
-      mountComponent()
-      await flushPromises()
-
-      await wrapper.find('.trigger').trigger('click')
-      await flushPromises()
-
-      expect(() => wrapper.unmount()).not.toThrow()
+      it('then it should call cleanupFocusTrap', () => {
+        expect(cleanupFocusTrapMock).toHaveBeenCalled()
+      })
     })
   })
 
-  describe('triggerRef handling', () => {
+  describe('when popover is opened with no focusable elements', () => {
+    beforeEach(async () => {
+      mountComponent({
+        popover: () => h('div', { class: 'popover-content' })
+      })
+      await wrapper.find('.trigger').trigger('click')
+      await wrapper.vm.$nextTick()
+    })
+
+    it('then it should display the popover', () => {
+      expect(wrapper.find('.av-popover').exists()).toBe(true)
+    })
+
+    it('then it should still call initializeFocusTrap (mocked)', () => {
+      expect(initializeFocusTrapMock).toHaveBeenCalled()
+    })
+  })
+
+  describe('when the component is unmounted', () => {
     beforeEach(async () => {
       mountComponent()
+      await wrapper.find('.trigger').trigger('click')
+      await wrapper.vm.$nextTick()
       await flushPromises()
+      wrapper.unmount()
     })
 
-    it('should handle null ref', () => {
+    it('then it should call cleanupFocusTrap', () => {
+      expect(cleanupFocusTrapMock).toHaveBeenCalled()
+    })
+  })
+
+  describe('when using setTriggerRef method', () => {
+    beforeEach(() => {
+      mountComponent()
+    })
+
+    it('then it should set triggerRef to null if passed null', () => {
       wrapper.vm.setTriggerRef(null)
       expect(wrapper.vm.triggerRef).toBe(null)
     })
 
-    it('should handle native HTML element', () => {
-      const buttonElement = document.createElement('button')
-      wrapper.vm.setTriggerRef(buttonElement)
-      expect(wrapper.vm.triggerRef).toBe(buttonElement)
+    it('then it should set triggerRef to native HTMLElement', () => {
+      const el = document.createElement('button')
+      wrapper.vm.setTriggerRef(el)
+      expect(wrapper.vm.triggerRef).toBe(el)
     })
 
-    it('should handle Vue component with $el as HTMLElement', () => {
-      const htmlElement = document.createElement('button')
-      const fakeVueComponent = { $el: htmlElement } as unknown as ComponentPublicInstance
-      wrapper.vm.setTriggerRef(fakeVueComponent)
-      expect(wrapper.vm.triggerRef).toBe(htmlElement)
+    it('then it should set triggerRef to Vue component $el if HTMLElement', () => {
+      const el = document.createElement('button')
+      const fakeComponent = { $el: el } as unknown as ComponentPublicInstance
+      wrapper.vm.setTriggerRef(fakeComponent)
+      expect(wrapper.vm.triggerRef).toBe(el)
     })
 
-    it('should handle Vue component with $el as null', () => {
-      const fakeVueComponent = { $el: null } as unknown as ComponentPublicInstance
-      wrapper.vm.setTriggerRef(fakeVueComponent)
+    it('then it should set triggerRef to null if Vue component $el is null', () => {
+      const fakeComponent = { $el: null } as unknown as ComponentPublicInstance
+      wrapper.vm.setTriggerRef(fakeComponent)
       expect(wrapper.vm.triggerRef).toBe(null)
     })
   })

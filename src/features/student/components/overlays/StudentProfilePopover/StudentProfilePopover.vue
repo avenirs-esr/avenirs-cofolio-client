@@ -82,4 +82,8 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+li > .av-button {
+  width: 100% !important;
+}
 </style>
