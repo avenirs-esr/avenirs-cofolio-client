@@ -61,7 +61,7 @@ const educationMenu = computed(() => {
       {
         to: studentEducationAmsRoute,
         text: t('student.navigation.tabs.education.items.activities'),
-        icon: MDI_ICONS.CALENDAR_MONTH,
+        icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
       },
     ]
   }
@@ -75,7 +75,7 @@ const navItems = computed(() => [
     id: homeItemId,
     to: studentHomeRoute,
     text: t('student.navigation.tabs.home').toUpperCase(),
-    icon: MDI_ICONS.HOME_VARIANT,
+    icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
   ...(
     isApcVisible.value
@@ -96,7 +96,7 @@ const navItems = computed(() => [
       {
         to: studentProjectExperiencesRoute,
         text: t('student.navigation.tabs.project.items.experiences'),
-        icon: MDI_ICONS.BRIEFCASE_VARIANT,
+        icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
       },
       { to: studentProjectTrajectoriesRoute, text: t('student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
     ],
@@ -108,8 +108,8 @@ const navItems = computed(() => [
     },
     links: [
       { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
-      { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES },
-      { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT },
+      { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES_OUTLINE },
+      { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE },
     ],
   },
 ])

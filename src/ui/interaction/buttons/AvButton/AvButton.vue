@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<AvButtonProps>(), {
   noRadius: false
 })
 
-const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING, animation: 'spin' }
+const loadingIcon: InstanceType<typeof VIcon>['$props'] = { name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' }
 const iconToRender = computed(() => props.isLoading ? loadingIcon : props.icon)
 const variantClass = computed(() => `av-button--variant-${props.variant.toLowerCase()}`)
 const themeClass = computed(() => `av-button--theme-${props.theme.toLowerCase()}`)
@@ -67,30 +67,30 @@ defineExpose({ computedSvgScale })
 }
 
 .av-button--variant-default.av-button--theme-primary {
-  background-color: white;
+  background-color: var(--other-background-base);
   color: var(--dark-background-primary1) !important;
 }
 
 .av-button--variant-outlined.av-button--theme-primary {
-  background-color: white;
+  background-color: var(--other-background-base);
   color: var(--dark-background-primary1) !important;
   border: 1px solid var(--dark-background-primary1) !important;
 }
 
 .av-button--variant-default.av-button--theme-secondary {
-  background-color: white;
-  color: var(--foreground-text1) !important;
+  background-color: var(--other-background-base);
+  color: var(--text1) !important;
 }
 
 .av-button--variant-outlined.av-button--theme-secondary {
-  background-color: white;
-  color: var(--foreground-text1) !important;
-  border: 1px solid var(--foreground-text1) !important;
+  background-color: var(--other-background-base);
+  color: var(--text1) !important;
+  border: 1px solid var(--text1) !important;
 }
 
 .av-button--theme-primary:hover {
   background-color: var(--dark-background-primary1) !important;
-  color: white !important;
+  color: var(--other-background-base) !important;
 }
 
 .av-button--theme-secondary:hover {

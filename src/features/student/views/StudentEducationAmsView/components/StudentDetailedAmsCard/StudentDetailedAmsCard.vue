@@ -28,8 +28,8 @@ const { t } = useI18n()
           </span>
           <div class="student-detailed-ams-card__icon">
             <AvVIcon
-              :name="MDI_ICONS.BOOK_LOCATION"
-              color="var(--background-card2)"
+              :name="MDI_ICONS.BOOK_LOCATION_OUTLINE"
+              color="var(--card2)"
               :size="2.1875"
             />
           </div>
@@ -43,8 +43,8 @@ const { t } = useI18n()
                 v-if="totalActivities > 0"
                 class="student-detailed-ams-card__ams-badge"
                 :label="t('student.views.studentEducationAmsView.amsListContainer.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
-                color="var(--foreground-text1)"
-                background-color="var(--background-surface-background)"
+                color="var(--text1)"
+                background-color="var(--surface-background)"
                 icon-path="/assets/icons/text-box-check-outline.svg"
                 small
                 ellipsis
@@ -100,7 +100,7 @@ const { t } = useI18n()
   width: 3.125rem;
   height: 3.125rem;
   border-radius: 0.75rem;
-  border: 1px solid white;
+  border: 1px solid var(--other-background-base);
   right: 0;
   top: 2.5rem;
   display: flex;
@@ -151,10 +151,10 @@ const { t } = useI18n()
 }
 
 .n5 {
-  color: var(--background-card2);
+  color: var(--card2);
 }
 
 .n6 {
-  color: var(--foreground-text1);
+  color: var(--text1);
 }
 </style>

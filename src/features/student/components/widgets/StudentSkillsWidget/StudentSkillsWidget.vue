@@ -17,16 +17,16 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
 <template>
   <AvCard
     v-if="displayWidget"
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="skills-widget-container__title">
         <AvIconText
-          :icon="MDI_ICONS.STAR_SHOOTING"
+          :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
           :text="t('student.widgets.skills.title')"
-          icon-color="var(--foreground-icon)"
-          text-color="var(--foreground-text1)"
+          icon-color="var(--icon)"
+          text-color="var(--text1)"
           typography-class="n5"
         />
       </div>
@@ -46,7 +46,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
         <AvButton
           :label="t('student.widgets.skills.buttons.seeAll')"
           :on-click="navigateToStudentSkills"
-          :icon="MDI_ICONS.ARROW_RIGHT"
+          :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
         />
       </div>

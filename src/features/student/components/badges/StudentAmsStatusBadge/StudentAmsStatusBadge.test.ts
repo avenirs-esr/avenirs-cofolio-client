@@ -85,8 +85,8 @@ describe('studentAmsStatusBadge', () => {
       label: 'Non initiée',
       small: true,
       ellipsis: true,
-      color: 'var(--foreground-text2)',
-      backgroundColor: 'var(--white)',
+      color: 'var(--text2)',
+      backgroundColor: 'var(--other-background-base)',
       iconPath: '/assets/icons/calendar-clock-outline.svg'
     })
   })

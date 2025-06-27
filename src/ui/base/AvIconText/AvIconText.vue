@@ -2,8 +2,8 @@
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 
 const {
-  textColor = 'var(--foreground-text1)',
-  iconColor = 'var(--foreground-text1)',
+  textColor = 'var(--text1)',
+  iconColor = 'var(--text1)',
   icon,
   text,
   typographyClass = 'b2-regular',

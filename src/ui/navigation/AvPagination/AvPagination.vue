@@ -185,6 +185,6 @@ a::after {
 .fr-pagination__link:hover,
 .fr-pagination__link:hover * {
   background-color: var(--dark-background-primary1) !important;
-  color: white !important;
+  color: var(--other-background-base) !important;
 }
 </style>

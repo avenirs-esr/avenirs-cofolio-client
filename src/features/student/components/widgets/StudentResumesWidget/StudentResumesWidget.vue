@@ -16,16 +16,16 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
 
 <template>
   <AvCard
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="resumes-widget-container__title">
         <AvIconText
-          :icon="MDI_ICONS.FILE_ACCOUNT"
+          :icon="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
           :text="t('student.widgets.resumes.title')"
-          icon-color="var(--foreground-icon)"
-          text-color="var(--foreground-text1)"
+          icon-color="var(--icon)"
+          text-color="var(--text1)"
           typography-class="s1-bold"
           gap="0.75rem"
         />
@@ -39,15 +39,15 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
             :key="resume.id"
           >
             <AvRichButton
-              :icon-right="MDI_ICONS.ARROW_RIGHT"
+              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="0.5rem"
               :on-click="() => {}"
             >
               <div class="resumes-widget-action__body">
                 <div class="resumes-widget-action__leftIcon">
                   <AvVIcon
-                    :name="MDI_ICONS.FILE_ACCOUNT"
-                    color="var(--white)"
+                    :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
+                    color="var(--other-background-base)"
                     :size="1.5"
                   />
                 </div>
@@ -68,7 +68,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
         <AvButton
           :label="t('student.widgets.resumes.buttons.seeAll')"
           :on-click="navigateToStudentResumes"
-          :icon="MDI_ICONS.ARROW_RIGHT"
+          :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
         />
       </div>

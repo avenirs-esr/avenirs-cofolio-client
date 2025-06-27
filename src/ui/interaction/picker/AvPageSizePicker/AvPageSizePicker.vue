@@ -32,7 +32,7 @@ const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
       :multiple="false"
       :label="t('global.pageSizePicker.label')"
       label-typography-class="b2-regular"
-      label-color="var(--foreground-text2)"
+      label-color="var(--text2)"
     />
   </div>
 </template>
