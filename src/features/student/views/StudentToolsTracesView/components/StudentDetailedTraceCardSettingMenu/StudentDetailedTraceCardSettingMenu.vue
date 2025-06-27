@@ -24,6 +24,7 @@ function useDeleteTrace () {
     emit('onTraceDelete', props.trace)
     emit('close')
   }
+
   function onDeleteTraceError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.views.studentToolsTracesView.errors.delete'),
