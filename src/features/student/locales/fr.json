@@ -64,8 +64,8 @@
         }
       }
     },
-    "modals": {
-      "mailboxModal": {
+    "overlays": {
+      "mailboxPopover": {
         "bodyNoNew": "Vous n'avez aucun nouveau message à consulter.",
         "buttons": {
           "close": "Fermer",
@@ -74,7 +74,7 @@
         },
         "title": "Aucun nouveau message | 1 message non lu | {count} messages non lus"
       },
-      "notificationsModal": {
+      "notificationsPopover": {
         "bodyNoNew": {
           "assessedSkill": "Un tiers vous aura évalué sur une compétence",
           "comingUpEvent": "Un événement a lieu prochainement",
@@ -88,7 +88,7 @@
         },
         "title": "Aucune notification | 1 notification non lue | {count} notifications non lues"
       },
-      "profileModal": {
+      "profilePopover": {
         "buttons": {
           "goToDw": "Aller sur mon ENT",
           "goToSkills": "Aller sur le passeport de compétences",

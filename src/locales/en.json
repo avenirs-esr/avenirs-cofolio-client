@@ -9,6 +9,8 @@
       "prevPageTitle": "Last page"
     },
     "buttons": {
+      "close": "Close",
+      "exit": "Exit",
       "goBack": "Go back"
     },
     "error": {

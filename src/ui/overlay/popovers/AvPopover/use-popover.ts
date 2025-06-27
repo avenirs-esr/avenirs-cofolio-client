@@ -1,6 +1,6 @@
 import { nextTick, type Ref } from 'vue'
 
-export function usePopover (triggerRef: Ref<HTMLElement | null>) {
+export function usePopover (triggerRef: Ref<HTMLElement | null>, popoverRef: Ref<HTMLElement | null>) {
   const showPopover = ref(false)
   const popoverPosition = ref({ top: 0, left: 0 })
 
@@ -8,11 +8,25 @@ export function usePopover (triggerRef: Ref<HTMLElement | null>) {
     showPopover.value = !showPopover.value
     if (showPopover.value && triggerRef.value) {
       await nextTick()
-      const rect = triggerRef.value.getBoundingClientRect()
-      popoverPosition.value = {
-        top: rect.bottom + window.scrollY + 8,
-        left: rect.left + window.scrollX,
+      const triggerRect = triggerRef.value.getBoundingClientRect()
+      const top = triggerRect.bottom + window.scrollY
+      let left = triggerRect.left + window.scrollX
+
+      if (popoverRef.value) {
+        const popoverRect = popoverRef.value.getBoundingClientRect()
+
+        const viewportWidth = window.innerWidth
+        const popoverRight = left + popoverRect.width
+
+        if (popoverRight > viewportWidth) {
+          left = viewportWidth - popoverRect.width - 16
+          if (left < 0) {
+            left = 16
+          }
+        }
       }
+
+      popoverPosition.value = { top, left }
     }
   }
 
