@@ -3,18 +3,20 @@ import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
 import { createFocusTrap } from 'focus-trap'
 import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 
+const { width = '12.5rem', padding = 'var(--spacing-md)' } = defineProps<{ width?: string, padding?: string }>()
+
 defineSlots<{
   trigger: (props: {
     toggle: () => void
     triggerRef: HTMLElement | null
   }) => void
-  popover: () => void
+  popover: (props: { close: () => void }) => void
 }>()
 
 const triggerRef = ref<HTMLElement | null>(null)
 const popoverRef = ref<HTMLElement | null>(null)
 
-const { showPopover, popoverPosition, togglePopover, closePopover } = usePopover(triggerRef)
+const { showPopover, popoverPosition, togglePopover, closePopover } = usePopover(triggerRef, popoverRef)
 
 let focusTrap: ReturnType<typeof createFocusTrap> | null = null
 
@@ -38,6 +40,8 @@ function setTriggerRef (el: Element | ComponentPublicInstance | null) {
     triggerRef.value = null
   }
 }
+
+defineExpose({ setTriggerRef, triggerRef })
 
 watch(showPopover, async (isOpen) => {
   if (isOpen) {
@@ -95,7 +99,10 @@ onBeforeUnmount(() => {
         :style="`top: ${popoverPosition.top}px; left: ${popoverPosition.left}px;`"
         @keydown.esc.prevent="closePopover"
       >
-        <slot name="popover" />
+        <slot
+          name="popover"
+          :close="closePopover"
+        />
       </div>
     </Teleport>
   </div>
@@ -116,10 +123,10 @@ onBeforeUnmount(() => {
   background: var(--background-dialog);
   border: 1px solid var(--dark-background-primary2);
   border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);
   z-index: 9999;
-  min-width: 200px;
-  padding: 8px;
+  width: v-bind('width');
+  padding: v-bind('padding');
   animation: fadeIn 0.2s ease;
 }
 

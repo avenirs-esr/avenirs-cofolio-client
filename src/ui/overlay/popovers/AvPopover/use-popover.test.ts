@@ -16,11 +16,13 @@ describe('usePopover', () => {
 
   describe('given a fresh popover instance', () => {
     let triggerRef: Ref<HTMLElement | null>
+    let popoverRef: Ref<HTMLElement | null>
     let usePopoverResult: ReturnType<typeof usePopover>
 
     beforeEach(() => {
+      popoverRef = ref(null)
       triggerRef = ref(null)
-      const mountComposableResult = mountComposable(() => usePopover(triggerRef), {})
+      const mountComposableResult = mountComposable(() => usePopover(triggerRef, popoverRef), {})
       usePopoverResult = mountComposableResult.result
       unmount = mountComposableResult.unmount
     })
@@ -54,12 +56,26 @@ describe('usePopover', () => {
     describe('when the popover is toggled open with trigger ref', () => {
       beforeEach(async () => {
         triggerRef.value = document.createElement('button')
+        popoverRef.value = document.createElement('div')
+
         vi.spyOn(triggerRef.value, 'getBoundingClientRect').mockReturnValue({
           top: 50,
           left: 100,
           bottom: 100,
           right: 150,
           width: 50,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.spyOn(popoverRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          width: 200,
           height: 50,
           x: 0,
           y: 0,
@@ -76,9 +92,89 @@ describe('usePopover', () => {
 
       it('then the popover position should be updated based on trigger position', () => {
         expect(usePopoverResult.popoverPosition.value).toEqual({
-          top: 100 + window.scrollY + 8,
+          top: 100 + window.scrollY,
           left: 100 + window.scrollX
         })
+      })
+    })
+
+    describe('when the popover would overflow the viewport', () => {
+      beforeEach(async () => {
+        triggerRef.value = document.createElement('button')
+        popoverRef.value = document.createElement('div')
+
+        vi.spyOn(triggerRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 50,
+          left: 1000,
+          bottom: 100,
+          right: 1050,
+          width: 50,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.spyOn(popoverRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          width: 300,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.stubGlobal('innerWidth', 1200)
+
+        await usePopoverResult.togglePopover()
+        await nextTick()
+      })
+
+      it('then the popover should reposition to stay inside viewport', () => {
+        expect(usePopoverResult.popoverPosition.value.left).toBe(1200 - 300 - 16)
+      })
+    })
+
+    describe('when the popover would overflow completely on the left', () => {
+      beforeEach(async () => {
+        triggerRef.value = document.createElement('button')
+        popoverRef.value = document.createElement('div')
+
+        vi.spyOn(triggerRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 50,
+          left: 10,
+          bottom: 100,
+          right: 60,
+          width: 50,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.spyOn(popoverRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          width: 600,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.stubGlobal('innerWidth', 500)
+
+        await usePopoverResult.togglePopover()
+        await nextTick()
+      })
+
+      it('then the popover should reposition to minimum margin if left is negative', () => {
+        expect(usePopoverResult.popoverPosition.value.left).toBe(16)
       })
     })
 
