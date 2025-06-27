@@ -32,14 +32,14 @@ const classes = computed(() => ([
 const icon = computed(() => {
   switch (type) {
     case 'error':
-      return { name: MDI_ICONS.ALERT_CIRCLE, color: 'var(--dark-background-error)' }
+      return { name: MDI_ICONS.ALERT_CIRCLE_OUTLINE, color: 'var(--dark-background-error)' }
     case 'success':
       return { name: MDI_ICONS.CHECK_CIRCLE, color: 'var(--dark-background-success)' }
     case 'warning':
-      return { name: MDI_ICONS.WARNING, color: 'var(--dark-background-warn)' }
+      return { name: MDI_ICONS.WARNING_OUTLINE, color: 'var(--dark-background-warn)' }
     case 'info':
     default:
-      return { name: MDI_ICONS.INFORMATION, color: 'var(--dark-background-primary1)' }
+      return { name: MDI_ICONS.INFORMATION_OUTLINE, color: 'var(--dark-background-primary1)' }
   }
 })
 </script>
@@ -74,7 +74,7 @@ const icon = computed(() => {
       <AvButton
         v-if="closeable"
         icon-only
-        :icon="MDI_ICONS.CLOSE_CIRCLE"
+        :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :title="closeButtonLabel"
         :aria-label="closeButtonLabel"
         small
@@ -92,7 +92,7 @@ const icon = computed(() => {
 
 .fr-alert {
   background-image: none !important;
-  background-color: var(--background-dialog);
+  background-color: var(--dialog);
   border: 1px solid var(--dark-background-primary1);
   border-radius: 0.75rem;
   margin: 0;

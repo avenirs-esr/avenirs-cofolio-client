@@ -41,7 +41,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
           >
             <AvVIcon
               :name="MDI_ICONS.ATTACH_FILE"
-              color="var(--background-card)"
+              color="var(--card)"
               :size="1.938"
             />
           </div>
@@ -53,8 +53,8 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
             v-if="getDaysUntilDeletion > 0"
             :icon="MDI_ICONS.HOURGLASS"
             :text="t('student.views.studentToolsTracesView.studentDetailedTraceCard.getDaysUntilDeletion', { count: getDaysUntilDeletion })"
-            icon-color="var(--foreground-text2)"
-            text-color="var(--foreground-text2)"
+            icon-color="var(--text2)"
+            text-color="var(--text2)"
             typography-class="b2-regular"
             gap="0.75rem"
           />
@@ -139,6 +139,6 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 }
 
 .b1-bold {
-  color: var(--background-card);
+  color: var(--card);
 }
 </style>

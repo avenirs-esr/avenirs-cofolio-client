@@ -26,8 +26,8 @@ function getStatusBadge (status: AmsStatus) {
     case AmsStatus.NOT_STARTED:
       return {
         labelkey: 'student.badges.studentAmsStatusBadge.status.notStarted',
-        color: 'var(--foreground-text2)',
-        backgroundColor: 'var(--white)',
+        color: 'var(--text2)',
+        backgroundColor: 'var(--other-background-base)',
         borderColor: 'var(--other-border-skill-card)',
         iconPath: '/assets/icons/calendar-clock-outline.svg'
       }

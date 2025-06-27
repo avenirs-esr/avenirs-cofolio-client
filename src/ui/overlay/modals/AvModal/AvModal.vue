@@ -26,6 +26,6 @@ defineSlots<{
 :deep(.fr-modal__header),
 :deep(.fr-modal__body),
 :deep(.fr-modal__footer) {
-  background: var(--background-dialog) !important;
+  background: var(--dialog) !important;
 }
 </style>

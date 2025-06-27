@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables/'
 import {
-  StudentMailboxModal,
+  StudentMailboxPopover,
   StudentNavigation,
-  StudentNotificationsModal,
-  StudentProfileModal
+  StudentNotificationsPopover,
+  StudentProfilePopover
 } from '@/features/student'
 import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
-import { AvHeader, MDI_ICONS } from '@/ui'
+import { AvHeader } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -24,67 +23,7 @@ const notificationsCount = computed(() => headerSummary.value?.notificationsCoun
 
 const searchQuery = ref('')
 
-const showMailboxModal = ref(false)
-function displayMailboxModal () {
-  showMailboxModal.value = true
-}
-
-function hideMailboxModal () {
-  showMailboxModal.value = false
-}
-
-const showNotificationsModal = ref(false)
-function displayNotificationsModal () {
-  showNotificationsModal.value = true
-}
-
-function hideNotificationsModal () {
-  showNotificationsModal.value = false
-}
-
-const showProfileModal = ref(false)
-function displayProfileModal () {
-  showProfileModal.value = true
-}
-
-function hideProfileModal () {
-  showProfileModal.value = false
-}
-
-const quickLinks = computed<DsfrHeaderProps['quickLinks']>(() => [
-  {
-    label: t('student.layout.header.quicklinks.mailbox'),
-    to: '',
-    icon: MDI_ICONS.CHAT_BUBBLE,
-    button: true,
-    onClick: ($event: MouseEvent) => {
-      $event.preventDefault()
-      displayMailboxModal()
-    },
-  },
-  {
-    label: t('student.layout.header.quicklinks.notifications'),
-    to: '',
-    icon: notificationsCount.value > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE,
-    button: true,
-    onClick: ($event: MouseEvent) => {
-      $event.preventDefault()
-      displayNotificationsModal()
-    },
-  },
-  {
-    label: name.value,
-    to: '',
-    icon: MDI_ICONS.ACCOUNT_CIRCLE,
-    button: true,
-    onClick: ($event: MouseEvent) => {
-      $event.preventDefault()
-      displayProfileModal()
-    },
-  },
-])
-
-defineExpose({ searchQuery, showMailboxModal, showNotificationsModal, showProfileModal })
+defineExpose({ searchQuery })
 </script>
 
 <template>
@@ -93,31 +32,26 @@ defineExpose({ searchQuery, showMailboxModal, showNotificationsModal, showProfil
     :service-title="t('student.layout.header.serviceTitle')"
     :home-to="studentHomeRoute"
     show-search
-    :quick-links="quickLinks"
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"
   >
+    <template #before-quick-links>
+      <ul class="fr-btns-group">
+        <li>
+          <StudentMailboxPopover :messages-count="messagesCount" />
+        </li>
+        <li>
+          <StudentNotificationsPopover :notifications-count="notificationsCount" />
+        </li>
+        <li>
+          <StudentProfilePopover :username="name" />
+        </li>
+      </ul>
+    </template>
     <template #mainnav>
       <StudentNavigation />
     </template>
   </AvHeader>
-
-  <StudentMailboxModal
-    :messages-count="messagesCount"
-    :show-modal="showMailboxModal"
-    :on-close="hideMailboxModal"
-  />
-
-  <StudentNotificationsModal
-    :notifications-count="notificationsCount"
-    :show-modal="showNotificationsModal"
-    :on-close="hideNotificationsModal"
-  />
-
-  <StudentProfileModal
-    :show-modal="showProfileModal"
-    :on-close="hideProfileModal"
-  />
 
   <main>
     <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
@@ -132,8 +66,13 @@ defineExpose({ searchQuery, showMailboxModal, showNotificationsModal, showProfil
   padding-right: 0.5rem !important;
 }
 
+:deep(.fr-header__menu-links > .fr-btns-group > li > .av-popover-wrapper > .av-popover-trigger-wrapper > .fr-btn),
 :deep(.fr-header__menu-links > nav .fr-btns-group > li > .fr-btn) {
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
+}
+
+:deep(.fr-btns-group .fr-btn) {
+  margin-bottom: 0;
 }
 </style>

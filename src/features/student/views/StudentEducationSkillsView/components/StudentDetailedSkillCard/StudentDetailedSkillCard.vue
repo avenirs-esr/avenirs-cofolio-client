@@ -37,8 +37,8 @@ const hoverBorderColor = ref(computedHoverBorderColor)
             :style="{ background: `var(${skillColor})` }"
           >
             <AvVIcon
-              :name="MDI_ICONS.STAR_SHOOTING"
-              color="var(--background-card2)"
+              :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
+              color="var(--card2)"
               :size="2.5625"
             />
           </div>
@@ -68,7 +68,7 @@ const hoverBorderColor = ref(computedHoverBorderColor)
               <AvBadge
                 :label="`${levelCount} niveaux`"
                 color="var(--foreground-text)"
-                background-color="var(--background-surface-background)"
+                background-color="var(--surface-background)"
                 icon-path="/assets/icons/text-box-check-outline.svg"
                 small
                 ellipsis
@@ -121,7 +121,7 @@ const hoverBorderColor = ref(computedHoverBorderColor)
   width: 3.125rem;
   height: 3.125rem;
   border-radius: 0.75rem;
-  border: 1px solid white;
+  border: 1px solid var(--other-background-base);
   right: 0;
   top: 2.5rem;
   display: flex;
@@ -160,10 +160,10 @@ const hoverBorderColor = ref(computedHoverBorderColor)
 }
 
 .n5 {
-  color: var(--background-card2);
+  color: var(--card2);
 }
 
 .n6 {
-  color: var(--foreground-text1);
+  color: var(--text1);
 }
 </style>

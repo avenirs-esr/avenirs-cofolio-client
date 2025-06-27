@@ -24,8 +24,8 @@ function getRandomSkillColor () {
 
 const category = computed(() => course ?? t('student.cards.studentTraceCard.lifeProject'))
 const typeInfo = computed(() => type === TraceType.GROUP
-  ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4 }
-  : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1 })
+  ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
+  : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
 
 const theme = ref({
   hoverBorderColor: 'var(--dark-background-primary1)',
@@ -39,7 +39,7 @@ const theme = ref({
   >
     <AvCard
       border-color="--other-border-skill-card"
-      title-background="--background-surface-background"
+      title-background="--surface-background"
       title-height="4.375rem"
       :to="to"
     >
@@ -50,11 +50,11 @@ const theme = ref({
           </span>
           <div
             class="student-trace-card__icon"
-            :style="{ background: 'var(--background-surface-background)' }"
+            :style="{ background: 'var(--surface-background)' }"
           >
             <AvVIcon
               :name="MDI_ICONS.ATTACH_FILE"
-              color="var(--foreground-text1)"
+              color="var(--text1)"
               :size="1.9375"
             />
           </div>
@@ -70,8 +70,8 @@ const theme = ref({
               :style="{ backgroundColor: getRandomSkillColor() }"
             >
               <AvVIcon
-                :name="MDI_ICONS.STAR_SHOOTING"
-                color="var(--white)"
+                :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
+                color="var(--other-background-base)"
               />
             </div>
             <span class="b2-regular">{{ t('student.cards.studentTraceCard.skillCount', { count: skillCount }) }}</span>
@@ -86,8 +86,8 @@ const theme = ref({
             <AvIconText
               :icon="MDI_ICONS.SWAP_VERTICAL_VARIANT"
               :text="category"
-              icon-color="var(--foreground-text1)"
-              text-color="var(--foreground-text1)"
+              icon-color="var(--text1)"
+              text-color="var(--text1)"
               typography-class="b2-regular"
               gap="0.75rem"
             />
@@ -194,7 +194,7 @@ const theme = ref({
 
 .fr-tag {
   display: block;
-  color: var(--foreground-text2);
+  color: var(--text2);
   background-color: var(--light-background-neutral);
   align-items: center;
   padding: 0 0.5rem 0 0.5rem;

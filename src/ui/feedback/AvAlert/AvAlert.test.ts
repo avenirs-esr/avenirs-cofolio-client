@@ -107,7 +107,7 @@ describe('avAlert', () => {
     const icon = wrapper.findComponent({ name: 'AvVIcon' })
     expect(icon.exists()).toBe(true)
     expect(icon.props()).toMatchObject({
-      name: MDI_ICONS.INFORMATION,
+      name: MDI_ICONS.INFORMATION_OUTLINE,
       color: 'var(--dark-background-primary1)',
       size: 3,
     })
@@ -141,7 +141,7 @@ describe('avAlert', () => {
     const icon = wrapper.findComponent({ name: 'AvVIcon' })
     expect(icon.exists()).toBe(true)
     expect(icon.props()).toMatchObject({
-      name: MDI_ICONS.ALERT_CIRCLE,
+      name: MDI_ICONS.ALERT_CIRCLE_OUTLINE,
       color: 'var(--dark-background-error)',
       size: 3,
     })
@@ -158,7 +158,7 @@ describe('avAlert', () => {
     const icon = wrapper.findComponent({ name: 'AvVIcon' })
     expect(icon.exists()).toBe(true)
     expect(icon.props()).toMatchObject({
-      name: MDI_ICONS.WARNING,
+      name: MDI_ICONS.WARNING_OUTLINE,
       color: 'var(--dark-background-warn)',
       size: 3,
     })

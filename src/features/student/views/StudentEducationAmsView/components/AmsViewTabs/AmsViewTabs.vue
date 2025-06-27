@@ -19,7 +19,7 @@ const activeTab = ref(0)
     </AvTab>
     <AvTab
       :title="t('student.views.studentEducationAmsView.amsViewTabs.planning')"
-      :icon="MDI_ICONS.CALENDAR_MONTH"
+      :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
     >
       <AmsPlanningContainer />
     </AvTab>
