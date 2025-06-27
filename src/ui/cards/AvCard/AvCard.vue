@@ -9,9 +9,9 @@ export interface AvCardProps {
 }
 
 const {
-  backgroundColor = '--background-card',
-  borderColor = '--foreground-stroke',
-  titleBackground = '--background-surface-background',
+  backgroundColor = '--card',
+  borderColor = '--stroke',
+  titleBackground = '--surface-background',
   titleHeight,
 } = defineProps<AvCardProps>()
 

@@ -79,7 +79,7 @@ function useDeleteTrace () {
   position: absolute;
   top: 6rem;
   right: 0.25rem;
-  background: var(--background-dialog);
+  background: var(--dialog);
   border: 0.06rem solid var(--dark-background-primary2);
   border-radius: var(--radius-lg);
   box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);

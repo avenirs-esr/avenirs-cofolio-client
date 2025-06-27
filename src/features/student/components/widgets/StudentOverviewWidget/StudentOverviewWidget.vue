@@ -23,8 +23,8 @@ defineExpose({ fullName })
 <template>
   <AvCard
     v-if="studentSummary"
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="student-overview-widget__title">
@@ -56,7 +56,7 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--edit-profile"
-              :icon-right="MDI_ICONS.PENCIL"
+              :icon-right="MDI_ICONS.PENCIL_OUTLINE"
               :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
@@ -65,7 +65,7 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--share-resume"
-              :icon-right="MDI_ICONS.FILE_ACCOUNT"
+              :icon-right="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
               :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareResume') }}</span>
@@ -74,7 +74,7 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--share-cofolio"
-              :icon-right="MDI_ICONS.SHARE_VARIANT"
+              :icon-right="MDI_ICONS.SHARE_VARIANT_OUTLINE"
               :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareCofolio') }}</span>

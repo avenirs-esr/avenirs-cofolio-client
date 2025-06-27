@@ -14,7 +14,7 @@ export interface AvRichButtonProps {
 const {
   iconLeft = undefined,
   iconRight = undefined,
-  borderColor = '--foreground-stroke',
+  borderColor = '--stroke',
   hoverBorderColor = '--dark-background-primary1',
   customPadding = '1rem',
   onClick

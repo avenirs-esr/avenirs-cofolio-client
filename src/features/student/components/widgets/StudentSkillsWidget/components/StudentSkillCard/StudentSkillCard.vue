@@ -67,8 +67,8 @@ const theme = ref({
             :style="{ background: `var(${skillColor})` }"
           >
             <AvVIcon
-              :name="MDI_ICONS.STAR_SHOOTING"
-              color="var(--background-card2)"
+              :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
+              color="var(--card2)"
               :size="2.0625"
             />
           </div>
@@ -133,7 +133,7 @@ const theme = ref({
   width: 3.125rem;
   height: 3.125rem;
   border-radius: 0.75rem;
-  border: 1px solid white;
+  border: 1px solid var(--other-background-base);
   right: 0;
   top: 4.6875rem;
   display: flex;
@@ -161,7 +161,7 @@ const theme = ref({
 }
 
 .fr-badge--new {
-  color: var(--foreground-text1);
+  color: var(--text1);
   background-color: var(--light-background-neutral);
 }
 
@@ -176,6 +176,6 @@ const theme = ref({
 }
 
 .n6 {
-  color: var(--background-card2);
+  color: var(--card2);
 }
 </style>
