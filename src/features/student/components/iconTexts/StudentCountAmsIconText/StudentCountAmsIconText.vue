@@ -11,8 +11,8 @@ const { t } = useI18n()
   <AvIconText
     :icon="MDI_ICONS.TEST_TUBE_EMPTY"
     :text="t('student.iconTexts.studentCountAmsIconText.text', { count: countAms })"
-    icon-color="var(--foreground-text1)"
-    text-color="var(--foreground-text1)"
+    icon-color="var(--text1)"
+    text-color="var(--text1)"
     typography-class="b2-regular"
     gap="0.5rem"
   />

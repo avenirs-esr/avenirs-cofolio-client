@@ -22,16 +22,16 @@ const renderedTraces = computed(() => {
 
 <template>
   <AvCard
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="traces-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.ATTACH_FILE"
           :text="t('student.widgets.traces.title')"
-          icon-color="var(--foreground-icon)"
-          text-color="var(--foreground-title)"
+          icon-color="var(--icon)"
+          text-color="var(--title)"
           typography-class="n5"
           gap="0.75rem"
         />
@@ -51,7 +51,7 @@ const renderedTraces = computed(() => {
         <AvButton
           :label="t('student.widgets.traces.buttons.seeAll')"
           :on-click="navigateToStudentTraces"
-          :icon="MDI_ICONS.ARROW_RIGHT"
+          :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
         />
       </div>

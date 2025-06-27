@@ -1,37 +1,54 @@
 :root {
-  --background-card: #FEFEFE;
-  --background-card2: #FAFAFA;
-  --background-dialog: #FDFDFD;
-  --background-surface-background: #F6F6F6;
-
-  --dark-background-critical: #8B64F4;
-  --dark-background-error: #B6010B;
+  --dark-foreground: #FAFAFAEB;
   --dark-background-primary1: #000091;
   --dark-background-primary2: #2853B4;
+  --dark-background-primary3: #388A9B;
+  --dark-background-accent: #E92B93;
   --dark-background-success: #166735;
+  --dark-background-info: #0057B0;
   --dark-background-warn: #9C3900;
-
-  --dark-foreground: #FAFAFAEB;
-
-  --foreground-divider: #14171A5C;
-  --foreground-icon: #14171A7A;
-  --foreground-stroke: #14171A29;
-  --foreground-text1: #14171ACC;
-  --foreground-text2: #14171AA3;
-  --foreground-title: #14171AEB;
-
-  --light-background-critical: #ECE5FD;
-  --light-background-error: #F9CACC;
-  --light-background-neutral: #E9EAEA;
+  --dark-background-error: #B6010B;
+  --dark-background-critical: #8B64F4;
+  --dark-background-neutral: #7E7F81;
+  --light-background-primary1: #D4D4EC;
   --light-background-primary2: #C4D6FF;
+  --light-background-primary3: #D6EDF1;
+  --light-background-accent: #FCE3F1;
   --light-background-success: #BDDECA;
+  --light-background-info: #B8DAFC;
   --light-background-warn: #F4CEB8;
-  --light-background-hover: #0000000A;
-  
-  --light-foreground-error: #800108;
+  --light-background-error: #F9CACC;
+  --light-background-critical: #ECE5FD;
+  --light-background-neutral: #E9EAEA;
   --light-foreground-primary1: #2929A2;
+  --light-foreground-primary2: #1B397C;
+  --light-foreground-primary3: #2D6F7E;
+  --light-foreground-accent: #C9006E;
   --light-foreground-success: #0F4625;
-
+  --light-foreground-info: #003C79;
+  --light-foreground-warn: #6B2800;
+  --light-foreground-error: #800108;
+  --light-foreground-critical: #7040F1;
+  --light-foreground-neutral: #666769;
+  --base: #14171A;
+  --title: #14171AEB;
+  --text1: #14171ACC;
+  --text2: #14171AA3;
+  --icon: #14171A7A;
+  --divider: #14171A5C;
+  --stroke: #14171A29;
+  --selected-disabled-foreground: #14171ACC;
+  --unselected-disabled-foreground: #14171AA3;
+  --contrast-foreground: #FAFAFAEB;
+  --skeleton: #14171A14;
+  --surface-background: #F6F6F6;
+  --card: #FEFEFE;
+  --card2: #FAFAFA;
+  --dialog: #FDFDFD;
+  --selected-disabled-background: #14171A29;
+  --unselected-disabled-background: #14171A0A;
+  --transparency: #14171AA3;
+  // for skills
   --skill1: #7216D4;
   --skill2: #9E0592;
   --skill3: #2338D1;
@@ -44,11 +61,62 @@
   --skill10: #0F2099;
   --skill11: #690F62;
   --skill12: #721129;
-
-  // for classic colors
-  --white: #FFFFFF;
-
   // for nameless colors in figma
+  --other-background-base: #FFFFFF;
   --other-background-event-date: #B8DAFC80;
   --other-border-skill-card: #D9D9DA;
+}
+
+.theme-dark {
+  --dark-foreground: #FAFAFAEB;
+  --dark-background-primary1: #4C4CB2;
+  --dark-background-primary2: #2853B4;
+  --dark-background-primary3: #388A9B;
+  --dark-background-accent: #E92B93;
+  --dark-background-success: #166735;
+  --dark-background-info: #0057B0;
+  --dark-background-warn: #9C3900;
+  --dark-background-error: #B6010B;
+  --dark-background-critical: #8B64F4;
+  --dark-background-neutral: #7E7F81;
+  --light-background-primary1: #000091;
+  --light-background-primary2: #142A5B;
+  --light-background-primary3: #10272D;
+  --light-background-accent: #4D002A;
+  --light-background-success: #0B331B;
+  --light-background-info: #002C59;
+  --light-background-warn: #4F1D00;
+  --light-background-error: #610006;
+  --light-background-critical: #271066;
+  --light-background-neutral: #222527;
+  --light-foreground-primary1: #2929A2;
+  --light-foreground-primary2: #1B397C;
+  --light-foreground-primary3: #2D6F7E;
+  --light-foreground-accent: #C9006E;
+  --light-foreground-success: #0F4625;
+  --light-foreground-info: #003C79;
+  --light-foreground-warn: #6B2800;
+  --light-foreground-error: #800108;
+  --light-foreground-critical: #7040F1;
+  --light-foreground-neutral: #666769;
+  --base: #FAFAFA;
+  --title: #FAFAFAEB;
+  --text1: #FAFAFACC;
+  --text2: #FAFAFAA3;
+  --icon: #FAFAFA7A;
+  --divider: #FAFAFA5C;
+  --stroke: #FAFAFA29;
+  --selected-disabled-foreground: #FAFAFACC;
+  --unselected-disabled-foreground: #FAFAFAA3;
+  --contrast-foreground: #14171AEB;
+  --skeleton: #FAFAFA14;
+  --surface-background: #F6F6F6;
+  --card: #14171A;
+  --card2: #25272B;
+  --dialog: #14171A;
+  --selected-disabled-background: #FAFAFA29;
+  --unselected-disabled-background: #FAFAFA0A;
+  --transparency: #FAFAFAA3;
+  // for nameless colors in figma
+  --other-background-base: #14171A;
 }

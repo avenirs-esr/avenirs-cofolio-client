@@ -30,7 +30,7 @@ interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
 export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
 
 const props = withDefaults(defineProps<AvTagPickerProps>(), {
-  labelColor: 'var(--foreground-text2)',
+  labelColor: 'var(--text2)',
   labelTypographyClass: 'b2-regular',
 })
 
@@ -130,10 +130,10 @@ function getDisabled (option: AvTagPickerOption): boolean {
 }
 
 .fr-tag {
-  border: 1px solid var(--foreground-divider);
+  border: 1px solid var(--divider);
   border-radius: 0.5rem;
-  color: var(--foreground-text2) !important;
-  background: white !important;
+  color: var(--text2) !important;
+  background: var(--other-background-base) !important;
   padding: 0.25rem 0.5rem !important;
   display: flex !important;
   flex-direction: row !important;
@@ -142,20 +142,20 @@ function getDisabled (option: AvTagPickerOption): boolean {
 
 .fr-tag:hover {
   border: 1px solid var(--dark-background-primary1);
-  color: white !important;
+  color: var(--other-background-base) !important;
   background: var(--dark-background-primary1) !important;
 }
 
 .fr-tag--selected {
   border: 1px solid var(--dark-background-primary1);
   color: var(--dark-background-primary1) !important;
-  background: white !important;
+  background: var(--other-background-base) !important;
 }
 
 .fr-tag--selected:hover {
   border: 1px solid var(--dark-background-primary1);
   color: var(--dark-background-primary1) !important;
-  background: white !important;
+  background: var(--other-background-base) !important;
 }
 
 .fr-tag--selected::after {

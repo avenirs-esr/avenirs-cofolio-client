@@ -12,8 +12,8 @@ const { t } = useI18n()
     :icon="MDI_ICONS.ATTACH_FILE"
     :text="t('student.iconTexts.studentCountTracesIconText.text', { count: countTraces })"
     :gap="gap"
-    icon-color="var(--foreground-text1)"
-    text-color="var(--foreground-text1)"
+    icon-color="var(--text1)"
+    text-color="var(--text1)"
     typography-class="b2-regular"
   />
 </template>

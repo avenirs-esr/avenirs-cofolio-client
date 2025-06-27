@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
 
 .av-popover {
   position: absolute;
-  background: var(--background-dialog);
+  background: var(--dialog);
   border: 1px solid var(--dark-background-primary2);
   border-radius: var(--radius-lg);
   box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);

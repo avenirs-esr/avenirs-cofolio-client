@@ -10,7 +10,7 @@
 .fr-btn.fr-btn--search:hover,
 .fr-btn.fr-translate__btn:hover {
   background-color: var(--dark-background-primary1) !important;
-  color: white !important;
+  color: var(--other-background-base) !important;
 }
 
 .fr-search-bar .fr-btn {
@@ -20,5 +20,5 @@
 .fr-nav__btn:hover,
 .fr-nav__link:hover {
   background-color: var(--dark-background-primary1) !important;
-  color: white !important;
+  color: var(--other-background-base) !important;
 }

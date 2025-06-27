@@ -93,7 +93,7 @@ defineExpose({ activeTab })
 :deep(.fr-tabs__list) {
   display: flex !important;
   width: 100% !important;
-  background: var(--background-surface-background) !important;
+  background: var(--surface-background) !important;
   gap: 0.75rem !important;
   align-items: center !important;
 }
@@ -120,7 +120,7 @@ defineExpose({ activeTab })
 :deep(.fr-tabs__tab[aria-selected=true]:not(:disabled)) {
   @extend .s2-bold;
   color: var(--dark-background-primary1) !important;
-  background: white !important;
+  background: var(--other-background-base) !important;
 }
 
 :deep(.fr-tabs__tab:not([aria-selected=true]:not(:disabled)):hover  ) {
@@ -138,6 +138,6 @@ defineExpose({ activeTab })
   top: 0.5rem;
   bottom: 0.5rem;
   width: 0.0625rem;
-  background-color: var(--foreground-text1);
+  background-color: var(--text1);
 }
 </style>

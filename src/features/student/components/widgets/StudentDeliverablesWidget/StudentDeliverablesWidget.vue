@@ -23,14 +23,14 @@ const renderedDeliverables = computed(() => {
 
 <template>
   <AvCard
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="deliverables-widget-container__title">
         <AvVIcon
-          :name="MDI_ICONS.WARNING"
-          color="var(--foreground-icon)"
+          :name="MDI_ICONS.WARNING_OUTLINE"
+          color="var(--icon)"
           :size="2"
         />
         <span class="s1-bold">
@@ -46,7 +46,7 @@ const renderedDeliverables = computed(() => {
             :key="deliverable.id"
           >
             <AvRichButton
-              :icon-right="MDI_ICONS.ARROW_RIGHT"
+              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="0.5rem"
               :on-click="navigateToStudentDeliverables"
             >
@@ -78,7 +78,7 @@ const renderedDeliverables = computed(() => {
         <AvButton
           :label="t('student.widgets.deliverables.buttons.seeAll')"
           :on-click="navigateToStudentDeliverables"
-          :icon="MDI_ICONS.ARROW_RIGHT"
+          :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
         />
       </div>
@@ -146,7 +146,7 @@ const renderedDeliverables = computed(() => {
 }
 
 .calendar-month {
-  color: var(--foreground-text1);
+  color: var(--text1);
   font-size: var(--font-size-xxs);
   line-height: var(--font-size-xxs);
 }

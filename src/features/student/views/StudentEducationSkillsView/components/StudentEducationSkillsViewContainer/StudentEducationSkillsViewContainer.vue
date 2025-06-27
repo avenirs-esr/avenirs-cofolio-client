@@ -37,6 +37,6 @@ const { course } = defineProps<{ course: ProgramProgressViewDTO }>()
 }
 
 .n5 {
-  color: var(--foreground-text1)
+  color: var(--text1)
 }
 </style>
