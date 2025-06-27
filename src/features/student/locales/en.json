@@ -64,8 +64,8 @@
         }
       }
     },
-    "modals": {
-      "mailboxModal": {
+    "overlays": {
+      "mailboxPopover": {
         "bodyNoNew": "You have no new messages to consult.",
         "buttons": {
           "close": "Close",
@@ -74,7 +74,7 @@
         },
         "title": "No new messages | 1 unread message | {count} unread messages"
       },
-      "notificationsModal": {
+      "notificationsPopover": {
         "bodyNoNew": {
           "assessedSkill": "A third party will have assessed you on a skill",
           "comingUpEvent": "An event is coming up",
@@ -88,7 +88,7 @@
         },
         "title": "No notification | 1 unread notification | {count} unread notifications"
       },
-      "profileModal": {
+      "profilePopover": {
         "buttons": {
           "goToDw": "Go to my DW",
           "goToSkills": "Go to the skills passport",

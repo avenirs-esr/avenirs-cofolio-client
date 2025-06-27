@@ -1,22 +1,22 @@
 <script lang="ts" setup>
+import type { ComponentPublicInstance } from 'vue'
 import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
-import { createFocusTrap } from 'focus-trap'
-import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
+import { FocusTrap } from 'focus-trap-vue'
+
+const { width = '12.5rem', padding = 'var(--spacing-md)' } = defineProps<{ width?: string, padding?: string }>()
 
 defineSlots<{
   trigger: (props: {
     toggle: () => void
     triggerRef: HTMLElement | null
   }) => void
-  popover: () => void
+  popover: (props: { close: () => void }) => void
 }>()
 
 const triggerRef = ref<HTMLElement | null>(null)
 const popoverRef = ref<HTMLElement | null>(null)
 
-const { showPopover, popoverPosition, togglePopover, closePopover } = usePopover(triggerRef)
-
-let focusTrap: ReturnType<typeof createFocusTrap> | null = null
+const { showPopover, popoverPosition, togglePopover, closePopover } = usePopover(triggerRef, popoverRef)
 
 function setTriggerRef (el: Element | ComponentPublicInstance | null) {
   if (!el) {
@@ -39,38 +39,7 @@ function setTriggerRef (el: Element | ComponentPublicInstance | null) {
   }
 }
 
-watch(showPopover, async (isOpen) => {
-  if (isOpen) {
-    await nextTick()
-
-    if (popoverRef.value) {
-      const focusable = popoverRef.value.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
-
-      if (!focusable) {
-        return
-      }
-
-      focusTrap = createFocusTrap(popoverRef.value, {
-        escapeDeactivates: true,
-        onDeactivate: () => closePopover(),
-        returnFocusOnDeactivate: true,
-        clickOutsideDeactivates: true
-      })
-
-      focusTrap.activate()
-    }
-  }
-  else {
-    focusTrap?.deactivate()
-    triggerRef.value?.focus()
-  }
-})
-
-onBeforeUnmount(() => {
-  focusTrap?.deactivate()
-})
+defineExpose({ setTriggerRef, triggerRef })
 </script>
 
 <template>
@@ -87,16 +56,20 @@ onBeforeUnmount(() => {
     </div>
 
     <Teleport to="body">
-      <div
-        v-if="showPopover"
-        ref="popoverRef"
-        tabindex="-1"
-        class="av-popover"
-        :style="`top: ${popoverPosition.top}px; left: ${popoverPosition.left}px;`"
-        @keydown.esc.prevent="closePopover"
-      >
-        <slot name="popover" />
-      </div>
+      <FocusTrap v-if="showPopover">
+        <div
+          ref="popoverRef"
+          tabindex="-1"
+          class="av-popover"
+          :style="`top: ${popoverPosition.top}px; left: ${popoverPosition.left}px;`"
+          @keydown.esc.prevent="closePopover"
+        >
+          <slot
+            name="popover"
+            :close="closePopover"
+          />
+        </div>
+      </FocusTrap>
     </Teleport>
   </div>
 </template>
@@ -116,10 +89,10 @@ onBeforeUnmount(() => {
   background: var(--background-dialog);
   border: 1px solid var(--dark-background-primary2);
   border-radius: var(--radius-lg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);
   z-index: 9999;
-  min-width: 200px;
-  padding: 8px;
+  width: v-bind('width');
+  padding: v-bind('padding');
   animation: fadeIn 0.2s ease;
 }
 
