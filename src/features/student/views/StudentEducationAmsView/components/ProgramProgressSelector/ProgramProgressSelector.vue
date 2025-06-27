@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProgramProgressDTO } from '@/api/avenir-esr'
-import type { AvTagPickerOption, } from '@/ui'
 import type { ComputedRef, Ref } from 'vue'
+import { AvTagPicker, type AvTagPickerOption, } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { programs, selectedProgram: selectedProgramInput } = defineProps<{
