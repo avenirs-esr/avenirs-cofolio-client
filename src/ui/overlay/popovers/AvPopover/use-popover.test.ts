@@ -92,8 +92,8 @@ describe('usePopover', () => {
 
       it('then the popover position should be updated based on trigger position', () => {
         expect(usePopoverResult.popoverPosition.value).toEqual({
-          top: 100 + window.scrollY,
-          left: 100 + window.scrollX
+          top: (100 + window.scrollY + 4) / 16,
+          left: (100 + window.scrollX) / 16
         })
       })
     })
@@ -134,7 +134,7 @@ describe('usePopover', () => {
       })
 
       it('then the popover should reposition to stay inside viewport', () => {
-        expect(usePopoverResult.popoverPosition.value.left).toBe(1200 - 300 - 16)
+        expect(usePopoverResult.popoverPosition.value.left).toBe((1200 - 300 - 16) / 16)
       })
     })
 
@@ -174,7 +174,7 @@ describe('usePopover', () => {
       })
 
       it('then the popover should reposition to minimum margin if left is negative', () => {
-        expect(usePopoverResult.popoverPosition.value.left).toBe(16)
+        expect(usePopoverResult.popoverPosition.value.left).toBe(1)
       })
     })
 
@@ -245,6 +245,47 @@ describe('usePopover', () => {
       it('then the click listener should be removed', () => {
         unmount()
         expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function))
+      })
+    })
+
+    describe('when the popover would overflow completely on the left (left < 0)', () => {
+      beforeEach(async () => {
+        triggerRef.value = document.createElement('button')
+        popoverRef.value = document.createElement('div')
+
+        vi.spyOn(triggerRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 50,
+          left: 10,
+          bottom: 100,
+          right: 60,
+          width: 50,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        vi.spyOn(popoverRef.value, 'getBoundingClientRect').mockReturnValue({
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          width: 600,
+          height: 50,
+          x: 0,
+          y: 0,
+          toJSON: () => ''
+        })
+
+        // Ici on simule un viewport très petit pour que left < 0
+        vi.stubGlobal('innerWidth', 500)
+
+        await usePopoverResult.togglePopover()
+        await nextTick()
+      })
+
+      it('then the popover position should be adjusted to 16 (minimum margin)', () => {
+        expect(usePopoverResult.popoverPosition.value.left).toBe(16 / 16)
       })
     })
   })

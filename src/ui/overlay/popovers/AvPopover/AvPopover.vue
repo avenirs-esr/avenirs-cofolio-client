@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import type { ComponentPublicInstance } from 'vue'
+import { useFocusTrap } from '@/common/composables'
 import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
-import { FocusTrap } from 'focus-trap-vue'
+import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 
-const { width = '12.5rem', padding = 'var(--spacing-md)' } = defineProps<{ width?: string, padding?: string }>()
+interface AvPopoverProps { width?: string, padding?: string }
+
+withDefaults(defineProps<AvPopoverProps>(), {
+  width: '12.5rem',
+  padding: 'var(--spacing-md)'
+})
 
 defineSlots<{
   trigger: (props: {
@@ -17,6 +22,7 @@ const triggerRef = ref<HTMLElement | null>(null)
 const popoverRef = ref<HTMLElement | null>(null)
 
 const { showPopover, popoverPosition, togglePopover, closePopover } = usePopover(triggerRef, popoverRef)
+const { initializeFocusTrap, cleanupFocusTrap } = useFocusTrap(popoverRef, closePopover)
 
 function setTriggerRef (el: Element | ComponentPublicInstance | null) {
   if (!el) {
@@ -29,7 +35,7 @@ function setTriggerRef (el: Element | ComponentPublicInstance | null) {
     return
   }
 
-  const possibleHTMLElement = (el as any).$el as HTMLElement | undefined
+  const possibleHTMLElement = (el as ComponentPublicInstance<{ $el: HTMLElement }>).$el
 
   if (possibleHTMLElement instanceof HTMLElement) {
     triggerRef.value = possibleHTMLElement
@@ -40,6 +46,20 @@ function setTriggerRef (el: Element | ComponentPublicInstance | null) {
 }
 
 defineExpose({ setTriggerRef, triggerRef })
+
+watch(showPopover, async (isOpen) => {
+  if (isOpen) {
+    await nextTick()
+    initializeFocusTrap()
+  }
+  else {
+    cleanupFocusTrap()
+  }
+})
+
+onBeforeUnmount(() => {
+  cleanupFocusTrap()
+})
 </script>
 
 <template>
@@ -56,20 +76,19 @@ defineExpose({ setTriggerRef, triggerRef })
     </div>
 
     <Teleport to="body">
-      <FocusTrap v-if="showPopover">
-        <div
-          ref="popoverRef"
-          tabindex="-1"
-          class="av-popover"
-          :style="`top: ${popoverPosition.top}px; left: ${popoverPosition.left}px;`"
-          @keydown.esc.prevent="closePopover"
-        >
-          <slot
-            name="popover"
-            :close="closePopover"
-          />
-        </div>
-      </FocusTrap>
+      <div
+        v-if="showPopover"
+        ref="popoverRef"
+        tabindex="-1"
+        class="av-popover"
+        :style="`top: ${popoverPosition.top}rem; left: ${popoverPosition.left}rem;`"
+        @keydown.esc.prevent="closePopover"
+      >
+        <slot
+          name="popover"
+          :close="closePopover"
+        />
+      </div>
     </Teleport>
   </div>
 </template>

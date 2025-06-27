@@ -9,7 +9,7 @@ export function usePopover (triggerRef: Ref<HTMLElement | null>, popoverRef: Ref
     if (showPopover.value && triggerRef.value) {
       await nextTick()
       const triggerRect = triggerRef.value.getBoundingClientRect()
-      const top = triggerRect.bottom + window.scrollY
+      const top = triggerRect.bottom + window.scrollY + 4
       let left = triggerRect.left + window.scrollX
 
       if (popoverRef.value) {
@@ -26,7 +26,8 @@ export function usePopover (triggerRef: Ref<HTMLElement | null>, popoverRef: Ref
         }
       }
 
-      popoverPosition.value = { top, left }
+      // px to rem conversion
+      popoverPosition.value = { top: top / 16, left: left / 16 }
     }
   }
 
