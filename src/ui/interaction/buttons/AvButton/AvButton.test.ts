@@ -69,7 +69,7 @@ describe('avButton', () => {
     describe('when component is mounted', () => {
       it('then icon should be replaced by loading icon with spin animation', () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
-        expect(btn.props('icon')).toEqual({ name: MDI_ICONS.LOADING, animation: 'spin' })
+        expect(btn.props('icon')).toEqual({ name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' })
       })
     })
   })

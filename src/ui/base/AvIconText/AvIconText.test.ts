@@ -13,7 +13,7 @@ describe('studentDetailedSkillCard.vue', () => {
   }
 
   const baseProps = {
-    icon: MDI_ICONS.ACCOUNT_CIRCLE,
+    icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
     text: 'test',
   } as const
 
@@ -35,7 +35,7 @@ describe('studentDetailedSkillCard.vue', () => {
     const vicon = wrapper.findComponent({ name: 'VIcon' })
     expect(vicon.exists()).toBe(true)
     expect(vicon.props('name')).toBe(baseProps.icon)
-    expect(vicon.props('color')).toBe('var(--foreground-text1)')
+    expect(vicon.props('color')).toBe('var(--text1)')
 
     const text = wrapper.find('.icon-text--text')
     expect(text.exists()).toBe(true)

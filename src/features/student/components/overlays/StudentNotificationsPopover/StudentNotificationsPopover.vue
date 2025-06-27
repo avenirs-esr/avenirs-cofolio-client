@@ -29,7 +29,7 @@ const { t } = useI18n()
           data-testid="notifications-popover-title"
           :text="t('student.overlays.notificationsPopover.title', { count: notificationsCount })"
           :icon="MDI_ICONS.NOTIFICATIONS_NONE"
-          text-color="var(--foreground-title)"
+          text-color="var(--title)"
           icon-color="var(--dark-background-primary1)"
           typography-class="n6"
           gap="var(--spacing-md)"
@@ -49,7 +49,7 @@ const { t } = useI18n()
         <div class="footer">
           <AvButton
             :label="t('global.buttons.exit')"
-            :icon="MDI_ICONS.CLOSE_CIRCLE"
+            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             :on-click="close"
             size="sm"
           />
@@ -57,7 +57,7 @@ const { t } = useI18n()
             v-if="notificationsCount > 0"
             data-testid="notifications-popover-navigate"
             :label="t('student.overlays.notificationsPopover.buttons.seeAll')"
-            :icon="MDI_ICONS.ARROW_RIGHT"
+            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
             :on-click="navigateToStudentNotifications"
             size="sm"
           />

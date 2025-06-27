@@ -2,7 +2,7 @@
 
 .fr-breadcrumb__link {
   @extend .b2-regular;
-  color: var(--foreground-text2);
+  color: var(--text2);
 }
 
 li:not(:last-child) .fr-breadcrumb__link {
@@ -11,7 +11,7 @@ li:not(:last-child) .fr-breadcrumb__link {
 
 .fr-breadcrumb__link:not([href]) {
   @extend .b2-regular;
-  color: var(--foreground-text2) !important;
+  color: var(--text2) !important;
   background-image: none !important;
   cursor: default;
 }

@@ -20,12 +20,12 @@ vi.doMock('@gouvminint/vue-dsfr', () => ({
 vi.doMock('@/ui/tokens', () => ({
   MDI_ICONS: {
     ATTACH_FILE: 'mdi-attach-file',
-    STAR_SHOOTING: 'mdi-star-shooting',
+    STAR_SHOOTING_OUTLINE: 'mdi-star-shooting',
     TEST_TUBE_EMPTY: 'mdi-test-tube-empty',
     SWAP_VERTICAL_VARIANT: 'mdi-swap-vertical-variant',
   },
   RI_ICONS: {
-    DICE_4: 'ri-dice-4-line',
+    DICE_4_LINE: 'ri-dice-4-line',
   },
 }))
 

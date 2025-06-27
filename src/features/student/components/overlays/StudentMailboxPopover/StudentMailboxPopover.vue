@@ -20,7 +20,7 @@ const { t } = useI18n()
       <AvButton
         :label="t('student.layout.header.quicklinks.mailbox')"
         :on-click="toggle"
-        :icon="MDI_ICONS.CHAT_BUBBLE"
+        :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
       />
     </template>
     <template #popover="{ close }">
@@ -28,8 +28,8 @@ const { t } = useI18n()
         <AvIconText
           data-testid="mailbox-popover-title"
           :text="t('student.overlays.mailboxPopover.title', { count: messagesCount })"
-          :icon="MDI_ICONS.CHAT_BUBBLE"
-          text-color="var(--foreground-title)"
+          :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
+          text-color="var(--title)"
           icon-color="var(--dark-background-primary1)"
           typography-class="n6"
           gap="var(--spacing-md)"
@@ -43,7 +43,7 @@ const { t } = useI18n()
         <div class="footer">
           <AvButton
             :label="t('global.buttons.exit')"
-            :icon="MDI_ICONS.CLOSE_CIRCLE"
+            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             :on-click="close"
             size="sm"
           />
@@ -51,7 +51,7 @@ const { t } = useI18n()
             v-if="messagesCount === 0"
             data-testid="mailbox-popover-navigate-none"
             :label="t('student.overlays.mailboxPopover.buttons.navigate')"
-            :icon="MDI_ICONS.ARROW_RIGHT"
+            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
             :on-click="navigateToStudentMailbox"
             size="sm"
           />
@@ -59,7 +59,7 @@ const { t } = useI18n()
             v-else
             data-testid="mailbox-popover-navigate-some"
             :label="t('student.overlays.mailboxPopover.buttons.seeAll')"
-            :icon="MDI_ICONS.ARROW_RIGHT"
+            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
             :on-click="navigateToStudentMailbox"
             size="sm"
           />

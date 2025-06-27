@@ -30,16 +30,16 @@ function getEventInfo (event: EventOverviewDTO) {
 
 <template>
   <AvCard
-    background-color="--white"
-    title-background="--white"
+    background-color="--other-background-base"
+    title-background="--other-background-base"
   >
     <template #title>
       <div class="events-widget-container__title">
         <AvIconText
-          :icon="MDI_ICONS.CALENDAR_MONTH"
+          :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
           :text="t('student.widgets.events.title')"
-          icon-color="var(--foreground-icon)"
-          text-color="var(--foreground-text1)"
+          icon-color="var(--icon)"
+          text-color="var(--text1)"
           typography-class="s1-bold"
           gap="0.75rem"
         />
@@ -53,7 +53,7 @@ function getEventInfo (event: EventOverviewDTO) {
             :key="event.id"
           >
             <AvRichButton
-              :icon-right="MDI_ICONS.ARROW_RIGHT"
+              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="0.5rem"
               :on-click="() => {}"
             >
@@ -85,7 +85,7 @@ function getEventInfo (event: EventOverviewDTO) {
         <AvButton
           :label="t('student.widgets.events.buttons.seeAll')"
           :on-click="navigateToStudentEvents"
-          :icon="MDI_ICONS.ARROW_RIGHT"
+          :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
         />
       </div>
@@ -149,7 +149,7 @@ function getEventInfo (event: EventOverviewDTO) {
 }
 
 .calendar-month {
-  color: var(--foreground-text1);
+  color: var(--text1);
   font-size: var(--font-size-xxs);
   line-height: var(--font-size-xxs);
 }

@@ -5,3 +5,9 @@
 @use './texts.scss' as *;
 @use './spacing.scss' as *;
 @use './radius.scss' as *;
+
+html,
+body,
+#app {
+  background-color: var(--other-background-base);
+}

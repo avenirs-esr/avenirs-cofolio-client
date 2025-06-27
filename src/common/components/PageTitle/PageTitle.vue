@@ -31,7 +31,7 @@ function goBack () {
         :label="t('global.buttons.goBack')"
         :icon-only="true"
         variant="OUTLINED"
-        :icon="MDI_ICONS.ARROW_LEFT"
+        :icon="MDI_ICONS.ARROW_LEFT_THIN"
         :on-click="goBack"
       />
       <span class="n2">{{ title }}</span>

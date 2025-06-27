@@ -16,7 +16,7 @@ const { t } = useI18n()
       <AvButton
         :label="username"
         :on-click="toggle"
-        :icon="MDI_ICONS.ACCOUNT_CIRCLE"
+        :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
       />
     </template>
     <template #popover>
@@ -24,7 +24,7 @@ const { t } = useI18n()
         <li>
           <AvButton
             :label="t('student.overlays.profilePopover.buttons.manageProfile')"
-            :icon="MDI_ICONS.PENCIL"
+            :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
             size="sm"
@@ -34,7 +34,7 @@ const { t } = useI18n()
         <li>
           <AvButton
             :label="t('student.overlays.profilePopover.buttons.seeCalendar')"
-            :icon="MDI_ICONS.CALENDAR_MONTH"
+            :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
             size="sm"
@@ -44,7 +44,7 @@ const { t } = useI18n()
         <li>
           <AvButton
             :label="t('student.overlays.profilePopover.buttons.goToDw')"
-            :icon="MDI_ICONS.ARROW_TOP_RIGHT"
+            :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
             size="sm"
@@ -54,7 +54,7 @@ const { t } = useI18n()
         <li>
           <AvButton
             :label="t('student.overlays.profilePopover.buttons.goToSkills')"
-            :icon="MDI_ICONS.ARROW_TOP_RIGHT"
+            :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
             size="sm"
