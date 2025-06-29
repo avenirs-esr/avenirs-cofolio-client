@@ -11,6 +11,11 @@ export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgre
     queryKey,
     // TODO: call /program-progress/view when the endpoint and client are ready
     queryFn: async (): Promise<ProgramProgressViewDTO[]> => {
+      /*
+      // TODO: uncomment when the endpoint and client are ready
+      return getSkillsView()
+      */
+
       return mockedPrograms
     }
   })
@@ -25,7 +30,7 @@ export function useAllMyProgramProgressQuery (): UseQueryReturnType<ProgramProgr
       // TODO: uncomment when the endpoint and client are ready
       return getAllProgramProgress()
       */
-      return mockedPrograms.slice(0, 3).map(program => ({
+      return mockedPrograms.slice(0, 2).map(program => ({
         id: program.id,
         name: program.name,
       }))
