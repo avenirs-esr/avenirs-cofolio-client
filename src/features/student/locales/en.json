@@ -149,7 +149,7 @@
         },
         "amsListContainer": {
           "programProgressSelector": {
-            "label": "My education"
+            "label": "My education:"
           },
           "pagination": {
             "bottom": {

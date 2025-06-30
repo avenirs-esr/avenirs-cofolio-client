@@ -38,13 +38,12 @@ const {
   label,
   labelColor,
   labelTypographyClass,
-  options,
   selected,
   multiple,
   handleSelectChange
 } = props
 
-const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(options))
+const renderedOptions: ComputedRef<AvTagPickerOption[]> = computed(() => removeDuplicates<AvTagPickerOption>(props.options))
 
 function getSelectedOptions (selected?: AvTagPickerOption | AvTagPickerOption[]): AvTagPickerOption[] {
   if (!selected) {
@@ -88,6 +87,10 @@ function getIcon (option: AvTagPickerOption): string | undefined {
 function getDisabled (option: AvTagPickerOption): boolean {
   return isOptionSelected(option) && !multiple
 }
+
+watch(() => props.selected, (newSelected) => {
+  selectedOptions.value = getSelectedOptions(newSelected)
+}, { immediate: true })
 </script>
 
 <template>
