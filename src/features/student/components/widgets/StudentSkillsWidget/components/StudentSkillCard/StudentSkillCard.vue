@@ -40,10 +40,10 @@ function levelToBadge (level: SkillLevelOverviewDTO) {
 }
 
 const firstBadge = computed(() => levelToBadge(currentSkillLevel))
-const computedHoverBorderColor = computed(() => `var(${skillColor})`)
+const varSkillColor = computed(() => `var(${skillColor})`)
 
 const theme = ref({
-  hoverBorderColor: computedHoverBorderColor,
+  hoverBorderColor: varSkillColor,
 })
 </script>
 
@@ -53,8 +53,8 @@ const theme = ref({
     :to="{ name: studentSkillRoute.name, params: { id: skill.id } }"
   >
     <AvCard
-      border-color="--other-border-skill-card"
-      :title-background="skillColor"
+      border-color="var(--other-border-skill-card)"
+      :title-background="varSkillColor"
       title-height="6.6875rem"
     >
       <template #title>

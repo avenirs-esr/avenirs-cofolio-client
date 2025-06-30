@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
+import type {
+  DsfrNavigationMegaMenuProps,
+  DsfrNavigationMenuLinkProps,
+  DsfrNavigationMenuProps
+} from '@gouvminint/vue-dsfr'
 
+/**
+ * Props du composant AvNavigation.
+ */
 export interface AvNavigationProps {
-  navItems: DsfrNavigationProps['navItems']
+  /**
+   * Liste des items de navigation.
+   * Chaque item peut être :
+   * - Un lien direct de navigation (`DsfrNavigationMenuLinkProps`) avec les props `to` et `text`.
+   * - Un sous-menu de navigation (`DsfrNavigationMenuProps`) avec les props `title`, `links` et `active`.
+   * - Un mega-menu de navigation (`DsfrNavigationMegaMenuProps`) avec les props `title`, `link`, `active` et `menus`.
+   */
+  navItems: (DsfrNavigationMenuLinkProps | DsfrNavigationMenuProps | DsfrNavigationMegaMenuProps)[]
 }
 
 const props = defineProps<AvNavigationProps>()

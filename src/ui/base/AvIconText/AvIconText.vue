@@ -1,6 +1,51 @@
 <script setup lang="ts">
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 
+/**
+ * Props du composant AvIconText.
+ */
+interface AvIconTextProps {
+  /**
+   * La couleur du texte.
+   * @default 'var(--text1)'
+   */
+  textColor?: string
+
+  /**
+   * La couleur de l'icône.
+   * @default 'var(--text1)'
+   */
+  iconColor?: string
+
+  /**
+   * Le nom de l'icône suivant la nomenclature définie pour `VIcon` sur VueDSFR.
+   */
+  icon: string
+
+  /**
+   * Le texte à afficher.
+   */
+  text: string
+
+  /**
+   * La classe de typographie à utiliser pour le texte.
+   * @default 'b2-regular'
+   */
+  typographyClass?: string
+
+  /**
+   * L'espace entre l'icône et le texte.
+   * @default '0.25rem'
+   */
+  gap?: string
+
+  /**
+   * Si `false`, le texte trop long sera tronqué.
+   * @default false
+   */
+  inline?: boolean
+}
+
 const {
   textColor = 'var(--text1)',
   iconColor = 'var(--text1)',
@@ -9,15 +54,7 @@ const {
   typographyClass = 'b2-regular',
   gap = '0.25rem',
   inline = false
-} = defineProps<{
-  textColor?: string
-  iconColor?: string
-  icon: string
-  text: string
-  typographyClass?: string
-  gap?: string
-  inline?: boolean
-}>()
+} = defineProps<AvIconTextProps>()
 
 const iconSize = computed(() => {
   if (typographyClass.startsWith('n') || typographyClass.startsWith('s')) {

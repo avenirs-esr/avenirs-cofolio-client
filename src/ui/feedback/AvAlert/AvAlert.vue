@@ -2,23 +2,110 @@
  https://vue-ds.fr/composants/DsfrAlert -->
 
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 import { AvButton } from '@/ui/interaction'
 import { MDI_ICONS } from '@/ui/tokens'
-import { type DsfrAlertProps, getRandomId } from '@gouvminint/vue-dsfr'
+
+/**
+ * Props du composant AvAlert.
+ */
+interface AvAlertProps {
+  /**
+   * Si `true`, l'alerte s'affiche avec le rôle `alert`.
+   * @default false
+   */
+  alert?: boolean
+
+  /**
+   * Indique si l’alerte est fermée (`true`) ou visible (`false`).
+   * @default false
+   */
+  closed?: boolean
+
+  /**
+   * Indique si l’alerte peut être fermée via un bouton.
+   * @default false
+   */
+  closeable?: boolean
+
+  /**
+   * L'identifiant unique de l'alerte.
+   * @default crypto.randomUUID()
+   */
+  id?: string
+
+  /**
+   * Le titre de l'alerte.
+   * @default ''
+   */
+  title?: string
+
+  /**
+   * Le texte de description de l'alerte.
+   */
+  description?: string
+
+  /**
+   * Indique si l’alerte doit être affichée en petite taille.
+   * @default false
+   */
+  small?: boolean
+
+  /**
+   * La balise HTML utilisée pour le titre de l'alerte.
+   * @default 'h3'
+   */
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+
+  /**
+   * Le type de l'alerte. Influence la couleur et l'icône.
+   * @default 'info'
+   */
+  type?: 'info' | 'success' | 'warning' | 'error'
+
+  /**
+   * Le libellé et l'aria-label du bouton de fermeture de l’alerte.
+   * @default 'Fermer'
+   */
+  closeButtonLabel?: string
+}
 
 const {
   alert = false,
-  id = getRandomId('basic', 'alert'),
+  id = crypto.randomUUID(),
   title = '',
   titleTag = 'h3',
   description,
   type = 'info',
   closeButtonLabel = 'Fermer',
   small = false
-} = defineProps<DsfrAlertProps>()
+} = defineProps<AvAlertProps>()
 
-const emit = defineEmits<{ (e: 'close'): void }>()
+/**
+ * Événements émis par AvAlert.
+ * @event close - Événement déclenché à la fermeture de l'alerte.
+ */
+const emit = defineEmits<{
+  /**
+   * Événement déclenché à la fermeture de l'alerte.
+   */
+  (e: 'close'): void
+}>()
+
+/**
+ * Slots disponibles dans le composant AvAlert.
+ *
+ * @slot default - Slot par défaut pour du contenu global.
+ */
+defineSlots<{
+
+  /**
+   * Slot par défaut pour du contenu global.
+   */
+  default?: Slot
+}>()
+
 const onClick = () => emit('close')
 
 const classes = computed(() => ([
@@ -75,10 +162,9 @@ const icon = computed(() => {
         v-if="closeable"
         icon-only
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-        :title="closeButtonLabel"
-        :aria-label="closeButtonLabel"
+        :label="closeButtonLabel"
         small
-        @click="onClick"
+        :on-click="onClick"
       />
     </div>
   </div>

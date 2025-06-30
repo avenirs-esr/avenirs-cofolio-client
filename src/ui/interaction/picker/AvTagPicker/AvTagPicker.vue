@@ -3,30 +3,94 @@ import type { ComputedRef } from 'vue'
 import { removeDuplicates } from '@/common/utils'
 import { MDI_ICONS } from '@/ui/tokens'
 
+/**
+ * Représente une option dans le composant AvTagPicker.
+ */
 export interface AvTagPickerOption {
+  /**
+   * Libellé affiché pour l'option.
+   */
   label: string
+
+  /**
+   * Valeur associée à l'option.
+   */
   value: string
 }
 
+/**
+ * Props de base communes au AvTagPicker en mode simple ou multiple.
+ */
 interface AvTagPickerBaseProps {
+  /**
+   * Liste des options disponibles dans le picker.
+   */
   options: AvTagPickerOption[]
+
+  /**
+   * Libellé affiché au-dessus du picker.
+   */
   label?: string
+
+  /**
+   * Couleur du libellé.
+   * @default 'var(--text2)'
+   */
   labelColor?: string
+
+  /**
+   * Classe de typographie appliquée au libellé.
+   * @default 'b2-regular'
+   */
   labelTypographyClass?: string
 }
 
+/**
+ * Props pour le AvTagPicker en mode sélection simple.
+ */
 interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
+  /**
+   * Mode multiple désactivé.
+   * @default false
+   */
   multiple?: false
+
+  /**
+   * Option sélectionnée.
+   */
   selected?: AvTagPickerOption
+
+  /**
+   * Méthode appelée lors du changement de sélection.
+   * @param selected L'option sélectionnée.
+   */
   handleSelectChange: (selected: AvTagPickerOption) => void
 }
 
+/**
+ * Props pour le AvTagPicker en mode sélection multiple.
+ */
 interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
+  /**
+   * Active le mode sélection multiple.
+   */
   multiple: true
+
+  /**
+   * Options sélectionnées.
+   */
   selected?: AvTagPickerOption[]
+
+  /**
+   * Méthode appelée lors du changement de sélection.
+   * @param selected Les options sélectionnées.
+   */
   handleSelectChange: (selected: AvTagPickerOption[]) => void
 }
 
+/**
+ * Props du composant AvTagPicker, pouvant être en mode simple ou multiple.
+ */
 export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
 
 const props = withDefaults(defineProps<AvTagPickerProps>(), {
@@ -103,20 +167,24 @@ watch(() => props.selected, (newSelected) => {
       {{ label }}
     </span>
 
-    <DsfrTag
+    <div
       v-for="option in renderedOptions"
       :key="option.value"
-      :class="{
-        'fr-tag--selected': isOptionSelected(option),
-        'fr-tag--disabled': getDisabled(option),
-      }"
-      :label="option.label"
-      :icon="getIcon(option)"
-      :disabled="getDisabled(option)"
-      selectable
-      :selected="isOptionSelected(option)"
-      @select="() => toggleOption(option)"
-    />
+      class="tag-wrapper"
+    >
+      <DsfrTag
+        :class="{
+          'fr-tag--selected': isOptionSelected(option),
+          'fr-tag--disabled': getDisabled(option),
+        }"
+        :label="option.label"
+        :icon="getIcon(option)"
+        :disabled="getDisabled(option)"
+        selectable
+        :selected="isOptionSelected(option)"
+        @select="() => toggleOption(option)"
+      />
+    </div>
   </div>
 </template>
 
@@ -124,12 +192,20 @@ watch(() => props.selected, (newSelected) => {
 .av-select-container {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
+  text-align: center;
 }
 
 .av-select-label {
+  display: flex;
+  align-items: center;
   color: v-bind('labelColor');
+}
+
+.tag-wrapper {
+  flex: 1 1 0;
+  display: flex;
 }
 
 .fr-tag {
@@ -141,6 +217,9 @@ watch(() => props.selected, (newSelected) => {
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
+  flex: 1 !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .fr-tag:hover {

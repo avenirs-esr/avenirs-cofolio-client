@@ -8,7 +8,8 @@ describe('avAlert', () => {
   const stubs = {
     AvButton: {
       name: 'AvButton',
-      template: '<button @click="$emit(\'click\')"><slot /></button>',
+      template: '<button class="av-button" @click="onClick"><slot /></button>',
+      props: ['onClick']
     },
     AvVICon: {
       name: 'AvVIcon',

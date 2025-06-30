@@ -2,15 +2,30 @@
 import { formatTextToUnderlineHtml } from '@/common/utils/string/string'
 import { DsfrNotice } from '@gouvminint/vue-dsfr'
 
-const {
-  title = '',
-  text = '',
-  type
-} = defineProps<{
+/**
+ * Props du composant AvNotice.
+ */
+interface AvNoticeProps {
+  /**
+   * Le titre du bandeau.
+   * @default ''
+   */
   title?: string
+
+  /**
+   * Le texte du bandeau. Toute partie de texte entourée de ** sera soulignée.
+   * @default ''
+   */
   text?: string
+
+  /**
+   * Le type de bandeau.
+   * Peut être 'info', 'warning' ou 'alert'.
+   */
   type: 'info' | 'warning' | 'alert'
-}>()
+}
+
+const { title = '', text = '', type } = defineProps<AvNoticeProps>()
 
 const formattedDesc = computed(() => {
   return formatTextToUnderlineHtml(text)

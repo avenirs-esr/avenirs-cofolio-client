@@ -69,7 +69,7 @@ function useDeleteTrace () {
       :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete')"
       :icon-scale="1.3"
       no-radius
-      @click="onClickDeleteTrace"
+      :on-click="onClickDeleteTrace"
     />
   </div>
 </template>

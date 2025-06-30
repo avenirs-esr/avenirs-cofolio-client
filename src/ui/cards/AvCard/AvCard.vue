@@ -1,24 +1,68 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 
+/**
+ * Props du composant AvCard.
+ */
 export interface AvCardProps {
+  /**
+   * La couleur de fond de la carte.
+   * @default 'var(--card)'
+   */
   backgroundColor?: string
+
+  /**
+   * La couleur de bordure de la carte.
+   * @default 'var(--stroke)'
+   */
   borderColor?: string
+
+  /**
+   * La couleur de fond du titre de la carte.
+   * @default 'var(--surface-background)'
+   */
   titleBackground?: string
+
+  /**
+   * La hauteur du titre de la carte.
+   */
   titleHeight?: string
 }
 
 const {
-  backgroundColor = '--card',
-  borderColor = '--stroke',
-  titleBackground = '--surface-background',
+  backgroundColor = 'var(--card)',
+  borderColor = 'var(--stroke)',
+  titleBackground = 'var(--surface-background)',
   titleHeight,
 } = defineProps<AvCardProps>()
 
+/**
+ * Slots disponibles dans le composant AvCard.
+ *
+ * @slot title - Slot pour le titre de la carte.
+ * @slot body - Slot pour le corps de la carte.
+ * @slot footer - Slot pour le bas de la carte.
+ * @slot default - Slot par défaut pour du contenu global.
+ */
 const slots = defineSlots<{
+  /**
+   * Slot pour le titre de la carte.
+   */
   title?: Slot
+
+  /**
+   * Slot pour le corps de la carte.
+   */
   body?: Slot
+
+  /**
+   * Slot pour le bas de la carte.
+   */
   footer?: Slot
+
+  /**
+   * Slot par défaut pour du contenu global.
+   */
   default?: Slot
 }>()
 </script>
@@ -26,12 +70,12 @@ const slots = defineSlots<{
 <template>
   <div
     class="av-card"
-    :style="{ borderColor: `var(${borderColor})`, background: `var(${backgroundColor})` }"
+    :style="{ borderColor, background: backgroundColor }"
   >
     <div
       v-if="slots.title"
       class="av-card__title"
-      :style="{ background: `var(${titleBackground})`, height: titleHeight }"
+      :style="{ background: titleBackground, height: titleHeight }"
     >
       <slot name="title" />
     </div>

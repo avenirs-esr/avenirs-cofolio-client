@@ -60,6 +60,7 @@ describe('avButton', () => {
     beforeEach(() => {
       wrapper = mount(AvButton, {
         props: {
+          label: 'test',
           isLoading: true,
           icon: { name: 'other-icon' },
         },
@@ -76,7 +77,7 @@ describe('avButton', () => {
 
   describe('given variant is DEFAULT', () => {
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { variant: 'DEFAULT' } })
+      wrapper = mount(AvButton, { props: { label: 'test', variant: 'DEFAULT' } })
     })
 
     describe('when component is mounted', () => {
@@ -90,7 +91,7 @@ describe('avButton', () => {
 
   describe('given noRadius prop is true', () => {
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { noRadius: true } })
+      wrapper = mount(AvButton, { props: { label: 'test', noRadius: true } })
     })
 
     describe('when component is mounted', () => {
@@ -104,7 +105,7 @@ describe('avButton', () => {
     const onClick = vi.fn()
 
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { onClick } })
+      wrapper = mount(AvButton, { props: { label: 'test', onClick } })
     })
 
     describe('when the DsfrButton is clicked', () => {
@@ -129,7 +130,7 @@ describe('avButton', () => {
       'when size is %s',
       (size, expectedScale) => {
         beforeEach(() => {
-          wrapper = mount<typeof AvButton>(AvButton, { props: { size } })
+          wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', size } })
         })
 
         it(`then computedSvgScale should be `, () => {
@@ -140,7 +141,7 @@ describe('avButton', () => {
 
     describe('when iconScale is a valid number', () => {
       beforeEach(() => {
-        wrapper = mount(AvButton, { props: { iconScale: 3 } })
+        wrapper = mount(AvButton, { props: { label: 'test', iconScale: 3 } })
       })
 
       it('then computedSvgScale returns iconScale value', () => {
@@ -150,7 +151,7 @@ describe('avButton', () => {
 
     describe('when iconScale is NaN', () => {
       beforeEach(() => {
-        wrapper = mount(AvButton, { props: { iconScale: Number.NaN, size: 'md' } })
+        wrapper = mount(AvButton, { props: { label: 'test', iconScale: Number.NaN, size: 'md' } })
       })
 
       it('then computedSvgScale falls back to size based value', () => {

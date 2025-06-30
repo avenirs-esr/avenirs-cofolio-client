@@ -38,10 +38,9 @@ const theme = ref({
     :to="to"
   >
     <AvCard
-      border-color="--other-border-skill-card"
-      title-background="--surface-background"
+      border-color="var(--other-border-skill-card)"
+      title-background="var(--surface-background)"
       title-height="4.375rem"
-      :to="to"
     >
       <template #title>
         <div class="student-trace-card__title">

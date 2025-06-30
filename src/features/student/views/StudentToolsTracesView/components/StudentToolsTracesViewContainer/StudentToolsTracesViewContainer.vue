@@ -51,7 +51,6 @@ watch(pageSizeSelected, () => {
     <div class="bottom-pagination-container">
       <AvPagination
         id="bottom-pagination"
-        :items="traces"
         :current-page="pageInfo.number"
         :pages="pages"
         :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.bottom.ariaLabel')"

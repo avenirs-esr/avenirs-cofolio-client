@@ -16,6 +16,7 @@ describe('avRichButton', () => {
   it('renders iconLeft when provided', () => {
     const wrapper = mount(AvRichButton, {
       props: {
+        label: 'test',
         iconLeft: 'mdi-home',
         onClick: vi.fn()
       },
@@ -30,6 +31,7 @@ describe('avRichButton', () => {
   it('renders iconRight when provided', () => {
     const wrapper = mount(AvRichButton, {
       props: {
+        label: 'test',
         iconRight: 'mdi-arrow-right',
         onClick: vi.fn()
       },
@@ -45,7 +47,10 @@ describe('avRichButton', () => {
   it('calls onClick when button is clicked', async () => {
     const onClick = vi.fn()
     const wrapper = mount(AvRichButton, {
-      props: { onClick }
+      props: {
+        label: 'test',
+        onClick
+      }
     })
 
     await wrapper.find('button').trigger('click')

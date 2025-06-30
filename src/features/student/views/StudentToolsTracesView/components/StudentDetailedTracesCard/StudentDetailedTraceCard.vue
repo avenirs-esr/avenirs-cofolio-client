@@ -26,8 +26,8 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
     @click="displayModal"
   >
     <AvCard
-      border-color="--other-border-skill-card"
-      title-background="--dark-background-primary2"
+      border-color="var(--other-border-skill-card)"
+      title-background="var(--dark-background-primary2)"
       title-height="4.375rem"
     >
       <template #title>

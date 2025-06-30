@@ -22,8 +22,8 @@ const renderedTraces = computed(() => {
 
 <template>
   <AvCard
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="traces-widget-container__title">
