@@ -2,13 +2,115 @@
  https://vue-ds.fr/composants/DsfrHeader -->
 
 <script lang="ts" setup>
+import type { Slot } from 'vue'
+
 import type { RouteLocationRaw } from 'vue-router'
-
 import { AvHeaderMenuLinks, AvLogo } from '@/ui/header'
-import { type DsfrHeaderProps, type DsfrLanguageSelectorElement, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
+import { type DsfrHeaderMenuLinkProps, type DsfrLanguageSelectorElement, type DsfrLanguageSelectorProps, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
 
-export type AvHeaderProps = { homeTo?: string | RouteLocationRaw } &
-  Omit<DsfrHeaderProps, 'homeTo' | 'operatorImgAlt' | 'operatorImgSrc' | 'operatorImgStyle'>
+/**
+ * Props du composant AvHeader.
+ */
+export interface AvHeaderProps {
+  /**
+   * Valeur de l’attribut `id` de l’input de la barre de recherche.
+   * @default 'searchbar-header'
+   */
+  searchbarId?: string
+
+  /**
+   * Titre du service affiché dans l'en-tête.
+   */
+  serviceTitle?: string
+
+  /**
+   * Description courte du service.
+   */
+  serviceDescription?: string
+
+  /**
+   * Lien de la page d'accueil.
+   * @default '/'
+   */
+  homeTo?: string | RouteLocationRaw
+
+  /**
+   * Texte ou texte alternatif du logo.
+   * @default () => 'Gouvernement'
+   */
+  logoText?: string | string[]
+
+  /**
+   * Valeur liée à la barre de recherche (modèle contrôlé).
+   * @default ''
+   */
+  modelValue?: string
+
+  /**
+   * Placeholder de la barre de recherche.
+   * @default 'Rechercher...'
+   */
+  placeholder?: string
+
+  /**
+   * Liens rapides à afficher dans l'en-tête.
+   * @default () => []
+   */
+  quickLinks?: DsfrHeaderMenuLinkProps[]
+
+  /**
+   * Propriétés du sélecteur de langue.
+   */
+  languageSelector?: DsfrLanguageSelectorProps
+
+  /**
+   * Label pour la barre de recherche.
+   * @default 'Recherche'
+   */
+  searchLabel?: string
+
+  /**
+   * Label ARIA pour les liens rapides.
+   * @default 'Menu secondaire'
+   */
+  quickLinksAriaLabel?: string
+
+  /**
+   * Affiche ou non la barre de recherche.
+   * @default false
+   */
+  showSearch?: boolean
+
+  /**
+   * Label du bouton pour afficher la barre de recherche.
+   * @default 'Recherche'
+   */
+  showSearchLabel?: string
+
+  /**
+   * Label du menu principal.
+   * @default 'Menu'
+   */
+  menuLabel?: string
+
+  /**
+   * Label du menu en mode modal.
+   * @default 'Menu'
+   */
+  menuModalLabel?: string
+
+  /**
+   * Label du bouton de fermeture du menu modal.
+   * @default 'Fermer'
+   */
+  closeMenuModalLabel?: string
+
+  /**
+   * Label du lien vers la page d'accueil (présent dans le titre du service).
+   * @default 'Accueil'
+   */
+  homeLabel?: string
+}
 
 const props = withDefaults(defineProps<AvHeaderProps>(), {
   searchbarId: 'searchbar-header',
@@ -29,17 +131,52 @@ const props = withDefaults(defineProps<AvHeaderProps>(), {
   homeLabel: 'Accueil',
 })
 
+/**
+ * Événements émis par le composant AvHeader.
+ */
 const emit = defineEmits<{
+  /**
+   * Événement émis lors de la mise à jour de la barre de recherche.
+   * @event update:modelValue
+   * @param payload Contenu du champ de saisie pour la recherche.
+   */
   (e: 'update:modelValue', payload: string): void
+
+  /**
+   * Événement émis lorsqu'une recherche est effectuée.
+   * @event search
+   * @param payload Contenu du champ de saisie pour la recherche.
+   */
   (e: 'search', payload: string): void
+
+  /**
+   * Événement émis lorsque l'utilisateur change la langue du site.
+   * @event languageSelect
+   * @param payload Langue sélectionnée.
+   */
   (e: 'languageSelect', payload: DsfrLanguageSelectorElement): void
 }>()
 
 const slots = defineSlots<{
-  'default': () => any
-  'mainnav': () => any
-  'before-quick-links': () => any
-  'after-quick-links': () => any
+  /**
+   * Slot pour ajouter du contenu avant les liens rapides.
+   */
+  'before-quick-links'?: Slot
+
+  /**
+   * Slot pour ajouter du contenu après les liens rapides.
+   */
+  'after-quick-links'?: Slot
+
+  /**
+   * Slot pour le menu de navigation principal.
+   */
+  'mainnav'?: Slot
+
+  /**
+   * Slot par défaut pour le contenu supplémentaire dans l'en-tête.
+   */
+  'default'?: Slot
 }>()
 
 const languageSelector = toRef(props, 'languageSelector')

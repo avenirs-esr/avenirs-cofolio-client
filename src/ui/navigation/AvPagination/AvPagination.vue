@@ -2,10 +2,65 @@
  https://vue-ds.fr/composants/DsfrPagination -->
 
 <script lang="ts" setup>
-import type { DsfrPaginationProps, Page } from '@gouvminint/vue-dsfr'
+import type { Page } from '@gouvminint/vue-dsfr'
 import { AvVIcon } from '@/ui/base'
 import { MDI_ICONS } from '@/ui/tokens'
 import { useI18n } from 'vue-i18n'
+
+/**
+ * Props du composant AvPagination.
+ */
+export interface AvPaginationProps {
+  /**
+   * Permet un affichage compact :
+   * "Page x sur y" avec uniquement les icônes de navigation (sans texte).
+   * @default false
+   */
+  compact?: boolean
+
+  /**
+   * Liste des pages.
+   * Chaque page est un objet contenant des informations comme `href` et `label`.
+   */
+  pages: Page[]
+
+  /**
+   * Index de la page actuellement sélectionnée (commence à 0).
+   * @default 0
+   */
+  currentPage?: number
+
+  /**
+   * Texte d'info-bulle pour le lien de la première page.
+   */
+  firstPageTitle?: string
+
+  /**
+   * Texte d'info-bulle pour le lien de la dernière page.
+   */
+  lastPageTitle?: string
+
+  /**
+   * Texte d'info-bulle pour le lien de la page suivante.
+   */
+  nextPageTitle?: string
+
+  /**
+   * Texte d'info-bulle pour le lien de la page précédente.
+   */
+  prevPageTitle?: string
+
+  /**
+   * Nombre maximum de pages affichées dans la pagination.
+   * @default 2
+   */
+  truncLimit?: number
+
+  /**
+   * Label ARIA de la pagination pour l’accessibilité.
+   */
+  ariaLabel?: string
+}
 
 const {
   compact = false,
@@ -17,9 +72,15 @@ const {
   prevPageTitle,
   ariaLabel,
   pages,
-} = defineProps<{ compact?: boolean } & DsfrPaginationProps>()
+} = defineProps<AvPaginationProps>()
 
-const emit = defineEmits<{ (e: 'update:current-page', payload: number): void }>()
+const emit = defineEmits<{
+  /**
+   * Événement émis lorsque l'utilisateur change de page.
+   * @param payload L'index de la nouvelle page sélectionnée.
+   */
+  (e: 'update:current-page', payload: number): void
+}>()
 
 const { t } = useI18n()
 

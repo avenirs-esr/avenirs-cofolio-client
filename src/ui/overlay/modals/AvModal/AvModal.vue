@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import type { DsfrModalProps } from '@gouvminint/vue-dsfr'
 import type { Slot } from 'vue'
 import { AvButton, type AvButtonProps } from '@/ui/interaction'
 import { MDI_ICONS } from '@/ui/tokens'
 import { useI18n } from 'vue-i18n'
 
-export type AvModalProps = {
+export interface AvModalProps {
   closeButtonVariant?: AvButtonProps['variant']
-} & Omit<DsfrModalProps, 'title'>
+  modalId?: string
+  opened?: boolean
+  isAlert?: boolean
+  origin?: {
+    focus: () => void
+  }
+  icon?: string
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  closeButtonLabel?: string
+}
 
 const props = defineProps<AvModalProps>()
 
@@ -43,9 +51,10 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
         <AvButton
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :label="closeButtonLabel"
+          :title="closeButtonLabel"
           :variant="closeButtonVariant"
           size="sm"
-          @click="emit('close')"
+          :on-click="() => emit('close')"
         />
         <slot name="footer" />
       </div>

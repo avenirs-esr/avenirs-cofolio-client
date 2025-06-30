@@ -18,8 +18,8 @@ const { t } = useI18n()
     :to="{ name: studentAmsRoute.name, params: { id } }"
   >
     <AvCard
-      border-color="--other-border-skill-card"
-      title-background="--dark-background-primary1"
+      border-color="var(--other-border-skill-card)"
+      title-background="var(--dark-background-primary1)"
     >
       <template #title>
         <div class="student-detailed-ams-card__title ellipsis-container">

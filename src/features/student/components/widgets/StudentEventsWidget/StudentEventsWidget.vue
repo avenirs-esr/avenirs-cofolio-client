@@ -30,8 +30,8 @@ function getEventInfo (event: EventOverviewDTO) {
 
 <template>
   <AvCard
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="events-widget-container__title">
@@ -53,9 +53,9 @@ function getEventInfo (event: EventOverviewDTO) {
             :key="event.id"
           >
             <AvRichButton
+              :label="event.name"
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="0.5rem"
-              :on-click="() => {}"
             >
               <div class="events-widget-action__body">
                 <div class="events-widget-action__calendar">

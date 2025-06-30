@@ -1,10 +1,45 @@
 <script lang="ts" setup>
-import { useSlots } from 'vue'
+import { type Slot, useSlots } from 'vue'
 
-const { tabListName, modelValue } = defineProps<{ tabListName?: string, modelValue: number }>()
+/**
+ * Props du composant AvTabs.
+ */
+interface AvTabsProps {
+  /**
+   * Aria label de la liste des onglets.
+   * Améliore l'accessibilité en fournissant une description pour les lecteurs d'écran.
+   */
+  ariaLabel?: string
 
+  /**
+   * Index de l'onglet sélectionné au chargement.
+   * L'index commence à 0.
+   */
+  modelValue: number
+}
+
+const { ariaLabel, modelValue } = defineProps<AvTabsProps>()
+
+/**
+ * Événements émis par le composant.
+ */
 const emit = defineEmits<{
+  /**
+   * Émis lorsqu'un onglet est sélectionné.
+   * @param value Index (`number`) de l'onglet sélectionné.
+   */
   (e: 'update:modelValue', value: number): void
+}>()
+
+/**
+ * Slots disponibles dans le composant AvTabs.
+ * Utilisé pour injecter les onglets via des composants `AvTab`.
+ */
+defineSlots<{
+  /**
+   *  Slot par défaut pour passer les composants `AvTab`.
+   */
+  default?: Slot
 }>()
 
 const slots = useSlots()
@@ -49,7 +84,7 @@ defineExpose({ activeTab })
 <template>
   <DsfrTabs
     v-model="activeTab"
-    :tab-list-name="tabListName ?? 'Liste d’onglets'"
+    :tab-list-name="ariaLabel ?? 'Liste d’onglets'"
     :tab-titles="[]"
   >
     <template #tab-items>

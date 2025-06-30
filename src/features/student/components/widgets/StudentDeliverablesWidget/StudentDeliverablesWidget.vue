@@ -23,8 +23,8 @@ const renderedDeliverables = computed(() => {
 
 <template>
   <AvCard
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="deliverables-widget-container__title">
@@ -46,6 +46,7 @@ const renderedDeliverables = computed(() => {
             :key="deliverable.id"
           >
             <AvRichButton
+              :label="deliverable.id"
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="0.5rem"
               :on-click="navigateToStudentDeliverables"

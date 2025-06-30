@@ -1,4 +1,4 @@
-import { useFocusTrap } from '@/common/composables/use-focus-trap/use-focus-trap'
+import { useFocusTrap } from '@/ui/composables/use-focus-trap/use-focus-trap'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 

@@ -1,9 +1,24 @@
 <script lang="ts" setup>
-import { useFocusTrap } from '@/common/composables'
+import { useFocusTrap } from '@/ui/composables'
 import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
 import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 
-interface AvPopoverProps { width?: string, padding?: string }
+/**
+ * Props du composant AvPopover.
+ */
+interface AvPopoverProps {
+  /**
+   * Largeur de la popover.
+   * @default '12.5rem'
+   */
+  width?: string
+
+  /**
+   * Padding interne de la popover.
+   * @default 'var(--spacing-md)'
+   */
+  padding?: string
+}
 
 withDefaults(defineProps<AvPopoverProps>(), {
   width: '12.5rem',
@@ -11,10 +26,20 @@ withDefaults(defineProps<AvPopoverProps>(), {
 })
 
 defineSlots<{
+  /**
+   * Slot pour le déclencheur de la popover.
+   * Fournit la prop :
+   * - toggle : fonction pour ouvrir/fermer la popover
+   */
   trigger: (props: {
     toggle: () => void
-    triggerRef: HTMLElement | null
   }) => void
+
+  /**
+   * Slot pour le contenu de la popover.
+   * Fournit la prop :
+   * - close : fonction pour fermer la popover
+   */
   popover: (props: { close: () => void }) => void
 }>()
 
@@ -70,7 +95,6 @@ onBeforeUnmount(() => {
     >
       <slot
         name="trigger"
-        :trigger-ref="triggerRef"
         :toggle="togglePopover"
       />
     </div>

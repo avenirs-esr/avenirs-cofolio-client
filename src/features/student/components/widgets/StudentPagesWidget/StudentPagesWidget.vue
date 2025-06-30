@@ -16,8 +16,8 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
 
 <template>
   <AvCard
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="pages-widget-container__title">
@@ -40,8 +40,8 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
           >
             <AvRichButton
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
+              :label="page.name"
               custom-padding="0.5rem"
-              :on-click="() => {}"
             >
               <div class="pages-widget-action__body">
                 <div class="pages-widget-action__leftIcon">

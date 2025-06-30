@@ -44,9 +44,8 @@ const stubs = {
   },
   AvButton: {
     name: 'AvButton',
-    props: ['icon', 'iconOnly', 'size'],
-    template: '<button class="av-button" @click="$emit(\'click\', $event)"><slot></slot></button>',
-    emits: ['click']
+    props: ['icon', 'iconOnly', 'size', 'onClick'],
+    template: '<button class="av-button" @click="onClick"><slot /></button>',
   },
   StudentDetailedTraceCardSettingMenu: {
     name: 'StudentDetailedTraceCardSettingMenu',

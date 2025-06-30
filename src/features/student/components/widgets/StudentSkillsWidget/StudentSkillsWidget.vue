@@ -17,8 +17,8 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
 <template>
   <AvCard
     v-if="displayWidget"
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="skills-widget-container__title">

@@ -23,8 +23,8 @@ defineExpose({ fullName })
 <template>
   <AvCard
     v-if="studentSummary"
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="student-overview-widget__title">
@@ -56,8 +56,8 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--edit-profile"
+              :label="t('student.widgets.overview.buttons.editProfile')"
               :icon-right="MDI_ICONS.PENCIL_OUTLINE"
-              :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
             </AvRichButton>
@@ -65,8 +65,8 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--share-resume"
+              :label="t('student.widgets.overview.buttons.shareResume')"
               :icon-right="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
-              :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareResume') }}</span>
             </AvRichButton>
@@ -74,8 +74,8 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--share-cofolio"
+              :label="t('student.widgets.overview.buttons.shareCofolio')"
               :icon-right="MDI_ICONS.SHARE_VARIANT_OUTLINE"
-              :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareCofolio') }}</span>
             </AvRichButton>
@@ -83,8 +83,8 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--establishments"
+              :label="t('student.widgets.overview.buttons.establishments')"
               :icon-right="MDI_ICONS.SWAP_HORIZONTAL"
-              :on-click="() => {}"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.establishments') }}</span>
             </AvRichButton>

@@ -2,11 +2,39 @@
  https://vue-ds.fr/composants/DsfrHeaderMenuLinks -->
 
 <script lang="ts" setup>
-import type { DsfrHeaderMenuLinkProps } from '@gouvminint/vue-dsfr'
+import type { VIcon } from '@gouvminint/vue-dsfr'
 import { AvButton } from '@/ui'
 
-export interface AvHeaderMenuLinksProps {
-  links?: Pick<DsfrHeaderMenuLinkProps, 'label' | 'icon' | 'onClick'>[]
+/**
+ * Props du composant AvHeaderMenuLinks.
+ */
+interface AvHeaderMenuLinksProps {
+  /**
+   * Un tableau d'objets représentant les liens rapides.
+   * Chaque lien peut avoir une icône, un label et une fonction onClick.
+   */
+  links?: {
+    /**
+     * Nom de l'icône (string) ou objet de props d'un composant VIcon.
+     */
+    icon?: string | InstanceType<typeof VIcon>['$props']
+
+    /**
+     * Label du lien.
+     */
+    label?: string
+
+    /**
+     * Fonction appelée lors du clic sur le lien.
+     * @param event L'événement MouseEvent du clic.
+     */
+    onClick?: ($event: MouseEvent) => void
+  }[]
+
+  /**
+   * Label ARIA pour la navigation, utile pour l'accessibilité.
+   * @default 'Menu secondaire'
+   */
   navAriaLabel?: string
 }
 
@@ -14,7 +42,17 @@ withDefaults(defineProps<AvHeaderMenuLinksProps>(), {
   navAriaLabel: 'Menu secondaire',
 })
 
-const emit = defineEmits<{ linkClick: [event: MouseEvent] }>()
+/**
+ * Événements émis par AvHeaderMenuLinks.
+ */
+const emit = defineEmits<{
+  /**
+   * Événement déclenché lors du clic sur un lien.
+   * @event linkClick
+   * @param event L'événement MouseEvent du clic.
+   */
+  linkClick: [event: MouseEvent]
+}>()
 </script>
 
 <template>
@@ -31,8 +69,11 @@ const emit = defineEmits<{ linkClick: [event: MouseEvent] }>()
       >
         <AvButton
           :icon="quickLink.icon"
-          :label="quickLink.label"
-          :on-click="($event: MouseEvent) => { emit('linkClick', $event); quickLink.onClick?.($event) }"
+          :label="quickLink.label ?? ''"
+          :on-click="($event: MouseEvent) => {
+            emit('linkClick', $event)
+            quickLink.onClick?.($event)
+          }"
         />
       </li>
     </ul>

@@ -16,8 +16,8 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
 
 <template>
   <AvCard
-    background-color="--other-background-base"
-    title-background="--other-background-base"
+    background-color="var(--other-background-base)"
+    title-background="var(--other-background-base)"
   >
     <template #title>
       <div class="resumes-widget-container__title">
@@ -40,8 +40,8 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
           >
             <AvRichButton
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
+              :label="resume.name"
               custom-padding="0.5rem"
-              :on-click="() => {}"
             >
               <div class="resumes-widget-action__body">
                 <div class="resumes-widget-action__leftIcon">

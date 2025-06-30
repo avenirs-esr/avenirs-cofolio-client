@@ -6,7 +6,7 @@ import { type ComponentPublicInstance, h } from 'vue'
 const initializeFocusTrapMock = vi.fn()
 const cleanupFocusTrapMock = vi.fn()
 
-vi.mock('@/common/composables/use-focus-trap/use-focus-trap', () => ({
+vi.mock('@/ui/composables/use-focus-trap/use-focus-trap', () => ({
   useFocusTrap: () => ({
     initializeFocusTrap: initializeFocusTrapMock,
     cleanupFocusTrap: cleanupFocusTrapMock

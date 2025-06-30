@@ -10,12 +10,12 @@ const { name, traceCount, activityCount, levelCount, currentSkillLevel } = skill
 
 const { t } = useI18n()
 
-const computedHoverBorderColor = computed(() => `var(${skillColor})`)
+const varSkillColor = computed(() => `var(${skillColor})`)
 const showLevelBadge = computed(() => currentSkillLevel.status === SkillLevelStatus.TO_BE_EVALUATED || currentSkillLevel.status === SkillLevelStatus.UNDER_REVIEW)
 // TODO: placeholder waiting for US specific to feedback
 const mockedFeedbackCount = computed(() => Math.floor(Math.random() * 6))
 
-const hoverBorderColor = ref(computedHoverBorderColor)
+const hoverBorderColor = ref(varSkillColor)
 </script>
 
 <template>
@@ -24,8 +24,8 @@ const hoverBorderColor = ref(computedHoverBorderColor)
     :to="{ name: studentSkillRoute.name, params: { id: skill.id } }"
   >
     <AvCard
-      border-color="--other-border-skill-card"
-      :title-background="skillColor"
+      border-color="var(--other-border-skill-card)"
+      :title-background="varSkillColor"
     >
       <template #title>
         <div class="student-detailed-skill-card__title ellipsis-container">

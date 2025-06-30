@@ -60,8 +60,8 @@ function useSettingsMenu () {
           icon-only
           variant="OUTLINED"
           size="sm"
-          :aria-label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.ariaLabel')"
-          @click="toggleSettingsMenu"
+          :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.ariaLabel')"
+          :on-click="toggleSettingsMenu"
         />
         <StudentDetailedTraceCardSettingMenu
           :trace="trace"

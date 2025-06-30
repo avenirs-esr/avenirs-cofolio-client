@@ -4,10 +4,24 @@ import { PageSizes } from '@/config'
 import AvTagPicker, { type AvTagPickerOption } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
 import { useI18n } from 'vue-i18n'
 
-const { pageSizeSelected, handleSelectChange } = defineProps<{
+/**
+ * Props du composant AvPageSizePicker.
+ */
+export interface AvPageSizePickerProps {
+  /**
+   * Nombre de résultats par page sélectionné.
+   */
   pageSizeSelected: PageSizes
+
+  /**
+   * Méthode exécutée lors du changement de sélection.
+   *
+   * @param val Option sélectionnée de type AvTagPickerOption.
+   */
   handleSelectChange: (val: AvTagPickerOption) => void
-}>()
+}
+
+const { pageSizeSelected, handleSelectChange } = defineProps<AvPageSizePickerProps>()
 const { t } = useI18n()
 
 const options: ComputedRef<AvTagPickerOption[]> = computed(() => Object.values(PageSizes)
