@@ -1,15 +1,9 @@
-import type { AmsViewResponse, ProgramProgressDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
-import type { UseQueryReturnType } from '@tanstack/vue-query'
+import type { AmsViewResponse } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { Ref } from 'vue'
-import { AmsPageSizePicker } from '@/common/components'
-import { useAllMyProgramProgressQuery, useAmsViewQuery } from '@/features/student/queries'
+import { useAmsViewQuery } from '@/features/student/queries'
 import { createMockedAmsViewResponse } from '@/features/student/queries/fixtures'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
-import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAmsStore } from '@/store'
-import { AvPagination } from '@/ui'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
@@ -20,67 +14,66 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
   return {
     ...actual,
     useAmsViewQuery: vi.fn(),
-    useAllMyProgramProgressQuery: vi.fn(),
   }
 })
 
 const mockedUseAmsViewQuery = vi.mocked(useAmsViewQuery)
-const mockedUseAllMyProgramProgressQuery = vi.mocked(useAllMyProgramProgressQuery)
 
 function mockUseAmsViewQuery (payload: AmsViewResponse | undefined) {
   const mockReturn = createMockedAmsViewQueryReturn(payload, null)
   mockedUseAmsViewQuery.mockReturnValue(mockReturn)
 }
 
-function mockUseAllMyProgramProgressQuery (payload: ProgramProgressDTO[]) {
-  const mockData: Ref<ProgramProgressDTO[]> = ref(payload)
-  const mockError: Ref<null> = ref(null)
-  const mockReturn = {
-    data: mockData,
-    error: mockError,
-    isFetched: ref(true),
-    isLoading: ref(false),
-    isSuccess: ref(true),
-  } as unknown as UseQueryReturnType<ProgramProgressDTO[], BaseApiException>
-  mockedUseAllMyProgramProgressQuery.mockReturnValue(mockReturn)
-}
-
 describe('amsListContainer', () => {
-  const mockedPrograms: ProgramProgressDTO[] = [
-    { id: 'program-1', name: 'Program 1' },
-    { id: 'program-2', name: 'Program 2' },
-    { id: 'program-3', name: 'Program 3' },
-  ]
+  const stubs = {
+    ProgramProgressSelector: {
+      name: 'ProgramProgressSelector',
+      props: ['modelValue'],
+      emits: ['update:modelValue'],
+      template: '<div class="program-progress-selector-stub" />'
+    },
+    StudentDetailedAmsCard: {
+      name: 'StudentDetailedAmsCard',
+      props: ['ams'],
+      template: '<div class="student-detailed-ams-card-stub" />'
+    },
+    AmsPageSizePicker: {
+      name: 'AmsPageSizePicker',
+      template: '<div class="ams-page-size-picker-stub" />'
+    },
+    AvPagination: {
+      name: 'AvPagination',
+      props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact', 'items'],
+      emits: ['update:current-page'],
+      template: '<div class="av-pagination-stub" />'
+    }
+  }
 
   const mockedAmsData = createMockedAmsViewResponse(4, 20, 1, 'program-1')
 
-  describe('given the component has program data and ams data', () => {
+  describe('given the component has ams data', () => {
     let wrapper: VueWrapper
 
     beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-      mockUseAllMyProgramProgressQuery(mockedPrograms)
       mockUseAmsViewQuery(mockedAmsData)
 
       wrapper = await mountWithRouter(AmsListContainer, {
         global: {
           plugins: [createPinia()],
-          stubs: {
-            StudentDetailedAmsCard: { name: 'StudentDetailedAmsCard', template: '<div class="student-detailed-ams-card" />' },
-            ProgramProgressSelector: { name: 'ProgramProgressSelector', template: '<div class="program-progress-selector" />' },
-          }
+          stubs
         }
       })
     })
 
     describe('when the component is mounted', () => {
       it('then it should render ProgramProgressSelector', () => {
-        expect(wrapper.findComponent(ProgramProgressSelector).exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
 
       it('then it should render AmsPageSizePicker', () => {
-        expect(wrapper.findComponent(AmsPageSizePicker).exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'AmsPageSizePicker' }).exists()).toBe(true)
       })
 
       it('then it should render correct number of AMS cards', () => {
@@ -89,16 +82,19 @@ describe('amsListContainer', () => {
       })
 
       it('then it should render both pagination components', () => {
-        const paginations = wrapper.findAllComponents(AvPagination)
+        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
         expect(paginations).toHaveLength(2)
-        expect(paginations[0].attributes('id')).toBe('top-pagination')
-        expect(paginations[1].attributes('id')).toBe('bottom-pagination')
+      })
+
+      it('then ProgramProgressSelector should receive undefined as initial modelValue', () => {
+        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        expect(programSelector.props('modelValue')).toBeUndefined()
       })
     })
 
     describe('when a pagination update is triggered', () => {
       beforeEach(async () => {
-        const topPagination = wrapper.findAllComponents(AvPagination)[0]
+        const topPagination = wrapper.findAllComponents({ name: 'AvPagination' })[0]
         await topPagination.vm.$emit('update:current-page', 3)
       })
 
@@ -129,15 +125,12 @@ describe('amsListContainer', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-      mockUseAllMyProgramProgressQuery(mockedPrograms)
       mockUseAmsViewQuery(undefined)
 
       wrapper = await mountWithRouter(AmsListContainer, {
         global: {
           plugins: [createPinia()],
-          stubs: {
-            StudentDetailedAmsCard: { name: 'StudentDetailedAmsCard', template: '<div class="student-detailed-ams-card" />' },
-          }
+          stubs
         }
       })
     })
@@ -149,36 +142,12 @@ describe('amsListContainer', () => {
       })
 
       it('then it should still render the pagination components', () => {
-        const paginations = wrapper.findAllComponents(AvPagination)
+        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
         expect(paginations).toHaveLength(2)
       })
-    })
-  })
 
-  describe('given the component has no program data', () => {
-    let wrapper: VueWrapper
-
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      setActivePinia(createPinia())
-      mockUseAllMyProgramProgressQuery([])
-      mockUseAmsViewQuery(undefined)
-
-      wrapper = await mountWithRouter(AmsListContainer, {
-        global: {
-          plugins: [createPinia()],
-        }
-      })
-    })
-
-    describe('when the component is mounted with no programs', () => {
-      it('then it should not render ProgramProgressSelector', () => {
-        expect(wrapper.findComponent(ProgramProgressSelector).exists()).toBe(false)
-      })
-
-      it('then it should still render other components', () => {
-        expect(wrapper.findComponent(AmsPageSizePicker).exists()).toBe(true)
-        expect(wrapper.findAllComponents(AvPagination)).toHaveLength(2)
+      it('then it should still render ProgramProgressSelector', () => {
+        expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
     })
   })
@@ -189,25 +158,34 @@ describe('amsListContainer', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-      mockUseAllMyProgramProgressQuery(mockedPrograms)
       mockUseAmsViewQuery(mockedAmsData)
 
       wrapper = await mountWithRouter(AmsListContainer, {
         global: {
           plugins: [createPinia()],
+          stubs
         }
       })
     })
 
-    describe('when a program is selected', () => {
+    describe('when a program is selected through v-model', () => {
       beforeEach(async () => {
-        const programSelector = wrapper.findComponent(ProgramProgressSelector)
-        await programSelector.vm.$emit('programSelected', mockedPrograms[1])
+        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        await programSelector.vm.$emit('update:modelValue', 'program-2')
+        await wrapper.vm.$nextTick()
       })
 
-      it('then the current page should reset to 0', () => {
-        const store = useAmsStore()
-        expect(store.currentPage).toBe(0)
+      it('then the selectedProgramProgressId should be updated', () => {
+        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        expect(programSelector.props('modelValue')).toBe('program-2')
+      })
+
+      it('then useAmsViewQuery should be called with the selected program ID', () => {
+        expect(mockedUseAmsViewQuery).toHaveBeenCalledWith(
+          expect.objectContaining({ value: 'program-2' }),
+          expect.any(Object),
+          expect.any(Object)
+        )
       })
     })
   })

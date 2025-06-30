@@ -21,7 +21,7 @@ export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgre
   })
 }
 
-export function useAllMyProgramProgressQuery (): UseQueryReturnType<ProgramProgressDTO[], BaseApiException> {
+export function useAllMyProgramProgressQuery () {
   const queryKey = computed(() => [...commonQueryKeys, 'programProgress', 'list'])
   return useQuery<ProgramProgressDTO[], BaseApiException>({
     queryKey,
@@ -34,6 +34,7 @@ export function useAllMyProgramProgressQuery (): UseQueryReturnType<ProgramProgr
         id: program.id,
         name: program.name,
       }))
-    }
+    },
+    initialData: []
   })
 }

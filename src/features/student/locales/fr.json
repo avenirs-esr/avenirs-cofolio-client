@@ -149,7 +149,7 @@
         },
         "amsListContainer": {
           "programProgressSelector": {
-            "label": "Mes formations"
+            "label": "Mes formations :"
           },
           "pagination": {
             "bottom": {

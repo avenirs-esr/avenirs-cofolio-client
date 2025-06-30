@@ -1,14 +1,30 @@
 import type { ProgramProgressDTO } from '@/api/avenir-esr'
-import type { AvTagPickerOption } from '@/ui'
+import type { BaseApiException } from '@/common/exceptions'
+import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { Ref } from 'vue'
+import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
+import { useAmsStore } from '@/store'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+vi.mock('@/features/student/queries', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/student/queries')>()
+  return {
+    ...actual,
+    useAllMyProgramProgressQuery: vi.fn()
+  }
+})
+
+const mockedUseAllMyProgramProgressQuery = vi.mocked(useAllMyProgramProgressQuery)
 
 describe('programProgressSelector', () => {
   const stubs = {
     AvTagPicker: {
       name: 'AvTagPicker',
       props: [
+        'label',
         'options',
         'selected',
         'handleSelectChange'
@@ -34,13 +50,35 @@ describe('programProgressSelector', () => {
     { id: '3', name: 'Master Sciences de l\'Environnement (1 an)' }
   ]
 
-  describe('given a program progress selector without selected program', () => {
+  function mockUseAllMyProgramProgressQuery (programs: ProgramProgressDTO[], isFetched = true): void {
+    const mockData: Ref<ProgramProgressDTO[]> = ref(programs)
+    const mockIsFetched: Ref<boolean> = ref(isFetched)
+    const mockError: Ref<BaseApiException | null> = ref(null)
+
+    const queryMockedData = {
+      data: mockData,
+      isFetched: mockIsFetched,
+      error: mockError,
+    } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+
+    mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    setActivePinia(createPinia())
+    mockUseAllMyProgramProgressQuery(mockPrograms)
+  })
+
+  describe('given a program progress selector without initial selected program', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
       wrapper = mount(ProgramProgressSelector, {
-        props: { programs: mockPrograms },
-        global: { stubs }
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
       })
     })
 
@@ -53,11 +91,6 @@ describe('programProgressSelector', () => {
         expect(wrapper.findComponent({ name: 'AvTagPicker' }).exists()).toBe(true)
       })
 
-      it('then no option should be initially selected', () => {
-        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
-        expect(tagPicker.props('selected')).toBeUndefined()
-      })
-
       it('then programs should be converted to options correctly', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         const expectedOptions = mockPrograms.map(program => ({
@@ -65,6 +98,11 @@ describe('programProgressSelector', () => {
           value: program.id
         }))
         expect(tagPicker.props('options')).toEqual(expectedOptions)
+      })
+
+      it('then the label should be passed to AvTagPicker', () => {
+        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(tagPicker.props('label')).toBe('Mes formations :')
       })
     })
 
@@ -74,10 +112,17 @@ describe('programProgressSelector', () => {
         await optionButton.trigger('click')
       })
 
-      it('then the programSelected event should be emitted with the correct program', () => {
-        expect(wrapper.emitted('programSelected')).toBeTruthy()
-        const firstEmittedEventArgs = wrapper.emitted<[ProgramProgressDTO]>('programSelected')?.[0]
-        expect(firstEmittedEventArgs?.[0]).toEqual(mockPrograms[1])
+      it('then the selectedProgramProgressId model should be updated', () => {
+        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(tagPicker.props('selected')).toEqual({
+          label: mockPrograms[1].name,
+          value: mockPrograms[1].id
+        })
+      })
+
+      it('then the currentPage should be reset to 0', () => {
+        const store = useAmsStore()
+        expect(store.currentPage).toBe(0)
       })
     })
 
@@ -92,41 +137,33 @@ describe('programProgressSelector', () => {
         await wrapper.vm.$nextTick()
       })
 
-      it('then the programSelected event should be emitted with correct program', () => {
-        expect(wrapper.emitted('programSelected')).toBeTruthy()
-        const firstEmittedEventArgs = wrapper.emitted<[ProgramProgressDTO]>('programSelected')?.[0]
-        expect(firstEmittedEventArgs?.[0]).toEqual(mockPrograms[2])
-      })
-    })
-
-    describe('when an option with invalid ID is selected', () => {
-      beforeEach(async () => {
+      it('then the selectedProgramProgressId model should be updated', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
-        const invalidOption: AvTagPickerOption = {
-          label: 'Non-existent Program',
-          value: 'invalid-id',
-        }
-        await tagPicker.props('handleSelectChange')(invalidOption)
-        await wrapper.vm.$nextTick()
+        expect(tagPicker.props('selected')).toEqual({
+          label: mockPrograms[2].name,
+          value: mockPrograms[2].id
+        })
       })
 
-      it('then no programSelected event should be emitted', () => {
-        expect(wrapper.emitted('programSelected')).toBeFalsy()
+      it('then the currentPage should be reset to 0', () => {
+        const store = useAmsStore()
+        expect(store.currentPage).toBe(0)
       })
     })
   })
 
-  describe('given a program progress selector with selected program', () => {
-    const selectedProgram = mockPrograms[0]
+  describe('given a program progress selector with initial selected program', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
       wrapper = mount(ProgramProgressSelector, {
         props: {
-          programs: mockPrograms,
-          selectedProgram
+          modelValue: mockPrograms[0].id
         },
-        global: { stubs }
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
       })
     })
 
@@ -134,8 +171,8 @@ describe('programProgressSelector', () => {
       it('then the AvTagPicker should receive the selected program as a mapped option', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual({
-          label: selectedProgram.name,
-          value: selectedProgram.id
+          label: mockPrograms[0].name,
+          value: mockPrograms[0].id
         })
       })
     })
@@ -145,9 +182,12 @@ describe('programProgressSelector', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
+      mockUseAllMyProgramProgressQuery([])
       wrapper = mount(ProgramProgressSelector, {
-        props: { programs: [] },
-        global: { stubs }
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
       })
     })
 
@@ -155,6 +195,66 @@ describe('programProgressSelector', () => {
       it('then the AvTagPicker should receive an empty options array', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('options')).toEqual([])
+      })
+    })
+  })
+
+  describe('given the programs are fetched and no program is initially selected', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(async () => {
+      const mockData: Ref<ProgramProgressDTO[]> = ref(mockPrograms)
+      const mockIsFetched: Ref<boolean> = ref(false)
+      const mockError: Ref<BaseApiException | null> = ref(null)
+
+      const queryMockedData = {
+        data: mockData,
+        isFetched: mockIsFetched,
+        error: mockError,
+      } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+
+      mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
+
+      wrapper = mount(ProgramProgressSelector, {
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
+      })
+
+      mockIsFetched.value = true
+      await wrapper.vm.$nextTick()
+    })
+
+    describe('when the programs are fetched', () => {
+      it('then the first program should be automatically selected', () => {
+        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(tagPicker.props('selected')).toEqual({
+          label: mockPrograms[0].name,
+          value: mockPrograms[0].id
+        })
+      })
+    })
+  })
+
+  describe('given the programs are not yet fetched', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(() => {
+      mockUseAllMyProgramProgressQuery([], false)
+      wrapper = mount(ProgramProgressSelector, {
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
+      })
+    })
+
+    describe('when the component is mounted', () => {
+      it('then no program should be automatically selected', async () => {
+        await wrapper.vm.$nextTick()
+        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(tagPicker.props('selected')).toBeUndefined()
       })
     })
   })
@@ -167,12 +267,15 @@ describe('programProgressSelector', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
+      mockUseAllMyProgramProgressQuery([program])
       wrapper = mount(ProgramProgressSelector, {
         props: {
-          programs: [program],
-          selectedProgram: program
+          modelValue: program.id
         },
-        global: { stubs }
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
       })
     })
 
@@ -184,6 +287,51 @@ describe('programProgressSelector', () => {
         }
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual(expectedOption)
+      })
+    })
+  })
+
+  describe('given programs data changes', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(() => {
+      const mockData: Ref<ProgramProgressDTO[]> = ref([])
+      const mockIsFetched: Ref<boolean> = ref(false)
+      const mockError: Ref<BaseApiException | null> = ref(null)
+
+      const queryMockedData = {
+        data: mockData,
+        isFetched: mockIsFetched,
+        error: mockError,
+      } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+
+      mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
+
+      wrapper = mount(ProgramProgressSelector, {
+        global: {
+          stubs,
+          plugins: [createPinia()]
+        }
+      })
+    })
+
+    describe('when programs are loaded after initial mount', () => {
+      it('then options should be updated correctly', async () => {
+        const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(tagPicker.props('options')).toEqual([])
+
+        const queryReturn = mockedUseAllMyProgramProgressQuery.mock.results[0].value
+        queryReturn.data.value = mockPrograms
+        queryReturn.isFetched.value = true
+
+        await wrapper.vm.$nextTick()
+
+        expect(tagPicker.props('options')).toEqual(
+          mockPrograms.map(program => ({
+            label: program.name,
+            value: program.id
+          }))
+        )
       })
     })
   })
