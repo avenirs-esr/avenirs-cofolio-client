@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-
 import routes, {
   studentAboutRoute,
   studentAmsRoute,
@@ -16,9 +15,10 @@ import routes, {
   studentToolsResumesRoute,
   studentToolsTracesRoute
 } from '@/features/student/routes/routes'
+
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
-import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
+import { waitMswToStart } from 'a11y/utils'
 import { createHtmlReport } from 'axe-html-reporter'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -48,9 +48,7 @@ const pathsToTest = [
 pathsToTest.forEach((path) => {
   test(`${path} should have no accessibility violations`, async ({ page }) => {
     await page.goto(path)
-
-    await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
-
+    await waitMswToStart(page)
     const rawAxeResults = await new AxeBuilder({ page }).analyze()
 
     const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')

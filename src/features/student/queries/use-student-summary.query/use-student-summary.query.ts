@@ -24,7 +24,7 @@ import {
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
-// TODO:  profile fetched from user session
+// TODO:  use enum UserProfile instead of this constant
 const PROFILE = 'student'
 
 function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
