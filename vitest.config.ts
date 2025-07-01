@@ -14,10 +14,12 @@ export default ({ mode }: { mode: string }) => {
   ]
 
   const COVERAGE_THRESHOLD = 85
-
   return mergeConfig(
     viteConfig({ mode }),
     defineConfig({
+      define: {
+        __ENABLE_MSW__: true,
+      },
       test: {
         environment: 'jsdom',
         exclude: [...configDefaults.exclude, ...sharedExclusions],
