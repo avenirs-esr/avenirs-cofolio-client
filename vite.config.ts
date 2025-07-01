@@ -16,9 +16,12 @@ import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
+  const isMSWEnabled = mode !== 'production' && env.VITE_ENABLE_MSW === 'true'
+
   return defineConfig({
     define: {
       __API_URL__: JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
+      __ENABLE_MSW__: JSON.stringify(env.VITE_ENABLE_MSW === 'true'),
     },
     plugins: [
       vue(),
@@ -61,13 +64,37 @@ export default ({ mode }: { mode: string }) => {
           vueDsfrComponentResolver, // Autoimport des composants de VueDsfr dans les templates
         ],
       }),
+      !isMSWEnabled && {
+        name: 'ignore-mocks-when-msw-disabled',
+        enforce: 'pre',
+        resolveId (source) {
+          if (source.includes('__mocks__')) {
+            return source
+          }
+          return null
+        },
+        load (id) {
+          if (id.includes('__mocks__')) {
+            return 'export default {}'
+          }
+          return null
+        }
+      }
     ],
     base: process.env.BASE_URL || '/',
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
       dedupe: ['vue'],
     },
+    build: {
+      rollupOptions: {
+        input: {
+          main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        },
+        external: id => !isMSWEnabled && id.includes('__mocks__'),
+      }
+    }
   })
 }
