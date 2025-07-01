@@ -8,6 +8,7 @@ import {
 import {
   getGetTraceConfigInfoUrl,
   getGetTracesUnassociatedSummaryUrl,
+  getGetTracesViewUrl,
   type TraceConfigurationInfo,
   TraceStatus,
   type TracesViewResponse,
@@ -26,6 +27,7 @@ export const tracesHandlers = [
       }
     })
   }),
+
   http.delete(`*/me/traces/:traceId`, ({ params }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
@@ -45,7 +47,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get(`*/me/traces/view`, ({ request }) => {
+  http.get(`*${getGetTracesViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
 

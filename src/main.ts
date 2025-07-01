@@ -1,13 +1,10 @@
 import { createVueApp } from '@/bootstrap'
 
 async function enableMsw () {
-  if (import.meta.env.MODE === 'production') {
+  if (import.meta.env.MODE === 'production' || !__ENABLE_MSW__) {
     return
   }
 
-  if (!__ENABLE_MSW__) {
-    return
-  }
   const { worker } = await import('@/__mocks__/msw/browser')
 
   return worker.start({

@@ -5,6 +5,7 @@ import routes from '@/features/teacher/routes/routes'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
+import { waitMswToStart } from 'a11y/utils'
 import { createHtmlReport } from 'axe-html-reporter'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -20,7 +21,7 @@ test.describe('teacher routes', () => {
   pathsToTest.forEach((path) => {
     test(`${path} should have no accessibility violations`, async ({ page }) => {
       await page.goto(path)
-
+      await waitMswToStart(page)
       await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
 
       const rawAxeResults = await new AxeBuilder({ page }).analyze()

@@ -4,6 +4,7 @@ import { invalidTraceId, mockedUnassignedTracesSummary } from '@/__mocks__/fixtu
 import { type GetTracesViewParams, GetTracesViewStatus, type TraceConfigurationInfo, type TracesViewResponse, type UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 
+import { PageSizes } from '@/config'
 import {
   type DeleteTraceVariables,
   useDeleteTraceMutation,
@@ -12,8 +13,8 @@ import {
   useUnassignedTracesSummaryQuery,
   useUnassignedTracesViewQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
-import { flushPromises } from '@vue/test-utils'
 
+import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { beforeEach, describe, expect, it, type MockedFunction, type MockInstance, vi } from 'vitest'
 
@@ -52,8 +53,8 @@ describe('useTracesViewQuery', async () => {
     await flushPromises()
 
     expect(getTracesViewSpy).toHaveBeenCalledWith({
-      pageSize: 4,
-      page: 1,
+      pageSize: PageSizes.FOUR,
+      page: page.value,
       status: GetTracesViewStatus.UNASSOCIATED
     })
     expect(getTracesViewSpy).toHaveBeenCalledTimes(1)

@@ -32,12 +32,16 @@ jobs:
 
       - name: 🏗️ Build project
         run: npm run build-only:development
+        env:
+          VITE_ENABLE_MSW: true
 
       - name: Run accessibility test
         id: a11y-test
         run: |
           npm run test:a11y
         continue-on-error: true
+        env:
+          VITE_ENABLE_MSW: true
 
       - name: Move accessibility report to temp folder
         if: steps.a11y-test.outcome == 'failure'
