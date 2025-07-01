@@ -2,8 +2,8 @@ import type { ProgramProgressViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
+import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { useProgramProgressViewQuery } from '@/features/student/queries'
-import { mockedPrograms } from '@/features/student/queries/fixtures'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import { mount, RouterLinkStub } from '@vue/test-utils'
@@ -56,7 +56,7 @@ describe('studentEducationSkillsView', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
-    mockUseProgramProgressViewQuery(mockedPrograms)
+    mockUseProgramProgressViewQuery(mockedProgramsProgressView)
   })
   const title = 'Mes compétences visées par ma formation'
   const title_plural = 'Mes compétences visées par mes formations'
@@ -65,7 +65,7 @@ describe('studentEducationSkillsView', () => {
 
   it('should render PageTitle with base title', () => {
     vi.clearAllMocks()
-    mockUseProgramProgressViewQuery([mockedPrograms[0]])
+    mockUseProgramProgressViewQuery([mockedProgramsProgressView[0]])
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
         stubs,
@@ -113,7 +113,7 @@ describe('studentEducationSkillsView', () => {
 
   it('should render 1 StudentEducationSkillsViewContainer with 1 course', () => {
     vi.clearAllMocks()
-    mockUseProgramProgressViewQuery([mockedPrograms[0]])
+    mockUseProgramProgressViewQuery([mockedProgramsProgressView[0]])
     const wrapper = mount(StudentEducationSkillsView, {
       global: {
         stubs,

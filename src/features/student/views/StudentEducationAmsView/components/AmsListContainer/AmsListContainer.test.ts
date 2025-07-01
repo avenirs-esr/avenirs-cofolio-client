@@ -1,7 +1,7 @@
 import type { AmsViewResponse } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { createMockedAmsViewResponse } from '@/__mocks__/fixtures/student'
 import { useAmsViewQuery } from '@/features/student/queries'
-import { createMockedAmsViewResponse } from '@/features/student/queries/fixtures'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import { useAmsStore } from '@/store'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'

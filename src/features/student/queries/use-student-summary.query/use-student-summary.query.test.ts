@@ -4,9 +4,9 @@ import type {
 } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
+import { mockedProgramsProgressOverview } from '@/__mocks__/fixtures/student'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { mockedCourses } from '@/features/student/queries/fixtures'
 import {
   useStudentCoursesSummaryQuery,
   useStudentDeliverablesSummaryQuery,
@@ -68,7 +68,7 @@ describe('useStudentCoursesSummaryQuery', () => {
     expect(result![0]).toHaveProperty('id')
     expect(result![0]).toHaveProperty('name')
     expect(result![0]).toHaveProperty('skills')
-    expect(result).toEqual(mockedCourses)
+    expect(result).toEqual(mockedProgramsProgressOverview)
   })
 })
 

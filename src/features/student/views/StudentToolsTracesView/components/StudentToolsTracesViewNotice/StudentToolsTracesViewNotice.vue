@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
+import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
 import AvNotice from '@/ui/base/AvNotice/AvNotice.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const { data: unassignedTracesSummary } = useUnassignedTracesSummaryQuery()
-const { data: tracesConfig } = useStudentTracesConfigurationQuery()
+const { data: tracesConfig } = useTracesConfigurationQuery()
 
 function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCount: number, criticalDays: number | undefined, maxDayBeforeDeletion: number | undefined): string {
   let message = t('student.views.studentToolsTracesView.warningMessage.unassociated', unassociatedTracesCount)

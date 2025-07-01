@@ -1,9 +1,8 @@
-import type { AmsViewDTO, AmsViewResponse, PageInfo } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { Ref } from 'vue'
-import { createMockedAmsViewResponse } from '@/features/student/queries/fixtures'
+import { type AmsViewDTO, type AmsViewResponse, getAmsView, type PageInfo } from '@/api/avenir-esr'
 import { skipToken, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import isNil from 'lodash-es/isNil'
+import { type Ref, toValue } from 'vue'
 
 const commonQueryKeys = ['user', 'student']
 
@@ -25,15 +24,11 @@ export function useAmsViewQuery (
 
   const queryFn = computed(() => !isNil(programProgramId.value)
     ? async (): Promise<AmsViewResponse> => {
-      /*
-      // TODO: Uncomment when the API is ready
       return await getAmsView({
         programProgressId: toValue(programProgramId)!,
         pageSize: toValue(pageSize),
         page: toValue(page.value),
       })
-      */
-      return createMockedAmsViewResponse(pageSize.value, 20, page.value, programProgramId.value!)
     }
     : skipToken)
 

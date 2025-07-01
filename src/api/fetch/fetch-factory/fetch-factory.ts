@@ -1,6 +1,6 @@
 import type { FetchConfig } from '@/api/fetch/types'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
-import { createBasApiExceptionFromResponseBody, createBaseApiExceptionFromUnknownError } from '@/common/exceptions'
+import { BaseApiException, createBasApiExceptionFromResponseBody, createBaseApiExceptionFromUnknownError } from '@/common/exceptions'
 
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -82,12 +82,15 @@ function createCustomFetch (config: FetchConfig = {}, interceptorManager: FetchI
 
       if (!interceptedResponse.ok) {
         const errorData: unknown = await getBody(interceptedResponse.clone())
-        createBasApiExceptionFromResponseBody(interceptedResponse, errorData, requestInit.method,)
+        throw createBasApiExceptionFromResponseBody(interceptedResponse, errorData, requestInit.method,)
       }
 
       return await getBody<T>(interceptedResponse)
     }
     catch (error: unknown) {
+      if (error instanceof BaseApiException) {
+        throw error
+      }
       throw createBaseApiExceptionFromUnknownError(error)
     }
   }

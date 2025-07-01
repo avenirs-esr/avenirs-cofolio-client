@@ -1,5 +1,5 @@
+import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
-import { mockedPrograms } from '@/features/student/queries/fixtures'
 import StudentDetailedSkillCard from '@/features/student/views/StudentEducationSkillsView/components/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
@@ -61,7 +61,7 @@ describe('studentDetailedSkillCard.vue', () => {
     mathRandomSpy.mockRestore()
   })
 
-  const skill = mockedPrograms[0].skills[0]
+  const skill = mockedProgramsProgressView[0].skills[0]
 
   const skillNotValidated: SkillOverviewDTO = {
     ...skill,

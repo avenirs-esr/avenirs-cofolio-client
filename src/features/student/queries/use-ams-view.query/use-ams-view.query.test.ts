@@ -8,28 +8,10 @@ import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 
-vi.mock('@/api/avenir-esr', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
-  return {
-    ...actual,
-    getAmsView: vi.fn(),
-  }
-})
-
 describe('useAmsViewQuery', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-  /*
-  // TODO: uncomment when mock removed from getAmsView
-  const mockedGetAmsView = vi.mocked(getAmsView)
-  */
   beforeEach(() => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
-    /*
-    // TODO: uncomment when mock removed from getAmsView
-    mockedGetAmsView.mockImplementation(async ({ programProgressId, page, pageSize }) => {
-      return createMockedAmsViewResponse(pageSize ?? PageSizes.FOUR, 20, page ?? 0, programProgressId)
-    })
-    */
   })
 
   afterEach(() => {

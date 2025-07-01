@@ -7,7 +7,8 @@ export default antfu({
   ignores: [
     '**/README.md',
     '.vscode/',
-    'eslint.config.js'
+    'eslint.config.js',
+    'public/**/*'
   ],
 }, {
   rules: {

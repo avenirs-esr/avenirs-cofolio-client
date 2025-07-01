@@ -3,7 +3,8 @@
   "compilerOptions": {
     "lib": [],
     "paths": {
-      "@/*": ["../src/*"]
+      "@/*": ["../src/*"],
+      "a11y/*": ["./*"]
     },
     "types": ["node", "jsdom"]
   },
