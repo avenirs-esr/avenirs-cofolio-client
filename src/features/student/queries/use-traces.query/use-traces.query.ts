@@ -1,8 +1,17 @@
-import type { TracesViewResponse, TraceViewDTO, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { Ref } from 'vue'
+import {
+  deleteTrace,
+  getTraceConfigInfo,
+  getTracesUnassociatedSummary,
+  getTracesView,
+  GetTracesViewStatus,
+  type TraceConfigurationInfo,
+  type TracesViewResponse,
+  type TraceViewDTO,
+  type UnassociatedTracesSummaryDTO
+} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import { createDeletedTraceIdMock, createMockedTracesViewResponse, mockedUnassignedTracesSummary } from '@/features/student/queries/fixtures'
 import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student', 'traces']
@@ -21,15 +30,11 @@ export function useUnassignedTracesViewQuery (
   const query = useQuery<TracesViewResponse, BaseApiException, TracesViewResponse, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<TracesViewResponse> => {
-    /*
-      // TODO: Uncomment when the API is ready
-      const response = await getTracesView({
-        pageSize,
-        page: pageParam,
+      return await getTracesView({
+        pageSize: pageSize.value,
+        page: page.value,
         status: GetTracesViewStatus.UNASSOCIATED
       })
-    */
-      return createMockedTracesViewResponse(pageSize.value, 20, page.value)
     },
     staleTime: TWO_MINUTES,
   })
@@ -50,11 +55,7 @@ export function useUnassignedTracesSummaryQuery (): UseQueryReturnType<Unassocia
   return useQuery<UnassociatedTracesSummaryDTO, BaseApiException>({
     queryKey,
     queryFn: async (): Promise<UnassociatedTracesSummaryDTO> => {
-      /*
-      // TODO: Uncomment when the API is ready
-      const response = await getTracesUnassociatedSummary()
-      */
-      return mockedUnassignedTracesSummary
+      return await getTracesUnassociatedSummary()
     },
     staleTime: TWO_MINUTES,
   })
@@ -73,16 +74,23 @@ export function useDeleteTraceMutation ({ onError, onSuccess }: UseDeleteTraceMu
   const invalidateUnassignedTracesViewQuery = useInvalidateQuery(unassignedTracesQueryKey)
   return useMutation<string, BaseApiException, DeleteTraceVariables>({
     mutationFn: async ({ traceId }: DeleteTraceVariables): Promise<string> => {
-      /**
-       * TODO: Uncomment when the API is ready
-       * return await deleteTrace(traceId)
-       */
-      return createDeletedTraceIdMock(traceId)
+      return await deleteTrace(traceId)
     },
     onSuccess: async () => {
       await invalidateUnassignedTracesViewQuery()
       onSuccess?.()
     },
     onError
+  })
+}
+
+export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigurationInfo, BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'config'])
+  return useQuery<TraceConfigurationInfo, BaseApiException>({
+    queryKey,
+    queryFn: async (): Promise<TraceConfigurationInfo> => {
+      return await getTraceConfigInfo()
+    },
+    staleTime: TWO_MINUTES,
   })
 }

@@ -1,4 +1,4 @@
-import { mockedPrograms } from '@/features/student/queries/fixtures'
+import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import StudentEducationSkillsViewContainer from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 import { mount } from '@vue/test-utils'
 
@@ -10,7 +10,7 @@ describe('studentEducationSkillsViewContainer', () => {
       props: ['skill', 'skillColor']
     },
   }
-  const baseProps = { course: mockedPrograms[0] }
+  const baseProps = { course: mockedProgramsProgressView[0] }
 
   beforeEach(() => {
     vi.clearAllMocks()

@@ -1,7 +1,8 @@
+import type { ProgramProgressOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import { mockedProgramsProgressOverview } from '@/__mocks__/fixtures/student'
 import StudentSkillsWidget from '@/features/student/components/widgets/StudentSkillsWidget/StudentSkillsWidget.vue'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
 import { mockAddErrorMessage } from 'tests/mocks'
@@ -46,73 +47,9 @@ function mockUseStudentCoursesSummaryQuery (payload: ProgramProgressOverviewDTO[
 }
 
 describe('studentSkillsWidget', () => {
-  const mockedSkills: Array<SkillOverviewDTO> = [
-    {
-      id: 'skill1',
-      name: 'Prévenir la pollution à la source',
-      traceCount: 1,
-      activityCount: 8,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
-    },
-    {
-      id: 'skill2',
-      name: 'Mettre en place des filières d’économies circulaires',
-      traceCount: 2,
-      activityCount: 7,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
-    },
-    {
-      id: 'skill3',
-      name: 'Évaluer l’impact environnemental et économique',
-      traceCount: 3,
-      activityCount: 6,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
-    },
-    {
-      id: 'skill4',
-      name: 'Concevoir des synthèses chimiques durables',
-      traceCount: 4,
-      activityCount: 5,
-      currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
-    },
-    {
-      id: 'skill5',
-      name: 'Réaliser un circuit électrique',
-      traceCount: 5,
-      activityCount: 4,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
-    },
-    {
-      id: 'skill6',
-      name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-      traceCount: 6,
-      activityCount: 3,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
-    },
-    {
-      id: 'skill7',
-      name: 'Réaliser une étude de marché',
-      traceCount: 7,
-      activityCount: 2,
-      currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
-    },
-    {
-      id: 'skill8',
-      name: 'Réaliser un cahier des charges fonctionnels',
-      traceCount: 8,
-      activityCount: 1,
-      currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
-    },
-  ]
-
-  const courses = [
-    { id: 'course2', name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel', skills: mockedSkills },
-    { id: 'course1', name: 'Master Chimie Verte et Éco-innovations', skills: mockedSkills },
-  ]
-
   beforeEach(() => {
     vi.clearAllMocks()
-    mockUseStudentCoursesSummaryQuery(courses)
+    mockUseStudentCoursesSummaryQuery(mockedProgramsProgressOverview)
   })
 
   it('should display nothing if no course is available', async () => {
@@ -127,7 +64,7 @@ describe('studentSkillsWidget', () => {
   })
 
   it('should display 1 course and up to 6 skills if 1 course is available', async () => {
-    mockUseStudentCoursesSummaryQuery(courses.slice().slice(0, 1))
+    mockUseStudentCoursesSummaryQuery(mockedProgramsProgressOverview.slice().slice(0, 1))
     const wrapper = await mountWithRouter(StudentSkillsWidget, {
       global: {
         plugins: [createPinia()],

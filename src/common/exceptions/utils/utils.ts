@@ -40,7 +40,7 @@ export function createBasApiExceptionFromResponseBody (
   const isApiErrorBody = isBaseApiErrorBody(errorData)
   const status = isApiErrorBody ? errorData.status : interceptedResponse.status
   const details = isApiErrorBody ? errorData.details : undefined
-  const message = isApiErrorBody ? errorData.message : `HTTP ${interceptedResponse.status}: ${interceptedResponse.statusText}`
+  const message = hasStringField(errorData, 'message') ? errorData.message : `HTTP ${interceptedResponse.status}: ${interceptedResponse.statusText}`
   const code = isApiErrorBody ? extractErrorCodeFromBaseApiErrorBody(status, errorData) : extractErrorCodeFromBaseApiErrorBody(status)
   return new BaseApiException(
     message,

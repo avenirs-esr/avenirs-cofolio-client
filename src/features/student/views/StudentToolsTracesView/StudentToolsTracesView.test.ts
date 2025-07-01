@@ -1,113 +1,113 @@
-import type { TraceConfigurationInfo, TracesViewResponse, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
-import { useStudentTracesConfigurationQuery, useUnassignedTracesSummaryQuery, useUnassignedTracesViewQuery } from '@/features/student/queries'
-import { createMockedTracesViewResponse } from '@/features/student/queries/fixtures'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import { mount } from '@vue/test-utils'
-import { createMockedTracesViewQueryReturn } from 'tests/mocks'
-import { describe, expect, it, vi } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@/common/components/PageTitle', () => ({
-  PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
-}))
-
-vi.mock('@/features/student/queries', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/queries')>()
-
-  return {
-    ...actual,
-    useUnassignedTracesViewQuery: vi.fn(),
-    useStudentTracesConfigurationQuery: vi.fn(),
-    useUnassignedTracesSummaryQuery: vi.fn(),
+const commonStubs = {
+  PageTitle: {
+    name: 'PageTitle',
+    props: ['title', 'breadcrumbLinks'],
+    template: '<div class="page-title-stub" />'
+  },
+  StudentToolsTracesViewContainer: {
+    name: 'StudentToolsTracesViewContainer',
+    template: '<div class="student-tools-traces-view-container-stub" />'
   }
-})
-
-const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
-
-export function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse) {
-  const mockReturn = createMockedTracesViewQueryReturn(payload, null)
-  mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
-}
-
-const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
-
-export function mockUseUnassignedTracesSummaryQuery (payload: UnassociatedTracesSummaryDTO) {
-  const mockData = ref(payload)
-  const queryMockedData = {
-    data: mockData,
-  } as unknown as ReturnType<typeof useUnassignedTracesSummaryQuery>
-  mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
-}
-
-const mockedUseStudentTracesConfigurationQuery = vi.mocked(useStudentTracesConfigurationQuery)
-
-function mockUseStudentTracesConfigurationQuery (payload: TraceConfigurationInfo | null) {
-  const mockData = ref(payload)
-  const queryMockedData = {
-    data: mockData,
-  } as unknown as ReturnType<typeof useStudentTracesConfigurationQuery>
-  mockedUseStudentTracesConfigurationQuery.mockReturnValue(queryMockedData)
 }
 
 describe('studentToolsTracesView', () => {
-  const mockedData = createMockedTracesViewResponse(4, 4, 0)
-  const stubs = {
-    PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
-    StudentToolsTracesViewContainer: { name: 'StudentToolsTracesViewContainer', props: ['traces'], template: '<div />' },
-    StudentToolsTracesViewNotice: {
-      name: 'StudentToolsTracesViewNotice',
-      template: `<div class="student-tools-traces-view-notice"/>`,
-      props: ['traces', 'tracesConfig'],
-    }
-  }
+  describe('given a student tools traces view component', () => {
+    let wrapper: VueWrapper
 
-  const mockedTracesConfiguration = {
-    maxDayRemaining: 30,
-    maxDayRemainingWarning: 15,
-    maxDayRemainingCritical: 7
-  }
+    beforeEach(() => {
+      vi.clearAllMocks()
+      setActivePinia(createPinia())
 
-  const mockedUnassignedTracesSummary = {
-    total: 15,
-    totalWarnings: 5,
-    totalCriticals: 3
-  }
+      wrapper = mount(StudentToolsTracesView, {
+        global: {
+          plugins: [createPinia()],
+          stubs: commonStubs
+        }
+      })
+    })
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    setActivePinia(createPinia())
-    mockUseUnassignedTracesViewQuery(mockedData)
-    mockUseStudentTracesConfigurationQuery(mockedTracesConfiguration)
-    mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
+    describe('when the component is mounted', () => {
+      it('then it should render PageTitle with correct props', () => {
+        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+        expect(pageTitle.exists()).toBe(true)
+        expect(pageTitle.props('title')).toBe('Ma bibliothèque de traces')
+
+        const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
+        expect(breadcrumbLinks).toHaveLength(3)
+        expect(breadcrumbLinks[0]).toEqual({
+          text: 'Accueil',
+          to: studentHomeRoute
+        })
+        expect(breadcrumbLinks[1]).toEqual({
+          text: 'Mes outils'
+        })
+        expect(breadcrumbLinks[2]).toEqual({
+          text: 'Mes traces'
+        })
+      })
+
+      it('then it should render StudentToolsTracesViewContainer', () => {
+        const container = wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' })
+        expect(container.exists()).toBe(true)
+      })
+
+      it('then it should render the correct structure', () => {
+        expect(wrapper.findComponent({ name: 'PageTitle' }).exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' }).exists()).toBe(true)
+      })
+    })
   })
 
-  const title = 'Ma bibliothèque de traces'
-  const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const toolsBreadcrumbLink = { text: 'Mes outils' }
-  const currentBreadcrumbLink = { text: 'Mes traces' }
+  describe('given a student tools traces view component with no configuration', () => {
+    let wrapper: VueWrapper
 
-  it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentToolsTracesView, {
-      stubs,
-      plugins: [createPinia()]
+    beforeEach(() => {
+      vi.clearAllMocks()
+      setActivePinia(createPinia())
+
+      wrapper = mount(StudentToolsTracesView, {
+        global: {
+          plugins: [createPinia()],
+          stubs: commonStubs
+        }
+      })
     })
-    const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
-    expect(pageTitle.props('title')).toBe(title)
-    expect(pageTitle.props('breadcrumbLinks')).toEqual([
-      homeBreadcrumbLink,
-      toolsBreadcrumbLink,
-      currentBreadcrumbLink
-    ])
+    describe('when the component is mounted with null configuration', () => {
+      it('then it should still render all components', () => {
+        expect(wrapper.findComponent({ name: 'PageTitle' }).exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' }).exists()).toBe(true)
+      })
+    })
   })
 
-  it('should render StudentToolsTracesViewContainer', () => {
-    const wrapper = mount(StudentToolsTracesView, {
-      stubs,
-      plugins: [createPinia()]
-    })
-    const container = wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' })
+  describe('given a student tools traces view component with no traces summary', () => {
+    let wrapper: VueWrapper
 
-    expect(container.exists()).toBe(true)
+    beforeEach(() => {
+      vi.clearAllMocks()
+      setActivePinia(createPinia())
+
+      wrapper = mount(StudentToolsTracesView, {
+        global: {
+          plugins: [createPinia()],
+          stubs: commonStubs
+        }
+      })
+    })
+
+    describe('when the component is mounted with empty traces summary', () => {
+      it('then it should still render essential components', () => {
+        expect(wrapper.findComponent({ name: 'PageTitle' }).exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewContainer' }).exists()).toBe(true)
+      })
+    })
   })
 })

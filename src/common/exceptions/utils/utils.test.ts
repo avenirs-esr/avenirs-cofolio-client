@@ -36,7 +36,7 @@ describe('exceptions utils', () => {
       expect(ex).toBeInstanceOf(BaseApiException)
       expect(ex.status).toBe(404)
       expect(ex.code).toBe(BaseApiErrorCode.NOT_FOUND)
-      expect(ex.message).toBe('HTTP 404: Not Found')
+      expect(ex.message).toBe('student not found')
       expect(ex.method).toBe('GET')
       expect(ex.details).toBeUndefined()
     })

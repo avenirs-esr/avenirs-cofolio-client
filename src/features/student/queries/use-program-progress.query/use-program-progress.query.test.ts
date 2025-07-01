@@ -1,7 +1,7 @@
 import type { ProgramProgressDTO, ProgramProgressOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { mockedPrograms } from '@/features/student/queries/fixtures'
+import { mockedAllMyProgramsProgress, mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { useAllMyProgramProgressQuery, useProgramProgressViewQuery } from '@/features/student/queries/use-program-progress.query/use-program-progress.query'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
@@ -20,7 +20,7 @@ describe('useStudentCoursesSummaryQuery', () => {
     expect(result![0]).toHaveProperty('id')
     expect(result![0]).toHaveProperty('name')
     expect(result![0]).toHaveProperty('skills')
-    expect(result).toEqual(mockedPrograms)
+    expect(result).toEqual(mockedProgramsProgressView)
   })
 })
 
@@ -40,10 +40,7 @@ describe('useAllMyProgramProgressQuery', () => {
         expect(result![0]).toHaveProperty('id')
         expect(result![0]).toHaveProperty('name')
 
-        const expectedResult = mockedPrograms.slice(0, 2).map(program => ({
-          id: program.id,
-          name: program.name,
-        }))
+        const expectedResult = mockedAllMyProgramsProgress
         expect(result).toEqual(expectedResult)
       })
     })
@@ -88,7 +85,7 @@ describe('useAllMyProgramProgressQuery', () => {
         expect(result).toHaveLength(2)
 
         result!.forEach((programProgress, index) => {
-          const originalProgram = mockedPrograms[index]
+          const originalProgram = mockedProgramsProgressView[index]
           expect(programProgress.id).toBe(originalProgram.id)
           expect(programProgress.name).toBe(originalProgram.name)
           expect(programProgress).not.toHaveProperty('skills')
