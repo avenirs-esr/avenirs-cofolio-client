@@ -10,10 +10,18 @@ import '@/assets/main.css'
 import '@/ui/styles/main.scss'
 import './preview.scss'
 
-function withTheme (Story, context) {
+function toggleDarkTheme (story, context) {
   const isDark = context.globals.theme === 'dark'
   document.body.classList.toggle('theme-dark', isDark)
-  return Story(context.args)
+  return ({
+    ...context.args,
+    components: { story },
+    template: `
+      <div class="story-wrapper">
+        <story />
+      </div>
+    `,
+  })
 }
 
 const preview: Preview = {
@@ -22,6 +30,18 @@ const preview: Preview = {
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
+      },
+    },
+    docs: { page: undefined },
+    options: {
+      storySort: {
+        method: 'alphabetical',
+        order: [
+          'Docs',
+          'Foundations',
+          'Composables',
+          'Components',
+        ],
       },
     },
   },
@@ -40,7 +60,8 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [withTheme],
+  decorators: [toggleDarkTheme],
+  tags: ['autodocs'],
 }
 
 export default preview
