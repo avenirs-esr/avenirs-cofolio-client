@@ -1,8 +1,8 @@
 import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentDetailedSkillCard from '@/features/student/views/StudentEducationSkillsView/components/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
 
 vi.doMock('@/ui/tokens', () => ({

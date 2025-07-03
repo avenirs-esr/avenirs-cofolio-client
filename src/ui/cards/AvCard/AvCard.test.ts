@@ -1,5 +1,5 @@
 import AvCard from '@/ui/cards/AvCard/AvCard.vue'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('avCard', () => {

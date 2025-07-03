@@ -4,8 +4,8 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
-import { AvButton } from '@/ui/interaction'
-import { MDI_ICONS } from '@/ui/tokens'
+import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 
 /**
  * Props du composant AvAlert.

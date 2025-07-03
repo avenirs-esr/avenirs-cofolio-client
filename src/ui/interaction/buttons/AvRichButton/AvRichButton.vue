@@ -5,7 +5,7 @@ import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 /**
  * Props du composant AvRichButton.
  */
-export interface AvRichButtonProps {
+interface AvRichButtonProps {
   /**
    * Étiquette textuelle du bouton.
    */

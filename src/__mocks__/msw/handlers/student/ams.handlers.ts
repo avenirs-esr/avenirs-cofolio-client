@@ -2,7 +2,7 @@ import type {
   AmsViewResponse
 } from '@/api/avenir-esr'
 import { createMockedAmsViewResponse } from '@/__mocks__/fixtures/student'
-import { PageSizes } from '@/config'
+import { PageSizes } from '@/ui/config'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export const amsHandlers = [

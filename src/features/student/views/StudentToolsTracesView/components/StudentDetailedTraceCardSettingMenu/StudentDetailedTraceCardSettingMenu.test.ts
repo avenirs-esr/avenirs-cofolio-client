@@ -3,7 +3,7 @@ import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/queries'
 import StudentDetailedTraceCardSettingMenu from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCardSettingMenu/StudentDetailedTraceCardSettingMenu.vue'
 import { useToasterStore } from '@/store'
-import { MDI_ICONS } from '@/ui'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
 

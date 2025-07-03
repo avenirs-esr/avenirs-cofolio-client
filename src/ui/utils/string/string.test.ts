@@ -1,4 +1,4 @@
-import { formatTextToUnderlineHtml } from '@/common/utils/string/string'
+import { formatTextToUnderlineHtml } from '@/ui/utils/string/string'
 import { describe, expect, it } from 'vitest'
 
 describe('formatTextToUnderlineHtml', () => {

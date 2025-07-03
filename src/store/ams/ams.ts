@@ -1,4 +1,4 @@
-import { PageSizes } from '@/config'
+import { PageSizes } from '@/ui/config'
 import { defineStore } from 'pinia'
 
 const DEFAULT_PAGE_SIZE = PageSizes.FOUR

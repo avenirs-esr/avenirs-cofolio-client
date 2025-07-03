@@ -1,71 +1,9 @@
 import type { AvRoute } from '@/common/types'
+import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
-import { i18n } from '@/plugins/vue-i18n/vue-i18n'
-import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
-import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type MockedFunction } from 'vitest'
-import { type Component, createApp } from 'vue'
-
-interface MountComposableOptions {
-  useTanstack?: boolean
-  useI18n?: boolean
-  usePinia?: boolean
-  queryClientConfig?: QueryClientConfig
-}
-
-function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): { result: T, unmount: () => void } {
-  let composableResult: T | undefined
-  const app = createApp({
-    setup () {
-      composableResult = fn()
-      return () => null
-    }
-  })
-  if (useI18n) {
-    app.use(i18n)
-  }
-  if (usePinia) {
-    const pinia = createPinia()
-    setActivePinia(pinia)
-    app.use(pinia)
-  }
-  const queryClient = new QueryClient(queryClientConfig)
-  if (useTanstack) {
-    app.use(VueQueryPlugin, { queryClient })
-  }
-  app.mount(document.createElement('div'))
-
-  return {
-    result: composableResult as T,
-    unmount: () => app.unmount()
-  }
-}
-
-function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientConfig): T {
-  const { result } = mountComposable(fn, { useTanstack: true, queryClientConfig })
-  return result
-}
-
-async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {
-  const wrapper = mount(component, {
-    ...options,
-    global: {
-      ...(options?.global ?? {}),
-      stubs: {
-        RouterLink: RouterLinkStub,
-        RouterView: {
-          name: 'RouterView',
-          template: '<div class="router-view-stub"><slot /></div>'
-        },
-        ...(options?.global?.stubs ?? {})
-      },
-    },
-  })
-
-  await wrapper.vm.$nextTick()
-  return wrapper
-}
 
 function testUseBaseApiExceptionToast<T> ({
   mockedUseQuery,
@@ -114,9 +52,6 @@ function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expec
 }
 
 export {
-  mountComposable,
-  mountQueryComposable,
-  mountWithRouter,
   testRoute,
   testUseBaseApiExceptionToast
 }

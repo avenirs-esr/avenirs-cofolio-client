@@ -1,7 +1,7 @@
 import { AmsStatus, type AmsViewDTO } from '@/api/avenir-esr'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.doMock('@/ui/tokens', () => ({

@@ -14,7 +14,7 @@ import {
   type TracesViewResponse,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
-import { PageSizes } from '@/config'
+import { PageSizes } from '@/ui/config'
 import isNil from 'lodash-es/isNil'
 import { http, HttpResponse } from 'msw'
 

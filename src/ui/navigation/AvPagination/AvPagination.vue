@@ -3,8 +3,8 @@
 
 <script lang="ts" setup>
 import type { Page } from '@gouvminint/vue-dsfr'
-import { AvVIcon } from '@/ui/base'
-import { MDI_ICONS } from '@/ui/tokens'
+import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 import { useI18n } from 'vue-i18n'
 
 /**

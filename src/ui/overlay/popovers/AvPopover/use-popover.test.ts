@@ -1,5 +1,5 @@
 import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
-import { mountComposable } from 'tests/utils'
+import { mountComposable } from '@/ui/tests/utils'
 import { beforeEach, describe, expect, it, type MockInstance, vi } from 'vitest'
 import { nextTick, type Ref } from 'vue'
 

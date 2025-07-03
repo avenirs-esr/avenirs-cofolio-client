@@ -5,8 +5,14 @@
 import type { Slot } from 'vue'
 
 import type { RouteLocationRaw } from 'vue-router'
-import { AvHeaderMenuLinks, AvLogo } from '@/ui/header'
-import { type DsfrHeaderMenuLinkProps, type DsfrLanguageSelectorElement, type DsfrLanguageSelectorProps, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
+import AvHeaderMenuLinks from '@/ui/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
+import AvLogo from '@/ui/header/AvLogo.vue'
+import {
+  type DsfrHeaderMenuLinkProps,
+  type DsfrLanguageSelectorElement,
+  type DsfrLanguageSelectorProps,
+  registerNavigationLinkKey
+} from '@gouvminint/vue-dsfr'
 
 /**
  * Props du composant AvHeader.

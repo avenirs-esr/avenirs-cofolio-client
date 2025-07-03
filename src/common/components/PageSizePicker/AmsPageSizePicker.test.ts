@@ -1,7 +1,7 @@
 import type { AvTagPickerOption } from '@/ui'
 import AmsPageSizePicker from '@/common/components/PageSizePicker/AmsPageSizePicker.vue'
-import { PageSizes } from '@/config'
 import { useAmsStore } from '@/store'
+import { PageSizes } from '@/ui/config'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect } from 'vitest'

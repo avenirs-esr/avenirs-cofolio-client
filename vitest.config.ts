@@ -10,7 +10,8 @@ export default ({ mode }: { mode: string }) => {
     'src/common/types/*',
     'src/api/**/generated/*',
     'orval.config.ts',
-    'src/App.vue'
+    'src/App.vue',
+    'public/mockServiceWorker.js'
   ]
 
   const COVERAGE_THRESHOLD = 85

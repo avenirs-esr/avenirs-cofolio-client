@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatTextToUnderlineHtml } from '@/common/utils/string/string'
+import { formatTextToUnderlineHtml } from '@/ui/utils/string/string'
 import { DsfrNotice } from '@gouvminint/vue-dsfr'
 
 /**

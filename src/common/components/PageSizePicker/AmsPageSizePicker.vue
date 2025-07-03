@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type PageSizes, pageSizeValues } from '@/config'
 import { useAmsStore } from '@/store'
 import { AvPageSizePicker, type AvTagPickerOption } from '@/ui'
+import { type PageSizes, pageSizeValues } from '@/ui/config'
 
 const amsStore = useAmsStore()
 

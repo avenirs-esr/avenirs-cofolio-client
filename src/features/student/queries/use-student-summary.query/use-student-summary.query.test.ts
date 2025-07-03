@@ -26,8 +26,8 @@ import {
   type TraceOverviewDTO,
   TraceType
 } from '@/types'
+import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 import { unref } from 'vue'
 

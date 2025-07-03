@@ -3,7 +3,7 @@
 
 <script lang="ts" setup>
 import type { VIcon } from '@gouvminint/vue-dsfr'
-import { AvButton } from '@/ui'
+import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 
 /**
  * Props du composant AvHeaderMenuLinks.
