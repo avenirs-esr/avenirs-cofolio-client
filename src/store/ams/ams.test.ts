@@ -1,5 +1,5 @@
-import { PageSizes } from '@/config'
 import { useAmsStore } from '@/store/ams/ams'
+import { PageSizes } from '@/ui/config'
 import { createPinia, setActivePinia } from 'pinia'
 
 describe('useAmsStore', () => {

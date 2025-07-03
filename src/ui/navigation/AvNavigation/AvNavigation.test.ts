@@ -1,6 +1,6 @@
 import AvNavigation from '@/ui/navigation/AvNavigation/AvNavigation.vue'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { type DsfrNavigationProps, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
-import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 
 describe('avNavigation', () => {

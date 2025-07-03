@@ -5,8 +5,9 @@ import profile_picture_placeholder from '@/assets/profile_picture_placeholder.pn
 import { BaseApiException } from '@/common/exceptions'
 import StudentOverviewWidget from '@/features/student/components/widgets/StudentOverviewWidget/StudentOverviewWidget.vue'
 import { useStudentSummaryQuery } from '@/features/student/queries'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
+import { testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, type Ref } from 'vue'
 
 vi.mock('@/store', async (importOriginal) => {

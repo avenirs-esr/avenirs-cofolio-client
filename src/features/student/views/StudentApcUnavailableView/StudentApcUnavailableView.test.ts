@@ -1,7 +1,7 @@
 import { useStudentApcAccess } from '@/features/student/composables'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
 

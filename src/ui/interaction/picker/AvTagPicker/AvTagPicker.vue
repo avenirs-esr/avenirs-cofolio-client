@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ComputedRef } from 'vue'
-import { removeDuplicates } from '@/common/utils'
-import { MDI_ICONS } from '@/ui/tokens'
+import { MDI_ICONS } from '@/ui/tokens/icons'
+import { removeDuplicates } from '@/ui/utils'
 
 /**
  * Représente une option dans le composant AvTagPicker.

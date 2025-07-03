@@ -1,5 +1,5 @@
-import { PageSizes } from '@/config'
 import { useTracesStore } from '@/store/traces/traces'
+import { PageSizes } from '@/ui/config'
 import { createPinia, setActivePinia } from 'pinia'
 
 describe('useTracesStore', () => {

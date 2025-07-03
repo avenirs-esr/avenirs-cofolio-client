@@ -3,8 +3,6 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedUnassignedTracesSummary } from '@/__mocks__/fixtures/student'
 import { type GetTracesViewParams, GetTracesViewStatus, type TraceConfigurationInfo, type TracesViewResponse, type UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-
-import { PageSizes } from '@/config'
 import {
   type DeleteTraceVariables,
   useDeleteTraceMutation,
@@ -13,9 +11,9 @@ import {
   useUnassignedTracesSummaryQuery,
   useUnassignedTracesViewQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
-
+import { PageSizes } from '@/ui/config'
+import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { mountQueryComposable } from 'tests/utils'
 import { beforeEach, describe, expect, it, type MockedFunction, type MockInstance, vi } from 'vitest'
 
 vi.mock('@/common/composables', async (importOriginal) => {

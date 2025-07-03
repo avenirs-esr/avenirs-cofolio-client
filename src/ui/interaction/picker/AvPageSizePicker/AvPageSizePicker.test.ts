@@ -1,67 +1,64 @@
-import type { Pinia } from 'pinia'
-import { PageSizes, pageSizeValues } from '@/config'
-import { useAmsStore, useTracesStore } from '@/store'
+import { PageSizes, pageSizeValues } from '@/ui/config'
 import AvPageSizePicker from '@/ui/interaction/picker/AvPageSizePicker/AvPageSizePicker.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('avPageSizePicker', () => {
-  let pinia: Pinia
+  let wrapper: VueWrapper
+  let handleSelectChange: () => void
 
-  beforeEach(() => {
-    pinia = createPinia()
-    setActivePinia(pinia)
-  })
-
-  describe('given a page size picker with AMS store', () => {
-    let wrapper: VueWrapper
-    let store: ReturnType<typeof useAmsStore>
-
+  describe('given a page size picker', () => {
     beforeEach(() => {
-      store = useAmsStore()
-      const handleSelectChange = vi.fn()
+      handleSelectChange = vi.fn()
+
       wrapper = mount(AvPageSizePicker, {
-        props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
+        props: { pageSizeSelected: PageSizes.TWELVE, handleSelectChange },
         global: {
-          plugins: [pinia]
+          stubs: {
+            AvTagPicker: {
+              name: 'AvTagPicker',
+              template: '<div class="av-tag-picker" @click="handleSelectChange" />',
+              props: ['options', 'selected', 'handleSelectChange', 'label', 'multiple']
+            }
+          }
         }
       })
     })
 
     describe('when the component is rendered', () => {
-      it('then it should render the label and options correctly', () => {
-        let sizes = ''
-        pageSizeValues.forEach((size) => {
-          sizes += size.toString()
+      it('then it should render the label', () => {
+        const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(avTagPicker.props('label')).toContain('Nombre de résultats par page')
+      })
+
+      it('then it should render the correct options', () => {
+        const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        const options = avTagPicker.props('options')
+        const expectedOptions = pageSizeValues.map(size => ({
+          label: size.toString(),
+          value: size.toString()
+        }))
+
+        expect(options).toEqual(expectedOptions)
+      })
+
+      it('then it should pass the correct selected option', () => {
+        const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
+        expect(avTagPicker.props('selected')).toEqual({
+          label: PageSizes.TWELVE.toString(),
+          value: PageSizes.TWELVE.toString()
         })
-        expect(wrapper.text()).toBe(`Nombre de résultats par page :${sizes}`)
-      })
-    })
-  })
-
-  describe('given a page size picker with Traces store', () => {
-    let wrapper: VueWrapper
-    let store: ReturnType<typeof useTracesStore>
-
-    beforeEach(() => {
-      store = useTracesStore()
-      const handleSelectChange = vi.fn()
-      wrapper = mount(AvPageSizePicker, {
-        props: { pageSizeSelected: store.pageSizeSelected, handleSelectChange },
-        global: {
-          plugins: [pinia]
-        }
       })
     })
 
-    describe('when a value is selected via AvTagPicker', () => {
+    describe('when a selection is made', () => {
       beforeEach(async () => {
         const avTagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         await avTagPicker.props('handleSelectChange')(PageSizes.EIGHT)
       })
 
-      it('then the store should be updated with the selected value', () => {
-        expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
+      it('then it should call the handleSelectChange prop with the selected value', () => {
+        expect(handleSelectChange).toHaveBeenCalledWith(PageSizes.EIGHT)
       })
     })
   })

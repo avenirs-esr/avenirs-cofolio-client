@@ -4,8 +4,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
-import { mountWithRouter } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock(import('@/features/student/queries'), async (importOriginal) => {

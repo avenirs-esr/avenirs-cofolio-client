@@ -1,5 +1,5 @@
 import { useFocusTrap } from '@/ui/composables/use-focus-trap/use-focus-trap'
-import { mountComposable } from 'tests/utils'
+import { mountComposable } from '@/ui/tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mockActivate = vi.fn()

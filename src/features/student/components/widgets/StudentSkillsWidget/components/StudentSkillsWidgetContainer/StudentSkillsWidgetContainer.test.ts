@@ -1,7 +1,6 @@
 import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
-
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from '@/ui/tests/utils'
 
 describe('studentSkillsWidgetContainer', () => {
   const stubs = {

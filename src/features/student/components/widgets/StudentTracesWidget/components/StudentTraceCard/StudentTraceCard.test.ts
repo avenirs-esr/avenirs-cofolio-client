@@ -1,7 +1,7 @@
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { TraceType } from '@/types'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({

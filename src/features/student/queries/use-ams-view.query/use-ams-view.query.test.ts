@@ -2,10 +2,10 @@ import type { AmsViewDTO, AmsViewResponse, PageInfo } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { PageSizes } from '@/config'
 import { useAmsViewQuery } from '@/features/student/queries'
+import { PageSizes } from '@/ui/config'
+import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { mountQueryComposable } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 
 describe('useAmsViewQuery', () => {

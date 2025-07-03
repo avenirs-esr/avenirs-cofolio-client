@@ -4,8 +4,8 @@ import { createMockedAmsViewResponse } from '@/__mocks__/fixtures/student'
 import { useAmsViewQuery } from '@/features/student/queries'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import { useAmsStore } from '@/store'
+import { mountWithRouter } from '@/ui/tests/utils'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
-import { mountWithRouter } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {

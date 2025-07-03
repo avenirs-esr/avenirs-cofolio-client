@@ -1,6 +1,6 @@
 import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
-import { MDI_ICONS } from '@/ui'
 import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 

@@ -1,5 +1,5 @@
 import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
-import { MDI_ICONS } from '@/ui/tokens'
+import { MDI_ICONS } from '@/ui/tokens/icons'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
