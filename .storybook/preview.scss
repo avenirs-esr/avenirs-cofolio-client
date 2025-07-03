@@ -1,25 +1,72 @@
-.sbdocs-wrapper,
-.sbdocs-wrapper button {
-  background-color:  var(--other-background-base) !important;
+.rejt-name {
+  color: var(--dark-background-primary1) !important;
+}
+
+.sbdocs-a:hover, .docblock-argstable-body a:hover {
+  text-decoration: underline !important;
+  background-color: transparent;
+}
+
+.sbdocs-a[href] {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+a[href] {
+  background-image: none;
+}
+
+.sidebar-item svg {
+  color: var(--dark-background-primary1) !important;
+}
+
+p, .sbdocs-title, [class^="css-"]:not(code) {
   color: var(--text1) !important;
-  border-color: var(--text1) !important;
 }
 
-.sbdocs-wrapper button:hover {
-  color: var(--card) !important;
-  background-color: var(--text1) !important;
+code, tbody, tbody *, th, th *, .sb-bar {
+  color: var(--text1) !important;
+  background: var(--light-background-neutral) !important;
+  border: none !important;
 }
 
-.docblock-code-toggle,
-.sbdocs-wrapper code {
-  background-color: var(--card2) !important;
+body, .sbdocs-wrapper, .storybook-docs, .docs-story {
+  background-color: var(--card) !important;
 }
 
-.sbdocs-wrapper *:not(pre):not(pre *) {
-  color: inherit !important;
-  border-color: inherit !important;
+button[class^="css-"],
+.docblock-code-toggle {
+  background: var(--dark-background-primary1) !important;
+  color: var(--other-background-base) !important;
+  border: 1px solid var(--dark-background-primary1) !important;
 }
 
-.docs-story {
-  background-color: var(--other-background-base) !important;
+button[class^="css-"]:hover,
+.docblock-code-toggle:hover {
+  background: var(--other-background-base) !important;
+  color: var(--dark-background-primary1) !important;
+}
+
+.story-wrapper {
+  background-color: var(--card);
+}
+
+.dark p, .dark [class^="css-"]:not(code), .dark, .dark * {
+  color: #FAFAFACC !important;
+  background-color: #14171A !important;
+}
+
+.light p, .light [class^="css-"]:not(code), .light, .light * {
+  color: #14171A !important;
+  background-color: #FAFAFACC !important;
+}
+
+input[type="checkbox"] {
+  appearance: auto !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+input[type="checkbox"] + span, input[type="checkbox"] + span + span {
+  display: none !important;
 }
