@@ -1,0 +1,25 @@
+.sbdocs-wrapper,
+.sbdocs-wrapper button {
+  background-color:  var(--other-background-base) !important;
+  color: var(--text1) !important;
+  border-color: var(--text1) !important;
+}
+
+.sbdocs-wrapper button:hover {
+  color: var(--card) !important;
+  background-color: var(--text1) !important;
+}
+
+.docblock-code-toggle,
+.sbdocs-wrapper code {
+  background-color: var(--card2) !important;
+}
+
+.sbdocs-wrapper *:not(pre):not(pre *) {
+  color: inherit !important;
+  border-color: inherit !important;
+}
+
+.docs-story {
+  background-color: var(--other-background-base) !important;
+}
