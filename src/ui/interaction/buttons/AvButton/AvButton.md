@@ -1,53 +1,53 @@
-# Boutons - `AvButton`
+# Buttons - `AvButton`
 
 ## 🌟 Introduction
 
-Le `AvButton` est un composant implémentant le `DsfrButton` de VueDSFR. Le bouton est un élément d’interaction avec une interface permettant à l’utilisateur d’effectuer une action.
+The `AvButton` is a component implementing the VueDSFR `DsfrButton`. The button is an interaction element with an interface enabling the user to perform an action.
 
-Le `AvButton` est un composant Vue élégant et réutilisable, conçu pour simplifier la création de boutons personnalisés. Il intègre des tailles ajustables, une icône optionnelle et un gestionnaire de clics, tout en respectant le style de `DSFR`. Son utilisation est simple, avec une grande flexibilité pour s'adapter à différents contextes.
+The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager, all in keeping with the `DSFR` style. It's easy to use, with the flexibility to adapt to different contexts.
 
-Dans le cadre de `AVENIR(s) ESR`, le bouton a été simplifié afin de n'autoriser que deux variants (`DEFAULT` sans bordure et `OUTLINED` avec bordure) ainsi que deux thèmes (`PRIMARY` bleu foncé et `SECONDARY` gris).
+For `AVENIR(s) ESR`, the button has been simplified to allow only two variants (`DEFAULT` without border and `OUTLINED` with border) and two themes (`PRIMARY` dark blue and `SECONDARY` grey).
 
-🏅 La documentation sur le `DsfrButton` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrButton)
+🏅 Documentation on the `DsfrButton` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrButton)
 
 ## 📐 Structure
 
-Les boutons sont composés de :
+Buttons consist of :
 
-- Un label - obligatoire, en utilisant la prop `label`, permet l'affichage du label lorsque `iconOnly` est `false`, permet également la connexion à `title` et `aria-label` ;
-- Une icône, pouvant être modifiée (voir les icônes disponibles) - optionnelle.
+- A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label` ;
+- An icon, which can be modified (see available icons) - optional.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
-| --- | --- | --- | --- | --- |
-| `variant` | `'DEFAULT' \| 'OUTLINED'` | `'DEFAULT'` | | Variant du bouton : sans bordure (`DEFAULT`) ou avec bordure (`OUTLINED`). |
-| `theme` | `'PRIMARY' \| 'SECONDARY'` | `'PRIMARY'` | | Thème du bouton : bleu (`PRIMARY`) ou gris (`SECONDARY`). |
-| `isLoading` | `boolean` | `false` | | Indique un état de chargement du bouton. |
-| `iconScale` | `number` | `undefined` | | Permet de modifier manuellement la taille de l'icône (elle est auomatiquement calculée sans cela). |
-| `noRadius` | `boolean` | `false` | | Permet de retirer les radius de la bordure du bouton. |
-| `disabled` | `boolean` | `false` | | Indique l'état désactivé du bouton. |
-| `label` | `string` | | ✅ | Étiquette textuelle du bouton. |
-| `iconRight` | `boolean` | `false` | | Indique la position de l'icône par rapport au texte du bouton : à gauche (`false`) ou à droite (`true`). |
-| `iconOnly` | `boolean` | `false` | | Permet de masquer le texte du label (`true`) ou de l'afficher (`false`). |
-| `size` | `'sm' \| 'small' \| 'lg' \| 'large' \| 'md' \| 'medium' \| '' \| undefined` | `'md'` | | Taille du bouton. |
-| `icon` | `string \| InstanceType<typeof VIcon>['$props']` | `undefined` | | Icône à afficher dans le bouton. Peut être un nom ou une configuration d'icône. |
-| `onClick` | `($event: MouseEvent) => void` | `undefined` | | Fonction appelée lors du clic sur le bouton. |
+| Name | Type | Default | Mandatory | Description |
+| --- | --- | --- | --- |
+| `variant` | `'DEFAULT'| 'OUTLINED'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`). |
+| `theme` | `'PRIMARY' \| 'SECONDARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`) or grey (`SECONDARY`). |
+| `isLoading` | `boolean` | `false` | Indicates a loading status for the button. |
+| `iconScale` | `number` | `undefined` | Allows you to manually change the icon size (it is automatically calculated otherwise). |
+| `noRadius` | `boolean` | `false` | Allows you to remove radii from the button border. |
+| `disabled` | `boolean` | `false` | Indicates the disabled state of the button. |
+| `label` | `string` | ✅ | Text label for the button. |
+| `iconRight` | `boolean` | `false` | Indicates the position of the icon in relation to the button text: left (`false`) or right (`true`). |
+| `iconOnly` | `boolean` | `false` | Hide label text (`true`) or show it (`false`). |
+| `size` | `'sm' \| 'small' \| 'lg' \| 'large' \| 'md' \| 'medium' \| '' \| undefined` | `'md'` | | Button size. |
+| `icon` | `string \| InstanceType<typeof VIcon>['$props']` | `undefined` | Icon to be displayed in button. Can be a name or icon configuration. |
+| `onClick` | `($event: MouseEvent) => void` | `undefined` | Function called when button is clicked.
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvButton
-    label="Voir tout"
+    label="See all"
     :on-click="navigateToStudentDeliverables"
     icon="mdi:arrow-right-thin"
   />
@@ -71,7 +71,7 @@ Aucun.
 ```vue
 <template>
   <AvButton
-    label="Me déconnecter"
+    label="Logout"
     icon="mdi:logout"
     variant="DEFAULT"
     theme="SECONDARY"
