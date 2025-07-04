@@ -69,13 +69,21 @@ export default ({ mode }: { mode: string }) => {
         enforce: 'pre',
         resolveId (source) {
           if (source.includes('__mocks__')) {
-            return source
+            return '\0ignore-mock'
           }
           return null
         },
         load (id) {
-          if (id.includes('__mocks__')) {
-            return 'export default {}'
+          if (id === '\0ignore-mock') {
+            return `
+              export const mockedDeliverablesOverview = undefined;
+              export const mockedStudentLevels = undefined;
+              export const mockedEventsOverview = undefined;
+              export const mockedHeaderOverview = undefined;
+              export const mockedPagesOverview = undefined;
+              export const mockedResumesOverview = undefined;
+              export default {};
+            `
           }
           return null
         }
