@@ -1,46 +1,46 @@
-# Icônes - `AvVIcon`
+# Icons - `AvVIcon`
 
 ## 🌟 Introduction
 
-Le composant `AvVIcon` est un composant plaçant un `VIcon` dans une `div` carrée de taille paramétrable. C'est un composant Vue.js permettant d'afficher des icônes avec une large gamme d'options de personnalisation, y compris des animations, des couleurs, et des tailles. Il est conçu pour être flexible et performant, avec une prise en charge des différentes options d'affichage, de flip, et de titres accessibles.
+The `AvVIcon` component places a `VIcon` in a square `div` of configurable size. It's a Vue.js component for displaying icons with a wide range of customization options, including animations, colors, and sizes. It's designed to be flexible and performant, with support for various display options, flip options, and accessible titles.
 
-Il a exactement la même API que OhVueIcon, et utilise `@iconify/vue` sous le capot.
+It has exactly the same API as OhVueIcon, and uses `@iconify/vue` under the hood.
 
-::: warning Attention
-Les noms des icônes doivent être ceux de [Iconify-vue](https://icon-sets.iconify.design/).
+::: warning
+Icon names must be those from [Iconify-vue](https://icon-sets.iconify.design/).
 :::
 
-🏅 La documentation sur le `VIcon` se trouve sur [VueDSFR](https://vue-ds.fr/composants/VIcon)
+🏅 The documentation for the `VIcon` can be found at [VueDSFR](https://vue-ds.fr/composants/VIcon)
 
 ## 📐 Structure
 
-L'icône est composée d'une `div` carrée à la taille paramétrable contenant le composant `VIcon`.
+The icon is composed of a square `div` of configurable size containing the `VIcon` component.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `size` | `number` | `1` | | La taille du conteneur de l'icône ainsi qu'un ratio pour le scale de l'icône. |
-| `name` | `string` | | ✅ | Le nom de l'icône à afficher. |
-| `verticalAlign` | `string` | `'-0.2em'` | | Alignement vertical de l'icône par rapport à la ligne de base. |
-| `animation` | ``'spin' \| 'wrench' \| 'pulse' \| 'spin-pulse' \| 'flash' \| 'float'`` | `undefined` | | Type d'animation appliqué à l'icône. |
-| `speed` | `'fast' \| 'slow'` | `undefined` | | Vitesse de l'animation si elle est définie. |
-| `flip` | `'horizontal' \| 'vertical' \| 'both'` | `undefined` | | Inverse l'icône horizontalement, verticalement ou les deux. |
-| `label` | `string` | `undefined` | | Étiquette ARIA pour l'accessibilité. |
-| `title` | `number` | `undefined` | | Titre de l'icône (balise `<title>`), utilisé pour l'accessibilité et les info-bulles. |
-| `color` | `string` | `undefined` | | Couleur principale de l'icône. |
-| `inverse` | `boolean` | `false` | | Applique une couleur inversée à l'icône. |
-| `ssr` | `boolean` | `1` | | Active le rendu côté serveur (Server-Side Rendering). |
+| `size` | `number` | `1` | | The size in rem of the icon container and a ratio for the icon scale. |
+| `name` | `string` | | ✅ | The name of the icon to display. |
+| `verticalAlign` | `string` | `'-0.2em'` | | Vertical alignment of the icon relative to the baseline. |
+| `animation` | `spin' \| 'wrench' \| 'pulse' \| 'spin-pulse' \| 'flash' \| 'float'`` | `undefined` | | Animation type applied to the icon. |
+| `speed` | `fast' \| 'slow'` | `undefined` | | Animation speed, if defined. |
+| `flip` | `horizontal' \| 'vertical' \| 'both'` | `undefined` | | Flips the icon horizontally, vertically, or both. |
+| `label` | `string` | `undefined` | | ARIA label for accessibility. |
+| `title` | `number` | `undefined` | | Icon title (`<title>` tag), used for accessibility and tooltips. |
+| `color` | `string` | `undefined` | | Main color of the icon. |
+| `inverse` | `boolean` | `false` | | Reverses the icon color. |
+| `ssr` | `boolean` | `1` | | Enables server-side rendering. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>

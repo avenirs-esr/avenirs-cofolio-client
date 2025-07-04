@@ -41,6 +41,19 @@ button[class^="css-"],
   border: 1px solid var(--dark-background-primary1) !important;
 }
 
+.docblock-argstable-head button[class^="css-"] > svg,
+.docblock-argstable-head button[class^="css-"] > svg > path {
+  fill: var(--other-background-base) !important;
+  background: transparent !important;
+  color: var(--other-background-base) !important;
+}
+
+.docblock-argstable-head button[class^="css-"]:hover > svg,
+.docblock-argstable-head button[class^="css-"]:hover > svg > path {
+  fill: var(--dark-background-primary1) !important;
+  color: var(--dark-background-primary1) !important;
+}
+
 button[class^="css-"]:hover,
 .docblock-code-toggle:hover {
   background: var(--other-background-base) !important;

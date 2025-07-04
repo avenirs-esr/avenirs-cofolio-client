@@ -3,35 +3,35 @@ import type { Slot } from 'vue'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 
 /**
- * Props du composant AvRichButton.
+ * AvRichButton component props.
  */
 interface AvRichButtonProps {
   /**
-   * Étiquette textuelle du bouton.
+   * Button text label.
    */
   label: string
 
   /**
-   * Icône affichée à gauche dans le bouton.
-   * Doit être un nom d'icône.
+   * Icon displayed on the left of the button.
+   * Must be an icon name.
    */
   iconLeft?: string
 
   /**
-   * Icône affichée à droite dans le bouton.
-   * Doit être un nom d'icône.
+   * Icon displayed on the right of the button.
+   * Must be an icon name.
    */
   iconRight?: string
 
   /**
-   * Permet de modifier le padding du bouton.
+   * Allows you to change the padding of the button.
    * @default '1rem'
    */
   customPadding?: string
 
   /**
-   * Fonction appelée lors du clic sur le bouton.
-   * @param event L'événement MouseEvent du clic.
+   * Function called when button is clicked.
+   * @param event The MouseEvent of the click.
    */
   onClick?: (event: MouseEvent) => void
 }
@@ -45,13 +45,13 @@ const {
 } = defineProps<AvRichButtonProps>()
 
 /**
- * Slots disponibles dans le composant AvRichButton.
+ * Slots available in the AvRichButton component.
  *
- * @slot default - Slot par défaut pour le contenu du bouton riche.
+ * @slot default - Default slot for rich button content.
  */
 defineSlots<{
   /**
-   * Slot par défaut pour le contenu du bouton riche.
+   * Default slot for rich button content.
    */
   default: Slot
 }>()

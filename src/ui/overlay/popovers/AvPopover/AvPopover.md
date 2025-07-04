@@ -1,42 +1,42 @@
-# Bulles contextuelles - `AvPopover`
+# Popovers - `AvPopover`
 
 ## 🌟 Introduction
 
-La popover est un conteneur contextuel qui s’affiche en surimpression à proximité de son élément déclencheur (le trigger). Ce composant permet d’afficher des contenus ou interactions supplémentaires, sans quitter la page courante ni masquer totalement son contexte.
+The popover is a contextual container that is displayed as an overlay near its trigger element. This component can be used to display additional content or interactions, without leaving the current page or completely obscuring its context.
 
-Le composant `AvPopover` est conçu pour proposer un contenu accessible et ergonomique, grâce au piégeage du focus à l’intérieur de la popover lorsqu’elle est ouverte, ainsi qu’à la gestion de la fermeture via la touche Échap. Il offre une grande flexibilité via des slots dédiés au déclencheur (`trigger`) et au contenu (`popover`), permettant d’y insérer n’importe quel contenu ou interaction.
+The `AvPopover` component is designed to offer accessible, ergonomic content, by trapping the focus inside the popover when it's open, and managing closure via the Escape key. It offers great flexibility via dedicated trigger (`trigger`) and content (`popover`) slots, allowing any content or interaction to be inserted.
 
-Il utilise un système de positionnement dynamique pour s’afficher à l’endroit adéquat par rapport à son élément déclencheur, tout en garantissant un bon contrôle clavier et une bonne expérience utilisateur.
+It uses a dynamic positioning system to display itself in the right place in relation to its trigger, while guaranteeing good keyboard control and a good user experience.
 
 ## 📐 Structure
 
-La popover se compose des éléments suivants :
-- Le déclencheur (slot `trigger`), obligatoire : Élément interactif (par exemple, un bouton) qui ouvre ou ferme la popover.
-- Le contenu (slot `popover`), obligatoire : Zone de contenu qui peut contenir du texte, des boutons, des listes ou tout autre élément interactif. Cette zone s’affiche à proximité du déclencheur et capte le focus lorsqu’elle est ouverte.
+The popover consists of the following elements:
+- The trigger (slot `trigger`), mandatory: Interactive element (for example, a button) that opens or closes the popover.
+- The content (slot `popover`), mandatory: Content area that can contain text, buttons, lists or any other interactive element. This zone is displayed close to the trigger and captures the focus when opened.
 
-La popover intègre :
-- Une gestion du focus (focus trap) pour l’accessibilité clavier.
-- Une fermeture via la touche Échap ou le clic à l’extérieur de la popover.
+The popover integrates :
+- Focus trap for keyboard accessibility.
+- Close by pressing the Escape key or clicking outside the popover.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `width` | `string` | `'12.5rem'` | | Largeur de la popover. |
-| `padding` | `string` | `'var(--spacing-md)'` | | Padding interne de la popover. |
+| `width` | `string` | `'12.5rem'` | | Width of popover. |
+| `padding` | `string` | `'var(--spacing-md)'` | | Internal padding of popover. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `trigger` | Slot pour le déclencheur de la popover. Fournit la prop `toggle` (fonction pour ouvrir/fermer la popover). |
-| `popover` | Slot pour le contenu de la popover. Fournit la prop `close` (fonction pour fermer la popover). |
+| `trigger` | Slot for popover trigger. Provides `toggle` prop (function to open/close popover). |
+| `popover` | Slot for popover content. Provides `close` prop (function to close popover). |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
@@ -46,15 +46,15 @@ Aucun.
   >
     <template #trigger="{ toggle }">
       <AvButton
-        label="Ouvrir la popover"
+        label="Open popover"
         :on-click="toggle"
       />
     </template>
     <template #popover="{ close }">
       <div class="container">
-        <span>Du contenu...</span>
+        <span>Some content...</span>
         <AvButton
-          label="Fermer"
+          label="Close"
           :on-click="close"
           size="sm"
         />

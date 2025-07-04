@@ -2,71 +2,80 @@
 import AvAlert from '@/ui/feedback/AvAlert/AvAlert.vue'
 
 /**
- * Représente un message affiché dans le système de notifications (toaster).
+ * Represents a message displayed in the notification system (toaster).
  */
 export interface Message {
   /**
-   * Identifiant unique du message.
-   * Peut être utilisé pour le suivi ou la suppression du message.
+   * Unique identifier for the message.
+   * Can be used to track or delete the message.
    */
   id?: string
 
   /**
-   * Titre du message.
-   * Optionnel, affiché en en-tête du message.
+   * Message title.
+   * Optional, displayed in the message header.
    */
   title?: string
 
   /**
-   * Description détaillée du message.
-   * Ce champ est obligatoire et contient le texte principal à afficher.
+   * Detailed description of the message.
+   * This field is required and contains the main text to be displayed.
    */
   description: string
 
   /**
-   * Type de message à afficher.
-   * Définit le style et l'icône associés au message.
-   * Les valeurs possibles sont :
-   * - 'info' : Information générale
-   * - 'success' : Message de succès
-   * - 'warning' : Message d'avertissement
-   * - 'error' : Message d'erreur
+   * Type of message to display.
+   * Defines the style and icon associated with the message.
+   *
+   * Possible values are:
+   * - 'info': General information
+   * - 'success': Success message
+   * - 'warning': Warning message
+   * - 'error': Error message
    */
   type: 'info' | 'success' | 'warning' | 'error'
 
   /**
-   * Indique si le message peut être fermé manuellement par l'utilisateur.
+   * Indicates whether the message can be manually closed by the user.
    */
   closeable?: boolean
 
   /**
-   * Balise HTML utilisée pour le titre du message.
-   * Peut être utilisée pour ajuster la hiérarchie sémantique du titre.
-   * Les valeurs possibles sont : 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'.
+   * HTML tag used for the message title.
+   * Can be used to adjust the semantic hierarchy of the title.
+   *
+   * Possible values are: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'.
    */
   titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
   /**
-   * Temps d'affichage du message en millisecondes avant sa fermeture automatique.
-   * Si non défini, le message restera affiché jusqu'à une fermeture manuelle ou autre action.
+   * Time to display the message in milliseconds before automatically closing.
+   * If not set, the message will remain displayed until manually closed or another action.
    */
   timeout?: number
 }
 
 /**
- * Props du composant AvToaster.
- * Permet l'affichage et la gestion des messages de notification.
+ * AvToaster component props.
  */
 interface AvToasterProps {
   /**
-   * Liste des messages à afficher dans le toaster.
-   * Chaque message doit suivre la structure définie par l'interface Message.
+   * List of messages to display in the toaster.
+   *
+   * Each message must follow the structure defined by the Message interface.
+   * - `id?: string`: Unique identifier for the message
+   * - `title?: string`: Message title
+   * - `description: string`: Detailed description of the message
+   * - `type: 'info' \| 'success' \| 'warning' \| 'error'`: Type of message to display
+   * - `closeable?: boolean`: Indicates whether the message can be manually closed by the user
+   * - `titleTag?: 'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'`: HTML tag used for the message title
+   * - `timeout?: number`: Time to display the message in milliseconds before automatically closing (if not set, the message will remain displayed until manually closed or another action)
    */
   messages: Message[]
 
   /**
-   * Fonction appelée pour supprimer un message du toaster.
-   * @param id L'identifiant du message à supprimer.
+   * Function called to remove a message from the toaster.
+   * @param id The ID of the message to remove.
    */
   onRemoveMessage: (id: string) => void
 }

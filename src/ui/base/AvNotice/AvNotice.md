@@ -1,49 +1,49 @@
-# Bandeau d'information importante - `AvNotice`
+# Important information banner - `AvNotice`
 
 ## 🌟 Introduction
 
-La `AvNotice` est un composant implémentant la `DsfrNotice` de VueDSFR. Le bandeau d’information importante permet aux utilisateurs de voir ou d’accéder à une information importante et temporaire.
+The `AvNotice` is a component implementing the VueDSFR `DsfrNotice`. The important information banner allows users to view or access important and temporary information.
 
-Il est affiché sur l’ensemble des pages en desktop et en mobile. Il affiche une information importante et urgente (un usage trop fréquent risque de faire “disparaitre” ce bandeau).
+It is displayed on all pages on desktop and mobile devices. It displays important and urgent information (overuse may cause this banner to "disappear").
 
-🏅 La documentation sur le `DsfrNotice` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrNotice)
+🏅 The documentation on the `DsfrNotice` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrNotice)
 
 ## 📐 Structure
 
-La notice est composée des éléments suivants :
+The notice consists of the following elements:
 
-- Un titre (prop `title`, de type `string`) :
-  - Optionnel avec une valeur par défault `''`
-- Un texte (prop `text`, de type `string`) :
-  - optionnel avec une valeur par défault `''`
-- un pictogramme et une couleur déterminés par la prop `type` qui peut valoir une des chaînes suivantes :
+- A title (prop `title`, of type `string`):
+  - Optional with a default value `''`
+- A text (prop `text`, of type `string`):
+  - Optional with a default value `''`
+- A pictogram and a color determined by the prop `type`, which can be one of the following strings:
   - `'info'`
   - `'warning'`
   - `'alert'`
-- Une icône d'information
+- An information icon
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `title` | `string` | `''` | | Le titre du bandeau. |
-| `text` | `string` | `''` | | Le texte du bandeau. Toute partie de texte entourée de ** sera soulignée. |
-| `type` | `'info' \| 'warning' \| 'alert'` |  | ✅ | Le type de bandeau. |
+| `title` | `string` | `''` | | The banner title. |
+| `text` | `string` | `''` | | The banner text. Any text surrounded by ** will be underlined. |
+| `type` | `'info' \| 'warning' \| 'alert'` | | ✅ | The banner type. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvNotice
-    text="Vous avez des traces non assignées. Attention, elles seront **supprimées sous 15 jours**. Pensez à les assigner."
+    text="You have unassigned tracks. Please note, they will be **deleted within 15 days**. Remember to assign them."
     type="warning"
   />
 </template>

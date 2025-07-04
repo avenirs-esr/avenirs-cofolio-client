@@ -1,53 +1,53 @@
 <script setup lang="ts">
 /**
- * Props du composant AvBadge.
+ * AvBadge component props.
  */
 interface AvBadgeProps {
-  /**
-   * La couleur du texte à afficher dans le badge.
-   */
+/**
+ * The color of the text to display in the badge.
+ */
   color: string
 
   /**
-   * La couleur de fond du badge.
+   * The background color of the badge.
    */
   backgroundColor: string
 
   /**
-   * La couleur de la bordure du badge.
+   * The color of the badge border.
    */
   borderColor?: string
 
   /**
-   * Le lien vers l'icône publique au projet (ex: `/assets/icons/calendar-clock-outline.svg`).
+   * The link to the public icon in the project (e.g., `/assets/icons/calendar-clock-outline.svg`).
    */
   iconPath?: string
 
   /**
-   * Le texte à afficher dans le badge.
+   * The text to display in the badge.
    */
   label: string
 
   /**
-   * Définit le type de badge.
+   * Sets the badge type.
    * @default 'info'
    */
   type?: 'success' | 'error' | 'new' | 'info' | 'warning' | undefined
 
   /**
-   * Si `true`, le badge s'affiche sans icône.
+   * If true, the badge is displayed without an icon.
    * @default false
    */
   noIcon?: boolean | undefined
 
   /**
-   * Si `true`, affiche un badge de taille réduite.
+   * If true, displays a reduced-size badge.
    * @default false
    */
   small?: boolean | undefined
 
   /**
-   * Si `true`, le texte est tronqué avec des points de suspension s'il est trop long.
+   * If true, the text is truncated with an ellipsis if it is too long.
    * @default false
    */
   ellipsis?: boolean | undefined

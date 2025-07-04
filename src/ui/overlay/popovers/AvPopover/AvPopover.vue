@@ -4,17 +4,17 @@ import { usePopover } from '@/ui/overlay/popovers/AvPopover/use-popover'
 import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 
 /**
- * Props du composant AvPopover.
+ * AvPopover component props.
  */
 interface AvPopoverProps {
   /**
-   * Largeur de la popover.
+   * Popover width.
    * @default '12.5rem'
    */
   width?: string
 
   /**
-   * Padding interne de la popover.
+   * Internal popover padding.
    * @default 'var(--spacing-md)'
    */
   padding?: string
@@ -27,18 +27,18 @@ withDefaults(defineProps<AvPopoverProps>(), {
 
 defineSlots<{
   /**
-   * Slot pour le déclencheur de la popover.
-   * Fournit la prop :
-   * - toggle : fonction pour ouvrir/fermer la popover
+   * Slot for the popover trigger.
+   * Provides the prop:
+   * - toggle: function to open/close the popover
    */
   trigger: (props: {
     toggle: () => void
   }) => void
 
   /**
-   * Slot pour le contenu de la popover.
-   * Fournit la prop :
-   * - close : fonction pour fermer la popover
+   * Slot for the popover content.
+   * Provides the prop:
+   * - close: function to close the popover
    */
   popover: (props: { close: () => void }) => void
 }>()

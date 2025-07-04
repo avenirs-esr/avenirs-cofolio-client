@@ -3,77 +3,77 @@ import type { VIcon } from '@gouvminint/vue-dsfr'
 import { MDI_ICONS } from '@/ui/tokens/icons'
 
 /**
- * Props du composant AvButton.
+ * AvButton component props.
  */
 export interface AvButtonProps {
   /**
-   * Variant du bouton : sans bordure (`DEFAULT`) ou avec bordure (`OUTLINED`).
+   * Button variant: borderless (`DEFAULT`) or with border (`OUTLINED`).
    * @default 'DEFAULT'
    */
   variant?: 'DEFAULT' | 'OUTLINED'
 
   /**
-   * Thème du bouton : bleu (`PRIMARY`) ou gris (`SECONDARY`).
+   * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`).
    * @default 'PRIMARY'
    */
   theme?: 'PRIMARY' | 'SECONDARY'
 
   /**
-   * Indique un état de chargement du bouton.
+   * Indicates button loading status.
    * @default false
    */
   isLoading?: boolean
 
   /**
-   * Permet de modifier manuellement la taille de l'icône.
-   * Si non défini, la taille est automatiquement calculée.
+   * Manually change icon size.
+   * If not defined, the size is automatically calculated.
    */
   iconScale?: number
 
   /**
-   * Permet de retirer les radius de la bordure du bouton.
+   * Removes radii from the button border.
    * @default false
    */
   noRadius?: boolean
 
   /**
-   * Indique si le bouton est désactivé.
+   * Indicates if the button is disabled.
    * @default false
    */
   disabled?: boolean
 
   /**
-   * Étiquette textuelle du bouton.
+   * Button text label.
    */
   label: string
 
   /**
-   * Indique la position de l'icône :
-   * à gauche (`false`) ou à droite (`true`).
+   * Indicates icon position:
+   * left (`false`) or right (`true`).
    * @default false
    */
   iconRight?: boolean
 
   /**
-   * Permet de masquer le texte du label (`true`) ou de l'afficher (`false`).
+   * Hide label text (`true`) or show it (`false`).
    * @default false
    */
   iconOnly?: boolean
 
   /**
-   * Taille du bouton : 'sm', 'small', 'md', 'medium', 'lg', 'large' ou vide.
+   * Button size: 'sm', 'small', 'md', 'medium', 'lg', 'large' or ''.
    * @default 'md'
    */
   size?: 'sm' | 'small' | 'lg' | 'large' | 'md' | 'medium' | '' | undefined
 
   /**
-   * Icône à afficher dans le bouton. Peut être un nom ou une configuration d'icône.
+   * Icon to be displayed in the button. Can be a name or an icon configuration.
    */
   icon?: string | InstanceType<typeof VIcon>['$props']
 
   /**
-   * Fonction appelée lors du clic sur le bouton.
-   * @param event L'événement MouseEvent du clic.
+   * Function called when button is clicked.
+   * @param event The click MouseEvent
    */
   onClick?: ($event: MouseEvent) => void
 }

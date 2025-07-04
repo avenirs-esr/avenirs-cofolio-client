@@ -1,41 +1,40 @@
-# Sélecteur de tag - `AvTagPicker`
+# Tag picker - `AvTagPicker`
 
 ## 🌟 Introduction
 
-Le `AvTagPicker` est un composant Vue permettant à un utilisateur de choisir un élément dans un ensemble donné. Les éléments sélectionnables consistent en des `DsfrTag`.
+The `AvTagPicker` is a Vue component enabling a user to select an element from a given set. Selectable elements consist of `DsfrTag`.
 
-La liste de `DsfrTag` fournit une liste d’option parmi lesquelles l’utilisateur peut choisir.
+The `DsfrTag` list provides a list of options from which the user can choose.
 
 ## 📐 Structure
 
-Les boutons sont composés de :
-
-- Un label - obligatoire, en utilisant la prop `label`, permet l'affichage du label lorsque `iconOnly` est `false`, permet également la connexion à `title` et `aria-label` ;
-- Une icône, pouvant être modifiée (voir les icônes disponibles) - optionnelle.
+Buttons consist of :
+- A label - mandatory, using the `label` prop, enables label display when `iconOnly` is `false`, also enables connection to `title` and `aria-label` ;
+- An icon, which can be modified (see available icons) - optional.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `options` | `AvTagPickerOption[]` | | ✅ | Liste des options disponibles dans le picker. |
-| `label` | `string` | | | Libellé affiché au-dessus du picker. |
-| `labelColor` | `string` | `'var(--text2)'` | | Couleur du libellé. |
-| `labelTypographyClass` | `string` | `'b2-regular'` | | Classe de typographie appliquée au libellé. |
-| `multiple` | `boolean` | `false` | | Active le mode de sélection multiple si `true`. |
-| `selected` (mode simple) | `AvTagPickerOption` | | | Option sélectionnée (mode simple). |
-| `selected` (mode multiple) | `AvTagPickerOption[]` | | | Options sélectionnées (mode multiple). |
-| `handleSelectChange` (simple) | `(selected: AvTagPickerOption) => void` | | ✅ | Méthode appelée lors de la sélection en mode simple. |
-| `handleSelectChange` (multiple) | `(selected: AvTagPickerOption[]) => void` | | ✅ | Méthode appelée lors de la sélection en mode multiple. |
+| `AvTagPickerOption[]` | | ✅ | List of options available in picker. |
+| `label` | `string` | `undefined` | | Label displayed above picker. |
+| `labelColor` | `string` | `'var(--text2)'` | | Color of label. |
+| `labelTypographyClass` | `string` | `'b2-regular'` | | Typography class applied to label. |
+| `multiple` | `boolean` | `false` | | Activate multiple selection mode if `true`. |
+| `selected` (simple mode) | `AvTagPickerOption` | | | Option selected (simple mode). |
+| `selected` (multiple mode) | `AvTagPickerOption[]` | | | Selected options (multiple mode). |
+| `handleSelectChange` (single) | `(selected: AvTagPickerOption) => void` | | ✅ | Method called when selecting in single mode. |
+| `handleSelectChange` (multiple) | `(selected: AvTagPickerOption[]) => void` | | ✅ | Method called when selecting in multiple mode. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
@@ -44,7 +43,7 @@ Aucun.
     :selected="selectedOption"
     :handle-select-change="handleSelectChange"
     :multiple="false"
-    label="Nombre de résultats par page :"
+    label="Number of results per page:"
     label-typography-class="b2-regular"
     label-color="var(--text2)"
   />

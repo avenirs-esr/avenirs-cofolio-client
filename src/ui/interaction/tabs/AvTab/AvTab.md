@@ -1,48 +1,48 @@
-# Onglets - `AvTab`
+# Tabs - `AvTab`
 
 ## 🌟 Introduction
 
-Le `AvTab` est un composant déclaratif utilisé exclusivement dans le slot `default` de `AvTabs`.
-`AvTab` permet de configurer un onglet en transmettant ses props (comme `title` et `icon`) au composant `AvTabs` sans gérer de rendu.
+The `AvTab` is a declarative component used exclusively in the `default` slot of `AvTabs`.
+`AvTab` allows you to configure a tab by passing its props (such as `title` and `icon`) to the `AvTabs` component without rendering.
 
-Il agit comme un composant proxy : il expose des informations (props) utilisées par `AvTabs` pour générer l'interface.
+It acts as a proxy component: it exposes information (props) used by `AvTabs` to generate the interface.
 
-🚫 Ce composant n'affiche rien par lui-même et ne doit pas être utilisé hors de `AvTabs`.
+🚫 This component does not display anything by itself and should not be used outside `AvTabs`.
 
 ## 📐 Structure
 
-Aucune.
+None.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `title` | `string` | | ✅ | Titre de l'onglet affiché dans la barre des onglets. |
-| `icon` | `string` | `undefined` | | Icône de l'onglet. |
+| `title` | `string` | | ✅ | Title of tab displayed in tab bar. |
+| `icon` | `string` | `undefined` | | Tab icon. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `default` | Slot par défaut pour le contenu de l'onglet. |
+| `default` | Default slot for tab contents. |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvTabs v-model="activeTab">
     <AvTab
-      title="Liste de mes AMS"
+      title="My RPA list"
       icon="mdi:format-list-bulleted"
     >
       <AmsListContainer />
     </AvTab>
     <AvTab
-      title="Planning de mes AMS"
+      title="RPA planning"
       icon="mdi:calendar-month-outline"
     >
       <AmsPlanningContainer />

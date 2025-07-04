@@ -1,41 +1,41 @@
-# Textes avec icône - `AvIconText`
+# Texts with icon - `AvIconText`
 
 ## 🌟 Introduction
 
-Le `AvIconText` est un composant permettant d'afficher un texte avec une icône à gauche (de préférence une icône [MDI](https://icon-sets.iconify.design/mdi/)). Ce composant Vue est idéal pour afficher des textes avec une icône permettant de visualiser le type d'information transmise par le texte.
+The `AvIconText` is a component that allows you to display text with an icon on the left (preferably an [MDI](https://icon-sets.iconify.design/mdi/) icon). This View component is ideal for displaying text with an icon that allows you to visualize the type of information conveyed by the text.
 
 ## 📐 Structure
 
-- Le composant est un élément `div` constitué d'un composant `AvVIcon` et d'un `span`.
-- Props permettent de modifier l'apparence de l'icône et du texte selon les props : couleur, icône, taille et gestion du texte trop long.
-- Le `label` est affiché à l'intérieur d'un `span`, potentiellement avec la prop `ellipsis` pour gérer le texte tronqué.
+- The component is a `div` element composed of an `AvVIcon` component and a `span`.
+- Props allow you to modify the appearance of the icon and text according to the props: color, icon, size, and handling of overly long text.
+- The `label` is displayed inside a `span`, potentially with the `ellipsis` prop to handle truncated text.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `textColor` | `string` | `'var(--text1)'` | | La couleur du texte. |
-| `iconColor` | `string` | `'var(--text1)'` | | La couleur de l'icône. |
-| `icon` | `string` |  | ✅ | Le nom de l'icône suivant la nomenclature définie pour `VIcon` sur [VueDSFR](https://vue-ds.fr/composants/VIcon). |
-| `text` | `string` |  | ✅ | Le texte à afficher. |
-| `typographyClass` | `string` | `'b2-regular'` |  | La classe de typographie à utiliser pour le texte. |
-| `gap` | `string` | `'0.25rem'` | | Le gap entre l'icône et le texte. |
-| `inline` | `boolean` | `false` | | Si `false`, le texte trop long sera tronqué. |
+| `textColor` | `string` | `'var(--text1)'` | | The text color. |
+| `iconColor` | `string` | `'var(--text1)'` | | The icon color. |
+| `icon` | `string` | | ✅ | The icon name according to the nomenclature defined for `VIcon` on [VueDSFR](https://vue-ds.fr/composants/VIcon). |
+| `text` | `string` | | ✅ | The text to display. |
+| `typographyClass` | `string` | `'b2-regular'` | | The typography class to use for the text. |
+| `gap` | `string` | `'0.25rem'` | | The gap between the icon and the text. |
+| `inline` | `boolean` | `false` | | If `false`, text that is too long will be truncated. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvIconText
-    text="Ma messagerie"
+    text="Mailbox"
     icon="mdi:chat-bubble-outline"
     text-color="var(--title)"
     icon-color="var(--dark-background-primary1)"

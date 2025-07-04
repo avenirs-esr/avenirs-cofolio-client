@@ -1,41 +1,41 @@
 import { nextTick, type Ref } from 'vue'
 
 /**
- * Résultat retourné par le composable usePopover.
+ * Result returned by the usePopover composable.
  */
 export interface UsePopoverReturn {
-  /** Indique si la popover est visible */
+  /** Indicates whether the popover is visible */
   showPopover: Ref<boolean>
-  /** Position de la popover en rem */
+  /** Position of the popover in rem */
   popoverPosition: Ref<{ top: number, left: number }>
-  /** Fonction pour ouvrir/fermer la popover */
+  /** Function to open/close the popover */
   togglePopover: () => Promise<void>
-  /** Fonction pour fermer la popover */
+  /** Function to close the popover */
   closePopover: () => void
 }
 
 /**
- * Composable Vue pour gérer l'état d'affichage et la position d'une popover.
+ * Vue composable to manage the display state and position of a popover.
  *
- * Cette fonction fournit :
- * - un état réactif `showPopover` indiquant si la popover est visible,
- * - un objet `popoverPosition` calculant la position top/left en rem,
- * - une fonction `togglePopover` pour ouvrir ou fermer la popover,
- * - une fonction `closePopover` pour fermer la popover explicitement,
+ * This function provides:
+ * - a reactive `showPopover` state indicating whether the popover is visible,
+ * - a `popoverPosition` object calculating the top/left position in REM,
+ * - a `togglePopover` function to open or close the popover,
+ * - a `closePopover` function to explicitly close the popover,
  *
- * Elle s'assure aussi de fermer la popover quand un clic extérieur est détecté.
+ * It also ensures that the popover is closed when an outside click is detected.
  *
- * La position de la popover est calculée en fonction de la position de l'élément déclencheur,
- * en tenant compte de la largeur de la fenêtre pour éviter que la popover déborde.
+ * The popover position is calculated based on the trigger element position,
+ * taking into account the window width to prevent the popover from overflowing.
  *
- * @param {Ref<HTMLElement | null>} triggerRef Référence vers l'élément déclencheur de la popover.
- * @param {Ref<HTMLElement | null>} popoverRef Référence vers l'élément DOM de la popover.
+ * @param {Ref<HTMLElement | null>} triggerRef Reference to the popover trigger element.
+ * @param {Ref<HTMLElement | null>} popoverRef Reference to the popover DOM element.
  *
- * @returns {UsePopoverReturn} Objet contenant :
- *  - `showPopover` (Ref<boolean>) : état visible de la popover,
- *  - `popoverPosition` (Ref<{ top: number, left: number }>) : position calculée en rem,
- *  - `togglePopover` (function) : fonction pour basculer l'affichage de la popover,
- *  - `closePopover` (function) : fonction pour fermer la popover.
+ * @returns {UsePopoverReturn} Object containing:
+ * - `showPopover` (Ref<boolean>): Visible state of the popover,
+ * - `popoverPosition` (Ref<{ top: number, left: number }>): Position calculated in rem,
+ * - `togglePopover` (function): Function to toggle the popover display,
+ * - `closePopover` (function): Function to close the popover.
  */
 export function usePopover (triggerRef: Ref<HTMLElement | null>, popoverRef: Ref<HTMLElement | null>): UsePopoverReturn {
   const showPopover = ref(false)
