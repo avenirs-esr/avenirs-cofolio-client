@@ -4,44 +4,44 @@ import { type ComponentMountingOptions, mount, RouterLinkStub } from '@vue/test-
 import { type Component, createApp } from 'vue'
 
 /**
- * Options permettant de configurer le montage d'un composable en test.
+ * Options to configure the mounting of a composable under test.
  */
 interface MountComposableOptions {
   /**
-   * Active l'utilisation de TanStack Query.
+   * Enables the use of TanStack Query.
    * @default false
    */
   useTanstack?: boolean
 
   /**
-   * Active la configuration du plugin i18n.
+   * Enables the i18n plugin configuration.
    * @default false
    */
   useI18n?: boolean
 
   /**
-   * Active l'utilisation de Pinia pour le store.
+   * Enables the use of Pinia for the store.
    * @default false
    */
   usePinia?: boolean
 
   /**
-   * Configuration personnalisée du QueryClient pour TanStack Query.
+   * Custom QueryClient configuration for TanStack Query.
    */
   queryClientConfig?: QueryClientConfig
 }
 
 /**
- * Monte un composable Vue pour les tests avec options de configuration.
+ * Mounts a Vue composable for testing with configuration options.
  *
  * @template T
- * @param {() => T} fn - Fonction composable à exécuter et monter.
- * @param {MountComposableOptions} options - Options pour configurer le montage.
- * @param {boolean} [options.useTanstack] - Active l'utilisation de TanStack Query.
- * @param {boolean} [options.useI18n] - Active l'utilisation du plugin i18n.
- * @param {boolean} [options.usePinia] - Active l'utilisation de Pinia pour le store.
- * @param {QueryClientConfig} [options.queryClientConfig] - Configuration personnalisée du QueryClient de TanStack Query.
- * @returns {{ result: T, unmount: () => void }} Objet contenant le résultat du composable et une fonction pour démonter l'application.
+ * @param {() => T} fn - Composable function to execute and mount.
+ * @param {MountComposableOptions} options - Options to configure the mount.
+ * @param {boolean} [options.useTanstack] - Enables the use of TanStack Query.
+ * @param {boolean} [options.useI18n] - Enables the use of the i18n plugin.
+ * @param {boolean} [options.usePinia] - Enables the use of Pinia for the store.
+ * @param {QueryClientConfig} [options.queryClientConfig] - Custom configuration of TanStack Query QueryClient.
+ * @returns {{ result: T, unmount: () => void }} An object containing the result of the composable and a function to unmount the application.
  */
 function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): { result: T, unmount: () => void } {
   let composableResult: T | undefined
@@ -72,12 +72,12 @@ function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false
 }
 
 /**
- * Monte un composable Vue configuré pour utiliser TanStack Query dans les tests.
+ * Mounts a Vue composable configured to use TanStack Query in tests.
  *
  * @template T
- * @param {() => T} fn - Fonction composable à exécuter et monter.
- * @param {QueryClientConfig} [queryClientConfig] - Configuration personnalisée du QueryClient de TanStack Query.
- * @returns {T} Le résultat retourné par le composable monté.
+ * @param {() => T} fn - Composable function to execute and mount.
+ * @param {QueryClientConfig} [queryClientConfig] - Custom configuration of TanStack Query QueryClient.
+ * @returns {T} The result returned by the mounted composable.
  */
 function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientConfig): T {
   const { result } = mountComposable(fn, { useTanstack: true, queryClientConfig })
@@ -85,16 +85,16 @@ function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientCo
 }
 
 /**
- * Monte un composant Vue avec un routeur simulé pour les tests.
+ * Mounts a Vue component with a mock router for testing.
  *
- * Cette fonction utilise Vue Test Utils pour monter le composant en injectant
- * des stubs pour `RouterLink` et `RouterView` afin de simuler le comportement
- * du routeur sans lancer une vraie instance.
+ * This function uses Vue Test Utils to mount the component by injecting
+ * stubs for `RouterLink` and `RouterView` to simulate the router behavior
+ * without launching a real instance.
  *
  * @template T
- * @param {Component} component - Composant Vue à monter.
- * @param {ComponentMountingOptions<T>} [options] - Options additionnelles pour le montage du composant.
- * @returns {Promise<ReturnType<typeof mount>>} Le wrapper du composant monté, après le prochain tick.
+ * @param {Component} component - Vue component to mount.
+ * @param {ComponentMountingOptions<T>} [options] - Additional options for mounting the component.
+ * @returns {Promise<ReturnType<typeof mount>>} The mounted component wrapper, after the next tick.
  */
 async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {
   const wrapper = mount(component, {

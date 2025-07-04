@@ -2,27 +2,27 @@ import type { Ref } from 'vue'
 import { createFocusTrap } from 'focus-trap'
 
 /**
- * Résultat retourné par le composable useFocusTrap.
+ * Result returned by the useFocusTrap composable.
  */
 export interface UseFocusTrapReturn {
-  /** Initialise et active le focus trap sur l'élément référencé */
+  /** Initializes and activates the focus trap on the referenced element */
   initializeFocusTrap: () => void
-  /** Désactive et nettoie le focus trap */
+  /** Disables and cleans the focus trap */
   cleanupFocusTrap: () => void
 }
 
 /**
- * Composable Vue pour gérer un focus trap sur un élément DOM.
+ * Vue composable to manage a focus trap on a DOM element.
  *
- * Ce composable utilise la bibliothèque [focus-trap](https://github.com/focus-trap/focus-trap)
- * afin d'enfermer la navigation clavier dans un élément donné (ex: une modale).
+ * This composable uses the [focus-trap](https://github.com/focus-trap/focus-trap) library
+ * to enclose keyboard navigation within a given element (e.g., a modal).
  *
- * @param elementRef Référence vers l'élément DOM à piéger (focus trap)
- * @param onClose Fonction callback appelée lorsque le focus trap est désactivé (ex: fermeture)
+ * @param elementRef Reference to the DOM element to trap (focus trap)
+ * @param onClose Callback function called when the focus trap is disabled (e.g., closing)
  *
- * @returns {UseFocusTrapReturn} Objet contenant les fonctions pour gérer le focus trap :
- *  - `initializeFocusTrap` : active le focus trap,
- *  - `cleanupFocusTrap` : désactive et nettoie le focus trap.
+ * @returns {UseFocusTrapReturn} Object containing the functions to manage the focus trap:
+ *  - `initializeFocusTrap`: Enables the focus trap,
+ *  - `cleanupFocusTrap`: Disables and cleans the focus trap.
  *
  */
 export function useFocusTrap (

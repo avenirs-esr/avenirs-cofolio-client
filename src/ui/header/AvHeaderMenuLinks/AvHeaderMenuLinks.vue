@@ -6,33 +6,33 @@ import type { VIcon } from '@gouvminint/vue-dsfr'
 import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 
 /**
- * Props du composant AvHeaderMenuLinks.
+ * AvHeaderMenuLinks component props.
  */
 interface AvHeaderMenuLinksProps {
   /**
-   * Un tableau d'objets représentant les liens rapides.
-   * Chaque lien peut avoir une icône, un label et une fonction onClick.
+   * An array of objects representing quick links.
+   * Each link can have an icon, a label, and an onClick function.
    */
   links?: {
     /**
-     * Nom de l'icône (string) ou objet de props d'un composant VIcon.
+     * Icon name (string) or props object for a VIcon component.
      */
     icon?: string | InstanceType<typeof VIcon>['$props']
 
     /**
-     * Label du lien.
+     * Link label.
      */
     label?: string
 
     /**
-     * Fonction appelée lors du clic sur le lien.
-     * @param event L'événement MouseEvent du clic.
+     * Function called when the link is clicked.
+     * @param event The MouseEvent of the click.
      */
     onClick?: ($event: MouseEvent) => void
   }[]
 
   /**
-   * Label ARIA pour la navigation, utile pour l'accessibilité.
+   * ARIA label for navigation, useful for accessibility.
    * @default 'Menu secondaire'
    */
   navAriaLabel?: string
@@ -43,13 +43,13 @@ withDefaults(defineProps<AvHeaderMenuLinksProps>(), {
 })
 
 /**
- * Événements émis par AvHeaderMenuLinks.
+ * Events triggered by AvHeaderMenuLinks.
  */
 const emit = defineEmits<{
   /**
-   * Événement déclenché lors du clic sur un lien.
+   * Event triggered when a link is clicked.
    * @event linkClick
-   * @param event L'événement MouseEvent du clic.
+   * @param event The MouseEvent of the click.
    */
   linkClick: [event: MouseEvent]
 }>()

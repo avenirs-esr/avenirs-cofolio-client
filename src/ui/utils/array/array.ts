@@ -1,9 +1,9 @@
 /**
- * Supprime les doublons dans un tableau et retourne un nouveau tableau contenant uniquement des éléments uniques.
+ * Removes duplicates from an array and returns a new array containing only unique elements.
  *
- * @template T - Le type des éléments dans le tableau.
- * @param {T[]} array - Le tableau pouvant contenir des doublons.
- * @returns {T[]} Un nouveau tableau contenant uniquement les éléments uniques du tableau d'origine, dans leur ordre d'apparition.
+ * @template T - The type of the elements in the array.
+ * @param {T[]} array - The array that can contain duplicates.
+ * @returns {T[]} A new array containing only the unique elements of the original array, in the order they appear.
  */
 export function removeDuplicates<T> (array: T[]): T[] {
   return [...new Set(array)]

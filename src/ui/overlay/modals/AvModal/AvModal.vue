@@ -5,35 +5,35 @@ import { MDI_ICONS } from '@/ui/tokens/icons'
 import { useI18n } from 'vue-i18n'
 
 /**
- * Propriétés configurant le composant AvModal.
+ * AvModal component props.
  */
 export interface AvModalProps {
   /**
-   * Variant du bouton de fermeture : sans bordure (`DEFAULT`) ou avec bordure (`OUTLINED`).
+   * Variant of the close button: without border (`DEFAULT`) or with border (`OUTLINED`).
    * @default 'DEFAULT'
    */
   closeButtonVariant?: AvButtonProps['variant']
 
   /**
-   * Identifiant unique pour la modale.
+   * Unique identifier for the modal.
    * @default useRandomId('modal', 'dialog')
    */
   modalId?: string
 
   /**
-   * Indique si la modale est ouverte.
+   * Indicates whether the modal is open.
    * @default false
    */
   opened?: boolean
 
   /**
-   * Spécifie si la modale est une alerte (rôle `"alertdialog"` si `true`) ou non (le rôle sera `"dialog"`).
+   * Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will be `"dialog"`).
    * @default false
    */
   isAlert?: boolean
 
   /**
-   * Référence à l'élément d'origine pour redonner le focus après fermeture.
+   * Reference to original element to restore focus after closing.
    * @default { focus() {} }
    */
   origin?: {
@@ -41,18 +41,19 @@ export interface AvModalProps {
   }
 
   /**
-   * Nom de l'icône à afficher dans le titre de la modale.
+   * Name of icon to be displayed in modal title.
    */
   icon?: string
 
   /**
-   * Taille de la modale.
+   * Modal size.
    * @default 'md'
    */
   size?: 'sm' | 'md' | 'lg' | 'xl'
 
   /**
-   * Label et titre (pour l'accessibilité) du bouton de fermeture.
+   * Label and title (for accessibility) of the close button.
+   * @default 'Fermer'
    */
   closeButtonLabel?: string
 }
@@ -60,20 +61,20 @@ export interface AvModalProps {
 const props = defineProps<AvModalProps>()
 
 /**
- * Événements émis par le composant.
+ * Events emitted by the component.
  *
- * @event close - Événement émis lorsque la modale est fermée.
+ * @event close - Event emitted when the modal is closed.
  */
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
 /**
- * Slots disponibles dans le composant.
+ * Slots available in the component.
  *
- * @slot default - Slot par défaut pour le contenu de la modale.
- * @slot header - Slot pour le titre de la modale.
- * @slot footer - Slot pour la zone de pied de la modale.
+ * @slot default - Default slot for modal content.
+ * @slot header - Slot for modal title.
+ * @slot footer - Slot for modal footer.
  */
 defineSlots<{
   default?: Slot

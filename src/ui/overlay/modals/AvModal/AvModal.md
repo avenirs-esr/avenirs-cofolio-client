@@ -1,51 +1,50 @@
-# Modales - `AvModal`
+# Modals - `AvModal`
 
 ## 🌟 Introduction
 
-Le composant `AvModal` est une implémentation de `DsfrModal`. La modale permet de concentrer l’attention de l’utilisateur exclusivement sur une tâche ou un élément d’information, sans perdre le contexte de la page en cours. Ce composant nécessite une action de l’utilisateur afin d'être ouvert ou fermé.
+The `AvModal` component is an implementation of `DsfrModal`. The modal allows the user attention to be focused exclusively on a task or piece of information, without losing the context of the current page. This component requires a user action in order to be opened or closed.
 
-Le composant `AvModal` est une fenêtre modale configurable, offrant des fonctionnalités avancées telles que le piégeage de focus, l'écoute des touches d'échappement pour la fermeture, et la gestion des boutons d'action. Ce composant est conçu pour afficher des dialogues et des alertes de manière accessible et ergonomique.
+The `AvModal` component is a configurable modal window, offering advanced features such as focus trapping, escape key listening for closure, and action button management. This component is designed to display dialogs and alerts in an accessible and ergonomic way.
 
-🏅 La documentation sur le `DsfrModal` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrModal)
+🏅 Documentation on the `DsfrModal` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrModal)
 
 ## 📐 Structure
 
-La modale par défaut permet de mettre en évidence une information qui ne nécessite pas d’action de l’utilisateur. Elle s’affiche à la suite du clic sur un bouton.
+The default modal is used to highlight information that does not require user action. It is displayed when a button is clicked.
 
-Elle se compose des éléments suivants :
-
-- Le titre (slot `header`), optionnel
-- La zone de contenu (slot `default`), obligatoire
-- La zode de pied justifiée à droite, qui peut être remplie en utilisant le slot `footer`, avec toujours le bouton fermer à gauche des éléments du slot. Cette zone ne doit contenir que des boutons.
+It consists of the following elements:
+- The title (slot `header`), optional
+- Content zone (slot `default`), mandatory
+- The right-justified footer zone, which can be filled in using the `footer` slot, with the close button always to the left of the slot elements. This zone must contain buttons only.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `modalId` | `string` | `useRandomId('modal', 'dialog')` | | Identifiant unique pour la modale. |
-| `opened` | `boolean` | `false` | | Indique si la modale est ouverte. |
-| `isAlert` | `boolean` | `false` | | Spécifie si la modale est une alerte (rôle `"alertdialog"` si `true`) ou non (le rôle sera  alors `"dialog"`). |
-| `origin` | `{ focus: () => void }` | `{ focus() {} }` | | Référence à l'élément d'origine pour redonner le focus après fermeture. |
-| `icon` | `string` | `undefined` | | Nom de l'icône à afficher dans le titre de la modale. |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Taille de la modale. |
-| `closeButtonLabel` | `string` | `TODO` | | Label et titre (pour l'accessibilité) du bouton de fermeture. |
-| `closeButtonVariant` | `'DEFAULT' \| 'OUTLINED' \| undefined` | `'DEFAULT'` | | Variant du bouton de fermeture : sans bordure (`DEFAULT`) ou avec bordure (`OUTLINED`). |
+| `modalId` | `string` | `useRandomId('modal', 'dialog')` | `useRandomId('modal', 'dialog')` | Unique identifier for the modal. |
+| `opened` | `boolean` | `false` | | Indicates whether the modal is open. |
+| `isAlert` | `boolean` | `false` | | Specifies whether the modal is an alert (role `"alertdialog"` if `true`) or not (role will then be `"dialog"`). |
+| `origin` | `{ focus: () => void }` | `{ focus() {} }` | | Reference to the origin element to restore focus after closure. |
+| `icon` | `string` | `undefined` | | Name of icon to be displayed in modal title. |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl'` | `md` | | Size of modal. |
+| `closeButtonLabel` | `string` | `Fermer` | | Label and title (for accessibility) of close button. |
+| `closeButtonVariant` | `'DEFAULT' \| 'OUTLINED' \| undefined` | `'DEFAULT'` | | Variant of close button: without border (`DEFAULT`) or with border (`OUTLINED`). |
 
-## 📡 Évenements
+## 📡 Events
 
-| Nom | Donnée (*payload*) | Description |
+| Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'close'` | `number` | Événement émis lorsque la modale est fermée. |
+| `‘close’` | `number` | Event emitted when modal is closed. |
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `default` | Slot par défaut pour le contenu de la modale. |
-| `header` | Slot par défaut pour le titre de la modale. |
-| `footer` | Slot par défaut pour la zone de pied de la modale. |
+| `default` | Default slot for modal content. |
+| `header` | Slot for modal header. |
+| `footer` | Slot for modal footer. |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <script lang="ts" setup>
@@ -54,21 +53,21 @@ const { showModal, displayModal, hideModal } = useModal()
 
 <template>
   <AvButton
-    label="Ouvrir la modale"
+    label="Open modal"
     :on-click="displayModal"
   />
   <AvModal
     :opened="showModal"
-    close-button-label="Fermer"
+    close-button-label="Close"
     size="lg"
     @close="hideModal"
   >
     <template #header>
-      <span class="n5">Un super titre</span>
+      <span class="n5">An awesome title</span>
     </template>
-    <span class="b2-regular">Un super contenu</span>
+    <span class="b2-regular">An awesome content</span>
     <template #footer>
-      <AvButton label="Un bouton qui sera à droite du bouton 'Fermer'" />
+      <AvButton label="A button to the right of the ‘Close’ button" />
     </template>
   </AvModal>
 </template>

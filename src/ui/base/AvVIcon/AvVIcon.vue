@@ -1,65 +1,65 @@
 <script setup lang="ts">
 /**
- * Props du composant AvVIcon.
+ * AvVIcon component props.
  */
 interface AvVIconProps {
   /**
-   * La taille du conteneur de l'icône ainsi qu'un ratio pour le scale de l'icône.
+   * The size in rem of the icon container and a ratio for the icon scale.
    * @default 1
    */
   size?: number
 
   /**
-   * Le nom de l'icône à afficher.
+   * The name of the icon to display.
    */
   name: string
 
   /**
-   * Alignement vertical de l'icône par rapport à la ligne de base.
+   * Vertical alignment of the icon relative to the baseline.
    * @default '-0.2em'
    */
   verticalAlign?: string
 
   /**
-   * Type d'animation appliqué à l'icône.
-   * Peut être 'spin', 'wrench', 'pulse', 'spin-pulse', 'flash' ou 'float'.
+   * Animation type applied to the icon.
+   * Can be 'spin', 'wrench', 'pulse', 'spin-pulse', 'flash', or 'float'.
    */
   animation?: 'spin' | 'wrench' | 'pulse' | 'spin-pulse' | 'flash' | 'float'
 
   /**
-   * Vitesse de l'animation si elle est définie.
-   * Peut être 'fast' ou 'slow'.
+   * Animation speed, if set.
+   * Can be 'fast' or 'slow'.
    */
   speed?: 'fast' | 'slow'
 
   /**
-   * Inverse l'icône horizontalement, verticalement ou les deux.
+   * Flips the icon horizontally, vertically, or both.
    */
   flip?: 'horizontal' | 'vertical' | 'both'
 
   /**
-   * Étiquette ARIA pour l'accessibilité.
+   * ARIA label for accessibility.
    */
   label?: string
 
   /**
-   * Titre de l'icône (balise `<title>`), utilisé pour l'accessibilité et les info-bulles.
+   * Icon title (`<title>` tag), used for accessibility and tooltips.
    */
   title?: string
 
   /**
-   * Couleur principale de l'icône.
+   * Main color of the icon.
    */
   color?: string
 
   /**
-   * Applique une couleur inversée à l'icône.
+   * Applies an inverted color to the icon.
    * @default false
    */
   inverse?: boolean
 
   /**
-   * Active le rendu côté serveur (Server-Side Rendering).
+   * Enables server-side rendering.
    * @default true
    */
   ssr?: boolean

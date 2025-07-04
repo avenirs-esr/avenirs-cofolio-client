@@ -1,56 +1,55 @@
-# Onglets - `AvTabs`
+# Tabs - `AvTabs`
 
 ## 🌟 Introduction
 
-Le `AvTabs` est un composant implémentant le `DsfrTabs` de VueDSFR tout en gérant automatiquement l'ajout des `DsfrTabItem` en fonction des `AvTab` présents dans le slot `default`.
+The `AvTabs` component implements VueDSFR `DsfrTabs` while automatically managing the addition of `DsfrTabItem` according to the `AvTab` present in the `default` slot.
 
-Le composant onglet permet aux utilisateurs de naviguer dans différentes sections de contenu au sein d’une même page.
+The tab component allows users to navigate different content sections within the same page.
 
-Le système d'onglet aide à regrouper différents contenus dans un espace limité et permet de diviser un contenu dense en sections accessibles individuellement afin de faciliter la lecture pour l'utilisateur.
+The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
 
-🏅 La documentation sur le `DsfrTabs` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrTabs)
+🏅 Documentation on `DsfrTabs` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrTabs)
 
 ## 📐 Structure
 
-Chaque onglet se compose des éléments suivants :
+Each tab consists of the following elements:
+- an icon to the left of the title - optional.
+- a clickable title - mandatory: displays the associated content zone.
 
-- un icône à gauche du titre - optionnel.
-- un titre cliquable - obligatoire : permet d’afficher la zone de contenu qui lui est associée.
-
-Si le nombre d’onglets dépasse la largeur du container, un scroll horizontal permet de naviguer entre les différents onglets.
+If the number of tabs exceeds the width of the container, a horizontal scroll allows you to navigate between the different tabs.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `ariaLabel` | `string` | `undefined` | | Aria label de la liste des onglets. |
-| `modelValue` | `number` | | ✅ | Index de l'onglet sélectionné au chargement (commence à 0). |
+| `ariaLabel` | `string` | `undefined` | | Aria label of tab list. |
+| `modelValue` | `number` | | ✅ | Index of selected tab at loading (starts at 0). |
 
-## 📡 Évenements
+## 📡 Events
 
-| Nom | Donnée (*payload*) | Description |
+| Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'update:modelValue'` | Index (`number`) de l'onglet sélectionné | Émis lorsqu'un onglet est sélectionné. |
+| `'update:modelValue'` | Index (`number`) of the selected tab | Issued when a tab is selected. |
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `default` | Slot par défaut pour l'ajout des différents onglets (chaque onglet doit être dans un `AvTab`). |
+| `default` | Default slot for adding tabs (each tab must be in an `AvTab`). |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvTabs v-model="activeTab">
     <AvTab
-      title="Liste de mes AMS"
+      title="My RPA list"
       icon="mdi:format-list-bulleted"
     >
       <AmsListContainer />
     </AvTab>
     <AvTab
-      title="Planning de mes AMS"
+      title="RPA Planning"
       icon="mdi:calendar-month-outline"
     >
       <AmsPlanningContainer />

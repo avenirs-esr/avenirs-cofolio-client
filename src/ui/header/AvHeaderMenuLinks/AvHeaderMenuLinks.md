@@ -1,32 +1,32 @@
-# Liste de liens d’en-tête - `AvHeaderMenuLinks`
+# Header menu links - `AvHeaderMenuLinks`
 
 ## 🌟 Introduction
 
-Le composant `AvHeaderMenuLinks` est une adaptation du code de `DsfrHeaderMenuLinks`. Il a pour vocation à être utilisé dans le composant `AvHeader`.
+The `AvHeaderMenuLinks` component is an adaptation of the `DsfrHeaderMenuLinks` code. It is intended to be used within the `AvHeader` component.
 
-Il fournit une structure de navigation sous forme de liste, en utilisant le composant `AvButton`
+It provides a list-based navigation structure using the `AvButton` component.
 
-🏅 La documentation sur le `DsfrHeaderMenuLinks` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrHeaderMenuLinks)
+🏅 The documentation for `DsfrHeaderMenuLinks` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrHeaderMenuLinks)
 
 ## 📐 Structure
 
-  - `<nav>` : Le composant principal.
-  - Englobe une liste `<ul>` de `<AvButton>`.
-  - Chaque `AvButton` est un élément de la liste et est rendu dynamiquement.
+- `<nav>`: The main component.
+- Encloses a `<ul>` list of `<AvButton>`.
+- Each `AvButton` is an item in the list and is dynamically rendered.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `links` | `{ icon?: string \| InstanceType<typeof VIcon>['$props'], label?: string, onClick?: ($event: MouseEvent) => void }[]` | `undefined` | | Un tableau d'objets de props pour chaque `AvButton`. |
-| `navAriaLabel` | `string` | `'Menu secondaire'` | | Label ARIA pour la navigation, utile pour l'accessibilité. |
+| `links` | `{ icon?: string \| InstanceType<typeof VIcon>['$props'], label?: string, onClick?: ($event: MouseEvent) => void }[]` | `undefined` | | An array of prop objects for each `AvButton`. |
+| `navAriaLabel` | `string` | `'Menu secondaire'` | | ARIA label for navigation, useful for accessibility. |
 
-## 📡 Évenements
+## 📡 Events
 
-| Nom | Donnée (*payload*) | Description |
+| Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'linkClick'` | Événement de clic (`MouseEvent`) | Événement déclenché lorsque l'un des liens est cliqué. |
+| `'linkClick'` | Click Event (`MouseEvent`) | Event triggered when one of the links is clicked. |
 
 ## 🧩 Slots
 
-Aucun.
+None.

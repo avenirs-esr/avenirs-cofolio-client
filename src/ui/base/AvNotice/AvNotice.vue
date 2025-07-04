@@ -3,24 +3,24 @@ import { formatTextToUnderlineHtml } from '@/ui/utils/string/string'
 import { DsfrNotice } from '@gouvminint/vue-dsfr'
 
 /**
- * Props du composant AvNotice.
+ * AvNotice component props.
  */
 interface AvNoticeProps {
   /**
-   * Le titre du bandeau.
+   * The banner title.
    * @default ''
    */
   title?: string
 
   /**
-   * Le texte du bandeau. Toute partie de texte entourée de ** sera soulignée.
+   * The banner text. Any text surrounded by a ** will be underlined.
    * @default ''
    */
   text?: string
 
   /**
-   * Le type de bandeau.
-   * Peut être 'info', 'warning' ou 'alert'.
+   * The banner type.
+   * Can be 'info', 'warning', or 'alert'.
    */
   type: 'info' | 'warning' | 'alert'
 }

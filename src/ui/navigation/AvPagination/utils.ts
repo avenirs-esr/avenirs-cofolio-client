@@ -2,15 +2,15 @@ import type { Page } from '@gouvminint/vue-dsfr'
 import type { Ref } from 'vue'
 
 /**
- * Génère un tableau de pages pour la pagination en fonction du nombre total de pages.
+ * Generates an array of pages for pagination based on the total number of pages.
  *
- * Chaque page est un objet contenant :
- * - `title`: Le numéro de la page en chaîne de caractères.
- * - `label`: Le label affiché pour la page (identique au numéro).
- * - `href`: Un identifiant d'ancrage vers la page, formaté en `#page-x`.
+ * Each page is an object containing:
+ * - `title`: The page number as a string.
+ * - `label`: The label displayed for the page (same as the number).
+ * - `href`: An anchor identifier to the page, formatted as `#page-x`.
  *
- * @param {Ref<number>} totalPages - Référence réactive au nombre total de pages.
- * @returns {Page[]} Tableau des objets pages à utiliser pour la pagination.
+ * @param {Ref<number>} totalPages - Reactive reference to the total number of pages.
+ * @returns {Page[]} Array of page objects to use for pagination.
  */
 export function getPaginationPages (totalPages: Ref<number>): Page[] {
   return Array.from({ length: totalPages.value }, (_, index) => {

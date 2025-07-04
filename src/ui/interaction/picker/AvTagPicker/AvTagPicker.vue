@@ -4,92 +4,92 @@ import { MDI_ICONS } from '@/ui/tokens/icons'
 import { removeDuplicates } from '@/ui/utils'
 
 /**
- * Représente une option dans le composant AvTagPicker.
+ * Represents an option in the AvTagPicker component.
  */
 export interface AvTagPickerOption {
   /**
-   * Libellé affiché pour l'option.
+   * Label displayed for the option.
    */
   label: string
 
   /**
-   * Valeur associée à l'option.
+   * Value associated with the option.
    */
   value: string
 }
 
 /**
- * Props de base communes au AvTagPicker en mode simple ou multiple.
+ * Basic props common to AvTagPicker in single or multiple mode.
  */
 interface AvTagPickerBaseProps {
   /**
-   * Liste des options disponibles dans le picker.
+   * List of options available in the picker.
    */
   options: AvTagPickerOption[]
 
   /**
-   * Libellé affiché au-dessus du picker.
+   * Label displayed above the picker.
    */
   label?: string
 
   /**
-   * Couleur du libellé.
+   * Label color.
    * @default 'var(--text2)'
    */
   labelColor?: string
 
   /**
-   * Classe de typographie appliquée au libellé.
+   * Typography class applied to label.
    * @default 'b2-regular'
    */
   labelTypographyClass?: string
 }
 
 /**
- * Props pour le AvTagPicker en mode sélection simple.
+ * AvTagPicker component props in single selection mode.
  */
 interface AvTagPickerSingleProps extends AvTagPickerBaseProps {
   /**
-   * Mode multiple désactivé.
+   * Multiple mode disabled.
    * @default false
    */
   multiple?: false
 
   /**
-   * Option sélectionnée.
+   * Option selected.
    */
   selected?: AvTagPickerOption
 
   /**
-   * Méthode appelée lors du changement de sélection.
-   * @param selected L'option sélectionnée.
+   * Method called when changing selection.
+   * @param selected The selected option.
    */
   handleSelectChange: (selected: AvTagPickerOption) => void
 }
 
 /**
- * Props pour le AvTagPicker en mode sélection multiple.
+ * AvTagPicker component props in multiple selection mode.
  */
 interface AvTagPickerMultipleProps extends AvTagPickerBaseProps {
   /**
-   * Active le mode sélection multiple.
+   * Enables multiple selection mode.
    */
   multiple: true
 
   /**
-   * Options sélectionnées.
+   * Options selected.
    */
   selected?: AvTagPickerOption[]
 
   /**
-   * Méthode appelée lors du changement de sélection.
-   * @param selected Les options sélectionnées.
+   * Method called when changing selection.
+   * @param selected The selected options.
    */
   handleSelectChange: (selected: AvTagPickerOption[]) => void
 }
 
 /**
- * Props du composant AvTagPicker, pouvant être en mode simple ou multiple.
+ * AvTagPicker component props which can be in single or multiple mode.
  */
 export type AvTagPickerProps = AvTagPickerSingleProps | AvTagPickerMultipleProps
 

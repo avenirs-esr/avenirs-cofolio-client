@@ -1,36 +1,36 @@
-# Carte - `AvCard`
+# Cards - `AvCard`
 
 ## 🌟 Introduction
 
-La carte `AvCard` est un composant permettant de créer des conteneurs stylisés paramétrables.
+The `AvCard` card is a component for creating customizable styled containers.
 
 ## 📐 Structure
 
-La carte est composée d'une `div` principale contenant une div pour le title (slot `title`), un slot générique par défaut, une div pour le body (slot `body`) ainsi qu'une div pour le footer (slot `footer`).
+The card is composed of a main `div` containing a div for the title (slot `title`), a generic slot by default, a div for the body (slot `body`) as well as a div for the footer (slot `footer`).
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `backgroundColor` | `string` | `'var(--card)'` | | La couleur de fond de la carte. |
-| `borderColor` | `string` | `'var(--stroke)'` | | La couleur de bordure de la carte. |
-| `titleBackground` | `string` | `'var(--surface-background)'` | | La couleur de fond du titre de la carte. |
-| `titleHeight` | `string` | `undefined` | | La hauteur du titre de la carte. |
+| `backgroundColor` | `string` | `'var(--card)'` | | The background color of the card. |
+| `borderColor` | `string` | `'var(--stroke)'` | | The border color of the card. |
+| `titleBackground` | `string` | `'var(--surface-background)'` | | The background color of the card title. |
+| `titleHeight` | `string` | `undefined` | | The height of the card title. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `title` | Slot pour ajouter un titre à la carte. |
-| `body` | Slot pour ajouter un corps à la carte. |
-| `footer` | Slot pour ajouter un footer à la carte. |
-| `default` | Slot par défaut pour le contenu supplémentaire de la carte. |
+| `title` | Slot to add a title to the card. |
+| `body` | Slot to add a body to the card. |
+| `footer` | Slot to add a footer to the card. |
+| `default` | Default slot for additional card content. |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
@@ -40,13 +40,13 @@ Aucun.
     title-height="6rem"
   >
     <template #title>
-      <span>Du contenu dans le title</span>
+      <span>Some content in title</span>
     </template>
     <template #body>
-      <span>Du contenu dans le body</span>
+      <span>Some content in body</span>
     </template>
     <template #footer>
-      <span>Du contenu dans le footer</span>
+      <span>Some content in footer</span>
     </template>
   </AvCard>
 </template>

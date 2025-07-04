@@ -15,104 +15,97 @@ import {
 } from '@gouvminint/vue-dsfr'
 
 /**
- * Props du composant AvHeader.
+ * AvHeader component props.
  */
 export interface AvHeaderProps {
-  /**
-   * Valeur de l’attribut `id` de l’input de la barre de recherche.
-   * @default 'searchbar-header'
-   */
+/**
+ * Value of the `id` attribute of the search bar input.
+ * @default 'searchbar-header'
+ */
   searchbarId?: string
 
   /**
-   * Titre du service affiché dans l'en-tête.
+   * Title of the service displayed in the header.
    */
   serviceTitle?: string
 
   /**
-   * Description courte du service.
+   * Short description of the service.
    */
   serviceDescription?: string
 
   /**
-   * Lien de la page d'accueil.
+   * Homepage link.
    * @default '/'
    */
   homeTo?: string | RouteLocationRaw
 
   /**
-   * Texte ou texte alternatif du logo.
-   * @default () => 'Gouvernement'
-   */
-  logoText?: string | string[]
-
-  /**
-   * Valeur liée à la barre de recherche (modèle contrôlé).
+   * Value related to the search bar (controlled template).
    * @default ''
    */
   modelValue?: string
 
   /**
-   * Placeholder de la barre de recherche.
+   * Placeholder for the search bar.
    * @default 'Rechercher...'
    */
   placeholder?: string
 
   /**
-   * Liens rapides à afficher dans l'en-tête.
+   * Quick links to display in the header.
    * @default () => []
    */
   quickLinks?: DsfrHeaderMenuLinkProps[]
 
   /**
-   * Propriétés du sélecteur de langue.
+   * Language selector properties.
    */
   languageSelector?: DsfrLanguageSelectorProps
 
   /**
-   * Label pour la barre de recherche.
+   * Label for the search bar.
    * @default 'Recherche'
    */
   searchLabel?: string
 
   /**
-   * Label ARIA pour les liens rapides.
+   * ARIA label for quick links.
    * @default 'Menu secondaire'
    */
   quickLinksAriaLabel?: string
 
   /**
-   * Affiche ou non la barre de recherche.
-   * @default false
+   * Whether to display the search bar. * @default false
    */
   showSearch?: boolean
 
   /**
-   * Label du bouton pour afficher la barre de recherche.
+   * Label of the button to display the search bar.
    * @default 'Recherche'
    */
   showSearchLabel?: string
 
   /**
-   * Label du menu principal.
+   * Label of the main menu.
    * @default 'Menu'
    */
   menuLabel?: string
 
   /**
-   * Label du menu en mode modal.
+   * Label of the menu in modal mode.
    * @default 'Menu'
    */
   menuModalLabel?: string
 
   /**
-   * Label du bouton de fermeture du menu modal.
+   * Label of the button to close the modal menu.
    * @default 'Fermer'
    */
   closeMenuModalLabel?: string
 
   /**
-   * Label du lien vers la page d'accueil (présent dans le titre du service).
+   * Label of the link to the home page (present in the service title).
    * @default 'Accueil'
    */
   homeLabel?: string
@@ -124,7 +117,6 @@ const props = withDefaults(defineProps<AvHeaderProps>(), {
   serviceTitle: undefined,
   serviceDescription: undefined,
   homeTo: '/',
-  logoText: () => 'Gouvernement',
   modelValue: '',
   placeholder: 'Rechercher...',
   quickLinks: () => [],
@@ -251,13 +243,11 @@ provide(registerNavigationLinkKey, () => hideModal)
                   :title
                 >
                   <AvLogo
-                    :logo-text="logoText"
                     data-testid="header-logo"
                   />
                 </RouterLink>
                 <AvLogo
                   v-else
-                  :logo-text="logoText"
                   data-testid="header-logo"
                 />
               </div>

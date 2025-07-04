@@ -1,28 +1,31 @@
-# Toasts - `AvToaster`
+# Toasters - `AvToaster`
 
 ## 🌟 Introduction
 
-Le composant `AvToaster` est un composant qui permet d'afficher des alertes sous forme de notification en bas de page.
+The `AvToaster` component allows you to display alerts as notifications at the bottom of the page.
 
-Ce composant autonome doit être placé au plus haut niveau de l'application (par exemple dans `App.vue`) et fonctionne de façon indépendante avec les messages présents dans le store Pinia `toaster`.
+This standalone component must be placed at the top level of the application (e.g., in `App.vue`) and works independently of the messages given in props. Those messages should be passed thanks to a Pinia `toaster` store.
 
 ## 📐 Structure
 
-Le toaster est composé d'un ensemble d'`AvAlert` (1 par message dans le store Pinia `toaster`).
+The toaster is composed of a set of `AvAlert` (1 per message).
 
 ## 🛠️ Props
 
-Aucune.
+| Name | Type | Default | Mandatory | Description |
+| --- | --- | --- | --- | --- |
+| `messages` | `Message[]` | | ✅ | List of messages to display in the toaster. Each message must follow the structure defined by the Message interface. :<br>• `id?: string`: Unique identifier for the message<br>• `title?: string`: Message title<br>• `description: string`: Detailed description of the message<br>• `type: 'info' \| 'success' \| 'warning' \| 'error'`: Type of message to display<br>• `closeable?: boolean`: Indicates whether the message can be manually closed by the user<br>• `titleTag?: 'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'`: HTML tag used for the message title<br>• `timeout?: number`: Time to display the message in milliseconds before automatically closing (if not set, the message will remain displayed until manually closed or another action) |
+| `onRemoveMessage` | `(id: string) => void` | | ✅ | Function called to remove a message from the toaster. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>

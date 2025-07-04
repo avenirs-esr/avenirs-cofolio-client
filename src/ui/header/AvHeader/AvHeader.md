@@ -1,62 +1,61 @@
-# En-tête - `AvHeader`
+# Header - `AvHeader`
 
 ## 🌟 Introduction
 
-Le composant `AvHeader` est une adaptation du code de `DsfrHeader`.
+The `AvHeader` component is an adaptation of the `DsfrHeader` code.
 
-C'est un composant d'en-tête ultra-flexible. Il intègre une barre de recherche et des liens rapides. Il permet également l'ajout d'une navigation principale dans le slot `mainnav` et d'un sélecteur de langage par le bias de la prop `language-selector`.
+It is an ultra-flexible header component. It integrates a search bar and quick links. It also allows the addition of a main navigation in the `mainnav` slot and a language selector via the `language-selector` prop.
 
-🏅 La documentation sur le `DsfrHeader` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrHeader)
+🏅 The documentation for the `DsfrHeader` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrHeader)
 
 ## 📐 Structure
 
-L’en-tête est composé :
+The header consists of:
 
-- du bloc Marque Cofolio.
-- du nom de service.
-- d’une ‘baseline’ (description) sous le nom de site.
-- d’une partie fonctionnelle optionnelle - proposant des **accès rapides** et/ou une barre de recherche et/ou un sélecteur de langue - adaptée aux besoins particuliers de chaque site.
+- the Cofolio brand block.
+- the service name.
+- a baseline (description) below the site name.
+- an optional functional section - offering quick access and/or a search bar and/or a language selector - adapted to the specific needs of each site.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `searchbarId` | `string` | `'searchbar-header'` | | Valeur de l’attribut `id` de l’input de la searchbar. |
-| `serviceTitle` | `string` | `undefined` | | Titre du service affiché dans l'en-tête. |
-| `serviceDescription` | `string` | `undefined` | | Description courte du service. |
-| `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Lien de la page d'accueil. |
-| `logoText` | `string \| string[]` | `() => 'Gouvernement'` | | Texte ou texte alternatif du logo. |
-| `modelValue` | `string` | `''` | | Valeur pour la barre de recherche. |
-| `placeholder` | `string` | `'Rechercher...'` | | Placeholder pour la barre de recherche. |
-| `quickLinks` | `DsfrHeaderMenuLinkProps[]` | `() => []` | | Liens rapides à afficher dans l'en-tête. |
-| `languageSelector` | `DsfrLanguageSelectorProps` | `undefined` | | Liens rapides à afficher dans l'en-tête. |
-| `searchLabel` | `string` | `'Recherche'` | | Label pour la barre de recherche. |
-| `quickLinksAriaLabel` | `string` | `'Menu secondaire'` | | Label ARIA pour les liens rapides. |
-| `showSearch` | `boolean` | `false` | | Affiche ou non la barre de recherche. |
-| `showSearchLabel` | `string` | `'Recherche'` | | Label du bouton pour afficher la recherche. |
-| `menuLabel` | `string` | `'Menu'` | | Label du menu. |
-| `menuModalLabel` | `string` | `'Menu'` | | Label du menu en mode modal. |
-| `closeMenuModalLabel` | `string` | `'Fermer'` | | Label du bouton de fermeture du menu en mode modal. |
-| `homeLabel` | `string` | `'Accueil'` | | Label de l'accueil composant le titre du lien présentant le service. |
+| `searchbarId` | `string` | `'searchbar-header'` | | Value of the `id` attribute of the searchbar input. |
+| `serviceTitle` | `string` | `undefined` | | Title of the service displayed in the header. |
+| `serviceDescription` | `string` | `undefined` | | Short description of the service. |
+| `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Homepage link. |
+| `modelValue` | `string` | `''` | | Value for the search bar. |
+| `placeholder` | `string` | `'Rechercher...'` | | Placeholder for the search bar. |
+| `quickLinks` | `DsfrHeaderMenuLinkProps[]` | `() => []` | | Quick links to display in the header. |
+| `languageSelector` | `DsfrLanguageSelectorProps` | `undefined` | | Quick links to display in the header. |
+| `searchLabel` | `string` | `'Recherche'` | | Label for the search bar. |
+| `quickLinksAriaLabel` | `string` | `'Menu secondaire'` | | ARIA label for quick links. |
+| `showSearch` | `boolean` | `false` | | Shows or hides the search bar. |
+| `showSearchLabel` | `string` | `'Recherche'` | | Label for the button to display the search. |
+| `menuLabel` | `string` | `'Menu'` | | Menu label. |
+| `menuModalLabel` | `string` | `'Menu'` | | Menu label in modal mode. |
+| `closeMenuModalLabel` | `string` | `'Fermer'` | | Menu close button label in modal mode. |
+| `homeLabel` | `string` | `'Accueil'` | | Home label comprising the title of the link presenting the service. |
 
-## 📡 Évenements
+## 📡 Events
 
-| Nom | Donnée (*payload*) | Description |
+| Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'update:modelValue'` | Contenu (`string`) du champ de saisie pour la recherche | Émis lors de la mise à jour de la barre de recherche. |
-| `'search'` | Contenu (`string`) du champ de saisie pour la recherche | Émis lorsqu’une recherche est effectuée. |
-| `'languageSelect'` | Contenu (`DsfrLanguageSelectorElement`) de la langue sélectionnée | Émis lorsque l’utilisateur change la langue du site. |
+| `'update:modelValue'` | Content (`string`) of the search input field | Emitted when the search bar is updated. |
+| `'search'` | Content (`string`) of the search input field | Emitted when a search is performed. |
+| `'languageSelect'` | Content (`DsfrLanguageSelectorElement`) of the selected language | Emitted when the user changes the site language. |
 
 ## 🧩 Slots
 
-| Nom | Description |
+| Name | Description |
 | --- | --- |
-| `before-quick-links` | Slot pour ajouter du contenu avant les liens rapides. |
-| `after-quick-links` | Slot pour ajouter du contenu après les liens rapides. |
-| `mainnav` | Slot pour le menu de navigation principal. |
-| `default` | Slot par défaut pour le contenu supplémentaire dans l'en-tête. |
+| `before-quick-links` | Slot to add content before quick links. |
+| `after-quick-links` | Slot to add content after quick links. |
+| `mainnav` | Slot for the main navigation menu. |
+| `default` | Default slot for additional content in the header. |
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <script setup lang="ts">
@@ -67,7 +66,7 @@ const searchQuery = ref('')
 <template>
   <AvHeader
     v-model="searchQuery"
-    service-title="Cofolio Étudiant"
+    service-title="Student Cofolio"
     home-to="/student"
     show-search
     :language-selector="languageSelector"

@@ -5,18 +5,18 @@ import AvTagPicker, { type AvTagPickerOption } from '@/ui/interaction/picker/AvT
 import { useI18n } from 'vue-i18n'
 
 /**
- * Props du composant AvPageSizePicker.
+ * AvPageSizePicker component props.
  */
 export interface AvPageSizePickerProps {
   /**
-   * Nombre de résultats par page sélectionné.
+   * Number of results per page selected.
    */
   pageSizeSelected: PageSizes
 
   /**
-   * Méthode exécutée lors du changement de sélection.
+   * Method executed when changing selection.
    *
-   * @param val Option sélectionnée de type AvTagPickerOption.
+   * @param val Selected option of type AvTagPickerOption.
    */
   handleSelectChange: (val: AvTagPickerOption) => void
 }

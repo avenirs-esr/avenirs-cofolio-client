@@ -8,64 +8,64 @@ import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/ui/tokens/icons'
 
 /**
- * Props du composant AvAlert.
+ * AvAlert component props.
  */
 interface AvAlertProps {
   /**
-   * Si `true`, l'alerte s'affiche avec le rôle `alert`.
+   * If true, the alert is displayed with the `alert` role.
    * @default false
    */
   alert?: boolean
 
   /**
-   * Indique si l’alerte est fermée (`true`) ou visible (`false`).
+   * Indicates whether the alert is closed (`true`) or visible (`false`).
    * @default false
    */
   closed?: boolean
 
   /**
-   * Indique si l’alerte peut être fermée via un bouton.
+   * Indicates whether the alert can be closed using a button.
    * @default false
    */
   closeable?: boolean
 
   /**
-   * L'identifiant unique de l'alerte.
+   * The alert unique identifier.
    * @default crypto.randomUUID()
    */
   id?: string
 
   /**
-   * Le titre de l'alerte.
+   * The alert title.
    * @default ''
    */
   title?: string
 
   /**
-   * Le texte de description de l'alerte.
+   * The alert description text.
    */
   description?: string
 
   /**
-   * Indique si l’alerte doit être affichée en petite taille.
+   * Indicates whether the alert should be displayed in a small format.
    * @default false
    */
   small?: boolean
 
   /**
-   * La balise HTML utilisée pour le titre de l'alerte.
+   * The HTML tag used for the alert title.
    * @default 'h3'
    */
   titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
   /**
-   * Le type de l'alerte. Influence la couleur et l'icône.
+   * The alert type. Affects the color and icon.
    * @default 'info'
    */
   type?: 'info' | 'success' | 'warning' | 'error'
 
   /**
-   * Le libellé et l'aria-label du bouton de fermeture de l’alerte.
+   * The label and aria-label of the alert close button.
    * @default 'Fermer'
    */
   closeButtonLabel?: string
@@ -83,25 +83,24 @@ const {
 } = defineProps<AvAlertProps>()
 
 /**
- * Événements émis par AvAlert.
- * @event close - Événement déclenché à la fermeture de l'alerte.
+ * Events emitted by AvAlert.
+ * @event close - Event triggered when the alert closes.
  */
 const emit = defineEmits<{
   /**
-   * Événement déclenché à la fermeture de l'alerte.
+   * Event triggered when the alert closes.
    */
   (e: 'close'): void
 }>()
 
 /**
- * Slots disponibles dans le composant AvAlert.
+ * Slots available in the AvAlert component.
  *
- * @slot default - Slot par défaut pour du contenu global.
+ * @slot default - Default slot for global content.
  */
 defineSlots<{
-
   /**
-   * Slot par défaut pour du contenu global.
+   * Default slot for global content.
    */
   default?: Slot
 }>()

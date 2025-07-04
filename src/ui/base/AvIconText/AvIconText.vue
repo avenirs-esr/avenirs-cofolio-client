@@ -2,45 +2,45 @@
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 
 /**
- * Props du composant AvIconText.
+ * AvIconText component props.
  */
 interface AvIconTextProps {
   /**
-   * La couleur du texte.
+   * The text color.
    * @default 'var(--text1)'
    */
   textColor?: string
 
   /**
-   * La couleur de l'icône.
+   * The icon color.
    * @default 'var(--text1)'
    */
   iconColor?: string
 
   /**
-   * Le nom de l'icône suivant la nomenclature définie pour `VIcon` sur VueDSFR.
+   * The icon name according to the naming convention defined for `VIcon` on VueDSFR.
    */
   icon: string
 
   /**
-   * Le texte à afficher.
+   * The text to display.
    */
   text: string
 
   /**
-   * La classe de typographie à utiliser pour le texte.
+   * The typography class to use for the text.
    * @default 'b2-regular'
    */
   typographyClass?: string
 
   /**
-   * L'espace entre l'icône et le texte.
+   * The space between the icon and the text.
    * @default '0.25rem'
    */
   gap?: string
 
   /**
-   * Si `false`, le texte trop long sera tronqué.
+   * If `false`, text that is too long will be truncated.
    * @default false
    */
   inline?: boolean

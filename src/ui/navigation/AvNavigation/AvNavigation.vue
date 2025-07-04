@@ -6,15 +6,15 @@ import type {
 } from '@gouvminint/vue-dsfr'
 
 /**
- * Props du composant AvNavigation.
+ * AvNavigation component props.
  */
 export interface AvNavigationProps {
   /**
-   * Liste des items de navigation.
-   * Chaque item peut être :
-   * - Un lien direct de navigation (`DsfrNavigationMenuLinkProps`) avec les props `to` et `text`.
-   * - Un sous-menu de navigation (`DsfrNavigationMenuProps`) avec les props `title`, `links` et `active`.
-   * - Un mega-menu de navigation (`DsfrNavigationMegaMenuProps`) avec les props `title`, `link`, `active` et `menus`.
+   * List of navigation items.
+   * Each item can be:
+   * - A direct navigation link (`DsfrNavigationMenuLinkProps`) with `to` and `text` props.
+   * - A navigation submenu (`DsfrNavigationMenuProps`) with `title`, `links` and `active` props.
+   * - A mega-navigation menu (`DsfrNavigationMegaMenuProps`) with `title`, `link`, `active` and `menus` props.
    */
   navItems: (DsfrNavigationMenuLinkProps | DsfrNavigationMenuProps | DsfrNavigationMegaMenuProps)[]
 }

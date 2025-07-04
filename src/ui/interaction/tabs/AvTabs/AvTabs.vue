@@ -2,18 +2,18 @@
 import { type Slot, useSlots } from 'vue'
 
 /**
- * Props du composant AvTabs.
+ * AvTabs component Props.
  */
 interface AvTabsProps {
   /**
-   * Aria label de la liste des onglets.
-   * Améliore l'accessibilité en fournissant une description pour les lecteurs d'écran.
+   * Aria label for tab list.
+   * Improves accessibility by providing a description for screen readers.
    */
   ariaLabel?: string
 
   /**
-   * Index de l'onglet sélectionné au chargement.
-   * L'index commence à 0.
+   * Index of selected tab on loading.
+   * Index starts at 0.
    */
   modelValue: number
 }
@@ -21,23 +21,23 @@ interface AvTabsProps {
 const { ariaLabel, modelValue } = defineProps<AvTabsProps>()
 
 /**
- * Événements émis par le composant.
+ * Events emitted by the component.
  */
 const emit = defineEmits<{
   /**
-   * Émis lorsqu'un onglet est sélectionné.
-   * @param value Index (`number`) de l'onglet sélectionné.
+   * Emitted when a tab is selected.
+   * @param value Index (`number`) of the selected tab.
    */
   (e: 'update:modelValue', value: number): void
 }>()
 
 /**
- * Slots disponibles dans le composant AvTabs.
- * Utilisé pour injecter les onglets via des composants `AvTab`.
+ * Slots available in AvTabs component.
+ * Used to inject tabs via `AvTab` components.
  */
 defineSlots<{
   /**
-   *  Slot par défaut pour passer les composants `AvTab`.
+   * Default slot for passing `AvTab` components.
    */
   default?: Slot
 }>()

@@ -2,38 +2,38 @@
 
 ## 🌟 Introduction
 
-Le composant `AvPagination` est une adaptation du code de `DsfrPagination`. C'est un système de pagination conforme aux bonnes pratiques ergonomiques et accessible (ARIA). Il permet de naviguer facilement à travers plusieurs pages avec des fonctionnalités avancées comme la limitation de pages affichées et la gestion des événements.
+The `AvPagination` component is an adaptation of the `DsfrPagination` code. It is a pagination system compliant with good ergonomic and accessibility practices (ARIA). It allows easy navigation through multiple pages, with advanced features such as page display limitation and event management.
 
-🏅 La documentation sur le `DsfrPagination` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrPagination)
+🏅 Documentation on `DsfrPagination` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrPagination)
 
 ## 📐 Structure
 
-Ce composant affiche des liens pour la première page, la précédente, les pages centrales, la suivante, et la dernière, avec des contrôles adaptatifs selon l'état de la pagination.
+This component displays links for the first, previous, middle, next and last pages, with adaptive controls according to pagination status.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `compact` | `boolean` | `false` | | Permet un affichage compact (`Page x sur y` et une navigation avec uniquement page précédente et page suivante sans texte avec juste l'icône). |
-| `pages` | `Page[]` | | ✅ | Liste des pages, où chaque page est un objet contenant des informations comme `href` et `label`. |
-| `truncLimit` | `number` | `2` | | Nombre maximum de pages affichées. |
-| `currentPage` | `number` | `0` | | Index de la page actuellement sélectionnée (commence à `0`). |
-| `firstPageTitle` | `string` | `undefined` | | Texte d'info-bulle pour le lien de la première. |
-| `lastPageTitle` | `string` | `undefined` | | Texte d'info-bulle pour le lien de la dernière. |
-| `nextPageTitle` | `string` | `undefined` | | Texte d'info-bulle pour le lien de la page. |
-| `prevPageTitle` | `string` | `undefined` | | Texte d'info-bulle pour le lien de la page précédente. |
+| `compact` | `boolean` | `false` | | Allows compact display (`Page x of y` and navigation with only previous page and next page without text with just the icon). |
+| `pages` | `Page[]` | | ✅ | List of pages, where each page is an object containing information such as `href` and `label`. |
+| `truncLimit` | `number` | `2` | | Maximum number of pages displayed. |
+| `currentPage` | `number` | `0` | | Index of currently selected page (starts at `0`). |
+| `firstPageTitle` | `string` | `undefined` | | Tooltip text for link to first page. |
+| `lastPageTitle` | `string` | `undefined` | | Tooltip text for link to last page. |
+| `nextPageTitle` | `string` | `undefined` | | Tooltip text for page link. |
+| `prevPageTitle` | `string` | `undefined` | | Tooltip text for previous page link. |
 
-## 📡 Évenements
+## 📡 Events
 
-| Nom | Donnée (*payload*) | Description |
+| Name | Data (*payload*) | Description |
 | --- | --- | --- |
-| `'update:current-page'` | `number` | Émis lorsque l'utilisateur change de page |
+| `'update:current-page'` | `number` | Sent when user changes page. |
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
@@ -41,7 +41,7 @@ Aucun.
     id="top-pagination"
     :current-page="pageInfo.number"
     :pages="pages"
-    aria-label="Pagination haute"
+    aria-label="Top pagination"
     compact
     @update:current-page="onUpdateCurrentPage"
   />
@@ -55,7 +55,7 @@ Aucun.
     :items="amss"
     :current-page="pageInfo.number"
     :pages="pages"
-    aria-label="Pagination basse"
+    aria-label="Bottom pagination"
     @update:current-page="onUpdateCurrentPage"
   />
 </template>

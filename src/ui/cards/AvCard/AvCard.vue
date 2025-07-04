@@ -2,29 +2,29 @@
 import type { Slot } from 'vue'
 
 /**
- * Props du composant AvCard.
+ * AvCard component props.
  */
 interface AvCardProps {
   /**
-   * La couleur de fond de la carte.
+   * The background color of the card.
    * @default 'var(--card)'
    */
   backgroundColor?: string
 
   /**
-   * La couleur de bordure de la carte.
+   * The border color of the card.
    * @default 'var(--stroke)'
    */
   borderColor?: string
 
   /**
-   * La couleur de fond du titre de la carte.
+   * The background color of the card title.
    * @default 'var(--surface-background)'
    */
   titleBackground?: string
 
   /**
-   * La hauteur du titre de la carte.
+   * The height of the card title.
    */
   titleHeight?: string
 }
@@ -37,31 +37,31 @@ const {
 } = defineProps<AvCardProps>()
 
 /**
- * Slots disponibles dans le composant AvCard.
+ * Slots available in the AvCard component.
  *
- * @slot title - Slot pour le titre de la carte.
- * @slot body - Slot pour le corps de la carte.
- * @slot footer - Slot pour le bas de la carte.
- * @slot default - Slot par défaut pour du contenu global.
+ * @slot title - Slot for the card title.
+ * @slot body - Slot for the card body.
+ * @slot footer - Slot for card footer.
+ * @slot default - Default slot for global content.
  */
 const slots = defineSlots<{
   /**
-   * Slot pour le titre de la carte.
+   * Slot for the card title.
    */
   title?: Slot
 
   /**
-   * Slot pour le corps de la carte.
+   * Slot for the card body.
    */
   body?: Slot
 
   /**
-   * Slot pour le bas de la carte.
+   * Slot for the card footer.
    */
   footer?: Slot
 
   /**
-   * Slot par défaut pour du contenu global.
+   * Default slot for global content.
    */
   default?: Slot
 }>()

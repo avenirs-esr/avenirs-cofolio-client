@@ -1,6 +1,9 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvButton, { type AvButtonProps } from './AvButton.vue'
 
+/**
+ * TODO Description
+ */
 const meta: Meta<AvButtonProps> = {
   title: 'Components/Interaction/Buttons/AvButton',
   component: AvButton,

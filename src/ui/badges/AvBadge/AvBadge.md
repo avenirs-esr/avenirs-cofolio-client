@@ -2,44 +2,44 @@
 
 ## 🌟 Introduction
 
-Le `AvBadge` est un composant implémentant le `DsfrBadge` de VueDSFR. Ce composant Vue est idéal pour afficher des informations courtes et importantes, comme des catégories, des étiquettes ou des statuts.
+The `AvBadge` is a component that implements the VueDSFR `DsfrBadge`. This Vue component is ideal for displaying short, important information, such as categories, labels, or statuses.
 
-🏅 La documentation sur le `DsfrBadge` se trouve sur [VueDSFR](https://vue-ds.fr/composants/DsfrBadge)
+🏅 The documentation for the `DsfrBadge` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrBadge)
 
 ## 📐 Structure
 
-- Le composant est un élément `p` avec la classe `fr-badge`.
-- Props permettent de modifier l'apparence du badge selon les props : couleur, présence d'icône, taille et gestion du texte trop long.
-- Le `label` est affiché à l'intérieur d'un `span`, potentiellement avec la prop `ellipsis` et une taille définie ou maximale pour gérer le texte tronqué.
+- The component is a `p` element with the `fr-badge` class.
+- Props allow you to modify the badge appearance according to the props: color, icon presence, size, and handling of overly long text.
+- The `label` is displayed inside a `span`, potentially with the `ellipsis` prop and a defined or maximum size to handle truncated text.
 
 ## 🛠️ Props
 
-| Nom | Type | Défaut | Obligatoire | Description |
+| Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `color` | `string` |  | ✅ | La couleur du texte à afficher dans le badge. |
-| `backgroundColor` | `string` |  | ✅ | La couleur de fond du badge. |
-| `borderColor` | `string` |  | | La couleur de la bordure du badge. |
-| `iconPath` | `string` |  | | Le lien vers l'icône publique au projet (`/assets/icons/calendar-clock-outline.svg` par exemple). |
-| `type` | `'success' \| 'warning' \| 'error' \| 'info'` | 'info' |  | Définit le type de badge. |
-| `label` | `string` |  | ✅ | Le texte à afficher dans le badge. |
-| `noIcon` | `boolean` | `false` | | Si `true`, le badge s'affiche sans icône. |
-| `small` | `boolean` | `false` | | Si `true`, affiche un badge de taille réduite. |
-| `ellipsis` | `boolean` | `false` | | Si `true`, le texte est tronqué avec des points de suspension s'il est trop long. |
+| `color` | `string` | | ✅ | The color of the text to display in the badge. |
+| `backgroundColor` | `string` | | ✅ | The background color of the badge. |
+| `borderColor` | `string` | | | The color of the badge border. |
+| `iconPath` | `string` | | | The link to the public icon in the project (e.g., `/assets/icons/calendar-clock-outline.svg`). |
+| `type` | `success' \| 'warning' \| 'error' \| 'info'` | 'info' | | Sets the badge type. |
+| `label` | `string` | | ✅ | The text to display in the badge. |
+| `noIcon` | `boolean` | `false` | | If `true`, the badge is displayed without an icon. |
+| `small` | `boolean` | `false` | | If `true`, displays a reduced-size badge. |
+| `ellipsis` | `boolean` | `false` | | If `true`, the text is truncated with an ellipsis if it is too long. |
 
-## 📡 Évenements
+## 📡 Events
 
-Aucun.
+None.
 
 ## 🧩 Slots
 
-Aucun.
+None.
 
-## 📝 Exemples d'utilisation
+## 📝 Examples of use
 
 ```vue
 <template>
   <AvBadge
-    label="En cours"
+    label="In progress"
     color="var(--dark-background-primary1)"
     background-color="var(--light-background-primary2)"
     icon-path="/assets/icons/calendar-range-outline.svg"

@@ -8,56 +8,56 @@ import { MDI_ICONS } from '@/ui/tokens/icons'
 import { useI18n } from 'vue-i18n'
 
 /**
- * Props du composant AvPagination.
+ * AvPagination component Props.
  */
 export interface AvPaginationProps {
   /**
-   * Permet un affichage compact :
-   * "Page x sur y" avec uniquement les icônes de navigation (sans texte).
+   * Allows compact display:
+   * "Page x of y" with only navigation icons (no text).
    * @default false
    */
   compact?: boolean
 
   /**
-   * Liste des pages.
-   * Chaque page est un objet contenant des informations comme `href` et `label`.
+   * List of pages.
+   * Each page is an object containing information such as `href` and `label`.
    */
   pages: Page[]
 
   /**
-   * Index de la page actuellement sélectionnée (commence à 0).
+   * Index of currently selected page (starts at 0).
    * @default 0
    */
   currentPage?: number
 
   /**
-   * Texte d'info-bulle pour le lien de la première page.
+   * Tooltip text for first page link.
    */
   firstPageTitle?: string
 
   /**
-   * Texte d'info-bulle pour le lien de la dernière page.
+   * Tooltip text for last page link.
    */
   lastPageTitle?: string
 
   /**
-   * Texte d'info-bulle pour le lien de la page suivante.
+   * Tooltip text for next page link.
    */
   nextPageTitle?: string
 
   /**
-   * Texte d'info-bulle pour le lien de la page précédente.
+   * Tooltip text for previous page link.
    */
   prevPageTitle?: string
 
   /**
-   * Nombre maximum de pages affichées dans la pagination.
+   * Maximum number of pages displayed in pagination.
    * @default 2
    */
   truncLimit?: number
 
   /**
-   * Label ARIA de la pagination pour l’accessibilité.
+   * ARIA label of pagination for accessibility.
    */
   ariaLabel?: string
 }
