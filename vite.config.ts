@@ -22,6 +22,7 @@ export default ({ mode }: { mode: string }) => {
     define: {
       __API_URL__: JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
       __ENABLE_MSW__: JSON.stringify(env.VITE_ENABLE_MSW === 'true'),
+      __BEARER_TOKEN__: JSON.stringify(`Bearer ${env.VITE_AVENIR_ESR_ACCESS_TOKEN}` ?? 'Bearer token')
     },
     plugins: [
       vue(),
