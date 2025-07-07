@@ -1,13 +1,15 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import type {
-  DeliverableOverviewDTO,
-  EventOverviewDTO,
-  PageOverviewDTO,
-  ResumeOverviewDTO,
-  StudentHeaderSummaryDTO
-} from '@/types'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import {
+  type DeliverableOverviewDTO,
+  type EventOverviewDTO,
+  type PageOverviewDTO,
+  type ResumeOverviewDTO,
+  type StudentHeaderSummaryDTO,
+  type TraceOverviewDTO,
+  TraceType
+} from '@/types'
 
 export const mockedProfileOverview: ProfileOverviewDTO = {
   firstname: 'Jeanne',
@@ -90,9 +92,46 @@ export const mockedPagesOverview: PageOverviewDTO[] = [
   { id: 'page4', name: 'analyse-projet-de-vie', updatedAt: '2024-09-08' },
 ]
 
-export const mockedResumesOverview: ResumeOverviewDTO [] = [
+export const mockedResumesOverview: ResumeOverviewDTO[] = [
   { id: 'resume1', name: 'cv-version1-05-2024', updatedAt: '2025-05-19T00:00:00.000Z' },
   { id: 'resume2', name: 'cv-version1-04-2024', updatedAt: '2025-04-25T00:00:00.000Z' },
   { id: 'resume3', name: 'cv-version1-03-2024-with-a-very-long-name', updatedAt: '2025-03-03T00:00:00.000Z' },
   { id: 'resume4', name: 'cv-version1-02-2024', updatedAt: '2025-02-08T00:00:00.000Z' },
+]
+
+export const mockedTracesOverview: TraceOverviewDTO[] = [
+  {
+    id: 'trace1',
+    name: 'Prévenir la pollution à la source',
+    skillCount: 1,
+    activityCount: 8,
+    type: TraceType.GROUP,
+    filedAt: '2024-05-13T08:42:17',
+    course: 'Master Chimie Verte et Éco-innovations'
+  },
+  {
+    id: 'trace2',
+    name: 'Mettre en place des filières d’économies circulaires',
+    skillCount: 2,
+    activityCount: 7,
+    type: TraceType.INDIVIDUAL,
+    filedAt: '2024-11-29T19:15:03'
+  },
+  {
+    id: 'trace3',
+    name: 'Évaluer l’impact environnemental et économique',
+    skillCount: 3,
+    activityCount: 6,
+    type: TraceType.INDIVIDUAL,
+    filedAt: '2025-02-07T23:08:51',
+    course: 'Master Chimie Verte et Éco-innovations'
+  },
+  {
+    id: 'trace4',
+    name: 'Concevoir des synthèses chimiques durables',
+    skillCount: 4,
+    activityCount: 5,
+    type: TraceType.GROUP,
+    filedAt: '2024-08-21T04:26:39'
+  },
 ]
