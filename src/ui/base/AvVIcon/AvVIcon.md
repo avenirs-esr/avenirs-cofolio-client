@@ -23,9 +23,9 @@ The icon is composed of a square `div` of configurable size containing the `VIco
 | `size` | `number` | `1` | | The size in rem of the icon container and a ratio for the icon scale. |
 | `name` | `string` | | ✅ | The name of the icon to display. |
 | `verticalAlign` | `string` | `'-0.2em'` | | Vertical alignment of the icon relative to the baseline. |
-| `animation` | `spin' \| 'wrench' \| 'pulse' \| 'spin-pulse' \| 'flash' \| 'float'`` | `undefined` | | Animation type applied to the icon. |
-| `speed` | `fast' \| 'slow'` | `undefined` | | Animation speed, if defined. |
-| `flip` | `horizontal' \| 'vertical' \| 'both'` | `undefined` | | Flips the icon horizontally, vertically, or both. |
+| `animation` | `'spin' \| 'wrench' \| 'pulse' \| 'spin-pulse' \| 'flash' \| 'float'` | `undefined` | | Animation type applied to the icon. |
+| `speed` | `'fast' \| 'slow'` | `undefined` | | Animation speed, if defined. |
+| `flip` | `'horizontal' \| 'vertical' \| 'both'` | `undefined` | | Flips the icon horizontally, vertically, or both. |
 | `label` | `string` | `undefined` | | ARIA label for accessibility. |
 | `title` | `number` | `undefined` | | Icon title (`<title>` tag), used for accessibility and tooltips. |
 | `color` | `string` | `undefined` | | Main color of the icon. |

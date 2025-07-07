@@ -2,12 +2,16 @@
 import type { ComputedRef } from 'vue'
 import { PageSizes } from '@/ui/config'
 import AvTagPicker, { type AvTagPickerOption } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
-import { useI18n } from 'vue-i18n'
 
 /**
  * AvPageSizePicker component props.
  */
 export interface AvPageSizePickerProps {
+  /**
+   * Label of the page size picker.
+   */
+  label: string
+
   /**
    * Number of results per page selected.
    */
@@ -21,8 +25,7 @@ export interface AvPageSizePickerProps {
   handleSelectChange: (val: AvTagPickerOption) => void
 }
 
-const { pageSizeSelected, handleSelectChange } = defineProps<AvPageSizePickerProps>()
-const { t } = useI18n()
+const { label, pageSizeSelected, handleSelectChange } = defineProps<AvPageSizePickerProps>()
 
 const options: ComputedRef<AvTagPickerOption[]> = computed(() => Object.values(PageSizes)
   .filter(value => typeof value === 'number')
@@ -44,7 +47,7 @@ const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
       :selected="selectedOption"
       :handle-select-change="handleSelectChange"
       :multiple="false"
-      :label="t('global.pageSizePicker.label')"
+      :label="label"
       label-typography-class="b2-regular"
       label-color="var(--text2)"
     />

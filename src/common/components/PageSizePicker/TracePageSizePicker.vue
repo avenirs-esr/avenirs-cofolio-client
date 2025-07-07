@@ -2,7 +2,9 @@
 import { useTracesStore } from '@/store'
 import { AvPageSizePicker, type AvTagPickerOption } from '@/ui'
 import { type PageSizes, pageSizeValues } from '@/ui/config'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const tracesStore = useTracesStore()
 
 function handleSelectChange (val: AvTagPickerOption): void {
@@ -15,6 +17,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
 
 <template>
   <AvPageSizePicker
+    :label="t('global.pageSizePicker.label')"
     :page-size-selected="tracesStore.pageSizeSelected"
     :handle-select-change="handleSelectChange"
   />

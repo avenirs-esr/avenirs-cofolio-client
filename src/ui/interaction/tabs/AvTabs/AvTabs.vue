@@ -4,7 +4,7 @@ import { type Slot, useSlots } from 'vue'
 /**
  * AvTabs component Props.
  */
-interface AvTabsProps {
+export interface AvTabsProps {
   /**
    * Aria label for tab list.
    * Improves accessibility by providing a description for screen readers.
@@ -150,6 +150,7 @@ defineExpose({ activeTab })
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+  color: var(--text2);
 }
 
 :deep(.fr-tabs__tab[aria-selected=true]:not(:disabled)) {
