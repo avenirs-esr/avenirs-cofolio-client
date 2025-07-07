@@ -73,15 +73,12 @@ describe('avenir-esr customFetch', () => {
         const interceptorFunction = interceptorCall[0]
         const testOptions: RequestInit = {
           method: 'POST',
-          headers: {
-            Authorization: 'Bearer token123'
-          }
         }
         const result = interceptorFunction('https://api.example.com/test', testOptions)
         expect(result).toEqual({
           method: 'POST',
           headers: {
-            'Authorization': 'Bearer token123',
+            'Authorization': __BEARER_TOKEN__,
             'x-signed-context': 'student'
           }
         })
@@ -151,7 +148,7 @@ describe('avenir-esr customFetch', () => {
     const requestOptions: RequestInit = {
       method: 'PUT',
       headers: {
-        'Authorization': 'Bearer token',
+        'Authorization': __BEARER_TOKEN__,
         'X-Custom-Header': 'custom-value'
       },
       body: JSON.stringify({ data: 'test' }),
