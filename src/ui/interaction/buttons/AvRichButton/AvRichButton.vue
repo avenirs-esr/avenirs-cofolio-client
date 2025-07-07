@@ -5,9 +5,9 @@ import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 /**
  * AvRichButton component props.
  */
-interface AvRichButtonProps {
+export interface AvRichButtonProps {
   /**
-   * Button text label.
+   * Button aria label and title for accessibility.
    */
   label: string
 
@@ -110,7 +110,11 @@ defineSlots<{
 }
 
 .av-rich-button__left {
+  display: flex;
+  flex-direction: row;
   flex: 1;
+  gap: 1rem;
+  align-items: center;
   overflow: hidden;
 }
 </style>

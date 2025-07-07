@@ -67,7 +67,7 @@ export interface AvButtonProps {
   size?: 'sm' | 'small' | 'lg' | 'large' | 'md' | 'medium' | '' | undefined
 
   /**
-   * Icon to be displayed in the button. Can be a name or an icon configuration.
+   * Icon to be displayed in the button. Can be a name or an icon configuration (eg: `{"name": "mdi:stars"}`).
    */
   icon?: string | InstanceType<typeof VIcon>['$props']
 
@@ -169,5 +169,12 @@ defineExpose({ computedSvgScale })
 
 .fr-btn.av-button--no-radius {
   border-radius: 0 !important;
+}
+
+.fr-btn[disabled], .fr-btn[disabled]:hover {
+  background-color: transparent !important;
+  color: var(--divider) !important;
+  border-color: var(--divider) !important;
+  cursor: default !important;
 }
 </style>

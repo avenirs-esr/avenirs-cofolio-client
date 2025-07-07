@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/vue3-vite'
+import { type Preview, setup } from '@storybook/vue3-vite'
 
 import '@gouvfr/dsfr/dist/core/core.main.min.css'
 import '@gouvfr/dsfr/dist/component/component.main.min.css'
@@ -32,7 +32,6 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    docs: { page: undefined },
     options: {
       storySort: {
         method: 'alphabetical',
@@ -63,5 +62,19 @@ const preview: Preview = {
   decorators: [toggleDarkTheme],
   tags: ['autodocs'],
 }
+
+const RouterLink = defineComponent({
+  name: 'RouterLink',
+  props: {
+    to: String,
+  },
+  template: `
+    <a :href="to" v-bind="$attrs"><slot /></a>
+  `,
+})
+
+setup((app) => {
+  app.component('RouterLink', RouterLink)
+})
 
 export default preview

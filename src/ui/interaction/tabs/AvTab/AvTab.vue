@@ -4,7 +4,7 @@ import type { Slot } from 'vue'
 /**
  * AvTab component props.
  */
-interface AvTabProps {
+export interface AvTabProps {
   /**
    * Title of the tab displayed in the tab bar.
    */

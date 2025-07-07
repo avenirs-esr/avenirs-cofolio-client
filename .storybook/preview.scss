@@ -83,3 +83,7 @@ input[type="checkbox"] {
 input[type="checkbox"] + span, input[type="checkbox"] + span + span {
   display: none !important;
 }
+
+.token.plain-text {
+  color: white !important;
+}

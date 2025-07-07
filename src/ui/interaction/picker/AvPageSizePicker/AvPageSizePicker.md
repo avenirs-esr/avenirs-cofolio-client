@@ -12,6 +12,7 @@ The pickers for number of results per page consist of an `AvTagPicker` to which 
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
+| `label` | `string` | | ✅ | Label of the page size picker. |
 | `pageSizeSelected` | `PageSizes` | | ✅ | Indicates the number of results per page selected. |
 | `handleSelectChange` | `(val: AvTagPickerOption) => void` | | ✅ | Method executed when selection is updated. |
 
@@ -39,6 +40,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
 
 <template>
   <AvPageSizePicker
+    label="Number of results per pages:"
     :page-size-selected="amsStore.pageSizeSelected"
     :handle-select-change="handleSelectChange"
   />

@@ -12,7 +12,7 @@ describe('avPageSizePicker', () => {
       handleSelectChange = vi.fn()
 
       wrapper = mount(AvPageSizePicker, {
-        props: { pageSizeSelected: PageSizes.TWELVE, handleSelectChange },
+        props: { label: 'Nombre de résultats par page:', pageSizeSelected: PageSizes.TWELVE, handleSelectChange },
         global: {
           stubs: {
             AvTagPicker: {

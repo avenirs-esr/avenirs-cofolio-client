@@ -6,7 +6,7 @@ import { type ComponentPublicInstance, nextTick, onBeforeUnmount } from 'vue'
 /**
  * AvPopover component props.
  */
-interface AvPopoverProps {
+export interface AvPopoverProps {
   /**
    * Popover width.
    * @default '12.5rem'

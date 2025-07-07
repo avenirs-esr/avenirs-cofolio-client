@@ -20,7 +20,7 @@ The `AvBadge` is a component that implements the VueDSFR `DsfrBadge`. This Vue c
 | `backgroundColor` | `string` | | ✅ | The background color of the badge. |
 | `borderColor` | `string` | | | The color of the badge border. |
 | `iconPath` | `string` | | | The link to the public icon in the project (e.g., `/assets/icons/calendar-clock-outline.svg`). |
-| `type` | `success' \| 'warning' \| 'error' \| 'info'` | 'info' | | Sets the badge type. |
+| `type` | `'success' \| 'warning' \| 'error' \| 'info'` | 'info' | | Sets the badge type. |
 | `label` | `string` | | ✅ | The text to display in the badge. |
 | `noIcon` | `boolean` | `false` | | If `true`, the badge is displayed without an icon. |
 | `small` | `boolean` | `false` | | If `true`, displays a reduced-size badge. |
