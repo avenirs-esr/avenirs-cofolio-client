@@ -11,11 +11,12 @@ useBaseApiExceptionToast(error)
 const { navigateToStudentResumes } = useNavigation()
 const { locale, t } = useI18n()
 
-const renderedResumes = computed(() => resumes.value.slice(0, 3))
+const renderedResumes = computed(() => (resumes.value ?? []).slice(0, 3))
 </script>
 
 <template>
   <AvCard
+    v-if="renderedResumes.length > 0"
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
   >

@@ -77,12 +77,13 @@ export default ({ mode }: { mode: string }) => {
         load (id) {
           if (id === '\0ignore-mock') {
             return `
-              export const mockedDeliverablesOverview = undefined;
-              export const mockedStudentLevels = undefined;
-              export const mockedEventsOverview = undefined;
-              export const mockedHeaderOverview = undefined;
-              export const mockedPagesOverview = undefined;
-              export const mockedResumesOverview = undefined;
+              export const mockedDeliverablesOverview = null;
+              export const mockedStudentLevels = null;
+              export const mockedEventsOverview = null;
+              export const mockedHeaderOverview = null;
+              export const mockedPagesOverview = null;
+              export const mockedResumesOverview = null;
+              export const mockedTracesOverview = null;
               export default {};
             `
           }

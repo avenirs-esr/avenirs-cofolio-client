@@ -13,7 +13,7 @@ const { navigateToStudentDeliverables } = useNavigation()
 const { t, locale } = useI18n()
 
 const renderedDeliverables = computed(() => {
-  return deliverables.value
+  return (deliverables.value ?? [])
     .slice()
     .filter(deliverable => isAfter(parseDateISO(deliverable.deliverableUntil), new Date()))
     .sort((a, b) => compareAsc(parseDateISO(a.deliverableUntil), parseDateISO(b.deliverableUntil)))
@@ -23,6 +23,7 @@ const renderedDeliverables = computed(() => {
 
 <template>
   <AvCard
+    v-if="renderedDeliverables.length > 0"
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
   >
