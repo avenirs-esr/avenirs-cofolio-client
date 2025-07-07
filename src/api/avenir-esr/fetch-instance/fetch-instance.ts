@@ -6,7 +6,8 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
   // TODO: add any request-specific logic here (headers, params ...)
   options.headers = {
     ...options.headers,
-    'x-signed-context': 'student'
+    'x-signed-context': 'student',
+    'Authorization': __BEARER_TOKEN__
   }
   return options
 })
