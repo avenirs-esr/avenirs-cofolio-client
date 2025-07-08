@@ -13,7 +13,7 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
 })
 
 const fetcher = createCustomFetch({
-  baseUrl: `${__API_URL__}`,
+  baseUrl: `${__BASE_URL__}`,
   defaultHeaders: { 'Content-Type': 'application/json' },
 }, interceptorManager)
 
