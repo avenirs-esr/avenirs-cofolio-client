@@ -41,8 +41,8 @@ const routesToCheck = [
 const parentRoute = routes[0]
 
 const pathsToTest = [
-  parentRoute.path,
-  ...routesToCheck.map(route => join(parentRoute.path, route.path))
+  `.${parentRoute.path}`,
+  ...routesToCheck.map(route => join(`.${parentRoute.path}`, route.path))
 ]
 
 pathsToTest.forEach((path) => {

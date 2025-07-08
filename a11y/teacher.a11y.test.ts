@@ -14,7 +14,7 @@ const __dirname = dirname(__filename)
 const parentRoute = routes[0]
 
 const pathsToTest = [
-  parentRoute.path,
+  `.${parentRoute.path}`,
 ]
 
 test.describe('teacher routes', () => {

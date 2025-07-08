@@ -58,7 +58,7 @@ function mergeHeaders (defaultHeaders: HeadersInit = {}, requestHeaders: Headers
 
 function createCustomFetch (config: FetchConfig = {}, interceptorManager: FetchInterceptorManager = new FetchInterceptorManager()) {
   const {
-    baseUrl = __API_URL__,
+    baseUrl = __BASE_URL__,
     defaultHeaders = { 'Content-Type': 'application/json' },
   } = config
 

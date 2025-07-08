@@ -91,10 +91,11 @@ describe('bootstrap.ts', () => {
       })
 
       it('then should start MSW worker before mounting app', () => {
+        const basePath = import.meta.env.VITE_BASE_PATH || '/cofolio/'
         expect(mockWorkerStart).toHaveBeenCalledWith({
           onUnhandledRequest: 'bypass',
           serviceWorker: {
-            url: '/mockServiceWorker.js'
+            url: `${basePath}mockServiceWorker.js`
           }
         })
         expect(mockCreateApp).toHaveBeenCalledWith(expect.any(Object))

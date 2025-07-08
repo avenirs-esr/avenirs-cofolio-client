@@ -1,6 +1,8 @@
 import { createVueApp } from '@/bootstrap'
 
 async function enableMsw () {
+  const basePath = import.meta.env.VITE_BASE_PATH || '/cofolio/'
+
   if (import.meta.env.MODE === 'production' || !__ENABLE_MSW__) {
     return
   }
@@ -10,7 +12,7 @@ async function enableMsw () {
   return worker.start({
     onUnhandledRequest: 'bypass',
     serviceWorker: {
-      url: '/mockServiceWorker.js'
+      url: `${basePath}mockServiceWorker.js`
     }
   })
 }

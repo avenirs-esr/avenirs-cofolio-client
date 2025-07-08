@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: './',
   tsconfig: './tsconfig.a11y.json',
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: 'http://localhost:4173/cofolio/',
     headless: !!process.env.CI
   },
   timeout: GLOBAL_TIMEOUT,
@@ -15,7 +15,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {
-        ...devices['Desktop Chrome']
+        ...devices['Desktop Chrome'],
       }
     },
   ],
