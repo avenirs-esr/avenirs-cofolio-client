@@ -16,7 +16,7 @@ import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
-  const isMSWEnabled = mode !== 'production' && env.VITE_ENABLE_MSW === 'true'
+  // const isMSWEnabled = mode !== 'production' && env.VITE_ENABLE_MSW === 'true'
   const basePath = env.VITE_BASE_PATH || '/cofolio/'
 
   return defineConfig({
@@ -66,22 +66,24 @@ export default ({ mode }: { mode: string }) => {
           vueDsfrComponentResolver, // Autoimport des composants de VueDsfr dans les templates
         ],
       }),
-      !isMSWEnabled && {
-        name: 'ignore-mocks-when-msw-disabled',
-        enforce: 'pre',
-        resolveId (source) {
-          if (source.includes('__mocks__')) {
-            return source
-          }
-          return null
-        },
-        load (id) {
-          if (id.includes('__mocks__')) {
-            return 'export default {}'
-          }
-          return null
-        }
-      }
+      // plugin disabled because currently we have same routes that are not yet implemented and mock is used in production
+      // TODO: uncomment when each route has its orval generated file
+      // !isMSWEnabled && {
+      //   name: 'ignore-mocks-when-msw-disabled',
+      //   enforce: 'pre',
+      //   resolveId (source) {
+      //     if (source.includes('__mocks__')) {
+      //       return source
+      //     }
+      //     return null
+      //   },
+      //   load (id) {
+      //     if (id.includes('__mocks__')) {
+      //       return 'export default {}'
+      //     }
+      //     return null
+      //   }
+      // }
     ],
     base: basePath,
     resolve: {
@@ -90,13 +92,14 @@ export default ({ mode }: { mode: string }) => {
       },
       dedupe: ['vue'],
     },
-    build: {
-      rollupOptions: {
-        input: {
-          main: fileURLToPath(new URL('./index.html', import.meta.url)),
-        },
-        external: id => !isMSWEnabled && id.includes('__mocks__'),
-      }
-    }
+    // TODO: uncomment when each route has its orval generated file
+    // build: {
+    //   rollupOptions: {
+    //     input: {
+    //       main: fileURLToPath(new URL('./index.html', import.meta.url)),
+    //     },
+    //     external: id => !isMSWEnabled && id.includes('__mocks__'),
+    //   }
+    // }
   })
 }
