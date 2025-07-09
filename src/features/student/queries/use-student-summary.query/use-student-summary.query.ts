@@ -8,19 +8,19 @@ import type {
   TraceOverviewDTO
 } from '@/types'
 import {
-  getProfile,
-  getSkillsOverview,
-  type ProfileOverviewDTO,
-  type ProgramProgressOverviewDTO,
-} from '@/api/avenir-esr'
-import {
   mockedDeliverablesOverview,
   mockedEventsOverview,
   mockedHeaderOverview,
   mockedPagesOverview,
   mockedResumesOverview,
   mockedTracesOverview
-} from '@/features/student/queries/fixtures'
+} from '@/__mocks__/fixtures/student'
+import {
+  getProfile,
+  getSkillsOverview,
+  type ProfileOverviewDTO,
+  type ProgramProgressOverviewDTO,
+} from '@/api/avenir-esr'
 import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
