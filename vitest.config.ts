@@ -7,6 +7,7 @@ export default ({ mode }: { mode: string }) => {
     'e2e/*',
     'a11y/*',
     '**/*types.ts',
+    '**/*.stories.ts',
     'src/common/types/*',
     'src/api/**/generated/*',
     'orval.config.ts',
