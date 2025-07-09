@@ -4,7 +4,7 @@ import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 /**
  * AvIconText component props.
  */
-interface AvIconTextProps {
+export interface AvIconTextProps {
   /**
    * The text color.
    * @default 'var(--text1)'
