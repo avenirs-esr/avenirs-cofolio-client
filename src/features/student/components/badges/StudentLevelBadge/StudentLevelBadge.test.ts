@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 
 describe('studentLevelBadge', () => {
+  const basePath = import.meta.env.BASE_URL
   const stubs = {
     AvBadge: {
       name: 'AvBadge',
@@ -52,7 +53,7 @@ describe('studentLevelBadge', () => {
       ellipsis: true,
       color: 'var(--light-foreground-error)',
       backgroundColor: 'var(--light-background-error)',
-      iconPath: '/assets/icons/close-circle-outline.svg'
+      iconPath: `${basePath}assets/icons/close-circle-outline.svg`
     })
   })
 
@@ -73,7 +74,7 @@ describe('studentLevelBadge', () => {
       ellipsis: true,
       color: 'var(--dark-background-primary1)',
       backgroundColor: 'var(--light-background-primary2)',
-      iconPath: '/assets/icons/hourglass.svg'
+      iconPath: `${basePath}assets/icons/hourglass.svg`
     })
   })
 
@@ -94,7 +95,7 @@ describe('studentLevelBadge', () => {
       ellipsis: true,
       color: 'var(--dark-background-primary1)',
       backgroundColor: 'var(--light-background-primary2)',
-      iconPath: '/assets/icons/hourglass.svg'
+      iconPath: `${basePath}assets/icons/hourglass.svg`
     })
   })
 
@@ -115,7 +116,7 @@ describe('studentLevelBadge', () => {
       ellipsis: true,
       color: 'var(--light-foreground-primary1)',
       backgroundColor: 'var(--light-background-critical)',
-      iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
+      iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
     })
   })
 
@@ -136,7 +137,7 @@ describe('studentLevelBadge', () => {
       ellipsis: true,
       color: 'var(--light-foreground-success)',
       backgroundColor: 'var(--light-background-success)',
-      iconPath: '/assets/icons/check-circle.svg'
+      iconPath: `${basePath}assets/icons/check-circle.svg`
     })
   })
 })

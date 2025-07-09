@@ -14,7 +14,7 @@ const varSkillColor = computed(() => `var(${skillColor})`)
 const showLevelBadge = computed(() => currentSkillLevel.status === SkillLevelStatus.TO_BE_EVALUATED || currentSkillLevel.status === SkillLevelStatus.UNDER_REVIEW)
 // TODO: placeholder waiting for US specific to feedback
 const mockedFeedbackCount = computed(() => Math.floor(Math.random() * 6))
-
+const basePath = import.meta.env.BASE_URL
 const hoverBorderColor = ref(varSkillColor)
 </script>
 
@@ -59,7 +59,7 @@ const hoverBorderColor = ref(varSkillColor)
                 :label="t('student.cards.studentDetailedSkillCard.feedbackCount', { count: mockedFeedbackCount })"
                 color="var(--dark-background-warn)"
                 background-color="var(--light-background-warn)"
-                icon-path="/assets/icons/message-badge.svg"
+                :icon-path="`${basePath}}assets/icons/message-badge.svg`"
                 small
                 ellipsis
               />
@@ -69,7 +69,7 @@ const hoverBorderColor = ref(varSkillColor)
                 :label="`${levelCount} niveaux`"
                 color="var(--foreground-text)"
                 background-color="var(--surface-background)"
-                icon-path="/assets/icons/text-box-check-outline.svg"
+                :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
                 small
                 ellipsis
               />
