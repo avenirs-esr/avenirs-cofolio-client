@@ -1,13 +1,40 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
-import AvRichButton, { type AvRichButtonProps } from './AvRichButton.vue'
+import AvRichButton, { type AvRichButtonProps } from '@/ui/interaction/buttons/AvRichButton/AvRichButton.vue'
 
 /**
- * The rich button is an interaction element with an interface enabling the user to perform an action.
+ * <h1 class="n1">Rich buttons - <code>AvRichButton</code></h1>
  *
- * The `AvRichButton` is an elegant, reusable Vue component designed to simplify the creation of custom rich buttons. It features optional icons and a click manager. It is easy to use, with the flexibility to adapt to different contexts.
+ * <h2 class="n2">🌟 Introduction</h2>
  *
- * With a default slot, button content is highly customizable. The `label` property lets you assign the button `title` and `aria-label`.
+ * <p>
+ *   <span class="b2-regular">
+ *     The rich button is an interaction element with an interface enabling the user to perform an action.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvRichButton</code> is an elegant, reusable Vue component designed to simplify the creation of custom rich buttons.
+ *     It features optional icons and a click manager. It is easy to use, with the flexibility to adapt to different contexts.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     With a default slot, button content is highly customizable. The <code>label</code> property lets you assign the button <code>title</code> and <code>aria-label</code>.
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">Rich buttons consist of a button composed of :</span></p>
+ *
+ * <ul>
+ *   <li><span class="b2-regular">an optional left icon</span></li>
+ *   <li><span class="b2-regular">a default slot for button content</span></li>
+ *   <li><span class="b2-regular">an optional right icon</span></li>
+ * </ul>
  */
 const meta: Meta<AvRichButtonProps> = {
   title: 'Components/Interaction/Buttons/AvRichButton',

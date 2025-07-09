@@ -1,9 +1,25 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import { PageSizes } from '@/ui/config'
-import AvPageSizePicker, { type AvPageSizePickerProps } from './AvPageSizePicker.vue'
+import AvPageSizePicker, { type AvPageSizePickerProps } from '@/ui/interaction/picker/AvPageSizePicker/AvPageSizePicker.vue'
 
 /**
- * The `AvPageSizePicker` is a component implementing the `AvTagPicker` and dedicated to selecting the number of results per page.
+ * <h1 class="n1">Picker for number of results per page - <code>AvPageSizePicker</code></h1>
+ *
+ * <h2 class="n2">🌟 Introduction</h2>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvPageSizePicker</code> is a component implementing the <code>AvTagPicker</code> and dedicated to selecting the number of results per page.
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The pickers for number of results per page consist of an <code>AvTagPicker</code> to which options specific to the number of results per page are assigned.
+ *   </span>
+ * </p>
  */
 const meta: Meta<AvPageSizePickerProps> = {
   title: 'Components/Interaction/Pickers/AvPageSizePicker',

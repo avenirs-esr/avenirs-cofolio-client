@@ -1,12 +1,58 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvButton, { type AvButtonProps } from './AvButton.vue'
+import AvButton, { type AvButtonProps } from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 
 /**
- * The `AvButton` is a component implementing the VueDSFR `DsfrButton`. The button is an interaction element with an interface enabling the user to perform an action.
+ * <h1 class="n1">Buttons - <code>AvButton</code></h1>
  *
- * The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager, all in keeping with the `DSFR` style. It's easy to use, with the flexibility to adapt to different contexts.
+ * <h2 class="n2">🌟 Introduction</h2>
  *
- * For `AVENIR(s) ESR`, the button has been simplified to allow only two variants (`DEFAULT` without border and `OUTLINED` with border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvButton</code> is a component implementing the VueDSFR <code>DsfrButton</code>.
+ *     The button is an interaction element with an interface enabling the user to perform an action.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvButton</code> is an elegant, reusable Vue component designed to simplify the creation of custom buttons.
+ *     It features adjustable sizes, an optional icon and a click manager, all in keeping with the <code>DSFR</code> style.
+ *     It's easy to use, with the flexibility to adapt to different contexts.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     For <code>AVENIR(s) ESR</code>, the button has been simplified to allow only two variants
+ *     (<code>DEFAULT</code> without border and <code>OUTLINED</code> with border)
+ *     and two themes (<code>PRIMARY</code> blue and <code>SECONDARY</code> grey).
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     🏅 Documentation on the <code>DsfrButton</code> can be found at
+ *     <a href="https://vue-ds.fr/composants/DsfrButton" target="_blank" rel="noopener noreferrer">VueDSFR</a>
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">Buttons consist of :</span></p>
+ *
+ * <ul>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A label – mandatory, using the <code>label</code> prop, enables label display when <code>iconOnly</code> is <code>false</code>,
+ *       also enables connection to <code>title</code> and <code>aria-label</code>;
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       An icon, which can be modified (see available icons) – optional.
+ *     </span>
+ *   </li>
+ * </ul>
  */
 const meta: Meta<AvButtonProps> = {
   title: 'Components/Interaction/Buttons/AvButton',

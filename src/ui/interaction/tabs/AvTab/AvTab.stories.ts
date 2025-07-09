@@ -1,13 +1,34 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
-import AvTab, { type AvTabProps } from './AvTab.vue'
+import AvTab, { type AvTabProps } from '@/ui/interaction/tabs/AvTab/AvTab.vue'
 
 /**
- * The `AvTab` is a declarative component used exclusively in the `default` slot of `AvTabs`.
- * `AvTab` allows you to configure a tab by passing its props (such as `title` and `icon`) to the `AvTabs` component without rendering.
+ * <h1 class="n1">Tabs - <code>AvTab</code></h1>
  *
- * It acts as a proxy component: it exposes information (props) used by `AvTabs` to generate the interface.
+ * <h2 class="n2">🌟 Introduction</h2>
  *
- * 🚫 This component does not display anything by itself and should not be used outside `AvTabs`.
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvTab</code> is a declarative component used exclusively in the <code>default</code> slot of <code>AvTabs</code>.
+ *     <code>AvTab</code> allows you to configure a tab by passing its props (such as <code>title</code> and <code>icon</code>)
+ *     to the <code>AvTabs</code> component without rendering.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     It acts as a proxy component: it exposes information (props) used by <code>AvTabs</code> to generate the interface.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     🚫 This component does not display anything by itself and should not be used outside <code>AvTabs</code>.
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">None.</span></p>
  */
 const meta: Meta<AvTabProps> = {
   title: 'Components/Interaction/Tabs/AvTab',
