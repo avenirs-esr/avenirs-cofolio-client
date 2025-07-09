@@ -2,9 +2,33 @@ import type { Meta, StoryFn } from '@storybook/vue3'
 import AvNavigation, { type AvNavigationProps } from '@/ui/navigation/AvNavigation/AvNavigation.vue'
 
 /**
- * The `AvNavigation` is a component implementing the VueDSFR `DsfrNavigation`. The main navigation is the central navigation system within a site. It guides the user through the site main and secondary sections.
+ * <h1 class="n1">Navigation - <code>AvNavigation</code></h1>
  *
- * 🏅 Documentation on main navigation can be found on [DSFR](https://www.systeme-de-design.gouv.fr/version-courante/fr/composants/navigation-principale)
+ * <h2 class="n2">🌟 Introduction</h2>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvNavigation</code> is a component implementing the VueDSFR <code>DsfrNavigation</code>.
+ *     The main navigation is the central navigation system within a site. It guides the user through the site main and secondary sections.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     🏅 Documentation on main navigation can be found on
+ *     <a href="https://www.systeme-de-design.gouv.fr/version-courante/fr/composants/navigation-principale" target="_blank" rel="noopener noreferrer">DSFR</a>
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">The navigation component can be used to create a navigation bar with different types of navigation items:</span></p>
+ *
+ * <ul>
+ *   <li><span class="b2-regular">direct link</span></li>
+ *   <li><span class="b2-regular">submenu</span></li>
+ *   <li><span class="b2-regular">mega-menu</span></li>
+ * </ul>
  */
 const meta: Meta<AvNavigationProps> = {
   title: 'Components/Navigation/AvNavigation',

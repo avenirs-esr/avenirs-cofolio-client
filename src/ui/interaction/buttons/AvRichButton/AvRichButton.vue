@@ -100,6 +100,7 @@ defineSlots<{
 .av-rich-button:hover {
   border: 1px solid var(--dark-background-primary1);
   box-shadow: 0 0 0 2px var(--dark-background-primary1);
+  background: transparent !important;
 }
 
 .av-rich-button__line {

@@ -3,13 +3,50 @@ import AvTab from '@/ui/interaction/tabs/AvTab/AvTab.vue'
 import AvTabs, { type AvTabsProps } from '@/ui/interaction/tabs/AvTabs/AvTabs.vue'
 
 /**
- * The `AvTabs` component implements VueDSFR `DsfrTabs` while automatically managing the addition of `DsfrTabItem` according to the `AvTab` present in the `default` slot.
+ * <h1 class="n1">Tabs - <code>AvTabs</code></h1>
  *
- * The tab component allows users to navigate different content sections within the same page.
+ * <h2 class="n2">🌟 Introduction</h2>
  *
- * The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvTabs</code> component implements VueDSFR <code>DsfrTabs</code> while automatically managing the addition of <code>DsfrTabItem</code>
+ *     according to the <code>AvTab</code> present in the <code>default</code> slot.
+ *   </span>
+ * </p>
  *
- * 🏅 Documentation on `DsfrTabs` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrTabs)
+ * <p>
+ *   <span class="b2-regular">
+ *     The tab component allows users to navigate different content sections within the same page.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The tab system helps to group different contents together in a limited space, and allows dense content to be divided into individually accessible sections to make reading easier for the user.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     🏅 Documentation on <code>DsfrTabs</code> can be found at
+ *     <a href="https://vue-ds.fr/composants/DsfrTabs" target="_blank" rel="noopener noreferrer">VueDSFR</a>
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">Each tab consists of the following elements:</span></p>
+ *
+ * <ul>
+ *   <li><span class="b2-regular">an icon to the left of the title - optional.</span></li>
+ *   <li><span class="b2-regular">a clickable title - mandatory: displays the associated content zone.</span></li>
+ * </ul>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     If the number of tabs exceeds the width of the container, a horizontal scroll allows you to navigate between the different tabs.
+ *   </span>
+ * </p>
  */
 const meta: Meta<AvTabsProps> = {
   title: 'Components/Interaction/Tabs/AvTabs',

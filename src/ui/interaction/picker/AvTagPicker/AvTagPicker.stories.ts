@@ -1,10 +1,41 @@
 import type { StoryFn } from '@storybook/vue3'
-import AvTagPicker, { type AvTagPickerProps } from './AvTagPicker.vue'
+import AvTagPicker, { type AvTagPickerProps } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.vue'
 
 /**
- * The `AvTagPicker` is a Vue component enabling a user to select an element from a given set. Selectable elements consist of `DsfrTag`.
+ * <h1 class="n1">Tag picker - <code>AvTagPicker</code></h1>
  *
- * The `DsfrTag` list provides a list of options from which the user can choose.
+ * <h2 class="n2">🌟 Introduction</h2>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>AvTagPicker</code> is a Vue component enabling a user to select an element from a given set.
+ *     Selectable elements consist of <code>DsfrTag</code>.
+ *   </span>
+ * </p>
+ *
+ * <p>
+ *   <span class="b2-regular">
+ *     The <code>DsfrTag</code> list provides a list of options from which the user can choose.
+ *   </span>
+ * </p>
+ *
+ * <h2 class="n2">📐 Structure</h2>
+ *
+ * <p><span class="b2-regular">Buttons consist of :</span></p>
+ *
+ * <ul>
+ *   <li>
+ *     <span class="b2-regular">
+ *       A label - mandatory, using the <code>label</code> prop, enables label display when <code>iconOnly</code> is <code>false</code>,
+ *       also enables connection to <code>title</code> and <code>aria-label</code>;
+ *     </span>
+ *   </li>
+ *   <li>
+ *     <span class="b2-regular">
+ *       An icon, which can be modified (see available icons) - optional.
+ *     </span>
+ *   </li>
+ * </ul>
  */
 const meta = {
   title: 'Components/Interaction/Pickers/AvTagPicker',

@@ -20,8 +20,8 @@ a[href] {
   color: var(--dark-background-primary1) !important;
 }
 
-p, .sbdocs-title, [class^="css-"]:not(code) {
-  color: var(--text1) !important;
+.sbdocs-title {
+  display: none;
 }
 
 code, tbody, tbody *, th, th *, .sb-bar {
@@ -86,4 +86,8 @@ input[type="checkbox"] + span, input[type="checkbox"] + span + span {
 
 .token.plain-text {
   color: white !important;
+}
+
+.n1, .n2, .n3, .n4, .n5, .n6 {
+  color: var(--title) !important;
 }
