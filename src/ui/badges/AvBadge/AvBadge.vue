@@ -2,7 +2,7 @@
 /**
  * AvBadge component props.
  */
-interface AvBadgeProps {
+export interface AvBadgeProps {
 /**
  * The color of the text to display in the badge.
  */
@@ -55,13 +55,10 @@ interface AvBadgeProps {
 
 const props = defineProps<AvBadgeProps>()
 
-const customIconClass = computed(() => props.iconPath ? 'av-badge--customIcon' : undefined)
+const customIconClass = computed(() => props.iconPath && !props.noIcon ? 'av-badge--customIcon' : undefined)
 const styleVars = computed(() => ({
   '--icon-path': `url(${props.iconPath})`,
 }))
-
-const color = ref(props.color)
-const backgroundColor = ref(props.backgroundColor)
 </script>
 
 <template>
@@ -75,7 +72,7 @@ const backgroundColor = ref(props.backgroundColor)
 
 <style lang="scss" scoped>
 .av-badge {
-  color: v-bind('color');
+  color: v-bind('color') !important;
   background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('borderColor');
 }

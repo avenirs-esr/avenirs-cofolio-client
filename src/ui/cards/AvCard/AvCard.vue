@@ -4,7 +4,7 @@ import type { Slot } from 'vue'
 /**
  * AvCard component props.
  */
-interface AvCardProps {
+export interface AvCardProps {
   /**
    * The background color of the card.
    * @default 'var(--card)'

@@ -2,7 +2,7 @@
 /**
  * AvVIcon component props.
  */
-interface AvVIconProps {
+export interface AvVIconProps {
   /**
    * The size in rem of the icon container and a ratio for the icon scale.
    * @default 1

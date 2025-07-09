@@ -5,7 +5,7 @@ import { DsfrNotice } from '@gouvminint/vue-dsfr'
 /**
  * AvNotice component props.
  */
-interface AvNoticeProps {
+export interface AvNoticeProps {
   /**
    * The banner title.
    * @default ''
