@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { status } = defineProps<{ status: AmsStatus }>()
 
 const { t } = useI18n()
+const basePath = import.meta.env.BASE_URL
 
 function getStatusBadge (status: AmsStatus) {
   switch (status) {
@@ -14,14 +15,14 @@ function getStatusBadge (status: AmsStatus) {
         labelkey: 'student.badges.studentAmsStatusBadge.status.completed',
         color: 'var(--light-foreground-neutral)',
         backgroundColor: 'var(--light-background-neutral)',
-        iconPath: '/assets/icons/calendar-check-outline.svg'
+        iconPath: `${basePath}assets/icons/calendar-check-outline.svg`
       }
     case AmsStatus.IN_PROGRESS:
       return {
         labelkey: 'student.badges.studentAmsStatusBadge.status.inProgress',
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: '/assets/icons/calendar-range-outline.svg'
+        iconPath: `${basePath}assets/icons/calendar-range-outline.svg`
       }
     case AmsStatus.NOT_STARTED:
       return {
@@ -29,14 +30,14 @@ function getStatusBadge (status: AmsStatus) {
         color: 'var(--text2)',
         backgroundColor: 'var(--other-background-base)',
         borderColor: 'var(--other-border-skill-card)',
-        iconPath: '/assets/icons/calendar-clock-outline.svg'
+        iconPath: `${basePath}assets/icons/calendar-clock-outline.svg`
       }
     case AmsStatus.SUBMITTED:
       return {
         labelkey: 'student.badges.studentAmsStatusBadge.status.submitted',
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
+        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
       }
   }
 }

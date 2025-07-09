@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('avToaster', () => {
   let wrapper: VueWrapper
-
+  const basePath = import.meta.env.BASE_URL
   const stubs = {
     TransitionGroup: {
       template: '<div><slot /></div>',
@@ -53,7 +53,7 @@ describe('avToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--success')
-      expect(alert.attributes('style')).toContain('--icon-path: url(/assets/icons/check-cricle.svg)')
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/check-cricle.svg)`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -74,7 +74,7 @@ describe('avToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--info')
-      expect(alert.attributes('style')).toContain('--icon-path: url(/assets/icons/message-badge.svg)')
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/message-badge.svg)`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -95,7 +95,7 @@ describe('avToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--warning')
-      expect(alert.attributes('style')).toContain('--icon-path: url(/assets/icons/warning-outline.svg)')
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/warning-outline.svg)`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })
@@ -116,7 +116,7 @@ describe('avToaster', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--error')
-      expect(alert.attributes('style')).toContain('--icon-path: url(/assets/icons/alert-circle-outline.svg)')
+      expect(alert.attributes('style')).toContain(`--icon-path: url(${basePath}assets/icons/alert-circle-outline.svg)`)
       expect(wrapper.html()).toContain(baseMessage.title)
       expect(wrapper.html()).toContain(baseMessage.description)
     })

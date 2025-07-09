@@ -81,6 +81,7 @@ interface AvToasterProps {
 }
 
 const { messages, onRemoveMessage } = defineProps<AvToasterProps>()
+const basePath = import.meta.env.BASE_URL
 
 function getToasterClass (type: Message['type']) {
   return `av-toaster--${type} av-toaster--icon`
@@ -89,13 +90,13 @@ function getToasterClass (type: Message['type']) {
 function getToasterStyleVars (type: Message['type']) {
   switch (type) {
     case 'error':
-      return { '--icon-path': 'url(/assets/icons/alert-circle-outline.svg)' }
+      return { '--icon-path': `url(${basePath}assets/icons/alert-circle-outline.svg)` }
     case 'success':
-      return { '--icon-path': 'url(/assets/icons/check-cricle.svg)' }
+      return { '--icon-path': `url(${basePath}assets/icons/check-cricle.svg)` }
     case 'warning':
-      return { '--icon-path': 'url(/assets/icons/warning-outline.svg)' }
+      return { '--icon-path': `url(${basePath}assets/icons/warning-outline.svg)` }
     case 'info':
-      return { '--icon-path': 'url(/assets/icons/message-badge.svg)' }
+      return { '--icon-path': `url(${basePath}assets/icons/message-badge.svg)` }
   }
 }
 </script>

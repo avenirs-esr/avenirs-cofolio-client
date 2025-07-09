@@ -4,6 +4,8 @@ import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
 
 describe('studentAmsStatusBadge', () => {
+  const basePath = import.meta.env.BASE_URL
+
   const stubs = {
     AvBadge: {
       name: 'AvBadge',
@@ -45,7 +47,7 @@ describe('studentAmsStatusBadge', () => {
       ellipsis: true,
       color: 'var(--light-foreground-neutral)',
       backgroundColor: 'var(--light-background-neutral)',
-      iconPath: '/assets/icons/calendar-check-outline.svg'
+      iconPath: `${basePath}assets/icons/calendar-check-outline.svg`
     })
   })
 
@@ -66,7 +68,7 @@ describe('studentAmsStatusBadge', () => {
       ellipsis: true,
       color: 'var(--dark-background-primary1)',
       backgroundColor: 'var(--light-background-primary2)',
-      iconPath: '/assets/icons/calendar-range-outline.svg'
+      iconPath: `${basePath}assets/icons/calendar-range-outline.svg`
     })
   })
 
@@ -87,7 +89,7 @@ describe('studentAmsStatusBadge', () => {
       ellipsis: true,
       color: 'var(--text2)',
       backgroundColor: 'var(--other-background-base)',
-      iconPath: '/assets/icons/calendar-clock-outline.svg'
+      iconPath: `${basePath}assets/icons/calendar-clock-outline.svg`
     })
   })
 
@@ -108,7 +110,7 @@ describe('studentAmsStatusBadge', () => {
       ellipsis: true,
       color: 'var(--light-foreground-primary1)',
       backgroundColor: 'var(--light-background-critical)',
-      iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
+      iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
     })
   })
 })

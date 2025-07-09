@@ -8,6 +8,7 @@ import { useI18n } from 'vue-i18n'
 const { ams } = defineProps<{ ams: AmsViewDTO }>()
 const { id, title, progress, countSkills, countTraces, status } = ams
 const { startedActivities, totalActivities } = progress
+const basePath = import.meta.env.BASE_URL
 
 const { t } = useI18n()
 </script>
@@ -45,7 +46,7 @@ const { t } = useI18n()
                 :label="t('student.views.studentEducationAmsView.amsListContainer.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
                 color="var(--text1)"
                 background-color="var(--surface-background)"
-                icon-path="/assets/icons/text-box-check-outline.svg"
+                :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
                 small
                 ellipsis
               />

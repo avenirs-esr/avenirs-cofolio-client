@@ -8,6 +8,8 @@ const { level } = defineProps<{ level: SkillLevelOverviewDTO | SkillLevelViewDTO
 const { t } = useI18n()
 
 function levelToBadge (status: SkillLevelStatus) {
+  const basePath = import.meta.env.BASE_URL
+
   switch (status) {
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case SkillLevelStatus.NOT_STARTED:
@@ -17,28 +19,28 @@ function levelToBadge (status: SkillLevelStatus) {
         labelkey: 'student.badges.studentLevelBadge.status.inProgress',
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: '/assets/icons/hourglass.svg'
+        iconPath: `${basePath}assets/icons/hourglass.svg`
       }
     case SkillLevelStatus.UNDER_REVIEW:
       return {
         labelkey: 'student.badges.studentLevelBadge.status.underReview',
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: '/assets/icons/dots-horizontal-circle-outline.svg'
+        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
       }
     case SkillLevelStatus.VALIDATED:
       return {
         labelkey: 'student.badges.studentLevelBadge.status.validated',
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconPath: '/assets/icons/check-circle.svg'
+        iconPath: `${basePath}assets/icons/check-circle.svg`
       }
     case SkillLevelStatus.FAILED:
       return {
         labelkey: 'student.badges.studentLevelBadge.status.failed',
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconPath: '/assets/icons/close-circle-outline.svg'
+        iconPath: `${basePath}assets/icons/close-circle-outline.svg`
       }
   }
 }
