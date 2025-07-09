@@ -11,12 +11,11 @@ useBaseApiExceptionToast(error)
 const { navigateToStudentPages } = useNavigation()
 const { locale, t } = useI18n()
 
-const renderedPages = computed(() => (pages.value ?? []).slice(0, 3))
+const renderedPages = computed(() => pages.value.slice(0, 3))
 </script>
 
 <template>
   <AvCard
-    v-if="renderedPages.length > 0"
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
   >

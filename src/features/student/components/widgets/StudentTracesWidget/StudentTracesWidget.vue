@@ -13,7 +13,7 @@ const { navigateToStudentTraces } = useNavigation()
 const { t } = useI18n()
 
 const renderedTraces = computed(() => {
-  return (traces.value ?? [])
+  return traces.value
     .slice()
     .sort((a, b) => compareDesc(parseDateISO(a.filedAt), parseDateISO(b.filedAt)))
     .slice(0, 3)
@@ -22,7 +22,6 @@ const renderedTraces = computed(() => {
 
 <template>
   <AvCard
-    v-if="renderedTraces.length > 0"
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
   >

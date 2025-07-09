@@ -14,7 +14,7 @@ const { navigateToStudentEvents } = useNavigation()
 const { t, locale } = useI18n()
 
 const renderedEvents = computed(() => {
-  return (events.value ?? [])
+  return events.value
     .slice()
     .filter(event => isAfter(parseDateISO(event.startDate), new Date()))
     .sort((a, b) => compareAsc(parseDateISO(a.startDate), parseDateISO(b.startDate)))
@@ -30,7 +30,6 @@ function getEventInfo (event: EventOverviewDTO) {
 
 <template>
   <AvCard
-    v-if="renderedEvents.length > 0"
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
   >
