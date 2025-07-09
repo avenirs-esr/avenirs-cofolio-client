@@ -17,13 +17,11 @@ import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
   const isMSWEnabled = mode !== 'production' && env.VITE_ENABLE_MSW === 'true'
-  const apiUrl = env.VITE_API_URL || 'http://localhost:3000'
   const basePath = env.VITE_BASE_PATH || '/cofolio/'
-  const baseUrl = apiUrl + basePath
 
   return defineConfig({
     define: {
-      __BASE_URL__: JSON.stringify(baseUrl),
+      __BASE_URL__: JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
       __ENABLE_MSW__: JSON.stringify(env.VITE_ENABLE_MSW === 'true'),
       __BEARER_TOKEN__: JSON.stringify(`Bearer ${env.VITE_AVENIR_ESR_ACCESS_TOKEN}` ?? 'Bearer token')
     },
@@ -73,22 +71,13 @@ export default ({ mode }: { mode: string }) => {
         enforce: 'pre',
         resolveId (source) {
           if (source.includes('__mocks__')) {
-            return '\0ignore-mock'
+            return source
           }
           return null
         },
         load (id) {
-          if (id === '\0ignore-mock') {
-            return `
-              export const mockedDeliverablesOverview = null;
-              export const mockedStudentLevels = null;
-              export const mockedEventsOverview = null;
-              export const mockedHeaderOverview = null;
-              export const mockedPagesOverview = null;
-              export const mockedResumesOverview = null;
-              export const mockedTracesOverview = null;
-              export default {};
-            `
+          if (id.includes('__mocks__')) {
+            return 'export default {}'
           }
           return null
         }
