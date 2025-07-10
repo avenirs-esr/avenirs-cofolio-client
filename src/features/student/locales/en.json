@@ -192,6 +192,10 @@
         "title": "(placeholder) All my experiences"
       },
       "studentProjectSkillsView": {
+        "skillsViewTabs": {
+          "education": "My educational skills (validated and in progress)",
+          "other": "My other skills"
+        },
         "title": "All my skills"
       },
       "studentProjectTrajectoriesView": {

@@ -192,6 +192,10 @@
         "title": "(placeholder) Toutes mes expériences"
       },
       "studentProjectSkillsView": {
+        "skillsViewTabs": {
+          "education": "Les compétences de mes formations (validées et en cours)",
+          "other": "Mes autres compétences"
+        },
         "title": "Toutes mes compétences"
       },
       "studentProjectTrajectoriesView": {
