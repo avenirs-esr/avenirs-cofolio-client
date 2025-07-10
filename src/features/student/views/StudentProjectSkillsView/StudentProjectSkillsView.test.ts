@@ -8,6 +8,10 @@ const stubs = {
     props: ['title', 'breadcrumbLinks'],
     template: '<div class="page-title-stub" />'
   },
+  SkillsViewTabs: {
+    name: 'SkillsViewTabs',
+    template: '<div />',
+  }
 }
 
 describe('studentProjectSkillsView', () => {
@@ -43,6 +47,12 @@ describe('studentProjectSkillsView', () => {
         expect(breadcrumbLinks[2]).toEqual({
           text: 'Toutes mes compétences'
         })
+      })
+
+      it('then it should render SkillsViewTabs', () => {
+        const skillsViewTabs = wrapper.findComponent({ name: 'SkillsViewTabs' })
+
+        expect(skillsViewTabs.exists()).toBe(true)
       })
     })
   })
