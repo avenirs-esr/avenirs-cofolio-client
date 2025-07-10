@@ -6,11 +6,10 @@ import AmsListContainer from '@/features/student/views/StudentEducationAmsView/c
 import { useAmsStore } from '@/store'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()
-
   return {
     ...actual,
     useAmsViewQuery: vi.fn(),
@@ -37,15 +36,16 @@ describe('amsListContainer', () => {
       props: ['ams'],
       template: '<div class="student-detailed-ams-card-stub" />'
     },
-    AmsPageSizePicker: {
-      name: 'AmsPageSizePicker',
-      template: '<div class="ams-page-size-picker-stub" />'
-    },
-    AvPagination: {
-      name: 'AvPagination',
-      props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact', 'items'],
-      emits: ['update:current-page'],
-      template: '<div class="av-pagination-stub" />'
+    Pagination: {
+      name: 'Pagination',
+      props: ['pageInfo', 'pageSizeSelected', 'onUpdateCurrentPage', 'onUpdatePageSize'],
+      template: `
+        <div class="pagination-stub">
+          <button class="emit-current-page" @click="onUpdateCurrentPage(5)">Set Page 5</button>
+          <button class="emit-page-size" @click="onUpdatePageSize(50)">Set Page Size 50</button>
+          <slot />
+        </div>
+      `
     }
   }
 
@@ -72,8 +72,8 @@ describe('amsListContainer', () => {
         expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
 
-      it('then it should render AmsPageSizePicker', () => {
-        expect(wrapper.findComponent({ name: 'AmsPageSizePicker' }).exists()).toBe(true)
+      it('then it should render Pagination', () => {
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
       it('then it should render correct number of AMS cards', () => {
@@ -81,26 +81,9 @@ describe('amsListContainer', () => {
         expect(cards).toHaveLength(4)
       })
 
-      it('then it should render both pagination components', () => {
-        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
-        expect(paginations).toHaveLength(2)
-      })
-
-      it('then ProgramProgressSelector should receive undefined as initial modelValue', () => {
-        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
-        expect(programSelector.props('modelValue')).toBeUndefined()
-      })
-    })
-
-    describe('when a pagination update is triggered', () => {
-      beforeEach(async () => {
-        const topPagination = wrapper.findAllComponents({ name: 'AvPagination' })[0]
-        await topPagination.vm.$emit('update:current-page', 3)
-      })
-
-      it('then the store currentPage should be updated', () => {
-        const store = useAmsStore()
-        expect(store.currentPage).toBe(3)
+      it('then ProgramProgressSelector should receive undefined as modelValue', () => {
+        const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        expect(selector.props('modelValue')).toBeUndefined()
       })
     })
 
@@ -135,19 +118,18 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when the component is mounted with undefined AMS data', () => {
+    describe('when the component is mounted', () => {
+      it('then it should render ProgramProgressSelector', () => {
+        expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
+      })
+
+      it('then it should render Pagination', () => {
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
+      })
+
       it('then it should not render any AMS cards', () => {
         const cards = wrapper.findAllComponents({ name: 'StudentDetailedAmsCard' })
         expect(cards).toHaveLength(0)
-      })
-
-      it('then it should still render the pagination components', () => {
-        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
-        expect(paginations).toHaveLength(2)
-      })
-
-      it('then it should still render ProgramProgressSelector', () => {
-        expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
     })
   })
@@ -168,16 +150,16 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when a program is selected through v-model', () => {
+    describe('when a program is selected via v-model', () => {
       beforeEach(async () => {
-        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
-        await programSelector.vm.$emit('update:modelValue', 'program-2')
+        const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        await selector.vm.$emit('update:modelValue', 'program-2')
         await wrapper.vm.$nextTick()
       })
 
-      it('then the selectedProgramProgressId should be updated', () => {
-        const programSelector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
-        expect(programSelector.props('modelValue')).toBe('program-2')
+      it('then ProgramProgressSelector should receive the updated value', () => {
+        const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
+        expect(selector.props('modelValue')).toBe('program-2')
       })
 
       it('then useAmsViewQuery should be called with the selected program ID', () => {
@@ -186,6 +168,52 @@ describe('amsListContainer', () => {
           expect.any(Object),
           expect.any(Object)
         )
+      })
+    })
+  })
+
+  describe('given the Pagination emits update events', () => {
+    let wrapper: VueWrapper
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      setActivePinia(createPinia())
+      mockUseAmsViewQuery(mockedAmsData)
+
+      wrapper = await mountWithRouter(AmsListContainer, {
+        global: {
+          plugins: [createPinia()],
+          stubs
+        }
+      })
+    })
+
+    describe('when Pagination calls onUpdateCurrentPage', () => {
+      beforeEach(async () => {
+        await wrapper.find('.emit-current-page').trigger('click')
+      })
+
+      it('then it should update the store currentPage', () => {
+        const store = useAmsStore()
+        expect(store.currentPage).toBe(5)
+      })
+    })
+
+    describe('when Pagination calls onUpdatePageSize', () => {
+      beforeEach(async () => {
+        const store = useAmsStore()
+        store.currentPage = 2
+        await wrapper.find('.emit-page-size').trigger('click')
+      })
+
+      it('then it should update the store pageSizeSelected', () => {
+        const store = useAmsStore()
+        expect(store.pageSizeSelected).toBe(50)
+      })
+
+      it('then it should reset currentPage to 0', () => {
+        const store = useAmsStore()
+        expect(store.currentPage).toBe(0)
       })
     })
   })

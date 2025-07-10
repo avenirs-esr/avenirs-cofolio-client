@@ -1,25 +1,24 @@
 <script lang="ts" setup>
-import { TracePageSizePicker } from '@/common/components'
+import type { PageSizes } from '@/ui/config'
+import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'
-import { AvPagination, getPaginationPages } from '@/ui'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const tracesStore = useTracesStore()
 const currentPage = toRef(tracesStore, 'currentPage')
 const pageSizeSelected = toRef(tracesStore, 'pageSizeSelected')
 const { traces, pageInfo, error } = useUnassignedTracesViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
-const totalPages = computed(() => pageInfo.value.totalPages)
-const pages = computed(() => getPaginationPages(totalPages))
-
 function onUpdateCurrentPage (pageNumber: number) {
   currentPage.value = pageNumber
+}
+
+function onUpdatePageSize (pageSize: PageSizes) {
+  tracesStore.pageSizeSelected = pageSize
 }
 
 watch(pageSizeSelected, () => {
@@ -30,33 +29,20 @@ watch(pageSizeSelected, () => {
 <template>
   <div class="student-tools-traces-view-container">
     <StudentToolsTracesViewNotice />
-    <div class="top-pagination-container">
-      <TracePageSizePicker />
-      <AvPagination
-        id="top-pagination"
-        :current-page="pageInfo.number"
-        :pages="pages"
-        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.top.ariaLabel')"
-        compact
-        @update:current-page="onUpdateCurrentPage"
-      />
-    </div>
-    <div class="detailed-cards-container">
-      <StudentDetailedTraceCard
-        v-for="trace in traces"
-        :key="trace.id"
-        :trace="trace"
-      />
-    </div>
-    <div class="bottom-pagination-container">
-      <AvPagination
-        id="bottom-pagination"
-        :current-page="pageInfo.number"
-        :pages="pages"
-        :aria-label="t('student.views.studentToolsTracesView.studentToolsTracesViewContainer.pagination.bottom.ariaLabel')"
-        @update:current-page="onUpdateCurrentPage"
-      />
-    </div>
+    <Pagination
+      :page-info="pageInfo"
+      :page-size-selected="tracesStore.pageSizeSelected"
+      :on-update-current-page="onUpdateCurrentPage"
+      :on-update-page-size="onUpdatePageSize"
+    >
+      <div class="detailed-cards-container">
+        <StudentDetailedTraceCard
+          v-for="trace in traces"
+          :key="trace.id"
+          :trace="trace"
+        />
+      </div>
+    </Pagination>
   </div>
 </template>
 
@@ -68,13 +54,6 @@ watch(pageSizeSelected, () => {
   gap: 2rem;
 }
 
-.top-pagination-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .detailed-cards-container {
   display: flex;
   flex-direction: row;
@@ -82,13 +61,5 @@ watch(pageSizeSelected, () => {
   width: 100%;
   gap: 1rem;
   flex-wrap: wrap;
-}
-
-.bottom-pagination-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-  padding-bottom: 2rem;
 }
 </style>

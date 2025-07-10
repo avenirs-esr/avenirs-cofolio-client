@@ -1,3 +1,2 @@
-export { default as AmsPageSizePicker } from './PageSizePicker/AmsPageSizePicker.vue'
-export { default as TracePageSizePicker } from './PageSizePicker/TracePageSizePicker.vue'
 export * from './PageTitle'
+export { default as Pagination } from './Pagination/Pagination.vue'
