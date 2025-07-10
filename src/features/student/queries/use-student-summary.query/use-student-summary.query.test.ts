@@ -1,6 +1,6 @@
 import type {
   ProfileOverviewDTO,
-  ProgramProgressOverviewDTO
+  StudentProgressOverviewDTO
 } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
@@ -58,7 +58,7 @@ describe('useStudentSummaryQuery', () => {
 
 describe('useStudentCoursesSummaryQuery', () => {
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressOverviewDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<StudentProgressOverviewDTO[], BaseApiException>>(
       () => useStudentCoursesSummaryQuery(),
     )
     await flushPromises()

@@ -1,4 +1,4 @@
-import type { ProgramProgressViewDTO } from '@/api/avenir-esr'
+import type { StudentProgressViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
@@ -34,13 +34,13 @@ vi.mock(import('@/features/student/queries'), async (importOriginal) => {
 
 const mockedUseProgramProgressViewQuery = vi.mocked(useProgramProgressViewQuery)
 
-function mockUseProgramProgressViewQuery (payload: ProgramProgressViewDTO[]) {
-  const mockData: Ref<ProgramProgressViewDTO[]> = ref(payload)
+function mockUseProgramProgressViewQuery (payload: StudentProgressViewDTO[]) {
+  const mockData: Ref<StudentProgressViewDTO[]> = ref(payload)
   const mockError: Ref<null | null> = ref(null)
   const queryMockedData = {
     data: mockData,
     error: mockError,
-  } as unknown as UseQueryDefinedReturnType<ProgramProgressViewDTO[], BaseApiException>
+  } as unknown as UseQueryDefinedReturnType<StudentProgressViewDTO[], BaseApiException>
   mockedUseProgramProgressViewQuery.mockReturnValue(queryMockedData)
 }
 
@@ -137,7 +137,7 @@ describe('studentEducationSkillsView', () => {
     expect(containers).toHaveLength(2)
   })
 
-  testUseBaseApiExceptionToast<ProgramProgressViewDTO[]>({
+  testUseBaseApiExceptionToast<StudentProgressViewDTO[]>({
     mockedUseQuery: mockedUseProgramProgressViewQuery,
     payload: [],
     mountComponent: () => mount(StudentEducationSkillsView, {

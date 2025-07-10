@@ -1,4 +1,4 @@
-import type { ProgramProgressDTO, ProgramProgressOverviewDTO } from '@/api/avenir-esr'
+import type { StudentProgressOverviewDTO, TrainingPathDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { mockedAllMyProgramsProgress, mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
@@ -10,7 +10,7 @@ import { unref } from 'vue'
 
 describe('useStudentCoursesSummaryQuery', () => {
   it('should return mock data with correct structure', async () => {
-    const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressOverviewDTO[], BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<StudentProgressOverviewDTO[], BaseApiException>>(
       () => useProgramProgressViewQuery(),
     )
     await flushPromises()
@@ -28,7 +28,7 @@ describe('useAllMyProgramProgressQuery', () => {
   describe('given the useAllMyProgramProgressQuery composable is called', () => {
     describe('when the query is executed', () => {
       it('then it should return mock data with correct structure', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressDTO[], BaseApiException>>(
+        const { data } = mountQueryComposable<UseQueryReturnType<TrainingPathDTO[], BaseApiException>>(
           () => useAllMyProgramProgressQuery(),
         )
 
@@ -47,7 +47,7 @@ describe('useAllMyProgramProgressQuery', () => {
 
     describe('when the query key is computed', () => {
       it('then it should include the correct query key structure', async () => {
-        const queryComposable = mountQueryComposable<UseQueryReturnType<ProgramProgressDTO[], BaseApiException>>(
+        const queryComposable = mountQueryComposable<UseQueryReturnType<TrainingPathDTO[], BaseApiException>>(
           () => useAllMyProgramProgressQuery(),
         )
         await flushPromises()
@@ -57,7 +57,7 @@ describe('useAllMyProgramProgressQuery', () => {
 
     describe('when checking the returned data properties', () => {
       it('then each program progress item should have required properties', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressDTO[], BaseApiException>>(
+        const { data } = mountQueryComposable<UseQueryReturnType<TrainingPathDTO[], BaseApiException>>(
           () => useAllMyProgramProgressQuery(),
         )
         await flushPromises()
@@ -74,7 +74,7 @@ describe('useAllMyProgramProgressQuery', () => {
 
     describe('when verifying the mock data mapping', () => {
       it('then it should only return id and name properties from the original mocked programs', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<ProgramProgressDTO[], BaseApiException>>(
+        const { data } = mountQueryComposable<UseQueryReturnType<TrainingPathDTO[], BaseApiException>>(
           () => useAllMyProgramProgressQuery(),
         )
 

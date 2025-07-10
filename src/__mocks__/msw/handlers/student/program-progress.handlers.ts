@@ -1,17 +1,17 @@
 import { mockedAllMyProgramsProgress, mockedProgramsProgressOverview, mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import {
-  getGetAllProgramProgressUrl,
+  getGetAllTrainingPathsUrl,
   getGetSkillsOverviewUrl,
   getGetSkillsViewUrl,
-  type ProgramProgressDTO,
-  type ProgramProgressOverviewDTO,
-  type ProgramProgressViewDTO
+  type StudentProgressOverviewDTO,
+  type StudentProgressViewDTO,
+  type TrainingPathDTO
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
 export const programProgressHandlers = [
-  http.get(`*${getGetAllProgramProgressUrl()}`, () => {
-    return HttpResponse.json<ProgramProgressDTO[]>(mockedAllMyProgramsProgress, {
+  http.get(`*${getGetAllTrainingPathsUrl()}`, () => {
+    return HttpResponse.json<TrainingPathDTO[]>(mockedAllMyProgramsProgress, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ export const programProgressHandlers = [
   }),
 
   http.get(`*${getGetSkillsViewUrl()}`, () => {
-    return HttpResponse.json<ProgramProgressViewDTO[]>(mockedProgramsProgressView, {
+    return HttpResponse.json<StudentProgressViewDTO[]>(mockedProgramsProgressView, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const programProgressHandlers = [
   }),
 
   http.get(`*${getGetSkillsOverviewUrl()}`, () => {
-    return HttpResponse.json<ProgramProgressOverviewDTO[]>(mockedProgramsProgressOverview, {
+    return HttpResponse.json<StudentProgressOverviewDTO[]>(mockedProgramsProgressOverview, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

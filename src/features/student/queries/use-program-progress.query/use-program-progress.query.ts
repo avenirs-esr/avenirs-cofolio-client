@@ -1,14 +1,14 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { getAllProgramProgress, getSkillsView, type ProgramProgressDTO, type ProgramProgressViewDTO } from '@/api/avenir-esr'
+import { getAllTrainingPaths, getSkillsView, type StudentProgressViewDTO, type TrainingPathDTO } from '@/api/avenir-esr'
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
 
-export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgressViewDTO[], BaseApiException> {
+export function useProgramProgressViewQuery (): UseQueryReturnType<StudentProgressViewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'programProgress', 'view'])
-  return useQuery<ProgramProgressViewDTO[], BaseApiException>({
+  return useQuery<StudentProgressViewDTO[], BaseApiException>({
     queryKey,
-    queryFn: async (): Promise<ProgramProgressViewDTO[]> => {
+    queryFn: async (): Promise<StudentProgressViewDTO[]> => {
       return getSkillsView()
     }
   })
@@ -16,10 +16,10 @@ export function useProgramProgressViewQuery (): UseQueryReturnType<ProgramProgre
 
 export function useAllMyProgramProgressQuery () {
   const queryKey = computed(() => [...commonQueryKeys, 'programProgress', 'list'])
-  return useQuery<ProgramProgressDTO[], BaseApiException>({
+  return useQuery<TrainingPathDTO[], BaseApiException>({
     queryKey,
-    queryFn: async (): Promise<ProgramProgressDTO[]> => {
-      return getAllProgramProgress()
+    queryFn: async (): Promise<TrainingPathDTO[]> => {
+      return getAllTrainingPaths()
     },
     initialData: []
   })

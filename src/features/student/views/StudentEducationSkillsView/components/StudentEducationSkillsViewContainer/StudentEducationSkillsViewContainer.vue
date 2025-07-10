@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ProgramProgressViewDTO } from '@/api/avenir-esr'
+import type { StudentProgressViewDTO } from '@/api/avenir-esr'
 import StudentDetailedSkillCard from '@/features/student/views/StudentEducationSkillsView/components/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
-const { course } = defineProps<{ course: ProgramProgressViewDTO }>()
+const { course } = defineProps<{ course: StudentProgressViewDTO }>()
 </script>
 
 <template>

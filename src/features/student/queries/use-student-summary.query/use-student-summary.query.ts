@@ -10,7 +10,7 @@ import {
   getProfile,
   getSkillsOverview,
   type ProfileOverviewDTO,
-  type ProgramProgressOverviewDTO,
+  type StudentProgressOverviewDTO,
 } from '@/api/avenir-esr'
 import {
   type DeliverableOverviewDTO,
@@ -37,12 +37,12 @@ function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseA
   })
 }
 
-function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<ProgramProgressOverviewDTO[], BaseApiException> {
+function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProgressOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'skills'])
-  return useQuery<ProgramProgressOverviewDTO[], BaseApiException>({
+  return useQuery<StudentProgressOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
-    queryFn: async (): Promise<ProgramProgressOverviewDTO[]> => {
+    queryFn: async (): Promise<StudentProgressOverviewDTO[]> => {
       return getSkillsOverview()
     }
   })
