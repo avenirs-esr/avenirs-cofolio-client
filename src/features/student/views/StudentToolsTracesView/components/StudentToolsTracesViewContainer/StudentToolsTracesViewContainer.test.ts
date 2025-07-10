@@ -1,7 +1,5 @@
 import { TraceStatus, type TracesViewResponse } from '@/api/avenir-esr'
-import {
-  useUnassignedTracesViewQuery
-} from '@/features/student/queries'
+import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -10,7 +8,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()
-
   return {
     ...actual,
     useUnassignedTracesViewQuery: vi.fn(),
@@ -32,25 +29,26 @@ function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse | undefin
   mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 
-const commonStubs = {
+const stubs = {
   StudentToolsTracesViewNotice: {
     name: 'StudentToolsTracesViewNotice',
     template: '<div class="student-tools-traces-view-notice-stub" />'
-  },
-  TracePageSizePicker: {
-    name: 'TracePageSizePicker',
-    template: '<div class="trace-page-size-picker-stub" />'
   },
   StudentDetailedTraceCard: {
     name: 'StudentDetailedTraceCard',
     props: ['trace'],
     template: '<div class="student-detailed-trace-card-stub" />'
   },
-  AvPagination: {
-    name: 'AvPagination',
-    props: ['currentPage', 'pages', 'items', 'ariaLabel', 'compact', 'id'],
-    template: '<div class="av-pagination-stub" @click="$emit(\'update:current-page\', 3)" />',
-    emits: ['update:current-page']
+  Pagination: {
+    name: 'Pagination',
+    props: ['pageInfo', 'pageSizeSelected', 'onUpdateCurrentPage', 'onUpdatePageSize'],
+    template: `
+      <div class="pagination-stub">
+        <button class="emit-current-page" @click="onUpdateCurrentPage(2)">Page 2</button>
+        <button class="emit-page-size" @click="onUpdatePageSize(50)">Size 50</button>
+        <slot />
+      </div>
+    `
   }
 }
 
@@ -73,181 +71,92 @@ describe('studentToolsTracesViewContainer', () => {
     }
   }
 
-  describe('given a student tools traces view container with trace data', () => {
+  describe('given trace data is available', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-
       mockUseUnassignedTracesViewQuery(mockedTracesData)
+
       wrapper = mount(StudentToolsTracesViewContainer, {
         global: {
           plugins: [createPinia()],
-          stubs: commonStubs
+          stubs
         }
       })
     })
 
     describe('when the component is mounted', () => {
-      it('then it should render StudentToolsTracesViewNotice', () => {
+      it('then it should render the notice', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
       })
 
-      it('then it should render TracePageSizePicker', () => {
-        expect(wrapper.findComponent({ name: 'TracePageSizePicker' }).exists()).toBe(true)
+      it('then it should render the Pagination component', () => {
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
-      it('then it should render correct number of trace cards', () => {
+      it('then it should render the correct number of trace cards', () => {
         const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(traceCards).toHaveLength(4)
       })
+    })
 
-      it('then it should render both pagination components', () => {
-        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
-        expect(paginations).toHaveLength(2)
+    describe('when Pagination emits current page update', () => {
+      beforeEach(async () => {
+        await wrapper.find('.emit-current-page').trigger('click')
       })
 
-      it('then it should render the correct structure', () => {
-        const notice = wrapper.find('.student-tools-traces-view-notice-stub')
-        const pageSizePicker = wrapper.find('.trace-page-size-picker-stub')
-        const traceCards = wrapper.findAll('.student-detailed-trace-card-stub')
-        const paginations = wrapper.findAll('.av-pagination-stub')
-
-        expect(notice.exists()).toBe(true)
-        expect(pageSizePicker.exists()).toBe(true)
-        expect(traceCards).toHaveLength(4)
-        expect(paginations).toHaveLength(2)
+      it('then it should update the current page in the store', () => {
+        const store = useTracesStore()
+        expect(store.currentPage).toBe(2)
       })
     })
 
-    describe('when pagination current page is updated', () => {
-      it('then it should update the store current page', async () => {
+    describe('when Pagination emits page size update', () => {
+      beforeEach(async () => {
         const store = useTracesStore()
-        expect(store.currentPage).toBe(0)
-
-        const pagination = wrapper.findComponent({ name: 'AvPagination' })
-        await pagination.trigger('click')
-
-        expect(store.currentPage).toBe(3)
+        store.currentPage = 1
+        await wrapper.find('.emit-page-size').trigger('click')
       })
-    })
 
-    describe('when page size changes in store', () => {
-      it('then it should reset current page to 0', async () => {
+      it('then it should update the page size in the store', () => {
         const store = useTracesStore()
+        expect(store.pageSizeSelected).toBe(50)
+      })
 
-        store.currentPage = 2
-        store.pageSizeSelected = 12
-
-        await wrapper.vm.$nextTick()
-
+      it('then it should reset current page to 0', () => {
+        const store = useTracesStore()
         expect(store.currentPage).toBe(0)
       })
     })
   })
 
-  describe('given a student tools traces view container with no trace data', () => {
+  describe('given no trace data is available', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-
       mockUseUnassignedTracesViewQuery(undefined)
 
       wrapper = mount(StudentToolsTracesViewContainer, {
         global: {
           plugins: [createPinia()],
-          stubs: commonStubs
+          stubs
         }
       })
     })
 
-    describe('when the component is mounted with undefined trace data', () => {
+    describe('when the component is mounted', () => {
       it('then it should not render any trace cards', () => {
-        const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
-        expect(traceCards).toHaveLength(0)
+        const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
+        expect(cards).toHaveLength(0)
       })
 
-      it('then it should still render other essential components', () => {
+      it('then it should still render notice and pagination', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
-        expect(wrapper.findComponent({ name: 'TracePageSizePicker' }).exists()).toBe(true)
-        expect(wrapper.findAllComponents({ name: 'AvPagination' })).toHaveLength(2)
-      })
-    })
-  })
-
-  describe('given a student tools traces view container with empty trace data', () => {
-    let wrapper: VueWrapper
-
-    beforeEach(() => {
-      vi.clearAllMocks()
-      setActivePinia(createPinia())
-
-      const emptyTracesData: TracesViewResponse = {
-        data: {
-          traces: [],
-          criticalCount: 0
-        },
-        page: {
-          number: 0,
-          pageSize: 20,
-          totalElements: 0,
-          totalPages: 0
-        }
-      }
-
-      mockUseUnassignedTracesViewQuery(emptyTracesData)
-      wrapper = mount(StudentToolsTracesViewContainer, {
-        global: {
-          plugins: [createPinia()],
-          stubs: commonStubs
-        }
-      })
-    })
-
-    describe('when the component is mounted with empty traces array', () => {
-      it('then it should not render any trace cards', () => {
-        const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
-        expect(traceCards).toHaveLength(0)
-      })
-
-      it('then it should still render pagination components', () => {
-        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
-        expect(paginations).toHaveLength(2)
-      })
-
-      it('then it should render notice and page size picker', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
-        expect(wrapper.findComponent({ name: 'TracePageSizePicker' }).exists()).toBe(true)
-      })
-    })
-  })
-
-  describe('given a student tools traces view container with no configuration', () => {
-    let wrapper: VueWrapper
-
-    beforeEach(() => {
-      vi.clearAllMocks()
-      setActivePinia(createPinia())
-
-      mockUseUnassignedTracesViewQuery(mockedTracesData)
-
-      wrapper = mount(StudentToolsTracesViewContainer, {
-        global: {
-          plugins: [createPinia()],
-          stubs: commonStubs
-        }
-      })
-    })
-
-    describe('when the component is mounted with null configuration', () => {
-      it('then it should still render all components correctly', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
-        expect(wrapper.findComponent({ name: 'TracePageSizePicker' }).exists()).toBe(true)
-        expect(wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })).toHaveLength(4)
-        expect(wrapper.findAllComponents({ name: 'AvPagination' })).toHaveLength(2)
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
     })
   })
