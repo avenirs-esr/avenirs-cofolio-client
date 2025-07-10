@@ -109,7 +109,7 @@
         },
         "home": "Accueil",
         "project": {
-          "header": "Contruire mon projet de vie",
+          "header": "Construire mon projet de vie",
           "items": {
             "experiences": "Mon parcours",
             "skills": "Toutes mes compétences",
@@ -192,7 +192,7 @@
         "title": "(placeholder) Toutes mes expériences"
       },
       "studentProjectSkillsView": {
-        "title": "(placeholder) Toutes mes compétences"
+        "title": "Toutes mes compétences"
       },
       "studentProjectTrajectoriesView": {
         "title": "(placeholder) Bâtir mon projet"
