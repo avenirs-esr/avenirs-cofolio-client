@@ -7,10 +7,10 @@ import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
-const { title, status, deletionDate } = trace
+const { title, status, deletedAt } = trace
 
 const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED
-  ? getDaysUntil(parseDateISO(deletionDate))
+  ? getDaysUntil(parseDateISO(deletedAt))
   : -1)
 
 const { t } = useI18n()

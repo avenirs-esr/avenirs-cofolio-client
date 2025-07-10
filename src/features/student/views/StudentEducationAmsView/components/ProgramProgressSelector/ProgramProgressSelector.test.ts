@@ -1,7 +1,7 @@
-import type { ProgramProgressDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
+import { type TrainingPathDTO, TrainingPathDTODurationUnit } from '@/api/avenir-esr'
 import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAmsStore } from '@/store'
@@ -44,14 +44,29 @@ describe('programProgressSelector', () => {
     }
   }
 
-  const mockPrograms: ProgramProgressDTO[] = [
-    { id: '1', name: 'Master Chimie Verte et Éco-Innovations USMB (2 ans)' },
-    { id: '2', name: 'Master Biologie marine USMB (2 ans)' },
-    { id: '3', name: 'Master Sciences de l\'Environnement (1 an)' }
+  const mockPrograms: TrainingPathDTO[] = [
+    {
+      id: '1',
+      name: 'Master Chimie Verte et Éco-Innovations USMB (2 ans)',
+      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationCount: 2
+    },
+    {
+      id: '2',
+      name: 'Master Biologie marine USMB (2 ans)',
+      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationCount: 2
+    },
+    {
+      id: '3',
+      name: 'Master Sciences de l\'Environnement (1 an)',
+      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationCount: 2
+    }
   ]
 
-  function mockUseAllMyProgramProgressQuery (programs: ProgramProgressDTO[], isFetched = true): void {
-    const mockData: Ref<ProgramProgressDTO[]> = ref(programs)
+  function mockUseAllMyProgramProgressQuery (programs: TrainingPathDTO[], isFetched = true): void {
+    const mockData: Ref<TrainingPathDTO[]> = ref(programs)
     const mockIsFetched: Ref<boolean> = ref(isFetched)
     const mockError: Ref<BaseApiException | null> = ref(null)
 
@@ -59,7 +74,7 @@ describe('programProgressSelector', () => {
       data: mockData,
       isFetched: mockIsFetched,
       error: mockError,
-    } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+    } as unknown as UseQueryDefinedReturnType<TrainingPathDTO[], BaseApiException>
 
     mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
   }
@@ -203,7 +218,7 @@ describe('programProgressSelector', () => {
     let wrapper: VueWrapper
 
     beforeEach(async () => {
-      const mockData: Ref<ProgramProgressDTO[]> = ref(mockPrograms)
+      const mockData: Ref<TrainingPathDTO[]> = ref(mockPrograms)
       const mockIsFetched: Ref<boolean> = ref(false)
       const mockError: Ref<BaseApiException | null> = ref(null)
 
@@ -211,7 +226,7 @@ describe('programProgressSelector', () => {
         data: mockData,
         isFetched: mockIsFetched,
         error: mockError,
-      } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+      } as unknown as UseQueryDefinedReturnType<TrainingPathDTO[], BaseApiException>
 
       mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
 
@@ -260,9 +275,11 @@ describe('programProgressSelector', () => {
   })
 
   describe('given a program progress selector with specific program mapping', () => {
-    const program: ProgramProgressDTO = {
+    const program: TrainingPathDTO = {
       id: 'test-id',
-      name: 'Test Program Name'
+      name: 'Test Program Name',
+      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationCount: 2
     }
     let wrapper: VueWrapper
 
@@ -295,7 +312,7 @@ describe('programProgressSelector', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
-      const mockData: Ref<ProgramProgressDTO[]> = ref([])
+      const mockData: Ref<TrainingPathDTO[]> = ref([])
       const mockIsFetched: Ref<boolean> = ref(false)
       const mockError: Ref<BaseApiException | null> = ref(null)
 
@@ -303,7 +320,7 @@ describe('programProgressSelector', () => {
         data: mockData,
         isFetched: mockIsFetched,
         error: mockError,
-      } as unknown as UseQueryDefinedReturnType<ProgramProgressDTO[], BaseApiException>
+      } as unknown as UseQueryDefinedReturnType<TrainingPathDTO[], BaseApiException>
 
       mockedUseAllMyProgramProgressQuery.mockReturnValue(queryMockedData)
 

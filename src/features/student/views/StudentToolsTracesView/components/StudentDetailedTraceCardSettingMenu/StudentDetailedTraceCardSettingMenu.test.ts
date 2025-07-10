@@ -53,7 +53,7 @@ describe('studentDetailedTraceCardSettingMenu', () => {
     status: TraceStatus.UNASSOCIATED,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
-    deletionDate: '2025-07-16T10:42:00.000Z'
+    deletedAt: '2025-07-16T10:42:00.000Z'
   }
 
   beforeEach(() => {
@@ -221,7 +221,7 @@ describe('studentDetailedTraceCardSettingMenu', () => {
       status: TraceStatus.ASSOCIATED,
       createdAt: '2025-06-15T10:42:00.000Z',
       updatedAt: '2025-06-16T15:18:00.000Z',
-      deletionDate: '2025-07-15T10:42:00.000Z'
+      deletedAt: '2025-07-15T10:42:00.000Z'
     }
 
     beforeEach(() => {

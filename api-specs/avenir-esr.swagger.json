@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:10000",
+      "url": "http://avenirs-apisix-api:9080",
       "description": "Generated server url"
     }
   ],
@@ -171,6 +171,29 @@
         }
       }
     },
+    "/user-categories": {
+      "get": {
+        "tags": [
+          "ressource-controller"
+        ],
+        "operationId": "getUserCategories",
+        "responses": {
+          "200": {
+            "description": "Liste des catégories d'utilisateur",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCategory"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/traces/config": {
       "get": {
         "tags": [
@@ -253,6 +276,29 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProfileOverviewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/training-paths": {
+      "get": {
+        "tags": [
+          "training-path-controller"
+        ],
+        "operationId": "getAllTrainingPaths",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrainingPathDTO"
+                  }
                 }
               }
             }
@@ -355,54 +401,19 @@
         }
       }
     },
-    "/me/program-progress": {
+    "/me/student-progress/view": {
       "get": {
         "tags": [
-          "program-progress-controller"
-        ],
-        "operationId": "getAllProgramProgress",
-        "parameters": [
-          {
-            "name": "Accept-Language",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "fr_FR"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProgramProgressDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/program-progress/view": {
-      "get": {
-        "tags": [
-          "program-progress-controller"
+          "student-progress-controller"
         ],
         "operationId": "getSkillsView",
         "parameters": [
           {
-            "name": "Accept-Language",
-            "in": "header",
+            "name": "sort",
+            "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "default": "fr_FR"
+              "type": "string"
             }
           }
         ],
@@ -414,7 +425,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProgramProgressViewDTO"
+                    "$ref": "#/components/schemas/StudentProgressViewDTO"
                   }
                 }
               }
@@ -423,23 +434,12 @@
         }
       }
     },
-    "/me/program-progress/overview": {
+    "/me/student-progress/overview": {
       "get": {
         "tags": [
-          "program-progress-controller"
+          "student-progress-controller"
         ],
         "operationId": "getSkillsOverview",
-        "parameters": [
-          {
-            "name": "Accept-Language",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "fr_FR"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -448,7 +448,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ProgramProgressOverviewDTO"
+                    "$ref": "#/components/schemas/StudentProgressOverviewDTO"
                   }
                 }
               }
@@ -463,17 +463,6 @@
           "navigation-access-controller"
         ],
         "operationId": "getStudentNavigationAccess",
-        "parameters": [
-          {
-            "name": "Accept-Language",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "default": "fr_FR"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -560,7 +549,7 @@
                       "BAD_IMAGE_SIZE",
                       "BAD_IMAGE_TYPE",
                       "PROGRAM_NOT_FOUND",
-                      "PROGRAM_PROGRESS_NOT_FOUND",
+                      "TRAINING_PATH_NOT_FOUND",
                       "SKILL_NOT_FOUND",
                       "SKILL_LEVEL_NOT_FOUND",
                       "TRACE_NOT_FOUND",
@@ -670,6 +659,14 @@
           "ASSOCIATED"
         ]
       },
+      "UserCategory": {
+        "type": "string",
+        "description": "Enum for user category",
+        "enum": [
+          "TEACHER",
+          "STUDENT"
+        ]
+      },
       "ProfileUpdateRequest": {
         "type": "object",
         "properties": {
@@ -736,6 +733,38 @@
           "profilePicture"
         ]
       },
+      "TrainingPathDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "durationUnit": {
+            "type": "string",
+            "enum": [
+              "YEAR",
+              "SEMESTER",
+              "TRIMESTER",
+              "MONTH",
+              "WEEK"
+            ]
+          },
+          "durationCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "durationCount",
+          "durationUnit",
+          "id",
+          "name"
+        ]
+      },
       "PageInfo": {
         "type": "object",
         "properties": {
@@ -789,14 +818,14 @@
             "type": "string",
             "format": "date-time"
           },
-          "deletionDate": {
+          "deletedAt": {
             "type": "string",
             "format": "date-time"
           }
         },
         "required": [
           "createdAt",
-          "deletionDate",
+          "deletedAt",
           "id",
           "status",
           "title",
@@ -890,7 +919,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "deletionDate": {
+          "deletedAt": {
             "type": "string",
             "format": "date-time"
           }
@@ -898,52 +927,13 @@
         "required": [
           "AMSCount",
           "createdAt",
-          "deletionDate",
+          "deletedAt",
           "isGroup",
           "programName",
           "skillCount",
           "title",
           "traceId",
           "updatedAt"
-        ]
-      },
-      "ProgramProgressDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "ProgramProgressViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillViewDTO"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "skills"
         ]
       },
       "SkillLevelViewDTO": {
@@ -1014,7 +1004,7 @@
           "traceCount"
         ]
       },
-      "ProgramProgressOverviewDTO": {
+      "StudentProgressViewDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -1027,7 +1017,7 @@
           "skills": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkillOverviewDTO"
+              "$ref": "#/components/schemas/SkillViewDTO"
             }
           }
         },
@@ -1094,6 +1084,29 @@
           "id",
           "name",
           "traceCount"
+        ]
+      },
+      "StudentProgressOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillOverviewDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "skills"
         ]
       },
       "AccessInfoAPC": {

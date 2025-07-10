@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProgramProgressDTO } from '@/api/avenir-esr'
+import type { TrainingPathDTO } from '@/api/avenir-esr'
 import type { ComputedRef } from 'vue'
 import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import { useAmsStore } from '@/store'
@@ -14,7 +14,7 @@ const { t } = useI18n()
 const amsStore = useAmsStore()
 const currentPage = toRef(amsStore, 'currentPage')
 
-function mapProgramToOption (program: ProgramProgressDTO): AvTagPickerOption {
+function mapProgramToOption (program: TrainingPathDTO): AvTagPickerOption {
   return {
     label: program.name,
     value: program.id,

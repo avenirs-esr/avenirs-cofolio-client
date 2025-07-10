@@ -1,6 +1,6 @@
-import { type ProgramProgressOverviewDTO, type ProgramProgressViewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { SkillLevelStatus, type StudentProgressOverviewDTO, type StudentProgressViewDTO, TrainingPathDTODurationUnit } from '@/api/avenir-esr'
 
-export const mockedProgramsProgressOverview: ProgramProgressOverviewDTO[] = [
+export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
   {
     id: 'course-2',
     name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel',
@@ -71,7 +71,7 @@ export const mockedProgramsProgressOverview: ProgramProgressOverviewDTO[] = [
   },
 ]
 
-export const mockedProgramsProgressView: ProgramProgressViewDTO[] = mockedProgramsProgressOverview.map(course => ({
+export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgramsProgressOverview.map(course => ({
   id: `program-${course.id}`,
   name: course.name,
   skills: [...course.skills].map((skill) => {
@@ -116,4 +116,6 @@ export const mockedProgramsProgressView: ProgramProgressViewDTO[] = mockedProgra
 export const mockedAllMyProgramsProgress = mockedProgramsProgressView.slice(0, 2).map(program => ({
   id: program.id,
   name: program.name,
+  durationUnit: TrainingPathDTODurationUnit.YEAR,
+  durationCount: 2
 }))

@@ -1,4 +1,4 @@
-import { type ProgramProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import { SkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 
@@ -13,7 +13,7 @@ describe('studentSkillsWidgetContainer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
-  const course: ProgramProgressOverviewDTO = {
+  const course: StudentProgressOverviewDTO = {
     id: 'course1',
     name: 'Master Chimie Verte et Éco-innovations',
     skills: [
