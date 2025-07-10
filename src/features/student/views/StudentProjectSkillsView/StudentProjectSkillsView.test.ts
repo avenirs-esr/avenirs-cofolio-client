@@ -1,28 +1,49 @@
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentProjectSkillsView from '@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 
-vi.mock('@/common/components/PageTitle', () => ({
-  PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
-}))
+const stubs = {
+  PageTitle: {
+    name: 'PageTitle',
+    props: ['title', 'breadcrumbLinks'],
+    template: '<div class="page-title-stub" />'
+  },
+}
 
 describe('studentProjectSkillsView', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+  describe('given a student project skills view component', () => {
+    let wrapper: VueWrapper
 
-  const title = '(placeholder) Toutes mes compétences'
-  const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const currentBreadcrumbLink = { text: 'Toutes mes compétences' }
+    beforeEach(() => {
+      vi.clearAllMocks()
 
-  it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentProjectSkillsView)
-    const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      wrapper = mount(StudentProjectSkillsView, {
+        global: {
+          stubs
+        }
+      })
+    })
 
-    expect(pageTitle.props('title')).toBe(title)
-    expect(pageTitle.props('breadcrumbLinks')).toEqual([
-      homeBreadcrumbLink,
-      currentBreadcrumbLink
-    ])
+    describe('when the component is mounted', () => {
+      it('then it should render PageTitle with correct props', () => {
+        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+        expect(pageTitle.exists()).toBe(true)
+        expect(pageTitle.props('title')).toBe('Toutes mes compétences')
+
+        const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
+        expect(breadcrumbLinks).toHaveLength(3)
+        expect(breadcrumbLinks[0]).toEqual({
+          text: 'Accueil',
+          to: studentHomeRoute
+        })
+        expect(breadcrumbLinks[1]).toEqual({
+          text: 'Construire mon projet de vie'
+        })
+        expect(breadcrumbLinks[2]).toEqual({
+          text: 'Toutes mes compétences'
+        })
+      })
+    })
   })
 })
