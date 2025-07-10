@@ -32,15 +32,27 @@ export function useAmsViewQuery (
     }
     : skipToken)
 
+  const lastData = ref<AmsViewResponse | undefined>(undefined)
+
   const query = useQuery<AmsViewResponse, BaseApiException, AmsViewResponse, readonly unknown[]>({
     queryKey,
     queryFn,
     enabled: computed(() => !isNil(programProgramId.value)),
     staleTime: TWO_MINUTES,
+    placeholderData: lastData.value
   })
 
-  const amss = computed(() => query.data.value?.data ?? [])
-  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
+  const amss = computed(() => lastData.value?.data ?? [])
+  const pageInfo = computed(() => lastData.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
+
+  watch(
+    () => query.data.value,
+    (newData) => {
+      if (newData) {
+        lastData.value = newData
+      }
+    }
+  )
 
   return {
     ...query,
