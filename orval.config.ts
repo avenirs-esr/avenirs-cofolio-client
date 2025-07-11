@@ -11,6 +11,7 @@ export default defineConfig({
       schemas: './types',
       client: 'fetch',
       mode: 'tags',
+      clean: true,
       override: {
         fetch: {
           includeHttpResponseReturnType: false,
