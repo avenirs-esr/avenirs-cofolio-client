@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SkillsViewOtherTab from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -19,7 +20,7 @@ const activeTab = ref(0)
       :title="t('student.views.studentProjectSkillsView.skillsViewTabs.other')"
       :icon="MDI_ICONS.STARS"
     >
-      TODO #416 Placeholder...
+      <SkillsViewOtherTab />
     </AvTab>
   </AvTabs>
 </template>

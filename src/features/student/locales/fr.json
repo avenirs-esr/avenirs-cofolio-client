@@ -194,7 +194,10 @@
       "studentProjectSkillsView": {
         "skillsViewTabs": {
           "education": "Les compétences de mes formations (validées et en cours)",
-          "other": "Mes autres compétences"
+          "other": "Mes autres compétences",
+          "skillsViewOtherTab": {
+            "addSkillButton": "Ajouter une compétence"
+          }
         },
         "title": "Toutes mes compétences"
       },

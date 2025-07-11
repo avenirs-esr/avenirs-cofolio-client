@@ -194,7 +194,10 @@
       "studentProjectSkillsView": {
         "skillsViewTabs": {
           "education": "My educational skills (validated and in progress)",
-          "other": "My other skills"
+          "other": "My other skills",
+          "skillsViewOtherTab": {
+            "addSkillButton": "Add a skill"
+          }
         },
         "title": "All my skills"
       },
