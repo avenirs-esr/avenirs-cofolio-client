@@ -356,3 +356,5 @@ a11y/reports
 src/api/**/generated/
 !src/api/fetch-instance/
 !src/api/index.ts
+
+storybook-static/
