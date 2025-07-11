@@ -12,7 +12,7 @@ import {
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student', 'traces']
 const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
@@ -27,8 +27,6 @@ export function useUnassignedTracesViewQuery (
 } {
   const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value }])
 
-  const lastData = ref<TracesViewResponse | undefined>(undefined)
-
   const query = useQuery<TracesViewResponse, BaseApiException, TracesViewResponse, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<TracesViewResponse> => {
@@ -39,20 +37,11 @@ export function useUnassignedTracesViewQuery (
       })
     },
     staleTime: TWO_MINUTES,
-    placeholderData: lastData.value
+    placeholderData: keepPreviousData
   })
 
-  const traces = computed(() => lastData.value?.data.traces ?? [])
-  const pageInfo = computed(() => lastData.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
-
-  watch(
-    () => query.data.value,
-    (newData) => {
-      if (newData) {
-        lastData.value = newData
-      }
-    }
-  )
+  const traces = computed(() => query.data.value?.data.traces ?? [])
+  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,

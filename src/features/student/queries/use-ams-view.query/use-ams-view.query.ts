@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { type AmsViewDTO, type AmsViewResponse, getAmsView, type PageInfo } from '@/api/avenir-esr'
-import { skipToken, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, skipToken, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import isNil from 'lodash-es/isNil'
 import { type Ref, toValue } from 'vue'
 
@@ -32,27 +32,16 @@ export function useAmsViewQuery (
     }
     : skipToken)
 
-  const lastData = ref<AmsViewResponse | undefined>(undefined)
-
   const query = useQuery<AmsViewResponse, BaseApiException, AmsViewResponse, readonly unknown[]>({
     queryKey,
     queryFn,
     enabled: computed(() => !isNil(programProgramId.value)),
     staleTime: TWO_MINUTES,
-    placeholderData: lastData.value
+    placeholderData: keepPreviousData
   })
 
-  const amss = computed(() => lastData.value?.data ?? [])
-  const pageInfo = computed(() => lastData.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
-
-  watch(
-    () => query.data.value,
-    (newData) => {
-      if (newData) {
-        lastData.value = newData
-      }
-    }
-  )
+  const amss = computed(() => query.data.value?.data ?? [])
+  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,

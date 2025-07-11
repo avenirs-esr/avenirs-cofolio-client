@@ -14,15 +14,7 @@ export interface PaginationProps {
 
 const { pageInfo, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = defineProps<PaginationProps>()
 
-/**
- * Slots available in the Pagination component.
- *
- * @slot default - Default slot for global content.
- */
 defineSlots<{
-  /**
-   * Default slot for global content.
-   */
   default?: Slot
 }>()
 
