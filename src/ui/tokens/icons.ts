@@ -37,6 +37,7 @@ export const MDI_ICONS = {
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
   WARNING_OUTLINE: 'mdi:warning-outline',
   DOTS_VERTICAL: 'mdi:dots-vertical',
+  PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   TRASH_CAN_OUTLINE: 'mdi:trash-can-outline',
 }
 
