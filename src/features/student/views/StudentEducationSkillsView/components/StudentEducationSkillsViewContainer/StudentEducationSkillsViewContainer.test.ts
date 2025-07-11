@@ -4,8 +4,8 @@ import { mount } from '@vue/test-utils'
 
 describe('studentEducationSkillsViewContainer', () => {
   const stubs = {
-    StudentDetailedSkillCard: {
-      name: 'StudentDetailedSkillCard',
+    StudentDetailedEducationalSkillCard: {
+      name: 'StudentDetailedEducationalSkillCard',
       template: `<div class="student-detailed-skill-card" />`,
       props: ['skill', 'skillColor']
     },
@@ -24,7 +24,7 @@ describe('studentEducationSkillsViewContainer', () => {
       }
     })
 
-    const detailedSkillsCards = wrapper.findAllComponents({ name: 'StudentDetailedSkillCard' })
+    const detailedSkillsCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
 
     expect(wrapper.text()).toContain(baseProps.course.name)
     expect(detailedSkillsCards).toHaveLength(baseProps.course.skills.length)

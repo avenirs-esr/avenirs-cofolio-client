@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { StudentProgressViewDTO } from '@/api/avenir-esr'
-import StudentDetailedSkillCard from '@/features/student/views/StudentEducationSkillsView/components/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
+import { StudentDetailedEducationalSkillCard } from '@/features/student/components/cards'
 
 const { course } = defineProps<{ course: StudentProgressViewDTO }>()
 </script>
@@ -11,11 +11,11 @@ const { course } = defineProps<{ course: StudentProgressViewDTO }>()
       {{ course.name }}
     </span>
     <div class="skills-container">
-      <StudentDetailedSkillCard
+      <StudentDetailedEducationalSkillCard
         v-for="(skill, index) in course.skills"
         :key="skill.id"
         :skill="skill"
-        :skill-color="`--skill${index + 1}`"
+        :skill-color="`var(--skill${index + 1})`"
       />
     </div>
   </div>
