@@ -9,7 +9,7 @@ export default meta
 
 export const Titles: StoryFn = () => ({
   template: `
-    <div style="padding: 1rem; display: flex; flex-direction: column; flex: 1;">
+    <div style="padding: var(--spacing-sm); display: flex; flex-direction: column; flex: 1;">
       <h1 class="n1">Headline Style 1 (n1)</h1>
       <h2 class="n2">Headline Style 2 (n2)</h2>
       <h3 class="n3">Headline Style 3 (n3)</h3>
@@ -22,7 +22,7 @@ export const Titles: StoryFn = () => ({
 
 export const Texts: StoryFn = () => ({
   template: `
-    <div style="padding: 1rem; display: flex; flex-direction: column; flex: 1;">
+    <div style="padding: var(--spacing-sm); display: flex; flex-direction: column; flex: 1;">
       <span class="s1-light">Subtitle Style 1 (s1-light)</span>
       <span class="s1-regular">Subtitle Style 1 (s1-regular)</span>
       <span class="s1-bold">Subtitle Style 1 (s1-bold)</span>

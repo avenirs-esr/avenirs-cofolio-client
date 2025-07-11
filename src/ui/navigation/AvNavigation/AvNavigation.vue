@@ -34,7 +34,7 @@ const props = defineProps<AvNavigationProps>()
 <style lang="scss" scoped>
 .my-nav-wrapper :deep(.fr-nav__link) {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-sm);
   justify-content: flex-start;
 }
 
@@ -44,10 +44,10 @@ const props = defineProps<AvNavigationProps>()
 
 .my-nav-wrapper :deep(.fr-nav__item > .fr-nav__btn),
 .my-nav-wrapper :deep(.fr-nav__item > .fr-nav__link) {
-  border-radius: 1.5rem 1.5rem 0 0;
+  border-radius: 1.5rem 1.5rem var(--radius-none) var(--radius-none);
 }
 
 .my-nav-wrapper :deep(.fr-nav__item > .fr-collapse > .fr-menu__list > .fr-menu__item > .fr-nav__link:hover) {
-  border-radius: 0;
+  border-radius: var(--radius-none);
 }
 </style>

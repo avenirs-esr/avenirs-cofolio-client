@@ -58,7 +58,7 @@ watch(pageSizeSelected, () => {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2rem;
+  gap: var(--spacing-lg);
 }
 
 .detailed-cards-container {

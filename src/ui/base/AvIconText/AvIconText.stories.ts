@@ -83,7 +83,7 @@ const meta: Meta<AvIconTextProps> = {
     icon: 'mdi:calendar-month',
     text: 'Example text with icon',
     typographyClass: 'b2-regular',
-    gap: '0.25rem',
+    gap: 'var(--spacing-xxs)',
     inline: false,
   },
 }
@@ -116,5 +116,5 @@ CustomColors.args = {
   iconColor: 'var(--dark-background-primary1)',
   textColor: 'var(--dark-background-primary2)',
   typographyClass: 'b1-bold',
-  gap: '0.5rem',
+  gap: 'var(--spacing-xs)',
 }

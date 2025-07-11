@@ -78,14 +78,14 @@ function useDeleteTrace () {
 .student-detailed-trace-card-setting-menu {
   position: absolute;
   top: 6rem;
-  right: 0.25rem;
+  right: var(--spacing-xxs);
   background: var(--dialog);
   border: 0.06rem solid var(--dark-background-primary2);
   border-radius: var(--radius-lg);
   box-shadow: 0 var(--spacing-xxs) var(--spacing-xs) rgba(0, 0, 0, 0.15);
   z-index: 20000;
   min-width: 14.688rem;
-  padding:  var(--spacing-xs) 0.04rem;
+  padding:  var(--spacing-xs) var(--spacing-none).04rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

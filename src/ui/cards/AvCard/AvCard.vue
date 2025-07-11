@@ -106,11 +106,11 @@ const slots = defineSlots<{
   border-radius: 1.5rem;
   border: 1px solid transparent;
   overflow: hidden;
-  padding: 1rem;
+  padding: var(--spacing-sm);
   justify-content: space-between;
 
   &__title {
-    margin: -1rem -1rem 0 -1rem;
+    margin: calc(-1 * var(--spacing-sm)) calc(-1 * var(--spacing-sm)) 0 calc(-1 * var(--spacing-sm));
     padding: 1rem;
   }
 }

@@ -126,7 +126,7 @@ function getToasterStyleVars (type: Message['type']) {
 .toaster-container {
   pointer-events: none;
   position: fixed;
-  bottom: 1rem;
+  bottom: var(--spacing-sm);
   width: 100%;
   z-index: 1750;
 }

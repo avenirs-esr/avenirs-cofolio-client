@@ -51,7 +51,7 @@ watch(pageSizeSelected, () => {
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2rem;
+  gap: var(--spacing-lg);
 }
 
 .detailed-cards-container {
@@ -59,7 +59,7 @@ watch(pageSizeSelected, () => {
   flex-direction: row;
   align-items: center;
   width: 100%;
-  gap: 1rem;
+  gap: var(--spacing-sm);
   flex-wrap: wrap;
 }
 </style>

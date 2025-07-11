@@ -76,8 +76,8 @@ button[class^="css-"]:hover,
 
 input[type="checkbox"] {
   appearance: auto !important;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
+  width: var(--dimension-md) !important;
+  height: var(--dimension-md) !important;
 }
 
 input[type="checkbox"] + span, input[type="checkbox"] + span + span {

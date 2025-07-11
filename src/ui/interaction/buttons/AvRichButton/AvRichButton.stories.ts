@@ -58,7 +58,7 @@ const meta: Meta<AvRichButtonProps> = {
     label: 'Ckick me',
     iconLeft: '',
     iconRight: '',
-    customPadding: '1rem'
+    customPadding: 'var(--spacing-sm)'
   },
 }
 

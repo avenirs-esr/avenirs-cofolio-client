@@ -14,7 +14,7 @@ const { t } = useI18n()
     icon-color="var(--text1)"
     text-color="var(--text1)"
     typography-class="b2-regular"
-    gap="0.5rem"
+    gap="var(--spacing-xs)"
   />
 </template>
 

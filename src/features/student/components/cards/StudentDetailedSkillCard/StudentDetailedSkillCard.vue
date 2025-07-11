@@ -72,10 +72,10 @@ const { name } = skill
   position: absolute;
   width: 3.125rem;
   height: 3.125rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--other-background-base);
   right: 0;
-  top: 2.5rem;
+  top: var(--spacing-xl);
   display: flex;
   justify-content: center;
   align-items: center;

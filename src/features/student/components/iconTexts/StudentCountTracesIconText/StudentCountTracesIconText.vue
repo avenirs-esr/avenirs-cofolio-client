@@ -2,7 +2,7 @@
 import { AvIconText, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { countTraces, gap = '0.5rem' } = defineProps<{ countTraces: number, gap?: string }>()
+const { countTraces, gap = 'var(--spacing-xs)' } = defineProps<{ countTraces: number, gap?: string }>()
 
 const { t } = useI18n()
 </script>

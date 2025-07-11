@@ -105,14 +105,14 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   align-content: start;
   align-self: flex-start;
   width: 14.688rem;
-  height: 3rem;
+  height: var(--dimension-2xl);
 }
 
 .student-detailed-trace-card__titletruncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  height: 3rem;
+  height: var(--dimension-2xl);
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
@@ -126,7 +126,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   border-radius: var(--radius-lg);
   border: 1px solid var(--other-border-skill-card);
   right: 0.75rem;
-  top: 2rem;
+  top: var(--spacing-lg);
   display: flex;
   justify-content: center;
   align-items: center;

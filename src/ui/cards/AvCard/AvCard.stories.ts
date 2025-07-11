@@ -82,7 +82,7 @@ WithCustomColors.args = {
   backgroundColor: 'var(--surface-background)',
   borderColor: 'var(--other-border-skill-card)',
   titleBackground: 'var(--light-background-primary1)',
-  titleHeight: '5rem',
+  titleHeight: 'var(--dimension-5xl)',
 }
 
 export const WithOnlyDefaultSlot = TemplateDefaultSlot.bind({})

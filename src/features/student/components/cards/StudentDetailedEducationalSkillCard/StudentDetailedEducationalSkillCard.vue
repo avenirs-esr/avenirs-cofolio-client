@@ -12,7 +12,13 @@ export interface StudentDetailedEducationaSkillCardProps {
 const { skill, skillColor } = defineProps<StudentDetailedEducationaSkillCardProps>()
 const { traceCount, activityCount, levelCount, currentSkillLevel } = skill
 
-const showLevelBadge = computed(() => currentSkillLevel.status === SkillLevelStatus.TO_BE_EVALUATED || currentSkillLevel.status === SkillLevelStatus.UNDER_REVIEW)
+const showLevelBadge = computed((): boolean => {
+  const badgeVisibleStatuses: SkillLevelStatus[] = [
+    SkillLevelStatus.TO_BE_EVALUATED,
+    SkillLevelStatus.UNDER_REVIEW,
+  ]
+  return badgeVisibleStatuses.includes(currentSkillLevel.status)
+})
 const basePath = import.meta.env.BASE_URL
 </script>
 
@@ -72,8 +78,8 @@ const basePath = import.meta.env.BASE_URL
 .body-container {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 0.5rem;
+  gap: var(--spacing-xxs);
+  padding-top: var(--spacing-xs);
 }
 
 .firstline-container {
@@ -87,7 +93,7 @@ const basePath = import.meta.env.BASE_URL
 .line-container {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: var(--spacing-sm);
     align-items: center;
 }
 

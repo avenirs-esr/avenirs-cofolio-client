@@ -33,6 +33,6 @@ import {
 .student-home-right-container {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: var(--spacing-xl);
 }
 </style>
