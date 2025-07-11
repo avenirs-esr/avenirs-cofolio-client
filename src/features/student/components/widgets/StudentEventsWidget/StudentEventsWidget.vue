@@ -55,7 +55,7 @@ function getEventInfo (event: EventOverviewDTO) {
             <AvRichButton
               :label="event.name"
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
-              custom-padding="0.5rem"
+              custom-padding="var(--spacing-xs)"
             >
               <div class="events-widget-action__body">
                 <div class="events-widget-action__calendar">
@@ -110,7 +110,7 @@ function getEventInfo (event: EventOverviewDTO) {
   flex-direction: column;
   padding: 0;
   margin: 0;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .events-widget-action__calendar {
@@ -118,9 +118,9 @@ function getEventInfo (event: EventOverviewDTO) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  width: var(--dimension-xl);
+  height: var(--dimension-xl);
+  border-radius: var(--radius-md);
   background-color: var(--other-background-event-date);
   flex-shrink: 0;
 }
@@ -134,7 +134,7 @@ function getEventInfo (event: EventOverviewDTO) {
 .events-widget-action__body {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 
 .events-widget-container__footer {

@@ -193,7 +193,7 @@ watch(() => props.selected, (newSelected) => {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
   text-align: center;
 }
 
@@ -210,10 +210,10 @@ watch(() => props.selected, (newSelected) => {
 
 .fr-tag {
   border: 1px solid var(--divider);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   color: var(--text2) !important;
   background: var(--other-background-base) !important;
-  padding: 0.25rem 0.5rem !important;
+  padding: var(--spacing-xxs) var(--spacing-xs) !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;

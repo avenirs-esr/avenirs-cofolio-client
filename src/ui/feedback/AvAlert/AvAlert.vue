@@ -179,9 +179,9 @@ const icon = computed(() => {
   background-image: none !important;
   background-color: var(--dialog);
   border: 1px solid var(--dark-background-primary1);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   margin: 0;
-  padding: 1.5rem;
+  padding: var(--spacing-md);
 }
 
 .av-alert--container {
@@ -196,7 +196,7 @@ const icon = computed(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .av-alert--title {

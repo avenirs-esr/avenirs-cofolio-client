@@ -79,9 +79,9 @@ const styleVars = computed(() => ({
 
 .av-badge--customIcon::before {
   content: '';
-  margin-right: 0.5rem;
-  height: 1rem;
-  width: 1rem;
+  margin-right: var(--spacing-xs);
+  height: var(--dimension-sm);
+  width: var(--dimension-sm);
   mask: var(--icon-path) !important;
   mask-size: contain !important;
   mask-repeat: no-repeat;

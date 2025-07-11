@@ -100,10 +100,10 @@ const { t } = useI18n()
   position: absolute;
   width: 3.125rem;
   height: 3.125rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--other-background-base);
   right: 0;
-  top: 2.5rem;
+  top: var(--spacing-xl);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,7 +128,7 @@ const { t } = useI18n()
 .student-detailed-ams-card__line {
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: var(--spacing-sm);
     align-items: center;
 }
 
@@ -144,11 +144,11 @@ const { t } = useI18n()
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.25rem;
+    gap: var(--spacing-xxs);
 }
 
 .student-detailed-ams-card__delivarable-placeholder {
-  height: 1.5rem;
+  height: var(--dimension-md);
 }
 
 .n5 {

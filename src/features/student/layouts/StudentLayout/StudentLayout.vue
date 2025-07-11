@@ -62,17 +62,17 @@ defineExpose({ searchQuery })
 
 <style lang="scss" scoped>
 :deep(.fr-header__menu-links > nav .fr-nav__item > .fr-translate__btn) {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
+  padding-left: var(--spacing-xs) !important;
+  padding-right: var(--spacing-xs) !important;
 }
 
 :deep(.fr-header__menu-links > .fr-btns-group > li > .av-popover-wrapper > .av-popover-trigger-wrapper > .fr-btn),
 :deep(.fr-header__menu-links > nav .fr-btns-group > li > .fr-btn) {
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
+  padding-left: var(--spacing-xs) !important;
+  padding-right: var(--spacing-xs) !important;
 }
 
 :deep(.fr-btns-group .fr-btn) {
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-none);
 }
 </style>

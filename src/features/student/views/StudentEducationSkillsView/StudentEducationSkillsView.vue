@@ -34,6 +34,6 @@ const breadcrumbLinks = computed(() => [
 .courses-container {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: var(--spacing-4xl);
 }
 </style>

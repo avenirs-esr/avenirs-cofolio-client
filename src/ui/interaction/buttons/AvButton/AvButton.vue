@@ -168,7 +168,7 @@ defineExpose({ computedSvgScale })
 }
 
 .fr-btn.av-button--no-radius {
-  border-radius: 0 !important;
+  border-radius: var(--radius-none) !important;
 }
 
 .fr-btn[disabled], .fr-btn[disabled]:hover {

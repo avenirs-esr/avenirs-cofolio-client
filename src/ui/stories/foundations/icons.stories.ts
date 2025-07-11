@@ -17,7 +17,7 @@ export const AllIcons: StoryFn = () => ({
     return { icons }
   },
   template: `
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
       <div 
         v-for="[key, icon] in icons" 
         :key="key" 
@@ -36,7 +36,7 @@ export const MdiIcons: StoryFn = () => ({
     return { icons: Object.entries(MDI_ICONS).map(([key, icon]) => [`MDI_ICONS.${key}`, icon]) }
   },
   template: `
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
       <div 
         v-for="[key, icon] in icons" 
         :key="key" 
@@ -55,7 +55,7 @@ export const RiIcons: StoryFn = () => ({
     return { icons: Object.entries(RI_ICONS).map(([key, icon]) => [`RI_ICONS.${key}`, icon]) }
   },
   template: `
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm);">
       <div 
         v-for="[key, icon] in icons" 
         :key="key" 

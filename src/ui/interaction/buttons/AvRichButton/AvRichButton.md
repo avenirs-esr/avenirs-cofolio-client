@@ -53,7 +53,7 @@ None.
   <AvRichButton
     icon-right="mdi:arrow-right-thin"
     label="Page name"
-    custom-padding="0.5rem"
+    custom-padding="var(--spacing-xs)"
   >
     <div class="body">
       <AvVIcon

@@ -40,7 +40,7 @@ const {
   label,
   iconLeft = undefined,
   iconRight = undefined,
-  customPadding = '1rem',
+  customPadding = 'var(--spacing-sm)',
   onClick
 } = defineProps<AvRichButtonProps>()
 
@@ -91,7 +91,7 @@ defineSlots<{
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--stroke);
   overflow: hidden;
   padding: v-bind('customPadding');
@@ -114,7 +114,7 @@ defineSlots<{
   display: flex;
   flex-direction: row;
   flex: 1;
-  gap: 1rem;
+  gap: var(--spacing-sm);
   align-items: center;
   overflow: hidden;
 }

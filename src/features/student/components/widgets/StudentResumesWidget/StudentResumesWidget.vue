@@ -41,7 +41,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
             <AvRichButton
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               :label="resume.name"
-              custom-padding="0.5rem"
+              custom-padding="var(--spacing-xs)"
             >
               <div class="resumes-widget-action__body">
                 <div class="resumes-widget-action__leftIcon">
@@ -93,16 +93,16 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
   flex-direction: column;
   padding: 0;
   margin: 0;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .resumes-widget-action__leftIcon {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  width: var(--dimension-xl);
+  height: var(--dimension-xl);
+  border-radius: var(--radius-md);
   background-color: var(--dark-background-primary1);
   flex-shrink: 0;
 }
@@ -116,7 +116,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
 .resumes-widget-action__body {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 
 .resumes-widget-container__footer {

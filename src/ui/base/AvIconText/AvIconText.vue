@@ -52,7 +52,7 @@ const {
   icon,
   text,
   typographyClass = 'b2-regular',
-  gap = '0.25rem',
+  gap = 'var(--spacing-xxs)',
   inline = false
 } = defineProps<AvIconTextProps>()
 

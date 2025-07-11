@@ -75,7 +75,7 @@ const { t } = useI18n()
 }
 
 ul {
-  padding-left: 2rem;
+  padding-left: var(--spacing-lg);
 }
 
 .footer {

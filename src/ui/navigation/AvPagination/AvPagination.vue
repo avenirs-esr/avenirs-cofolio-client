@@ -220,13 +220,13 @@ const isCurrentPage = (page: Page) => pages.indexOf(page) === currentPage
 
 <style scoped>
 .fr-pagination__list {
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .fr-pagination__link {
   display: flex;
   margin: 0;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
   text-align: center !important;
   vertical-align: middle;
   gap: 0.75rem;

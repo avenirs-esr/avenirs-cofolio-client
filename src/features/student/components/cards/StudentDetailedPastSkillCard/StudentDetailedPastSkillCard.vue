@@ -45,8 +45,8 @@ const basePath = import.meta.env.BASE_URL
 .body-container {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 0.5rem;
+  gap: var(--spacing-xxs);
+  padding-top: var(--spacing-xs);
 }
 
 .line-container {

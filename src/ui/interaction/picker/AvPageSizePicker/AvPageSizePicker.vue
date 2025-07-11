@@ -59,6 +59,6 @@ const selectedOption: ComputedRef<AvTagPickerOption> = computed(() => ({
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 </style>

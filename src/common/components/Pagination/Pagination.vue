@@ -72,6 +72,6 @@ function handleSelectChange (val: AvTagPickerOption): void {
   flex-direction: row;
   width: 100%;
   justify-content: center;
-  padding-bottom: 2rem;
+  padding-bottom: var(--spacing-lg);
 }
 </style>

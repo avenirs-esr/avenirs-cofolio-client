@@ -41,17 +41,17 @@ function goBack () {
 
 <style lang="scss" scoped>
 .page-title-container {
-  padding-bottom: 4.5rem;
+  padding-bottom: var(--spacing-4xl);
 }
 .page-title {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: var(--spacing-sm);
   align-items: center;
 }
 
 .av-button {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: var(--dimension-xl);
+  height: var(--dimension-xl);
 }
 </style>

@@ -48,7 +48,7 @@ const renderedDeliverables = computed(() => {
             <AvRichButton
               :label="deliverable.id"
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
-              custom-padding="0.5rem"
+              custom-padding="var(--spacing-xs)"
               :on-click="navigateToStudentDeliverables"
             >
               <div class="deliverables-widget-action__body">
@@ -108,7 +108,7 @@ const renderedDeliverables = computed(() => {
   flex-direction: column;
   padding: 0;
   margin: 0;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .deliverables-widget-action__calendar {
@@ -116,9 +116,9 @@ const renderedDeliverables = computed(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.5rem;
+  width: var(--dimension-xl);
+  height: var(--dimension-xl);
+  border-radius: var(--radius-md);
   background-color: var(--other-background-event-date);
   flex-shrink: 0;
 }
@@ -132,7 +132,7 @@ const renderedDeliverables = computed(() => {
 .deliverables-widget-action__body {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 
 .deliverables-widget-container__footer {

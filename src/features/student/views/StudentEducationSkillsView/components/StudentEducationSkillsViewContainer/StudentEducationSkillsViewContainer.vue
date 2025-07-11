@@ -33,7 +33,7 @@ const { course } = defineProps<{ course: StudentProgressViewDTO }>()
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2rem;
+  gap: var(--spacing-lg);
 }
 
 .n5 {

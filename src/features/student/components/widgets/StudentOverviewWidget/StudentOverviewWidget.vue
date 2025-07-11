@@ -98,17 +98,17 @@ defineExpose({ fullName })
 <style lang="scss" scoped>
 .student-overview-widget__title {
   position: relative;
-  min-height: 4rem;
+  min-height: var(--dimension-4xl);
 }
 
 .student-overview-widget__icon {
   position: absolute;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.5rem;
+  width: var(--dimension-5xl);
+  height: var(--dimension-5xl);
+  border-radius: var(--radius-md);
   border: 4px solid var(--dark-foreground);
-  right: 1rem;
-  top: 1rem;
+  right: var(--spacing-sm);
+  top: var(--spacing-sm);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -118,7 +118,7 @@ defineExpose({ fullName })
   width: 100%;
   height: auto;
   max-height: 4.2rem;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
 }
 
 .student-overview-widget__picture {
@@ -130,7 +130,7 @@ defineExpose({ fullName })
 .student-overview-widget__body {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--spacing-xs);
 }
 
 .student-overview-bio {
@@ -141,7 +141,7 @@ defineExpose({ fullName })
 }
 
 .student-overview-widget__footer {
-  padding-top: 1rem;
+  padding-top: var(--spacing-sm);
 }
 
 .student-overview-widget__actions {
@@ -150,12 +150,12 @@ defineExpose({ fullName })
   flex-direction: column;
   padding: 0;
   margin: 0;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
 
 .student-overview-widget__action-avCard {
   width: 100%;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
 }
 
 .student-overview-widget__action-avCard-line {

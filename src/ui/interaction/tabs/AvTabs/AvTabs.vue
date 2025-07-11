@@ -136,7 +136,7 @@ defineExpose({ activeTab })
 :deep(.fr-tabs__list > li) {
   width: 100% !important;
   flex: 1 1 0% !important;
-  padding: 0.5rem 0 !important;
+  padding: var(--spacing-xs) var(--spacing-none) !important;
 }
 
 :deep(.fr-tabs__tab) {
@@ -145,7 +145,7 @@ defineExpose({ activeTab })
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 0.75rem !important;
+  border-radius: var(--radius-lg) !important;
   width: 100% !important;
   background: transparent !important;
   border: none !important;
@@ -170,9 +170,9 @@ defineExpose({ activeTab })
 :deep(.fr-tabs__list > li:not(:first-child))::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.5rem;
-  bottom: 0.5rem;
+  left: var(--spacing-none);
+  top: var(--spacing-xs);
+  bottom: var(--spacing-xs);
   width: 0.0625rem;
   background-color: var(--text1);
 }
