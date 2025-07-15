@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type Slot, useSlots } from 'vue'
+import type AvTab from '@/ui/interaction/tabs/AvTab/AvTab.vue'
+import { useSlots, type VNode } from 'vue'
 
 /**
  * AvTabs component Props.
@@ -39,7 +40,7 @@ defineSlots<{
   /**
    * Default slot for passing `AvTab` components.
    */
-  default?: Slot
+  default?: () => VNode<typeof AvTab>[]
 }>()
 
 const slots = useSlots()

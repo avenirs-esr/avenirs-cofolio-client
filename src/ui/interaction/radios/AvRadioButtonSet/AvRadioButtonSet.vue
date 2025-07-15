@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type AvRadioButton from '@/ui/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import { DsfrRadioButton, DsfrRadioButtonSet } from '@gouvminint/vue-dsfr'
-import { type Slot, useSlots } from 'vue'
+import { useSlots, type VNode } from 'vue'
 
 /**
  * AvRadioButtonSet component props.
@@ -85,7 +86,7 @@ defineSlots<{
    *
    * @slot default
    */
-  default?: Slot
+  default?: () => VNode<typeof AvRadioButton>[]
 }>()
 
 const slots = useSlots()
