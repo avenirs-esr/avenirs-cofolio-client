@@ -46,13 +46,13 @@ export interface AvRadioButtonSetProps {
 
   /**
    * Optional global error message displayed below the group.
-   * Used to indicate a validation error.
+   * If set, indicates a validation error.
    */
   errorMessage?: string
 
   /**
    * Optional global valid message displayed below the group.
-   * Used to confirm successful validation.
+   * If set, confirms successful validation.
    */
   validMessage?: string
 
@@ -102,6 +102,8 @@ watch(selected, (val) => {
     emit('update:modelValue', val)
   }
 })
+
+defineExpose({ selected })
 </script>
 
 <template>
@@ -117,6 +119,7 @@ watch(selected, (val) => {
       :disabled="radio.props?.disabled ?? props.disabled"
       :small="props.small"
       :inline="props.inline"
+      :name="props.name"
     >
       <template #label>
         <component :is="(radio.children as Record<string, unknown>).default" />
