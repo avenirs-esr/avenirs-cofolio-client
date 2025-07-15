@@ -9,7 +9,7 @@ export interface AvRadioButtonProps {
    * Value of the radio button.
    * This value will be emitted when the radio is selected.
    */
-  value: string
+  value: string | number | boolean
 
   /**
    * Optional fallback label, used if no custom label slot is provided.
