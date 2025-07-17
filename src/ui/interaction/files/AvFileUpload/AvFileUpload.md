@@ -16,6 +16,7 @@ The `AvFileUpload` component is an adaptation of the `DsfrFileUpload` code. This
 | `validMessage` | `string` | `''` | | Message indicating that the downloaded file is valid. |
 | `error` | `string` | `''` | | Error message to be displayed in case of download problem. |
 | `modelValue` | `string` | `''` | | Value linked to file upload input template. |
+| `maxWidth` | `string` | `'none'` | | Max width of the component. |
 
 ## 📡 Events
 

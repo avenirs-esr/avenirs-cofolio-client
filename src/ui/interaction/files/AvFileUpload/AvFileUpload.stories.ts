@@ -34,6 +34,7 @@ const meta: Meta<AvFileUploadProps> = {
     validMessage: { control: 'text' },
     disabled: { control: 'boolean' },
     modelValue: { control: 'text' },
+    maxWidth: { control: 'text' },
   },
   args: {
     id: 'test',
@@ -42,7 +43,8 @@ const meta: Meta<AvFileUploadProps> = {
     error: '',
     validMessage: '',
     disabled: false,
-    modelValue: ''
+    modelValue: '',
+    maxWidth: 'none'
   },
 }
 
