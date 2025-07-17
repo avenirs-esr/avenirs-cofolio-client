@@ -33,7 +33,7 @@ export interface AvSelectProps {
   /**
    * Selected option value.
    */
-  modelValue?: string | number | null | undefined
+  modelValue?: string | number | undefined
 
   /**
    * Select text label.
@@ -44,7 +44,7 @@ export interface AvSelectProps {
    * Selectable options.
    */
   options?: {
-    value: string | number | null | undefined
+    value: string | number | undefined
     text: string
     disabled?: boolean
   }[]
@@ -79,7 +79,7 @@ const emit = defineEmits<{
 }>()
 
 const title = computed(() => {
-  if (props.modelValue == null) {
+  if (!props.modelValue) {
     return props.defaultUnselectedText
   }
   const selected = props.options?.find(opt => String(opt.value) === String(props.modelValue))
