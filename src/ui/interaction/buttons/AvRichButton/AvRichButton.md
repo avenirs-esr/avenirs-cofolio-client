@@ -33,7 +33,7 @@ None.
 
 | Name | Description |
 | --- | --- |
-| `default` | Slot par défaut pour le contenu du bouton riche. |
+| `default` | Default slot for the global content of the rich button. |
 
 ## 📝 Examples of use
 
