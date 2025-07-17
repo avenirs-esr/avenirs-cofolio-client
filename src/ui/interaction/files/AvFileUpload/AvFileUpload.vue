@@ -58,6 +58,13 @@ export interface AvFileUploadProps {
    * @default ''
    */
   modelValue?: string
+
+  /**
+   * Max width of the component.
+   *
+   * @default undefined
+   */
+  maxWidth?: string
 }
 
 defineOptions({
@@ -71,6 +78,7 @@ const props = withDefaults(defineProps<AvFileUploadProps>(), {
   validMessage: '',
   error: '',
   modelValue: '',
+  maxWidth: 'none'
 })
 
 /**
@@ -218,6 +226,7 @@ function onChange ($event: InputEvent) {
 <style lang="scss" scoped>
 .fr-upload-group {
   cursor: pointer;
+  max-width: v-bind('maxWidth');
 }
 
 .fr-upload-group--disabled {
