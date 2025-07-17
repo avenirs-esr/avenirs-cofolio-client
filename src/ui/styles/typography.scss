@@ -60,6 +60,15 @@
   color: var(--text1);
 }
 
+.b2-bold {
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-sm);
+  letter-spacing: var(--letter-spacing-sm);
+  color: var(--text2);
+}
+
 .b2-light {
   font-family: var(--font-family-primary);
   font-weight: var(--font-weight-light);
