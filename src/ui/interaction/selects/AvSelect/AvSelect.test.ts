@@ -43,7 +43,7 @@ const options = [
 ]
 
 const defaultProps = {
-  modelValue: null,
+  modelValue: undefined,
   defaultUnselectedText: 'Select an option',
   options
 }

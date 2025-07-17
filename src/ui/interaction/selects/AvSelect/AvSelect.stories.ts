@@ -43,7 +43,7 @@ const meta = {
     modelValue: { control: 'text' },
     label: { control: 'text' },
     options: {
-      type: { name: '{value: string | number | null | undefined, text: string, disabled?: boolean}[]', required: true },
+      type: { name: '{value: string | number | undefined, text: string, disabled?: boolean}[]', required: true },
       control: false,
     },
     successMessage: { control: 'text' },
