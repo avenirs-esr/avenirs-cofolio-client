@@ -1,28 +1,38 @@
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentProjectTrajectoriesView from '@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest'
 
-vi.mock('@/common/components/PageTitle', () => ({
-  PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
-}))
+const stubs = {
+  PageTitle: {
+    name: 'PageTitle',
+    props: ['title', 'breadcrumbLinks'],
+    template: '<div class="page-title-stub" />'
+  }
+}
 
 describe('studentProjectTrajectoriesView', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+  describe('given a student project trajectories view component', () => {
+    let wrapper: VueWrapper
 
-  const title = '(placeholder) Bâtir mon projet'
-  const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const currentBreadcrumbLink = { text: 'Bâtir mon projet' }
+    const title = 'Bâtir mon projet'
+    const breadcrumbLinks = [
+      { text: 'Accueil', to: studentHomeRoute },
+      { text: 'Construire mon projet de vie' },
+      { text: 'Bâtir mon projet' }
+    ]
 
-  it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentProjectTrajectoriesView)
-    const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    beforeEach(() => {
+      wrapper = mount(StudentProjectTrajectoriesView, { global: { stubs } })
+    })
 
-    expect(pageTitle.props('title')).toBe(title)
-    expect(pageTitle.props('breadcrumbLinks')).toEqual([
-      homeBreadcrumbLink,
-      currentBreadcrumbLink
-    ])
+    describe('when the component is mounted', () => {
+      it('then it should render PageTitle with correct props', () => {
+        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+        expect(pageTitle.props('title')).toBe(title)
+        expect(pageTitle.props('breadcrumbLinks')).toEqual(breadcrumbLinks)
+      })
+    })
   })
 })
