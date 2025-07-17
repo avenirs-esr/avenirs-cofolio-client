@@ -1,5 +1,6 @@
 export * from './buttons'
 export * from './files'
+export * from './inputs'
 export * from './picker'
 export * from './radios'
 export * from './tabs'
