@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { Slot } from 'vue'
 import toggleActiveSvg from '@/ui/interaction/toggles/AvToggle/assets/toggle-active.svg?url'
 import toggleInactiveSvg from '@/ui/interaction/toggles/AvToggle/assets/toggle-inactive.svg?url'
 
@@ -11,6 +10,11 @@ export interface AvToggleProps {
    * Boolean value linked to the input.
    */
   modelValue?: boolean
+
+  /**
+   * Indicates the purpose of the toggle.
+   */
+  description: string
 
   /**
    * Unique id for the toggle. Used for accessibility.
@@ -58,18 +62,6 @@ defineEmits<{
   (e: 'update:modelValue', payload: boolean): void
 }>()
 
-/**
- * Slots available in the AvToggle component.
- *
- * @slot default - Default slot for the toggle description.
- */
-defineSlots<{
-  /**
-   * Default slot for the toggle description.
-   */
-  default?: Slot
-}>()
-
 const inputId = computed(() => props.id ?? crypto.randomUUID())
 const labelId = computed(() => {
   return `${inputId.value}-label`
@@ -85,7 +77,12 @@ const labelId = computed(() => {
     }"
     :for="inputId"
   >
-    <div class="toggle">
+    <div
+      class="toggle"
+      :class="{
+        'toggle--disabled': disabled,
+      }"
+    >
       <svg
         width="34"
         height="14"
@@ -98,18 +95,18 @@ const labelId = computed(() => {
       </svg>
       <span
         v-if="modelValue"
-        class="caption-bold"
+        class="caption-bold no-select"
       >
         {{ activeText }}
       </span>
       <span
         v-else
-        class="caption-regular"
+        class="caption-regular no-select"
       >
         {{ inactiveText }}
       </span>
     </div>
-    <slot />
+    <span class="caption-regular">{{ description }}</span>
   </label>
   <input
     :id="inputId"
@@ -129,9 +126,11 @@ const labelId = computed(() => {
 .av-toggle, .toggle {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: flex-start;
   cursor: pointer;
   gap: var(--spacing-xs);
+  width: fit-content;
 }
 
 .toggle {
@@ -140,17 +139,19 @@ const labelId = computed(() => {
   width: 3.625rem;
 }
 
-.av-toggle--disabled {
+.av-toggle--disabled, .toggle--disabled {
   cursor: default;
 }
 
 .caption-bold {
   color: var(--dark-background-primary1);
-  user-select: none;
 }
 
 .caption-regular {
   color: var(--text1);
+}
+
+.no-select {
   user-select: none;
 }
 </style>

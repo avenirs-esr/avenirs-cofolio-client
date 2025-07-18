@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 describe('avToggle', () => {
   const defaultProps = {
     modelValue: false,
+    description: 'test',
     id: 'my-toggle',
     activeText: 'Yes',
     inactiveText: 'No',
@@ -89,9 +90,17 @@ describe('avToggle', () => {
   })
 
   describe('given a toggle without id', () => {
+    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
+
+    beforeEach(() => {
+      wrapper = mount(AvToggle, {
+        props: { description: 'noId' },
+      })
+    })
+
     describe('when the toggle is mounted', () => {
       it('then it should generate a random input id', () => {
-        const wrapper = mount(AvToggle)
+        wrapper = mount(AvToggle)
         const input = wrapper.find('input[type="checkbox"]')
         const inputId = input.attributes('id')
         expect(inputId).toBeDefined()
@@ -103,20 +112,21 @@ describe('avToggle', () => {
     })
   })
 
-  describe('given a toggle with default slot provided', () => {
+  describe('given a toggle with a description prop', () => {
     let wrapper: ReturnType<typeof mount<typeof AvToggle>>
 
     beforeEach(() => {
       wrapper = mount(AvToggle, {
-        slots: {
-          default: '<div class="slot-content">Extra</div>',
+        props: {
+          ...defaultProps,
+          description: 'An awesome description',
         },
       })
     })
 
     describe('when the toggle is mounted', () => {
-      it('then it should render the slot content', () => {
-        expect(wrapper.find('.slot-content').text()).toBe('Extra')
+      it('then it should render the description text', () => {
+        expect(wrapper.text()).toContain('An awesome description')
       })
     })
   })
