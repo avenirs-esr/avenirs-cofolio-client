@@ -20,19 +20,26 @@ const slots = useSlots()
 const accordionsItem = computed(() => slots.default?.() || [])
 const activeAccordion = ref<number>()
 
-defineExpose({ activeAccordion })
+const id = `accordion-group-${crypto.randomUUID()}`
 </script>
 
 <template>
-  <DsfrAccordionsGroup v-model="activeAccordion">
+  <DsfrAccordionsGroup
+    v-model="activeAccordion"
+    role="group"
+    aria-label="Accordion group"
+  >
     <DsfrAccordion
       v-for="(accordion, index) in accordionsItem"
-      :id="`accordion-${index}`"
+      :id="`${id}-accordion-${index}`"
       :key="index"
+      :aria-labelledby="`accordion-title-${index}`"
+      :aria-describedby="`accordion-content-${index}`"
     >
       <template #title>
         <div class="title-container">
           <AvVIcon
+            v-if="accordion.props?.icon"
             :size="2"
             :name="accordion.props?.icon"
             color="var(--icon)"
