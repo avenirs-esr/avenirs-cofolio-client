@@ -44,6 +44,38 @@ describe('avAccordionsGroup', () => {
         expect(titles[1].text()).toBe('Accordion 2')
         expect(titles[2].text()).toBe('Accordion 3')
       })
+
+      it('then it should render the icon if the prop is provided', () => {
+        const firstIcon = wrapper.findAllComponents({ name: 'AvVIcon' })[0]
+        expect(firstIcon.exists()).toBe(true)
+        expect(firstIcon.props('name')).toBe('icon-1')
+      })
+
+      it('then it should not render the icon if the prop is missing', async () => {
+        const customSlots = {
+          default: [
+            '<AvAccordion title="Accordion without icon">No icon</AvAccordion>',
+            '<AvAccordion title="Accordion with icon" icon="icon-2">With icon</AvAccordion>'
+          ].join('')
+        }
+
+        const wrapperWithoutIcon = mount(AvAccordionsGroup, {
+          slots: customSlots,
+          global: {
+            stubs: {
+              AvAccordion: {
+                name: 'AvAccordion',
+                props: ['title', 'icon'],
+                template: '<div />'
+              }
+            }
+          }
+        })
+
+        const icons = wrapperWithoutIcon.findAllComponents({ name: 'AvVIcon' })
+        expect(icons.length).toBe(1)
+        expect(icons[0].props('name')).toBe('icon-2')
+      })
     })
 
     describe('when clicking on an accordion', () => {

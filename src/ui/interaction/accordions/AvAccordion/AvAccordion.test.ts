@@ -8,7 +8,7 @@ describe('avAccordion', () => {
   }
 
   describe('given an accordion with required props', () => {
-    let wrapper: VueWrapper
+    let wrapper: VueWrapper<InstanceType<typeof AvAccordion>>
 
     beforeEach(() => {
       wrapper = mount(AvAccordion, {

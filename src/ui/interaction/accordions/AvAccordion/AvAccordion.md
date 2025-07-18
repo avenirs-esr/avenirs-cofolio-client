@@ -1,4 +1,4 @@
-# Accordions - `AvAccordions`
+# Accordions - `AvAccordion`
 
 ## 🌟 Introduction
 
