@@ -71,11 +71,11 @@ const labelId = computed(() => {
 <template>
   <label
     :id="labelId"
+    :for="inputId"
     class="av-toggle"
     :class="{
       'av-toggle--disabled': disabled,
     }"
-    :for="inputId"
   >
     <div
       class="toggle"
@@ -110,7 +110,7 @@ const labelId = computed(() => {
   </label>
   <input
     :id="inputId"
-    :style="{ display: 'none ' }"
+    :style="{ visibility: 'hidden' }"
     :disabled="disabled"
     :aria-disabled="disabled"
     type="checkbox"

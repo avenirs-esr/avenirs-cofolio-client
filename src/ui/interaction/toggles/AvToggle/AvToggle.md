@@ -14,7 +14,7 @@ None.
 | --- | --- | --- | --- | --- |
 | `modelValue` | `boolean` | `undefined` | | Boolean value linked to the input. |
 | `description` | `string` | | ✅ | Indicates the purpose of the toggle. |
-| `id` | `string` | `crypto.randomUDID()` | | Unique id for the toggle. Used for accessibility. |
+| `id` | `string` | `crypto.randomUUID()` | | Unique id for the toggle. Used for accessibility. |
 | `disabled` | `boolean` | `undefined` | | Indicates if the toggle is disabled. |
 | `activeText` | `string` | `'On'` | | Text to display next to the toggle (right) when it is active. |
 | `inactiveText` | `string` | `'Off'` | | Text to display next to the toggle (right) when it is inactive. |

@@ -188,7 +188,7 @@ function onChange ($event: InputEvent) {
         </div>
         <input
           :id="id"
-          :style="{ display: 'none' }"
+          :style="{ visibility: 'hidden' }"
           class="fr-upload"
           type="file"
           :aria-describedby="error || validMessage ? `${id}-desc` : undefined"
