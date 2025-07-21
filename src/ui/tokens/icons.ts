@@ -3,6 +3,7 @@ export const MDI_ICONS = {
   ALERT_CIRCLE_OUTLINE: 'mdi:alert-circle-outline',
   ARROW_DECISION: 'mdi:arrow-decision',
   ARROW_LEFT_THIN: 'mdi:arrow-left-thin',
+  ARROW_RIGHT: 'mdi:arrow-right',
   ARROW_RIGHT_THIN: 'mdi:arrow-right-thin',
   ARROW_TOP_RIGHT_THICK: 'mdi:arrow-top-right-thick',
   ATTACHMENT_PLUS: 'mdi:attachment-plus',

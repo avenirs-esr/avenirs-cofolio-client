@@ -76,7 +76,7 @@ const emit = defineEmits<{
  * @slot header - Slot for modal title.
  * @slot footer - Slot for modal footer.
  */
-defineSlots<{
+const slots = defineSlots<{
   default?: Slot
   header?: Slot
   footer?: Slot
@@ -89,30 +89,35 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
 </script>
 
 <template>
-  <DsfrModal
-    v-bind="props"
-    title=""
-  >
-    <template #default>
-      <div class="av-modal__header">
-        <slot name="header" />
-      </div>
-      <slot />
-    </template>
-    <template #footer>
-      <div class="footer">
-        <AvButton
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :label="closeButtonLabel"
-          :title="closeButtonLabel"
-          :variant="closeButtonVariant"
-          size="sm"
-          :on-click="() => emit('close')"
-        />
-        <slot name="footer" />
-      </div>
-    </template>
-  </DsfrModal>
+  <Teleport to="body">
+    <DsfrModal
+      v-bind="props"
+      title=""
+    >
+      <template #default>
+        <div
+          v-if="slots.header"
+          class="header"
+        >
+          <slot name="header" />
+        </div>
+        <slot />
+      </template>
+      <template #footer>
+        <div class="footer">
+          <AvButton
+            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            :label="closeButtonLabel"
+            :title="closeButtonLabel"
+            :variant="closeButtonVariant"
+            size="sm"
+            :on-click="() => emit('close')"
+          />
+          <slot name="footer" />
+        </div>
+      </template>
+    </DsfrModal>
+  </Teleport>
 </template>
 
 <style lang="scss" scoped>
@@ -122,8 +127,16 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
   background: var(--dialog) !important;
 }
 
+:deep(.fr-modal__body) {
+  border-radius: var(--radius-lg) !important;
+}
+
 :deep(.fr-btn--close) {
   display: none !important;
+}
+
+.header {
+  padding-bottom: var(--spacing-md);
 }
 
 .footer {

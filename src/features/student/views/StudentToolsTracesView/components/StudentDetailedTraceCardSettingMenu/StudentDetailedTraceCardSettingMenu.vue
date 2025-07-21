@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
-import { useDeleteTraceMutation } from '@/features/student/queries'
-import { useToasterStore } from '@/store'
+import { useModal } from '@/common/composables'
+import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { AvButton, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -10,49 +9,22 @@ const props = defineProps<{
   trace: TraceViewDTO
   show: boolean
 }>()
+
 const emit = defineEmits<{
   (e: 'onTraceDelete', trace: TraceViewDTO): void
   (e: 'close'): void
 }>()
 
 const { t } = useI18n()
-const { addErrorMessage } = useToasterStore()
-const { onClickDeleteTrace } = useDeleteTrace()
+const { showModal, displayModal, hideModal } = useModal()
 
-function useDeleteTrace () {
-  function onDeleteTraceSuccess () {
+function onDeleteTraceSuccess () {
+  hideModal()
+  // Without setTimeout, the focus-trap is lost on close
+  setTimeout(() => {
     emit('onTraceDelete', props.trace)
     emit('close')
-  }
-
-  function onDeleteTraceError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('student.views.studentToolsTracesView.errors.delete'),
-      description: error.message,
-      type: 'error',
-    })
-  }
-
-  const deleteTraceMutation = useDeleteTraceMutation({
-    onError: onDeleteTraceError,
-    onSuccess: onDeleteTraceSuccess
-  })
-
-  // TODO: display confirmation dialog before deleting
-  function onClickDeleteTrace () {
-
-  }
-
-  // TODO: call this function when the user confirms the deletion
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  function onConfirmDeleteTrace () {
-    deleteTraceMutation.mutate({ traceId: props.trace.id })
-  }
-
-  return {
-    onClickDeleteTrace,
-    isDeleteTracePending: deleteTraceMutation.isPending,
-  }
+  }, 0)
 }
 </script>
 
@@ -69,9 +41,15 @@ function useDeleteTrace () {
       :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete')"
       :icon-scale="1.3"
       no-radius
-      :on-click="onClickDeleteTrace"
+      :on-click="() => displayModal()"
     />
   </div>
+  <TraceDeletionConfirmationModal
+    :trace="trace"
+    :show="showModal"
+    :on-success="() => onDeleteTraceSuccess()"
+    :on-close="() => hideModal()"
+  />
 </template>
 
 <style lang="scss" scoped>
