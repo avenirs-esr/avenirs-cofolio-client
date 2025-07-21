@@ -20,7 +20,7 @@ vi.mock('@/store', () => ({
 
 describe('traceDeletionConfirmationModal', () => {
   let wrapper: VueWrapper
-  let onSuccessMock: () => void
+  let onConfirmDeleteMock: () => void
   let onCloseMock: () => void
   let onErrorCallback: (error: BaseApiException) => void
 
@@ -74,7 +74,7 @@ describe('traceDeletionConfirmationModal', () => {
     vi.clearAllMocks()
     mockIsPending.value = false
 
-    onSuccessMock = vi.fn()
+    onConfirmDeleteMock = vi.fn()
     onCloseMock = vi.fn()
 
     mockedUseToasterStore.mockReturnValue({
@@ -86,7 +86,7 @@ describe('traceDeletionConfirmationModal', () => {
         onErrorCallback = onError
       }
       if (onSuccess) {
-        onSuccessMock = onSuccess
+        onConfirmDeleteMock = onSuccess
       }
       return {
         mutate: mockMutate,
@@ -101,7 +101,7 @@ describe('traceDeletionConfirmationModal', () => {
         props: {
           trace: mockedTrace,
           show: true,
-          onSuccess: onSuccessMock,
+          onConfirmDelete: onConfirmDeleteMock,
           onClose: onCloseMock
         },
         global: { stubs }
@@ -129,7 +129,7 @@ describe('traceDeletionConfirmationModal', () => {
         props: {
           trace: mockedTrace,
           show: false,
-          onSuccess: onSuccessMock,
+          onConfirmDelete: onConfirmDeleteMock,
           onClose: onCloseMock
         },
         global: { stubs }
@@ -154,7 +154,7 @@ describe('traceDeletionConfirmationModal', () => {
         props: {
           trace: mockedTrace,
           show: true,
-          onSuccess: onSuccessMock,
+          onConfirmDelete: onConfirmDeleteMock,
           onClose: onCloseMock
         },
         global: { stubs }
@@ -189,7 +189,7 @@ describe('traceDeletionConfirmationModal', () => {
         props: {
           trace: mockedTrace,
           show: true,
-          onSuccess: onSuccessMock,
+          onConfirmDelete: onConfirmDeleteMock,
           onClose: onCloseMock
         },
         global: { stubs }
@@ -206,22 +206,22 @@ describe('traceDeletionConfirmationModal', () => {
     })
   })
 
-  describe('when mutation onSuccess callback is called', () => {
+  describe('when mutation onConfirmDelete callback is called', () => {
     beforeEach(() => {
       wrapper = mount(TraceDeletionConfirmationModal, {
         props: {
           trace: mockedTrace,
           show: true,
-          onSuccess: onSuccessMock,
+          onConfirmDelete: onConfirmDeleteMock,
           onClose: onCloseMock
         },
         global: { stubs }
       })
     })
 
-    it('then it should call onSuccess callback', () => {
-      onSuccessMock()
-      expect(onSuccessMock).toHaveBeenCalled()
+    it('then it should call onConfirmDelete callback', () => {
+      onConfirmDeleteMock()
+      expect(onConfirmDeleteMock).toHaveBeenCalled()
     })
   })
 })

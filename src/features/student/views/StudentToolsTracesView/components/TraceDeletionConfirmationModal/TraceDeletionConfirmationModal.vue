@@ -8,10 +8,10 @@ import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
 import AvModal from '@/ui/overlay/modals/AvModal/AvModal.vue'
 import { useI18n } from 'vue-i18n'
 
-const { trace, show, onSuccess, onClose } = defineProps<{
+const { trace, show, onConfirmDelete, onClose } = defineProps<{
   trace: TraceViewDTO
   show: boolean
-  onSuccess: () => void
+  onConfirmDelete: () => void
   onClose: () => void
 }>()
 
@@ -30,7 +30,7 @@ function useDeleteTrace () {
 
   const deleteTraceMutation = useDeleteTraceMutation({
     onError: onDeleteTraceError,
-    onSuccess
+    onSuccess: onConfirmDelete
   })
 
   function onConfirmDeleteTrace () {

@@ -36,9 +36,9 @@ describe('studentDetailedTraceCardSettingMenu', () => {
     },
     TraceDeletionConfirmationModal: {
       name: 'TraceDeletionConfirmationModal',
-      props: ['trace', 'show', 'onSuccess', 'onClose'],
+      props: ['trace', 'show', 'onConfirmDelete', 'onClose'],
       template: `<div class="trace-deletion-modal" v-if="show">
-        <button class="success" @click="onSuccess()">confirm</button>
+        <button class="success" @click="onConfirmDelete()">confirm</button>
         <button class="close" @click="onClose()">close</button>
       </div>`
     }

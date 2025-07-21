@@ -47,7 +47,7 @@ function onDeleteTraceSuccess () {
   <TraceDeletionConfirmationModal
     :trace="trace"
     :show="showModal"
-    :on-success="() => onDeleteTraceSuccess()"
+    :on-confirm-delete="() => onDeleteTraceSuccess()"
     :on-close="() => hideModal()"
   />
 </template>
