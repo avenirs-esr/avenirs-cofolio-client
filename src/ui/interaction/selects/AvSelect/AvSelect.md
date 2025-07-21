@@ -27,6 +27,7 @@ The drop-down list provides a list of options from which the user can choose. On
 | `errorMessage` | `string` | `''` | | If set, display an error message.|
 | `defaultUnselectedText` | `string` | | ✅ | Placeholder text.|
 | `selectId` | `string` | `useRandomId('select')` | | Unique id for the select. Used for the accessibility. |
+| `dense` | `boolean` | | | Dense mode for reduced padding.|
 
 ## 📡 Events
 

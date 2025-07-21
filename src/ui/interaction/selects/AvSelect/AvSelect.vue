@@ -2,7 +2,7 @@
 import { DsfrSelect } from '@gouvminint/vue-dsfr'
 
 /**
- * AvSelect compoment props.
+ * AvSelect component props.
  */
 export interface AvSelectProps {
   /**
@@ -63,6 +63,10 @@ export interface AvSelectProps {
    * Placeholder text.
    */
   defaultUnselectedText: string
+  /**
+   * dense mode
+   */
+  dense?: boolean
 }
 
 const props = defineProps<AvSelectProps>()
@@ -88,11 +92,13 @@ const title = computed(() => {
 </script>
 
 <template>
-  <DsfrSelect
-    v-bind="props"
-    :title="title"
-    @update:model-value="emit('update:modelValue', $event)"
-  />
+  <div :class="{ 'fr-select--dense': props.dense }">
+    <DsfrSelect
+      v-bind="props"
+      :title="title"
+      @update:model-value="emit('update:modelValue', $event)"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -106,6 +112,11 @@ const title = computed(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232929A2' d='M7.41 8.58L12 13.17l4.59-4.59L18 10l-6 6l-6-6z'/%3E%3C/svg%3E");
+}
+
+.fr-select--dense :deep(.fr-select) {
+  padding-top: .1rem !important;
+  padding-bottom: .1rem !important;
 }
 
 :deep(.fr-select:hover) {

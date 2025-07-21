@@ -177,7 +177,12 @@
         "title": "My Role-Play Activities (RPA)"
       },
       "studentEducationSkillsView": {
-        "title": "My educational skills | My educational skills"
+        "title": "My educational skills | My educational skills",
+        "studentEducationSkillsFiltersContainer": {
+          "sort": {
+            "selectAriaLabel": "Sort my educational skills"
+          }
+        }
       },
       "studentEventsView": {
         "title": "(placeholder) All my events"
