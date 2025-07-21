@@ -162,7 +162,9 @@ The component integrates focus management, proper ARIA attributes, and responsiv
       :maxlength="500"
     />
 
-    <button type="submit">Submit</button>
+    <button type="submit">
+      Submit
+    </button>
   </form>
 </template>
 ```

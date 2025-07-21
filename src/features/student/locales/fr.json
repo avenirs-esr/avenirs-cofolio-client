@@ -214,14 +214,8 @@
         "title": "(placeholder) Tous mes CV"
       },
       "studentToolsTracesView": {
-        "warningMessage": {
-          "unassociated": "Vous avez une trace non associée. | Vous avez {count} traces non associées.",
-          "delete": {
-            "loneTrace": "Attention, la trace sera supprimée",
-            "traces": "Attention, **1 d'entre elles** sera supprimée | Attention, **{count} d'entre elles** seront supprimées",
-            "days": "demain. | dans les {count} jours à venir."
-          },
-          "reminder": "Pour rappel, sans aucune action de votre part, les traces non associées sont supprimées sous {count} jours."
+        "errors": {
+          "delete": "Une erreur est survenue lors de la suppression de la trace."
         },
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
@@ -247,8 +241,18 @@
           }
         },
         "title": "Ma bibliothèque de traces",
-        "errors": {
-          "delete": "Une erreur est survenue lors de la suppression de la trace."
+        "traceDeletionConfirmationModal": {
+          "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
+          "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
+        },
+        "warningMessage": {
+          "delete": {
+            "days": "demain. | dans les {count} jours à venir.",
+            "loneTrace": "Attention, la trace sera supprimée",
+            "traces": "Attention, **1 d'entre elles** sera supprimée | Attention, **{count} d'entre elles** seront supprimées"
+          },
+          "reminder": "Pour rappel, sans aucune action de votre part, les traces non associées sont supprimées sous {count} jours.",
+          "unassociated": "Vous avez une trace non associée. | Vous avez {count} traces non associées."
         }
       }
     },

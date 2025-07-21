@@ -9,7 +9,9 @@
       "prevPageTitle": "Page précédente"
     },
     "buttons": {
+      "cancel": "Annuler",
       "close": "Fermer",
+      "confirm": "Confirmer",
       "exit": "Quitter",
       "goBack": "Retour"
     },

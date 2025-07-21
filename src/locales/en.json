@@ -9,7 +9,9 @@
       "prevPageTitle": "Last page"
     },
     "buttons": {
+      "cancel": "Cancel",
       "close": "Close",
+      "confirm": "Confirm",
       "exit": "Exit",
       "goBack": "Go back"
     },

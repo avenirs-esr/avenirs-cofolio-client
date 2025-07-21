@@ -67,6 +67,7 @@ function useSettingsMenu () {
           :trace="trace"
           :show="showSettingsMenu"
           @close="closeSettingsMenu"
+          @on-trace-delete="onClose"
         />
       </div>
       <div class="student-detailed-trace-modal__content">
