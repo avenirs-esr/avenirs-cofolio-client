@@ -32,7 +32,7 @@ describe('avFileUpload', () => {
       it('then it should render hidden file input', () => {
         const input = wrapper.find('input[type="file"]')
         expect(input.exists()).toBe(true)
-        expect(input.attributes('style')).toContain('display: none')
+        expect(input.attributes('style')).toContain('visibility: hidden')
       })
     })
   })
