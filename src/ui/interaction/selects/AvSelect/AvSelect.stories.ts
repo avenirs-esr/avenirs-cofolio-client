@@ -37,6 +37,7 @@ const meta = {
   argTypes: {
     required: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    dense: { control: 'boolean' },
     selectId: { control: 'text' },
     name: { control: 'text' },
     hint: { control: 'text' },
@@ -68,6 +69,7 @@ const meta = {
     label: '',
     successMessage: '',
     errorMessage: '',
+    dense: false,
   },
 }
 
@@ -83,3 +85,9 @@ const Template: StoryFn<AvSelectProps> = args => ({
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const Dense = Template.bind({})
+Dense.args = {
+  dense: true,
+  label: 'Dense Select',
+}

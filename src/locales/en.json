@@ -20,6 +20,13 @@
     },
     "pageSizePicker": {
       "label": "Number of results per page:"
+    },
+    "sort": {
+      "label": "Sort",
+      "nameAsc": "Sort from A to Z",
+      "nameDesc": "Sort from Z to A",
+      "dateAsc": "Sort from oldest to newest",
+      "dateDesc": "Sort from newest to oldest"
     }
   }
 }
