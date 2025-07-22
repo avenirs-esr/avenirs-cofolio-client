@@ -195,6 +195,10 @@
         "skillsViewTabs": {
           "education": "Les compétences de mes formations (validées et en cours)",
           "other": "Mes autres compétences",
+          "skillsViewEducationTab": {
+            "subtitle": "(validées et en cours)",
+            "title": "Les compétences de mes formations "
+          },
           "skillsViewOtherTab": {
             "addSkillButton": "Ajouter une compétence"
           }

@@ -14,6 +14,7 @@ function handleAddSkill (): void {
     <div class="skills-view-other-tab__button-container">
       <AvButton
         variant="OUTLINED"
+        size="sm"
         :label="t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addSkillButton')"
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         @click="handleAddSkill"

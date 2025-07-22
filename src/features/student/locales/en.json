@@ -195,6 +195,10 @@
         "skillsViewTabs": {
           "education": "My educational skills (validated and in progress)",
           "other": "My other skills",
+          "skillsViewEducationTab": {
+            "subtitle": "(validated and in progress)",
+            "title": "My educational skills "
+          },
           "skillsViewOtherTab": {
             "addSkillButton": "Add a skill"
           }
