@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useBaseApiExceptionToast } from '@/common/composables'
+import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
+import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useStudentSummaryQuery } from '@/features/student/queries'
 import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import capitalize from 'lodash-es/capitalize'
@@ -8,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 const { data: studentSummary, error } = useStudentSummaryQuery()
 useBaseApiExceptionToast(error)
 const { t } = useI18n()
+const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 
 const fullName = computed(() => {
   if (!studentSummary.value) {
@@ -58,6 +60,7 @@ defineExpose({ fullName })
               class="av-rich-button--edit-profile"
               :label="t('student.widgets.overview.buttons.editProfile')"
               :icon-right="MDI_ICONS.PENCIL_OUTLINE"
+              :on-click="displayDrawer"
             >
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
             </AvRichButton>
@@ -93,6 +96,12 @@ defineExpose({ fullName })
       </div>
     </template>
   </AvCard>
+  <UpdateProfileDrawer
+    v-if="studentSummary"
+    :student-summary="studentSummary"
+    :show="showDrawer"
+    :on-close="hideDrawer"
+  />
 </template>
 
 <style lang="scss" scoped>

@@ -60,9 +60,9 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
+  v-model="fullName"
   label="Full Name"
   placeholder="Enter your full name"
-  v-model="fullName"
 />
 ```
 
@@ -70,11 +70,11 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
+  v-model="email"
   type="email"
   label="Email Address"
   placeholder="Enter your email"
   prefix-icon="mdi:email-outline"
-  v-model="email"
   required
 />
 ```
@@ -83,11 +83,11 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
+  v-model="password"
   type="password"
   label="Password"
   placeholder="Enter your password"
   prefix-icon="mdi:lock-outline"
-  v-model="password"
   :minlength="8"
   required
 />
@@ -97,10 +97,10 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
+  v-model="message"
   is-textarea
   label="Message"
   placeholder="Enter your message..."
-  v-model="message"
   :maxlength="500"
 />
 ```
@@ -109,8 +109,8 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
-  label="Username"
   v-model="username"
+  label="Username"
   :error-message="usernameError"
   :valid-message="usernameValid"
   :minlength="3"
@@ -122,11 +122,11 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ```vue
 <AvInput
+  v-model="searchQuery"
   type="search"
   label="Search"
   placeholder="Search for items..."
   prefix-icon="mdi:magnify"
-  v-model="searchQuery"
 />
 ```
 
