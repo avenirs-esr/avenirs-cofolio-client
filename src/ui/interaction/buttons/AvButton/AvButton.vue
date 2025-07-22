@@ -10,7 +10,7 @@ export interface AvButtonProps {
    * Button variant: borderless (`DEFAULT`) or with border (`OUTLINED`).
    * @default 'DEFAULT'
    */
-  variant?: 'DEFAULT' | 'OUTLINED'
+  variant?: 'DEFAULT' | 'OUTLINED' | 'FLAT'
 
   /**
    * Button theme: blue (`PRIMARY`) or gray (`SECONDARY`).
@@ -136,9 +136,14 @@ defineExpose({ computedSvgScale })
   scale: v-bind('computedSvgScale');
 }
 
+.fr-btn {
+  box-shadow: none !important;
+}
+
 .av-button--variant-default.av-button--theme-primary {
   background-color: var(--other-background-base);
   color: var(--dark-background-primary1) !important;
+  border: 1px solid transparent !important;
 }
 
 .av-button--variant-outlined.av-button--theme-primary {
@@ -147,15 +152,28 @@ defineExpose({ computedSvgScale })
   border: 1px solid var(--dark-background-primary1) !important;
 }
 
+.av-button--variant-flat.av-button--theme-primary {
+  background-color: var(--dark-background-primary1);
+  color: var(--other-background-base) !important;
+  border: 1px solid var(--dark-background-primary1) !important;
+}
+
 .av-button--variant-default.av-button--theme-secondary {
   background-color: var(--other-background-base);
   color: var(--text1) !important;
+  border: 1px solid transparent !important;
 }
 
 .av-button--variant-outlined.av-button--theme-secondary {
   background-color: var(--other-background-base);
   color: var(--text1) !important;
   border: 1px solid var(--text1) !important;
+}
+
+.av-button--variant-flat.av-button--theme-secondary {
+  background-color: var(--light-background-neutral);
+  color: var(--text1) !important;
+  border: 1px solid var(--light-background-neutral) !important;
 }
 
 .av-button--theme-primary:hover {
@@ -165,6 +183,17 @@ defineExpose({ computedSvgScale })
 
 .av-button--theme-secondary:hover {
   background-color: var(--light-background-neutral) !important;
+}
+
+.av-button--variant-flat.av-button--theme-primary:hover {
+  background-color: var(--other-background-base) !important;
+  color: var(--dark-background-primary1) !important;
+}
+
+.av-button--variant-flat.av-button--theme-secondary:hover {
+  background-color: var(--other-background-base) !important;
+  color: var(--text1) !important;
+  border-color: var(--text1) !important;
 }
 
 .fr-btn.av-button--no-radius {

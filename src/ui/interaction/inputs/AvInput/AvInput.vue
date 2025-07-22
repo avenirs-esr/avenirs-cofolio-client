@@ -170,6 +170,12 @@ const isInvalid = computed(() => {
           <component :is="slots.requiredTip" />
         </template>
       </DsfrInput>
+      <span
+        v-if="maxlength"
+        class="caption-light"
+      >
+        {{ modelValue?.toString().length }} / {{ maxlength }}
+      </span>
     </div>
 
     <div
@@ -209,6 +215,8 @@ const isInvalid = computed(() => {
 </style>
 
 <style lang="scss" scoped>
+@use "@/ui/styles/typography.scss" as typography;
+
 .av-input {
   display: flex;
   flex-direction: column;
@@ -246,6 +254,14 @@ const isInvalid = computed(() => {
   box-shadow: none;
 }
 
+.av-input :deep(.fr-input--error) {
+  border-color: var(--dark-background-error);
+}
+
+.av-input :deep(.fr-input--error):hover {
+  border-color: var(--light-foreground-error) !important;
+}
+
 .av-input:has(.av-input__prefix) :deep(input),
 .av-input:has(.av-input__prefix) :deep(textarea) {
   padding-left: calc(var(--spacing-xs) * 3 + 1rem);
@@ -262,6 +278,14 @@ const isInvalid = computed(() => {
   border-color: var(--dark-background-primary1);
 }
 
+.av-input :deep(input) {
+  @extend .caption-regular;
+}
+
+.av-input :deep(textarea) {
+  @extend .b2-light;
+}
+
 .av-input :deep(input:disabled),
 .av-input :deep(textarea:disabled) {
   background-color: var(--surface-background);
@@ -276,10 +300,7 @@ const isInvalid = computed(() => {
 }
 
 .av-input :deep(label) {
-  color: var(--text1);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-xs);
+  @extend .caption-regular;
 }
 
 .av-input :deep(textarea) {

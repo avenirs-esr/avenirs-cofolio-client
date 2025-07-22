@@ -56,9 +56,14 @@ export interface AvModalProps {
    * @default 'Fermer'
    */
   closeButtonLabel?: string
+
+  /**
+   * Adds a loading state on the close button.
+   */
+  isLoading?: boolean
 }
 
-const props = defineProps<AvModalProps>()
+const { isLoading, ...props } = defineProps<AvModalProps>()
 
 /**
  * Events emitted by the component.
@@ -110,6 +115,7 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
             :label="closeButtonLabel"
             :title="closeButtonLabel"
             :variant="closeButtonVariant"
+            :is-loading="isLoading"
             size="sm"
             :on-click="() => emit('close')"
           />
