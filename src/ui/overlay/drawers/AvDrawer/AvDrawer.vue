@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
+
 export interface AvDrawerProps {
   /**
    * Controls the visibility of the drawer
@@ -29,6 +31,23 @@ const props = withDefaults(defineProps<AvDrawerProps>(), {
   padding: 'var(--spacing-md)'
 })
 
+/**
+ * Slots available in the AvDrawer component.
+ * The default slot contains the main content of the drawer.
+ * The slot footer allows to add content under the main scrollable content.
+ */
+const slots = defineSlots<{
+  /**
+   * Default slot for main content.
+   */
+  default?: Slot
+
+  /**
+   * Footer slot for content under the main scrollable content.
+   */
+  footer?: Slot
+}>()
+
 const { position, width, padding } = toRefs(props)
 </script>
 
@@ -42,8 +61,16 @@ const { position, width, padding } = toRefs(props)
       class="av-drawer"
       :class="`av-drawer--${position}`"
     >
-      <div class="av-drawer__content">
-        <slot />
+      <div class="av-drawer__content-wrapper">
+        <div class="av-drawer__content">
+          <slot />
+        </div>
+        <div
+          v-if="slots.footer"
+          class="footer-container"
+        >
+          <slot name="footer" />
+        </div>
       </div>
     </div>
   </div>
@@ -52,10 +79,7 @@ const { position, width, padding } = toRefs(props)
 <style scoped>
 .av-drawer-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background-color: var(--transparency);
   z-index: 999;
 }
@@ -68,8 +92,10 @@ const { position, width, padding } = toRefs(props)
   border: 0.06rem solid var(--surface-background);
   overflow: hidden;
   z-index: 1000;
-  padding: var(--spacing-xl);
-  width: v-bind('width')
+  border-radius: var(--radius-hg);
+  display: flex;
+  flex-direction: column;
+  width: v-bind('width');
 }
 
 .av-drawer--left {
@@ -84,12 +110,20 @@ const { position, width, padding } = toRefs(props)
   box-shadow: 0.125rem 0 0.625rem 0 #0000001A;
 }
 
-.av-drawer__content {
-  padding: v-bind('padding');
-  height: 100%;
+.av-drawer__content-wrapper {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  overflow: hidden;
+}
+
+.av-drawer__content {
+  flex: 1;
   overflow-y: auto;
+  padding: v-bind('padding');
+}
+
+.footer-container {
+  padding: var(--spacing-md);
 }
 </style>

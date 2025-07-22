@@ -13,13 +13,27 @@
       "close": "Fermer",
       "confirm": "Confirmer",
       "exit": "Quitter",
-      "goBack": "Retour"
+      "goBack": "Retour",
+      "save": "Enregistrer"
     },
     "error": {
+      "file": {
+        "acceptType": "Le fichier ne respecte pas le format attendu.",
+        "size": "La taille du fichier dépasse la limite autorisée."
+      },
+      "form": {
+        "requiredFiled": "Ce champ est requis.",
+        "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)"
+      },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
     "pageSizePicker": {
       "label": "Nombre de résultats par page :"
+    },
+    "success": {
+      "file": {
+        "loaded": "Document chargé."
+      }
     }
   }
 }
