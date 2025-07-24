@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useImageUpload () {
@@ -10,6 +11,9 @@ export function useImageUpload () {
   const name = ref<string | undefined>()
   const previewUrl = ref<string | null>(null)
 
+  /**
+   * Clear the latest upload state
+   */
   function clear () {
     if (previewUrl.value) {
       URL.revokeObjectURL(previewUrl.value)
@@ -24,7 +28,7 @@ export function useImageUpload () {
    * Update the ImageUpload current file
    * @param files
    */
-  function update (files: FileList) {
+  async function update (files: FileList) {
     const file = files[0]
     if (!file) {
       return
@@ -35,7 +39,9 @@ export function useImageUpload () {
       return
     }
 
+    await nextTick()
     clear()
+    await nextTick()
 
     error.value = undefined
     name.value = file.name

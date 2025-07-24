@@ -164,7 +164,7 @@ export function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<Trace
   })
 }
 
-interface UpdateProfileVariables {
+export interface UpdateProfileVariables {
   profile: string
   profileUpdateRequest: ProfileUpdateRequest
 }
@@ -185,7 +185,7 @@ export function useUpdateProfileMutation ({ onError, onSuccess }: CommonMutation
   })
 }
 
-interface UpdateProfileCoverVariables {
+export interface UpdateProfileCoverVariables {
   profile: string
   updateProfileCoverBody: UpdateProfileCoverBody
 }
@@ -200,7 +200,7 @@ export function useUpdateProfileCoverMutation ({ onError, onSuccess }: CommonMut
   })
 }
 
-interface UpdateProfilePhotoVariables {
+export interface UpdateProfilePhotoVariables {
   profile: string
   updateProfilePhotoBody: UpdateProfilePhotoBody
 }

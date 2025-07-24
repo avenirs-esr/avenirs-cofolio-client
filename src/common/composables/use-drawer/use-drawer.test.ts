@@ -41,7 +41,6 @@ describe('useDrawer', () => {
       })
 
       it('then the ref should be reactive and changed from initial state', () => {
-        expect(useDrawerResult.showDrawer.value).not.toBe(false)
         expect(useDrawerResult.showDrawer.value).toBe(true)
       })
 

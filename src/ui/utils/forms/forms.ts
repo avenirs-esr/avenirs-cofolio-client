@@ -4,6 +4,6 @@
  * @returns email is valid (true) or invalid (false)
  */
 export function isValidEmail (email: string): boolean {
-  const EMAIL_REGEX = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/
+  const EMAIL_REGEX = /^[^\s@]+@[^\s.@]+\.[^\s@]+$/
   return EMAIL_REGEX.test(email)
 }

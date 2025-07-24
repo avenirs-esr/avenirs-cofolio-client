@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 describe('avToggle', () => {
   const defaultProps = {
     modelValue: false,
-    description: 'test',
+    description: 'test description',
     id: 'my-toggle',
     activeText: 'Yes',
     inactiveText: 'No',
@@ -33,6 +33,10 @@ describe('avToggle', () => {
       it('then the input should be unchecked', () => {
         const input = wrapper.find('input[type="checkbox"]')
         expect((input.element as HTMLInputElement).checked).toBe(false)
+      })
+
+      it('then it should render the description text', () => {
+        expect(wrapper.text()).toContain('test description')
       })
     })
 
@@ -93,14 +97,11 @@ describe('avToggle', () => {
     let wrapper: ReturnType<typeof mount<typeof AvToggle>>
 
     beforeEach(() => {
-      wrapper = mount(AvToggle, {
-        props: { description: 'noId' },
-      })
+      wrapper = mount(AvToggle, { props: { description: 'noId' } })
     })
 
     describe('when the toggle is mounted', () => {
       it('then it should generate a random input id', () => {
-        wrapper = mount(AvToggle)
         const input = wrapper.find('input[type="checkbox"]')
         const inputId = input.attributes('id')
         expect(inputId).toBeDefined()
@@ -108,25 +109,6 @@ describe('avToggle', () => {
         const label = wrapper.find('label')
         expect(label.attributes('for')).toBe(inputId)
         expect(label.attributes('id')).toContain(`${inputId}-label`)
-      })
-    })
-  })
-
-  describe('given a toggle with a description prop', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
-
-    beforeEach(() => {
-      wrapper = mount(AvToggle, {
-        props: {
-          ...defaultProps,
-          description: 'An awesome description',
-        },
-      })
-    })
-
-    describe('when the toggle is mounted', () => {
-      it('then it should render the description text', () => {
-        expect(wrapper.text()).toContain('An awesome description')
       })
     })
   })
