@@ -253,7 +253,6 @@ function onChange ($event: InputEvent) {
           type="file"
           :aria-describedby="error || validMessage ? `${id}-desc` : undefined"
           v-bind="$attrs"
-          :value="modelValue"
           :disabled="disabled"
           :aria-disabled="disabled"
           :accept="acceptTypes"
@@ -275,8 +274,8 @@ function onChange ($event: InputEvent) {
 
 .fr-upload {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 0;
+  height: 0;
   opacity: 0;
   overflow: hidden;
   clip: rect(0 0 0 0);
@@ -334,7 +333,7 @@ function onChange ($event: InputEvent) {
 .content-container {
   display: flex;
   flex-direction: column;
-  flex: 1 1 100%;
+  flex: 1 1 auto;
   min-width: 0;
 }
 

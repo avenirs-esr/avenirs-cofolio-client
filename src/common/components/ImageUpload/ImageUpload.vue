@@ -1,12 +1,26 @@
 <script setup lang="ts">
 import { useImageUpload } from '@/common/composables'
 import { AvFileUpload } from '@/ui'
-import { nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+/**
+ * ImageUpload component props.
+ */
 interface ImageUploadProps {
+  /**
+   * Default image displayed in the left part of the file upload (before any upload)
+   */
   defaultImage: string
+
+  /**
+   * Alt text for the image
+   */
   imageAlt: string
+
+  /**
+   * Method executed on file update
+   * @param file
+   */
   onUpdate: (file: File) => void
 }
 
@@ -17,9 +31,13 @@ const imageUpload = useImageUpload()
 
 const ACCEPTED_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'application/pdf']
 
+/**
+ * Method exectuted on file update
+ * We only keep the first file if a list is provided
+ * @param files
+ */
 async function onUpdateImage (files: FileList) {
-  imageUpload.update(files)
-  await nextTick()
+  await imageUpload.update(files)
   if (imageUpload.valid.value) {
     onUpdate(files[0])
   }
