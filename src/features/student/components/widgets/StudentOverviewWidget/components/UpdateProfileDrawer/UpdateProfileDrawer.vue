@@ -18,6 +18,15 @@ import {
 import { isValidEmail } from '@/ui/utils'
 import { useI18n } from 'vue-i18n'
 
+export interface UpdateProfileDrawerForm {
+  email: string
+  firstname: string
+  lastname: string
+  bio: string
+  coverPicture: string
+  profilePicture: string
+}
+
 const { studentSummary, show, onClose } = defineProps<{
   studentSummary: ProfileOverviewDTO
   show: boolean
@@ -31,9 +40,10 @@ const { onUpdateProfile, iseUpdateProfilePending } = useUpdateProfile()
 const { onUpdateProfileCoverAsync, iseUpdateProfileCoverPending } = useUpdateProfileCover()
 const { onUpdateProfilePhotoAsync, iseUpdateProfilePhotoPending } = useUpdateProfilePhoto()
 
-const isPending = iseUpdateProfilePending || iseUpdateProfileCoverPending || iseUpdateProfilePhotoPending
+const isPending = computed(() =>
+  iseUpdateProfilePending.value || iseUpdateProfileCoverPending.value || iseUpdateProfilePhotoPending.value)
 
-const form = reactive({
+const form = reactive<UpdateProfileDrawerForm>({
   firstname: studentSummary.firstname,
   lastname: studentSummary.lastname,
   email: 'test@test.com',
@@ -42,14 +52,16 @@ const form = reactive({
   profilePicture: studentSummary.profilePicture,
 })
 
-const initialForm = reactive({ ...form })
+const initialForm = reactive<UpdateProfileDrawerForm>({ ...form })
 
-type FormKeys = keyof typeof form
+type FormKeys = keyof UpdateProfileDrawerForm
 const formKeys: FormKeys[] = [
   'firstname',
   'lastname',
   'email',
   'bio',
+  'coverPicture',
+  'profilePicture'
 ]
 
 const profilePictureFile = ref<File | null>(null)
@@ -81,7 +93,7 @@ function useUpdateProfile () {
   })
 
   function onUpdateProfile (profileUpdateRequest: ProfileUpdateRequest) {
-    updateProfileMutation.mutate({ profile: 'me', profileUpdateRequest })
+    updateProfileMutation.mutate({ profile: 'student', profileUpdateRequest })
   }
 
   return {
@@ -108,7 +120,7 @@ function useUpdateProfileCover () {
   })
 
   async function onUpdateProfileCoverAsync (updateProfileCoverBody: UpdateProfileCoverBody) {
-    return await updateProfileCoverMutation.mutateAsync({ profile: 'me', updateProfileCoverBody })
+    return await updateProfileCoverMutation.mutateAsync({ profile: 'student', updateProfileCoverBody })
   }
 
   return {
@@ -135,7 +147,7 @@ function useUpdateProfilePhoto () {
   })
 
   async function onUpdateProfilePhotoAsync (updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation.mutateAsync({ profile: 'me', updateProfilePhotoBody })
+    return await updateProfilePhotoMutation.mutateAsync({ profile: 'student', updateProfilePhotoBody })
   }
 
   return {
@@ -198,6 +210,14 @@ async function handleSubmit (event: Event) {
       description: (error as BaseApiException)?.message ?? t('global.error.generic')
     })
   }
+}
+
+function onCoverPictureUpdate (file: File | null) {
+  coverPictureFile.value = file
+}
+
+function onProfilePictureUpdate (file: File | null) {
+  profilePictureFile.value = file
 }
 
 watch(() => show, (newVal) => {
@@ -272,7 +292,7 @@ watch(() => show, (newVal) => {
             <ImageUpload
               :default-image="form.coverPicture"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.banner')"
-              :on-update="(file) => { coverPictureFile = file }"
+              :on-update="onCoverPictureUpdate"
             />
           </AvAccordion>
           <AvAccordion
@@ -282,7 +302,7 @@ watch(() => show, (newVal) => {
             <ImageUpload
               :default-image="form.profilePicture"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.picture')"
-              :on-update="(file) => { profilePictureFile = file }"
+              :on-update="onProfilePictureUpdate"
             />
           </AvAccordion>
         </AvAccordionsGroup>
