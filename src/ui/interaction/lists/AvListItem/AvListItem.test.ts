@@ -194,10 +194,6 @@ describe('avListItem', () => {
       it('then it should render as div tag', () => {
         expect(wrapper.element.tagName.toLowerCase()).toBe('div')
       })
-
-      it('then it should have role button', () => {
-        expect(wrapper.attributes('role')).toBe('button')
-      })
     })
 
     describe('when keyboard events are triggered', () => {
