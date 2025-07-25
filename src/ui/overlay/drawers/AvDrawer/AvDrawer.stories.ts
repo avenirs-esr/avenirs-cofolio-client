@@ -166,3 +166,94 @@ export const CustomWidth = Template.bind({})
 CustomWidth.args = {
   width: '25rem',
 }
+
+const TemplateWithFooter: StoryFn<AvDrawerProps> = args => ({
+  components: { AvDrawer, AvButton },
+  setup () {
+    const isDrawerOpen = ref(args.show)
+
+    const toggleDrawer = () => {
+      isDrawerOpen.value = !isDrawerOpen.value
+    }
+
+    const closeDrawer = () => {
+      isDrawerOpen.value = false
+    }
+
+    return {
+      args,
+      isDrawerOpen,
+      toggleDrawer,
+      closeDrawer
+    }
+  },
+  template: `
+    <div>
+      <AvButton
+        label="Toggle Drawer"
+        @click="toggleDrawer"
+      />
+      
+      <AvDrawer 
+        :show="isDrawerOpen"
+        :position="args.position"
+        :width="args.width"
+        :backdrop="args.backdrop"
+        :padding="args.padding"
+      >
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <h3 style="margin: 0; color: var(--title);">Drawer Content</h3>
+          <p style="margin: 0; color: var(--text1);">
+            This is the drawer content area. You can put any content here like navigation, 
+            actions, or additional information.
+          </p>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <AvButton
+              label="Action 1"
+              variant="DEFAULT"
+              theme="PRIMARY"
+              size="sm"
+            />
+            <AvButton
+              label="Action 2"
+              variant="OUTLINED"
+              theme="SECONDARY"
+              size="sm"
+            />
+          </div>
+          
+          <div style="margin-top: auto; padding-top: 2rem;">
+            <AvButton
+              label="Close Drawer"
+              @click="closeDrawer"
+              variant="OUTLINED"
+              theme="SECONDARY"
+              size="sm"
+            />
+          </div>
+        </div>
+
+        <template #footer>
+          <div style="display: flex; flex-direction: row; width: 100%; gap: var(--spacing-sm); justify-content: flex-end">
+            <AvButton
+              label="Exit"
+              variant="OUTLINED"
+              theme="PRIMARY"
+              size="sm"
+            />
+            <AvButton
+              label="Save"
+              variant="FLAT"
+              theme="PRIMARY"
+              size="sm"
+            />
+          </div>
+        </template>
+      </AvDrawer>
+    </div>
+  `,
+})
+
+export const WithFooter = TemplateWithFooter.bind({})
+WithFooter.args = {}

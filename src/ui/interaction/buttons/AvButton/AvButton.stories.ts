@@ -176,3 +176,40 @@ OutlinedSecondary.args = {
   variant: 'OUTLINED',
   theme: 'SECONDARY',
 }
+
+export const Flat = Template.bind({})
+Flat.args = {
+  variant: 'FLAT',
+}
+
+export const FlatIconOnly = Template.bind({})
+FlatIconOnly.args = {
+  variant: 'FLAT',
+  iconOnly: true,
+  icon: 'mdi:settings',
+  label: 'Settings',
+}
+
+export const FlatLoading = Template.bind({})
+FlatLoading.args = {
+  variant: 'FLAT',
+  isLoading: true
+}
+
+export const FlatDisabled = Template.bind({})
+FlatDisabled.args = {
+  variant: 'FLAT',
+  disabled: true
+}
+
+export const FlatNoRadius = Template.bind({})
+FlatNoRadius.args = {
+  variant: 'FLAT',
+  noRadius: true
+}
+
+export const FlatSecondary = Template.bind({})
+FlatSecondary.args = {
+  variant: 'FLAT',
+  theme: 'SECONDARY',
+}
