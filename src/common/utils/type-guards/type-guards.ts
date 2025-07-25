@@ -9,3 +9,7 @@ export function hasStringField<T extends string> (
     && typeof (obj as Record<T, unknown>)[field] === 'string'
   )
 }
+
+export function isEnumMember<T extends Record<string, string>> (enumObject: T, value: string): value is T[keyof T] {
+  return Object.values(enumObject).includes(value)
+}

@@ -44,6 +44,7 @@ The list item integrates:
 | `href` | `string` | | | URL when tag is 'a'. |
 | `target` | `string` | | | Target attribute when tag is 'a'. |
 | `rel` | `string` | | | Rel attribute when tag is 'a'. |
+| `role` | `string` | | | ARIA role for the list item. If not provided, defaults based on context. |
 
 ## 📡 Events
 
@@ -61,18 +62,18 @@ The list item integrates:
 
 ### Basic List Item
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Basic Item"
     description="This is a simple list item"
   />
 </template>
-\`\`\`
+```
 
 ### Clickable List Item with Icon
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Settings"
@@ -82,11 +83,11 @@ The list item integrates:
     @click="handleSettingsClick"
   />
 </template>
-\`\`\`
+```
 
 ### Navigation Link
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="External Link"
@@ -99,11 +100,11 @@ The list item integrates:
     clickable
   />
 </template>
-\`\`\`
+```
 
 ### Selected State
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Active Item"
@@ -112,11 +113,11 @@ The list item integrates:
     clickable
   />
 </template>
-\`\`\`
+```
 
 ### Disabled State
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Disabled Item"
@@ -126,11 +127,11 @@ The list item integrates:
     clickable
   />
 </template>
-\`\`\`
+```
 
 ### Custom Content with Slot
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Custom Content"
@@ -143,11 +144,11 @@ The list item integrates:
     </div>
   </AvListItem>
 </template>
-\`\`\`
+```
 
 ### Custom Styling
 
-\`\`\`vue
+```vue
 <template>
   <AvListItem
     title="Custom Colors"
@@ -160,4 +161,4 @@ The list item integrates:
     description-color="#6b7280"
   />
 </template>
-\`\`\`
+```

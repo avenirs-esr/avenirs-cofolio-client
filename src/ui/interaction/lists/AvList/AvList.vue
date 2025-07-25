@@ -118,6 +118,7 @@ const dividedClass = computed(() => divided ? 'av-list--divided' : '')
   background: v-bind('backgroundColor');
   border-radius: v-bind('borderRadius');
   padding: v-bind('padding');
+  gap: var(--spacing-xxxs);
 
   &--bordered {
     border: 0.0625rem solid v-bind('borderColor');

@@ -105,6 +105,11 @@ export interface AvListItemProps {
    * Rel attribute when tag is 'a'.
    */
   rel?: string
+
+  /**
+   * ARIA role for the list item. If not provided, defaults based on context.
+   */
+  role?: string
 }
 
 const {
@@ -125,7 +130,8 @@ const {
   tag = 'button',
   href,
   target,
-  rel
+  rel,
+  role
 } = defineProps<AvListItemProps>()
 
 /**
@@ -194,7 +200,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
     :href="componentTag === 'a' ? href : undefined"
     :target="componentTag === 'a' ? target : undefined"
     :rel="componentTag === 'a' ? rel : undefined"
-    :role="clickable && componentTag === 'div' ? 'button' : undefined"
+    :role="role || (clickable && componentTag === 'div' ? 'button' : undefined)"
     @click="handleClick"
     @keydown="handleKeyDown"
   >

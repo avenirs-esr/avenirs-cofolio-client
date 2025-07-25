@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
 import { studentHomeRoute } from '@/features/student/routes'
+import StudentProjectExperiencesContainer
+  from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesContainer/StudentProjectExperiencesContainer.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -16,4 +18,6 @@ const breadcrumbLinks = computed(() => [
     :title="t('student.views.studentProjectExperiencesView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
+
+  <StudentProjectExperiencesContainer />
 </template>
