@@ -36,6 +36,7 @@ The drawer integrates:
 | Name | Description |
 | --- | --- |
 | `default` | Slot for drawer content. Can contain any HTML or Vue components. |
+| `footer` | Footer slot for content under the main scrollable content. Can contain any HTML or Vue components. |
 
 ## 📝 Examples of use
 

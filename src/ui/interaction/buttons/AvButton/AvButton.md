@@ -6,7 +6,7 @@ The `AvButton` is a component implementing the VueDSFR `DsfrButton`. The button 
 
 The `AvButton` is an elegant, reusable Vue component designed to simplify the creation of custom buttons. It features adjustable sizes, an optional icon and a click manager, all in keeping with the `DSFR` style. It's easy to use, with the flexibility to adapt to different contexts.
 
-For `AVENIR(s) ESR`, the button has been simplified to allow only two variants (`DEFAULT` without border and `OUTLINED` with border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
+For `AVENIR(s) ESR`, the button has been simplified to allow only three variants (`DEFAULT` without border, `OUTLINED` with border and `FLAT` with filled background and border) and two themes (`PRIMARY` blue and `SECONDARY` grey).
 
 🏅 Documentation on the `DsfrButton` can be found at [VueDSFR](https://vue-ds.fr/composants/DsfrButton)
 
@@ -21,7 +21,7 @@ Buttons consist of :
 
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
-| `variant` | `'DEFAULT' \| 'OUTLINED'` | `'DEFAULT'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`). |
+| `variant` | `'DEFAULT' \| 'OUTLINED' \| 'FLAT'` | `'DEFAULT'` | | Button variant: without border (`DEFAULT`) or with border (`OUTLINED`) or with filled background and border (`FLAT`). |
 | `theme` | `'PRIMARY' \| 'SECONDARY'` | `'PRIMARY'` | | Button theme: blue (`PRIMARY`) or grey (`SECONDARY`). |
 | `isLoading` | `boolean` | `false` | | Indicates a loading status for the button. |
 | `iconScale` | `number` | `undefined` | | Allows you to manually change the icon size (it is automatically calculated otherwise). |

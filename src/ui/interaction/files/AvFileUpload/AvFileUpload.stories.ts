@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
+import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 import AvFileUpload, { type AvFileUploadProps } from '@/ui/interaction/files/AvFileUpload/AvFileUpload.vue'
 
@@ -83,4 +84,39 @@ Error.args = {
 export const Success = Template.bind({})
 Success.args = {
   validMessage: 'This is a success message'
+}
+
+const LeftSlotTemplate: StoryFn<AvFileUploadProps & { leftImageSrc: string }> = args => ({
+  components: { AvFileUpload, AvVIcon },
+  setup () {
+    return { args }
+  },
+  template: `
+    <AvFileUpload v-bind="args">
+      <template #left>
+        <img
+          :src="args.leftImageSrc"
+          alt="banner"
+          style="height: 100%; width: 100%; object-fit: cover;"
+        >
+      </template>
+
+      <span class="b2-regular">Add a new</span>
+      <span class="b2-bold">trace of type pdf file</span>
+      <span class="caption-regular">or drag and drop here</span>
+
+      <template #hint>
+        Text: <span class="caption-bold">5Mo • </span>
+        Images: <span class="caption-bold">5Mo • </span>
+        Audio: <span class="caption-bold">5Mo • </span>
+        Vidéo: <span class="caption-bold">50Mo • </span>
+        Application: <span class="caption-bold">10Mo</span>
+      </template>
+    </AvFileUpload>
+  `,
+})
+
+export const LeftSlot = LeftSlotTemplate.bind({})
+LeftSlot.args = {
+  leftImageSrc: profile_banner_placeholder
 }
