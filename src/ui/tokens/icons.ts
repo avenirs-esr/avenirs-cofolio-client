@@ -36,14 +36,18 @@ export const MDI_ICONS = {
   PENCIL_OUTLINE: 'mdi:pencil-outline',
   PLUS_CIRCLE_OUTLINE: 'mdi:plus-circle-outline',
   POST_IT_NOTES_OUTLINE: 'mdi:post-it-notes-outline',
+  SCHOOL_OUTLINE: 'mdi:school-outline',
   SHARE_VARIANT_OUTLINE: 'mdi:share-variant-outline',
   STAR_SHOOTING_OUTLINE: 'mdi:star-shooting-outline',
+  STAR_CHECK_OUTLINE: 'mdi:star-check-outline',
   STARS: 'mdi:stars',
   SWAP_HORIZONTAL: 'mdi:swap-horizontal',
   SWAP_VERTICAL_VARIANT: 'mdi:swap-vertical-variant',
+  TARGET_ARROW: 'mdi:target-arrow',
   TEST_TUBE_EMPTY: 'mdi:test-tube-empty',
   TRASH_CAN_OUTLINE: 'mdi:trash-can-outline',
   TRAY_UPLOAD: 'mdi:tray-upload',
+  VECTOR_POLYGON_VARIANT: 'mdi:vector-polygon-variant',
   WARNING_OUTLINE: 'mdi:warning-outline',
 }
 
