@@ -194,7 +194,19 @@
         "title": "My notifications"
       },
       "studentProjectExperiencesView": {
-        "title": "(placeholder) All my experiences"
+        "title": "(placeholder) All my experiences",
+        "careers": {
+          "title": "My career"
+        },
+        "educations": {
+          "title": "My educations"
+        },
+        "experiences": {
+          "title": "My experiences"
+        },
+        "activities": {
+          "title": "My activities"
+        }
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {

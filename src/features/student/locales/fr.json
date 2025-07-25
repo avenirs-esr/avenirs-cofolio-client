@@ -194,7 +194,19 @@
         "title": "Mes notifications"
       },
       "studentProjectExperiencesView": {
-        "title": "(placeholder) Toutes mes expériences"
+        "title": "(placeholder) Toutes mes expériences",
+        "careers": {
+          "title": "Mon parcours"
+        },
+        "educations": {
+          "title": "Mes formations"
+        },
+        "experiences": {
+          "title": "Mes expériences"
+        },
+        "activities": {
+          "title": "Mes activités"
+        }
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {
