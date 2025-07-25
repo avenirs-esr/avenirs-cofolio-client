@@ -57,6 +57,9 @@ const {
 } = defineProps<AvIconTextProps>()
 
 const iconSize = computed(() => {
+  if (typographyClass.startsWith('caption')) {
+    return 1.125
+  }
   if (typographyClass.startsWith('n') || typographyClass.startsWith('s')) {
     return 2
   }
@@ -93,6 +96,7 @@ const ellipsisClass = computed(() => !inline ? 'ellipsis' : undefined)
   flex-direction: row;
   align-items: center;
   gap: v-bind('gap');
+  max-height: fit-content;
 }
 
 .icon-text--text {

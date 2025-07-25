@@ -1,15 +1,15 @@
 import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
 import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/ui/tokens/icons'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 describe('avButton', () => {
-  let wrapper: ReturnType<typeof mount<typeof AvButton>>
+  let wrapper: VueWrapper<InstanceType<typeof AvButton>>
 
   describe('given default props', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton)
+      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test' } })
     })
 
     describe('when component is mounted', () => {
@@ -58,7 +58,7 @@ describe('avButton', () => {
 
   describe('given isLoading is true', () => {
     beforeEach(() => {
-      wrapper = mount(AvButton, {
+      wrapper = mount<typeof AvButton>(AvButton, {
         props: {
           label: 'test',
           isLoading: true,
@@ -77,7 +77,7 @@ describe('avButton', () => {
 
   describe('given variant is DEFAULT', () => {
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { label: 'test', variant: 'DEFAULT' } })
+      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', variant: 'DEFAULT' } })
     })
 
     describe('when component is mounted', () => {
@@ -91,7 +91,7 @@ describe('avButton', () => {
 
   describe('given noRadius prop is true', () => {
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { label: 'test', noRadius: true } })
+      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', noRadius: true } })
     })
 
     describe('when component is mounted', () => {
@@ -105,7 +105,7 @@ describe('avButton', () => {
     const onClick = vi.fn()
 
     beforeEach(() => {
-      wrapper = mount(AvButton, { props: { label: 'test', onClick } })
+      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', onClick } })
     })
 
     describe('when the DsfrButton is clicked', () => {
@@ -141,7 +141,7 @@ describe('avButton', () => {
 
     describe('when iconScale is a valid number', () => {
       beforeEach(() => {
-        wrapper = mount(AvButton, { props: { label: 'test', iconScale: 3 } })
+        wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', iconScale: 3 } })
       })
 
       it('then computedSvgScale returns iconScale value', () => {
@@ -151,7 +151,7 @@ describe('avButton', () => {
 
     describe('when iconScale is NaN', () => {
       beforeEach(() => {
-        wrapper = mount(AvButton, { props: { label: 'test', iconScale: Number.NaN, size: 'md' } })
+        wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', iconScale: Number.NaN, size: 'md' } })
       })
 
       it('then computedSvgScale falls back to size based value', () => {

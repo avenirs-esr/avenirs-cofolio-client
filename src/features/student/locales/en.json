@@ -283,7 +283,35 @@
           "shareCofolio": "Share my Cofolio",
           "shareResume": "Share my resume"
         },
-        "pictureAlt": "Profile picture"
+        "pictureAlt": "Profile picture",
+        "updateProfileDrawer": {
+          "confirmModal": {
+            "subtitle": "Any unsaved changes will be lost.",
+            "title": "Are you sure you want to exit?"
+          },
+          "identity": {
+            "description": "Description",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "mail": "Personal email address",
+            "title": "Identity"
+          },
+          "onUpdate": {
+            "error": "An error occurred while updating the profile.",
+            "success": "Your profile has been updated."
+          },
+          "pictures": {
+            "banner": "Banner",
+            "format": {
+              "filesIndication": "Format: ",
+              "filesTypes": "PDF, JPG, JPEG, PNG •",
+              "sizeIndication": "Size : ",
+              "size": "10 Mo max"
+            },
+            "picture": "Profile picture"
+          },
+          "title": "Edit my profile"
+        }
       },
       "pages": {
         "buttons": {

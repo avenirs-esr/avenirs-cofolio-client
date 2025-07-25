@@ -32,8 +32,10 @@ export interface Message {
    * - 'success': Success message
    * - 'warning': Warning message
    * - 'error': Error message
+   *
+   * @default 'info'
    */
-  type: 'info' | 'success' | 'warning' | 'error'
+  type?: 'info' | 'success' | 'warning' | 'error'
 
   /**
    * Indicates whether the message can be manually closed by the user.
@@ -66,7 +68,7 @@ interface AvToasterProps {
    * - `id?: string`: Unique identifier for the message
    * - `title?: string`: Message title
    * - `description: string`: Detailed description of the message
-   * - `type: 'info' \| 'success' \| 'warning' \| 'error'`: Type of message to display
+   * - `type?: 'info' \| 'success' \| 'warning' \| 'error'`: Type of message to display (@default 'info')
    * - `closeable?: boolean`: Indicates whether the message can be manually closed by the user
    * - `titleTag?: 'h1' \| 'h2' \| 'h3' \| 'h4' \| 'h5' \| 'h6'`: HTML tag used for the message title
    * - `timeout?: number`: Time to display the message in milliseconds before automatically closing (if not set, the message will remain displayed until manually closed or another action)
@@ -84,7 +86,8 @@ const { messages, onRemoveMessage } = defineProps<AvToasterProps>()
 const basePath = import.meta.env.BASE_URL
 
 function getToasterClass (type: Message['type']) {
-  return `av-toaster--${type} av-toaster--icon`
+  const finalType = type ?? 'info'
+  return `av-toaster--${finalType} av-toaster--icon`
 }
 
 function getToasterStyleVars (type: Message['type']) {
@@ -96,6 +99,7 @@ function getToasterStyleVars (type: Message['type']) {
     case 'warning':
       return { '--icon-path': `url(${basePath}assets/icons/warning-outline.svg)` }
     case 'info':
+    default:
       return { '--icon-path': `url(${basePath}assets/icons/message-badge.svg)` }
   }
 }

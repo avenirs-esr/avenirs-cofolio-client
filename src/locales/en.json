@@ -13,13 +13,27 @@
       "close": "Close",
       "confirm": "Confirm",
       "exit": "Exit",
-      "goBack": "Go back"
+      "goBack": "Go back",
+      "save": "Save"
     },
     "error": {
+      "file": {
+        "acceptType": "The file does not meet the expected format.",
+        "size": "The file size exceeds the allowed limit."
+      },
+      "form": {
+        "requiredFiled": "This field is required.",
+        "invalidEmail": "Please provide a valid email address (e.g.: name@example.com)."
+      },
       "generic": "An error has occurred. Please try again later."
     },
     "pageSizePicker": {
       "label": "Number of results per page:"
+    },
+    "success": {
+      "file": {
+        "loaded": "File loaded."
+      }
     }
   }
 }

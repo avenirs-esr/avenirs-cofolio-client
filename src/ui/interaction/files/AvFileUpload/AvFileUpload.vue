@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Slot } from 'vue'
+import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
 import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
 import { MDI_ICONS } from '@/ui/tokens'
 import { useRandomId } from '@gouvminint/vue-dsfr'
+import { nextTick, type Slot } from 'vue'
 
 /**
  * AvFileUpload component props.
@@ -102,6 +103,11 @@ const emit = defineEmits<{
    * @param payload The new list of selected files (FileList).
    */
   (e: 'change', payload: FileList): void
+
+  /**
+   * Event emitted when a file of wrong type is dropped.
+   */
+  (e: 'onDropAcceptTypeError'): void
 }>()
 
 defineSlots<{
@@ -109,6 +115,11 @@ defineSlots<{
    * Slot for the hint description.
    */
   hint?: Slot
+
+  /**
+   * Slot for the left content.
+   */
+  left?: Slot
 
   /**
    * Default slot for global content between the left and right icons.
@@ -125,13 +136,42 @@ const acceptTypes = computed(() => {
 
 const isDragging = ref(false)
 
-function onDrop (event: DragEvent) {
+function isFileAccepted (file: File): boolean {
+  const accept = acceptTypes.value
+  if (!accept) {
+    return true
+  }
+
+  const acceptedTypes = accept.split(',').map(type => type.trim().toLowerCase())
+
+  return acceptedTypes.some((type) => {
+    if (type.startsWith('.')) {
+      return file.name.toLowerCase().endsWith(type)
+    }
+    else if (type.includes('/')) {
+      return file.type === type || file.type.startsWith(`${type.split('/')[0]}/`)
+    }
+    return false
+  })
+}
+
+async function onDrop (event: DragEvent) {
   event.preventDefault()
   isDragging.value = false
 
-  if (!props.disabled && event.dataTransfer?.files?.length) {
-    emit('change', event.dataTransfer.files)
-    emit('update:modelValue', event.dataTransfer.files[0]?.name ?? '')
+  if (props.disabled || !event.dataTransfer?.files?.length) {
+    return
+  }
+
+  const files = Array.from(event.dataTransfer.files).filter(isFileAccepted)
+  await nextTick()
+
+  if (files.length) {
+    emit('change', files as unknown as FileList)
+    emit('update:modelValue', files[0]?.name ?? '')
+  }
+  else {
+    emit('onDropAcceptTypeError')
   }
 }
 
@@ -167,17 +207,38 @@ function onChange ($event: InputEvent) {
     @dragleave="onDragLeave"
     @drop="onDrop"
   >
-    <div class="file-upload-container">
+    <div
+      class="file-upload-container"
+      :class="{
+        'file-upload-container--error': error,
+        'file-upload-container--valid': validMessage,
+      }"
+    >
       <div class="file-upload-content">
-        <div class="left-icon-container">
-          <AvVIcon
-            :size="2.5"
-            :name="MDI_ICONS.ATTACHMENT_PLUS"
-            color="var(--icon)"
-          />
+        <div class="left-content-container">
+          <slot name="left">
+            <AvVIcon
+              :size="2.5"
+              :name="MDI_ICONS.ATTACHMENT_PLUS"
+              color="var(--icon)"
+            />
+          </slot>
         </div>
         <div class="content-container">
           <slot />
+          <div
+            v-if="error || validMessage"
+            class="messages-group"
+            role="alert"
+          >
+            <AvIconText
+              :icon="error ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
+              :icon-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
+              :text="error ? error : validMessage"
+              :text-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
+              typography-class="caption-regular"
+            />
+          </div>
         </div>
         <div class="right-icon-container">
           <AvVIcon
@@ -188,33 +249,15 @@ function onChange ($event: InputEvent) {
         </div>
         <input
           :id="id"
-          :style="{ visibility: 'hidden' }"
           class="fr-upload"
           type="file"
           :aria-describedby="error || validMessage ? `${id}-desc` : undefined"
           v-bind="$attrs"
-          :value="modelValue"
           :disabled="disabled"
           :aria-disabled="disabled"
           :accept="acceptTypes"
           @change="onChange($event as InputEvent)"
         >
-      </div>
-      <div
-        v-if="error || validMessage"
-        class="fr-messages-group"
-        role="alert"
-      >
-        <p
-          v-if="error || validMessage"
-          :id="`${id}-desc`"
-          :class="{
-            'fr-error-text fr-mt-3v': error,
-            'fr-valid-text fr-mt-3v': !error && validMessage,
-          }"
-        >
-          {{ error || validMessage }}
-        </p>
       </div>
     </div>
     <span class="caption-light">
@@ -224,6 +267,24 @@ function onChange ($event: InputEvent) {
 </template>
 
 <style lang="scss" scoped>
+.file-upload-container:focus-within {
+  outline: 2px solid #005fcc;
+  outline-offset: 2px;
+}
+
+.fr-upload {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
 .fr-upload-group {
   cursor: pointer;
   max-width: v-bind('maxWidth');
@@ -239,6 +300,14 @@ function onChange ($event: InputEvent) {
   padding: var(--spacing-xs);
 }
 
+.file-upload-container--error {
+  border: 1px solid var(--dark-background-error)
+}
+
+.file-upload-container--valid {
+  border: 1px solid var(--dark-background-success)
+}
+
 .drag-over .file-upload-container {
   background-color: var(--light-background-primary1);
   border-color: var(--dark-background-primary1);
@@ -251,8 +320,14 @@ function onChange ($event: InputEvent) {
   gap: var(--spacing-xs);
 }
 
-.left-icon-container {
-  padding: var(--spacing-none) 0.75rem;
+.left-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--dimension-4xl);
+  width: var(--dimension-4xl);
+  overflow: hidden;
+  border-radius: var(--radius-md);
 }
 
 .content-container {
@@ -266,8 +341,12 @@ function onChange ($event: InputEvent) {
   padding: var(--spacing-none) var(--spacing-xs);
 }
 
-.left-icon-container, .right-icon-container {
-    flex: 0 0 auto;
+.left-content-container, .right-icon-container {
+  flex: 0 0 auto;
+}
+
+.messages-group {
+  padding-top: var(--spacing-xxs);
 }
 
 .fr-upload {

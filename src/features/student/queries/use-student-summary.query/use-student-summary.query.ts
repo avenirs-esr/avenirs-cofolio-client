@@ -1,4 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { CommonMutationArgs } from '@/features/student/queries/types'
 import {
   mockedDeliverablesOverview,
   mockedEventsOverview,
@@ -10,8 +11,15 @@ import {
   getProfile,
   getSkillsOverview,
   type ProfileOverviewDTO,
+  type ProfileUpdateRequest,
   type StudentProgressOverviewDTO,
+  updateProfile,
+  updateProfileCover,
+  type UpdateProfileCoverBody,
+  updateProfilePhoto,
+  type UpdateProfilePhotoBody,
 } from '@/api/avenir-esr'
+import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeliverableOverviewDTO,
   type EventOverviewDTO,
@@ -21,14 +29,16 @@ import {
   type TraceOverviewDTO,
   TraceType
 } from '@/types'
-import { useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
+import { useMutation, useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
+const studentSummaryQueryKeys = [...commonQueryKeys, 'summary']
+const headerSummaryQueryKeys = [...commonQueryKeys, 'header']
 // TODO:  use enum UserProfile instead of this constant
 const PROFILE = 'student'
 
-function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'summary'])
+export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
+  const queryKey = computed(() => studentSummaryQueryKeys)
   return useQuery<ProfileOverviewDTO, BaseApiException>({
     queryKey,
     queryFn: async (): Promise<ProfileOverviewDTO> => {
@@ -37,7 +47,7 @@ function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseA
   })
 }
 
-function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProgressOverviewDTO[], BaseApiException> {
+export function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProgressOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'skills'])
   return useQuery<StudentProgressOverviewDTO[], BaseApiException>({
     queryKey,
@@ -48,7 +58,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProg
   })
 }
 
-function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<DeliverableOverviewDTO[], BaseApiException> {
+export function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<DeliverableOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'deliverables'])
   return useQuery<DeliverableOverviewDTO[], BaseApiException>({
     queryKey,
@@ -60,7 +70,7 @@ function useStudentDeliverablesSummaryQuery (): UseQueryDefinedReturnType<Delive
   })
 }
 
-function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventOverviewDTO[], BaseApiException> {
+export function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'events'])
   return useQuery<EventOverviewDTO[], BaseApiException>({
     queryKey,
@@ -72,8 +82,8 @@ function useStudentEventsSummaryQuery (): UseQueryDefinedReturnType<EventOvervie
   })
 }
 
-function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummaryDTO, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'header'])
+export function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummaryDTO, BaseApiException> {
+  const queryKey = computed(() => headerSummaryQueryKeys)
   return useQuery<StudentHeaderSummaryDTO, BaseApiException>({
     queryKey,
     // TODO: call /me/header/overview when the endpoint and client are ready
@@ -83,7 +93,7 @@ function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummar
   })
 }
 
-function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageOverviewDTO[], BaseApiException> {
+export function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'pages'])
   return useQuery<PageOverviewDTO[], BaseApiException>({
     queryKey,
@@ -95,7 +105,7 @@ function useStudentPagesSummaryQuery (): UseQueryDefinedReturnType<PageOverviewD
   })
 }
 
-function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeOverviewDTO[], BaseApiException> {
+export function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'resumes'])
   return useQuery<ResumeOverviewDTO[], BaseApiException>({
     queryKey,
@@ -107,7 +117,7 @@ function useStudentResumesSummaryQuery (): UseQueryDefinedReturnType<ResumeOverv
   })
 }
 
-function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException> {
+export function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'traces'])
   return useQuery<TraceOverviewDTO[], BaseApiException>({
     queryKey,
@@ -154,13 +164,53 @@ function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<TraceOvervie
   })
 }
 
-export {
-  useStudentCoursesSummaryQuery,
-  useStudentDeliverablesSummaryQuery,
-  useStudentEventsSummaryQuery,
-  useStudentHeaderSummaryQuery,
-  useStudentPagesSummaryQuery,
-  useStudentResumesSummaryQuery,
-  useStudentSummaryQuery,
-  useStudentTracesSummaryQuery
+export interface UpdateProfileVariables {
+  profile: string
+  profileUpdateRequest: ProfileUpdateRequest
+}
+
+export function useUpdateProfileMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+  const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
+  const invalidateHeaderSummaryQuery = useInvalidateQuery(headerSummaryQueryKeys)
+  return useMutation<string, BaseApiException, UpdateProfileVariables>({
+    mutationFn: async ({ profile, profileUpdateRequest }: UpdateProfileVariables): Promise<string> => {
+      return await updateProfile(profile, profileUpdateRequest)
+    },
+    onSuccess: async (data) => {
+      await invalidateStudentSummaryQuery()
+      await invalidateHeaderSummaryQuery()
+      onSuccess?.(data)
+    },
+    onError
+  })
+}
+
+export interface UpdateProfileCoverVariables {
+  profile: string
+  updateProfileCoverBody: UpdateProfileCoverBody
+}
+
+export function useUpdateProfileCoverMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+  return useMutation<string, BaseApiException, UpdateProfileCoverVariables>({
+    mutationFn: async ({ profile, updateProfileCoverBody }: UpdateProfileCoverVariables): Promise<string> => {
+      return await updateProfileCover(profile, updateProfileCoverBody)
+    },
+    onSuccess,
+    onError
+  })
+}
+
+export interface UpdateProfilePhotoVariables {
+  profile: string
+  updateProfilePhotoBody: UpdateProfilePhotoBody
+}
+
+export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+  return useMutation<string, BaseApiException, UpdateProfilePhotoVariables>({
+    mutationFn: async ({ profile, updateProfilePhotoBody }: UpdateProfilePhotoVariables): Promise<string> => {
+      return await updateProfilePhoto(profile, updateProfilePhotoBody)
+    },
+    onSuccess,
+    onError
+  })
 }

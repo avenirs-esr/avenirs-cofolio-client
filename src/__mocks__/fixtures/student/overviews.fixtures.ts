@@ -14,8 +14,13 @@ export const mockedProfileOverview: ProfileOverviewDTO = {
   lastname: 'Moulin',
   profilePicture: profile_picture_placeholder,
   coverPicture: profile_banner_placeholder,
-  bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète. Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+  bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
 }
+
+export const createUpdatedProfileMock = (profile: string) => `${profile}-updated`
+export const createUpdatedCoverMock = () => `https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80`
+export const createUpdatedPhotoMock = () => `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png`
+export const invalidProfile = 'invalid-profile'
 
 export const mockedDeliverablesOverview: DeliverableOverviewDTO[] = [
   {

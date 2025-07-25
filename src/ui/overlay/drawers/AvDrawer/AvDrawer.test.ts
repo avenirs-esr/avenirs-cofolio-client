@@ -153,6 +153,24 @@ describe('avDrawer', () => {
       })
     })
 
+    describe('when footer slot content is provided', () => {
+      beforeEach(() => {
+        wrapper = mount(AvDrawer, {
+          props: {
+            show: true,
+          },
+          slots: {
+            footer: '<div class="test-content">Test Content</div>',
+          },
+        })
+      })
+
+      it('then it should render the slot content', () => {
+        expect(wrapper.find('.test-content').exists()).toBe(true)
+        expect(wrapper.find('.test-content').text()).toBe('Test Content')
+      })
+    })
+
     describe('when all props are provided', () => {
       beforeEach(() => {
         wrapper = mount(AvDrawer, {

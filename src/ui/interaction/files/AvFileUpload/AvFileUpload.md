@@ -24,12 +24,14 @@ The `AvFileUpload` component is an adaptation of the `DsfrFileUpload` code. This
 | --- | --- | --- |
 | `'update:modelValue'` | The updated model value (`string`) | Event emitted when the model value linked to the file is updated |
 | `'change'` | The new list of selected files (`FileList`) | Event emitted when the selected file is changed. |
+| `'onDropAcceptTypeError'` | | Event emitted when a file of wrong type is dropped. |
 
 ## 🧩 Slots
 
 | Name | Description |
 | --- | --- |
 | `hint` | Slot for the hint description. |
+| `left` | Slot for the left content. |
 | `default` | Default slot for global content between the left and right icons. |
 
 ## 📝 Examples of use
