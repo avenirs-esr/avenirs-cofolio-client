@@ -25,13 +25,19 @@ export interface AvSideMenuProps {
    * Width of the side-menu when collapsed
    */
   collapsedWidth?: string
+
+  /**
+   * Custom padding for the side-menu content
+   */
+  padding?: string
 }
 
 const props = withDefaults(defineProps<AvSideMenuProps>(), {
   collapsible: true,
   collapsed: false,
   width: '16rem',
-  collapsedWidth: '5rem'
+  collapsedWidth: '5rem',
+  padding: '0'
 })
 
 /**
@@ -127,7 +133,7 @@ function toggleCollapse () {
   background-color: var(--other-background-base);
   transition: width 0.3s ease;
   border-right: 1px solid var(--stroke);
-  padding: var(--spacing-xxs);
+  padding: v-bind('padding');
 }
 
 .av-side-menu__header {
@@ -138,6 +144,7 @@ function toggleCollapse () {
 }
 
 .av-side-menu__content {
+  display: flex;
   flex: 1;
   overflow-y: auto;
   padding: var(--spacing-sm) 0;
