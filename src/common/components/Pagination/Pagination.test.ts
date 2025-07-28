@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 
 const defaultPageInfo = {
-  number: 1,
+  page: 1,
   totalPages: 3,
   totalElements: 30,
   pageSize: 10

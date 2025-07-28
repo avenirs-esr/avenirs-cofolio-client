@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type AmsViewDTO, type AmsViewResponse, getAmsView, type PageInfo } from '@/api/avenir-esr'
+import { type AmsViewDTO, getAmsView, type PagedResponseAmsViewDTO, type PageInfoDTO } from '@/api/avenir-esr'
 import { keepPreviousData, skipToken, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import isNil from 'lodash-es/isNil'
 import { type Ref, toValue } from 'vue'
@@ -12,9 +12,9 @@ export function useAmsViewQuery (
   programProgramId: Ref<string | undefined>,
   page: Ref<number>,
   pageSize: Ref<number>
-): UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+): UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
   amss: Ref<AmsViewDTO[]>
-  pageInfo: Ref<PageInfo>
+  pageInfo: Ref<PageInfoDTO>
 } {
   const queryKey = computed(() => [...commonQueryKeys, 'ams', {
     programProgramId: programProgramId.value,
@@ -23,7 +23,7 @@ export function useAmsViewQuery (
   }])
 
   const queryFn = computed(() => !isNil(programProgramId.value)
-    ? async (): Promise<AmsViewResponse> => {
+    ? async (): Promise<PagedResponseAmsViewDTO> => {
       return await getAmsView({
         programProgressId: toValue(programProgramId)!,
         pageSize: toValue(pageSize),
@@ -32,7 +32,7 @@ export function useAmsViewQuery (
     }
     : skipToken)
 
-  const query = useQuery<AmsViewResponse, BaseApiException, AmsViewResponse, readonly unknown[]>({
+  const query = useQuery<PagedResponseAmsViewDTO, BaseApiException, PagedResponseAmsViewDTO, readonly unknown[]>({
     queryKey,
     queryFn,
     enabled: computed(() => !isNil(programProgramId.value)),
@@ -41,7 +41,7 @@ export function useAmsViewQuery (
   })
 
   const amss = computed(() => query.data.value?.data ?? [])
-  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
+  const pageInfo = computed(() => query.data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,

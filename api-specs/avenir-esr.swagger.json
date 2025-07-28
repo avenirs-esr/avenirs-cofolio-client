@@ -171,6 +171,36 @@
         }
       }
     },
+    "/me/traces": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "createTrace",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "trace": {
+                    "$ref": "#/components/schemas/CreateTraceDTO"
+                  }
+                },
+                "required": [
+                  "trace"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/user-categories": {
       "get": {
         "tags": [
@@ -406,7 +436,7 @@
         "tags": [
           "student-progress-controller"
         ],
-        "operationId": "getSkillsView",
+        "operationId": "getStudentProgressView",
         "parameters": [
           {
             "name": "sort",
@@ -439,7 +469,7 @@
         "tags": [
           "student-progress-controller"
         ],
-        "operationId": "getSkillsOverview",
+        "operationId": "getStudentProgressOverview",
         "responses": {
           "200": {
             "description": "OK",
@@ -450,6 +480,54 @@
                   "items": {
                     "$ref": "#/components/schemas/StudentProgressOverviewDTO"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/skill-level-progress": {
+      "get": {
+        "tags": [
+          "skill-level-progress-controller"
+        ],
+        "operationId": "get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseSkillDTO"
                 }
               }
             }
@@ -518,7 +596,55 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AmsViewResponse"
+                  "$ref": "#/components/schemas/PagedResponseAmsViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/additional-skills": {
+      "get": {
+        "tags": [
+          "additional-skill-controller"
+        ],
+        "operationId": "getAdditionalSkills",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAdditionalSkillDTO"
                 }
               }
             }
@@ -684,6 +810,38 @@
           }
         }
       },
+      "CreateTraceDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 70,
+            "minLength": 0
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "FRENCH",
+              "ENGLISH",
+              "SPANISH"
+            ]
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "iaJustification": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "isGroup",
+          "language",
+          "title"
+        ]
+      },
       "TraceConfigurationInfo": {
         "type": "object",
         "properties": {
@@ -718,6 +876,9 @@
           "bio": {
             "type": "string"
           },
+          "email": {
+            "type": "string"
+          },
           "profilePicture": {
             "type": "string"
           },
@@ -728,6 +889,7 @@
         "required": [
           "bio",
           "coverPicture",
+          "email",
           "firstname",
           "lastname",
           "profilePicture"
@@ -765,9 +927,13 @@
           "name"
         ]
       },
-      "PageInfo": {
+      "PageInfoDTO": {
         "type": "object",
         "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
           "pageSize": {
             "type": "integer",
             "format": "int32"
@@ -779,14 +945,10 @@
           "totalPages": {
             "type": "integer",
             "format": "int32"
-          },
-          "number": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "required": [
-          "number",
+          "page",
           "pageSize",
           "totalElements",
           "totalPages"
@@ -857,7 +1019,7 @@
             "$ref": "#/components/schemas/TracesResponse"
           },
           "page": {
-            "$ref": "#/components/schemas/PageInfo"
+            "$ref": "#/components/schemas/PageInfoDTO"
           }
         },
         "required": [
@@ -936,6 +1098,48 @@
           "updatedAt"
         ]
       },
+      "SkillDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "traceCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activityCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "levelCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentSkillLevel": {
+            "$ref": "#/components/schemas/SkillLevelViewDTO"
+          },
+          "achievedSkillLevels": {
+            "$ref": "#/components/schemas/SkillLevelViewDTO"
+          },
+          "isProgramFinished": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "activityCount",
+          "currentSkillLevel",
+          "id",
+          "isProgramFinished",
+          "levelCount",
+          "name",
+          "traceCount"
+        ]
+      },
       "SkillLevelViewDTO": {
         "type": "object",
         "properties": {
@@ -969,41 +1173,6 @@
           "status"
         ]
       },
-      "SkillViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "traceCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "levelCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "currentSkillLevel": {
-            "$ref": "#/components/schemas/SkillLevelViewDTO"
-          }
-        },
-        "required": [
-          "activityCount",
-          "currentSkillLevel",
-          "id",
-          "levelCount",
-          "name",
-          "traceCount"
-        ]
-      },
       "StudentProgressViewDTO": {
         "type": "object",
         "properties": {
@@ -1017,7 +1186,7 @@
           "skills": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkillViewDTO"
+              "$ref": "#/components/schemas/SkillDTO"
             }
           }
         },
@@ -1027,7 +1196,7 @@
           "skills"
         ]
       },
-      "SkillLevelOverviewDTO": {
+      "SkillLevelProgressOverviewDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -1075,7 +1244,7 @@
             "format": "int32"
           },
           "currentSkillLevel": {
-            "$ref": "#/components/schemas/SkillLevelOverviewDTO"
+            "$ref": "#/components/schemas/SkillLevelProgressOverviewDTO"
           }
         },
         "required": [
@@ -1093,7 +1262,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "name": {
+          "programTitle": {
             "type": "string"
           },
           "skills": {
@@ -1107,6 +1276,24 @@
           "id",
           "name",
           "skills"
+        ]
+      },
+      "PagedResponseSkillDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "AccessInfoAPC": {
@@ -1211,22 +1398,67 @@
           "title"
         ]
       },
-      "AmsViewResponse": {
+      "PagedResponseAmsViewDTO": {
         "type": "object",
-        "description": "Paginated response containing AMS view information",
         "properties": {
           "data": {
             "type": "array",
-            "description": "List of elements on the current page",
             "items": {
               "$ref": "#/components/schemas/AmsViewDTO"
             }
           },
           "page": {
-            "$ref": "#/components/schemas/PageInfo",
-            "description": "Pagination information"
+            "$ref": "#/components/schemas/PageInfoDTO"
           }
-        }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "AdditionalSkillDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "pathSegments",
+          "title",
+          "type"
+        ]
+      },
+      "PagedResponseAdditionalSkillDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
       }
     }
   }

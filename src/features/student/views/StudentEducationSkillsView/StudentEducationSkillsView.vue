@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GetSkillsViewParams } from '@/api/avenir-esr'
+import type { GetStudentProgressViewParams } from '@/api/avenir-esr'
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { SortDirection } from '@/common/types'
@@ -19,7 +19,7 @@ const defaultSortOption = formatSortParam(StudentProgressViewSortableFields.NAME
 
 const selectedSortOption = ref(defaultSortOption)
 
-const params = computed((): GetSkillsViewParams => ({
+const params = computed((): GetStudentProgressViewParams => ({
   sort: selectedSortOption.value,
 }))
 

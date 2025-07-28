@@ -1,6 +1,6 @@
-import type { PageInfo } from '@/api/avenir-esr'
+import type { PageInfoDTO } from '@/api/avenir-esr'
 
 export interface PaginatedResponse<T> {
   data: T
-  page: PageInfo
+  page: PageInfoDTO
 }

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { PageInfo } from '@/api/avenir-esr'
+import type { PageInfoDTO } from '@/api/avenir-esr'
 import type { Slot } from 'vue'
 import { AvPageSizePicker, AvPagination, type AvTagPickerOption, getPaginationPages } from '@/ui'
 import { type PageSizes, pageSizeValues } from '@/ui/config'
 import { useI18n } from 'vue-i18n'
 
 export interface PaginationProps {
-  pageInfo: PageInfo
+  pageInfo: PageInfoDTO
   pageSizeSelected: PageSizes
   onUpdateCurrentPage: (page: number) => void
   onUpdatePageSize: (pageSize: PageSizes) => void
@@ -40,7 +40,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
     />
     <AvPagination
       id="top-pagination"
-      :current-page="pageInfo.number"
+      :current-page="pageInfo.page"
       :pages="pages"
       :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.top.ariaLabel')"
       compact
@@ -51,7 +51,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
   <div class="bottom-pagination-container">
     <AvPagination
       id="bottom-pagination"
-      :current-page="pageInfo.number"
+      :current-page="pageInfo.page"
       :pages="pages"
       :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.bottom.ariaLabel')"
       @update:current-page="onUpdateCurrentPage"

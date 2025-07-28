@@ -1,8 +1,8 @@
 import { mockedAllMyProgramsProgress, mockedProgramsProgressOverview, mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import {
   getGetAllTrainingPathsUrl,
-  getGetSkillsOverviewUrl,
-  getGetSkillsViewUrl,
+  getGetStudentProgressOverviewUrl,
+  getGetStudentProgressViewUrl,
   type StudentProgressOverviewDTO,
   type StudentProgressViewDTO,
   type TrainingPathDTO
@@ -13,7 +13,7 @@ import { StudentProgressViewSortableFields } from '@/features/student/types'
 import { http, HttpResponse } from 'msw'
 
 export function createProgramProgressViewHandler (payload: StudentProgressViewDTO[]) {
-  return http.get(`*${getGetSkillsViewUrl()}`, () => {
+  return http.get(`*${getGetStudentProgressViewUrl()}`, () => {
     return HttpResponse.json<StudentProgressViewDTO[]>(payload, {
       status: 200,
       headers: {
@@ -23,7 +23,7 @@ export function createProgramProgressViewHandler (payload: StudentProgressViewDT
   })
 }
 
-export const programProgressViewErrorHandler = http.get(`*${getGetSkillsViewUrl()}`, () => {
+export const programProgressViewErrorHandler = http.get(`*${getGetStudentProgressViewUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal server error' },
     { status: 500 }
@@ -40,7 +40,7 @@ export const programProgressHandlers = [
     })
   }),
 
-  http.get(`*${getGetSkillsViewUrl()}`, ({ request }) => {
+  http.get(`*${getGetStudentProgressViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const params = Object.fromEntries(url.searchParams.entries())
     const sort = params.sort || formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC)
@@ -69,7 +69,7 @@ export const programProgressHandlers = [
     })
   }),
 
-  http.get(`*${getGetSkillsOverviewUrl()}`, () => {
+  http.get(`*${getGetStudentProgressOverviewUrl()}`, () => {
     return HttpResponse.json<StudentProgressOverviewDTO[]>(mockedProgramsProgressOverview, {
       status: 200,
       headers: {

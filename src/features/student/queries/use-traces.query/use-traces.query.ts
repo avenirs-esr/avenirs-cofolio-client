@@ -41,7 +41,7 @@ export function useUnassignedTracesViewQuery (
   })
 
   const traces = computed(() => query.data.value?.data.traces ?? [])
-  const pageInfo = computed(() => query.data.value?.page ?? { number: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
+  const pageInfo = computed(() => query.data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
     ...query,

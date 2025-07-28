@@ -1,4 +1,4 @@
-import { type SkillLevelOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { type SkillLevelProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import StudentLevelBadge from '@/features/student/components/badges/StudentLevelBadge/StudentLevelBadge.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
@@ -26,11 +26,31 @@ describe('studentLevelBadge', () => {
     },
   }
 
-  const notStartedLevel = { id: 'NOT_STARTED', name: 'NOT_STARTED', status: SkillLevelStatus.NOT_STARTED } as SkillLevelOverviewDTO
-  const notValidatedLevel = { id: 'NOT_VALIDATED', name: 'NOT_VALIDATED', status: SkillLevelStatus.FAILED } as SkillLevelOverviewDTO
-  const toEvaluateLevel = { id: 'TO_EVALUATE', name: 'TO_EVALUATE', status: SkillLevelStatus.TO_BE_EVALUATED } as SkillLevelOverviewDTO
-  const underReviewLevel = { id: 'UNDER_REVIEW', name: 'UNDER_REVIEW', status: SkillLevelStatus.UNDER_REVIEW } as SkillLevelOverviewDTO
-  const validatedLevel = { id: 'VALIDATED', name: 'VALIDATED', status: SkillLevelStatus.VALIDATED } as SkillLevelOverviewDTO
+  const notStartedLevel: SkillLevelProgressOverviewDTO = {
+    id: 'NOT_STARTED',
+    name: 'NOT_STARTED',
+    status: SkillLevelStatus.NOT_STARTED
+  }
+  const notValidatedLevel: SkillLevelProgressOverviewDTO = {
+    id: 'NOT_VALIDATED',
+    name: 'NOT_VALIDATED',
+    status: SkillLevelStatus.FAILED
+  }
+  const toEvaluateLevel: SkillLevelProgressOverviewDTO = {
+    id: 'TO_EVALUATE',
+    name: 'TO_EVALUATE',
+    status: SkillLevelStatus.TO_BE_EVALUATED
+  }
+  const underReviewLevel: SkillLevelProgressOverviewDTO = {
+    id: 'UNDER_REVIEW',
+    name: 'UNDER_REVIEW',
+    status: SkillLevelStatus.UNDER_REVIEW
+  }
+  const validatedLevel: SkillLevelProgressOverviewDTO = {
+    id: 'VALIDATED',
+    name: 'VALIDATED',
+    status: SkillLevelStatus.VALIDATED
+  }
 
   afterEach(() => {
     vi.clearAllMocks()

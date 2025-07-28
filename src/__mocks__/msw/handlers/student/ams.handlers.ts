@@ -1,12 +1,12 @@
 import type {
-  AmsViewResponse
+  PagedResponseAmsViewDTO
 } from '@/api/avenir-esr'
-import { createMockedAmsViewResponse } from '@/__mocks__/fixtures/student'
+import { createMockedPagedResponseAmsViewDTO } from '@/__mocks__/fixtures/student'
 import { PageSizes } from '@/ui/config'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export const amsHandlers = [
-  http.get<PathParams, AmsViewResponse>(`*/me/ams/view`, ({ request }) => {
+  http.get<PathParams, PagedResponseAmsViewDTO>(`*/me/ams/view`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const programProgressId = searchParams.get('programProgressId')
@@ -22,9 +22,9 @@ export const amsHandlers = [
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedAmsViewResponse(pageSize, 20, page, programProgressId)
+    const response = createMockedPagedResponseAmsViewDTO(pageSize, 20, page, programProgressId)
 
-    return HttpResponse.json<AmsViewResponse>(response, {
+    return HttpResponse.json<PagedResponseAmsViewDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

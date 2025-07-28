@@ -5,15 +5,20 @@ import { StudentSkillCard } from '@/features/student/components/widgets/StudentS
 const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: StudentProgressOverviewDTO, maxSkillsDisplayed: number }>()
 
 const skills = computed(() => course.skills.slice().slice(0, maxSkillsDisplayed))
-const renderedCourseName = computed(() => course.name.length > 60
-  ? `${course.name.slice(0, 60)}...`
-  : course.name)
+const renderedProgramTitle = computed(() => {
+  if (!course.programTitle) {
+    return ''
+  }
+  return course.programTitle.length > 60
+    ? `${course.programTitle.slice(0, 60)}...`
+    : course.programTitle
+})
 </script>
 
 <template>
   <div class="skills-widget-container">
     <span class="s1-regular">
-      {{ renderedCourseName }}
+      {{ renderedProgramTitle }}
     </span>
     <div class="skills-container">
       <StudentSkillCard

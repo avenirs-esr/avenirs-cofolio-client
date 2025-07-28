@@ -16,7 +16,7 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (pageSize: number, totalElements: number, number: number, status: TraceStatus = TraceStatus.UNASSOCIATED): TracesViewResponse {
+export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: TraceStatus = TraceStatus.UNASSOCIATED): TracesViewResponse {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -34,14 +34,14 @@ export function createMockedTracesViewResponse (pageSize: number, totalElements:
     mockedTraces.push(trace)
   }
 
-  const start = number * pageSize
+  const start = page * pageSize
   const end = start + pageSize
   const paginatedTraces = mockedTraces.slice(start, end)
   const totalPages = Math.ceil(totalElements / pageSize)
 
   return {
     data: { traces: paginatedTraces },
-    page: { pageSize, totalElements, totalPages, number }
+    page: { pageSize, totalElements, totalPages, page }
   }
 }
 

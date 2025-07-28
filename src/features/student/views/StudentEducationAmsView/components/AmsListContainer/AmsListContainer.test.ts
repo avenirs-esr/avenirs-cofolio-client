@@ -1,6 +1,6 @@
-import type { AmsViewResponse } from '@/api/avenir-esr'
+import type { PagedResponseAmsViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { createMockedAmsViewResponse } from '@/__mocks__/fixtures/student'
+import { createMockedPagedResponseAmsViewDTO } from '@/__mocks__/fixtures/student'
 import { useAmsViewQuery } from '@/features/student/queries'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import { useAmsStore } from '@/store'
@@ -18,7 +18,7 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 
 const mockedUseAmsViewQuery = vi.mocked(useAmsViewQuery)
 
-function mockUseAmsViewQuery (payload: AmsViewResponse | undefined) {
+function mockUseAmsViewQuery (payload: PagedResponseAmsViewDTO | undefined) {
   const mockReturn = createMockedAmsViewQueryReturn(payload, null)
   mockedUseAmsViewQuery.mockReturnValue(mockReturn)
 }
@@ -49,7 +49,7 @@ describe('amsListContainer', () => {
     }
   }
 
-  const mockedAmsData = createMockedAmsViewResponse(4, 20, 1, 'program-1')
+  const mockedAmsData = createMockedPagedResponseAmsViewDTO(4, 20, 1, 'program-1')
 
   describe('given the component has ams data', () => {
     let wrapper: VueWrapper

@@ -3,7 +3,7 @@ import { SkillLevelStatus, type StudentProgressOverviewDTO, type StudentProgress
 export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
   {
     id: 'course-2',
-    name: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel',
+    programTitle: 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel',
     skills: [
       {
         id: 'skill-2-2',
@@ -37,7 +37,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
   },
   {
     id: 'course-1',
-    name: 'Master Chimie Verte et Éco-innovations',
+    programTitle: 'Master Chimie Verte et Éco-innovations',
     skills: [
       {
         id: 'skill-1-4',
@@ -73,7 +73,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
 
 export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgramsProgressOverview.map(course => ({
   id: `program-${course.id}`,
-  name: course.name,
+  name: course.programTitle ?? '',
   skills: [...course.skills].map((skill) => {
     const currentLevel = skill.currentSkillLevel
 
@@ -104,6 +104,7 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
       name: skill.name,
       traceCount: skill.traceCount,
       activityCount: skill.activityCount,
+      isProgramFinished: false,
       levelCount,
       currentSkillLevel: {
         ...currentLevel,

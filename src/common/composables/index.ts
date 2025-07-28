@@ -1,4 +1,3 @@
-export * from './use-infinite-pagination/use-infinite-pagination'
 export * from './use-invalidate-query/use-invalidate-query'
 export * from './use-language-switcher'
 export * from './use-modal/use-modal'

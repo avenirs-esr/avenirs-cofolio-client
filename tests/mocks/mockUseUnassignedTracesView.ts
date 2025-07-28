@@ -18,7 +18,7 @@ export function createMockedTracesViewQueryReturn (
 
   const traces = computed(() => mockData.value?.data.traces ?? [])
   const pageInfo = computed(() => mockData.value?.page ?? {
-    number: 0,
+    page: 0,
     size: 0,
     totalElements: 0,
     totalPages: 0,
