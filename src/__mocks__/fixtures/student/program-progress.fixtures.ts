@@ -1,4 +1,20 @@
-import { SkillLevelStatus, type StudentProgressOverviewDTO, type StudentProgressViewDTO, TrainingPathDTODurationUnit } from '@/api/avenir-esr'
+import {
+  SkillLevelStatus,
+  type SkillLevelViewDTO,
+  type StudentProgressOverviewDTO,
+  type StudentProgressViewDTO,
+  TrainingPathDTODurationUnit
+} from '@/api/avenir-esr'
+
+function getMockedAchievedSkillLevels (currentLevel: SkillLevelViewDTO) {
+  const isLevelOne = currentLevel.name.includes('Niveau 1')
+  return !isLevelOne
+    ? {
+        ...currentLevel,
+        status: [SkillLevelStatus.VALIDATED, SkillLevelStatus.FAILED][Math.floor(Math.random() * 2)],
+      }
+    : undefined
+}
 
 export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
   {
@@ -99,6 +115,10 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
       'skill-2-4': 'Formuler précisément les besoins utilisateurs et les traduire en exigences techniques',
     }[skill.id] ?? `Description courte de ${currentLevel.name}`
 
+    const currentSkillLevel = {
+      ...currentLevel,
+      shortDescription,
+    }
     return {
       id: skill.id,
       name: skill.name,
@@ -106,10 +126,8 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
       activityCount: skill.activityCount,
       isProgramFinished: false,
       levelCount,
-      currentSkillLevel: {
-        ...currentLevel,
-        shortDescription,
-      },
+      currentSkillLevel,
+      achievedSkillLevels: getMockedAchievedSkillLevels(currentSkillLevel)
     }
   }),
 }))

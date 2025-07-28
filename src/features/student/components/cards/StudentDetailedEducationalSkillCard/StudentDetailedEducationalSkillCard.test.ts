@@ -15,6 +15,12 @@ const baseSkill: SkillDTO = {
     name: 'Niveau 1',
     status: SkillLevelStatus.TO_BE_EVALUATED,
     shortDescription: 'Une description courte'
+  },
+  achievedSkillLevels: {
+    id: 'level-0',
+    name: 'Niveau 0',
+    shortDescription: 'Niveau 0 description',
+    status: SkillLevelStatus.VALIDATED
   }
 }
 
@@ -52,6 +58,11 @@ function createWrapper (skill: SkillDTO = baseSkill) {
           name: 'AvBadge',
           props: ['label', 'color', 'backgroundColor', 'iconPath', 'small', 'ellipsis'],
           template: `<div class="badge">{{ label }}</div>`
+        },
+        StudentLastCompletedLevelBadge: {
+          name: 'StudentLastCompletedLevelBadge',
+          props: ['level'],
+          template: `<div class="last-completed-badge">{{ level.name }}</div>`
         }
       }
     }
@@ -104,6 +115,19 @@ describe('given a student detailed educationnal skill card with valid props', ()
       const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: SkillLevelStatus.VALIDATED } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
+      expect(badge.exists()).toBe(false)
+    })
+
+    it('then it should render the StudentLastCompletedLevelBadge when achievedSkillLevels is present', () => {
+      const badge = wrapper.find('.last-completed-badge')
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toContain('Niveau 0')
+    })
+
+    it('then it should not render the StudentLastCompletedLevelBadge when achievedSkillLevels is undefined', () => {
+      const skill = { ...baseSkill, achievedSkillLevels: undefined }
+      wrapper = createWrapper(skill)
+      const badge = wrapper.find('.last-completed-badge')
       expect(badge.exists()).toBe(false)
     })
   })
