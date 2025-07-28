@@ -27,12 +27,10 @@ const { showModal, displayModal, hideModal } = useModal()
 const { addSuccessMessage } = useToasterStore()
 const {
   form,
-  formErrors,
-  coverPictureFile,
-  profilePictureFile,
   isPending,
   isModified,
-  handleSubmit,
+  onCoverPictureUpdate,
+  onProfilePictureUpdate,
   resetForm
 } = useUpdateProfileForm(studentSummary, onUpdateProfileSuccess)
 
@@ -41,26 +39,9 @@ function onUpdateProfileSuccess () {
   onClose()
 }
 
-function onCoverPictureUpdate (file: File | null) {
-  coverPictureFile.value = file
-}
-
-function onProfilePictureUpdate (file: File | null) {
-  profilePictureFile.value = file
-}
-
 watch(() => show, (newVal) => {
   if (newVal) {
-    resetForm({
-      firstname: studentSummary.firstname,
-      lastname: studentSummary.lastname,
-      bio: studentSummary.bio,
-      email: studentSummary.email,
-      coverPicture: studentSummary.coverPicture,
-      profilePicture: studentSummary.profilePicture,
-    })
-    coverPictureFile.value = null
-    profilePictureFile.value = null
+    resetForm()
   }
 })
 </script>
@@ -78,7 +59,7 @@ watch(() => show, (newVal) => {
       <form
         id="profile-form"
         novalidate
-        @submit.prevent="handleSubmit"
+        @submit.prevent.stop="form.handleSubmit"
       >
         <AvAccordionsGroup>
           <AvAccordion
@@ -86,32 +67,51 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
           >
             <div class="form">
-              <AvInput
-                v-model="form.lastname"
-                :label="t('student.widgets.overview.updateProfileDrawer.identity.lastname')"
-                required
-                :error-message="formErrors.lastname"
-              />
-              <AvInput
-                v-model="form.firstname"
-                :label="t('student.widgets.overview.updateProfileDrawer.identity.firstname')"
-                required
-                :error-message="formErrors.firstname"
-              />
-              <AvInput
-                v-model="form.email"
-                type="email"
-                :label="t('student.widgets.overview.updateProfileDrawer.identity.mail')"
-                autocomplete="email"
-                :error-message="formErrors.email"
-              />
-              <AvInput
-                v-model="form.bio"
-                :label="t('student.widgets.overview.updateProfileDrawer.identity.description')"
-                is-textarea
-                :maxlength="350"
-                :error-message="formErrors.bio"
-              />
+              <form.Field name="lastname">
+                <template #default="{ field }">
+                  <AvInput
+                    v-model="field.state.value"
+                    :error-message="field.state.meta.errors.join(', ')"
+                    :label="t('student.widgets.overview.updateProfileDrawer.identity.lastname')"
+                    required
+                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
+                  />
+                </template>
+              </form.Field>
+              <form.Field name="firstname">
+                <template #default="{ field }">
+                  <AvInput
+                    v-model="field.state.value"
+                    :error-message="field.state.meta.errors.join(', ')"
+                    :label="t('student.widgets.overview.updateProfileDrawer.identity.firstname')"
+                    required
+                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
+                  />
+                </template>
+              </form.Field>
+              <form.Field name="email">
+                <template #default="{ field }">
+                  <AvInput
+                    v-model="field.state.value"
+                    :error-message="field.state.meta.errors.join(', ')"
+                    :label="t('student.widgets.overview.updateProfileDrawer.identity.mail')"
+                    type="email"
+                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
+                  />
+                </template>
+              </form.Field>
+              <form.Field name="bio">
+                <template #default="{ field }">
+                  <AvInput
+                    v-model="field.state.value"
+                    :error-message="field.state.meta.errors.join(', ')"
+                    :label="t('student.widgets.overview.updateProfileDrawer.identity.description')"
+                    is-textarea
+                    :maxlength="350"
+                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
+                  />
+                </template>
+              </form.Field>
             </div>
           </AvAccordion>
           <AvAccordion
@@ -119,7 +119,7 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
-              :default-image="form.coverPicture"
+              :default-image="studentSummary.coverPicture"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.banner')"
               :on-update="onCoverPictureUpdate"
             />
@@ -129,7 +129,7 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
-              :default-image="form.profilePicture"
+              :default-image="studentSummary.profilePicture"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.picture')"
               :on-update="onProfilePictureUpdate"
             />

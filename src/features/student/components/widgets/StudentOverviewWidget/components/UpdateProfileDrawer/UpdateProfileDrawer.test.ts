@@ -1,21 +1,13 @@
 import type { UpdateProfileDrawerForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/types'
+import type { SetupContext } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/queries'
+import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
-import { createMockMutation } from 'tests/mocks/mutation'
 import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
-
-interface UpdateProfileDrawerVm {
-  coverPictureFile: File | null
-  profilePictureFile: File | null
-  form: UpdateProfileDrawerForm
-  formErrors: UpdateProfileDrawerForm
-}
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -28,10 +20,8 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-vi.mock('@/features/student/queries', () => ({
-  useUpdateProfileMutation: vi.fn(),
-  useUpdateProfileCoverMutation: vi.fn(),
-  useUpdateProfilePhotoMutation: vi.fn()
+vi.mock('@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form', () => ({
+  useUpdateProfileForm: vi.fn(),
 }))
 
 describe('updateProfileDrawer', () => {
@@ -107,59 +97,132 @@ describe('updateProfileDrawer', () => {
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
-  const props = {
+  const mockOnClose = vi.fn()
+
+  const defaultProps = {
     studentSummary,
     show: true,
-    onClose: vi.fn()
+    onClose: mockOnClose
   }
 
-  const mockUpdateProfile = createMockMutation<ReturnType<typeof useUpdateProfileMutation>>()
-  const mockUpdateProfileCover = createMockMutation<ReturnType<typeof useUpdateProfileCoverMutation>>()
-  const mockUpdateProfilePhoto = createMockMutation<ReturnType<typeof useUpdateProfilePhotoMutation>>()
+  const fakeField = (initialValues: UpdateProfileDrawerForm) => {
+    return {
+      props: ['name'],
+      setup (props: Record<string, string>, context: SetupContext) {
+        const { slots } = context
 
-  const mockedUseUpdateProfileMutation: MockedFunction<typeof useUpdateProfileMutation> = vi.mocked(useUpdateProfileMutation)
-  const mockedUseUpdateProfileCoverMutation: MockedFunction<typeof useUpdateProfileCoverMutation> = vi.mocked(useUpdateProfileCoverMutation)
-  const mockedUseUpdateProfilePhotoMutation: MockedFunction<typeof useUpdateProfilePhotoMutation> = vi.mocked(useUpdateProfilePhotoMutation)
+        const store: Record<string, { value: string }> = {
+          lastname: ref(initialValues.lastname),
+          firstname: ref(initialValues.firstname),
+          email: ref(initialValues.email),
+          bio: ref(initialValues.bio),
+        }
+
+        const value = computed({
+          get: () => store[props.name]?.value ?? '',
+          set: (newValue) => {
+            if (store[props.name]) {
+              store[props.name].value = newValue
+            }
+          }
+        })
+
+        const state = reactive({
+          meta: { errors: [] }
+        })
+
+        Object.defineProperty(state, 'value', {
+          get () {
+            return value.value
+          },
+          set (newValue) {
+            value.value = newValue
+          }
+        })
+
+        function handleChange (newValue: string) {
+          value.value = newValue
+        }
+
+        return () => slots.default?.({
+          field: {
+            state,
+            handleChange
+          }
+        })
+      }
+    }
+  }
+
+  const store: Record<string, { value: string }> = {
+    lastname: ref(studentSummary.lastname),
+    firstname: ref(studentSummary.firstname),
+    email: ref(studentSummary.email),
+    bio: ref(studentSummary.bio),
+    coverPicture: ref(studentSummary.coverPicture),
+    profilePicture: ref(studentSummary.profilePicture),
+  }
+
+  const mockedResetForm = vi.fn()
+
+  const mockedForm = {
+    Field: fakeField(studentSummary),
+    handleSubmit: vi.fn(),
+    setFieldValue: vi.fn(),
+    store,
+    state: {
+      isSubmitting: false,
+    },
+    resetForm: mockedResetForm,
+  }
+
+  const studentSummaryWithMissingFields = {
+    firstname: '',
+    lastname: '',
+    email: '',
+    bio: '',
+    profilePicture: '',
+    coverPicture: ''
+  }
+
+  const storeWithMissingFields: Record<string, { value: string }> = {
+    lastname: ref(studentSummaryWithMissingFields.lastname),
+    firstname: ref(studentSummaryWithMissingFields.firstname),
+    email: ref(studentSummaryWithMissingFields.email),
+    bio: ref(studentSummaryWithMissingFields.bio),
+    coverPicture: ref(studentSummaryWithMissingFields.coverPicture),
+    profilePicture: ref(studentSummaryWithMissingFields.profilePicture),
+  }
+
+  const mockedFormWithEmptyFields = {
+    Field: fakeField(studentSummaryWithMissingFields),
+    handleSubmit: vi.fn(),
+    setFieldValue: vi.fn(),
+    store: storeWithMissingFields,
+    state: {
+      isSubmitting: false,
+    },
+    resetForm: vi.fn(),
+  }
+
+  const mockedUseUpdateProfileForm: MockedFunction<typeof useUpdateProfileForm> = vi.mocked(useUpdateProfileForm)
 
   beforeEach(() => {
     vi.clearAllMocks()
 
-    mockUpdateProfile.isPending.value = false
-    mockUpdateProfileCover.isPending.value = false
-    mockUpdateProfilePhoto.isPending.value = false
-
-    mockedUseUpdateProfileMutation.mockImplementation(({ onError, onSuccess } = {}) => {
-      if (onError) {
-        mockUpdateProfile.callbacks.onError.mockImplementation(onError)
-      }
-      if (onSuccess) {
-        mockUpdateProfile.callbacks.onSuccess.mockImplementation(onSuccess)
-      }
-      return mockUpdateProfile.implementation()
-    })
-
-    mockedUseUpdateProfileCoverMutation.mockImplementation(({ onError, onSuccess } = {}) => {
-      if (onError) {
-        mockUpdateProfileCover.callbacks.onError.mockImplementation(onError)
-      }
-      if (onSuccess) {
-        mockUpdateProfileCover.callbacks.onSuccess.mockImplementation(onSuccess)
-      }
-      return mockUpdateProfileCover.implementation()
-    })
-
-    mockedUseUpdateProfilePhotoMutation.mockImplementation(({ onError, onSuccess } = {}) => {
-      if (onError) {
-        mockUpdateProfilePhoto.callbacks.onError.mockImplementation(onError)
-      }
-      if (onSuccess) {
-        mockUpdateProfilePhoto.callbacks.onSuccess.mockImplementation(onSuccess)
-      }
-      return mockUpdateProfilePhoto.implementation()
-    })
+    mockedUseUpdateProfileForm.mockImplementation(() => ({
+      form: mockedForm as any,
+      isPending: computed(() => false),
+      isModified: computed(() => false),
+      resetForm: mockedResetForm,
+      onCoverPictureUpdate: vi.fn(),
+      onProfilePictureUpdate: vi.fn(),
+      onUpdateProfileCoverSuccess: vi.fn(),
+      onUpdateProfilePhotoSuccess: vi.fn(),
+    }))
 
     wrapper = mount(UpdateProfileDrawer, {
-      props,
+      props: defaultProps,
       global: {
         stubs,
         plugins: [createPinia()],
@@ -187,57 +250,56 @@ describe('updateProfileDrawer', () => {
         expect(avInputs[3].attributes('data-textarea')).toBe('true')
       })
 
+      it('then it should render the exit button', () => {
+        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        const exitButton = avButtons.find(button => button.props('label') === 'Quitter')
+        expect(exitButton?.exists()).toBe(true)
+      })
+
       it('then it should render the save button in disabled state', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
         expect(saveButton?.exists()).toBe(true)
         expect(saveButton?.props('disabled')).toBe(true)
+        expect(saveButton?.attributes('type')).toBe('submit')
       })
     })
 
-    describe('when the update profile mutation is pending', () => {
+    describe('when studentSummary fields are empty', () => {
       beforeEach(() => {
-        mockUpdateProfile.isPending.value = true
-      })
+        vi.clearAllMocks()
 
-      it('then the buttons should be in loading state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
-        expect(avButtons).toHaveLength(2)
-        avButtons.forEach((avButton) => {
-          expect(avButton.props('isLoading')).toBe(true)
+        mockedUseUpdateProfileForm.mockImplementation(() => ({
+          form: mockedFormWithEmptyFields as any,
+          isPending: computed(() => true),
+          isModified: computed(() => false),
+          resetForm: mockedResetForm,
+          onCoverPictureUpdate: vi.fn(),
+          onProfilePictureUpdate: vi.fn(),
+          onUpdateProfileCoverSuccess: vi.fn(),
+          onUpdateProfilePhotoSuccess: vi.fn(),
+        }))
+
+        wrapper = mount(UpdateProfileDrawer, {
+          props: { ...defaultProps, studentSummary: studentSummaryWithMissingFields },
+          global: { stubs, plugins: [createPinia()] }
         })
       })
-    })
 
-    describe('when the update profile cover mutation is pending', () => {
-      beforeEach(() => {
-        mockUpdateProfileCover.isPending.value = true
-      })
-
-      it('then the buttons should be in loading state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
-        expect(avButtons).toHaveLength(2)
-        avButtons.forEach((avButton) => {
-          expect(avButton.props('isLoading')).toBe(true)
-        })
+      it('then it should render empty inputs', () => {
+        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+        expect(avInputs[0].attributes('value')).toBe('')
+        expect(avInputs[1].attributes('value')).toBe('')
+        expect(avInputs[2].attributes('value')).toBe('')
+        expect(avInputs[3].attributes('value')).toBe('')
+        expect(avInputs[0].element.value).toBe('')
+        expect(avInputs[1].element.value).toBe('')
+        expect(avInputs[2].element.value).toBe('')
+        expect(avInputs[3].element.value).toBe('')
       })
     })
 
-    describe('when the update profile photo mutation is pending', () => {
-      beforeEach(() => {
-        mockUpdateProfilePhoto.isPending.value = true
-      })
-
-      it('then the buttons should be in loading state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
-        expect(avButtons).toHaveLength(2)
-        avButtons.forEach((avButton) => {
-          expect(avButton.props('isLoading')).toBe(true)
-        })
-      })
-    })
-
-    describe('when no mutation is pending', () => {
+    describe('when the update profile form composable is not pending', () => {
       it('then the buttons should not be in loading state', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         expect(avButtons).toHaveLength(2)
@@ -247,67 +309,51 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when the update profile mutation fails', () => {
-      const error: BaseApiException = {
-        message: 'Failed to update profile',
-        name: 'UpdateProfileError',
-        status: 500,
-        code: BaseApiErrorCode.UNKNOWN
-      }
-
+    describe('when the update profile form composable is pending', () => {
       beforeEach(() => {
-        mockUpdateProfile.callbacks.onError(error)
-      })
+        mockedUseUpdateProfileForm.mockImplementation(() => ({
+          form: mockedForm as any,
+          isPending: computed(() => true),
+          isModified: computed(() => false),
+          resetForm: mockedResetForm,
+          onCoverPictureUpdate: vi.fn(),
+          onProfilePictureUpdate: vi.fn(),
+          onUpdateProfileCoverSuccess: vi.fn(),
+          onUpdateProfilePhotoSuccess: vi.fn(),
+        }))
 
-      it('then an error message should be added', () => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
+        wrapper = mount(UpdateProfileDrawer, {
+          props: defaultProps,
+          global: {
+            stubs,
+            plugins: [createPinia()],
+          },
         })
       })
-    })
 
-    describe('when the update profile cover mutation fails', () => {
-      const error: BaseApiException = {
-        message: 'Failed to update profile cover',
-        name: 'UpdateProfileCoverError',
-        status: 500,
-        code: BaseApiErrorCode.UNKNOWN
-      }
-
-      beforeEach(() => {
-        mockUpdateProfileCover.callbacks.onError(error)
-      })
-
-      it('then an error message should be added', () => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
-        })
-      })
-    })
-
-    describe('when the update profile photo mutation fails', () => {
-      const error: BaseApiException = {
-        message: 'Failed to update profile photo',
-        name: 'UpdateProfilePhotoError',
-        status: 500,
-        code: BaseApiErrorCode.UNKNOWN
-      }
-
-      beforeEach(() => {
-        mockUpdateProfilePhoto.callbacks.onError(error)
-      })
-
-      it('then an error message should be added', () => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
+      it('then the buttons should be in loading state', () => {
+        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        expect(avButtons).toHaveLength(2)
+        avButtons.forEach((avButton) => {
+          expect(avButton.props('isLoading')).toBe(true)
         })
       })
     })
 
     describe('when inputs are modified', () => {
+      beforeEach(() => {
+        mockedUseUpdateProfileForm.mockImplementation(() => ({
+          form: mockedForm as any,
+          isPending: computed(() => false),
+          isModified: computed(() => true),
+          resetForm: mockedResetForm,
+          onCoverPictureUpdate: vi.fn(),
+          onProfilePictureUpdate: vi.fn(),
+          onUpdateProfileCoverSuccess: vi.fn(),
+          onUpdateProfilePhotoSuccess: vi.fn(),
+        }))
+      })
+
       it('then they should have their new value set', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
@@ -329,20 +375,6 @@ describe('updateProfileDrawer', () => {
         expect(avInputs[3].element.value).toBe('This is a new bio')
       })
 
-      it('then the save button should not stay in disabled state', async () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
-        const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
-        expect(saveButton?.exists()).toBe(true)
-        expect(saveButton?.props('disabled')).toBe(true)
-
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(avInputs).toHaveLength(4)
-        expect(avInputs[0].element.value).toBe(studentSummary.lastname)
-        await avInputs[0].setValue('This is a new lastname')
-
-        expect(saveButton?.props('disabled')).toBe(false)
-      })
-
       it('then they should reset if the drawer is hidden then shown again', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
@@ -350,193 +382,11 @@ describe('updateProfileDrawer', () => {
         await avInputs[0].setValue('This is a new lastname')
 
         await wrapper.setProps({ show: false })
+        await wrapper.vm.$nextTick()
         await wrapper.setProps({ show: true })
-
-        expect(avInputs[0].element.value).toBe(studentSummary.lastname)
-      })
-    })
-
-    describe('when the update profile mutation succeeds', () => {
-      beforeEach(() => {
-        mockUpdateProfile.callbacks.onSuccess()
-      })
-
-      it('then a success message should be shown and onClose should be called', () => {
-        expect(mockAddSuccessMessage).toHaveBeenCalledWith('Votre profil a été mis à jour.')
-        expect(props.onClose).toHaveBeenCalled()
-        expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when submitting a valid form', () => {
-      const lastname = 'This is a new lastname'
-      const firstname = 'This is a new firstname'
-      const email = 'new@example.com'
-      const bio = 'This is a new bio'
-
-      it('then it should call updateProfileMutation with form data', async () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await avInputs[0].setValue(lastname)
-        await avInputs[1].setValue(firstname)
-        await avInputs[2].setValue(email)
-        await avInputs[3].setValue(bio)
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        expect(mockUpdateProfile.mutate).toHaveBeenCalledWith({
-          profile: 'student',
-          profileUpdateRequest: {
-            firstname,
-            lastname,
-            email,
-            bio,
-            coverPicture: studentSummary.coverPicture,
-            profilePicture: studentSummary.profilePicture
-          }
-        })
-      })
-    })
-
-    describe('when a cover picture is uploaded and updateProfileCover succeeds', () => {
-      const uploadedUrl = 'https://example.com/new-cover.jpg'
-      const fakeFile = new File(['cover'], 'cover.jpg', { type: 'image/jpeg' })
-
-      beforeEach(async () => {
-        (wrapper.vm as unknown as UpdateProfileDrawerVm).coverPictureFile = fakeFile
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        await mockUpdateProfileCover.callbacks.onSuccess(uploadedUrl)
-      })
-
-      it('then the coverPicture form field should be updated', () => {
-        expect((wrapper.vm as unknown as UpdateProfileDrawerVm).form.coverPicture).toBe(uploadedUrl)
-
-        expect(mockUpdateProfileCover.mutateAsync).toHaveBeenCalledWith({
-          profile: 'student',
-          updateProfileCoverBody: { file: fakeFile }
-        })
-      })
-    })
-
-    describe('when no cover picture is uploaded', () => {
-      it('then it should not call the updateProfileCover mutation', async () => {
-        (wrapper.vm as unknown as UpdateProfileDrawerVm).coverPictureFile = null
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        expect(mockUpdateProfileCover.mutateAsync).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when a photo picture is uploaded and updateProfilePhoto succeeds', () => {
-      const uploadedUrl = 'https://example.com/new-photo.jpg'
-      const fakeFile = new File(['photo'], 'photo.jpg', { type: 'image/jpeg' })
-
-      beforeEach(async () => {
-        (wrapper.vm as unknown as UpdateProfileDrawerVm).profilePictureFile = fakeFile
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        await mockUpdateProfilePhoto.callbacks.onSuccess(uploadedUrl)
-      })
-
-      it('then the profilePictureFile form field should be updated', () => {
-        expect((wrapper.vm as unknown as UpdateProfileDrawerVm).form.profilePicture).toBe(uploadedUrl)
-
-        expect(mockUpdateProfilePhoto.mutateAsync).toHaveBeenCalledWith({
-          profile: 'student',
-          updateProfilePhotoBody: { file: fakeFile }
-        })
-      })
-    })
-
-    describe('when no profile picture is uploaded', () => {
-      it('then it should not call the updateProfilePhoto mutation', async () => {
-        (wrapper.vm as unknown as UpdateProfileDrawerVm).profilePictureFile = null
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        expect(mockUpdateProfilePhoto.mutateAsync).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when submitting an invalid form', () => {
-      it('then it should show validation errors for required fields and invalid email', async () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await avInputs[0].setValue('')
-        await avInputs[1].setValue('')
-        await avInputs[2].setValue('not-an-email')
-
-        const form = wrapper.find('form#profile-form')
-        await form.trigger('submit')
-
-        const vm = wrapper.vm as unknown as UpdateProfileDrawerVm
-
-        expect(vm.formErrors.lastname).toBe('Ce champ est requis.')
-        expect(vm.formErrors.firstname).toBe('Ce champ est requis.')
-        expect(vm.formErrors.email).toBe('Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)')
-        expect(mockUpdateProfile.mutate).not.toHaveBeenCalled()
-      })
-    })
-
-    describe('when handleSubmit throws a BaseApiException error', () => {
-      it('should call addErrorMessage with the error message', async () => {
-        const error: BaseApiException = {
-          message: 'Failed to update profile photo',
-          name: 'UpdateProfilePhotoError',
-          status: 500,
-          code: BaseApiErrorCode.UNKNOWN
-        }
-
-        mockUpdateProfileCover.mutateAsync.mockRejectedValue(error)
-
-        const vm = wrapper.vm as unknown as UpdateProfileDrawerVm
-
-        vm.coverPictureFile = new File([''], 'cover.jpg')
-
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await avInputs[0].setValue('This is a new firstname')
-        await avInputs[1].setValue('This is a new lastname')
-        await avInputs[2].setValue('newtest@example.com')
-
-        await wrapper.find('form#profile-form').trigger('submit.prevent')
         await wrapper.vm.$nextTick()
 
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
-        })
-      })
-    })
-
-    describe('when handleSubmit throws a non BaseApiException error', () => {
-      it('should call addErrorMessage with the generic error message', async () => {
-        const error = 'This is an error'
-
-        mockUpdateProfileCover.mutateAsync.mockRejectedValue(error)
-
-        const vm = wrapper.vm as unknown as UpdateProfileDrawerVm
-
-        vm.coverPictureFile = new File([''], 'cover.jpg')
-
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await avInputs[0].setValue('This is a new firstname')
-        await avInputs[1].setValue('This is a new lastname')
-        await avInputs[2].setValue('newtest@example.com')
-
-        await wrapper.find('form#profile-form').trigger('submit.prevent')
-        await wrapper.vm.$nextTick()
-
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-        })
+        expect(mockedResetForm).toHaveBeenCalled()
       })
     })
 
@@ -545,7 +395,54 @@ describe('updateProfileDrawer', () => {
         const modal = wrapper.findComponent({ name: 'UpdateExitConfirmationModal' })
         await modal.find('.confirm-button').trigger('click')
 
-        expect(props.onClose).toHaveBeenCalled()
+        expect(defaultProps.onClose).toHaveBeenCalled()
+      })
+    })
+
+    describe('when submitting the form', () => {
+      it('then it should call form.handleSubmit', async () => {
+        const formElement = wrapper.find('form#profile-form')
+        await formElement.trigger('submit.prevent.stop')
+        expect(mockedForm.handleSubmit).toHaveBeenCalled()
+      })
+    })
+
+    describe('when the update is successful', () => {
+      let useUpdateProfileFormReturn: any
+
+      beforeEach(() => {
+        mockedUseUpdateProfileForm.mockImplementation((_data, onSuccess: () => void) => {
+          const obj = {
+            form: mockedForm as any,
+            isPending: computed(() => false),
+            isModified: computed(() => true),
+            resetForm: mockedResetForm,
+            onCoverPictureUpdate: vi.fn(),
+            onProfilePictureUpdate: vi.fn(),
+            onUpdateProfileCoverSuccess: vi.fn(),
+            onUpdateProfilePhotoSuccess: vi.fn(),
+            simulateSuccess: () => {
+              onSuccess()
+            }
+          }
+          useUpdateProfileFormReturn = obj
+          return obj
+        })
+
+        wrapper = mount(UpdateProfileDrawer, {
+          props: defaultProps,
+          global: {
+            stubs,
+            plugins: [createPinia()],
+          },
+        })
+
+        useUpdateProfileFormReturn.simulateSuccess()
+      })
+
+      it('then it should call addSuccessMessage and onClose', () => {
+        expect(mockAddSuccessMessage).toHaveBeenCalled()
+        expect(mockOnClose).toHaveBeenCalled()
       })
     })
   })

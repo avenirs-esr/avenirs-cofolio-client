@@ -33,6 +33,7 @@
   "dependencies": {
     "@gouvfr/dsfr": "^1.13.2",
     "@gouvminint/vue-dsfr": "^8.4.0",
+    "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "axios": "^1.9.0",
     "date-fns": "^4.1.0",
