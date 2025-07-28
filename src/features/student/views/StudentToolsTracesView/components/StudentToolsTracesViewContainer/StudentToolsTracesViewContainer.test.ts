@@ -21,7 +21,7 @@ function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse | undefin
   const mockReturn = {
     data: mockData,
     traces: computed(() => mockData.value?.data.traces ?? []),
-    pageInfo: computed(() => mockData.value?.page ?? { number: 0, totalPages: 0, totalElements: 0 }),
+    pageInfo: computed(() => mockData.value?.page ?? { page: 0, totalPages: 0, totalElements: 0 }),
     error: ref(null),
     isLoading: ref(false),
     isSuccess: ref(true)
@@ -64,7 +64,7 @@ describe('studentToolsTracesViewContainer', () => {
       criticalCount: 2
     },
     page: {
-      number: 0,
+      page: 0,
       pageSize: 20,
       totalElements: 20,
       totalPages: 1

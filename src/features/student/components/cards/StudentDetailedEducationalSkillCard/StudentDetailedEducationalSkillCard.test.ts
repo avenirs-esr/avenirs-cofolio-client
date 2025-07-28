@@ -1,14 +1,15 @@
-import { SkillLevelStatus, type SkillViewDTO } from '@/api/avenir-esr'
+import { type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import StudentDetailedEducationalSkillCard from '@/features/student/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-const baseSkill: SkillViewDTO = {
+const baseSkill: SkillDTO = {
   id: 'skill-1',
   name: 'Test Skill',
   levelCount: 3,
   traceCount: 5,
   activityCount: 2,
+  isProgramFinished: false,
   currentSkillLevel: {
     id: 'level-1',
     name: 'Niveau 1',
@@ -19,7 +20,7 @@ const baseSkill: SkillViewDTO = {
 
 const skillColor = 'var(--color-skill-primary)'
 
-function createWrapper (skill: SkillViewDTO = baseSkill) {
+function createWrapper (skill: SkillDTO = baseSkill) {
   return mount(StudentDetailedEducationalSkillCard, {
     props: {
       skill,

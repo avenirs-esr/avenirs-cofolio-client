@@ -1,4 +1,4 @@
-import type { AmsViewDTO, AmsViewResponse, PageInfo } from '@/api/avenir-esr'
+import type { AmsViewDTO, PagedResponseAmsViewDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
@@ -24,15 +24,15 @@ describe('useAmsViewQuery', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     describe('when the query is executed with all parameters', () => {
-      let queryResult: UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
-        pageInfo: Ref<PageInfo>
+        pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable<UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+        queryResult = mountQueryComposable<UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
           amss: Ref<AmsViewDTO[]>
-          pageInfo: Ref<PageInfo>
+          pageInfo: Ref<PageInfoDTO>
         }>(() => useAmsViewQuery(programProgressId, page, pageSize))
 
         await flushPromises()
@@ -40,7 +40,7 @@ describe('useAmsViewQuery', () => {
 
       it('then it should return mocked AMS data for given parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(4)
-        expect(queryResult.data.value?.page?.number).toBe(0)
+        expect(queryResult.data.value?.page?.page).toBe(0)
         expect(queryResult.data.value?.page?.totalElements).toBe(20)
         expect(queryResult.data.value?.page?.totalPages).toBe(5)
         expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.FOUR)
@@ -63,7 +63,7 @@ describe('useAmsViewQuery', () => {
 
       it('then it should return correct pageInfo', () => {
         expect(queryResult.pageInfo.value.totalPages).toBe(5)
-        expect(queryResult.pageInfo.value.number).toBe(0)
+        expect(queryResult.pageInfo.value.page).toBe(0)
         expect(queryResult.pageInfo.value.totalElements).toBe(20)
         expect(queryResult.pageInfo.value.pageSize).toBe(PageSizes.FOUR)
       })
@@ -76,9 +76,9 @@ describe('useAmsViewQuery', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     describe('when the query is executed with undefined programProgressId', () => {
-      let queryResult: UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
-        pageInfo: Ref<PageInfo>
+        pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
@@ -96,7 +96,7 @@ describe('useAmsViewQuery', () => {
 
       it('then pageInfo should return default values', () => {
         expect(queryResult.pageInfo.value).toEqual({
-          number: 0,
+          page: 0,
           pageSize: 0,
           totalElements: 0,
           totalPages: 0
@@ -111,9 +111,9 @@ describe('useAmsViewQuery', () => {
     const pageSize = ref(PageSizes.EIGHT)
 
     describe('when the query is executed with different parameters', () => {
-      let queryResult: UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
-        pageInfo: Ref<PageInfo>
+        pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
@@ -123,7 +123,7 @@ describe('useAmsViewQuery', () => {
 
       it('then it should return data with correct page parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(PageSizes.EIGHT)
-        expect(queryResult.data.value?.page?.number).toBe(1)
+        expect(queryResult.data.value?.page?.page).toBe(1)
         expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
         expect(queryResult.data.value?.page?.totalElements).toBe(20)
 
@@ -144,9 +144,9 @@ describe('useAmsViewQuery', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     describe('when parameter values are updated', () => {
-      let queryResult: UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
-        pageInfo: Ref<PageInfo>
+        pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
@@ -176,7 +176,7 @@ describe('useAmsViewQuery', () => {
         })
 
         it('then the query should update with new page', () => {
-          expect(queryResult.data.value?.page?.number).toBe(1)
+          expect(queryResult.data.value?.page?.page).toBe(1)
         })
       })
 
@@ -199,9 +199,9 @@ describe('useAmsViewQuery', () => {
     const pageSize = ref(PageSizes.TWELVE)
 
     describe('when programProgressId becomes defined', () => {
-      let queryResult: UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
-        pageInfo: Ref<PageInfo>
+        pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {

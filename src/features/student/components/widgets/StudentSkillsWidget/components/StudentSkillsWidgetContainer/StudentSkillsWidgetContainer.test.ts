@@ -15,7 +15,7 @@ describe('studentSkillsWidgetContainer', () => {
   })
   const course: StudentProgressOverviewDTO = {
     id: 'course1',
-    name: 'Master Chimie Verte et Éco-innovations',
+    programTitle: 'Master Chimie Verte et Éco-innovations',
     skills: [
       {
         id: 'skill1',
@@ -79,7 +79,7 @@ describe('studentSkillsWidgetContainer', () => {
     course,
     maxSkillsDisplayed: 3,
   } as const
-  const longerName = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
+  const longerTitle = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
 
   it('should render properly with provided props', async () => {
     const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
@@ -91,16 +91,16 @@ describe('studentSkillsWidgetContainer', () => {
 
     const skillsCards = wrapper.findAll('.student-skill-card')
 
-    expect(wrapper.text()).toContain(baseProps.course.name)
+    expect(wrapper.text()).toContain(baseProps.course.programTitle)
     expect(skillsCards).toHaveLength(baseProps.maxSkillsDisplayed)
   })
 
-  it('should render truncated course name for longer names', async () => {
+  it('should render truncated program tite for longer titles', async () => {
     const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
       props: {
         course: {
           ...baseProps.course,
-          name: longerName
+          programTitle: longerTitle
         },
         maxSkillsDisplayed: baseProps.maxSkillsDisplayed
       },
@@ -109,6 +109,6 @@ describe('studentSkillsWidgetContainer', () => {
       }
     })
 
-    expect(wrapper.text()).toContain(`${longerName.slice(0, 60)}...`)
+    expect(wrapper.text()).toContain(`${longerTitle.slice(0, 60)}...`)
   })
 })

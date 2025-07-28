@@ -8,7 +8,7 @@ import {
 } from '@/__mocks__/fixtures/student'
 import {
   getProfile,
-  getSkillsOverview,
+  getStudentProgressOverview,
   type ProfileOverviewDTO,
   type StudentProgressOverviewDTO,
 } from '@/api/avenir-esr'
@@ -43,7 +43,7 @@ function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProg
     queryKey,
     initialData: [],
     queryFn: async (): Promise<StudentProgressOverviewDTO[]> => {
-      return getSkillsOverview()
+      return getStudentProgressOverview()
     }
   })
 }

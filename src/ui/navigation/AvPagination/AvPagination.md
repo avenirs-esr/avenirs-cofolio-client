@@ -39,7 +39,7 @@ None.
 <template>
   <AvPagination
     id="top-pagination"
-    :current-page="pageInfo.number"
+    :current-page="pageInfo.page"
     :pages="pages"
     aria-label="Top pagination"
     compact
@@ -53,7 +53,7 @@ None.
   <AvPagination
     id="bottom-pagination"
     :items="amss"
-    :current-page="pageInfo.number"
+    :current-page="pageInfo.page"
     :pages="pages"
     aria-label="Bottom pagination"
     @update:current-page="onUpdateCurrentPage"

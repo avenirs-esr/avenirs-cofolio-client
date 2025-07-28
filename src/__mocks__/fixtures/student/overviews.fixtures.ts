@@ -12,6 +12,7 @@ import profile_picture_placeholder from '@/assets/profile_picture_placeholder.pn
 export const mockedProfileOverview: ProfileOverviewDTO = {
   firstname: 'Jeanne',
   lastname: 'Moulin',
+  email: 'j.moulin@example.com',
   profilePicture: profile_picture_placeholder,
   coverPicture: profile_banner_placeholder,
   bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète. Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'

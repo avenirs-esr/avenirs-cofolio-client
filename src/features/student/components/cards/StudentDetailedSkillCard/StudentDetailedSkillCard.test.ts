@@ -10,6 +10,7 @@ const props: StudentDetailedSkillCardProps = {
     levelCount: 3,
     traceCount: 6,
     activityCount: 3,
+    isProgramFinished: false,
     currentSkillLevel: {
       id: 'lvl-2-2-3',
       name: 'Niveau 3',

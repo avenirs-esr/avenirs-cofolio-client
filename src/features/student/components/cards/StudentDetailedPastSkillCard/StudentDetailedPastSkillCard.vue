@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { SkillViewDTO } from '@/api/avenir-esr'
+import type { SkillDTO } from '@/api/avenir-esr'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
 import { AvBadge, MDI_ICONS } from '@/ui'
 
 export interface StudentDetailedEducationaSkillCardProps {
-  skill: SkillViewDTO
+  skill: SkillDTO
 }
 
 const { skill } = defineProps<StudentDetailedEducationaSkillCardProps>()

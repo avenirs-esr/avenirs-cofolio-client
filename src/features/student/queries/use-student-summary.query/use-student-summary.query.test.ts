@@ -35,6 +35,7 @@ describe('useStudentSummaryQuery', () => {
   const mockedData = {
     firstname: 'Jeanne',
     lastname: 'Moulin',
+    email: 'j.moulin@example.com',
     profilePicture: profile_picture_placeholder,
     coverPicture: profile_banner_placeholder,
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète. Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
@@ -49,6 +50,7 @@ describe('useStudentSummaryQuery', () => {
     expect(result).toBeDefined()
     expect(result).toHaveProperty('firstname')
     expect(result).toHaveProperty('lastname')
+    expect(result).toHaveProperty('email')
     expect(result).toHaveProperty('profilePicture')
     expect(result).toHaveProperty('coverPicture')
     expect(result).toHaveProperty('bio')
@@ -66,7 +68,7 @@ describe('useStudentCoursesSummaryQuery', () => {
     expect(result).toBeDefined()
     expect(result).toHaveLength(2)
     expect(result![0]).toHaveProperty('id')
-    expect(result![0]).toHaveProperty('name')
+    expect(result![0]).toHaveProperty('programTitle')
     expect(result![0]).toHaveProperty('skills')
     expect(result).toEqual(mockedProgramsProgressOverview)
   })

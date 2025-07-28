@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { SkillLevelStatus, type SkillViewDTO } from '@/api/avenir-esr'
+import { type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLevelBadge } from '@/features/student/components/'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
 import { AvBadge, MDI_ICONS } from '@/ui'
 
 export interface StudentDetailedEducationaSkillCardProps {
-  skill: SkillViewDTO
+  skill: SkillDTO
   skillColor: string
 }
 

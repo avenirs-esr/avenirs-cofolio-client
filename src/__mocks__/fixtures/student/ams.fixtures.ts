@@ -1,4 +1,4 @@
-import { AmsStatus, type AmsViewDTO, type AmsViewResponse } from '@/api/avenir-esr'
+import { AmsStatus, type AmsViewDTO, type PagedResponseAmsViewDTO } from '@/api/avenir-esr'
 
 function getRandomAmsStatus (): AmsStatus {
   const statuses = Object.values(AmsStatus)
@@ -18,7 +18,7 @@ function getRandomAmsProgress (status: AmsStatus): AmsViewDTO['progress'] {
   return { startedActivities, totalActivities }
 }
 
-export function createMockedAmsViewResponse (pageSize: number, totalElements: number, number: number, programProgressId: string): AmsViewResponse {
+export function createMockedPagedResponseAmsViewDTO (pageSize: number, totalElements: number, page: number, programProgressId: string): PagedResponseAmsViewDTO {
   const mockedAmss: AmsViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const randomStatus = getRandomAmsStatus()
@@ -33,13 +33,13 @@ export function createMockedAmsViewResponse (pageSize: number, totalElements: nu
     mockedAmss.push(ams)
   }
 
-  const start = number * pageSize
+  const start = page * pageSize
   const end = start + pageSize
   const paginatedAmss = mockedAmss.slice(start, end)
   const totalPages = Math.ceil(totalElements / pageSize)
 
   return {
     data: paginatedAmss,
-    page: { pageSize, totalElements, totalPages, number }
+    page: { pageSize, totalElements, totalPages, page }
   }
 }

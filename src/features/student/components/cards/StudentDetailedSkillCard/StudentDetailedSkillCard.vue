@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { SkillViewDTO } from '@/api/avenir-esr'
+import type { SkillDTO } from '@/api/avenir-esr'
 import { studentSkillRoute } from '@/features/student/routes'
 import { AvCard, AvVIcon } from '@/ui'
 
 export interface StudentDetailedSkillCardProps {
-  skill: SkillViewDTO
+  skill: SkillDTO
   skillColor: string
   icon: string
   color: string

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type SkillLevelOverviewDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { type SkillLevelProgressOverviewDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { AvBadge } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
-const { level } = defineProps<{ level: SkillLevelOverviewDTO | SkillLevelViewDTO }>()
+const { level } = defineProps<{ level: SkillLevelProgressOverviewDTO | SkillLevelViewDTO }>()
 
 const { t } = useI18n()
 

@@ -1,24 +1,24 @@
-import type { AmsViewDTO, AmsViewResponse, PageInfo } from '@/api/avenir-esr'
+import type { AmsViewDTO, PagedResponseAmsViewDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 
-type ExtendedUseQueryReturn = UseQueryReturnType<AmsViewResponse, BaseApiException> & {
+type ExtendedUseQueryReturn = UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
   amss: Ref<AmsViewDTO[]>
-  pageInfo: Ref<PageInfo>
+  pageInfo: Ref<PageInfoDTO>
   pages: Ref<number[]>
 }
 
 export function createMockedAmsViewQueryReturn (
-  payload: AmsViewResponse | undefined,
+  payload: PagedResponseAmsViewDTO | undefined,
   error: BaseApiException | null = null
 ): ExtendedUseQueryReturn {
-  const mockData: Ref<AmsViewResponse | undefined> = ref(payload)
+  const mockData: Ref<PagedResponseAmsViewDTO | undefined> = ref(payload)
   const mockError: Ref<BaseApiException | null> = ref(error)
 
   const amss = computed(() => mockData.value?.data ?? [])
   const pageInfo = computed(() => mockData.value?.page ?? {
-    number: 0,
+    page: 0,
     size: 0,
     totalElements: 0,
     totalPages: 0,
