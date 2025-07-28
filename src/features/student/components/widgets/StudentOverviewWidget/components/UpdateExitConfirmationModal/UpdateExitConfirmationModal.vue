@@ -32,7 +32,6 @@ const { t } = useI18n()
         :title="t('global.buttons.confirm')"
         :is-loading="isLoading"
         variant="FLAT"
-        theme="PRIMARY"
         size="sm"
         :on-click="onConfirm"
       />

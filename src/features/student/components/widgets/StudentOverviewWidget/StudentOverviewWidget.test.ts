@@ -74,7 +74,6 @@ describe('studentOverviewWidget', () => {
   }
 
   const studentSummary = {
-    id: '123456789',
     firstname: 'Jeanne',
     lastname: 'Moulin',
     email: 'j.moulin@example.com',

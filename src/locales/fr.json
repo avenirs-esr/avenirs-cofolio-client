@@ -27,6 +27,14 @@
       },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
+    "information": {
+      "imageUpload": {
+        "filesIndication": "Format : ",
+        "filesTypes": "PDF, JPG, JPEG, PNG •",
+        "sizeIndication": "Poids : ",
+        "size": "10 Mo max"
+      }
+    },
     "pageSizePicker": {
       "label": "Nombre de résultats par page :"
     },

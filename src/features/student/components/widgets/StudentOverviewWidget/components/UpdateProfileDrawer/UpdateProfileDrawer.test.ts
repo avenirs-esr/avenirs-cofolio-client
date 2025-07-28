@@ -1,7 +1,8 @@
+import type { UpdateProfileDrawerForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/types'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
-import UpdateProfileDrawer, { type UpdateProfileDrawerForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
+import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/queries'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
@@ -98,9 +99,9 @@ describe('updateProfileDrawer', () => {
   }
 
   const studentSummary = {
-    id: '123456789',
     firstname: 'Jeanne',
     lastname: 'Moulin',
+    email: 'j.moulin@example.com',
     profilePicture: profile_picture_placeholder,
     coverPicture: profile_banner_placeholder,
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
@@ -179,7 +180,7 @@ describe('updateProfileDrawer', () => {
         expect(avInputs[0].attributes('value')).toBe(studentSummary.lastname)
         expect(avInputs[0].attributes('data-textarea')).toBe('false')
         expect(avInputs[1].attributes('value')).toBe(studentSummary.firstname)
-        expect(avInputs[2].attributes('value')).toBe('test@test.com')
+        expect(avInputs[2].attributes('value')).toBe(studentSummary.email)
         expect(avInputs[2].attributes('type')).toBe('email')
         expect(avInputs[2].attributes('data-textarea')).toBe('false')
         expect(avInputs[3].attributes('value')).toBe(studentSummary.bio)
@@ -312,7 +313,7 @@ describe('updateProfileDrawer', () => {
         expect(avInputs).toHaveLength(4)
         expect(avInputs[0].element.value).toBe(studentSummary.lastname)
         expect(avInputs[1].element.value).toBe(studentSummary.firstname)
-        expect(avInputs[2].element.value).toBe('test@test.com')
+        expect(avInputs[2].element.value).toBe(studentSummary.email)
         expect(avInputs[3].element.value).toBe(studentSummary.bio)
 
         await avInputs[0].setValue('This is a new lastname')

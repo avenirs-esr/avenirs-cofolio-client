@@ -16,6 +16,14 @@
       "goBack": "Go back",
       "save": "Save"
     },
+    "information": {
+      "imageUpload": {
+        "filesIndication": "Format: ",
+        "filesTypes": "PDF, JPG, JPEG, PNG •",
+        "sizeIndication": "Size : ",
+        "size": "10 Mo max"
+      }
+    },
     "error": {
       "file": {
         "acceptType": "The file does not meet the expected format.",
