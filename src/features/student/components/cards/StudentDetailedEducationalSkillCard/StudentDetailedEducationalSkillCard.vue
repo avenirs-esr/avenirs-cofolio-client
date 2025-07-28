@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import { type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
-import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLevelBadge } from '@/features/student/components/'
+import type { ComputedRef } from 'vue'
+import { type SkillDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentLevelBadge } from '@/features/student/components/'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
 import { AvBadge, MDI_ICONS } from '@/ui'
 
-export interface StudentDetailedEducationaSkillCardProps {
+export interface StudentDetailedEducationalSkillCardProps {
   skill: SkillDTO
   skillColor: string
 }
 
-const { skill, skillColor } = defineProps<StudentDetailedEducationaSkillCardProps>()
+const { skill, skillColor } = defineProps<StudentDetailedEducationalSkillCardProps>()
 const { traceCount, activityCount, levelCount, currentSkillLevel } = skill
 
 const showLevelBadge = computed((): boolean => {
@@ -19,6 +20,8 @@ const showLevelBadge = computed((): boolean => {
   ]
   return badgeVisibleStatuses.includes(currentSkillLevel.status)
 })
+
+const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = computed(() => skill.achievedSkillLevels)
 const basePath = import.meta.env.BASE_URL
 </script>
 
@@ -46,6 +49,10 @@ const basePath = import.meta.env.BASE_URL
             :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
             small
             ellipsis
+          />
+          <StudentLastCompletedLevelBadge
+            v-if="lastAchievedSkillLevel"
+            :level="lastAchievedSkillLevel"
           />
         </div>
       </div>
