@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { ProfileOverviewDTO, ProfileUpdateRequest, UpdateProfileCoverBody, UpdateProfilePhotoBody } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import { ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
 import UpdateExitConfirmationModal from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateExitConfirmationModal/UpdateExitConfirmationModal.vue'
-import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/queries'
+import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
 import { useToasterStore } from '@/store'
 import {
   AvAccordion,
@@ -15,17 +14,7 @@ import {
   AvInput,
   MDI_ICONS
 } from '@/ui'
-import { isValidEmail } from '@/ui/utils'
 import { useI18n } from 'vue-i18n'
-
-export interface UpdateProfileDrawerForm {
-  email: string
-  firstname: string
-  lastname: string
-  bio: string
-  coverPicture: string
-  profilePicture: string
-}
 
 const { studentSummary, show, onClose } = defineProps<{
   studentSummary: ProfileOverviewDTO
@@ -35,181 +24,21 @@ const { studentSummary, show, onClose } = defineProps<{
 
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
-const { addErrorMessage, addSuccessMessage } = useToasterStore()
-const { onUpdateProfile, iseUpdateProfilePending } = useUpdateProfile()
-const { onUpdateProfileCoverAsync, iseUpdateProfileCoverPending } = useUpdateProfileCover()
-const { onUpdateProfilePhotoAsync, iseUpdateProfilePhotoPending } = useUpdateProfilePhoto()
+const { addSuccessMessage } = useToasterStore()
+const {
+  form,
+  formErrors,
+  coverPictureFile,
+  profilePictureFile,
+  isPending,
+  isModified,
+  handleSubmit,
+  resetForm
+} = useUpdateProfileForm(studentSummary, onUpdateProfileSuccess)
 
-const isPending = computed(() =>
-  iseUpdateProfilePending.value || iseUpdateProfileCoverPending.value || iseUpdateProfilePhotoPending.value)
-
-const form = reactive<UpdateProfileDrawerForm>({
-  firstname: studentSummary.firstname,
-  lastname: studentSummary.lastname,
-  email: 'test@test.com',
-  bio: studentSummary.bio,
-  coverPicture: studentSummary.coverPicture,
-  profilePicture: studentSummary.profilePicture,
-})
-
-const initialForm = reactive<UpdateProfileDrawerForm>({ ...form })
-
-type FormKeys = keyof UpdateProfileDrawerForm
-const formKeys: FormKeys[] = [
-  'firstname',
-  'lastname',
-  'email',
-  'bio',
-  'coverPicture',
-  'profilePicture'
-]
-
-const profilePictureFile = ref<File | null>(null)
-const coverPictureFile = ref<File | null>(null)
-
-const isModified = computed(() =>
-  formKeys.some(key => form[key] !== initialForm[key]) || !!coverPictureFile.value || !!profilePictureFile.value
-)
-const formErrors = reactive(
-  Object.fromEntries(formKeys.map(key => [key, ''])) as Record<FormKeys, string>
-)
-
-function useUpdateProfile () {
-  function onUpdateProfileError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
-      description: error.message
-    })
-  }
-
-  function onUpdateProfileSuccess () {
-    addSuccessMessage(t('student.widgets.overview.updateProfileDrawer.onUpdate.success'))
-    onClose()
-  }
-
-  const updateProfileMutation = useUpdateProfileMutation({
-    onError: onUpdateProfileError,
-    onSuccess: onUpdateProfileSuccess
-  })
-
-  function onUpdateProfile (profileUpdateRequest: ProfileUpdateRequest) {
-    updateProfileMutation.mutate({ profile: 'student', profileUpdateRequest })
-  }
-
-  return {
-    onUpdateProfile,
-    iseUpdateProfilePending: updateProfileMutation.isPending,
-  }
-}
-
-function useUpdateProfileCover () {
-  function onUpdateProfileCoverError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
-      description: error.message
-    })
-  }
-
-  function onUpdateProfileCoverSuccess (data: string) {
-    form.coverPicture = data
-  }
-
-  const updateProfileCoverMutation = useUpdateProfileCoverMutation({
-    onError: onUpdateProfileCoverError,
-    onSuccess: onUpdateProfileCoverSuccess
-  })
-
-  async function onUpdateProfileCoverAsync (updateProfileCoverBody: UpdateProfileCoverBody) {
-    return await updateProfileCoverMutation.mutateAsync({ profile: 'student', updateProfileCoverBody })
-  }
-
-  return {
-    onUpdateProfileCoverAsync,
-    iseUpdateProfileCoverPending: updateProfileCoverMutation.isPending,
-  }
-}
-
-function useUpdateProfilePhoto () {
-  function onUpdateProfilePhotoError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
-      description: error.message
-    })
-  }
-
-  function onUpdateProfilePhotoSuccess (data: string) {
-    form.profilePicture = data
-  }
-
-  const updateProfilePhotoMutation = useUpdateProfilePhotoMutation({
-    onError: onUpdateProfilePhotoError,
-    onSuccess: onUpdateProfilePhotoSuccess
-  })
-
-  async function onUpdateProfilePhotoAsync (updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation.mutateAsync({ profile: 'student', updateProfilePhotoBody })
-  }
-
-  return {
-    onUpdateProfilePhotoAsync,
-    iseUpdateProfilePhotoPending: updateProfilePhotoMutation.isPending,
-  }
-}
-
-function resetFormErrors () {
-  formKeys.forEach((key) => {
-    formErrors[key] = ''
-  })
-}
-
-function validateForm () {
-  const errors: Record<string, string> = {}
-
-  if (!form.firstname.trim()) {
-    errors.firstname = t('global.error.form.requiredFiled')
-  }
-
-  if (!form.lastname.trim()) {
-    errors.lastname = t('global.error.form.requiredFiled')
-  }
-
-  if (form.email && !isValidEmail(form.email)) {
-    errors.email = t('global.error.form.invalidEmail')
-  }
-
-  return errors
-}
-
-async function handleSubmit (event: Event) {
-  event.preventDefault()
-
-  resetFormErrors()
-
-  const errors = validateForm()
-  Object.assign(formErrors, errors)
-  if (Object.keys(errors).length > 0) {
-    return
-  }
-
-  try {
-    if (coverPictureFile.value) {
-      const url = await onUpdateProfileCoverAsync({ file: coverPictureFile.value })
-      form.coverPicture = url
-    }
-
-    if (profilePictureFile.value) {
-      const url = await onUpdateProfilePhotoAsync({ file: profilePictureFile.value })
-      form.profilePicture = url
-    }
-
-    onUpdateProfile(form)
-  }
-  catch (error) {
-    addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
-      description: (error as BaseApiException)?.message ?? t('global.error.generic')
-    })
-  }
+function onUpdateProfileSuccess () {
+  addSuccessMessage(t('student.widgets.overview.updateProfileDrawer.onUpdate.success'))
+  onClose()
 }
 
 function onCoverPictureUpdate (file: File | null) {
@@ -222,11 +51,11 @@ function onProfilePictureUpdate (file: File | null) {
 
 watch(() => show, (newVal) => {
   if (newVal) {
-    Object.assign(form, {
+    resetForm({
       firstname: studentSummary.firstname,
       lastname: studentSummary.lastname,
       bio: studentSummary.bio,
-      email: 'test@test.com',
+      email: studentSummary.email,
       coverPicture: studentSummary.coverPicture,
       profilePicture: studentSummary.profilePicture,
     })
@@ -311,8 +140,6 @@ watch(() => show, (newVal) => {
     <template #footer>
       <div class="footer">
         <AvButton
-          variant="DEFAULT"
-          theme="PRIMARY"
           size="sm"
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :label="t('global.buttons.exit')"
@@ -321,7 +148,6 @@ watch(() => show, (newVal) => {
         />
         <AvButton
           variant="FLAT"
-          theme="PRIMARY"
           size="sm"
           :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :label="t('global.buttons.save')"

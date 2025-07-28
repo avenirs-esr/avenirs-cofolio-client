@@ -322,12 +322,6 @@
           },
           "pictures": {
             "banner": "Banner",
-            "format": {
-              "filesIndication": "Format: ",
-              "filesTypes": "PDF, JPG, JPEG, PNG •",
-              "sizeIndication": "Size : ",
-              "size": "10 Mo max"
-            },
             "picture": "Profile picture"
           },
           "title": "Edit my profile"
