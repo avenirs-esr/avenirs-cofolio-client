@@ -15,7 +15,8 @@ const basePath = import.meta.env.BASE_URL
 
 <template>
   <StudentDetailedSkillCard
-    :skill="skill"
+    :id="skill.id"
+    :name="skill.name"
     skill-color="var(--light-background-neutral)"
     :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
     color="var(--text1)"

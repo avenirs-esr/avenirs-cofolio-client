@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-import type { SkillDTO } from '@/api/avenir-esr'
 import { studentSkillRoute } from '@/features/student/routes'
 import { AvCard, AvVIcon } from '@/ui'
 
 export interface StudentDetailedSkillCardProps {
-  skill: SkillDTO
+  id: string
+  name: string
   skillColor: string
   icon: string
   color: string
 }
 
-const { icon, color, skill, skillColor } = defineProps<StudentDetailedSkillCardProps>()
-const { name } = skill
+const { icon, color, name, skillColor } = defineProps<StudentDetailedSkillCardProps>()
 </script>
 
 <template>
   <RouterLink
     class="student-detailed-skill-card"
-    :to="{ name: studentSkillRoute.name, params: { id: skill.id } }"
+    :to="{ name: studentSkillRoute.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"
