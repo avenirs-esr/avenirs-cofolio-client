@@ -27,7 +27,7 @@ function createWrapper (skill: SkillDTO = baseSkill) {
       stubs: {
         StudentDetailedSkillCard: {
           name: 'StudentDetailedSkillCard',
-          props: ['skill', 'skillColor', 'icon', 'color'],
+          props: ['id', 'name', 'skillColor', 'icon', 'color'],
           template: `<div class="student-detailed-skill-card"><slot /></div>`
         },
         AvBadge: {

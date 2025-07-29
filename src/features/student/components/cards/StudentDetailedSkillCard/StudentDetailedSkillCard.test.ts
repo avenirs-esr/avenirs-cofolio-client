@@ -1,23 +1,10 @@
-import { SkillLevelStatus } from '@/api/avenir-esr'
 import StudentDetailedSkillCard, { type StudentDetailedSkillCardProps } from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 const props: StudentDetailedSkillCardProps = {
-  skill: {
-    id: 'skill-2-2',
-    name: 'An awesome skill',
-    levelCount: 3,
-    traceCount: 6,
-    activityCount: 3,
-    isProgramFinished: false,
-    currentSkillLevel: {
-      id: 'lvl-2-2-3',
-      name: 'Niveau 3',
-      status: SkillLevelStatus.TO_BE_EVALUATED,
-      shortDescription: 'short description'
-    }
-  },
+  id: 'skill-2-2',
+  name: 'An awesome skill',
   skillColor: 'var(--color-skill-primary)',
   icon: 'mdi:star-shooting',
   color: 'var(--text1)'
@@ -59,7 +46,7 @@ describe('given a student detailed skill card with valid props', () => {
 
   describe('when the component is mounted', () => {
     it('then it should render the skill name', () => {
-      expect(wrapper.text()).toContain(props.skill.name)
+      expect(wrapper.text()).toContain(props.name)
     })
 
     it('then it should render the icon', () => {
@@ -79,7 +66,7 @@ describe('given a student detailed skill card with valid props', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
       expect(routerLink.props('to')).toEqual({
         name: 'student-skill',
-        params: { id: props.skill.id }
+        params: { id: props.id }
       })
     })
   })

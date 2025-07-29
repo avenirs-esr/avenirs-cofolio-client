@@ -1,7 +1,7 @@
 import type { AdditionalSkillDTO } from '@/api/avenir-esr'
 import StudentDetailedAdditionalSkillCard
   from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 const mockSkill: AdditionalSkillDTO = {
@@ -18,24 +18,14 @@ function createWrapper () {
     },
     global: {
       stubs: {
-        AvCard: {
-          name: 'AvCard',
-          props: ['borderColor', 'titleBackground'],
-          template: `
-            <div class="av-card">
-              <header class="card-title"><slot name="title" /></header>
-              <section class="card-body"><slot name="body" /></section>
-            </div>
-          `
-        },
-        AvVIcon: {
-          name: 'AvVIcon',
-          props: ['name', 'color', 'size'],
-          template: `<i class="mock-icon" />`
+        StudentDetailedSkillCard: {
+          name: 'StudentDetailedSkillCard',
+          props: ['id', 'name', 'skillColor', 'icon', 'color'],
+          template: `<div class="student-detailed-skill-card"><slot /></div>`
         },
         AvBadge: {
           name: 'AvBadge',
-          props: ['label', 'color', 'borderColor', 'backgroundColor', 'iconPath', 'small', 'ellipsis'],
+          props: ['label'],
           template: `<span class="mock-badge">{{ label }}</span>`
         }
       }
@@ -43,38 +33,31 @@ function createWrapper () {
   })
 }
 
-describe('studentDetailedAdditionalSkillCard.vue', () => {
-  let wrapper: ReturnType<typeof createWrapper>
+describe('given a student detailed additional skill card', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentDetailedAdditionalSkillCard>>
 
   beforeEach(() => {
     wrapper = createWrapper()
   })
 
   describe('when the component is mounted', () => {
-    it('should render the skill title', () => {
-      expect(wrapper.text()).toContain(mockSkill.title)
+    it('then it should pass the correct props to StudentDetailedSkillCard', () => {
+      const card = wrapper.findComponent({ name: 'StudentDetailedSkillCard' })
+      expect(card.exists()).toBe(true)
+      expect(card.props('id')).toBe(mockSkill.id)
+      expect(card.props('name')).toBe(mockSkill.title)
+      expect(card.props('icon')).toBe('mdi:stars')
+      expect(card.props('skillColor')).toBe('var(--dark-background-primary1)')
+      expect(card.props('color')).toBe('var(--card2)')
     })
 
-    it('should render the icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvVIcon' })
-      expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe('mdi:stars')
-      expect(icon.props('color')).toBe('var(--other-background-base)')
-      expect(icon.props('size')).toBe(2.5625)
-    })
-
-    it('should render the icon-container with correct background', () => {
-      const iconContainer = wrapper.find('.icon-container')
-      expect(iconContainer.attributes('style')).toContain('background: var(--dark-background-primary1)')
-    })
-
-    it('should render the type badge with correct label', () => {
+    it('then it should render the type badge with correct label', () => {
       const typeBadge = wrapper.findAllComponents({ name: 'AvBadge' })[0]
       expect(typeBadge.exists()).toBe(true)
       expect(typeBadge.text()).toBe(mockSkill.type)
     })
 
-    it('should render the path badge with joined pathSegments', () => {
+    it('then it should render the path badge with joined pathSegments', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
       expect(pathBadge.exists()).toBe(true)
       expect(pathBadge.text()).toBe(mockSkill.pathSegments.join(', '))
