@@ -53,6 +53,9 @@
       },
       "studentCountTracesIconText": {
         "text": "0 trace | 1 trace | {count} traces"
+      },
+      "studentCountExperiencesIconText": {
+        "text": "0 experience | 1 experience | {count} experiences"
       }
     },
     "layout": {

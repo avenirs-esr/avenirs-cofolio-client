@@ -49,6 +49,7 @@ export const MDI_ICONS = {
   TRAY_UPLOAD: 'mdi:tray-upload',
   VECTOR_POLYGON_VARIANT: 'mdi:vector-polygon-variant',
   WARNING_OUTLINE: 'mdi:warning-outline',
+  ELECTRON_FRAMEWORK: 'mdi:electron-framework',
 }
 
 export const RI_ICONS = {
