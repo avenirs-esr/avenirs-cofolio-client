@@ -1,7 +1,23 @@
 <script setup lang="ts">
+import { Pagination } from '@/common/components'
+import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
+import { useSkillsViewQuery } from '@/features/student/queries'
+import { useSkillsStore } from '@/store/skills/skills'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const skillsStore = useSkillsStore()
+const {
+  currentPage,
+  pageSizeSelected,
+  onUpdateCurrentPage,
+  onUpdatePageSize
+} = usePagination(toRef(skillsStore, 'currentPage'), toRef(skillsStore, 'pageSizeSelected'))
+
+const search = ref('')
+
+const { skills, pageInfo, error } = useSkillsViewQuery(search, currentPage, pageSizeSelected)
+useBaseApiExceptionToast(error)
 </script>
 
 <template>
@@ -15,7 +31,14 @@ const { t } = useI18n()
       </h5>
     </div>
     <div class="skills-container">
-      TODO Placeholder #412...
+      <Pagination
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
+      >
+        TODO Placeholder #412... {{ skills.length }}
+      </Pagination>
     </div>
   </div>
 </template>
