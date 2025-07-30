@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvList, AvListItem, AvSideMenu } from '@/ui'
+import { AvList, AvListItem } from '@/ui/interaction/lists'
+import AvSideMenu from '@/ui/navigation/AvSideMenu/AvSideMenu.vue'
 
 export interface AvSideNavigationItem {
   id: string

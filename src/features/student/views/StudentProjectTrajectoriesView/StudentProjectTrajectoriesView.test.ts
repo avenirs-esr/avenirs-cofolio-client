@@ -8,6 +8,10 @@ const stubs = {
     name: 'PageTitle',
     props: ['title', 'breadcrumbLinks'],
     template: '<div class="page-title-stub" />'
+  },
+  StudentProjectTrajectoriesContainer: {
+    name: 'StudentProjectTrajectoriesContainer',
+    template: '<div class="student-project-trajectories-container-stub">Trajectories Container</div>'
   }
 }
 
@@ -32,6 +36,11 @@ describe('studentProjectTrajectoriesView', () => {
 
         expect(pageTitle.props('title')).toBe(title)
         expect(pageTitle.props('breadcrumbLinks')).toEqual(breadcrumbLinks)
+      })
+
+      it('then it should render StudentProjectTrajectoriesContainer', () => {
+        const container = wrapper.findComponent({ name: 'StudentProjectTrajectoriesContainer' })
+        expect(container.exists()).toBe(true)
       })
     })
   })

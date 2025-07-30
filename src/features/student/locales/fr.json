@@ -226,7 +226,22 @@
         "title": "Toutes mes compétences"
       },
       "studentProjectTrajectoriesView": {
-        "title": "Bâtir mon projet"
+        "title": "Bâtir mon projet",
+        "buildProject": {
+          "title": "Bâtir mon projet"
+        },
+        "trajectories": {
+          "title": "Mes Trajectoires"
+        },
+        "selfKnowledge": {
+          "title": "Me connaître"
+        },
+        "exploreFutures": {
+          "title": "Explorer mes futurs"
+        },
+        "activities": {
+          "title": "Mes activités"
+        }
       },
       "studentSkillView": {
         "title": "Compétence {skill}"
