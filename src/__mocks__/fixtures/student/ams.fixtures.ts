@@ -18,13 +18,13 @@ function getRandomAmsProgress (status: AmsStatus): AmsViewDTO['progress'] {
   return { startedActivities, totalActivities }
 }
 
-export function createMockedPagedResponseAmsViewDTO (pageSize: number, totalElements: number, page: number, programProgressId: string): PagedResponseAmsViewDTO {
+export function createMockedPagedResponseAmsViewDTO (pageSize: number, totalElements: number, page: number, studentProgressId: string): PagedResponseAmsViewDTO {
   const mockedAmss: AmsViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const randomStatus = getRandomAmsStatus()
     const ams = {
       id: crypto.randomUUID(),
-      title: `Ma super activité de mise en situation ${i} - ${programProgressId}`,
+      title: `Ma super activité de mise en situation ${i} - ${studentProgressId}`,
       countSkills: Math.floor(Math.random() * 10),
       countTraces: Math.floor(Math.random() * 10),
       status: randomStatus,

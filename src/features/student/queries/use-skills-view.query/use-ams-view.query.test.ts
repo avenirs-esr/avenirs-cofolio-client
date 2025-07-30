@@ -19,7 +19,7 @@ describe('useAmsViewQuery', () => {
   })
 
   describe('given valid query parameters', () => {
-    const programProgressId = ref('program-123')
+    const studentProgressId = ref('program-123')
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
@@ -33,7 +33,7 @@ describe('useAmsViewQuery', () => {
         queryResult = mountQueryComposable<UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
           amss: Ref<AmsViewDTO[]>
           pageInfo: Ref<PageInfoDTO>
-        }>(() => useAmsViewQuery(programProgressId, page, pageSize))
+        }>(() => useAmsViewQuery(studentProgressId, page, pageSize))
 
         await flushPromises()
       })
@@ -70,19 +70,19 @@ describe('useAmsViewQuery', () => {
     })
   })
 
-  describe('given undefined programProgressId', () => {
-    const programProgressId = ref<string | undefined>(undefined)
+  describe('given undefined studentProgressId', () => {
+    const studentProgressId = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with undefined programProgressId', () => {
+    describe('when the query is executed with undefined studentProgressId', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAmsViewQuery(programProgressId, page, pageSize))
+        queryResult = mountQueryComposable(() => useAmsViewQuery(studentProgressId, page, pageSize))
         await flushPromises()
       })
 
@@ -106,7 +106,7 @@ describe('useAmsViewQuery', () => {
   })
 
   describe('given different page and pageSize values', () => {
-    const programProgressId = ref('program-456')
+    const studentProgressId = ref('program-456')
     const page = ref(1)
     const pageSize = ref(PageSizes.EIGHT)
 
@@ -117,7 +117,7 @@ describe('useAmsViewQuery', () => {
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAmsViewQuery(programProgressId, page, pageSize))
+        queryResult = mountQueryComposable(() => useAmsViewQuery(studentProgressId, page, pageSize))
         await flushPromises()
       })
 
@@ -139,7 +139,7 @@ describe('useAmsViewQuery', () => {
   })
 
   describe('given reactive parameters that change', () => {
-    const programProgressId = ref('program-initial')
+    const studentProgressId = ref('program-initial')
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
@@ -150,17 +150,17 @@ describe('useAmsViewQuery', () => {
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAmsViewQuery(programProgressId, page, pageSize))
+        queryResult = mountQueryComposable(() => useAmsViewQuery(studentProgressId, page, pageSize))
         await flushPromises()
       })
 
-      describe('when programProgressId changes', () => {
+      describe('when studentProgressId changes', () => {
         beforeEach(async () => {
-          programProgressId.value = 'program-updated'
+          studentProgressId.value = 'program-updated'
           await flushPromises()
         })
 
-        it('then the query should update with new programProgressId', () => {
+        it('then the query should update with new studentProgressId', () => {
           expect(queryResult.data.value?.data).toHaveLength(PageSizes.FOUR)
 
           const firstAms = queryResult.data.value?.data?.[0]
@@ -193,25 +193,25 @@ describe('useAmsViewQuery', () => {
     })
   })
 
-  describe('given programProgressId changes from undefined to defined', () => {
-    const programProgressId = ref<string | undefined>(undefined)
+  describe('given studentProgressId changes from undefined to defined', () => {
+    const studentProgressId = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.TWELVE)
 
-    describe('when programProgressId becomes defined', () => {
+    describe('when studentProgressId becomes defined', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAmsViewQuery(programProgressId, page, pageSize))
+        queryResult = mountQueryComposable(() => useAmsViewQuery(studentProgressId, page, pageSize))
         await flushPromises()
       })
 
-      describe('when programProgressId is set to a valid value', () => {
+      describe('when studentProgressId is set to a valid value', () => {
         beforeEach(async () => {
-          programProgressId.value = 'program-enabled'
+          studentProgressId.value = 'program-enabled'
           await flushPromises()
         })
 

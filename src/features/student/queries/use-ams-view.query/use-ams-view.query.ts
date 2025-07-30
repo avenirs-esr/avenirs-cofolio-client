@@ -25,7 +25,7 @@ export function useAmsViewQuery (
   const queryFn = computed(() => !isNil(programProgramId.value)
     ? async (): Promise<PagedResponseAmsViewDTO> => {
       return await getAmsView({
-        programProgressId: toValue(programProgramId)!,
+        studentProgressId: toValue(programProgramId)!,
         pageSize: toValue(pageSize),
         page: toValue(page.value),
       })
