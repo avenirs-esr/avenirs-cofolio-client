@@ -47,7 +47,7 @@ The component uses `defineModel` for two-way binding:
 
 ## 🧩 Slots
 
-This component does not provide slots as it uses a structured approach with props to define navigation items.
+None.
 
 ## 📝 Examples of use
 

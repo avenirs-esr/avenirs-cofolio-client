@@ -228,8 +228,7 @@ describe('avSideNavigation', () => {
       beforeEach(() => {
         wrapper = mount(AvSideNavigation, {
           props: {
-            'items': mockItems,
-            'onUpdate:selectedItem': (value: string) => wrapper.setProps({ selectedItem: value })
+            items: mockItems
           },
           global: {
             stubs
@@ -237,7 +236,7 @@ describe('avSideNavigation', () => {
         })
       })
 
-      it('then it should update the selectedItem model', async () => {
+      it('then it should emit update:selectedItem event', async () => {
         const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
 
         await listItems[2].trigger('click')
@@ -246,10 +245,9 @@ describe('avSideNavigation', () => {
         expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual(['experiences'])
       })
 
-      it('then it should update the selected state of items', async () => {
+      it('then it should update the selected state when selectedItem prop changes', async () => {
         const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
 
-        await listItems[3].trigger('click')
         await wrapper.setProps({ selectedItem: 'activities' })
 
         expect(listItems[0].props('selected')).toBe(false)
@@ -263,9 +261,8 @@ describe('avSideNavigation', () => {
       beforeEach(() => {
         wrapper = mount(AvSideNavigation, {
           props: {
-            'items': mockItems,
-            'isSideMenuCollapsed': false,
-            'onUpdate:isSideMenuCollapsed': (value: boolean) => wrapper.setProps({ isSideMenuCollapsed: value })
+            items: mockItems,
+            isSideMenuCollapsed: false
           },
           global: {
             stubs
