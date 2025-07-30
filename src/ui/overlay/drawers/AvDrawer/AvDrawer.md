@@ -31,6 +31,12 @@ The drawer integrates:
 | `backdrop` | `boolean` | `true` | | Whether to show backdrop overlay behind drawer. |
 | `padding` | `string` | `'var(--spacing-md)'` | | Internal padding of drawer content area. |
 
+## 📡 Events
+
+| Name | Data (*payload*) | Description |
+| --- | --- | --- |
+| `'escapePressed'` | | Event triggered when escape is pressed. |
+
 ## 🧩 Slots
 
 | Name | Description |

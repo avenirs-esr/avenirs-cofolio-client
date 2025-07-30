@@ -47,7 +47,10 @@ watch(() => show, (newVal) => {
 </script>
 
 <template>
-  <AvDrawer :show="show">
+  <AvDrawer
+    :show="show"
+    @escape-pressed="onClose()"
+  >
     <div class="main-container">
       <AvIconText
         :icon="MDI_ICONS.PENCIL_OUTLINE"
