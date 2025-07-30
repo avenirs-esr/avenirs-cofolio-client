@@ -19,14 +19,6 @@
         "operationId": "updateProfile",
         "parameters": [
           {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "profile",
             "in": "path",
             "required": true,
@@ -67,14 +59,6 @@
         "operationId": "updateProfilePhoto",
         "parameters": [
           {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "profile",
             "in": "path",
             "required": true,
@@ -85,7 +69,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -123,14 +107,6 @@
         "operationId": "updateProfileCover",
         "parameters": [
           {
-            "name": "X-Signed-Context",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "profile",
             "in": "path",
             "required": true,
@@ -141,7 +117,7 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -193,6 +169,82 @@
               }
             }
           }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/additional-skills": {
+      "get": {
+        "tags": [
+          "additional-skill-controller"
+        ],
+        "operationId": "getAdditionalSkillsProgresses",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PagedResponseAdditionalSkillDTO"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PagedResponseAdditionalSkillProgressDTO"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "additional-skill-controller"
+        ],
+        "operationId": "createAdditionalSkillProgress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddAdditionalSkillDTO"
+              }
+            }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -492,7 +544,7 @@
         "tags": [
           "skill-level-progress-controller"
         ],
-        "operationId": "get",
+        "operationId": "getSkillLevelProgresses",
         "parameters": [
           {
             "name": "page",
@@ -563,7 +615,7 @@
         "operationId": "getAmsView",
         "parameters": [
           {
-            "name": "programProgressId",
+            "name": "studentProgressId",
             "in": "query",
             "required": true,
             "schema": {
@@ -604,54 +656,6 @@
         }
       }
     },
-    "/me/additional-skills": {
-      "get": {
-        "tags": [
-          "additional-skill-controller"
-        ],
-        "operationId": "getAdditionalSkills",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAdditionalSkillDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/errors": {
       "get": {
         "tags": [
@@ -682,7 +686,11 @@
                       "AMS_NOT_FOUND",
                       "USER_IS_NOT_STUDENT_EXCEPTION",
                       "LANGUAGE_NOT_SUPPORTED",
-                      "INVALID_ARGUMENT_TYPE"
+                      "INVALID_ARGUMENT_TYPE",
+                      "ADDITIONAL_SKILL_NOT_AVAILABLE",
+                      "ADDITIONAL_SKILL_NOT_FOUND",
+                      "STUDENT_ADDITIONAL_ALREADY_EXIST",
+                      "STUDENT_PROGRESS_NOT_FOUND"
                     ]
                   }
                 }
@@ -807,6 +815,12 @@
           },
           "bio": {
             "type": "string"
+          },
+          "profilePicture": {
+            "type": "string"
+          },
+          "coverPicture": {
+            "type": "string"
           }
         }
       },
@@ -841,6 +855,30 @@
           "language",
           "title"
         ]
+      },
+      "AddAdditionalSkillDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ROME4"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          }
+        }
       },
       "TraceConfigurationInfo": {
         "type": "object",
@@ -1405,6 +1443,62 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AmsViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "AdditionalSkillProgressDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "level",
+          "pathSegments",
+          "title",
+          "type"
+        ]
+      },
+      "PagedResponseAdditionalSkillProgressDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillProgressDTO"
             }
           },
           "page": {

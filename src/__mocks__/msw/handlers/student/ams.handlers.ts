@@ -9,9 +9,9 @@ export const amsHandlers = [
   http.get<PathParams, PagedResponseAmsViewDTO>(`*/me/ams/view`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
-    const programProgressId = searchParams.get('programProgressId')
+    const studentProgressId = searchParams.get('studentProgressId')
 
-    if (!programProgressId) {
+    if (!studentProgressId) {
       return HttpResponse.json<null>(null, {
         status: 400,
         headers: {
@@ -22,7 +22,7 @@ export const amsHandlers = [
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedPagedResponseAmsViewDTO(pageSize, 20, page, programProgressId)
+    const response = createMockedPagedResponseAmsViewDTO(pageSize, 20, page, studentProgressId)
 
     return HttpResponse.json<PagedResponseAmsViewDTO>(response, {
       status: 200,

@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type AdditionalSkillDTO, get, getAdditionalSkills, type PagedResponseAdditionalSkillDTO, type PagedResponseSkillDTO, type PageInfoDTO, type SkillDTO } from '@/api/avenir-esr'
+import { type AdditionalSkillDTO, type AdditionalSkillProgressDTO, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, type SkillDTO } from '@/api/avenir-esr'
 import { keepPreviousData, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type Ref, toValue } from 'vue'
 
@@ -11,8 +11,8 @@ export function useAdditionalSkillsViewQuery (
   keyword: Ref<string | undefined>,
   page: Ref<number>,
   pageSize: Ref<number>
-): UseQueryReturnType<PagedResponseAdditionalSkillDTO, BaseApiException> & {
-  skills: Ref<AdditionalSkillDTO[]>
+): UseQueryReturnType<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO, BaseApiException> & {
+  skills: Ref<AdditionalSkillDTO[] | AdditionalSkillProgressDTO[]>
   pageInfo: Ref<PageInfoDTO>
 } {
   const queryKey = computed(() => [...commonQueryKeys, 'additional', {
@@ -21,15 +21,20 @@ export function useAdditionalSkillsViewQuery (
     pageSize: pageSize.value
   }])
 
-  const queryFn = computed(() => async (): Promise<PagedResponseAdditionalSkillDTO> => {
-    return await getAdditionalSkills({
+  const queryFn = computed(() => async (): Promise<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO> => {
+    return await getAdditionalSkillsProgresses({
       keyword: toValue(keyword)!,
       pageSize: toValue(pageSize),
       page: toValue(page.value),
     })
   })
 
-  const query = useQuery<PagedResponseAdditionalSkillDTO, BaseApiException, PagedResponseAdditionalSkillDTO, readonly unknown[]>({
+  const query = useQuery<
+    PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO,
+    BaseApiException,
+    PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO,
+    readonly unknown[]
+  >({
     queryKey,
     queryFn,
     staleTime: TWO_MINUTES,
@@ -61,7 +66,7 @@ export function useSkillsViewQuery (
   }])
 
   const queryFn = computed(() => async (): Promise<PagedResponseSkillDTO> => {
-    return await get({ // TODO: rename it when back updates the swagger
+    return await getSkillLevelProgresses({
       sort: toValue(sort),
       pageSize: toValue(pageSize),
       page: toValue(page.value),

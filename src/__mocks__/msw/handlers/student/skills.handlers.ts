@@ -1,13 +1,14 @@
-import type {
-  PagedResponseAdditionalSkillDTO,
-  PagedResponseSkillDTO
-} from '@/api/avenir-esr'
 import { createMockedPagedResponseAdditionalSkillsDTO, createMockedPagedResponseSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import {
+  getGetSkillLevelProgressesUrl,
+  type PagedResponseAdditionalSkillDTO,
+  type PagedResponseSkillDTO
+} from '@/api/avenir-esr'
 import { PageSizes } from '@/ui/config'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export const skillsHandlers = [
-  http.get<PathParams, PagedResponseSkillDTO>(`*/me/skill-level-progress`, ({ request }) => {
+  http.get<PathParams, PagedResponseSkillDTO>(`*${getGetSkillLevelProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const sort = searchParams.get('sort') ?? ''
