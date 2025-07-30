@@ -1,0 +1,307 @@
+import { MDI_ICONS } from '@/ui/tokens'
+import { mount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it } from 'vitest'
+import AvSideNavigation, { type AvSideNavigationItem } from './AvSideNavigation.vue'
+
+const mockItems: AvSideNavigationItem[] = [
+  {
+    id: 'careers',
+    label: 'Career Information',
+    icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE
+  },
+  {
+    id: 'educations',
+    label: 'Educational Background',
+    icon: MDI_ICONS.SCHOOL_OUTLINE
+  },
+  {
+    id: 'experiences',
+    label: 'Professional Experience',
+    icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
+  },
+  {
+    id: 'activities',
+    label: 'Activities & Projects',
+    icon: MDI_ICONS.TARGET_ARROW
+  }
+]
+
+const stubs = {
+  AvSideMenu: {
+    name: 'AvSideMenu',
+    props: ['collapsed', 'collapsedWidth'],
+    emits: ['update:collapsed'],
+    template: '<div class="av-side-menu-stub"><slot /></div>'
+  },
+  AvList: {
+    name: 'AvList',
+    props: ['size', 'role'],
+    template: '<div class="av-list-stub"><slot /></div>'
+  },
+  AvListItem: {
+    name: 'AvListItem',
+    props: ['title', 'icon', 'iconSize', 'selected', 'tag', 'role', 'clickable'],
+    emits: ['click'],
+    template: '<button class="av-list-item-stub" @click="$emit(\'click\')" :data-selected="selected" :data-icon="icon" :data-title="title">{{ title }}</button>'
+  }
+}
+
+describe('avSideNavigation', () => {
+  describe('given an AvSideNavigation component', () => {
+    let wrapper: ReturnType<typeof mount<typeof AvSideNavigation>>
+
+    describe('when mounted with default props', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should render AvSideMenu with default props', () => {
+        const sideMenu = wrapper.findComponent({ name: 'AvSideMenu' })
+        expect(sideMenu.exists()).toBe(true)
+        expect(sideMenu.props('collapsedWidth')).toBe('3.5rem')
+      })
+
+      it('then it should render AvList with correct props', () => {
+        const list = wrapper.findComponent({ name: 'AvList' })
+        expect(list.exists()).toBe(true)
+        expect(list.props('size')).toBe('small')
+        expect(list.props('role')).toBe('menu')
+      })
+
+      it('then it should render navigation items with correct properties', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+        expect(listItems).toHaveLength(4)
+
+        expect(listItems[0].props()).toMatchObject({
+          title: 'Career Information',
+          icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+          iconSize: 1.8,
+          selected: false,
+          tag: 'button',
+          role: 'menuitem',
+          clickable: ''
+        })
+
+        expect(listItems[1].props()).toMatchObject({
+          title: 'Educational Background',
+          icon: MDI_ICONS.SCHOOL_OUTLINE,
+          iconSize: 1.8,
+          selected: false,
+          tag: 'button',
+          role: 'menuitem',
+          clickable: ''
+        })
+
+        expect(listItems[2].props()).toMatchObject({
+          title: 'Professional Experience',
+          icon: MDI_ICONS.VECTOR_POLYGON_VARIANT,
+          iconSize: 1.8,
+          selected: false,
+          tag: 'button',
+          role: 'menuitem',
+          clickable: ''
+        })
+
+        expect(listItems[3].props()).toMatchObject({
+          title: 'Activities & Projects',
+          icon: MDI_ICONS.TARGET_ARROW,
+          iconSize: 1.8,
+          selected: false,
+          tag: 'button',
+          role: 'menuitem',
+          clickable: ''
+        })
+      })
+    })
+
+    describe('when mounted with selectedItem prop', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems,
+            selectedItem: 'educations'
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should mark the correct item as selected', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        expect(listItems[0].props('selected')).toBe(false)
+        expect(listItems[1].props('selected')).toBe(true)
+        expect(listItems[2].props('selected')).toBe(false)
+        expect(listItems[3].props('selected')).toBe(false)
+      })
+    })
+
+    describe('when mounted with custom collapsedWidth', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems,
+            collapsedWidth: '5rem'
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should pass collapsedWidth to AvSideMenu', () => {
+        const sideMenu = wrapper.findComponent({ name: 'AvSideMenu' })
+        expect(sideMenu.props('collapsedWidth')).toBe('5rem')
+      })
+    })
+
+    describe('when side menu is collapsed', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems,
+            isSideMenuCollapsed: true
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should not show titles for list items', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        listItems.forEach((item) => {
+          expect(item.props('title')).toBeUndefined()
+        })
+      })
+
+      it('then it should apply collapsed CSS class to list items', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        listItems.forEach((item) => {
+          expect(item.classes()).toContain('av-side-navigation__menu-item--collapsed')
+        })
+      })
+    })
+
+    describe('when side menu is not collapsed', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems,
+            isSideMenuCollapsed: false
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should show titles for list items', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        expect(listItems[0].props('title')).toBe('Career Information')
+        expect(listItems[1].props('title')).toBe('Educational Background')
+        expect(listItems[2].props('title')).toBe('Professional Experience')
+        expect(listItems[3].props('title')).toBe('Activities & Projects')
+      })
+
+      it('then it should not apply collapsed CSS class to list items', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        listItems.forEach((item) => {
+          expect(item.classes()).not.toContain('av-side-navigation__menu-item--collapsed')
+        })
+      })
+    })
+
+    describe('when a navigation item is clicked', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            'items': mockItems,
+            'onUpdate:selectedItem': (value: string) => wrapper.setProps({ selectedItem: value })
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should update the selectedItem model', async () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        await listItems[2].trigger('click')
+
+        expect(wrapper.emitted('update:selectedItem')).toBeTruthy()
+        expect(wrapper.emitted('update:selectedItem')?.[0]).toEqual(['experiences'])
+      })
+
+      it('then it should update the selected state of items', async () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        await listItems[3].trigger('click')
+        await wrapper.setProps({ selectedItem: 'activities' })
+
+        expect(listItems[0].props('selected')).toBe(false)
+        expect(listItems[1].props('selected')).toBe(false)
+        expect(listItems[2].props('selected')).toBe(false)
+        expect(listItems[3].props('selected')).toBe(true)
+      })
+    })
+
+    describe('when isSideMenuCollapsed model changes', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            'items': mockItems,
+            'isSideMenuCollapsed': false,
+            'onUpdate:isSideMenuCollapsed': (value: boolean) => wrapper.setProps({ isSideMenuCollapsed: value })
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should emit update:isSideMenuCollapsed event', async () => {
+        const sideMenu = wrapper.findComponent({ name: 'AvSideMenu' })
+
+        await sideMenu.vm.$emit('update:collapsed', true)
+
+        expect(wrapper.emitted('update:isSideMenuCollapsed')).toBeTruthy()
+        expect(wrapper.emitted('update:isSideMenuCollapsed')?.[0]).toEqual([true])
+      })
+    })
+
+    describe('when component has proper CSS classes', () => {
+      beforeEach(() => {
+        wrapper = mount(AvSideNavigation, {
+          props: {
+            items: mockItems
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      it('then it should apply base CSS class to list items', () => {
+        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
+
+        listItems.forEach((item) => {
+          expect(item.classes()).toContain('av-side-navigation__menu-item')
+        })
+      })
+    })
+  })
+})
