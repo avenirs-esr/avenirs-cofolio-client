@@ -1,29 +1,20 @@
 <script lang="ts" setup>
-import type { PageSizes } from '@/ui/config'
 import { Pagination } from '@/common/components'
-import { useBaseApiExceptionToast } from '@/common/composables'
+import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'
 
 const tracesStore = useTracesStore()
-const currentPage = toRef(tracesStore, 'currentPage')
-const pageSizeSelected = toRef(tracesStore, 'pageSizeSelected')
+const {
+  currentPage,
+  pageSizeSelected,
+  onUpdateCurrentPage,
+  onUpdatePageSize
+} = usePagination(toRef(tracesStore, 'currentPage'), toRef(tracesStore, 'pageSizeSelected'))
 const { traces, pageInfo, error } = useUnassignedTracesViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
-
-function onUpdateCurrentPage (pageNumber: number) {
-  currentPage.value = pageNumber
-}
-
-function onUpdatePageSize (pageSize: PageSizes) {
-  tracesStore.pageSizeSelected = pageSize
-}
-
-watch(pageSizeSelected, () => {
-  currentPage.value = 0
-}, { immediate: true })
 </script>
 
 <template>
@@ -31,7 +22,7 @@ watch(pageSizeSelected, () => {
     <StudentToolsTracesViewNotice />
     <Pagination
       :page-info="pageInfo"
-      :page-size-selected="tracesStore.pageSizeSelected"
+      :page-size-selected="pageSizeSelected"
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >

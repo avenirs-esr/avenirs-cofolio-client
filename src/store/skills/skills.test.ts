@@ -1,13 +1,13 @@
-import { useAmsStore } from '@/store/ams/ams'
+import { useSkillsStore } from '@/store/skills/skills'
 import { PageSizes } from '@/ui/config'
 import { createPinia, setActivePinia } from 'pinia'
 
 describe('given a skills store', () => {
-  let store: ReturnType<typeof useAmsStore>
+  let store: ReturnType<typeof useSkillsStore>
 
   beforeEach(() => {
     setActivePinia(createPinia())
-    store = useAmsStore()
+    store = useSkillsStore()
   })
 
   describe('when the store is initialized', () => {

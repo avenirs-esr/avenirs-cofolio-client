@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { PageSizes } from '@/ui/config'
 import type { Ref } from 'vue'
 import { Pagination } from '@/common/components'
-import { useBaseApiExceptionToast } from '@/common/composables'
+import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useAmsViewQuery } from '@/features/student/queries'
 import ProgramProgressSelector
   from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
@@ -10,25 +9,17 @@ import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAms
 import { useAmsStore } from '@/store'
 
 const amsStore = useAmsStore()
-const currentPage = toRef(amsStore, 'currentPage')
-const pageSizeSelected = toRef(amsStore, 'pageSizeSelected')
+const {
+  currentPage,
+  pageSizeSelected,
+  onUpdateCurrentPage,
+  onUpdatePageSize
+} = usePagination(toRef(amsStore, 'currentPage'), toRef(amsStore, 'pageSizeSelected'))
 
 const selectedProgramProgressId: Ref<string | undefined> = ref(undefined)
 
 const { amss, pageInfo, error } = useAmsViewQuery(selectedProgramProgressId, currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
-
-function onUpdateCurrentPage (pageNumber: number) {
-  currentPage.value = pageNumber
-}
-
-function onUpdatePageSize (pageSize: PageSizes) {
-  amsStore.pageSizeSelected = pageSize
-}
-
-watch(pageSizeSelected, () => {
-  currentPage.value = 0
-}, { immediate: true })
 </script>
 
 <template>
@@ -38,7 +29,7 @@ watch(pageSizeSelected, () => {
     />
     <Pagination
       :page-info="pageInfo"
-      :page-size-selected="amsStore.pageSizeSelected"
+      :page-size-selected="pageSizeSelected"
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >
