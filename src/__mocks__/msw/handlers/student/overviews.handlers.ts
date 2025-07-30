@@ -6,6 +6,61 @@ import {
 import { http, HttpResponse, type PathParams } from 'msw'
 
 const PROFILE = 'student'
+
+export function createPutUpdateProfileHandler (payload: string) {
+  return http.put(`*/me/user/:profile/update`, () => {
+    return HttpResponse.json<string>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export function createPutUpdateProfileCoverHandler (payload: string) {
+  return http.put(`*/me/user/:profile/update/cover`, () => {
+    return HttpResponse.json<string>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export function createPutUpdateProfilePhotoHandler (payload: string) {
+  return http.put(`*/me/user/:profile/update/photo`, () => {
+    return HttpResponse.json<string>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const putUpdateProfileErrorHandler = http.put(`*/me/user/:profile/update`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
+export const putUpdateProfileCoverErrorHandler = http.put(`*/me/user/:profile/update/cover`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
+export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/user/:profile/update/photo`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
 export const overviewsHandlers = [
   http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(PROFILE)}`, () => {
     return HttpResponse.json<ProfileOverviewDTO>(mockedProfileOverview, {

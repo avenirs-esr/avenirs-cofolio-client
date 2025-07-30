@@ -32,6 +32,17 @@ const props = withDefaults(defineProps<AvDrawerProps>(), {
 })
 
 /**
+ * Events triggered by AvDrawer.
+ */
+const emit = defineEmits<{
+  /**
+   * Event triggered when escape is pressed.
+   * @event escapePressed
+   */
+  (e: 'escapePressed'): void
+}>()
+
+/**
  * Slots available in the AvDrawer component.
  * The default slot contains the main content of the drawer.
  * The slot footer allows to add content under the main scrollable content.
@@ -60,6 +71,9 @@ const { position, width, padding } = toRefs(props)
     <div
       class="av-drawer"
       :class="`av-drawer--${position}`"
+      role="dialog"
+      aria-modal="true"
+      @keydown.esc="emit('escapePressed')"
     >
       <div class="av-drawer__content-wrapper">
         <div class="av-drawer__content">
