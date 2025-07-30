@@ -1,4 +1,5 @@
 import SkillsViewTabs from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewTabs/SkillsViewTabs.vue'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
@@ -7,7 +8,11 @@ describe('skillsViewTabs', () => {
     let wrapper: ReturnType<typeof mount<typeof SkillsViewTabs>>
 
     beforeEach(() => {
-      wrapper = mount<typeof SkillsViewTabs>(SkillsViewTabs)
+      setActivePinia(createPinia())
+
+      wrapper = mount<typeof SkillsViewTabs>(SkillsViewTabs, {
+        global: { plugins: [createPinia(), [VueQueryPlugin, { queryClient: new QueryClient() }]] }
+      })
     })
 
     describe('when the skills tab switcher is mounted', () => {

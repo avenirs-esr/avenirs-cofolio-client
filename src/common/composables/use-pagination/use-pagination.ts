@@ -1,6 +1,7 @@
+import type { PageSizes } from '@/ui/config'
 import type { Ref } from 'vue'
 
-export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelected: Ref<number>) {
+export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelected: Ref<PageSizes>) {
   const currentPage = toRef(storeCurrentPage)
   const pageSizeSelected = toRef(storePageSizeSelected)
 
@@ -8,7 +9,7 @@ export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelec
     currentPage.value = pageNumber
   }
 
-  function onUpdatePageSize (pageSize: number) {
+  function onUpdatePageSize (pageSize: PageSizes) {
     pageSizeSelected.value = pageSize
   }
 
