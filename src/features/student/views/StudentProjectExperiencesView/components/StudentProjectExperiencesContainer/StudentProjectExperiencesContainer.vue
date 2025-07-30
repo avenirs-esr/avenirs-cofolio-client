@@ -4,11 +4,14 @@ import StudentProjectExperiencesActivitiesSection from '@/features/student/views
 import StudentProjectExperiencesCareersSection from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesCareersSection/StudentProjectExperiencesCareersSection.vue'
 import StudentProjectExperiencesEducationsSection from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesEducationsSection/StudentProjectExperiencesEducationsSection.vue'
 import StudentProjectExperiencesExperiencesSection from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesExperiencesSection/StudentProjectExperiencesExperiencesSection.vue'
-import StudentProjectExperiencesSideMenuContent from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesSideMenuContent/StudentProjectExperiencesSideMenuContent.vue'
 import { ProjectExperienceItems } from '@/features/student/views/StudentProjectExperiencesView/types'
-import { AvSideMenu } from '@/ui'
+import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const isSideMenuCollapsed = ref<boolean>(false)
+
+const selectedItem = ref<ProjectExperienceItems>(ProjectExperienceItems.CAREERS)
 
 const sectionsMap: Record<ProjectExperienceItems, Component> = {
   [ProjectExperienceItems.CAREERS]: StudentProjectExperiencesCareersSection,
@@ -17,7 +20,28 @@ const sectionsMap: Record<ProjectExperienceItems, Component> = {
   [ProjectExperienceItems.ACTIVITIES]: StudentProjectExperiencesActivitiesSection
 }
 
-const selectedItem = ref<ProjectExperienceItems>(ProjectExperienceItems.CAREERS)
+const items = computed<AvSideNavigationItem[]>(() => [
+  {
+    id: ProjectExperienceItems.CAREERS,
+    label: t('student.views.studentProjectExperiencesView.careers.title'),
+    icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+  },
+  {
+    id: ProjectExperienceItems.EDUCATIONS,
+    label: t('student.views.studentProjectExperiencesView.educations.title'),
+    icon: MDI_ICONS.SCHOOL_OUTLINE
+  },
+  {
+    id: ProjectExperienceItems.EXPERIENCES,
+    label: t('student.views.studentProjectExperiencesView.experiences.title'),
+    icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
+  },
+  {
+    id: ProjectExperienceItems.ACTIVITIES,
+    label: t('student.views.studentProjectExperiencesView.activities.title'),
+    icon: MDI_ICONS.TARGET_ARROW
+  }
+])
 
 const displayedSection = computed<Component>(() => {
   return sectionsMap[selectedItem.value]
@@ -26,15 +50,11 @@ const displayedSection = computed<Component>(() => {
 
 <template>
   <div class="student-project-experiences-container">
-    <AvSideMenu
-      v-model:collapsed="isSideMenuCollapsed"
-      collapsed-width="3.5rem"
-    >
-      <StudentProjectExperiencesSideMenuContent
-        v-model:selected-item="selectedItem"
-        :is-side-menu-collapsed="isSideMenuCollapsed"
-      />
-    </AvSideMenu>
+    <AvSideNavigation
+      v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+      v-model:selected-item="selectedItem"
+      :items="items"
+    />
     <div class="student-project-experiences-container__content">
       <component :is="displayedSection" />
     </div>
@@ -51,7 +71,6 @@ const displayedSection = computed<Component>(() => {
   &__content {
     flex: 1;
     padding: var(--spacing-lg);
-    color: black;
 
     h2 {
       margin-bottom: var(--spacing-md);
