@@ -1,10 +1,20 @@
 import { TraceStatus, type TracesViewResponse } from '@/api/avenir-esr'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
-import { useTracesStore } from '@/store'
+import { PageSizes } from '@/ui/config'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
+import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
+import { PaginationStub } from 'tests/stubs'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+let paginationMock: ReturnType<typeof createUsePaginationMock>
+
+vi.mock('@/common/composables/use-pagination/use-pagination', () => {
+  return {
+    usePagination: vi.fn(() => paginationMock)
+  }
+})
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()
@@ -39,17 +49,7 @@ const stubs = {
     props: ['trace'],
     template: '<div class="student-detailed-trace-card-stub" />'
   },
-  Pagination: {
-    name: 'Pagination',
-    props: ['pageInfo', 'pageSizeSelected', 'onUpdateCurrentPage', 'onUpdatePageSize'],
-    template: `
-      <div class="pagination-stub">
-        <button class="emit-current-page" @click="onUpdateCurrentPage(2)">Page 2</button>
-        <button class="emit-page-size" @click="onUpdatePageSize(50)">Size 50</button>
-        <slot />
-      </div>
-    `
-  }
+  Pagination: PaginationStub
 }
 
 describe('studentToolsTracesViewContainer', () => {
@@ -76,6 +76,9 @@ describe('studentToolsTracesViewContainer', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
+
+      paginationMock = createUsePaginationMock()
+
       setActivePinia(createPinia())
       mockUseUnassignedTracesViewQuery(mockedTracesData)
 
@@ -102,32 +105,16 @@ describe('studentToolsTracesViewContainer', () => {
       })
     })
 
-    describe('when Pagination emits current page update', () => {
-      beforeEach(async () => {
+    describe('when clicking on the page update buttons', () => {
+      it('then it should update current page and page size in the mock', async () => {
         await wrapper.find('.emit-current-page').trigger('click')
-      })
+        expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
+        expect(paginationMock.currentPage.value).toBe(5)
 
-      it('then it should update the current page in the store', () => {
-        const store = useTracesStore()
-        expect(store.currentPage).toBe(2)
-      })
-    })
-
-    describe('when Pagination emits page size update', () => {
-      beforeEach(async () => {
-        const store = useTracesStore()
-        store.currentPage = 1
         await wrapper.find('.emit-page-size').trigger('click')
-      })
-
-      it('then it should update the page size in the store', () => {
-        const store = useTracesStore()
-        expect(store.pageSizeSelected).toBe(50)
-      })
-
-      it('then it should reset current page to 0', () => {
-        const store = useTracesStore()
-        expect(store.currentPage).toBe(0)
+        expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
+        expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
+        expect(paginationMock.currentPage.value).toBe(0)
       })
     })
   })

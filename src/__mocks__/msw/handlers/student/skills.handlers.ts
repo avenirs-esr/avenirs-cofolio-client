@@ -7,6 +7,42 @@ import {
 import { PageSizes } from '@/ui/config'
 import { http, HttpResponse, type PathParams } from 'msw'
 
+export function createAdditionalSkillsViewHandler (payload: PagedResponseAdditionalSkillDTO) {
+  return http.get(`*/me/additional-skills`, () => {
+    return HttpResponse.json<PagedResponseAdditionalSkillDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const skillsAdditionalViewErrorHandler = http.get(`*/me/additional-skills`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
+export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
+  return http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
+    return HttpResponse.json<PagedResponseSkillDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const skillsViewErrorHandler = http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
 export const skillsHandlers = [
   http.get<PathParams, PagedResponseSkillDTO>(`*${getGetSkillLevelProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)

@@ -8,7 +8,7 @@ import { flushPromises } from '@vue/test-utils'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type Mock, type MockedFunction, type MockInstance } from 'vitest'
 
-function testUseBaseApiExceptionToast<T> ({
+export function testUseBaseApiExceptionToast<T> ({
   mockedUseQuery,
   payload,
   mountComponent,
@@ -41,7 +41,7 @@ function testUseBaseApiExceptionToast<T> ({
   })
 }
 
-function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
+export function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
   describe(`given the route ${route.name}`, () => {
     describe('when the route is built', () => {
       it('then it should have correct route config', () => {
@@ -195,9 +195,4 @@ export function testUseMutation<
       })
     })
   })
-}
-
-export {
-  testRoute,
-  testUseBaseApiExceptionToast
 }
