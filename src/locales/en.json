@@ -16,6 +16,21 @@
       "goBack": "Go back",
       "save": "Save"
     },
+    "footer": {
+      "anr": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
+      "instituteInfo": "An ePortfolio for Higher Education and Research",
+      "links": {
+        "accessibility": "Accessibility: {compliance}",
+        "anr": "National Research Agency - AVENIR(S) Program",
+        "avenirs": "ESR component of the AVENIR(s) program",
+        "cookies": "Cookie management",
+        "copyright": "@ESUP-Portail. All rights reserved.",
+        "data": "Personal data",
+        "esup": "Community of French higher education establishments for digital innovation",
+        "france2030": "France 2030 info",
+        "legal": "Legal notices"
+      }
+    },
     "header": {
       "switchUniverse": {
         "label": "Switch universe",
