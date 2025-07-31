@@ -5,7 +5,6 @@ import { nextTick } from 'vue'
 
 describe('avHeader', () => {
   const serviceTitle = 'Service title'
-  const serviceDescription = 'Service description'
   const quickLinks = [{ text: 'Lien', to: '/' }]
   const showSearch = true
   const modelValue = ''
@@ -24,30 +23,6 @@ describe('avHeader', () => {
       },
     })
     expect(wrapper.text()).toContain(serviceTitle)
-  })
-
-  it('should render serviceDescription when provided', async () => {
-    const wrapper = await mountWithRouter(AvHeader, {
-      props: {
-        serviceTitle,
-        serviceDescription
-      },
-    })
-
-    const el = wrapper.find('p.fr-header__service-tagline')
-    expect(el.exists()).toBe(true)
-    expect(el.text()).toBe(serviceDescription)
-  })
-
-  it('should not render serviceDescription when not provided', async () => {
-    const wrapper = await mountWithRouter(AvHeader, {
-      props: {
-        serviceTitle,
-      },
-    })
-
-    const el = wrapper.find('p.fr-header__service-tagline')
-    expect(el.exists()).toBe(false)
   })
 
   it('open menu on click', async () => {

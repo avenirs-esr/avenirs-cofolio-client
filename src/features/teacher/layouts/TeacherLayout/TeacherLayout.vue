@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
+import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables/'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { AvHeader } from '@/ui'
@@ -30,7 +31,11 @@ defineExpose({ searchQuery })
     :quick-links="quickLinks"
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"
-  />
+  >
+    <template #serviceDescription>
+      <SwitchUniverse />
+    </template>
+  </AvHeader>
 
   <main>
     <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">

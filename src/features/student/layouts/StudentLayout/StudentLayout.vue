@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables/'
 import {
   StudentMailboxPopover,
@@ -50,6 +51,9 @@ defineExpose({ searchQuery })
     </template>
     <template #mainnav>
       <StudentNavigation />
+    </template>
+    <template #serviceDescription>
+      <SwitchUniverse />
     </template>
   </AvHeader>
 

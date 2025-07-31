@@ -27,6 +27,13 @@
       },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
+    "header": {
+      "switchUniverse": {
+        "label": "Changer d'univers",
+        "student": "Étudiant",
+        "teacher": "Enseignant"
+      }
+    },
     "information": {
       "imageUpload": {
         "filesIndication": "Format : ",

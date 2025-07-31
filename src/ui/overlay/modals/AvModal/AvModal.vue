@@ -98,6 +98,7 @@ const closeButtonVariant = computed(() => props.closeButtonVariant ?? 'DEFAULT')
     <DsfrModal
       v-bind="props"
       title=""
+      @keydown.esc="emit('close')"
     >
       <template #default>
         <div
