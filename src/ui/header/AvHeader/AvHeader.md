@@ -23,7 +23,6 @@ The header consists of:
 | --- | --- | --- | --- | --- |
 | `searchbarId` | `string` | `'searchbar-header'` | | Value of the `id` attribute of the searchbar input. |
 | `serviceTitle` | `string` | `undefined` | | Title of the service displayed in the header. |
-| `serviceDescription` | `string` | `undefined` | | Short description of the service. |
 | `homeTo` | `string \| RouteLocationRaw` | `'/'` | | Homepage link. |
 | `modelValue` | `string` | `''` | | Value for the search bar. |
 | `placeholder` | `string` | `'Rechercher...'` | | Placeholder for the search bar. |
@@ -49,10 +48,10 @@ The header consists of:
 ## 🧩 Slots
 
 | Name | Description |
-| --- | --- |
 | `before-quick-links` | Slot to add content before quick links. |
 | `after-quick-links` | Slot to add content after quick links. |
 | `mainnav` | Slot for the main navigation menu. |
+| `serviceDescription` | Slot for the description of the service. |
 | `default` | Default slot for additional content in the header. |
 
 ## 📝 Examples of use

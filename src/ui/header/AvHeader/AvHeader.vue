@@ -7,6 +7,7 @@ import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import AvHeaderMenuLinks from '@/ui/header/AvHeaderMenuLinks/AvHeaderMenuLinks.vue'
 import AvLogo from '@/ui/header/AvLogo.vue'
+import AvModal from '@/ui/overlay/modals/AvModal/AvModal.vue'
 import {
   type DsfrHeaderMenuLinkProps,
   type DsfrLanguageSelectorElement,
@@ -28,11 +29,6 @@ export interface AvHeaderProps {
    * Title of the service displayed in the header.
    */
   serviceTitle?: string
-
-  /**
-   * Short description of the service.
-   */
-  serviceDescription?: string
 
   /**
    * Homepage link.
@@ -115,7 +111,6 @@ const props = withDefaults(defineProps<AvHeaderProps>(), {
   searchbarId: 'searchbar-header',
   languageSelector: undefined,
   serviceTitle: undefined,
-  serviceDescription: undefined,
   homeTo: '/',
   modelValue: '',
   placeholder: 'Rechercher...',
@@ -165,6 +160,11 @@ const slots = defineSlots<{
    * Slot pour ajouter du contenu après les liens rapides.
    */
   'after-quick-links'?: Slot
+
+  /**
+   * Slot affiché à côté / en dessous du serviceTitle.
+   */
+  'serviceDescription'?: Slot
 
   /**
    * Slot pour le menu de navigation principal.
@@ -234,11 +234,10 @@ provide(registerNavigationLinkKey, () => hideModal)
     <div class="fr-header__body">
       <div class="fr-container  width-inherit">
         <div class="fr-header__body-row">
-          <div class="fr-header__brand  fr-enlarge-link">
+          <div class="fr-header__brand">
             <div class="fr-header__brand-top">
-              <div class="fr-header__logo">
+              <div class="fr-header__logo fr-enlarge-link">
                 <RouterLink
-                  v-if="!serviceTitle"
                   :to="homeTo"
                   :title
                 >
@@ -246,10 +245,6 @@ provide(registerNavigationLinkKey, () => hideModal)
                     data-testid="header-logo"
                   />
                 </RouterLink>
-                <AvLogo
-                  v-else
-                  data-testid="header-logo"
-                />
               </div>
               <div
                 v-if="showSearch || isWithSlotNav || quickLinks?.length"
@@ -282,21 +277,10 @@ provide(registerNavigationLinkKey, () => hideModal)
               v-if="serviceTitle"
               class="fr-header__service"
             >
-              <RouterLink
-                :to="homeTo"
-                :title
-                v-bind="$attrs"
-              >
-                <p class="fr-header__service-title">
-                  {{ serviceTitle }}
-                </p>
-              </RouterLink>
-              <p
-                v-if="serviceDescription"
-                class="fr-header__service-tagline"
-              >
-                {{ serviceDescription }}
+              <p class="fr-header__service-title">
+                {{ serviceTitle }}
               </p>
+              <slot name="serviceDescription" />
             </div>
           </div>
           <div class="fr-header__tools">
@@ -405,4 +389,13 @@ provide(registerNavigationLinkKey, () => hideModal)
       </div>
     </div>
   </header>
+  <AvModal />
 </template>
+
+<style lang="scss" scoped>
+.fr-header__service {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+}
+</style>

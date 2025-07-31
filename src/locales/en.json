@@ -16,6 +16,13 @@
       "goBack": "Go back",
       "save": "Save"
     },
+    "header": {
+      "switchUniverse": {
+        "label": "Switch universe",
+        "student": "Student",
+        "teacher": "Teacher"
+      }
+    },
     "information": {
       "imageUpload": {
         "filesIndication": "Format: ",
