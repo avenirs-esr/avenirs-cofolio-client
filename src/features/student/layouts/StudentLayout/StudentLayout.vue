@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Footer } from '@/common/components'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables/'
 import {
@@ -62,6 +63,8 @@ defineExpose({ searchQuery })
       <router-view />
     </div>
   </main>
+
+  <Footer />
 </template>
 
 <style lang="scss" scoped>
