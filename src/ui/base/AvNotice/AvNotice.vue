@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatTextToUnderlineHtml } from '@/ui/utils/string/string'
+import { formatTextToHtml } from '@/ui/utils/string/string'
 import { DsfrNotice } from '@gouvminint/vue-dsfr'
 
 /**
@@ -28,7 +28,7 @@ export interface AvNoticeProps {
 const { title = '', text = '', type } = defineProps<AvNoticeProps>()
 
 const formattedDesc = computed(() => {
-  return formatTextToUnderlineHtml(text)
+  return formatTextToHtml(text)
 })
 </script>
 
@@ -44,7 +44,5 @@ const formattedDesc = computed(() => {
 </template>
 
 <style lang="scss">
-.text-underline {
-  text-decoration: underline;
-}
+
 </style>

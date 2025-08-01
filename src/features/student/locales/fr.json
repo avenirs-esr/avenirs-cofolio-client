@@ -228,7 +228,13 @@
       "studentProjectTrajectoriesView": {
         "title": "Bâtir mon projet",
         "buildProject": {
-          "title": "Bâtir mon projet"
+          "title": "Bâtir mon projet",
+          "consultHelpButtonLabel": "Comment construire mon projet ?",
+          "projectTrajectoriesHelperModal": {
+            "title": "##Imaginez votre futur en identifiant des trajectoires possibles##",
+            "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l’exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont :\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet ?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet ?##)(-##Comment les acquérir ?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans :\n\n(-le développement de vos compétences)(-la construction d’un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
+            "closeButtonLabel": "Quitter"
+          }
         },
         "trajectories": {
           "title": "Mes Trajectoires"

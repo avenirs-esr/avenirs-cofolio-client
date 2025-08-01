@@ -1,16 +1,27 @@
 /**
- * Formats a string by replacing text enclosed in double asterisks (`**`)
- * with HTML `<span>` tags with a `text-underline` class to underline them.
+ * Formats a string by applying structured HTML transformations based on specific patterns:
+ *
+ * - Text between `**...**` is underlined using a `<span class="text-underline">`.
+ * - Text between `##...##` is colored and bold using a `<strong style="color: ...">`.
+ * - Text within `(-...)` is converted to `<li>` items with an indentation class.
+ * - Line breaks (`\n`, `\r`, `\\n`, etc.) are converted to `<div class="line-break"></div>`
+ *   for visual spacing (e.g., adjustable height via CSS).
  *
  * @example
  * ```ts
- * formatTextToUnderlineHtml('This is **underlined text**.')
- * // Returns: 'This is <span class="text-underline">underlined text</span>.'
+ * formatTextToHtml('(-##Important## and **underlined**)\nNext line')
+ * // Returns:
+ * // '<li class="indented-list"><strong style="color: var(--dark-background-primary1)">Important</strong> and <span class="text-underline">underlined</span></li><div class="line-break"></div>Next line'
  * ```
  *
- * @param {string} text - The raw text, possibly containing expressions between `**` to be transformed.
- * @returns {string} The text with the underlined parts encapsulated in a `<span>` tag.
+ * @param {string} text - The raw input string that may contain styling markers like `**`, `##`, or `(-...)`.
+ * @param {string} color - The color applied to text wrapped in `##`. Defaults to 'var(--dark-background-primary1)'.
+ * @returns {string} A string of HTML with appropriate tags for styling and structure.
  */
-export function formatTextToUnderlineHtml (text: string): string {
-  return text.replace(/\*\*(.+?)\*\*/g, '<span class="text-underline">$1</span>')
+export function formatTextToHtml (text: string, color: string = 'var(--dark-background-primary1)'): string {
+  return text
+    .replace(/\(-(.+?)\)/g, '<li class="indented-list">$1</li>')
+    .replace(/(\r\n|\n|\r|\\n|\\r)/g, '<div class="line-break"></div>')
+    .replace(/\*\*(.+?)\*\*/g, '<span class="text-underline">$1</span>')
+    .replace(/##(.+?)##/g, `<strong style="color: ${color}">$1</strong>`)
 }
