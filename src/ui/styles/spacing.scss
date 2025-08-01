@@ -11,3 +11,11 @@
   --spacing-4xl: 4rem;        /* 64px */
   --spacing-5xl: 5rem;        /* 80px */
 }
+
+.line-break {
+  height: var(--spacing-xs);
+}
+
+.indented-list {
+  padding-left: var(--spacing-md);
+}
