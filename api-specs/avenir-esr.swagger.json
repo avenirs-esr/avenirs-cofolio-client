@@ -6,12 +6,12 @@
   },
   "servers": [
     {
-      "url": "http://avenirs-apisix-api:9080",
+      "url": "http://localhost:10001",
       "description": "Generated server url"
     }
   ],
   "paths": {
-    "/me/user/{profile}/update": {
+    "/me/users/{userCategory}/update": {
       "put": {
         "tags": [
           "user-controller"
@@ -19,11 +19,11 @@
         "operationId": "updateProfile",
         "parameters": [
           {
-            "name": "profile",
+            "name": "userCategory",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserCategory"
             }
           }
         ],
@@ -51,67 +51,27 @@
         }
       }
     },
-    "/me/user/{profile}/update/photo": {
+    "/me/storage/users/{userCategory}/{photoType}": {
       "put": {
         "tags": [
-          "user-controller"
+          "user-resource-controller"
         ],
         "operationId": "updateProfilePhoto",
         "parameters": [
           {
-            "name": "profile",
+            "name": "userCategory",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserCategory"
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "file"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/user/{profile}/update/cover": {
-      "put": {
-        "tags": [
-          "user-controller"
-        ],
-        "operationId": "updateProfileCover",
-        "parameters": [
+          },
           {
-            "name": "profile",
+            "name": "photoType",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserPhotoType"
             }
           }
         ],
@@ -139,7 +99,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/UserPhotoUploadDTO"
                 }
               }
             }
@@ -155,16 +115,58 @@
         "operationId": "createTrace",
         "requestBody": {
           "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTraceDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TracesCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/storage/traces/{traceId}": {
+      "post": {
+        "tags": [
+          "trace-attachment-controller"
+        ],
+        "operationId": "uploadAttachment",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
             "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "trace": {
-                    "$ref": "#/components/schemas/CreateTraceDTO"
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
                   }
                 },
                 "required": [
-                  "trace"
+                  "file"
                 ]
               }
             }
@@ -172,7 +174,14 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttachmentUploadDTO"
+                }
+              }
+            }
           }
         }
       }
@@ -253,29 +262,6 @@
         }
       }
     },
-    "/user-categories": {
-      "get": {
-        "tags": [
-          "ressource-controller"
-        ],
-        "operationId": "getUserCategories",
-        "responses": {
-          "200": {
-            "description": "Liste des catégories d'utilisateur",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserCategory"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/traces/config": {
       "get": {
         "tags": [
@@ -296,27 +282,20 @@
         }
       }
     },
-    "/photo/{profile}/{fileName}": {
+    "/storage/users/{fileId}": {
       "get": {
         "tags": [
-          "ressource-controller"
+          "storage-controller"
         ],
-        "operationId": "getPhoto",
+        "operationId": "getUserResourceByFileId",
         "parameters": [
           {
-            "name": "profile",
+            "name": "fileId",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -335,7 +314,38 @@
         }
       }
     },
-    "/me/user/{profile}/overview": {
+    "/storage/users/default/{photoType}": {
+      "get": {
+        "tags": [
+          "storage-controller"
+        ],
+        "operationId": "getDefaultResource",
+        "parameters": [
+          {
+            "name": "photoType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UserPhotoType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/users/{userCategory}/overview": {
       "get": {
         "tags": [
           "user-controller"
@@ -343,11 +353,11 @@
         "operationId": "getProfile",
         "parameters": [
           {
-            "name": "profile",
+            "name": "userCategory",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/UserCategory"
             }
           }
         ],
@@ -656,89 +666,6 @@
         }
       }
     },
-    "/errors": {
-      "get": {
-        "tags": [
-          "ressource-controller"
-        ],
-        "operationId": "getAllErrorCodes",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "enum": [
-                      "USER_NOT_FOUND",
-                      "USER_ALREADY_EXISTS",
-                      "USER_NOT_AUTHORIZED",
-                      "USER_CATEGORY_NOT_FOUND",
-                      "BAD_IMAGE_SIZE",
-                      "BAD_IMAGE_TYPE",
-                      "PROGRAM_NOT_FOUND",
-                      "TRAINING_PATH_NOT_FOUND",
-                      "SKILL_NOT_FOUND",
-                      "SKILL_LEVEL_NOT_FOUND",
-                      "TRACE_NOT_FOUND",
-                      "AMS_NOT_FOUND",
-                      "USER_IS_NOT_STUDENT_EXCEPTION",
-                      "LANGUAGE_NOT_SUPPORTED",
-                      "INVALID_ARGUMENT_TYPE",
-                      "ADDITIONAL_SKILL_NOT_AVAILABLE",
-                      "ADDITIONAL_SKILL_NOT_FOUND",
-                      "STUDENT_ADDITIONAL_ALREADY_EXIST",
-                      "STUDENT_PROGRESS_NOT_FOUND"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/cover/{profile}/{fileName}": {
-      "get": {
-        "tags": [
-          "ressource-controller"
-        ],
-        "operationId": "getCover",
-        "parameters": [
-          {
-            "name": "profile",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/{traceId}": {
       "delete": {
         "tags": [
@@ -773,34 +700,6 @@
   },
   "components": {
     "schemas": {
-      "SkillLevelStatus": {
-        "type": "string",
-        "description": "Enum for skill level status",
-        "enum": [
-          "VALIDATED",
-          "FAILED",
-          "UNDER_ACQUISITION",
-          "UNDER_REVIEW",
-          "TO_BE_EVALUATED",
-          "NOT_STARTED"
-        ]
-      },
-      "TraceStatus": {
-        "type": "string",
-        "description": "Enum for trace status",
-        "enum": [
-          "UNASSOCIATED",
-          "ASSOCIATED"
-        ]
-      },
-      "UserCategory": {
-        "type": "string",
-        "description": "Enum for user category",
-        "enum": [
-          "TEACHER",
-          "STUDENT"
-        ]
-      },
       "ProfileUpdateRequest": {
         "type": "object",
         "properties": {
@@ -823,6 +722,85 @@
             "type": "string"
           }
         }
+      },
+      "UserPhotoUploadDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "PNG",
+              "JPEG",
+              "PJPEG",
+              "GIF",
+              "WEBP",
+              "OGG_APP",
+              "OGG",
+              "WEBM_AUDIO",
+              "_3GPP_AUDIO",
+              "MP4_AUDIO",
+              "MP3",
+              "MPEG4_GENERIC",
+              "MPEG3",
+              "X_MPEG3",
+              "VORBIS",
+              "AVI",
+              "OGG_VIDEO",
+              "MSVIDEO",
+              "X_MSVIDEO",
+              "MP4",
+              "MPEG",
+              "MPEG3_VIDEO",
+              "X_MPEG_VIDEO",
+              "WEBM_VIDEO",
+              "_3GPP_VIDEO",
+              "_3GPP2_VIDEO",
+              "TXT",
+              "CSV",
+              "ICS",
+              "RICHTEXT",
+              "PDF",
+              "POSTSCRIPT",
+              "DOC",
+              "MSPPT",
+              "PPT",
+              "X_PPT",
+              "XLS",
+              "X_XLS",
+              "X_MSEXCEL",
+              "XLS_VND",
+              "PPT_VND",
+              "ODT",
+              "VSD",
+              "RTF",
+              "X_RTF",
+              "PPTX_SLIDESHOW",
+              "PPTX",
+              "ODP",
+              "XLSX",
+              "ODS",
+              "DOCX"
+            ]
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "fileSize",
+          "fileType",
+          "id",
+          "version"
+        ]
       },
       "CreateTraceDTO": {
         "type": "object",
@@ -854,6 +832,101 @@
           "isGroup",
           "language",
           "title"
+        ]
+      },
+      "TracesCreationResponse": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "traceId"
+        ]
+      },
+      "AttachmentUploadDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "PNG",
+              "JPEG",
+              "PJPEG",
+              "GIF",
+              "WEBP",
+              "OGG_APP",
+              "OGG",
+              "WEBM_AUDIO",
+              "_3GPP_AUDIO",
+              "MP4_AUDIO",
+              "MP3",
+              "MPEG4_GENERIC",
+              "MPEG3",
+              "X_MPEG3",
+              "VORBIS",
+              "AVI",
+              "OGG_VIDEO",
+              "MSVIDEO",
+              "X_MSVIDEO",
+              "MP4",
+              "MPEG",
+              "MPEG3_VIDEO",
+              "X_MPEG_VIDEO",
+              "WEBM_VIDEO",
+              "_3GPP_VIDEO",
+              "_3GPP2_VIDEO",
+              "TXT",
+              "CSV",
+              "ICS",
+              "RICHTEXT",
+              "PDF",
+              "POSTSCRIPT",
+              "DOC",
+              "MSPPT",
+              "PPT",
+              "X_PPT",
+              "XLS",
+              "X_XLS",
+              "X_MSEXCEL",
+              "XLS_VND",
+              "PPT_VND",
+              "ODT",
+              "VSD",
+              "RTF",
+              "X_RTF",
+              "PPTX_SLIDESHOW",
+              "PPTX",
+              "ODP",
+              "XLSX",
+              "ODS",
+              "DOCX"
+            ]
+          },
+          "fileSize": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "fileName",
+          "fileSize",
+          "fileType",
+          "id",
+          "version"
         ]
       },
       "AddAdditionalSkillDTO": {
@@ -895,12 +968,7 @@
             "type": "integer",
             "format": "int32"
           }
-        },
-        "required": [
-          "maxDayRemaining",
-          "maxDayRemainingCritical",
-          "maxDayRemainingWarning"
-        ]
+        }
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -1392,16 +1460,6 @@
           "totalActivities"
         ]
       },
-      "AmsStatus": {
-        "type": "string",
-        "description": "Status of the AMS",
-        "enum": [
-          "NOT_STARTED",
-          "IN_PROGRESS",
-          "SUBMITTED",
-          "COMPLETED"
-        ]
-      },
       "AmsViewDTO": {
         "type": "object",
         "properties": {
@@ -1421,7 +1479,14 @@
             "format": "int32"
           },
           "status": {
-            "$ref": "#/components/schemas/AmsStatus"
+            "type": "string",
+            "$ref": "#/components/schemas/AmsStatus",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED"
+            ]
           },
           "progress": {
             "$ref": "#/components/schemas/AMSProgress"
@@ -1552,6 +1617,52 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "AmsStatus": {
+        "type": "string",
+        "description": "Enum for ams status",
+        "enum": [
+          "NOT_STARTED",
+          "IN_PROGRESS",
+          "SUBMITTED",
+          "COMPLETED"
+        ]
+      },
+      "SkillLevelStatus": {
+        "type": "string",
+        "description": "Enum for skill level status",
+        "enum": [
+          "VALIDATED",
+          "FAILED",
+          "UNDER_ACQUISITION",
+          "UNDER_REVIEW",
+          "TO_BE_EVALUATED",
+          "NOT_STARTED"
+        ]
+      },
+      "TraceStatus": {
+        "type": "string",
+        "description": "Enum for trace status",
+        "enum": [
+          "UNASSOCIATED",
+          "ASSOCIATED"
+        ]
+      },
+      "UserCategory": {
+        "type": "string",
+        "description": "Enum for user category",
+        "enum": [
+          "TEACHER",
+          "STUDENT"
+        ]
+      },
+      "UserPhotoType": {
+        "type": "string",
+        "description": "Enum for user photo type",
+        "enum": [
+          "PROFILE",
+          "COVER"
         ]
       }
     }
