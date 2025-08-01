@@ -30,8 +30,8 @@ const props = defineProps<FooterProps>()
 const { t } = useI18n()
 
 const a11yCompliance = computed(() => props.a11yCompliance ?? 'non conforme')
-const a11yComplianceLink = computed(() => props.a11yComplianceLink ?? '/a11y')
-const legalLink = computed(() => props.legalLink ?? '/mentions-legales')
+const a11yComplianceLink = computed(() => props.a11yComplianceLink ?? '#')
+const legalLink = computed(() => props.legalLink ?? '#')
 const personalDataLink = computed(() => props.personalDataLink ?? '/donnees-personnelles')
 const cookiesLink = computed(() => props.cookiesLink ?? '/cookies')
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
@@ -163,7 +163,6 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 
 <style scoped>
 .fr-footer {
-  color: var(--text-default-grey);
   padding-top: var(--spacing-none);
 }
 .no-content-after {
@@ -187,7 +186,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 
 .anr {
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: var(--dark-background-primary3);
+  background: #236876;
 }
 
 img {

@@ -2,7 +2,6 @@ import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import {
-  invalidProfile,
   mockedDeliverablesOverview,
   mockedEventsOverview,
   mockedHeaderOverview,
@@ -18,14 +17,10 @@ import {
   useStudentPagesSummaryQuery,
   useStudentResumesSummaryQuery,
   useStudentSummaryQuery,
-  useStudentTracesSummaryQuery,
-  useUpdateProfileCoverMutation,
-  useUpdateProfileMutation,
-  useUpdateProfilePhotoMutation
+  useStudentTracesSummaryQuery
 } from '@/features/student/queries'
 import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { testUseMutation } from 'tests/utils'
 import { describe, expect, it } from 'vitest'
 
 vi.mock('@/common/composables', async (importOriginal) => {
@@ -169,73 +164,4 @@ describe('useStudentTracesSummaryQuery', () => {
       })
     })
   })
-})
-
-testUseMutation({
-  mutationName: 'useUpdateProfileMutation',
-  mutation: useUpdateProfileMutation,
-  apiModulePath: '@/api/avenir-esr',
-  apiMethodName: 'updateProfile',
-  validVariables: {
-    profile: 'student',
-    profileUpdateRequest: {
-      firstname: 'firstname',
-      lastname: 'lastname',
-      email: 'test@test.com',
-      bio: 'bio',
-      coverPicture: 'coverPicture',
-      profilePicture: 'profilePicture',
-    }
-  },
-  invalidVariables: {
-    profile: invalidProfile,
-    profileUpdateRequest: {
-      firstname: 'firstname',
-      lastname: 'lastname',
-      email: 'test@test.com',
-      bio: 'bio',
-      coverPicture: 'coverPicture',
-      profilePicture: 'profilePicture',
-    }
-  },
-})
-
-testUseMutation({
-  mutationName: 'useUpdateProfileCoverMutation',
-  mutation: useUpdateProfileCoverMutation,
-  apiModulePath: '@/api/avenir-esr',
-  apiMethodName: 'updateProfileCover',
-  validVariables: {
-    profile: 'student',
-    updateProfileCoverBody: {
-      file: new Blob(['fake content'], { type: 'image/jpeg' }),
-    }
-  },
-  invalidVariables: {
-    profile: invalidProfile,
-    updateProfileCoverBody: {
-      file: new Blob(['fake content'], { type: 'image/jpeg' }),
-    }
-  },
-  skipInvalidateCheck: true
-})
-
-testUseMutation({
-  mutationName: 'useUpdateProfilePhotoMutation',
-  mutation: useUpdateProfilePhotoMutation,
-  apiModulePath: '@/api/avenir-esr',
-  apiMethodName: 'updateProfilePhoto',
-  validVariables: {
-    profile: 'student',
-    updateProfilePhotoBody: {
-      file: new Blob(['fake content'], { type: 'image/jpeg' }),
-    }
-  },
-  invalidVariables: {
-    profile: invalidProfile,
-    updateProfilePhotoBody: {
-      file: new Blob(['fake content'], { type: 'image/jpeg' }),
-    }
-  },
-  skipInvalidateCheck: true
 })

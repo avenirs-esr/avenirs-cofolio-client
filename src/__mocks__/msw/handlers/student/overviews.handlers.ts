@@ -1,14 +1,14 @@
 import { createUpdatedCoverMock, createUpdatedPhotoMock, createUpdatedProfileMock, invalidProfile, mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import {
   getGetProfileUrl,
-  type ProfileOverviewDTO
+  type ProfileOverviewDTO,
+  UserCategory,
+  UserPhotoType
 } from '@/api/avenir-esr'
 import { http, HttpResponse, type PathParams } from 'msw'
 
-const PROFILE = 'student'
-
 export function createPutUpdateProfileHandler (payload: string) {
-  return http.put(`*/me/user/:profile/update`, () => {
+  return http.put(`*/me/users/:profile/update`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -19,7 +19,7 @@ export function createPutUpdateProfileHandler (payload: string) {
 }
 
 export function createPutUpdateProfileCoverHandler (payload: string) {
-  return http.put(`*/me/user/:profile/update/cover`, () => {
+  return http.put(`*/me/storage/users/:profile/${UserPhotoType.COVER}`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -30,7 +30,7 @@ export function createPutUpdateProfileCoverHandler (payload: string) {
 }
 
 export function createPutUpdateProfilePhotoHandler (payload: string) {
-  return http.put(`*/me/user/:profile/update/photo`, () => {
+  return http.put(`*/me/storage/users/:profile/${UserPhotoType.PROFILE}`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -40,21 +40,22 @@ export function createPutUpdateProfilePhotoHandler (payload: string) {
   })
 }
 
-export const putUpdateProfileErrorHandler = http.put(`*/me/user/:profile/update`, () => {
+export const putUpdateProfileErrorHandler = http.put(`*/me/users/:profile/update`, () => {
   return HttpResponse.json(
     { message: 'Internal server error' },
     { status: 500 }
   )
 })
 
-export const putUpdateProfileCoverErrorHandler = http.put(`*/me/user/:profile/update/cover`, () => {
+// `/me/storage/users/${userCategory}/${photoType}`
+export const putUpdateProfileCoverErrorHandler = http.put(`*/me/storage/users/:profile/${UserPhotoType.COVER}`, () => {
   return HttpResponse.json(
     { message: 'Internal server error' },
     { status: 500 }
   )
 })
 
-export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/user/:profile/update/photo`, () => {
+export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/storage/users/:profile/${UserPhotoType.PROFILE}`, () => {
   return HttpResponse.json(
     { message: 'Internal server error' },
     { status: 500 }
@@ -62,7 +63,7 @@ export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/user/:profile/up
 })
 
 export const overviewsHandlers = [
-  http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(PROFILE)}`, () => {
+  http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(UserCategory.STUDENT)}`, () => {
     return HttpResponse.json<ProfileOverviewDTO>(mockedProfileOverview, {
       status: 200,
       headers: {

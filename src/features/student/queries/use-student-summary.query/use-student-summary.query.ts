@@ -14,10 +14,10 @@ import {
   type ProfileUpdateRequest,
   type StudentProgressOverviewDTO,
   updateProfile,
-  updateProfileCover,
-  type UpdateProfileCoverBody,
   updateProfilePhoto,
   type UpdateProfilePhotoBody,
+  UserCategory,
+  UserPhotoType
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
@@ -35,14 +35,13 @@ const commonQueryKeys = ['user', 'student']
 const studentSummaryQueryKeys = [...commonQueryKeys, 'summary']
 const headerSummaryQueryKeys = [...commonQueryKeys, 'header']
 // TODO:  use enum UserProfile instead of this constant
-const PROFILE = 'student'
 
 export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
   const queryKey = computed(() => studentSummaryQueryKeys)
   return useQuery<ProfileOverviewDTO, BaseApiException>({
     queryKey,
     queryFn: async (): Promise<ProfileOverviewDTO> => {
-      return getProfile(PROFILE)
+      return getProfile(UserCategory.STUDENT)
     }
   })
 }
@@ -165,7 +164,7 @@ export function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<Trace
 }
 
 export interface UpdateProfileVariables {
-  profile: string
+  profile: UserCategory
   profileUpdateRequest: ProfileUpdateRequest
 }
 
@@ -186,14 +185,15 @@ export function useUpdateProfileMutation ({ onError, onSuccess }: CommonMutation
 }
 
 export interface UpdateProfileCoverVariables {
-  profile: string
-  updateProfileCoverBody: UpdateProfileCoverBody
+  profile: UserCategory
+  updateProfileCoverBody: UpdateProfilePhotoBody
 }
 
 export function useUpdateProfileCoverMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
   return useMutation<string, BaseApiException, UpdateProfileCoverVariables>({
     mutationFn: async ({ profile, updateProfileCoverBody }: UpdateProfileCoverVariables): Promise<string> => {
-      return await updateProfileCover(profile, updateProfileCoverBody)
+      const uploadedPhoto = await updateProfilePhoto(profile, UserPhotoType.COVER, updateProfileCoverBody)
+      return uploadedPhoto.id
     },
     onSuccess,
     onError
@@ -201,14 +201,15 @@ export function useUpdateProfileCoverMutation ({ onError, onSuccess }: CommonMut
 }
 
 export interface UpdateProfilePhotoVariables {
-  profile: string
+  profile: UserCategory
   updateProfilePhotoBody: UpdateProfilePhotoBody
 }
 
 export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
   return useMutation<string, BaseApiException, UpdateProfilePhotoVariables>({
     mutationFn: async ({ profile, updateProfilePhotoBody }: UpdateProfilePhotoVariables): Promise<string> => {
-      return await updateProfilePhoto(profile, updateProfilePhotoBody)
+      const uploadedPhoto = await updateProfilePhoto(profile, UserPhotoType.PROFILE, updateProfilePhotoBody)
+      return uploadedPhoto.id
     },
     onSuccess,
     onError

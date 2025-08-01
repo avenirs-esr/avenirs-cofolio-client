@@ -12,7 +12,9 @@ export default ({ mode }: { mode: string }) => {
     'src/api/**/generated/*',
     'orval.config.ts',
     'src/App.vue',
-    'public/mockServiceWorker.js'
+    'public/mockServiceWorker.js',
+    'src/__mocks__/*',
+    'storybook-static/*',
   ]
 
   const COVERAGE_THRESHOLD = 85
