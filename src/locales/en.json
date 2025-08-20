@@ -71,6 +71,11 @@
       "file": {
         "loaded": "File loaded."
       }
-    }
+    },
+    "text": "Text",
+    "images": "Images",
+    "audio": "Audio",
+    "video": "Video",
+    "application": "Application"
   }
 }

@@ -3,6 +3,10 @@ import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
+import StudentToolsTracesActionButtons
+  from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
+import StudentToolsTracesAddTraceDrawer
+  from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'
 
@@ -19,6 +23,7 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="student-tools-traces-view-container">
+    <StudentToolsTracesActionButtons />
     <StudentToolsTracesViewNotice />
     <Pagination
       :page-info="pageInfo"
@@ -34,6 +39,8 @@ useBaseApiExceptionToast(error)
         />
       </div>
     </Pagination>
+
+    <StudentToolsTracesAddTraceDrawer />
   </div>
 </template>
 

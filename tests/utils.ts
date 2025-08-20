@@ -1,12 +1,73 @@
 import type { AvRoute } from '@/common/types'
 import type { CommonMutationArgs } from '@/features/student/queries/types'
-import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { Component, Plugin } from 'vue'
 import { useInvalidateQuery } from '@/common/composables'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { mountQueryComposable } from '@/ui/tests/utils'
-import { flushPromises } from '@vue/test-utils'
+import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
+import { type ComponentMountingOptions, flushPromises, mount } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type Mock, type MockedFunction, type MockInstance } from 'vitest'
+/**
+ * Options to configure the mounting of a component under test.
+ */
+interface MountComponentOptions {
+  /**
+   * Enables the use of TanStack Query.
+   * @default true
+   */
+  useTanstack?: boolean
+
+  /**
+   * Enables the use of Pinia for the store.
+   * @default true
+   */
+  usePinia?: boolean
+
+  /**
+   * Custom QueryClient configuration for TanStack Query.
+   */
+  queryClientConfig?: QueryClientConfig
+}
+
+/**
+ * Mounts a Vue component with common testing configuration (i18n, Pinia, TanStack Query).
+ *
+ */
+function mountComponent<T extends Component> (
+  component: T,
+  mountOptions?: ComponentMountingOptions<T>,
+  {
+    useTanstack = true,
+    usePinia = true,
+    queryClientConfig = { defaultOptions: { queries: { retry: false }, mutations: { retry: false } } }
+  }: MountComponentOptions = {}
+) {
+  const plugins: (Plugin | [Plugin, ...unknown[]])[] = []
+
+  if (usePinia) {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    plugins.push(pinia)
+  }
+
+  if (useTanstack) {
+    const queryClient = new QueryClient(queryClientConfig)
+    plugins.push([VueQueryPlugin, { queryClient }])
+  }
+
+  return mount(component, {
+    ...mountOptions,
+    global: {
+      ...(mountOptions?.global ?? {}),
+      plugins: [
+        ...(mountOptions?.global?.plugins ?? []),
+        ...plugins
+      ]
+    }
+  })
+}
 
 export function testUseBaseApiExceptionToast<T> ({
   mockedUseQuery,
@@ -195,4 +256,8 @@ export function testUseMutation<
       })
     })
   })
+}
+
+export {
+  mountComponent
 }

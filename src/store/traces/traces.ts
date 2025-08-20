@@ -1,3 +1,4 @@
+import { useDrawer } from '@/common/composables'
 import { PageSizes } from '@/ui/config'
 import { defineStore } from 'pinia'
 
@@ -7,9 +8,14 @@ export const useTracesStore = defineStore('traces', () => {
   const pageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const currentPage = ref(0)
 
+  const { showDrawer: showCreateTraceDrawer, displayDrawer: displayCreateTraceDrawer, hideDrawer: hideCreateTraceDrawer } = useDrawer()
+
   return {
     currentPage,
-    pageSizeSelected
+    pageSizeSelected,
+    showCreateTraceDrawer,
+    displayCreateTraceDrawer,
+    hideCreateTraceDrawer
   }
 }, {
   persist: true

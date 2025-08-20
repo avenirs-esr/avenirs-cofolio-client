@@ -285,6 +285,36 @@
             }
           }
         },
+        "studentToolsTracesAddTraceDrawer": {
+          "title": "Add a trace",
+          "accordionItems": {
+            "addTrace": "Add my trace",
+            "declarations": "Make my declarations",
+            "associateTrace": "Associate my trace"
+          },
+          "createTraceForm": {
+            "fileUpload": {
+              "title": "Add a new trace file",
+              "subtitle": "or drag and drop here"
+            },
+            "traceName": {
+              "label": "Name of my trace",
+              "placeholder": "My-trace-name-01"
+            },
+            "personalNote": {
+              "label": "Personal note",
+              "placeholder": "Add your personal note here...",
+              "hint": "{count} / {maxlength} characters (including spaces)"
+            },
+            "buttons": {
+              "cancel": "QUIT",
+              "save": "SAVE"
+            }
+          }
+        },
+        "studentToolsTracesActionButtons": {
+          "addTrace": "ADD A TRACE to my library"
+        },
         "title": "My collection of traces",
         "traceDeletionConfirmationModal": {
           "description": "Are you sure you want to delete your trace?",

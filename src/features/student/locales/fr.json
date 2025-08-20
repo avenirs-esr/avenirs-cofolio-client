@@ -285,6 +285,36 @@
             }
           }
         },
+        "studentToolsTracesAddTraceDrawer": {
+          "title": "Ajouter une trace",
+          "accordionItems": {
+            "addTrace": "Ajouter ma trace",
+            "declarations": "Effectuer mes déclarations",
+            "associateTrace": "Associer ma trace"
+          },
+          "createTraceForm": {
+            "fileUpload": {
+              "title": "Ajouter une nouvelle trace de type fichier",
+              "subtitle": "ou glisser et déposer ici"
+            },
+            "traceName": {
+              "label": "Nom de ma trace",
+              "placeholder": "Nom-de-ma-trace-01"
+            },
+            "personalNote": {
+              "label": "Note personnelle",
+              "placeholder": "Ajoutez votre note personnelle ici...",
+              "hint": "{count} / {maxlength} caractères (espaces compris)"
+            },
+            "buttons": {
+              "cancel": "QUITTER",
+              "save": "ENREGISTRER"
+            }
+          }
+        },
+        "studentToolsTracesActionButtons": {
+          "addTrace": "AJOUTER UNE TRACE dans ma bibliothèque"
+        },
         "title": "Ma bibliothèque de traces",
         "traceDeletionConfirmationModal": {
           "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
