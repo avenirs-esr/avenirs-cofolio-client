@@ -3,6 +3,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { MockInstance } from 'vitest'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { useTracesStore } from '@/store'
+import { waitFor } from 'storybook/test'
 import { mountComponent } from 'tests/utils'
 import StudentToolsTracesAddTraceDrawer from './StudentToolsTracesAddTraceDrawer.vue'
 
@@ -167,20 +168,19 @@ describe('studentToolsTracesAddTraceDrawer', () => {
 
         await wrapper.vm.$nextTick()
 
-        // tODO: uncomment when API is ready
-        // await waitFor(() => {
-        //   expect(createTraceSpy).toHaveBeenCalledWith({
-        //     title: 'My Test Trace',
-        //     language: 'FRENCH',
-        //     personalNote: 'Test personal note',
-        //     isGroup: false
-        //   })
-        // })
-        //
-        // expect(uploadAttachmentSpy).toHaveBeenCalledWith(
-        //   expect.any(String),
-        //   { file: mockFile }
-        // )
+        await waitFor(() => {
+          expect(createTraceSpy).toHaveBeenCalledWith({
+            title: 'My Test Trace',
+            language: 'FRENCH',
+            personalNote: 'Test personal note',
+            isGroup: false
+          })
+        })
+
+        expect(uploadAttachmentSpy).toHaveBeenCalledWith(
+          expect.any(String),
+          { file: mockFile }
+        )
       })
     })
 

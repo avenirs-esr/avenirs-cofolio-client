@@ -2,6 +2,7 @@ import { config } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll } from 'vitest'
 import { server } from './src/__mocks__/msw/server'
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
+import 'blob-polyfill'
 
 window.matchMedia = function () {
   return { matches: false }

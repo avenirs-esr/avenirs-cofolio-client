@@ -1,5 +1,8 @@
 import {
+  type AttachmentUploadDTO,
+  AttachmentUploadDTOFileType,
   type TraceConfigurationInfo,
+  type TracesCreationResponse,
   TraceStatus,
   type TracesViewResponse,
   type TraceViewDTO,
@@ -49,4 +52,33 @@ export const mockedTracesConfiguration: TraceConfigurationInfo = {
   maxDayRemaining: 30,
   maxDayRemainingWarning: 15,
   maxDayRemainingCritical: 7,
+}
+
+export function createMockedTraceCreationResponse (title: string): TracesCreationResponse {
+  return {
+    traceId: `trace-${title}-${Date.now()}`
+  }
+}
+
+function getFileTypeFromFileName (fileName: string): AttachmentUploadDTOFileType {
+  const extension = fileName.split('.').pop()?.toLowerCase()
+  switch (extension) {
+    case 'pdf': return AttachmentUploadDTOFileType.PDF
+    case 'doc': return AttachmentUploadDTOFileType.DOC
+    case 'docx': return AttachmentUploadDTOFileType.DOCX
+    case 'jpg':
+    case 'jpeg': return AttachmentUploadDTOFileType.JPEG
+    case 'png': return AttachmentUploadDTOFileType.PNG
+    default: return AttachmentUploadDTOFileType.PDF
+  }
+}
+
+export function createMockedAttachmentUploadResponse (traceId: string, file: File): AttachmentUploadDTO {
+  return {
+    id: `attachment-${Date.now()}`,
+    fileName: traceId,
+    fileType: getFileTypeFromFileName(file.name),
+    fileSize: file.size,
+    version: 1
+  }
 }

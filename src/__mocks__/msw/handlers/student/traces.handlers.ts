@@ -1,15 +1,21 @@
 import {
   createDeletedTraceIdMock,
+  createMockedAttachmentUploadResponse,
+  createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
   mockedTracesConfiguration,
   mockedUnassignedTracesSummary
 } from '@/__mocks__/fixtures/student'
 import {
+  type AttachmentUploadDTO,
+  type CreateTraceDTO,
+  getCreateTraceUrl,
   getGetTraceConfigInfoUrl,
   getGetTracesUnassociatedSummaryUrl,
   getGetTracesViewUrl,
   type TraceConfigurationInfo,
+  type TracesCreationResponse,
   TraceStatus,
   type TracesViewResponse,
   type UnassociatedTracesSummaryDTO
@@ -69,6 +75,45 @@ export const tracesHandlers = [
 
   http.get(`*${getGetTraceConfigInfoUrl()}`, () => {
     return HttpResponse.json<TraceConfigurationInfo>(mockedTracesConfiguration, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post(`*${getCreateTraceUrl()}`, async ({ request }) => {
+    const createTraceDTO = await request.json() as CreateTraceDTO
+
+    if (!createTraceDTO.title || createTraceDTO.title.trim() === '') {
+      return HttpResponse.json({ error: 'Title is required' }, { status: 400 })
+    }
+
+    const response = createMockedTraceCreationResponse(createTraceDTO.title)
+    return HttpResponse.json<TracesCreationResponse>(response, {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post(`*/me/storage/traces/:traceId`, async ({ params, request }) => {
+    const traceId: string | undefined = params.traceId as string | undefined
+
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+
+    const formData = await request.formData()
+    const file = formData.get('file') as File
+
+    if (!file) {
+      return HttpResponse.json({ error: 'File is required' }, { status: 400 })
+    }
+
+    const response = createMockedAttachmentUploadResponse(traceId, file)
+    return HttpResponse.json<AttachmentUploadDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

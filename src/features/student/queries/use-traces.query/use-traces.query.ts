@@ -1,15 +1,21 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { Ref } from 'vue'
 import {
+  createTrace,
+  type CreateTraceDTO,
+  CreateTraceDTOLanguage,
   deleteTrace,
   getTraceConfigInfo,
   getTracesUnassociatedSummary,
   getTracesView,
   GetTracesViewStatus,
   type TraceConfigurationInfo,
+  type TracesCreationResponse,
   type TracesViewResponse,
   type TraceViewDTO,
-  type UnassociatedTracesSummaryDTO
+  type UnassociatedTracesSummaryDTO,
+  uploadAttachment,
+  type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
@@ -93,5 +99,58 @@ export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigur
       return await getTraceConfigInfo()
     },
     staleTime: TWO_MINUTES,
+  })
+}
+
+export interface CreateTraceVariables {
+  title: string
+  personalNote?: string
+  language?: CreateTraceDTOLanguage
+}
+
+export interface UseCreateTraceMutationArgs {
+  onSuccess?: (data: TracesCreationResponse) => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useCreateTraceMutation ({ onError, onSuccess }: UseCreateTraceMutationArgs = {}) {
+  const invalidateUnassignedTracesViewQuery = useInvalidateQuery(unassignedTracesQueryKey)
+
+  return useMutation<TracesCreationResponse, BaseApiException, CreateTraceVariables>({
+    mutationFn: async ({ title, personalNote, language = CreateTraceDTOLanguage.FRENCH }: CreateTraceVariables): Promise<TracesCreationResponse> => {
+      const createTraceDTO: CreateTraceDTO = {
+        title,
+        language: language as CreateTraceDTOLanguage,
+        personalNote,
+        isGroup: false
+      }
+      return await createTrace(createTraceDTO)
+    },
+    onSuccess: async (data) => {
+      await invalidateUnassignedTracesViewQuery()
+      onSuccess?.(data)
+    },
+    onError
+  })
+}
+
+export interface UploadAttachmentVariables {
+  traceId: string
+  file: File
+}
+
+export interface UseUploadAttachmentMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useUploadAttachmentMutation ({ onError, onSuccess }: UseUploadAttachmentMutationArgs = {}) {
+  return useMutation<void, BaseApiException, UploadAttachmentVariables>({
+    mutationFn: async ({ traceId, file }: UploadAttachmentVariables): Promise<void> => {
+      const uploadAttachmentBody: UploadAttachmentBody = { file }
+      await uploadAttachment(traceId, uploadAttachmentBody)
+    },
+    onSuccess,
+    onError
   })
 }
