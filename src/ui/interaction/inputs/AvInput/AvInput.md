@@ -50,9 +50,10 @@ The component integrates focus management, proper ARIA attributes, and responsiv
 
 ## 🧩 Slots
 
-| Name | Description |
-| --- | --- |
-| `requiredTip` | Slot for custom required field indicator |
+| Name | Description | Slot Props |
+| --- | --- | --- |
+| `requiredTip` | Slot for custom required field indicator | None |
+| `customCaptions` | Slot for custom captions, such as character count or additional info | `currentValue: string \| number \| null`, `maxlength: number \| undefined` |
 
 ## 📝 Examples of use
 
@@ -128,6 +129,23 @@ The component integrates focus management, proper ARIA attributes, and responsiv
   placeholder="Search for items..."
   prefix-icon="mdi:magnify"
 />
+```
+
+### With Custom Captions
+
+```vue
+<AvInput
+  v-model="message"
+  is-textarea
+  label="Message"
+  :maxlength="200"
+>
+  <template #customCaptions="{ currentValue, maxlength }">
+    <span class="caption-light">
+      {{ currentValue?.toString().length }} / {{ maxlength }} characters
+    </span>
+  </template>
+</AvInput>
 ```
 
 ### Form with Multiple Inputs
