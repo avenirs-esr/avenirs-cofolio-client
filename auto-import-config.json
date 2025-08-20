@@ -15,6 +15,7 @@
     "toRefs",
     "provide",
     "inject",
-    "watchEffect"
+    "watchEffect",
+    "useTemplateRef"
   ]
 }

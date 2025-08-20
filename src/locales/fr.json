@@ -71,6 +71,11 @@
       "file": {
         "loaded": "Document chargé."
       }
-    }
+    },
+    "text": "Texte",
+    "images": "Images",
+    "audio": "Audio",
+    "video": "Vidéo",
+    "application": "Application"
   }
 }
