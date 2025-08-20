@@ -15,13 +15,13 @@ const form: CreateTraceForm = props.form
 
 const { t } = useI18n()
 
-function handleFileChange (files: FileList, setFieldValue: typeof form.setFieldValue) {
+function handleFileChange (files: FileList, handleChange: (file: File) => void) {
   if (files.length > 0) {
-    setFieldValue('file', files[0])
+    handleChange(files[0])
   }
 }
 
-const sizesByAllowedFileTypes = [
+const filesTypesMaxSize = [
   { type: 'global.images', size: '5Mo' },
   { type: 'global.text', size: '5Mo' },
   { type: 'global.audio', size: '5Mo' },
@@ -49,7 +49,7 @@ function getFileInputSuccessMessage (file: File | null) {
               :aria-label="`${t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.title')} ${t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.subtitle')}`"
               :error="field.state.meta.errors.join(', ')"
               :valid-message="getFileInputSuccessMessage(field.state.value)"
-              @change="(files) => handleFileChange(files, form.setFieldValue)"
+              @change="(files) => handleFileChange(files, field.handleChange)"
             >
               <div class="file-upload-content">
                 <p class="b2-regular">
@@ -64,11 +64,11 @@ function getFileInputSuccessMessage (file: File | null) {
                   class="caption-light"
                 >
                   <template
-                    v-for="(item, index) in sizesByAllowedFileTypes"
+                    v-for="(item, index) in filesTypesMaxSize"
                     :key="item.type"
                   >
                     {{ $t(item.type) }} : <span class="file-upload-content__hint">{{ item.size }}</span>
-                    <span v-if="index < sizesByAllowedFileTypes.length - 1"> • </span>
+                    <span v-if="index < filesTypesMaxSize.length - 1"> • </span>
                   </template>
                 </p>
               </template>

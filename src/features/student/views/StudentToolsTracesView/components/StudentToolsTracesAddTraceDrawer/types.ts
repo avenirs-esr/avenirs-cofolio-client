@@ -1,5 +1,5 @@
 export interface TraceFormData {
-  file: File
+  file: File | null
   traceName: string
   personalNote?: string
 }

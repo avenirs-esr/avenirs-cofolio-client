@@ -114,7 +114,6 @@ describe('createTraceFormTraceDefinitionItems', () => {
 
         await fileInput.trigger('change')
 
-        // Check that the file input shows the success message
         const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
         expect(fileUploadComponent.props('validMessage')).toBe(`${mockFile.name} - Document chargé.`)
       })
@@ -126,7 +125,6 @@ describe('createTraceFormTraceDefinitionItems', () => {
 
         await traceNameInput.setValue('My test trace')
 
-        // Check that the trace name input displays the correct value
         const traceNameInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'trace-name')
         expect(traceNameInputComponent?.props('modelValue')).toBe('My test trace')
       })
@@ -138,7 +136,6 @@ describe('createTraceFormTraceDefinitionItems', () => {
 
         await personalNoteInput.setValue('My personal note')
 
-        // Check that the personal note input displays the correct value
         const personalNoteInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'personal-note')
         expect(personalNoteInputComponent?.props('modelValue')).toBe('My personal note')
       })

@@ -67,7 +67,13 @@ function createCustomFetch (config: FetchConfig = {}, interceptorManager: FetchI
       const interceptedOptions = await interceptorManager.applyRequestInterceptors(url, options, config)
 
       const requestUrl = buildUrl(url, baseUrl)
-      const mergedHeaders = mergeHeaders(defaultHeaders, interceptedOptions.headers)
+
+      const shouldSkipDefaultContentType = interceptedOptions.body instanceof FormData
+      const headersToMerge = shouldSkipDefaultContentType
+        ? {}
+        : defaultHeaders
+
+      const mergedHeaders = mergeHeaders(headersToMerge, interceptedOptions.headers)
 
       const requestInit: RequestInit = {
         ...interceptedOptions,
