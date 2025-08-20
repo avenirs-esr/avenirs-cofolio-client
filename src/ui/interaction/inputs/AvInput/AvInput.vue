@@ -108,6 +108,11 @@ const slots = defineSlots<{
    * Slot for custom required tip content
    */
   requiredTip?: () => Slot
+
+  /**
+   * Slot for custom captions, such as error or valid messages.
+   */
+  customCaptions?: (props: { currentValue?: string | number | null, maxlength?: number }) => Slot
 }>()
 
 const errorMessages = computed(() => {
@@ -170,12 +175,18 @@ const isInvalid = computed(() => {
           <component :is="slots.requiredTip" />
         </template>
       </DsfrInput>
-      <span
-        v-if="maxlength"
-        class="caption-light"
+      <slot
+        name="customCaptions"
+        :current-value="modelValue"
+        :maxlength="maxlength"
       >
-        {{ modelValue?.toString().length }} / {{ maxlength }}
-      </span>
+        <span
+          v-if="maxlength"
+          class="caption-light"
+        >
+          {{ modelValue?.toString().length }} / {{ maxlength }}
+        </span>
+      </slot>
     </div>
 
     <div
