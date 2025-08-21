@@ -3,12 +3,13 @@ import CreateTraceFormTraceDefinitionItems from '@/features/student/views/Studen
 import {
   useCreateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
-import { useTracesStore } from '@/store'
+import { useToasterStore, useTracesStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()
+const { addSuccessMessage } = useToasterStore()
 
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
@@ -21,6 +22,13 @@ function handleCancel () {
 
 async function onSave () {
   await form.handleSubmit()
+
+  addSuccessMessage({
+    timeout: 2000,
+    description: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
+  })
+
+  tracesStore.hideCreateTraceDrawer()
 }
 </script>
 

@@ -3,8 +3,6 @@ import { describe, expect, it } from 'vitest'
 import { useFileValidation, type UseFileValidationOptions } from './use-file-validation'
 
 describe('useFileValidation', () => {
-  // File size constants
-  const ONE_KB = 1024
   const ONE_MB = 1024 * 1024
   const TWO_MB = 2 * ONE_MB
   const THREE_MB = 3 * ONE_MB

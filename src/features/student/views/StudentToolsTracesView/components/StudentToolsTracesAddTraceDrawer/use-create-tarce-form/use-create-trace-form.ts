@@ -1,6 +1,8 @@
+import type { BaseApiException } from '@/common/exceptions'
 import { useFileValidation } from '@/common/composables'
 import { useCreateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
 import { TRACE_ACCEPTED_FILE_TYPES, type TraceFormData, } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
+import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
@@ -10,8 +12,24 @@ const TEN_MB = 10 * 1024 * 1024
 export function useCreateTraceForm () {
   const { t } = useI18n()
 
-  const createTraceMutation = useCreateTraceMutation()
-  const uploadAttachmentMutation = useUploadAttachmentMutation()
+  const { addErrorMessage } = useToasterStore()
+
+  const onCreateTraceError = (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
+      description: error.message
+    })
+  }
+
+  const onUploadAttachmentError = (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
+      description: error.message
+    })
+  }
+
+  const createTraceMutation = useCreateTraceMutation({ onError: onCreateTraceError })
+  const uploadAttachmentMutation = useUploadAttachmentMutation({ onError: onUploadAttachmentError })
 
   const { validateFile } = useFileValidation({
     acceptedFileTypes: [...TRACE_ACCEPTED_FILE_TYPES],
@@ -26,17 +44,20 @@ export function useCreateTraceForm () {
     isRequired: true
   })
 
-  async function createTrace (traceFormData: TraceFormData) {
-    const traceResult = await createTraceMutation.mutateAsync({
+  function createTrace (traceFormData: TraceFormData) {
+    createTraceMutation.mutate({
       title: traceFormData.traceName,
       personalNote: traceFormData.personalNote || undefined
+    }, {
+      onSuccess: (traceResult) => {
+        if (traceFormData.file) {
+          uploadAttachmentMutation.mutate({
+            traceId: traceResult.traceId,
+            file: traceFormData.file
+          })
+        }
+      }
     })
-    if (traceFormData.file) {
-      await uploadAttachmentMutation.mutateAsync({
-        traceId: traceResult.traceId,
-        file: traceFormData.file
-      })
-    }
   }
 
   const form = useForm({
@@ -62,8 +83,8 @@ export function useCreateTraceForm () {
         }
       }
     },
-    onSubmit: async ({ value }: { value: TraceFormData }) => {
-      await createTrace(value)
+    onSubmit: ({ value }: { value: TraceFormData }) => {
+      createTrace(value)
     }
   })
 

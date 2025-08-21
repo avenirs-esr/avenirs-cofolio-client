@@ -309,7 +309,12 @@
             "buttons": {
               "cancel": "QUIT",
               "save": "SAVE"
-            }
+            },
+            "errors": {
+              "fileUpload": "An error occurred while uploading the file.",
+              "createTrace": "An error occurred while creating the trace."
+            },
+            "success": "Your trace has been successfully added."
           }
         },
         "studentToolsTracesActionButtons": {
