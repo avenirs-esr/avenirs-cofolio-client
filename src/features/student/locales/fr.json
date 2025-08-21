@@ -309,7 +309,12 @@
             "buttons": {
               "cancel": "QUITTER",
               "save": "ENREGISTRER"
-            }
+            },
+            "errors": {
+              "fileUpload": "Une erreur est survenue lors du téléchargement du fichier.",
+              "createTrace": "Une erreur est survenue lors de la création de la trace."
+            },
+            "success": "Votre trace a été ajoutée à votre bibliothèque."
           }
         },
         "studentToolsTracesActionButtons": {

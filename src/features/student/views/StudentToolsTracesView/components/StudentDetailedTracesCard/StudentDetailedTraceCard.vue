@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n'
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
 const { title, status, deletedAt } = trace
 
-const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED
+const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED && deletedAt
   ? getDaysUntil(parseDateISO(deletedAt))
   : -1)
 

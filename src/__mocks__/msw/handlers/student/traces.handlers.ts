@@ -89,6 +89,13 @@ export const tracesHandlers = [
       return HttpResponse.json({ error: 'Title is required' }, { status: 400 })
     }
 
+    if (createTraceDTO.title === 'ERROR_TRACE') {
+      return HttpResponse.json(
+        { error: 'Internal server error', message: 'Failed to create trace' },
+        { status: 500 }
+      )
+    }
+
     const response = createMockedTraceCreationResponse(createTraceDTO.title)
     return HttpResponse.json<TracesCreationResponse>(response, {
       status: 201,

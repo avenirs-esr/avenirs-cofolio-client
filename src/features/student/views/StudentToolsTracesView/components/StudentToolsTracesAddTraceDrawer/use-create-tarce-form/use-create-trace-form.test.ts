@@ -7,6 +7,7 @@ import {
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { mountComposable } from '@/ui/tests/utils'
+import { waitFor } from 'storybook/test'
 import { type MockInstance, vi } from 'vitest'
 import { useCreateTraceForm } from './use-create-trace-form'
 
@@ -22,7 +23,8 @@ describe('useCreateTraceForm', () => {
 
       const result = mountComposable(() => useCreateTraceForm(), {
         useI18n: true,
-        useTanstack: true
+        useTanstack: true,
+        usePinia: true
       })
       composableResult = result.result
     })
@@ -117,13 +119,15 @@ describe('useCreateTraceForm', () => {
 
         const onSubmit = composableResult.form.options.onSubmit
         expect(onSubmit).toBeDefined()
-        await onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
+        onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
 
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'My Trace Name',
-          language: CreateTraceDTOLanguage.FRENCH,
-          personalNote: 'Optional note',
-          isGroup: false
+        await waitFor(() => {
+          expect(createTraceSpy).toHaveBeenCalledWith({
+            title: 'My Trace Name',
+            language: CreateTraceDTOLanguage.FRENCH,
+            personalNote: 'Optional note',
+            isGroup: false
+          })
         })
         expect(uploadAttachmentSpy).not.toHaveBeenCalled()
       })
@@ -138,13 +142,15 @@ describe('useCreateTraceForm', () => {
 
         const onSubmit = composableResult.form.options.onSubmit
         expect(onSubmit).toBeDefined()
-        await onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
+        onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
 
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'my-trace-name',
-          language: CreateTraceDTOLanguage.FRENCH,
-          personalNote: 'Optional note',
-          isGroup: false
+        await waitFor(() => {
+          expect(createTraceSpy).toHaveBeenCalledWith({
+            title: 'my-trace-name',
+            language: CreateTraceDTOLanguage.FRENCH,
+            personalNote: 'Optional note',
+            isGroup: false
+          })
         })
         expect(uploadAttachmentSpy).toHaveBeenCalledWith(
           expect.stringContaining('trace-my-trace-name'),
@@ -159,13 +165,15 @@ describe('useCreateTraceForm', () => {
           personalNote: ''
         }
 
-        await composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+        composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'my-trace-name',
-          language: CreateTraceDTOLanguage.FRENCH,
-          personalNote: undefined,
-          isGroup: false
+        waitFor(() => {
+          expect(createTraceSpy).toHaveBeenCalledWith({
+            title: 'my-trace-name',
+            language: CreateTraceDTOLanguage.FRENCH,
+            personalNote: undefined,
+            isGroup: false
+          })
         })
       })
     })

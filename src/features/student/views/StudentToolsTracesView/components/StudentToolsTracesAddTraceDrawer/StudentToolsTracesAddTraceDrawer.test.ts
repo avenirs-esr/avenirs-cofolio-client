@@ -1,11 +1,22 @@
-import type { AttachmentUploadDTO, CreateTraceDTO, TracesCreationResponse, UploadAttachmentBody } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import type { MockInstance } from 'vitest'
-import * as avenirEsrApi from '@/api/avenir-esr'
 import { useTracesStore } from '@/store'
 import { waitFor } from 'storybook/test'
 import { mountComponent } from 'tests/utils'
 import StudentToolsTracesAddTraceDrawer from './StudentToolsTracesAddTraceDrawer.vue'
+
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async () => {
+  const actual = await vi.importActual<typeof import('@/store')>('@/store')
+  return {
+    ...actual,
+    useToasterStore: vi.fn(() => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage
+    }))
+  }
+})
 
 const stubs = {
   AvDrawer: {
@@ -32,17 +43,50 @@ const stubs = {
 }
 
 describe('studentToolsTracesAddTraceDrawer', () => {
-  let createTraceSpy: MockInstance<(createTraceDTO: CreateTraceDTO, options?: RequestInit) => Promise<TracesCreationResponse>>
-  let uploadAttachmentSpy: MockInstance<(traceId: string, uploadAttachmentBody: UploadAttachmentBody, options?: RequestInit) => Promise<AttachmentUploadDTO>>
-
   describe('given a student tools traces add trace drawer component', () => {
     let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
+    // Helper functions
+    const getSaveButton = () => {
+      return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
+        button.props('variant') === 'FLAT'
+      )
+    }
+
+    const getCancelButton = () => {
+      return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
+        button.props('variant') === 'OUTLINED'
+      )
+    }
+
+    const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
+      const traceNameInput = wrapper.find('#trace-name')
+      const personalNoteInput = wrapper.find('#personal-note')
+      const fileInput = wrapper.find('#trace-file-upload')
+
+      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+
+      await traceNameInput.setValue(traceName)
+      await personalNoteInput.setValue(personalNote)
+
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [mockFile],
+        writable: false,
+      })
+      await fileInput.trigger('change')
+
+      await wrapper.vm.$nextTick()
+
+      return { mockFile }
+    }
+
+    const clickSaveButton = async () => {
+      const saveButton = getSaveButton()
+      await saveButton?.vm.$emit('click')
+    }
+
     beforeEach(() => {
       vi.clearAllMocks()
-
-      createTraceSpy = vi.spyOn(avenirEsrApi, 'createTrace')
-      uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadAttachment')
 
       wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {
         global: {
@@ -52,11 +96,6 @@ describe('studentToolsTracesAddTraceDrawer', () => {
 
       const store = useTracesStore()
       store.displayCreateTraceDrawer()
-    })
-
-    afterEach(() => {
-      createTraceSpy?.mockRestore()
-      uploadAttachmentSpy?.mockRestore()
     })
 
     describe('when the component is mounted', () => {
@@ -90,8 +129,8 @@ describe('studentToolsTracesAddTraceDrawer', () => {
 
       it('then it should render footer buttons', () => {
         const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-        const cancelButton = buttons.find(button => button.props('variant') === 'OUTLINED')
-        const saveButton = buttons.find(button => button.props('variant') === 'FLAT')
+        const cancelButton = getCancelButton()
+        const saveButton = getSaveButton()
 
         expect(buttons).toHaveLength(2)
         expect(cancelButton?.props('label')).toBe('QUITTER')
@@ -131,10 +170,7 @@ describe('studentToolsTracesAddTraceDrawer', () => {
       it('then it should hideCreateTraceDrawer', async () => {
         const store = useTracesStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-
-        const cancelButton = wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-          button.props('variant') === 'OUTLINED'
-        )
+        const cancelButton = getCancelButton()
 
         await cancelButton?.vm.$emit('click')
 
@@ -142,53 +178,35 @@ describe('studentToolsTracesAddTraceDrawer', () => {
       })
     })
 
-    describe('when form is filled and save button is clicked', () => {
-      it('then it should call API functions with correct arguments', async () => {
-        const traceNameInput = wrapper.find('#trace-name')
-        const personalNoteInput = wrapper.find('#personal-note')
-        const fileInput = wrapper.find('#trace-file-upload')
-
-        const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
-
-        await traceNameInput.setValue('My Test Trace')
-        await personalNoteInput.setValue('Test personal note')
-
-        Object.defineProperty(fileInput.element, 'files', {
-          value: [mockFile],
-          writable: false,
-        })
-        await fileInput.trigger('change')
-
-        await wrapper.vm.$nextTick()
-
-        const saveButton = wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-          button.props('variant') === 'FLAT'
-        )
-        await saveButton?.vm.$emit('click')
-
-        await wrapper.vm.$nextTick()
+    describe('when save button is clicked', () => {
+      it('then it should show success message', async () => {
+        await fillFormFields()
+        await clickSaveButton()
 
         await waitFor(() => {
-          expect(createTraceSpy).toHaveBeenCalledWith({
-            title: 'My Test Trace',
-            language: 'FRENCH',
-            personalNote: 'Test personal note',
-            isGroup: false
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: 'Votre trace a été ajoutée à votre bibliothèque.'
           })
         })
+      })
 
-        expect(uploadAttachmentSpy).toHaveBeenCalledWith(
-          expect.any(String),
-          { file: mockFile }
-        )
+      it('then it should show error message when trace creation fails', async () => {
+        await fillFormFields('ERROR_TRACE')
+        await clickSaveButton()
+
+        await waitFor(() => {
+          expect(mockAddErrorMessage).toHaveBeenCalledWith({
+            title: 'Une erreur est survenue lors de la création de la trace.',
+            description: 'Failed to create trace'
+          })
+        })
       })
     })
 
     describe('when save button state', () => {
       it('then it should be enabled by default', async () => {
-        const saveButton = wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-          button.props('variant') === 'FLAT'
-        )
+        const saveButton = getSaveButton()
 
         expect(saveButton?.props('disabled')).toBe(false)
       })
