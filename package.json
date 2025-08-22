@@ -26,7 +26,7 @@
     "commitlint": "commitlint --edit",
     "lint-staged": "lint-staged",
     "generate:api": "orval",
-    "postgenerate:api": "eslint . --fix ./src/api",
+    "postgenerate:api": "eslint ./src/api --fix",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
