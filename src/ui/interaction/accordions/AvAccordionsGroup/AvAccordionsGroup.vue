@@ -5,6 +5,25 @@ import { DsfrAccordion, DsfrAccordionsGroup } from '@gouvminint/vue-dsfr'
 import { useSlots, type VNode } from 'vue'
 
 /**
+ * AvAccordionsGroup component props.
+ */
+export interface AvAccordionsGroupProps {
+  /**
+   * Index of the currently active accordion.
+   */
+  activeAccordion?: number
+}
+
+defineProps<AvAccordionsGroupProps>()
+
+defineEmits<{
+  /**
+   * Emitted when the active accordion changes.
+   */
+  'update:activeAccordion': [value: number | undefined]
+}>()
+
+/**
  * Slots available in AvAccordions component.
  * Used to inject accordions via `AvAccordion` components.
  */
@@ -18,7 +37,8 @@ defineSlots<{
 const slots = useSlots()
 
 const accordionsItem = computed(() => slots.default?.() || [])
-const activeAccordion = ref<number>()
+
+const activeAccordion = defineModel<number>('activeAccordion')
 
 const id = `accordion-group-${crypto.randomUUID()}`
 </script>

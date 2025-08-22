@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/vue3'
 import AvAccordion from '@/ui/interaction/accordions/AvAccordion/AvAccordion.vue'
-import AvAccordionsGroup from '@/ui/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.vue'
+import AvAccordionsGroup, { type AvAccordionsGroupProps } from '@/ui/interaction/accordions/AvAccordionsGroup/AvAccordionsGroup.vue'
 
 /**
  * <h2 class="n2">🌟 Introduction</h2>
@@ -43,21 +43,30 @@ import AvAccordionsGroup from '@/ui/interaction/accordions/AvAccordionsGroup/AvA
  *   <li>A content zone — hidden by default and shown when expanded, accepting any content via the default <code>slot</code>.</li>
  * </ul>
  */
-const meta: Meta = {
+const meta: Meta<AvAccordionsGroupProps> = {
   title: 'Components/Interaction/Accordions/AvAccordionsGroup',
   component: AvAccordionsGroup,
   tags: ['autodocs'],
+  argTypes: {
+    activeAccordion: {
+      control: { type: 'number', min: 0, max: 2 },
+      description: 'Index of the currently active accordion'
+    }
+  },
+  args: {
+    activeAccordion: undefined
+  }
 }
 
 export default meta
 
-const Template: StoryFn = () => ({
+const Template: StoryFn<AvAccordionsGroupProps> = args => ({
   components: { AvAccordionsGroup, AvAccordion },
   setup () {
-    return {}
+    return { args }
   },
   template: `
-    <AvAccordionsGroup>
+    <AvAccordionsGroup v-bind="args">
       <AvAccordion
         title="Accordion 1"
         icon="mdi:file-document-multiple-outline"
@@ -76,25 +85,13 @@ const Template: StoryFn = () => ({
 
 export const Default = Template.bind({})
 Default.args = {}
-Default.parameters = {
-  docs: {
-    source: {
-      code: `
-        <AvAccordionsGroup>
-          <AvAccordion
-            title="Accordion 1"
-            icon="mdi:file-document-multiple-outline"
-          >
-            <span>First accordion content</span>
-          </AvAccordion>
-          <AvAccordion
-            title="Accordion 2"
-            icon="mdi:plus-circle-outline"
-          >
-            <span>Second accordion content</span>
-          </AvAccordion>
-        </AvAccordionsGroup>
-      `
-    }
-  }
+
+export const WithFirstAccordionOpen = Template.bind({})
+WithFirstAccordionOpen.args = {
+  activeAccordion: 0
+}
+
+export const WithSecondAccordionOpen = Template.bind({})
+WithSecondAccordionOpen.args = {
+  activeAccordion: 1
 }
