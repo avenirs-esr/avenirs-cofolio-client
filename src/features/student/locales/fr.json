@@ -310,6 +310,27 @@
               "cancel": "QUITTER",
               "save": "ENREGISTRER"
             },
+            "declaration": {
+              "productionNature": {
+                "title": "Déclarer la nature de ma production"
+              },
+              "productionAuthenticity": {
+                "label": "Je soumets une production authentique et personnelle",
+                "required": "Vous devez accepter de soumettre une production authentique et personnelle"
+              },
+              "groupProduction": {
+                "label": "Je soumets une production de groupe"
+              },
+              "iaUsage": {
+                "title": "Déclarer si c'est une production réalisée avec l'Intelligence Artificielle (IA)",
+                "label": "Je soumets une production réalisée avec IA"
+              },
+              "iaJustification": {
+                "label": "Justification de l'usage de l'IA",
+                "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA...",
+                "hint": "{count} / {maxlength} caractères (espaces compris)"
+              }
+            },
             "errors": {
               "fileUpload": "Une erreur est survenue lors du téléchargement du fichier.",
               "createTrace": "Une erreur est survenue lors de la création de la trace."

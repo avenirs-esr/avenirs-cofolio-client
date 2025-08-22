@@ -25,6 +25,7 @@ export const MDI_ICONS = {
   ELECTRON_FRAMEWORK: 'mdi:electron-framework',
   FAMILY: 'mdi:family',
   FILE_ACCOUNT_OUTLINE: 'mdi:file-account-outline',
+  FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE: 'mdi:file-document-box-multiple-outline',
   FILE_DOCUMENT_EDIT_OUTLINE: 'mdi:file-document-edit-outline',
   FILE_DOCUMENT_MULTIPLE_OUTLINE: 'mdi:file-document-multiple-outline',
   FLAG_VARIANT: 'mdi:flag-variant',

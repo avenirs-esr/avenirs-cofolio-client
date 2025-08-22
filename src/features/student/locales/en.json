@@ -310,6 +310,27 @@
               "cancel": "QUIT",
               "save": "SAVE"
             },
+            "declaration": {
+              "productionNature": {
+                "title": "Declare the nature of my production"
+              },
+              "productionAuthenticity": {
+                "label": "I submit an authentic and personal production",
+                "required": "You must accept to submit an authentic and personal production"
+              },
+              "groupProduction": {
+                "label": "I submit a group production"
+              },
+              "iaUsage": {
+                "title": "Declare if this is a production made with Artificial Intelligence (AI)",
+                "label": "I submit a production made with AI"
+              },
+              "iaJustification": {
+                "label": "Justification for AI usage",
+                "placeholder": "Describe how and why you used AI...",
+                "hint": "{count} / {maxlength} characters (spaces included)"
+              }
+            },
             "errors": {
               "fileUpload": "An error occurred while uploading the file.",
               "createTrace": "An error occurred while creating the trace."

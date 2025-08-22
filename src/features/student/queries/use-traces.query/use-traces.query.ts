@@ -1,9 +1,10 @@
 import type { BaseApiException } from '@/common/exceptions'
+
 import type { Ref } from 'vue'
 import {
   createTrace,
   type CreateTraceDTO,
-  CreateTraceDTOLanguage,
+  type CreateTraceDTOLanguage,
   deleteTrace,
   getTraceConfigInfo,
   getTracesUnassociatedSummary,
@@ -14,8 +15,10 @@ import {
   type TracesViewResponse,
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO,
+
   uploadAttachment,
   type UploadAttachmentBody
+
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
@@ -116,14 +119,8 @@ export interface UseCreateTraceMutationArgs {
 export function useCreateTraceMutation ({ onError, onSuccess }: UseCreateTraceMutationArgs = {}) {
   const invalidateUnassignedTracesViewQuery = useInvalidateQuery(unassignedTracesQueryKey)
 
-  return useMutation<TracesCreationResponse, BaseApiException, CreateTraceVariables>({
-    mutationFn: async ({ title, personalNote, language = CreateTraceDTOLanguage.FRENCH }: CreateTraceVariables): Promise<TracesCreationResponse> => {
-      const createTraceDTO: CreateTraceDTO = {
-        title,
-        language: language as CreateTraceDTOLanguage,
-        personalNote,
-        isGroup: false
-      }
+  return useMutation<TracesCreationResponse, BaseApiException, CreateTraceDTO>({
+    mutationFn: async (createTraceDTO: CreateTraceDTO): Promise<TracesCreationResponse> => {
       return await createTrace(createTraceDTO)
     },
     onSuccess: async (data) => {

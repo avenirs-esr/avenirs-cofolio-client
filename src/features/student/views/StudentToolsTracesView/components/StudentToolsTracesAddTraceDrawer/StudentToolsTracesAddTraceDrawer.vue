@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CreateTraceFormDeclarationItems from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import {
   useCreateTraceForm
@@ -13,24 +14,25 @@ const { addSuccessMessage } = useToasterStore()
 
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
-const { form, isFormValid } = useCreateTraceForm()
+function onTraceCreated () {
+  addSuccessMessage({
+    timeout: 2000,
+    description: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
+  })
+  handleCancel()
+}
+const { form, isFormValid, isSubmitting } = useCreateTraceForm(onTraceCreated)
 
 const activeAccordion = ref(0)
 
 function handleCancel () {
   form.reset()
+  activeAccordion.value = 0
   tracesStore.hideCreateTraceDrawer()
 }
 
 async function onSave () {
   await form.handleSubmit()
-
-  addSuccessMessage({
-    timeout: 2000,
-    description: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
-  })
-
-  tracesStore.hideCreateTraceDrawer()
 }
 </script>
 
@@ -59,10 +61,11 @@ async function onSave () {
               <CreateTraceFormTraceDefinitionItems :form="form" />
             </AvAccordion>
 
-            <AvAccordion :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')">
-              <div class="placeholder-content">
-                <p>{{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations') }} - Contenu à implémenter</p>
-              </div>
+            <AvAccordion
+              :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')"
+              :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+            >
+              <CreateTraceFormDeclarationItems :form="form" />
             </AvAccordion>
 
             <AvAccordion :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')">
@@ -89,6 +92,7 @@ async function onSave () {
           type="button"
           :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :disabled="!isFormValid"
+          :is-loading="isSubmitting"
           @click="onSave"
         />
       </div>

@@ -50,13 +50,21 @@ describe('useCreateTraceForm', () => {
         const invalidData = {
           file: null as unknown as File,
           traceName: '',
-          personalNote: ''
+          personalNote: '',
+          isAuthentic: false,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
 
-        const validationResult = composableResult.form.options.validators?.onSubmit?.({ value: invalidData })
+        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+        expect(onSubmitValidator).toBeDefined()
 
-        expect(validationResult?.fields?.file).toContain('requis')
-        expect(validationResult?.fields?.traceName).toContain('requis')
+        const validationResult = onSubmitValidator!({ value: invalidData })
+
+        expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
+        expect(validationResult?.fields?.traceName).toContain('Ce champ est requis.')
+        expect(validationResult?.fields?.isAuthentic).toEqual('Vous devez accepter de soumettre une production authentique et personnelle')
       })
     })
 
@@ -66,10 +74,17 @@ describe('useCreateTraceForm', () => {
         const validData = {
           file: mockFile,
           traceName: 'My Trace Name',
-          personalNote: 'Optional note'
+          personalNote: 'Optional note',
+          isAuthentic: true,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
 
-        const validationResult = composableResult.form.options.validators?.onSubmit?.({ value: validData })
+        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+        expect(onSubmitValidator).toBeDefined()
+
+        const validationResult = onSubmitValidator!({ value: validData })
 
         expect(validationResult?.fields?.file).toBeUndefined()
         expect(validationResult?.fields?.traceName).toBeUndefined()
@@ -86,11 +101,15 @@ describe('useCreateTraceForm', () => {
         const validFormData = {
           file: new File(['test'], 'test.pdf', { type: 'application/pdf' }),
           traceName: 'My Trace Name',
-          personalNote: 'Optional note'
+          personalNote: 'Optional note',
+          isAuthentic: true,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
-        const onSubmit = composableResult.form.options.validators?.onSubmit
-        expect(onSubmit).toBeDefined()
-        const validationResult = onSubmit!({ value: validFormData })
+        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+        expect(onSubmitValidator).toBeDefined()
+        const validationResult = onSubmitValidator!({ value: validFormData })
         expect(validationResult?.fields?.file).toBeUndefined()
         expect(validationResult?.fields?.traceName).toBeUndefined()
       })
@@ -99,37 +118,20 @@ describe('useCreateTraceForm', () => {
         const invalidFormData = {
           file: null,
           traceName: '',
-          personalNote: 'Optional note'
+          personalNote: 'Optional note',
+          isAuthentic: false,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
 
-        const onSubmit = composableResult.form.options.validators?.onSubmit
-        expect(onSubmit).toBeDefined()
+        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+        expect(onSubmitValidator).toBeDefined()
 
-        const validationResult = onSubmit!({ value: invalidFormData })
-        expect(validationResult?.fields?.file).toContain('requis')
-        expect(validationResult?.fields?.traceName).toContain('requis')
-      })
-
-      it('then it should call createTrace API with correct arguments', async () => {
-        const formData = {
-          file: null,
-          traceName: 'My Trace Name',
-          personalNote: 'Optional note'
-        }
-
-        const onSubmit = composableResult.form.options.onSubmit
-        expect(onSubmit).toBeDefined()
-        onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
-
-        await waitFor(() => {
-          expect(createTraceSpy).toHaveBeenCalledWith({
-            title: 'My Trace Name',
-            language: CreateTraceDTOLanguage.FRENCH,
-            personalNote: 'Optional note',
-            isGroup: false
-          })
-        })
-        expect(uploadAttachmentSpy).not.toHaveBeenCalled()
+        const validationResult = onSubmitValidator!({ value: invalidFormData })
+        expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
+        expect(validationResult?.fields?.traceName).toEqual('Ce champ est requis.')
+        expect(validationResult?.fields?.isAuthentic).toEqual('Vous devez accepter de soumettre une production authentique et personnelle')
       })
 
       it('then it should call both createTrace and uploadAttachment APIs when file is provided', async () => {
@@ -137,7 +139,11 @@ describe('useCreateTraceForm', () => {
         const formData = {
           file: mockFile,
           traceName: 'my-trace-name',
-          personalNote: 'Optional note'
+          personalNote: 'Optional note',
+          isAuthentic: true,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
 
         const onSubmit = composableResult.form.options.onSubmit
@@ -149,7 +155,8 @@ describe('useCreateTraceForm', () => {
             title: 'my-trace-name',
             language: CreateTraceDTOLanguage.FRENCH,
             personalNote: 'Optional note',
-            isGroup: false
+            isGroup: false,
+            iaJustification: undefined
           })
         })
         expect(uploadAttachmentSpy).toHaveBeenCalledWith(
@@ -162,19 +169,66 @@ describe('useCreateTraceForm', () => {
         const formData = {
           file: null,
           traceName: 'my-trace-name',
-          personalNote: ''
+          personalNote: '',
+          isAuthentic: true,
+          isGroup: false,
+          useIA: false,
+          iaJustification: ''
         }
 
         composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
-        waitFor(() => {
+        await waitFor(() => {
           expect(createTraceSpy).toHaveBeenCalledWith({
             title: 'my-trace-name',
             language: CreateTraceDTOLanguage.FRENCH,
             personalNote: undefined,
-            isGroup: false
+            isGroup: false,
+            iaJustification: undefined
           })
         })
+      })
+
+      it('then it should handle form submission with IA usage and justification', async () => {
+        const formData = {
+          file: null,
+          traceName: 'my-trace-name',
+          personalNote: '',
+          isAuthentic: true,
+          isGroup: true,
+          useIA: true,
+          iaJustification: 'Used AI for research assistance'
+        }
+
+        composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+        await waitFor(() => {
+          expect(createTraceSpy).toHaveBeenCalledWith({
+            title: 'my-trace-name',
+            language: CreateTraceDTOLanguage.FRENCH,
+            personalNote: undefined,
+            isGroup: true,
+            iaJustification: 'Used AI for research assistance'
+          })
+        })
+      })
+
+      it('then it should validate IA justification when IA is enabled', () => {
+        const formDataWithoutJustification = {
+          file: new File(['test'], 'test.pdf', { type: 'application/pdf' }),
+          traceName: 'my-trace-name',
+          personalNote: '',
+          isAuthentic: true,
+          isGroup: false,
+          useIA: true,
+          iaJustification: ''
+        }
+
+        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+        expect(onSubmitValidator).toBeDefined()
+
+        const validationResult = onSubmitValidator!({ value: formDataWithoutJustification })
+        expect(validationResult?.fields?.iaJustification).toEqual('Ce champ est requis.')
       })
     })
   })
