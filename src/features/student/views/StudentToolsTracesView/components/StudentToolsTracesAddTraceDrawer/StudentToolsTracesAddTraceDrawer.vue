@@ -15,6 +15,8 @@ const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
 const { form, isFormValid } = useCreateTraceForm()
 
+const activeAccordion = ref(0)
+
 function handleCancel () {
   form.reset()
   tracesStore.hideCreateTraceDrawer()
@@ -49,7 +51,7 @@ async function onSave () {
           novalidate
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AvAccordionsGroup>
+          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
             <AvAccordion
               :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.addTrace')"
               :icon="MDI_ICONS.IMAGE_OUTLINE"

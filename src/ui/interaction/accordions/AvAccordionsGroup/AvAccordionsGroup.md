@@ -22,11 +22,15 @@ An accordion consists of the following elements:
 
 ## 🛠️ Props
 
-None.
+| Name | Type | Default | Mandatory | Description |
+| --- | --- | --- | --- | --- |
+| `activeAccordion` | `number` | `undefined` | | Index of the currently active accordion. Used with `v-model:activeAccordion` for two-way data binding. |
 
 ## 📡 Events
 
-None.
+| Name | Description |
+| --- | --- |
+| `update:activeAccordion` | Emitted when the active accordion changes. Receives the index of the newly active accordion. |
 
 ## 🧩 Slots
 
@@ -36,9 +40,36 @@ None.
 
 ## 📝 Examples of use
 
+### Basic usage
+
 ```vue
 <template>
   <AvAccordionsGroup>
+    <AvAccordion
+      title="Accordion 1"
+      icon="mdi:file-document-multiple-outline"
+    >
+      <span>First accordion content</span>
+    </AvAccordion>
+    <AvAccordion
+      title="Accordion 2"
+      icon="mdi:plus-circle-outline"
+    >
+      <span>Second accordion content</span>
+    </AvAccordion>
+  </AvAccordionsGroup>
+</template>
+```
+
+### With controlled state
+
+```vue
+<script setup lang="ts">
+const activeAccordion = ref(0)
+</script>
+
+<template>
+  <AvAccordionsGroup v-model:active-accordion="activeAccordion">
     <AvAccordion
       title="Accordion 1"
       icon="mdi:file-document-multiple-outline"
