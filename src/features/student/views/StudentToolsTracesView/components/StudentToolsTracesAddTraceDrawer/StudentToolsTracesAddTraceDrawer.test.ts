@@ -39,14 +39,13 @@ const stubs = {
     props: ['label', 'variant', 'type', 'icon', 'disabled', 'loading'],
     emits: ['click'],
     template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
-  }
+  },
 }
 
 describe('studentToolsTracesAddTraceDrawer', () => {
   describe('given a student tools traces add trace drawer component', () => {
     let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
-    // Helper functions
     const getSaveButton = () => {
       return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
         button.props('variant') === 'FLAT'
@@ -83,6 +82,22 @@ describe('studentToolsTracesAddTraceDrawer', () => {
     const clickSaveButton = async () => {
       const saveButton = getSaveButton()
       await saveButton?.vm.$emit('click')
+    }
+
+    const setAuthenticToggle = async (value: boolean) => {
+      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const authenticToggle = toggles.find(toggle => toggle.props('id') === 'isAuthentic')
+      expect(authenticToggle).toBeDefined()
+      await authenticToggle!.vm.$emit('update:modelValue', value)
+      await wrapper.vm.$nextTick()
+    }
+
+    const setIAToggle = async (value: boolean) => {
+      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const iaToggle = toggles.find(toggle => toggle.props('id') === 'useIA')
+      expect(iaToggle).toBeDefined()
+      await iaToggle!.vm.$emit('update:modelValue', value)
+      await wrapper.vm.$nextTick()
     }
 
     beforeEach(() => {
@@ -125,6 +140,11 @@ describe('studentToolsTracesAddTraceDrawer', () => {
       it('then it should render the create trace form items in first accordion', () => {
         const createTraceFormItems = wrapper.find('.create-trace-form-trace-definition-items')
         expect(createTraceFormItems.exists()).toBe(true)
+      })
+
+      it('then it should render the create trace form declaration items in second accordion', () => {
+        const declarationItems = wrapper.find('.declaration-items')
+        expect(declarationItems.exists()).toBe(true)
       })
 
       it('then it should render footer buttons', () => {
@@ -179,8 +199,9 @@ describe('studentToolsTracesAddTraceDrawer', () => {
     })
 
     describe('when save button is clicked', () => {
-      it('then it should show success message', async () => {
+      it('then it should show success message when form is valid', async () => {
         await fillFormFields()
+        await setAuthenticToggle(true)
         await clickSaveButton()
 
         await waitFor(() => {
@@ -193,6 +214,7 @@ describe('studentToolsTracesAddTraceDrawer', () => {
 
       it('then it should show error message when trace creation fails', async () => {
         await fillFormFields('ERROR_TRACE')
+        await setAuthenticToggle(true)
         await clickSaveButton()
 
         await waitFor(() => {
@@ -201,6 +223,24 @@ describe('studentToolsTracesAddTraceDrawer', () => {
             description: 'Failed to create trace'
           })
         })
+      })
+
+      it('then it should not submit when required fields are missing', async () => {
+        await fillFormFields()
+        await clickSaveButton()
+
+        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      })
+
+      it('then it should not submit when IA is enabled but justification is empty', async () => {
+        await fillFormFields()
+        await setAuthenticToggle(true)
+        await setIAToggle(true)
+        await clickSaveButton()
+
+        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
       })
     })
 

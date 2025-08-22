@@ -1,4 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { ComputedRef } from 'vue'
+import { CreateTraceDTOLanguage } from '@/api/avenir-esr'
 import { useFileValidation } from '@/common/composables'
 import { useCreateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
 import { TRACE_ACCEPTED_FILE_TYPES, type TraceFormData, } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
@@ -9,7 +11,7 @@ import { useI18n } from 'vue-i18n'
 const FIVE_MB = 5 * 1024 * 1024
 const TEN_MB = 10 * 1024 * 1024
 
-export function useCreateTraceForm () {
+export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
 
   const { addErrorMessage } = useToasterStore()
@@ -21,6 +23,8 @@ export function useCreateTraceForm () {
     })
   }
 
+  const createTraceMutation = useCreateTraceMutation({ onError: onCreateTraceError })
+
   const onUploadAttachmentError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
@@ -28,8 +32,9 @@ export function useCreateTraceForm () {
     })
   }
 
-  const createTraceMutation = useCreateTraceMutation({ onError: onCreateTraceError })
   const uploadAttachmentMutation = useUploadAttachmentMutation({ onError: onUploadAttachmentError })
+
+  const isFileUploading = ref(false)
 
   const { validateFile } = useFileValidation({
     acceptedFileTypes: [...TRACE_ACCEPTED_FILE_TYPES],
@@ -44,18 +49,30 @@ export function useCreateTraceForm () {
     isRequired: true
   })
 
+  function mutateFile (file: File | null, traceId: string) {
+    if (!file) {
+      return
+    }
+    uploadAttachmentMutation.mutate({
+      traceId,
+      file
+    }, {
+      onSuccess: () => {
+        onTraceCreated?.()
+      }
+    })
+  }
+
   function createTrace (traceFormData: TraceFormData) {
     createTraceMutation.mutate({
       title: traceFormData.traceName,
-      personalNote: traceFormData.personalNote || undefined
+      personalNote: traceFormData.personalNote || undefined,
+      isGroup: traceFormData.isGroup,
+      iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
+      language: CreateTraceDTOLanguage.FRENCH
     }, {
       onSuccess: (traceResult) => {
-        if (traceFormData.file) {
-          uploadAttachmentMutation.mutate({
-            traceId: traceResult.traceId,
-            file: traceFormData.file
-          })
-        }
+        mutateFile(traceFormData.file, traceResult.traceId)
       }
     })
   }
@@ -64,7 +81,11 @@ export function useCreateTraceForm () {
     defaultValues: {
       file: null,
       traceName: '',
-      personalNote: ''
+      personalNote: '',
+      isAuthentic: false,
+      isGroup: false,
+      useIA: false,
+      iaJustification: ''
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
@@ -72,6 +93,8 @@ export function useCreateTraceForm () {
           fields: {
             file: validateFile(value.file),
             traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
+            isAuthentic: !value.isAuthentic ? t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionAuthenticity.required') : undefined,
+            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
           }
         }
       },
@@ -93,9 +116,14 @@ export function useCreateTraceForm () {
     return state.value.isValid && !state.value.isValidating
   })
 
+  const isSubmitting: ComputedRef<boolean> = computed(() => {
+    return createTraceMutation.isPending.value || uploadAttachmentMutation.isPending.value || isFileUploading.value
+  })
+
   return {
     form,
-    isFormValid
+    isFormValid,
+    isSubmitting
   }
 }
 
