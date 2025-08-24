@@ -64,3 +64,13 @@ export const RI_ICONS = {
   DICE_1_LINE: 'ri:dice-1-line',
   DICE_4_LINE: 'ri:dice-4-line',
 }
+
+/**
+ * contains icon as base64 to be used in img src or also for components that need iconPath
+ * Useful for icons that are in MDI but we cannot use them using icon name, so we can use them
+ * without creating svg files in assets/icons, also simple to use (no need for basePath ...)
+ * e.g. using mdi icons with AvBadge
+ */
+export const MDI_ICONS_URLS = {
+  FILE_DOCUMENT_MULTIPLE_OUTLINE: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xNiAwSDhDNi45IDAgNiAuOSA2IDJ2MTZjMCAxLjEuOSAyIDIgMmgxMmMxLjEgMCAyLS45IDItMlY2em00IDE4SDhWMmg3djVoNXpNNCA0djE4aDE2djJINGMtMS4xIDAtMi0uOS0yLTJWNHptNiA2djJoOHYtMnptMCA0djJoNXYtMnoiLz48L3N2Zz4='
+}

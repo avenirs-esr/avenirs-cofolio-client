@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import type { SkillDTO } from '@/api/avenir-esr'
+import type { SkillDTO, SkillLevelViewDTO } from '@/api/avenir-esr'
+import type { ComputedRef } from 'vue'
+import { StudentLastCompletedLevelBadge } from '@/features/student'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
-import { AvBadge, MDI_ICONS } from '@/ui'
+import { AvBadge, MDI_ICONS, MDI_ICONS_URLS } from '@/ui'
+import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedEducationaSkillCardProps {
   skill: SkillDTO
@@ -9,7 +12,8 @@ export interface StudentDetailedEducationaSkillCardProps {
 
 const { skill } = defineProps<StudentDetailedEducationaSkillCardProps>()
 const { levelCount } = skill
-
+const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = computed(() => skill.achievedSkillLevels)
+const { t } = useI18n()
 const basePath = import.meta.env.BASE_URL
 </script>
 
@@ -22,27 +26,37 @@ const basePath = import.meta.env.BASE_URL
     color="var(--text1)"
   >
     <div class="body-container">
-      <div class="line-container">
-        <AvBadge
-          :label="`${levelCount} niveaux`"
-          color="var(--foreground-text)"
-          background-color="var(--surface-background)"
-          :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
-          small
-          ellipsis
-        />
+      <div class="firstline-container">
+        <div class="line-container">
+          <AvBadge
+            color="var(--foreground-text)"
+            background-color="var(--surface-background)"
+            :icon-path="MDI_ICONS_URLS.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+            :label="t('student.cards.studentDetailedPastSkillCard.programFinished')"
+            small
+            ellipsis
+          />
+        </div>
+        <div class="line-container">
+          <AvBadge
+            :label="`${levelCount} niveaux`"
+            color="var(--foreground-text)"
+            background-color="var(--surface-background)"
+            :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
+            small
+            ellipsis
+          />
+          <StudentLastCompletedLevelBadge
+            v-if="lastAchievedSkillLevel"
+            :level="lastAchievedSkillLevel"
+          />
+        </div>
       </div>
     </div>
   </StudentDetailedSkillCard>
 </template>
 
 <style lang="scss" scoped>
-.student-detailed-skill-card {
-  display: flex;
-  width: 100%;
-  border-radius: 1.5rem;
-}
-
 .body-container {
   display: flex;
   flex-direction: column;
@@ -53,9 +67,18 @@ const basePath = import.meta.env.BASE_URL
 .line-container {
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.firstline-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   padding-right: 3.5rem;
-  gap: var(--spacing-xs);
+}
+:deep(.av-card){
+  justify-content: flex-start;
 }
 </style>
