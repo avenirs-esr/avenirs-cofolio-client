@@ -24,6 +24,9 @@
         "feedbackCount": "0 feedback à consulter | 1 feedback à consulter | {count} feedbacks à consulter",
         "traceCount": "0 trace | 1 trace | {count} traces"
       },
+      "studentDetailedPastSkillCard": {
+        "programFinished": "Formation associée"
+      },
       "studentSkillCard": {
         "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
         "badgeStatus": {

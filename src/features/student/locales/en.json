@@ -24,6 +24,9 @@
         "feedbackCount": "0 feedback to read | 1 feedback to read | {count} feedbacks to read",
         "traceCount": "0 trace | 1 trace | {count} traces"
       },
+      "studentDetailedPastSkillCard": {
+        "programFinished": "Program finished"
+      },
       "studentSkillCard": {
         "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
         "badgeStatus": {
