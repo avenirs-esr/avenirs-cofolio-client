@@ -12,7 +12,6 @@ describe('useAdditionalSkillsViewQuery', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
   describe('given valid query parameters', () => {
-    const keyword = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
@@ -23,7 +22,7 @@ describe('useAdditionalSkillsViewQuery', () => {
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(keyword, page, pageSize))
+        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(page, pageSize))
 
         await flushPromises()
       })
@@ -59,7 +58,6 @@ describe('useAdditionalSkillsViewQuery', () => {
   })
 
   describe('given different page and pageSize values', () => {
-    const sort = ref<string | undefined>(undefined)
     const page = ref(1)
     const pageSize = ref(PageSizes.EIGHT)
 
@@ -70,7 +68,7 @@ describe('useAdditionalSkillsViewQuery', () => {
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(sort, page, pageSize))
+        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(page, pageSize))
         await flushPromises()
       })
 
@@ -92,7 +90,6 @@ describe('useAdditionalSkillsViewQuery', () => {
   })
 
   describe('given reactive parameters that change', () => {
-    const sort = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
@@ -103,7 +100,7 @@ describe('useAdditionalSkillsViewQuery', () => {
       }
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(sort, page, pageSize))
+        queryResult = mountQueryComposable(() => useAdditionalSkillsViewQuery(page, pageSize))
         await flushPromises()
       })
 

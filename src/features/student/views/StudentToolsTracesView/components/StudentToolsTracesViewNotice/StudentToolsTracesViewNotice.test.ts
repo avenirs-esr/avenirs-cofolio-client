@@ -1,4 +1,4 @@
-import type { TraceConfigurationInfo, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
+import type { TraceConfigurationDTO, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -18,7 +18,7 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 const mockedUseTracesConfigurationQuery = vi.mocked(useTracesConfigurationQuery)
 const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
 
-function mockUseTracesConfigurationQuery (payload: TraceConfigurationInfo | null) {
+function mockUseTracesConfigurationQuery (payload: TraceConfigurationDTO | null) {
   const mockData = ref(payload)
   const queryMockedData = {
     data: mockData,
@@ -49,10 +49,10 @@ const commonStubs = {
 }
 
 describe('studentToolsTracesViewNotice', () => {
-  const mockedTracesConfiguration: TraceConfigurationInfo = {
-    maxDayRemaining: 30,
-    maxDayRemainingWarning: 15,
-    maxDayRemainingCritical: 7
+  const mockedTracesConfiguration: TraceConfigurationDTO = {
+    maxRemainingDays: 30,
+    maxRemainingDaysBeforeWarning: 15,
+    maxRemainingDaysBeforeCritical: 7
   }
 
   const mockedUnassignedTracesSummary: UnassociatedTracesSummaryDTO = {
@@ -168,9 +168,9 @@ describe('studentToolsTracesViewNotice', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery({
-        maxDayRemaining: 30,
-        maxDayRemainingWarning: 7,
-        maxDayRemainingCritical: 1
+        maxRemainingDays: 30,
+        maxRemainingDaysBeforeWarning: 7,
+        maxRemainingDaysBeforeCritical: 1
       })
       mockUseUnassignedTracesSummaryQuery({
         total: 1,
@@ -205,9 +205,9 @@ describe('studentToolsTracesViewNotice', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery({
-        maxDayRemaining: 30,
-        maxDayRemainingWarning: 15,
-        maxDayRemainingCritical: 3
+        maxRemainingDays: 30,
+        maxRemainingDaysBeforeWarning: 15,
+        maxRemainingDaysBeforeCritical: 3
       })
       mockUseUnassignedTracesSummaryQuery({
         total: 10,

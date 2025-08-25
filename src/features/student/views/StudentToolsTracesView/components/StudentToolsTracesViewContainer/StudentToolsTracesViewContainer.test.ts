@@ -1,4 +1,4 @@
-import { TraceStatus, type TracesViewResponse } from '@/api/avenir-esr'
+import { type PagedResponseTraceViewDTO, TraceStatus } from '@/api/avenir-esr'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
@@ -27,11 +27,11 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 
 const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
 
-function mockUseUnassignedTracesViewQuery (payload: TracesViewResponse | undefined) {
+function mockUseUnassignedTracesViewQuery (payload: PagedResponseTraceViewDTO | undefined) {
   const mockData = ref(payload)
   const mockReturn = {
     data: mockData,
-    traces: computed(() => mockData.value?.data.traces ?? []),
+    traces: computed(() => mockData.value?.data ?? []),
     pageInfo: computed(() => mockData.value?.page ?? { page: 0, totalPages: 0, totalElements: 0 }),
     error: ref(null),
     isLoading: ref(false),
@@ -62,16 +62,13 @@ const stubs = {
 }
 
 describe('studentToolsTracesViewContainer', () => {
-  const mockedTracesData: TracesViewResponse = {
-    data: {
-      traces: [
-        { id: '1', title: 'Trace 1', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', deletedAt: '2024-02-01' },
-        { id: '2', title: 'Trace 2', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', deletedAt: '2024-02-02' },
-        { id: '3', title: 'Trace 3', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', deletedAt: '2024-02-03' },
-        { id: '4', title: 'Trace 4', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', deletedAt: '2024-02-04' }
-      ],
-      criticalCount: 2
-    },
+  const mockedTracesData: PagedResponseTraceViewDTO = {
+    data: [
+      { id: '1', title: 'Trace 1', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', deletedAt: '2024-02-01' },
+      { id: '2', title: 'Trace 2', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', deletedAt: '2024-02-02' },
+      { id: '3', title: 'Trace 3', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', deletedAt: '2024-02-03' },
+      { id: '4', title: 'Trace 4', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', deletedAt: '2024-02-04' }
+    ],
     page: {
       page: 0,
       pageSize: 20,

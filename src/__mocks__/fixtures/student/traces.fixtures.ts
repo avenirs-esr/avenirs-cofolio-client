@@ -1,10 +1,10 @@
 import {
   type AttachmentUploadDTO,
   AttachmentUploadDTOFileType,
-  type TraceConfigurationInfo,
+  type PagedResponseTraceViewDTO,
+  type TraceConfigurationDTO,
   type TracesCreationResponse,
   TraceStatus,
-  type TracesViewResponse,
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
@@ -19,7 +19,7 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: TraceStatus = TraceStatus.UNASSOCIATED): TracesViewResponse {
+export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: TraceStatus = TraceStatus.UNASSOCIATED): PagedResponseTraceViewDTO {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -43,15 +43,15 @@ export function createMockedTracesViewResponse (pageSize: number, totalElements:
   const totalPages = Math.ceil(totalElements / pageSize)
 
   return {
-    data: { traces: paginatedTraces },
+    data: paginatedTraces,
     page: { pageSize, totalElements, totalPages, page }
   }
 }
 
-export const mockedTracesConfiguration: TraceConfigurationInfo = {
-  maxDayRemaining: 30,
-  maxDayRemainingWarning: 15,
-  maxDayRemainingCritical: 7,
+export const mockedTracesConfiguration: TraceConfigurationDTO = {
+  maxRemainingDays: 30,
+  maxRemainingDaysBeforeWarning: 15,
+  maxRemainingDaysBeforeCritical: 7,
 }
 
 export function createMockedTraceCreationResponse (title: string): TracesCreationResponse {

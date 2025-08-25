@@ -6,13 +6,13 @@ import {
   type CreateTraceDTO,
   type CreateTraceDTOLanguage,
   deleteTrace,
-  getTraceConfigInfo,
+  getTraceConfig,
   getTracesUnassociatedSummary,
   getTracesView,
   GetTracesViewStatus,
-  type TraceConfigurationInfo,
+  type PagedResponseTraceViewDTO,
+  type TraceConfigurationDTO,
   type TracesCreationResponse,
-  type TracesViewResponse,
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO,
 
@@ -30,15 +30,15 @@ const TWO_MINUTES = 2 * 60 * 1000
 export function useUnassignedTracesViewQuery (
   page: Ref<number>,
   pageSize: Ref<number>
-): UseQueryReturnType<TracesViewResponse, BaseApiException> & {
+): UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
   traces: Ref<TraceViewDTO[]>
-  pageInfo: Ref<TracesViewResponse['page']>
+  pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 } {
   const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value }])
 
-  const query = useQuery<TracesViewResponse, BaseApiException, TracesViewResponse, readonly unknown[]>({
+  const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
-    queryFn: async (): Promise<TracesViewResponse> => {
+    queryFn: async (): Promise<PagedResponseTraceViewDTO> => {
       return await getTracesView({
         pageSize: pageSize.value,
         page: page.value,
@@ -49,7 +49,7 @@ export function useUnassignedTracesViewQuery (
     placeholderData: keepPreviousData
   })
 
-  const traces = computed(() => query.data.value?.data.traces ?? [])
+  const traces = computed(() => query.data.value?.data ?? [])
   const pageInfo = computed(() => query.data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   return {
@@ -94,12 +94,12 @@ export function useDeleteTraceMutation ({ onError, onSuccess }: UseDeleteTraceMu
   })
 }
 
-export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigurationInfo, BaseApiException> {
+export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigurationDTO, BaseApiException> {
   const queryKey = computed(() => [...commonQueryKeys, 'config'])
-  return useQuery<TraceConfigurationInfo, BaseApiException>({
+  return useQuery<TraceConfigurationDTO, BaseApiException>({
     queryKey,
-    queryFn: async (): Promise<TraceConfigurationInfo> => {
-      return await getTraceConfigInfo()
+    queryFn: async (): Promise<TraceConfigurationDTO> => {
+      return await getTraceConfig()
     },
     staleTime: TWO_MINUTES,
   })

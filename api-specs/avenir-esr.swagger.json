@@ -210,14 +210,6 @@
               "type": "integer",
               "format": "int32"
             }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -226,14 +218,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/PagedResponseAdditionalSkillDTO"
-                    },
-                    {
-                      "$ref": "#/components/schemas/PagedResponseAdditionalSkillProgressDTO"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/PagedResponseAdditionalSkillProgressDTO"
                 }
               }
             }
@@ -262,22 +247,84 @@
         }
       }
     },
-    "/traces/config": {
+    "/back-office/config/traces": {
       "get": {
         "tags": [
-          "configuration-controller"
+          "trace-configuration-controller"
         ],
-        "operationId": "getTraceConfigInfo",
+        "operationId": "getTraceConfig",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TraceConfigurationInfo"
+                  "$ref": "#/components/schemas/TraceConfigurationDTO"
                 }
               }
             }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "trace-configuration-controller"
+        ],
+        "operationId": "postTraceConfig",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceConfigurationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/config/additional-skills": {
+      "get": {
+        "tags": [
+          "additional-skill-config-controller"
+        ],
+        "operationId": "getAdditionalSkillConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "additional-skill-config-controller"
+        ],
+        "operationId": "postAdditionalSkillConfig",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -442,7 +489,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TracesViewResponse"
+                  "$ref": "#/components/schemas/PagedResponseTraceViewDTO"
                 }
               }
             }
@@ -666,6 +713,54 @@
         }
       }
     },
+    "/me/additional-skills/search": {
+      "get": {
+        "tags": [
+          "additional-skill-controller"
+        ],
+        "operationId": "searchAdditionalSkills",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAdditionalSkillDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/{traceId}": {
       "delete": {
         "tags": [
@@ -713,12 +808,6 @@
             "type": "string"
           },
           "bio": {
-            "type": "string"
-          },
-          "profilePicture": {
-            "type": "string"
-          },
-          "coverPicture": {
             "type": "string"
           }
         }
@@ -953,20 +1042,56 @@
           }
         }
       },
-      "TraceConfigurationInfo": {
+      "TraceConfigurationDTO": {
         "type": "object",
         "properties": {
-          "maxDayRemaining": {
+          "maxRemainingDays": {
             "type": "integer",
             "format": "int32"
           },
-          "maxDayRemainingWarning": {
+          "maxRemainingDaysBeforeWarning": {
             "type": "integer",
             "format": "int32"
           },
-          "maxDayRemainingCritical": {
+          "maxRemainingDaysBeforeCritical": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "required": [
+          "maxRemainingDays",
+          "maxRemainingDaysBeforeCritical",
+          "maxRemainingDaysBeforeWarning"
+        ]
+      },
+      "AdditionalSkillConfigurationDTO": {
+        "type": "object",
+        "properties": {
+          "BEGINNER": {
+            "$ref": "#/components/schemas/AdditionalSkillLevel"
+          },
+          "INTERMEDIATE": {
+            "$ref": "#/components/schemas/AdditionalSkillLevel"
+          },
+          "COMPETENT": {
+            "$ref": "#/components/schemas/AdditionalSkillLevel"
+          },
+          "ADVANCED": {
+            "$ref": "#/components/schemas/AdditionalSkillLevel"
+          },
+          "EXPERT": {
+            "$ref": "#/components/schemas/AdditionalSkillLevel"
+          }
+        }
+      },
+      "AdditionalSkillLevel": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
           }
         }
       },
@@ -1060,6 +1185,24 @@
           "totalPages"
         ]
       },
+      "PagedResponseTraceViewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "TraceViewDTO": {
         "type": "object",
         "properties": {
@@ -1098,39 +1241,6 @@
           "status",
           "title",
           "updatedAt"
-        ]
-      },
-      "TracesResponse": {
-        "type": "object",
-        "properties": {
-          "traces": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceViewDTO"
-            }
-          },
-          "criticalCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "traces"
-        ]
-      },
-      "TracesViewResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/TracesResponse"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "UnassociatedTracesSummaryDTO": {

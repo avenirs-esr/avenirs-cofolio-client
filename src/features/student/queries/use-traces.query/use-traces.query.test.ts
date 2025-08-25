@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedUnassignedTracesSummary } from '@/__mocks__/fixtures/student'
-import { type GetTracesViewParams, GetTracesViewStatus, type TraceConfigurationInfo, type TracesViewResponse, type UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
+import { type GetTracesViewParams, GetTracesViewStatus, type PagedResponseTraceViewDTO, type TraceConfigurationDTO, type UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeleteTraceVariables,
@@ -25,7 +25,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 describe('useTracesViewQuery', async () => {
-  let getTracesViewSpy: MockInstance<(params?: GetTracesViewParams | undefined, options?: RequestInit | undefined) => Promise<TracesViewResponse>>
+  let getTracesViewSpy: MockInstance<(params?: GetTracesViewParams | undefined, options?: RequestInit | undefined) => Promise<PagedResponseTraceViewDTO>>
 
   beforeEach(async () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
@@ -44,7 +44,7 @@ describe('useTracesViewQuery', async () => {
     const page = ref(1)
     const pageSize = ref(4)
 
-    const { data } = mountQueryComposable<UseQueryReturnType<TracesViewResponse, BaseApiException>>(
+    const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
       () => useUnassignedTracesViewQuery(page, pageSize)
     )
 
@@ -58,9 +58,9 @@ describe('useTracesViewQuery', async () => {
     expect(getTracesViewSpy).toHaveBeenCalledTimes(1)
 
     expect(data.value).toBeDefined()
-    expect(data.value?.data.traces).toBeInstanceOf(Array)
-    expect(data.value?.data.traces.length).toBe(4)
-    expect(data.value?.data.traces).toBeDefined()
+    expect(data.value?.data).toBeInstanceOf(Array)
+    expect(data.value?.data.length).toBe(4)
+    expect(data.value?.data).toBeDefined()
     expect(data.value?.page).toBeDefined()
   })
 
@@ -275,15 +275,15 @@ describe('useDeleteTraceMutation', async () => {
 })
 
 describe('useTracesConfigurationQuery', async () => {
-  let getTraceConfigInfoSpy: MockInstance<(options?: RequestInit | undefined) => Promise<TraceConfigurationInfo>>
+  let getTraceConfigInfoSpy: MockInstance<(options?: RequestInit | undefined) => Promise<TraceConfigurationDTO>>
 
   beforeEach(async () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
 
     // Create spy for getTraceConfigInfo to verify API calls
-    getTraceConfigInfoSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getTraceConfigInfo'>(
+    getTraceConfigInfoSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getTraceConfig'>(
       await import('@/api/avenir-esr'),
-    'getTraceConfigInfo'
+    'getTraceConfig'
     )
   })
 
@@ -294,7 +294,7 @@ describe('useTracesConfigurationQuery', async () => {
   describe('given a traces configuration query', () => {
     describe('when the query is executed successfully', () => {
       it('then it should call getTraceConfigInfo API and return configuration data', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<TraceConfigurationInfo, BaseApiException>>(
+        const { data } = mountQueryComposable<UseQueryReturnType<TraceConfigurationDTO, BaseApiException>>(
           () => useTracesConfigurationQuery()
         )
 
@@ -304,9 +304,9 @@ describe('useTracesConfigurationQuery', async () => {
         expect(getTraceConfigInfoSpy).toHaveBeenCalledWith()
 
         expect(data.value).toBeDefined()
-        expect(data.value).toHaveProperty('maxDayRemaining')
-        expect(data.value).toHaveProperty('maxDayRemainingWarning')
-        expect(data.value).toHaveProperty('maxDayRemainingCritical')
+        expect(data.value).toHaveProperty('maxRemainingDays')
+        expect(data.value).toHaveProperty('maxRemainingDaysBeforeWarning')
+        expect(data.value).toHaveProperty('maxRemainingDaysBeforeCritical')
       })
 
       it('then it should return properly typed configuration data', async () => {
@@ -317,9 +317,9 @@ describe('useTracesConfigurationQuery', async () => {
         // Verify the data has the expected structure
         const config = queryReturn.data.value
         if (config) {
-          expect(typeof config.maxDayRemaining).toBe('number')
-          expect(typeof config.maxDayRemainingWarning).toBe('number')
-          expect(typeof config.maxDayRemainingCritical).toBe('number')
+          expect(typeof config.maxRemainingDays).toBe('number')
+          expect(typeof config.maxRemainingDaysBeforeWarning).toBe('number')
+          expect(typeof config.maxRemainingDaysBeforeCritical).toBe('number')
         }
       })
 

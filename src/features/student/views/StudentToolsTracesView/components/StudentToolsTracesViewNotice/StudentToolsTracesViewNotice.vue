@@ -27,8 +27,8 @@ function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCoun
   return message
 }
 
-const criticalDays = computed(() => tracesConfig.value?.maxDayRemainingCritical)
-const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxDayRemaining)
+const criticalDays = computed(() => tracesConfig.value?.maxRemainingDaysBeforeCritical)
+const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxRemainingDays)
 </script>
 
 <template>

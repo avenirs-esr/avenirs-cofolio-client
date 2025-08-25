@@ -15,9 +15,7 @@ const {
   onUpdatePageSize
 } = usePagination(toRef(skillsStore, 'additionalCurrentPage'), toRef(skillsStore, 'additionalPageSizeSelected'))
 
-const search = ref('')
-
-const { skills, pageInfo, error } = useAdditionalSkillsViewQuery(search, currentPage, pageSizeSelected)
+const { skills, pageInfo, error } = useAdditionalSkillsViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
 function handleAddSkill (): void {

@@ -8,7 +8,6 @@ const commonQueryKeys = ['user', 'student', 'skills']
 const TWO_MINUTES = 2 * 60 * 1000
 
 export function useAdditionalSkillsViewQuery (
-  keyword: Ref<string | undefined>,
   page: Ref<number>,
   pageSize: Ref<number>
 ): UseQueryReturnType<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO, BaseApiException> & {
@@ -16,14 +15,12 @@ export function useAdditionalSkillsViewQuery (
   pageInfo: Ref<PageInfoDTO>
 } {
   const queryKey = computed(() => [...commonQueryKeys, 'additional', {
-    keyword: keyword.value,
     page: page.value,
     pageSize: pageSize.value
   }])
 
   const queryFn = computed(() => async (): Promise<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO> => {
     return await getAdditionalSkillsProgresses({
-      keyword: toValue(keyword)!,
       pageSize: toValue(pageSize),
       page: toValue(page.value),
     })

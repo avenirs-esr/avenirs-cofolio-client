@@ -1,22 +1,22 @@
-import type { TracesViewResponse, TraceViewDTO } from '@/api/avenir-esr'
+import type { PagedResponseTraceViewDTO, TraceViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 
-type ExtendedUseQueryReturn = UseQueryReturnType<TracesViewResponse, BaseApiException> & {
+type ExtendedUseQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
   traces: Ref<TraceViewDTO[]>
-  pageInfo: Ref<TracesViewResponse['page']>
+  pageInfo: Ref<PagedResponseTraceViewDTO['page']>
   pages: Ref<number[]>
 }
 
 export function createMockedTracesViewQueryReturn (
-  payload: TracesViewResponse | undefined,
+  payload: PagedResponseTraceViewDTO | undefined,
   error: BaseApiException | null = null
 ): ExtendedUseQueryReturn {
-  const mockData: Ref<TracesViewResponse | undefined> = ref(payload)
+  const mockData: Ref<PagedResponseTraceViewDTO | undefined> = ref(payload)
   const mockError: Ref<BaseApiException | null> = ref(error)
 
-  const traces = computed(() => mockData.value?.data.traces ?? [])
+  const traces = computed(() => mockData.value?.data ?? [])
   const pageInfo = computed(() => mockData.value?.page ?? {
     page: 0,
     size: 0,
