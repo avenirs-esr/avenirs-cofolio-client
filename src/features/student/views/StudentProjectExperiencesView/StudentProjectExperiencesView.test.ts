@@ -37,12 +37,15 @@ describe('studentProjectExperiencesView', () => {
         expect(pageTitle.props('title')).toBe('Mon parcours')
 
         const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-        expect(breadcrumbLinks).toHaveLength(2)
+        expect(breadcrumbLinks).toHaveLength(3)
         expect(breadcrumbLinks[0]).toEqual({
           text: 'Accueil',
           to: studentHomeRoute
         })
         expect(breadcrumbLinks[1]).toEqual({
+          text: 'Construire mon projet de vie'
+        })
+        expect(breadcrumbLinks[2]).toEqual({
           text: 'Mon parcours'
         })
       })
