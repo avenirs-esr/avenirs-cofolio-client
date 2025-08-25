@@ -34,7 +34,7 @@ describe('studentProjectExperiencesView', () => {
         const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
         expect(pageTitle.exists()).toBe(true)
-        expect(pageTitle.props('title')).toBe('(placeholder) Toutes mes expériences')
+        expect(pageTitle.props('title')).toBe('Mon parcours')
 
         const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
         expect(breadcrumbLinks).toHaveLength(2)
