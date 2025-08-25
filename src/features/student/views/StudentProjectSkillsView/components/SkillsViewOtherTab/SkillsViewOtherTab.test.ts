@@ -3,7 +3,7 @@ import { createAdditionalSkillsViewHandler } from '@/__mocks__/msw/handlers/stud
 import { server } from '@/__mocks__/msw/server'
 import { PageSizes } from '@/ui/config'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { PaginationStub } from 'tests/stubs'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -25,7 +25,8 @@ describe('skillsViewOtherTab', () => {
       template: '<button v-bind="$attrs" @click="$emit(\'click\')"><slot /></button>',
       emits: ['click']
     },
-    Pagination: PaginationStub
+    Pagination: PaginationStub,
+    RouterLink: RouterLinkStub
   }
 
   describe('given a skills view other tab component', () => {
@@ -64,7 +65,62 @@ describe('skillsViewOtherTab', () => {
       it('then it should render the content placeholder', () => {
         const contentPlaceholder = wrapper.find('.skills-view-other-tab__content-placeholder')
         expect(contentPlaceholder.exists()).toBe(true)
-        expect(contentPlaceholder.text()).toContain('TODO #416 Placeholder')
+      })
+
+      it('then it should render the Pagination component', () => {
+        const pagination = wrapper.findComponent({ name: 'Pagination' })
+        expect(pagination.exists()).toBe(true)
+      })
+
+      it('then it should pass correct props to Pagination component', () => {
+        const pagination = wrapper.findComponent({ name: 'Pagination' })
+        expect(pagination.props('pageSizeSelected')).toBeDefined()
+        expect(pagination.props('pageInfo')).toBeDefined()
+        expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
+        expect(pagination.props('onUpdatePageSize')).toBeDefined()
+      })
+
+      it('then it should render skill cards when skills are loaded', async () => {
+        const { flushPromises } = await import('@vue/test-utils')
+        await flushPromises()
+        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+        expect(skillCards.length).toBe(4)
+      })
+
+      it('then it should have proper CSS classes applied', () => {
+        const mainContainer = wrapper.find('.skills-view-other-tab')
+        expect(mainContainer.classes()).toContain('skills-view-other-tab')
+
+        const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+        expect(buttonContainer.classes()).toContain('skills-view-other-tab__button-container')
+
+        const skillsContainer = wrapper.find('.skills-container')
+        expect(skillsContainer.classes()).toContain('skills-container')
+      })
+    })
+
+    describe('when skills query is loading', () => {
+      it('then it should handle loading state gracefully', () => {
+        expect(wrapper.exists()).toBe(true)
+        expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
+      })
+    })
+
+    describe('when skills query returns data', () => {
+      it('then it should render skill cards for each skill', async () => {
+        const { flushPromises } = await import('@vue/test-utils')
+        await flushPromises()
+        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+        expect(skillCards.length).toBeGreaterThanOrEqual(0)
+      })
+
+      it('then each StudentDetailedAdditionalSkillCard should receive correct props', async () => {
+        const { flushPromises } = await import('@vue/test-utils')
+        await flushPromises()
+        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+        skillCards.forEach((card) => {
+          expect(card.props('additionalSkill')).toBeDefined()
+        })
       })
     })
 

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
+import StudentDetailedAdditionalSkillCard
+  from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
 import { useAdditionalSkillsViewQuery } from '@/features/student/queries'
 import { useSkillsStore } from '@/store/skills/skills'
 import { AvButton, MDI_ICONS } from '@/ui'
+
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -41,7 +44,13 @@ function handleAddSkill (): void {
         :on-update-current-page="onUpdateCurrentPage"
         :on-update-page-size="onUpdatePageSize"
       >
-        TODO #416 Placeholder {{ skills.length }}...
+        <div class="skills-container">
+          <StudentDetailedAdditionalSkillCard
+            v-for="skill in skills"
+            :key="skill.id"
+            :additional-skill="skill"
+          />
+        </div>
       </Pagination>
     </div>
   </div>
@@ -57,5 +66,13 @@ function handleAddSkill (): void {
 .skills-view-other-tab__button-container {
   display: flex;
   justify-content: flex-end;
+}
+
+.skills-container {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
 }
 </style>
