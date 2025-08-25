@@ -59,7 +59,7 @@ defineExpose({ searchQuery })
   </AvHeader>
 
   <main>
-    <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
+    <div class="container fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
       <router-view />
     </div>
   </main>
@@ -81,5 +81,12 @@ defineExpose({ searchQuery })
 
 :deep(.fr-btns-group .fr-btn) {
   margin-bottom: var(--spacing-none);
+}
+
+.container {
+  max-width: 90rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 </style>
