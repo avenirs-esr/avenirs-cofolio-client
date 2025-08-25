@@ -84,4 +84,8 @@ const pathBadge = {
 .n5 {
   color: var(--other-background-base);
 }
+
+:deep(.av-card){
+  justify-content: flex-start;
+}
 </style>
