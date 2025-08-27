@@ -166,6 +166,7 @@ const isInvalid = computed(() => {
         :required="required"
         :maxlength="maxlength"
         :minlength="minlength"
+        v-bind="$attrs"
         @update:model-value="emit('update:modelValue', $event)"
       >
         <template
