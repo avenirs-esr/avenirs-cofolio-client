@@ -107,12 +107,12 @@ const slots = defineSlots<{
   /**
    * Slot for custom required tip content
    */
-  requiredTip?: () => Slot
+  requiredTip?: Slot
 
   /**
    * Slot for custom captions, such as error or valid messages.
    */
-  customCaptions?: (props: { currentValue?: string | number | null, maxlength?: number }) => Slot
+  customCaptions?: Slot<{ currentValue?: string | number | null, maxlength?: number }>
 }>()
 
 const errorMessages = computed(() => {
