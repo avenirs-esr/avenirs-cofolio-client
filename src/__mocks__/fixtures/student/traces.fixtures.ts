@@ -32,7 +32,7 @@ export function createMockedTracesViewResponse (pageSize: number, totalElements:
       title: `Ma super trace numéro ${i}`,
       createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
       updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
-      deletedAt: `2026-07-${randomDayNumber}T10:42:00.000Z`
+      willBeDeletedAt: `2026-07-${randomDayNumber}T10:42:00.000Z`
     }
     mockedTraces.push(trace)
   }

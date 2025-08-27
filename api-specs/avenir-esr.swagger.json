@@ -300,7 +300,10 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  }
                 }
               }
             }
@@ -316,7 +319,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                }
               }
             }
           },
@@ -1082,7 +1088,14 @@
           "EXPERT": {
             "$ref": "#/components/schemas/AdditionalSkillLevel"
           }
-        }
+        },
+        "required": [
+          "ADVANCED",
+          "BEGINNER",
+          "COMPETENT",
+          "EXPERT",
+          "INTERMEDIATE"
+        ]
       },
       "AdditionalSkillLevel": {
         "type": "object",
@@ -1093,7 +1106,11 @@
           "description": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "description",
+          "label"
+        ]
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -1229,18 +1246,18 @@
             "type": "string",
             "format": "date-time"
           },
-          "deletedAt": {
+          "willBeDeletedAt": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           }
         },
         "required": [
           "createdAt",
-          "deletedAt",
           "id",
           "status",
           "title",
-          "updatedAt"
+          "updatedAt",
+          "willBeDeletedAt"
         ]
       },
       "UnassociatedTracesSummaryDTO": {
@@ -1296,16 +1313,11 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
-          },
-          "deletedAt": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "required": [
           "AMSCount",
           "createdAt",
-          "deletedAt",
           "isGroup",
           "programName",
           "skillCount",
