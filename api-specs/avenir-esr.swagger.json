@@ -247,12 +247,12 @@
         }
       }
     },
-    "/back-office/config/website-content/build-life-project": {
+    "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
           "website-content-controller"
         ],
-        "operationId": "getBuildLifeProjectConfig",
+        "operationId": "getBuildLifeProjectConfigWithAllTranslations",
         "responses": {
           "200": {
             "description": "OK",
@@ -261,7 +261,7 @@
                 "schema": {
                   "type": "object",
                   "additionalProperties": {
-                    "$ref": "#/components/schemas/BuildLifeProjectDTO"
+                    "$ref": "#/components/schemas/BuildLifeProjectConfigDTO"
                   }
                 }
               }
@@ -280,7 +280,7 @@
               "schema": {
                 "type": "object",
                 "additionalProperties": {
-                  "$ref": "#/components/schemas/BuildLifeProjectDTO"
+                  "$ref": "#/components/schemas/BuildLifeProjectConfigDTO"
                 }
               }
             }
@@ -814,6 +814,26 @@
         }
       }
     },
+    "/back-office/config/website-content/build-life-project": {
+      "get": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "getBuildLifeProjectConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BuildLifeProjectConfigDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/{traceId}": {
       "delete": {
         "tags": [
@@ -1095,7 +1115,7 @@
           }
         }
       },
-      "BuildLifeProjectDTO": {
+      "BuildLifeProjectConfigDTO": {
         "type": "object",
         "properties": {
           "html": {

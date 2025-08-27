@@ -15,13 +15,22 @@
  * ```
  *
  * @param {string} text - The raw input string that may contain styling markers like `**`, `##`, or `(-...)`.
- * @param {string} color - The color applied to text wrapped in `##`. Defaults to 'var(--dark-background-primary1)'.
+ * @param {string} color - The color applied to text wrapped in `**` and '###'. Defaults to 'var(--dark-background-primary1)'.
  * @returns {string} A string of HTML with appropriate tags for styling and structure.
  */
 export function formatTextToHtml (text: string, color: string = 'var(--dark-background-primary1)'): string {
   return text
-    .replace(/\(-(.+?)\)/g, '<li class="indented-list">$1</li>')
+    // Header custom ### ... ###
+    .replace(/###(.+?)###/gs, `<h1 style="display:flex;flex-direction:row;justify-content:start;font-size:var(--font-size-n6);line-height:var(--line-height-n5);color:${color}">$1</h1>`)
+    // Content custom @@ ... @@
+    .replace(/@@([\s\S]+?)@@/g, `<div>$1</div>`)
+    // List items: "- " at beginning of line
+    // eslint-disable-next-line regexp/no-super-linear-backtracking
+    .replace(/^\s*--\s+(.*)$/gm, '<li class="indented-list">$1</li>')
+    // Handle \n as line-breaks
     .replace(/(\r\n|\n|\r|\\n|\\r)/g, '<div class="line-break"></div>')
-    .replace(/\*\*(.+?)\*\*/g, '<span class="text-underline">$1</span>')
-    .replace(/##(.+?)##/g, `<strong style="color: ${color}">$1</strong>`)
+    // Underline with __
+    .replace(/__(.+?)__/g, '<span class="text-underline">$1</span>')
+    // Strong colorized with **
+    .replace(/\*\*(.+?)\*\*/g, `<strong style="color: ${color}">$1</strong>`)
 }

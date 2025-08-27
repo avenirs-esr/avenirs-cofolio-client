@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useBackOfficeBuildLifeProjectConfigQuery } from '@/features/student/queries/use-back-office.query/use-back-office.query'
 import { AvModal } from '@/ui'
 import { formatTextToHtml } from '@/ui/utils'
 import { useI18n } from 'vue-i18n'
@@ -9,6 +10,8 @@ const {
 } = defineProps<{ showModal: boolean, onClose: () => void }>()
 
 const { t } = useI18n()
+
+const { data: config } = useBackOfficeBuildLifeProjectConfigQuery()
 </script>
 
 <template>
@@ -18,15 +21,11 @@ const { t } = useI18n()
     size="lg"
     @close="onClose"
   >
-    <div class="student-project-trajectories-helper-modal__container">
-      <div
-        class="student-project-trajectories-helper-modal__header"
-        v-html="formatTextToHtml(t('student.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.title'))"
-      />
-      <div class="student-project-trajectories-helper-modal__content">
-        <span v-html="formatTextToHtml(t('student.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.content'))" />
-      </div>
-    </div>
+    <div
+      v-if="config"
+      class="student-project-trajectories-helper-modal__container"
+      v-html="formatTextToHtml(config.html)"
+    />
   </AvModal>
 </template>
 
@@ -35,19 +34,5 @@ const { t } = useI18n()
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-}
-
-.student-project-trajectories-helper-modal__content {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.student-project-trajectories-helper-modal__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--font-size-n6);
-  line-height: var(--line-height-n5);
 }
 </style>

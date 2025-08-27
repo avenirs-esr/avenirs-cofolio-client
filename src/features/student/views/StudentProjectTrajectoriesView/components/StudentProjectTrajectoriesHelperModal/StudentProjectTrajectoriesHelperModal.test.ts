@@ -1,5 +1,6 @@
 import StudentProjectTrajectoriesHelperModal
   from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.vue'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -12,32 +13,17 @@ const stubs = {
   }
 }
 
-const onClose = vi.fn()
-let wrapper: VueWrapper
-
-beforeEach(() => {
-  vi.clearAllMocks()
-  wrapper = mount(StudentProjectTrajectoriesHelperModal, {
-    props: { showModal: true, onClose },
-    global: { stubs }
-  })
-})
-
 describe('given the modal is shown with content', () => {
-  describe('when the component is mounted', () => {
-    it('then the header should render HTML with formatted title', () => {
-      const header = wrapper.find('.student-project-trajectories-helper-modal__header')
-      expect(header.exists()).toBe(true)
-      expect(header.html()).toContain('<strong')
-    })
+  let onClose: ReturnType<typeof vi.fn>
+  let wrapper: VueWrapper
 
-    it('then the content should render HTML with transformed structure', () => {
-      const content = wrapper.find('.student-project-trajectories-helper-modal__content')
-      expect(content.exists()).toBe(true)
-      expect(content.html()).toContain('<li')
-      expect(content.html()).toContain('<strong')
-      expect(content.html()).toContain('<span')
-      expect(content.html()).toContain('line-break')
+  beforeEach(() => {
+    vi.clearAllMocks()
+    onClose = vi.fn()
+    const queryClient = new QueryClient()
+    wrapper = mount(StudentProjectTrajectoriesHelperModal, {
+      props: { showModal: true, onClose },
+      global: { stubs, plugins: [[VueQueryPlugin, { queryClient }]] }
     })
   })
 
@@ -48,6 +34,30 @@ describe('given the modal is shown with content', () => {
 
     it('then the onClose callback should be triggered', () => {
       expect(onClose).toHaveBeenCalled()
+    })
+  })
+
+  describe('when closeButtonLabel is passed as a prop', () => {
+    const closeButtonLabel = 'Close Now'
+
+    beforeEach(async () => {
+      await wrapper.setProps({ closeButtonLabel })
+    })
+
+    it('then the label should be passed down to the AvModal component', () => {
+      const avModal = wrapper.findComponent({ name: 'AvModal' })
+      expect(avModal.props('closeButtonLabel')).toBe(closeButtonLabel)
+    })
+  })
+
+  describe('when showModal prop changes', () => {
+    it('then the modal should be opened when showModal is true', () => {
+      expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(true)
+    })
+
+    it('then the modal should not be opened when showModal is false', async () => {
+      await wrapper.setProps({ showModal: false })
+      expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(false)
     })
   })
 })

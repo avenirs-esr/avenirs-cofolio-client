@@ -1,4 +1,5 @@
 export * from './use-ams-view.query/use-ams-view.query'
+export * from './use-back-office.query/use-back-office.query'
 export * from './use-program-progress.query/use-program-progress.query'
 export * from './use-skills-view.query/use-skills-view.query'
 export * from './use-student-access-control.query/use-student-access-control.query'

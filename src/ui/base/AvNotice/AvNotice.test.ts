@@ -25,11 +25,11 @@ describe('avNotice', () => {
     expect(wrapper.find('.fr-notice--warning').exists()).toBe(true)
   })
 
-  it('formats text between ** in span.text-underline', () => {
+  it('formats text between __ in span.text-underline', () => {
     const wrapper = mount(AvNotice, {
       props: {
         title: 'Test',
-        text: 'Voici un texte avec **partie soulignée** ici.',
+        text: 'Voici un texte avec __partie soulignée__ ici.',
         type: 'info'
       }
     })
