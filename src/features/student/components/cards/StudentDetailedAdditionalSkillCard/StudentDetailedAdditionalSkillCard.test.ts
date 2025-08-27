@@ -1,4 +1,4 @@
-import type { AdditionalSkillDTO } from '@/api/avenir-esr'
+import { type AdditionalSkillDTO, AdditionalSkillDTOType } from '@/api/avenir-esr'
 import StudentDetailedAdditionalSkillCard
   from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -7,7 +7,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 const mockSkill: AdditionalSkillDTO = {
   id: 'add-skill-1',
   title: 'Accueillir des enfants',
-  type: 'ROME4.0',
+  type: AdditionalSkillDTOType.ROME4,
   pathSegments: ['Relation client', 'Accueillir et orienter']
 }
 

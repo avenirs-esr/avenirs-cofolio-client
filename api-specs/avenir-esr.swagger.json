@@ -247,6 +247,53 @@
         }
       }
     },
+    "/back-office/config/website-content/build-life-project": {
+      "get": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "getBuildLifeProjectConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/BuildLifeProjectDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "website-content-controller"
+        ],
+        "operationId": "postBuildLifeProjectConfig",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "$ref": "#/components/schemas/BuildLifeProjectDTO"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/back-office/config/traces": {
       "get": {
         "tags": [
@@ -1048,6 +1095,17 @@
           }
         }
       },
+      "BuildLifeProjectDTO": {
+        "type": "object",
+        "properties": {
+          "html": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "html"
+        ]
+      },
       "TraceConfigurationDTO": {
         "type": "object",
         "properties": {
@@ -1106,11 +1164,7 @@
           "description": {
             "type": "string"
           }
-        },
-        "required": [
-          "description",
-          "label"
-        ]
+        }
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -1658,7 +1712,10 @@
             }
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "ROME4"
+            ]
           },
           "level": {
             "type": "string",
@@ -1701,7 +1758,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "title": {
             "type": "string"
@@ -1713,7 +1771,10 @@
             }
           },
           "type": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "ROME4"
+            ]
           }
         },
         "required": [

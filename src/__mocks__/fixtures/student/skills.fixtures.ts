@@ -1,4 +1,11 @@
-import { type AdditionalSkillDTO, type PagedResponseAdditionalSkillDTO, type PagedResponseSkillDTO, type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import {
+  type AdditionalSkillDTO,
+  AdditionalSkillDTOType,
+  type PagedResponseAdditionalSkillDTO,
+  type PagedResponseSkillDTO,
+  type SkillDTO,
+  SkillLevelStatus
+} from '@/api/avenir-esr'
 
 function getRandomSkillLevelStatus (): SkillLevelStatus {
   const statuses = Object.values(SkillLevelStatus)
@@ -54,7 +61,7 @@ export function createMockedPagedResponseAdditionalSkillsDTO (pageSize: number, 
       id: crypto.randomUUID(),
       title: `Ma super compétence complémentaire ${i}`,
       pathSegments: [],
-      type: 'ROME 4.0',
+      type: AdditionalSkillDTOType.ROME4,
     }
     mockedSkills.push(skill)
   }
