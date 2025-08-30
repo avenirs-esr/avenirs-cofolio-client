@@ -30,7 +30,6 @@ The component integrates:
 | `id` | `string` | Auto-generated | | ID of the input element. |
 | `inputOptions` | `Omit<AvInputProps, 'id' \| 'modelValue'>` | `{}` | | Input-related options and configuration. |
 | `options` | `T[]` | `[]` | | Options available for selection. |
-| `minChars` | `number` | `3` | | Minimum number of characters to trigger search. |
 | `multiSelect` | `boolean` | `false` | | Whether to allow multi-selection. |
 | `getOptionLabel` | `(option: T) => string` | | | Function to get display text from option. |
 | `getOptionKey` | `(option: T) => string \| number` | | | Function to get unique key from option. |
@@ -241,7 +240,7 @@ const users = ref([])
 const loading = ref(false)
 
 async function handleSearch (query) {
-  if (query.length < 3) {
+  if (!query.trim()) {
     users.value = []
     return
   }
@@ -270,7 +269,6 @@ async function handleSearch (query) {
     :loading="loading"
     :server-side-filtering="true"
     :multi-select="true"
-    :min-chars="3"
     @search="handleSearch"
   />
 </template>

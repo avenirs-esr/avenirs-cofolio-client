@@ -8,7 +8,6 @@ import AvAutocompleteSelectedTags from './AvAutocompleteSelectedTags.vue'
 
 const props = withDefaults(defineProps<AvAutocompleteProps<T>>(), {
   inputOptions: () => ({}),
-  minChars: 3,
   multiSelect: false,
   dropdownWidth: '100%',
   maxDropdownHeight: '20rem',

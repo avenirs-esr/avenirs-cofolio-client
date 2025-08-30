@@ -29,7 +29,6 @@ const {
 
 const dropdownRef = useTemplateRef<HTMLElement>('dropdownRef')
 const listRef = useTemplateRef<HTMLElement>('listRef')
-
 const filteredOptions = computed(() => {
   if (!props.options) {
     return []
@@ -41,7 +40,7 @@ const filteredOptions = computed(() => {
 
   const query = searchQuery.value.toLowerCase().trim()
 
-  if (!query || query.length < (props.minChars || 0)) {
+  if (!query) {
     const allOptions = props.options
     return props.maxResults ? allOptions.slice(0, props.maxResults) : allOptions
   }
@@ -66,10 +65,6 @@ const dropdownState = computed(() => {
   }
 
   if (isOpen.value && props.options && props.options.length > 0) {
-    if (!searchQuery.value || searchQuery.value.length < (props.minChars || 0)) {
-      return DropdownState.HAS_OPTIONS
-    }
-
     if (filteredOptions.value.length > 0) {
       return DropdownState.HAS_OPTIONS
     }
@@ -162,7 +157,7 @@ defineExpose({
       class="av-autocomplete-dropdown__empty"
     >
       <div class="av-autocomplete-dropdown__empty-text">
-        Type at least {{ props.minChars }} characters to search
+        Start typing to search
       </div>
     </div>
 

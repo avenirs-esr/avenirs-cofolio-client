@@ -20,11 +20,6 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
    */
   options?: T[]
   /**
-   * Minimum number of characters to trigger search
-   * @default 3
-   */
-  minChars?: number
-  /**
    * Whether to allow multi-selection
    * @default true
    */
