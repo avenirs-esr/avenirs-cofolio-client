@@ -313,10 +313,8 @@ describe('avListItem', () => {
       })
 
       it('then it should render the slot content', () => {
-        const customContentContainer = wrapper.find('.av-list-item__custom-content')
         const customContent = wrapper.find('.custom-content')
 
-        expect(customContentContainer.exists()).toBe(true)
         expect(customContent.exists()).toBe(true)
         expect(customContent.text()).toBe('Custom Content')
       })

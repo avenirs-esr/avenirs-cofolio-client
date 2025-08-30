@@ -27,7 +27,8 @@ The list item integrates:
 | Name | Type | Default | Mandatory | Description |
 | --- | --- | --- | --- | --- |
 | `icon` | `string` | | | The icon name according to the naming convention defined for VIcon. |
-| `color` | `string` | `'var(--text1)'` | | The icon and text color. |
+| `color` | `string` | `'var(--text1)'` | | The text color for title and description. |
+| `iconColor` | `string` | | | The icon color. If not provided, uses the `color` prop. |
 | `iconSize` | `number` | `1.3125` | | The icon size in rem units. |
 | `title` | `string` | | | The main title text for the list item. |
 | `description` | `string` | | | The secondary description text. |
@@ -156,6 +157,7 @@ The list item integrates:
     icon="mdi:palette"
     clickable
     color="#2563eb"
+    icon-color="#dc2626"
     hover-background-color="#dbeafe"
     color-on-hover="#1d4ed8"
     description-color="#6b7280"
