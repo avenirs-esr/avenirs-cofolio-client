@@ -1,3 +1,4 @@
+import { useDrawer } from '@/common/composables'
 import { PageSizes } from '@/ui/config'
 import { defineStore } from 'pinia'
 
@@ -10,11 +11,16 @@ export const useSkillsStore = defineStore('skills', () => {
   const additionalPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const additionalCurrentPage = ref(0)
 
+  const { showDrawer: showCreateAdditionalSkillDrawer, displayDrawer: displayCreateAdditionalSkillDrawer, hideDrawer: hideCreateAdditionalSkillDrawer } = useDrawer()
+
   return {
     currentPage,
     pageSizeSelected,
     additionalCurrentPage,
-    additionalPageSizeSelected
+    additionalPageSizeSelected,
+    showCreateAdditionalSkillDrawer,
+    displayCreateAdditionalSkillDrawer,
+    hideCreateAdditionalSkillDrawer
   }
 }, {
   persist: true

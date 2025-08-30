@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { useAdditionalSkillsStore } from '@/store'
+import { useSkillsStore } from '@/store'
 import { mountComponent } from 'tests/utils'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
 
@@ -87,7 +87,7 @@ describe('addAdditionalSkillDrawer', () => {
         }
       })
 
-      const store = useAdditionalSkillsStore()
+      const store = useSkillsStore()
       store.displayCreateAdditionalSkillDrawer()
     })
 
@@ -116,7 +116,7 @@ describe('addAdditionalSkillDrawer', () => {
 
         expect(autocomplete.exists()).toBe(true)
         expect(autocomplete.props('multiSelect')).toBe(false)
-        expect(autocomplete.props('serverSideFiltering')).toBe(false)
+        expect(autocomplete.props('serverSideFiltering')).toBe(true)
         expect(autocomplete.props('options')).toHaveLength(3)
       })
 
@@ -148,7 +148,7 @@ describe('addAdditionalSkillDrawer', () => {
 
     describe('when store showCreateAdditionalSkillDrawer is false', () => {
       it('then it should pass false to drawer show prop', async () => {
-        const store = useAdditionalSkillsStore()
+        const store = useSkillsStore()
         store.hideCreateAdditionalSkillDrawer()
         await wrapper.vm.$nextTick()
 
@@ -159,7 +159,7 @@ describe('addAdditionalSkillDrawer', () => {
 
     describe('when escape is pressed on drawer', () => {
       it('then it should hideCreateAdditionalSkillDrawer', async () => {
-        const store = useAdditionalSkillsStore()
+        const store = useSkillsStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
@@ -171,7 +171,7 @@ describe('addAdditionalSkillDrawer', () => {
 
     describe('when cancel button is clicked', () => {
       it('then it should hideCreateAdditionalSkillDrawer and reset form', async () => {
-        const store = useAdditionalSkillsStore()
+        const store = useSkillsStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
         const cancelButton = getCancelButton()
 
