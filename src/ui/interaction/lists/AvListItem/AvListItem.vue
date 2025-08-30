@@ -24,6 +24,11 @@ export interface AvListItemProps {
   iconSize?: number
 
   /**
+   * icon color
+   */
+  iconColor?: string
+
+  /**
    * The title text.
    */
   title?: string
@@ -210,7 +215,7 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
     >
       <AvVIcon
         :name="icon"
-        :color="color"
+        :color="iconColor ?? color"
         :size="iconSize"
       />
     </div>
@@ -231,7 +236,6 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
       </div>
       <div
         v-if="slots.default"
-        class="av-list-item__custom-content"
       >
         <slot />
       </div>
@@ -243,9 +247,6 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
 @mixin hoverColors {
   .av-list-item__title,
   .av-list-item__description,
-  .av-list-item__custom-content {
-    color: v-bind('colorOnHover');
-  }
 
   .av-list-item__icon :deep(svg) {
     color: v-bind('colorOnHover');
@@ -287,10 +288,6 @@ const selectedClass = computed(() => selected ? 'av-list-item--selected' : '')
   &__description {
     color: v-bind('descriptionColor');
     margin: 0;
-  }
-
-  &__custom-content {
-    margin-top: var(--spacing-xs);
   }
 
   &--clickable {
