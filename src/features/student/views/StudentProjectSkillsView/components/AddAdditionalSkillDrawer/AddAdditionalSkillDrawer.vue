@@ -3,15 +3,15 @@ import type { AdditionalSkillOption } from './types'
 import { AdditionalSkillProgressDTOLevel } from '@/api/avenir-esr'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useAdditionalSkillForm } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
-import { useAdditionalSkillsStore, useToasterStore } from '@/store'
+import { useSkillsStore, useToasterStore } from '@/store'
 import { AvAutocomplete, AvButton, AvDrawer, AvListItem, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const additionalSkillsStore = useAdditionalSkillsStore()
+const skillsStore = useSkillsStore()
 const { addSuccessMessage } = useToasterStore()
 
-const showDrawer = toRef(additionalSkillsStore, 'showCreateAdditionalSkillDrawer')
+const showDrawer = toRef(skillsStore, 'showCreateAdditionalSkillDrawer')
 
 function onSkillAdded () {
   addSuccessMessage({
@@ -77,7 +77,7 @@ function handleSearch (query: string) {
 function handleCancel () {
   form.reset()
   searchQuery.value = ''
-  additionalSkillsStore.hideCreateAdditionalSkillDrawer()
+  skillsStore.hideCreateAdditionalSkillDrawer()
 }
 
 function getOptionLabel (option: AdditionalSkillOption): string {

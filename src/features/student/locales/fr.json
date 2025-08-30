@@ -223,7 +223,16 @@
             "title": "Les compétences de mes formations "
           },
           "skillsViewOtherTab": {
-            "addSkillButton": "Ajouter une compétence"
+            "addSkillButton": "Ajouter une compétence",
+            "addAdditionalSkillDrawer": {
+              "title": "Ajouter une compétence complémentaire",
+              "searchLabel": "Rechercher une compétence",
+              "searchPlaceholder": "Commencer la recherche en tapant au moins 3 caractères",
+              "success": "Compétence ajoutée avec succès",
+              "validation": {
+                "required": "Une compétence doit être sélectionnée"
+              }
+            }
           }
         },
         "title": "Toutes mes compétences"

@@ -1,6 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { useTracesStore } from '@/store'
-import { waitFor } from 'storybook/test'
 import { mountComponent } from 'tests/utils'
 import StudentToolsTracesAddTraceDrawer from './StudentToolsTracesAddTraceDrawer.vue'
 
@@ -204,7 +203,7 @@ describe('studentToolsTracesAddTraceDrawer', () => {
         await setAuthenticToggle(true)
         await clickSaveButton()
 
-        await waitFor(() => {
+        await vi.waitFor(() => {
           expect(mockAddSuccessMessage).toHaveBeenCalledWith({
             timeout: 2000,
             description: 'Votre trace a été ajoutée à votre bibliothèque.'
@@ -217,7 +216,7 @@ describe('studentToolsTracesAddTraceDrawer', () => {
         await setAuthenticToggle(true)
         await clickSaveButton()
 
-        await waitFor(() => {
+        await vi.waitFor(() => {
           expect(mockAddErrorMessage).toHaveBeenCalledWith({
             title: 'Une erreur est survenue lors de la création de la trace.',
             description: 'Failed to create trace'

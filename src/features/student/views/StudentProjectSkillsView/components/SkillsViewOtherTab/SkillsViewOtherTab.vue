@@ -4,7 +4,8 @@ import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import StudentDetailedAdditionalSkillCard
   from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
 import { useAdditionalSkillsViewQuery } from '@/features/student/queries'
-import { useSkillsStore } from '@/store/skills/skills'
+import AddAdditionalSkillDrawer from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/AddAdditionalSkillDrawer.vue'
+import { useSkillsStore } from '@/store'
 import { AvButton, MDI_ICONS } from '@/ui'
 
 import { useI18n } from 'vue-i18n'
@@ -22,7 +23,7 @@ const { skills, pageInfo, error } = useAdditionalSkillsViewQuery(currentPage, pa
 useBaseApiExceptionToast(error)
 
 function handleAddSkill (): void {
-  // TODO: Action will be implemented in a future task
+  skillsStore.displayCreateAdditionalSkillDrawer()
 }
 </script>
 
@@ -53,6 +54,8 @@ function handleAddSkill (): void {
         </div>
       </Pagination>
     </div>
+
+    <AddAdditionalSkillDrawer />
   </div>
 </template>
 

@@ -223,7 +223,16 @@
             "title": "My educational skills "
           },
           "skillsViewOtherTab": {
-            "addSkillButton": "Add a skill"
+            "addSkillButton": "Add a skill",
+            "addAdditionalSkillDrawer": {
+              "title": "Add additional skill",
+              "searchLabel": "Search for a skill",
+              "searchPlaceholder": "Start search by typing at least 3 characters",
+              "success": "Skill added successfully",
+              "validation": {
+                "required": "A skill must be selected"
+              }
+            }
           }
         },
         "title": "All my skills"
