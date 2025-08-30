@@ -49,7 +49,6 @@ const meta = {
     options: {
       control: 'object',
     },
-    minChars: { control: 'number' },
     multiSelect: { control: 'boolean' },
     getOptionLabel: { control: false },
     getOptionKey: { control: false },
@@ -112,7 +111,6 @@ const meta = {
       label: 'Select options',
       placeholder: 'Search for options...',
     },
-    minChars: 3,
     multiSelect: false,
     dropdownWidth: '100%',
     maxDropdownHeight: '20rem',
@@ -164,7 +162,6 @@ WithCustomInput.args = {
     placeholder: 'Start typing to search...',
     required: true,
   },
-  minChars: 2,
 }
 
 export const Loading = Template.bind({})
