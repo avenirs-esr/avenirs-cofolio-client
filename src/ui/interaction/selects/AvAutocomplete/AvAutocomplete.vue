@@ -37,6 +37,10 @@ const emit = defineEmits<{
    * Emitted when more options should be loaded (infinite scroll).
    */
   (e: 'loadMore'): void
+  /**
+   * Emitted when the selection is cleared.
+   */
+  (e: 'clear'): void
 }>()
 
 const slots = defineSlots<{
@@ -139,6 +143,7 @@ onUnmounted(() => {
       <AvAutocompleteInput
         ref="inputRef"
         @search="handleSearch"
+        @clear="emit('clear')"
       >
         <template
           v-if="slots.requiredTip"

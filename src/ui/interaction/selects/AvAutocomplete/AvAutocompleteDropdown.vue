@@ -68,15 +68,8 @@ const dropdownState = computed(() => {
     if (filteredOptions.value.length > 0) {
       return DropdownState.HAS_OPTIONS
     }
-
-    return DropdownState.NO_OPTIONS
   }
-
-  if (!props.options || props.options.length === 0) {
-    return DropdownState.TYPE_TO_SEARCH
-  }
-
-  return DropdownState.TYPE_TO_SEARCH
+  return DropdownState.NO_OPTIONS
 })
 
 function isSelected (option: T): boolean {
@@ -150,15 +143,6 @@ defineExpose({
         class="av-autocomplete-dropdown__spinner"
       />
       <span class="av-autocomplete-dropdown__loading-text">Loading...</span>
-    </div>
-
-    <div
-      v-else-if="dropdownState === DropdownState.TYPE_TO_SEARCH"
-      class="av-autocomplete-dropdown__empty"
-    >
-      <div class="av-autocomplete-dropdown__empty-text">
-        Start typing to search
-      </div>
     </div>
 
     <div
