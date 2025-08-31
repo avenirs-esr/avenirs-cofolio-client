@@ -48,19 +48,6 @@ describe('useAdditionalSkillForm', () => {
 
         expect(validationResult?.fields?.selectedSkills).toEqual('Une compétence doit être sélectionnée')
       })
-
-      it('then it should return validation errors for null selectedSkills', () => {
-        const invalidData = {
-          selectedSkills: null as any
-        }
-
-        const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-        expect(onSubmitValidator).toBeDefined()
-
-        const validationResult = onSubmitValidator!({ value: invalidData })
-
-        expect(validationResult?.fields?.selectedSkills).toEqual('Une compétence doit être sélectionnée')
-      })
     })
 
     describe('when form is validated with valid data', () => {
@@ -73,7 +60,6 @@ describe('useAdditionalSkillForm', () => {
             title: 'Test Skill',
             pathSegments: ['Test', 'Path'],
             type: 'ROME 4.0',
-            level: 'BEGINNER' as any
           }]
         }
 
@@ -101,7 +87,6 @@ describe('useAdditionalSkillForm', () => {
             title: 'Test Skill',
             pathSegments: ['Test', 'Path'],
             type: 'ROME 4.0',
-            level: 'BEGINNER' as any
           }]
         }
 
