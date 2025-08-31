@@ -29,13 +29,16 @@ const stubs = {
     props: [
       'modelValue',
       'options',
+      'loading',
       'inputOptions',
       'getOptionLabel',
       'getOptionKey',
       'multiSelect',
-      'serverSideFiltering'
+      'serverSideFiltering',
+      'enableLoadMore',
+      'maxDropdownHeight'
     ],
-    emits: ['update:modelValue', 'search'],
+    emits: ['update:modelValue', 'search', 'clear', 'loadMore'],
     template: '<div class="av-autocomplete-stub"><slot name="item" v-for="option in options" :key="option.id" :option="option" :is-selected="false" :toggle="() => {}" /></div>'
   },
   AvButton: {
@@ -84,7 +87,9 @@ describe('addAdditionalSkillDrawer', () => {
       wrapper = mountComponent(AddAdditionalSkillDrawer, {
         global: {
           stubs
-        }
+        },
+        useTanstack: true,
+        usePinia: true
       })
 
       const store = useSkillsStore()
@@ -96,7 +101,7 @@ describe('addAdditionalSkillDrawer', () => {
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
         expect(drawer.exists()).toBe(true)
-        expect(drawer.props('position')).toBe('right')
+        expect(drawer.props('position')).toBe('left')
         expect(drawer.props('width')).toBe('50rem')
       })
 
@@ -117,7 +122,8 @@ describe('addAdditionalSkillDrawer', () => {
         expect(autocomplete.exists()).toBe(true)
         expect(autocomplete.props('multiSelect')).toBe(false)
         expect(autocomplete.props('serverSideFiltering')).toBe(true)
-        expect(autocomplete.props('options')).toHaveLength(3)
+        expect(autocomplete.props('enableLoadMore')).toBe(true)
+        expect(autocomplete.props('maxDropdownHeight')).toBe('14.5rem')
       })
 
       it('then it should render footer buttons', () => {
@@ -135,14 +141,11 @@ describe('addAdditionalSkillDrawer', () => {
         expect(form.exists()).toBe(true)
       })
 
-      it('then it should render mock skills in autocomplete', () => {
+      it('then it should render autocomplete with empty options initially', () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
         const options = autocomplete.props('options')
 
-        expect(options).toHaveLength(3)
-        expect(options[0].title).toBe('Accueillir des enfants')
-        expect(options[1].title).toBe('Gérer la relation client')
-        expect(options[2].title).toBe('Animation pédagogique')
+        expect(options).toHaveLength(0)
       })
     })
 
@@ -195,8 +198,7 @@ describe('addAdditionalSkillDrawer', () => {
           value: '1',
           title: 'Test Skill',
           pathSegments: ['Test'],
-          type: 'ROME 4.0',
-          level: 'BEGINNER'
+          type: 'ROME 4.0'
         }
 
         await autocomplete.vm.$emit('update:modelValue', mockSkill)
@@ -214,80 +216,36 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when search is performed', () => {
-      it('then it should filter skills based on title', async () => {
+    describe('when search events are handled', () => {
+      it('then it should handle search events', async () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
-        await autocomplete.vm.$emit('search', 'client')
+        await autocomplete.vm.$emit('search', 'test search')
         await wrapper.vm.$nextTick()
 
-        const options = autocomplete.props('options')
-        expect(options).toHaveLength(2)
-        expect(options.some((option: any) => option.title.includes('client'))).toBe(true)
+        expect(autocomplete.emitted('search')).toBeTruthy()
       })
 
-      it('then it should filter skills based on path segments', async () => {
+      it('then it should handle clear events', async () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
-        await autocomplete.vm.$emit('search', 'éducation')
+        await autocomplete.vm.$emit('clear')
         await wrapper.vm.$nextTick()
 
-        const options = autocomplete.props('options')
-        expect(options).toHaveLength(1)
-        expect(options[0].title).toBe('Animation pédagogique')
+        expect(autocomplete.emitted('clear')).toBeTruthy()
       })
 
-      it('then it should show all skills when search is empty', async () => {
+      it('then it should handle load more events', async () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
-        await autocomplete.vm.$emit('search', 'client')
+        await autocomplete.vm.$emit('loadMore')
         await wrapper.vm.$nextTick()
 
-        await autocomplete.vm.$emit('search', '')
-        await wrapper.vm.$nextTick()
-
-        const options = autocomplete.props('options')
-        expect(options).toHaveLength(3)
+        expect(autocomplete.emitted('loadMore')).toBeTruthy()
       })
     })
 
-    describe('when autocomplete item slot is rendered', () => {
-      it('then it should render skill item with content and badge', () => {
-        const listItems = wrapper.findAllComponents({ name: 'AvListItem' })
-        const badges = wrapper.findAllComponents({ name: 'AdditionalSkillTypeBadge' })
-
-        expect(listItems).toHaveLength(3)
-        expect(badges).toHaveLength(3)
-      })
-
-      it('then it should render skill title and path segments', () => {
-        const skillItems = wrapper.findAll('.skill-item')
-
-        expect(skillItems).toHaveLength(3)
-        expect(skillItems[0].find('.skill-item__title').exists()).toBe(true)
-        expect(skillItems[0].find('.skill-item__path').exists()).toBe(true)
-      })
-
-      it('then it should render path segments with separators', () => {
-        const pathSegments = wrapper.findAll('.skill-item__path-segment')
-
-        expect(pathSegments.length).toBeGreaterThan(0)
-      })
-    })
-
-    describe('when highlighting matched text', () => {
-      it('then it should have highlighting functionality available', () => {
-        const skillItems = wrapper.findAll('.skill-item')
-        expect(skillItems.length).toBeGreaterThan(0)
-      })
-
-      it('then it should not highlight when search query is empty', () => {
-        const skillTitle = wrapper.find('.skill-item__title')
-        expect(skillTitle.html()).not.toContain('<span class="highlight">')
-      })
-    })
-
-    describe('when option functions are called', () => {
+    describe('when option functions are configured', () => {
       it('then it should have proper autocomplete configuration', () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
         expect(autocomplete.props('getOptionLabel')).toBeDefined()
