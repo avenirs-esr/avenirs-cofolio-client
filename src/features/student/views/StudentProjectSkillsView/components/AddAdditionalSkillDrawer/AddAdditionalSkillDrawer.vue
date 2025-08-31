@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AdditionalSkillOption } from './types'
-import { AdditionalSkillProgressDTOLevel } from '@/api/avenir-esr'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useAdditionalSkillForm } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useSkillsStore, useToasterStore } from '@/store'
@@ -32,8 +31,7 @@ const mockSkills = ref<AdditionalSkillOption[]>([
     value: '1',
     title: 'Accueillir des enfants',
     pathSegments: ['Relation client', 'accueillir, renseigner', 'accueillir, orienter, informer une personne'],
-    type: 'ROME 4.0',
-    level: AdditionalSkillProgressDTOLevel.BEGINNER
+    type: 'ROME 4.0'
   },
   {
     id: '2',
@@ -42,7 +40,6 @@ const mockSkills = ref<AdditionalSkillOption[]>([
     title: 'Gérer la relation client',
     pathSegments: ['Relation client', 'gestion client', 'gérer les réclamations'],
     type: 'ROME 4.0',
-    level: AdditionalSkillProgressDTOLevel.INTERMEDIATE
   },
   {
     id: '3',
@@ -51,7 +48,6 @@ const mockSkills = ref<AdditionalSkillOption[]>([
     title: 'Animation pédagogique',
     pathSegments: ['Éducation', 'animation', 'animer des groupes d\'enfants'],
     type: 'ROME 4.0',
-    level: AdditionalSkillProgressDTOLevel.BEGINNER
   }
 ])
 

@@ -1,4 +1,3 @@
-import type { AdditionalSkillProgressDTOLevel } from '@/api/avenir-esr'
 import type { AvAutocompleteOption } from '@/ui'
 
 export interface AdditionalSkillOption extends AvAutocompleteOption {
@@ -6,7 +5,6 @@ export interface AdditionalSkillOption extends AvAutocompleteOption {
   title: string
   pathSegments: string[]
   type: string
-  level: AdditionalSkillProgressDTOLevel
 }
 
 export interface AdditionalSkillFormData {
