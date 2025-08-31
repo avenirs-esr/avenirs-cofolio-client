@@ -54,6 +54,7 @@ The component integrates:
 | --- | --- | --- |
 | `search` | `query: string` | Emitted when user searches for options. |
 | `loadMore` | | Emitted when more options should be loaded (infinite scroll). |
+| `clear` | | Emitted when the selection is cleared. |
 
 ## 🧩 Slots
 

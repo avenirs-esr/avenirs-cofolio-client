@@ -9,6 +9,7 @@ import { useAutocompleteContext } from './AvAutocompleteContext'
 
 const emit = defineEmits<{
   search: [query: string]
+  clear: []
 }>()
 
 const slots = defineSlots<{
@@ -63,6 +64,7 @@ function handleFocus () {
 function handleClearSelection () {
   selectedItems.value = []
   searchQuery.value = ''
+  emit('clear')
 }
 
 onUnmounted(() => {
