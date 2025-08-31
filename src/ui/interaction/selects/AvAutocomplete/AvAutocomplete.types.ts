@@ -99,7 +99,6 @@ export interface AvAutocompleteProps<T extends AvAutocompleteOption = AvAutocomp
 
 export enum DropdownState {
   LOADING = 'loading',
-  TYPE_TO_SEARCH = 'type-to-search',
   NO_OPTIONS = 'no-options',
   HAS_OPTIONS = 'has-options'
 }

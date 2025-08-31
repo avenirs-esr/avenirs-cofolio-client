@@ -225,10 +225,13 @@
           "skillsViewOtherTab": {
             "addSkillButton": "Ajouter une compétence",
             "addAdditionalSkillDrawer": {
-              "title": "Ajouter une compétence complémentaire",
+              "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
+              "noResultsFound": "Aucune compétence trouvée",
               "searchLabel": "Rechercher une compétence",
               "searchPlaceholder": "Commencer la recherche en tapant au moins 3 caractères",
+              "startTyping": "Commencez à taper pour rechercher une compétence",
               "success": "Compétence ajoutée avec succès",
+              "title": "Ajouter une compétence complémentaire",
               "validation": {
                 "required": "Une compétence doit être sélectionnée"
               }

@@ -1,8 +1,17 @@
-import type { AdditionalSkillDTO, AdditionalSkillProgressDTO, PagedResponseAdditionalSkillDTO, PagedResponseAdditionalSkillProgressDTO, PagedResponseSkillDTO, PageInfoDTO, SkillDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { useAdditionalSkillsViewQuery, useSkillsViewQuery } from '@/features/student/queries'
+import {
+  type AdditionalSkillDTO,
+  AdditionalSkillDTOType,
+  type AdditionalSkillProgressDTO,
+  type PagedResponseAdditionalSkillDTO,
+  type PagedResponseAdditionalSkillProgressDTO,
+  type PagedResponseSkillDTO,
+  type PageInfoDTO,
+  type SkillDTO
+} from '@/api/avenir-esr'
+import { useAdditionalSkillsViewQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@/ui/config'
 import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
@@ -260,6 +269,89 @@ describe('useSkillsViewQuery', () => {
           expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
           expect(queryResult.skills.value).toHaveLength(PageSizes.EIGHT)
         })
+      })
+    })
+  })
+})
+
+describe('useSearchAdditionalSkillsQuery', () => {
+  const uiidRegex = /^search-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+  describe('given valid search parameters', () => {
+    const keyword = ref('com')
+    const pageSize = ref(PageSizes.FOUR)
+
+    describe('when the query is executed with keyword >= 3 characters', () => {
+      let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchAdditionalSkillsQuery(keyword, pageSize))
+        await flushPromises()
+      })
+
+      it('then it should return search results matching the keyword', () => {
+        expect(queryResult.skills.value.length).toBeGreaterThan(0)
+
+        const firstSkill = queryResult.skills.value[0]
+        expect(firstSkill).toHaveProperty('id')
+        expect(firstSkill.id).toMatch(uiidRegex)
+        expect(firstSkill.title.toLowerCase()).toContain('com')
+        expect(firstSkill).toHaveProperty('pathSegments')
+        expect(firstSkill).toHaveProperty('type')
+        expect(firstSkill.type).toBe(AdditionalSkillDTOType.ROME4)
+      })
+
+      it('then it should have infinite query properties', () => {
+        expect(queryResult.hasNextPage).toBeDefined()
+        expect(queryResult.fetchNextPage).toBeDefined()
+        expect(queryResult.isFetchingNextPage).toBeDefined()
+      })
+    })
+
+    describe('when keyword is less than 3 characters', () => {
+      const shortKeyword = ref('co')
+      let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchAdditionalSkillsQuery(shortKeyword, pageSize))
+        await flushPromises()
+      })
+
+      it('then it should return empty skills array', () => {
+        expect(queryResult.skills.value).toHaveLength(0)
+      })
+    })
+
+    describe('when keyword is empty', () => {
+      const emptyKeyword = ref('')
+      let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchAdditionalSkillsQuery(emptyKeyword, pageSize))
+        await flushPromises()
+      })
+
+      it('then it should return empty skills array', () => {
+        expect(queryResult.skills.value).toHaveLength(0)
+      })
+    })
+
+    describe('when keyword changes from valid to invalid', () => {
+      const dynamicKeyword = ref('communication')
+      let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchAdditionalSkillsQuery(dynamicKeyword, pageSize))
+        await flushPromises()
+      })
+
+      it('then it should clear results when keyword becomes too short', async () => {
+        expect(queryResult.skills.value.length).toBeGreaterThan(0)
+
+        dynamicKeyword.value = 'co'
+        await flushPromises()
+
+        expect(queryResult.skills.value).toHaveLength(0)
       })
     })
   })

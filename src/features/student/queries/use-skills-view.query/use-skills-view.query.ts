@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type AdditionalSkillDTO, type AdditionalSkillProgressDTO, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, type SkillDTO } from '@/api/avenir-esr'
-import { keepPreviousData, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type Ref, toValue } from 'vue'
+import { type AdditionalSkillDTO, type AdditionalSkillProgressDTO, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, searchAdditionalSkills, type SkillDTO } from '@/api/avenir-esr'
+import { keepPreviousData, useInfiniteQuery, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'skills']
 
@@ -84,5 +84,50 @@ export function useSkillsViewQuery (
     ...query,
     skills,
     pageInfo,
+  }
+}
+
+export function useSearchAdditionalSkillsQuery (
+  keyword: Ref<string>,
+  pageSize: Ref<number>
+) {
+  const queryKey = computed(() => [...commonQueryKeys, 'search-additional', {
+    keyword: keyword.value,
+    pageSize: pageSize.value
+  }])
+
+  const queryFn = computed(() => async ({ pageParam = 0 }): Promise<PagedResponseAdditionalSkillDTO> => {
+    return await searchAdditionalSkills({
+      keyword: toValue(keyword),
+      page: pageParam,
+      pageSize: toValue(pageSize)
+    })
+  }
+  )
+
+  const query = useInfiniteQuery<
+    PagedResponseAdditionalSkillDTO,
+    BaseApiException,
+    AdditionalSkillDTO[],
+    Readonly<UnwrapRef<typeof queryKey>>,
+    number
+  >({
+    queryKey,
+    queryFn,
+    enabled: computed(() => keyword.value.trim().length >= 3),
+    staleTime: TWO_MINUTES,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: PagedResponseAdditionalSkillDTO) => {
+      const { page, totalPages } = lastPage.page
+      return page + 1 < totalPages ? page + 1 : undefined
+    },
+    select: data => data.pages.flatMap(page => page.data)
+  })
+
+  const skills = computed(() => keyword.value.trim().length >= 3 ? (query.data.value ?? []) : [])
+
+  return {
+    ...query,
+    skills,
   }
 }

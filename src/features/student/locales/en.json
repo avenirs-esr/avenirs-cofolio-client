@@ -225,10 +225,13 @@
           "skillsViewOtherTab": {
             "addSkillButton": "Add a skill",
             "addAdditionalSkillDrawer": {
-              "title": "Add additional skill",
+              "minimumCharacters": "Type at least 3 characters to search",
+              "noResultsFound": "No skill found",
               "searchLabel": "Search for a skill",
               "searchPlaceholder": "Start search by typing at least 3 characters",
+              "startTyping": "Start typing to search for a skill",
               "success": "Skill added successfully",
+              "title": "Add additional skill",
               "validation": {
                 "required": "A skill must be selected"
               }

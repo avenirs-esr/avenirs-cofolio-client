@@ -76,3 +76,65 @@ export function createMockedPagedResponseAdditionalSkillsDTO (pageSize: number, 
     page: { pageSize, totalElements, totalPages, page }
   }
 }
+
+export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseAdditionalSkillDTO {
+  const allSkills = [
+    'Accueillir des enfants',
+    'Animation pédagogique',
+    'Développement web',
+    'Gestion de projet',
+    'Formation éducative',
+    'Analyse de données',
+    'Design graphique',
+    'Ressources humaines',
+    'Logistique et transport',
+    'Maintenance industrielle',
+    'Sécurité et prévention des risques',
+    'Innovation et recherche',
+    'Leadership et management',
+    'Planification stratégique',
+    'Audit et contrôle interne',
+    'Juridique et conformité',
+    'Santé et sécurité au travail',
+    'Formation et développement',
+    'Relations publiques',
+    'Intelligence artificielle',
+    'Cybersécurité',
+    'Communication client',
+    'Communication interpersonnelle',
+    'Communication digitale',
+    'Communication marketing',
+    'Communication interne',
+    'Communication externe',
+    'Communication de crise',
+    'Communication visuelle',
+    'Commerce international',
+    'Commerce électronique',
+    'Commerce de détail',
+    'Commerce B2B',
+    'Commerce en ligne',
+    'Comptabilité générale',
+    'Comptabilité analytique',
+    'Comptabilité publique'
+  ]
+
+  const filteredSkills: AdditionalSkillDTO[] = allSkills
+    .filter(title => title.toLowerCase().includes(keyword.toLowerCase()))
+    .map(title => ({
+      id: `search-${crypto.randomUUID()}`,
+      title,
+      pathSegments: ['Compétence', 'professionnelle', title.toLowerCase()],
+      type: AdditionalSkillDTOType.ROME4
+    }))
+
+  const actualTotalElements = Math.min(filteredSkills.length, totalElements)
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedSkills = filteredSkills.slice(start, end)
+  const totalPages = Math.ceil(actualTotalElements / pageSize)
+
+  return {
+    data: paginatedSkills,
+    page: { pageSize, totalElements: actualTotalElements, totalPages, page }
+  }
+}

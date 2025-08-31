@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { AdditionalSkillDTO } from '@/api/avenir-esr'
 import type { AdditionalSkillOption } from './types'
+import { useBaseApiExceptionToast } from '@/common/composables'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
+import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
 import { useAdditionalSkillForm } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useSkillsStore, useToasterStore } from '@/store'
 import { AvAutocomplete, AvButton, AvDrawer, AvListItem, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
+const SEARCH_SKILLS_MIN_LENGTH = 3
+const PAGE_SIZE = 10
+
 const { t } = useI18n()
 const skillsStore = useSkillsStore()
 const { addSuccessMessage } = useToasterStore()
-
 const showDrawer = toRef(skillsStore, 'showCreateAdditionalSkillDrawer')
 
 function onSkillAdded () {
@@ -23,51 +28,35 @@ function onSkillAdded () {
 const { form, isFormValid } = useAdditionalSkillForm(onSkillAdded)
 
 const searchQuery = ref('')
+const pageSize = ref(PAGE_SIZE)
 
-const mockSkills = ref<AdditionalSkillOption[]>([
-  {
-    id: '1',
-    label: 'Accueillir des enfants',
-    value: '1',
-    title: 'Accueillir des enfants',
-    pathSegments: ['Relation client', 'accueillir, renseigner', 'accueillir, orienter, informer une personne'],
-    type: 'ROME 4.0'
-  },
-  {
-    id: '2',
-    label: 'Gérer la relation client',
-    value: '2',
-    title: 'Gérer la relation client',
-    pathSegments: ['Relation client', 'gestion client', 'gérer les réclamations'],
-    type: 'ROME 4.0',
-  },
-  {
-    id: '3',
-    label: 'Animation pédagogique',
-    value: '3',
-    title: 'Animation pédagogique',
-    pathSegments: ['Éducation', 'animation', 'animer des groupes d\'enfants'],
-    type: 'ROME 4.0',
-  }
-])
+const { skills: apiSkills, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage, error } = useSearchAdditionalSkillsQuery(
+  searchQuery,
+  pageSize
+)
 
-const filteredSkills = computed(() => {
-  if (!searchQuery.value || searchQuery.value.trim().length === 0) {
-    return mockSkills.value
-  }
+useBaseApiExceptionToast(error)
 
-  const query = searchQuery.value.toLowerCase().trim()
-
-  return mockSkills.value.filter(skill =>
-    skill.title.toLowerCase().includes(query)
-    || skill.pathSegments.some(segment =>
-      segment.toLowerCase().includes(query)
-    )
-  )
+const skills = computed((): AdditionalSkillOption[] => {
+  return apiSkills.value.map((skill: AdditionalSkillDTO): AdditionalSkillOption => ({
+    label: skill.title,
+    value: skill.id,
+    ...skill
+  }))
 })
 
 function handleSearch (query: string) {
   searchQuery.value = query
+}
+
+function handleClear () {
+  searchQuery.value = ''
+}
+
+function handleLoadMore () {
+  if (hasNextPage.value && !isFetchingNextPage.value) {
+    fetchNextPage()
+  }
 }
 
 function handleCancel () {
@@ -98,7 +87,7 @@ function highlightMatchedText (text: string, query: string): string {
 <template>
   <AvDrawer
     :show="showDrawer"
-    position="right"
+    position="left"
     width="50rem"
     @escape-pressed="handleCancel"
   >
@@ -128,7 +117,8 @@ function highlightMatchedText (text: string, query: string): string {
               <template #default="{ field }">
                 <AvAutocomplete
                   :model-value="field.state.value"
-                  :options="filteredSkills"
+                  :options="skills"
+                  :loading="isLoading || isFetchingNextPage"
                   :input-options="{
                     label: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.searchLabel'),
                     placeholder: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.searchPlaceholder'),
@@ -138,11 +128,41 @@ function highlightMatchedText (text: string, query: string): string {
                   :get-option-key="getOptionKey"
                   :multi-select="false"
                   :server-side-filtering="true"
+                  :enable-load-more="true"
+                  max-dropdown-height="14.5rem"
+                  :debounce-delay="500"
                   @update:model-value="field.handleChange"
                   @search="handleSearch"
+                  @clear="handleClear"
+                  @load-more="handleLoadMore"
                 >
+                  <template
+                    #empty
+                  >
+                    <div v-memo="[searchQuery, skills]">
+                      <div
+                        v-if="searchQuery.length >= SEARCH_SKILLS_MIN_LENGTH && skills.length === 0"
+                        class="b2-regular"
+                      >
+                        {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.noResultsFound') }}
+                      </div>
+                      <div
+                        v-else-if="searchQuery.length > 0 && searchQuery.length < SEARCH_SKILLS_MIN_LENGTH"
+                        class="b2-regular"
+                      >
+                        {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.minimumCharacters') }}
+                      </div>
+                      <div
+                        v-else
+                        class="b2-regular"
+                      >
+                        {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping') }}
+                      </div>
+                    </div>
+                  </template>
                   <template #item="{ option, isSelected, toggle }">
                     <AvListItem
+                      v-memo="[option, isSelected, toggle, searchQuery]"
                       clickable
                       hover-background-color="var(--light-background-neutral)"
                       :selected="isSelected"
@@ -152,7 +172,10 @@ function highlightMatchedText (text: string, query: string): string {
                       color-on-hover="var(--text1)"
                       @click="toggle"
                     >
-                      <div class="skill-item">
+                      <div
+                        v-memo="[option, isSelected]"
+                        class="skill-item"
+                      >
                         <div class="skill-item__content">
                           <div
                             class="skill-item__title"
@@ -185,7 +208,10 @@ function highlightMatchedText (text: string, query: string): string {
     </div>
 
     <template #footer>
-      <div class="add-additional-skill-drawer__footer">
+      <div
+        v-memo="[isFormValid]"
+        class="add-additional-skill-drawer__footer"
+      >
         <AvButton
           :label="t('global.buttons.cancel')"
           variant="OUTLINED"
