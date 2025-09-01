@@ -233,7 +233,8 @@
               "success": "Compétence ajoutée avec succès",
               "title": "Ajouter une compétence complémentaire",
               "validation": {
-                "required": "Une compétence doit être sélectionnée"
+                "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
+                "skillRequired": "Une compétence doit être sélectionnée"
               }
             }
           }

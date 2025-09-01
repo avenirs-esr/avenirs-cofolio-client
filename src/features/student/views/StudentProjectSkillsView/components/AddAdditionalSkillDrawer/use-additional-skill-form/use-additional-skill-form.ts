@@ -7,14 +7,18 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
 
   const form = useForm({
     defaultValues: {
-      selectedSkills: []
-    } as AdditionalSkillFormData,
+      selectedSkills: [],
+      level: undefined
+    } as unknown as AdditionalSkillFormData,
     validators: {
       onSubmit ({ value }: { value: AdditionalSkillFormData }) {
         return {
           fields: {
             selectedSkills: (!value.selectedSkills || value.selectedSkills.length === 0)
-              ? t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.validation.required')
+              ? t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.validation.skillRequired')
+              : undefined,
+            level: !value.level
+              ? t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.validation.levelRequired')
               : undefined
           }
         }
@@ -36,3 +40,5 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
     isFormValid
   }
 }
+
+export type AdditionalSkillForm = ReturnType<typeof useAdditionalSkillForm>['form']

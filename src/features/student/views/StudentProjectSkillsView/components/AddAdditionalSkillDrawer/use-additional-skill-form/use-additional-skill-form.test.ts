@@ -1,4 +1,5 @@
 import type { AdditionalSkillFormData } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
+import { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
 import { mountComposable } from '@/ui/tests/utils'
 import { vi } from 'vitest'
 import { useAdditionalSkillForm } from './use-additional-skill-form'
@@ -38,7 +39,8 @@ describe('useAdditionalSkillForm', () => {
     describe('when form is validated with invalid data', () => {
       it('then it should return validation errors for missing selectedSkills', () => {
         const invalidData: AdditionalSkillFormData = {
-          selectedSkills: []
+          selectedSkills: [],
+          level: undefined
         }
 
         const onSubmitValidator = composableResult.form.options.validators?.onSubmit
@@ -60,7 +62,8 @@ describe('useAdditionalSkillForm', () => {
             title: 'Test Skill',
             pathSegments: ['Test', 'Path'],
             type: 'ROME 4.0',
-          }]
+          }],
+          level: AddAdditionalSkillDTOLevel.INTERMEDIATE
         }
 
         const onSubmitValidator = composableResult.form.options.validators?.onSubmit
@@ -87,7 +90,8 @@ describe('useAdditionalSkillForm', () => {
             title: 'Test Skill',
             pathSegments: ['Test', 'Path'],
             type: 'ROME 4.0',
-          }]
+          }],
+          level: AddAdditionalSkillDTOLevel.INTERMEDIATE
         }
 
         const onSubmit = composableResult.form.options.onSubmit
