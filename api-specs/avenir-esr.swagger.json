@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:10001",
+      "url": "http://avenirs-apisix-api:9080",
       "description": "Generated server url"
     }
   ],
@@ -345,12 +345,9 @@
           "200": {
             "description": "OK",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
-                  }
+                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
                 }
               }
             }

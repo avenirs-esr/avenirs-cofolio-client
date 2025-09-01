@@ -1,5 +1,8 @@
 import { createMockedPagedResponseAdditionalSkillsDTO, createMockedPagedResponseSkillsDTO, createMockedSearchAdditionalSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
+  AddAdditionalSkillDTOLevel,
+  type AdditionalSkillConfigurationDTO,
+  getGetAdditionalSkillConfigUrl,
   getGetSkillLevelProgressesUrl,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO
@@ -88,6 +91,38 @@ export const skillsHandlers = [
     const response = createMockedSearchAdditionalSkillsDTO(pageSize, 20, page, keyword)
 
     return HttpResponse.json<PagedResponseAdditionalSkillDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, AdditionalSkillConfigurationDTO>(`*${getGetAdditionalSkillConfigUrl()}`, () => {
+    const mockConfig: AdditionalSkillConfigurationDTO = {
+      [AddAdditionalSkillDTOLevel.BEGINNER]: {
+        label: 'Débutant',
+        description: 'Je découvre cette compétence'
+      },
+      [AddAdditionalSkillDTOLevel.INTERMEDIATE]: {
+        label: 'Intermédiaire',
+        description: 'Je commence à maîtriser cette compétence'
+      },
+      [AddAdditionalSkillDTOLevel.COMPETENT]: {
+        label: 'Compétent',
+        description: 'Je maîtrise cette compétence'
+      },
+      [AddAdditionalSkillDTOLevel.ADVANCED]: {
+        label: 'Avancé',
+        description: 'Je maîtrise bien cette compétence'
+      },
+      [AddAdditionalSkillDTOLevel.EXPERT]: {
+        label: 'Expert',
+        description: 'Je maîtrise parfaitement cette compétence'
+      }
+    }
+
+    return HttpResponse.json<AdditionalSkillConfigurationDTO>(mockConfig, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

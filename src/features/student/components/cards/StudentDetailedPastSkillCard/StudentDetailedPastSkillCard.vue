@@ -3,7 +3,7 @@ import type { SkillDTO, SkillLevelViewDTO } from '@/api/avenir-esr'
 import type { ComputedRef } from 'vue'
 import { StudentLastCompletedLevelBadge } from '@/features/student'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
-import { AvBadge, MDI_ICONS, MDI_ICONS_URLS } from '@/ui'
+import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedEducationaSkillCardProps {
@@ -31,7 +31,7 @@ const basePath = import.meta.env.BASE_URL
           <AvBadge
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-path="MDI_ICONS_URLS.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+            :icon-path="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
             :label="t('student.cards.studentDetailedPastSkillCard.programFinished')"
             small
             ellipsis

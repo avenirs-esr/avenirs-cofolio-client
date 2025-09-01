@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Footer } from '@/common/components'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
-import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables/'
+import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange, useLanguageSwitcher } from '@/common/composables/'
 import {
   StudentMailboxPopover,
   StudentNavigation,
@@ -12,6 +12,8 @@ import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvHeader } from '@/ui'
 import { useI18n } from 'vue-i18n'
+
+useInvalidateAllQueriesAfterLocaleChange()
 
 const { t } = useI18n()
 

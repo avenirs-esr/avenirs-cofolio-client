@@ -233,7 +233,8 @@
               "success": "Skill added successfully",
               "title": "Add additional skill",
               "validation": {
-                "required": "A skill must be selected"
+                "skillRequired": "A skill must be selected",
+                "levelRequired": "A self-positioning level must be selected"
               }
             }
           }

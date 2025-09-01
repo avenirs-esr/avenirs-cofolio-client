@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import type AvRadioButton from '@/ui/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import { DsfrRadioButton, DsfrRadioButtonSet } from '@gouvminint/vue-dsfr'
-import { useSlots, type VNode } from 'vue'
+import { Fragment, type Slot, useSlots } from 'vue'
 
 /**
  * AvRadioButtonSet component props.
@@ -86,11 +85,29 @@ defineSlots<{
    *
    * @slot default
    */
-  default?: () => VNode<typeof AvRadioButton>[]
+  default?: Slot
 }>()
 
 const slots = useSlots()
-const radios = computed(() => slots.default?.() || [])
+const radios = computed(() => {
+  const slotContent = slots.default?.()
+
+  if (!slotContent || !Array.isArray(slotContent)) {
+    return []
+  }
+
+  const flattenedContent = []
+  for (const node of slotContent) {
+    if (node.type === Fragment && Array.isArray(node.children)) {
+      flattenedContent.push(...node.children)
+    }
+    else {
+      flattenedContent.push(node)
+    }
+  }
+
+  return flattenedContent
+})
 
 const selected = ref(props.modelValue)
 
