@@ -1,4 +1,4 @@
-import { i18n } from '@/plugins/vue-i18n' // use the same instance you created
+import { i18n } from '@/plugins/vue-i18n'
 import { type QueryKey, useQueryClient } from '@tanstack/vue-query'
 
 export function useInvalidateQuery (queryKey?: QueryKey) {

@@ -98,9 +98,9 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
                     :icon-path="getBadgeConfig(level).icon"
                   />
                 </div>
-                <div class="b2-regular">
+                <span class="b2-regular">
                   {{ getDescription(level) }}
-                </div>
+                </span>
               </div>
             </AvRadioButton>
           </template>
@@ -111,6 +111,8 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
 </template>
 
 <style scoped lang="scss">
+@use "@/ui/styles/typography.scss" as typography;
+
 .skill-level-field {
   display: flex;
   flex-direction: column;
@@ -119,10 +121,7 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
 }
 
 :deep(.fr-fieldset__legend--regular) {
-  font-size: var(--font-size-xs);
-  line-height: 1.125rem;
-  color: var(--text2);
-  padding-bottom: var(--spacing-xxs);
+  @extend .caption-regular;
 }
 
 .level-option {
