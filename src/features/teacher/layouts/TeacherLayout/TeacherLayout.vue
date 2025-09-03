@@ -3,7 +3,7 @@ import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables/'
 import { teacherHomeRoute } from '@/features/teacher/routes'
-import { AvHeader } from '@/ui'
+import AvHeader from '@/ui/header/AvHeader/AvHeader.vue'
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const serviceTitle = 'CoFolio Enseignant'

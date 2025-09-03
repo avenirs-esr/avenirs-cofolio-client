@@ -98,7 +98,7 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
                     :icon-path="getBadgeConfig(level).icon"
                   />
                 </div>
-                <div class="level-option__description">
+                <div class="b2-regular">
                   {{ getDescription(level) }}
                 </div>
               </div>
@@ -119,7 +119,6 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
 }
 
 :deep(.fr-fieldset__legend--regular) {
-  font-weight: var(--font-weight-regular);
   font-size: var(--font-size-xs);
   line-height: 1.125rem;
   color: var(--text2);
@@ -135,11 +134,5 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
 .level-option__header {
   display: flex;
   align-items: center;
-}
-
-.level-option__description {
-  color: var(--text2);
-  font-size: var(--font-size-sm);
-  line-height: 1.4;
 }
 </style>

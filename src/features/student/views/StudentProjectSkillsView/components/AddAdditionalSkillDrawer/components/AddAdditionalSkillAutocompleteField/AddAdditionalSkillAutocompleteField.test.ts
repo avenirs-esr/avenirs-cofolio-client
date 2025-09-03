@@ -5,25 +5,26 @@ import type { VueWrapper } from '@vue/test-utils'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 const TestWrapper = {
   components: {
-    AddAdditionalSkillLevelField: AddAdditionalSkillAutocompleteField
+    AddAdditionalSkillAutocompleteField
   },
   setup () {
     const form = useForm({
       defaultValues: {
         selectedSkills: [],
         level: undefined
-      } as AdditionalSkillFormData,
+      } as unknown as AdditionalSkillFormData,
       validators: {
         onSubmit ({ value }) {
           return {
             fields: {
               selectedSkills: (!value.selectedSkills || value.selectedSkills.length === 0)
-                ? 'Required field'
+                ? 'Une compétence doit être sélectionnée'
                 : undefined,
-              level: !value.level ? 'Required field' : undefined
+              level: !value.level ? 'Un niveau d\'auto-positionnement doit être sélectionné' : undefined
             }
           }
         }
@@ -33,7 +34,7 @@ const TestWrapper = {
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
-      <AddAdditionalSkillLevelField :form="form" />
+      <AddAdditionalSkillAutocompleteField :form="form" />
     </form>
   `
 }
@@ -80,8 +81,8 @@ const stubs = {
   }
 }
 
-describe('addAdditionalSkillLevelField', () => {
-  describe('given a search skill field component', () => {
+describe('addAdditionalSkillAutocompleteField', () => {
+  describe('given an autocomplete skill field component', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
@@ -95,7 +96,7 @@ describe('addAdditionalSkillLevelField', () => {
     })
 
     describe('when the component is mounted', () => {
-      it('then it should render the search skill field container', () => {
+      it('then it should render the autocomplete field container', () => {
         const container = wrapper.find('.search-skill-field')
         expect(container.exists()).toBe(true)
       })
@@ -116,10 +117,11 @@ describe('addAdditionalSkillLevelField', () => {
         const inputOptions = autocomplete.props('inputOptions')
 
         expect(inputOptions.placeholder).toBe('Commencer la recherche en tapant au moins 3 caractères')
+        expect(inputOptions.label).toBe('Rechercher une compétence')
       })
 
       it('then it should render empty message for initial state', () => {
-        const emptyMessage = wrapper.find('.empty-message')
+        const emptyMessage = wrapper.find('.b2-regular')
         expect(emptyMessage.exists()).toBe(true)
         expect(emptyMessage.text()).toBe('Commencez à taper pour rechercher une compétence')
       })
@@ -131,10 +133,10 @@ describe('addAdditionalSkillLevelField', () => {
         const skillItem = wrapper.find('.skill-item')
         expect(skillItem.exists()).toBe(true)
 
-        const skillTitle = wrapper.find('.skill-item__title')
+        const skillTitle = wrapper.find('.b1-bold')
         expect(skillTitle.exists()).toBe(true)
 
-        const skillPath = wrapper.find('.skill-item__path')
+        const skillPath = wrapper.find('.caption-light')
         expect(skillPath.exists()).toBe(true)
 
         const badge = wrapper.findComponent({ name: 'AdditionalSkillTypeBadge' })
@@ -152,7 +154,7 @@ describe('addAdditionalSkillLevelField', () => {
       })
 
       it('then it should show minimum characters message when query is too short', () => {
-        const emptyMessages = wrapper.findAll('.empty-message')
+        const emptyMessages = wrapper.findAll('.b2-regular')
         expect(emptyMessages.length).toBeGreaterThan(0)
       })
     })
@@ -203,7 +205,7 @@ describe('addAdditionalSkillLevelField', () => {
         await vi.waitFor(() => {
           const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
           const inputOptions = autocomplete.props('inputOptions')
-          expect(inputOptions.errorMessage).toBe('Required field')
+          expect(inputOptions.errorMessage).toBe('Une compétence doit être sélectionnée')
         })
       })
     })

@@ -99,19 +99,19 @@ function highlightMatchedText (text: string, query: string): string {
             <div v-memo="[searchQuery, skills]">
               <div
                 v-if="searchQuery.length >= SEARCH_SKILLS_MIN_LENGTH && skills.length === 0"
-                class="empty-message"
+                class="b2-regular"
               >
                 {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.noResultsFound') }}
               </div>
               <div
                 v-else-if="searchQuery.length > 0 && searchQuery.length < SEARCH_SKILLS_MIN_LENGTH"
-                class="empty-message"
+                class="b2-regular"
               >
                 {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.minimumCharacters') }}
               </div>
               <div
                 v-else
-                class="empty-message"
+                class="b2-regular"
               >
                 {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping') }}
               </div>
@@ -135,11 +135,11 @@ function highlightMatchedText (text: string, query: string): string {
               >
                 <div class="skill-item__content">
                   <div
-                    class="skill-item__title"
+                    class="b1-bold"
                     v-html="highlightMatchedText(option.title, searchQuery)"
                   />
 
-                  <div class="skill-item__path">
+                  <div class="caption-light">
                     <span
                       v-for="(segment, index) in option.pathSegments"
                       :key="index"
@@ -176,7 +176,6 @@ function highlightMatchedText (text: string, query: string): string {
   justify-content: space-between;
   gap: var(--spacing-md);
   border-radius: var(--radius-md);
-  transition: background-color 0.2s ease;
 }
 
 .skill-item__content {
@@ -185,33 +184,13 @@ function highlightMatchedText (text: string, query: string): string {
   flex: 1;
 }
 
-.skill-item__title {
-  font-weight: var(--font-weight-bold);
-  color: var(--text1);
-  font-size: var(--font-size-base);
-}
-
-.skill-item__path {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  color: var(--text1);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-light);
-
+.caption-light {
   .skill-item__path-segment {
     &:not(:last-child)::after {
       content: ' > ';
-      margin: 0 var(--spacing-xxs);
+      margin: 0 var(--spacing-xxxs);
     }
   }
-}
-
-.empty-message {
-  padding: var(--spacing-md);
-  text-align: center;
-  font-size: var(--font-size-sm);
-  color: var(--text2);
 }
 </style>
 

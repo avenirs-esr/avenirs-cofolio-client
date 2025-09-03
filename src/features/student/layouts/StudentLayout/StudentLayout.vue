@@ -10,7 +10,7 @@ import {
 } from '@/features/student'
 import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
-import { AvHeader } from '@/ui'
+import AvHeader from '@/ui/header/AvHeader/AvHeader.vue'
 import { useI18n } from 'vue-i18n'
 
 useInvalidateAllQueriesAfterLocaleChange()

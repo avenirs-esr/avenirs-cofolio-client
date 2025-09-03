@@ -2,7 +2,7 @@
 import type { ComputedRef } from 'vue'
 import { type SkillDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentLevelBadge } from '@/features/student/components/'
-import { StudentDetailedSkillCard } from '@/features/student/components/cards'
+import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, MDI_ICONS } from '@/ui'
 
 export interface StudentDetailedEducationalSkillCardProps {

@@ -225,6 +225,7 @@
           "skillsViewOtherTab": {
             "addSkillButton": "Add a skill",
             "addAdditionalSkillDrawer": {
+              "levelLabel": "Self-positioning",
               "minimumCharacters": "Type at least 3 characters to search",
               "noResultsFound": "No skill found",
               "searchLabel": "Search for a skill",
@@ -233,8 +234,8 @@
               "success": "Skill added successfully",
               "title": "Add additional skill",
               "validation": {
-                "skillRequired": "A skill must be selected",
-                "levelRequired": "A self-positioning level must be selected"
+                "levelRequired": "A self-positioning level must be selected",
+                "skillRequired": "A skill must be selected"
               }
             }
           }

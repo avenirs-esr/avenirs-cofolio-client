@@ -225,6 +225,7 @@
           "skillsViewOtherTab": {
             "addSkillButton": "Ajouter une compétence",
             "addAdditionalSkillDrawer": {
+              "levelLabel": "Auto-positionnement",
               "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
               "noResultsFound": "Aucune compétence trouvée",
               "searchLabel": "Rechercher une compétence",

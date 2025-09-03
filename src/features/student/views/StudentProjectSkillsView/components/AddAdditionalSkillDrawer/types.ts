@@ -1,4 +1,4 @@
-import type { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr/generated/types/addAdditionalSkillDTOLevel'
+import type { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
 import type { AvAutocompleteOption } from '@/ui'
 
 export interface AdditionalSkillOption extends AvAutocompleteOption {
