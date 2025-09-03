@@ -7,6 +7,8 @@ import type {
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@/ui'
+import isEmpty from 'lodash-es/isEmpty'
+import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface SearchSkillFieldProps {
@@ -59,6 +61,19 @@ function getOptionKey (option: AdditionalSkillOption): string {
   return option.id
 }
 
+const emptySlotTextContent = computed<string>(() => {
+  const keyword = toValue(searchQuery)
+
+  if (keyword.length >= SEARCH_SKILLS_MIN_LENGTH && toValue(skills).length === 0) {
+    return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.noResultsFound')
+  }
+  if (!isEmpty(keyword) && keyword.length < SEARCH_SKILLS_MIN_LENGTH) {
+    return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.minimumCharacters')
+  }
+
+  return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping')
+})
+
 function highlightMatchedText (text: string, query: string): string {
   if (!query || query.trim().length === 0) {
     return text
@@ -66,7 +81,7 @@ function highlightMatchedText (text: string, query: string): string {
 
   const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const regex = new RegExp(`(${escapedQuery})`, 'gi')
-  return text.replace(regex, '<span class="highlight">$1</span>')
+  return text.replace(regex, '<span class="b2-bold highlight">$1</span>')
 }
 </script>
 
@@ -97,24 +112,11 @@ function highlightMatchedText (text: string, query: string): string {
         >
           <template #empty>
             <div v-memo="[searchQuery, skills]">
-              <div
-                v-if="searchQuery.length >= SEARCH_SKILLS_MIN_LENGTH && skills.length === 0"
+              <span
                 class="b2-regular"
               >
-                {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.noResultsFound') }}
-              </div>
-              <div
-                v-else-if="searchQuery.length > 0 && searchQuery.length < SEARCH_SKILLS_MIN_LENGTH"
-                class="b2-regular"
-              >
-                {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.minimumCharacters') }}
-              </div>
-              <div
-                v-else
-                class="b2-regular"
-              >
-                {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping') }}
-              </div>
+                {{ emptySlotTextContent }}
+              </span>
             </div>
           </template>
           <template #item="{ option, isSelected, toggle }">
@@ -197,7 +199,5 @@ function highlightMatchedText (text: string, query: string): string {
 <style lang="scss">
 .highlight {
   color: var(--light-foreground-primary1) !important;
-  background-color: transparent;
-  font-weight: var(--font-weight-bold);
 }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import AvRadioButton from '@/ui/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import { DsfrRadioButton, DsfrRadioButtonSet } from '@gouvminint/vue-dsfr'
-import { Fragment, type Slot, useSlots } from 'vue'
+import { Fragment, type Slot, useSlots, type VNode, type VNodeArrayChildren } from 'vue'
 
 /**
  * AvRadioButtonSet component props.
@@ -88,25 +89,42 @@ defineSlots<{
   default?: Slot
 }>()
 
-const slots = useSlots()
-const radios = computed(() => {
-  const slotContent = slots.default?.()
+type AvRadioButtonNode = VNode & { type: typeof AvRadioButton }
 
-  if (!slotContent || !Array.isArray(slotContent)) {
+const slots = useSlots()
+
+function isAvRadioButton (node: unknown): node is AvRadioButtonNode {
+  return (
+    node !== null
+    && node !== undefined
+    && typeof node === 'object'
+    && 'type' in node
+    && node.type === AvRadioButton
+  )
+}
+
+function flattenRadioButtonNodes (
+  nodes: VNode[] | VNodeArrayChildren | undefined
+): AvRadioButtonNode[] {
+  if (!nodes) {
     return []
   }
 
-  const flattenedContent = []
-  for (const node of slotContent) {
-    if (node.type === Fragment && Array.isArray(node.children)) {
-      flattenedContent.push(...node.children)
+  return nodes.flatMap((node) => {
+    if (!node || typeof node !== 'object' || !('type' in node)) {
+      return []
     }
-    else {
-      flattenedContent.push(node)
-    }
-  }
 
-  return flattenedContent
+    if (node.type === Fragment && Array.isArray(node.children)) {
+      return flattenRadioButtonNodes(node.children)
+    }
+
+    return isAvRadioButton(node) ? [node] : []
+  })
+}
+
+const radios = computed((): AvRadioButtonNode[] => {
+  return flattenRadioButtonNodes(slots.default?.())
 })
 
 const selected = ref(props.modelValue)
@@ -140,7 +158,7 @@ defineExpose({ selected })
       :name="props.name"
     >
       <template #label>
-        <component :is="(radio.children as Record<string, unknown>).default" />
+        <component :is="(radio.children as Record<string, unknown>)?.default" />
       </template>
     </DsfrRadioButton>
   </DsfrRadioButtonSet>
