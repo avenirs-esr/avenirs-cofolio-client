@@ -5,6 +5,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import AddAdditionalSkillLevelField from './AddAdditionalSkillLevelField.vue'
 
 const TestWrapper = {
@@ -16,7 +17,7 @@ const TestWrapper = {
       defaultValues: {
         selectedSkills: [],
         level: undefined
-      } as AdditionalSkillFormData,
+      } as unknown as AdditionalSkillFormData,
       validators: {
         onSubmit ({ value }) {
           return {
@@ -120,7 +121,7 @@ describe('addAdditionalSkillLevelField', () => {
         const badges = wrapper.findAllComponents({ name: 'AvBadge' })
         expect(badges).toHaveLength(5)
 
-        const descriptions = wrapper.findAll('.level-option__description')
+        const descriptions = wrapper.findAll('.b2-regular')
         expect(descriptions).toHaveLength(5)
 
         expect(badges[0].props('label')).toBe('Débutant')

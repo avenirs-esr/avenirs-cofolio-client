@@ -78,6 +78,7 @@ describe('avenir-esr customFetch', () => {
         expect(result).toEqual({
           method: 'POST',
           headers: {
+            'Accept-Language': 'en-US',
             'Authorization': __BEARER_TOKEN__,
             'x-signed-context': 'student'
           }

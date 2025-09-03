@@ -38,10 +38,10 @@ describe('useAdditionalSkillForm', () => {
 
     describe('when form is validated with invalid data', () => {
       it('then it should return validation errors for missing selectedSkills', () => {
-        const invalidData: AdditionalSkillFormData = {
+        const invalidData = {
           selectedSkills: [],
           level: undefined
-        }
+        } as unknown as AdditionalSkillFormData
 
         const onSubmitValidator = composableResult.form.options.validators?.onSubmit
         expect(onSubmitValidator).toBeDefined()

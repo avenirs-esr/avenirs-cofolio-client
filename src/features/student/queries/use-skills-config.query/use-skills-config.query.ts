@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/vue-query'
 
 export function useAdditionalSkillConfig () {
   return useQuery<AdditionalSkillConfigurationDTO, BaseApiException>({
-    queryKey: ['additional-skill-config'],
+    queryKey: ['additional-skill', 'config'],
     queryFn: async () => {
       return await getAdditionalSkillConfig()
     }
