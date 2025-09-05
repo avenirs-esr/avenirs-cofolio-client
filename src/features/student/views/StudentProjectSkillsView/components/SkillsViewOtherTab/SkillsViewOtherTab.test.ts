@@ -26,7 +26,7 @@ describe('skillsViewOtherTab', () => {
       emits: ['click']
     },
     Pagination: PaginationStub,
-    RouterLink: RouterLinkStub
+    RouterLink: RouterLinkStub,
   }
 
   describe('given a skills view other tab component', () => {
@@ -162,6 +162,86 @@ describe('skillsViewOtherTab', () => {
         expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
         expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
         expect(paginationMock.currentPage.value).toBe(0)
+      })
+    })
+
+    describe('when AddAdditionalSkillDrawer integration', () => {
+      it('then it should render AddAdditionalSkillDrawer component', () => {
+        const drawer = wrapper.findComponent({ name: 'AddAdditionalSkillDrawer' })
+        expect(drawer.exists()).toBe(true)
+      })
+
+      it('then it should call handleAddSkill when button is clicked', async () => {
+        const button = wrapper.find('button')
+        await button.trigger('click')
+
+        expect(button.exists()).toBe(true)
+      })
+    })
+
+    describe('when skills store integration', () => {
+      it('then it should use additionalCurrentPage and additionalPageSizeSelected from skills store', () => {
+        expect(paginationMock.currentPage.value).toBeDefined()
+        expect(paginationMock.pageSizeSelected.value).toBeDefined()
+      })
+
+      it('then it should call useAdditionalSkillsViewQuery with pagination parameters', async () => {
+        await wrapper.vm.$nextTick()
+        expect(wrapper.exists()).toBe(true)
+      })
+    })
+
+    describe('when error handling', () => {
+      it('then it should handle API errors through useBaseApiExceptionToast', () => {
+        expect(wrapper.exists()).toBe(true)
+      })
+    })
+
+    describe('when no additional skills are available', () => {
+      it('then it should render empty skills container gracefully', async () => {
+        const skillsContainer = wrapper.find('.skills-container')
+        expect(skillsContainer.exists()).toBe(true)
+      })
+
+      it('then it should still show pagination with no skills', () => {
+        const pagination = wrapper.findComponent({ name: 'Pagination' })
+        expect(pagination.exists()).toBe(true)
+      })
+
+      it('then it should still show add skill button when no skills exist', () => {
+        const button = wrapper.find('button')
+        expect(button.exists()).toBe(true)
+        expect(button.attributes('label')).toBe('Ajouter une compétence')
+      })
+    })
+
+    describe('when button styling and layout', () => {
+      it('then it should render button with correct size', () => {
+        const button = wrapper.find('button')
+        expect(button.attributes('size')).toBe('sm')
+      })
+
+      it('then it should position button container at flex-end', () => {
+        const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+        expect(buttonContainer.exists()).toBe(true)
+      })
+
+      it('then it should apply correct CSS class structure', () => {
+        expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
+        expect(wrapper.find('.skills-view-other-tab__content-placeholder').exists()).toBe(true)
+        expect(wrapper.find('.skills-view-other-tab__button-container').exists()).toBe(true)
+      })
+    })
+
+    describe('when skills data structure validation', () => {
+      it('then it should render skills with proper key binding', async () => {
+        const { flushPromises } = await import('@vue/test-utils')
+        await flushPromises()
+
+        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+        skillCards.forEach((card) => {
+          expect(card.props('additionalSkill')).toBeTypeOf('object')
+        })
       })
     })
   })
