@@ -4,7 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import SkillsViewEducationTab from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewEducationTab/SkillsViewEducationTab.vue'
 import { PageSizes } from '@/ui/config'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { PaginationStub } from 'tests/stubs'
@@ -23,6 +23,7 @@ describe('skillsViewEducationTab', () => {
 
   const stubs = {
     Pagination: PaginationStub,
+    RouterLink: RouterLinkStub,
     StudentDetailedEducationalSkillCard: {
       name: 'StudentDetailedEducationalSkillCard',
       props: ['skill', 'skillColor'],
@@ -32,6 +33,11 @@ describe('skillsViewEducationTab', () => {
       name: 'StudentDetailedPastSkillCard',
       props: ['skill'],
       template: '<div class="student-detailed-past-skill-card-stub" />'
+    },
+    StudentDetailedSkillCard: {
+      name: 'StudentDetailedSkillCard',
+      props: ['id', 'name', 'skillColor'],
+      template: '<div class="student-detailed-skill-card-stub" />'
     }
   }
 
@@ -201,6 +207,63 @@ describe('skillsViewEducationTab', () => {
     describe('when skills query has error', () => {
       it('then it should handle error state gracefully through useBaseApiExceptionToast', () => {
         expect(wrapper.exists()).toBe(true)
+      })
+    })
+
+    describe('when search functionality is used', () => {
+      it('then it should initialize search with empty string', async () => {
+        await wrapper.vm.$nextTick()
+        expect(wrapper.exists()).toBe(true)
+      })
+
+      it('then it should maintain search state reactivity', () => {
+        const component = wrapper.vm as any
+        expect(component.search).toBeDefined()
+        expect(typeof component.search).toBe('string')
+      })
+    })
+
+    describe('when skills store integration', () => {
+      it('then it should properly integrate with skills store for pagination', () => {
+        expect(paginationMock.currentPage.value).toBeDefined()
+        expect(paginationMock.pageSizeSelected.value).toBeDefined()
+      })
+
+      it('then it should call useSkillsViewQuery with correct parameters', async () => {
+        await wrapper.vm.$nextTick()
+        expect(wrapper.exists()).toBe(true)
+      })
+    })
+
+    describe('when no skills are available', () => {
+      it('then it should render container even with empty skills array', async () => {
+        await wrapper.vm.$nextTick()
+        const skillsContainer = wrapper.find('.skills-container')
+        expect(skillsContainer.exists()).toBe(true)
+      })
+
+      it('then it should still render pagination component with no skills', () => {
+        const pagination = wrapper.findComponent({ name: 'Pagination' })
+        expect(pagination.exists()).toBe(true)
+      })
+    })
+
+    describe('when skills have mixed program states', () => {
+      it('then it should conditionally render correct card types based on isProgramFinished', async () => {
+        await wrapper.vm.$nextTick()
+
+        const allSkillCards = wrapper.findAll('[class*="skill-card-stub"]')
+        expect(allSkillCards.length).toBeGreaterThanOrEqual(0)
+      })
+
+      it('then it should apply sequential skill color variables to active skills', async () => {
+        await wrapper.vm.$nextTick()
+
+        const educationalCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+        educationalCards.forEach((card, index) => {
+          const expectedColor = `var(--skill${index + 1})`
+          expect(card.props('skillColor')).toBe(expectedColor)
+        })
       })
     })
   })

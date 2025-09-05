@@ -1,7 +1,19 @@
 import SkillsViewTabs from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewTabs/SkillsViewTabs.vue'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+
+const stubs = {
+  RouterLink: RouterLinkStub,
+  SkillsViewEducationTab: {
+    name: 'SkillsViewEducationTab',
+    template: '<div class="skills-view-education-tab-stub" />'
+  },
+  SkillsViewOtherTab: {
+    name: 'SkillsViewOtherTab',
+    template: '<div class="skills-view-other-tab-stub" />'
+  }
+}
 
 describe('skillsViewTabs', () => {
   describe('given a skills tab switcher', () => {
@@ -11,7 +23,10 @@ describe('skillsViewTabs', () => {
       setActivePinia(createPinia())
 
       wrapper = mount<typeof SkillsViewTabs>(SkillsViewTabs, {
-        global: { plugins: [createPinia(), [VueQueryPlugin, { queryClient: new QueryClient() }]] }
+        global: {
+          stubs,
+          plugins: [createPinia(), [VueQueryPlugin, { queryClient: new QueryClient() }]]
+        }
       })
     })
 
@@ -26,6 +41,48 @@ describe('skillsViewTabs', () => {
       it('then it should render with ams list tab selected', () => {
         const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
         expect(selectedTab.exists()).toBe(true)
+        expect(selectedTab.text()).toBe('Les compétences de mes formations (validées et en cours)')
+      })
+
+      it('then it should render SkillsViewEducationTab component in first tab', () => {
+        const educationTab = wrapper.find('.skills-view-education-tab-stub')
+        expect(educationTab.exists()).toBe(true)
+      })
+
+      it('then it should render SkillsViewOtherTab component in second tab', () => {
+        const otherTab = wrapper.find('.skills-view-other-tab-stub')
+        expect(otherTab.exists()).toBe(true)
+      })
+
+      it('then it should have icons for both tabs', () => {
+        const tabItems = wrapper.findAllComponents({ name: 'DsfrTabItem' })
+        expect(tabItems).toHaveLength(2)
+        tabItems.forEach((tab) => {
+          expect(tab.props('icon')).toBeDefined()
+        })
+      })
+    })
+
+    describe('when user interacts with tabs', () => {
+      it('then it should switch to second tab when clicked', async () => {
+        const tabs = wrapper.findAll('.fr-tabs__tab')
+        await tabs[1].trigger('click')
+        await wrapper.vm.$nextTick()
+
+        const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+        expect(selectedTab.text()).toBe('Mes autres compétences')
+      })
+
+      it('then it should switch back to first tab when clicked', async () => {
+        const tabs = wrapper.findAll('.fr-tabs__tab')
+
+        await tabs[1].trigger('click')
+        await wrapper.vm.$nextTick()
+
+        await tabs[0].trigger('click')
+        await wrapper.vm.$nextTick()
+
+        const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
         expect(selectedTab.text()).toBe('Les compétences de mes formations (validées et en cours)')
       })
     })
