@@ -335,19 +335,22 @@
         }
       }
     },
-    "/back-office/config/additional-skills": {
+    "/back-office/config/additional-skills/setup": {
       "get": {
         "tags": [
           "additional-skill-config-controller"
         ],
-        "operationId": "getAdditionalSkillConfig",
+        "operationId": "getAdditionalSkillConfigWithAllTranslations",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  }
                 }
               }
             }
@@ -831,6 +834,26 @@
         }
       }
     },
+    "/back-office/config/additional-skills": {
+      "get": {
+        "tags": [
+          "additional-skill-config-controller"
+        ],
+        "operationId": "getAdditionalSkillConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/{traceId}": {
       "delete": {
         "tags": [
@@ -840,6 +863,37 @@
         "parameters": [
           {
             "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/storage/users/{fileId}": {
+      "delete": {
+        "tags": [
+          "user-resource-controller"
+        ],
+        "operationId": "deleteUserPhoto",
+        "parameters": [
+          {
+            "name": "fileId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1096,12 +1150,14 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
           },
           "level": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
             "enum": [
               "BEGINNER",
               "INTERMEDIATE",
@@ -1149,19 +1205,19 @@
         "type": "object",
         "properties": {
           "BEGINNER": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "INTERMEDIATE": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "COMPETENT": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "ADVANCED": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "EXPERT": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           }
         },
         "required": [
@@ -1172,7 +1228,7 @@
           "INTERMEDIATE"
         ]
       },
-      "AdditionalSkillLevel": {
+      "AdditionalSkillLevelDTO": {
         "type": "object",
         "properties": {
           "label": {
@@ -1181,7 +1237,11 @@
           "description": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "description",
+          "label"
+        ]
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -1730,12 +1790,14 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
           },
           "level": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
             "enum": [
               "BEGINNER",
               "INTERMEDIATE",
@@ -1789,6 +1851,7 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
@@ -1817,6 +1880,24 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "EAdditionalSkillLevel": {
+        "type": "string",
+        "description": "Enum for additional skill level",
+        "enum": [
+          "BEGINNER",
+          "INTERMEDIATE",
+          "COMPETENT",
+          "ADVANCED",
+          "EXPERT"
+        ]
+      },
+      "EAdditionalSkillType": {
+        "type": "string",
+        "description": "Enum for additional skill type",
+        "enum": [
+          "ROME4"
         ]
       },
       "AmsStatus": {

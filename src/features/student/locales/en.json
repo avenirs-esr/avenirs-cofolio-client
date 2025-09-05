@@ -223,8 +223,15 @@
             "title": "My educational skills "
           },
           "skillsViewOtherTab": {
-            "addSkillButton": "Add a skill",
             "addAdditionalSkillDrawer": {
+              "confirmationModal": {
+                "cancelButton": "Cancel",
+                "confirmButton": "Yes, exit without saving",
+                "description": "Do you want to abandon adding your additional skill ?"
+              },
+              "errors": {
+                "createAdditionalSkill": "Error while adding the skill"
+              },
               "levelLabel": "Self-positioning",
               "minimumCharacters": "Type at least 3 characters to search",
               "noResultsFound": "No skill found",
@@ -237,7 +244,8 @@
                 "levelRequired": "A self-positioning level must be selected",
                 "skillRequired": "A skill must be selected"
               }
-            }
+            },
+            "addSkillButton": "Add a skill"
           }
         },
         "title": "All my skills"

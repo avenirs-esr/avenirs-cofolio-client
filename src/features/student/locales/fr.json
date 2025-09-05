@@ -223,8 +223,15 @@
             "title": "Les compétences de mes formations "
           },
           "skillsViewOtherTab": {
-            "addSkillButton": "Ajouter une compétence",
             "addAdditionalSkillDrawer": {
+              "confirmationModal": {
+                "cancelButton": "Annuler",
+                "confirmButton": "Oui, quitter sans enregistrer",
+                "description": "Souhaitez-vous abandonner l'ajout de votre compétence complémentaire ?"
+              },
+              "errors": {
+                "createAdditionalSkill": "Erreur lors de l'ajout de la compétence"
+              },
               "levelLabel": "Auto-positionnement",
               "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
               "noResultsFound": "Aucune compétence trouvée",
@@ -237,7 +244,8 @@
                 "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
                 "skillRequired": "Une compétence doit être sélectionnée"
               }
-            }
+            },
+            "addSkillButton": "Ajouter une compétence"
           }
         },
         "title": "Toutes mes compétences"

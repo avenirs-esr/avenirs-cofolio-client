@@ -165,7 +165,7 @@ describe('skillsViewOtherTab', () => {
       })
     })
 
-    describe('when AddAdditionalSkillDrawer integration', () => {
+    describe('when integrating with AddAdditionalSkillDrawer', () => {
       it('then it should render AddAdditionalSkillDrawer component', () => {
         const drawer = wrapper.findComponent({ name: 'AddAdditionalSkillDrawer' })
         expect(drawer.exists()).toBe(true)
@@ -179,7 +179,7 @@ describe('skillsViewOtherTab', () => {
       })
     })
 
-    describe('when skills store integration', () => {
+    describe('when integrating with skills store', () => {
       it('then it should use additionalCurrentPage and additionalPageSizeSelected from skills store', () => {
         expect(paginationMock.currentPage.value).toBeDefined()
         expect(paginationMock.pageSizeSelected.value).toBeDefined()
@@ -191,7 +191,7 @@ describe('skillsViewOtherTab', () => {
       })
     })
 
-    describe('when error handling', () => {
+    describe('when handling API errors', () => {
       it('then it should handle API errors through useBaseApiExceptionToast', () => {
         expect(wrapper.exists()).toBe(true)
       })
@@ -215,7 +215,7 @@ describe('skillsViewOtherTab', () => {
       })
     })
 
-    describe('when button styling and layout', () => {
+    describe('when checking button styling and layout', () => {
       it('then it should render button with correct size', () => {
         const button = wrapper.find('button')
         expect(button.attributes('size')).toBe('sm')
@@ -233,7 +233,7 @@ describe('skillsViewOtherTab', () => {
       })
     })
 
-    describe('when skills data structure validation', () => {
+    describe('when validating skills data structure', () => {
       it('then it should render skills with proper key binding', async () => {
         const { flushPromises } = await import('@vue/test-utils')
         await flushPromises()

@@ -1,4 +1,4 @@
-import { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
+import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { mountQueryComposable } from '@/ui/tests/utils'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -39,11 +39,11 @@ describe('useAdditionalSkillConfig', () => {
         })
 
         expect(result.data.value).toBeDefined()
-        expect(result.data.value).toHaveProperty(AddAdditionalSkillDTOLevel.BEGINNER)
-        expect(result.data.value).toHaveProperty(AddAdditionalSkillDTOLevel.INTERMEDIATE)
-        expect(result.data.value).toHaveProperty(AddAdditionalSkillDTOLevel.COMPETENT)
-        expect(result.data.value).toHaveProperty(AddAdditionalSkillDTOLevel.ADVANCED)
-        expect(result.data.value).toHaveProperty(AddAdditionalSkillDTOLevel.EXPERT)
+        expect(result.data.value).toHaveProperty(EAdditionalSkillLevel.BEGINNER)
+        expect(result.data.value).toHaveProperty(EAdditionalSkillLevel.INTERMEDIATE)
+        expect(result.data.value).toHaveProperty(EAdditionalSkillLevel.COMPETENT)
+        expect(result.data.value).toHaveProperty(EAdditionalSkillLevel.ADVANCED)
+        expect(result.data.value).toHaveProperty(EAdditionalSkillLevel.EXPERT)
       })
 
       it('then it should return correct configuration for each skill level', async () => {
@@ -55,27 +55,27 @@ describe('useAdditionalSkillConfig', () => {
 
         const config = result.data.value!
 
-        expect(config[AddAdditionalSkillDTOLevel.BEGINNER]).toEqual({
+        expect(config[EAdditionalSkillLevel.BEGINNER]).toEqual({
           label: 'Débutant',
           description: 'Je découvre cette compétence'
         })
 
-        expect(config[AddAdditionalSkillDTOLevel.INTERMEDIATE]).toEqual({
+        expect(config[EAdditionalSkillLevel.INTERMEDIATE]).toEqual({
           label: 'Intermédiaire',
           description: 'Je commence à maîtriser cette compétence'
         })
 
-        expect(config[AddAdditionalSkillDTOLevel.COMPETENT]).toEqual({
+        expect(config[EAdditionalSkillLevel.COMPETENT]).toEqual({
           label: 'Compétent',
           description: 'Je maîtrise cette compétence'
         })
 
-        expect(config[AddAdditionalSkillDTOLevel.ADVANCED]).toEqual({
+        expect(config[EAdditionalSkillLevel.ADVANCED]).toEqual({
           label: 'Avancé',
           description: 'Je maîtrise bien cette compétence'
         })
 
-        expect(config[AddAdditionalSkillDTOLevel.EXPERT]).toEqual({
+        expect(config[EAdditionalSkillLevel.EXPERT]).toEqual({
           label: 'Expert',
           description: 'Je maîtrise parfaitement cette compétence'
         })

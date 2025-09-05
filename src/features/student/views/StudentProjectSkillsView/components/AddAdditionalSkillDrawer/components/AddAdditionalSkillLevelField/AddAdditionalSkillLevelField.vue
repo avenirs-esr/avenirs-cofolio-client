@@ -2,7 +2,7 @@
 import type {
   AdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
-import { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
+import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { useAdditionalSkillConfig } from '@/features/student/queries'
 import { AvBadge, AvRadioButton, AvRadioButtonSet, ICONS_DATA_URL } from '@/ui'
@@ -18,7 +18,7 @@ const form = props.form
 const { t } = useI18n()
 const { data: skillConfig } = useAdditionalSkillConfig()
 
-const skillLevels = computed(() => Object.values(AddAdditionalSkillDTOLevel))
+const skillLevels = computed(() => Object.values(EAdditionalSkillLevel))
 
 function getBadgeConfig (level: string) {
   const config = {
@@ -51,18 +51,18 @@ function getBadgeConfig (level: string) {
   return config[level as keyof typeof config] || config.BEGINNER
 }
 
-function getBadgeLabel (level: AddAdditionalSkillDTOLevel) {
+function getBadgeLabel (level: EAdditionalSkillLevel) {
   if (!skillConfig.value) {
     return level
   }
-  return isEnumMember(AddAdditionalSkillDTOLevel, level) ? skillConfig.value[level]?.label ?? level : level
+  return isEnumMember(EAdditionalSkillLevel, level) ? skillConfig.value[level]?.label ?? level : level
 }
 
-function getDescription (level: AddAdditionalSkillDTOLevel) {
+function getDescription (level: EAdditionalSkillLevel) {
   if (!skillConfig.value) {
     return level
   }
-  return isEnumMember(AddAdditionalSkillDTOLevel, level) ? skillConfig.value[level]?.description ?? level : ''
+  return isEnumMember(EAdditionalSkillLevel, level) ? skillConfig.value[level]?.description ?? level : ''
 }
 </script>
 
@@ -79,7 +79,7 @@ function getDescription (level: AddAdditionalSkillDTOLevel) {
           :error-message="field.state.meta.errors?.join(', ')"
           name="skillLevel"
           @update:model-value="(value) => {
-            if (typeof value === 'string' && isEnumMember(AddAdditionalSkillDTOLevel, value)) {
+            if (typeof value === 'string' && isEnumMember(EAdditionalSkillLevel, value)) {
               field.handleChange(value)
             }
           }"

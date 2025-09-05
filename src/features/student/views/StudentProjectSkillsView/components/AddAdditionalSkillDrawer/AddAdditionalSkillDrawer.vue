@@ -1,29 +1,49 @@
 <script setup lang="ts">
+import { useModal } from '@/common/composables'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
+import AddAdditionalSkillConfirmationModal from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.vue'
 import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
+import {
+  useAdditionalSkillForm
+} from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useSkillsStore, useToasterStore } from '@/store'
 import { AvButton, AvDrawer, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
-import { useAdditionalSkillForm } from './use-additional-skill-form/use-additional-skill-form'
 
 const { t } = useI18n()
 const skillsStore = useSkillsStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(skillsStore, 'showCreateAdditionalSkillDrawer')
 
-function onSkillAdded () {
+const { form, isFormValid, isSubmitting } = useAdditionalSkillForm(() => {
   addSuccessMessage({
     timeout: 2000,
     description: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.success')
   })
-  handleCancel()
-}
-
-const { form, isFormValid } = useAdditionalSkillForm(onSkillAdded)
-
-function handleCancel () {
   form.reset()
   skillsStore.hideCreateAdditionalSkillDrawer()
+})
+
+const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+
+const isDirty = computed(() => {
+  const state = form.useStore(state => state)
+  return state.value.isDirty
+})
+
+function handleCancel () {
+  if (isDirty.value) {
+    displayConfirmationModal()
+  }
+  else {
+    confirmCancel()
+  }
+}
+
+function confirmCancel () {
+  form.reset()
+  skillsStore.hideCreateAdditionalSkillDrawer()
+  hideConfirmationModal()
 }
 </script>
 
@@ -31,7 +51,7 @@ function handleCancel () {
   <AvDrawer
     :show="showDrawer"
     position="left"
-    width="50rem"
+    width="40rem"
     @escape-pressed="handleCancel"
   >
     <div class="add-additional-skill-drawer">
@@ -61,24 +81,32 @@ function handleCancel () {
 
     <template #footer>
       <div
-        v-memo="[isFormValid]"
+        v-memo="[isFormValid, isSubmitting]"
         class="add-additional-skill-drawer__footer"
       >
         <AvButton
           :label="t('global.buttons.cancel')"
           variant="OUTLINED"
           type="button"
+          :disabled="isSubmitting"
           @click="handleCancel"
         />
         <AvButton
           :label="t('global.buttons.save')"
           variant="FLAT"
-          :disabled="!isFormValid"
+          :disabled="!isFormValid || isSubmitting"
+          :loading="isSubmitting"
           @click="form.handleSubmit"
         />
       </div>
     </template>
   </AvDrawer>
+
+  <AddAdditionalSkillConfirmationModal
+    :show="showConfirmationModal"
+    @cancel="hideConfirmationModal"
+    @confirm="confirmCancel"
+  />
 </template>
 
 <style scoped lang="scss">

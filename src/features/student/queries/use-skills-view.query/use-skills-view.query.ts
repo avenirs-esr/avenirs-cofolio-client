@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type AdditionalSkillDTO, type AdditionalSkillProgressDTO, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, searchAdditionalSkills, type SkillDTO } from '@/api/avenir-esr'
-import { keepPreviousData, useInfiniteQuery, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { type AddAdditionalSkillDTO, type AdditionalSkillDTO, type AdditionalSkillProgressDTO, createAdditionalSkillProgress, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, searchAdditionalSkills, type SkillDTO } from '@/api/avenir-esr'
+import { useInvalidateQuery } from '@/common/composables'
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'skills']
@@ -130,4 +131,24 @@ export function useSearchAdditionalSkillsQuery (
     ...query,
     skills,
   }
+}
+
+export interface UseCreateAdditionalSkillMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: UseCreateAdditionalSkillMutationArgs = {}) {
+  const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'additional'])
+
+  return useMutation<void, BaseApiException, AddAdditionalSkillDTO>({
+    mutationFn: async (addAdditionalSkillDTO: AddAdditionalSkillDTO): Promise<void> => {
+      return await createAdditionalSkillProgress(addAdditionalSkillDTO)
+    },
+    onSuccess: async () => {
+      await invalidateAdditionalSkillsViewQuery()
+      onSuccess?.()
+    },
+    onError
+  })
 }

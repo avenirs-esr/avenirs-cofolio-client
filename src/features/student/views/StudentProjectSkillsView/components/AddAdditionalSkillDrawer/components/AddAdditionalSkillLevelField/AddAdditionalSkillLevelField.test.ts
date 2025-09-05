@@ -2,7 +2,7 @@ import type {
   AdditionalSkillFormData
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
 import type { VueWrapper } from '@vue/test-utils'
-import { AddAdditionalSkillDTOLevel } from '@/api/avenir-esr'
+import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -107,11 +107,11 @@ describe('addAdditionalSkillLevelField', () => {
         const radioButtons = wrapper.findAllComponents({ name: 'AvRadioButton' })
 
         expect(radioButtons).toHaveLength(5)
-        expect(radioButtons[0].props('value')).toBe(AddAdditionalSkillDTOLevel.BEGINNER)
-        expect(radioButtons[1].props('value')).toBe(AddAdditionalSkillDTOLevel.INTERMEDIATE)
-        expect(radioButtons[2].props('value')).toBe(AddAdditionalSkillDTOLevel.COMPETENT)
-        expect(radioButtons[3].props('value')).toBe(AddAdditionalSkillDTOLevel.ADVANCED)
-        expect(radioButtons[4].props('value')).toBe(AddAdditionalSkillDTOLevel.EXPERT)
+        expect(radioButtons[0].props('value')).toBe(EAdditionalSkillLevel.BEGINNER)
+        expect(radioButtons[1].props('value')).toBe(EAdditionalSkillLevel.INTERMEDIATE)
+        expect(radioButtons[2].props('value')).toBe(EAdditionalSkillLevel.COMPETENT)
+        expect(radioButtons[3].props('value')).toBe(EAdditionalSkillLevel.ADVANCED)
+        expect(radioButtons[4].props('value')).toBe(EAdditionalSkillLevel.EXPERT)
       })
 
       it('then it should render level options with badges and descriptions', () => {
@@ -162,19 +162,19 @@ describe('addAdditionalSkillLevelField', () => {
       it('then it should update the form field value for BEGINNER', async () => {
         const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
 
-        await radioButtonSet.vm.$emit('update:modelValue', AddAdditionalSkillDTOLevel.BEGINNER)
+        await radioButtonSet.vm.$emit('update:modelValue', EAdditionalSkillLevel.BEGINNER)
         await wrapper.vm.$nextTick()
 
-        expect(radioButtonSet.props('modelValue')).toBe(AddAdditionalSkillDTOLevel.BEGINNER)
+        expect(radioButtonSet.props('modelValue')).toBe(EAdditionalSkillLevel.BEGINNER)
       })
 
       it('then it should update the form field value for EXPERT', async () => {
         const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
 
-        await radioButtonSet.vm.$emit('update:modelValue', AddAdditionalSkillDTOLevel.EXPERT)
+        await radioButtonSet.vm.$emit('update:modelValue', EAdditionalSkillLevel.EXPERT)
         await wrapper.vm.$nextTick()
 
-        expect(radioButtonSet.props('modelValue')).toBe(AddAdditionalSkillDTOLevel.EXPERT)
+        expect(radioButtonSet.props('modelValue')).toBe(EAdditionalSkillLevel.EXPERT)
       })
 
       it('then it should handle invalid value gracefully', async () => {
@@ -196,7 +196,7 @@ describe('addAdditionalSkillLevelField', () => {
       })
     })
 
-    describe('when form is validated with no level selected', () => {
+    describe('when the form is validated with no level selected', () => {
       it('then it should show error message', async () => {
         await wrapper.find('form').trigger('submit')
 
@@ -207,11 +207,11 @@ describe('addAdditionalSkillLevelField', () => {
       })
     })
 
-    describe('when form is validated with level selected', () => {
+    describe('when the form is validated with level selected', () => {
       it('then it should not show error message', async () => {
         const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
 
-        await radioButtonSet.vm.$emit('update:modelValue', AddAdditionalSkillDTOLevel.INTERMEDIATE)
+        await radioButtonSet.vm.$emit('update:modelValue', EAdditionalSkillLevel.INTERMEDIATE)
         await wrapper.vm.$nextTick()
 
         await wrapper.find('form').trigger('submit')
@@ -221,6 +221,125 @@ describe('addAdditionalSkillLevelField', () => {
           const errorMessage = radioButtonSet.props('errorMessage')
           expect(errorMessage === undefined || errorMessage === '').toBe(true)
         })
+      })
+    })
+
+    describe('when skill config data is available', () => {
+      it('then it should display skill config labels and descriptions', () => {
+        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+        const descriptions = wrapper.findAll('.b2-regular')
+
+        badges.forEach((badge) => {
+          expect(badge.props('label')).toBeDefined()
+          expect(typeof badge.props('label')).toBe('string')
+        })
+
+        descriptions.forEach((description) => {
+          expect(description.text()).toBeDefined()
+          expect(description.text().length).toBeGreaterThan(0)
+        })
+      })
+
+      it('then it should handle different skill levels configuration', () => {
+        const radioButtons = wrapper.findAllComponents({ name: 'AvRadioButton' })
+
+        const expectedLevels = [
+          EAdditionalSkillLevel.BEGINNER,
+          EAdditionalSkillLevel.INTERMEDIATE,
+          EAdditionalSkillLevel.COMPETENT,
+          EAdditionalSkillLevel.ADVANCED,
+          EAdditionalSkillLevel.EXPERT
+        ]
+
+        radioButtons.forEach((button, index) => {
+          expect(button.props('value')).toBe(expectedLevels[index])
+        })
+      })
+    })
+
+    describe('when badges are configured for skill levels', () => {
+      it('then it should have unique background colors for each level', () => {
+        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+        const backgroundColors = badges.map(badge => badge.props('backgroundColor'))
+
+        const uniqueColors = new Set(backgroundColors)
+        expect(uniqueColors.size).toBe(5)
+      })
+
+      it('then it should have matching text colors for readability', () => {
+        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+
+        badges.forEach((badge) => {
+          expect(badge.props('backgroundColor')).toMatch(/var\(--light-background-/)
+          expect(badge.props('color')).toMatch(/var\(--(light|dark)-(background|foreground)-/)
+        })
+      })
+
+      it('then it should render with proper icon paths for each level', () => {
+        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+
+        badges.forEach((badge) => {
+          const iconPath = badge.props('iconPath')
+          expect(iconPath).toBeDefined()
+          expect(typeof iconPath).toBe('string')
+        })
+      })
+    })
+
+    describe('when level options structure is rendered', () => {
+      it('then it should render level option headers with badges', () => {
+        const levelHeaders = wrapper.findAll('.level-option__header')
+        expect(levelHeaders).toHaveLength(5)
+
+        levelHeaders.forEach((header) => {
+          const badge = header.findComponent({ name: 'AvBadge' })
+          expect(badge.exists()).toBe(true)
+        })
+      })
+
+      it('then it should render level option descriptions with proper classes', () => {
+        const descriptions = wrapper.findAll('.b2-regular')
+        expect(descriptions).toHaveLength(5)
+
+        descriptions.forEach((desc) => {
+          expect(desc.classes()).toContain('b2-regular')
+        })
+      })
+    })
+
+    describe('when integrating with form field', () => {
+      it('then it should properly integrate with TanStack Form Field', () => {
+        const container = wrapper.find('.skill-level-field')
+        expect(container.exists()).toBe(true)
+      })
+
+      it('then it should handle form field state changes reactively', async () => {
+        const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+        const initialValue = radioButtonSet.props('modelValue')
+
+        await radioButtonSet.vm.$emit('update:modelValue', EAdditionalSkillLevel.ADVANCED)
+        await wrapper.vm.$nextTick()
+
+        expect(radioButtonSet.props('modelValue')).not.toBe(initialValue)
+        expect(radioButtonSet.props('modelValue')).toBe(EAdditionalSkillLevel.ADVANCED)
+      })
+    })
+
+    describe('when handling edge cases', () => {
+      it('then it should handle null/undefined skill config gracefully', () => {
+        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+        badges.forEach((badge) => {
+          expect(badge.props('label')).toBeTruthy()
+        })
+      })
+
+      it('then it should handle empty string values gracefully', async () => {
+        const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+
+        await radioButtonSet.vm.$emit('update:modelValue', '')
+        await wrapper.vm.$nextTick()
+
+        expect(radioButtonSet.props('modelValue')).toBe(undefined)
       })
     })
   })

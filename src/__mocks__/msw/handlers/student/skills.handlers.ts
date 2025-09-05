@@ -1,14 +1,14 @@
 import { createMockedPagedResponseAdditionalSkillsDTO, createMockedPagedResponseSkillsDTO, createMockedSearchAdditionalSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
-  AddAdditionalSkillDTOLevel,
   type AdditionalSkillConfigurationDTO,
+  EAdditionalSkillLevel,
   getGetAdditionalSkillConfigUrl,
   getGetSkillLevelProgressesUrl,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO
 } from '@/api/avenir-esr'
 import { PageSizes } from '@/ui/config'
-import { http, HttpResponse, type PathParams } from 'msw'
+import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export function createAdditionalSkillsViewHandler (payload: PagedResponseAdditionalSkillDTO) {
   return http.get(`*/me/additional-skills`, () => {
@@ -100,23 +100,23 @@ export const skillsHandlers = [
 
   http.get<PathParams, AdditionalSkillConfigurationDTO>(`*${getGetAdditionalSkillConfigUrl()}`, () => {
     const mockConfig: AdditionalSkillConfigurationDTO = {
-      [AddAdditionalSkillDTOLevel.BEGINNER]: {
+      [EAdditionalSkillLevel.BEGINNER]: {
         label: 'Débutant',
         description: 'Je découvre cette compétence'
       },
-      [AddAdditionalSkillDTOLevel.INTERMEDIATE]: {
+      [EAdditionalSkillLevel.INTERMEDIATE]: {
         label: 'Intermédiaire',
         description: 'Je commence à maîtriser cette compétence'
       },
-      [AddAdditionalSkillDTOLevel.COMPETENT]: {
+      [EAdditionalSkillLevel.COMPETENT]: {
         label: 'Compétent',
         description: 'Je maîtrise cette compétence'
       },
-      [AddAdditionalSkillDTOLevel.ADVANCED]: {
+      [EAdditionalSkillLevel.ADVANCED]: {
         label: 'Avancé',
         description: 'Je maîtrise bien cette compétence'
       },
-      [AddAdditionalSkillDTOLevel.EXPERT]: {
+      [EAdditionalSkillLevel.EXPERT]: {
         label: 'Expert',
         description: 'Je maîtrise parfaitement cette compétence'
       }
@@ -124,6 +124,16 @@ export const skillsHandlers = [
 
     return HttpResponse.json<AdditionalSkillConfigurationDTO>(mockConfig, {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post(`*/me/additional-skills`, async () => {
+    await delay(100)
+    return HttpResponse.json(null, {
+      status: 201,
       headers: {
         'Content-Type': 'application/json',
       }
