@@ -77,8 +77,16 @@ describe('studentOverviewWidget', () => {
     firstname: 'Jeanne',
     lastname: 'Moulin',
     email: 'j.moulin@example.com',
-    profilePicture: profile_picture_placeholder,
-    coverPicture: profile_banner_placeholder,
+    profilePicture: {
+      id: null,
+      name: null,
+      url: profile_picture_placeholder,
+    },
+    coverPicture: {
+      id: null,
+      name: null,
+      url: profile_banner_placeholder,
+    },
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
@@ -110,8 +118,8 @@ describe('studentOverviewWidget', () => {
 
       it('then it should show profile and cover images with correct src', async () => {
         const images = wrapper.findAll('img')
-        expect(images[0].attributes('src')).toBe(studentSummary.coverPicture)
-        expect(images[1].attributes('src')).toBe(studentSummary.profilePicture)
+        expect(images[0].attributes('src')).toBe(studentSummary.coverPicture.url)
+        expect(images[1].attributes('src')).toBe(studentSummary.profilePicture.url)
       })
 
       it('then it should emit click on AvRichButtons', async () => {

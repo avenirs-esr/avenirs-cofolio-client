@@ -36,6 +36,12 @@ const meta: Meta<AvFileUploadProps> = {
     disabled: { control: 'boolean' },
     modelValue: { control: 'text' },
     maxWidth: { control: 'text' },
+    fileName: { control: 'text' },
+    title: { control: 'text' },
+    description: { control: 'text' },
+    deleteButtonLabel: { control: 'text' },
+    onDeleteFile: { type: { name: 'function' }, control: false, },
+    enableMultiple: { control: 'boolean' },
   },
   args: {
     id: 'test',
@@ -44,8 +50,14 @@ const meta: Meta<AvFileUploadProps> = {
     error: '',
     validMessage: '',
     disabled: false,
-    modelValue: '',
-    maxWidth: 'none'
+    modelValue: null,
+    maxWidth: 'none',
+    fileName: undefined,
+    title: 'Add a new',
+    description: 'or drag and drop here',
+    deleteButtonLabel: 'Delete',
+    onDeleteFile: undefined,
+    enableMultiple: false
   },
 }
 

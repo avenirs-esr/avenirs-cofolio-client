@@ -64,8 +64,16 @@ describe('given a useUpdateProfileForm composable', () => {
     firstname: 'Jeanne',
     email: 'j.moulin@example.com',
     bio: 'Bio',
-    coverPicture: 'initialCover.jpg',
-    profilePicture: 'initialProfile.jpg',
+    coverPicture: {
+      id: 'random-id',
+      name: 'initialCover.jpg',
+      url: 'initialCover.jpg',
+    },
+    profilePicture: {
+      id: 'random-id-2',
+      name: 'initialProfile.jpg',
+      url: 'initialProfile.jpg',
+    }
   }
 
   const onSuccess = vi.fn()
@@ -100,7 +108,7 @@ describe('given a useUpdateProfileForm composable', () => {
 
       const newCoverUrl = 'https://example.com/new-cover.jpg'
       result.onUpdateProfileCoverSuccess(newCoverUrl)
-      expect(result.form.state.values.coverPicture).toBe(newCoverUrl)
+      expect(result.form.state.values.coverPicture).toStrictEqual({ id: 'random-id', name: 'initialCover.jpg', url: newCoverUrl })
     })
   })
 
@@ -112,7 +120,11 @@ describe('given a useUpdateProfileForm composable', () => {
 
       const newPhotoUrl = 'https://example.com/new-photo.jpg'
       result.onUpdateProfilePhotoSuccess(newPhotoUrl)
-      expect(result.form.state.values.profilePicture).toBe(newPhotoUrl)
+      expect(result.form.state.values.profilePicture).toStrictEqual({
+        id: 'random-id-2',
+        name: 'initialProfile.jpg',
+        url: newPhotoUrl
+      })
     })
   })
 

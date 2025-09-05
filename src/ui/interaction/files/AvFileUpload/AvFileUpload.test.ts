@@ -15,6 +15,9 @@ describe('avFileUpload', () => {
 
   const mountComponent = (props?: Partial<AvFileUploadProps>) => mount<typeof AvFileUpload>(AvFileUpload, {
     props: {
+      title: 'Ajouter un document',
+      description: 'ou glisser et déposer ici',
+      deleteButtonLabel: 'delete',
       ...props,
       global: { stubs }
     },
@@ -31,11 +34,8 @@ describe('avFileUpload', () => {
 
     describe('when the component is mounted', () => {
       it('then it should render the slot content', () => {
-        expect(wrapper.text()).toContain('Upload a file')
-      })
-
-      it('then it should render the hint slot', () => {
-        expect(wrapper.text()).toContain('Accepted files: .pdf, .jpg')
+        expect(wrapper.text()).toContain('Ajouter un document')
+        expect(wrapper.text()).toContain('ou glisser et déposer ici')
       })
     })
   })
@@ -108,7 +108,7 @@ describe('avFileUpload', () => {
         await input.element.dispatchEvent(event)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['C:\\fakepath\\hello.png'])
+        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('hello.png')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(files)
@@ -143,7 +143,7 @@ describe('avFileUpload', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['dragged.pdf'])
+        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.pdf')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -153,10 +153,8 @@ describe('avFileUpload', () => {
     describe('when a dragover event occurs', () => {
       it('then it should add drag-over class', async () => {
         const label = wrapper.find('label')
-        const dragEvent = new DragEvent('dragover')
-
-        await label.element.dispatchEvent(dragEvent)
-        expect(wrapper.classes()).toContain('drag-over')
+        await label.trigger('dragover')
+        expect(label.classes()).toContain('drag-over')
       })
     })
 
@@ -165,10 +163,10 @@ describe('avFileUpload', () => {
         const label = wrapper.find('label')
 
         await label.trigger('dragover')
-        expect(wrapper.classes()).toContain('drag-over')
+        expect(label.classes()).toContain('drag-over')
 
         await label.trigger('dragleave')
-        expect(wrapper.classes()).not.toContain('drag-over')
+        expect(label.classes()).not.toContain('drag-over')
       })
     })
   })
@@ -202,7 +200,7 @@ describe('avFileUpload', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['dragged.jpeg'])
+        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.jpeg')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -220,7 +218,7 @@ describe('avFileUpload', () => {
         await label.element.dispatchEvent(dropEvent)
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['dragged.png'])
+        expect((wrapper.emitted('update:modelValue')?.[0][0] as File).name).toBe('dragged.png')
 
         expect(wrapper.emitted('change')).toBeTruthy()
         expect(wrapper.emitted('change')?.[0][0]).toEqual(dataTransfer.files)
@@ -306,6 +304,85 @@ describe('avFileUpload', () => {
         expect(wrapper.emitted('update:modelValue')).toBeFalsy()
         expect(wrapper.emitted('change')).toBeFalsy()
         expect(wrapper.emitted('onDropAcceptTypeError')).toBeFalsy()
+      })
+    })
+  })
+
+  describe('given a file uploader with onClear button', () => {
+    beforeEach(() => {
+      wrapper = mountComponent({ modelValue: new File(['test'], 'test.txt') })
+    })
+
+    describe('when clicking on onClear button', () => {
+      it('then it should emit update:modelValue, update:validMessage, and update:error with null', async () => {
+        const onClearButton = wrapper.find('.av-button')
+        expect(onClearButton.exists()).toBe(true)
+
+        await onClearButton.trigger('click')
+
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+        expect(wrapper.emitted('update:modelValue')?.[0][0]).toBeNull()
+
+        expect(wrapper.emitted('update:validMessage')).toBeTruthy()
+        expect(wrapper.emitted('update:validMessage')?.[0][0]).toBeNull()
+
+        expect(wrapper.emitted('update:error')).toBeTruthy()
+        expect(wrapper.emitted('update:error')?.[0][0]).toBeNull()
+      })
+    })
+  })
+
+  describe('given a fileUpload rendering', () => {
+    describe('when enableMultiple = false', () => {
+      describe('and fileName is set', () => {
+        beforeEach(() => {
+          wrapper = mountComponent({ fileName: 'file.txt', modelValue: null, enableMultiple: false, deleteButtonLabel: 'delete', title: 'click here', description: 'or drag and drop' })
+        })
+
+        it('then it should render file info template', () => {
+          expect(wrapper.html()).toContain('file.txt')
+        })
+      })
+
+      describe('and modelValue is set (fileName not provided)', () => {
+        let file: File
+
+        beforeEach(() => {
+          file = new File(['content'], 'file.txt')
+          wrapper = mountComponent({ modelValue: file, enableMultiple: false, fileName: undefined })
+        })
+
+        it('then it should render file info template', () => {
+          expect(wrapper.html()).toContain('file.txt')
+        })
+
+        it('then it should render the delete button', () => {
+          const deleteBtn = wrapper.find('.av-button')
+          expect(deleteBtn.exists()).toBe(true)
+        })
+      })
+
+      describe('and neither fileName nor modelValue is set', () => {
+        beforeEach(() => {
+          wrapper = mountComponent({ modelValue: null, fileName: undefined, enableMultiple: false })
+        })
+
+        it('then it should render upload input template', () => {
+          expect(wrapper.find('input[type="file"]').exists()).toBe(true)
+        })
+      })
+    })
+
+    describe('when enableMultiple = true', () => {
+      let file: File
+
+      beforeEach(() => {
+        file = new File(['content'], 'file.txt')
+        wrapper = mountComponent({ modelValue: file, enableMultiple: true })
+      })
+
+      it('then it should render upload input template even if modelValue is set', () => {
+        expect(wrapper.find('input[type="file"]').exists()).toBe(true)
       })
     })
   })

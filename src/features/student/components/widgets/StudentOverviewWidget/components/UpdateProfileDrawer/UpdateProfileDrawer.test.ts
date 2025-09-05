@@ -1,9 +1,10 @@
-import type { UpdateProfileDrawerForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/types'
+import type { PictureDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { SetupContext } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
@@ -92,8 +93,16 @@ describe('updateProfileDrawer', () => {
     firstname: 'Jeanne',
     lastname: 'Moulin',
     email: 'j.moulin@example.com',
-    profilePicture: profile_picture_placeholder,
-    coverPicture: profile_banner_placeholder,
+    profilePicture: {
+      fileId: undefined,
+      fileName: undefined,
+      url: profile_picture_placeholder
+    },
+    coverPicture: {
+      fileId: undefined,
+      fileName: undefined,
+      url: profile_banner_placeholder
+    },
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
@@ -105,7 +114,7 @@ describe('updateProfileDrawer', () => {
     onClose: mockOnClose
   }
 
-  const fakeField = (initialValues: UpdateProfileDrawerForm) => {
+  const fakeField = (initialValues: ProfileOverviewDTO) => {
     return {
       props: ['name'],
       setup (props: Record<string, string>, context: SetupContext) {
@@ -154,7 +163,7 @@ describe('updateProfileDrawer', () => {
     }
   }
 
-  const store: Record<string, { value: string }> = {
+  const store: Record<string, { value: string | PictureDTO }> = {
     lastname: ref(studentSummary.lastname),
     firstname: ref(studentSummary.firstname),
     email: ref(studentSummary.email),
@@ -181,11 +190,11 @@ describe('updateProfileDrawer', () => {
     lastname: '',
     email: '',
     bio: '',
-    profilePicture: '',
-    coverPicture: ''
+    profilePicture: { fileId: undefined, fileName: undefined, url: '' },
+    coverPicture: { fileId: undefined, fileName: undefined, url: '' }
   }
 
-  const storeWithMissingFields: Record<string, { value: string }> = {
+  const storeWithMissingFields: Record<string, { value: string | PictureDTO }> = {
     lastname: ref(studentSummaryWithMissingFields.lastname),
     firstname: ref(studentSummaryWithMissingFields.firstname),
     email: ref(studentSummaryWithMissingFields.email),
@@ -219,13 +228,18 @@ describe('updateProfileDrawer', () => {
       onProfilePictureUpdate: vi.fn(),
       onUpdateProfileCoverSuccess: vi.fn(),
       onUpdateProfilePhotoSuccess: vi.fn(),
+      coverPictureFile: ref<File | null>(null),
+      profilePictureFile: ref<File | null>(null),
     }))
 
     wrapper = mount(UpdateProfileDrawer, {
       props: defaultProps,
       global: {
         stubs,
-        plugins: [createPinia()],
+        plugins: [
+          createPinia(),
+          [VueQueryPlugin, { queryClient: new QueryClient() }]
+        ],
       },
     })
   })
@@ -278,11 +292,16 @@ describe('updateProfileDrawer', () => {
           onProfilePictureUpdate: vi.fn(),
           onUpdateProfileCoverSuccess: vi.fn(),
           onUpdateProfilePhotoSuccess: vi.fn(),
+          coverPictureFile: ref<File | null>(null),
+          profilePictureFile: ref<File | null>(null),
         }))
 
         wrapper = mount(UpdateProfileDrawer, {
           props: { ...defaultProps, studentSummary: studentSummaryWithMissingFields },
-          global: { stubs, plugins: [createPinia()] }
+          global: { stubs, plugins: [
+            createPinia(),
+            [VueQueryPlugin, { queryClient: new QueryClient() }]
+          ], }
         })
       })
 
@@ -320,14 +339,16 @@ describe('updateProfileDrawer', () => {
           onProfilePictureUpdate: vi.fn(),
           onUpdateProfileCoverSuccess: vi.fn(),
           onUpdateProfilePhotoSuccess: vi.fn(),
+          coverPictureFile: ref<File | null>(null),
+          profilePictureFile: ref<File | null>(null),
         }))
 
         wrapper = mount(UpdateProfileDrawer, {
           props: defaultProps,
-          global: {
-            stubs,
-            plugins: [createPinia()],
-          },
+          global: { stubs, plugins: [
+            createPinia(),
+            [VueQueryPlugin, { queryClient: new QueryClient() }]
+          ], }
         })
       })
 
@@ -351,6 +372,8 @@ describe('updateProfileDrawer', () => {
           onProfilePictureUpdate: vi.fn(),
           onUpdateProfileCoverSuccess: vi.fn(),
           onUpdateProfilePhotoSuccess: vi.fn(),
+          coverPictureFile: ref<File | null>(null),
+          profilePictureFile: ref<File | null>(null),
         }))
       })
 
@@ -421,6 +444,8 @@ describe('updateProfileDrawer', () => {
             onProfilePictureUpdate: vi.fn(),
             onUpdateProfileCoverSuccess: vi.fn(),
             onUpdateProfilePhotoSuccess: vi.fn(),
+            coverPictureFile: ref<File | null>(null),
+            profilePictureFile: ref<File | null>(null),
             simulateSuccess: () => {
               onSuccess()
             }
@@ -431,10 +456,10 @@ describe('updateProfileDrawer', () => {
 
         wrapper = mount(UpdateProfileDrawer, {
           props: defaultProps,
-          global: {
-            stubs,
-            plugins: [createPinia()],
-          },
+          global: { stubs, plugins: [
+            createPinia(),
+            [VueQueryPlugin, { queryClient: new QueryClient() }]
+          ], }
         })
 
         useUpdateProfileFormReturn.simulateSuccess()

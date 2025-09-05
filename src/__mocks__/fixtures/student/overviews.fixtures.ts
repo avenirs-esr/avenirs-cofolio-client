@@ -13,8 +13,16 @@ export const mockedProfileOverview: ProfileOverviewDTO = {
   firstname: 'Jeanne',
   lastname: 'Moulin',
   email: 'j.moulin@example.com',
-  profilePicture: profile_picture_placeholder,
-  coverPicture: profile_banner_placeholder,
+  profilePicture: {
+    fileId: undefined,
+    fileName: undefined,
+    url: profile_picture_placeholder,
+  },
+  coverPicture: {
+    fileId: undefined,
+    fileName: undefined,
+    url: profile_banner_placeholder,
+  },
   bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
 }
 

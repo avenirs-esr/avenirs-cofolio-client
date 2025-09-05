@@ -1246,6 +1246,24 @@
           "label"
         ]
       },
+      "PictureDTO": {
+        "type": "object",
+        "properties": {
+          "fileId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
       "ProfileOverviewDTO": {
         "type": "object",
         "properties": {
@@ -1262,10 +1280,10 @@
             "type": "string"
           },
           "profilePicture": {
-            "type": "string"
+            "$ref": "#/components/schemas/PictureDTO"
           },
           "coverPicture": {
-            "type": "string"
+            "$ref": "#/components/schemas/PictureDTO"
           }
         },
         "required": [

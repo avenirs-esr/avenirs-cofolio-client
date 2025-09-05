@@ -407,6 +407,10 @@
         },
         "pictureAlt": "Photo de profil",
         "updateProfileDrawer": {
+          "confirmDeletePhotoModal": {
+            "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression ?",
+            "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
+          },
           "confirmModal": {
             "subtitle": "Toutes les modifications non enregistrées seront perdues.",
             "title": "Êtes-vous sûr de vouloir quitter ?"
@@ -417,6 +421,10 @@
             "lastname": "Nom",
             "mail": "Adresse mail personnelle",
             "title": "Identité"
+          },
+          "onDelete": {
+            "error": "Une erreur est survenue lors de la suppression de votre photo.",
+            "success": "Votre photo a été supprimée."
           },
           "onUpdate": {
             "error": "Une erreur est survenue lors de la mise à jour du profil.",

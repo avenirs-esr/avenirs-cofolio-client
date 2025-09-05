@@ -111,8 +111,12 @@ describe('studentLayout', () => {
     firstname: 'Jeanne',
     lastname: 'Moulin',
     email: 'j.moulin@example.com',
-    profilePicture: profile_picture_placeholder,
-    coverPicture: profile_banner_placeholder,
+    profilePicture: {
+      url: profile_picture_placeholder
+    },
+    coverPicture: {
+      url: profile_banner_placeholder
+    },
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
   }
 

@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
 import { ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
-import UpdateExitConfirmationModal from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateExitConfirmationModal/UpdateExitConfirmationModal.vue'
-import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
-import { useToasterStore } from '@/store'
+import UpdateExitConfirmationModal
+  from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateExitConfirmationModal/UpdateExitConfirmationModal.vue'
 import {
-  AvAccordion,
-  AvAccordionsGroup,
-  AvButton,
-  AvDrawer,
-  AvIconText,
-  AvInput,
-  MDI_ICONS
-} from '@/ui'
+  useUpdateProfileForm
+} from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
+import { useDeletePhotoMutation } from '@/features/student/queries'
+import { useToasterStore } from '@/store'
+import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, AvIconText, AvInput, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 const { studentSummary, show, onClose } = defineProps<{
@@ -24,19 +21,57 @@ const { studentSummary, show, onClose } = defineProps<{
 
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
-const { addSuccessMessage } = useToasterStore()
+const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const {
   form,
   isPending,
   isModified,
+  coverPictureFile,
   onCoverPictureUpdate,
+  profilePictureFile,
   onProfilePictureUpdate,
   resetForm
 } = useUpdateProfileForm(studentSummary, onUpdateProfileSuccess)
+const { onConfirmDeleteCoverPhoto } = useDeleteCoverPhoto()
+const { onConfirmDeleteProfilePhoto } = useDeleteProfilePhoto()
 
 function onUpdateProfileSuccess () {
   addSuccessMessage(t('student.widgets.overview.updateProfileDrawer.onUpdate.success'))
   onClose()
+}
+
+function useDeleteCoverPhoto () {
+  function onDeleteCoverPhotoError (error: BaseApiException) {
+    addErrorMessage({ title: t('student.widgets.overview.updateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
+  }
+
+  const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
+    onError: onDeleteCoverPhotoError,
+    onSuccess: onConfirmDeleteCoverPhoto
+  })
+
+  function onConfirmDeleteCoverPhoto () {
+    deletePhotoMutation({ fileId: studentSummary.coverPicture.fileId! })
+  }
+
+  return { onConfirmDeleteCoverPhoto }
+}
+
+function useDeleteProfilePhoto () {
+  function onDeleteProfilePhotoError (error: BaseApiException) {
+    addErrorMessage({ title: t('student.widgets.overview.updateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
+  }
+
+  const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
+    onError: onDeleteProfilePhotoError,
+    onSuccess: onConfirmDeleteProfilePhoto
+  })
+
+  function onConfirmDeleteProfilePhoto () {
+    deletePhotoMutation({ fileId: studentSummary.profilePicture.fileId! })
+  }
+
+  return { onConfirmDeleteProfilePhoto }
 }
 
 watch(() => show, (newVal) => {
@@ -122,7 +157,10 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
-              :default-image="studentSummary.coverPicture"
+              v-model="coverPictureFile"
+              :on-delete-image="onConfirmDeleteCoverPhoto"
+              :default-image-url="studentSummary.coverPicture.fileName ? studentSummary.coverPicture.url : undefined"
+              :default-image-name="studentSummary.coverPicture.fileName ?? undefined"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.banner')"
               :on-update="onCoverPictureUpdate"
             />
@@ -132,7 +170,9 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
-              :default-image="studentSummary.profilePicture"
+              v-model="profilePictureFile"
+              :on-delete-image="onConfirmDeleteProfilePhoto"
+              :default-image-name="studentSummary.profilePicture.fileName ?? undefined"
               :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.picture')"
               :on-update="onProfilePictureUpdate"
             />

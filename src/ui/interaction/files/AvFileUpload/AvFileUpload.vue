@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
-import AvVIcon from '@/ui/base/AvVIcon/AvVIcon.vue'
-import { MDI_ICONS } from '@/ui/tokens'
+import { AvButton, AvVIcon, MDI_ICONS } from '@/ui'
+import AvFileUploadAlert from '@/ui/interaction/files/AvFileUpload/AvFileUploadAlert.vue'
 import { useRandomId } from '@gouvminint/vue-dsfr'
 import { nextTick, type Slot } from 'vue'
 
@@ -56,9 +55,9 @@ export interface AvFileUploadProps {
   /**
    * Value linked to file upload input template.
    *
-   * @default ''
+   * @default null
    */
-  modelValue?: string
+  modelValue?: File | null
 
   /**
    * Max width of the component.
@@ -66,6 +65,44 @@ export interface AvFileUploadProps {
    * @default undefined
    */
   maxWidth?: string
+
+  /**
+   * Title of the file upload section.
+   */
+  title: string
+
+  /**
+   * Description of the file upload section.
+   * @default undefined
+   */
+  description: string
+
+  /**
+   * delete button label
+   *
+   */
+  deleteButtonLabel: string
+
+  /**
+   * Name of actual file.
+   *
+   * @default undefined
+   */
+  fileName?: string
+
+  /**
+   * Method executed on delete file button click.
+   *
+   * @default undefined
+   */
+  onDeleteFile?: () => void
+
+  /**
+   * Whether the file upload input enable multiple file selection or not.
+   *
+   * @default false
+   */
+  enableMultiple?: boolean
 }
 
 defineOptions({
@@ -78,25 +115,30 @@ const props = withDefaults(defineProps<AvFileUploadProps>(), {
   accept: undefined,
   validMessage: '',
   error: '',
-  modelValue: '',
-  maxWidth: 'none'
+  modelValue: null,
+  maxWidth: 'none',
+  disabled: false,
+  enableMultiple: false,
 })
 
-/**
- * Emits available for the AvFileUpload component.
- *
- * @emits update:modelValue - Event emitted when the model value linked to the file is updated.
- * @param payload - The updated model value (string).
- *
- * @emits change - Event emitted when the selected file is changed.
- * @param payload - The new list of selected files (FileList).
- */
 const emit = defineEmits<{
   /**
    * Event emitted when the model value linked to the file is updated.
-   * @param payload The updated model value (string).
+   * @param payload The updated model value (File or null).
    */
-  (e: 'update:modelValue', payload: string): void
+  (e: 'update:modelValue', payload: File | null): void
+
+  /**
+   * Event emitted when the validMessage is updated.
+   * @param payload The updated model value (string or null).
+   */
+  (e: 'update:validMessage', payload: string | null): void
+
+  /**
+   * Event emitted when the error is updated.
+   * @param payload The updated model value (string or null).
+   */
+  (e: 'update:error', payload: string | null): void
 
   /**
    * Event emitted when the selected file is changed.
@@ -168,7 +210,7 @@ async function onDrop (event: DragEvent) {
 
   if (files.length) {
     emit('change', files as unknown as FileList)
-    emit('update:modelValue', files[0]?.name ?? '')
+    emit('update:modelValue', files[0] ?? '')
   }
   else {
     emit('onDropAcceptTypeError')
@@ -187,33 +229,58 @@ function onDragLeave () {
 }
 
 function onChange ($event: InputEvent) {
-  emit('update:modelValue', ($event.target as HTMLInputElement)?.value)
-  emit('change', ($event.target as (InputEvent['target'] & { files: FileList }))?.files)
+  const files = ($event.target as HTMLInputElement).files
+  emit('change', files as FileList)
+  emit('update:modelValue', files?.[0] ?? null)
+}
+
+const isPreview = computed(() => props.fileName || (props.modelValue && !props.enableMultiple))
+
+const uploadLabelAttrs = computed(() => {
+  return {
+    'for':
+    props.id,
+    'class':
+    [
+      'fr-upload-group',
+      {
+        'fr-upload-group--error': props.error,
+        'fr-upload-group--valid': props.validMessage,
+        'fr-upload-group--disabled': props.disabled,
+        'drag-over': isDragging.value,
+      },
+    ],
+    'aria-label':
+    props.ariaLabel,
+    'onDragover':
+    onDragOver,
+    'onDragleave':
+    onDragLeave,
+    'onDrop':
+    onDrop,
+  }
+})
+
+function onClear (modelValue: File | null) {
+  if (modelValue) {
+    emit('update:modelValue', null)
+    emit('update:validMessage', null)
+    emit('update:error', null)
+    emit('change', [] as unknown as FileList)
+  }
+  else {
+    props.onDeleteFile?.()
+  }
 }
 </script>
 
 <template>
-  <label
-    :for="id"
-    class="fr-upload-group"
-    :class="{
-      'fr-upload-group--error': error,
-      'fr-upload-group--valid': validMessage,
-      'fr-upload-group--disabled': disabled,
-      'drag-over': isDragging,
-    }"
-    :aria-label="ariaLabel"
-    @dragover="onDragOver"
-    @dragleave="onDragLeave"
-    @drop="onDrop"
+  <component
+    :is="isPreview ? 'div' : 'label'"
+    v-bind="isPreview ? {} : uploadLabelAttrs"
+    :class="isPreview ? 'file-preview-container' : ''"
   >
-    <div
-      class="file-upload-container"
-      :class="{
-        'file-upload-container--error': error,
-        'file-upload-container--valid': validMessage,
-      }"
-    >
+    <div :class="isPreview ? '' : 'file-upload-container'">
       <div class="file-upload-content">
         <div class="left-content-container">
           <slot name="left">
@@ -225,29 +292,39 @@ function onChange ($event: InputEvent) {
           </slot>
         </div>
         <div class="content-container">
-          <slot />
-          <div
-            v-if="error || validMessage"
-            class="messages-group"
-            role="alert"
-          >
-            <AvIconText
-              :icon="error ? MDI_ICONS.CLOSE_CIRCLE_OUTLINE : MDI_ICONS.CHECK_CIRCLE_OUTLINE"
-              :icon-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
-              :text="error ? error : validMessage"
-              :text-color="error ? 'var(--dark-background-error)' : 'var(--dark-background-success)'"
-              typography-class="caption-regular"
-            />
+          <div v-if="isPreview">
+            <span class="b2-bold">{{ fileName || modelValue!.name }}</span>
           </div>
+          <div
+            v-else
+            class="title-container"
+          >
+            <span class="b2-regular">{{ title }}</span>
+            <span class="caption-light">{{ description }}</span>
+          </div>
+
+          <AvFileUploadAlert
+            :valid-message="validMessage"
+            :error="error"
+          />
         </div>
+
         <div class="right-icon-container">
+          <AvButton
+            v-if="isPreview"
+            :label="deleteButtonLabel"
+            theme="SECONDARY"
+            @click="() => onClear(modelValue)"
+          />
           <AvVIcon
+            v-else
             :size="1.5"
             :name="MDI_ICONS.TRAY_UPLOAD"
             color="var(--dark-background-primary1)"
           />
         </div>
         <input
+          v-if="!isPreview"
           :id="id"
           class="fr-upload"
           type="file"
@@ -260,16 +337,22 @@ function onChange ($event: InputEvent) {
         >
       </div>
     </div>
-    <span class="caption-light">
-      <slot name="hint" />
-    </span>
-  </label>
+  </component>
+  <span class="caption-light">
+    <slot name="hint" />
+  </span>
 </template>
 
 <style lang="scss" scoped>
 .file-upload-container:focus-within {
   outline: 2px solid #005fcc;
   outline-offset: 2px;
+}
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
 }
 
 .fr-upload {
@@ -282,7 +365,7 @@ function onChange ($event: InputEvent) {
   white-space: nowrap;
   border: 0;
   padding: 0;
-  margin: 0;
+  margin: 0 !important;
 }
 
 .fr-upload-group {
@@ -294,18 +377,16 @@ function onChange ($event: InputEvent) {
   cursor: not-allowed;
 }
 
-.file-upload-container {
-  border: 1px dashed var(--divider);
+.file-preview-container {
+  border: 1px solid var(--divider);
   border-radius: var(--radius-lg);
   padding: var(--spacing-xs);
 }
 
-.file-upload-container--error {
-  border: 1px solid var(--dark-background-error)
-}
-
-.file-upload-container--valid {
-  border: 1px solid var(--dark-background-success)
+.file-upload-container {
+  border: 1px dashed var(--divider);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xs);
 }
 
 .drag-over .file-upload-container {
@@ -347,9 +428,5 @@ function onChange ($event: InputEvent) {
 
 .messages-group {
   padding-top: var(--spacing-xxs);
-}
-
-.fr-upload {
-  margin: 0 !important;
 }
 </style>

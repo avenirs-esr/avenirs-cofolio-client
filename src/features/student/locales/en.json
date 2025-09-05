@@ -407,6 +407,10 @@
         },
         "pictureAlt": "Profile picture",
         "updateProfileDrawer": {
+          "confirmDeletePhotoModal": {
+            "subtitle": "This action will permanently delete your profile picture. Confirm deletion?",
+            "title": "Are you sure you want to delete your photo?"
+          },
           "confirmModal": {
             "subtitle": "Any unsaved changes will be lost.",
             "title": "Are you sure you want to exit?"
@@ -417,6 +421,10 @@
             "lastname": "Last name",
             "mail": "Personal email address",
             "title": "Identity"
+          },
+          "onDelete": {
+            "error": "An error occurred while deleting the photo.",
+            "success": "Your photo has been deleted."
           },
           "onUpdate": {
             "error": "An error occurred while updating the profile.",

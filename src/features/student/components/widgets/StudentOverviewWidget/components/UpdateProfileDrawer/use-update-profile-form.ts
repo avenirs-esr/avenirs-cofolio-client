@@ -1,12 +1,12 @@
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { UpdateProfileDrawerForm } from './types'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile'
 import { useToasterStore } from '@/store'
 import { isValidEmail } from '@/ui/utils'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
-export function useUpdateProfileForm (initialData: UpdateProfileDrawerForm, onSuccess: () => void) {
+export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const { onUpdateProfile, iseUpdateProfilePending } = useUpdateProfile(onSuccess)
@@ -58,11 +58,11 @@ export function useUpdateProfileForm (initialData: UpdateProfileDrawerForm, onSu
   })
 
   function onUpdateProfileCoverSuccess (url: string) {
-    form.setFieldValue('coverPicture', url)
+    form.setFieldValue('coverPicture.url', url)
   }
 
   function onUpdateProfilePhotoSuccess (url: string) {
-    form.setFieldValue('profilePicture', url)
+    form.setFieldValue('profilePicture.url', url)
   }
 
   function onCoverPictureUpdate (file: File | null) {
@@ -97,7 +97,9 @@ export function useUpdateProfileForm (initialData: UpdateProfileDrawerForm, onSu
     isPending,
     isModified,
     resetForm,
+    coverPictureFile,
     onCoverPictureUpdate,
+    profilePictureFile,
     onProfilePictureUpdate,
     onUpdateProfileCoverSuccess,
     onUpdateProfilePhotoSuccess

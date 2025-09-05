@@ -11,14 +11,15 @@ vi.mock('@/common/composables', () => ({
     error,
     valid,
     name: { value: 'test.jpg' },
-    previewUrl: { value: undefined }
+    previewUrl: { value: 'exemple.com/image.png' }
   })
 }))
 
 function createWrapper (props = {}) {
   return mount<typeof ImageUpload>(ImageUpload, {
     props: {
-      defaultImage: 'default.jpg',
+      defaultImageName: 'default.jpg',
+      defaultImageLink: 'exemple.com/image.png',
       imageAlt: 'alt text',
       onUpdate: vi.fn(),
       ...props
@@ -81,7 +82,7 @@ describe('imageUpload', () => {
       it('then it should render the default image with correct alt', () => {
         const img = wrapper.find('img')
         expect(img.exists()).toBe(true)
-        expect(img.attributes('src')).toBe('default.jpg')
+        expect(img.attributes('src')).toBe('exemple.com/image.png')
         expect(img.attributes('alt')).toBe('alt text')
       })
     })

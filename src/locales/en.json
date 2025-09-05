@@ -12,6 +12,7 @@
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
+      "delete": "Delete",
       "exit": "Exit",
       "goBack": "Go back",
       "save": "Save"
@@ -39,11 +40,13 @@
       }
     },
     "information": {
-      "imageUpload": {
+      "fileUpload": {
+        "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
         "filesTypes": "PDF, JPG, JPEG, PNG •",
         "sizeIndication": "Size : ",
-        "size": "10 Mo max"
+        "size": "10 Mo max",
+        "title": "Add a file"
       }
     },
     "error": {

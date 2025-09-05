@@ -31,7 +31,7 @@ defineExpose({ fullName })
     <template #title>
       <div class="student-overview-widget__title">
         <img
-          :src="studentSummary.coverPicture"
+          :src="studentSummary.coverPicture.url"
           :alt="t('student.widgets.overview.bannerAlt')"
           class="student-overview-widget__banner"
         >
@@ -39,7 +39,7 @@ defineExpose({ fullName })
           class="student-overview-widget__icon"
         >
           <img
-            :src="studentSummary.profilePicture"
+            :src="studentSummary.profilePicture.url"
             :alt="t('student.widgets.overview.pictureAlt')"
             class="student-overview-widget__picture"
           >

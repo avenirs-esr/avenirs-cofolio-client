@@ -12,6 +12,7 @@
       "cancel": "Annuler",
       "close": "Fermer",
       "confirm": "Confirmer",
+      "delete": "Supprimer",
       "exit": "Quitter",
       "goBack": "Retour",
       "save": "Enregistrer"
@@ -50,11 +51,13 @@
       }
     },
     "information": {
-      "imageUpload": {
+      "fileUpload": {
+        "dragAndDrop": "ou glisser et déposer ici",
         "filesIndication": "Format : ",
         "filesTypes": "PDF, JPG, JPEG, PNG •",
         "sizeIndication": "Poids : ",
-        "size": "10 Mo max"
+        "size": "10 Mo max",
+        "title": "Ajouter un fichier"
       }
     },
     "pageSizePicker": {

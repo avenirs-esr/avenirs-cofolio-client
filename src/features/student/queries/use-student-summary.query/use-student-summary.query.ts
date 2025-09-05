@@ -8,6 +8,7 @@ import {
   mockedResumesOverview
 } from '@/__mocks__/fixtures/student'
 import {
+  deleteUserPhoto,
   EUserCategory,
   EUserPhotoType,
   getProfile,
@@ -212,6 +213,29 @@ export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: CommonMut
       return uploadedPhoto.id
     },
     onSuccess,
+    onError
+  })
+}
+
+interface DeleteUserPhotoVariables {
+  fileId: string
+}
+
+export interface UseDeletePhotoMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useDeletePhotoMutation ({ onError, onSuccess }: UseDeletePhotoMutationArgs = {}) {
+  const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
+  return useMutation<string, BaseApiException, DeleteUserPhotoVariables>({
+    mutationFn: async ({ fileId }: DeleteUserPhotoVariables): Promise<string> => {
+      return await deleteUserPhoto(fileId)
+    },
+    onSuccess: async () => {
+      await invalidateStudentSummaryQuery()
+      onSuccess?.()
+    },
     onError
   })
 }

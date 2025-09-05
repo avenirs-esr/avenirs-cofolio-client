@@ -31,6 +31,7 @@ export function useImageUpload () {
   async function update (files: FileList) {
     const file = files[0]
     if (!file) {
+      clear()
       return
     }
 

@@ -32,7 +32,7 @@ const filesTypesMaxSize = [
 const acceptedFileTypes = [...TRACE_ACCEPTED_FILE_TYPES]
 
 function getFileInputSuccessMessage (file: File | null) {
-  return file ? `${file.name} - ${t('global.success.file.loaded')}` : undefined
+  return file ? t('global.success.file.loaded') : undefined
 }
 </script>
 
@@ -44,37 +44,29 @@ function getFileInputSuccessMessage (file: File | null) {
           <template #default="{ field }">
             <AvFileUpload
               id="trace-file-upload"
-              :model-value="field.state.value?.name"
+              :title="t('global.information.fileUpload.title')"
+              :description="t('global.information.fileUpload.dragAndDrop')"
+              :delete-button-label="t('global.buttons.delete')"
+              :model-value="field.state.value"
               :accept="acceptedFileTypes"
               :aria-label="`${t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.title')} ${t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.subtitle')}`"
               :error="field.state.meta.errors.join(', ')"
               :valid-message="getFileInputSuccessMessage(field.state.value)"
               @change="(files) => handleFileChange(files, field.handleChange)"
-            >
-              <div class="file-upload-content">
-                <p class="b2-regular">
-                  {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.title') }}
-                </p>
-                <p class="caption-light">
-                  {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.fileUpload.subtitle') }}
-                </p>
-              </div>
-              <template #hint>
-                <p
-                  class="caption-light"
-                >
-                  <template
-                    v-for="(item, index) in filesTypesMaxSize"
-                    :key="item.type"
-                  >
-                    {{ $t(item.type) }} : <span class="file-upload-content__hint">{{ item.size }}</span>
-                    <span v-if="index < filesTypesMaxSize.length - 1"> • </span>
-                  </template>
-                </p>
-              </template>
-            </AvFileUpload>
+              @update:model-value="(value) => field.handleChange(value)"
+            />
           </template>
         </form.Field>
+        <div>
+          <span
+            v-for="(item, index) in filesTypesMaxSize"
+            :key="item.type"
+            class="caption-light"
+          >
+            {{ $t(item.type) }} : <span class="caption-bold">{{ item.size }}</span>
+            <span v-if="index < filesTypesMaxSize.length - 1"> • </span>
+          </span>
+        </div>
       </div>
 
       <div class="create-trace-form-trace-definition-items__field">
@@ -139,21 +131,5 @@ function getFileInputSuccessMessage (file: File | null) {
 .create-trace-form-trace-definition-items__field {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.file-upload-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-xxs);
-
-  &__hint {
-    font-weight: 700;
-  }
-}
-
-.file-upload-content p {
-  margin: 0;
 }
 </style>

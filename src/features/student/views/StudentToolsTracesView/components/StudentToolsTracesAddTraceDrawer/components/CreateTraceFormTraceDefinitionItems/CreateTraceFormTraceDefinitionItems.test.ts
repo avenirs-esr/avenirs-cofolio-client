@@ -115,7 +115,7 @@ describe('createTraceFormTraceDefinitionItems', () => {
         await fileInput.trigger('change')
 
         const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(fileUploadComponent.props('validMessage')).toBe(`${mockFile.name} - Document chargé.`)
+        expect(fileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
       })
     })
 
@@ -155,7 +155,7 @@ describe('createTraceFormTraceDefinitionItems', () => {
         await wrapper.vm.$nextTick()
 
         const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(fileUploadComponent.props('validMessage')).toBe('test.pdf - Document chargé.')
+        expect(fileUploadComponent.props('validMessage')).toBe('Document chargé.')
       })
 
       it('then it should not show success message when no file is selected', () => {

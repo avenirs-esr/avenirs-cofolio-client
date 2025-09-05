@@ -45,7 +45,7 @@ describe('useStudentSummaryQuery', () => {
       })
 
       it('then it should return a profile object with required properties', () => {
-        expect(queryResult.data.value).toStrictEqual(mockedProfileOverview)
+        expect(queryResult.data.value).toEqual(mockedProfileOverview)
       })
     })
   })
