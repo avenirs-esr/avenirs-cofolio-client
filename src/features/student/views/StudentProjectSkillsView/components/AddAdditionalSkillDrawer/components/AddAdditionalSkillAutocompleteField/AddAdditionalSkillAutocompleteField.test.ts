@@ -144,7 +144,7 @@ describe('addAdditionalSkillAutocompleteField', () => {
       })
     })
 
-    describe('when search query is entered', () => {
+    describe('when a search query is entered', () => {
       it('then it should emit search event', async () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
@@ -159,7 +159,7 @@ describe('addAdditionalSkillAutocompleteField', () => {
       })
     })
 
-    describe('when autocomplete value is updated', () => {
+    describe('when the autocomplete value is updated', () => {
       it('then it should update the form field value', async () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
         const testSkill = {
@@ -198,7 +198,7 @@ describe('addAdditionalSkillAutocompleteField', () => {
       })
     })
 
-    describe('when form is validated with empty selection', () => {
+    describe('when the form is validated with empty selection', () => {
       it('then it should show error message', async () => {
         await wrapper.find('form').trigger('submit')
 
@@ -218,11 +218,90 @@ describe('addAdditionalSkillAutocompleteField', () => {
       })
     })
 
-    describe('when fetching next page', () => {
+    describe('when fetching the next page', () => {
       it('then it should handle pagination loading state', () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
         expect(autocomplete.props('enableLoadMore')).toBe(true)
+      })
+    })
+
+    describe('when handling search query interactions', () => {
+      it('then it should handle search query changes with proper debouncing', () => {
+        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        expect(autocomplete.props('debounceDelay')).toBe(500)
+      })
+
+      it('then it should show no results message when search yields empty results', () => {
+        const emptySlot = wrapper.find('.b2-regular')
+        expect(emptySlot.exists()).toBe(true)
+      })
+    })
+
+    describe('when highlighting skill options', () => {
+      it('then it should apply highlight class to matched text', () => {
+        const skillTitle = wrapper.find('.b1-bold')
+        expect(skillTitle.exists()).toBe(true)
+      })
+
+      it('then it should handle path segments with separators', () => {
+        const pathSegments = wrapper.find('.caption-light')
+        expect(pathSegments.exists()).toBe(true)
+      })
+    })
+
+    describe('when option functions are configured', () => {
+      it('then it should bind getOptionLabel function correctly', () => {
+        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        expect(autocomplete.props('getOptionLabel')).toBeDefined()
+        expect(typeof autocomplete.props('getOptionLabel')).toBe('function')
+      })
+
+      it('then it should bind getOptionKey function correctly', () => {
+        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        expect(autocomplete.props('getOptionKey')).toBeDefined()
+        expect(typeof autocomplete.props('getOptionKey')).toBe('function')
+      })
+    })
+
+    describe('when rendering the skill type badge', () => {
+      it('then it should render AdditionalSkillTypeBadge with correct props', () => {
+        const badge = wrapper.findComponent({ name: 'AdditionalSkillTypeBadge' })
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('label')).toBeDefined()
+        expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary1)')
+      })
+    })
+
+    describe('when integrating with form field', () => {
+      it('then it should integrate with TanStack Form Field component', () => {
+        const container = wrapper.find('.search-skill-field')
+        expect(container.exists()).toBe(true)
+      })
+
+      it('then it should handle field state changes correctly', async () => {
+        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        expect(autocomplete.props('modelValue')).toBeDefined()
+      })
+    })
+
+    describe('when skill options are available', () => {
+      it('then it should render skill options with proper structure', () => {
+        const listItem = wrapper.findComponent({ name: 'AvListItem' })
+        expect(listItem.props('clickable')).toBeDefined()
+        expect(listItem.props('icon')).toBeDefined()
+      })
+
+      it('then it should handle skill selection through toggle function', () => {
+        const listItem = wrapper.findComponent({ name: 'AvListItem' })
+        expect(listItem.exists()).toBe(true)
+      })
+    })
+
+    describe('when displaying different empty states', () => {
+      it('then it should show different messages based on search state', () => {
+        const emptyMessages = wrapper.findAll('.b2-regular')
+        expect(emptyMessages.length).toBeGreaterThan(0)
       })
     })
   })

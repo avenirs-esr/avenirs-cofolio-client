@@ -1,9 +1,22 @@
+import type { BaseApiException } from '@/common/exceptions'
 import type { AdditionalSkillFormData } from 'src/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
+import { useCreateAdditionalSkillMutation } from '@/features/student/queries'
+import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
 export function useAdditionalSkillForm (onSkillAdded?: () => void) {
   const { t } = useI18n()
+  const { addErrorMessage } = useToasterStore()
+
+  const onCreateAdditionalSkillError = (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.errors.createAdditionalSkill'),
+      description: error.message
+    })
+  }
+
+  const { mutate: createAdditionalSkill, isPending } = useCreateAdditionalSkillMutation({ onError: onCreateAdditionalSkillError })
 
   const form = useForm({
     defaultValues: {
@@ -24,9 +37,17 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
         }
       }
     },
-    onSubmit: ({ value: _value }: { value: AdditionalSkillFormData }) => {
-      // TODO: Implement save logic (API call, store update, etc.)
-      onSkillAdded?.()
+    onSubmit: ({ value }: { value: AdditionalSkillFormData }) => {
+      const selectedSkill = value.selectedSkills[0]
+      createAdditionalSkill({
+        id: selectedSkill.id,
+        type: selectedSkill.type,
+        level: value.level
+      }, {
+        onSuccess: () => {
+          onSkillAdded?.()
+        }
+      })
     }
   })
 
@@ -37,7 +58,8 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
 
   return {
     form,
-    isFormValid
+    isFormValid,
+    isSubmitting: isPending
   }
 }
 

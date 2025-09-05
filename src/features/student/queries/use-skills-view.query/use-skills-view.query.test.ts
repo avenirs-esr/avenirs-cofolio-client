@@ -3,8 +3,8 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import {
   type AdditionalSkillDTO,
-  AdditionalSkillDTOType,
   type AdditionalSkillProgressDTO,
+  EAdditionalSkillType,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseAdditionalSkillProgressDTO,
   type PagedResponseSkillDTO,
@@ -296,7 +296,7 @@ describe('useSearchAdditionalSkillsQuery', () => {
         expect(firstSkill.title.toLowerCase()).toContain('com')
         expect(firstSkill).toHaveProperty('pathSegments')
         expect(firstSkill).toHaveProperty('type')
-        expect(firstSkill.type).toBe(AdditionalSkillDTOType.ROME4)
+        expect(firstSkill.type).toBe(EAdditionalSkillType.ROME4)
       })
 
       it('then it should have infinite query properties', () => {

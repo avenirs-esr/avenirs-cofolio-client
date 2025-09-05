@@ -1,6 +1,6 @@
 import {
   type AdditionalSkillDTO,
-  AdditionalSkillDTOType,
+  EAdditionalSkillType,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
   type SkillDTO,
@@ -63,7 +63,7 @@ export function createMockedPagedResponseAdditionalSkillsDTO (pageSize: number, 
       id: crypto.randomUUID(),
       title: `Ma super compétence complémentaire ${i}`,
       pathSegments: [],
-      type: AdditionalSkillDTOType.ROME4,
+      type: EAdditionalSkillType.ROME4,
     }
     mockedSkills.push(skill)
   }
@@ -126,7 +126,7 @@ export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalEl
       id: `search-${crypto.randomUUID()}`,
       title,
       pathSegments: ['Compétence', 'professionnelle', title.toLowerCase()],
-      type: AdditionalSkillDTOType.ROME4
+      type: EAdditionalSkillType.ROME4
     }))
 
   const actualTotalElements = Math.min(filteredSkills.length, totalElements)

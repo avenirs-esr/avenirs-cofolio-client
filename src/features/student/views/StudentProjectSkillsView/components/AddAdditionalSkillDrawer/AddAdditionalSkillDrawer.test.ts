@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { EAdditionalSkillType } from '@/api/avenir-esr'
 import { useSkillsStore } from '@/store'
 import { mountComponent } from 'tests/utils'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
@@ -43,7 +44,7 @@ const stubs = {
   },
   AvButton: {
     name: 'AvButton',
-    props: ['label', 'variant', 'type', 'disabled'],
+    props: ['label', 'variant', 'type', 'disabled', 'loading'],
     emits: ['click'],
     template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
   },
@@ -58,6 +59,12 @@ const stubs = {
     props: ['label', 'backgroundColor'],
     template: '<div class="additional-skill-type-badge-stub">{{ label }}</div>'
   },
+  AddAdditionalSkillConfirmationModal: {
+    name: 'AddAdditionalSkillConfirmationModal',
+    props: ['id', 'show'],
+    emits: ['cancel', 'confirm'],
+    template: '<div class="add-additional-skill-confirmation-modal-stub" />'
+  },
   VIcon: {
     name: 'VIcon',
     props: ['name', 'size', 'color'],
@@ -69,6 +76,15 @@ describe('addAdditionalSkillDrawer', () => {
   describe('given an add additional skill drawer component', () => {
     let wrapper: VueWrapper<InstanceType<typeof AddAdditionalSkillDrawer>>
 
+    const createMockSkill = () => ([{
+      id: '1',
+      label: 'Test Skill',
+      value: '1',
+      title: 'Test Skill',
+      pathSegments: ['Test'],
+      type: EAdditionalSkillType.ROME4
+    }])
+
     const getSaveButton = () => {
       return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
         button.props('variant') === 'FLAT'
@@ -79,6 +95,21 @@ describe('addAdditionalSkillDrawer', () => {
       return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
         button.props('variant') === 'OUTLINED'
       )
+    }
+
+    const setupFormWithMockSkill = async () => {
+      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const mockSkill = createMockSkill()
+      await autocomplete.vm.$emit('update:modelValue', mockSkill)
+      await wrapper.vm.$nextTick()
+      return { autocomplete, mockSkill }
+    }
+
+    const triggerCancelAndGetModal = async () => {
+      const cancelButton = getCancelButton()
+      await cancelButton?.vm.$emit('click')
+      await wrapper.vm.$nextTick()
+      return wrapper.findComponent({ name: 'AddAdditionalSkillConfirmationModal' })
     }
 
     beforeEach(() => {
@@ -102,7 +133,7 @@ describe('addAdditionalSkillDrawer', () => {
 
         expect(drawer.exists()).toBe(true)
         expect(drawer.props('position')).toBe('left')
-        expect(drawer.props('width')).toBe('50rem')
+        expect(drawer.props('width')).toBe('40rem')
       })
 
       it('then it should render the header with title and icon', () => {
@@ -149,7 +180,7 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when store showCreateAdditionalSkillDrawer is false', () => {
+    describe('when the store showCreateAdditionalSkillDrawer is false', () => {
       it('then it should pass false to drawer show prop', async () => {
         const store = useSkillsStore()
         store.hideCreateAdditionalSkillDrawer()
@@ -160,8 +191,8 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when escape is pressed on drawer', () => {
-      it('then it should hideCreateAdditionalSkillDrawer', async () => {
+    describe('when the escape key is pressed on drawer', () => {
+      it('then it should hide the additional skill drawer', async () => {
         const store = useSkillsStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
@@ -172,8 +203,8 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when cancel button is clicked', () => {
-      it('then it should hideCreateAdditionalSkillDrawer and reset form', async () => {
+    describe('when the cancel button is clicked', () => {
+      it('then it should hide the drawer and reset form', async () => {
         const store = useSkillsStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
         const cancelButton = getCancelButton()
@@ -184,25 +215,29 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when save button is clicked', () => {
-      it('then it should be disabled initially when form is not valid', () => {
+    describe('when the save button is clicked', () => {
+      it('then it should show loading state during form submission', async () => {
+        await setupFormWithMockSkill()
+
         const saveButton = getSaveButton()
-        expect(saveButton?.props('disabled')).toBe(false)
+        expect(saveButton?.props('loading')).toBe(false)
+
+        const form = wrapper.find('form')
+        await form.trigger('submit')
+
+        await vi.waitFor(() => {
+          expect(saveButton?.props('loading')).toBe(true)
+        },)
+
+        expect(saveButton?.props('disabled')).toBe(true)
+
+        await vi.waitFor(() => {
+          expect(saveButton?.props('loading')).toBe(false)
+        },)
       })
 
       it('then it should show success message when skill is added', async () => {
-        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-        const mockSkill = {
-          id: '1',
-          label: 'Test Skill',
-          value: '1',
-          title: 'Test Skill',
-          pathSegments: ['Test'],
-          type: 'ROME 4.0'
-        }
-
-        await autocomplete.vm.$emit('update:modelValue', mockSkill)
-        await wrapper.vm.$nextTick()
+        await setupFormWithMockSkill()
 
         const saveButton = getSaveButton()
         await saveButton?.vm.$emit('click')
@@ -216,40 +251,68 @@ describe('addAdditionalSkillDrawer', () => {
       })
     })
 
-    describe('when search events are handled', () => {
-      it('then it should handle search events', async () => {
-        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-
-        await autocomplete.vm.$emit('search', 'test search')
-        await wrapper.vm.$nextTick()
-
-        expect(autocomplete.emitted('search')).toBeTruthy()
-      })
-
-      it('then it should handle clear events', async () => {
-        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-
-        await autocomplete.vm.$emit('clear')
-        await wrapper.vm.$nextTick()
-
-        expect(autocomplete.emitted('clear')).toBeTruthy()
-      })
-
-      it('then it should handle load more events', async () => {
-        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-
-        await autocomplete.vm.$emit('loadMore')
-        await wrapper.vm.$nextTick()
-
-        expect(autocomplete.emitted('loadMore')).toBeTruthy()
-      })
-    })
-
     describe('when option functions are configured', () => {
       it('then it should have proper autocomplete configuration', () => {
         const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
         expect(autocomplete.props('getOptionLabel')).toBeDefined()
         expect(autocomplete.props('getOptionKey')).toBeDefined()
+      })
+    })
+
+    describe('when the form is dirty and cancel is clicked', () => {
+      it('then it should show confirmation modal when form has changes', async () => {
+        await setupFormWithMockSkill()
+
+        const confirmationModal = await triggerCancelAndGetModal()
+        expect(confirmationModal.props('show')).toBe(true)
+      })
+
+      it('then it should hide drawer when confirmation modal confirm is triggered', async () => {
+        const store = useSkillsStore()
+        const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
+
+        await setupFormWithMockSkill()
+        const confirmationModal = await triggerCancelAndGetModal()
+        await confirmationModal.vm.$emit('confirm')
+
+        expect(hideDrawerSpy).toHaveBeenCalled()
+      })
+
+      it('then it should hide confirmation modal when cancel is triggered', async () => {
+        await setupFormWithMockSkill()
+        const confirmationModal = await triggerCancelAndGetModal()
+        await confirmationModal.vm.$emit('cancel')
+
+        expect(confirmationModal.props('show')).toBe(false)
+      })
+    })
+
+    describe('when save button state changes based on form state', () => {
+      it('then it should be enabled initially before validation', () => {
+        const saveButton = getSaveButton()
+        expect(saveButton?.props('disabled')).toBe(false)
+      })
+
+      it('then it should remain enabled when form has valid data', async () => {
+        await setupFormWithMockSkill()
+
+        const saveButton = getSaveButton()
+        expect(saveButton?.props('disabled')).toBe(false)
+      })
+
+      it('then it should show loading state as false initially', () => {
+        const saveButton = getSaveButton()
+        expect(saveButton?.props('loading')).toBe(false)
+      })
+    })
+
+    describe('when additional skill field components are rendered', () => {
+      it('then it should render form field components', () => {
+        const formContent = wrapper.find('.add-additional-skill-drawer__content')
+        expect(formContent.exists()).toBe(true)
+
+        const form = wrapper.find('form')
+        expect(form.exists()).toBe(true)
       })
     })
   })

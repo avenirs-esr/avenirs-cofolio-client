@@ -347,7 +347,10 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  "type": "object",
+                  "additionalProperties": {
+                    "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                  }
                 }
               }
             }
@@ -1147,12 +1150,14 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
           },
           "level": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
             "enum": [
               "BEGINNER",
               "INTERMEDIATE",
@@ -1785,12 +1790,14 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
           },
           "level": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
             "enum": [
               "BEGINNER",
               "INTERMEDIATE",
@@ -1844,6 +1851,7 @@
           },
           "type": {
             "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
             "enum": [
               "ROME4"
             ]
@@ -1872,6 +1880,24 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "EAdditionalSkillLevel": {
+        "type": "string",
+        "description": "Enum for additional skill level",
+        "enum": [
+          "BEGINNER",
+          "INTERMEDIATE",
+          "COMPETENT",
+          "ADVANCED",
+          "EXPERT"
+        ]
+      },
+      "EAdditionalSkillType": {
+        "type": "string",
+        "description": "Enum for additional skill type",
+        "enum": [
+          "ROME4"
         ]
       },
       "AmsStatus": {
