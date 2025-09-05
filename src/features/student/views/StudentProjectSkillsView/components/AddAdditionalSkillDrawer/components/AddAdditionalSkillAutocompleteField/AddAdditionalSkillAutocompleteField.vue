@@ -74,14 +74,22 @@ const emptySlotTextContent = computed<string>(() => {
   return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping')
 })
 
-function highlightMatchedText (text: string, query: string): string {
+function highlightMatchedText (text: string, query: string, className: string): string {
   if (!query || query.trim().length === 0) {
     return text
   }
 
   const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const regex = new RegExp(`(${escapedQuery})`, 'gi')
-  return text.replace(regex, '<span class="b2-bold highlight">$1</span>')
+  return text.replace(regex, `<span class="${className} highlight">$1</span>`)
+}
+
+function highlightTitleText (text: string, query: string): string {
+  return highlightMatchedText(text, query, 'b1-bold')
+}
+
+function highlightCaptionText (text: string, query: string): string {
+  return highlightMatchedText(text, query, 'caption-light')
 }
 </script>
 
@@ -138,7 +146,7 @@ function highlightMatchedText (text: string, query: string): string {
                 <div class="skill-item__content">
                   <div
                     class="b1-bold"
-                    v-html="highlightMatchedText(option.title, searchQuery)"
+                    v-html="highlightTitleText(option.title, searchQuery)"
                   />
 
                   <div class="caption-light">
@@ -146,7 +154,7 @@ function highlightMatchedText (text: string, query: string): string {
                       v-for="(segment, index) in option.pathSegments"
                       :key="index"
                       class="skill-item__path-segment"
-                      v-html="highlightMatchedText(segment, searchQuery)"
+                      v-html="highlightCaptionText(segment, searchQuery)"
                     />
                   </div>
                 </div>
