@@ -18,6 +18,8 @@ describe('studentLastCompletedLevelBadge', () => {
       const validatedLevel: SkillLevelProgressOverviewDTO = {
         id: '1',
         name: 'Niveau 1',
+        traceCount: 0,
+        activityCount: 0,
         status: SkillLevelStatus.VALIDATED,
       }
 
@@ -47,6 +49,8 @@ describe('studentLastCompletedLevelBadge', () => {
       const failedLevel: SkillLevelProgressOverviewDTO = {
         id: '2',
         name: 'Niveau 2',
+        traceCount: 0,
+        activityCount: 0,
         status: SkillLevelStatus.FAILED,
       }
 
@@ -76,6 +80,8 @@ describe('studentLastCompletedLevelBadge', () => {
       const inProgressLevel: SkillLevelProgressOverviewDTO = {
         id: '3',
         name: 'Niveau 3',
+        traceCount: 0,
+        activityCount: 0,
         status: SkillLevelStatus.UNDER_REVIEW,
       }
 

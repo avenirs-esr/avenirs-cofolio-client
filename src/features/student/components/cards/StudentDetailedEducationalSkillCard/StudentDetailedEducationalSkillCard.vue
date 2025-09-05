@@ -11,7 +11,8 @@ export interface StudentDetailedEducationalSkillCardProps {
 }
 
 const { skill, skillColor } = defineProps<StudentDetailedEducationalSkillCardProps>()
-const { traceCount, activityCount, levelCount, currentSkillLevel } = skill
+const { levelCount, currentSkillLevel } = skill
+const { traceCount, activityCount } = currentSkillLevel
 
 const showLevelBadge = computed((): boolean => {
   const badgeVisibleStatuses: SkillLevelStatus[] = [

@@ -23,18 +23,20 @@ const stubs = {
 const mockSkill: SkillDTO = {
   id: '458861bb-cfa9-4770-9d6f-204c2f84785c',
   name: 'Skill deserunt - [fr_FR]',
-  traceCount: 0,
-  activityCount: 0,
   levelCount: 3,
   currentSkillLevel: {
     id: '5e7090f5-0c9e-4f71-a770-03ad2bb75711',
     name: 'Niv. 0 - [fr_FR]',
+    traceCount: 0,
+    activityCount: 0,
     shortDescription: 'Molestiae et libero. - [fr_FR]',
     status: SkillLevelStatus.UNDER_ACQUISITION
   },
   achievedSkillLevels: {
     id: '80ca37c3-388d-4ac9-948a-63288a2d4148',
     name: 'Niv. 2 - [fr_FR]',
+    traceCount: 0,
+    activityCount: 0,
     shortDescription: 'Ex molestiae illum beatae eligendi laborum ducimus quos. - [fr_FR]',
     status: SkillLevelStatus.VALIDATED
   },
@@ -44,12 +46,12 @@ const mockSkill: SkillDTO = {
 const mockSkillWithoutAchievedLevels: SkillDTO = {
   id: 'b57e3a55-f503-48be-a7e3-ab0c06c510a2',
   name: 'Skill doloremque - [fr_FR]',
-  traceCount: 0,
-  activityCount: 1,
   levelCount: 3,
   currentSkillLevel: {
     id: 'a29eb925-23f7-4d5d-bcf3-597ea2c17427',
     name: 'Niv. 7 - [fr_FR]',
+    traceCount: 0,
+    activityCount: 1,
     shortDescription: 'Perferendis repellat dolorem optio consequatur quis minus. - [fr_FR]',
     status: SkillLevelStatus.TO_BE_EVALUATED
   },

@@ -21,12 +21,12 @@ export function createMockedPagedResponseSkillsDTO (pageSize: number, totalEleme
     const skill = {
       id: crypto.randomUUID(),
       name: `Ma super compétence ${i}`,
-      traceCount: Math.floor(Math.random() * 10),
-      activityCount: Math.floor(Math.random() * 10),
       levelCount,
       currentSkillLevel: {
         id: crypto.randomUUID(),
         name: `Niveau ${Math.floor(Math.random() * levelCount)}`,
+        traceCount: Math.floor(Math.random() * 10),
+        activityCount: Math.floor(Math.random() * 10),
         shortDescription: 'Une super description',
         status: getRandomSkillLevelStatus()
       },
@@ -35,6 +35,8 @@ export function createMockedPagedResponseSkillsDTO (pageSize: number, totalEleme
             id: crypto.randomUUID(),
             name: `Niveau ${Math.floor(Math.random() * levelCount)}`,
             shortDescription: 'Une super description',
+            traceCount: Math.floor(Math.random() * 10),
+            activityCount: Math.floor(Math.random() * 10),
             status: getRandomSkillLevelStatus()
           }
         : undefined,

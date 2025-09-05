@@ -177,8 +177,6 @@ describe('useSkillsViewQuery', () => {
         expect(firstSkill).toHaveProperty('id')
         expect(firstSkill?.id).toMatch(uiidRegex)
         expect(firstSkill?.name).toContain('Ma super compétence')
-        expect(firstSkill).toHaveProperty('traceCount')
-        expect(firstSkill).toHaveProperty('activityCount')
         expect(firstSkill).toHaveProperty('levelCount')
         expect(firstSkill).toHaveProperty('currentSkillLevel')
         expect(firstSkill).toHaveProperty('achievedSkillLevels')
