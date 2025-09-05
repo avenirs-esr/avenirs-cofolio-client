@@ -24,30 +24,46 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
       {
         id: 'skill-2-2',
         name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-        traceCount: 6,
-        activityCount: 3,
-        currentSkillLevel: { id: 'lvl-2-2-3', name: 'Niveau 3', status: SkillLevelStatus.TO_BE_EVALUATED }
+        currentSkillLevel: {
+          id: 'lvl-2-2-3',
+          name: 'Niveau 3',
+          traceCount: 6,
+          activityCount: 3,
+          status: SkillLevelStatus.TO_BE_EVALUATED
+        }
       },
       {
         id: 'skill-2-4',
         name: 'Réaliser un cahier des charges fonctionnels',
-        traceCount: 8,
-        activityCount: 1,
-        currentSkillLevel: { id: 'lvl-2-4-3', name: 'Niveau 3', status: SkillLevelStatus.TO_BE_EVALUATED },
+        currentSkillLevel: {
+          id: 'lvl-2-4-3',
+          name: 'Niveau 3',
+          traceCount: 8,
+          activityCount: 1,
+          status: SkillLevelStatus.TO_BE_EVALUATED
+        },
       },
       {
         id: 'skill-2-1',
         name: 'Réaliser un circuit électrique',
-        traceCount: 5,
-        activityCount: 4,
-        currentSkillLevel: { id: 'lvl-2-1-4', name: 'Niveau 4', status: SkillLevelStatus.UNDER_REVIEW }
+        currentSkillLevel: {
+          id: 'lvl-2-1-4',
+          name: 'Niveau 4',
+          traceCount: 5,
+          activityCount: 4,
+          status: SkillLevelStatus.UNDER_REVIEW
+        }
       },
       {
         id: 'skill-2-3',
         name: 'Réaliser une étude de marché',
-        traceCount: 7,
-        activityCount: 2,
-        currentSkillLevel: { id: 'lvl-2-3-1', name: 'Niveau 1', status: SkillLevelStatus.UNDER_REVIEW },
+        currentSkillLevel: {
+          id: 'lvl-2-3-1',
+          name: 'Niveau 1',
+          traceCount: 7,
+          activityCount: 2,
+          status: SkillLevelStatus.UNDER_REVIEW
+        },
       },
     ],
   },
@@ -58,30 +74,46 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
       {
         id: 'skill-1-4',
         name: 'Concevoir des synthèses chimiques durables',
-        traceCount: 4,
-        activityCount: 5,
-        currentSkillLevel: { id: 'lvl-1-4-3', name: 'Niveau 3', status: SkillLevelStatus.TO_BE_EVALUATED },
+        currentSkillLevel: {
+          id: 'lvl-1-4-3',
+          name: 'Niveau 3',
+          traceCount: 4,
+          activityCount: 5,
+          status: SkillLevelStatus.TO_BE_EVALUATED
+        },
       },
       {
         id: 'skill-1-3',
         name: 'Évaluer l’impact environnemental et économique',
-        traceCount: 3,
-        activityCount: 6,
-        currentSkillLevel: { id: 'lvl-1-3-2', name: 'Niveau 2', status: SkillLevelStatus.UNDER_REVIEW },
+        currentSkillLevel: {
+          id: 'lvl-1-3-2',
+          name: 'Niveau 2',
+          traceCount: 3,
+          activityCount: 6,
+          status: SkillLevelStatus.UNDER_REVIEW
+        },
       },
       {
         id: 'skill-1-2',
         name: 'Mettre en place des filières d’économies circulaires',
-        traceCount: 2,
-        activityCount: 7,
-        currentSkillLevel: { id: 'lvl-1-2-1', name: 'Niveau 1', status: SkillLevelStatus.NOT_STARTED },
+        currentSkillLevel: {
+          id: 'lvl-1-2-1',
+          name: 'Niveau 1',
+          traceCount: 2,
+          activityCount: 7,
+          status: SkillLevelStatus.NOT_STARTED
+        },
       },
       {
         id: 'skill-1-1',
         name: 'Prévenir la pollution à la source',
-        traceCount: 1,
-        activityCount: 8,
-        currentSkillLevel: { id: 'lvl-1-1-2', name: 'Niveau 2', status: SkillLevelStatus.UNDER_REVIEW },
+        currentSkillLevel: {
+          id: 'lvl-1-1-2',
+          name: 'Niveau 2',
+          traceCount: 1,
+          activityCount: 8,
+          status: SkillLevelStatus.UNDER_REVIEW
+        },
       },
     ],
   },
@@ -104,6 +136,28 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
       'skill-2-4': 3,
     }[skill.id] ?? 3
 
+    const traceCount = {
+      'skill-1-1': 0,
+      'skill-1-2': 1,
+      'skill-1-3': 2,
+      'skill-1-4': 3,
+      'skill-2-1': 4,
+      'skill-2-2': 5,
+      'skill-2-3': 6,
+      'skill-2-4': 7,
+    }[skill.id] ?? 2
+
+    const activityCount = {
+      'skill-1-1': 7,
+      'skill-1-2': 6,
+      'skill-1-3': 5,
+      'skill-1-4': 4,
+      'skill-2-1': 3,
+      'skill-2-2': 2,
+      'skill-2-3': 1,
+      'skill-2-4': 0,
+    }[skill.id] ?? 4
+
     const shortDescription = {
       'skill-1-1': 'Analyser et optimiser les procédés pour prévenir la pollution à la source',
       'skill-1-2': 'Structurer et déployer des boucles de réutilisation et de valorisation des ressources',
@@ -117,13 +171,16 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
 
     const currentSkillLevel = {
       ...currentLevel,
+      traceCount,
+      activityCount,
       shortDescription,
     }
+
     return {
       id: skill.id,
       name: skill.name,
-      traceCount: skill.traceCount,
-      activityCount: skill.activityCount,
+      traceCount: skill.currentSkillLevel.traceCount,
+      activityCount: skill.currentSkillLevel.activityCount,
       isProgramFinished: false,
       levelCount,
       currentSkillLevel,

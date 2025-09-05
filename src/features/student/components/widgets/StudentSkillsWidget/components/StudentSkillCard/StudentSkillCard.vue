@@ -12,7 +12,8 @@ export interface StudentSkillCardProps {
 }
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
-const { name, traceCount, activityCount, currentSkillLevel } = skill
+const { name, currentSkillLevel } = skill
+const { traceCount, activityCount } = currentSkillLevel
 
 const { t } = useI18n()
 

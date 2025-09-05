@@ -335,12 +335,12 @@
         }
       }
     },
-    "/back-office/config/additional-skills": {
+    "/back-office/config/additional-skills/setup": {
       "get": {
         "tags": [
           "additional-skill-config-controller"
         ],
-        "operationId": "getAdditionalSkillConfig",
+        "operationId": "getAdditionalSkillConfigWithAllTranslations",
         "responses": {
           "200": {
             "description": "OK",
@@ -831,6 +831,26 @@
         }
       }
     },
+    "/back-office/config/additional-skills": {
+      "get": {
+        "tags": [
+          "additional-skill-config-controller"
+        ],
+        "operationId": "getAdditionalSkillConfig",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/{traceId}": {
       "delete": {
         "tags": [
@@ -840,6 +860,37 @@
         "parameters": [
           {
             "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/storage/users/{fileId}": {
+      "delete": {
+        "tags": [
+          "user-resource-controller"
+        ],
+        "operationId": "deleteUserPhoto",
+        "parameters": [
+          {
+            "name": "fileId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1149,19 +1200,19 @@
         "type": "object",
         "properties": {
           "BEGINNER": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "INTERMEDIATE": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "COMPETENT": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "ADVANCED": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           },
           "EXPERT": {
-            "$ref": "#/components/schemas/AdditionalSkillLevel"
+            "$ref": "#/components/schemas/AdditionalSkillLevelDTO"
           }
         },
         "required": [
@@ -1172,7 +1223,7 @@
           "INTERMEDIATE"
         ]
       },
-      "AdditionalSkillLevel": {
+      "AdditionalSkillLevelDTO": {
         "type": "object",
         "properties": {
           "label": {
@@ -1181,7 +1232,11 @@
           "description": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "description",
+          "label"
+        ]
       },
       "ProfileOverviewDTO": {
         "type": "object",
@@ -1407,14 +1462,6 @@
           "name": {
             "type": "string"
           },
-          "traceCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
-          },
           "levelCount": {
             "type": "integer",
             "format": "int32"
@@ -1430,13 +1477,11 @@
           }
         },
         "required": [
-          "activityCount",
           "currentSkillLevel",
           "id",
           "isProgramFinished",
           "levelCount",
-          "name",
-          "traceCount"
+          "name"
         ]
       },
       "SkillLevelViewDTO": {
@@ -1452,6 +1497,14 @@
           "shortDescription": {
             "type": "string"
           },
+          "traceCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activityCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "status": {
             "type": "string",
             "$ref": "#/components/schemas/SkillLevelStatus",
@@ -1466,10 +1519,12 @@
           }
         },
         "required": [
+          "activityCount",
           "id",
           "name",
           "shortDescription",
-          "status"
+          "status",
+          "traceCount"
         ]
       },
       "StudentProgressViewDTO": {
@@ -1505,6 +1560,14 @@
           "name": {
             "type": "string"
           },
+          "traceCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "activityCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "status": {
             "type": "string",
             "$ref": "#/components/schemas/SkillLevelStatus",
@@ -1519,9 +1582,11 @@
           }
         },
         "required": [
+          "activityCount",
           "id",
           "name",
-          "status"
+          "status",
+          "traceCount"
         ]
       },
       "SkillOverviewDTO": {
@@ -1534,24 +1599,14 @@
           "name": {
             "type": "string"
           },
-          "traceCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
-          },
           "currentSkillLevel": {
             "$ref": "#/components/schemas/SkillLevelProgressOverviewDTO"
           }
         },
         "required": [
-          "activityCount",
           "currentSkillLevel",
           "id",
-          "name",
-          "traceCount"
+          "name"
         ]
       },
       "StudentProgressOverviewDTO": {

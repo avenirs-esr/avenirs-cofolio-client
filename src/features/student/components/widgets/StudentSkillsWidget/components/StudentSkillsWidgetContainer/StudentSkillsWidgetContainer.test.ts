@@ -1,8 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { SkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 
-describe('studentSkillsWidgetContainer', () => {
+describe('given a studentSkillsWidgetContainer', () => {
+  let wrapper: VueWrapper
+
   const stubs = {
     StudentSkillCard: {
       name: 'StudentSkillCard',
@@ -13,6 +16,7 @@ describe('studentSkillsWidgetContainer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
+
   const course: StudentProgressOverviewDTO = {
     id: 'course1',
     programTitle: 'Master Chimie Verte et Éco-innovations',
@@ -20,58 +24,90 @@ describe('studentSkillsWidgetContainer', () => {
       {
         id: 'skill1',
         name: 'Prévenir la pollution à la source',
-        traceCount: 1,
-        activityCount: 8,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 1,
+          activityCount: 8,
+          status: SkillLevelStatus.VALIDATED
+        }
       },
       {
         id: 'skill2',
         name: 'Mettre en place des filières d’économies circulaires',
-        traceCount: 2,
-        activityCount: 7,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED },
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 2,
+          activityCount: 7,
+          status: SkillLevelStatus.VALIDATED
+        },
       },
       {
         id: 'skill3',
         name: 'Évaluer l’impact environnemental et économique',
-        traceCount: 3,
-        activityCount: 6,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED },
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 3,
+          activityCount: 6,
+          status: SkillLevelStatus.FAILED
+        },
       },
       {
         id: 'skill4',
         name: 'Concevoir des synthèses chimiques durables',
-        traceCount: 4,
-        activityCount: 5,
-        currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
+        currentSkillLevel: {
+          id: 'Niv2',
+          name: 'Niv.2',
+          traceCount: 4,
+          activityCount: 5,
+          status: SkillLevelStatus.VALIDATED
+        }
       },
       {
         id: 'skill5',
         name: 'Réaliser un circuit électrique',
-        traceCount: 5,
-        activityCount: 4,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED },
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 5,
+          activityCount: 4,
+          status: SkillLevelStatus.VALIDATED
+        },
       },
       {
         id: 'skill6',
         name: 'Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation',
-        traceCount: 6,
-        activityCount: 3,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.VALIDATED }
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 6,
+          activityCount: 3,
+          status: SkillLevelStatus.VALIDATED
+        }
       },
       {
         id: 'skill7',
         name: 'Réaliser une étude de marché',
-        traceCount: 7,
-        activityCount: 2,
-        currentSkillLevel: { id: 'Niv1', name: 'Niv.1', status: SkillLevelStatus.FAILED }
+        currentSkillLevel: {
+          id: 'Niv1',
+          name: 'Niv.1',
+          traceCount: 7,
+          activityCount: 2,
+          status: SkillLevelStatus.FAILED
+        }
       },
       {
         id: 'skill8',
         name: 'Réaliser un cahier des charges fonctionnels',
-        traceCount: 8,
-        activityCount: 1,
-        currentSkillLevel: { id: 'Niv2', name: 'Niv.2', status: SkillLevelStatus.VALIDATED }
+        currentSkillLevel: {
+          id: 'Niv2',
+          name: 'Niv.2',
+          traceCount: 8,
+          activityCount: 1,
+          status: SkillLevelStatus.VALIDATED
+        }
       },
     ] as Array<SkillOverviewDTO>
   }
@@ -81,34 +117,42 @@ describe('studentSkillsWidgetContainer', () => {
   } as const
   const longerTitle = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
 
-  it('should render properly with provided props', async () => {
-    const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
-      props: baseProps,
-      global: {
-        stubs
-      }
+  describe('when the component is mounted with given props', async () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
+        props: baseProps,
+        global: {
+          stubs
+        }
+      })
     })
 
-    const skillsCards = wrapper.findAll('.student-skill-card')
+    it('then it should render properly with provided props', async () => {
+      const skillsCards = wrapper.findAll('.student-skill-card')
 
-    expect(wrapper.text()).toContain(baseProps.course.programTitle)
-    expect(skillsCards).toHaveLength(baseProps.maxSkillsDisplayed)
+      expect(wrapper.text()).toContain(baseProps.course.programTitle)
+      expect(skillsCards).toHaveLength(baseProps.maxSkillsDisplayed)
+    })
   })
 
-  it('should render truncated program tite for longer titles', async () => {
-    const wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
-      props: {
-        course: {
-          ...baseProps.course,
-          programTitle: longerTitle
+  describe('when the component is mounted with longer titles', async () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
+        props: {
+          course: {
+            ...baseProps.course,
+            programTitle: longerTitle
+          },
+          maxSkillsDisplayed: baseProps.maxSkillsDisplayed
         },
-        maxSkillsDisplayed: baseProps.maxSkillsDisplayed
-      },
-      global: {
-        stubs
-      }
+        global: {
+          stubs
+        }
+      })
     })
 
-    expect(wrapper.text()).toContain(`${longerTitle.slice(0, 60)}...`)
+    it('then it should render truncated program tite', async () => {
+      expect(wrapper.text()).toContain(`${longerTitle.slice(0, 60)}...`)
+    })
   })
 })

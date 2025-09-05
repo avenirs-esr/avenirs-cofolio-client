@@ -7,18 +7,20 @@ const baseSkill: SkillDTO = {
   id: 'skill-1',
   name: 'Test Skill',
   levelCount: 3,
-  traceCount: 5,
-  activityCount: 2,
   isProgramFinished: false,
   currentSkillLevel: {
     id: 'level-1',
     name: 'Niveau 1',
+    traceCount: 5,
+    activityCount: 2,
     status: SkillLevelStatus.TO_BE_EVALUATED,
     shortDescription: 'Une description courte'
   },
   achievedSkillLevels: {
     id: 'level-0',
     name: 'Niveau 0',
+    traceCount: 5,
+    activityCount: 2,
     shortDescription: 'Niveau 0 description',
     status: SkillLevelStatus.VALIDATED
   }
@@ -85,11 +87,11 @@ describe('given a student detailed educationnal skill card with valid props', ()
     })
 
     it('then it should render the trace count', () => {
-      expect(wrapper.text()).toContain(`Traces: ${baseSkill.traceCount}`)
+      expect(wrapper.text()).toContain(`Traces: ${baseSkill.currentSkillLevel.traceCount}`)
     })
 
     it('then it should render the activity count', () => {
-      expect(wrapper.text()).toContain(`AMS: ${baseSkill.activityCount}`)
+      expect(wrapper.text()).toContain(`AMS: ${baseSkill.currentSkillLevel.activityCount}`)
     })
 
     it('then it should render the AvBadge with correct label', () => {
