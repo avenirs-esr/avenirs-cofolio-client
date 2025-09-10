@@ -1,14 +1,17 @@
 import type { PagedResponseAmsViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { createMockedPagedResponseAmsViewDTO } from '@/__mocks__/fixtures/student'
+import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { useAmsViewQuery } from '@/features/student/queries'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
+import { ProgramProgressSelectorStub } from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelect.stub'
+import { StudentDetailedAmsCardStub } from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.stub'
 import { PageSizes } from '@/ui/config'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { PaginationStub } from 'tests/stubs'
-import { describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 
@@ -33,25 +36,16 @@ function mockUseAmsViewQuery (payload: PagedResponseAmsViewDTO | undefined) {
   mockedUseAmsViewQuery.mockReturnValue(mockReturn)
 }
 
-describe('amsListContainer', () => {
+BddTest().given('an AMS list container', () => {
   const stubs = {
-    ProgramProgressSelector: {
-      name: 'ProgramProgressSelector',
-      props: ['modelValue'],
-      emits: ['update:modelValue'],
-      template: '<div class="program-progress-selector-stub" />'
-    },
-    StudentDetailedAmsCard: {
-      name: 'StudentDetailedAmsCard',
-      props: ['ams'],
-      template: '<div class="student-detailed-ams-card-stub" />'
-    },
+    ProgramProgressSelector: ProgramProgressSelectorStub,
+    StudentDetailedAmsCard: StudentDetailedAmsCardStub,
     Pagination: PaginationStub
   }
 
   const mockedAmsData = createMockedPagedResponseAmsViewDTO(4, 20, 1, 'program-1')
 
-  describe('given the component has ams data', () => {
+  BddTest().and('the component has ams data', () => {
     let wrapper: VueWrapper
 
     beforeEach(async () => {
@@ -70,28 +64,28 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render ProgramProgressSelector', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render ProgramProgressSelector', () => {
         expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
 
-      it('then it should render Pagination', () => {
+      BddTest().then('it should render Pagination', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
-      it('then it should render correct number of AMS cards', () => {
+      BddTest().then('it should render correct number of AMS cards', () => {
         const cards = wrapper.findAllComponents({ name: 'StudentDetailedAmsCard' })
         expect(cards).toHaveLength(4)
       })
 
-      it('then ProgramProgressSelector should receive undefined as modelValue', () => {
+      BddTest().then('ProgramProgressSelector should receive undefined as modelValue', () => {
         const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
         expect(selector.props('modelValue')).toBeUndefined()
       })
     })
   })
 
-  describe('given the component has no AMS data', () => {
+  BddTest().and('the component has no AMS data', () => {
     let wrapper: VueWrapper
 
     beforeEach(async () => {
@@ -109,23 +103,23 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render ProgramProgressSelector', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render ProgramProgressSelector', () => {
         expect(wrapper.findComponent({ name: 'ProgramProgressSelector' }).exists()).toBe(true)
       })
 
-      it('then it should render Pagination', () => {
+      BddTest().then('it should render Pagination', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
-      it('then it should not render any AMS cards', () => {
+      BddTest().then('it should not render any AMS cards', () => {
         const cards = wrapper.findAllComponents({ name: 'StudentDetailedAmsCard' })
         expect(cards).toHaveLength(0)
       })
     })
   })
 
-  describe('given the component loads successfully', () => {
+  BddTest().and('the component loads successfully', () => {
     let wrapper: VueWrapper
 
     beforeEach(async () => {
@@ -143,19 +137,19 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when a program is selected via v-model', () => {
+    BddTest().when('a program is selected via v-model', () => {
       beforeEach(async () => {
         const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
         await selector.vm.$emit('update:modelValue', 'program-2')
         await wrapper.vm.$nextTick()
       })
 
-      it('then ProgramProgressSelector should receive the updated value', () => {
+      BddTest().then('ProgramProgressSelector should receive the updated value', () => {
         const selector = wrapper.findComponent({ name: 'ProgramProgressSelector' })
         expect(selector.props('modelValue')).toBe('program-2')
       })
 
-      it('then useAmsViewQuery should be called with the selected program ID', () => {
+      BddTest().then('useAmsViewQuery should be called with the selected program ID', () => {
         expect(mockedUseAmsViewQuery).toHaveBeenCalledWith(
           expect.objectContaining({ value: 'program-2' }),
           expect.any(Object),
@@ -164,8 +158,8 @@ describe('amsListContainer', () => {
       })
     })
 
-    describe('when clicking on the page update buttons', () => {
-      it('then it should update current page and page size in the mock', async () => {
+    BddTest().when('clicking on the page update buttons', () => {
+      BddTest().then('it should update current page and page size in the mock', async () => {
         await wrapper.find('.emit-current-page').trigger('click')
         expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
         expect(paginationMock.currentPage.value).toBe(5)

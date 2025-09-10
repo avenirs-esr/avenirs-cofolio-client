@@ -15,16 +15,17 @@ import { useAdditionalSkillsViewQuery, useSearchAdditionalSkillsQuery, useSkills
 import { PageSizes } from '@/ui/config'
 import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('useAdditionalSkillsViewQuery', () => {
+BddTest().given('an useAdditionalSkillsViewQuery composable', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-  describe('given valid query parameters', () => {
+  BddTest().and('valid query parameters', () => {
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with all parameters', () => {
+    BddTest().when('the query is executed with all parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO, BaseApiException> & {
         skills: Ref<AdditionalSkillDTO[] | AdditionalSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -36,7 +37,7 @@ describe('useAdditionalSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return mocked skills data for given parameters', () => {
+      BddTest().then('it should return mocked skills data for given parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(4)
         expect(queryResult.data.value?.page?.page).toBe(0)
         expect(queryResult.data.value?.page?.totalElements).toBe(20)
@@ -51,13 +52,13 @@ describe('useAdditionalSkillsViewQuery', () => {
         expect(firstSkill).toHaveProperty('type')
       })
 
-      it('then it should return computed skills array', () => {
+      BddTest().then('it should return computed skills array', () => {
         expect(queryResult.skills.value).toHaveLength(4)
         expect(queryResult.skills.value[0]).toHaveProperty('id')
         expect(queryResult.skills.value[0]).toHaveProperty('title')
       })
 
-      it('then it should return correct pageInfo', () => {
+      BddTest().then('it should return correct pageInfo', () => {
         expect(queryResult.pageInfo.value.totalPages).toBe(5)
         expect(queryResult.pageInfo.value.page).toBe(0)
         expect(queryResult.pageInfo.value.totalElements).toBe(20)
@@ -66,11 +67,11 @@ describe('useAdditionalSkillsViewQuery', () => {
     })
   })
 
-  describe('given different page and pageSize values', () => {
+  BddTest().and('different page and pageSize values', () => {
     const page = ref(1)
     const pageSize = ref(PageSizes.EIGHT)
 
-    describe('when the query is executed with different parameters', () => {
+    BddTest().when('the query is executed with different parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO, BaseApiException> & {
         skills: Ref<AdditionalSkillDTO[] | AdditionalSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -81,7 +82,7 @@ describe('useAdditionalSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return data with correct page parameters', () => {
+      BddTest().then('it should return data with correct page parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(PageSizes.EIGHT)
         expect(queryResult.data.value?.page?.page).toBe(1)
         expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
@@ -92,17 +93,17 @@ describe('useAdditionalSkillsViewQuery', () => {
         expect(firstSkill?.id).toMatch(uiidRegex)
       })
 
-      it('then it should return correct number of items based on pageSize', () => {
+      BddTest().then('it should return correct number of items based on pageSize', () => {
         expect(queryResult.skills.value).toHaveLength(PageSizes.EIGHT)
       })
     })
   })
 
-  describe('given reactive parameters that change', () => {
+  BddTest().and('reactive parameters that change', () => {
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when parameter values are updated', () => {
+    BddTest().when('parameter values are updated', () => {
       let queryResult: UseQueryReturnType<PagedResponseAdditionalSkillDTO | PagedResponseAdditionalSkillProgressDTO, BaseApiException> & {
         skills: Ref<AdditionalSkillDTO[] | AdditionalSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -113,23 +114,23 @@ describe('useAdditionalSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      describe('when page changes', () => {
+      BddTest().and('page changes', () => {
         beforeEach(async () => {
           page.value = 1
           await flushPromises()
         })
 
-        it('then the query should update with new page', () => {
+        BddTest().then('the query should update with new page', () => {
           expect(queryResult.data.value?.page?.page).toBe(1)
         })
       })
 
-      describe('when pageSize changes', () => {
+      BddTest().and('pageSize changes', () => {
         beforeEach(async () => {
           pageSize.value = PageSizes.EIGHT
           await flushPromises()
         })
-        it('then the query should update with new pageSize', async () => {
+        BddTest().then('the query should update with new pageSize', async () => {
           expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
           expect(queryResult.skills.value).toHaveLength(PageSizes.EIGHT)
         })
@@ -138,7 +139,7 @@ describe('useAdditionalSkillsViewQuery', () => {
   })
 })
 
-describe('useSkillsViewQuery', () => {
+BddTest().given('an useSkillsViewQuery composable', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
   beforeEach(() => {
@@ -149,12 +150,12 @@ describe('useSkillsViewQuery', () => {
     vi.restoreAllMocks()
   })
 
-  describe('given valid query parameters', () => {
+  BddTest().and('valid query parameters', () => {
     const sort = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with all parameters', () => {
+    BddTest().when('the query is executed with all parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseSkillDTO, BaseApiException> & {
         skills: Ref<SkillDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -166,7 +167,7 @@ describe('useSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return mocked skills data for given parameters', () => {
+      BddTest().then('it should return mocked skills data for given parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(4)
         expect(queryResult.data.value?.page?.page).toBe(0)
         expect(queryResult.data.value?.page?.totalElements).toBe(20)
@@ -183,13 +184,13 @@ describe('useSkillsViewQuery', () => {
         expect(firstSkill).toHaveProperty('isProgramFinished')
       })
 
-      it('then it should return computed skills array', () => {
+      BddTest().then('it should return computed skills array', () => {
         expect(queryResult.skills.value).toHaveLength(4)
         expect(queryResult.skills.value[0]).toHaveProperty('id')
         expect(queryResult.skills.value[0]).toHaveProperty('name')
       })
 
-      it('then it should return correct pageInfo', () => {
+      BddTest().then('it should return correct pageInfo', () => {
         expect(queryResult.pageInfo.value.totalPages).toBe(5)
         expect(queryResult.pageInfo.value.page).toBe(0)
         expect(queryResult.pageInfo.value.totalElements).toBe(20)
@@ -198,12 +199,12 @@ describe('useSkillsViewQuery', () => {
     })
   })
 
-  describe('given different page and pageSize values', () => {
+  BddTest().and('different page and pageSize values', () => {
     const sort = ref<string | undefined>(undefined)
     const page = ref(1)
     const pageSize = ref(PageSizes.EIGHT)
 
-    describe('when the query is executed with different parameters', () => {
+    BddTest().when('the query is executed with different parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseSkillDTO, BaseApiException> & {
         skills: Ref<SkillDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -214,7 +215,7 @@ describe('useSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return data with correct page parameters', () => {
+      BddTest().then('it should return data with correct page parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(PageSizes.EIGHT)
         expect(queryResult.data.value?.page?.page).toBe(1)
         expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
@@ -225,18 +226,18 @@ describe('useSkillsViewQuery', () => {
         expect(firstSkill?.id).toMatch(uiidRegex)
       })
 
-      it('then it should return correct number of items based on pageSize', () => {
+      BddTest().then('it should return correct number of items based on pageSize', () => {
         expect(queryResult.skills.value).toHaveLength(PageSizes.EIGHT)
       })
     })
   })
 
-  describe('given reactive parameters that change', () => {
+  BddTest().and('reactive parameters that change', () => {
     const sort = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when parameter values are updated', () => {
+    BddTest().when('parameter values are updated', () => {
       let queryResult: UseQueryReturnType<PagedResponseSkillDTO, BaseApiException> & {
         skills: Ref<SkillDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -247,23 +248,23 @@ describe('useSkillsViewQuery', () => {
         await flushPromises()
       })
 
-      describe('when page changes', () => {
+      BddTest().and('page changes', () => {
         beforeEach(async () => {
           page.value = 1
           await flushPromises()
         })
 
-        it('then the query should update with new page', () => {
+        BddTest().then('the query should update with new page', () => {
           expect(queryResult.data.value?.page?.page).toBe(1)
         })
       })
 
-      describe('when pageSize changes', () => {
+      BddTest().and('pageSize changes', () => {
         beforeEach(async () => {
           pageSize.value = PageSizes.EIGHT
           await flushPromises()
         })
-        it('then the query should update with new pageSize', async () => {
+        BddTest().then('the query should update with new pageSize', async () => {
           expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
           expect(queryResult.skills.value).toHaveLength(PageSizes.EIGHT)
         })
@@ -272,14 +273,14 @@ describe('useSkillsViewQuery', () => {
   })
 })
 
-describe('useSearchAdditionalSkillsQuery', () => {
+BddTest().given('an useSearchAdditionalSkillsQuery composable', () => {
   const uiidRegex = /^search-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-  describe('given valid search parameters', () => {
+  BddTest().and('valid search parameters', () => {
     const keyword = ref('com')
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with keyword >= 3 characters', () => {
+    BddTest().when('the query is executed with keyword >= 3 characters', () => {
       let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
 
       beforeEach(async () => {
@@ -287,7 +288,7 @@ describe('useSearchAdditionalSkillsQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return search results matching the keyword', () => {
+      BddTest().then('it should return search results matching the keyword', () => {
         expect(queryResult.skills.value.length).toBeGreaterThan(0)
 
         const firstSkill = queryResult.skills.value[0]
@@ -299,14 +300,14 @@ describe('useSearchAdditionalSkillsQuery', () => {
         expect(firstSkill.type).toBe(EAdditionalSkillType.ROME4)
       })
 
-      it('then it should have infinite query properties', () => {
+      BddTest().then('it should have infinite query properties', () => {
         expect(queryResult.hasNextPage).toBeDefined()
         expect(queryResult.fetchNextPage).toBeDefined()
         expect(queryResult.isFetchingNextPage).toBeDefined()
       })
     })
 
-    describe('when keyword is less than 3 characters', () => {
+    BddTest().when('keyword is less than 3 characters', () => {
       const shortKeyword = ref('co')
       let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
 
@@ -315,12 +316,12 @@ describe('useSearchAdditionalSkillsQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return empty skills array', () => {
+      BddTest().then('it should return empty skills array', () => {
         expect(queryResult.skills.value).toHaveLength(0)
       })
     })
 
-    describe('when keyword is empty', () => {
+    BddTest().when('keyword is empty', () => {
       const emptyKeyword = ref('')
       let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
 
@@ -329,12 +330,12 @@ describe('useSearchAdditionalSkillsQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return empty skills array', () => {
+      BddTest().then('it should return empty skills array', () => {
         expect(queryResult.skills.value).toHaveLength(0)
       })
     })
 
-    describe('when keyword changes from valid to invalid', () => {
+    BddTest().when('keyword changes from valid to invalid', () => {
       const dynamicKeyword = ref('communication')
       let queryResult: ReturnType<typeof useSearchAdditionalSkillsQuery>
 
@@ -343,7 +344,7 @@ describe('useSearchAdditionalSkillsQuery', () => {
         await flushPromises()
       })
 
-      it('then it should clear results when keyword becomes too short', async () => {
+      BddTest().then('it should clear results when keyword becomes too short', async () => {
         expect(queryResult.skills.value.length).toBeGreaterThan(0)
 
         dynamicKeyword.value = 'co'

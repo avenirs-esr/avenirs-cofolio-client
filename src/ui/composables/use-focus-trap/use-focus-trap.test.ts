@@ -1,6 +1,7 @@
 import { useFocusTrap } from '@/ui/composables/use-focus-trap/use-focus-trap'
 import { mountComposable } from '@/ui/tests/utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const mockActivate = vi.fn()
 const mockDeactivate = vi.fn()
@@ -14,7 +15,7 @@ vi.mock('focus-trap', () => {
   }
 })
 
-describe('given useFocusTrap composable', () => {
+BddTest().given('useFocusTrap composable', () => {
   let elementRef = ref<HTMLElement | null>(null)
   let onClose = vi.fn()
 
@@ -24,8 +25,8 @@ describe('given useFocusTrap composable', () => {
     onClose = vi.fn()
   })
 
-  describe('when elementRef is null', () => {
-    it('then initializeFocusTrap does nothing and does not activate focus trap', () => {
+  BddTest().when('elementRef is null', () => {
+    BddTest().then('initializeFocusTrap does nothing and does not activate focus trap', () => {
       const { result, unmount } = mountComposable(() => useFocusTrap(elementRef, onClose), {})
       result.initializeFocusTrap()
       expect(mockActivate).not.toHaveBeenCalled()
@@ -33,8 +34,8 @@ describe('given useFocusTrap composable', () => {
     })
   })
 
-  describe('when elementRef has no focusable children', () => {
-    it('then initializeFocusTrap does not activate focus trap', () => {
+  BddTest().when('elementRef has no focusable children', () => {
+    BddTest().then('initializeFocusTrap does not activate focus trap', () => {
       const el = document.createElement('div')
       elementRef.value = el
 
@@ -46,8 +47,8 @@ describe('given useFocusTrap composable', () => {
     })
   })
 
-  describe('when elementRef has focusable children', () => {
-    it('then initializeFocusTrap creates and activates the focus trap', () => {
+  BddTest().when('elementRef has focusable children', () => {
+    BddTest().then('initializeFocusTrap creates and activates the focus trap', () => {
       const el = document.createElement('div')
       const button = document.createElement('button')
       el.appendChild(button)
@@ -61,8 +62,8 @@ describe('given useFocusTrap composable', () => {
     })
   })
 
-  describe('when cleanupFocusTrap is called', () => {
-    it('then deactivate is called and focusTrap is nulled', () => {
+  BddTest().when('cleanupFocusTrap is called', () => {
+    BddTest().then('deactivate is called and focusTrap is nulled', () => {
       const el = document.createElement('div')
       const button = document.createElement('button')
       el.appendChild(button)
@@ -76,7 +77,7 @@ describe('given useFocusTrap composable', () => {
       unmount()
     })
 
-    it('then calling cleanupFocusTrap without focusTrap does not throw', () => {
+    BddTest().then('calling cleanupFocusTrap without focusTrap does not throw', () => {
       const { result, unmount } = mountComposable(() => useFocusTrap(elementRef, onClose), {})
       expect(() => result.cleanupFocusTrap()).not.toThrow()
       expect(mockDeactivate).not.toHaveBeenCalled()

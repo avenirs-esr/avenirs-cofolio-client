@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest, mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillConfirmationModal from './AddAdditionalSkillConfirmationModal.vue'
 
 const stubs = {
@@ -26,16 +26,53 @@ const stubs = {
   }
 }
 
-describe('addAdditionalSkillConfirmationModal', () => {
-  describe('given a confirmation modal component', () => {
-    let wrapper: VueWrapper<InstanceType<typeof AddAdditionalSkillConfirmationModal>>
+BddTest().given('a confirmation modal component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AddAdditionalSkillConfirmationModal>>
 
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    wrapper = mountComponent(AddAdditionalSkillConfirmationModal, {
+      props: {
+        show: true
+      },
+      global: {
+        stubs
+      }
+    })
+  })
+
+  BddTest().when('the modal is shown', () => {
+    BddTest().then('it should render AvModal with correct props', () => {
+      const modal = wrapper.findComponent({ name: 'AvModal' })
+
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('opened')).toBe(true)
+      expect(modal.props('closeButtonLabel')).toBe('Annuler')
+    })
+
+    BddTest().then('it should display the confirmation message', () => {
+      const message = wrapper.find('.b2-regular')
+
+      expect(message.exists()).toBe(true)
+      expect(message.text()).toBe('Souhaitez-vous abandonner l\'ajout de votre compétence complémentaire ?')
+    })
+
+    BddTest().then('it should render only confirm button in footer', () => {
+      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+
+      expect(buttons).toHaveLength(1)
+      expect(buttons[0].props('label')).toBe('Oui, quitter sans enregistrer')
+      expect(buttons[0].props('variant')).toBe('OUTLINED')
+      expect(buttons[0].props('theme')).toBe('PRIMARY')
+    })
+  })
+
+  BddTest().when('the modal is not shown', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
-
       wrapper = mountComponent(AddAdditionalSkillConfirmationModal, {
         props: {
-          show: true
+          show: false
         },
         global: {
           stubs
@@ -43,81 +80,42 @@ describe('addAdditionalSkillConfirmationModal', () => {
       })
     })
 
-    describe('when the modal is shown', () => {
-      it('then it should render AvModal with correct props', () => {
-        const modal = wrapper.findComponent({ name: 'AvModal' })
-
-        expect(modal.exists()).toBe(true)
-        expect(modal.props('opened')).toBe(true)
-        expect(modal.props('closeButtonLabel')).toBe('Annuler')
-      })
-
-      it('then it should display the confirmation message', () => {
-        const message = wrapper.find('.b2-regular')
-
-        expect(message.exists()).toBe(true)
-        expect(message.text()).toBe('Souhaitez-vous abandonner l\'ajout de votre compétence complémentaire ?')
-      })
-
-      it('then it should render only confirm button in footer', () => {
-        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-
-        expect(buttons).toHaveLength(1)
-        expect(buttons[0].props('label')).toBe('Oui, quitter sans enregistrer')
-        expect(buttons[0].props('variant')).toBe('OUTLINED')
-        expect(buttons[0].props('theme')).toBe('PRIMARY')
-      })
+    BddTest().then('it should not render the modal', () => {
+      const modal = wrapper.find('.av-modal-stub')
+      expect(modal.exists()).toBe(false)
     })
+  })
 
-    describe('when the modal is not shown', () => {
-      beforeEach(() => {
-        wrapper = mountComponent(AddAdditionalSkillConfirmationModal, {
-          props: {
-            show: false
-          },
-          global: {
-            stubs
-          }
-        })
-      })
+  BddTest().when('confirm button is clicked', () => {
+    BddTest().then('it should emit confirm event', async () => {
+      const confirmButton = wrapper.findComponent({ name: 'AvButton' })
 
-      it('then it should not render the modal', () => {
-        const modal = wrapper.find('.av-modal-stub')
-        expect(modal.exists()).toBe(false)
-      })
+      await confirmButton.vm.$emit('click')
+
+      expect(wrapper.emitted('confirm')).toHaveLength(1)
+      expect(wrapper.emitted('cancel')).toBeUndefined()
     })
+  })
 
-    describe('when confirm button is clicked', () => {
-      it('then it should emit confirm event', async () => {
-        const confirmButton = wrapper.findComponent({ name: 'AvButton' })
+  BddTest().when('modal close button is clicked', () => {
+    BddTest().then('it should emit cancel event', async () => {
+      const closeButton = wrapper.find('.close-button')
 
-        await confirmButton.vm.$emit('click')
+      await closeButton.trigger('click')
 
-        expect(wrapper.emitted('confirm')).toHaveLength(1)
-        expect(wrapper.emitted('cancel')).toBeUndefined()
-      })
+      expect(wrapper.emitted('cancel')).toHaveLength(1)
+      expect(wrapper.emitted('confirm')).toBeUndefined()
     })
+  })
 
-    describe('when modal close button is clicked', () => {
-      it('then it should emit cancel event', async () => {
-        const closeButton = wrapper.find('.close-button')
+  BddTest().when('modal close is triggered', () => {
+    BddTest().then('it should emit cancel event', async () => {
+      const modal = wrapper.findComponent({ name: 'AvModal' })
 
-        await closeButton.trigger('click')
+      await modal.vm.$emit('close')
 
-        expect(wrapper.emitted('cancel')).toHaveLength(1)
-        expect(wrapper.emitted('confirm')).toBeUndefined()
-      })
-    })
-
-    describe('when modal close is triggered', () => {
-      it('then it should emit cancel event', async () => {
-        const modal = wrapper.findComponent({ name: 'AvModal' })
-
-        await modal.vm.$emit('close')
-
-        expect(wrapper.emitted('cancel')).toHaveLength(1)
-        expect(wrapper.emitted('confirm')).toBeUndefined()
-      })
+      expect(wrapper.emitted('cancel')).toHaveLength(1)
+      expect(wrapper.emitted('confirm')).toBeUndefined()
     })
   })
 })

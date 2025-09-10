@@ -2,8 +2,10 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ESkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 
-describe('given a studentSkillsWidgetContainer', () => {
+BddTest().given('a studentSkillsWidgetContainer', () => {
   let wrapper: VueWrapper
 
   const stubs = {
@@ -117,7 +119,7 @@ describe('given a studentSkillsWidgetContainer', () => {
   } as const
   const longerTitle = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
 
-  describe('when the component is mounted with given props', async () => {
+  BddTest().when('the component is mounted with given props', async () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
         props: baseProps,
@@ -127,7 +129,7 @@ describe('given a studentSkillsWidgetContainer', () => {
       })
     })
 
-    it('then it should render properly with provided props', async () => {
+    BddTest().then('it should render properly with provided props', async () => {
       const skillsCards = wrapper.findAll('.student-skill-card')
 
       expect(wrapper.text()).toContain(baseProps.course.programTitle)
@@ -135,7 +137,7 @@ describe('given a studentSkillsWidgetContainer', () => {
     })
   })
 
-  describe('when the component is mounted with longer titles', async () => {
+  BddTest().when('the component is mounted with longer titles', async () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
         props: {
@@ -151,7 +153,7 @@ describe('given a studentSkillsWidgetContainer', () => {
       })
     })
 
-    it('then it should render truncated program tite', async () => {
+    BddTest().then('it should render truncated program tite', async () => {
       expect(wrapper.text()).toContain(`${longerTitle.slice(0, 60)}...`)
     })
   })

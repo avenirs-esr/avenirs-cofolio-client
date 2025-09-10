@@ -1,6 +1,7 @@
 import StudentNotificationsPopover from '@/features/student/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/common/composables', () => ({
   useNavigation: () => ({
@@ -8,7 +9,7 @@ vi.mock('@/common/composables', () => ({
   })
 }))
 
-describe('studentNotificationsPopover', () => {
+BddTest().given('a student notifications popover', () => {
   const stubs = {
     AvButton: {
       name: 'AvButton',
@@ -31,7 +32,7 @@ describe('studentNotificationsPopover', () => {
     }
   }
 
-  describe('given a popover with no notifications', () => {
+  BddTest().and('no notifications', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
@@ -41,21 +42,21 @@ describe('studentNotificationsPopover', () => {
       })
     })
 
-    describe('when the popover is rendered', () => {
-      it('then it should render the no notifications message', () => {
+    BddTest().when('the popover is rendered', () => {
+      BddTest().then('it should render the no notifications message', () => {
         const titleIconText = wrapper.findComponent('[data-testid="notifications-popover-title"]') as VueWrapper<{ $props: { text: string } }>
         expect(titleIconText).toBeDefined()
         expect(titleIconText?.props('text')).toBe('Aucune notification')
         expect(wrapper.find('ul').exists()).toBe(true)
       })
 
-      it('then it should not show the "See All" button', () => {
+      BddTest().then('it should not show the "See All" button', () => {
         expect(wrapper.findAll('button').some(btn => btn.text().includes('Voir tout'))).toBe(false)
       })
     })
   })
 
-  describe('given a popover with notifications', () => {
+  BddTest().and('notifications', () => {
     let wrapper: VueWrapper
 
     beforeEach(() => {
@@ -65,14 +66,14 @@ describe('studentNotificationsPopover', () => {
       })
     })
 
-    describe('when the popover is rendered', () => {
-      it('then it should render the notifications title with count', () => {
+    BddTest().when('the popover is rendered', () => {
+      BddTest().then('it should render the notifications title with count', () => {
         const titleIconText = wrapper.findComponent('[data-testid="notifications-popover-title"]') as VueWrapper<{ $props: { text: string } }>
         expect(titleIconText).toBeDefined()
         expect(titleIconText?.props('text')).toBe('5 notifications non lues')
       })
 
-      it('then it should display the "See All" button', () => {
+      BddTest().then('it should display the "See All" button', () => {
         const navButton = wrapper.findComponent('[data-testid="notifications-popover-navigate"]')
         expect(navButton).toBeDefined()
       })

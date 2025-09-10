@@ -1,8 +1,9 @@
 import AvToaster from '@/ui/feedback/AvToaster/AvToaster.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-describe('avToaster', () => {
+BddTest().given('an AvToaster', () => {
   let wrapper: VueWrapper
   const basePath = import.meta.env.BASE_URL
   const stubs = {
@@ -22,7 +23,7 @@ describe('avToaster', () => {
     type: 'success',
   }
 
-  describe('given an empty messages array', () => {
+  BddTest().when('it has an empty messages array', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
@@ -33,12 +34,12 @@ describe('avToaster', () => {
       })
     })
 
-    it('then it should render no alert', () => {
+    BddTest().then('it should render no alert', () => {
       expect(wrapper.findAll('.av-alert')).toHaveLength(0)
     })
   })
 
-  describe('given a success message', () => {
+  BddTest().when('it has a success message', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
@@ -49,7 +50,7 @@ describe('avToaster', () => {
       })
     })
 
-    it('then it should render the success alert with correct class and style', () => {
+    BddTest().then('it should render the success alert with correct class and style', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--success')
@@ -59,7 +60,7 @@ describe('avToaster', () => {
     })
   })
 
-  describe('given an info message', () => {
+  BddTest().when('it has an info message', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
@@ -70,7 +71,7 @@ describe('avToaster', () => {
       })
     })
 
-    it('then it should render the info alert with correct class and style', () => {
+    BddTest().then('it should render the info alert with correct class and style', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--info')
@@ -80,7 +81,7 @@ describe('avToaster', () => {
     })
   })
 
-  describe('given a warning message', () => {
+  BddTest().when('it has a warning message', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
@@ -91,7 +92,7 @@ describe('avToaster', () => {
       })
     })
 
-    it('then it should render the warning alert with correct class and style', () => {
+    BddTest().then('it should render the warning alert with correct class and style', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--warning')
@@ -101,7 +102,7 @@ describe('avToaster', () => {
     })
   })
 
-  describe('given an error message', () => {
+  BddTest().when('it has an error message', () => {
     beforeEach(() => {
       wrapper = mount(AvToaster, {
         props: {
@@ -112,7 +113,7 @@ describe('avToaster', () => {
       })
     })
 
-    it('then it should render the error alert with correct class and style', () => {
+    BddTest().then('it should render the error alert with correct class and style', () => {
       const alert = wrapper.find('.av-alert')
       expect(alert.exists()).toBe(true)
       expect(alert.classes()).toContain('av-toaster--error')
@@ -122,7 +123,7 @@ describe('avToaster', () => {
     })
   })
 
-  describe('given a closeable alert', () => {
+  BddTest().when('it has a closeable alert', () => {
     const removeMessageSpy = vi.fn()
 
     beforeEach(() => {
@@ -141,12 +142,12 @@ describe('avToaster', () => {
       })
     })
 
-    describe('when the alert is clicked', () => {
+    BddTest().and('the alert is clicked', () => {
       beforeEach(async () => {
         await wrapper.find('.av-alert').trigger('click')
       })
 
-      it('then it should call onRemoveMessage with the correct id', () => {
+      BddTest().then('it should call onRemoveMessage with the correct id', () => {
         expect(removeMessageSpy).toHaveBeenCalledWith('message2')
       })
     })

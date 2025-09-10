@@ -1,55 +1,51 @@
+import { AvVIconStub } from '@/ui/base/AvVIcon/AvVIcon.stub'
 import AvRichButton from '@/ui/interaction/buttons/AvRichButton/AvRichButton.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-describe('avRichButton', () => {
+BddTest().given('an AvRichButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvRichButton>>
 
   const props = { label: 'test' }
 
-  const stubs = {
-    AvVIcon: {
-      name: 'AvVIcon',
-      props: ['name', 'color', 'size'],
-      template: `<div class="av-vicon" />`,
-    },
-  }
+  const stubs = { AvVIcon: AvVIconStub }
 
-  describe('given a default rich button', () => {
+  BddTest().when('mounted with default props', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvRichButton>(AvRichButton, { props, global: { stubs } })
+      wrapper = mount(AvRichButton, { props, global: { stubs } })
     })
 
-    it('then it should render an empty button', () => {
+    BddTest().then('it should render an empty button', () => {
       expect(wrapper.findAllComponents({ name: 'AvVICon' })).toHaveLength(0)
     })
   })
 
-  describe('given a rich button with a default slot', () => {
+  BddTest().when('mounted with a default slot', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvRichButton>(AvRichButton, {
+      wrapper = mount(AvRichButton, {
         props,
         slots: { default: 'Click me' },
         global: { stubs }
       })
     })
 
-    it('then it should render the default slot', () => {
+    BddTest().then('it should render the default slot', () => {
       expect(wrapper.text()).toContain('Click me')
     })
   })
 
-  describe('given a rich button with left icon', () => {
+  BddTest().when('mounted with a left icon', () => {
     const customProps = {
       ...props,
       iconLeft: 'mdi:home'
     }
 
     beforeEach(() => {
-      wrapper = mount<typeof AvRichButton>(AvRichButton, { props: customProps, global: { stubs } })
+      wrapper = mount(AvRichButton, { props: customProps, global: { stubs } })
     })
 
-    it('then it should render the left icon', () => {
+    BddTest().then('it should render the left icon', () => {
       const leftContainer = wrapper.find('.av-rich-button__left')
       const leftIcon = leftContainer.findComponent({ name: 'AvVIcon' })
       expect(leftIcon.exists()).toBe(true)
@@ -57,17 +53,17 @@ describe('avRichButton', () => {
     })
   })
 
-  describe('given a rich button with right icon', () => {
+  BddTest().when('mounted with right icon', () => {
     const customProps = {
       ...props,
       iconRight: 'mdi:home'
     }
 
     beforeEach(() => {
-      wrapper = mount<typeof AvRichButton>(AvRichButton, { props: customProps, global: { stubs } })
+      wrapper = mount(AvRichButton, { props: customProps, global: { stubs } })
     })
 
-    it('then it should render the left icon', () => {
+    BddTest().then('it should render the left icon', () => {
       const leftContainer = wrapper.find('.av-rich-button__left')
       const leftIcon = leftContainer.findComponent({ name: 'AvVIcon' })
       expect(leftIcon.exists()).toBe(false)
@@ -76,7 +72,7 @@ describe('avRichButton', () => {
     })
   })
 
-  describe('given a rich button with onClick provided', () => {
+  BddTest().when('mounted with onClick and the button is clicked', () => {
     const onClick = vi.fn()
 
     const customProps = {
@@ -85,10 +81,10 @@ describe('avRichButton', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount<typeof AvRichButton>(AvRichButton, { props: customProps, global: { stubs } })
+      wrapper = mount(AvRichButton, { props: customProps, global: { stubs } })
     })
 
-    it('then it should call onClick when button is clicked', async () => {
+    BddTest().then('it should call onClick', async () => {
       await wrapper.find('button').trigger('click')
       expect(onClick).toHaveBeenCalled()
     })

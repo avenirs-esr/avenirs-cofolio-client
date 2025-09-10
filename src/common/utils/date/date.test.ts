@@ -6,53 +6,62 @@ import {
   parseDateISO
 } from '@/common/utils/date/date'
 import { parseISO } from 'date-fns'
+import { BddTest } from 'tests/utils'
 
-describe('parseDateISO', () => {
-  it('should parse ISO formats correctly with valid formatted date', () => {
-    const date1 = '2025-05-23T14:31:50.007Z'
-    const date2 = '2025-05-23T14:32:50Z'
-    const date3 = '2025-05-23T14:33:50'
-    const date4 = '2025-05-23T14:34'
-    const date5 = '2025-05-24'
+BddTest().given('a dateISO parser', () => {
+  BddTest().when('receiving a valid formatted date', () => {
+    BddTest().then('it should parse ISO formats correctly', () => {
+      const date1 = '2025-05-23T14:31:50.007Z'
+      const date2 = '2025-05-23T14:32:50Z'
+      const date3 = '2025-05-23T14:33:50'
+      const date4 = '2025-05-23T14:34'
+      const date5 = '2025-05-24'
 
-    const parsedDate1 = parseDateISO(date1)
-    const parsedDate2 = parseDateISO(date2)
-    const parsedDate3 = parseDateISO(date3)
-    const parsedDate4 = parseDateISO(date4)
-    const parsedDate5 = parseDateISO(date5)
+      const parsedDate1 = parseDateISO(date1)
+      const parsedDate2 = parseDateISO(date2)
+      const parsedDate3 = parseDateISO(date3)
+      const parsedDate4 = parseDateISO(date4)
+      const parsedDate5 = parseDateISO(date5)
 
-    expect(parsedDate1.getTime()).toBe(parseISO(date1).getTime())
-    expect(parsedDate2.getTime()).toBe(parseISO(date2).getTime())
-    expect(parsedDate3.getTime()).toBe(parseISO(date3).getTime())
-    expect(parsedDate4.getTime()).toBe(parseISO(date4).getTime())
-    expect(parsedDate5.getTime()).toBe(parseISO(date5).getTime())
+      expect(parsedDate1.getTime()).toBe(parseISO(date1).getTime())
+      expect(parsedDate2.getTime()).toBe(parseISO(date2).getTime())
+      expect(parsedDate3.getTime()).toBe(parseISO(date3).getTime())
+      expect(parsedDate4.getTime()).toBe(parseISO(date4).getTime())
+      expect(parsedDate5.getTime()).toBe(parseISO(date5).getTime())
+    })
   })
 
-  it('should use fallback Date constructor with a format that does not match', () => {
-    const date = 'May 23, 2025 15:34:05 GMT+0200'
-    const parsedDate = parseDateISO(date)
-    expect(parsedDate instanceof Date).toBe(true)
-    expect(parsedDate.getTime()).toBe(new Date(date).getTime())
+  BddTest().when('receiving a format that does not match', () => {
+    BddTest().then('it should use fallback Date constructor', () => {
+      const date = 'May 23, 2025 15:34:05 GMT+0200'
+      const parsedDate = parseDateISO(date)
+      expect(parsedDate instanceof Date).toBe(true)
+      expect(parsedDate.getTime()).toBe(new Date(date).getTime())
+    })
   })
 
-  it('should throw an error with an invalid date', () => {
-    const date = 'not a date'
-    expect(() => parseDateISO(date)).toThrow(`Invalid ISO date: ${date}`)
-  })
-})
-
-describe('formatDateToLocaleString', () => {
-  it('should format a date to provided locale string', () => {
-    const date = '2025-05-23T14:54'
-    const formattedFrDate = formatDateToLocaleString(date, 'fr')
-    const formattedEnDate = formatDateToLocaleString(date, 'en')
-
-    expect(formattedFrDate).toBe('23 mai 2025')
-    expect(formattedEnDate).toBe('May 23, 2025')
+  BddTest().when('receiving an invalid date', () => {
+    BddTest().then('it should throw an error', () => {
+      const date = 'not a date'
+      expect(() => parseDateISO(date)).toThrow(`Invalid ISO date: ${date}`)
+    })
   })
 })
 
-describe('getLocalizedAbbrMonth', () => {
+BddTest().given('a date to locale string formatter', () => {
+  BddTest().when('providing a date and a locale string', () => {
+    BddTest().then('it should format the date to the provided locale string', () => {
+      const date = '2025-05-23T14:54'
+      const formattedFrDate = formatDateToLocaleString(date, 'fr')
+      const formattedEnDate = formatDateToLocaleString(date, 'en')
+
+      expect(formattedFrDate).toBe('23 mai 2025')
+      expect(formattedEnDate).toBe('May 23, 2025')
+    })
+  })
+})
+
+BddTest().given('a localized abbreviated month getter', () => {
   const abbrFrMonthMap: Record<number, string> = {
     1: 'janv.',
     2: 'févr.',
@@ -82,18 +91,22 @@ describe('getLocalizedAbbrMonth', () => {
     12: 'Dec'
   }
 
-  it('should format a date to provided locale abbreviated month', () => {
-    for (let i = 1; i <= 12; i++) {
-      const date = `2025-${i}-01`
-      const abbrFrMonth = getLocalizedAbbrMonth(date, 'fr')
-      expect(abbrFrMonth).toBe(abbrFrMonthMap[i])
-      const abbrEnMonth = getLocalizedAbbrMonth(date, 'en')
-      expect(abbrEnMonth).toBe(abbrEnMonthMap[i])
-    }
+  BddTest().when('providing any date and any locale', () => {
+    BddTest().then('it should format the date to provided locale abbreviated month', () => {
+      for (let i = 1; i <= 12; i++) {
+        const date = `2025-${i}-01`
+        const abbrFrMonth = getLocalizedAbbrMonth(date, 'fr')
+        expect(abbrFrMonth).toBe(abbrFrMonthMap[i])
+        const abbrEnMonth = getLocalizedAbbrMonth(date, 'en')
+        expect(abbrEnMonth).toBe(abbrEnMonthMap[i])
+      }
+    })
   })
+})
 
-  describe('getCalendarDate', () => {
-    it('should return a correct day number', () => {
+BddTest().given('a calendar date getter', () => {
+  BddTest().when('providing any date', () => {
+    BddTest().then('it should return a correct day number', () => {
       for (let i = 1; i <= 31; i++) {
         const date = `2025-07-${i}`
         const calendarDate = getCalendarDate(date)
@@ -101,12 +114,14 @@ describe('getLocalizedAbbrMonth', () => {
       }
     })
   })
+})
 
-  describe('getDaysUntil', () => {
-    const nextMonthDate = new Date()
-    nextMonthDate.setDate(nextMonthDate.getDate() + 30)
+BddTest().given('a days until getter', () => {
+  const nextMonthDate = new Date()
+  nextMonthDate.setDate(nextMonthDate.getDate() + 30)
 
-    it('should return a correct number of days until given date', () => {
+  BddTest().when('providing any date', () => {
+    BddTest().then('it should return a correct number of days until given date', () => {
       const daysUntil = getDaysUntil(nextMonthDate)
       expect(daysUntil).toBe(30)
     })

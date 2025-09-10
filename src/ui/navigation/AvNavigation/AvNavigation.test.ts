@@ -1,46 +1,45 @@
+import type { VueWrapper } from '@vue/test-utils'
 import AvNavigation from '@/ui/navigation/AvNavigation/AvNavigation.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
-import { type DsfrNavigationProps, registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
-import { describe, expect, it, vi } from 'vitest'
+import { registerNavigationLinkKey } from '@gouvminint/vue-dsfr'
+import { DsfrNavigationStub } from 'tests/stubs'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-describe('avNavigation', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+BddTest().given('an AvNavigation', () => {
+  let wrapper: VueWrapper
 
-  it('should render and pass props to DsfrNavigation', async () => {
-    const props = {
-      navItems: [
-        { to: '/student', text: 'Home student' },
-        { to: '/teacher', text: 'Home teacher' },
-      ],
-    }
+  const props = {
+    navItems: [
+      { to: '/student', text: 'Home student' },
+      { to: '/teacher', text: 'Home teacher' },
+    ],
+  }
 
-    const wrapper = await mountWithRouter(AvNavigation, {
-      props,
-      global: {
-        provide: {
-          [registerNavigationLinkKey]: vi.fn()
-        },
-        stubs: {
-          DsfrNavigation: {
-            name: 'DsfrNavigation',
-            props: {
-              navItems: Array<DsfrNavigationProps['navItems']>,
-            },
-            template: '<nav class="dsfr-navigation-mock"><slot /></nav>',
-          },
+  const stubs = { DsfrNavigation: DsfrNavigationStub }
+
+  BddTest().when('the component is mounted', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      wrapper = await mountWithRouter(AvNavigation, {
+        props,
+        global: {
+          provide: { [registerNavigationLinkKey]: vi.fn() },
+          stubs
         }
-      }
+      })
     })
 
-    const navWrapper = wrapper.find('.my-nav-wrapper')
-    expect(navWrapper.exists()).toBe(true)
+    BddTest().then('it should render and pass props to DsfrNavigation', async () => {
+      const navWrapper = wrapper.find('.my-nav-wrapper')
+      expect(navWrapper.exists()).toBe(true)
 
-    const dsfrNav = wrapper.findComponent({ name: 'DsfrNavigation' })
-    expect(wrapper.find('.dsfr-navigation-mock').exists()).toBe(true)
-    expect(dsfrNav.exists()).toBe(true)
+      const dsfrNav = wrapper.findComponent({ name: 'DsfrNavigation' })
+      expect(wrapper.find('.dsfr-navigation-mock').exists()).toBe(true)
+      expect(dsfrNav.exists()).toBe(true)
 
-    expect(dsfrNav.props('navItems')).toEqual(props.navItems)
+      expect(dsfrNav.props('navItems')).toEqual(props.navItems)
+    })
   })
 })

@@ -1,13 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeliverableOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
 import StudentDeliverablesWidget from '@/features/student/components/widgets/StudentDeliverablesWidget/StudentDeliverablesWidget.vue'
 import { useStudentDeliverablesSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -47,7 +49,9 @@ function mockUseStudentDeliverablesSummaryQuery (payload: DeliverableOverviewDTO
   mockedUseStudentDeliverablesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentDeliverablesWidget', () => {
+BddTest().given('a student deliverables widget', () => {
+  let wrapper: VueWrapper
+
   const deliverables = [
     {
       id: 'deliverable1',
@@ -82,44 +86,44 @@ describe('studentDeliverablesWidget', () => {
     },
   ]
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
     mockUseStudentDeliverablesSummaryQuery(deliverables)
-  })
 
-  it('should only display up to 3 future deliverables sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentDeliverablesWidget, {
+    wrapper = await mountWithRouter(StudentDeliverablesWidget, {
       global: {
         plugins: [createPinia()],
       },
     })
-    const richButtons = wrapper.findAll('.av-rich-button')
-
-    expect(richButtons).toHaveLength(3)
-    expect(richButtons[0].text()).toContain(getCalendarDate(deliverables[1].deliverableUntil))
-    expect(richButtons[0].text()).toContain(getLocalizedAbbrMonth(deliverables[1].deliverableUntil, 'fr').toUpperCase())
-    expect(richButtons[0].text()).toContain(deliverables[1].skill)
-    expect(richButtons[0].text()).toContain(deliverables[1].activity)
-    expect(richButtons[1].text()).toContain(getCalendarDate(deliverables[2].deliverableUntil))
-    expect(richButtons[1].text()).toContain(getLocalizedAbbrMonth(deliverables[2].deliverableUntil, 'fr').toUpperCase())
-    expect(richButtons[1].text()).toContain(deliverables[2].skill)
-    expect(richButtons[1].text()).toContain(deliverables[2].activity)
-    expect(richButtons[2].text()).toContain(getCalendarDate(deliverables[3].deliverableUntil))
-    expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(deliverables[3].deliverableUntil, 'fr').toUpperCase())
-    expect(richButtons[2].text()).toContain(deliverables[3].skill)
-    expect(richButtons[2].text()).toContain(deliverables[3].activity)
   })
 
-  it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentDeliverablesWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
-    })
-    const btn = wrapper.findComponent({ name: 'AvButton' })
-    await btn.trigger('click')
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should only display up to 3 future deliverables sorted by date', () => {
+      const richButtons = wrapper.findAll('.av-rich-button')
 
-    expect(navigateToStudentDeliverables).toHaveBeenCalled()
+      expect(richButtons).toHaveLength(3)
+      expect(richButtons[0].text()).toContain(getCalendarDate(deliverables[1].deliverableUntil))
+      expect(richButtons[0].text()).toContain(getLocalizedAbbrMonth(deliverables[1].deliverableUntil, 'fr').toUpperCase())
+      expect(richButtons[0].text()).toContain(deliverables[1].skill)
+      expect(richButtons[0].text()).toContain(deliverables[1].activity)
+      expect(richButtons[1].text()).toContain(getCalendarDate(deliverables[2].deliverableUntil))
+      expect(richButtons[1].text()).toContain(getLocalizedAbbrMonth(deliverables[2].deliverableUntil, 'fr').toUpperCase())
+      expect(richButtons[1].text()).toContain(deliverables[2].skill)
+      expect(richButtons[1].text()).toContain(deliverables[2].activity)
+      expect(richButtons[2].text()).toContain(getCalendarDate(deliverables[3].deliverableUntil))
+      expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(deliverables[3].deliverableUntil, 'fr').toUpperCase())
+      expect(richButtons[2].text()).toContain(deliverables[3].skill)
+      expect(richButtons[2].text()).toContain(deliverables[3].activity)
+    })
+  })
+
+  BddTest().when('clicking on the navigation button', () => {
+    BddTest().then('it should call navigation', async () => {
+      const btn = wrapper.findComponent({ name: 'AvButton' })
+      await btn.trigger('click')
+
+      expect(navigateToStudentDeliverables).toHaveBeenCalled()
+    })
   })
 
   testUseBaseApiExceptionToast<DeliverableOverviewDTO[]>({

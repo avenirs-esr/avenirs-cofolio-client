@@ -6,9 +6,10 @@ import { useAmsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@/ui/config'
 import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 
-describe('useAmsViewQuery', () => {
+BddTest().given('an useAmsViewQuery composable', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
   beforeEach(() => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
@@ -18,12 +19,12 @@ describe('useAmsViewQuery', () => {
     vi.restoreAllMocks()
   })
 
-  describe('given valid query parameters', () => {
+  BddTest().and('valid query parameters', () => {
     const studentProgressId = ref('program-123')
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with all parameters', () => {
+    BddTest().when('the query is executed with all parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -38,7 +39,7 @@ describe('useAmsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return mocked AMS data for given parameters', () => {
+      BddTest().then('it should return mocked AMS data for given parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(4)
         expect(queryResult.data.value?.page?.page).toBe(0)
         expect(queryResult.data.value?.page?.totalElements).toBe(20)
@@ -55,13 +56,13 @@ describe('useAmsViewQuery', () => {
         expect(firstAms).toHaveProperty('progress')
       })
 
-      it('then it should return computed amss array', () => {
+      BddTest().then('it should return computed amss array', () => {
         expect(queryResult.amss.value).toHaveLength(4)
         expect(queryResult.amss.value[0]).toHaveProperty('id')
         expect(queryResult.amss.value[0]).toHaveProperty('title')
       })
 
-      it('then it should return correct pageInfo', () => {
+      BddTest().then('it should return correct pageInfo', () => {
         expect(queryResult.pageInfo.value.totalPages).toBe(5)
         expect(queryResult.pageInfo.value.page).toBe(0)
         expect(queryResult.pageInfo.value.totalElements).toBe(20)
@@ -70,12 +71,12 @@ describe('useAmsViewQuery', () => {
     })
   })
 
-  describe('given undefined studentProgressId', () => {
+  BddTest().and('undefined studentProgressId', () => {
     const studentProgressId = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when the query is executed with undefined studentProgressId', () => {
+    BddTest().when('the query is executed with undefined studentProgressId', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -86,15 +87,15 @@ describe('useAmsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then the query should be disabled', () => {
+      BddTest().then('the query should be disabled', () => {
         expect(queryResult.data.value).toBeUndefined()
       })
 
-      it('then amss should return empty array', () => {
+      BddTest().then('amss should return empty array', () => {
         expect(queryResult.amss.value).toEqual([])
       })
 
-      it('then pageInfo should return default values', () => {
+      BddTest().then('pageInfo should return default values', () => {
         expect(queryResult.pageInfo.value).toEqual({
           page: 0,
           pageSize: 0,
@@ -105,12 +106,12 @@ describe('useAmsViewQuery', () => {
     })
   })
 
-  describe('given different page and pageSize values', () => {
+  BddTest().and('different page and pageSize values', () => {
     const studentProgressId = ref('program-456')
     const page = ref(1)
     const pageSize = ref(PageSizes.EIGHT)
 
-    describe('when the query is executed with different parameters', () => {
+    BddTest().when('the query is executed with different parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -121,7 +122,7 @@ describe('useAmsViewQuery', () => {
         await flushPromises()
       })
 
-      it('then it should return data with correct page parameters', () => {
+      BddTest().then('it should return data with correct page parameters', () => {
         expect(queryResult.data.value?.data).toHaveLength(PageSizes.EIGHT)
         expect(queryResult.data.value?.page?.page).toBe(1)
         expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
@@ -132,18 +133,18 @@ describe('useAmsViewQuery', () => {
         expect(firstAms?.id).toMatch(uiidRegex)
       })
 
-      it('then it should return correct number of items based on pageSize', () => {
+      BddTest().then('it should return correct number of items based on pageSize', () => {
         expect(queryResult.amss.value).toHaveLength(PageSizes.EIGHT)
       })
     })
   })
 
-  describe('given reactive parameters that change', () => {
+  BddTest().and('reactive parameters that change', () => {
     const studentProgressId = ref('program-initial')
     const page = ref(0)
     const pageSize = ref(PageSizes.FOUR)
 
-    describe('when parameter values are updated', () => {
+    BddTest().when('parameter values are updated', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -154,13 +155,13 @@ describe('useAmsViewQuery', () => {
         await flushPromises()
       })
 
-      describe('when studentProgressId changes', () => {
+      BddTest().and('studentProgressId changes', () => {
         beforeEach(async () => {
           studentProgressId.value = 'program-updated'
           await flushPromises()
         })
 
-        it('then the query should update with new studentProgressId', () => {
+        BddTest().then('the query should update with new studentProgressId', () => {
           expect(queryResult.data.value?.data).toHaveLength(PageSizes.FOUR)
 
           const firstAms = queryResult.data.value?.data?.[0]
@@ -169,23 +170,23 @@ describe('useAmsViewQuery', () => {
         })
       })
 
-      describe('when page changes', () => {
+      BddTest().and('page changes', () => {
         beforeEach(async () => {
           page.value = 1
           await flushPromises()
         })
 
-        it('then the query should update with new page', () => {
+        BddTest().then('the query should update with new page', () => {
           expect(queryResult.data.value?.page?.page).toBe(1)
         })
       })
 
-      describe('when pageSize changes', () => {
+      BddTest().and('pageSize changes', () => {
         beforeEach(async () => {
           pageSize.value = PageSizes.EIGHT
           await flushPromises()
         })
-        it('then the query should update with new pageSize', async () => {
+        BddTest().then('the query should update with new pageSize', async () => {
           expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.EIGHT)
           expect(queryResult.amss.value).toHaveLength(PageSizes.EIGHT)
         })
@@ -193,12 +194,12 @@ describe('useAmsViewQuery', () => {
     })
   })
 
-  describe('given studentProgressId changes from undefined to defined', () => {
+  BddTest().and('studentProgressId changes from undefined to defined', () => {
     const studentProgressId = ref<string | undefined>(undefined)
     const page = ref(0)
     const pageSize = ref(PageSizes.TWELVE)
 
-    describe('when studentProgressId becomes defined', () => {
+    BddTest().when('studentProgressId becomes defined', () => {
       let queryResult: UseQueryReturnType<PagedResponseAmsViewDTO, BaseApiException> & {
         amss: Ref<AmsViewDTO[]>
         pageInfo: Ref<PageInfoDTO>
@@ -209,13 +210,13 @@ describe('useAmsViewQuery', () => {
         await flushPromises()
       })
 
-      describe('when studentProgressId is set to a valid value', () => {
+      BddTest().and('studentProgressId is set to a valid value', () => {
         beforeEach(async () => {
           studentProgressId.value = 'program-enabled'
           await flushPromises()
         })
 
-        it('then the query should become enabled and return data', () => {
+        BddTest().then('the query should become enabled and return data', () => {
           expect(queryResult.data.value?.data).toHaveLength(PageSizes.TWELVE)
           expect(queryResult.data.value?.page?.pageSize).toBe(PageSizes.TWELVE)
           expect(queryResult.amss.value).toHaveLength(PageSizes.TWELVE)

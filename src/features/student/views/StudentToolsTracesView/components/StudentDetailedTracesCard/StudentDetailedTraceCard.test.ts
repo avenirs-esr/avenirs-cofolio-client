@@ -1,20 +1,17 @@
 import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { StudentDetailedTraceModalStub } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.stub'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { AvVIconStub } from '@/ui/base/AvVIcon/AvVIcon.stub'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-describe('studentDetailedTraceCard', () => {
+BddTest().given('a student detailed trace card', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCard>>
+
   const stubs = {
-    AvVIcon: {
-      name: 'AvVIcon',
-      props: ['name', 'color', 'size'],
-      template: `<div class="av-vicon" />`,
-    },
-    StudentDetailedTraceModal: {
-      name: 'StudentDetailedTraceModal',
-      props: ['showModal', 'onClose', 'trace'],
-      template: '<div v-if="showModal" data-testid="student-detailed-trace-modal">StudentDetailedTraceModal</div>',
-    },
+    AvVIcon: AvVIconStub,
+    StudentDetailedTraceModal: StudentDetailedTraceModalStub,
   }
 
   beforeEach(() => {
@@ -39,42 +36,65 @@ describe('studentDetailedTraceCard', () => {
     status: ETraceStatus.ASSOCIATED
   }
 
-  it('should open modal on click and close it when onClose is called', async () => {
-    const wrapper = mount(StudentDetailedTraceCard, {
-      props: { trace: mockedTrace },
-      global: {
-        stubs,
-      },
-    })
-    await wrapper.find('button').trigger('click')
-    expect(wrapper.find('[data-testid="student-detailed-trace-modal"]').exists()).toBe(true)
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the trace name and deletion time for unassociated trace', async () => {
+      const wrapper = mount(StudentDetailedTraceCard, {
+        props: { trace: mockedTrace },
+        global: {
+          stubs,
+        },
+      })
 
-    await wrapper.findComponent({ name: 'StudentDetailedTraceModal' }).vm.onClose()
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-testid="student-detailed-trace-modal"]').exists()).toBe(false)
-  })
-
-  it('should render the trace name and deletion time for unassociated trace', async () => {
-    const wrapper = mount(StudentDetailedTraceCard, {
-      props: { trace: mockedTrace },
-      global: {
-        stubs,
-      },
+      expect(wrapper.text()).toContain('Ma super trace')
+      expect(wrapper.text()).toContain('Suppression dans 30 jours')
     })
 
-    expect(wrapper.text()).toContain('Ma super trace')
-    expect(wrapper.text()).toContain('Suppression dans 30 jours')
-  })
+    BddTest().then('ot should not render the trace deletion time for associated trace', async () => {
+      const wrapper = mount(StudentDetailedTraceCard, {
+        props: { trace: mockedAssociatedTrace },
+        global: {
+          stubs,
+        },
+      })
 
-  it('should not render the trace deletion time for associated trace', async () => {
-    const wrapper = mount(StudentDetailedTraceCard, {
-      props: { trace: mockedAssociatedTrace },
-      global: {
-        stubs,
-      },
+      expect(wrapper.text()).toContain('Ma super trace')
+      expect(wrapper.text()).not.toContain('Suppression')
     })
 
-    expect(wrapper.text()).toContain('Ma super trace')
-    expect(wrapper.text()).not.toContain('Suppression')
+    BddTest().and('the modal is closed and clicking the card', () => {
+      beforeEach(() => {
+        wrapper = mount(StudentDetailedTraceCard, {
+          props: { trace: mockedTrace },
+          global: {
+            stubs,
+          },
+        })
+      })
+
+      BddTest().then('it should open modal on click and close it when onClose is called', async () => {
+        await wrapper.find('button').trigger('click')
+        expect(wrapper.find('[data-testid="student-detailed-trace-modal"]').exists()).toBe(true)
+      })
+    })
+
+    BddTest().and('the modal is opened and onClose is called', () => {
+      beforeEach(() => {
+        wrapper = mount(StudentDetailedTraceCard, {
+          props: { trace: mockedTrace },
+          global: {
+            stubs,
+          },
+        })
+      })
+
+      BddTest().then('close the modal', async () => {
+        await wrapper.find('button').trigger('click')
+        expect(wrapper.find('[data-testid="student-detailed-trace-modal"]').exists()).toBe(true)
+
+        await wrapper.findComponent({ name: 'StudentDetailedTraceModal' }).vm.onClose()
+        await wrapper.vm.$nextTick()
+        expect(wrapper.find('[data-testid="student-detailed-trace-modal"]').exists()).toBe(false)
+      })
+    })
   })
 })

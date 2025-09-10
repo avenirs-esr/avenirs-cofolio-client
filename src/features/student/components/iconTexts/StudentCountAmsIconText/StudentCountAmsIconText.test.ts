@@ -1,8 +1,11 @@
 import StudentCountAmsIconText from '@/features/student/components/iconTexts/StudentCountAmsIconText/StudentCountAmsIconText.vue'
-import { mount } from '@vue/test-utils'
-import { describe, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach } from 'vitest'
 
-describe('studentCountAmsIconText', () => {
+BddTest().given('a student count AMS icon text', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentCountAmsIconText>>
+
   const stubs = {
     AvIconText: {
       name: 'AvIconText',
@@ -11,42 +14,54 @@ describe('studentCountAmsIconText', () => {
     },
   }
 
-  it('should render none version of text when countAms equals 0', () => {
-    const wrapper = mount(StudentCountAmsIconText, {
-      props: { countAms: 0 },
-      global: {
-        stubs
-      }
+  BddTest().when('countAms equals 0', () => {
+    beforeEach(() => {
+      wrapper = mount(StudentCountAmsIconText, {
+        props: { countAms: 0 },
+        global: {
+          stubs
+        }
+      })
     })
 
-    const iconText = wrapper.findComponent({ name: 'AvIconText' })
-    expect(iconText.exists()).toBe(true)
-    expect(iconText.props('text')).toContain('0 mise en situation')
+    BddTest().then('it should render none version of text', () => {
+      const iconText = wrapper.findComponent({ name: 'AvIconText' })
+      expect(iconText.exists()).toBe(true)
+      expect(iconText.props('text')).toContain('0 mise en situation')
+    })
   })
 
-  it('should render singular version of text when countAms equals 1', () => {
-    const wrapper = mount(StudentCountAmsIconText, {
-      props: { countAms: 1 },
-      global: {
-        stubs
-      }
+  BddTest().when('countAms equals 1', () => {
+    beforeEach(() => {
+      wrapper = mount(StudentCountAmsIconText, {
+        props: { countAms: 1 },
+        global: {
+          stubs
+        }
+      })
     })
 
-    const iconText = wrapper.findComponent({ name: 'AvIconText' })
-    expect(iconText.exists()).toBe(true)
-    expect(iconText.props('text')).toContain('1 mise en situation')
+    BddTest().then('it should render singular version of text', () => {
+      const iconText = wrapper.findComponent({ name: 'AvIconText' })
+      expect(iconText.exists()).toBe(true)
+      expect(iconText.props('text')).toContain('1 mise en situation')
+    })
   })
 
-  it('should render plural version of text when countAms is greater than 1', () => {
-    const wrapper = mount(StudentCountAmsIconText, {
-      props: { countAms: 2 },
-      global: {
-        stubs
-      }
+  BddTest().when('countAms is greater than 1', () => {
+    beforeEach(() => {
+      wrapper = mount(StudentCountAmsIconText, {
+        props: { countAms: 2 },
+        global: {
+          stubs
+        }
+      })
     })
 
-    const iconText = wrapper.findComponent({ name: 'AvIconText' })
-    expect(iconText.exists()).toBe(true)
-    expect(iconText.props('text')).toContain('2 mises en situation')
+    BddTest().then('it should render pluaral version of text', () => {
+      const iconText = wrapper.findComponent({ name: 'AvIconText' })
+      expect(iconText.exists()).toBe(true)
+      expect(iconText.props('text')).toContain('2 mises en situation')
+    })
   })
 })

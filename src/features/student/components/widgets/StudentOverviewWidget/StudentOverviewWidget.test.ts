@@ -8,7 +8,7 @@ import { useStudentSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, type Ref } from 'vue'
 
 vi.mock('@/store', async (importOriginal) => {
@@ -61,9 +61,10 @@ function mockUseStudentSummaryQueryUndefined () {
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>)
 }
 
-describe('studentOverviewWidget', () => {
-  let queryClient: QueryClient
+BddTest().given('a student overview widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentOverviewWidget>>
+
+  let queryClient: QueryClient
 
   const stubs = {
     UpdateProfileDrawer: {
@@ -90,116 +91,114 @@ describe('studentOverviewWidget', () => {
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
-  describe('given a student overview widget', () => {
-    describe('when the component is mounted', () => {
-      beforeEach(async () => {
-        vi.clearAllMocks()
-        queryClient = new QueryClient()
-        mockUseStudentSummaryQuery(studentSummary)
-        wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
-          global: {
-            stubs,
-            plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
-          },
-        })
-      })
-
-      it('then it should render the full name capitalized', async () => {
-        expect(wrapper.text()).toContain(`${capitalize(studentSummary.firstname)} ${capitalize(studentSummary.lastname)}`)
-      })
-
-      it('then it should display the bio', async () => {
-        expect(wrapper.text()).toContain(studentSummary.bio)
-      })
-
-      it('then it should render 4 rich buttons', async () => {
-        expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(4)
-      })
-
-      it('then it should show profile and cover images with correct src', async () => {
-        const images = wrapper.findAll('img')
-        expect(images[0].attributes('src')).toBe(studentSummary.coverPicture.url)
-        expect(images[1].attributes('src')).toBe(studentSummary.profilePicture.url)
-      })
-
-      it('then it should emit click on AvRichButtons', async () => {
-        const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
-        const shareResumeButton = wrapper.findComponent('.av-rich-button--share-resume')
-        const shareCofolio = wrapper.findComponent('.av-rich-button--share-cofolio')
-        const establishmentsButton = wrapper.findComponent('.av-rich-button--establishments')
-
-        expect(editProfileButton.exists()).toBe(true)
-        expect(shareResumeButton.exists()).toBe(true)
-        expect(shareCofolio.exists()).toBe(true)
-        expect(establishmentsButton.exists()).toBe(true)
-
-        await editProfileButton.trigger('click')
-        await shareResumeButton.trigger('click')
-        await shareCofolio.trigger('click')
-        await establishmentsButton.trigger('click')
-      })
-
-      it('then it should render UpdateProfileDrawer in hidden state', () => {
-        const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
-        expect(updateProfileDrawer.exists()).toBe(true)
-        expect(updateProfileDrawer.props('show')).toBe(false)
-      })
-    })
-
-    describe('when clicking on the edit profile button', () => {
-      beforeEach(async () => {
-        vi.clearAllMocks()
-        queryClient = new QueryClient()
-        mockUseStudentSummaryQuery(studentSummary)
-        wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
-          global: {
-            stubs,
-            plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
-          },
-        })
-      })
-
-      it('then it should show UpdateProfileDrawer', async () => {
-        const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
-        expect(updateProfileDrawer.exists()).toBe(true)
-        expect(updateProfileDrawer.props('show')).toBe(false)
-
-        const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
-        expect(editProfileButton.exists()).toBe(true)
-        await editProfileButton.trigger('click')
-
-        expect(updateProfileDrawer.props('show')).toBe(true)
-      })
-    })
-
-    describe('when the component is mounted when studentSummary is undefined', () => {
-      beforeEach(async () => {
-        vi.clearAllMocks()
-        queryClient = new QueryClient()
-        mockUseStudentSummaryQueryUndefined()
-        wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
-          global: {
-            stubs,
-            plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
-          },
-        })
-      })
-
-      it('then it should render nothing', async () => {
-        expect(wrapper.find('*').exists()).toBe(false)
-        expect(wrapper.vm.fullName).toBe(undefined)
-      })
-    })
-
-    testUseBaseApiExceptionToast<ProfileOverviewDTO>({
-      mockedUseQuery: mockedUseStudentSummaryQuery,
-      payload: studentSummary,
-      mountComponent: () => mountWithRouter(StudentOverviewWidget, {
+  BddTest().when('the component is mounted', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      queryClient = new QueryClient()
+      mockUseStudentSummaryQuery(studentSummary)
+      wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
         global: {
           stubs,
           plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
         },
       })
+    })
+
+    BddTest().then('it should render the full name capitalized', async () => {
+      expect(wrapper.text()).toContain(`${capitalize(studentSummary.firstname)} ${capitalize(studentSummary.lastname)}`)
+    })
+
+    BddTest().then('it should display the bio', async () => {
+      expect(wrapper.text()).toContain(studentSummary.bio)
+    })
+
+    BddTest().then('it should render 4 rich buttons', async () => {
+      expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(4)
+    })
+
+    BddTest().then('it should show profile and cover images with correct src', async () => {
+      const images = wrapper.findAll('img')
+      expect(images[0].attributes('src')).toBe(studentSummary.coverPicture.url)
+      expect(images[1].attributes('src')).toBe(studentSummary.profilePicture.url)
+    })
+
+    BddTest().then('it should emit click on AvRichButtons', async () => {
+      const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
+      const shareResumeButton = wrapper.findComponent('.av-rich-button--share-resume')
+      const shareCofolio = wrapper.findComponent('.av-rich-button--share-cofolio')
+      const establishmentsButton = wrapper.findComponent('.av-rich-button--establishments')
+
+      expect(editProfileButton.exists()).toBe(true)
+      expect(shareResumeButton.exists()).toBe(true)
+      expect(shareCofolio.exists()).toBe(true)
+      expect(establishmentsButton.exists()).toBe(true)
+
+      await editProfileButton.trigger('click')
+      await shareResumeButton.trigger('click')
+      await shareCofolio.trigger('click')
+      await establishmentsButton.trigger('click')
+    })
+
+    BddTest().then('it should render UpdateProfileDrawer in hidden state', () => {
+      const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
+      expect(updateProfileDrawer.exists()).toBe(true)
+      expect(updateProfileDrawer.props('show')).toBe(false)
+    })
+  })
+
+  BddTest().when('clicking on the edit profile button', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      queryClient = new QueryClient()
+      mockUseStudentSummaryQuery(studentSummary)
+      wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
+        global: {
+          stubs,
+          plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+        },
+      })
+    })
+
+    BddTest().then('it should show UpdateProfileDrawer', async () => {
+      const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
+      expect(updateProfileDrawer.exists()).toBe(true)
+      expect(updateProfileDrawer.props('show')).toBe(false)
+
+      const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
+      expect(editProfileButton.exists()).toBe(true)
+      await editProfileButton.trigger('click')
+
+      expect(updateProfileDrawer.props('show')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted when studentSummary is undefined', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      queryClient = new QueryClient()
+      mockUseStudentSummaryQueryUndefined()
+      wrapper = await mountWithRouter<typeof StudentOverviewWidget>(StudentOverviewWidget, {
+        global: {
+          stubs,
+          plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+        },
+      })
+    })
+
+    BddTest().then('it should render nothing', async () => {
+      expect(wrapper.find('*').exists()).toBe(false)
+      expect(wrapper.vm.fullName).toBe(undefined)
+    })
+  })
+
+  testUseBaseApiExceptionToast<ProfileOverviewDTO>({
+    mockedUseQuery: mockedUseStudentSummaryQuery,
+    payload: studentSummary,
+    mountComponent: () => mountWithRouter(StudentOverviewWidget, {
+      global: {
+        stubs,
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+      },
     })
   })
 })

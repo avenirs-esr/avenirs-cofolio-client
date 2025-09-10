@@ -4,7 +4,8 @@ import { useDeleteTraceMutation } from '@/features/student/queries'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useToasterStore } from '@/store'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importActual) => {
   const actual = await importActual<typeof import('@/features/student/queries')>()
@@ -18,7 +19,7 @@ vi.mock('@/store', () => ({
   useToasterStore: vi.fn()
 }))
 
-describe('traceDeletionConfirmationModal', () => {
+BddTest().given('a trace deletion confirmation modal', () => {
   let wrapper: VueWrapper
   let onConfirmDeleteMock: () => void
   let onCloseMock: () => void
@@ -95,7 +96,7 @@ describe('traceDeletionConfirmationModal', () => {
     })
   })
 
-  describe('given TraceDeletionConfirmationModal with show=true', () => {
+  BddTest().and('with show=true', () => {
     beforeEach(() => {
       wrapper = mount(TraceDeletionConfirmationModal, {
         props: {
@@ -108,22 +109,22 @@ describe('traceDeletionConfirmationModal', () => {
       })
     })
 
-    it('then it should render the modal', () => {
+    BddTest().then('it should render the modal', () => {
       expect(wrapper.findComponent({ name: 'AvModal' }).exists()).toBe(true)
     })
 
-    it('then the modal close event should call onClose callback', async () => {
+    BddTest().then('the modal close event should call onClose callback', async () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
       expect(onCloseMock).toHaveBeenCalled()
     })
 
-    it('then clicking confirm button should call mutate with traceId', async () => {
+    BddTest().then('clicking confirm button should call mutate with traceId', async () => {
       await wrapper.find('[data-testid="confirm-button"]').trigger('click')
       expect(mockMutate).toHaveBeenCalledWith({ traceId: mockedTrace.id })
     })
   })
 
-  describe('given TraceDeletionConfirmationModal with show=false', () => {
+  BddTest().and('with show=false', () => {
     beforeEach(() => {
       wrapper = mount(TraceDeletionConfirmationModal, {
         props: {
@@ -136,12 +137,12 @@ describe('traceDeletionConfirmationModal', () => {
       })
     })
 
-    it('then it should not render modal content', () => {
+    BddTest().then('it should not render modal content', () => {
       expect(wrapper.find('.content-container').exists()).toBe(false)
     })
   })
 
-  describe('when the mutation fails', () => {
+  BddTest().when('the mutation fails', () => {
     const error: BaseApiException = {
       message: 'Failed to delete trace',
       name: 'DeleteTraceError',
@@ -162,7 +163,7 @@ describe('traceDeletionConfirmationModal', () => {
       onErrorCallback(error)
     })
 
-    it('then an error message should be added with empty description', () => {
+    BddTest().then('an error message should be added with empty description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
         description: 'Failed to delete trace',
@@ -170,13 +171,13 @@ describe('traceDeletionConfirmationModal', () => {
       })
     })
 
-    it('then no events should be emitted', () => {
+    BddTest().then('no events should be emitted', () => {
       expect(wrapper.emitted('onTraceDelete')).toBeFalsy()
       expect(wrapper.emitted('close')).toBeFalsy()
     })
   })
 
-  describe('when the mutation fails without error message', () => {
+  BddTest().when('the mutation fails without error message', () => {
     const error: BaseApiException = {
       message: '',
       name: 'DeleteTraceError',
@@ -197,7 +198,7 @@ describe('traceDeletionConfirmationModal', () => {
       onErrorCallback(error)
     })
 
-    it('then an error message should be added with empty description', () => {
+    BddTest().then('an error message should be added with empty description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
         description: '',
@@ -206,7 +207,7 @@ describe('traceDeletionConfirmationModal', () => {
     })
   })
 
-  describe('when mutation onConfirmDelete callback is called', () => {
+  BddTest().when('mutation onConfirmDelete callback is called', () => {
     beforeEach(() => {
       wrapper = mount(TraceDeletionConfirmationModal, {
         props: {
@@ -219,7 +220,7 @@ describe('traceDeletionConfirmationModal', () => {
       })
     })
 
-    it('then it should call onConfirmDelete callback', () => {
+    BddTest().then('it should call onConfirmDelete callback', () => {
       onConfirmDeleteMock()
       expect(onConfirmDeleteMock).toHaveBeenCalled()
     })

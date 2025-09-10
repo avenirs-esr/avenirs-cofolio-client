@@ -1,7 +1,8 @@
 import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
 import StudentDetailedEducationalSkillCard from '@/features/student/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
 const baseSkill: SkillDTO = {
   id: 'skill-1',
@@ -71,62 +72,62 @@ function createWrapper (skill: SkillDTO = baseSkill) {
   })
 }
 
-describe('given a student detailed educationnal skill card with valid props', () => {
+BddTest().given('a student detailed educationnal skill card with valid props', () => {
   let wrapper: VueWrapper
-  describe('when the card is mounted', () => {
+  BddTest().when('the card is mounted', () => {
     beforeEach(() => {
       wrapper = createWrapper()
     })
 
-    it('then it should render the skill level name', () => {
+    BddTest().then('it should render the skill level name', () => {
       expect(wrapper.text()).toContain(baseSkill.currentSkillLevel.name)
     })
 
-    it('then it should render the short description', () => {
+    BddTest().then('it should render the short description', () => {
       expect(wrapper.text()).toContain(baseSkill.currentSkillLevel.shortDescription)
     })
 
-    it('then it should render the trace count', () => {
+    BddTest().then('it should render the trace count', () => {
       expect(wrapper.text()).toContain(`Traces: ${baseSkill.currentSkillLevel.traceCount}`)
     })
 
-    it('then it should render the activity count', () => {
+    BddTest().then('it should render the activity count', () => {
       expect(wrapper.text()).toContain(`AMS: ${baseSkill.currentSkillLevel.activityCount}`)
     })
 
-    it('then it should render the AvBadge with correct label', () => {
+    BddTest().then('it should render the AvBadge with correct label', () => {
       const badge = wrapper.find('.badge')
       expect(badge.exists()).toBe(true)
       expect(badge.text()).toContain(`${baseSkill.levelCount} niveaux`)
     })
 
-    it('then it should render the StudentLevelBadge when status is TO_BE_EVALUATED', () => {
+    BddTest().then('it should render the StudentLevelBadge when status is TO_BE_EVALUATED', () => {
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(true)
       expect(badge.text()).toContain(baseSkill.currentSkillLevel.name)
     })
 
-    it('then it should render the StudentLevelBadge when status is UNDER_REVIEW', () => {
+    BddTest().then('it should render the StudentLevelBadge when status is UNDER_REVIEW', () => {
       const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.UNDER_REVIEW } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(true)
     })
 
-    it('then it should not render the StudentLevelBadge when status is VALIDATED', () => {
+    BddTest().then('it should not render the StudentLevelBadge when status is VALIDATED', () => {
       const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.VALIDATED } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(false)
     })
 
-    it('then it should render the StudentLastCompletedLevelBadge when achievedSkillLevels is present', () => {
+    BddTest().then('it should render the StudentLastCompletedLevelBadge when achievedSkillLevels is present', () => {
       const badge = wrapper.find('.last-completed-badge')
       expect(badge.exists()).toBe(true)
       expect(badge.text()).toContain('Niveau 0')
     })
 
-    it('then it should not render the StudentLastCompletedLevelBadge when achievedSkillLevels is undefined', () => {
+    BddTest().then('it should not render the StudentLastCompletedLevelBadge when achievedSkillLevels is undefined', () => {
       const skill = { ...baseSkill, achievedSkillLevels: undefined }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.last-completed-badge')

@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import StudentToolsTracesAddTraceDrawer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { useTracesStore } from '@/store'
-import { mountComponent } from 'tests/utils'
-import StudentToolsTracesAddTraceDrawer from './StudentToolsTracesAddTraceDrawer.vue'
+import { BddTest, mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -17,262 +18,260 @@ vi.mock('@/store', async () => {
   }
 })
 
-const stubs = {
-  AvDrawer: {
-    name: 'AvDrawer',
-    props: ['show', 'position', 'width'],
-    emits: ['escape-pressed'],
-    template: '<div class="av-drawer-stub"><slot /><slot name="footer" /></div>'
-  },
-  AvAccordionsGroup: {
-    name: 'AvAccordionsGroup',
-    template: '<div class="av-accordions-group-stub"><slot /></div>'
-  },
-  AvAccordion: {
-    name: 'AvAccordion',
-    props: ['title', 'icon'],
-    template: '<div class="av-accordion-stub"><slot /></div>'
-  },
-  AvButton: {
-    name: 'AvButton',
-    props: ['label', 'variant', 'type', 'icon', 'disabled', 'loading'],
-    emits: ['click'],
-    template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
-  },
-}
+BddTest().given('a student tools traces add trace drawer component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
-describe('studentToolsTracesAddTraceDrawer', () => {
-  describe('given a student tools traces add trace drawer component', () => {
-    let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
+  const stubs = {
+    AvDrawer: {
+      name: 'AvDrawer',
+      props: ['show', 'position', 'width'],
+      emits: ['escape-pressed'],
+      template: '<div class="av-drawer-stub"><slot /><slot name="footer" /></div>'
+    },
+    AvAccordionsGroup: {
+      name: 'AvAccordionsGroup',
+      template: '<div class="av-accordions-group-stub"><slot /></div>'
+    },
+    AvAccordion: {
+      name: 'AvAccordion',
+      props: ['title', 'icon'],
+      template: '<div class="av-accordion-stub"><slot /></div>'
+    },
+    AvButton: {
+      name: 'AvButton',
+      props: ['label', 'variant', 'type', 'icon', 'disabled', 'loading'],
+      emits: ['click'],
+      template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
+    },
+  }
 
-    const getSaveButton = () => {
-      return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-        button.props('variant') === 'FLAT'
-      )
-    }
+  const getSaveButton = () => {
+    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
+      button.props('variant') === 'FLAT'
+    )
+  }
 
-    const getCancelButton = () => {
-      return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-        button.props('variant') === 'OUTLINED'
-      )
-    }
+  const getCancelButton = () => {
+    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
+      button.props('variant') === 'OUTLINED'
+    )
+  }
 
-    const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
-      const traceNameInput = wrapper.find('#trace-name')
-      const personalNoteInput = wrapper.find('#personal-note')
-      const fileInput = wrapper.find('#trace-file-upload')
+  const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
+    const traceNameInput = wrapper.find('#trace-name')
+    const personalNoteInput = wrapper.find('#personal-note')
+    const fileInput = wrapper.find('#trace-file-upload')
 
-      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+    const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
 
-      await traceNameInput.setValue(traceName)
-      await personalNoteInput.setValue(personalNote)
+    await traceNameInput.setValue(traceName)
+    await personalNoteInput.setValue(personalNote)
 
-      Object.defineProperty(fileInput.element, 'files', {
-        value: [mockFile],
-        writable: false,
-      })
-      await fileInput.trigger('change')
+    Object.defineProperty(fileInput.element, 'files', {
+      value: [mockFile],
+      writable: false,
+    })
+    await fileInput.trigger('change')
 
-      await wrapper.vm.$nextTick()
+    await wrapper.vm.$nextTick()
 
-      return { mockFile }
-    }
+    return { mockFile }
+  }
 
-    const clickSaveButton = async () => {
+  const clickSaveButton = async () => {
+    const saveButton = getSaveButton()
+    await saveButton?.vm.$emit('click')
+  }
+
+  const setAuthenticToggle = async (value: boolean) => {
+    const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+    const authenticToggle = toggles.find(toggle => toggle.props('id') === 'isAuthentic')
+    expect(authenticToggle).toBeDefined()
+    await authenticToggle!.vm.$emit('update:modelValue', value)
+    await wrapper.vm.$nextTick()
+  }
+
+  const setIAToggle = async (value: boolean) => {
+    const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+    const iaToggle = toggles.find(toggle => toggle.props('id') === 'useIA')
+    expect(iaToggle).toBeDefined()
+    await iaToggle!.vm.$emit('update:modelValue', value)
+    await wrapper.vm.$nextTick()
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {
+      global: {
+        stubs
+      }
+    })
+
+    const store = useTracesStore()
+    store.displayCreateTraceDrawer()
+  })
+
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the drawer with correct props', () => {
+      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+
+      expect(drawer.exists()).toBe(true)
+      expect(drawer.props('position')).toBe('right')
+      expect(drawer.props('width')).toBe('50rem')
+    })
+
+    BddTest().then('it should render the title', () => {
+      const title = wrapper.find('.student-tools-traces-add-trace-drawer__title')
+
+      expect(title.exists()).toBe(true)
+      expect(title.text()).toBe('Ajouter une trace')
+    })
+
+    BddTest().then('it should render accordion group with three accordions', () => {
+      const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+
+      expect(accordionsGroup.exists()).toBe(true)
+      expect(accordions).toHaveLength(3)
+    })
+
+    BddTest().then('it should render the create trace form items in first accordion', () => {
+      const createTraceFormItems = wrapper.find('.create-trace-form-trace-definition-items')
+      expect(createTraceFormItems.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the create trace form declaration items in second accordion', () => {
+      const declarationItems = wrapper.find('.declaration-items')
+      expect(declarationItems.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render footer buttons', () => {
+      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const cancelButton = getCancelButton()
       const saveButton = getSaveButton()
-      await saveButton?.vm.$emit('click')
-    }
 
-    const setAuthenticToggle = async (value: boolean) => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
-      const authenticToggle = toggles.find(toggle => toggle.props('id') === 'isAuthentic')
-      expect(authenticToggle).toBeDefined()
-      await authenticToggle!.vm.$emit('update:modelValue', value)
-      await wrapper.vm.$nextTick()
-    }
+      expect(buttons).toHaveLength(2)
+      expect(cancelButton?.props('label')).toBe('QUITTER')
+      expect(saveButton?.props('label')).toBe('ENREGISTRER')
+    })
 
-    const setIAToggle = async (value: boolean) => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
-      const iaToggle = toggles.find(toggle => toggle.props('id') === 'useIA')
-      expect(iaToggle).toBeDefined()
-      await iaToggle!.vm.$emit('update:modelValue', value)
-      await wrapper.vm.$nextTick()
-    }
+    BddTest().then('it should render form element', () => {
+      const form = wrapper.find('form')
+      expect(form.exists()).toBe(true)
+    })
+  })
 
-    beforeEach(() => {
-      vi.clearAllMocks()
-
-      wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {
-        global: {
-          stubs
-        }
-      })
-
+  BddTest().when('store showCreateTraceDrawer is false', () => {
+    BddTest().then('it should pass false to drawer show prop', async () => {
       const store = useTracesStore()
-      store.displayCreateTraceDrawer()
+      store.hideCreateTraceDrawer()
+      await wrapper.vm.$nextTick()
+
+      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      expect(drawer.props('show')).toBe(false)
     })
+  })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the drawer with correct props', () => {
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+  BddTest().when('escape is pressed on drawer', () => {
+    BddTest().then('it should hideCreateTraceDrawer', async () => {
+      const store = useTracesStore()
+      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
+      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
-        expect(drawer.exists()).toBe(true)
-        expect(drawer.props('position')).toBe('right')
-        expect(drawer.props('width')).toBe('50rem')
-      })
+      await drawer.vm.$emit('escape-pressed')
 
-      it('then it should render the title', () => {
-        const title = wrapper.find('.student-tools-traces-add-trace-drawer__title')
-
-        expect(title.exists()).toBe(true)
-        expect(title.text()).toBe('Ajouter une trace')
-      })
-
-      it('then it should render accordion group with three accordions', () => {
-        const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
-        const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-
-        expect(accordionsGroup.exists()).toBe(true)
-        expect(accordions).toHaveLength(3)
-      })
-
-      it('then it should render the create trace form items in first accordion', () => {
-        const createTraceFormItems = wrapper.find('.create-trace-form-trace-definition-items')
-        expect(createTraceFormItems.exists()).toBe(true)
-      })
-
-      it('then it should render the create trace form declaration items in second accordion', () => {
-        const declarationItems = wrapper.find('.declaration-items')
-        expect(declarationItems.exists()).toBe(true)
-      })
-
-      it('then it should render footer buttons', () => {
-        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-        const cancelButton = getCancelButton()
-        const saveButton = getSaveButton()
-
-        expect(buttons).toHaveLength(2)
-        expect(cancelButton?.props('label')).toBe('QUITTER')
-        expect(saveButton?.props('label')).toBe('ENREGISTRER')
-      })
-
-      it('then it should render form element', () => {
-        const form = wrapper.find('form')
-        expect(form.exists()).toBe(true)
-      })
+      expect(hideDrawerSpy).toHaveBeenCalled()
     })
+  })
 
-    describe('when store showCreateTraceDrawer is false', () => {
-      it('then it should pass false to drawer show prop', async () => {
-        const store = useTracesStore()
-        store.hideCreateTraceDrawer()
-        await wrapper.vm.$nextTick()
+  BddTest().when('cancel button is clicked', () => {
+    BddTest().then('it should hideCreateTraceDrawer', async () => {
+      const store = useTracesStore()
+      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
+      const cancelButton = getCancelButton()
 
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-        expect(drawer.props('show')).toBe(false)
-      })
+      await cancelButton?.vm.$emit('click')
+
+      expect(hideDrawerSpy).toHaveBeenCalled()
     })
+  })
 
-    describe('when escape is pressed on drawer', () => {
-      it('then it should hideCreateTraceDrawer', async () => {
-        const store = useTracesStore()
-        const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+  BddTest().when('save button is clicked', () => {
+    BddTest().then('it should show success message when form is valid', async () => {
+      await fillFormFields()
+      await setAuthenticToggle(true)
+      await clickSaveButton()
 
-        await drawer.vm.$emit('escape-pressed')
-
-        expect(hideDrawerSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when cancel button is clicked', () => {
-      it('then it should hideCreateTraceDrawer', async () => {
-        const store = useTracesStore()
-        const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-        const cancelButton = getCancelButton()
-
-        await cancelButton?.vm.$emit('click')
-
-        expect(hideDrawerSpy).toHaveBeenCalled()
-      })
-    })
-
-    describe('when save button is clicked', () => {
-      it('then it should show success message when form is valid', async () => {
-        await fillFormFields()
-        await setAuthenticToggle(true)
-        await clickSaveButton()
-
-        await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-            timeout: 2000,
-            description: 'Votre trace a été ajoutée à votre bibliothèque.'
-          })
+      await vi.waitFor(() => {
+        expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+          timeout: 2000,
+          description: 'Votre trace a été ajoutée à votre bibliothèque.'
         })
       })
+    })
 
-      it('then it should show error message when trace creation fails', async () => {
-        await fillFormFields('ERROR_TRACE')
-        await setAuthenticToggle(true)
-        await clickSaveButton()
+    BddTest().then('it should show error message when trace creation fails', async () => {
+      await fillFormFields('ERROR_TRACE')
+      await setAuthenticToggle(true)
+      await clickSaveButton()
 
-        await vi.waitFor(() => {
-          expect(mockAddErrorMessage).toHaveBeenCalledWith({
-            title: 'Une erreur est survenue lors de la création de la trace.',
-            description: 'Failed to create trace'
-          })
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalledWith({
+          title: 'Une erreur est survenue lors de la création de la trace.',
+          description: 'Failed to create trace'
         })
       })
-
-      it('then it should not submit when required fields are missing', async () => {
-        await fillFormFields()
-        await clickSaveButton()
-
-        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
-        expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      })
-
-      it('then it should not submit when IA is enabled but justification is empty', async () => {
-        await fillFormFields()
-        await setAuthenticToggle(true)
-        await setIAToggle(true)
-        await clickSaveButton()
-
-        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
-        expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      })
     })
 
-    describe('when save button state', () => {
-      it('then it should be enabled by default', async () => {
-        const saveButton = getSaveButton()
+    BddTest().then('it should not submit when required fields are missing', async () => {
+      await fillFormFields()
+      await clickSaveButton()
 
-        expect(saveButton?.props('disabled')).toBe(false)
-      })
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
 
-    describe('when component has accordion items', () => {
-      it('then it should render add trace accordion with correct props', () => {
-        const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-        const addTraceAccordion = accordions[0]
+    BddTest().then('it should not submit when IA is enabled but justification is empty', async () => {
+      await fillFormFields()
+      await setAuthenticToggle(true)
+      await setIAToggle(true)
+      await clickSaveButton()
 
-        expect(addTraceAccordion.props('title')).toBe('Ajouter ma trace')
-        expect(addTraceAccordion.props('icon')).toBeDefined()
-      })
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+  })
 
-      it('then it should render declarations accordion', () => {
-        const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-        const declarationsAccordion = accordions[1]
+  BddTest().when('save button state', () => {
+    BddTest().then('it should be enabled by default', async () => {
+      const saveButton = getSaveButton()
 
-        expect(declarationsAccordion.props('title')).toBe('Effectuer mes déclarations')
-      })
+      expect(saveButton?.props('disabled')).toBe(false)
+    })
+  })
 
-      it('then it should render associate trace accordion', () => {
-        const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-        const associateTraceAccordion = accordions[2]
+  BddTest().when('component has accordion items', () => {
+    BddTest().then('it should render add trace accordion with correct props', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const addTraceAccordion = accordions[0]
 
-        expect(associateTraceAccordion.props('title')).toBe('Associer ma trace')
-      })
+      expect(addTraceAccordion.props('title')).toBe('Ajouter ma trace')
+      expect(addTraceAccordion.props('icon')).toBeDefined()
+    })
+
+    BddTest().then('it should render declarations accordion', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const declarationsAccordion = accordions[1]
+
+      expect(declarationsAccordion.props('title')).toBe('Effectuer mes déclarations')
+    })
+
+    BddTest().then('it should render associate trace accordion', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const associateTraceAccordion = accordions[2]
+
+      expect(associateTraceAccordion.props('title')).toBe('Associer ma trace')
     })
   })
 })

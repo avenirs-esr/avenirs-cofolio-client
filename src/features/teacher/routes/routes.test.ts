@@ -1,7 +1,7 @@
 import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
 import routes, { teacherHomeRoute } from '@/features/teacher/routes/routes'
 import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
-import { testRoute } from 'tests/utils'
+import { BddTest, testRoute } from 'tests/utils'
 
 testRoute(
   teacherHomeRoute,
@@ -12,22 +12,23 @@ testRoute(
   TeacherHomeView
 )
 
-describe('teacher root route', () => {
+BddTest().given('the teacher root route', () => {
   const teacherRootRoute = routes.find(route => route.path === '/teacher')
+  BddTest().when('getting the route', () => {
+    BddTest().then('it should exist and have correct base config', () => {
+      expect(teacherRootRoute).toBeDefined()
+      expect(teacherRootRoute?.path).toBe('/teacher')
+      expect(teacherRootRoute?.component).toBeDefined()
+      expect(teacherRootRoute?.children).toEqual([
+        teacherHomeRoute
+      ])
+    })
 
-  it('should exist and have correct base config', () => {
-    expect(teacherRootRoute).toBeDefined()
-    expect(teacherRootRoute?.path).toBe('/teacher')
-    expect(teacherRootRoute?.component).toBeDefined()
-    expect(teacherRootRoute?.children).toEqual([
-      teacherHomeRoute
-    ])
-  })
-
-  it('should dynamically import TeacherLayout component', async () => {
-    const componentLoader = teacherRootRoute?.component as () => Promise<{ default: unknown }>
-    const componentModule = await componentLoader()
-    expect(componentModule).toBeDefined()
-    expect(componentModule.default).toBe(TeacherLayout)
+    BddTest().then('it should dynamically import TeacherLayout component', async () => {
+      const componentLoader = teacherRootRoute?.component as () => Promise<{ default: unknown }>
+      const componentModule = await componentLoader()
+      expect(componentModule).toBeDefined()
+      expect(componentModule.default).toBe(TeacherLayout)
+    })
   })
 })

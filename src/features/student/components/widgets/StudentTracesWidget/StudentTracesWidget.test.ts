@@ -1,12 +1,14 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { type TraceOverviewDTO, TraceType } from '@/types'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -46,7 +48,9 @@ function mockUseStudentTracesSummaryQuery (payload: TraceOverviewDTO[]) {
   mockedUseStudentTracesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentTracesWidget', async () => {
+BddTest().given('a student traces widget', async () => {
+  let wrapper: VueWrapper
+
   const traces: Array<TraceOverviewDTO> = [
     {
       id: 'trace1',
@@ -85,31 +89,31 @@ describe('studentTracesWidget', async () => {
     },
   ]
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
     mockUseStudentTracesSummaryQuery(traces)
-  })
 
-  it('should display up to 3 traces', async () => {
-    const wrapper = await mountWithRouter(StudentTracesWidget, {
+    wrapper = await mountWithRouter(StudentTracesWidget, {
       global: {
         plugins: [createPinia()],
       },
     })
-    const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-    expect(studentTraceCards).toHaveLength(3)
   })
 
-  it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentTracesWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should display up to 3 traces', () => {
+      const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+      expect(studentTraceCards).toHaveLength(3)
     })
-    const btn = wrapper.findComponent({ name: 'AvButton' })
-    await btn.trigger('click')
+  })
 
-    expect(navigateToStudentTraces).toHaveBeenCalled()
+  BddTest().when('clicking the navigation button', () => {
+    BddTest().then('it should call navigation', async () => {
+      const btn = wrapper.findComponent({ name: 'AvButton' })
+      await btn.trigger('click')
+
+      expect(navigateToStudentTraces).toHaveBeenCalled()
+    })
   })
 
   testUseBaseApiExceptionToast<TraceOverviewDTO[]>({

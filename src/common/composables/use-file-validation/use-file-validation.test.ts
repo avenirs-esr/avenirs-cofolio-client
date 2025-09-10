@@ -1,8 +1,9 @@
 import { mountComposable } from '@/ui/tests/utils'
-import { describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { expect } from 'vitest'
 import { useFileValidation, type UseFileValidationOptions } from './use-file-validation'
 
-describe('useFileValidation', () => {
+BddTest().given('a useFileValidation composabled', () => {
   const ONE_MB = 1024 * 1024
   const TWO_MB = 2 * ONE_MB
   const THREE_MB = 3 * ONE_MB
@@ -35,9 +36,9 @@ describe('useFileValidation', () => {
     return result
   }
 
-  describe('given a file validation composable', () => {
-    describe('when testing isFileTypeAccepted function', () => {
-      it('then it should accept valid file types', () => {
+  BddTest().and('a file validation composable', () => {
+    BddTest().when('testing isFileTypeAccepted function', () => {
+      BddTest().then('it should accept valid file types', () => {
         const { isFileTypeAccepted } = mountValidationComposable(defaultOptions)
 
         const jpegFile = createMockFile('test.jpg', 'image/jpeg', 1000)
@@ -49,7 +50,7 @@ describe('useFileValidation', () => {
         expect(isFileTypeAccepted(pdfFile)).toBe(true)
       })
 
-      it('then it should reject invalid file types', () => {
+      BddTest().then('it should reject invalid file types', () => {
         const { isFileTypeAccepted } = mountValidationComposable(defaultOptions)
 
         const txtFile = createMockFile('test.txt', 'text/plain', 1000)
@@ -59,7 +60,7 @@ describe('useFileValidation', () => {
         expect(isFileTypeAccepted(docFile)).toBe(false)
       })
 
-      it('then it should handle case insensitive file types', () => {
+      BddTest().then('it should handle case insensitive file types', () => {
         const options = {
           ...defaultOptions,
           acceptedFileTypes: ['IMAGE/JPEG', 'APPLICATION/PDF']
@@ -74,8 +75,8 @@ describe('useFileValidation', () => {
       })
     })
 
-    describe('when testing getMaxSizeForFile function', () => {
-      it('then it should return correct size for specific mime types', () => {
+    BddTest().when('testing getMaxSizeForFile function', () => {
+      BddTest().then('it should return correct size for specific mime types', () => {
         const { getMaxSizeForFile } = mountValidationComposable(defaultOptions)
 
         const jpegFile = createMockFile('test.jpg', 'image/jpeg', 1000)
@@ -85,7 +86,7 @@ describe('useFileValidation', () => {
         expect(getMaxSizeForFile(pdfFile)).toBe(TEN_MB)
       })
 
-      it('then it should return default size for unspecified types', () => {
+      BddTest().then('it should return default size for unspecified types', () => {
         const { getMaxSizeForFile } = mountValidationComposable(defaultOptions)
 
         const txtFile = createMockFile('test.txt', 'text/plain', 1000)
@@ -93,7 +94,7 @@ describe('useFileValidation', () => {
         expect(getMaxSizeForFile(txtFile)).toBe(TWO_MB)
       })
 
-      it('then it should handle file extensions', () => {
+      BddTest().then('it should handle file extensions', () => {
         const options = {
           ...defaultOptions,
           maxSizeConfig: {
@@ -111,7 +112,7 @@ describe('useFileValidation', () => {
         expect(getMaxSizeForFile(jpgFile)).toBe(THREE_MB)
       })
 
-      it('then it should return single size when maxSizeConfig is number', () => {
+      BddTest().then('it should return single size when maxSizeConfig is number', () => {
         const options = {
           ...defaultOptions,
           maxSizeConfig: EIGHT_MB
@@ -126,19 +127,19 @@ describe('useFileValidation', () => {
       })
     })
 
-    describe('when testing validateFile function with required files', () => {
+    BddTest().when('testing validateFile function with required files', () => {
       const requiredOptions = {
         ...defaultOptions,
         isRequired: true
       }
 
-      it('then it should return error for null file when required', () => {
+      BddTest().then('it should return error for null file when required', () => {
         const { validateFile } = mountValidationComposable(requiredOptions)
 
         expect(validateFile(null)).toContain('requis')
       })
 
-      it('then it should return custom required message when provided', () => {
+      BddTest().then('it should return custom required message when provided', () => {
         const options = {
           ...requiredOptions,
           customMessages: {
@@ -150,7 +151,7 @@ describe('useFileValidation', () => {
         expect(validateFile(null)).toBe('Please select a file')
       })
 
-      it('then it should validate valid required file', () => {
+      BddTest().then('it should validate valid required file', () => {
         const { validateFile } = mountValidationComposable(requiredOptions)
 
         const validFile = createMockFile('test.jpg', 'image/jpeg', ONE_MB)
@@ -158,21 +159,21 @@ describe('useFileValidation', () => {
       })
     })
 
-    describe('when testing validateFile function with optional files', () => {
-      it('then it should allow null file when not required', () => {
+    BddTest().when('testing validateFile function with optional files', () => {
+      BddTest().then('it should allow null file when not required', () => {
         const { validateFile } = mountValidationComposable(defaultOptions)
 
         expect(validateFile(null)).toBeUndefined()
       })
 
-      it('then it should return error for invalid file type', () => {
+      BddTest().then('it should return error for invalid file type', () => {
         const { validateFile } = mountValidationComposable(defaultOptions)
 
         const invalidFile = createMockFile('test.txt', 'text/plain', 1000)
         expect(validateFile(invalidFile)).toContain('Le fichier ne respecte pas le format attendu.')
       })
 
-      it('then it should return custom invalid type message when provided', () => {
+      BddTest().then('it should return custom invalid type message when provided', () => {
         const options = {
           ...defaultOptions,
           customMessages: {
@@ -185,14 +186,14 @@ describe('useFileValidation', () => {
         expect(validateFile(invalidFile)).toBe('Only images and PDFs allowed')
       })
 
-      it('then it should return error for file exceeding size limit', () => {
+      BddTest().then('it should return error for file exceeding size limit', () => {
         const { validateFile } = mountValidationComposable(defaultOptions)
 
         const oversizedFile = createMockFile('test.jpg', 'image/jpeg', TEN_MB)
         expect(validateFile(oversizedFile)).toContain('taille')
       })
 
-      it('then it should return custom size exceeded message when provided', () => {
+      BddTest().then('it should return custom size exceeded message when provided', () => {
         const options = {
           ...defaultOptions,
           customMessages: {
@@ -206,7 +207,7 @@ describe('useFileValidation', () => {
         expect(validateFile(oversizedFile)).toBe('File "large-image.jpg" exceeds the 5Mo limit')
       })
 
-      it('then it should validate file within size limit', () => {
+      BddTest().then('it should validate file within size limit', () => {
         const { validateFile } = mountValidationComposable(defaultOptions)
 
         const validFile = createMockFile('test.jpg', 'image/jpeg', TWO_MB)
@@ -214,8 +215,8 @@ describe('useFileValidation', () => {
       })
     })
 
-    describe('when testing edge cases', () => {
-      it('then it should handle wildcard mime types', () => {
+    BddTest().when('testing edge cases', () => {
+      BddTest().then('it should handle wildcard mime types', () => {
         const options = {
           acceptedFileTypes: ['image/*', 'application/*'],
           maxSizeConfig: {
@@ -234,7 +235,7 @@ describe('useFileValidation', () => {
         expect(getMaxSizeForFile(docxFile)).toBe(EIGHT_MB)
       })
 
-      it('then it should handle files with no matching size config', () => {
+      BddTest().then('it should handle files with no matching size config', () => {
         const options = {
           acceptedFileTypes: ['image/jpeg'],
           maxSizeConfig: {
@@ -247,7 +248,7 @@ describe('useFileValidation', () => {
         expect(getMaxSizeForFile(jpegFile)).toBeUndefined()
       })
 
-      it('then it should handle empty file name with extension matching', () => {
+      BddTest().then('it should handle empty file name with extension matching', () => {
         const options = {
           acceptedFileTypes: ['image/jpeg'],
           maxSizeConfig: {
@@ -262,8 +263,8 @@ describe('useFileValidation', () => {
       })
     })
 
-    describe('when testing complete validation workflow', () => {
-      it('then it should validate a complete valid file upload scenario', () => {
+    BddTest().when('testing complete validation workflow', () => {
+      BddTest().then('it should validate a complete valid file upload scenario', () => {
         const options = {
           acceptedFileTypes: ['image/jpeg', 'image/png'],
           maxSizeConfig: { 'image/*': FIVE_MB },

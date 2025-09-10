@@ -2,7 +2,8 @@ import type { TraceConfigurationDTO, UnassociatedTracesSummaryDTO } from '@/api/
 import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
@@ -40,15 +41,17 @@ function mockUseUnassignedTracesSummaryQuery (payload: UnassociatedTracesSummary
   mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-const commonStubs = {
-  AvNotice: {
-    name: 'AvNotice',
-    props: ['text', 'type'],
-    template: '<div class="av-notice-stub" :data-type="type" :data-text="text" />'
-  }
-}
+BddTest().given('a student tools traces view notice component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewNotice>>
 
-describe('studentToolsTracesViewNotice', () => {
+  const commonStubs = {
+    AvNotice: {
+      name: 'AvNotice',
+      props: ['text', 'type'],
+      template: '<div class="av-notice-stub" :data-type="type" :data-text="text" />'
+    }
+  }
+
   const mockedTracesConfiguration: TraceConfigurationDTO = {
     maxRemainingDays: 30,
     maxRemainingDaysBeforeWarning: 15,
@@ -61,9 +64,7 @@ describe('studentToolsTracesViewNotice', () => {
     totalCriticals: 3
   }
 
-  describe('given a student tools traces view notice component', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with default configuration', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(mockedTracesConfiguration)
@@ -76,8 +77,8 @@ describe('studentToolsTracesViewNotice', () => {
       })
     })
 
-    describe('when the component is mounted with unassociated traces', () => {
-      it('then it should display AvNotice with correct warning type', async () => {
+    BddTest().when('the component is mounted with unassociated traces', () => {
+      BddTest().then('it should display AvNotice with correct warning type', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })
@@ -85,7 +86,7 @@ describe('studentToolsTracesViewNotice', () => {
         expect(notice.props('type')).toBe('warning')
       })
 
-      it('then it should display correct message with traces count and reminder', async () => {
+      BddTest().then('it should display correct message with traces count and reminder', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })
@@ -93,16 +94,14 @@ describe('studentToolsTracesViewNotice', () => {
         expect(notice.props('text')).toContain('Pour rappel')
       })
 
-      it('then it should render the notice container structure', () => {
+      BddTest().then('it should render the notice container structure', () => {
         const container = wrapper.find('.traces-notice-container')
         expect(container.exists()).toBe(true)
       })
     })
   })
 
-  describe('given a student tools traces view notice component with no configuration', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with no configuration', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(null)
@@ -115,8 +114,8 @@ describe('studentToolsTracesViewNotice', () => {
       })
     })
 
-    describe('when the component is mounted without configuration', () => {
-      it('then it should display alert without reminder message', async () => {
+    BddTest().when('the component is mounted without configuration', () => {
+      BddTest().then('it should display alert without reminder message', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })
@@ -128,9 +127,7 @@ describe('studentToolsTracesViewNotice', () => {
     })
   })
 
-  describe('given a student tools traces view notice component with no unassociated traces', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with no unassociated traces', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(mockedTracesConfiguration)
@@ -147,24 +144,22 @@ describe('studentToolsTracesViewNotice', () => {
       })
     })
 
-    describe('when the component is mounted with no unassociated traces', () => {
-      it('then it should not display any notice', async () => {
+    BddTest().when('the component is mounted with no unassociated traces', () => {
+      BddTest().then('it should not display any notice', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })
         expect(notice.exists()).toBe(false)
       })
 
-      it('then it should not render the notice container', () => {
+      BddTest().then('it should not render the notice container', () => {
         const container = wrapper.find('.traces-notice-container')
         expect(container.exists()).toBe(false)
       })
     })
   })
 
-  describe('given a student tools traces view notice component with single critical trace', () => {
-    let wrapper: VueWrapper
-
+  BddTest().given('with single critical trace', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery({
@@ -185,8 +180,8 @@ describe('studentToolsTracesViewNotice', () => {
       })
     })
 
-    describe('when the component is mounted with one critical trace', () => {
-      it('then it should display correct singular message', async () => {
+    BddTest().when('the component is mounted with one critical trace', () => {
+      BddTest().then('it should display correct singular message', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })
@@ -199,9 +194,7 @@ describe('studentToolsTracesViewNotice', () => {
     })
   })
 
-  describe('given a student tools traces view notice component with multiple critical traces', () => {
-    let wrapper: VueWrapper
-
+  BddTest().given('with multiple critical traces', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery({
@@ -222,8 +215,8 @@ describe('studentToolsTracesViewNotice', () => {
       })
     })
 
-    describe('when the component is mounted with multiple critical traces', () => {
-      it('then it should display correct plural message', async () => {
+    BddTest().when('the component is mounted with multiple critical traces', () => {
+      BddTest().then('it should display correct plural message', async () => {
         await nextTick()
 
         const notice = wrapper.findComponent({ name: 'AvNotice' })

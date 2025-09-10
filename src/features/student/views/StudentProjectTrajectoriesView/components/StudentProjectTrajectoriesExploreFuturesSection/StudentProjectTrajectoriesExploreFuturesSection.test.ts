@@ -1,26 +1,25 @@
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import StudentProjectTrajectoriesExploreFuturesSection from './StudentProjectTrajectoriesExploreFuturesSection.vue'
 
-describe('studentProjectTrajectoriesExploreFuturesSection', () => {
-  describe('given an explore futures section component', () => {
-    let wrapper: ReturnType<typeof mount<typeof StudentProjectTrajectoriesExploreFuturesSection>>
+BddTest().given('an explore futures section component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentProjectTrajectoriesExploreFuturesSection>>
 
-    beforeEach(() => {
-      wrapper = mount<typeof StudentProjectTrajectoriesExploreFuturesSection>(StudentProjectTrajectoriesExploreFuturesSection)
+  beforeEach(() => {
+    wrapper = mount(StudentProjectTrajectoriesExploreFuturesSection)
+  })
+
+  BddTest().when('the explore futures section is mounted', () => {
+    BddTest().then('it should render the explore futures title', () => {
+      const titleElement = wrapper.find('.b1-bold')
+      expect(titleElement.exists()).toBe(true)
+      expect(titleElement.text()).toBe('Explorer mes futurs')
     })
 
-    describe('when the explore futures section is mounted', () => {
-      it('then it should render the explore futures title', () => {
-        const titleElement = wrapper.find('.b1-bold')
-        expect(titleElement.exists()).toBe(true)
-        expect(titleElement.text()).toBe('Explorer mes futurs')
-      })
-
-      it('then it should have the correct CSS class', () => {
-        const titleElement = wrapper.find('.b1-bold')
-        expect(titleElement.classes()).toContain('b1-bold')
-      })
+    BddTest().then('it should have the correct CSS class', () => {
+      const titleElement = wrapper.find('.b1-bold')
+      expect(titleElement.classes()).toContain('b1-bold')
     })
   })
 })

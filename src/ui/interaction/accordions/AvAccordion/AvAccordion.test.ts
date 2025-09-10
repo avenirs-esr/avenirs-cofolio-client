@@ -1,15 +1,16 @@
 import AvAccordion from '@/ui/interaction/accordions/AvAccordion/AvAccordion.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('avAccordion', () => {
+BddTest().given('an AvAccordion', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvAccordion>>
+
   const slots = {
     default: '<div class="slot-content">Slot Content</div>',
   }
 
-  describe('given an accordion with required props', () => {
-    let wrapper: VueWrapper<InstanceType<typeof AvAccordion>>
-
+  BddTest().and('with required props', () => {
     beforeEach(() => {
       wrapper = mount(AvAccordion, {
         props: {
@@ -19,16 +20,15 @@ describe('avAccordion', () => {
       })
     })
 
-    describe('when the accordion is mounted', () => {
-      it('then it should render the slot content', () => {
+    BddTest().when('the accordion is mounted', () => {
+      BddTest().then('it should render the slot content', () => {
         expect(wrapper.find('.slot-content').exists()).toBe(true)
         expect(wrapper.find('.slot-content').text()).toBe('Slot Content')
       })
     })
   })
 
-  describe('given an accordion with optional icon prop', () => {
-    let wrapper: VueWrapper
+  BddTest().and('with optional icon prop', () => {
     const props = {
       title: 'Test Title',
       icon: 'test-icon',
@@ -41,8 +41,8 @@ describe('avAccordion', () => {
       })
     })
 
-    describe('when the accordion is mounted', () => {
-      it('then it should accept the icon prop without error', () => {
+    BddTest().when('the accordion is mounted', () => {
+      BddTest().then('it should accept the icon prop without error', () => {
         expect(wrapper.props()).toMatchObject(props)
       })
     })

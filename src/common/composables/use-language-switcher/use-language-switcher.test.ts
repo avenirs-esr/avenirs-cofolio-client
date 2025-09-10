@@ -1,31 +1,34 @@
 import { useLanguageSwitcher } from '@/common/composables/use-language-switcher/use-language-switcher'
 import { i18n } from '@/plugins/vue-i18n'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { mountComposable } from '@/ui/tests/utils'
+import { BddTest } from 'tests/utils'
+import { expect } from 'vitest'
 
-describe('useLanguageSwitcher', () => {
-  const TestComponent = defineComponent({
-    setup () {
-      const { languageSelector, selectLanguage } = useLanguageSwitcher()
-      return { languageSelector, selectLanguage }
-    },
-    template: `<div></div>`,
+BddTest().given('a useLanguageSwitcher compsable', () => {
+  let languageSwitcher: ReturnType<typeof useLanguageSwitcher>
+
+  beforeEach(() => {
+    const { result } = mountComposable(useLanguageSwitcher, { useI18n: true })
+    languageSwitcher = result
   })
 
-  it('should initialize with French as default language', () => {
-    const wrapper = mount(TestComponent)
-    expect(wrapper.vm.languageSelector.currentLanguage).toBe('fr')
+  BddTest().when('initializing', () => {
+    BddTest().then('it should initialize with French as default language', () => {
+      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe('fr')
+    })
   })
 
-  it('should switch to English', () => {
-    const wrapper = mount(TestComponent)
-    wrapper.vm.selectLanguage({ label: 'English', codeIso: 'en' })
-    expect(wrapper.vm.languageSelector.currentLanguage).toBe('en')
+  BddTest().when('selecting English', () => {
+    BddTest().then('it should switch to English', () => {
+      languageSwitcher.selectLanguage({ label: 'English', codeIso: 'en' })
+      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe('en')
+    })
   })
 
-  it('should update i18n locale when switching language', () => {
-    const wrapper = mount(TestComponent)
-    wrapper.vm.selectLanguage({ label: 'English', codeIso: 'en' })
-    expect(i18n.global.locale.value).toBe('en')
+  BddTest().when('switching language', () => {
+    BddTest().then('it should update i18n', () => {
+      languageSwitcher.selectLanguage({ label: 'English', codeIso: 'en' })
+      expect(i18n.global.locale.value).toBe('en')
+    })
   })
 })

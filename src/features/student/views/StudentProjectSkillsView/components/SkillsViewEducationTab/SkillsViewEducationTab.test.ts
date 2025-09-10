@@ -1,14 +1,15 @@
 import { createMockedPagedResponseSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createSkillsViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import SkillsViewEducationTab from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewEducationTab/SkillsViewEducationTab.vue'
 import { PageSizes } from '@/ui/config'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { PaginationStub } from 'tests/stubs'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 
@@ -18,7 +19,9 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
   }
 })
 
-describe('skillsViewEducationTab', () => {
+BddTest().given('a skills view education tab component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof SkillsViewEducationTab>>
+
   let queryClient: QueryClient
 
   const stubs = {
@@ -41,229 +44,225 @@ describe('skillsViewEducationTab', () => {
     }
   }
 
-  describe('given a skills view education tab component', () => {
-    let wrapper: VueWrapper<InstanceType<typeof SkillsViewEducationTab>>
+  beforeEach(() => {
+    vi.clearAllMocks()
+    queryClient = new QueryClient()
 
-    beforeEach(() => {
-      vi.clearAllMocks()
-      queryClient = new QueryClient()
+    const handler = createSkillsViewHandler(createMockedPagedResponseSkillsDTO(PageSizes.FOUR, 20, 0, ''))
+    server.use(handler)
 
-      const handler = createSkillsViewHandler(createMockedPagedResponseSkillsDTO(PageSizes.FOUR, 20, 0, ''))
-      server.use(handler)
+    paginationMock = createUsePaginationMock()
 
-      paginationMock = createUsePaginationMock()
+    setActivePinia(createPinia())
 
-      setActivePinia(createPinia())
+    wrapper = mount(SkillsViewEducationTab, {
+      global: {
+        stubs,
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]]
+      },
+    })
+  })
 
-      wrapper = mount(SkillsViewEducationTab, {
-        global: {
-          stubs,
-          plugins: [createPinia(), [VueQueryPlugin, { queryClient }]]
-        },
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the main container', () => {
+      const container = wrapper.find('.main-container')
+      expect(container.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the title container and the title', () => {
+      const container = wrapper.find('.title-container')
+      expect(container.exists()).toBe(true)
+      const title = container.find('.n5')
+      expect(title.exists()).toBe(true)
+      expect(title.text()).toContain('Les compétences de mes formations')
+      const subtitle = title.find('.b1-regular')
+      expect(subtitle.exists()).toBe(true)
+      expect(subtitle.text()).toContain('(terminées et en cours)')
+    })
+
+    BddTest().then('it should render the skills container', () => {
+      const container = wrapper.find('.skills-container')
+      expect(container.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the Pagination component', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass correct props to Pagination component', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.props('pageSizeSelected')).toBeDefined()
+      expect(pagination.props('pageInfo')).toBeDefined()
+      expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
+      expect(pagination.props('onUpdatePageSize')).toBeDefined()
+    })
+
+    BddTest().then('it should render skill cards when skills are loaded', async () => {
+      await wrapper.vm.$nextTick()
+      const skillCards = wrapper.findAll('[class*="skill-card-stub"]')
+      expect(skillCards.length).toBeGreaterThanOrEqual(0)
+    })
+
+    BddTest().then('it should have proper CSS classes applied', () => {
+      const mainContainer = wrapper.find('.main-container')
+      expect(mainContainer.classes()).toContain('main-container')
+
+      const titleContainer = wrapper.find('.title-container')
+      expect(titleContainer.classes()).toContain('title-container')
+
+      const skillsContainer = wrapper.find('.skills-container')
+      expect(skillsContainer.classes()).toContain('skills-container')
+    })
+  })
+
+  BddTest().when('skills query is loading', () => {
+    BddTest().then('it should handle loading state gracefully', () => {
+      expect(wrapper.exists()).toBe(true)
+      expect(wrapper.find('.main-container').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('skills query returns data', () => {
+    BddTest().then('it should render skill cards for each skill', async () => {
+      await wrapper.vm.$nextTick()
+      const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+      const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
+      const totalCards = educationalSkillCards.length + pastSkillCards.length
+      expect(totalCards).toBeGreaterThanOrEqual(0)
+    })
+
+    BddTest().then('it should render StudentDetailedPastSkillCard for finished programs', async () => {
+      await wrapper.vm.$nextTick()
+      const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
+      pastSkillCards.forEach((card) => {
+        expect(card.props('skill')).toBeDefined()
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the main container', () => {
-        const container = wrapper.find('.main-container')
-        expect(container.exists()).toBe(true)
+    BddTest().then('it should render StudentDetailedEducationalSkillCard with skill color for active skills', async () => {
+      await wrapper.vm.$nextTick()
+      const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+      educationalSkillCards.forEach((card, index) => {
+        expect(card.props('skill')).toBeDefined()
+        expect(card.props('skillColor')).toBe(`var(--skill${index + 1})`)
       })
+    })
+  })
 
-      it('then it should render the title container and the title', () => {
-        const container = wrapper.find('.title-container')
-        expect(container.exists()).toBe(true)
-        const title = container.find('.n5')
-        expect(title.exists()).toBe(true)
-        expect(title.text()).toContain('Les compétences de mes formations')
-        const subtitle = title.find('.b1-regular')
-        expect(subtitle.exists()).toBe(true)
-        expect(subtitle.text()).toContain('(terminées et en cours)')
-      })
+  BddTest().when('clicking on the page update buttons', () => {
+    BddTest().then('it should update current page and page size in the mock', async () => {
+      await wrapper.find('.emit-current-page').trigger('click')
+      expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
+      expect(paginationMock.currentPage.value).toBe(5)
 
-      it('then it should render the skills container', () => {
-        const container = wrapper.find('.skills-container')
-        expect(container.exists()).toBe(true)
-      })
+      await wrapper.find('.emit-page-size').trigger('click')
+      expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
+      expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
+      expect(paginationMock.currentPage.value).toBe(0)
+    })
+  })
 
-      it('then it should render the Pagination component', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.exists()).toBe(true)
-      })
+  BddTest().when('pagination state changes', () => {
+    BddTest().then('it should maintain reactivity with pagination composable', () => {
+      expect(paginationMock.currentPage.value).toBeDefined()
+      expect(paginationMock.pageSizeSelected.value).toBeDefined()
+      expect(paginationMock.onUpdateCurrentPage).toBeDefined()
+      expect(paginationMock.onUpdatePageSize).toBeDefined()
+    })
+  })
 
-      it('then it should pass correct props to Pagination component', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.props('pageSizeSelected')).toBeDefined()
-        expect(pagination.props('pageInfo')).toBeDefined()
-        expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
-        expect(pagination.props('onUpdatePageSize')).toBeDefined()
-      })
+  BddTest().when('skills have different program states', () => {
+    BddTest().then('it should render both types of skill cards', async () => {
+      await wrapper.vm.$nextTick()
 
-      it('then it should render skill cards when skills are loaded', async () => {
-        await wrapper.vm.$nextTick()
-        const skillCards = wrapper.findAll('[class*="skill-card-stub"]')
-        expect(skillCards.length).toBeGreaterThanOrEqual(0)
-      })
+      const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
+      const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
 
-      it('then it should have proper CSS classes applied', () => {
-        const mainContainer = wrapper.find('.main-container')
-        expect(mainContainer.classes()).toContain('main-container')
+      expect(pastSkillCards.length + educationalSkillCards.length).toBeGreaterThanOrEqual(0)
+    })
 
-        const titleContainer = wrapper.find('.title-container')
-        expect(titleContainer.classes()).toContain('title-container')
+    BddTest().then('it should pass correct props to past skill cards', async () => {
+      await wrapper.vm.$nextTick()
 
-        const skillsContainer = wrapper.find('.skills-container')
-        expect(skillsContainer.classes()).toContain('skills-container')
+      const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
+      pastSkillCards.forEach((card) => {
+        expect(card.props('skill')).toBeDefined()
+        expect(card.props('skill')).toBeTypeOf('object')
       })
     })
 
-    describe('when skills query is loading', () => {
-      it('then it should handle loading state gracefully', () => {
-        expect(wrapper.exists()).toBe(true)
-        expect(wrapper.find('.main-container').exists()).toBe(true)
+    BddTest().then('it should pass correct props to educational skill cards', async () => {
+      await wrapper.vm.$nextTick()
+
+      const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+      educationalSkillCards.forEach((card, index) => {
+        expect(card.props('skill')).toBeDefined()
+        expect(card.props('skill')).toBeTypeOf('object')
+        expect(card.props('skillColor')).toBe(`var(--skill${index + 1})`)
       })
     })
+  })
 
-    describe('when skills query returns data', () => {
-      it('then it should render skill cards for each skill', async () => {
-        await wrapper.vm.$nextTick()
-        const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
-        const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
-        const totalCards = educationalSkillCards.length + pastSkillCards.length
-        expect(totalCards).toBeGreaterThanOrEqual(0)
-      })
+  BddTest().when('skills query has error', () => {
+    BddTest().then('it should handle error state gracefully through useBaseApiExceptionToast', () => {
+      expect(wrapper.exists()).toBe(true)
+    })
+  })
 
-      it('then it should render StudentDetailedPastSkillCard for finished programs', async () => {
-        await wrapper.vm.$nextTick()
-        const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
-        pastSkillCards.forEach((card) => {
-          expect(card.props('skill')).toBeDefined()
-        })
-      })
-
-      it('then it should render StudentDetailedEducationalSkillCard with skill color for active skills', async () => {
-        await wrapper.vm.$nextTick()
-        const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
-        educationalSkillCards.forEach((card, index) => {
-          expect(card.props('skill')).toBeDefined()
-          expect(card.props('skillColor')).toBe(`var(--skill${index + 1})`)
-        })
-      })
+  BddTest().when('search functionality is used', () => {
+    BddTest().then('it should initialize search with empty string', async () => {
+      await wrapper.vm.$nextTick()
+      expect(wrapper.exists()).toBe(true)
     })
 
-    describe('when clicking on the page update buttons', () => {
-      it('then it should update current page and page size in the mock', async () => {
-        await wrapper.find('.emit-current-page').trigger('click')
-        expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
-        expect(paginationMock.currentPage.value).toBe(5)
+    BddTest().then('it should maintain search state reactivity', () => {
+      const component = wrapper.vm as any
+      expect(component.search).toBeDefined()
+      expect(typeof component.search).toBe('string')
+    })
+  })
 
-        await wrapper.find('.emit-page-size').trigger('click')
-        expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
-        expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
-        expect(paginationMock.currentPage.value).toBe(0)
-      })
+  BddTest().when('skills store integration', () => {
+    BddTest().then('it should properly integrate with skills store for pagination', () => {
+      expect(paginationMock.currentPage.value).toBeDefined()
+      expect(paginationMock.pageSizeSelected.value).toBeDefined()
     })
 
-    describe('when pagination state changes', () => {
-      it('then it should maintain reactivity with pagination composable', () => {
-        expect(paginationMock.currentPage.value).toBeDefined()
-        expect(paginationMock.pageSizeSelected.value).toBeDefined()
-        expect(paginationMock.onUpdateCurrentPage).toBeDefined()
-        expect(paginationMock.onUpdatePageSize).toBeDefined()
-      })
+    BddTest().then('it should call useSkillsViewQuery with correct parameters', async () => {
+      await wrapper.vm.$nextTick()
+      expect(wrapper.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('no skills are available', () => {
+    BddTest().then('it should render container even with empty skills array', async () => {
+      await wrapper.vm.$nextTick()
+      const skillsContainer = wrapper.find('.skills-container')
+      expect(skillsContainer.exists()).toBe(true)
     })
 
-    describe('when skills have different program states', () => {
-      it('then it should render both types of skill cards', async () => {
-        await wrapper.vm.$nextTick()
+    BddTest().then('it should still render pagination component with no skills', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.exists()).toBe(true)
+    })
+  })
 
-        const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
-        const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+  BddTest().when('skills have mixed program states', () => {
+    BddTest().then('it should conditionally render correct card types based on isProgramFinished', async () => {
+      await wrapper.vm.$nextTick()
 
-        expect(pastSkillCards.length + educationalSkillCards.length).toBeGreaterThanOrEqual(0)
-      })
-
-      it('then it should pass correct props to past skill cards', async () => {
-        await wrapper.vm.$nextTick()
-
-        const pastSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedPastSkillCard' })
-        pastSkillCards.forEach((card) => {
-          expect(card.props('skill')).toBeDefined()
-          expect(card.props('skill')).toBeTypeOf('object')
-        })
-      })
-
-      it('then it should pass correct props to educational skill cards', async () => {
-        await wrapper.vm.$nextTick()
-
-        const educationalSkillCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
-        educationalSkillCards.forEach((card, index) => {
-          expect(card.props('skill')).toBeDefined()
-          expect(card.props('skill')).toBeTypeOf('object')
-          expect(card.props('skillColor')).toBe(`var(--skill${index + 1})`)
-        })
-      })
+      const allSkillCards = wrapper.findAll('[class*="skill-card-stub"]')
+      expect(allSkillCards.length).toBeGreaterThanOrEqual(0)
     })
 
-    describe('when skills query has error', () => {
-      it('then it should handle error state gracefully through useBaseApiExceptionToast', () => {
-        expect(wrapper.exists()).toBe(true)
-      })
-    })
+    BddTest().then('it should apply sequential skill color variables to active skills', async () => {
+      await wrapper.vm.$nextTick()
 
-    describe('when search functionality is used', () => {
-      it('then it should initialize search with empty string', async () => {
-        await wrapper.vm.$nextTick()
-        expect(wrapper.exists()).toBe(true)
-      })
-
-      it('then it should maintain search state reactivity', () => {
-        const component = wrapper.vm as any
-        expect(component.search).toBeDefined()
-        expect(typeof component.search).toBe('string')
-      })
-    })
-
-    describe('when skills store integration', () => {
-      it('then it should properly integrate with skills store for pagination', () => {
-        expect(paginationMock.currentPage.value).toBeDefined()
-        expect(paginationMock.pageSizeSelected.value).toBeDefined()
-      })
-
-      it('then it should call useSkillsViewQuery with correct parameters', async () => {
-        await wrapper.vm.$nextTick()
-        expect(wrapper.exists()).toBe(true)
-      })
-    })
-
-    describe('when no skills are available', () => {
-      it('then it should render container even with empty skills array', async () => {
-        await wrapper.vm.$nextTick()
-        const skillsContainer = wrapper.find('.skills-container')
-        expect(skillsContainer.exists()).toBe(true)
-      })
-
-      it('then it should still render pagination component with no skills', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.exists()).toBe(true)
-      })
-    })
-
-    describe('when skills have mixed program states', () => {
-      it('then it should conditionally render correct card types based on isProgramFinished', async () => {
-        await wrapper.vm.$nextTick()
-
-        const allSkillCards = wrapper.findAll('[class*="skill-card-stub"]')
-        expect(allSkillCards.length).toBeGreaterThanOrEqual(0)
-      })
-
-      it('then it should apply sequential skill color variables to active skills', async () => {
-        await wrapper.vm.$nextTick()
-
-        const educationalCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
-        educationalCards.forEach((card, index) => {
-          const expectedColor = `var(--skill${index + 1})`
-          expect(card.props('skillColor')).toBe(expectedColor)
-        })
+      const educationalCards = wrapper.findAllComponents({ name: 'StudentDetailedEducationalSkillCard' })
+      educationalCards.forEach((card, index) => {
+        const expectedColor = `var(--skill${index + 1})`
+        expect(card.props('skillColor')).toBe(expectedColor)
       })
     })
   })

@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mountWithRouter } from '@/ui/tests/utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { useRoute } from 'vue-router'
 import SwitchUniverse from './SwitchUniverse.vue'
 
@@ -57,10 +58,10 @@ const stubs = {
   }
 }
 
-describe('switchUniverse', () => {
+BddTest().given('a universe switcher', () => {
   let wrapper: VueWrapper
 
-  describe('given we are on student route', () => {
+  BddTest().and('we are on student route', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
@@ -75,21 +76,21 @@ describe('switchUniverse', () => {
       })
     })
 
-    describe('when clicking the main switch button', () => {
-      it('then it should display the modal', async () => {
+    BddTest().when('clicking the main switch button', () => {
+      BddTest().then('it should display the modal', async () => {
         const button = wrapper.find('button')
         await button.trigger('click')
         expect(mockDisplayModal).toHaveBeenCalled()
       })
     })
 
-    describe('when clicking the teacher button in modal', () => {
+    BddTest().when('clicking the teacher button in modal', () => {
       beforeEach(async () => {
         mockShowModal.value = true
         await wrapper.vm.$nextTick()
       })
 
-      it('then it should hide the modal and navigate to teacher', async () => {
+      BddTest().then('it should hide the modal and navigate to teacher', async () => {
         const teacherButton = wrapper.findAll('button')[1]
         await teacherButton.trigger('click')
 
@@ -99,13 +100,13 @@ describe('switchUniverse', () => {
       })
     })
 
-    describe('when clicking the student button in modal', () => {
+    BddTest().when('clicking the student button in modal', () => {
       beforeEach(async () => {
         mockShowModal.value = true
         await wrapper.vm.$nextTick()
       })
 
-      it('then it should hide the modal and do nothing (already student)', async () => {
+      BddTest().then('it should hide the modal and do nothing (already student)', async () => {
         const studentButton = wrapper.findAll('button')[2]
         await studentButton.trigger('click')
 
@@ -116,7 +117,7 @@ describe('switchUniverse', () => {
     })
   })
 
-  describe('given we are on teacher route', () => {
+  BddTest().and('we are on teacher route', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
@@ -131,13 +132,13 @@ describe('switchUniverse', () => {
       })
     })
 
-    describe('when clicking the student button in modal', () => {
+    BddTest().when('clicking the student button in modal', () => {
       beforeEach(async () => {
         mockShowModal.value = true
         await wrapper.vm.$nextTick()
       })
 
-      it('then it should hide the modal and navigate to student', async () => {
+      BddTest().then('it should hide the modal and navigate to student', async () => {
         const studentButton = wrapper.findAll('button')[2]
         await studentButton.trigger('click')
 

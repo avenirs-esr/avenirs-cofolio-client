@@ -1,9 +1,9 @@
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentLevelBadge from '@/features/student/components/badges/StudentLevelBadge/StudentLevelBadge.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { describe, it } from 'vitest'
+import { BddTest } from 'tests/utils'
 
-describe('given a studentLevelBadge', () => {
+BddTest().given('a studentLevelBadge', () => {
   let wrapper: VueWrapper
 
   const basePath = import.meta.env.BASE_URL
@@ -68,7 +68,7 @@ describe('given a studentLevelBadge', () => {
     vi.clearAllMocks()
   })
 
-  describe('when the component is mounted with a notValidatedLevel', () => {
+  BddTest().when('the component is mounted with a notValidatedLevel', () => {
     beforeEach(() => {
       wrapper = mount(StudentLevelBadge, {
         props: { level: notValidatedLevel },
@@ -78,7 +78,7 @@ describe('given a studentLevelBadge', () => {
       })
     })
 
-    it('then it should pass correct properties to AvBadge', () => {
+    BddTest().then('it should pass correct properties to AvBadge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
@@ -93,7 +93,7 @@ describe('given a studentLevelBadge', () => {
     })
   })
 
-  describe('when the component is mounted with a notStartedLevel', () => {
+  BddTest().when('the component is mounted with a notStartedLevel', () => {
     beforeEach(() => {
       wrapper = mount(StudentLevelBadge, {
         props: { level: notStartedLevel },
@@ -103,7 +103,7 @@ describe('given a studentLevelBadge', () => {
       })
     })
 
-    it('then it should pass correct properties to AvBadge', () => {
+    BddTest().then('it should pass correct properties to AvBadge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
@@ -118,7 +118,7 @@ describe('given a studentLevelBadge', () => {
     })
   })
 
-  describe('when the component is mounted with a toEvaluateLevel', () => {
+  BddTest().when('the component is mounted with a toEvaluateLevel', () => {
     beforeEach(() => {
       wrapper = mount(StudentLevelBadge, {
         props: { level: toEvaluateLevel },
@@ -128,7 +128,7 @@ describe('given a studentLevelBadge', () => {
       })
     })
 
-    it('then it should pass correct properties to AvBadge', () => {
+    BddTest().then('it should pass correct properties to AvBadge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
@@ -143,7 +143,7 @@ describe('given a studentLevelBadge', () => {
     })
   })
 
-  describe('when the component is mounted with an underReviewLevel', () => {
+  BddTest().when('the component is mounted with an underReviewLevel', () => {
     beforeEach(() => {
       wrapper = mount(StudentLevelBadge, {
         props: { level: underReviewLevel },
@@ -153,7 +153,7 @@ describe('given a studentLevelBadge', () => {
       })
     })
 
-    it('then it should pass correct properties to AvBadge', () => {
+    BddTest().then('it should pass correct properties to AvBadge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
@@ -168,7 +168,7 @@ describe('given a studentLevelBadge', () => {
     })
   })
 
-  describe('when the component is mounted with a validatedLevel', () => {
+  BddTest().when('the component is mounted with a validatedLevel', () => {
     beforeEach(() => {
       wrapper = mount(StudentLevelBadge, {
         props: { level: validatedLevel },
@@ -178,7 +178,7 @@ describe('given a studentLevelBadge', () => {
       })
     })
 
-    it('then it should pass correct properties to AvBadge', () => {
+    BddTest().then('it should pass correct properties to AvBadge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)

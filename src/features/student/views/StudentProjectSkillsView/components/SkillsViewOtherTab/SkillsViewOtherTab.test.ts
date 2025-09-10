@@ -1,12 +1,13 @@
 import { createMockedPagedResponseAdditionalSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createAdditionalSkillsViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { PageSizes } from '@/ui/config'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount, RouterLinkStub } from '@vue/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { PaginationStub } from 'tests/stubs'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import SkillsViewOtherTab from './SkillsViewOtherTab.vue'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
@@ -17,7 +18,9 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
   }
 })
 
-describe('skillsViewOtherTab', () => {
+BddTest().given('a skills view other tab component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof SkillsViewOtherTab>>
+
   let queryClient: QueryClient
 
   const stubs = {
@@ -29,219 +32,215 @@ describe('skillsViewOtherTab', () => {
     RouterLink: RouterLinkStub,
   }
 
-  describe('given a skills view other tab component', () => {
-    let wrapper: ReturnType<typeof mount<typeof SkillsViewOtherTab>>
+  beforeEach(() => {
+    vi.clearAllMocks()
+    queryClient = new QueryClient()
 
-    beforeEach(() => {
-      vi.clearAllMocks()
-      queryClient = new QueryClient()
+    const handler = createAdditionalSkillsViewHandler(createMockedPagedResponseAdditionalSkillsDTO(PageSizes.FOUR, 20, 0, ''))
+    server.use(handler)
 
-      const handler = createAdditionalSkillsViewHandler(createMockedPagedResponseAdditionalSkillsDTO(PageSizes.FOUR, 20, 0, ''))
-      server.use(handler)
+    paginationMock = createUsePaginationMock()
 
-      paginationMock = createUsePaginationMock()
+    setActivePinia(createPinia())
 
-      setActivePinia(createPinia())
+    wrapper = mount<typeof SkillsViewOtherTab>(SkillsViewOtherTab, {
+      global: {
+        stubs,
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]]
+      }
+    })
+  })
 
-      wrapper = mount<typeof SkillsViewOtherTab>(SkillsViewOtherTab, {
-        global: {
-          stubs,
-          plugins: [createPinia(), [VueQueryPlugin, { queryClient }]]
-        }
-      })
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the main container with correct class', () => {
+      const container = wrapper.find('.skills-view-other-tab')
+      expect(container.exists()).toBe(true)
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the main container with correct class', () => {
-        const container = wrapper.find('.skills-view-other-tab')
-        expect(container.exists()).toBe(true)
-      })
-
-      it('then it should render the button container with correct class', () => {
-        const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
-        expect(buttonContainer.exists()).toBe(true)
-      })
-
-      it('then it should render the content placeholder', () => {
-        const contentPlaceholder = wrapper.find('.skills-view-other-tab__content-placeholder')
-        expect(contentPlaceholder.exists()).toBe(true)
-      })
-
-      it('then it should render the Pagination component', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.exists()).toBe(true)
-      })
-
-      it('then it should pass correct props to Pagination component', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.props('pageSizeSelected')).toBeDefined()
-        expect(pagination.props('pageInfo')).toBeDefined()
-        expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
-        expect(pagination.props('onUpdatePageSize')).toBeDefined()
-      })
-
-      it('then it should render skill cards when skills are loaded', async () => {
-        const { flushPromises } = await import('@vue/test-utils')
-        await flushPromises()
-        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
-        expect(skillCards.length).toBe(4)
-      })
-
-      it('then it should have proper CSS classes applied', () => {
-        const mainContainer = wrapper.find('.skills-view-other-tab')
-        expect(mainContainer.classes()).toContain('skills-view-other-tab')
-
-        const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
-        expect(buttonContainer.classes()).toContain('skills-view-other-tab__button-container')
-
-        const skillsContainer = wrapper.find('.skills-container')
-        expect(skillsContainer.classes()).toContain('skills-container')
-      })
+    BddTest().then('it should render the button container with correct class', () => {
+      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+      expect(buttonContainer.exists()).toBe(true)
     })
 
-    describe('when skills query is loading', () => {
-      it('then it should handle loading state gracefully', () => {
-        expect(wrapper.exists()).toBe(true)
-        expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
-      })
+    BddTest().then('it should render the content placeholder', () => {
+      const contentPlaceholder = wrapper.find('.skills-view-other-tab__content-placeholder')
+      expect(contentPlaceholder.exists()).toBe(true)
     })
 
-    describe('when skills query returns data', () => {
-      it('then it should render skill cards for each skill', async () => {
-        const { flushPromises } = await import('@vue/test-utils')
-        await flushPromises()
-        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
-        expect(skillCards.length).toBeGreaterThanOrEqual(0)
-      })
-
-      it('then each StudentDetailedAdditionalSkillCard should receive correct props', async () => {
-        const { flushPromises } = await import('@vue/test-utils')
-        await flushPromises()
-        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
-        skillCards.forEach((card) => {
-          expect(card.props('additionalSkill')).toBeDefined()
-        })
-      })
+    BddTest().then('it should render the Pagination component', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.exists()).toBe(true)
     })
 
-    describe('when the add skill button is rendered', () => {
-      it('then it should have the correct variant and theme', () => {
-        const button = wrapper.find('button')
-        expect(button.exists()).toBe(true)
-        expect(button.attributes('variant')).toBe('OUTLINED')
-        expect(button.attributes()).toHaveProperty('variant', 'OUTLINED')
-      })
-
-      it('then it should have the correct label', () => {
-        const button = wrapper.find('button')
-        expect(button.attributes('label')).toBe('Ajouter une compétence')
-      })
-
-      it('then it should have the correct icon', () => {
-        const button = wrapper.find('button')
-        expect(button.attributes('icon')).toBe('mdi:plus-circle-outline')
-      })
+    BddTest().then('it should pass correct props to Pagination component', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.props('pageSizeSelected')).toBeDefined()
+      expect(pagination.props('pageInfo')).toBeDefined()
+      expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
+      expect(pagination.props('onUpdatePageSize')).toBeDefined()
     })
 
-    describe('when the add skill button is clicked', () => {
-      it('then it should emit the click event', async () => {
-        const button = wrapper.find('button')
-        await button.trigger('click')
-
-        expect(button.exists()).toBe(true)
-      })
+    BddTest().then('it should render skill cards when skills are loaded', async () => {
+      const { flushPromises } = await import('@vue/test-utils')
+      await flushPromises()
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      expect(skillCards.length).toBe(4)
     })
 
-    describe('when clicking on the page update buttons', () => {
-      it('then it should update current page and page size in the mock', async () => {
-        await wrapper.find('.emit-current-page').trigger('click')
-        expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
-        expect(paginationMock.currentPage.value).toBe(5)
+    BddTest().then('it should have proper CSS classes applied', () => {
+      const mainContainer = wrapper.find('.skills-view-other-tab')
+      expect(mainContainer.classes()).toContain('skills-view-other-tab')
 
-        await wrapper.find('.emit-page-size').trigger('click')
-        expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
-        expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
-        expect(paginationMock.currentPage.value).toBe(0)
-      })
+      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+      expect(buttonContainer.classes()).toContain('skills-view-other-tab__button-container')
+
+      const skillsContainer = wrapper.find('.skills-container')
+      expect(skillsContainer.classes()).toContain('skills-container')
+    })
+  })
+
+  BddTest().when('skills query is loading', () => {
+    BddTest().then('it should handle loading state gracefully', () => {
+      expect(wrapper.exists()).toBe(true)
+      expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('skills query returns data', () => {
+    BddTest().then('it should render skill cards for each skill', async () => {
+      const { flushPromises } = await import('@vue/test-utils')
+      await flushPromises()
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      expect(skillCards.length).toBeGreaterThanOrEqual(0)
     })
 
-    describe('when integrating with AddAdditionalSkillDrawer', () => {
-      it('then it should render AddAdditionalSkillDrawer component', () => {
-        const drawer = wrapper.findComponent({ name: 'AddAdditionalSkillDrawer' })
-        expect(drawer.exists()).toBe(true)
-      })
-
-      it('then it should call handleAddSkill when button is clicked', async () => {
-        const button = wrapper.find('button')
-        await button.trigger('click')
-
-        expect(button.exists()).toBe(true)
+    BddTest().then('each StudentDetailedAdditionalSkillCard should receive correct props', async () => {
+      const { flushPromises } = await import('@vue/test-utils')
+      await flushPromises()
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      skillCards.forEach((card) => {
+        expect(card.props('additionalSkill')).toBeDefined()
       })
     })
+  })
 
-    describe('when integrating with skills store', () => {
-      it('then it should use additionalCurrentPage and additionalPageSizeSelected from skills store', () => {
-        expect(paginationMock.currentPage.value).toBeDefined()
-        expect(paginationMock.pageSizeSelected.value).toBeDefined()
-      })
-
-      it('then it should call useAdditionalSkillsViewQuery with pagination parameters', async () => {
-        await wrapper.vm.$nextTick()
-        expect(wrapper.exists()).toBe(true)
-      })
+  BddTest().when('the add skill button is rendered', () => {
+    BddTest().then('it should have the correct variant and theme', () => {
+      const button = wrapper.find('button')
+      expect(button.exists()).toBe(true)
+      expect(button.attributes('variant')).toBe('OUTLINED')
+      expect(button.attributes()).toHaveProperty('variant', 'OUTLINED')
     })
 
-    describe('when handling API errors', () => {
-      it('then it should handle API errors through useBaseApiExceptionToast', () => {
-        expect(wrapper.exists()).toBe(true)
-      })
+    BddTest().then('it should have the correct label', () => {
+      const button = wrapper.find('button')
+      expect(button.attributes('label')).toBe('Ajouter une compétence')
     })
 
-    describe('when no additional skills are available', () => {
-      it('then it should render empty skills container gracefully', async () => {
-        const skillsContainer = wrapper.find('.skills-container')
-        expect(skillsContainer.exists()).toBe(true)
-      })
+    BddTest().then('it should have the correct icon', () => {
+      const button = wrapper.find('button')
+      expect(button.attributes('icon')).toBe('mdi:plus-circle-outline')
+    })
+  })
 
-      it('then it should still show pagination with no skills', () => {
-        const pagination = wrapper.findComponent({ name: 'Pagination' })
-        expect(pagination.exists()).toBe(true)
-      })
+  BddTest().when('the add skill button is clicked', () => {
+    BddTest().then('it should emit the click event', async () => {
+      const button = wrapper.find('button')
+      await button.trigger('click')
 
-      it('then it should still show add skill button when no skills exist', () => {
-        const button = wrapper.find('button')
-        expect(button.exists()).toBe(true)
-        expect(button.attributes('label')).toBe('Ajouter une compétence')
-      })
+      expect(button.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('clicking on the page update buttons', () => {
+    BddTest().then('it should update current page and page size in the mock', async () => {
+      await wrapper.find('.emit-current-page').trigger('click')
+      expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
+      expect(paginationMock.currentPage.value).toBe(5)
+
+      await wrapper.find('.emit-page-size').trigger('click')
+      expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
+      expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
+      expect(paginationMock.currentPage.value).toBe(0)
+    })
+  })
+
+  BddTest().when('integrating with AddAdditionalSkillDrawer', () => {
+    BddTest().then('it should render AddAdditionalSkillDrawer component', () => {
+      const drawer = wrapper.findComponent({ name: 'AddAdditionalSkillDrawer' })
+      expect(drawer.exists()).toBe(true)
     })
 
-    describe('when checking button styling and layout', () => {
-      it('then it should render button with correct size', () => {
-        const button = wrapper.find('button')
-        expect(button.attributes('size')).toBe('sm')
-      })
+    BddTest().then('it should call handleAddSkill when button is clicked', async () => {
+      const button = wrapper.find('button')
+      await button.trigger('click')
 
-      it('then it should position button container at flex-end', () => {
-        const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
-        expect(buttonContainer.exists()).toBe(true)
-      })
+      expect(button.exists()).toBe(true)
+    })
+  })
 
-      it('then it should apply correct CSS class structure', () => {
-        expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
-        expect(wrapper.find('.skills-view-other-tab__content-placeholder').exists()).toBe(true)
-        expect(wrapper.find('.skills-view-other-tab__button-container').exists()).toBe(true)
-      })
+  BddTest().when('integrating with skills store', () => {
+    BddTest().then('it should use additionalCurrentPage and additionalPageSizeSelected from skills store', () => {
+      expect(paginationMock.currentPage.value).toBeDefined()
+      expect(paginationMock.pageSizeSelected.value).toBeDefined()
     })
 
-    describe('when validating skills data structure', () => {
-      it('then it should render skills with proper key binding', async () => {
-        const { flushPromises } = await import('@vue/test-utils')
-        await flushPromises()
+    BddTest().then('it should call useAdditionalSkillsViewQuery with pagination parameters', async () => {
+      await wrapper.vm.$nextTick()
+      expect(wrapper.exists()).toBe(true)
+    })
+  })
 
-        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
-        skillCards.forEach((card) => {
-          expect(card.props('additionalSkill')).toBeTypeOf('object')
-        })
+  BddTest().when('handling API errors', () => {
+    BddTest().then('it should handle API errors through useBaseApiExceptionToast', () => {
+      expect(wrapper.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('no additional skills are available', () => {
+    BddTest().then('it should render empty skills container gracefully', async () => {
+      const skillsContainer = wrapper.find('.skills-container')
+      expect(skillsContainer.exists()).toBe(true)
+    })
+
+    BddTest().then('it should still show pagination with no skills', () => {
+      const pagination = wrapper.findComponent({ name: 'Pagination' })
+      expect(pagination.exists()).toBe(true)
+    })
+
+    BddTest().then('it should still show add skill button when no skills exist', () => {
+      const button = wrapper.find('button')
+      expect(button.exists()).toBe(true)
+      expect(button.attributes('label')).toBe('Ajouter une compétence')
+    })
+  })
+
+  BddTest().when('checking button styling and layout', () => {
+    BddTest().then('it should render button with correct size', () => {
+      const button = wrapper.find('button')
+      expect(button.attributes('size')).toBe('sm')
+    })
+
+    BddTest().then('it should position button container at flex-end', () => {
+      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+      expect(buttonContainer.exists()).toBe(true)
+    })
+
+    BddTest().then('it should apply correct CSS class structure', () => {
+      expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
+      expect(wrapper.find('.skills-view-other-tab__content-placeholder').exists()).toBe(true)
+      expect(wrapper.find('.skills-view-other-tab__button-container').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('validating skills data structure', () => {
+    BddTest().then('it should render skills with proper key binding', async () => {
+      const { flushPromises } = await import('@vue/test-utils')
+      await flushPromises()
+
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      skillCards.forEach((card) => {
+        expect(card.props('additionalSkill')).toBeTypeOf('object')
       })
     })
   })

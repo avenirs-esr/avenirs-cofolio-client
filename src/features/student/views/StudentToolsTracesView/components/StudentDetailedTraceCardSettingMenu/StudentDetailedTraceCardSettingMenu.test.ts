@@ -2,7 +2,8 @@ import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCardSettingMenu from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCardSettingMenu/StudentDetailedTraceCardSettingMenu.vue'
 import { MDI_ICONS } from '@/ui/tokens/icons'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const displayModalMock = vi.fn()
 const hideModalMock = vi.fn()
@@ -15,8 +16,8 @@ vi.mock('@/common/composables', () => ({
   })
 }))
 
-describe('studentDetailedTraceCardSettingMenu', () => {
-  let wrapper: VueWrapper
+BddTest().given('a setting menu', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCardSettingMenu>>
 
   const mockedTrace: TraceViewDTO = {
     id: 'trace1',
@@ -44,7 +45,7 @@ describe('studentDetailedTraceCardSettingMenu', () => {
     }
   }
 
-  describe('given a settings menu with show prop set to true', () => {
+  BddTest().and('how prop set to true', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
@@ -59,25 +60,25 @@ describe('studentDetailedTraceCardSettingMenu', () => {
       })
     })
 
-    describe('when the component is rendered', () => {
-      it('then it should display the setting menu and the delete button', () => {
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('it should display the setting menu and the delete button', () => {
         expect(wrapper.find('.student-detailed-trace-card-setting-menu').exists()).toBe(true)
         expect(wrapper.find('.student-detailed-trace-card-setting-menu__item').exists()).toBe(true)
       })
 
-      it('then it should display the modal when showModal is true', () => {
+      BddTest().then('it should display the modal when showModal is true', () => {
         expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).exists()).toBe(true)
       })
 
-      it('then it should pass the correct props to AvButton', () => {
+      BddTest().then('it should pass the correct props to AvButton', () => {
         const button = wrapper.findComponent({ name: 'AvButton' })
         expect(button.props('icon')).toBe(MDI_ICONS.TRASH_CAN_OUTLINE)
         expect(button.props('size')).toBe('sm')
       })
     })
 
-    describe('when deletion modal emits success', () => {
-      it('then it should emit onTraceDelete and close', async () => {
+    BddTest().when('deletion modal emits success', () => {
+      BddTest().then('it should emit onTraceDelete and close', async () => {
         await wrapper.find('.success').trigger('click')
         await new Promise(resolve => setTimeout(resolve, 0))
 
@@ -86,8 +87,8 @@ describe('studentDetailedTraceCardSettingMenu', () => {
       })
     })
 
-    describe('when deletion modal emits close', () => {
-      it('then it should hide the modal', async () => {
+    BddTest().when('deletion modal emits close', () => {
+      BddTest().then('it should hide the modal', async () => {
         const localWrapper = mount(StudentDetailedTraceCardSettingMenu, {
           props: {
             trace: mockedTrace,
@@ -102,7 +103,7 @@ describe('studentDetailedTraceCardSettingMenu', () => {
     })
   })
 
-  describe('given a settings menu with show prop set to false', () => {
+  BddTest().and('how prop set to false', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
@@ -117,8 +118,8 @@ describe('studentDetailedTraceCardSettingMenu', () => {
       })
     })
 
-    describe('when the component is rendered with show=false', () => {
-      it('then it should not display anything', () => {
+    BddTest().when('the component is rendered with show=false', () => {
+      BddTest().then('it should not display anything', () => {
         wrapper = mount(StudentDetailedTraceCardSettingMenu, {
           props: {
             trace: mockedTrace,

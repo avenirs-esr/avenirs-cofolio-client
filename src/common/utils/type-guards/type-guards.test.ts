@@ -1,28 +1,41 @@
 import { hasStringField } from '@/common/utils/type-guards/type-guards'
+import { BddTest } from 'tests/utils'
 
-describe('hasStringField', () => {
-  it('returns true if the field exists and is a string', () => {
-    const obj = { name: 'Alice' }
-    expect(hasStringField(obj, 'name')).toBe(true)
+BddTest().given('a hasStringField checker', () => {
+  BddTest().when('the field exists', () => {
+    BddTest().and('is a string', () => {
+      BddTest().then('it should return true', () => {
+        const obj = { name: 'Alice' }
+        expect(hasStringField(obj, 'name')).toBe(true)
+      })
+    })
+
+    BddTest().and('is not a string', () => {
+      BddTest().then('it should return false', () => {
+        const obj = { age: 30 }
+        expect(hasStringField(obj, 'age')).toBe(false)
+      })
+    })
   })
 
-  it('returns false if the field does not exist', () => {
-    const obj = { age: 30 }
-    expect(hasStringField(obj, 'name')).toBe(false)
+  BddTest().when('the field does not exist', () => {
+    BddTest().then('it should return false', () => {
+      const obj = { age: 30 }
+      expect(hasStringField(obj, 'name')).toBe(false)
+    })
   })
 
-  it('returns false if the field exists but is not a string', () => {
-    const obj = { age: 30 }
-    expect(hasStringField(obj, 'age')).toBe(false)
+  BddTest().when('the obj is null', () => {
+    BddTest().then('it should return false', () => {
+      expect(hasStringField(null, 'name')).toBe(false)
+    })
   })
 
-  it('returns false if obj is null', () => {
-    expect(hasStringField(null, 'name')).toBe(false)
-  })
-
-  it('returns false if obj is not an object', () => {
-    expect(hasStringField(42, 'name')).toBe(false)
-    expect(hasStringField('test', 'name')).toBe(false)
-    expect(hasStringField(undefined, 'name')).toBe(false)
+  BddTest().when('the obj is not an object', () => {
+    BddTest().then('it should return false', () => {
+      expect(hasStringField(42, 'name')).toBe(false)
+      expect(hasStringField('test', 'name')).toBe(false)
+      expect(hasStringField(undefined, 'name')).toBe(false)
+    })
   })
 })

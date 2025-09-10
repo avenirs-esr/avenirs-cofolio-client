@@ -1,21 +1,22 @@
 import { mountComposable } from '@/ui/tests/utils'
 import { useQueryClient } from '@tanstack/vue-query'
 
-import { describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { expect, vi } from 'vitest'
 import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from './use-invalidate-query'
 
-describe('useInvalidateQuery', () => {
+BddTest().given('an useInvalidateQuery composable', () => {
   let mockInvalidateQueries: ReturnType<typeof vi.fn>
 
   beforeEach(() => {
     mockInvalidateQueries = vi.fn().mockResolvedValue(undefined)
   })
 
-  describe('given a queryKey', () => {
+  BddTest().and('a queryKey', () => {
     const queryKey = ['my', 'query', 'key']
 
-    describe('when the invalidate function is called', () => {
-      it('then it should call queryClient.invalidateQueries with the queryKey', async () => {
+    BddTest().when('the invalidate function is called', () => {
+      BddTest().then('it should call queryClient.invalidateQueries with the queryKey', async () => {
         const { result } = mountComposable(() => {
           const queryClient = useQueryClient()
           vi.spyOn(queryClient, 'invalidateQueries').mockImplementation(mockInvalidateQueries)
@@ -37,9 +38,9 @@ describe('useInvalidateQuery', () => {
     })
   })
 
-  describe('given no queryKey', () => {
-    describe('when the invalidate function is called', () => {
-      it('then it should call queryClient.invalidateQueries without queryKey', async () => {
+  BddTest().and('no queryKey', () => {
+    BddTest().when('the invalidate function is called', () => {
+      BddTest().then('it should call queryClient.invalidateQueries without queryKey', async () => {
         const { result } = mountComposable(() => {
           const queryClient = useQueryClient()
           vi.spyOn(queryClient, 'invalidateQueries').mockImplementation(mockInvalidateQueries)
@@ -62,9 +63,9 @@ describe('useInvalidateQuery', () => {
   })
 })
 
-describe('useInvalidateAllQueriesAfterLocaleChange', () => {
-  describe('when locale changes', () => {
-    it('then it should invalidate all queries', async () => {
+BddTest().given('an useInvalidateAllQueriesAfterLocaleChange composable', () => {
+  BddTest().when('locale changes occurs', () => {
+    BddTest().then('it should invalidate all queries', async () => {
       const mockInvalidateQueries = vi.fn().mockResolvedValue(undefined)
       mountComposable(() => {
         const queryClient = useQueryClient()

@@ -1,11 +1,21 @@
-export const PaginationStub = {
-  name: 'Pagination',
-  props: ['pageInfo', 'pageSizeSelected', 'onUpdateCurrentPage', 'onUpdatePageSize'],
-  template: `
-      <div class="pagination-stub">
-        <button class="emit-current-page" @click="onUpdateCurrentPage(5)">Page 5</button>
-        <button class="emit-page-size" @click="onUpdatePageSize(12)">Size 12</button>
-        <slot />
-      </div>
-    `
-}
+import type { DsfrNavigationProps } from '@gouvminint/vue-dsfr'
+
+export const DsfrBadgeStub = defineComponent({
+  name: 'DsfrBadge',
+  template: `<div class="dsfr-badge" />`,
+  props: ['label', 'type', 'small', 'ellipsis']
+})
+
+export const DsfrNavigationStub = defineComponent({
+  name: 'DsfrNavigation',
+  props: {
+    navItems: Array<DsfrNavigationProps['navItems']>,
+  },
+  template: '<nav class="dsfr-navigation-mock"><slot /></nav>',
+})
+
+export const VIconStub = defineComponent({
+  name: 'VIcon',
+  props: ['name', 'size', 'color'],
+  template: '<div class="v-icon-stub"></div>'
+})

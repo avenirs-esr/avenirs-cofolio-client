@@ -3,14 +3,17 @@ import { useStudentApcAccess } from '@/features/student/composables'
 import { studentEducationAmsRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
 import { registerNavigationLinkKey } from '@/ui'
-import { mount } from '@vue/test-utils'
-import { vi } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/features/student/composables', () => ({
   useStudentApcAccess: vi.fn(),
 }))
 
-describe('studentNavigation', () => {
+BddTest().given('a student navigation', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentNavigation>>
+
   const mockUseStudentApcAccess = vi.mocked(useStudentApcAccess)
   const succeedMyEducationMenuTitle = 'RÉUSSIR MA FORMATION'
 
@@ -32,25 +35,23 @@ describe('studentNavigation', () => {
     vi.clearAllMocks()
   })
 
-  describe('when APC is not visible', () => {
-    beforeEach(() => {
+  BddTest().when('APC is not visible', () => {
+    beforeEach(async () => {
       mockUseStudentApcAccess.mockReturnValue({
         isApcVisible: computed(() => false),
         showApcGenericInfoPage: computed(() => false),
         showApcSubmenus: computed(() => false),
       })
+
+      wrapper = await mountComponent()
     })
 
-    it('renders AvNavigation component', async () => {
-      const wrapper = await mountComponent()
-
+    BddTest().then('it should render AvNavigation component', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       expect(avNavigation.exists()).toBe(true)
     })
 
-    it('generates navigation items without education menu', async () => {
-      const wrapper = await mountComponent()
-
+    BddTest().then('it should generate navigation items without education menu', () => {
       expect(wrapper.findAll('.fr-nav__item')).toHaveLength(3)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
@@ -61,9 +62,7 @@ describe('studentNavigation', () => {
       expect(hasEducationMenu).toBe(false)
     })
 
-    it('includes home navigation item with correct properties', async () => {
-      const wrapper = await mountComponent()
-
+    BddTest().then('it should include home navigation item with correct properties', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 
@@ -75,17 +74,18 @@ describe('studentNavigation', () => {
     })
   })
 
-  describe('when APC is visible but submenus are hidden', () => {
-    beforeEach(() => {
+  BddTest().when('APC is visible but submenus are hidden', () => {
+    beforeEach(async () => {
       mockUseStudentApcAccess.mockReturnValue({
         isApcVisible: computed(() => true),
         showApcGenericInfoPage: computed(() => true),
         showApcSubmenus: computed(() => false),
       })
+
+      wrapper = await mountComponent()
     })
 
-    it('includes education menu in navigation items', async () => {
-      const wrapper = await mountComponent()
+    BddTest().then('it should include education menu in navigation items', () => {
       expect(wrapper.findAll('.fr-nav__item')).toHaveLength(4)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
@@ -94,9 +94,7 @@ describe('studentNavigation', () => {
       expect(educationItem).toBeDefined()
     })
 
-    it('does not include education submenus when showApcSubmenus is false', async () => {
-      const wrapper = await mountComponent()
-
+    BddTest().then('it should not include education submenus when showApcSubmenus is false', () => {
       expect(wrapper.findAll('.fr-nav__item')).toHaveLength(4)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
@@ -106,17 +104,18 @@ describe('studentNavigation', () => {
     })
   })
 
-  describe('when APC is visible with submenus', () => {
-    beforeEach(() => {
+  BddTest().when('APC is visible with submenus', () => {
+    beforeEach(async () => {
       mockUseStudentApcAccess.mockReturnValue({
         isApcVisible: computed(() => true),
         showApcGenericInfoPage: computed(() => false),
         showApcSubmenus: computed(() => true),
       })
+
+      wrapper = await mountComponent()
     })
 
-    it('includes education menu with submenus', async () => {
-      const wrapper = await mountComponent()
+    BddTest().then('it should include education menu with submenus', () => {
       const succeedMyEducationMenuItems = [
         'Mes compétences',
         'Mes activités de mise en situation'
@@ -142,9 +141,7 @@ describe('studentNavigation', () => {
       )
     })
 
-    it('does not set education menu "to" property when submenus are shown', async () => {
-      const wrapper = await mountComponent()
-
+    BddTest().then('it should not set education menu "to" property when submenus are shown', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 

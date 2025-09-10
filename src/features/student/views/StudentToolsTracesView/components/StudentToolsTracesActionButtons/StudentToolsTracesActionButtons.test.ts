@@ -1,56 +1,55 @@
 import type { VueWrapper } from '@vue/test-utils'
+import StudentToolsTracesActionButtons from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
 import { useTracesStore } from '@/store'
 import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import StudentToolsTracesActionButtons from './StudentToolsTracesActionButtons.vue'
+import { BddTest, mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-const stubs = {
-  AvButton: {
-    name: 'AvButton',
-    props: ['label', 'size', 'variant', 'icon'],
-    emits: ['click'],
-    template: '<button @click="$emit(\'click\')">{{ label }}</button>'
+BddTest().given('a student tools traces action buttons component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesActionButtons>>
+
+  const stubs = {
+    AvButton: {
+      name: 'AvButton',
+      props: ['label', 'size', 'variant', 'icon'],
+      emits: ['click'],
+      template: '<button @click="$emit(\'click\')">{{ label }}</button>'
+    }
   }
-}
 
-describe('studentToolsTracesActionButtons', () => {
-  describe('given a student tools traces action buttons component', () => {
-    let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesActionButtons>>
+  beforeEach(() => {
+    vi.clearAllMocks()
+    setActivePinia(createPinia())
 
-    beforeEach(() => {
-      vi.clearAllMocks()
-      setActivePinia(createPinia())
-
-      wrapper = mountComponent<typeof StudentToolsTracesActionButtons>(StudentToolsTracesActionButtons, {
-        global: {
-          stubs
-        }
-      })
+    wrapper = mountComponent(StudentToolsTracesActionButtons, {
+      global: {
+        stubs
+      }
     })
+  })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the add trace button', () => {
-        const addButton = wrapper.findComponent({ name: 'AvButton' })
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the add trace button', () => {
+      const addButton = wrapper.findComponent({ name: 'AvButton' })
 
-        expect(addButton.exists()).toBe(true)
-        expect(addButton.props('label')).toBe('AJOUTER UNE TRACE dans ma bibliothèque')
-        expect(addButton.props('size')).toBe('small')
-        expect(addButton.props('variant')).toBe('OUTLINED')
-        expect(addButton.props('icon')).toBeDefined()
-      })
+      expect(addButton.exists()).toBe(true)
+      expect(addButton.props('label')).toBe('AJOUTER UNE TRACE dans ma bibliothèque')
+      expect(addButton.props('size')).toBe('small')
+      expect(addButton.props('variant')).toBe('OUTLINED')
+      expect(addButton.props('icon')).toBeDefined()
     })
+  })
 
-    describe('when add trace button is clicked', () => {
-      it('then it should update showCreateTraceDrawer state to true', async () => {
-        const store = useTracesStore()
-        const addButton = wrapper.find('button')
+  BddTest().when('add trace button is clicked', () => {
+    BddTest().then('it should update showCreateTraceDrawer state to true', async () => {
+      const store = useTracesStore()
+      const addButton = wrapper.find('button')
 
-        expect(store.showCreateTraceDrawer).toBe(false)
+      expect(store.showCreateTraceDrawer).toBe(false)
 
-        await addButton.trigger('click')
+      await addButton.trigger('click')
 
-        expect(store.showCreateTraceDrawer).toBe(true)
-      })
+      expect(store.showCreateTraceDrawer).toBe(true)
     })
   })
 })
