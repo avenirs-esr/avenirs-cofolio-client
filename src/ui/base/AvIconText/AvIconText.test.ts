@@ -1,16 +1,13 @@
 import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
 import { MDI_ICONS } from '@/ui/tokens/icons'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { VIconStub } from 'tests/stubs'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('studentDetailedSkillCard.vue', () => {
-  const stubs = {
-    VIcon: {
-      name: 'VIcon',
-      props: ['name', 'color'],
-      template: '<i class="mock-v-icon" />',
-    },
-  }
+BddTest().given('an AvIconText', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvIconText>>
+  const stubs = { VIcon: VIconStub }
 
   const baseProps = {
     icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
@@ -24,41 +21,39 @@ describe('studentDetailedSkillCard.vue', () => {
     typographyClass: 'typography'
   }
 
-  it('should render properly with given and defaults props', async () => {
-    const wrapper = mount(AvIconText, {
-      props: baseProps,
-      global: {
-        stubs
-      }
+  BddTest().when('the component is mounted', () => {
+    beforeEach(() => {
+      wrapper = mount(AvIconText, { props: baseProps, global: { stubs } })
     })
 
-    const vicon = wrapper.findComponent({ name: 'VIcon' })
-    expect(vicon.exists()).toBe(true)
-    expect(vicon.props('name')).toBe(baseProps.icon)
-    expect(vicon.props('color')).toBe('var(--text1)')
+    BddTest().then('it should render properly', async () => {
+      const vicon = wrapper.findComponent({ name: 'VIcon' })
+      expect(vicon.exists()).toBe(true)
+      expect(vicon.props('name')).toBe(baseProps.icon)
+      expect(vicon.props('color')).toBe('var(--text1)')
 
-    const text = wrapper.find('.icon-text--text')
-    expect(text.exists()).toBe(true)
-    expect(text.text()).toContain(baseProps.text)
-    expect(text.classes()).toContain('b2-regular')
-  })
-
-  it('should render properly with given props', async () => {
-    const wrapper = mount(AvIconText, {
-      props: allProps,
-      global: {
-        stubs
-      }
+      const text = wrapper.find('.icon-text--text')
+      expect(text.exists()).toBe(true)
+      expect(text.text()).toContain(baseProps.text)
+      expect(text.classes()).toContain('b2-regular')
     })
 
-    const vicon = wrapper.findComponent({ name: 'VIcon' })
-    expect(vicon.exists()).toBe(true)
-    expect(vicon.props('name')).toBe(allProps.icon)
-    expect(vicon.props('color')).toBe(allProps.iconColor)
+    BddTest().and('given props', () => {
+      beforeEach(() => {
+        wrapper = mount(AvIconText, { props: allProps, global: { stubs } })
+      })
 
-    const text = wrapper.find('.icon-text--text')
-    expect(text.exists()).toBe(true)
-    expect(text.text()).toContain(allProps.text)
-    expect(text.classes()).toContain(allProps.typographyClass)
+      BddTest().then('it should render properly', async () => {
+        const vicon = wrapper.findComponent({ name: 'VIcon' })
+        expect(vicon.exists()).toBe(true)
+        expect(vicon.props('name')).toBe(allProps.icon)
+        expect(vicon.props('color')).toBe(allProps.iconColor)
+
+        const text = wrapper.find('.icon-text--text')
+        expect(text.exists()).toBe(true)
+        expect(text.text()).toContain(allProps.text)
+        expect(text.classes()).toContain(allProps.typographyClass)
+      })
+    })
   })
 })

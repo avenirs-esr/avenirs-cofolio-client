@@ -1,8 +1,11 @@
 import StudentProfilePopover from '@/features/student/components/overlays/StudentProfilePopover/StudentProfilePopover.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('studentProfilePopover', () => {
+BddTest().given('a profile popover', () => {
+  let wrapper: VueWrapper
+
   const stubs = {
     AvButton: {
       name: 'AvButton',
@@ -20,36 +23,32 @@ describe('studentProfilePopover', () => {
     }
   }
 
-  describe('given a profile popover', () => {
-    let wrapper: VueWrapper
+  beforeEach(() => {
+    wrapper = mount(StudentProfilePopover, {
+      props: { username: 'J. Moulin' },
+      global: { stubs }
+    })
+  })
 
-    beforeEach(() => {
-      wrapper = mount(StudentProfilePopover, {
-        props: { username: 'J. Moulin' },
-        global: { stubs }
-      })
+  BddTest().when('the popover is rendered', () => {
+    BddTest().then('it should render the username as button label', () => {
+      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const triggerButton = buttons.find(btn => btn.text() === 'J. Moulin')
+      expect(triggerButton).toBeDefined()
     })
 
-    describe('when the popover is rendered', () => {
-      it('then it should render the username as button label', () => {
-        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-        const triggerButton = buttons.find(btn => btn.text() === 'J. Moulin')
-        expect(triggerButton).toBeDefined()
-      })
+    BddTest().then('it should render all profile menu buttons', () => {
+      const labels = [
+        'Gérer mon profil',
+        'Voir mon agenda',
+        'Aller sur mon ENT',
+        'Aller sur le passeport de compétences',
+        'Me déconnecter'
+      ]
 
-      it('then it should render all profile menu buttons', () => {
-        const labels = [
-          'Gérer mon profil',
-          'Voir mon agenda',
-          'Aller sur mon ENT',
-          'Aller sur le passeport de compétences',
-          'Me déconnecter'
-        ]
-
-        labels.forEach((label) => {
-          const button = wrapper.findAllComponents({ name: 'AvButton' }).find(btn => btn.text() === label)
-          expect(button).toBeDefined()
-        })
+      labels.forEach((label) => {
+        const button = wrapper.findAllComponents({ name: 'AvButton' }).find(btn => btn.text() === label)
+        expect(button).toBeDefined()
       })
     })
   })

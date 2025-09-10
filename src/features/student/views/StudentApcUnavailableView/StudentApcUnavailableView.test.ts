@@ -2,7 +2,8 @@ import { useStudentApcAccess } from '@/features/student/composables'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
 
 vi.mock('vue-router', async () => {
@@ -17,7 +18,7 @@ vi.mock('@/features/student/composables', () => ({
   useStudentApcAccess: vi.fn()
 }))
 
-describe('studentApcUnavailablePage', () => {
+BddTest().given('a student APC unavailable page', () => {
   const replaceMock = vi.fn()
   const mockedUseStudentApcAccess = vi.mocked(useStudentApcAccess)
   const mockedUseRouter = vi.mocked(useRouter)
@@ -30,25 +31,31 @@ describe('studentApcUnavailablePage', () => {
     vi.clearAllMocks()
   })
 
-  it('should not redirect if showApcGenericInfoPage is true', async () => {
-    mockedUseStudentApcAccess.mockReturnValue({
-      showApcGenericInfoPage: computed(() => true),
-      showApcSubmenus: computed(() => false),
-      isApcVisible: computed(() => false)
+  BddTest().when('arriving on the page', () => {
+    BddTest().and('showApcGenericInfoPage is true', () => {
+      BddTest().then('it should not redirect', async () => {
+        mockedUseStudentApcAccess.mockReturnValue({
+          showApcGenericInfoPage: computed(() => true),
+          showApcSubmenus: computed(() => false),
+          isApcVisible: computed(() => false)
+        })
+        await mountWithRouter(StudentApcUnavailableView)
+        expect(replaceMock).not.toHaveBeenCalled()
+      })
     })
-    await mountWithRouter(StudentApcUnavailableView)
-    expect(replaceMock).not.toHaveBeenCalled()
-  })
 
-  it('should redirect if showApcGenericInfoPage is false', async () => {
-    mockedUseStudentApcAccess.mockReturnValue({
-      showApcGenericInfoPage: computed(() => false),
-      showApcSubmenus: computed(() => false),
-      isApcVisible: computed(() => false)
+    BddTest().and('showApcGenericInfoPage is false', () => {
+      BddTest().then('it should redirect', async () => {
+        mockedUseStudentApcAccess.mockReturnValue({
+          showApcGenericInfoPage: computed(() => false),
+          showApcSubmenus: computed(() => false),
+          isApcVisible: computed(() => false)
+        })
+        await mountWithRouter(StudentApcUnavailableView)
+        expect(replaceMock).toHaveBeenCalledWith(
+          expect.objectContaining({ name: studentHomeRoute.name })
+        )
+      })
     })
-    await mountWithRouter(StudentApcUnavailableView)
-    expect(replaceMock).toHaveBeenCalledWith(
-      expect.objectContaining({ name: studentHomeRoute.name })
-    )
   })
 })

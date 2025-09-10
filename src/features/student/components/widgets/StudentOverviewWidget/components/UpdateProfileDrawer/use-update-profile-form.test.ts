@@ -5,7 +5,8 @@ import { mountComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
 import { Exception } from 'sass-embedded'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 vi.mock('@/ui/utils', () => ({
@@ -33,7 +34,7 @@ vi.mock('@/features/student/components/widgets/StudentOverviewWidget/components/
   }
 })
 
-describe('given a useUpdateProfileForm composable', () => {
+BddTest().given('a useUpdateProfileForm composable', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.clearAllMocks()
@@ -90,18 +91,18 @@ describe('given a useUpdateProfileForm composable', () => {
     }).result
   })
 
-  describe('when the composable is mounted', () => {
-    it('then it should expose initial form values', () => {
+  BddTest().when('the composable is mounted', () => {
+    BddTest().then('it should expose initial form values', () => {
       expect(result.form.state.values).toEqual(initialData)
     })
 
-    it('then isModified should be false', () => {
+    BddTest().then('isModified should be false', () => {
       expect(result.isModified.value).toBe(false)
     })
   })
 
-  describe('when calling onCoverPictureUpdate', () => {
-    it('then it should update coverPictureFile and isModified', () => {
+  BddTest().when('calling onCoverPictureUpdate', () => {
+    BddTest().then('it should update coverPictureFile and isModified', () => {
       const file = new File(['cover'], 'cover.jpg', { type: 'image/jpeg' })
       result.onCoverPictureUpdate(file)
       expect(result.isModified.value).toBe(true)
@@ -112,8 +113,8 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when calling onProfilePictureUpdate', () => {
-    it('then it should update profilePictureFile and isModified', () => {
+  BddTest().when('calling onProfilePictureUpdate', () => {
+    BddTest().then('it should update profilePictureFile and isModified', () => {
       const file = new File(['profile'], 'profile.jpg', { type: 'image/jpeg' })
       result.onProfilePictureUpdate(file)
       expect(result.isModified.value).toBe(true)
@@ -128,8 +129,8 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when calling resetForm', () => {
-    it('then it should reset values and files', () => {
+  BddTest().when('calling resetForm', () => {
+    BddTest().then('it should reset values and files', () => {
       result.onCoverPictureUpdate(new File(['a'], 'a.jpg'))
       result.onProfilePictureUpdate(new File(['b'], 'b.jpg'))
       result.resetForm()
@@ -138,8 +139,8 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when submitting invalid values', () => {
-    it('then it should return validation errors', async () => {
+  BddTest().when('submitting invalid values', () => {
+    BddTest().then('it should return validation errors', async () => {
       result.form.setFieldValue('firstname', '')
       result.form.setFieldValue('lastname', '')
       result.form.setFieldValue('email', 'invalid')
@@ -152,8 +153,8 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when submitting valid values with images', () => {
-    it('then it should call all mutations and onSuccess', async () => {
+  BddTest().when('submitting valid values with images', () => {
+    BddTest().then('it should call all mutations and onSuccess', async () => {
       const cover = new File(['cover'], 'cover.jpg')
       const profile = new File(['profile'], 'profile.jpg')
       result.onCoverPictureUpdate(cover)
@@ -166,7 +167,7 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when the update profile mutation fails', () => {
+  BddTest().when('the update profile mutation fails', () => {
     const error: BaseApiException = {
       message: 'Failed to update profile',
       name: 'UpdateProfileError',
@@ -193,7 +194,7 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then it should show error toast', async () => {
+    BddTest().then('it should show error toast', async () => {
       await errorForm.form.handleSubmit()
       await nextTick()
 
@@ -206,7 +207,7 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when the update profile cover mutation fails', () => {
+  BddTest().when('the update profile cover mutation fails', () => {
     const error: BaseApiException = {
       message: 'Failed to update profile cover',
       name: 'UpdateProfileCoverError',
@@ -233,7 +234,7 @@ describe('given a useUpdateProfileForm composable', () => {
       errorForm.onCoverPictureUpdate(new File(['cover'], 'cover.jpg'))
     })
 
-    it('then it should show error toast', async () => {
+    BddTest().then('it should show error toast', async () => {
       await errorForm.form.handleSubmit()
       await nextTick()
 
@@ -246,7 +247,7 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when the update profile photo mutation fails', () => {
+  BddTest().when('the update profile photo mutation fails', () => {
     const error: BaseApiException = {
       message: 'Failed to update profile photo',
       name: 'UpdateProfilePhotoError',
@@ -273,7 +274,7 @@ describe('given a useUpdateProfileForm composable', () => {
       errorForm.onProfilePictureUpdate(new File(['photo'], 'photo.jpg'))
     })
 
-    it('then it should show error toast', async () => {
+    BddTest().then('it should show error toast', async () => {
       await errorForm.form.handleSubmit()
       await nextTick()
 
@@ -286,7 +287,7 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when a mutation fails without BaseApiException error', () => {
+  BddTest().when('a mutation fails without BaseApiException error', () => {
     let errorForm: ReturnType<typeof useUpdateProfileForm>
 
     beforeEach(async () => {
@@ -306,7 +307,7 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then it should show generic error toast', async () => {
+    BddTest().then('it should show generic error toast', async () => {
       await errorForm.form.handleSubmit()
       await nextTick()
 
@@ -319,7 +320,7 @@ describe('given a useUpdateProfileForm composable', () => {
     })
   })
 
-  describe('when no mutation is pending', () => {
+  BddTest().when('no mutation is pending', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
@@ -330,12 +331,12 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then isPending should be false', () => {
+    BddTest().then('isPending should be false', () => {
       expect(result.isPending.value).toBe(false)
     })
   })
 
-  describe('when the update profile mutation is pending', () => {
+  BddTest().when('the update profile mutation is pending', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
@@ -351,12 +352,12 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then isPending should be true', () => {
+    BddTest().then('isPending should be true', () => {
       expect(result.isPending.value).toBe(true)
     })
   })
 
-  describe('when the update profile cover mutation is pending', () => {
+  BddTest().when('the update profile cover mutation is pending', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
@@ -372,12 +373,12 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then isPending should be true', () => {
+    BddTest().then('isPending should be true', () => {
       expect(result.isPending.value).toBe(true)
     })
   })
 
-  describe('when the update profile photo mutation is pending', () => {
+  BddTest().when('the update profile photo mutation is pending', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
@@ -393,7 +394,7 @@ describe('given a useUpdateProfileForm composable', () => {
       }).result
     })
 
-    it('then isPending should be true', () => {
+    BddTest().then('isPending should be true', () => {
       expect(result.isPending.value).toBe(true)
     })
   })

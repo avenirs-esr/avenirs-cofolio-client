@@ -1,13 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { EventOverviewDTO } from '@/types'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
 import StudentEventsWidget from '@/features/student/components/widgets/StudentEventsWidget/StudentEventsWidget.vue'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -47,7 +49,9 @@ function mockUseStudentEventsSummaryQuery (payload: EventOverviewDTO[]) {
   mockedUseStudentEventsSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentEventsWidget', () => {
+BddTest().given('a student events widget', () => {
+  let wrapper: VueWrapper
+
   const events = [
     {
       id: 'event1',
@@ -86,45 +90,45 @@ describe('studentEventsWidget', () => {
     },
   ] as Array<EventOverviewDTO>
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
     mockUseStudentEventsSummaryQuery(events)
-  })
 
-  it('should only display up to 3 future events sorted by date', async () => {
-    const wrapper = await mountWithRouter(StudentEventsWidget, {
+    wrapper = await mountWithRouter(StudentEventsWidget, {
       global: {
         plugins: [createPinia()],
       },
     })
-    const richButtons = wrapper.findAll('.av-rich-button')
-
-    expect(richButtons).toHaveLength(3)
-    expect(richButtons[0].text()).toContain(getCalendarDate(events[1].startDate))
-    expect(richButtons[0].text()).toContain(getLocalizedAbbrMonth(events[1].startDate, 'fr').toUpperCase())
-    expect(richButtons[0].text()).toContain(events[1].location)
-    expect(richButtons[1].text()).toContain(getCalendarDate(events[2].startDate))
-    expect(richButtons[1].text()).toContain(getLocalizedAbbrMonth(events[2].startDate, 'fr').toUpperCase())
-    expect(richButtons[1].text()).toContain(events[2].location)
-    expect(richButtons[2].text()).toContain(getCalendarDate(events[3].startDate))
-    expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(events[3].startDate, 'fr').toUpperCase())
-    expect(richButtons[2].text()).toContain(events[3].location)
-
-    await (richButtons[0]).trigger('click')
-    await (richButtons[1]).trigger('click')
-    await (richButtons[2]).trigger('click')
   })
 
-  it('should call navigation on button click', async () => {
-    const wrapper = await mountWithRouter(StudentEventsWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
-    })
-    const btn = wrapper.findComponent({ name: 'AvButton' })
-    await btn.trigger('click')
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should only display up to 3 future events sorted by dates', async () => {
+      const richButtons = wrapper.findAll('.av-rich-button')
 
-    expect(navigateToStudentEvents).toHaveBeenCalled()
+      expect(richButtons).toHaveLength(3)
+      expect(richButtons[0].text()).toContain(getCalendarDate(events[1].startDate))
+      expect(richButtons[0].text()).toContain(getLocalizedAbbrMonth(events[1].startDate, 'fr').toUpperCase())
+      expect(richButtons[0].text()).toContain(events[1].location)
+      expect(richButtons[1].text()).toContain(getCalendarDate(events[2].startDate))
+      expect(richButtons[1].text()).toContain(getLocalizedAbbrMonth(events[2].startDate, 'fr').toUpperCase())
+      expect(richButtons[1].text()).toContain(events[2].location)
+      expect(richButtons[2].text()).toContain(getCalendarDate(events[3].startDate))
+      expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(events[3].startDate, 'fr').toUpperCase())
+      expect(richButtons[2].text()).toContain(events[3].location)
+
+      await (richButtons[0]).trigger('click')
+      await (richButtons[1]).trigger('click')
+      await (richButtons[2]).trigger('click')
+    })
+  })
+
+  BddTest().when('clicking on the navigation button', () => {
+    BddTest().then('it should call navigation', async () => {
+      const btn = wrapper.findComponent({ name: 'AvButton' })
+      await btn.trigger('click')
+
+      expect(navigateToStudentEvents).toHaveBeenCalled()
+    })
   })
 
   testUseBaseApiExceptionToast<EventOverviewDTO[]>({

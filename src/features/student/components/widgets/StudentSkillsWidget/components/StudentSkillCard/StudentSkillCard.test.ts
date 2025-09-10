@@ -2,9 +2,10 @@ import { ESkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillCard from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillCard/StudentSkillCard.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('given a studentSkillCard', () => {
+BddTest().given('a studentSkillCard', () => {
   let wrapper: VueWrapper
 
   const stubs = {
@@ -52,7 +53,7 @@ describe('given a studentSkillCard', () => {
     skillColor: '--color-skill',
   } as const
 
-  describe('when the component is mounted', async () => {
+  BddTest().when('the component is mounted', async () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: baseProps,
@@ -62,7 +63,7 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render skill name, trace and activity counts', async () => {
+    BddTest().then('it should render skill name, trace and activity counts', async () => {
       expect(wrapper.text()).toContain('Résolution de problème')
       const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
       expect(amsIconText.exists()).toBe(true)
@@ -73,7 +74,7 @@ describe('given a studentSkillCard', () => {
     })
   })
 
-  describe('when the component is mounted with only one level', async () => {
+  BddTest().when('the component is mounted with only one level', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -87,14 +88,14 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render only one badge', async () => {
+    BddTest().then('it should render only one badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
     })
   })
 
-  describe('when the component is mounted with one notStartedLevel', async () => {
+  BddTest().when('the component is mounted with one notStartedLevel', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -108,14 +109,14 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render one toBeEvaluated badge', async () => {
+    BddTest().then('it should render one toBeEvaluated badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 à évaluer')
     })
   })
 
-  describe('when the component is mounted with one toBeEvaluatedLevel', async () => {
+  BddTest().when('the component is mounted with one toBeEvaluatedLevel', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -129,14 +130,14 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render one toBeEvaluated badge', async () => {
+    BddTest().then('it should render one toBeEvaluated badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 à évaluer')
     })
   })
 
-  describe('when the component is mounted with one underReviewLevel', async () => {
+  BddTest().when('the component is mounted with one underReviewLevel', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -150,14 +151,14 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render one underReview badge', async () => {
+    BddTest().then('it should render one underReview badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
     })
   })
 
-  describe('when the component is mounted with one validatedLevel', async () => {
+  BddTest().when('the component is mounted with one validatedLevel', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -171,14 +172,14 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render one validated badge', async () => {
+    BddTest().then('it should render one validated badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 validé')
     })
   })
 
-  describe('when the component is mounted with one failedLevel', async () => {
+  BddTest().when('the component is mounted with one failedLevel', async () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
@@ -192,7 +193,7 @@ describe('given a studentSkillCard', () => {
       })
     })
 
-    it('then it should render one failed badge', async () => {
+    BddTest().then('it should render one failed badge', async () => {
       const badges = wrapper.findAll('.fr-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 non validé')

@@ -1,4 +1,5 @@
 import { ETraceStatus, type PagedResponseTraceViewDTO } from '@/api/avenir-esr'
+import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
@@ -6,8 +7,8 @@ import { PageSizes } from '@/ui/config'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { PaginationStub } from 'tests/stubs'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 
@@ -61,7 +62,9 @@ const stubs = {
   }
 }
 
-describe('studentToolsTracesViewContainer', () => {
+BddTest().given('a student tools traces view container', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewContainer>>
+
   const mockedTracesData: PagedResponseTraceViewDTO = {
     data: [
       { id: '1', title: 'Trace 1', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
@@ -77,9 +80,7 @@ describe('studentToolsTracesViewContainer', () => {
     }
   }
 
-  describe('given trace data is available', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('trace data is available', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
@@ -96,36 +97,36 @@ describe('studentToolsTracesViewContainer', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the action buttons', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the action buttons', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' }).exists()).toBe(true)
       })
 
-      it('then it should render the notice', () => {
+      BddTest().then('it should render the notice', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
       })
 
-      it('then it should render the Pagination component', () => {
+      BddTest().then('it should render the Pagination component', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
-      it('then it should render the correct number of trace cards', () => {
+      BddTest().then('it should render the correct number of trace cards', () => {
         const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(traceCards).toHaveLength(4)
       })
 
-      it('then it should render the add trace drawer', () => {
+      BddTest().then('it should render the add trace drawer', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesAddTraceDrawer' }).exists()).toBe(true)
       })
 
-      it('then it should not show the drawer initially', () => {
+      BddTest().then('it should not show the drawer initially', () => {
         const store = useTracesStore()
         expect(store.showCreateTraceDrawer).toBe(false)
       })
     })
 
-    describe('when clicking on the page update buttons', () => {
-      it('then it should update current page and page size in the mock', async () => {
+    BddTest().when('clicking on the page update buttons', () => {
+      BddTest().then('it should update current page and page size in the mock', async () => {
         await wrapper.find('.emit-current-page').trigger('click')
         expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
         expect(paginationMock.currentPage.value).toBe(5)
@@ -137,26 +138,26 @@ describe('studentToolsTracesViewContainer', () => {
       })
     })
 
-    describe('when displayCreateTraceDrawer is called', () => {
+    BddTest().when('displayCreateTraceDrawer is called', () => {
       beforeEach(async () => {
         const store = useTracesStore()
         store.displayCreateTraceDrawer()
         await wrapper.vm.$nextTick()
       })
 
-      it('then it should display the create trace drawer', () => {
+      BddTest().then('it should display the create trace drawer', () => {
         const store = useTracesStore()
         expect(store.showCreateTraceDrawer).toBe(true)
       })
 
-      it('then the store should have showCreateTraceDrawer set to true', async () => {
+      BddTest().then('the store should have showCreateTraceDrawer set to true', async () => {
         await wrapper.vm.$nextTick()
         const store = useTracesStore()
         expect(store.showCreateTraceDrawer).toBe(true)
       })
     })
 
-    describe('when drawer is closed via store', () => {
+    BddTest().when('drawer is closed via store', () => {
       beforeEach(async () => {
         const store = useTracesStore()
         store.displayCreateTraceDrawer()
@@ -165,16 +166,14 @@ describe('studentToolsTracesViewContainer', () => {
         await wrapper.vm.$nextTick()
       })
 
-      it('then it should hide the create trace drawer', () => {
+      BddTest().then('it should hide the create trace drawer', () => {
         const store = useTracesStore()
         expect(store.showCreateTraceDrawer).toBe(false)
       })
     })
   })
 
-  describe('given no trace data is available', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('no trace data is available', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
@@ -188,13 +187,13 @@ describe('studentToolsTracesViewContainer', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should not render any trace cards', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not render any trace cards', () => {
         const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(cards).toHaveLength(0)
       })
 
-      it('then it should still render all UI components', () => {
+      BddTest().then('it should still render all UI components', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' }).exists()).toBe(true)
         expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)

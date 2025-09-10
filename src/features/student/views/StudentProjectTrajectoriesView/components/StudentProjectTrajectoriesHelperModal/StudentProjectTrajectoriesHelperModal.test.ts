@@ -2,7 +2,8 @@ import StudentProjectTrajectoriesHelperModal
   from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.vue'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
   AvModal: {
@@ -13,7 +14,7 @@ const stubs = {
   }
 }
 
-describe('given the modal is shown with content', () => {
+BddTest().given('the modal is shown with content', () => {
   let onClose: ReturnType<typeof vi.fn>
   let wrapper: VueWrapper
 
@@ -27,35 +28,35 @@ describe('given the modal is shown with content', () => {
     })
   })
 
-  describe('when the modal emits a close event', () => {
+  BddTest().when('the modal emits a close event', () => {
     beforeEach(() => {
       wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
     })
 
-    it('then the onClose callback should be triggered', () => {
+    BddTest().then('the onClose callback should be triggered', () => {
       expect(onClose).toHaveBeenCalled()
     })
   })
 
-  describe('when closeButtonLabel is passed as a prop', () => {
+  BddTest().when('closeButtonLabel is passed as a prop', () => {
     const closeButtonLabel = 'Close Now'
 
     beforeEach(async () => {
       await wrapper.setProps({ closeButtonLabel })
     })
 
-    it('then the label should be passed down to the AvModal component', () => {
+    BddTest().then('the label should be passed down to the AvModal component', () => {
       const avModal = wrapper.findComponent({ name: 'AvModal' })
       expect(avModal.props('closeButtonLabel')).toBe(closeButtonLabel)
     })
   })
 
-  describe('when showModal prop changes', () => {
-    it('then the modal should be opened when showModal is true', () => {
+  BddTest().when('showModal prop changes', () => {
+    BddTest().then('the modal should be opened when showModal is true', () => {
       expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(true)
     })
 
-    it('then the modal should not be opened when showModal is false', async () => {
+    BddTest().then('the modal should not be opened when showModal is false', async () => {
       await wrapper.setProps({ showModal: false })
       expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(false)
     })

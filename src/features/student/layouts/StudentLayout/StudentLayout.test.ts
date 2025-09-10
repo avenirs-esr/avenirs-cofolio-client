@@ -9,7 +9,8 @@ import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayou
 import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock(import('@/features/student/queries'), async (importOriginal) => {
   const actual = await importOriginal()
@@ -63,7 +64,7 @@ function mockUseStudentSummaryQueryUndefined () {
   mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-describe('studentLayout', () => {
+BddTest().given('a student layout', () => {
   let queryClient: QueryClient
   let wrapper: VueWrapper<InstanceType<typeof StudentLayout>>
 
@@ -128,15 +129,15 @@ describe('studentLayout', () => {
     mockUseStudentSummaryQuery(studentSummary)
   })
 
-  describe('given a valid header summary', () => {
-    describe('when the layout is rendered', () => {
+  BddTest().and('a valid header summary', () => {
+    BddTest().when('the layout is rendered', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof StudentLayout>(StudentLayout, {
           global: { stubs, plugins: [[VueQueryPlugin, { queryClient }]] }
         })
       })
 
-      it('then it should render header, navigation and quicklinks correctly', async () => {
+      BddTest().then('it should render header, navigation and quicklinks correctly', async () => {
         expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
@@ -144,24 +145,24 @@ describe('studentLayout', () => {
         expect(wrapper.find('[data-testid="profile-popover"]').exists()).toBe(true)
       })
 
-      it('then it should pass correct props to mailbox popover', async () => {
+      BddTest().then('it should pass correct props to mailbox popover', async () => {
         const mailboxPopover = wrapper.findComponent({ name: 'StudentMailboxPopover' })
         expect(mailboxPopover.props('messagesCount')).toBe(2)
       })
 
-      it('then it should pass correct props to notifications popover', async () => {
+      BddTest().then('it should pass correct props to notifications popover', async () => {
         const notificationsPopover = wrapper.findComponent({ name: 'StudentNotificationsPopover' })
         expect(notificationsPopover.props('notificationsCount')).toBe(3)
       })
 
-      it('then it should pass correct props to profile popover', async () => {
+      BddTest().then('it should pass correct props to profile popover', async () => {
         const profilePopover = wrapper.findComponent({ name: 'StudentProfilePopover' })
         expect(profilePopover.props('username')).toBe('J. Moulin')
       })
     })
 
-    describe('when AvHeader emits update:modelValue', () => {
-      it('then it should update searchQuery', async () => {
+    BddTest().when('AvHeader emits update:modelValue', () => {
+      BddTest().then('it should update searchQuery', async () => {
         const avHeader = wrapper.findComponent({ name: 'AvHeader' })
         avHeader.vm.$emit('update:modelValue', 'test search')
         await wrapper.vm.$nextTick()
@@ -170,8 +171,8 @@ describe('studentLayout', () => {
       })
     })
 
-    describe('when the searchQuery is updated', () => {
-      it('then it should pass the value to AvHeader', async () => {
+    BddTest().when('the searchQuery is updated', () => {
+      BddTest().then('it should pass the value to AvHeader', async () => {
         wrapper.vm.searchQuery = 'search value'
         await wrapper.vm.$nextTick()
 
@@ -181,20 +182,20 @@ describe('studentLayout', () => {
     })
   })
 
-  describe('given an undefined header summary', () => {
+  BddTest().and('an undefined header summary', () => {
     beforeEach(() => {
       mockUseStudentHeaderSummaryQueryUndefined()
       mockUseStudentSummaryQueryUndefined()
     })
 
-    describe('when the layout is rendered', () => {
+    BddTest().when('the layout is rendered', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof StudentLayout>(StudentLayout, {
           global: { stubs, plugins: [[VueQueryPlugin, { queryClient }]] }
         })
       })
 
-      it('then it should fallback to default values', async () => {
+      BddTest().then('it should fallback to default values', async () => {
         expect(wrapper.findComponent({ name: 'StudentMailboxPopover' }).props('messagesCount')).toBe(0)
         expect(wrapper.findComponent({ name: 'StudentNotificationsPopover' }).props('notificationsCount')).toBe(0)
         expect(wrapper.findComponent({ name: 'StudentProfilePopover' }).props('username')).toBe('')

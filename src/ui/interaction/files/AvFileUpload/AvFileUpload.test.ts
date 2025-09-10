@@ -1,8 +1,9 @@
 import AvFileUpload, { type AvFileUploadProps } from '@/ui/interaction/files/AvFileUpload/AvFileUpload.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('avFileUpload', () => {
+BddTest().given('a file uploader', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvFileUpload>>
 
   const stubs = {
@@ -27,26 +28,26 @@ describe('avFileUpload', () => {
     },
   })
 
-  describe('given a file uploader with default props', () => {
+  BddTest().and('with default props', () => {
     beforeEach(() => {
       wrapper = mountComponent()
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the slot content', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the slot content', () => {
         expect(wrapper.text()).toContain('Ajouter un document')
         expect(wrapper.text()).toContain('ou glisser et déposer ici')
       })
     })
   })
 
-  describe('given a file uploader with error and validMessage props', () => {
+  BddTest().and('with error and validMessage props', () => {
     beforeEach(() => {
       wrapper = mountComponent({ error: 'Error', validMessage: 'Valid file' })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render only the error message', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render only the error message', () => {
         const avIconText = wrapper.findComponent({ name: 'AvIconText' })
         expect(avIconText.exists()).toBe(true)
         expect(avIconText.props('icon')).toBe('mdi:close-circle-outline')
@@ -55,13 +56,13 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with validMessage but no error', () => {
+  BddTest().and('with validMessage but no error', () => {
     beforeEach(() => {
       wrapper = mountComponent({ validMessage: 'Valid message' })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the valid message', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the valid message', () => {
         const avIconText = wrapper.findComponent({ name: 'AvIconText' })
         expect(avIconText.exists()).toBe(true)
         expect(avIconText.props('icon')).toBe('mdi:check-circle-outline')
@@ -70,28 +71,28 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with accept prop as an array', () => {
+  BddTest().and('with accept prop as an array', () => {
     beforeEach(() => {
       wrapper = mountComponent({ accept: ['.jpg', '.png', '.webp'] })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should apply correct accept attribute', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should apply correct accept attribute', () => {
         const input = wrapper.find('input[type="file"]')
         expect(input.attributes('accept')).toBe('.jpg,.png,.webp')
       })
     })
   })
 
-  describe('given a file uploader with change event on input', () => {
+  BddTest().and('with change event on input', () => {
     const file = new File(['hello'], 'hello.png', { type: 'image/png' })
 
     beforeEach(() => {
       wrapper = mountComponent()
     })
 
-    describe('when a file is selected', () => {
-      it('then it should emit update:modelValue and change events', async () => {
+    BddTest().when('a file is selected', () => {
+      BddTest().then('it should emit update:modelValue and change events', async () => {
         const input = wrapper.find('input[type="file"]')
         const files = {
           0: file,
@@ -116,7 +117,7 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with drag & drop', () => {
+  BddTest().and('with drag & drop', () => {
     const file = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
 
     beforeAll(() => {
@@ -134,8 +135,8 @@ describe('avFileUpload', () => {
       wrapper = mountComponent()
     })
 
-    describe('when a file is dropped', () => {
-      it('then it should emit update:modelValue and change events', async () => {
+    BddTest().when('a file is dropped', () => {
+      BddTest().then('it should emit update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [file] } as unknown as DataTransfer
 
@@ -150,16 +151,16 @@ describe('avFileUpload', () => {
       })
     })
 
-    describe('when a dragover event occurs', () => {
-      it('then it should add drag-over class', async () => {
+    BddTest().when('a dragover event occurs', () => {
+      BddTest().then('it should add drag-over class', async () => {
         const label = wrapper.find('label')
         await label.trigger('dragover')
         expect(label.classes()).toContain('drag-over')
       })
     })
 
-    describe('when a dragleave event occurs', () => {
-      it('then it should remove drag-over class', async () => {
+    BddTest().when('a dragleave event occurs', () => {
+      BddTest().then('it should remove drag-over class', async () => {
         const label = wrapper.find('label')
 
         await label.trigger('dragover')
@@ -171,7 +172,7 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with drag & drop with strict accept type', () => {
+  BddTest().and('with drag & drop with strict accept type', () => {
     const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
     const fileJpeg = new File(['drag'], 'dragged.jpeg', { type: 'image/jpeg' })
     const filePng = new File(['drag'], 'dragged.png', { type: 'image/png' })
@@ -191,8 +192,8 @@ describe('avFileUpload', () => {
       wrapper = mountComponent({ accept: ['image/jpeg', '.PNG'] })
     })
 
-    describe('when an accepted file is dropped', () => {
-      it('then it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
+    BddTest().when('an accepted file is dropped', () => {
+      BddTest().then('it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [fileJpeg] } as unknown as DataTransfer
 
@@ -209,8 +210,8 @@ describe('avFileUpload', () => {
       })
     })
 
-    describe('when an accepted file is dropped for accepted type starting with "."', () => {
-      it('then it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
+    BddTest().when('an accepted file is dropped for accepted type starting with "."', () => {
+      BddTest().then('it should emit update:modelValue and change events and not emit onDropAcceptTypeError', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePng] } as unknown as DataTransfer
 
@@ -227,8 +228,8 @@ describe('avFileUpload', () => {
       })
     })
 
-    describe('when a non accepted file is dropped', () => {
-      it('then it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
+    BddTest().when('a non accepted file is dropped', () => {
+      BddTest().then('it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -242,7 +243,7 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with drag & drop with wrong accept type', () => {
+  BddTest().and('with drag & drop with wrong accept type', () => {
     const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
 
     beforeAll(() => {
@@ -260,8 +261,8 @@ describe('avFileUpload', () => {
       wrapper = mountComponent({ accept: ['png'] })
     })
 
-    describe('when a file is dropped', () => {
-      it('then it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
+    BddTest().when('a file is dropped', () => {
+      BddTest().then('it should emit onDropAcceptTypeError and not emit update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -275,7 +276,7 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a disabled file uploader with drag & drop', () => {
+  BddTest().given('a disabled file uploader with drag & drop', () => {
     const filePdf = new File(['drag'], 'dragged.pdf', { type: 'application/pdf' })
 
     beforeAll(() => {
@@ -293,8 +294,8 @@ describe('avFileUpload', () => {
       wrapper = mountComponent({ disabled: true })
     })
 
-    describe('when a file is dropped', () => {
-      it('then it should not emit onDropAcceptTypeError, update:modelValue and change events', async () => {
+    BddTest().when('a file is dropped', () => {
+      BddTest().then('it should not emit onDropAcceptTypeError, update:modelValue and change events', async () => {
         const label = wrapper.find('label')
         const dataTransfer = { files: [filePdf] } as unknown as DataTransfer
 
@@ -308,13 +309,13 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a file uploader with onClear button', () => {
+  BddTest().and('with onClear button', () => {
     beforeEach(() => {
       wrapper = mountComponent({ modelValue: new File(['test'], 'test.txt') })
     })
 
-    describe('when clicking on onClear button', () => {
-      it('then it should emit update:modelValue, update:validMessage, and update:error with null', async () => {
+    BddTest().when('clicking on onClear button', () => {
+      BddTest().then('it should emit update:modelValue, update:validMessage, and update:error with null', async () => {
         const onClearButton = wrapper.find('.av-button')
         expect(onClearButton.exists()).toBe(true)
 
@@ -332,19 +333,19 @@ describe('avFileUpload', () => {
     })
   })
 
-  describe('given a fileUpload rendering', () => {
-    describe('when enableMultiple = false', () => {
-      describe('and fileName is set', () => {
+  BddTest().given('a fileUpload rendering', () => {
+    BddTest().when('enableMultiple = false', () => {
+      BddTest().and('fileName is set', () => {
         beforeEach(() => {
           wrapper = mountComponent({ fileName: 'file.txt', modelValue: null, enableMultiple: false, deleteButtonLabel: 'delete', title: 'click here', description: 'or drag and drop' })
         })
 
-        it('then it should render file info template', () => {
+        BddTest().then('it should render file info template', () => {
           expect(wrapper.html()).toContain('file.txt')
         })
       })
 
-      describe('and modelValue is set (fileName not provided)', () => {
+      BddTest().and('modelValue is set (fileName not provided)', () => {
         let file: File
 
         beforeEach(() => {
@@ -352,28 +353,28 @@ describe('avFileUpload', () => {
           wrapper = mountComponent({ modelValue: file, enableMultiple: false, fileName: undefined })
         })
 
-        it('then it should render file info template', () => {
+        BddTest().then('it should render file info template', () => {
           expect(wrapper.html()).toContain('file.txt')
         })
 
-        it('then it should render the delete button', () => {
+        BddTest().then('it should render the delete button', () => {
           const deleteBtn = wrapper.find('.av-button')
           expect(deleteBtn.exists()).toBe(true)
         })
       })
 
-      describe('and neither fileName nor modelValue is set', () => {
+      BddTest().and('neither fileName nor modelValue is set', () => {
         beforeEach(() => {
           wrapper = mountComponent({ modelValue: null, fileName: undefined, enableMultiple: false })
         })
 
-        it('then it should render upload input template', () => {
+        BddTest().then('it should render upload input template', () => {
           expect(wrapper.find('input[type="file"]').exists()).toBe(true)
         })
       })
     })
 
-    describe('when enableMultiple = true', () => {
+    BddTest().when('enableMultiple = true', () => {
       let file: File
 
       beforeEach(() => {
@@ -381,7 +382,7 @@ describe('avFileUpload', () => {
         wrapper = mountComponent({ modelValue: file, enableMultiple: true })
       })
 
-      it('then it should render upload input template even if modelValue is set', () => {
+      BddTest().then('it should render upload input template even if modelValue is set', () => {
         expect(wrapper.find('input[type="file"]').exists()).toBe(true)
       })
     })

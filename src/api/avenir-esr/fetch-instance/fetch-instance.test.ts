@@ -1,13 +1,14 @@
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import { BddTest } from 'tests/utils'
 
-import { afterEach, beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
+import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/api/fetch', () => ({
   createCustomFetch: vi.fn(),
   FetchInterceptorManager: vi.fn(),
 }))
 
-describe('avenir-esr customFetch', () => {
+BddTest().given('avenir-esr customFetch', () => {
   const mockFetcher = vi.fn()
   const mockAddRequestInterceptor = vi.fn()
   const mockAddResponseInterceptor = vi.fn()
@@ -41,34 +42,34 @@ describe('avenir-esr customFetch', () => {
     vi.unstubAllGlobals()
   })
 
-  describe('given a fresh module import', () => {
+  BddTest().and('a fresh module import', () => {
     beforeEach(() => {
       vi.resetModules()
     })
 
-    describe('when customFetch is called', () => {
+    BddTest().when('customFetch is called', () => {
       beforeEach(async () => {
         const { customFetch } = await import('./fetch-instance')
         await customFetch('/test', { method: 'GET' })
       })
 
-      it('then should create FetchInterceptorManager instance', () => {
+      BddTest().then('should create FetchInterceptorManager instance', () => {
         expect(mockedFetchInterceptorManager).toHaveBeenCalledTimes(1)
         expect(mockAddRequestInterceptor).toHaveBeenCalledTimes(1)
       })
 
-      it('then should call createCustomFetch with correct parameters', () => {
+      BddTest().then('should call createCustomFetch with correct parameters', () => {
         expect(mockedCreateCustomFetch).toHaveBeenCalledWith({
           baseUrl: expect.any(String),
           defaultHeaders: { 'Content-Type': 'application/json' },
         }, expect.any(Object))
       })
 
-      it('then should call the fetcher with correct parameters', () => {
+      BddTest().then('should call the fetcher with correct parameters', () => {
         expect(mockFetcher).toHaveBeenCalledWith('/test', { method: 'GET' })
       })
 
-      it('then should add x-signed-context header through interceptor', () => {
+      BddTest().then('should add x-signed-context header through interceptor', () => {
         const interceptorCall = mockAddRequestInterceptor.mock.calls[0]
         const interceptorFunction = interceptorCall[0]
         const testOptions: RequestInit = {
@@ -87,7 +88,7 @@ describe('avenir-esr customFetch', () => {
     })
   })
 
-  describe('given a mock response is configured', () => {
+  BddTest().and('a mock response is configured', () => {
     const mockResponse = { data: 'test response' }
 
     beforeEach(() => {
@@ -95,7 +96,7 @@ describe('avenir-esr customFetch', () => {
       vi.resetModules()
     })
 
-    describe('when customFetch is invoked', () => {
+    BddTest().when('customFetch is invoked', () => {
       let result: unknown
 
       beforeEach(async () => {
@@ -103,14 +104,14 @@ describe('avenir-esr customFetch', () => {
         result = await customFetch('/test', { method: 'GET' })
       })
 
-      it('then should return the mocked response', () => {
+      BddTest().then('should return the mocked response', () => {
         expect(mockFetcher).toHaveBeenCalledWith('/test', { method: 'GET' })
         expect(result).toEqual(mockResponse)
       })
     })
   })
 
-  describe('given a User interface and mock user data', () => {
+  BddTest().and('a User interface and mock user data', () => {
     interface User {
       id: number
       name: string
@@ -128,7 +129,7 @@ describe('avenir-esr customFetch', () => {
       vi.resetModules()
     })
 
-    describe('when customFetch is called with generic type', () => {
+    BddTest().when('customFetch is called with generic type', () => {
       let result: User
 
       beforeEach(async () => {
@@ -136,7 +137,7 @@ describe('avenir-esr customFetch', () => {
         result = await customFetch<User>('/api/users/1', { method: 'GET' })
       })
 
-      it('then should pass through generic type correctly', () => {
+      BddTest().then('should pass through generic type correctly', () => {
         expect(result).toEqual(mockUser)
         expect(result.id).toBe(1)
         expect(result.name).toBe('John Doe')
@@ -145,7 +146,7 @@ describe('avenir-esr customFetch', () => {
     })
   })
 
-  describe('given complex request options', () => {
+  BddTest().and('complex request options', () => {
     const requestOptions: RequestInit = {
       method: 'PUT',
       headers: {
@@ -161,26 +162,26 @@ describe('avenir-esr customFetch', () => {
       vi.resetModules()
     })
 
-    describe('when customFetch is called with complex options', () => {
+    BddTest().when('customFetch is called with complex options', () => {
       beforeEach(async () => {
         const { customFetch } = await import('./fetch-instance')
         await customFetch('/api/data', requestOptions)
       })
 
-      it('then should preserve all request options when calling fetcher', () => {
+      BddTest().then('should preserve all request options when calling fetcher', () => {
         expect(mockFetcher).toHaveBeenCalledWith('/api/data', requestOptions)
       })
     })
   })
 
-  describe('given a module is imported', () => {
+  BddTest().and('a module is imported', () => {
     beforeEach(async () => {
       vi.resetModules()
       await import('./fetch-instance')
     })
 
-    describe('when module initialization occurs', () => {
-      it('then should call createCustomFetch during initialization', () => {
+    BddTest().when('module initialization occurs', () => {
+      BddTest().then('should call createCustomFetch during initialization', () => {
         expect(mockedCreateCustomFetch).toHaveBeenCalledTimes(1)
         expect(mockedCreateCustomFetch).toHaveBeenCalledWith(
           {
@@ -191,7 +192,7 @@ describe('avenir-esr customFetch', () => {
         )
       })
 
-      it('then should instantiate FetchInterceptorManager during initialization', () => {
+      BddTest().then('should instantiate FetchInterceptorManager during initialization', () => {
         expect(mockedFetchInterceptorManager).toHaveBeenCalledTimes(1)
         expect(mockAddRequestInterceptor).toHaveBeenCalledTimes(1)
         expect(mockAddRequestInterceptor).toHaveBeenCalledWith(expect.any(Function))

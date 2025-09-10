@@ -1,7 +1,9 @@
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
-import { mount, RouterLinkStub } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
+import { mountWithRouter } from '@/ui/tests/utils'
+import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
 
 vi.mock('vue-router', () => ({
@@ -10,10 +12,8 @@ vi.mock('vue-router', () => ({
 
 const mockedUseRouter: MockedFunction<typeof useRouter> = vi.mocked(useRouter)
 
-describe('pageTitle', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+BddTest().given('a page title', () => {
+  let wrapper: VueWrapper
 
   const breadcrumbLinks = [
     { text: 'Home', to: '/' },
@@ -21,68 +21,82 @@ describe('pageTitle', () => {
   ]
   const title = 'Page title'
   const back = studentProjectSkillsRoute
+  const props = {
+    breadcrumbLinks,
+    title
+  }
 
-  it('should render with provided props', () => {
-    const props = {
-      breadcrumbLinks,
-      title
-    }
-
-    const wrapper = mount(PageTitle, { props, global: {
-      stubs: {
-        RouterLink: RouterLinkStub,
-      }
-    } })
-
-    const breadcrumb = wrapper.getComponent({ name: 'DsfrBreadcrumb' })
-    expect(breadcrumb.props('links')).toStrictEqual(breadcrumbLinks)
-
-    const pageTitle = wrapper.find('.page-title')
-    const spanTitle = pageTitle.find('.n2')
-    expect(spanTitle.text()).toBe(title)
+  beforeEach(async () => {
+    vi.clearAllMocks()
   })
 
-  it('should call router.push with default "back" path', async () => {
-    const mockRouter: Partial<Router> = {
-      push: vi.fn(),
-    }
-    mockedUseRouter.mockReturnValue(mockRouter as Router)
-    const wrapper = mount(PageTitle, {
-      props: {
-        breadcrumbLinks,
-        title
-      },
-      global: {
-        stubs: {
-          RouterLink: RouterLinkStub,
+  BddTest().when('the component is mounted with provided props', () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(PageTitle, {
+        props,
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub,
+          }
         }
-      }
+      })
     })
 
-    const button = wrapper.findComponent({ name: 'AvButton' })
-    await button.trigger('click')
-    expect(mockRouter.push).toHaveBeenCalledWith(studentHomeRoute)
+    BddTest().then('it should render properly', () => {
+      const breadcrumb = wrapper.getComponent({ name: 'DsfrBreadcrumb' })
+      expect(breadcrumb.props('links')).toStrictEqual(breadcrumbLinks)
+
+      const pageTitle = wrapper.find('.page-title')
+      const spanTitle = pageTitle.find('.n2')
+      expect(spanTitle.text()).toBe(title)
+    })
   })
 
-  it('should call router.push with provided "back"', async () => {
-    const props = {
-      breadcrumbLinks,
-      title,
-      back
-    }
+  BddTest().when('clicking on the back button without back provided', () => {
+    let mockRouter: Partial<Router>
 
-    const mockRouter: Partial<Router> = {
-      push: vi.fn(),
-    }
-    mockedUseRouter.mockReturnValue(mockRouter as Router)
-    const wrapper = mount(PageTitle, { props, global: {
-      stubs: {
-        RouterLink: RouterLinkStub,
-      }
-    } })
+    beforeEach(async () => {
+      mockRouter = { push: vi.fn() }
+      mockedUseRouter.mockReturnValue(mockRouter as Router)
 
-    const button = wrapper.findComponent({ name: 'AvButton' })
-    await button.trigger('click')
-    expect(mockRouter.push).toHaveBeenCalledWith(back)
+      wrapper = await mountWithRouter(PageTitle, {
+        props,
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub,
+          }
+        }
+      })
+    })
+
+    BddTest().then('it should call router.push with default "back" path', async () => {
+      const button = wrapper.findComponent({ name: 'AvButton' })
+      await button.trigger('click')
+      expect(mockRouter.push).toHaveBeenCalledWith(studentHomeRoute)
+    })
+  })
+
+  BddTest().when('clicking on the back button with back provided', () => {
+    let mockRouter: Partial<Router>
+
+    beforeEach(async () => {
+      mockRouter = { push: vi.fn() }
+      mockedUseRouter.mockReturnValue(mockRouter as Router)
+
+      wrapper = await mountWithRouter(PageTitle, {
+        props: { ...props, back },
+        global: {
+          stubs: {
+            RouterLink: RouterLinkStub,
+          }
+        }
+      })
+    })
+
+    BddTest().then('it should call router.push with provided "back" path', async () => {
+      const button = wrapper.findComponent({ name: 'AvButton' })
+      await button.trigger('click')
+      expect(mockRouter.push).toHaveBeenCalledWith(back)
+    })
   })
 })

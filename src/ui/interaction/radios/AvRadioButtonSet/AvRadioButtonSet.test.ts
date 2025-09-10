@@ -1,10 +1,13 @@
 import AvRadioButton from '@/ui/interaction/radios/AvRadioButton/AvRadioButton.vue'
 import AvRadioButtonSet, { type AvRadioButtonSetProps } from '@/ui/interaction/radios/AvRadioButtonSet/AvRadioButtonSet.vue'
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { h } from 'vue'
 
-describe('avRadioButtonSet', () => {
+BddTest().given('a radio button set', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvRadioButtonSet>>
+
   const stubs = {
     DsfrRadioButton: {
       props: ['modelValue', 'value', 'disabled'],
@@ -37,22 +40,20 @@ describe('avRadioButtonSet', () => {
     ]
   }
 
-  describe('given a radio button set with multiple radio buttons', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvRadioButtonSet>>
-
+  BddTest().and('with multiple radio buttons', () => {
     beforeEach(() => {
       wrapper = mount(AvRadioButtonSet, { props, slots, global: { stubs } })
     })
 
-    describe('when the radio button set is mounted', () => {
-      it('then it should render all radio buttons', () => {
+    BddTest().when('the radio button set is mounted', () => {
+      BddTest().then('it should render all radio buttons', () => {
         const radios = wrapper.findAll('input[type="radio"]')
         expect(radios.length).toBe(3)
       })
     })
 
-    describe('when selecting a new radio button', () => {
-      it('then it should update the selected radio button', async () => {
+    BddTest().when('selecting a new radio button', () => {
+      BddTest().then('it should update the selected radio button', async () => {
         const radios = wrapper.findAll('input[type="radio"]')
         await radios[1].setValue()
 
@@ -62,30 +63,26 @@ describe('avRadioButtonSet', () => {
     })
   })
 
-  describe('given no slot provided', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvRadioButtonSet>>
-
+  BddTest().and('with no slot provided', () => {
     beforeEach(() => {
       wrapper = mount(AvRadioButtonSet, { props })
     })
 
-    describe('when the radio button set is mounted', () => {
-      it('then it should not render any radio button', () => {
+    BddTest().when('the radio button set is mounted', () => {
+      BddTest().then('it should not render any radio button', () => {
         const radios = wrapper.findAllComponents({ name: 'AvRadioButton' })
         expect(radios.length).toBe(0)
       })
     })
   })
 
-  describe('given a modelValue change from the parent', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvRadioButtonSet>>
-
+  BddTest().and('with a modelValue change from the parent', () => {
     beforeEach(() => {
       wrapper = mount(AvRadioButtonSet, { props, slots })
     })
 
-    describe('when the parent updates modelValue', () => {
-      it('then it should update the selected radio button accordingly', async () => {
+    BddTest().when('the parent updates modelValue', () => {
+      BddTest().then('it should update the selected radio button accordingly', async () => {
         await wrapper.setProps({ modelValue: 'Radio 3' })
         expect(wrapper.vm.selected).toBe('Radio 3')
       })

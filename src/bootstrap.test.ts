@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { createApp } from 'vue'
 
 vi.mock('@/plugins/tanstack-query/tanstack-query')
@@ -37,12 +38,12 @@ vi.mock('@/ui/styles/main.scss')
 
 const mockCreateApp = vi.mocked(createApp)
 
-describe('bootstrap.ts', () => {
+BddTest().given('a bootstrap', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  describe('given main.ts is imported in production environment', () => {
+  BddTest().and('main.ts is imported in production environment', () => {
     beforeEach(() => {
       Object.defineProperty(import.meta, 'env', {
         value: { PROD: true },
@@ -52,12 +53,12 @@ describe('bootstrap.ts', () => {
       vi.stubGlobal('__ENABLE_MSW__', false)
     })
 
-    describe('when the module is loaded', () => {
+    BddTest().when('the module is loaded', () => {
       beforeEach(async () => {
         await import('@/main')
       })
 
-      it('then should call createVueApp and mount app without MSW', () => {
+      BddTest().then('should call createVueApp and mount app without MSW', () => {
         expect(mockCreateApp).toHaveBeenCalledWith(expect.any(Object))
         const appMock = mockCreateApp.mock.results[0].value
         expect(appMock.use).toHaveBeenCalled()
@@ -66,7 +67,7 @@ describe('bootstrap.ts', () => {
     })
   })
 
-  describe('given main.ts is imported in development environment with MSW enabled', () => {
+  BddTest().and('main.ts is imported in development environment with MSW enabled', () => {
     const mockWorkerStart = vi.fn().mockResolvedValue(undefined)
 
     beforeEach(() => {
@@ -84,13 +85,13 @@ describe('bootstrap.ts', () => {
       }))
     })
 
-    describe('when the module is loaded', () => {
+    BddTest().when('the module is loaded', () => {
       beforeEach(async () => {
         vi.resetModules()
         await import('@/main')
       })
 
-      it('then should start MSW worker before mounting app', () => {
+      BddTest().then('should start MSW worker before mounting app', () => {
         const basePath = import.meta.env.VITE_BASE_PATH || '/cofolio/'
         expect(mockWorkerStart).toHaveBeenCalledWith({
           onUnhandledRequest: 'bypass',
@@ -105,7 +106,7 @@ describe('bootstrap.ts', () => {
     })
   })
 
-  describe('given main.ts is imported in development environment with MSW disabled', () => {
+  BddTest().and('main.ts is imported in development environment with MSW disabled', () => {
     beforeEach(() => {
       Object.defineProperty(import.meta, 'env', {
         value: { PROD: false },
@@ -115,13 +116,13 @@ describe('bootstrap.ts', () => {
       vi.stubGlobal('__ENABLE_MSW__', false)
     })
 
-    describe('when the module is loaded', () => {
+    BddTest().when('the module is loaded', () => {
       beforeEach(async () => {
         vi.resetModules()
         await import('@/main')
       })
 
-      it('then should mount app without starting MSW', () => {
+      BddTest().then('should mount app without starting MSW', () => {
         expect(mockCreateApp).toHaveBeenCalledWith(expect.any(Object))
         const appMock = mockCreateApp.mock.results[0].value
         expect(appMock.use).toHaveBeenCalled()
@@ -130,21 +131,21 @@ describe('bootstrap.ts', () => {
     })
   })
 
-  describe('given createVueApp is called directly', () => {
+  BddTest().and('createVueApp is called directly', () => {
     let result: ReturnType<typeof createApp>
 
-    describe('when createVueApp is invoked', () => {
+    BddTest().when('createVueApp is invoked', () => {
       beforeEach(async () => {
         const { createVueApp } = await import('@/bootstrap')
         result = createVueApp()
       })
 
-      it('then should create app with correct configuration', () => {
+      BddTest().then('should create app with correct configuration', () => {
         expect(mockCreateApp).toHaveBeenCalledWith(expect.any(Object))
         expect(result.use).toHaveBeenCalled()
       })
 
-      it('then should register all required plugins', () => {
+      BddTest().then('should register all required plugins', () => {
         const appMock = mockCreateApp.mock.results[0].value
         expect(appMock.use).toHaveBeenCalledTimes(4) // store, router, tanstackQuery, i18nAvPlugin
       })

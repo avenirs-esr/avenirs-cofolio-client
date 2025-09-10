@@ -4,7 +4,8 @@ import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '
 import { mountComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -16,7 +17,7 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-describe('given an useUpdateProfile composable', () => {
+BddTest().given('an useUpdateProfile composable', () => {
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfile>
 
@@ -29,13 +30,13 @@ describe('given an useUpdateProfile composable', () => {
     }).result
   })
 
-  describe('when update profile succeeds', () => {
+  BddTest().when('update profile succeeds', () => {
     beforeEach(() => {
       const handler = createPutUpdateProfileHandler('test@example.com')
       server.use(handler)
     })
 
-    it('then it should call the onSuccess callback', async () => {
+    BddTest().then('it should call the onSuccess callback', async () => {
       await result.onUpdateProfile({ email: 'test@example.com' })
       await flushPromises()
 
@@ -43,12 +44,12 @@ describe('given an useUpdateProfile composable', () => {
     })
   })
 
-  describe('when update profile fails with server error', () => {
+  BddTest().when('update profile fails with server error', () => {
     beforeEach(() => {
       server.use(putUpdateProfileErrorHandler)
     })
 
-    it('then it should show an error message', async () => {
+    BddTest().then('it should show an error message', async () => {
       await result.onUpdateProfile({ email: 'test@example.com' })
       await flushPromises()
 
@@ -60,7 +61,7 @@ describe('given an useUpdateProfile composable', () => {
   })
 })
 
-describe('given an useUpdateProfileCover composable', () => {
+BddTest().given('an useUpdateProfileCover composable', () => {
   const fakeFile = new File(['cover'], 'cover.jpg', { type: 'image/jpeg' })
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfileCover>
@@ -74,13 +75,13 @@ describe('given an useUpdateProfileCover composable', () => {
     }).result
   })
 
-  describe('when update profile cover succeeds', () => {
+  BddTest().when('update profile cover succeeds', () => {
     beforeEach(() => {
       const handler = createPutUpdateProfileCoverHandler('new-url.jpeg')
       server.use(handler)
     })
 
-    it('then it should call the onSuccess callback', async () => {
+    BddTest().then('it should call the onSuccess callback', async () => {
       await result.onUpdateProfileCoverAsync({ file: fakeFile })
       await flushPromises()
 
@@ -88,12 +89,12 @@ describe('given an useUpdateProfileCover composable', () => {
     })
   })
 
-  describe('when update profile cover fails with server error', () => {
+  BddTest().when('update profile cover fails with server error', () => {
     beforeEach(() => {
       server.use(putUpdateProfileCoverErrorHandler)
     })
 
-    it('then it should show an error message', async () => {
+    BddTest().then('it should show an error message', async () => {
       await result.onUpdateProfileCoverAsync({ file: fakeFile }).catch(() => {})
       await flushPromises()
 
@@ -105,7 +106,7 @@ describe('given an useUpdateProfileCover composable', () => {
   })
 })
 
-describe('given an useUpdateProfilePhoto composable', () => {
+BddTest().given('an useUpdateProfilePhoto composable', () => {
   const fakeFile = new File(['photo'], 'photo.jpg', { type: 'image/jpeg' })
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfilePhoto>
@@ -119,13 +120,13 @@ describe('given an useUpdateProfilePhoto composable', () => {
     }).result
   })
 
-  describe('when update profile photo succeeds', () => {
+  BddTest().when('update profile photo succeeds', () => {
     beforeEach(() => {
       const handler = createPutUpdateProfilePhotoHandler('new-url.jpeg')
       server.use(handler)
     })
 
-    it('then it should call the onSuccess callback', async () => {
+    BddTest().then('it should call the onSuccess callback', async () => {
       await result.onUpdateProfilePhotoAsync({ file: fakeFile })
       await flushPromises()
 
@@ -133,12 +134,12 @@ describe('given an useUpdateProfilePhoto composable', () => {
     })
   })
 
-  describe('when update profile cover fails with server error', () => {
+  BddTest().when('update profile cover fails with server error', () => {
     beforeEach(() => {
       server.use(putUpdateProfilePhotoErrorHandler)
     })
 
-    it('then it should show an error message', async () => {
+    BddTest().then('it should show an error message', async () => {
       await result.onUpdateProfilePhotoAsync({ file: fakeFile }).catch(() => {})
       await flushPromises()
 

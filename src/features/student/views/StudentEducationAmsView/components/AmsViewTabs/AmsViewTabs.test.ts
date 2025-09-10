@@ -1,35 +1,36 @@
+import { AmsListContainerStub } from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.stub'
+import { AmsPlanningContainerStub } from '@/features/student/views/StudentEducationAmsView/components/AmsPlanningContainer/AmsPlanningContainer.stub'
 import AmsViewTabs from '@/features/student/views/StudentEducationAmsView/components/AmsViewTabs/AmsViewTabs.vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('amsViewTabs', () => {
-  describe('given an ams tab switcher', () => {
-    let wrapper: ReturnType<typeof mount<typeof AmsViewTabs>>
+BddTest().given('an ams tab switcher', () => {
+  let wrapper: VueWrapper<InstanceType <typeof AmsViewTabs>>
 
-    const stubs = {
-      AmsListContainer: { name: 'AmsListContainer', template: '<div class="ams-list-container" />' },
-      AmsPlanningContainer: { name: 'AmsPlanningContainer', template: '<div class="ams-planning-container" />' },
-    }
+  const stubs = {
+    AmsListContainer: AmsListContainerStub,
+    AmsPlanningContainer: AmsPlanningContainerStub,
+  }
 
-    beforeEach(() => {
-      wrapper = mount<typeof AmsViewTabs>(AmsViewTabs, { global: { stubs } })
+  beforeEach(() => {
+    wrapper = mount(AmsViewTabs, { global: { stubs } })
+  })
+
+  BddTest().when('the ams planning container is mounted', () => {
+    BddTest().then('it should render two tabs and their content', () => {
+      const tabs = wrapper.findAll('.fr-tabs__tab')
+      expect(tabs).toHaveLength(2)
+      expect(tabs[0].text()).toBe('Liste de mes AMS')
+      expect(wrapper.find('.ams-list-container').exists()).toBe(true)
+      expect(tabs[1].text()).toBe('Planning de mes AMS')
+      expect(wrapper.find('.ams-planning-container').exists()).toBe(true)
     })
 
-    describe('when the ams planning container is mounted', () => {
-      it('then it should render two tabs and their content', () => {
-        const tabs = wrapper.findAll('.fr-tabs__tab')
-        expect(tabs).toHaveLength(2)
-        expect(tabs[0].text()).toBe('Liste de mes AMS')
-        expect(wrapper.find('.ams-list-container').exists()).toBe(true)
-        expect(tabs[1].text()).toBe('Planning de mes AMS')
-        expect(wrapper.find('.ams-planning-container').exists()).toBe(true)
-      })
-
-      it('then it should render with ams list tab selected', () => {
-        const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
-        expect(selectedTab.exists()).toBe(true)
-        expect(selectedTab.text()).toBe('Liste de mes AMS')
-      })
+    BddTest().then('it should render with ams list tab selected', () => {
+      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      expect(selectedTab.exists()).toBe(true)
+      expect(selectedTab.text()).toBe('Liste de mes AMS')
     })
   })
 })

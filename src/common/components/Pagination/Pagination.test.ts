@@ -1,7 +1,8 @@
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { PageSizes } from '@/ui/config'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const defaultPageInfo = {
   page: 1,
@@ -38,49 +39,51 @@ function createWrapper (props = {}, slots = {}) {
   })
 }
 
-describe('pagination', () => {
-  describe('given valid props', () => {
+BddTest().given('a pagination', () => {
+  BddTest().and('valid props', () => {
     let wrapper: ReturnType<typeof mount<typeof Pagination>>
 
     beforeEach(() => {
       wrapper = createWrapper()
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render two AvPagination components', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render two AvPagination components', () => {
         const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
         expect(paginations).toHaveLength(2)
       })
 
-      it('then it should render AvPageSizePicker', () => {
+      BddTest().then('it should render AvPageSizePicker', () => {
         const pageSize = wrapper.findComponent({ name: 'AvPageSizePicker' })
         expect(pageSize.exists()).toBe(true)
       })
     })
 
-    describe('when AvPagination emits update:current-page', () => {
-      it('then it should call onUpdateCurrentPage with correct value', async () => {
+    BddTest().when('AvPagination emits update:current-page', () => {
+      BddTest().then('it should call onUpdateCurrentPage with correct value', async () => {
         await wrapper.find('.pagination').trigger('click')
         expect(wrapper.props('onUpdateCurrentPage')).toHaveBeenCalledWith(2)
       })
     })
 
-    describe('when AvPageSizePicker triggers handleSelectChange', () => {
-      it('then it should call onUpdatePageSize with the selected value', async () => {
+    BddTest().when('AvPageSizePicker triggers handleSelectChange', () => {
+      BddTest().then('it should call onUpdatePageSize with the selected value', async () => {
         await wrapper.find('.page-size-picker').trigger('click')
         expect(wrapper.props('onUpdatePageSize')).toHaveBeenCalledWith(12)
       })
     })
   })
 
-  describe('given default slot is provided', () => {
-    it('then it should render the slot content', () => {
-      const wrapper = createWrapper({}, {
-        default: '<div class="slot-content">Hello slot</div>'
-      })
+  BddTest().and('a provided default slot', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the slot content', () => {
+        const wrapper = createWrapper({}, {
+          default: '<div class="slot-content">Hello slot</div>'
+        })
 
-      expect(wrapper.find('.slot-content').exists()).toBe(true)
-      expect(wrapper.text()).toContain('Hello slot')
+        expect(wrapper.find('.slot-content').exists()).toBe(true)
+        expect(wrapper.text()).toContain('Hello slot')
+      })
     })
   })
 })

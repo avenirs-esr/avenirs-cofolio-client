@@ -5,9 +5,11 @@ import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
 import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAmsStore } from '@/store'
+import { AvTagPickerStub } from '@/ui/interaction/picker/AvTagPicker/AvTagPicker.stub'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()
@@ -19,29 +21,11 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
 
 const mockedUseAllMyProgramProgressQuery = vi.mocked(useAllMyProgramProgressQuery)
 
-describe('programProgressSelector', () => {
+BddTest().given('a program progress selector', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ProgramProgressSelector>>
+
   const stubs = {
-    AvTagPicker: {
-      name: 'AvTagPicker',
-      props: [
-        'label',
-        'options',
-        'selected',
-        'handleSelectChange'
-      ],
-      template: `
-        <div class="av-tag-picker-stub">
-          <button
-            v-for="option in options"
-            :key="option.value"
-            :data-testid="'option-' + option.value"
-            @click="handleSelectChange(option)"
-          >
-            {{ option.label }}
-          </button>
-        </div>
-      `
-    }
+    AvTagPicker: AvTagPickerStub
   }
 
   const mockPrograms: TrainingPathDTO[] = [
@@ -85,9 +69,7 @@ describe('programProgressSelector', () => {
     mockUseAllMyProgramProgressQuery(mockPrograms)
   })
 
-  describe('given a program progress selector without initial selected program', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('without initial selected program', () => {
     beforeEach(() => {
       wrapper = mount(ProgramProgressSelector, {
         global: {
@@ -97,16 +79,16 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when the component is rendered', () => {
-      it('then it should render the selector container', () => {
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('it should render the selector container', () => {
         expect(wrapper.find('.program-progress-selector').exists()).toBe(true)
       })
 
-      it('then it should render the AvTagPicker', () => {
+      BddTest().then('it should render the AvTagPicker', () => {
         expect(wrapper.findComponent({ name: 'AvTagPicker' }).exists()).toBe(true)
       })
 
-      it('then programs should be converted to options correctly', () => {
+      BddTest().then('programs should be converted to options correctly', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         const expectedOptions = mockPrograms.map(program => ({
           label: program.name,
@@ -115,19 +97,19 @@ describe('programProgressSelector', () => {
         expect(tagPicker.props('options')).toEqual(expectedOptions)
       })
 
-      it('then the label should be passed to AvTagPicker', () => {
+      BddTest().then('the label should be passed to AvTagPicker', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('label')).toBe('Mes formations :')
       })
     })
 
-    describe('when a user clicks on an option button', () => {
+    BddTest().when('a user clicks on an option button', () => {
       beforeEach(async () => {
         const optionButton = wrapper.find('[data-testid="option-2"]')
         await optionButton.trigger('click')
       })
 
-      it('then the selectedProgramProgressId model should be updated', () => {
+      BddTest().then('the selectedProgramProgressId model should be updated', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual({
           label: mockPrograms[1].name,
@@ -135,13 +117,13 @@ describe('programProgressSelector', () => {
         })
       })
 
-      it('then the currentPage should be reset to 0', () => {
+      BddTest().then('the currentPage should be reset to 0', () => {
         const store = useAmsStore()
         expect(store.currentPage).toBe(0)
       })
     })
 
-    describe('when a new option is selected via the handler', () => {
+    BddTest().when('a new option is selected via the handler', () => {
       beforeEach(async () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         const selectedOption = {
@@ -152,7 +134,7 @@ describe('programProgressSelector', () => {
         await wrapper.vm.$nextTick()
       })
 
-      it('then the selectedProgramProgressId model should be updated', () => {
+      BddTest().then('the selectedProgramProgressId model should be updated', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual({
           label: mockPrograms[2].name,
@@ -160,16 +142,14 @@ describe('programProgressSelector', () => {
         })
       })
 
-      it('then the currentPage should be reset to 0', () => {
+      BddTest().then('the currentPage should be reset to 0', () => {
         const store = useAmsStore()
         expect(store.currentPage).toBe(0)
       })
     })
   })
 
-  describe('given a program progress selector with initial selected program', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with initial selected program', () => {
     beforeEach(() => {
       wrapper = mount(ProgramProgressSelector, {
         props: {
@@ -182,8 +162,8 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when the component is rendered', () => {
-      it('then the AvTagPicker should receive the selected program as a mapped option', () => {
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('the AvTagPicker should receive the selected program as a mapped option', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual({
           label: mockPrograms[0].name,
@@ -193,9 +173,7 @@ describe('programProgressSelector', () => {
     })
   })
 
-  describe('given a program progress selector with empty programs array', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with empty programs array', () => {
     beforeEach(() => {
       mockUseAllMyProgramProgressQuery([])
       wrapper = mount(ProgramProgressSelector, {
@@ -206,17 +184,15 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when the component is rendered', () => {
-      it('then the AvTagPicker should receive an empty options array', () => {
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('the AvTagPicker should receive an empty options array', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('options')).toEqual([])
       })
     })
   })
 
-  describe('given the programs are fetched and no program is initially selected', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('the programs are fetched and no program is initially selected', () => {
     beforeEach(async () => {
       const mockData: Ref<TrainingPathDTO[]> = ref(mockPrograms)
       const mockIsFetched: Ref<boolean> = ref(false)
@@ -241,8 +217,8 @@ describe('programProgressSelector', () => {
       await wrapper.vm.$nextTick()
     })
 
-    describe('when the programs are fetched', () => {
-      it('then the first program should be automatically selected', () => {
+    BddTest().when('the programs are fetched', () => {
+      BddTest().then('the first program should be automatically selected', () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toEqual({
           label: mockPrograms[0].name,
@@ -252,9 +228,7 @@ describe('programProgressSelector', () => {
     })
   })
 
-  describe('given the programs are not yet fetched', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('the programs are not yet fetched', () => {
     beforeEach(() => {
       mockUseAllMyProgramProgressQuery([], false)
       wrapper = mount(ProgramProgressSelector, {
@@ -265,8 +239,8 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then no program should be automatically selected', async () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('no program should be automatically selected', async () => {
         await wrapper.vm.$nextTick()
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('selected')).toBeUndefined()
@@ -274,14 +248,13 @@ describe('programProgressSelector', () => {
     })
   })
 
-  describe('given a program progress selector with specific program mapping', () => {
+  BddTest().and('with specific program mapping', () => {
     const program: TrainingPathDTO = {
       id: 'test-id',
       name: 'Test Program Name',
       durationUnit: EDurationUnit.YEAR,
       durationCount: 2
     }
-    let wrapper: VueWrapper
 
     beforeEach(() => {
       mockUseAllMyProgramProgressQuery([program])
@@ -296,8 +269,8 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when the component is rendered', () => {
-      it('then the program should be correctly mapped to an AvTagPickerOption', () => {
+    BddTest().when('the component is rendered', () => {
+      BddTest().then('the program should be correctly mapped to an AvTagPickerOption', () => {
         const expectedOption = {
           label: 'Test Program Name',
           value: 'test-id'
@@ -308,9 +281,7 @@ describe('programProgressSelector', () => {
     })
   })
 
-  describe('given programs data changes', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('programs data changes', () => {
     beforeEach(() => {
       const mockData: Ref<TrainingPathDTO[]> = ref([])
       const mockIsFetched: Ref<boolean> = ref(false)
@@ -332,8 +303,8 @@ describe('programProgressSelector', () => {
       })
     })
 
-    describe('when programs are loaded after initial mount', () => {
-      it('then options should be updated correctly', async () => {
+    BddTest().when('programs are loaded after initial mount', () => {
+      BddTest().then('options should be updated correctly', async () => {
         const tagPicker = wrapper.findComponent({ name: 'AvTagPicker' })
         expect(tagPicker.props('options')).toEqual([])
 

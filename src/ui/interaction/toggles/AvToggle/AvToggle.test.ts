@@ -1,8 +1,11 @@
 import AvToggle from '@/ui/interaction/toggles/AvToggle/AvToggle.vue'
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('avToggle', () => {
+BddTest().given('an AvToggle', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvToggle>>
+
   const defaultProps = {
     modelValue: false,
     description: 'test description',
@@ -12,36 +15,34 @@ describe('avToggle', () => {
     name: 'status-toggle',
   }
 
-  describe('given a toggle with default props', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
-
+  BddTest().and('with default props', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, {
         props: defaultProps,
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the inactive text', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the inactive text', () => {
         expect(wrapper.text()).toContain('No')
       })
 
-      it('then it should not render the active text', () => {
+      BddTest().then('it should not render the active text', () => {
         expect(wrapper.text()).not.toContain('Yes')
       })
 
-      it('then the input should be unchecked', () => {
+      BddTest().then('the input should be unchecked', () => {
         const input = wrapper.find('input[type="checkbox"]')
         expect((input.element as HTMLInputElement).checked).toBe(false)
       })
 
-      it('then it should render the description text', () => {
+      BddTest().then('it should render the description text', () => {
         expect(wrapper.text()).toContain('test description')
       })
     })
 
-    describe('when the toggle is clicked', () => {
-      it('then it should emit an update:modelValue event', async () => {
+    BddTest().when('the toggle is clicked', () => {
+      BddTest().then('it should emit an update:modelValue event', async () => {
         const input = wrapper.find('input')
         await input.setValue(true)
 
@@ -51,38 +52,34 @@ describe('avToggle', () => {
     })
   })
 
-  describe('given a toggle initially active', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
-
+  BddTest().and('initially active', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, {
         props: { ...defaultProps, modelValue: true },
       })
     })
 
-    describe('when the toggle is mounted', () => {
-      it('then it should render the active text', () => {
+    BddTest().when('the toggle is mounted', () => {
+      BddTest().then('it should render the active text', () => {
         expect(wrapper.text()).toContain('Yes')
       })
 
-      it('then the input should be checked', () => {
+      BddTest().then('the input should be checked', () => {
         const input = wrapper.find('input[type="checkbox"]')
         expect((input.element as HTMLInputElement).checked).toBe(true)
       })
     })
   })
 
-  describe('given a toggle disabled', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
-
+  BddTest().and('disabled', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, {
         props: { ...defaultProps, disabled: true },
       })
     })
 
-    describe('when the toggle is mounted', () => {
-      it('then it should have disabled class and input disabled', () => {
+    BddTest().when('the toggle is mounted', () => {
+      BddTest().then('it should have disabled class and input disabled', () => {
         const label = wrapper.find('label')
         expect(label.classes()).toContain('av-toggle--disabled')
 
@@ -93,15 +90,13 @@ describe('avToggle', () => {
     })
   })
 
-  describe('given a toggle without id', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvToggle>>
-
+  BddTest().and('without id', () => {
     beforeEach(() => {
       wrapper = mount(AvToggle, { props: { description: 'noId' } })
     })
 
-    describe('when the toggle is mounted', () => {
-      it('then it should generate a random input id', () => {
+    BddTest().when('the toggle is mounted', () => {
+      BddTest().then('it should generate a random input id', () => {
         const input = wrapper.find('input[type="checkbox"]')
         const inputId = input.attributes('id')
         expect(inputId).toBeDefined()

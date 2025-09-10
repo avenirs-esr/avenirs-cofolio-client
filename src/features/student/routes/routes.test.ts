@@ -35,7 +35,7 @@ import StudentSkillView from '@/features/student/views/StudentSkillView/StudentS
 import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import { testRoute } from 'tests/utils'
+import { BddTest, testRoute } from 'tests/utils'
 
 testRoute(
   studentHomeRoute,
@@ -190,38 +190,41 @@ testRoute(
   StudentApcUnavailableView
 )
 
-describe('student root route', () => {
+BddTest().given('the student root route', () => {
   const studentRootRoute = routes.find(route => route.path === '/student')
+  BddTest().when('getting the route', () => {
+    BddTest().then('it should exist and have correct base config', () => {
+      expect(studentRootRoute).toBeDefined()
+      expect(studentRootRoute?.path).toBe('/student')
+      expect(studentRootRoute?.component).toBeDefined()
+      expect(studentRootRoute?.children).toEqual([
+        studentHomeRoute,
+        studentAmsRoute,
+        studentDeliverablesRoute,
+        studentEducationSkillsRoute,
+        studentEducationAmsRoute,
+        studentEventsRoute,
+        studentProjectSkillsRoute,
+        studentProjectExperiencesRoute,
+        studentProjectTrajectoriesRoute,
+        studentSkillRoute,
+        studentToolsTracesRoute,
+        studentToolsPagesRoute,
+        studentToolsResumesRoute,
+        studentAboutRoute,
+        studentMailboxRoute,
+        studentNotificationsRoute,
+        studentApcUnavailableRoute,
+      ])
+    })
 
-  it('should exist and have correct base config', () => {
-    expect(studentRootRoute).toBeDefined()
-    expect(studentRootRoute?.path).toBe('/student')
-    expect(studentRootRoute?.component).toBeDefined()
-    expect(studentRootRoute?.children).toEqual([
-      studentHomeRoute,
-      studentAmsRoute,
-      studentDeliverablesRoute,
-      studentEducationSkillsRoute,
-      studentEducationAmsRoute,
-      studentEventsRoute,
-      studentProjectSkillsRoute,
-      studentProjectExperiencesRoute,
-      studentProjectTrajectoriesRoute,
-      studentSkillRoute,
-      studentToolsTracesRoute,
-      studentToolsPagesRoute,
-      studentToolsResumesRoute,
-      studentAboutRoute,
-      studentMailboxRoute,
-      studentNotificationsRoute,
-      studentApcUnavailableRoute,
-    ])
-  })
-
-  it('should dynamically import StudentLayout component', async () => {
-    const componentLoader = studentRootRoute?.component as () => Promise<{ default: unknown }>
-    const componentModule = await componentLoader()
-    expect(componentModule).toBeDefined()
-    expect(componentModule.default).toBe(StudentLayout)
+    BddTest().when('loading the route', () => {
+      BddTest().then('it should dynamically import StudentLayout component', async () => {
+        const componentLoader = studentRootRoute?.component as () => Promise<{ default: unknown }>
+        const componentModule = await componentLoader()
+        expect(componentModule).toBeDefined()
+        expect(componentModule.default).toBe(StudentLayout)
+      })
+    })
   })
 })

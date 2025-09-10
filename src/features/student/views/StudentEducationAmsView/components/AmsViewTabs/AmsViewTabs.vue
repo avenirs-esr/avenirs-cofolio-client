@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
-import AmsPlanningContainer from '@/features/student/views/StudentEducationAmsView/components/AmsPlanningContainter/AmsPlanningContainer.vue'
+import AmsPlanningContainer from '@/features/student/views/StudentEducationAmsView/components/AmsPlanningContainer/AmsPlanningContainer.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@/ui'
 import { useI18n } from 'vue-i18n'
 

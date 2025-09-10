@@ -1,4 +1,6 @@
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 import AdditionalSkillTypeBadge from './AdditionalSkillTypeBadge.vue'
 
 const stubs = {
@@ -9,66 +11,64 @@ const stubs = {
   }
 }
 
-describe('additionalSkillTypeBadge', () => {
-  describe('given an additional skill type badge component', () => {
-    let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillTypeBadge>>
+BddTest().given('an additional skill type badge component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillTypeBadge>>
 
-    beforeEach(() => {
-      vi.clearAllMocks()
+  beforeEach(() => {
+    vi.clearAllMocks()
 
-      wrapper = mount(AdditionalSkillTypeBadge, {
-        props: {
-          label: 'ROME 4.0',
-          backgroundColor: 'var(--dark-background-primary1)'
-        },
-        global: {
-          stubs
-        }
-      })
+    wrapper = mount(AdditionalSkillTypeBadge, {
+      props: {
+        label: 'ROME 4.0',
+        backgroundColor: 'var(--dark-background-primary1)'
+      },
+      global: {
+        stubs
+      }
+    })
+  })
+
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render AvBadge with correct props', () => {
+      const badge = wrapper.findComponent({ name: 'AvBadge' })
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('label')).toBe('ROME 4.0')
+      expect(badge.props('color')).toBe('white')
+      expect(badge.props('borderColor')).toBe('var(--dark-background-primary1)')
+      expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary1)')
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render AvBadge with correct props', () => {
-        const badge = wrapper.findComponent({ name: 'AvBadge' })
+    BddTest().then('it should apply additional-skill-type-badge class', () => {
+      const badge = wrapper.findComponent({ name: 'AvBadge' })
 
-        expect(badge.exists()).toBe(true)
-        expect(badge.props('label')).toBe('ROME 4.0')
-        expect(badge.props('color')).toBe('white')
-        expect(badge.props('borderColor')).toBe('var(--dark-background-primary1)')
-        expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary1)')
+      expect(badge.classes()).toContain('additional-skill-type-badge')
+    })
+  })
+
+  BddTest().when('different props are provided', () => {
+    BddTest().then('it should render with custom label and background color', async () => {
+      await wrapper.setProps({
+        label: 'Custom Type',
+        backgroundColor: '#ff6b6b'
       })
 
-      it('then it should apply additional-skill-type-badge class', () => {
-        const badge = wrapper.findComponent({ name: 'AvBadge' })
+      const badge = wrapper.findComponent({ name: 'AvBadge' })
 
-        expect(badge.classes()).toContain('additional-skill-type-badge')
-      })
+      expect(badge.props('label')).toBe('Custom Type')
+      expect(badge.props('backgroundColor')).toBe('#ff6b6b')
+      expect(badge.props('borderColor')).toBe('#ff6b6b')
     })
 
-    describe('when different props are provided', () => {
-      it('then it should render with custom label and background color', async () => {
-        await wrapper.setProps({
-          label: 'Custom Type',
-          backgroundColor: '#ff6b6b'
-        })
-
-        const badge = wrapper.findComponent({ name: 'AvBadge' })
-
-        expect(badge.props('label')).toBe('Custom Type')
-        expect(badge.props('backgroundColor')).toBe('#ff6b6b')
-        expect(badge.props('borderColor')).toBe('#ff6b6b')
+    BddTest().then('it should maintain white text color regardless of background', async () => {
+      await wrapper.setProps({
+        label: 'Test Label',
+        backgroundColor: '#000000'
       })
 
-      it('then it should maintain white text color regardless of background', async () => {
-        await wrapper.setProps({
-          label: 'Test Label',
-          backgroundColor: '#000000'
-        })
+      const badge = wrapper.findComponent({ name: 'AvBadge' })
 
-        const badge = wrapper.findComponent({ name: 'AvBadge' })
-
-        expect(badge.props('color')).toBe('white')
-      })
+      expect(badge.props('color')).toBe('white')
     })
   })
 })

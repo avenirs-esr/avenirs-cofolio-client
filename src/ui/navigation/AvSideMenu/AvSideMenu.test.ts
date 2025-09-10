@@ -1,37 +1,38 @@
 import AvSideMenu from '@/ui/navigation/AvSideMenu/AvSideMenu.vue'
-import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-describe('avSideMenu', () => {
-  describe('given an AvSideMenu component', () => {
-    let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
+BddTest().given('an AvSideMenu component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvSideMenu>>
 
+  BddTest().and('with default props', () => {
     beforeEach(() => {
       wrapper = mount<typeof AvSideMenu>(AvSideMenu)
     })
 
-    describe('when the component is mounted with default props', () => {
-      it('then it should render the side-menu navigation element', () => {
+    BddTest().when('the component is mounted with default props', () => {
+      BddTest().then('it should render the side-menu navigation element', () => {
         expect(wrapper.find('nav.av-side-menu').exists()).toBe(true)
       })
 
-      it('then it should render the header with toggle button by default (collapsible=true)', () => {
+      BddTest().then('it should render the header with toggle button by default (collapsible=true)', () => {
         expect(wrapper.find('.av-side-menu__header').exists()).toBe(true)
         expect(wrapper.find('.av-side-menu__collapse-button').exists()).toBe(true)
       })
 
-      it('then it should not be collapsed by default', () => {
+      BddTest().then('it should not be collapsed by default', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
 
-      it('then it should be collapsible by default', () => {
+      BddTest().then('it should be collapsible by default', () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
         expect(button.exists()).toBe(true)
       })
     })
   })
 
-  describe('given an AvSideMenu component with collapsible=false', () => {
+  BddTest().and('with collapsible=false', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -42,17 +43,17 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should not render the header or toggle button', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should not render the header or toggle button', () => {
         expect(wrapper.find('.av-side-menu__header').exists()).toBe(false)
         expect(wrapper.find('.av-side-menu__collapse-button').exists()).toBe(false)
       })
 
-      it('then it should never have collapsed class', () => {
+      BddTest().then('it should never have collapsed class', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
 
-      it('then it should always use the expanded width', () => {
+      BddTest().then('it should always use the expanded width', () => {
         const sideMenu = wrapper.find('.av-side-menu')
         expect(sideMenu.exists()).toBe(true)
         // When collapsible=false, the component should never be collapsed
@@ -61,7 +62,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with custom id', () => {
+  BddTest().and('with custom id', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -72,25 +73,25 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should use the provided id', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should use the provided id', () => {
         const nav = wrapper.find('nav')
         expect(nav.attributes('id')).toBe('custom-side-menu')
       })
 
-      it('then it should set the aria-label based on id', () => {
+      BddTest().then('it should set the aria-label based on id', () => {
         const nav = wrapper.find('nav')
         expect(nav.attributes('aria-label')).toBe('custom-side-menu navigation')
       })
 
-      it('then it should set aria-controls on toggle button', () => {
+      BddTest().then('it should set aria-controls on toggle button', () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
         expect(button.attributes('aria-controls')).toBe('custom-side-menu')
       })
     })
   })
 
-  describe('given an AvSideMenu component with collapsed state', () => {
+  BddTest().and('with collapsed state', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -102,17 +103,17 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should have collapsed class', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should have collapsed class', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(true)
       })
 
-      it('then it should set aria-expanded to false', () => {
+      BddTest().then('it should set aria-expanded to false', () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
         expect(button.attributes('aria-expanded')).toBe('false')
       })
 
-      it('then it should use collapsed width', () => {
+      BddTest().then('it should use collapsed width', () => {
         const sideMenu = wrapper.find('.av-side-menu')
         expect(sideMenu.exists()).toBe(true)
         // When collapsed=true, the component should have the collapsed class
@@ -121,7 +122,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with custom width', () => {
+  BddTest().and('with custom width', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -133,16 +134,16 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should apply the custom width', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should apply the custom width', () => {
         const sideMenu = wrapper.find('.av-side-menu')
         expect(sideMenu.exists()).toBe(true)
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
     })
 
-    describe('when the component is collapsed', () => {
-      it('then it should apply the collapsed width', async () => {
+    BddTest().when('the component is collapsed', () => {
+      BddTest().then('it should apply the collapsed width', async () => {
         await wrapper.setProps({ collapsed: true })
         const sideMenu = wrapper.find('.av-side-menu')
         expect(sideMenu.exists()).toBe(true)
@@ -152,7 +153,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with toggle functionality and defineModel', () => {
+  BddTest().and('with toggle functionality and defineModel', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -163,8 +164,8 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the toggle button is clicked', () => {
-      it('then it should emit update:collapsed event with defineModel', async () => {
+    BddTest().when('the toggle button is clicked', () => {
+      BddTest().then('it should emit update:collapsed event with defineModel', async () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
         await button.trigger('click')
 
@@ -172,7 +173,7 @@ describe('avSideMenu', () => {
         expect(wrapper.emitted('update:collapsed')![0]).toEqual([true])
       })
 
-      it('then it should toggle the state', async () => {
+      BddTest().then('it should toggle the state', async () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
 
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
@@ -187,7 +188,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with non-collapsible and collapsed props', () => {
+  BddTest().and('with non-collapsible and collapsed props', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -199,18 +200,18 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should ignore collapsed prop when collapsible=false', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should ignore collapsed prop when collapsible=false', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
 
-      it('then it should not emit events when toggle is called programmatically', async () => {
+      BddTest().then('it should not emit events when toggle is called programmatically', async () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
     })
   })
 
-  describe('given an AvSideMenu component with defineModel (uncontrolled)', () => {
+  BddTest().and('with defineModel (uncontrolled)', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -221,12 +222,12 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should start with default collapsed state (false)', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should start with default collapsed state (false)', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
 
-      it('then it should toggle internal state when button is clicked', async () => {
+      BddTest().then('it should toggle internal state when button is clicked', async () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
 
         // Should be expanded initially
@@ -248,7 +249,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with v-model (controlled)', () => {
+  BddTest().and('with v-model (controlled)', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -261,12 +262,12 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should use collapsed prop value', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should use collapsed prop value', () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
       })
 
-      it('then it should emit events when toggle is called', async () => {
+      BddTest().then('it should emit events when toggle is called', async () => {
         const button = wrapper.find('.av-side-menu__collapse-button')
 
         await button.trigger('click')
@@ -275,7 +276,7 @@ describe('avSideMenu', () => {
         expect(wrapper.emitted('update:collapsed')![0]).toEqual([true])
       })
 
-      it('then it should update when collapsed prop changes', async () => {
+      BddTest().then('it should update when collapsed prop changes', async () => {
         expect(wrapper.find('.av-side-menu--collapsed').exists()).toBe(false)
 
         await wrapper.setProps({ collapsed: true })
@@ -285,7 +286,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with default slot content', () => {
+  BddTest().and('with default slot content', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -296,14 +297,14 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the slot content', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the slot content', () => {
         const content = wrapper.find('.custom-content')
         expect(content.exists()).toBe(true)
         expect(content.text()).toBe('Menu Content')
       })
 
-      it('then it should render the content inside av-side-menu__content', () => {
+      BddTest().then('it should render the content inside av-side-menu__content', () => {
         const contentWrapper = wrapper.find('.av-side-menu__content')
         expect(contentWrapper.exists()).toBe(true)
         expect(contentWrapper.find('.custom-content').exists()).toBe(true)
@@ -311,7 +312,7 @@ describe('avSideMenu', () => {
     })
   })
 
-  describe('given an AvSideMenu component with accessibility', () => {
+  BddTest().and('with accessibility', () => {
     let wrapper: ReturnType<typeof mount<typeof AvSideMenu>>
 
     beforeEach(() => {
@@ -322,8 +323,8 @@ describe('avSideMenu', () => {
       })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should have proper ARIA attributes', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should have proper ARIA attributes', () => {
         const nav = wrapper.find('nav')
         const button = wrapper.find('.av-side-menu__collapse-button')
 

@@ -1,28 +1,33 @@
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentNotificationsView from '@/features/student/views/StudentNotificationsView/StudentNotificationsView.vue'
-import { mount } from '@vue/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
 
-vi.mock('@/common/components/PageTitle', () => ({
-  PageTitle: { name: 'PageTitle', template: '<div />', props: ['title', 'breadcrumbLinks'] },
-}))
+BddTest().given('a student mailbox view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentNotificationsView>>
 
-describe('studentNotificationsView', () => {
+  const stubs = { PageTitle: PageTitleStub }
+
   beforeEach(() => {
     vi.clearAllMocks()
+
+    wrapper = mount(StudentNotificationsView, { global: { stubs } })
   })
 
   const title = 'Mes notifications'
   const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
   const currentBreadcrumbLink = { text: title }
 
-  it('should render PageTitle with correct props', () => {
-    const wrapper = mount(StudentNotificationsView)
-    const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+  BddTest().when('the view is mounted', () => {
+    BddTest().then('it should render PageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
-    expect(pageTitle.props('title')).toBe(title)
-    expect(pageTitle.props('breadcrumbLinks')).toEqual([
-      homeBreadcrumbLink,
-      currentBreadcrumbLink
-    ])
+      expect(pageTitle.props('title')).toBe(title)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        homeBreadcrumbLink,
+        currentBreadcrumbLink
+      ])
+    })
   })
 })

@@ -1,6 +1,7 @@
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { describe, expect, it, type Mock, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { expect, type Mock, vi } from 'vitest'
 
 const error = ref('')
 const valid = ref(true)
@@ -52,7 +53,9 @@ function createWrapper (props = {}) {
   })
 }
 
-describe('imageUpload', () => {
+BddTest().given('and image upload with valid props', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ImageUpload>>
+
   let onUpdateMock: Mock
 
   if (!window.URL.createObjectURL) {
@@ -64,56 +67,48 @@ describe('imageUpload', () => {
 
   beforeEach(() => {
     onUpdateMock = vi.fn()
+    wrapper = createWrapper({ onUpdate: onUpdateMock })
   })
 
   afterEach(() => {
     vi.restoreAllMocks()
   })
 
-  describe('given an image upload with valid props', () => {
-    let wrapper: VueWrapper<InstanceType<typeof ImageUpload>>
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the default image with correct alt', () => {
+      const img = wrapper.find('img')
+      expect(img.exists()).toBe(true)
+      expect(img.attributes('src')).toBe('exemple.com/image.png')
+      expect(img.attributes('alt')).toBe('alt text')
+    })
+  })
 
+  BddTest().when('a valid file is selected', () => {
+    BddTest().then('it should call onUpdate', async () => {
+      const file = new File(['example'], 'test.jpg', { type: 'image/jpeg' })
+      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+
+      avFileUpload.vm.$emit('change', [file])
+      await wrapper.vm.$nextTick()
+
+      expect(onUpdateMock).toHaveBeenCalledWith(file)
+    })
+  })
+
+  BddTest().when('an invalid file is dropped', () => {
     beforeEach(() => {
-      onUpdateMock = vi.fn()
-      wrapper = createWrapper({ onUpdate: onUpdateMock })
+      valid.value = false
+      error.value = 'Le fichier ne respecte pas le format attendu.'
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the default image with correct alt', () => {
-        const img = wrapper.find('img')
-        expect(img.exists()).toBe(true)
-        expect(img.attributes('src')).toBe('exemple.com/image.png')
-        expect(img.attributes('alt')).toBe('alt text')
-      })
-    })
+    BddTest().then('it should set error message when on-drop-accept-type-error event is emitted', async () => {
+      const errorBtn = wrapper.find('button.error-trigger')
 
-    describe('when a valid file is selected', () => {
-      it('then it should call onUpdate', async () => {
-        const file = new File(['example'], 'test.jpg', { type: 'image/jpeg' })
-        const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+      await errorBtn.trigger('click')
+      await wrapper.vm.$nextTick()
 
-        avFileUpload.vm.$emit('change', [file])
-        await wrapper.vm.$nextTick()
-
-        expect(onUpdateMock).toHaveBeenCalledWith(file)
-      })
-    })
-
-    describe('when an invalid file is dropped', () => {
-      beforeEach(() => {
-        valid.value = false
-        error.value = 'Le fichier ne respecte pas le format attendu.'
-      })
-
-      it('then it should set error message when on-drop-accept-type-error event is emitted', async () => {
-        const errorBtn = wrapper.find('button.error-trigger')
-
-        await errorBtn.trigger('click')
-        await wrapper.vm.$nextTick()
-
-        const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(avFileUpload.props('error')).toBe(error.value)
-      })
+      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+      expect(avFileUpload.props('error')).toBe(error.value)
     })
   })
 })

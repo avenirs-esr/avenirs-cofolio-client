@@ -4,6 +4,7 @@ import {
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from 'tests/utils'
 import CreateTraceFormTraceDefinitionItems from './CreateTraceFormTraceDefinitionItems.vue'
 
 const TestWrapper = {
@@ -52,116 +53,114 @@ const stubs = {
   }
 }
 
-describe('createTraceFormTraceDefinitionItems', () => {
-  describe('given a create trace form trace definition items component', () => {
-    let wrapper: VueWrapper
+BddTest().given('a create trace form trace definition items component', () => {
+  let wrapper: VueWrapper
 
-    beforeEach(() => {
-      vi.clearAllMocks()
+  beforeEach(() => {
+    vi.clearAllMocks()
 
-      wrapper = mount(TestWrapper, {
-        global: {
-          stubs
-        }
-      })
+    wrapper = mount(TestWrapper, {
+      global: {
+        stubs
+      }
+    })
+  })
+
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the form fields container', () => {
+      const container = wrapper.find('.create-trace-form-trace-definition-items__fields')
+      expect(container.exists()).toBe(true)
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the form fields container', () => {
-        const container = wrapper.find('.create-trace-form-trace-definition-items__fields')
-        expect(container.exists()).toBe(true)
-      })
+    BddTest().then('it should render AvFileUpload with correct props', () => {
+      const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
 
-      it('then it should render AvFileUpload with correct props', () => {
-        const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-
-        expect(fileUpload.exists()).toBe(true)
-        expect(fileUpload.props('id')).toBe('trace-file-upload')
-        expect(fileUpload.props('accept')).toEqual(TRACE_ACCEPTED_FILE_TYPES)
-      })
-
-      it('then it should render trace name input with correct props', () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        const traceNameInput = avInputs.find(input => input.props('id') === 'trace-name')
-
-        expect(traceNameInput).toBeDefined()
-        expect(traceNameInput?.props('id')).toBe('trace-name')
-        expect(traceNameInput?.props('required')).toBe('')
-        expect(traceNameInput?.props('label')).toBe('Nom de ma trace')
-      })
-
-      it('then it should render personal note textarea with correct props', () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        const personalNoteInput = avInputs.find(input => input.props('id') === 'personal-note')
-
-        expect(personalNoteInput).toBeDefined()
-        expect(personalNoteInput?.props('id')).toBe('personal-note')
-        expect(personalNoteInput?.props('isTextarea')).toBe('')
-        expect(personalNoteInput?.props('maxlength')).toBe(200)
-        expect(personalNoteInput?.props('label')).toBe('Note personnelle')
-      })
+      expect(fileUpload.exists()).toBe(true)
+      expect(fileUpload.props('id')).toBe('trace-file-upload')
+      expect(fileUpload.props('accept')).toEqual(TRACE_ACCEPTED_FILE_TYPES)
     })
 
-    describe('when file is changed', () => {
-      it('then it should update the form field value', async () => {
-        const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' })
-        const fileInput = wrapper.find('#trace-file-upload')
+    BddTest().then('it should render trace name input with correct props', () => {
+      const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+      const traceNameInput = avInputs.find(input => input.props('id') === 'trace-name')
 
-        Object.defineProperty(fileInput.element, 'files', {
-          value: [mockFile],
-          writable: false,
-        })
-
-        await fileInput.trigger('change')
-
-        const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(fileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
-      })
+      expect(traceNameInput).toBeDefined()
+      expect(traceNameInput?.props('id')).toBe('trace-name')
+      expect(traceNameInput?.props('required')).toBe('')
+      expect(traceNameInput?.props('label')).toBe('Nom de ma trace')
     })
 
-    describe('when trace name is changed', () => {
-      it('then it should update the form field value', async () => {
-        const traceNameInput = wrapper.find('#trace-name')
+    BddTest().then('it should render personal note textarea with correct props', () => {
+      const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+      const personalNoteInput = avInputs.find(input => input.props('id') === 'personal-note')
 
-        await traceNameInput.setValue('My test trace')
+      expect(personalNoteInput).toBeDefined()
+      expect(personalNoteInput?.props('id')).toBe('personal-note')
+      expect(personalNoteInput?.props('isTextarea')).toBe('')
+      expect(personalNoteInput?.props('maxlength')).toBe(200)
+      expect(personalNoteInput?.props('label')).toBe('Note personnelle')
+    })
+  })
 
-        const traceNameInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'trace-name')
-        expect(traceNameInputComponent?.props('modelValue')).toBe('My test trace')
+  BddTest().when('file is changed', () => {
+    BddTest().then('it should update the form field value', async () => {
+      const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' })
+      const fileInput = wrapper.find('#trace-file-upload')
+
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [mockFile],
+        writable: false,
       })
+
+      await fileInput.trigger('change')
+
+      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
+      expect(fileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
+    })
+  })
+
+  BddTest().when('trace name is changed', () => {
+    BddTest().then('it should update the form field value', async () => {
+      const traceNameInput = wrapper.find('#trace-name')
+
+      await traceNameInput.setValue('My test trace')
+
+      const traceNameInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'trace-name')
+      expect(traceNameInputComponent?.props('modelValue')).toBe('My test trace')
+    })
+  })
+
+  BddTest().when('personal note is changed', () => {
+    BddTest().then('it should update the form field value', async () => {
+      const personalNoteInput = wrapper.find('#personal-note')
+
+      await personalNoteInput.setValue('My personal note')
+
+      const personalNoteInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'personal-note')
+      expect(personalNoteInputComponent?.props('modelValue')).toBe('My personal note')
+    })
+  })
+
+  BddTest().when('file success message is displayed', () => {
+    BddTest().then('it should show success message when file is selected', async () => {
+      const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' })
+      const fileInput = wrapper.find('#trace-file-upload')
+
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [mockFile],
+        writable: false,
+      })
+
+      await fileInput.trigger('change')
+      await wrapper.vm.$nextTick()
+
+      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
+      expect(fileUploadComponent.props('validMessage')).toBe('Document chargé.')
     })
 
-    describe('when personal note is changed', () => {
-      it('then it should update the form field value', async () => {
-        const personalNoteInput = wrapper.find('#personal-note')
-
-        await personalNoteInput.setValue('My personal note')
-
-        const personalNoteInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'personal-note')
-        expect(personalNoteInputComponent?.props('modelValue')).toBe('My personal note')
-      })
-    })
-
-    describe('when file success message is displayed', () => {
-      it('then it should show success message when file is selected', async () => {
-        const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' })
-        const fileInput = wrapper.find('#trace-file-upload')
-
-        Object.defineProperty(fileInput.element, 'files', {
-          value: [mockFile],
-          writable: false,
-        })
-
-        await fileInput.trigger('change')
-        await wrapper.vm.$nextTick()
-
-        const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(fileUploadComponent.props('validMessage')).toBe('Document chargé.')
-      })
-
-      it('then it should not show success message when no file is selected', () => {
-        const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-        expect(fileUploadComponent.props('validMessage')).toBeUndefined()
-      })
+    BddTest().then('it should not show success message when no file is selected', () => {
+      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
+      expect(fileUploadComponent.props('validMessage')).toBeUndefined()
     })
   })
 })

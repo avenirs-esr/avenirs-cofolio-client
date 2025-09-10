@@ -4,7 +4,8 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentApcAccess } from '@/features/student/composables'
 import { useStudentNavigationAccessControlQuery } from '@/features/student/queries'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', () => ({
   useStudentNavigationAccessControlQuery: vi.fn()
@@ -12,7 +13,7 @@ vi.mock('@/features/student/queries', () => ({
 
 const mockedUseStudentNavigationAccessControlQuery = vi.mocked(useStudentNavigationAccessControlQuery)
 
-describe('useStudentApcAccess', () => {
+BddTest().given('an useStudentApcAccess composable', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -25,7 +26,7 @@ describe('useStudentApcAccess', () => {
     mockedUseStudentNavigationAccessControlQuery.mockReturnValue(queryMockedData)
   }
 
-  describe('when APC is enabled by institution and has program', () => {
+  BddTest().when('APC is enabled by institution and has program', () => {
     beforeEach(() => {
       mockUseStudentNavigationAccessControlQuery({
         APC: {
@@ -38,23 +39,23 @@ describe('useStudentApcAccess', () => {
       })
     })
 
-    it('should return isApcVisible as true', () => {
+    BddTest().then('it should return isApcVisible as true', () => {
       const { isApcVisible } = useStudentApcAccess()
       expect(isApcVisible.value).toBe(true)
     })
 
-    it('should return showApcGenericInfoPage as false', () => {
+    BddTest().then('it should return showApcGenericInfoPage as false', () => {
       const { showApcGenericInfoPage } = useStudentApcAccess()
       expect(showApcGenericInfoPage.value).toBe(false)
     })
 
-    it('should return showApcSubmenus as true', () => {
+    BddTest().then('it should return showApcSubmenus as true', () => {
       const { showApcSubmenus } = useStudentApcAccess()
       expect(showApcSubmenus.value).toBe(true)
     })
   })
 
-  describe('when APC is enabled by institution but has no program', () => {
+  BddTest().when('APC is enabled by institution but has no program', () => {
     beforeEach(() => {
       mockUseStudentNavigationAccessControlQuery({
         APC: {
@@ -67,23 +68,23 @@ describe('useStudentApcAccess', () => {
       })
     })
 
-    it('should return isApcVisible as true', () => {
+    BddTest().then('it should return isApcVisible as true', () => {
       const { isApcVisible } = useStudentApcAccess()
       expect(isApcVisible.value).toBe(true)
     })
 
-    it('should return showApcGenericInfoPage as true', () => {
+    BddTest().then('it should return showApcGenericInfoPage as true', () => {
       const { showApcGenericInfoPage } = useStudentApcAccess()
       expect(showApcGenericInfoPage.value).toBe(true)
     })
 
-    it('should return showApcSubmenus as false', () => {
+    BddTest().then('it should return showApcSubmenus as false', () => {
       const { showApcSubmenus } = useStudentApcAccess()
       expect(showApcSubmenus.value).toBe(false)
     })
   })
 
-  describe('when APC is not enabled by institution', () => {
+  BddTest().when('APC is not enabled by institution', () => {
     beforeEach(() => {
       mockUseStudentNavigationAccessControlQuery({
         APC: {
@@ -96,40 +97,40 @@ describe('useStudentApcAccess', () => {
       })
     })
 
-    it('should return isApcVisible as false', () => {
+    BddTest().then('it should return isApcVisible as false', () => {
       const { isApcVisible } = useStudentApcAccess()
       expect(isApcVisible.value).toBe(false)
     })
 
-    it('should return showApcGenericInfoPage as false', () => {
+    BddTest().then('it should return showApcGenericInfoPage as false', () => {
       const { showApcGenericInfoPage } = useStudentApcAccess()
       expect(showApcGenericInfoPage.value).toBe(false)
     })
 
-    it('should return showApcSubmenus as false', () => {
+    BddTest().then('it should return showApcSubmenus as false', () => {
       const { showApcSubmenus } = useStudentApcAccess()
       expect(showApcSubmenus.value).toBe(false)
     })
   })
 
-  describe('when data is undefined', () => {
+  BddTest().when('data is undefined', () => {
     beforeEach(() => {
       mockedUseStudentNavigationAccessControlQuery.mockReturnValue({
         data: { value: undefined }
       } as unknown as UseQueryReturnType<NavigationAccessDTO, BaseApiException>)
     })
 
-    it('should return isApcVisible as false', () => {
+    BddTest().then('it should return isApcVisible as false', () => {
       const { isApcVisible } = useStudentApcAccess()
       expect(isApcVisible.value).toBe(false)
     })
 
-    it('should return showApcGenericInfoPage as false', () => {
+    BddTest().then('it should return showApcGenericInfoPage as false', () => {
       const { showApcGenericInfoPage } = useStudentApcAccess()
       expect(showApcGenericInfoPage.value).toBe(false)
     })
 
-    it('should return showApcSubmenus as false', () => {
+    BddTest().then('it should return showApcSubmenus as false', () => {
       const { showApcSubmenus } = useStudentApcAccess()
       expect(showApcSubmenus.value).toBe(false)
     })

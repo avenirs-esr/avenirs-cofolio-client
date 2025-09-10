@@ -2,22 +2,23 @@ import type { DsfrButtonProps } from '@gouvminint/vue-dsfr'
 import AvButton from '@/ui/interaction/buttons/AvButton/AvButton.vue'
 import { MDI_ICONS } from '@/ui/tokens/icons'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, describe, expect, vi } from 'vitest'
 
-describe('avButton', () => {
+BddTest().given('an AvButton', () => {
   let wrapper: VueWrapper<InstanceType<typeof AvButton>>
 
-  describe('given default props', () => {
+  BddTest().and('default props', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test' } })
+      wrapper = mount(AvButton, { props: { label: 'test' } })
     })
 
-    describe('when component is mounted', () => {
-      it('then it should render DsfrButton component', () => {
+    BddTest().when('component is mounted', () => {
+      BddTest().then('it should render DsfrButton component', () => {
         expect(wrapper.findComponent({ name: 'DsfrButton' }).exists()).toBe(true)
       })
 
-      it('then it should have default prop values', () => {
+      BddTest().then('it should have default prop values', () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
         expect(btn.props('secondary')).toBe(false)
         expect(btn.props('tertiary')).toBe(true)
@@ -29,7 +30,7 @@ describe('avButton', () => {
     })
   })
 
-  describe('given specific props', () => {
+  BddTest().and('specific props', () => {
     const props = {
       label: 'Click me',
       variant: 'OUTLINED' as const,
@@ -39,11 +40,11 @@ describe('avButton', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, { props })
+      wrapper = mount(AvButton, { props })
     })
 
-    describe('when component is mounted with these props', () => {
-      it('then DsfrButton should receive correct props', () => {
+    BddTest().when('component is mounted with these props', () => {
+      BddTest().then('DsfrButton should receive correct props', () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
         expect(btn.props('label')).toBe('Click me')
         expect(btn.props('secondary')).toBe(false)
@@ -56,9 +57,9 @@ describe('avButton', () => {
     })
   })
 
-  describe('given isLoading is true', () => {
+  BddTest().and('isLoading is true', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, {
+      wrapper = mount(AvButton, {
         props: {
           label: 'test',
           isLoading: true,
@@ -67,21 +68,21 @@ describe('avButton', () => {
       })
     })
 
-    describe('when component is mounted', () => {
-      it('then icon should be replaced by loading icon with spin animation', () => {
+    BddTest().when('component is mounted', () => {
+      BddTest().then('icon should be replaced by loading icon with spin animation', () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
         expect(btn.props('icon')).toEqual({ name: MDI_ICONS.LOADING_OUTLINE, animation: 'spin' })
       })
     })
   })
 
-  describe('given variant is DEFAULT', () => {
+  BddTest().and('variant is DEFAULT', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', variant: 'DEFAULT' } })
+      wrapper = mount(AvButton, { props: { label: 'test', variant: 'DEFAULT' } })
     })
 
-    describe('when component is mounted', () => {
-      it('then tertiary and noOutline props should be true', () => {
+    BddTest().when('component is mounted', () => {
+      BddTest().then('tertiary and noOutline props should be true', () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
         expect(btn.props('tertiary')).toBe(true)
         expect(btn.props('noOutline')).toBe(true)
@@ -89,27 +90,27 @@ describe('avButton', () => {
     })
   })
 
-  describe('given noRadius prop is true', () => {
+  BddTest().and('noRadius prop is true', () => {
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', noRadius: true } })
+      wrapper = mount(AvButton, { props: { label: 'test', noRadius: true } })
     })
 
-    describe('when component is mounted', () => {
-      it('then the button should have av-button--no-radius class', () => {
+    BddTest().when('component is mounted', () => {
+      BddTest().then('the button should have av-button--no-radius class', () => {
         expect(wrapper.classes()).toContain('av-button--no-radius')
       })
     })
   })
 
-  describe('given a click handler is passed', () => {
+  BddTest().and('a click handler is passed', () => {
     const onClick = vi.fn()
 
     beforeEach(() => {
-      wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', onClick } })
+      wrapper = mount(AvButton, { props: { label: 'test', onClick } })
     })
 
-    describe('when the DsfrButton is clicked', () => {
-      it('then the handler should be called', async () => {
+    BddTest().when('the DsfrButton is clicked', () => {
+      BddTest().then('the handler should be called', async () => {
         const btn = wrapper.getComponent({ name: 'DsfrButton' })
         await btn.trigger('click')
         expect(onClick).toHaveBeenCalled()
@@ -117,7 +118,7 @@ describe('avButton', () => {
     })
   })
 
-  describe('given computedSvgScale calculation', () => {
+  BddTest().and('computedSvgScale calculation', () => {
     describe.each([
       ['small', 1],
       ['sm', 1],
@@ -130,31 +131,31 @@ describe('avButton', () => {
       'when size is %s',
       (size, expectedScale) => {
         beforeEach(() => {
-          wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', size } })
+          wrapper = mount(AvButton, { props: { label: 'test', size } })
         })
 
-        it(`then computedSvgScale should be `, () => {
+        BddTest().then('computedSvgScale should be ', () => {
           expect(wrapper.vm.computedSvgScale).toBe(expectedScale)
         })
       }
     )
 
-    describe('when iconScale is a valid number', () => {
+    BddTest().when('iconScale is a valid number', () => {
       beforeEach(() => {
-        wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', iconScale: 3 } })
+        wrapper = mount(AvButton, { props: { label: 'test', iconScale: 3 } })
       })
 
-      it('then computedSvgScale returns iconScale value', () => {
+      BddTest().then('computedSvgScale returns iconScale value', () => {
         expect(wrapper.vm.computedSvgScale).toBe(3)
       })
     })
 
-    describe('when iconScale is NaN', () => {
+    BddTest().when('iconScale is NaN', () => {
       beforeEach(() => {
-        wrapper = mount<typeof AvButton>(AvButton, { props: { label: 'test', iconScale: Number.NaN, size: 'md' } })
+        wrapper = mount(AvButton, { props: { label: 'test', iconScale: Number.NaN, size: 'md' } })
       })
 
-      it('then computedSvgScale falls back to size based value', () => {
+      BddTest().then('computedSvgScale falls back to size based value', () => {
         expect(wrapper.vm.computedSvgScale).toBe(1.5)
       })
     })

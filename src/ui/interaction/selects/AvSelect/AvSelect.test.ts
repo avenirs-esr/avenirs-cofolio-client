@@ -1,6 +1,7 @@
 import AvSelect from '@/ui/interaction/selects/AvSelect/AvSelect.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   DsfrSelect: {
@@ -55,28 +56,28 @@ function mountWithProps (props = {}) {
   })
 }
 
-describe('avSelect', () => {
-  describe('given a select component', () => {
-    let wrapper: VueWrapper
+BddTest().given('a select component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AvSelect>>
 
+  BddTest().and('with default props', () => {
     beforeEach(() => {
       wrapper = mountWithProps()
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should render the default title', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the default title', () => {
         expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Select an option')
       })
 
-      it('then it should display all available options', () => {
+      BddTest().then('it should display all available options', () => {
         expect(wrapper.text()).toContain('Option 1')
         expect(wrapper.text()).toContain('Option 2')
         expect(wrapper.text()).toContain('Option 3')
       })
     })
 
-    describe('when the user selects a new value (changes via select)', () => {
-      it('then it should emit update:modelValue with new value', async () => {
+    BddTest().when('the user selects a new value (changes via select)', () => {
+      BddTest().then('it should emit update:modelValue with new value', async () => {
         await wrapper.find('select').setValue('1')
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
         expect(wrapper.emitted('update:modelValue')![0]).toEqual(['1'])
@@ -84,35 +85,31 @@ describe('avSelect', () => {
     })
   })
 
-  describe('given a select component with a valid modelValue', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with a valid modelValue', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ modelValue: '2' })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should use the matching option as title', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should use the matching option as title', () => {
         expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Option 2')
       })
     })
   })
 
-  describe('given a select component with an unknown modelValue', () => {
-    let wrapper: VueWrapper
-
+  BddTest().and('with an unknown modelValue', () => {
     beforeEach(() => {
       wrapper = mountWithProps({ modelValue: '999' })
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should fallback to defaultUnselectedText', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should fallback to defaultUnselectedText', () => {
         expect(wrapper.findComponent({ name: 'DsfrSelect' }).props('title')).toBe('Select an option')
       })
     })
   })
 
-  describe('given a select component witg additional props', () => {
+  BddTest().and('with additional props', () => {
     const customProps = {
       modelValue: '1',
       label: 'Mon label',
@@ -125,14 +122,12 @@ describe('avSelect', () => {
       errorMessage: 'Erreur'
     }
 
-    let wrapper: VueWrapper
-
     beforeEach(() => {
       wrapper = mountWithProps(customProps)
     })
 
-    describe('when the component is mounted', () => {
-      it('then it should forward those props to DsfrSelect', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should forward those props to DsfrSelect', () => {
         const dsfr = wrapper.findComponent({ name: 'DsfrSelect' })
         for (const key of Object.keys(customProps)) {
           expect(dsfr.props(key)).toEqual(customProps[key as keyof typeof customProps])

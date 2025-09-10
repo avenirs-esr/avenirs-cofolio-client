@@ -1,6 +1,7 @@
 import StudentDetailedSkillCard, { type StudentDetailedSkillCardProps } from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { expect } from 'vitest'
 
 const props: StudentDetailedSkillCardProps = {
   id: 'skill-2-2',
@@ -37,19 +38,19 @@ function createWrapper (slots = {}) {
   })
 }
 
-describe('given a student detailed skill card with valid props', () => {
+BddTest().given('a student detailed skill card with valid props', () => {
   let wrapper: ReturnType<typeof createWrapper>
 
   beforeEach(() => {
     wrapper = createWrapper()
   })
 
-  describe('when the component is mounted', () => {
-    it('then it should render the skill name', () => {
+  BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render the skill name', () => {
       expect(wrapper.text()).toContain(props.name)
     })
 
-    it('then it should render the icon', () => {
+    BddTest().then('it should render the icon', () => {
       const icon = wrapper.findComponent({ name: 'AvVIcon' })
       expect(icon.exists()).toBe(true)
       expect(icon.props('name')).toBe(props.icon)
@@ -57,12 +58,12 @@ describe('given a student detailed skill card with valid props', () => {
       expect(icon.props('size')).toBe(2.5625)
     })
 
-    it('then it should render the icon-container with correct background', () => {
+    BddTest().then('it should render the icon-container with correct background', () => {
       const iconContainer = wrapper.find('.icon-container')
       expect(iconContainer.attributes('style')).toContain(`background: ${props.skillColor}`)
     })
 
-    it('then it should use the correct router-link props', () => {
+    BddTest().then('it should use the correct router-link props', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
       expect(routerLink.props('to')).toEqual({
         name: 'student-skill',
@@ -72,8 +73,8 @@ describe('given a student detailed skill card with valid props', () => {
   })
 })
 
-describe('given a student detailed skill card with default slot provided', () => {
-  it('then it should render the slot content', () => {
+BddTest().given('a student detailed skill card with default slot provided', () => {
+  BddTest().then('it should render the slot content', () => {
     const wrapper = createWrapper({
       default: '<div class="slot-content">Slot Body</div>'
     })

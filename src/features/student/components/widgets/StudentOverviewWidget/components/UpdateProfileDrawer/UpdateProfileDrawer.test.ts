@@ -8,7 +8,8 @@ import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
-import { beforeEach, describe, expect, it, type MockedFunction, vi } from 'vitest'
+import { BddTest } from 'tests/utils'
+import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -25,7 +26,7 @@ vi.mock('@/features/student/components/widgets/StudentOverviewWidget/components/
   useUpdateProfileForm: vi.fn(),
 }))
 
-describe('updateProfileDrawer', () => {
+BddTest().given('given an update profile drawer', () => {
   let wrapper: VueWrapper
 
   const stubs = {
@@ -244,14 +245,14 @@ describe('updateProfileDrawer', () => {
     })
   })
 
-  describe('given an update profile drawer initially shown', () => {
-    describe('when the component is mounted', () => {
-      it('then it should render the accordion group', () => {
+  BddTest().and('initially shown', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the accordion group', () => {
         const accordionGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
         expect(accordionGroup.exists()).toBe(true)
       })
 
-      it('then it should render the different inputs', () => {
+      BddTest().then('it should render the different inputs', () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
         expect(avInputs[0].attributes('value')).toBe(studentSummary.lastname)
@@ -264,13 +265,13 @@ describe('updateProfileDrawer', () => {
         expect(avInputs[3].attributes('data-textarea')).toBe('true')
       })
 
-      it('then it should render the exit button', () => {
+      BddTest().then('it should render the exit button', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         const exitButton = avButtons.find(button => button.props('label') === 'Quitter')
         expect(exitButton?.exists()).toBe(true)
       })
 
-      it('then it should render the save button in disabled state', () => {
+      BddTest().then('it should render the save button in disabled state', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
         expect(saveButton?.exists()).toBe(true)
@@ -279,7 +280,7 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when studentSummary fields are empty', () => {
+    BddTest().when('studentSummary fields are empty', () => {
       beforeEach(() => {
         vi.clearAllMocks()
 
@@ -305,7 +306,7 @@ describe('updateProfileDrawer', () => {
         })
       })
 
-      it('then it should render empty inputs', () => {
+      BddTest().then('it should render empty inputs', () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs[0].attributes('value')).toBe('')
         expect(avInputs[1].attributes('value')).toBe('')
@@ -318,8 +319,8 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when the update profile form composable is not pending', () => {
-      it('then the buttons should not be in loading state', () => {
+    BddTest().when('the update profile form composable is not pending', () => {
+      BddTest().then('the buttons should not be in loading state', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         expect(avButtons).toHaveLength(2)
         avButtons.forEach((avButton) => {
@@ -328,7 +329,7 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when the update profile form composable is pending', () => {
+    BddTest().when('the update profile form composable is pending', () => {
       beforeEach(() => {
         mockedUseUpdateProfileForm.mockImplementation(() => ({
           form: mockedForm as any,
@@ -352,7 +353,7 @@ describe('updateProfileDrawer', () => {
         })
       })
 
-      it('then the buttons should be in loading state', () => {
+      BddTest().then('the buttons should be in loading state', () => {
         const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
         expect(avButtons).toHaveLength(2)
         avButtons.forEach((avButton) => {
@@ -361,7 +362,7 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when inputs are modified', () => {
+    BddTest().when('inputs are modified', () => {
       beforeEach(() => {
         mockedUseUpdateProfileForm.mockImplementation(() => ({
           form: mockedForm as any,
@@ -377,7 +378,7 @@ describe('updateProfileDrawer', () => {
         }))
       })
 
-      it('then they should have their new value set', async () => {
+      BddTest().then('they should have their new value set', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
         expect(avInputs[0].element.value).toBe(studentSummary.lastname)
@@ -398,7 +399,7 @@ describe('updateProfileDrawer', () => {
         expect(avInputs[3].element.value).toBe('This is a new bio')
       })
 
-      it('then they should reset if the drawer is hidden then shown again', async () => {
+      BddTest().then('they should reset if the drawer is hidden then shown again', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
         expect(avInputs[0].element.value).toBe(studentSummary.lastname)
@@ -413,8 +414,8 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when the confirmation modal emits confirm', () => {
-      it('then it should call hideModal and onClose', async () => {
+    BddTest().when('the confirmation modal emits confirm', () => {
+      BddTest().then('it should call hideModal and onClose', async () => {
         const modal = wrapper.findComponent({ name: 'UpdateExitConfirmationModal' })
         await modal.find('.confirm-button').trigger('click')
 
@@ -422,15 +423,15 @@ describe('updateProfileDrawer', () => {
       })
     })
 
-    describe('when submitting the form', () => {
-      it('then it should call form.handleSubmit', async () => {
+    BddTest().when('submitting the form', () => {
+      BddTest().then('it should call form.handleSubmit', async () => {
         const formElement = wrapper.find('form#profile-form')
         await formElement.trigger('submit.prevent.stop')
         expect(mockedForm.handleSubmit).toHaveBeenCalled()
       })
     })
 
-    describe('when the update is successful', () => {
+    BddTest().when('the update is successful', () => {
       let useUpdateProfileFormReturn: any
 
       beforeEach(() => {
@@ -465,7 +466,7 @@ describe('updateProfileDrawer', () => {
         useUpdateProfileFormReturn.simulateSuccess()
       })
 
-      it('then it should call addSuccessMessage and onClose', () => {
+      BddTest().then('it should call addSuccessMessage and onClose', () => {
         expect(mockAddSuccessMessage).toHaveBeenCalled()
         expect(mockOnClose).toHaveBeenCalled()
       })

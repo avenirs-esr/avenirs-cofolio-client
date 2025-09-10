@@ -9,6 +9,32 @@ import { type ComponentMountingOptions, flushPromises, mount } from '@vue/test-u
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, it, type Mock, type MockedFunction, type MockInstance } from 'vitest'
+
+/**
+ * Function allowing developpers to use a common BDD format for tests
+ * @returns given (describe), when (describe) and then (it)
+ */
+export function BddTest () {
+  return {
+    given (description: string, fn: () => void) {
+      describe(`🔵 GIVEN ${description}`, fn)
+      return this
+    },
+    when (description: string, fn: () => void) {
+      describe(`🔶 WHEN ${description}`, fn)
+      return this
+    },
+    and (description: string, fn: () => void) {
+      describe(`➕ AND ${description}`, fn)
+      return this
+    },
+    then (description: string, fn: () => void) {
+      it(`🟩 THEN ${description}`, fn)
+      return this
+    },
+  }
+}
+
 /**
  * Options to configure the mounting of a component under test.
  */
@@ -78,8 +104,8 @@ export function testUseBaseApiExceptionToast<T> ({
   payload: T
   mountComponent: (() => Promise<unknown>) | (() => unknown)
 }) {
-  describe('when a query error occurs', () => {
-    it('then it should add error message to pinia toaster store', async () => {
+  BddTest().when('a query error occurs', () => {
+    BddTest().then('it should add error message to pinia toaster store', async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
 
@@ -104,12 +130,12 @@ export function testUseBaseApiExceptionToast<T> ({
 
 export function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
   describe(`given the route ${route.name}`, () => {
-    describe('when the route is built', () => {
-      it('then it should have correct route config', () => {
+    BddTest().when('the route is built', () => {
+      BddTest().then('it should have correct route config', () => {
         expect(route).toMatchObject({ ...expectedConfig, component: expect.any(Function) })
       })
 
-      it('then it should dynamically import the component and match it', async () => {
+      BddTest().then('it should dynamically import the component and match it', async () => {
         const componentLoader = route.component as () => Promise<{ default: unknown }>
         const componentModule = await componentLoader()
         expect(componentModule).toBeDefined()
@@ -208,21 +234,21 @@ export function testUseMutation<
         await flushPromises()
       })
 
-      it('then it should call API with correct params', () => {
+      BddTest().then('it should call API with correct params', () => {
         expect(apiSpy).toHaveBeenCalledWith(...Object.values(validVariables))
       })
 
-      it('then it should call onSuccess callback', () => {
+      BddTest().then('it should call onSuccess callback', () => {
         expect(mockOnSuccess).toHaveBeenCalled()
       })
 
       if (!skipInvalidateCheck) {
-        it('then it should call invalidate queries', () => {
+        BddTest().then('it should call invalidate queries', () => {
           expect(mockInvalidateFunction).toHaveBeenCalled()
         })
       }
 
-      it('then it should set success state', () => {
+      BddTest().then('it should set success state', () => {
         expect(mutationResult.isSuccess.value).toBe(true)
         expect(mutationResult.isError.value).toBe(false)
       })
@@ -235,23 +261,23 @@ export function testUseMutation<
         await flushPromises()
       })
 
-      it('then it should call API with invalid input', () => {
+      BddTest().then('it should call API with invalid input', () => {
         expect(apiSpy).toHaveBeenCalledWith(...Object.values(invalidVariables))
       })
 
-      it('then it should call onError callback', () => {
+      BddTest().then('it should call onError callback', () => {
         expect(mockOnError).toHaveBeenCalled()
       })
 
-      it('then it should not call onSuccess', () => {
+      BddTest().then('it should not call onSuccess', () => {
         expect(mockOnSuccess).not.toHaveBeenCalled()
       })
 
-      it('then it should not invalidate queries on error', () => {
+      BddTest().then('it should not invalidate queries on error', () => {
         expect(mockInvalidateFunction).not.toHaveBeenCalled()
       })
 
-      it('then it should set error state', () => {
+      BddTest().then('it should set error state', () => {
         expect(mutationResult.isError.value).toBe(true)
       })
     })
