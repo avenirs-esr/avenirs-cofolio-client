@@ -52,37 +52,60 @@ const educationMenu = computed(() => {
     menu.to = studentApcUnavailableRoute
   }
   if (showApcSubmenus.value) {
-    menu.links = [
-      {
-        to: studentEducationSkillsRoute,
-        text: t('student.navigation.tabs.education.items.skills'),
-        icon: MDI_ICONS.STARS,
-      },
-      {
-        to: studentEducationAmsRoute,
-        text: t('student.navigation.tabs.education.items.activities'),
-        icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
-      },
-    ]
+    if (__DEMO_MODE__) {
+      menu.links = [
+        {
+          to: studentEducationSkillsRoute,
+          text: t('student.navigation.tabs.education.items.skills'),
+          icon: MDI_ICONS.STARS,
+        },
+      ]
+    }
+    else {
+      menu.links = [
+        {
+          to: studentEducationSkillsRoute,
+          text: t('student.navigation.tabs.education.items.skills'),
+          icon: MDI_ICONS.STARS,
+        },
+        {
+          to: studentEducationAmsRoute,
+          text: t('student.navigation.tabs.education.items.activities'),
+          icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
+        },
+      ]
+    }
   }
 
   return menu
 })
 
-const homeItemId = useId()
-const navItems = computed(() => [
-  {
-    id: homeItemId,
-    to: studentHomeRoute,
-    text: t('student.navigation.tabs.home').toUpperCase(),
-    icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
-  },
-  ...(
-    isApcVisible.value
-      ? [educationMenu.value]
-      : []
-  ),
-  {
+const allToolsMenu
+  = {
+    title: t('student.navigation.tabs.tools.header').toUpperCase(),
+    get active () {
+      return isRouteActive([studentToolsTracesRoute, studentToolsPagesRoute, studentToolsResumesRoute])
+    },
+    links: [
+      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+      { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES_OUTLINE },
+      { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE },
+    ],
+  }
+
+const onlyTracesToolsMenu
+  = {
+    title: t('student.navigation.tabs.tools.header').toUpperCase(),
+    get active () {
+      return isRouteActive([studentToolsTracesRoute])
+    },
+    links: [
+      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+    ],
+  }
+
+const buildLifeProjectMenu
+  = {
     title: t('student.navigation.tabs.project.header').toUpperCase(),
     get active () {
       return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
@@ -100,18 +123,47 @@ const navItems = computed(() => [
       },
       { to: studentProjectTrajectoriesRoute, text: t('student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
     ],
-  },
-  {
-    title: t('student.navigation.tabs.tools.header').toUpperCase(),
+  }
+
+const buildLifeProjectMenuWithoutExperiencesRoute
+  = {
+    title: t('student.navigation.tabs.project.header').toUpperCase(),
     get active () {
-      return isRouteActive([studentToolsTracesRoute, studentToolsPagesRoute, studentToolsResumesRoute])
+      return isRouteActive([studentProjectSkillsRoute, studentProjectTrajectoriesRoute])
     },
     links: [
-      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
-      { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES_OUTLINE },
-      { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE },
+      {
+        to: studentProjectSkillsRoute,
+        text: t('student.navigation.tabs.project.items.skills'),
+        icon: MDI_ICONS.STARS,
+      },
+      { to: studentProjectTrajectoriesRoute, text: t('student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
     ],
+  }
+
+const homeItemId = useId()
+const navItems = computed(() => [
+  {
+    id: homeItemId,
+    to: studentHomeRoute,
+    text: t('student.navigation.tabs.home').toUpperCase(),
+    icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
+  ...(
+    isApcVisible.value
+      ? [educationMenu.value]
+      : []
+  ),
+  ...(
+    __DEMO_MODE__
+      ? [buildLifeProjectMenuWithoutExperiencesRoute]
+      : [buildLifeProjectMenu]
+  ),
+  ...(
+    __DEMO_MODE__
+      ? [onlyTracesToolsMenu]
+      : [allToolsMenu]
+  ),
 ])
 </script>
 

@@ -22,6 +22,7 @@ function onTeacherButtonClick () {
 
 <template>
   <AvButton
+    class="demo-display-none"
     :label="t('global.header.switchUniverse.label')"
     :icon="MDI_ICONS.SWAP_HORIZONTAL"
     @click="displayModal"

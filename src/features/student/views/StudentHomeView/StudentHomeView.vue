@@ -15,13 +15,13 @@ import {
     <div class="fr-grid-row fr-grid-row--gutters">
       <div class="student-home-left-container fr-col-4">
         <StudentOverviewWidget />
-        <StudentEventsWidget />
-        <StudentResumesWidget />
-        <StudentPagesWidget />
+        <StudentEventsWidget class="demo-display-none" />
+        <StudentResumesWidget class="demo-display-none" />
+        <StudentPagesWidget class="demo-display-none" />
       </div>
       <div class="student-home-right-container fr-col-8">
         <StudentSkillsWidget />
-        <StudentDeliverablesWidget />
+        <StudentDeliverablesWidget class="demo-display-none" />
         <StudentTracesWidget />
       </div>
     </div>

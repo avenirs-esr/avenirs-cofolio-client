@@ -16,3 +16,7 @@ body,
 .fr-container {
   max-width: 90rem !important;
 }
+
+:root[demo-mode="true"] .demo-display-none {
+  display: none !important;
+}

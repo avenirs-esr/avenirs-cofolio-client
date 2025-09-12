@@ -301,7 +301,7 @@ provide(registerNavigationLinkKey, () => hideModal)
             </div>
             <div
               v-if="showSearch"
-              class="fr-header__search  fr-modal"
+              class="fr-header__search  fr-modal demo-display-none"
             >
               <DsfrSearchBar
                 :id="searchbarId"
@@ -360,7 +360,7 @@ provide(registerNavigationLinkKey, () => hideModal)
             </template>
             <div
               v-if="searchModalOpened"
-              class="flex justify-center items-center"
+              class="flex justify-center items-center demo-display-none"
             >
               <DsfrSearchBar
                 :searchbar-id="searchbarId"
