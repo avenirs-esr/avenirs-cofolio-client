@@ -117,7 +117,7 @@ describe('studentToolsTracesAddTraceDrawer', () => {
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
         expect(drawer.exists()).toBe(true)
-        expect(drawer.props('position')).toBe('left')
+        expect(drawer.props('position')).toBe('right')
         expect(drawer.props('width')).toBe('50rem')
       })
 

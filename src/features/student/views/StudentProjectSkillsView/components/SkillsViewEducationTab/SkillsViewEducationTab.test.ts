@@ -77,7 +77,7 @@ describe('skillsViewEducationTab', () => {
         expect(title.text()).toContain('Les compétences de mes formations')
         const subtitle = title.find('.b1-regular')
         expect(subtitle.exists()).toBe(true)
-        expect(subtitle.text()).toContain('(validées et en cours)')
+        expect(subtitle.text()).toContain('(terminées et en cours)')
       })
 
       it('then it should render the skills container', () => {

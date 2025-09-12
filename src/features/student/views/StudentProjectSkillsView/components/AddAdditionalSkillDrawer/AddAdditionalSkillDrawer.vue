@@ -50,7 +50,7 @@ function confirmCancel () {
 <template>
   <AvDrawer
     :show="showDrawer"
-    position="left"
+    position="right"
     width="40rem"
     @escape-pressed="handleCancel"
   >

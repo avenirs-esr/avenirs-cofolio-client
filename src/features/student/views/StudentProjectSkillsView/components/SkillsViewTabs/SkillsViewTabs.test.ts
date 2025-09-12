@@ -34,14 +34,14 @@ describe('skillsViewTabs', () => {
       it('then it should render two tabs', () => {
         const tabs = wrapper.findAll('.fr-tabs__tab')
         expect(tabs).toHaveLength(2)
-        expect(tabs[0].text()).toBe('Les compétences de mes formations (validées et en cours)')
+        expect(tabs[0].text()).toBe('Les compétences de mes formations (terminées et en cours)')
         expect(tabs[1].text()).toBe('Mes autres compétences')
       })
 
       it('then it should render with ams list tab selected', () => {
         const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
         expect(selectedTab.exists()).toBe(true)
-        expect(selectedTab.text()).toBe('Les compétences de mes formations (validées et en cours)')
+        expect(selectedTab.text()).toBe('Les compétences de mes formations (terminées et en cours)')
       })
 
       it('then it should render SkillsViewEducationTab component in first tab', () => {
@@ -83,7 +83,7 @@ describe('skillsViewTabs', () => {
         await wrapper.vm.$nextTick()
 
         const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
-        expect(selectedTab.text()).toBe('Les compétences de mes formations (validées et en cours)')
+        expect(selectedTab.text()).toBe('Les compétences de mes formations (terminées et en cours)')
       })
     })
   })

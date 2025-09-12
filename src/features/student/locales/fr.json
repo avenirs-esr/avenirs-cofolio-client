@@ -216,10 +216,10 @@
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {
-          "education": "Les compétences de mes formations (validées et en cours)",
+          "education": "Les compétences de mes formations (terminées et en cours)",
           "other": "Mes autres compétences",
           "skillsViewEducationTab": {
-            "subtitle": "(validées et en cours)",
+            "subtitle": "(terminées et en cours)",
             "title": "Les compétences de mes formations "
           },
           "skillsViewOtherTab": {
