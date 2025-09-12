@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type ProfileUpdateRequest, type UpdateProfilePhotoBody, UserCategory } from '@/api/avenir-esr'
+import { EUserCategory, type ProfileUpdateRequest, type UpdateProfilePhotoBody } from '@/api/avenir-esr'
 import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
@@ -25,7 +25,7 @@ export function useUpdateProfile (onSuccess: () => void) {
   })
 
   function onUpdateProfile (profileUpdateRequest: ProfileUpdateRequest) {
-    updateProfileMutation.mutate({ profile: UserCategory.STUDENT, profileUpdateRequest })
+    updateProfileMutation.mutate({ profile: EUserCategory.STUDENT, profileUpdateRequest })
   }
 
   return {
@@ -55,7 +55,7 @@ export function useUpdateProfileCover (onSuccess: (data: string) => void) {
   })
 
   async function onUpdateProfileCoverAsync (updateProfileCoverBody: UpdateProfilePhotoBody) {
-    return await updateProfileCoverMutation.mutateAsync({ profile: UserCategory.STUDENT, updateProfileCoverBody })
+    return await updateProfileCoverMutation.mutateAsync({ profile: EUserCategory.STUDENT, updateProfileCoverBody })
   }
 
   return {
@@ -85,7 +85,7 @@ export function useUpdateProfilePhoto (onSuccess: (data: string) => void) {
   })
 
   async function onUpdateProfilePhotoAsync (updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation.mutateAsync({ profile: UserCategory.STUDENT, updateProfilePhotoBody })
+    return await updateProfilePhotoMutation.mutateAsync({ profile: EUserCategory.STUDENT, updateProfilePhotoBody })
   }
 
   return {

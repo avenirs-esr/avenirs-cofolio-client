@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { ComputedRef } from 'vue'
-import { CreateTraceDTOLanguage } from '@/api/avenir-esr'
+import { ELanguage } from '@/api/avenir-esr'
 import { useFileValidation } from '@/common/composables'
 import { useCreateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
 import { TRACE_ACCEPTED_FILE_TYPES, type TraceFormData, } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
@@ -69,7 +69,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       personalNote: traceFormData.personalNote || undefined,
       isGroup: traceFormData.isGroup,
       iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
-      language: CreateTraceDTOLanguage.FRENCH
+      language: ELanguage.FRENCH
     }, {
       onSuccess: (traceResult) => {
         mutateFile(traceFormData.file, traceResult.traceId)

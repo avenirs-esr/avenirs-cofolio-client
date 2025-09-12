@@ -1,4 +1,4 @@
-import { type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
 import StudentDetailedEducationalSkillCard from '@/features/student/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, describe, expect, it } from 'vitest'
@@ -13,7 +13,7 @@ const baseSkill: SkillDTO = {
     name: 'Niveau 1',
     traceCount: 5,
     activityCount: 2,
-    status: SkillLevelStatus.TO_BE_EVALUATED,
+    status: ESkillLevelStatus.TO_BE_EVALUATED,
     shortDescription: 'Une description courte'
   },
   achievedSkillLevels: {
@@ -22,7 +22,7 @@ const baseSkill: SkillDTO = {
     traceCount: 5,
     activityCount: 2,
     shortDescription: 'Niveau 0 description',
-    status: SkillLevelStatus.VALIDATED
+    status: ESkillLevelStatus.VALIDATED
   }
 }
 
@@ -107,14 +107,14 @@ describe('given a student detailed educationnal skill card with valid props', ()
     })
 
     it('then it should render the StudentLevelBadge when status is UNDER_REVIEW', () => {
-      const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: SkillLevelStatus.UNDER_REVIEW } }
+      const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.UNDER_REVIEW } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(true)
     })
 
     it('then it should not render the StudentLevelBadge when status is VALIDATED', () => {
-      const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: SkillLevelStatus.VALIDATED } }
+      const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.VALIDATED } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(false)

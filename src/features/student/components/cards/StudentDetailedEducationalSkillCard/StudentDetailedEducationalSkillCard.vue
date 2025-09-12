@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
-import { type SkillDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentLevelBadge } from '@/features/student/components/'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, MDI_ICONS } from '@/ui'
@@ -15,9 +15,9 @@ const { levelCount, currentSkillLevel } = skill
 const { traceCount, activityCount } = currentSkillLevel
 
 const showLevelBadge = computed((): boolean => {
-  const badgeVisibleStatuses: SkillLevelStatus[] = [
-    SkillLevelStatus.TO_BE_EVALUATED,
-    SkillLevelStatus.UNDER_REVIEW,
+  const badgeVisibleStatuses: ESkillLevelStatus[] = [
+    ESkillLevelStatus.TO_BE_EVALUATED,
+    ESkillLevelStatus.UNDER_REVIEW,
   ]
   return badgeVisibleStatuses.includes(currentSkillLevel.status)
 })

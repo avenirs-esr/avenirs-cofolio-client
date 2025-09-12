@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { SkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 
@@ -29,7 +29,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 1,
           activityCount: 8,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         }
       },
       {
@@ -40,7 +40,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 2,
           activityCount: 7,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         },
       },
       {
@@ -51,7 +51,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 3,
           activityCount: 6,
-          status: SkillLevelStatus.FAILED
+          status: ESkillLevelStatus.FAILED
         },
       },
       {
@@ -62,7 +62,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.2',
           traceCount: 4,
           activityCount: 5,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         }
       },
       {
@@ -73,7 +73,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 5,
           activityCount: 4,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         },
       },
       {
@@ -84,7 +84,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 6,
           activityCount: 3,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         }
       },
       {
@@ -95,7 +95,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.1',
           traceCount: 7,
           activityCount: 2,
-          status: SkillLevelStatus.FAILED
+          status: ESkillLevelStatus.FAILED
         }
       },
       {
@@ -106,7 +106,7 @@ describe('given a studentSkillsWidgetContainer', () => {
           name: 'Niv.2',
           traceCount: 8,
           activityCount: 1,
-          status: SkillLevelStatus.VALIDATED
+          status: ESkillLevelStatus.VALIDATED
         }
       },
     ] as Array<SkillOverviewDTO>

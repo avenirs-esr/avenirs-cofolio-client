@@ -1,9 +1,9 @@
 import {
-  SkillLevelStatus,
+  EDurationUnit,
+  ESkillLevelStatus,
   type SkillLevelViewDTO,
   type StudentProgressOverviewDTO,
   type StudentProgressViewDTO,
-  TrainingPathDTODurationUnit
 } from '@/api/avenir-esr'
 
 function getMockedAchievedSkillLevels (currentLevel: SkillLevelViewDTO) {
@@ -11,7 +11,7 @@ function getMockedAchievedSkillLevels (currentLevel: SkillLevelViewDTO) {
   return !isLevelOne
     ? {
         ...currentLevel,
-        status: [SkillLevelStatus.VALIDATED, SkillLevelStatus.FAILED][Math.floor(Math.random() * 2)],
+        status: [ESkillLevelStatus.VALIDATED, ESkillLevelStatus.FAILED][Math.floor(Math.random() * 2)],
       }
     : undefined
 }
@@ -29,7 +29,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 3',
           traceCount: 6,
           activityCount: 3,
-          status: SkillLevelStatus.TO_BE_EVALUATED
+          status: ESkillLevelStatus.TO_BE_EVALUATED
         }
       },
       {
@@ -40,7 +40,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 3',
           traceCount: 8,
           activityCount: 1,
-          status: SkillLevelStatus.TO_BE_EVALUATED
+          status: ESkillLevelStatus.TO_BE_EVALUATED
         },
       },
       {
@@ -51,7 +51,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 4',
           traceCount: 5,
           activityCount: 4,
-          status: SkillLevelStatus.UNDER_REVIEW
+          status: ESkillLevelStatus.UNDER_REVIEW
         }
       },
       {
@@ -62,7 +62,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 1',
           traceCount: 7,
           activityCount: 2,
-          status: SkillLevelStatus.UNDER_REVIEW
+          status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
     ],
@@ -79,7 +79,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 3',
           traceCount: 4,
           activityCount: 5,
-          status: SkillLevelStatus.TO_BE_EVALUATED
+          status: ESkillLevelStatus.TO_BE_EVALUATED
         },
       },
       {
@@ -90,7 +90,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 2',
           traceCount: 3,
           activityCount: 6,
-          status: SkillLevelStatus.UNDER_REVIEW
+          status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
       {
@@ -101,7 +101,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 1',
           traceCount: 2,
           activityCount: 7,
-          status: SkillLevelStatus.NOT_STARTED
+          status: ESkillLevelStatus.NOT_STARTED
         },
       },
       {
@@ -112,7 +112,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
           name: 'Niveau 2',
           traceCount: 1,
           activityCount: 8,
-          status: SkillLevelStatus.UNDER_REVIEW
+          status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
     ],
@@ -192,6 +192,6 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
 export const mockedAllMyProgramsProgress = mockedProgramsProgressView.slice(0, 2).map(program => ({
   id: program.id,
   name: program.name,
-  durationUnit: TrainingPathDTODurationUnit.YEAR,
+  durationUnit: EDurationUnit.YEAR,
   durationCount: 2
 }))

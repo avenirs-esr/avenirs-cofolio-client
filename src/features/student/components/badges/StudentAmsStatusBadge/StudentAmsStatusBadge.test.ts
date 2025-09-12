@@ -1,4 +1,4 @@
-import { AmsStatus } from '@/api/avenir-esr'
+import { EAmsStatus } from '@/api/avenir-esr'
 import StudentAmsStatusBadge from '@/features/student/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
 import { mount } from '@vue/test-utils'
 import { describe, it } from 'vitest'
@@ -32,7 +32,7 @@ describe('studentAmsStatusBadge', () => {
 
   it('should pass correct properties to AvBadge with AmsStatus.COMPLETED', () => {
     const wrapper = mount(StudentAmsStatusBadge, {
-      props: { status: AmsStatus.COMPLETED },
+      props: { status: EAmsStatus.COMPLETED },
       global: {
         stubs
       }
@@ -53,7 +53,7 @@ describe('studentAmsStatusBadge', () => {
 
   it('should pass correct properties to AvBadge with AmsStatus.IN_PROGRESS', () => {
     const wrapper = mount(StudentAmsStatusBadge, {
-      props: { status: AmsStatus.IN_PROGRESS },
+      props: { status: EAmsStatus.IN_PROGRESS },
       global: {
         stubs
       }
@@ -74,7 +74,7 @@ describe('studentAmsStatusBadge', () => {
 
   it('should pass correct properties to AvBadge with AmsStatus.NOT_STARTED', () => {
     const wrapper = mount(StudentAmsStatusBadge, {
-      props: { status: AmsStatus.NOT_STARTED },
+      props: { status: EAmsStatus.NOT_STARTED },
       global: {
         stubs
       }
@@ -95,7 +95,7 @@ describe('studentAmsStatusBadge', () => {
 
   it('should pass correct properties to AvBadge with AmsStatus.SUBMITTED', () => {
     const wrapper = mount(StudentAmsStatusBadge, {
-      props: { status: AmsStatus.SUBMITTED },
+      props: { status: EAmsStatus.SUBMITTED },
       global: {
         stubs
       }

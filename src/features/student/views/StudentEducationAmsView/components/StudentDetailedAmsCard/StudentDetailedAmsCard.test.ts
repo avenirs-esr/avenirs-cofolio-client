@@ -1,4 +1,4 @@
-import { AmsStatus, type AmsViewDTO } from '@/api/avenir-esr'
+import { type AmsViewDTO, EAmsStatus } from '@/api/avenir-esr'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub } from '@vue/test-utils'
@@ -68,7 +68,7 @@ describe('studentDetailedAmsCard.vue', () => {
     title: 'Stage 2.1 SMB CHIMIOTEK, réalisation d’un audit environnemental et proposition d’un plan d’amélioration des performances d’un procédé...',
     countSkills: 2,
     countTraces: 3,
-    status: AmsStatus.IN_PROGRESS,
+    status: EAmsStatus.IN_PROGRESS,
     progress: {
       startedActivities: 2,
       totalActivities: 4
@@ -77,19 +77,19 @@ describe('studentDetailedAmsCard.vue', () => {
 
   const amsCompleted: AmsViewDTO = {
     ...ams,
-    status: AmsStatus.COMPLETED
+    status: EAmsStatus.COMPLETED
   }
   const amsInProgress: AmsViewDTO = {
     ...ams,
-    status: AmsStatus.IN_PROGRESS
+    status: EAmsStatus.IN_PROGRESS
   }
   const amsSubmitted: AmsViewDTO = {
     ...ams,
-    status: AmsStatus.SUBMITTED
+    status: EAmsStatus.SUBMITTED
   }
   const amsNotStarted: AmsViewDTO = {
     ...ams,
-    status: AmsStatus.NOT_STARTED
+    status: EAmsStatus.NOT_STARTED
   }
   const amsWithoutActivity: AmsViewDTO = {
     ...ams,
@@ -133,7 +133,7 @@ describe('studentDetailedAmsCard.vue', () => {
 
     const statusBadge = wrapper.findComponent({ name: 'StudentAmsStatusBadge' })
     expect(statusBadge.exists()).toBe(true)
-    expect(statusBadge.props()).toMatchObject({ status: AmsStatus.COMPLETED })
+    expect(statusBadge.props()).toMatchObject({ status: EAmsStatus.COMPLETED })
   })
 
   it('should render in progress status badge with in progress ams', async () => {
@@ -146,7 +146,7 @@ describe('studentDetailedAmsCard.vue', () => {
 
     const statusBadge = wrapper.findComponent({ name: 'StudentAmsStatusBadge' })
     expect(statusBadge.exists()).toBe(true)
-    expect(statusBadge.props()).toMatchObject({ status: AmsStatus.IN_PROGRESS })
+    expect(statusBadge.props()).toMatchObject({ status: EAmsStatus.IN_PROGRESS })
   })
 
   it('should render submitted status badge with submitted ams', async () => {
@@ -159,7 +159,7 @@ describe('studentDetailedAmsCard.vue', () => {
 
     const statusBadge = wrapper.findComponent({ name: 'StudentAmsStatusBadge' })
     expect(statusBadge.exists()).toBe(true)
-    expect(statusBadge.props()).toMatchObject({ status: AmsStatus.SUBMITTED })
+    expect(statusBadge.props()).toMatchObject({ status: EAmsStatus.SUBMITTED })
   })
 
   it('should render not started status badge with not started ams', async () => {
@@ -172,7 +172,7 @@ describe('studentDetailedAmsCard.vue', () => {
 
     const statusBadge = wrapper.findComponent({ name: 'StudentAmsStatusBadge' })
     expect(statusBadge.exists()).toBe(true)
-    expect(statusBadge.props()).toMatchObject({ status: AmsStatus.NOT_STARTED })
+    expect(statusBadge.props()).toMatchObject({ status: EAmsStatus.NOT_STARTED })
   })
 
   it('should not render acitivty count badge when totalActivityCount equals 0', async () => {

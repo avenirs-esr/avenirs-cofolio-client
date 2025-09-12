@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { type TrainingPathDTO, TrainingPathDTODurationUnit } from '@/api/avenir-esr'
+import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
 import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAmsStore } from '@/store'
@@ -48,19 +48,19 @@ describe('programProgressSelector', () => {
     {
       id: '1',
       name: 'Master Chimie Verte et Éco-Innovations USMB (2 ans)',
-      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationUnit: EDurationUnit.YEAR,
       durationCount: 2
     },
     {
       id: '2',
       name: 'Master Biologie marine USMB (2 ans)',
-      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationUnit: EDurationUnit.YEAR,
       durationCount: 2
     },
     {
       id: '3',
       name: 'Master Sciences de l\'Environnement (1 an)',
-      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationUnit: EDurationUnit.YEAR,
       durationCount: 2
     }
   ]
@@ -278,7 +278,7 @@ describe('programProgressSelector', () => {
     const program: TrainingPathDTO = {
       id: 'test-id',
       name: 'Test Program Name',
-      durationUnit: TrainingPathDTODurationUnit.YEAR,
+      durationUnit: EDurationUnit.YEAR,
       durationCount: 2
     }
     let wrapper: VueWrapper

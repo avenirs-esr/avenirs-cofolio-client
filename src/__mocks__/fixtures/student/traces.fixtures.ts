@@ -1,10 +1,10 @@
 import {
   type AttachmentUploadDTO,
-  AttachmentUploadDTOFileType,
+  EFileType,
+  ETraceStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
-  TraceStatus,
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
@@ -19,7 +19,7 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: TraceStatus = TraceStatus.UNASSOCIATED): PagedResponseTraceViewDTO {
+export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: ETraceStatus = ETraceStatus.UNASSOCIATED): PagedResponseTraceViewDTO {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -60,16 +60,16 @@ export function createMockedTraceCreationResponse (title: string): TracesCreatio
   }
 }
 
-function getFileTypeFromFileName (fileName: string): AttachmentUploadDTOFileType {
+function getFileTypeFromFileName (fileName: string): EFileType {
   const extension = fileName.split('.').pop()?.toLowerCase()
   switch (extension) {
-    case 'pdf': return AttachmentUploadDTOFileType.PDF
-    case 'doc': return AttachmentUploadDTOFileType.DOC
-    case 'docx': return AttachmentUploadDTOFileType.DOCX
+    case 'pdf': return EFileType.PDF
+    case 'doc': return EFileType.DOC
+    case 'docx': return EFileType.DOCX
     case 'jpg':
-    case 'jpeg': return AttachmentUploadDTOFileType.JPEG
-    case 'png': return AttachmentUploadDTOFileType.PNG
-    default: return AttachmentUploadDTOFileType.PDF
+    case 'jpeg': return EFileType.JPEG
+    case 'png': return EFileType.PNG
+    default: return EFileType.PDF
   }
 }
 

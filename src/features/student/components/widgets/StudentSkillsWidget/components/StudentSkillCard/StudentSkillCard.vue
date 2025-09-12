@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
-import { type SkillLevelProgressOverviewDTO, SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
 import { AvCard, AvVIcon, MDI_ICONS } from '@/ui'
@@ -17,18 +17,18 @@ const { traceCount, activityCount } = currentSkillLevel
 
 const { t } = useI18n()
 
-function levelStatusToBadgeInfo (status: SkillLevelStatus): { status: string, type: DsfrBadgeProps['type'] } {
+function levelStatusToBadgeInfo (status: ESkillLevelStatus): { status: string, type: DsfrBadgeProps['type'] } {
   switch (status) {
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
-    case SkillLevelStatus.NOT_STARTED:
-    case SkillLevelStatus.UNDER_ACQUISITION:
-    case SkillLevelStatus.TO_BE_EVALUATED:
+    case ESkillLevelStatus.NOT_STARTED:
+    case ESkillLevelStatus.UNDER_ACQUISITION:
+    case ESkillLevelStatus.TO_BE_EVALUATED:
       return { status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'), type: 'new' }
-    case SkillLevelStatus.UNDER_REVIEW:
+    case ESkillLevelStatus.UNDER_REVIEW:
       return { status: t('student.cards.studentSkillCard.badgeStatus.underReview'), type: 'info' }
-    case SkillLevelStatus.VALIDATED:
+    case ESkillLevelStatus.VALIDATED:
       return { status: t('student.cards.studentSkillCard.badgeStatus.validated'), type: 'success' }
-    case SkillLevelStatus.FAILED:
+    case ESkillLevelStatus.FAILED:
       return { status: t('student.cards.studentSkillCard.badgeStatus.failed'), type: 'error' }
   }
 }

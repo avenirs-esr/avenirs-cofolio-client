@@ -10,6 +10,7 @@ import {
 import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
+  ETraceStatus,
   getCreateTraceUrl,
   getGetTraceConfigUrl,
   getGetTracesUnassociatedSummaryUrl,
@@ -17,7 +18,6 @@ import {
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
-  TraceStatus,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
 import { PageSizes } from '@/ui/config'
@@ -60,9 +60,9 @@ export const tracesHandlers = [
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
     const statusQueryParam: string | null = searchParams.get('status')
-    const status: TraceStatus = !isNil(statusQueryParam) && Object.values(TraceStatus).includes(statusQueryParam as TraceStatus)
-      ? TraceStatus[statusQueryParam as keyof typeof TraceStatus]
-      : TraceStatus.UNASSOCIATED
+    const status: ETraceStatus = !isNil(statusQueryParam) && Object.values(ETraceStatus).includes(statusQueryParam as ETraceStatus)
+      ? ETraceStatus[statusQueryParam as keyof typeof ETraceStatus]
+      : ETraceStatus.UNASSOCIATED
 
     const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(pageSize, 20, page, status)
     return HttpResponse.json<PagedResponseTraceViewDTO>(response, {

@@ -1,4 +1,4 @@
-import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
@@ -28,7 +28,7 @@ describe('studentDetailedTraceCard', () => {
   const mockedTrace: TraceViewDTO = {
     id: 'trace1',
     title: 'Ma super trace',
-    status: TraceStatus.UNASSOCIATED,
+    status: ETraceStatus.UNASSOCIATED,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     willBeDeletedAt: nextMonthDateIsoString
@@ -36,7 +36,7 @@ describe('studentDetailedTraceCard', () => {
 
   const mockedAssociatedTrace: TraceViewDTO = {
     ...mockedTrace,
-    status: TraceStatus.ASSOCIATED
+    status: ETraceStatus.ASSOCIATED
   }
 
   it('should open modal on click and close it when onClose is called', async () => {

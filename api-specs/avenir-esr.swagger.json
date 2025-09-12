@@ -23,7 +23,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/UserCategory"
+              "$ref": "#/components/schemas/EUserCategory"
             }
           }
         ],
@@ -63,7 +63,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/UserCategory"
+              "$ref": "#/components/schemas/EUserCategory"
             }
           },
           {
@@ -71,7 +71,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/UserPhotoType"
+              "$ref": "#/components/schemas/EUserPhotoType"
             }
           }
         ],
@@ -426,7 +426,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/UserPhotoType"
+              "$ref": "#/components/schemas/EUserPhotoType"
             }
           }
         ],
@@ -457,7 +457,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/UserCategory"
+              "$ref": "#/components/schemas/EUserCategory"
             }
           }
         ],
@@ -945,6 +945,7 @@
           },
           "fileType": {
             "type": "string",
+            "$ref": "#/components/schemas/EFileType",
             "enum": [
               "PNG",
               "JPEG",
@@ -1025,6 +1026,7 @@
           },
           "language": {
             "type": "string",
+            "$ref": "#/components/schemas/ELanguage",
             "enum": [
               "FRENCH",
               "ENGLISH",
@@ -1071,6 +1073,7 @@
           },
           "fileType": {
             "type": "string",
+            "$ref": "#/components/schemas/EFileType",
             "enum": [
               "PNG",
               "JPEG",
@@ -1286,6 +1289,7 @@
           },
           "durationUnit": {
             "type": "string",
+            "$ref": "#/components/schemas/EDurationUnit",
             "enum": [
               "YEAR",
               "SEMESTER",
@@ -1363,7 +1367,7 @@
           },
           "status": {
             "type": "string",
-            "$ref": "#/components/schemas/TraceStatus",
+            "$ref": "#/components/schemas/ETraceStatus",
             "enum": [
               "UNASSOCIATED",
               "ASSOCIATED"
@@ -1512,7 +1516,7 @@
           },
           "status": {
             "type": "string",
-            "$ref": "#/components/schemas/SkillLevelStatus",
+            "$ref": "#/components/schemas/ESkillLevelStatus",
             "enum": [
               "VALIDATED",
               "FAILED",
@@ -1575,7 +1579,7 @@
           },
           "status": {
             "type": "string",
-            "$ref": "#/components/schemas/SkillLevelStatus",
+            "$ref": "#/components/schemas/ESkillLevelStatus",
             "enum": [
               "VALIDATED",
               "FAILED",
@@ -1733,7 +1737,7 @@
           },
           "status": {
             "type": "string",
-            "$ref": "#/components/schemas/AmsStatus",
+            "$ref": "#/components/schemas/EAmsStatus",
             "enum": [
               "NOT_STARTED",
               "IN_PROGRESS",
@@ -1900,7 +1904,7 @@
           "ROME4"
         ]
       },
-      "AmsStatus": {
+      "EAmsStatus": {
         "type": "string",
         "description": "Enum for ams status",
         "enum": [
@@ -1910,7 +1914,72 @@
           "COMPLETED"
         ]
       },
-      "SkillLevelStatus": {
+      "EFileType": {
+        "type": "string",
+        "description": "Enum for file type",
+        "enum": [
+          "PNG",
+          "JPEG",
+          "PJPEG",
+          "GIF",
+          "WEBP",
+          "OGG_APP",
+          "OGG",
+          "WEBM_AUDIO",
+          "_3GPP_AUDIO",
+          "MP4_AUDIO",
+          "MP3",
+          "MPEG4_GENERIC",
+          "MPEG3",
+          "X_MPEG3",
+          "VORBIS",
+          "AVI",
+          "OGG_VIDEO",
+          "MSVIDEO",
+          "X_MSVIDEO",
+          "MP4",
+          "MPEG",
+          "MPEG3_VIDEO",
+          "X_MPEG_VIDEO",
+          "WEBM_VIDEO",
+          "_3GPP_VIDEO",
+          "_3GPP2_VIDEO",
+          "TXT",
+          "CSV",
+          "ICS",
+          "RICHTEXT",
+          "PDF",
+          "POSTSCRIPT",
+          "DOC",
+          "MSPPT",
+          "PPT",
+          "X_PPT",
+          "XLS",
+          "X_XLS",
+          "X_MSEXCEL",
+          "XLS_VND",
+          "PPT_VND",
+          "ODT",
+          "VSD",
+          "RTF",
+          "X_RTF",
+          "PPTX_SLIDESHOW",
+          "PPTX",
+          "ODP",
+          "XLSX",
+          "ODS",
+          "DOCX"
+        ]
+      },
+      "EUserPhotoType": {
+        "type": "string",
+        "description": "Enum for user photo type",
+        "enum": [
+          "PROFILE",
+          "COVER"
+        ]
+      },
+      "ESkillLevelStatus": {
         "type": "string",
         "description": "Enum for skill level status",
         "enum": [
@@ -1922,7 +1991,77 @@
           "NOT_STARTED"
         ]
       },
-      "TraceStatus": {
+      "EDurationUnit": {
+        "type": "string",
+        "description": "Enum for duration units",
+        "enum": [
+          "YEAR",
+          "SEMESTER",
+          "TRIMESTER",
+          "MONTH",
+          "WEEK"
+        ]
+      },
+      "EErrorCode": {
+        "type": "string",
+        "description": "Enum for error codes",
+        "enum": [
+          "USER_NOT_FOUND",
+          "USER_ALREADY_EXISTS",
+          "USER_NOT_AUTHORIZED",
+          "USER_CATEGORY_NOT_FOUND",
+          "MAX_FILE_SIZE_EXCEEDED",
+          "UNKNOWN_FILE_TYPE",
+          "PROGRAM_NOT_FOUND",
+          "TRAINING_PATH_NOT_FOUND",
+          "SKILL_NOT_FOUND",
+          "SKILL_LEVEL_NOT_FOUND",
+          "TRACE_NOT_FOUND",
+          "AMS_NOT_FOUND",
+          "USER_IS_NOT_STUDENT_EXCEPTION",
+          "LANGUAGE_NOT_SUPPORTED",
+          "INVALID_ARGUMENT_TYPE",
+          "ADDITIONAL_SKILL_NOT_AVAILABLE",
+          "ADDITIONAL_SKILL_NOT_FOUND",
+          "STUDENT_ADDITIONAL_ALREADY_EXIST",
+          "STUDENT_PROGRESS_NOT_FOUND",
+          "FILE_NOT_FOUND"
+        ]
+      },
+      "ELanguage": {
+        "type": "string",
+        "description": "Enum for languages",
+        "enum": [
+          "FRENCH",
+          "ENGLISH",
+          "SPANISH"
+        ]
+      },
+      "EPortfolioType": {
+        "type": "string",
+        "description": "Enum for portfolio types",
+        "enum": [
+          "APC",
+          "LIFE_PROJECT"
+        ]
+      },
+      "ESortField": {
+        "type": "string",
+        "description": "Enum for sort fields",
+        "enum": [
+          "NAME",
+          "DATE"
+        ]
+      },
+      "ESortOrder": {
+        "type": "string",
+        "description": "Enum for sort orders",
+        "enum": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "ETraceStatus": {
         "type": "string",
         "description": "Enum for trace status",
         "enum": [
@@ -1930,20 +2069,27 @@
           "ASSOCIATED"
         ]
       },
-      "UserCategory": {
+      "EContextType": {
+        "type": "string",
+        "description": "Enum for context type",
+        "enum": [
+          "CV",
+          "PROFILE"
+        ]
+      },
+      "EExternalSource": {
+        "type": "string",
+        "description": "Enum for external source",
+        "enum": [
+          "PEGASE"
+        ]
+      },
+      "EUserCategory": {
         "type": "string",
         "description": "Enum for user category",
         "enum": [
           "TEACHER",
           "STUDENT"
-        ]
-      },
-      "UserPhotoType": {
-        "type": "string",
-        "description": "Enum for user photo type",
-        "enum": [
-          "PROFILE",
-          "COVER"
         ]
       }
     }

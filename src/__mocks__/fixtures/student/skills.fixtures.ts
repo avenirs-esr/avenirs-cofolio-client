@@ -1,14 +1,14 @@
 import {
   type AdditionalSkillDTO,
   EAdditionalSkillType,
+  ESkillLevelStatus,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
-  type SkillDTO,
-  SkillLevelStatus
+  type SkillDTO
 } from '@/api/avenir-esr'
 
-function getRandomSkillLevelStatus (): SkillLevelStatus {
-  const statuses = Object.values(SkillLevelStatus)
+function getRandomSkillLevelStatus (): ESkillLevelStatus {
+  const statuses = Object.values(ESkillLevelStatus)
   const randomIndex = Math.floor(Math.random() * statuses.length)
   return statuses[randomIndex]
 }

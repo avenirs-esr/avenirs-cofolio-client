@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type SkillLevelProgressOverviewDTO, SkillLevelStatus, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { AvBadge } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
@@ -12,14 +12,14 @@ const levelToBadgeProps = computed(() => {
   const status = level.status
 
   switch (status) {
-    case SkillLevelStatus.VALIDATED:
+    case ESkillLevelStatus.VALIDATED:
       return {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.validated')}`,
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
         iconPath: `${basePath}assets/icons/check-circle.svg`
       }
-    case SkillLevelStatus.FAILED:
+    case ESkillLevelStatus.FAILED:
       return {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.failed')}`,
         color: 'var(--light-foreground-error)',

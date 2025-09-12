@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
 import StudentDetailedTraceModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n'
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
 const { title, status, willBeDeletedAt } = trace
 
-const getDaysUntilDeletion = computed(() => status === TraceStatus.UNASSOCIATED && willBeDeletedAt
+const getDaysUntilDeletion = computed(() => status === ETraceStatus.UNASSOCIATED && willBeDeletedAt
   ? getDaysUntil(parseDateISO(willBeDeletedAt))
   : -1)
 

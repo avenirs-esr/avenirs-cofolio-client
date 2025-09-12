@@ -1,4 +1,4 @@
-import { type SkillLevelProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO } from '@/api/avenir-esr'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import StudentLastCompletedLevelBadge from './StudentLastCompletedLevelBadge.vue'
 
@@ -20,7 +20,7 @@ describe('studentLastCompletedLevelBadge', () => {
         name: 'Niveau 1',
         traceCount: 0,
         activityCount: 0,
-        status: SkillLevelStatus.VALIDATED,
+        status: ESkillLevelStatus.VALIDATED,
       }
 
       beforeEach(() => {
@@ -51,7 +51,7 @@ describe('studentLastCompletedLevelBadge', () => {
         name: 'Niveau 2',
         traceCount: 0,
         activityCount: 0,
-        status: SkillLevelStatus.FAILED,
+        status: ESkillLevelStatus.FAILED,
       }
 
       beforeEach(() => {
@@ -82,7 +82,7 @@ describe('studentLastCompletedLevelBadge', () => {
         name: 'Niveau 3',
         traceCount: 0,
         activityCount: 0,
-        status: SkillLevelStatus.UNDER_REVIEW,
+        status: ESkillLevelStatus.UNDER_REVIEW,
       }
 
       beforeEach(() => {

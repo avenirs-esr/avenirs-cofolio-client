@@ -1,4 +1,4 @@
-import { type SkillDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import StudentDetailedPastSkillCard from './StudentDetailedPastSkillCard.vue'
 
@@ -30,7 +30,7 @@ const mockSkill: SkillDTO = {
     traceCount: 0,
     activityCount: 0,
     shortDescription: 'Molestiae et libero. - [fr_FR]',
-    status: SkillLevelStatus.UNDER_ACQUISITION
+    status: ESkillLevelStatus.UNDER_ACQUISITION
   },
   achievedSkillLevels: {
     id: '80ca37c3-388d-4ac9-948a-63288a2d4148',
@@ -38,7 +38,7 @@ const mockSkill: SkillDTO = {
     traceCount: 0,
     activityCount: 0,
     shortDescription: 'Ex molestiae illum beatae eligendi laborum ducimus quos. - [fr_FR]',
-    status: SkillLevelStatus.VALIDATED
+    status: ESkillLevelStatus.VALIDATED
   },
   isProgramFinished: true
 }
@@ -53,7 +53,7 @@ const mockSkillWithoutAchievedLevels: SkillDTO = {
     traceCount: 0,
     activityCount: 1,
     shortDescription: 'Perferendis repellat dolorem optio consequatur quis minus. - [fr_FR]',
-    status: SkillLevelStatus.TO_BE_EVALUATED
+    status: ESkillLevelStatus.TO_BE_EVALUATED
   },
   achievedSkillLevels: undefined,
   isProgramFinished: true

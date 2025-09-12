@@ -1,7 +1,7 @@
 import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
-  CreateTraceDTOLanguage,
+  ELanguage,
   type TracesCreationResponse,
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
@@ -153,7 +153,7 @@ describe('useCreateTraceForm', () => {
         await waitFor(() => {
           expect(createTraceSpy).toHaveBeenCalledWith({
             title: 'my-trace-name',
-            language: CreateTraceDTOLanguage.FRENCH,
+            language: ELanguage.FRENCH,
             personalNote: 'Optional note',
             isGroup: false,
             iaJustification: undefined
@@ -181,7 +181,7 @@ describe('useCreateTraceForm', () => {
         await waitFor(() => {
           expect(createTraceSpy).toHaveBeenCalledWith({
             title: 'my-trace-name',
-            language: CreateTraceDTOLanguage.FRENCH,
+            language: ELanguage.FRENCH,
             personalNote: undefined,
             isGroup: false,
             iaJustification: undefined
@@ -205,7 +205,7 @@ describe('useCreateTraceForm', () => {
         await waitFor(() => {
           expect(createTraceSpy).toHaveBeenCalledWith({
             title: 'my-trace-name',
-            language: CreateTraceDTOLanguage.FRENCH,
+            language: ELanguage.FRENCH,
             personalNote: undefined,
             isGroup: true,
             iaJustification: 'Used AI for research assistance'

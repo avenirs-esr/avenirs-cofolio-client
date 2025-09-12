@@ -1,4 +1,4 @@
-import { TraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/queries'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
@@ -34,7 +34,7 @@ describe('traceDeletionConfirmationModal', () => {
   const mockedTrace: TraceViewDTO = {
     id: 'trace1',
     title: 'Ma trace',
-    status: TraceStatus.UNASSOCIATED,
+    status: ETraceStatus.UNASSOCIATED,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     willBeDeletedAt: '2025-07-16T10:42:00.000Z'

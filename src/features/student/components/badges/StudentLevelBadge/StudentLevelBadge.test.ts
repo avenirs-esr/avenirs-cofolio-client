@@ -1,4 +1,4 @@
-import { type SkillLevelProgressOverviewDTO, SkillLevelStatus } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentLevelBadge from '@/features/student/components/badges/StudentLevelBadge/StudentLevelBadge.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { describe, it } from 'vitest'
@@ -33,35 +33,35 @@ describe('given a studentLevelBadge', () => {
     name: 'NOT_STARTED',
     traceCount: 0,
     activityCount: 0,
-    status: SkillLevelStatus.NOT_STARTED
+    status: ESkillLevelStatus.NOT_STARTED
   }
   const notValidatedLevel: SkillLevelProgressOverviewDTO = {
     id: 'NOT_VALIDATED',
     name: 'NOT_VALIDATED',
     traceCount: 0,
     activityCount: 0,
-    status: SkillLevelStatus.FAILED
+    status: ESkillLevelStatus.FAILED
   }
   const toEvaluateLevel: SkillLevelProgressOverviewDTO = {
     id: 'TO_EVALUATE',
     name: 'TO_EVALUATE',
     traceCount: 0,
     activityCount: 0,
-    status: SkillLevelStatus.TO_BE_EVALUATED
+    status: ESkillLevelStatus.TO_BE_EVALUATED
   }
   const underReviewLevel: SkillLevelProgressOverviewDTO = {
     id: 'UNDER_REVIEW',
     name: 'UNDER_REVIEW',
     traceCount: 0,
     activityCount: 0,
-    status: SkillLevelStatus.UNDER_REVIEW
+    status: ESkillLevelStatus.UNDER_REVIEW
   }
   const validatedLevel: SkillLevelProgressOverviewDTO = {
     id: 'VALIDATED',
     name: 'VALIDATED',
     traceCount: 0,
     activityCount: 0,
-    status: SkillLevelStatus.VALIDATED
+    status: ESkillLevelStatus.VALIDATED
   }
 
   beforeEach(() => {

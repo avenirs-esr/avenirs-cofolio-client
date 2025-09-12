@@ -4,8 +4,8 @@ import type { Ref } from 'vue'
 import {
   createTrace,
   type CreateTraceDTO,
-  type CreateTraceDTOLanguage,
   deleteTrace,
+  type ELanguage,
   getTraceConfig,
   getTracesUnassociatedSummary,
   getTracesView,
@@ -108,7 +108,7 @@ export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigur
 export interface CreateTraceVariables {
   title: string
   personalNote?: string
-  language?: CreateTraceDTOLanguage
+  language?: ELanguage
 }
 
 export interface UseCreateTraceMutationArgs {

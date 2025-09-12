@@ -1,4 +1,4 @@
-import { type PagedResponseTraceViewDTO, TraceStatus } from '@/api/avenir-esr'
+import { ETraceStatus, type PagedResponseTraceViewDTO } from '@/api/avenir-esr'
 import { useUnassignedTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
@@ -64,10 +64,10 @@ const stubs = {
 describe('studentToolsTracesViewContainer', () => {
   const mockedTracesData: PagedResponseTraceViewDTO = {
     data: [
-      { id: '1', title: 'Trace 1', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
-      { id: '2', title: 'Trace 2', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02' },
-      { id: '3', title: 'Trace 3', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03' },
-      { id: '4', title: 'Trace 4', status: TraceStatus.UNASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04' }
+      { id: '1', title: 'Trace 1', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
+      { id: '2', title: 'Trace 2', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02' },
+      { id: '3', title: 'Trace 3', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03' },
+      { id: '4', title: 'Trace 4', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04' }
     ],
     page: {
       page: 0,

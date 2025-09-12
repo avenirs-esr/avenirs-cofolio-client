@@ -1,4 +1,4 @@
-import { SkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillCard from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillCard/StudentSkillCard.vue'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
@@ -43,7 +43,7 @@ describe('given a studentSkillCard', () => {
       name: 'Niveau 1',
       traceCount: 4,
       activityCount: 2,
-      status: SkillLevelStatus.VALIDATED
+      status: ESkillLevelStatus.VALIDATED
     }
   }
 
@@ -77,7 +77,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.UNDER_REVIEW },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.UNDER_REVIEW },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
@@ -98,7 +98,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.NOT_STARTED },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.NOT_STARTED },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
@@ -119,7 +119,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.TO_BE_EVALUATED },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.TO_BE_EVALUATED },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
@@ -140,7 +140,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.UNDER_REVIEW },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.UNDER_REVIEW },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
@@ -161,7 +161,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.VALIDATED },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.VALIDATED },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
@@ -182,7 +182,7 @@ describe('given a studentSkillCard', () => {
     beforeEach(async () => {
       const skill: SkillOverviewDTO = {
         ...baseProps.skill,
-        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: SkillLevelStatus.FAILED },
+        currentSkillLevel: { ...baseProps.skill.currentSkillLevel, status: ESkillLevelStatus.FAILED },
       }
       wrapper = await mountWithRouter(StudentSkillCard, {
         props: {
