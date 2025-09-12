@@ -8,9 +8,10 @@ import {
   StudentNotificationsPopover,
   StudentProfilePopover
 } from '@/features/student'
-import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
+import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import AvHeader from '@/ui/header/AvHeader/AvHeader.vue'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 useInvalidateAllQueriesAfterLocaleChange()
@@ -18,10 +19,18 @@ useInvalidateAllQueriesAfterLocaleChange()
 const { t } = useI18n()
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const { data: headerSummary, error } = useStudentHeaderSummaryQuery()
-useBaseApiExceptionToast(error)
+const { data: headerSummary, error: studentHeaderSummaryError } = useStudentHeaderSummaryQuery()
+const { data: studentSummary, error: studentSummaryError } = useStudentSummaryQuery()
+useBaseApiExceptionToast(studentHeaderSummaryError)
+useBaseApiExceptionToast(studentSummaryError)
 
-const name = computed(() => headerSummary.value?.name ?? '')
+const name = computed(() => {
+  if (!studentSummary.value) {
+    return ''
+  }
+  const { firstname, lastname } = studentSummary.value
+  return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
+})
 const messagesCount = computed(() => headerSummary.value?.messagesCount ?? 0)
 const notificationsCount = computed(() => headerSummary.value?.notificationsCount ?? 0)
 
