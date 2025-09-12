@@ -39,7 +39,7 @@ async function onSave () {
 <template>
   <AvDrawer
     :show="showDrawer"
-    position="left"
+    position="right"
     width="50rem"
     @escape-pressed="handleCancel"
   >
