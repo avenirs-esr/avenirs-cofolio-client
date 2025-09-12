@@ -65,7 +65,7 @@ defineExpose({ fullName })
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
             </AvRichButton>
           </li>
-          <li>
+          <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--share-resume"
               :label="t('student.widgets.overview.buttons.shareResume')"
@@ -74,7 +74,7 @@ defineExpose({ fullName })
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareResume') }}</span>
             </AvRichButton>
           </li>
-          <li>
+          <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--share-cofolio"
               :label="t('student.widgets.overview.buttons.shareCofolio')"
@@ -83,7 +83,7 @@ defineExpose({ fullName })
               <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareCofolio') }}</span>
             </AvRichButton>
           </li>
-          <li>
+          <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--establishments"
               :label="t('student.widgets.overview.buttons.establishments')"

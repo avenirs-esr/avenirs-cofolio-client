@@ -50,10 +50,10 @@ defineExpose({ searchQuery })
   >
     <template #before-quick-links>
       <ul class="fr-btns-group">
-        <li>
+        <li class="demo-display-none">
           <StudentMailboxPopover :messages-count="messagesCount" />
         </li>
-        <li>
+        <li class="demo-display-none">
           <StudentNotificationsPopover :notifications-count="notificationsCount" />
         </li>
         <li>

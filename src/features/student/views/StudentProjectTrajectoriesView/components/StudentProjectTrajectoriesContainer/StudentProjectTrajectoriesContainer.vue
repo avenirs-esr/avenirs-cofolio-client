@@ -22,7 +22,7 @@ const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
   [ProjectTrajectoryItems.ACTIVITIES]: StudentProjectTrajectoriesActivitiesSection
 }
 
-const items = computed<AvSideNavigationItem[]>(() => [
+const ALL_ITEMS: AvSideNavigationItem[] = [
   {
     id: ProjectTrajectoryItems.BUILD_PROJECT,
     label: t('student.views.studentProjectTrajectoriesView.buildProject.title'),
@@ -48,7 +48,14 @@ const items = computed<AvSideNavigationItem[]>(() => [
     label: t('student.views.studentProjectTrajectoriesView.activities.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
-])
+]
+
+const items = computed<AvSideNavigationItem[]>(() => {
+  if (__DEMO_MODE__) {
+    return ALL_ITEMS.slice(0, 1)
+  }
+  return ALL_ITEMS
+})
 
 const displayedSection = computed<Component>(() => {
   return sectionsMap[selectedItem.value]
