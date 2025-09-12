@@ -1,9 +1,12 @@
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { StudentHeaderSummaryDTO } from '@/types'
 import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
+import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
+import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
-import { useStudentHeaderSummaryQuery } from '@/features/student/queries'
+import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
 import { mountWithRouter } from '@/ui/tests/utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -12,10 +15,12 @@ vi.mock(import('@/features/student/queries'), async (importOriginal) => {
   const actual = await importOriginal()
   return {
     ...actual,
-    useStudentHeaderSummaryQuery: vi.fn()
+    useStudentHeaderSummaryQuery: vi.fn(),
+    useStudentSummaryQuery: vi.fn()
   }
 })
 
+const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
 const mockedUseStudentHeaderSummaryQuery = vi.mocked(useStudentHeaderSummaryQuery)
 
 function mockUseStudentHeaderSummaryQuery (payload: StudentHeaderSummaryDTO) {
@@ -28,6 +33,16 @@ function mockUseStudentHeaderSummaryQuery (payload: StudentHeaderSummaryDTO) {
   mockedUseStudentHeaderSummaryQuery.mockReturnValue(queryMockedData)
 }
 
+function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
+  const mockData: Ref<ProfileOverviewDTO> = ref(payload)
+  const mockError: Ref<null> = ref(null)
+  const queryMockedData = {
+    data: mockData,
+    error: mockError
+  } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
+  mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
+}
+
 function mockUseStudentHeaderSummaryQueryUndefined () {
   const mockData: Ref<StudentHeaderSummaryDTO | undefined> = ref(undefined)
   const mockError: Ref<null> = ref(null)
@@ -36,6 +51,16 @@ function mockUseStudentHeaderSummaryQueryUndefined () {
     error: mockError
   } as unknown as UseQueryDefinedReturnType<StudentHeaderSummaryDTO, BaseApiException>
   mockedUseStudentHeaderSummaryQuery.mockReturnValue(queryMockedData)
+}
+
+function mockUseStudentSummaryQueryUndefined () {
+  const mockData: Ref<ProfileOverviewDTO | undefined> = ref(undefined)
+  const mockError: Ref<null> = ref(null)
+  const queryMockedData = {
+    data: mockData,
+    error: mockError
+  } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
+  mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 describe('studentLayout', () => {
@@ -82,11 +107,21 @@ describe('studentLayout', () => {
     notificationsCount: 3
   }
 
+  const studentSummary = {
+    firstname: 'Jeanne',
+    lastname: 'Moulin',
+    email: 'j.moulin@example.com',
+    profilePicture: profile_picture_placeholder,
+    coverPicture: profile_banner_placeholder,
+    bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
     queryClient = new QueryClient()
     mockUseStudentHeaderSummaryQuery(headerSummary)
+    mockUseStudentSummaryQuery(studentSummary)
   })
 
   describe('given a valid header summary', () => {
@@ -145,6 +180,7 @@ describe('studentLayout', () => {
   describe('given an undefined header summary', () => {
     beforeEach(() => {
       mockUseStudentHeaderSummaryQueryUndefined()
+      mockUseStudentSummaryQueryUndefined()
     })
 
     describe('when the layout is rendered', () => {
