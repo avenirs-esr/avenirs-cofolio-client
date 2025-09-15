@@ -25,6 +25,7 @@ watchEffect(() => {
   <PageTitle
     :title="t('student.navigation.tabs.apcUnavailable.title')"
     :breadcrumb-links="breadcrumbLinks"
+    :back="studentHomeRoute"
   />
 </template>
 

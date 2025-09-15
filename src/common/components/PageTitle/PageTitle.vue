@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvRoute } from '@/common/types'
+import type { teacherHomeRoute } from '@/features/teacher'
 import type { DsfrBreadcrumbProps } from '@gouvminint/vue-dsfr'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AvButton, MDI_ICONS } from '@/ui'
@@ -12,14 +12,19 @@ const {
 } = defineProps<{
   breadcrumbLinks: DsfrBreadcrumbProps['links']
   title: string
-  back?: AvRoute
+  back?: typeof studentHomeRoute | typeof teacherHomeRoute
 }>()
 
 const router = useRouter()
 const { t } = useI18n()
 
 function goBack () {
-  router.push(back)
+  if (window.history.state?.back) {
+    router.back()
+  }
+  else {
+    router.push(back)
+  }
 }
 </script>
 
