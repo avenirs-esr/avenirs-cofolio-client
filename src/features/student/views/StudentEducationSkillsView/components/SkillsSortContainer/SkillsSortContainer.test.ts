@@ -5,13 +5,13 @@ import { AvSelectStub } from '@/ui/interaction/selects/AvSelect/AvSelect.stub'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import StudentEducationSkillsFiltersContainer from './StudentEducationSkillsFiltersContainer.vue'
+import SkillsSortContainer from './SkillsSortContainer.vue'
 
 BddTest().given('a student education skills filters container', () => {
-  let wrapper: VueWrapper<InstanceType<typeof StudentEducationSkillsFiltersContainer>>
+  let wrapper: VueWrapper<InstanceType<typeof SkillsSortContainer>>
 
   beforeEach(() => {
-    wrapper = mount(StudentEducationSkillsFiltersContainer, {
+    wrapper = mount(SkillsSortContainer, {
       global: {
         stubs: {
           AvSelect: AvSelectStub

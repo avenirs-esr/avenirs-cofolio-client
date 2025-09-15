@@ -184,7 +184,7 @@
       },
       "studentEducationSkillsView": {
         "title": "Mes compétences visées par ma formation | Mes compétences visées par mes formations",
-        "studentEducationSkillsFiltersContainer": {
+        "skillsSortContainer": {
           "sort": {
             "selectAriaLabel": "Trier mes compétences visées par mes formations"
           }

@@ -6,7 +6,7 @@ import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { studentHomeRoute } from '@/features/student/routes'
 import { StudentProgressViewSortableFields } from '@/features/student/types'
-import { StudentEducationSkillsFiltersContainerStub } from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsFiltersContainer/StudentEducationSkillsFiltersContainer.stub'
+import { SkillsSortContainerStub } from '@/features/student/views/StudentEducationSkillsView/components/SkillsSortContainer/SkillsSortContainer.stub'
 import { StudentEducationSkillsViewContainerStub } from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.stub'
 import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
@@ -31,7 +31,7 @@ BddTest().given('a student education skills view', () => {
 
   const stubs = {
     StudentEducationSkillsViewContainer: StudentEducationSkillsViewContainerStub,
-    StudentEducationSkillsFiltersContainer: StudentEducationSkillsFiltersContainerStub,
+    SkillsSortContainer: SkillsSortContainerStub,
     RouterLink: RouterLinkStub,
     PageTitle: PageTitleStub
   }
@@ -85,9 +85,9 @@ BddTest().given('a student education skills view', () => {
         expect(containers).toHaveLength(0)
       })
 
-      BddTest().then('it should render StudentEducationSkillsFiltersContainer', () => {
+      BddTest().then('it should render SkillsSortContainer', () => {
         wrapper = createWrapper()
-        const filtersContainer = wrapper.findComponent({ name: 'StudentEducationSkillsFiltersContainer' })
+        const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
 
         expect(filtersContainer.exists()).toBe(true)
       })
@@ -142,7 +142,7 @@ BddTest().given('a student education skills view', () => {
 
       wrapper = createWrapper()
 
-      const filtersContainer = wrapper.findComponent({ name: 'StudentEducationSkillsFiltersContainer' })
+      const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
 
       const defaultSort = formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC)
       expect(filtersContainer.props('sort')).toBe(defaultSort)
@@ -170,7 +170,7 @@ BddTest().given('a student education skills view', () => {
       const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
       expect(containers).toHaveLength(0)
 
-      const filtersContainer = wrapper.findComponent({ name: 'StudentEducationSkillsFiltersContainer' })
+      const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
       expect(filtersContainer.exists()).toBe(true)
     })
   })
