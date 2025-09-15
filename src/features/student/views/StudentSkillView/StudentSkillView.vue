@@ -18,6 +18,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.views.studentSkillView.title', { skill: mockedSkillName })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentEducationSkillsRoute"
+    :back="studentHomeRoute"
   />
 </template>
