@@ -33,7 +33,7 @@ BddTest().given('a student tools traces action buttons component', () => {
       const addButton = wrapper.findComponent({ name: 'AvButton' })
 
       expect(addButton.exists()).toBe(true)
-      expect(addButton.props('label')).toBe('AJOUTER UNE TRACE dans ma bibliothèque')
+      expect(addButton.props('label')).toBe('AJOUTER UNE TRACE DANS MA BIBLIOTHÈQUE')
       expect(addButton.props('size')).toBe('small')
       expect(addButton.props('variant')).toBe('OUTLINED')
       expect(addButton.props('icon')).toBeDefined()
