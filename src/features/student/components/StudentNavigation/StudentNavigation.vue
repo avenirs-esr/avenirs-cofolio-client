@@ -93,7 +93,7 @@ const allToolsMenu
     ],
   }
 
-const onlyTracesToolsMenu
+const demoModeToolsMenu
   = {
     title: t('student.navigation.tabs.tools.header').toUpperCase(),
     get active () {
@@ -125,7 +125,7 @@ const buildLifeProjectMenu
     ],
   }
 
-const buildLifeProjectMenuWithoutExperiencesRoute
+const demoModeBuildLifeProjectMenu
   = {
     title: t('student.navigation.tabs.project.header').toUpperCase(),
     get active () {
@@ -156,12 +156,12 @@ const navItems = computed(() => [
   ),
   ...(
     __DEMO_MODE__
-      ? [buildLifeProjectMenuWithoutExperiencesRoute]
+      ? [demoModeBuildLifeProjectMenu]
       : [buildLifeProjectMenu]
   ),
   ...(
     __DEMO_MODE__
-      ? [onlyTracesToolsMenu]
+      ? [demoModeToolsMenu]
       : [allToolsMenu]
   ),
 ])
