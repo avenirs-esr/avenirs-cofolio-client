@@ -3,18 +3,20 @@
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
+import { studentAccessibilityRoute, studentCookiesRoute, studentLegalRoute, studentPersonnalDataRoute } from '@/features/student'
+import { teacherAccessibilityRoute, teacherCookiesRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher'
 import { EsupLogo } from '@/ui'
 import { useI18n } from 'vue-i18n'
 
 interface FooterProps {
-  a11yCompliance?: string
+  a11yCompliance?: 'COMPLIANT' | 'PARTIALLY_COMPLIANT' | 'NON_COMPLIANT'
   a11yComplianceLink?: RouteLocationRaw
   legalLink?: string
   personalDataLink?: string
   cookiesLink?: string
   mandatoryLinks?: {
     label: string
-    to: RouteLocationRaw | undefined
+    to: RouteLocationRaw
     title?: string
   }[]
   ecosystemLinks?: {
@@ -28,29 +30,35 @@ interface FooterProps {
 const props = defineProps<FooterProps>()
 
 const { t } = useI18n()
+const route = useRoute()
 
-const a11yCompliance = computed(() => props.a11yCompliance ?? 'non conforme')
-const a11yComplianceLink = computed(() => props.a11yComplianceLink ?? '#')
-const legalLink = computed(() => props.legalLink ?? '#')
-const personalDataLink = computed(() => props.personalDataLink ?? '/donnees-personnelles')
-const cookiesLink = computed(() => props.cookiesLink ?? '/cookies')
+const isStudentRoute = computed(() => route.path.startsWith('/student'))
+
+const a11yCompliance = computed(() => {
+  if (props.a11yCompliance === 'COMPLIANT') {
+    return t('global.footer.links.accessibility.compliant')
+  }
+  if (props.a11yCompliance === 'NON_COMPLIANT') {
+    return t('global.footer.links.accessibility.nonCompliant')
+  }
+  return t('global.footer.links.accessibility.partiallyCompliant')
+})
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
-    label: t('global.footer.links.accessibility', { compliance: a11yCompliance.value }),
-    to: a11yComplianceLink.value,
+    label: a11yCompliance,
+    to: { name: isStudentRoute.value ? studentAccessibilityRoute.name : teacherAccessibilityRoute.name },
   },
   {
-    'label': t('global.footer.links.legal'),
-    'to': legalLink.value,
-    'data-testid': '/mentions-legales',
+    label: t('global.footer.links.legal'),
+    to: { name: isStudentRoute.value ? studentLegalRoute.name : teacherLegalRoute.name },
   },
   {
     label: t('global.footer.links.data'),
-    to: personalDataLink.value,
+    to: { name: isStudentRoute.value ? studentPersonnalDataRoute.name : teacherPersonnalDataRoute.name },
   },
   {
     label: t('global.footer.links.cookies'),
-    to: cookiesLink.value,
+    to: { name: isStudentRoute.value ? studentCookiesRoute.name : teacherCookiesRoute.name },
   },
 ])
 const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
@@ -142,11 +150,14 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         <li
           v-for="(link, index) in mandatoryLinks"
           :key="index"
-          class="fr-footer__bottom-item"
+          class="fr-footer__bottom-item mandatory-link"
         >
-          <DsfrFooterLink
-            v-bind="link"
-          />
+          <RouterLink
+            :to="link.to"
+            :title="link.label"
+          >
+            <span class="caption-regular">{{ link.label }}</span>
+          </RouterLink>
         </li>
       </ul>
     </div>

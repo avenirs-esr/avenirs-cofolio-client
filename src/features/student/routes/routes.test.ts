@@ -1,15 +1,23 @@
+import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
+import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
+import LegalView from '@/common/views/LegalView/LegalView.vue'
+import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import routes, {
   studentAboutRoute,
+  studentAccessibilityRoute,
   studentAmsRoute,
   studentApcUnavailableRoute,
+  studentCookiesRoute,
   studentDeliverablesRoute,
   studentEducationAmsRoute,
   studentEducationSkillsRoute,
   studentEventsRoute,
   studentHomeRoute,
+  studentLegalRoute,
   studentMailboxRoute,
   studentNotificationsRoute,
+  studentPersonnalDataRoute,
   studentProjectExperiencesRoute,
   studentProjectSkillsRoute,
   studentProjectTrajectoriesRoute,
@@ -47,12 +55,30 @@ testRoute(
 )
 
 testRoute(
+  studentAccessibilityRoute,
+  {
+    path: 'accessibility',
+    name: 'student-accessibility',
+  },
+  AccessibilityView
+)
+
+testRoute(
   studentAmsRoute,
   {
     path: 'activity/:id',
     name: 'student-activity',
   },
   StudentAmsView
+)
+
+testRoute(
+  studentCookiesRoute,
+  {
+    path: 'cookies',
+    name: 'student-cookies',
+  },
+  CookiesView
 )
 
 testRoute(
@@ -89,6 +115,24 @@ testRoute(
     name: 'student-education-activities',
   },
   StudentEducationAmsView
+)
+
+testRoute(
+  studentLegalRoute,
+  {
+    path: 'legal',
+    name: 'student-legal',
+  },
+  LegalView
+)
+
+testRoute(
+  studentPersonnalDataRoute,
+  {
+    path: 'personnal-data',
+    name: 'student-personnal-data',
+  },
+  PersonnalDataView
 )
 
 testRoute(
@@ -199,11 +243,15 @@ BddTest().given('the student root route', () => {
       expect(studentRootRoute?.component).toBeDefined()
       expect(studentRootRoute?.children).toEqual([
         studentHomeRoute,
+        studentAccessibilityRoute,
         studentAmsRoute,
+        studentCookiesRoute,
         studentDeliverablesRoute,
         studentEducationSkillsRoute,
         studentEducationAmsRoute,
         studentEventsRoute,
+        studentLegalRoute,
+        studentPersonnalDataRoute,
         studentProjectSkillsRoute,
         studentProjectExperiencesRoute,
         studentProjectTrajectoriesRoute,

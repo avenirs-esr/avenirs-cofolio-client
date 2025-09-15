@@ -98,6 +98,10 @@ BddTest().given('a student layout', () => {
     StudentNavigation: {
       name: 'StudentNavigation',
       template: '<nav data-testid="navigation">Navigation</nav>'
+    },
+    Footer: {
+      name: 'Footer',
+      template: '<footer data-testid="footer" />'
     }
   }
 

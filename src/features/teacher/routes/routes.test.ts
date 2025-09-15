@@ -1,5 +1,9 @@
+import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
+import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
+import LegalView from '@/common/views/LegalView/LegalView.vue'
+import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
 import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
-import routes, { teacherHomeRoute } from '@/features/teacher/routes/routes'
+import routes, { teacherAccessibilityRoute, teacherCookiesRoute, teacherHomeRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher/routes/routes'
 import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
 import { BddTest, testRoute } from 'tests/utils'
 
@@ -12,6 +16,42 @@ testRoute(
   TeacherHomeView
 )
 
+testRoute(
+  teacherAccessibilityRoute,
+  {
+    path: 'accessibility',
+    name: 'teacher-accessibility',
+  },
+  AccessibilityView
+)
+
+testRoute(
+  teacherCookiesRoute,
+  {
+    path: 'cookies',
+    name: 'teacher-cookies',
+  },
+  CookiesView
+)
+
+testRoute(
+  teacherLegalRoute,
+  {
+    path: 'legal',
+    name: 'teacher-legal',
+  },
+  LegalView
+)
+
+testRoute(
+  teacherPersonnalDataRoute,
+  {
+    path: 'personnal-data',
+    name: 'teacher-personnal-data',
+  },
+  PersonnalDataView
+)
+
 BddTest().given('the teacher root route', () => {
   const teacherRootRoute = routes.find(route => route.path === '/teacher')
   BddTest().when('getting the route', () => {
@@ -20,7 +60,11 @@ BddTest().given('the teacher root route', () => {
       expect(teacherRootRoute?.path).toBe('/teacher')
       expect(teacherRootRoute?.component).toBeDefined()
       expect(teacherRootRoute?.children).toEqual([
-        teacherHomeRoute
+        teacherHomeRoute,
+        teacherAccessibilityRoute,
+        teacherCookiesRoute,
+        teacherLegalRoute,
+        teacherPersonnalDataRoute
       ])
     })
 

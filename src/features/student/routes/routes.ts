@@ -1,4 +1,8 @@
 import type { AvRoute } from '@/common/types/router.types'
+import type AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
+import type CookiesView from '@/common/views/CookiesView/CookiesView.vue'
+import type LegalView from '@/common/views/LegalView/LegalView.vue'
+import type PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
 import type StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
 import type StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
@@ -28,12 +32,30 @@ export const studentHomeRoute: AvRoute = {
     }>,
 }
 
+export const studentAccessibilityRoute: AvRoute = {
+  path: 'accessibility',
+  name: 'student-accessibility',
+  component: () =>
+    import('@/common/views/AccessibilityView/AccessibilityView.vue') as Promise<{
+      default: typeof AccessibilityView
+    }>,
+}
+
 export const studentAmsRoute: AvRoute = {
   path: 'activity/:id',
   name: 'student-activity',
   component: () =>
     import('@/features/student/views/StudentAmsView/StudentAmsView.vue') as Promise<{
       default: typeof StudentAmsView
+    }>,
+}
+
+export const studentCookiesRoute: AvRoute = {
+  path: 'cookies',
+  name: 'student-cookies',
+  component: () =>
+    import('@/common/views/CookiesView/CookiesView.vue') as Promise<{
+      default: typeof CookiesView
     }>,
 }
 
@@ -70,6 +92,24 @@ export const studentEducationAmsRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue') as Promise<{
       default: typeof StudentEducationAmsView
+    }>,
+}
+
+export const studentLegalRoute: AvRoute = {
+  path: 'legal',
+  name: 'student-legal',
+  component: () =>
+    import('@/common/views/LegalView/LegalView.vue') as Promise<{
+      default: typeof LegalView
+    }>,
+}
+
+export const studentPersonnalDataRoute: AvRoute = {
+  path: 'personnal-data',
+  name: 'student-personnal-data',
+  component: () =>
+    import('@/common/views/PersonnalDataView/PersonnalDataView.vue') as Promise<{
+      default: typeof PersonnalDataView
     }>,
 }
 
@@ -180,11 +220,15 @@ const routes: RouteRecordRaw[] = [
     }>,
     children: [
       studentHomeRoute,
+      studentAccessibilityRoute,
       studentAmsRoute,
+      studentCookiesRoute,
       studentDeliverablesRoute,
       studentEducationSkillsRoute,
       studentEducationAmsRoute,
       studentEventsRoute,
+      studentLegalRoute,
+      studentPersonnalDataRoute,
       studentProjectSkillsRoute,
       studentProjectExperiencesRoute,
       studentProjectTrajectoriesRoute,

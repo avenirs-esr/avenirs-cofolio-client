@@ -21,7 +21,11 @@
       "anr": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
       "instituteInfo": "An ePortfolio for Higher Education and Research",
       "links": {
-        "accessibility": "Accessibility: {compliance}",
+        "accessibility": {
+          "compliant": "compliant",
+          "nonCompliant": "non-compliant",
+          "partiallyCompliant": "partially compliant"
+        },
         "anr": "National Research Agency - AVENIR(S) Program",
         "avenirs": "ESR component of the AVENIR(s) program",
         "cookies": "Cookie management",
@@ -79,6 +83,20 @@
     "images": "Images",
     "audio": "Audio",
     "video": "Video",
+    "views": {
+      "accessibilityView": {
+        "title": "Accessibility"
+      },
+      "cookiesView": {
+        "title": "Cookie management"
+      },
+      "legalView": {
+        "title": "Legal notice"
+      },
+      "personnalDataView": {
+        "title": "Personnal data"
+      }
+    },
     "application": "Application"
   }
 }
