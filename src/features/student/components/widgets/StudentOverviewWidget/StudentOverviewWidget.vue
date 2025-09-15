@@ -6,7 +6,7 @@ import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
-const { data: studentSummary, error } = useStudentSummaryQuery()
+const { data: studentSummary, error, refetch } = useStudentSummaryQuery()
 useBaseApiExceptionToast(error)
 const { t } = useI18n()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
@@ -17,6 +17,10 @@ const fullName = computed(() => {
   }
   const { firstname, lastname } = studentSummary.value
   return `${capitalize(firstname)} ${capitalize(lastname)}`
+})
+
+watch(showDrawer, () => {
+  refetch()
 })
 
 defineExpose({ fullName })
@@ -98,6 +102,7 @@ defineExpose({ fullName })
   </AvCard>
   <UpdateProfileDrawer
     v-if="studentSummary"
+    :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
     :student-summary="studentSummary"
     :show="showDrawer"
     :on-close="hideDrawer"
