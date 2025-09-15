@@ -48,7 +48,7 @@ function useSortEducationSkills () {
       select-id="education-skills-sort"
       default-unselected-text=""
       :options="sortOptions"
-      :aria-label="t('student.views.studentEducationSkillsView.studentEducationSkillsFiltersContainer.sort.selectAriaLabel')"
+      :aria-label="t('student.views.studentEducationSkillsView.skillsSortContainer.sort.selectAriaLabel')"
       dense
     />
   </div>
@@ -58,7 +58,6 @@ function useSortEducationSkills () {
 .filter-and-sort-container {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   gap: var(--spacing-sm);
   margin: var(--spacing-md) 0;
 }

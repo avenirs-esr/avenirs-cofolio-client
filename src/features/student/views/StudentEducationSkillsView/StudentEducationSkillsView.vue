@@ -7,8 +7,8 @@ import { formatSortParam } from '@/common/utils'
 import { useProgramProgressViewQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
 import { StudentProgressViewSortableFields } from '@/features/student/types'
-import StudentEducationSkillsFiltersContainer
-  from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsFiltersContainer/StudentEducationSkillsFiltersContainer.vue'
+import SkillsSortContainer
+  from '@/features/student/views/StudentEducationSkillsView/components/SkillsSortContainer/SkillsSortContainer.vue'
 import StudentEducationSkillsViewContainer
   from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
 import { useI18n } from 'vue-i18n'
@@ -39,7 +39,7 @@ const breadcrumbLinks = computed(() => [
     :breadcrumb-links="breadcrumbLinks"
     :back="studentHomeRoute"
   />
-  <StudentEducationSkillsFiltersContainer v-model:sort="selectedSortOption" />
+  <SkillsSortContainer v-model:sort="selectedSortOption" />
   <div class="courses-container">
     <StudentEducationSkillsViewContainer
       v-for="course in courses"

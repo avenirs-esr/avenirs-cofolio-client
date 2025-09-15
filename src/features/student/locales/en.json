@@ -184,7 +184,7 @@
       },
       "studentEducationSkillsView": {
         "title": "My educational skills | My educational skills",
-        "studentEducationSkillsFiltersContainer": {
+        "skillsSortContainer": {
           "sort": {
             "selectAriaLabel": "Sort my educational skills"
           }
