@@ -9,7 +9,7 @@ import { mountWithRouter } from '@/ui/tests/utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
-import { capitalize, type Ref } from 'vue'
+import { capitalize, nextTick, type Ref } from 'vue'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -46,18 +46,22 @@ const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
 function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
   const mockData: Ref<ProfileOverviewDTO> = ref(payload)
   const mockError: Ref<null> = ref(null)
+  const refetch = vi.fn().mockResolvedValue(undefined)
   const queryMockedData = {
     data: mockData,
-    error: mockError
+    error: mockError,
+    refetch,
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
   mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 function mockUseStudentSummaryQueryUndefined () {
   const mockData: Ref<ProfileOverviewDTO | undefined> = ref(undefined)
+  const refetch = vi.fn().mockResolvedValue(undefined)
   mockedUseStudentSummaryQuery.mockReturnValue({
     data: mockData,
-    error: toRef(new BaseApiException('Student summary not found'))
+    error: toRef(new BaseApiException('Student summary not found')),
+    refetch,
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>)
 }
 
@@ -160,14 +164,17 @@ BddTest().given('a student overview widget', () => {
     })
 
     BddTest().then('it should show UpdateProfileDrawer', async () => {
-      const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
+      let updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
       expect(updateProfileDrawer.exists()).toBe(true)
       expect(updateProfileDrawer.props('show')).toBe(false)
 
       const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
       expect(editProfileButton.exists()).toBe(true)
       await editProfileButton.trigger('click')
+      await nextTick()
 
+      updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
+      expect(updateProfileDrawer.exists()).toBe(true)
       expect(updateProfileDrawer.props('show')).toBe(true)
     })
   })
