@@ -66,7 +66,7 @@ const displayedSection = computed<Component>(() => {
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: calc(100vh - 28.15rem);
+  min-height: calc(100vh - 28.15rem);
 
   &__content {
     flex: 1;
