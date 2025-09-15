@@ -364,7 +364,7 @@
           }
         },
         "studentToolsTracesActionButtons": {
-          "addTrace": "AJOUTER UNE TRACE dans ma bibliothèque"
+          "addTrace": "AJOUTER UNE TRACE DANS MA BIBLIOTHÈQUE"
         },
         "title": "Ma bibliothèque de traces",
         "traceDeletionConfirmationModal": {
