@@ -3,6 +3,7 @@
 
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
+import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
 import { studentAccessibilityRoute, studentCookiesRoute, studentLegalRoute, studentPersonnalDataRoute } from '@/features/student'
 import { teacherAccessibilityRoute, teacherCookiesRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher'
 import { EsupLogo } from '@/ui'
@@ -45,7 +46,7 @@ const a11yCompliance = computed(() => {
 })
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
-    label: a11yCompliance,
+    label: a11yCompliance.value,
     to: { name: isStudentRoute.value ? studentAccessibilityRoute.name : teacherAccessibilityRoute.name },
   },
   {
@@ -77,6 +78,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
     class="fr-footer"
     role="contentinfo"
   >
+    <div class="separator" />
     <div class="line-container anr">
       <a
         href="https://anr.fr/ProjetIA-21-DMAV-0001"
@@ -102,68 +104,90 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         {{ t('global.footer.anr') }}
       </span>
     </div>
-    <div class="line-container institute">
-      <div class="institute-logo">
-        <a
-          href="https://avenirs-esr.fr/"
-          :title="t('global.footer.links.avenirs')"
-        >
-          <img
-            class="long-img"
-            src="/assets/images/avenirs-esr-logo.png"
-            alt="Logo Avenir(s) ESR"
-          >
-        </a>
-        <a
-          href="https://www.esup-portail.org/"
-          :title="t('global.footer.links.esup')"
-        >
-          <EsupLogo height="2rem" />
-        </a>
-      </div>
-      <div class="institute-info">
+
+    <div class="main-container">
+      <div class="cofolio-container">
+        <CofolioLogoSvg />
         <span class="caption-regular">
           {{ t('global.footer.instituteInfo') }}
         </span>
-        <ul class="fr-footer__content-list">
-          <li
-            v-for="({ href, label, title, ...attrs }, index) in ecosystemLinks"
-            :key="index"
-            class="fr-footer__content-item"
-          >
-            <a
-              class="fr-footer__content-link"
-              :href="href"
-              target="_blank"
-              rel="noopener noreferrer"
-              :title="title"
-              v-bind="attrs"
+      </div>
+
+      <div class="links-container">
+        <div class="links-column">
+          <span class="b2-bold">
+            {{ "Informations" }}
+          </span>
+          <ul class="links-list">
+            <li
+              v-for="(link, index) in mandatoryLinks"
+              :key="index"
+              class="mandatory-link"
             >
-              {{ label }}
+              <RouterLink
+                :to="link.to"
+                :title="link.label"
+                class="mandatory-router-link"
+              >
+                <span class="caption-regular">{{ link.label }}</span>
+              </RouterLink>
+            </li>
+          </ul>
+        </div>
+
+        <div class="links-column">
+          <span class="b2-bold">
+            {{ "Autres sites" }}
+          </span>
+          <ul class="links-list">
+            <li
+              v-for="({ href, label, title, ...attrs }, index) in ecosystemLinks"
+              :key="index"
+              class="fr-footer__content-item"
+            >
+              <a
+                class="fr-footer__content-link caption-regular"
+                :href="href"
+                target="_blank"
+                rel="noopener noreferrer"
+                :title="title"
+                v-bind="attrs"
+              >
+                {{ label }}
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="links-column">
+          <span class="b2-bold">
+            {{ "Partenaires" }}
+          </span>
+          <div class="partners">
+            <a
+              href="https://avenirs-esr.fr/"
+              :title="t('global.footer.links.avenirs')"
+            >
+              <img
+                class="long-img"
+                src="/assets/images/avenirs-esr-logo.png"
+                alt="Logo Avenir(s) ESR"
+              >
             </a>
-          </li>
-        </ul>
+            <a
+              href="https://www.esup-portail.org/"
+              :title="t('global.footer.links.esup')"
+            >
+              <EsupLogo height="2rem" />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="line-container mandatory-links">
-      <ul class="fr-footer__bottom-list">
-        <li
-          v-for="(link, index) in mandatoryLinks"
-          :key="index"
-          class="fr-footer__bottom-item mandatory-link"
-        >
-          <RouterLink
-            :to="link.to"
-            :title="link.label"
-          >
-            <span class="caption-regular">{{ link.label }}</span>
-          </RouterLink>
-        </li>
-      </ul>
-    </div>
-    <div class="line-container copyright">
+
+    <div class="copyright-container">
       <a
-        class="caption-regular"
+        class="caption-regular copyright"
         href="https://www.esup-portail.org/"
       >
         {{ t('global.footer.links.copyright') }}
@@ -172,13 +196,79 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .fr-footer {
-  padding-top: var(--spacing-none);
+  padding-top: var(--dimension-xl);
+  box-shadow: none;
 }
+
+[href] {
+  background-image: none;
+}
+
+.separator {
+  height: var(--dimension-5xl);
+  width: 100%;
+  background: var(--dark-background-primary1);
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: var(--spacing-xl) var(--spacing-5xl) var(--spacing-xl) var(--spacing-5xl);
+  gap: var(--spacing-md);
+}
+
+.copyright-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-5xl) var(--spacing-md) var(--spacing-5xl);
+  border-top: 1px solid var(--stroke);
+}
+
+.cofolio-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+  width: var(--dimension-7xl);
+}
+
+.links-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  gap: var(--spacing-5xl);
+  padding-top: var(--spacing-md);
+}
+
+.links-column, .links-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  justify-content: flex-start;
+}
+
+.partners {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.caption-regular, a {
+  color: var(--text1);
+}
+
 .no-content-after {
   --link-blank-content: '';
 }
+
 .ov-icon {
   margin-bottom: 0;
 }
@@ -190,14 +280,13 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   gap: var(--spacing-md);
   padding: var(--spacing-sm);
   width: 100%;
-  background-color: var(--dark-background-primary2);
   border-bottom: 1px solid var(--stroke);
   justify-content: center;
 }
 
 .anr {
   padding: var(--spacing-xs) var(--spacing-sm);
-  background: #236876;
+  border-bottom: 1px solid var(--stroke);
 }
 
 img {
@@ -230,19 +319,15 @@ img {
   flex-direction: column;
 }
 
-.caption-regular, a {
-  color: var(--other-background-base);
-}
-
-ul {
-  text-align: center;
-}
-
 a img {
   display: flex;
 }
 
 a:focus {
-  outline-color: var(--base);
+  outline-color: var(--dark-background-primary2);
+}
+
+a:hover, a span:hover {
+  color: var(--dark-background-primary1) !important;
 }
 </style>
