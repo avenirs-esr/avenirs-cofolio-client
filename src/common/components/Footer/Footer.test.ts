@@ -54,9 +54,161 @@ BddTest().given('a footer', () => {
       })
 
       BddTest().then('it should render copyright', () => {
-        const copyright = wrapper.find('.copyright a')
+        const copyright = wrapper.find('.copyright')
         expect(copyright.exists()).toBe(true)
         expect(copyright.text()).toBe('@ESUP-Portail. Tous droits réservés.')
+      })
+    })
+
+    BddTest().when('the footer is mounted with COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : conforme')
+      })
+    })
+
+    BddTest().when('the footer is mounted with NON_COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'NON_COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render non compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : non conforme')
+      })
+    })
+
+    BddTest().when('the footer is mounted with PARTIALLY_COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'PARTIALLY_COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render partially compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : partiellement conforme')
+      })
+    })
+
+    BddTest().when('the footer is mounted with custom links', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: {
+            mandatoryLinks: [
+              { label: 'Accessibilité : conforme', to: '/a11y-custom' },
+              { label: 'Mentions légales', to: '/legal' }
+            ],
+            ecosystemLinks: [
+              { label: 'Mon site', href: 'https://example.com', title: 'Mon titre' }
+            ]
+          },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should override mandatory links', () => {
+        const links = wrapper.findAll('.mandatory-link')
+        expect(links.length).toBe(2)
+        expect(links[0].text()).toContain('Accessibilité : conforme')
+        expect(links[1].text()).toBe('Mentions légales')
+      })
+
+      BddTest().then('it should override ecosystem links', () => {
+        const links = wrapper.findAll('.fr-footer__content-link')
+        expect(links.length).toBe(1)
+        expect(links[0].text()).toBe('Mon site')
+        expect(links[0].attributes('href')).toBe('https://example.com')
+      })
+    })
+  })
+
+  BddTest().and('we are in a teacher route', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      vi.mocked(useRoute).mockReturnValue({
+        path: '/teacher/home'
+      } as any)
+    })
+
+    BddTest().when('the footer is mounted with default props', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, { global: { stubs } })
+      })
+
+      BddTest().then('it should render mandatory links', () => {
+        const links = wrapper.findAll('.mandatory-link')
+        expect(links.length).toBe(4)
+        expect(links[0].text()).toContain('Accessibilité : partiellement conforme')
+        expect(links[1].text()).toBe('Mentions légales')
+        expect(links[2].text()).toBe('Données personnelles')
+        expect(links[3].text()).toBe('Gestion des cookies')
+      })
+
+      BddTest().then('it should render default ecosystem links', () => {
+        const ecosystemLinks = wrapper.findAll('.fr-footer__content-link')
+        expect(ecosystemLinks.length).toBe(1)
+        expect(ecosystemLinks[0].text()).toBe('avenirs-esr.fr')
+        expect(ecosystemLinks[0].attributes('href')).toBe('https://avenirs-esr.fr/')
+      })
+
+      BddTest().then('it should render copyright', () => {
+        const copyright = wrapper.find('.copyright')
+        expect(copyright.exists()).toBe(true)
+        expect(copyright.text()).toBe('@ESUP-Portail. Tous droits réservés.')
+      })
+    })
+
+    BddTest().when('the footer is mounted with COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : conforme')
+      })
+    })
+
+    BddTest().when('the footer is mounted with NON_COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'NON_COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render non compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : non conforme')
+      })
+    })
+
+    BddTest().when('the footer is mounted with PARTIALLY_COMPLIANT compliance', () => {
+      beforeEach(async () => {
+        wrapper = await mountWithRouter<typeof Footer>(Footer, {
+          props: { a11yCompliance: 'PARTIALLY_COMPLIANT' },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should render partially compliant compliance', () => {
+        const mandatoryLinks = wrapper.findAll('.mandatory-link')
+        expect(mandatoryLinks[0].text()).toBe('Accessibilité : partiellement conforme')
       })
     })
 
