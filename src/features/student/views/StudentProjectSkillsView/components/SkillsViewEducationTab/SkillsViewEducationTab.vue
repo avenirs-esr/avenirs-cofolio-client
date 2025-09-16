@@ -31,28 +31,29 @@ useBaseApiExceptionToast(error)
         </span>
       </h5>
     </div>
-    <div class="skills-container">
-      <template
-        v-for="(skill, index) in skills"
-        :key="skill.id"
-      >
-        <StudentDetailedPastSkillCard
-          v-if="skill.isProgramFinished"
-          :skill="skill"
-        />
-        <StudentDetailedEducationalSkillCard
-          v-else
-          :skill="skill"
-          :skill-color="`var(--skill${index + 1})`"
-        />
-      </template>
-      <Pagination
-        :page-info="pageInfo"
-        :page-size-selected="pageSizeSelected"
-        :on-update-current-page="onUpdateCurrentPage"
-        :on-update-page-size="onUpdatePageSize"
-      />
-    </div>
+    <Pagination
+      :page-info="pageInfo"
+      :page-size-selected="pageSizeSelected"
+      :on-update-current-page="onUpdateCurrentPage"
+      :on-update-page-size="onUpdatePageSize"
+    >
+      <div class="skills-container">
+        <template
+          v-for="(skill, index) in skills"
+          :key="skill.id"
+        >
+          <StudentDetailedPastSkillCard
+            v-if="skill.isProgramFinished"
+            :skill="skill"
+          />
+          <StudentDetailedEducationalSkillCard
+            v-else
+            :skill="skill"
+            :skill-color="`var(--skill${index + 1})`"
+          />
+        </template>
+      </div>
+    </Pagination>
   </div>
 </template>
 
@@ -70,6 +71,7 @@ useBaseApiExceptionToast(error)
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-none);
 }
 
 .n5, .b1-regular {

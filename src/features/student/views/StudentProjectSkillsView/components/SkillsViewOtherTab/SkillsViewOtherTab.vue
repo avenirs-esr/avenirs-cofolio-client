@@ -72,8 +72,7 @@ function handleAddSkill (): void {
 }
 
 .skills-container {
-  margin-top: var(--spacing-lg);
-  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-none);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
