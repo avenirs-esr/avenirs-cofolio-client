@@ -47,6 +47,8 @@ function handleToggleChange (fieldName: 'isAuthentic' | 'isGroup' | 'useIA', val
                   name="isAuthentic"
                   :model-value="field.state.value"
                   :description="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionAuthenticity.label')"
+                  :active-text="t('global.avToggle.activeText')"
+                  :inactive-text="t('global.avToggle.inactiveText')"
                   @update:model-value="(value) => handleToggleChange('isAuthentic', value, field.handleChange)"
                 />
               </div>
@@ -61,6 +63,8 @@ function handleToggleChange (fieldName: 'isAuthentic' | 'isGroup' | 'useIA', val
                   name="isGroup"
                   :model-value="field.state.value"
                   :description="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.groupProduction.label')"
+                  :active-text="t('global.avToggle.activeText')"
+                  :inactive-text="t('global.avToggle.inactiveText')"
                   @update:model-value="(value) => handleToggleChange('isGroup', value, field.handleChange)"
                 />
               </div>
@@ -89,6 +93,8 @@ function handleToggleChange (fieldName: 'isAuthentic' | 'isGroup' | 'useIA', val
                 name="useIA"
                 :model-value="field.state.value"
                 :description="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaUsage.label')"
+                :active-text="t('global.avToggle.activeText')"
+                :inactive-text="t('global.avToggle.inactiveText')"
                 @update:model-value="(value) => handleToggleChange('useIA', value, field.handleChange)"
               />
               <div

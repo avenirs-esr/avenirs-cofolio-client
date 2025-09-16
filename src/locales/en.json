@@ -8,6 +8,10 @@
       "nextPageTitle": "Next page",
       "prevPageTitle": "Last page"
     },
+    "avToggle": {
+      "activeText": "On",
+      "inactiveText": "Off"
+    },
     "buttons": {
       "cancel": "Cancel",
       "close": "Close",
