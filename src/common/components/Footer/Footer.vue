@@ -45,7 +45,7 @@ const a11yCompliance = computed(() => {
 })
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
-    label: a11yCompliance,
+    label: a11yCompliance.value,
     to: { name: isStudentRoute.value ? studentAccessibilityRoute.name : teacherAccessibilityRoute.name },
   },
   {
