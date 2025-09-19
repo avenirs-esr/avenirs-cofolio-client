@@ -3,7 +3,7 @@ import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { parseDateISO } from '@/common/utils'
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 

@@ -1,8 +1,7 @@
 import { useLanguageSwitcher } from '@/common/composables/use-language-switcher/use-language-switcher'
 import { i18n } from '@/plugins/vue-i18n'
-import { mountComposable } from '@/ui/tests/utils'
-import { BddTest } from 'tests/utils'
-import { expect } from 'vitest'
+import { BddTest, mountComposable } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a useLanguageSwitcher compsable', () => {
   let languageSwitcher: ReturnType<typeof useLanguageSwitcher>

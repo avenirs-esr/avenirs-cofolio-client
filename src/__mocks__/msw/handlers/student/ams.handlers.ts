@@ -2,7 +2,7 @@ import type {
   PagedResponseAmsViewDTO
 } from '@/api/avenir-esr'
 import { createMockedPagedResponseAmsViewDTO } from '@/__mocks__/fixtures/student'
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export const amsHandlers = [

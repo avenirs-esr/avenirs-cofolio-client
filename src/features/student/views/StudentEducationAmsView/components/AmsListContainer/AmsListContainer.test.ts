@@ -6,11 +6,10 @@ import { useAmsViewQuery } from '@/features/student/queries'
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import { ProgramProgressSelectorStub } from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelect.stub'
 import { StudentDetailedAmsCardStub } from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.stub'
-import { PageSizes } from '@/ui/config'
-import { mountWithRouter } from '@/ui/tests/utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>

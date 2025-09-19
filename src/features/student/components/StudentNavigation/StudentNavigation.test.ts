@@ -2,7 +2,7 @@ import StudentNavigation from '@/features/student/components/StudentNavigation/S
 import { useStudentApcAccess } from '@/features/student/composables'
 import { studentEducationAmsRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
-import { registerNavigationLinkKey } from '@/ui'
+import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'

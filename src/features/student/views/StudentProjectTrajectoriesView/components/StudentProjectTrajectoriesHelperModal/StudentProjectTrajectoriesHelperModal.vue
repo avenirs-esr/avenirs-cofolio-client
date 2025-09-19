@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useBackOfficeBuildLifeProjectConfigQuery } from '@/features/student/queries/use-back-office.query/use-back-office.query'
-import { AvModal } from '@/ui'
-import { formatTextToHtml } from '@/ui/utils'
+import { AvModal, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {

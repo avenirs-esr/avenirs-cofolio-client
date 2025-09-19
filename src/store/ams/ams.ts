@@ -1,4 +1,4 @@
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
 
 const DEFAULT_PAGE_SIZE = PageSizes.FOUR

@@ -2,7 +2,7 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCardSettingMenu
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCardSettingMenu/StudentDetailedTraceCardSettingMenu.vue'
-import { AvButton, AvModal, MDI_ICONS } from '@/ui'
+import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {

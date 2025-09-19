@@ -2,7 +2,7 @@
 import { useModal } from '@/common/composables'
 import StudentProjectTrajectoriesHelperModal
   from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.vue'
-import { AvButton, MDI_ICONS } from '@/ui'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

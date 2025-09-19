@@ -1,6 +1,5 @@
-import { mountQueryComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountQueryComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
 import { useBackOfficeBuildLifeProjectConfigQuery } from './use-back-office.query'
 

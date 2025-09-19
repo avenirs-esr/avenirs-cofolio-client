@@ -2,7 +2,7 @@
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
 import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useStudentSummaryQuery } from '@/features/student/queries'
-import { AvCard, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvCard, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 

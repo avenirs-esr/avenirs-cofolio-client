@@ -1,4 +1,4 @@
-import type { PageSizes } from '@/ui/config'
+import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
 export function createUsePaginationMock () {
   const currentPage = ref(0)

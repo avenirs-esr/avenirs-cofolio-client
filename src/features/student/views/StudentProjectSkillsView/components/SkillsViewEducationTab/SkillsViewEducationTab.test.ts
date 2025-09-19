@@ -3,7 +3,7 @@ import { createSkillsViewHandler } from '@/__mocks__/msw/handlers/student/skills
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import SkillsViewEducationTab from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewEducationTab/SkillsViewEducationTab.vue'
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'

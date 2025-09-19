@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useImageUpload } from '@/common/composables'
-import { AvFileUpload } from '@/ui'
+import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 /**

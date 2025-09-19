@@ -1,4 +1,4 @@
-import type { Message } from '@/ui'
+import type { Message } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
 
 const DEFAULT_TIMEOUT = 5000

@@ -3,7 +3,7 @@ import type {
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
 import type { VueWrapper } from '@vue/test-utils'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
-import { AvListItemStub } from '@/ui/interaction/lists/AvListItem/AvListItem.stub'
+import { AvListItemStub } from '@avenirs-esr/avenirs-dsav'
 import { useForm } from '@tanstack/vue-form'
 import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

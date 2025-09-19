@@ -1,7 +1,6 @@
 import Footer from '@/common/components/Footer/Footer.vue'
-import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -12,10 +11,15 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
-vi.mock('@/ui', () => ({
+vi.mock('@avenirs-esr/avenirs-dsav', () => ({
   EsupLogo: {
     name: 'EsupLogo',
     template: '<svg class="esup-logo" />'
+  },
+  PageSizes: {
+    FOUR: 4,
+    EIGHT: 8,
+    TWELVE: 12
   }
 }))
 

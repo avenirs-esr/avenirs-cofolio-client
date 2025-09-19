@@ -11,9 +11,8 @@ import {
   studentToolsTracesRoute
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
-import { mountComposable } from '@/ui/tests/utils'
-import { BddTest } from 'tests/utils'
-import { expect } from 'vitest'
+import { BddTest, mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const pushMock = vi.fn()
 

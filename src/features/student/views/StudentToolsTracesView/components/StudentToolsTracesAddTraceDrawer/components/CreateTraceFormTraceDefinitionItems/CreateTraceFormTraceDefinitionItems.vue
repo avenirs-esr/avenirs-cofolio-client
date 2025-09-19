@@ -3,7 +3,7 @@ import type {
   CreateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
-import { AvFileUpload, AvInput, MDI_ICONS } from '@/ui'
+import { AvFileUpload, AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormTraceDefinitionItemsProps {

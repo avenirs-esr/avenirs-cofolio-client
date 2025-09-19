@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import type { PageInfoDTO } from '@/api/avenir-esr'
 import type { Slot } from 'vue'
-import { AvPageSizePicker, AvPagination, type AvTagPickerOption, getPaginationPages } from '@/ui'
-import { type PageSizes, pageSizeValues } from '@/ui/config'
+import {
+  AvPageSizePicker,
+  AvPagination,
+  type AvTagPickerOption,
+  getPaginationPages,
+  type PageSizes,
+  pageSizeValues
+} from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface PaginationProps {
@@ -44,6 +50,12 @@ function handleSelectChange (val: AvTagPickerOption): void {
       :pages="pages"
       :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.top.ariaLabel')"
       compact
+      :prev-page-label="t('global.avPagination.prevPageTitle')"
+      :next-page-label="t('global.avPagination.nextPageTitle')"
+      :compact-current-page-label="t('global.avPagination.current', {
+        current: (pageInfo.page + 1),
+        total: (pageInfo.totalPages),
+      })"
       @update:current-page="onUpdateCurrentPage"
     />
   </div>
@@ -54,6 +66,10 @@ function handleSelectChange (val: AvTagPickerOption): void {
       :current-page="pageInfo.page"
       :pages="pages"
       :aria-label="t('student.views.studentEducationAmsView.amsListContainer.pagination.bottom.ariaLabel')"
+      :first-page-label="t('global.avPagination.firstPageTitle')"
+      :prev-page-label="t('global.avPagination.prevPageTitle')"
+      :next-page-label="t('global.avPagination.nextPageTitle')"
+      :last-page-label="t('global.avPagination.lastPageTitle')"
       @update:current-page="onUpdateCurrentPage"
     />
   </div>

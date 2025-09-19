@@ -1,7 +1,5 @@
-import { mountComposable } from '@/ui/tests/utils'
 import { useQueryClient } from '@tanstack/vue-query'
-
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from './use-invalidate-query'
 

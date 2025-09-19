@@ -20,7 +20,7 @@ import {
   type TracesCreationResponse,
   type UnassociatedTracesSummaryDTO
 } from '@/api/avenir-esr'
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import isNil from 'lodash-es/isNil'
 import { http, HttpResponse } from 'msw'
 

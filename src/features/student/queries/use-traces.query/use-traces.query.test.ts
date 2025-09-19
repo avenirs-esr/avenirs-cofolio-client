@@ -11,10 +11,9 @@ import {
   useUnassignedTracesSummaryQuery,
   useUnassignedTracesViewQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
-import { PageSizes } from '@/ui/config'
-import { mountQueryComposable } from '@/ui/tests/utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, type MockInstance, vi } from 'vitest'
 
 vi.mock('@/common/composables', async (importOriginal) => {

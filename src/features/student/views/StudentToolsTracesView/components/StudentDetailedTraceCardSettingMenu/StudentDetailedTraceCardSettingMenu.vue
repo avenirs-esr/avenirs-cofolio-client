@@ -2,7 +2,7 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
-import { AvButton, MDI_ICONS } from '@/ui'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{

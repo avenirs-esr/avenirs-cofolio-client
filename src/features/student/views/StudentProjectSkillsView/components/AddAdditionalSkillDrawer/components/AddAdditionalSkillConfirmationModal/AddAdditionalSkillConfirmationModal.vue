@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AvButton, AvModal, MDI_ICONS } from '@/ui'
+import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvBadge } from '@/ui'
+import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
 defineProps<{ label: string, backgroundColor: string }>()
 </script>

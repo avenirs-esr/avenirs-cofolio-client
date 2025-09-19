@@ -1,16 +1,20 @@
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile'
 import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
-import { mountComposable } from '@/ui/tests/utils'
 import { flushPromises } from '@vue/test-utils'
 import { Exception } from 'sass-embedded'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-vi.mock('@/ui/utils', () => ({
+vi.mock('@avenirs-esr/avenirs-dsav', () => ({
   isValidEmail: (email: string) => email.includes('@'),
+  PageSizes: {
+    FOUR: 4,
+    EIGHT: 8,
+    TWELVE: 12
+  }
 }))
 
 vi.mock('@/store', async (importOriginal) => {

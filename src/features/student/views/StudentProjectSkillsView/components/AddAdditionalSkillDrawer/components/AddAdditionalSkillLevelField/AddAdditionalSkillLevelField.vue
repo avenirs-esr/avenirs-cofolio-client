@@ -5,7 +5,7 @@ import type {
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { useAdditionalSkillConfig } from '@/features/student/queries'
-import { AvBadge, AvRadioButton, AvRadioButtonSet, ICONS_DATA_URL } from '@/ui'
+import { AvBadge, AvRadioButton, AvRadioButtonSet, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface SkillLevelFieldProps {
@@ -111,7 +111,7 @@ function getDescription (level: EAdditionalSkillLevel) {
 </template>
 
 <style scoped lang="scss">
-@use "@/ui/styles/typography.scss" as typography;
+@use "@avenirs-esr/avenirs-dsav/src/styles/main.scss" as ds;
 
 .skill-level-field {
   display: flex;

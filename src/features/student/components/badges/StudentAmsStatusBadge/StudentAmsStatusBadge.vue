@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAmsStatus } from '@/api/avenir-esr'
-import { AvBadge } from '@/ui'
+import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { status } = defineProps<{ status: EAmsStatus }>()

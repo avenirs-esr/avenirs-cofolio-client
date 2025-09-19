@@ -3,11 +3,7 @@ import { EAdditionalSkillType } from '@/api/avenir-esr'
 import { AdditionalSkillTypeBadgeStub } from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.stub'
 import { AddAdditionalSkillConfirmationModalStub } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.stub'
 import { useSkillsStore } from '@/store'
-import { AvButtonStub } from '@/ui/interaction/buttons/AvButton/AvButton.stub'
-import { AvListItemStub } from '@/ui/interaction/lists/AvListItem/AvListItem.stub'
-import { AvAutocompleteStub } from '@/ui/interaction/selects/AvAutocomplete/AvAutocomplete.stub'
-import { AvDrawerStub } from '@/ui/overlay/drawers/AvDrawer/AvDrawer.stub'
-import { VIconStub } from 'tests/stubs'
+import { AvAutocompleteStub, AvButtonStub, AvDrawerStub, AvListItemStub, VIconStub } from '@avenirs-esr/avenirs-dsav'
 import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
@@ -183,19 +179,19 @@ BddTest().given('an add additional skill drawer component', () => {
       await setupFormWithMockSkill()
 
       const saveButton = getSaveButton()
-      expect(saveButton?.props('loading')).toBe(false)
+      expect(saveButton?.props('isLoading')).toBe(false)
 
       const form = wrapper.find('form')
       await form.trigger('submit')
 
       await vi.waitFor(() => {
-        expect(saveButton?.props('loading')).toBe(true)
+        expect(saveButton?.props('isLoading')).toBe(true)
       },)
 
       expect(saveButton?.props('disabled')).toBe(true)
 
       await vi.waitFor(() => {
-        expect(saveButton?.props('loading')).toBe(false)
+        expect(saveButton?.props('isLoading')).toBe(false)
       },)
     })
 
@@ -265,7 +261,7 @@ BddTest().given('an add additional skill drawer component', () => {
 
     BddTest().then('it should show loading state as false initially', () => {
       const saveButton = getSaveButton()
-      expect(saveButton?.props('loading')).toBe(false)
+      expect(saveButton?.props('isLoading')).toBe(false)
     })
   })
 

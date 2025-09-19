@@ -3,7 +3,7 @@ import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
 import StudentDetailedTraceModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
-import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@/ui'
+import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()

@@ -3,14 +3,12 @@ import { StudentAmsStatusBadgeStub } from '@/features/student/components/badges/
 import { StudentCountSkillsIconTextStub } from '@/features/student/components/iconTexts/StudentCountSkillsIconText/StudentCountSkillsIconText.stub'
 import { StudentCountTracesIconTextStub } from '@/features/student/components/iconTexts/StudentCountTracesIconText/StudentCountTracesIconText.stub'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
-import { AvBadgeStub } from '@/ui/badges/AvBadge/AvBadge.stub'
-import { mountWithRouter } from '@/ui/tests/utils'
+import { AvBadgeStub, DsfrBadgeStub, VIconStub } from '@avenirs-esr/avenirs-dsav'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { DsfrBadgeStub, VIconStub } from 'tests/stubs'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-vi.doMock('@/ui/tokens', () => ({
+vi.doMock('@avenirs-esr/avenirs-dsav', () => ({
   MDI_ICONS: {
     ATTACH_FILE: 'mdi-attach-file',
     TEST_TUBE_EMPTY: 'mdi-test-tube-empty',

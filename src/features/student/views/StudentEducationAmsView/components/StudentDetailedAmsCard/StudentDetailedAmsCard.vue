@@ -2,7 +2,7 @@
 import type { AmsViewDTO } from '@/api/avenir-esr'
 import { StudentAmsStatusBadge, StudentCountSkillsIconText, StudentCountTracesIconText } from '@/features/student/components'
 import { studentAmsRoute } from '@/features/student/routes'
-import { AvBadge, AvCard, AvVIcon, MDI_ICONS } from '@/ui'
+import { AvBadge, AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { ams } = defineProps<{ ams: AmsViewDTO }>()

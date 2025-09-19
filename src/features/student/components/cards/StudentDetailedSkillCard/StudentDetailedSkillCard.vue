@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, AvVIcon } from '@/ui'
+import { AvCard, AvVIcon } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedSkillCardProps {
   id: string

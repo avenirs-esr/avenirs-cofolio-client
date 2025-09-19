@@ -1,5 +1,5 @@
 import { useAmsStore } from '@/store/ams/ams'
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { createPinia, setActivePinia } from 'pinia'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
