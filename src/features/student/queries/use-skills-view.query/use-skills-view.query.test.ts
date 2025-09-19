@@ -12,10 +12,9 @@ import {
   type SkillDTO
 } from '@/api/avenir-esr'
 import { useAdditionalSkillsViewQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
-import { PageSizes } from '@/ui/config'
-import { mountQueryComposable } from '@/ui/tests/utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an useAdditionalSkillsViewQuery composable', () => {

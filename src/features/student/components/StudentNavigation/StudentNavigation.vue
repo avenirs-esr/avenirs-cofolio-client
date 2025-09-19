@@ -13,7 +13,7 @@ import {
   studentToolsResumesRoute,
   studentToolsTracesRoute
 } from '@/features/student/routes'
-import { AvNavigation, MDI_ICONS } from '@/ui'
+import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 
 import { useI18n } from 'vue-i18n'

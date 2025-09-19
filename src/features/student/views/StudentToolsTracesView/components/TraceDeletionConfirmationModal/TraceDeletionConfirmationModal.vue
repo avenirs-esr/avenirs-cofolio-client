@@ -3,9 +3,7 @@ import type { TraceViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
-import { AvButton, MDI_ICONS } from '@/ui'
-import AvIconText from '@/ui/base/AvIconText/AvIconText.vue'
-import AvModal from '@/ui/overlay/modals/AvModal/AvModal.vue'
+import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace, show, onConfirmDelete, onClose } = defineProps<{

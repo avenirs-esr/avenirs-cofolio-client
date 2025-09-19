@@ -7,7 +7,7 @@ import {
   useAdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useSkillsStore, useToasterStore } from '@/store'
-import { AvButton, AvDrawer, MDI_ICONS } from '@/ui'
+import { AvButton, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -95,7 +95,7 @@ function confirmCancel () {
           :label="t('global.buttons.save')"
           variant="FLAT"
           :disabled="!isFormValid || isSubmitting"
-          :loading="isSubmitting"
+          :is-loading="isSubmitting"
           @click="form.handleSubmit"
         />
       </div>

@@ -2,7 +2,7 @@
 import type { teacherHomeRoute } from '@/features/teacher'
 import type { DsfrBreadcrumbProps } from '@gouvminint/vue-dsfr'
 import { studentHomeRoute } from '@/features/student/routes'
-import { AvButton, MDI_ICONS } from '@/ui'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {

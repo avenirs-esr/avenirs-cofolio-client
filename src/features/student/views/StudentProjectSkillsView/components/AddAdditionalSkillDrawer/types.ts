@@ -1,5 +1,5 @@
 import type { EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
-import type { AvAutocompleteOption } from '@/ui'
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 
 export interface AdditionalSkillOption extends AvAutocompleteOption {
   id: string

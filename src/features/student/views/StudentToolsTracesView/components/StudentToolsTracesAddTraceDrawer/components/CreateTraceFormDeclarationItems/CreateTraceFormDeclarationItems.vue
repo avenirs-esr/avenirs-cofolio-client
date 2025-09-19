@@ -2,7 +2,7 @@
 import type {
   CreateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
-import { AvInput, AvToggle } from '@/ui'
+import { AvInput, AvToggle } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {

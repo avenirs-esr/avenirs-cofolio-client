@@ -1,6 +1,6 @@
 import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCardSettingMenu from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCardSettingMenu/StudentDetailedTraceCardSettingMenu.vue'
-import { MDI_ICONS } from '@/ui/tokens/icons'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

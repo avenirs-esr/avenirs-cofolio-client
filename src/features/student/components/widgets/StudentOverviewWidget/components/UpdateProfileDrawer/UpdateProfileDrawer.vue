@@ -10,7 +10,15 @@ import {
 } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
 import { useDeletePhotoMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, AvIconText, AvInput, MDI_ICONS } from '@/ui'
+import {
+  AvAccordion,
+  AvAccordionsGroup,
+  AvButton,
+  AvDrawer,
+  AvIconText,
+  AvInput,
+  MDI_ICONS
+} from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { studentSummary, show, onClose } = defineProps<{

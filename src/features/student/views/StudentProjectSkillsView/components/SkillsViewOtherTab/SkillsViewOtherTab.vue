@@ -6,7 +6,7 @@ import StudentDetailedAdditionalSkillCard
 import { useAdditionalSkillsViewQuery } from '@/features/student/queries'
 import AddAdditionalSkillDrawer from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/AddAdditionalSkillDrawer.vue'
 import { useSkillsStore } from '@/store'
-import { AvButton, MDI_ICONS } from '@/ui'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 import { useI18n } from 'vue-i18n'
 

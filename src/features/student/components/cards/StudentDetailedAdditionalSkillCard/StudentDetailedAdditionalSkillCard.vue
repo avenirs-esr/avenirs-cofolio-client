@@ -2,7 +2,7 @@
 import type { AdditionalSkillDTO, AdditionalSkillProgressDTO } from '@/api/avenir-esr'
 
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
-import { AvBadge, MDI_ICONS } from '@/ui'
+import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedAdditionalSkillCardProps {
   additionalSkill: AdditionalSkillDTO | AdditionalSkillProgressDTO

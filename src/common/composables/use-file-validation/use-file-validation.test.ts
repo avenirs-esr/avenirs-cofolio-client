@@ -1,5 +1,4 @@
-import { mountComposable } from '@/ui/tests/utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
 import { useFileValidation, type UseFileValidationOptions } from './use-file-validation'
 

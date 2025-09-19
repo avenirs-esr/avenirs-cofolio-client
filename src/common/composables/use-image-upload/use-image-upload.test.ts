@@ -1,6 +1,5 @@
 import { useImageUpload } from '@/common/composables/use-image-upload/use-image-upload'
-import { mountComposable } from '@/ui/tests/utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an useImageUpload composable', () => {

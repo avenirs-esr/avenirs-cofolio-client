@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AmsListContainer from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.vue'
 import AmsPlanningContainer from '@/features/student/views/StudentEducationAmsView/components/AmsPlanningContainer/AmsPlanningContainer.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@/ui'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

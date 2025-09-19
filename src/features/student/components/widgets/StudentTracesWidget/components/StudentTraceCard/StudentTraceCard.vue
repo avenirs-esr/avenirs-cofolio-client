@@ -3,7 +3,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { type TraceOverviewDTO, TraceType } from '@/types'
-import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@/ui'
+import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
 

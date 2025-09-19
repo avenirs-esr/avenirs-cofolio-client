@@ -7,7 +7,7 @@ import {
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO
 } from '@/api/avenir-esr'
-import { PageSizes } from '@/ui/config'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export function createAdditionalSkillsViewHandler (payload: PagedResponseAdditionalSkillDTO) {

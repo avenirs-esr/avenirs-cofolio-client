@@ -1,6 +1,6 @@
 import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
-import { MDI_ICONS } from '@/ui/tokens/icons'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -13,8 +13,8 @@ vi.mock('@/common/composables', () => ({
   }),
 }))
 
-vi.mock('@/ui', async () => {
-  const actual = await vi.importActual<typeof import('@/ui')>('@/ui')
+vi.mock('@avenirs-esr/avenirs-dsav', async () => {
+  const actual = await vi.importActual<typeof import('@avenirs-esr/avenirs-dsav')>('@avenirs-esr/avenirs-dsav')
 
   return {
     ...actual,

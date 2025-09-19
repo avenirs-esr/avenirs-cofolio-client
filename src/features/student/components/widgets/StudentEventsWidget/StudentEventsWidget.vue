@@ -4,7 +4,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { getCalendarDate, getLocalizedAbbrMonth, parseDateISO } from '@/common/utils'
 import { useStudentEventsSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@/ui'
+import { AvButton, AvCard, AvIconText, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { compareAsc, format, isAfter } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 

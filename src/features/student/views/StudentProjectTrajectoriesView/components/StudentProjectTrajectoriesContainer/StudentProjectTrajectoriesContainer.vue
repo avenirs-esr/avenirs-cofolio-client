@@ -6,7 +6,7 @@ import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/
 import StudentProjectTrajectoriesSelfKnowledgeSection from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesSelfKnowledgeSection/StudentProjectTrajectoriesSelfKnowledgeSection.vue'
 import StudentProjectTrajectoriesTrajectoriesSection from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
 import { ProjectTrajectoryItems } from '@/features/student/views/StudentProjectTrajectoriesView/types'
-import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@/ui'
+import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

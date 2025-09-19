@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isEnumMember } from '@/common/utils'
 import { ProjectExperienceItems } from '@/features/student/views/StudentProjectExperiencesView/types'
-import { AvList, AvListItem, MDI_ICONS } from '@/ui'
+import { AvList, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentProjectExperiencesSideMenuContentProps {

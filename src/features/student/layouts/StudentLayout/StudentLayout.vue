@@ -10,7 +10,7 @@ import {
 } from '@/features/student'
 import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
-import AvHeader from '@/ui/header/AvHeader/AvHeader.vue'
+import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 

@@ -1,7 +1,7 @@
 import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
 import { StudentDetailedTraceModalStub } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.stub'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
-import { AvVIconStub } from '@/ui/base/AvVIcon/AvVIcon.stub'
+import { AvVIconStub } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

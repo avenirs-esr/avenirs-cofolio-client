@@ -6,9 +6,8 @@ import {
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { mountComposable } from '@/ui/tests/utils'
 import { waitFor } from 'storybook/test'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComposable } from 'tests/utils'
 import { type MockInstance, vi } from 'vitest'
 import { useCreateTraceForm } from './use-create-trace-form'
 

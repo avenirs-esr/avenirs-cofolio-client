@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTracesStore } from '@/store'
-import { AvButton, MDI_ICONS } from '@/ui'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

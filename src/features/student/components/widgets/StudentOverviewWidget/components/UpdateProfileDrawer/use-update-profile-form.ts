@@ -2,7 +2,7 @@ import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile'
 import { useToasterStore } from '@/store'
-import { isValidEmail } from '@/ui/utils'
+import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
 import { useForm, useStore } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 

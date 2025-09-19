@@ -3,7 +3,7 @@ import type { SkillDTO, SkillLevelViewDTO } from '@/api/avenir-esr'
 import type { ComputedRef } from 'vue'
 import { StudentLastCompletedLevelBadge } from '@/features/student'
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
-import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@/ui'
+import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedEducationaSkillCardProps {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvIconText, MDI_ICONS } from '@/ui'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { countTraces, gap = 'var(--spacing-xs)' } = defineProps<{ countTraces: number, gap?: string }>()

@@ -6,7 +6,7 @@ import type {
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
-import { AvAutocomplete, AvListItem, MDI_ICONS } from '@/ui'
+import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'

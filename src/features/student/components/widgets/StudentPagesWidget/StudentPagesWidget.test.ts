@@ -6,9 +6,8 @@ import type { Ref } from 'vue'
 import { formatDateToLocaleString } from '@/common/utils'
 import StudentPagesWidget from '@/features/student/components/widgets/StudentPagesWidget/StudentPagesWidget.vue'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {

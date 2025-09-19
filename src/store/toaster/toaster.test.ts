@@ -1,4 +1,4 @@
-import type { Message } from '@/ui'
+import type { Message } from '@avenirs-esr/avenirs-dsav'
 import { useToasterStore } from '@/store/toaster/toaster'
 import { BddTest } from 'tests/utils'
 

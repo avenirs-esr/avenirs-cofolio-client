@@ -3,7 +3,7 @@ import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, AvVIcon, MDI_ICONS } from '@/ui'
+import { AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentSkillCardProps {

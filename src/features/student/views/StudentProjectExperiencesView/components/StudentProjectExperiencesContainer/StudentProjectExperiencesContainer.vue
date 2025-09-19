@@ -5,7 +5,7 @@ import StudentProjectExperiencesCareersSection from '@/features/student/views/St
 import StudentProjectExperiencesEducationsSection from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesEducationsSection/StudentProjectExperiencesEducationsSection.vue'
 import StudentProjectExperiencesExperiencesSection from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesExperiencesSection/StudentProjectExperiencesExperiencesSection.vue'
 import { ProjectExperienceItems } from '@/features/student/views/StudentProjectExperiencesView/types'
-import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@/ui'
+import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

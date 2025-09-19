@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
-import AvNotice from '@/ui/base/AvNotice/AvNotice.vue'
+import { AvNotice } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

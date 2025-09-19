@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables/'
-import { AvButton, AvIconText, AvPopover, MDI_ICONS } from '@/ui'
+import { AvButton, AvIconText, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {

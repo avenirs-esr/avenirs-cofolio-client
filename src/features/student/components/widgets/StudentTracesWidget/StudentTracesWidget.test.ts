@@ -5,9 +5,8 @@ import type { Ref } from 'vue'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { type TraceOverviewDTO, TraceType } from '@/types'
-import { mountWithRouter } from '@/ui/tests/utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {

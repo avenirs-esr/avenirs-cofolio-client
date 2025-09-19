@@ -1,8 +1,7 @@
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { TraceType } from '@/types'
-import { mountWithRouter } from '@/ui/tests/utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
 
 vi.doMock('@gouvminint/vue-dsfr', () => ({
@@ -18,7 +17,7 @@ vi.doMock('@gouvminint/vue-dsfr', () => ({
   }),
 }))
 
-vi.doMock('@/ui/tokens', () => ({
+vi.doMock('@avenirs-esr/avenirs-dsav', () => ({
   MDI_ICONS: {
     ATTACH_FILE: 'mdi-attach-file',
     STAR_SHOOTING_OUTLINE: 'mdi-star-shooting',
