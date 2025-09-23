@@ -61,19 +61,40 @@ BddTest().given('a setting menu', () => {
     })
 
     BddTest().when('the component is rendered', () => {
-      BddTest().then('it should display the setting menu and the delete button', () => {
+      BddTest().then('it should display the setting menu items', () => {
         expect(wrapper.find('.student-detailed-trace-card-setting-menu').exists()).toBe(true)
-        expect(wrapper.find('.student-detailed-trace-card-setting-menu__item').exists()).toBe(true)
+        const menuItems = wrapper.findAll('.student-detailed-trace-card-setting-menu__item')
+        expect(menuItems).toHaveLength(2)
       })
 
       BddTest().then('it should display the modal when showModal is true', () => {
         expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).exists()).toBe(true)
       })
 
-      BddTest().then('it should pass the correct props to AvButton', () => {
-        const button = wrapper.findComponent({ name: 'AvButton' })
-        expect(button.props('icon')).toBe(MDI_ICONS.TRASH_CAN_OUTLINE)
-        expect(button.props('size')).toBe('sm')
+      BddTest().then('it should display the delete button with correct props', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        const deleteButton = buttons[0]
+        expect(deleteButton.props('icon')).toBe(MDI_ICONS.TRASH_CAN_OUTLINE)
+        expect(deleteButton.props('size')).toBe('sm')
+        expect(deleteButton.props('label')).toBe('Supprimer ma trace')
+      })
+
+      BddTest().then('it should display the assign button with correct props', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        const assignButton = buttons[1]
+        expect(assignButton.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
+        expect(assignButton.props('size')).toBe('sm')
+        expect(assignButton.props('label')).toBe('Assigner ma trace')
+      })
+    })
+
+    BddTest().when('the delete button is clicked', () => {
+      BddTest().then('it should call displayModal', async () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        const deleteButton = buttons[0]
+
+        await deleteButton.trigger('click')
+        expect(displayModalMock).toHaveBeenCalled()
       })
     })
 
