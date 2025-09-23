@@ -297,6 +297,7 @@
           "title": "Détail de ma trace - {trace}",
           "settings": {
             "ariaLabel": "Paramètres de la trace",
+            "assign": "Assigner ma trace",
             "delete": "Supprimer ma trace"
           }
         },

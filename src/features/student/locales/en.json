@@ -297,6 +297,7 @@
           "title": "Detail of my trace - {trace}",
           "settings": {
             "ariaLabel": "open trace settings",
+            "assign": "Assign my trace",
             "delete": "Delete my trace"
           }
         },

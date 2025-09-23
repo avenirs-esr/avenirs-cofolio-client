@@ -18,6 +18,19 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
 
+const menuItems = computed(() => [
+  {
+    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
+    label: t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete'),
+    onClick: () => displayModal()
+  },
+  {
+    icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
+    label: t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.assign'),
+    onClick: () => {}
+  }
+])
+
 function onDeleteTraceSuccess () {
   hideModal()
   // Without setTimeout, the focus-trap is lost on close
@@ -34,14 +47,17 @@ function onDeleteTraceSuccess () {
     class="student-detailed-trace-card-setting-menu"
   >
     <AvButton
+      v-for="menuItem of menuItems"
+      :key="menuItem.label"
       class="student-detailed-trace-card-setting-menu__item"
-      :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+      :icon="menuItem.icon"
       size="sm"
       theme="SECONDARY"
-      :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete')"
+      :label="menuItem.label"
+      :aria-label="menuItem.label"
       :icon-scale="1.3"
       no-radius
-      :on-click="() => displayModal()"
+      @click="menuItem.onClick"
     />
   </div>
   <TraceDeletionConfirmationModal
@@ -75,5 +91,13 @@ function onDeleteTraceSuccess () {
   width: 100% !important;
   align-items: center;
   align-self: stretch;
+
+  &:first-child {
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+  }
+
+  &:last-child {
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important;
+  }
 }
 </style>
