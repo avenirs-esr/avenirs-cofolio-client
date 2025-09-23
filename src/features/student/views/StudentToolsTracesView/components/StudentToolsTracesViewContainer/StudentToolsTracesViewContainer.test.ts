@@ -1,6 +1,6 @@
 import { ETraceStatus, type PagedResponseTraceViewDTO } from '@/api/avenir-esr'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
-import { useUnassignedTracesViewQuery } from '@/features/student/queries'
+import { useTracesViewQuery } from '@/features/student/queries'
 import StudentToolsTracesViewContainer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useTracesStore } from '@/store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -22,11 +22,11 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/features/student/queries')>()
   return {
     ...actual,
-    useUnassignedTracesViewQuery: vi.fn(),
+    useTracesViewQuery: vi.fn(),
   }
 })
 
-const mockedUseUnassignedTracesViewQuery = vi.mocked(useUnassignedTracesViewQuery)
+const mockedUseUnassignedTracesViewQuery = vi.mocked(useTracesViewQuery)
 
 function mockUseUnassignedTracesViewQuery (payload: PagedResponseTraceViewDTO | undefined) {
   const mockData = ref(payload)
@@ -37,7 +37,7 @@ function mockUseUnassignedTracesViewQuery (payload: PagedResponseTraceViewDTO | 
     error: ref(null),
     isLoading: ref(false),
     isSuccess: ref(true)
-  } as unknown as ReturnType<typeof useUnassignedTracesViewQuery>
+  } as unknown as ReturnType<typeof useTracesViewQuery>
   mockedUseUnassignedTracesViewQuery.mockReturnValue(mockReturn)
 }
 

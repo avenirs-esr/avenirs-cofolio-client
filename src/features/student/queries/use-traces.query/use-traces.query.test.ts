@@ -1,15 +1,21 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedUnassignedTracesSummary } from '@/__mocks__/fixtures/student'
-import { type GetTracesViewParams, GetTracesViewStatus, type PagedResponseTraceViewDTO, type TraceConfigurationDTO, type UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
+import {
+  type GetTracesViewParams,
+  GetTracesViewStatus,
+  type PagedResponseTraceViewDTO,
+  type TraceConfigurationDTO,
+  type UnassociatedTracesSummaryDTO
+} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeleteTraceVariables,
   useDeleteTraceMutation,
   type UseDeleteTraceMutationArgs,
   useTracesConfigurationQuery,
-  useUnassignedTracesSummaryQuery,
-  useUnassignedTracesViewQuery
+  useTracesViewQuery,
+  useUnassignedTracesSummaryQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
@@ -46,7 +52,11 @@ BddTest().given('a useTracesViewQuery composable', async () => {
       const pageSize = ref(4)
 
       const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
-        () => useUnassignedTracesViewQuery(page, pageSize)
+        () => useTracesViewQuery({
+          page,
+          pageSize,
+          status: GetTracesViewStatus.UNASSOCIATED
+        })
       )
 
       await flushPromises()
@@ -69,7 +79,11 @@ BddTest().given('a useTracesViewQuery composable', async () => {
       const page = ref(1)
       const pageSize = ref(4)
 
-      const queryReturn = mountQueryComposable(() => useUnassignedTracesViewQuery(page, pageSize))
+      const queryReturn = mountQueryComposable(() => useTracesViewQuery({
+        page,
+        pageSize,
+        status: GetTracesViewStatus.UNASSOCIATED
+      }))
 
       await flushPromises()
 
