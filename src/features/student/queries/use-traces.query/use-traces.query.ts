@@ -1,40 +1,44 @@
 import type { BaseApiException } from '@/common/exceptions'
 
-import type { Ref } from 'vue'
 import {
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
-  type ELanguage,
   getTraceConfig,
   getTracesUnassociatedSummary,
   getTracesView,
-  GetTracesViewStatus,
+  type GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
   type TraceViewDTO,
   type UnassociatedTracesSummaryDTO,
-
   uploadAttachment,
   type UploadAttachmentBody
 
 } from '@/api/avenir-esr'
+
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'traces']
 const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
 const TWO_MINUTES = 2 * 60 * 1000
 
-export function useUnassignedTracesViewQuery (
-  page: Ref<number>,
+interface UseTracesViewQueryParams {
+  page: Ref<number>
   pageSize: Ref<number>
-): UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
+  status: MaybeRef<GetTracesViewStatus>
+}
+
+type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
   traces: Ref<TraceViewDTO[]>
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
-} {
-  const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value }])
+}
+
+export function useTracesViewQuery ({ page, pageSize, status }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+  const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value, status: toValue(status) }])
 
   const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
@@ -42,7 +46,7 @@ export function useUnassignedTracesViewQuery (
       return await getTracesView({
         pageSize: pageSize.value,
         page: page.value,
-        status: GetTracesViewStatus.UNASSOCIATED
+        status: toValue(status)
       })
     },
     staleTime: TWO_MINUTES,
@@ -103,12 +107,6 @@ export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigur
     },
     staleTime: TWO_MINUTES,
   })
-}
-
-export interface CreateTraceVariables {
-  title: string
-  personalNote?: string
-  language?: ELanguage
 }
 
 export interface UseCreateTraceMutationArgs {
