@@ -5,14 +5,18 @@ import { defineStore } from 'pinia'
 const DEFAULT_PAGE_SIZE = PageSizes.EIGHT
 
 export const useTracesStore = defineStore('traces', () => {
-  const pageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
-  const currentPage = ref(0)
+  const unassociatedPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+  const unassociatedCurrentPage = ref(0)
+  const associatedPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+  const associatedCurrentPage = ref(0)
 
   const { showDrawer: showCreateTraceDrawer, displayDrawer: displayCreateTraceDrawer, hideDrawer: hideCreateTraceDrawer } = useDrawer()
 
   return {
-    currentPage,
-    pageSizeSelected,
+    unassociatedCurrentPage,
+    unassociatedPageSizeSelected,
+    associatedCurrentPage,
+    associatedPageSizeSelected,
     showCreateTraceDrawer,
     displayCreateTraceDrawer,
     hideCreateTraceDrawer

@@ -1,5 +1,5 @@
-import type { TraceConfigurationDTO, UnassociatedTracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
+import type { TraceConfigurationDTO, TracesSummaryDTO } from '@/api/avenir-esr'
+import { useTracesConfigurationQuery } from '@/features/student/queries'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -12,12 +12,10 @@ vi.mock('@/features/student/queries', async (importOriginal) => {
   return {
     ...actual,
     useTracesConfigurationQuery: vi.fn(),
-    useUnassignedTracesSummaryQuery: vi.fn(),
   }
 })
 
 const mockedUseTracesConfigurationQuery = vi.mocked(useTracesConfigurationQuery)
-const mockedUseUnassignedTracesSummaryQuery = vi.mocked(useUnassignedTracesSummaryQuery)
 
 function mockUseTracesConfigurationQuery (payload: TraceConfigurationDTO | null) {
   const mockData = ref(payload)
@@ -28,17 +26,6 @@ function mockUseTracesConfigurationQuery (payload: TraceConfigurationDTO | null)
     isSuccess: ref(true)
   } as ReturnType<typeof useTracesConfigurationQuery>
   mockedUseTracesConfigurationQuery.mockReturnValue(queryMockedData)
-}
-
-function mockUseUnassignedTracesSummaryQuery (payload: UnassociatedTracesSummaryDTO) {
-  const mockData = ref(payload)
-  const queryMockedData = {
-    data: mockData,
-    error: ref(null),
-    isLoading: ref(false),
-    isSuccess: ref(true)
-  } as ReturnType<typeof useUnassignedTracesSummaryQuery>
-  mockedUseUnassignedTracesSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 BddTest().given('a student tools traces view notice component', () => {
@@ -58,19 +45,20 @@ BddTest().given('a student tools traces view notice component', () => {
     maxRemainingDaysBeforeCritical: 7
   }
 
-  const mockedUnassignedTracesSummary: UnassociatedTracesSummaryDTO = {
-    total: 15,
+  const tracesSummaryDefault: TracesSummaryDTO = {
+    associated: 7,
+    unassociated: 15,
     totalWarnings: 5,
-    totalCriticals: 3
+    totalCriticals: 3,
   }
 
   BddTest().and('with default configuration', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(mockedTracesConfiguration)
-      mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
 
       wrapper = mount(StudentToolsTracesViewNotice, {
+        props: { tracesSummary: tracesSummaryDefault },
         global: {
           stubs: commonStubs
         }
@@ -105,9 +93,9 @@ BddTest().given('a student tools traces view notice component', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(null)
-      mockUseUnassignedTracesSummaryQuery(mockedUnassignedTracesSummary)
 
       wrapper = mount(StudentToolsTracesViewNotice, {
+        props: { tracesSummary: tracesSummaryDefault },
         global: {
           stubs: commonStubs
         }
@@ -131,13 +119,15 @@ BddTest().given('a student tools traces view notice component', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockUseTracesConfigurationQuery(mockedTracesConfiguration)
-      mockUseUnassignedTracesSummaryQuery({
-        total: 0,
+      const tracesSummaryEmpty: TracesSummaryDTO = {
+        associated: 0,
+        unassociated: 0,
         totalWarnings: 0,
-        totalCriticals: 0
-      })
+        totalCriticals: 0,
+      }
 
       wrapper = mount(StudentToolsTracesViewNotice, {
+        props: { tracesSummary: tracesSummaryEmpty },
         global: {
           stubs: commonStubs
         }
@@ -167,13 +157,15 @@ BddTest().given('a student tools traces view notice component', () => {
         maxRemainingDaysBeforeWarning: 7,
         maxRemainingDaysBeforeCritical: 1
       })
-      mockUseUnassignedTracesSummaryQuery({
-        total: 1,
+      const tracesSummaryMock: TracesSummaryDTO = {
+        associated: 0,
+        unassociated: 1,
         totalWarnings: 0,
-        totalCriticals: 1
-      })
+        totalCriticals: 1,
+      }
 
       wrapper = mount(StudentToolsTracesViewNotice, {
+        props: { tracesSummary: tracesSummaryMock },
         global: {
           stubs: commonStubs
         }
@@ -202,13 +194,15 @@ BddTest().given('a student tools traces view notice component', () => {
         maxRemainingDaysBeforeWarning: 15,
         maxRemainingDaysBeforeCritical: 3
       })
-      mockUseUnassignedTracesSummaryQuery({
-        total: 10,
+      const tracesSummaryMock: TracesSummaryDTO = {
+        associated: 0,
+        unassociated: 10,
         totalWarnings: 5,
-        totalCriticals: 5
-      })
+        totalCriticals: 5,
+      }
 
       wrapper = mount(StudentToolsTracesViewNotice, {
+        props: { tracesSummary: tracesSummaryMock },
         global: {
           stubs: commonStubs
         }

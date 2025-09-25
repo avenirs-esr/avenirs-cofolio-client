@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useTracesConfigurationQuery, useUnassignedTracesSummaryQuery } from '@/features/student/queries'
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { useTracesConfigurationQuery } from '@/features/student/queries'
 import { AvNotice } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineProps<{
+  tracesSummary: TracesSummaryDTO | undefined
+}>()
+
 const { t } = useI18n()
 
-const { data: unassignedTracesSummary } = useUnassignedTracesSummaryQuery()
 const { data: tracesConfig } = useTracesConfigurationQuery()
 
 function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCount: number, criticalDays: number | undefined, maxDayBeforeDeletion: number | undefined): string {
@@ -33,11 +37,11 @@ const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxRemainingDays
 
 <template>
   <div
-    v-if="unassignedTracesSummary && unassignedTracesSummary.total > 0"
+    v-if="tracesSummary && tracesSummary.unassociated > 0"
     class="traces-notice-container"
   >
     <AvNotice
-      :text="createAlertMessage(unassignedTracesSummary.total, unassignedTracesSummary.totalCriticals, criticalDays, maxDayBeforeDeletion)"
+      :text="createAlertMessage(tracesSummary.unassociated, tracesSummary.totalCriticals, criticalDays, maxDayBeforeDeletion)"
       type="warning"
     />
   </div>

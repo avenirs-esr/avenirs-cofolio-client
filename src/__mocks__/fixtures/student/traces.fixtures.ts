@@ -5,12 +5,13 @@ import {
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
-  type TraceViewDTO,
-  type UnassociatedTracesSummaryDTO
+  type TracesSummaryDTO,
+  type TraceViewDTO
 } from '@/api/avenir-esr'
 
-export const mockedUnassignedTracesSummary: UnassociatedTracesSummaryDTO = {
-  total: 20,
+export const mockedTracesSummary: TracesSummaryDTO = {
+  associated: 24,
+  unassociated: 20,
   totalWarnings: 5,
   totalCriticals: 2,
 }
