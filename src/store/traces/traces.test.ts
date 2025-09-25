@@ -11,8 +11,10 @@ BddTest().given('a useTracesStore composable', () => {
   BddTest().when('initializing', () => {
     BddTest().then('it should initialize with default props', () => {
       const store = useTracesStore()
-      expect(store.currentPage).toBe(0)
-      expect(store.pageSizeSelected).toBe(PageSizes.EIGHT)
+      expect(store.unassociatedCurrentPage).toBe(0)
+      expect(store.associatedCurrentPage).toBe(0)
+      expect(store.unassociatedPageSizeSelected).toBe(PageSizes.EIGHT)
+      expect(store.associatedPageSizeSelected).toBe(PageSizes.EIGHT)
     })
   })
 
@@ -20,10 +22,13 @@ BddTest().given('a useTracesStore composable', () => {
     BddTest().then('it should update the props', () => {
       const store = useTracesStore()
       const newCurrentPage = 1
-      store.currentPage = newCurrentPage
+      store.unassociatedCurrentPage = newCurrentPage
+      store.associatedCurrentPage = newCurrentPage
       const newPageSizeSelected = PageSizes.TWELVE
-      store.pageSizeSelected = newPageSizeSelected
-      expect(store.pageSizeSelected).toBe(newPageSizeSelected)
+      store.unassociatedPageSizeSelected = newPageSizeSelected
+      store.associatedPageSizeSelected = newPageSizeSelected
+      expect(store.unassociatedPageSizeSelected).toBe(newPageSizeSelected)
+      expect(store.associatedPageSizeSelected).toBe(newPageSizeSelected)
     })
   })
 })

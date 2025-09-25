@@ -5,7 +5,7 @@ import {
   createMockedTracesViewResponse,
   invalidTraceId,
   mockedTracesConfiguration,
-  mockedUnassignedTracesSummary
+  mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
 import {
   type AttachmentUploadDTO,
@@ -13,20 +13,31 @@ import {
   ETraceStatus,
   getCreateTraceUrl,
   getGetTraceConfigUrl,
-  getGetTracesUnassociatedSummaryUrl,
+  getGetTracesSummaryUrl,
   getGetTracesViewUrl,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
-  type UnassociatedTracesSummaryDTO
+  type TracesSummaryDTO
 } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import isNil from 'lodash-es/isNil'
 import { http, HttpResponse } from 'msw'
 
+export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
+  return http.get(`*${getGetTracesSummaryUrl()}`, () => {
+    return HttpResponse.json<TracesSummaryDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
 export const tracesHandlers = [
-  http.get(`*${getGetTracesUnassociatedSummaryUrl()}`, () => {
-    return HttpResponse.json<UnassociatedTracesSummaryDTO>(mockedUnassignedTracesSummary, {
+  http.get(`*${getGetTracesSummaryUrl()}`, () => {
+    return HttpResponse.json<TracesSummaryDTO>(mockedTracesSummary, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

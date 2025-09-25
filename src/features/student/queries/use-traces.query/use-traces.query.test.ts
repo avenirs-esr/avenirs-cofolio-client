@@ -1,12 +1,12 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { invalidTraceId, mockedUnassignedTracesSummary } from '@/__mocks__/fixtures/student'
+import { invalidTraceId, mockedTracesSummary } from '@/__mocks__/fixtures/student'
 import {
   type GetTracesViewParams,
   GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
-  type UnassociatedTracesSummaryDTO
+  type TracesSummaryDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
@@ -14,8 +14,8 @@ import {
   useDeleteTraceMutation,
   type UseDeleteTraceMutationArgs,
   useTracesConfigurationQuery,
-  useTracesViewQuery,
-  useUnassignedTracesSummaryQuery
+  useTracesSummaryQuery,
+  useTracesViewQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
@@ -91,14 +91,14 @@ BddTest().given('a useTracesViewQuery composable', async () => {
     })
 
     BddTest().and('when API is not yet connected', () => {
-      BddTest().then('it should return mockedUnassignedTracesSummary', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<UnassociatedTracesSummaryDTO, BaseApiException>>(
-          () => useUnassignedTracesSummaryQuery()
+      BddTest().then('it should return mockedTracesSummary', async () => {
+        const { data } = mountQueryComposable<UseQueryReturnType<TracesSummaryDTO, BaseApiException>>(
+          () => useTracesSummaryQuery()
         )
 
         await flushPromises()
 
-        expect(data.value).toEqual(mockedUnassignedTracesSummary)
+        expect(data.value).toEqual(mockedTracesSummary)
       })
     })
   })

@@ -550,19 +550,19 @@
         }
       }
     },
-    "/me/traces/unassociated/summary": {
+    "/me/traces/summary": {
       "get": {
         "tags": [
           "trace-controller"
         ],
-        "operationId": "getTracesUnassociatedSummary",
+        "operationId": "getTracesSummary",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/UnassociatedTracesSummaryDTO"
+                  "$ref": "#/components/schemas/TracesSummaryDTO"
                 }
               }
             }
@@ -1413,10 +1413,14 @@
           "willBeDeletedAt"
         ]
       },
-      "UnassociatedTracesSummaryDTO": {
+      "TracesSummaryDTO": {
         "type": "object",
         "properties": {
-          "total": {
+          "associated": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unassociated": {
             "type": "integer",
             "format": "int32"
           },
@@ -1430,9 +1434,10 @@
           }
         },
         "required": [
-          "total",
+          "associated",
           "totalCriticals",
-          "totalWarnings"
+          "totalWarnings",
+          "unassociated"
         ]
       },
       "TraceOverviewDTO": {
@@ -2009,17 +2014,6 @@
           "NOT_STARTED"
         ]
       },
-      "EDurationUnit": {
-        "type": "string",
-        "description": "Enum for duration units",
-        "enum": [
-          "YEAR",
-          "SEMESTER",
-          "TRIMESTER",
-          "MONTH",
-          "WEEK"
-        ]
-      },
       "EErrorCode": {
         "type": "string",
         "description": "Enum for error codes",
@@ -2055,14 +2049,6 @@
           "SPANISH"
         ]
       },
-      "EPortfolioType": {
-        "type": "string",
-        "description": "Enum for portfolio types",
-        "enum": [
-          "APC",
-          "LIFE_PROJECT"
-        ]
-      },
       "ESortField": {
         "type": "string",
         "description": "Enum for sort fields",
@@ -2077,6 +2063,25 @@
         "enum": [
           "ASC",
           "DESC"
+        ]
+      },
+      "EDurationUnit": {
+        "type": "string",
+        "description": "Enum for duration units",
+        "enum": [
+          "YEAR",
+          "SEMESTER",
+          "TRIMESTER",
+          "MONTH",
+          "WEEK"
+        ]
+      },
+      "EPortfolioType": {
+        "type": "string",
+        "description": "Enum for portfolio types",
+        "enum": [
+          "APC",
+          "LIFE_PROJECT"
         ]
       },
       "ETraceStatus": {

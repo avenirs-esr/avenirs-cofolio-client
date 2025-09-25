@@ -5,14 +5,14 @@ import {
   type CreateTraceDTO,
   deleteTrace,
   getTraceConfig,
-  getTracesUnassociatedSummary,
+  getTracesSummary,
   getTracesView,
   type GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
+  type TracesSummaryDTO,
   type TraceViewDTO,
-  type UnassociatedTracesSummaryDTO,
   uploadAttachment,
   type UploadAttachmentBody
 
@@ -63,13 +63,13 @@ export function useTracesViewQuery ({ page, pageSize, status }: UseTracesViewQue
   }
 }
 
-export function useUnassignedTracesSummaryQuery (): UseQueryReturnType<UnassociatedTracesSummaryDTO, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'unassigned', 'summary'])
+export function useTracesSummaryQuery (): UseQueryReturnType<TracesSummaryDTO, BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'summary'])
 
-  return useQuery<UnassociatedTracesSummaryDTO, BaseApiException>({
+  return useQuery<TracesSummaryDTO, BaseApiException>({
     queryKey,
-    queryFn: async (): Promise<UnassociatedTracesSummaryDTO> => {
-      return await getTracesUnassociatedSummary()
+    queryFn: async (): Promise<TracesSummaryDTO> => {
+      return await getTracesSummary()
     },
     staleTime: TWO_MINUTES,
   })

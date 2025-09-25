@@ -301,15 +301,8 @@
             "delete": "Supprimer ma trace"
           }
         },
-        "studentToolsTracesViewContainer": {
-          "pagination": {
-            "bottom": {
-              "ariaLabel": "Pagination basse"
-            },
-            "top": {
-              "ariaLabel": "Pagination haute"
-            }
-          }
+        "studentToolsTracesActionButtons": {
+          "addTrace": "AJOUTER UNE TRACE DANS MA BIBLIOTHÈQUE"
         },
         "studentToolsTracesAddTraceDrawer": {
           "title": "Ajouter une trace",
@@ -364,8 +357,19 @@
             "success": "Votre trace a été ajoutée à votre bibliothèque."
           }
         },
-        "studentToolsTracesActionButtons": {
-          "addTrace": "AJOUTER UNE TRACE DANS MA BIBLIOTHÈQUE"
+        "studentToolsTracesViewContainer": {
+          "pagination": {
+            "bottom": {
+              "ariaLabel": "Pagination basse"
+            },
+            "top": {
+              "ariaLabel": "Pagination haute"
+            }
+          }
+        },
+        "studentToolsTracesViewTabs": {
+          "associated": "Aucune trace associée ({count})  | Ma trace associée ({count}) | Mes traces associées ({count})",
+          "unassociated": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})"
         },
         "title": "Ma bibliothèque de traces",
         "traceDeletionConfirmationModal": {
