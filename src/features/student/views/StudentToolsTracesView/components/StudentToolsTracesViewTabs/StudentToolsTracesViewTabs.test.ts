@@ -16,6 +16,10 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
       props: ['tracesSummary'],
       template: '<div class="unassociated-tab-stub" />'
     },
+    StudentToolsTracesViewAssociatedTab: {
+      name: 'StudentToolsTracesViewAssociatedTab',
+      template: '<div class="associated-tab-stub" />'
+    },
   }
 
   beforeEach(() => {
@@ -48,6 +52,11 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
       const container = wrapper.findComponent({ name: 'StudentToolsTracesViewUnassociatedTab' })
       expect(container.exists()).toBe(true)
       expect(container.props('tracesSummary')).toEqual({ associated: 24, unassociated: 20, totalWarnings: 5, totalCriticals: 2 })
+    })
+
+    BddTest().then('it should find the associated traces container', () => {
+      const container = wrapper.findComponent({ name: 'StudentToolsTracesViewAssociatedTab' })
+      expect(container.exists()).toBe(true)
     })
   })
 
