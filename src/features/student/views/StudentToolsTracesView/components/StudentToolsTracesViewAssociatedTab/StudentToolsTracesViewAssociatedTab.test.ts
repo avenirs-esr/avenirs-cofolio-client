@@ -2,7 +2,7 @@ import { createTracesViewHandler } from '@/__mocks__/msw/handlers/student/traces
 import { server } from '@/__mocks__/msw/server'
 import { ETraceStatus, type PagedResponseTraceViewDTO } from '@/api/avenir-esr'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
-import StudentToolsTracesViewUnassociatedTab from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewUnassociatedTab/StudentToolsTracesViewUnassociatedTab.vue'
+import StudentToolsTracesViewAssociatedTab from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -19,13 +19,9 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
 })
 
 BddTest().given('a student tools traces view container', () => {
-  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewUnassociatedTab>>
+  let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewAssociatedTab>>
 
   const stubs = {
-    StudentToolsTracesViewNotice: {
-      name: 'StudentToolsTracesViewNotice',
-      template: '<div class="student-tools-traces-view-notice-stub" />'
-    },
     StudentDetailedTraceCard: {
       name: 'StudentDetailedTraceCard',
       props: ['trace'],
@@ -36,10 +32,10 @@ BddTest().given('a student tools traces view container', () => {
 
   const mockedTracesData: PagedResponseTraceViewDTO = {
     data: [
-      { id: '1', title: 'Trace 1', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
-      { id: '2', title: 'Trace 2', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02' },
-      { id: '3', title: 'Trace 3', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03' },
-      { id: '4', title: 'Trace 4', status: ETraceStatus.UNASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04' }
+      { id: '1', title: 'Trace 1', status: ETraceStatus.ASSOCIATED, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
+      { id: '2', title: 'Trace 2', status: ETraceStatus.ASSOCIATED, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02' },
+      { id: '3', title: 'Trace 3', status: ETraceStatus.ASSOCIATED, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03' },
+      { id: '4', title: 'Trace 4', status: ETraceStatus.ASSOCIATED, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04' }
     ],
     page: {
       page: 0,
@@ -59,7 +55,7 @@ BddTest().given('a student tools traces view container', () => {
       const handler = createTracesViewHandler(mockedTracesData)
       server.use(handler)
 
-      wrapper = mountComponent(StudentToolsTracesViewUnassociatedTab, {
+      wrapper = mountComponent(StudentToolsTracesViewAssociatedTab, {
         global: {
           stubs
         },
@@ -69,10 +65,6 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the notice', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
-      })
-
       BddTest().then('it should render the Pagination component', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
@@ -104,7 +96,7 @@ BddTest().given('a student tools traces view container', () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
 
-      wrapper = mountComponent(StudentToolsTracesViewUnassociatedTab, {
+      wrapper = mountComponent(StudentToolsTracesViewAssociatedTab, {
         global: {
           stubs
         },
@@ -120,7 +112,6 @@ BddTest().given('a student tools traces view container', () => {
       })
 
       BddTest().then('it should still render all UI components', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
     })

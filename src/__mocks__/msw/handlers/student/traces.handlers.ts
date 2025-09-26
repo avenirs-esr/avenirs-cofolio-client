@@ -35,6 +35,17 @@ export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   })
 }
 
+export function createTracesViewHandler (payload: PagedResponseTraceViewDTO) {
+  return http.get(`*${getGetTracesViewUrl()}`, () => {
+    return HttpResponse.json<PagedResponseTraceViewDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
     return HttpResponse.json<TracesSummaryDTO>(mockedTracesSummary, {

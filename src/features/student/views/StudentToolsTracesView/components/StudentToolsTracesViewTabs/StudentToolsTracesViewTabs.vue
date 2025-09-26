@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useTracesSummaryQuery } from '@/features/student/queries'
+import StudentToolsTracesViewAssociatedTab
+  from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import StudentToolsTracesViewUnassociatedTab
   from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewUnassociatedTab/StudentToolsTracesViewUnassociatedTab.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -23,7 +25,7 @@ const activeTab = ref(0)
       :title="`${t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.associated', { count: tracesSummary?.associated ?? 0 })}`"
       :icon="MDI_ICONS.LINK"
     >
-      <h3>Mes traces Associées (placeholder)</h3>
+      <StudentToolsTracesViewAssociatedTab />
     </AvTab>
   </AvTabs>
 </template>
