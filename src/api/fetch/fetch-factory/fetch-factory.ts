@@ -15,9 +15,14 @@ function buildUrl (url: string, baseUrl: string): string {
 
 async function getBody<T> (response: Response): Promise<T> {
   const contentType = response.headers.get('content-type') || ''
+  const contentLength = response.headers.get('content-length')
+
+  if (contentLength === '0' || response.status === 204) {
+    return undefined as T
+  }
 
   if (contentType.includes('application/pdf')) {
-    return response.blob() as T
+    return await response.blob() as T
   }
   if (contentType.includes('application/octet-stream')) {
     return await response.arrayBuffer() as T

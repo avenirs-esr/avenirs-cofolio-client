@@ -1,5 +1,5 @@
 import { useLanguageSwitcher } from '@/common/composables/use-language-switcher/use-language-switcher'
-import { i18n } from '@/plugins/vue-i18n'
+import { getBrowserLocale, i18n } from '@/plugins/vue-i18n'
 import { BddTest, mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -12,8 +12,8 @@ BddTest().given('a useLanguageSwitcher compsable', () => {
   })
 
   BddTest().when('initializing', () => {
-    BddTest().then('it should initialize with French as default language', () => {
-      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe('fr')
+    BddTest().then('it should initialize with the current browser language', () => {
+      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe(getBrowserLocale())
     })
   })
 
