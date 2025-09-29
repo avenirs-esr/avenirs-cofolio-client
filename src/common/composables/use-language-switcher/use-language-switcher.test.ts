@@ -13,8 +13,8 @@ BddTest().given('a useLanguageSwitcher compsable', () => {
   })
 
   BddTest().when('initializing', () => {
-    BddTest().then('it should initialize with French as default language', () => {
-      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe('fr')
+    BddTest().then('it should initialize with the current browser language', () => {
+      expect(languageSwitcher.languageSelector.value.currentLanguage).toBe(getBrowserLocale())
     })
   })
 

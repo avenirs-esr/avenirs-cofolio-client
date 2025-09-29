@@ -81,65 +81,88 @@ const educationMenu = computed(() => {
 })
 
 const allToolsMenu
-  = {
+  = computed(() => ({
     title: t('student.navigation.tabs.tools.header').toUpperCase(),
     get active () {
       return isRouteActive([studentToolsTracesRoute, studentToolsPagesRoute, studentToolsResumesRoute])
     },
     links: [
-      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
-      { to: studentToolsPagesRoute, text: t('student.navigation.tabs.tools.items.pages'), icon: MDI_ICONS.POST_IT_NOTES_OUTLINE },
-      { to: studentToolsResumesRoute, text: t('student.navigation.tabs.tools.items.resumes'), icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE },
+      {
+        to: studentToolsTracesRoute,
+        text: t('student.navigation.tabs.tools.items.traces'),
+        icon: MDI_ICONS.ATTACH_FILE
+      },
+      {
+        to: studentToolsPagesRoute,
+        text: t('student.navigation.tabs.tools.items.pages'),
+        icon: MDI_ICONS.POST_IT_NOTES_OUTLINE
+      },
+      {
+        to: studentToolsResumesRoute,
+        text: t('student.navigation.tabs.tools.items.resumes'),
+        icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE
+      },
     ],
-  }
+  }))
 
 const demoModeToolsMenu
-  = {
-    title: t('student.navigation.tabs.tools.header').toUpperCase(),
-    get active () {
-      return isRouteActive([studentToolsTracesRoute])
-    },
-    links: [
-      { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
-    ],
-  }
+  = computed(() => (
+    {
+      title: t('student.navigation.tabs.tools.header').toUpperCase(),
+      get active () {
+        return isRouteActive([studentToolsTracesRoute])
+      },
+      links: [
+        { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+      ],
+    }
+  ))
 
-const buildLifeProjectMenu
-  = {
-    title: t('student.navigation.tabs.project.header').toUpperCase(),
-    get active () {
-      return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
+const buildLifeProjectMenu = computed(() => ({
+  title: t('student.navigation.tabs.project.header').toUpperCase(),
+  get active () {
+    return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
+  },
+  links: [
+    {
+      to: studentProjectSkillsRoute,
+      text: t('student.navigation.tabs.project.items.skills'),
+      icon: MDI_ICONS.STARS,
     },
-    links: [
-      {
-        to: studentProjectSkillsRoute,
-        text: t('student.navigation.tabs.project.items.skills'),
-        icon: MDI_ICONS.STARS,
-      },
-      {
-        to: studentProjectExperiencesRoute,
-        text: t('student.navigation.tabs.project.items.experiences'),
-        icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
-      },
-      { to: studentProjectTrajectoriesRoute, text: t('student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
-    ],
-  }
+    {
+      to: studentProjectExperiencesRoute,
+      text: t('student.navigation.tabs.project.items.experiences'),
+      icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+    },
+    {
+      to: studentProjectTrajectoriesRoute,
+      text: t('student.navigation.tabs.project.items.trajectories'),
+      icon: MDI_ICONS.ARROW_DECISION
+    },
+  ],
+}))
 
 const demoModeBuildLifeProjectMenu
-  = {
-    title: t('student.navigation.tabs.project.header').toUpperCase(),
-    get active () {
-      return isRouteActive([studentProjectSkillsRoute, studentProjectTrajectoriesRoute])
-    },
-    links: [
-      {
-        to: studentProjectSkillsRoute,
-        text: t('student.navigation.tabs.project.items.skills'),
-        icon: MDI_ICONS.STARS,
+  = computed(() => (
+    {
+      title: t('student.navigation.tabs.project.header').toUpperCase(),
+      get active () {
+        return isRouteActive([studentProjectSkillsRoute, studentProjectTrajectoriesRoute])
       },
-      { to: studentProjectTrajectoriesRoute, text: t('student.navigation.tabs.project.items.trajectories'), icon: MDI_ICONS.ARROW_DECISION },
-    ],
-  }
+      links: [
+        {
+          to: studentProjectSkillsRoute,
+          text: t('student.navigation.tabs.project.items.skills'),
+          icon: MDI_ICONS.STARS,
+        },
+        {
+          to: studentProjectTrajectoriesRoute,
+          text: t('student.navigation.tabs.project.items.trajectories'),
+          icon: MDI_ICONS.ARROW_DECISION
+        },
+      ],
+    }
+  ))
 
 const homeItemId = useId()
 const navItems = computed(() => [
@@ -156,13 +179,13 @@ const navItems = computed(() => [
   ),
   ...(
     __DEMO_MODE__
-      ? [demoModeBuildLifeProjectMenu]
-      : [buildLifeProjectMenu]
+      ? [demoModeBuildLifeProjectMenu.value]
+      : [buildLifeProjectMenu.value]
   ),
   ...(
     __DEMO_MODE__
-      ? [demoModeToolsMenu]
-      : [allToolsMenu]
+      ? [demoModeToolsMenu.value]
+      : [allToolsMenu.value]
   ),
 ])
 </script>
