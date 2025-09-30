@@ -117,12 +117,14 @@ BddTest().given('a calendar date getter', () => {
 })
 
 BddTest().given('a days until getter', () => {
-  const nextMonthDate = new Date()
-  nextMonthDate.setDate(nextMonthDate.getDate() + 30)
-
   BddTest().when('providing any date', () => {
     BddTest().then('it should return a correct number of days until given date', () => {
-      const daysUntil = getDaysUntil(nextMonthDate)
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const futureDate = new Date(today)
+      futureDate.setDate(futureDate.getDate() + 30)
+
+      const daysUntil = getDaysUntil(futureDate)
       expect(daysUntil).toBe(30)
     })
   })

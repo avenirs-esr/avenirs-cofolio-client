@@ -1,5 +1,5 @@
 import type { AvLocale } from '@/types/i18n.types'
-import { format, getDate, isValid, type Locale, parseISO } from 'date-fns'
+import { differenceInDays, format, getDate, isValid, type Locale, parseISO, startOfDay } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
 const localesMap: Record<AvLocale, Locale> = {
@@ -74,13 +74,8 @@ export function getCalendarDate (date: string) {
  * @returns days until date
  */
 export function getDaysUntil (date: Date): number {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const target = new Date(date)
-  target.setHours(0, 0, 0, 0)
+  const today = startOfDay(new Date())
+  const target = startOfDay(date)
 
-  const diffTime = target.getTime() - today.getTime()
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-  return diffDays
+  return differenceInDays(target, today)
 }
