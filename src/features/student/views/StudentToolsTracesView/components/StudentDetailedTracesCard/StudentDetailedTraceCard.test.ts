@@ -18,7 +18,9 @@ BddTest().given('a student detailed trace card', () => {
     vi.clearAllMocks()
   })
 
-  const nextMonthDate = new Date()
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const nextMonthDate = new Date(today)
   nextMonthDate.setDate(nextMonthDate.getDate() + 30)
   const nextMonthDateIsoString = nextMonthDate.toISOString()
 
