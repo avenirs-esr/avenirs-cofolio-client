@@ -305,6 +305,14 @@
             "ariaLabel": "Paramètres de la trace",
             "assign": "Assigner ma trace",
             "delete": "Supprimer ma trace"
+          },
+          "studentTraceDetails": {
+            "addedOn": "Ajouté le {date}",
+            "authenticProduction": "Production authentique et personnelle",
+            "documentLabel": "Mon document chargé",
+            "groupProduction": "Cette trace est une production de groupe",
+            "iaToggleLabel": "Production avec IA",
+            "personalNoteLabel": "Note personnelle"
           }
         },
         "studentToolsTracesActionButtons": {
@@ -321,15 +329,6 @@
             "fileUpload": {
               "title": "Ajouter une nouvelle trace de type fichier",
               "subtitle": "ou glisser et déposer ici"
-            },
-            "traceName": {
-              "label": "Nom de ma trace",
-              "placeholder": "Nom-de-ma-trace-01"
-            },
-            "personalNote": {
-              "label": "Note personnelle",
-              "placeholder": "Ajoutez votre note personnelle ici...",
-              "hint": "{count} / {maxlength} caractères (espaces compris)"
             },
             "buttons": {
               "cancel": "QUITTER",
@@ -349,11 +348,6 @@
               "iaUsage": {
                 "title": "Déclarer si c'est une production réalisée avec l'Intelligence Artificielle (IA)",
                 "label": "Je soumets une production réalisée avec IA"
-              },
-              "iaJustification": {
-                "label": "Justification de l'usage de l'IA",
-                "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA...",
-                "hint": "{count} / {maxlength} caractères (espaces compris)"
               }
             },
             "errors": {
@@ -473,6 +467,22 @@
           "seeAll": "Voir toutes mes traces"
         },
         "title": "Mes dernières traces"
+      }
+    },
+    "components": {
+      "traceIaJustificationTextarea": {
+        "hint": "{count} / {maxlength} caractères (espaces compris)",
+        "label": "Justification de l'usage de l'IA",
+        "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
+      },
+      "traceNameInput": {
+        "label": "Nom de ma trace",
+        "placeholder": "Nom-de-ma-trace-01"
+      },
+      "tracePersonalNoteTextarea": {
+        "hint": "{count} / {maxlength} caractères (espaces compris)",
+        "label": "Note personnelle",
+        "placeholder": "Ajoutez votre note personnelle ici..."
       }
     }
   }

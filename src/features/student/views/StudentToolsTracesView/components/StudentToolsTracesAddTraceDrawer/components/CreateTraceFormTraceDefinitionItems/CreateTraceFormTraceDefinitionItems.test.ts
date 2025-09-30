@@ -1,6 +1,5 @@
-import {
-  TRACE_ACCEPTED_FILE_TYPES,
-  type TraceFormData
+import type {
+  TraceFormData
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -39,17 +38,23 @@ const TestWrapper = {
 }
 
 const stubs = {
-  AvFileUpload: {
-    name: 'AvFileUpload',
+  TraceFileUpload: {
+    name: 'TraceFileUpload',
     props: ['id', 'modelValue', 'accept', 'ariaLabel', 'error', 'validMessage'],
-    emits: ['change'],
-    template: '<input type="file" :id="id" :accept="accept" @change="$emit(\'change\', $event.target.files)" /><slot /><slot name="hint" />'
+    emits: ['change', 'update:modelValue'],
+    template: '<div><input type="file" :id="id" :accept="accept" @change="$emit(\'change\', $event.target.files)" @input="$emit(\'update:modelValue\', $event.target.files?.[0])" /><slot /><slot name="hint" /></div>'
   },
-  AvInput: {
-    name: 'AvInput',
-    props: ['id', 'modelValue', 'label', 'placeholder', 'errorMessage', 'required', 'prefixIcon', 'maxlength', 'isTextarea', 'type'],
+  TraceNameInput: {
+    name: 'TraceNameInput',
+    props: ['id', 'modelValue', 'errorMessage', 'required'],
     emits: ['blur', 'update:modelValue'],
-    template: '<input v-if="!isTextarea" :type="type || \'text\'" :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')" /><textarea v-else :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')" /><slot name="customCaptions" :current-value="modelValue" :maxlength="maxlength" />'
+    template: '<input :id="id" :value="modelValue" :required="required" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')" />'
+  },
+  TracePersonalNoteTextarea: {
+    name: 'TracePersonalNoteTextarea',
+    props: ['id', 'modelValue', 'errorMessage'],
+    emits: ['blur', 'update:modelValue'],
+    template: '<textarea :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')" />'
   }
 }
 
@@ -72,33 +77,26 @@ BddTest().given('a create trace form trace definition items component', () => {
       expect(container.exists()).toBe(true)
     })
 
-    BddTest().then('it should render AvFileUpload with correct props', () => {
-      const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+    BddTest().then('it should render TraceFileUpload with correct props', () => {
+      const TraceFileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
 
-      expect(fileUpload.exists()).toBe(true)
-      expect(fileUpload.props('id')).toBe('trace-file-upload')
-      expect(fileUpload.props('accept')).toEqual(TRACE_ACCEPTED_FILE_TYPES)
+      expect(TraceFileUpload.exists()).toBe(true)
+      expect(TraceFileUpload.props('id')).toBe('trace-file-upload')
     })
 
     BddTest().then('it should render trace name input with correct props', () => {
-      const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-      const traceNameInput = avInputs.find(input => input.props('id') === 'trace-name')
+      const traceNameInput = wrapper.findComponent({ name: 'TraceNameInput' })
 
-      expect(traceNameInput).toBeDefined()
-      expect(traceNameInput?.props('id')).toBe('trace-name')
-      expect(traceNameInput?.props('required')).toBe('')
-      expect(traceNameInput?.props('label')).toBe('Nom de ma trace')
+      expect(traceNameInput.exists()).toBe(true)
+      expect(traceNameInput.props('id')).toBe('trace-name')
+      expect(traceNameInput.props('required')).toBe('')
     })
 
     BddTest().then('it should render personal note textarea with correct props', () => {
-      const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-      const personalNoteInput = avInputs.find(input => input.props('id') === 'personal-note')
+      const personalNoteInput = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
 
-      expect(personalNoteInput).toBeDefined()
-      expect(personalNoteInput?.props('id')).toBe('personal-note')
-      expect(personalNoteInput?.props('isTextarea')).toBe('')
-      expect(personalNoteInput?.props('maxlength')).toBe(200)
-      expect(personalNoteInput?.props('label')).toBe('Note personnelle')
+      expect(personalNoteInput.exists()).toBe(true)
+      expect(personalNoteInput.props('id')).toBe('personal-note')
     })
   })
 
@@ -114,8 +112,8 @@ BddTest().given('a create trace form trace definition items component', () => {
 
       await fileInput.trigger('change')
 
-      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(fileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
+      const TraceFileUploadComponent = wrapper.findComponent({ name: 'TraceFileUpload' })
+      expect(TraceFileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
     })
   })
 
@@ -125,8 +123,8 @@ BddTest().given('a create trace form trace definition items component', () => {
 
       await traceNameInput.setValue('My test trace')
 
-      const traceNameInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'trace-name')
-      expect(traceNameInputComponent?.props('modelValue')).toBe('My test trace')
+      const traceNameInputComponent = wrapper.findComponent({ name: 'TraceNameInput' })
+      expect(traceNameInputComponent.props('modelValue')).toBe('My test trace')
     })
   })
 
@@ -136,8 +134,8 @@ BddTest().given('a create trace form trace definition items component', () => {
 
       await personalNoteInput.setValue('My personal note')
 
-      const personalNoteInputComponent = wrapper.findAllComponents({ name: 'AvInput' }).find(input => input.props('id') === 'personal-note')
-      expect(personalNoteInputComponent?.props('modelValue')).toBe('My personal note')
+      const personalNoteInputComponent = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
+      expect(personalNoteInputComponent.props('modelValue')).toBe('My personal note')
     })
   })
 
@@ -154,13 +152,13 @@ BddTest().given('a create trace form trace definition items component', () => {
       await fileInput.trigger('change')
       await wrapper.vm.$nextTick()
 
-      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(fileUploadComponent.props('validMessage')).toBe('Document chargé.')
+      const TraceFileUploadComponent = wrapper.findComponent({ name: 'TraceFileUpload' })
+      expect(TraceFileUploadComponent.props('validMessage')).toBe('Document chargé.')
     })
 
     BddTest().then('it should not show success message when no file is selected', () => {
-      const fileUploadComponent = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(fileUploadComponent.props('validMessage')).toBeUndefined()
+      const TraceFileUploadComponent = wrapper.findComponent({ name: 'TraceFileUpload' })
+      expect(TraceFileUploadComponent.props('validMessage')).toBeUndefined()
     })
   })
 })
