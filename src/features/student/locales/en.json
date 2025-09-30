@@ -275,7 +275,13 @@
         }
       },
       "studentSkillView": {
-        "title": "Skill {skill}"
+        "title": "Skill {skill}",
+        "skillEvaluate": {
+          "title": "MY EVALUATION"
+        },
+        "skillProgress": {
+          "title": "MY PROGRESS"
+        }
       },
       "studentToolsPagesView": {
         "title": "(placeholder) All my free pages"

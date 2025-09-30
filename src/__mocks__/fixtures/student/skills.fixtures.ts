@@ -140,3 +140,18 @@ export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalEl
     page: { pageSize, totalElements: actualTotalElements, totalPages, page }
   }
 }
+
+export const mockedSkillDetailed = {
+  id: '1',
+  name: 'Réaliser un cahier des charges fonctionnels',
+  skillLevels: [
+    {
+      id: '1',
+      name: 'Niveau 1',
+    },
+    {
+      id: '2',
+      name: 'Niveau 2',
+    }
+  ]
+}
