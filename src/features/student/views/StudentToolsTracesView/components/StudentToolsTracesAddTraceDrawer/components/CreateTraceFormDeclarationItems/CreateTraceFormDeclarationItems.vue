@@ -2,7 +2,8 @@
 import type {
   CreateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
-import { AvInput, AvToggle } from '@avenirs-esr/avenirs-dsav'
+import { TraceIaJustificationTextarea } from '@/features/student/components/inputs'
+import { AvToggle } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {
@@ -112,27 +113,14 @@ function handleToggleChange (fieldName: 'isAuthentic' | 'isGroup' | 'useIA', val
           name="iaJustification"
         >
           <template #default="{ field }">
-            <AvInput
+            <TraceIaJustificationTextarea
               id="ia-justification"
-              :model-value="field.state.value"
-              :label="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaJustification.label')"
-              :maxlength="200"
-              :placeholder="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaJustification.placeholder')"
+              v-model="field.state.value"
               :error-message="field.state.meta.errors.join(', ')"
-              is-textarea
               :required="showIAJustification"
-              @update:model-value="(value) => typeof value == 'string' ? field.handleChange(value) : field.handleChange(undefined)"
               @blur="field.handleBlur"
-            >
-              <template #customCaptions="{ currentValue, maxlength }">
-                <span class="caption-light">
-                  {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaJustification.hint', {
-                    count: currentValue?.toString().length || 0,
-                    maxlength,
-                  }) }}
-                </span>
-              </template>
-            </AvInput>
+              @update:model-value="(value) => typeof value == 'string' ? field.handleChange(value) : field.handleChange(undefined)"
+            />
           </template>
         </form.Field>
       </div>

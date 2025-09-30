@@ -305,6 +305,14 @@
             "ariaLabel": "open trace settings",
             "assign": "Assign my trace",
             "delete": "Delete my trace"
+          },
+          "studentTraceDetails": {
+            "addedOn": "Added on {date}",
+            "authenticProduction": "Authentic and personal production",
+            "documentLabel": "My uploaded document",
+            "groupProduction": "This trace is a group production",
+            "iaToggleLabel": "AI production",
+            "personalNoteLabel": "Personal note"
           }
         },
         "studentToolsTracesActionButtons": {
@@ -321,15 +329,6 @@
             "fileUpload": {
               "title": "Add a new trace file",
               "subtitle": "or drag and drop here"
-            },
-            "traceName": {
-              "label": "Name of my trace",
-              "placeholder": "My-trace-name-01"
-            },
-            "personalNote": {
-              "label": "Personal note",
-              "placeholder": "Add your personal note here...",
-              "hint": "{count} / {maxlength} characters (including spaces)"
             },
             "buttons": {
               "cancel": "QUIT",
@@ -349,11 +348,6 @@
               "iaUsage": {
                 "title": "Declare if this is a production made with Artificial Intelligence (AI)",
                 "label": "I submit a production made with AI"
-              },
-              "iaJustification": {
-                "label": "Justification for AI usage",
-                "placeholder": "Describe how and why you used AI...",
-                "hint": "{count} / {maxlength} characters (spaces included)"
               }
             },
             "errors": {
@@ -473,6 +467,22 @@
           "seeAll": "See all my traces"
         },
         "title": "My last traces"
+      }
+    },
+    "components": {
+      "traceIaJustificationTextarea": {
+        "hint": "{count} / {maxlength} characters (including spaces)",
+        "label": "AI usage justification",
+        "placeholder": "Describe how and why you used AI..."
+      },
+      "traceNameInput": {
+        "label": "My trace name",
+        "placeholder": "My-trace-name-01"
+      },
+      "tracePersonalNoteTextarea": {
+        "hint": "{count} / {maxlength} characters (including spaces)",
+        "label": "Personal note",
+        "placeholder": "Add your personal note here..."
       }
     }
   }

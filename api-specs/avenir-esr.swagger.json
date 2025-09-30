@@ -539,6 +539,71 @@
         }
       }
     },
+    "/me/traces/{traceId}/detail": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTraceDetail",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceDetailDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/{traceId}/associations": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTraceAssociates",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssociationTraceDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/view": {
       "get": {
         "tags": [
@@ -1300,6 +1365,10 @@
           "version": {
             "type": "integer",
             "format": "int32"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -1307,6 +1376,7 @@
           "fileSize",
           "fileType",
           "id",
+          "uploadedAt",
           "version"
         ]
       },
@@ -1491,6 +1561,181 @@
           "durationUnit",
           "id",
           "name"
+        ]
+      },
+      "TraceDetailDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceStatus",
+            "enum": [
+              "UNASSOCIATED",
+              "ASSOCIATED"
+            ]
+          },
+          "programName": {
+            "type": "string"
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "aiUseJustification": {
+            "type": "string"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/AttachmentUploadDTO"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "aiUseJustification",
+          "attachment",
+          "createdAt",
+          "id",
+          "isGroup",
+          "personalNote",
+          "programName",
+          "status",
+          "title",
+          "updatedAt"
+        ]
+      },
+      "AdditionalSkillAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
+            "enum": [
+              "ROME4"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "level",
+          "pathSegments",
+          "title",
+          "type"
+        ]
+      },
+      "AmsAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAmsStatus",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "title"
+        ]
+      },
+      "AssociationTraceDTO": {
+        "type": "object",
+        "properties": {
+          "skillLevelAssociation": {
+            "$ref": "#/components/schemas/SkillLevelAssociationDTO"
+          },
+          "additionalSkillAssociation": {
+            "$ref": "#/components/schemas/AdditionalSkillAssociationDTO"
+          },
+          "skillLevelOrAdditionalSkillPresent": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SkillLevelAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillLevelStatus",
+            "enum": [
+              "VALIDATED",
+              "FAILED",
+              "UNDER_ACQUISITION",
+              "UNDER_REVIEW",
+              "TO_BE_EVALUATED",
+              "NOT_STARTED"
+            ]
+          },
+          "ams": {
+            "$ref": "#/components/schemas/AmsAssociationDTO"
+          }
+        },
+        "required": [
+          "id",
+          "level",
+          "status",
+          "title"
         ]
       },
       "PageInfoDTO": {

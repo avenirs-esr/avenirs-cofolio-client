@@ -80,6 +80,7 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
     fileName: traceId,
     fileType: getFileTypeFromFileName(file.name),
     fileSize: file.size,
-    version: 1
+    version: 1,
+    uploadedAt: '2024-01-15T10:30:00'
   }
 }

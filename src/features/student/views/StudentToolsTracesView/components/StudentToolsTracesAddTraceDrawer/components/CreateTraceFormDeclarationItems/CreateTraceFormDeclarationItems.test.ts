@@ -1,12 +1,11 @@
 import type {
   TraceFormData
 } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
-import CreateTraceFormDeclarationItems from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { waitFor } from 'storybook/test'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import CreateTraceFormDeclarationItems from './CreateTraceFormDeclarationItems.vue'
 
 const TestWrapper = {
   components: {
@@ -51,15 +50,15 @@ BddTest().given('a create trace form declaration items component', () => {
   const stubs = {
     AvToggle: {
       name: 'AvToggle',
-      props: ['id', 'modelValue', 'description', 'name'],
+      props: ['id', 'modelValue', 'description', 'name', 'activeText', 'inactiveText'],
       emits: ['update:modelValue'],
       template: '<div><input type="checkbox" :id="id" :name="name" :checked="modelValue" @change="$emit(\'update:modelValue\', $event.target.checked)" /><label :for="id">{{ description }}</label></div>'
     },
-    AvInput: {
-      name: 'AvInput',
-      props: ['id', 'modelValue', 'label', 'placeholder', 'errorMessage', 'maxlength', 'isTextarea'],
+    TraceIaJustificationTextarea: {
+      name: 'TraceIaJustificationTextarea',
+      props: ['id', 'modelValue', 'errorMessage', 'required'],
       emits: ['blur', 'update:modelValue'],
-      template: '<div><label>{{ label }}</label><textarea v-if="isTextarea" :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')"></textarea><slot name="customCaptions" :current-value="modelValue" :maxlength="maxlength" /></div>'
+      template: '<div><textarea :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')"></textarea></div>'
     }
   }
 
@@ -128,12 +127,12 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should not render IA justification textarea initially', () => {
-      const iaJustificationInput = wrapper.findComponent({ name: 'AvInput' })
+      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
       expect(iaJustificationInput.exists()).toBe(false)
     })
   })
 
-  BddTest().when('production authenticity toggle is changed', () => {
+  BddTest().when('the production authenticity toggle is changed', () => {
     BddTest().then('it should update the form field value', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const authenticToggle = toggles.find(toggle =>
@@ -147,7 +146,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
   })
 
-  BddTest().when('group production toggle is changed', () => {
+  BddTest().when('the group production toggle is changed', () => {
     BddTest().then('it should update the form field value', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const groupToggle = toggles.find(toggle =>
@@ -161,7 +160,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
   })
 
-  BddTest().when('IA usage toggle is changed to true', () => {
+  BddTest().when('the IA usage toggle is changed to true', () => {
     BddTest().then('it should show IA justification textarea', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const iaToggle = toggles.find(toggle =>
@@ -171,12 +170,10 @@ BddTest().given('a create trace form declaration items component', () => {
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'AvInput' })
+      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
       expect(iaJustificationInput.exists()).toBe(true)
       expect(iaJustificationInput.props('id')).toBe('ia-justification')
-      expect(iaJustificationInput.props('label')).toBe('Justification de l\'usage de l\'IA')
-      expect(iaJustificationInput.props('isTextarea')).toBe('')
-      expect(iaJustificationInput.props('maxlength')).toBe(200)
+      expect(iaJustificationInput.props('required')).toBe(true)
     })
 
     BddTest().then('it should update the form field value', async () => {
@@ -192,23 +189,20 @@ BddTest().given('a create trace form declaration items component', () => {
     })
   })
 
-  BddTest().when('IA usage toggle is changed to false', () => {
+  BddTest().when('the IA usage toggle is changed to false', () => {
     BddTest().then('it should clear IA justification field', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
 
-      // First enable IA usage
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      // Add some text to justification
-      const iaJustificationInput = wrapper.findComponent({ name: 'AvInput' })
+      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
       await iaJustificationInput.vm.$emit('update:modelValue', 'Some justification')
       await wrapper.vm.$nextTick()
 
-      // Then disable IA usage
       await iaToggle?.vm.$emit('update:modelValue', false)
       await wrapper.vm.$nextTick()
 
@@ -216,30 +210,35 @@ BddTest().given('a create trace form declaration items component', () => {
     })
   })
 
-  BddTest().when('IA justification is changed', () => {
+  BddTest().when('the IA justification is changed', () => {
     BddTest().then('it should update the form field value', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
 
-      // First enable IA usage
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'AvInput' })
-      await iaJustificationInput.vm.$emit('update:modelValue', 'My IA justification')
+      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const textarea = iaJustificationInput.find('textarea')
+
+      textarea.element.value = 'My IA justification'
+      await textarea.trigger('input')
       await wrapper.vm.$nextTick()
 
-      expect(iaJustificationInput.props('modelValue')).toBe('My IA justification')
+      await vi.waitFor(() => {
+        const updatedInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+        expect(updatedInput.props('modelValue')).toBe('My IA justification')
+      })
     })
   })
 
-  BddTest().when('production authenticity is not checked and form is validated', () => {
+  BddTest().when('the production authenticity is not checked and form is validated', () => {
     BddTest().then('it should show error message', async () => {
       await wrapper.find('form').trigger('submit')
 
-      await waitFor(() => {
+      await vi.waitFor(() => {
         const errorElement = wrapper.find('.declaration-items__authentic-error')
         expect(errorElement.exists()).toBe(true)
         expect(errorElement.text()).toBe('Required field')
@@ -247,7 +246,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
   })
 
-  BddTest().when('IA usage is enabled and justification is empty', () => {
+  BddTest().when('the IA usage is enabled and justification is empty', () => {
     BddTest().then('it should show error message on form validation', async () => {
       const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
       const iaToggle = toggles.find(toggle =>
@@ -260,8 +259,8 @@ BddTest().given('a create trace form declaration items component', () => {
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'AvInput' })
-      await waitFor(() => {
+      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      await vi.waitFor(() => {
         expect(iaJustificationInput.props('errorMessage')).toBe('Required field')
       })
     })
