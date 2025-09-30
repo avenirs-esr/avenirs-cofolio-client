@@ -1,5 +1,20 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type AddAdditionalSkillDTO, type AdditionalSkillDTO, type AdditionalSkillProgressDTO, createAdditionalSkillProgress, getAdditionalSkillsProgresses, getSkillLevelProgresses, type PagedResponseAdditionalSkillDTO, type PagedResponseAdditionalSkillProgressDTO, type PagedResponseSkillDTO, type PageInfoDTO, searchAdditionalSkills, type SkillDTO } from '@/api/avenir-esr'
+import {
+  type AddAdditionalSkillDTO,
+  type AdditionalSkillDTO,
+  type AdditionalSkillProgressDTO,
+  createAdditionalSkillProgress,
+  getAdditionalSkillsProgresses,
+  getDetailedSkill,
+  getSkillLevelProgresses,
+  type PagedResponseAdditionalSkillDTO,
+  type PagedResponseAdditionalSkillProgressDTO,
+  type PagedResponseSkillDTO,
+  type PageInfoDTO,
+  searchAdditionalSkills,
+  type SkillDetailedDTO,
+  type SkillDTO
+} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type Ref, toValue, type UnwrapRef } from 'vue'
@@ -151,4 +166,26 @@ export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: UseCre
     },
     onError
   })
+}
+
+export function useSkillDetailedQuery (skillId: Ref<string>) {
+  const queryKey = computed(() => [...commonQueryKeys, 'skill-detailed', skillId.value])
+
+  const queryFn = computed(() => async (): Promise<SkillDetailedDTO> => {
+    return await getDetailedSkill(toValue(skillId))
+  })
+
+  const query = useQuery<SkillDetailedDTO, BaseApiException, SkillDetailedDTO, readonly unknown[]>({
+    queryKey,
+    queryFn,
+    staleTime: TWO_MINUTES,
+    enabled: computed(() => skillId.value.trim().length > 0),
+  })
+
+  const skillDetailed = computed(() => query.data.value)
+
+  return {
+    ...query,
+    skillDetailed,
+  }
 }

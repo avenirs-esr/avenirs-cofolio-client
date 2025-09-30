@@ -137,6 +137,47 @@
         }
       }
     },
+    "/me/traces/associate/{traceId}": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "associate",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociateTraceDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/storage/traces/{traceId}": {
       "post": {
         "tags": [
@@ -570,6 +611,68 @@
         }
       }
     },
+    "/me/traces/search-association/{associationType}": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getAssociatedTraces",
+        "parameters": [
+          {
+            "name": "associationType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/ETraceAssociationType",
+              "enum": [
+                "AMS",
+                "SKILL_LEVEL",
+                "ADDITIONAL_SKILL"
+              ]
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseTraceAssociationSearchResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/overview": {
       "get": {
         "tags": [
@@ -690,6 +793,37 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseSkillDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/skill-level-progress/details/{skillId}": {
+      "get": {
+        "tags": [
+          "skill-level-progress-controller"
+        ],
+        "operationId": "getDetailedSkill",
+        "parameters": [
+          {
+            "name": "skillId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillDetailedDTO"
                 }
               }
             }
@@ -1059,6 +1193,37 @@
         },
         "required": [
           "traceId"
+        ]
+      },
+      "AssociateTraceDTO": {
+        "type": "object",
+        "properties": {
+          "amsIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "skillLevelIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "additionalSkillProgressIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "required": [
+          "additionalSkillProgressIds",
+          "amsIds",
+          "skillLevelIds"
         ]
       },
       "AttachmentUploadDTO": {
@@ -1440,6 +1605,52 @@
           "unassociated"
         ]
       },
+      "PagedResponseTraceAssociationSearchResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationSearchResult"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "TraceAssociationSearchResult": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAssociationType",
+            "enum": [
+              "AMS",
+              "SKILL_LEVEL",
+              "ADDITIONAL_SKILL"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "type"
+        ]
+      },
       "TraceOverviewDTO": {
         "type": "object",
         "properties": {
@@ -1680,6 +1891,45 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "SkillDetailedDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "skillLevels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillLevelDetailedDTO"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "skillLevels"
+        ]
+      },
+      "SkillLevelDetailedDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
         ]
       },
       "AccessInfoAPC": {
@@ -2090,6 +2340,15 @@
         "enum": [
           "UNASSOCIATED",
           "ASSOCIATED"
+        ]
+      },
+      "ETraceAssociationType": {
+        "type": "string",
+        "description": "Enum for trace association type",
+        "enum": [
+          "AMS",
+          "SKILL_LEVEL",
+          "ADDITIONAL_SKILL"
         ]
       },
       "EContextType": {

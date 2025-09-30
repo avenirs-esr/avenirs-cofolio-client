@@ -143,6 +143,9 @@ export const studentProjectTrajectoriesRoute: AvRoute = {
 export const studentSkillRoute: AvRoute = {
   path: 'skill/:id',
   name: 'student-skill',
+  props: route => ({
+    skillId: route.params.id,
+  }),
   component: () =>
     import('@/features/student/views/StudentSkillView/StudentSkillView.vue') as Promise<{
       default: typeof StudentSkillView
