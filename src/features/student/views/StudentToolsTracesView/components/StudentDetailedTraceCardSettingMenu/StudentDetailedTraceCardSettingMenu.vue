@@ -2,6 +2,7 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
+import UpdateTraceModal from '@/features/student/views/StudentToolsTracesView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -16,23 +17,37 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const {
+  showModal: showDeleteModal,
+  displayModal: displayDeleteModal,
+  hideModal: hideDeleteModal
+} = useModal()
+const {
+  showModal: showUpdateModal,
+  displayModal: displayUpdateModal,
+  hideModal: hideUpdateModal
+} = useModal()
 
 const menuItems = computed(() => [
   {
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.delete'),
-    onClick: () => displayModal()
+    onClick: () => displayDeleteModal()
   },
   {
     icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
     label: t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.assign'),
     onClick: () => {}
+  },
+  {
+    icon: MDI_ICONS.PENCIL_OUTLINE,
+    label: t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.update'),
+    onClick: () => displayUpdateModal()
   }
 ])
 
 function onDeleteTraceSuccess () {
-  hideModal()
+  hideDeleteModal()
   // Without setTimeout, the focus-trap is lost on close
   setTimeout(() => {
     emit('onTraceDelete', props.trace)
@@ -62,9 +77,14 @@ function onDeleteTraceSuccess () {
   </div>
   <TraceDeletionConfirmationModal
     :trace="trace"
-    :show="showModal"
+    :show="showDeleteModal"
     :on-confirm-delete="() => onDeleteTraceSuccess()"
-    :on-close="() => hideModal()"
+    :on-close="() => hideDeleteModal()"
+  />
+  <UpdateTraceModal
+    :trace="trace"
+    :show="showUpdateModal"
+    :on-close="() => hideUpdateModal()"
   />
 </template>
 

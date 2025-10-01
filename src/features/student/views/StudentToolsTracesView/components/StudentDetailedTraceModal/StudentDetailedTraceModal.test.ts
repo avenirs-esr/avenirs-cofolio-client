@@ -43,7 +43,7 @@ BddTest().given('a trace modal', () => {
     },
     AvModal: {
       name: 'AvModal',
-      template: `<div><slot /><slot name="footer" /></div>`,
+      template: `<div><slot name="header" /><slot /><slot name="footer" /></div>`,
       emits: ['close'],
     },
     AvButton: {
@@ -87,9 +87,10 @@ BddTest().given('a trace modal', () => {
 
     BddTest().when('the component is rendered', () => {
       BddTest().then('the modal title should contain trace details', () => {
-        const modalTitle = wrapper.find('.student-detailed-trace-modal__title')
+        const modalTitle = wrapper.find('.n5')
         expect(modalTitle.exists()).toBe(true)
-        expect(modalTitle.text()).toContain(`Détail de ma trace - ${mockedTrace.title}`)
+        expect(modalTitle.text()).toContain('Détail de ma trace')
+        expect(modalTitle.text()).toContain(mockedTrace.title)
       })
 
       BddTest().then('the settings button should be present', () => {
@@ -183,8 +184,9 @@ BddTest().given('a trace modal', () => {
 
     BddTest().when('the component is rendered', () => {
       BddTest().then('the modal title should contain the different trace title', () => {
-        const modalTitle = wrapper.find('.student-detailed-trace-modal__title')
-        expect(modalTitle.text()).toContain(`Détail de ma trace - ${differentTrace.title}`)
+        const modalTitle = wrapper.find('.n5')
+        expect(modalTitle.text()).toContain('Détail de ma trace')
+        expect(modalTitle.text()).toContain(differentTrace.title)
       })
     })
 
@@ -194,7 +196,6 @@ BddTest().given('a trace modal', () => {
           name: 'AvButton',
           props: {
             icon: MDI_ICONS.DOTS_VERTICAL,
-            iconOnly: true,
           }
         })
         await settingsButton.trigger('click')

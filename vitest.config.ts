@@ -8,6 +8,7 @@ export default ({ mode }: { mode: string }) => {
     'e2e/*',
     'a11y/*',
     '**/*types.ts',
+    '**/*stub.ts',
     '**/*.stories.ts',
     'src/common/types/*',
     'src/api/**/generated/*',

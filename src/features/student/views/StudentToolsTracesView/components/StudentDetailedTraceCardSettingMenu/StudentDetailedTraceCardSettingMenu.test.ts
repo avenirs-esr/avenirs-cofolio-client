@@ -42,6 +42,13 @@ BddTest().given('a setting menu', () => {
         <button class="success" @click="onConfirmDelete()">confirm</button>
         <button class="close" @click="onClose()">close</button>
       </div>`
+    },
+    UpdateTraceModal: {
+      name: 'UpdateTraceModal',
+      props: ['trace', 'show', 'onClose'],
+      template: `<div class="update-trace-modal" v-if="show">
+        <button class="update-close" @click="onClose()">close</button>
+      </div>`
     }
   }
 
@@ -64,7 +71,7 @@ BddTest().given('a setting menu', () => {
       BddTest().then('it should display the setting menu items', () => {
         expect(wrapper.find('.student-detailed-trace-card-setting-menu').exists()).toBe(true)
         const menuItems = wrapper.findAll('.student-detailed-trace-card-setting-menu__item')
-        expect(menuItems).toHaveLength(2)
+        expect(menuItems).toHaveLength(3)
       })
 
       BddTest().then('it should display the modal when showModal is true', () => {
@@ -85,6 +92,14 @@ BddTest().given('a setting menu', () => {
         expect(assignButton.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
         expect(assignButton.props('size')).toBe('sm')
         expect(assignButton.props('label')).toBe('Assigner ma trace')
+      })
+
+      BddTest().then('it should display the update button with correct props', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        const updateButton = buttons[2]
+        expect(updateButton.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
+        expect(updateButton.props('size')).toBe('sm')
+        expect(updateButton.props('label')).toBe('Modifier ma trace')
       })
     })
 
@@ -124,7 +139,32 @@ BddTest().given('a setting menu', () => {
     })
   })
 
-  BddTest().and('how prop set to false', () => {
+  BddTest().when('the update button is clicked', () => {
+    BddTest().then('it should call displayModal', async () => {
+      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const updateButton = buttons[2]
+
+      await updateButton.trigger('click')
+      expect(displayModalMock).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('update modal emits close', () => {
+    BddTest().then('it should hide the modal', async () => {
+      const localWrapper = mount(StudentDetailedTraceCardSettingMenu, {
+        props: {
+          trace: mockedTrace,
+          show: true
+        },
+        global: { stubs }
+      })
+
+      await localWrapper.find('.update-close').trigger('click')
+      expect(hideModalMock).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().and('show prop set to false', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 

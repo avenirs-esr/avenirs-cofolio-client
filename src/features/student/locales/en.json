@@ -298,13 +298,14 @@
         },
         "studentDetailedTraceModal": {
           "buttons": {
-            "close": "Close"
+            "close": "Close the window"
           },
-          "title": "Detail of my trace - {trace}",
+          "title": "Detail of my trace",
           "settings": {
-            "ariaLabel": "open trace settings",
+            "ariaLabel": "More actions",
             "assign": "Assign my trace",
-            "delete": "Delete my trace"
+            "delete": "Delete my trace",
+            "update": "Update my trace"
           },
           "studentTraceDetails": {
             "addedOn": "Added on {date}",
@@ -375,6 +376,30 @@
         "traceDeletionConfirmationModal": {
           "description": "Are you sure you want to delete your trace?",
           "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
+        },
+        "updateTraceModal": {
+          "buttons": {
+            "close": "Close the window",
+            "save": "Save the modifications",
+            "validate": "Validate the selection"
+          },
+          "steps": {
+            "terms": {
+              "title": "Terms of modifications"
+            },
+            "update": {
+              "tabs": {
+                "associations": {
+                  "title": "My associations"
+                },
+                "update": {
+                  "title": "Update my trace"
+                }
+              },
+              "title": "Update my trace"
+            }
+          },
+          "title": "Update my trace"
         },
         "warningMessage": {
           "delete": {

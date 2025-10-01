@@ -45,22 +45,22 @@ function useSettingsMenu () {
 <template>
   <AvModal
     :opened="showModal"
-    :close-button-label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.buttons.close')"
+    :close-button-label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.buttons.close').toUpperCase()"
+    close-button-variant="OUTLINED"
     size="lg"
     @close="onClose"
   >
-    <div class="student-detailed-trace-modal__container">
-      <div class="student-detailed-trace-modal__header">
-        <h1 class="student-detailed-trace-modal__title fr-modal__title">
-          {{ t('student.views.studentToolsTracesView.studentDetailedTraceModal.title') }}{{ trace.title }}
-        </h1>
+    <template #header>
+      <div class="header">
+        <h5 class="n5">
+          {{ t('student.views.studentToolsTracesView.studentDetailedTraceModal.title') }} <span class="s1-regular">{{ trace.title }}</span>
+        </h5>
         <AvButton
           class="student-detailed-trace-modal__settings-btn"
           :icon="{ name: MDI_ICONS.DOTS_VERTICAL }"
-          icon-only
           variant="OUTLINED"
           size="sm"
-          :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.ariaLabel')"
+          :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.settings.ariaLabel').toUpperCase()"
           :on-click="toggleSettingsMenu"
         />
         <StudentDetailedTraceCardSettingMenu
@@ -70,6 +70,8 @@ function useSettingsMenu () {
           @on-trace-delete="onClose"
         />
       </div>
+    </template>
+    <div class="student-detailed-trace-modal__container">
       <div class="student-detailed-trace-modal__content">
         Placeholder...
       </div>
@@ -78,6 +80,13 @@ function useSettingsMenu () {
 </template>
 
 <style lang="scss" scoped>
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .student-detailed-trace-modal__container {
   display: flex;
   flex-direction: column;
@@ -87,12 +96,5 @@ function useSettingsMenu () {
 .student-detailed-trace-modal__content {
   flex: 1;
   overflow-y: auto;
-}
-
-.student-detailed-trace-modal__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
 </style>
