@@ -301,13 +301,14 @@
         },
         "studentDetailedTraceModal": {
           "buttons": {
-            "close": "Fermer"
+            "close": "Fermer la fenêtre"
           },
-          "title": "Détail de ma trace - {trace}",
+          "title": "Détail de ma trace",
           "settings": {
-            "ariaLabel": "Paramètres de la trace",
+            "ariaLabel": "Plus d'actions",
             "assign": "Assigner ma trace",
-            "delete": "Supprimer ma trace"
+            "delete": "Supprimer ma trace",
+            "update": "Modifier ma trace"
           },
           "studentTraceDetails": {
             "addedOn": "Ajouté le {date}",
@@ -378,6 +379,30 @@
         "traceDeletionConfirmationModal": {
           "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
           "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
+        },
+        "updateTraceModal": {
+          "buttons": {
+            "close": "Fermer la fenêtre",
+            "save": "Enregistrer les modifications",
+            "validate": "Valider la sélection"
+          },
+          "steps": {
+            "terms": {
+              "title": "Modalités de modifications"
+            },
+            "update": {
+              "tabs": {
+                "associations": {
+                  "title": "Mes associations"
+                },
+                "update": {
+                  "title": "Modifier ma trace"
+                }
+              },
+              "title": "Modifier ma trace"
+            }
+          },
+          "title": "Modifier ma trace"
         },
         "warningMessage": {
           "delete": {
