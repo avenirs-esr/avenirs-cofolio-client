@@ -61,6 +61,7 @@ useBaseApiExceptionToast(error)
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
