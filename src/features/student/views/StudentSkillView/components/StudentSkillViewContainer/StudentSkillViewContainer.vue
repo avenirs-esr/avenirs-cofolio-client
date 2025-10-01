@@ -9,12 +9,17 @@ import StudentSkillLevelDetailedSection
   from '@/features/student/views/StudentSkillView/components/StudentSkillLevelDetailedSection/StudentSkillLevelDetailedSection.vue'
 import StudentSkillProgressSection
   from '@/features/student/views/StudentSkillView/components/StudentSkillProgressSection/StudentSkillProgressSection.vue'
-import { SkillItems } from '@/features/student/views/StudentSkillView/types'
 import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+
 import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{ skillDetailed: SkillDetailedDTO | undefined }>()
-const { skillDetailed } = toRefs(props)
+const { skillDetailed } = defineProps<{ skillDetailed: SkillDetailedDTO | undefined }>()
+
+enum SkillItems {
+  SKILL_DETAILED = 'SKILL_DETAILED',
+  SKILL_PROGRESS = 'SKILL_PROGRESS',
+  SKILL_EVALUATE = 'SKILL_EVALUATE'
+}
 const { t } = useI18n()
 const isSideMenuCollapsed = ref<boolean>(false)
 
@@ -27,7 +32,7 @@ function isLevelId (id: SelectedId): id is LevelItemId {
 }
 
 const levelNavItems = computed<AvSideNavigationItem[]>(() =>
-  (skillDetailed.value?.skillLevels ?? []).map(l => ({
+  (skillDetailed?.skillLevels ?? []).map(l => ({
     id: `level:${l.id}` as LevelItemId,
     label: l.name.toUpperCase(),
     icon: MDI_ICONS.FILE_TREE_OUTLINE,
@@ -37,18 +42,18 @@ const levelNavItems = computed<AvSideNavigationItem[]>(() =>
 const ALL_ITEMS: AvSideNavigationItem[] = [
   {
     id: SkillItems.SKILL_DETAILED,
-    label: skillDetailed.value?.name.toUpperCase() || '',
+    label: skillDetailed?.name.toUpperCase() || '',
     icon: MDI_ICONS.STAR_SHOOTING_OUTLINE,
   },
   ...levelNavItems.value,
   {
     id: SkillItems.SKILL_PROGRESS,
-    label: t('student.views.studentSkillView.skillProgress.title'),
+    label: t('student.views.studentSkillView.progress.title').toUpperCase(),
     icon: MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER
   },
   {
     id: SkillItems.SKILL_EVALUATE,
-    label: t('student.views.studentSkillView.skillEvaluate.title'),
+    label: t('student.views.studentSkillView.evaluation.title').toUpperCase(),
     icon: MDI_ICONS.NOTEBOOK_CHECK
   }
 ]
@@ -99,17 +104,9 @@ const displayedSection = computed<Component>(() => {
     flex: 1;
     padding: var(--spacing-lg);
 
-    h2 {
+    h3 {
       margin-bottom: var(--spacing-md);
     }
-  }
-
-  &__placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-style: italic;
   }
 }
 </style>

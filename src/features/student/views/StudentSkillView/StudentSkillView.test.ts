@@ -27,12 +27,8 @@ BddTest().given('a student skill view', () => {
     const handler = createSkillDetailedHandler(mockedSkillDetailed)
     server.use(handler)
     wrapper = mountComponent(StudentSkillView, {
-      props: {
-        skillId: 'skill-1-1'
-      },
-      global: {
-        stubs
-      },
+      props: { skillId: 'skill-1-1' },
+      global: { stubs },
       useTanstack: true,
       usePinia: true
     })
@@ -55,6 +51,7 @@ BddTest().given('a student skill view', () => {
         currentBreadcrumbLink
       ])
     })
+
     BddTest().then('it should render StudentSkillViewContainer with correct props', async () => {
       await flushPromises()
       const skillViewContainer = wrapper.findComponent({ name: 'StudentSkillViewContainer' })

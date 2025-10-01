@@ -9,7 +9,6 @@ import StudentSkillLevelDetailedSection
 import StudentSkillProgressSection
   from '@/features/student/views/StudentSkillView/components/StudentSkillProgressSection/StudentSkillProgressSection.vue'
 import StudentSkillViewContainer from '@/features/student/views/StudentSkillView/components/StudentSkillViewContainer/StudentSkillViewContainer.vue'
-import { SkillItems } from '@/features/student/views/StudentSkillView/types'
 import { AvSideNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -61,9 +60,7 @@ BddTest().given('a student skill view container component', () => {
 
   beforeEach(() => {
     wrapper = mountComponent(StudentSkillViewContainer, {
-      props: {
-        skillDetailed: mockSkillDetailed,
-      },
+      props: { skillDetailed: mockSkillDetailed },
       global: { stubs },
     })
   })
@@ -77,7 +74,7 @@ BddTest().given('a student skill view container component', () => {
       const sideNavigation = wrapper.findComponent(AvSideNavigation)
       expect(sideNavigation.exists()).toBe(true)
       expect(sideNavigation.props('isSideMenuCollapsed')).toBe(false)
-      expect(sideNavigation.props('selectedItem')).toBe(SkillItems.SKILL_DETAILED)
+      expect(sideNavigation.props('selectedItem')).toBe('SKILL_DETAILED')
       expect(sideNavigation.props('items')).toHaveLength(5)
     })
 
@@ -86,11 +83,11 @@ BddTest().given('a student skill view container component', () => {
       const items = sideNavigation.props('items') as Array<any>
 
       expect(items).toEqual([
-        { id: SkillItems.SKILL_DETAILED, label: 'COMPÉTENCE A', icon: MDI_ICONS.STAR_SHOOTING_OUTLINE },
+        { id: 'SKILL_DETAILED', label: 'COMPÉTENCE A', icon: MDI_ICONS.STAR_SHOOTING_OUTLINE },
         { id: 'level:1', label: 'NIVEAU 1', icon: MDI_ICONS.FILE_TREE_OUTLINE },
         { id: 'level:2', label: 'NIVEAU 2', icon: MDI_ICONS.FILE_TREE_OUTLINE },
-        { id: SkillItems.SKILL_PROGRESS, label: expect.any(String), icon: MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER },
-        { id: SkillItems.SKILL_EVALUATE, label: expect.any(String), icon: MDI_ICONS.NOTEBOOK_CHECK },
+        { id: 'SKILL_PROGRESS', label: expect.any(String), icon: MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER },
+        { id: 'SKILL_EVALUATE', label: expect.any(String), icon: MDI_ICONS.NOTEBOOK_CHECK },
       ])
     })
 
@@ -117,42 +114,44 @@ BddTest().given('a student skill view container component', () => {
     })
   })
 
-  BddTest().when('different menu items are selected', () => {
-    BddTest().then('it should display level section when a level item is selected', async () => {
+  BddTest().when('a level item is selected', () => {
+    BddTest().then('it should display level section', async () => {
       const sideNavigation = wrapper.findComponent(AvSideNavigation)
       await sideNavigation.vm.$emit('update:selectedItem', 'level:1')
-
       const levelSection = wrapper.findComponent(StudentSkillLevelDetailedSection)
       expect(levelSection.exists()).toBe(true)
     })
+  })
 
-    BddTest().then('it should display progress section when SKILL_PROGRESS is selected', async () => {
+  BddTest().when('SKILL_PROGRESS is selected', () => {
+    BddTest().then('it should display progress section', async () => {
       const sideNavigation = wrapper.findComponent(AvSideNavigation)
-      await sideNavigation.vm.$emit('update:selectedItem', SkillItems.SKILL_PROGRESS)
-
+      await sideNavigation.vm.$emit('update:selectedItem', 'SKILL_PROGRESS')
       const progressSection = wrapper.findComponent(StudentSkillProgressSection)
       expect(progressSection.exists()).toBe(true)
     })
+  })
 
-    BddTest().then('it should display evaluate section when SKILL_EVALUATE is selected', async () => {
+  BddTest().when('SKILL_EVALUATE is selected', () => {
+    BddTest().then('it should display evaluate section', async () => {
       const sideNavigation = wrapper.findComponent(AvSideNavigation)
-      await sideNavigation.vm.$emit('update:selectedItem', SkillItems.SKILL_EVALUATE)
-
+      await sideNavigation.vm.$emit('update:selectedItem', 'SKILL_EVALUATE')
       const evalSection = wrapper.findComponent(StudentSkillEvaluateSection)
       expect(evalSection.exists()).toBe(true)
     })
+  })
 
-    BddTest().then('it should display detailed section when SKILL_DETAILED is selected', async () => {
+  BddTest().when('SKILL_DETAILED is selected', () => {
+    BddTest().then('it should display detailed section', async () => {
       const sideNavigation = wrapper.findComponent(AvSideNavigation)
-      await sideNavigation.vm.$emit('update:selectedItem', SkillItems.SKILL_DETAILED)
-
+      await sideNavigation.vm.$emit('update:selectedItem', 'SKILL_DETAILED')
       const detailedSection = wrapper.findComponent(StudentSkillDetailedSection)
       expect(detailedSection.exists()).toBe(true)
     })
   })
 
   BddTest().when('the displayed section changes', () => {
-    BddTest().then('only one section should be displayed at a time', async () => {
+    BddTest().then('it should display only one section at a time', async () => {
       expect(wrapper.findComponent(StudentSkillDetailedSection).exists()).toBe(true)
       expect(wrapper.findComponent(StudentSkillLevelDetailedSection).exists()).toBe(false)
 
