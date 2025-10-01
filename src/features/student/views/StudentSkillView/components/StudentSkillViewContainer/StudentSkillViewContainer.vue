@@ -76,6 +76,13 @@ const displayedSection = computed<Component>(() => {
     default: return StudentSkillDetailedSection
   }
 })
+
+const sectionProps = computed<Record<string, string | undefined>>(() => {
+  if (selectedItem.value === SkillItems.SKILL_DETAILED) {
+    return { skillName: skillDetailed?.name ?? '' }
+  }
+  return {}
+})
 </script>
 
 <template>
@@ -88,6 +95,7 @@ const displayedSection = computed<Component>(() => {
     <div class="student-skill-view-container__content">
       <component
         :is="displayedSection"
+        v-bind="sectionProps"
       />
     </div>
   </div>
