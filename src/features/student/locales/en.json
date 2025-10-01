@@ -275,6 +275,9 @@
         }
       },
       "studentSkillView": {
+        "detailed": {
+          "title": "Skill"
+        },
         "evaluation": {
           "title": "My evaluation"
         },

@@ -275,6 +275,9 @@
         }
       },
       "studentSkillView": {
+        "detailed": {
+          "title": "Compétence"
+        },
         "evaluation": {
           "title": "Mon évaluation"
         },
