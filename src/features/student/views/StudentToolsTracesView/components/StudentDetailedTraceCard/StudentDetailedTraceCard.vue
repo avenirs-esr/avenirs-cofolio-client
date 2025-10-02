@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
-import { useModal } from '@/common/composables'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
-import StudentDetailedTraceModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceModal/StudentDetailedTraceModal.vue'
+import { studentTraceRoute } from '@/features/student'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
-const { title, status, willBeDeletedAt } = trace
+const { id, title, status, willBeDeletedAt } = trace
 
 const getDaysUntilDeletion = computed(() => status === ETraceStatus.UNASSOCIATED && willBeDeletedAt
   ? getDaysUntil(parseDateISO(willBeDeletedAt))
@@ -15,15 +14,13 @@ const getDaysUntilDeletion = computed(() => status === ETraceStatus.UNASSOCIATED
 
 const { t } = useI18n()
 
-const { showModal, displayModal, hideModal } = useModal()
-
 const hoverBorderColor = ref('var(--dark-background-primary1)')
 </script>
 
 <template>
-  <button
+  <RouterLink
     class="student-detailed-trace-card"
-    @click="displayModal"
+    :to="{ name: studentTraceRoute.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"
@@ -61,12 +58,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
         </div>
       </template>
     </AvCard>
-  </button>
-  <StudentDetailedTraceModal
-    :trace="trace"
-    :show-modal="showModal"
-    :on-close="hideModal"
-  />
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>

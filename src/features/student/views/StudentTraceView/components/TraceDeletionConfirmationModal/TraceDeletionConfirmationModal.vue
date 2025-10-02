@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
@@ -7,7 +7,7 @@ import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-d
 import { useI18n } from 'vue-i18n'
 
 const { trace, show, onConfirmDelete, onClose } = defineProps<{
-  trace: TraceViewDTO
+  trace: TraceDetailDTO
   show: boolean
   onConfirmDelete: () => void
   onClose: () => void
@@ -20,9 +20,8 @@ const { onConfirmDeleteTrace, isDeleteTracePending } = useDeleteTrace()
 function useDeleteTrace () {
   function onDeleteTraceError (error: BaseApiException) {
     addErrorMessage({
-      title: t('student.views.studentToolsTracesView.errors.delete'),
-      description: error.message,
-      type: 'error',
+      title: t('student.views.studentTraceView.errors.delete'),
+      description: error.message
     })
   }
 
@@ -57,8 +56,8 @@ function useDeleteTrace () {
       />
     </template>
     <div class="content-container">
-      <span class="b2-bold">{{ t('student.views.studentToolsTracesView.traceDeletionConfirmationModal.description') }}</span>
-      <span class="b2-light">{{ t('student.views.studentToolsTracesView.traceDeletionConfirmationModal.subdescription') }}</span>
+      <span class="b2-bold">{{ t('student.views.studentTraceView.traceDeletionConfirmationModal.description') }}</span>
+      <span class="b2-light">{{ t('student.views.studentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>
     </div>
     <template #footer>
       <AvButton

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@/api/avenir-esr'
 
-defineProps<{ trace: TraceViewDTO }>()
+defineProps<{ trace: TraceDetailDTO }>()
 </script>
 
 <template>

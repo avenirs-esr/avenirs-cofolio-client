@@ -1,5 +1,5 @@
-import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
-import UpdateTraceModal from '@/features/student/views/StudentToolsTracesView/components/UpdateTraceModal/UpdateTraceModal.vue'
+import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
+import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { AvStepperStub, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -10,13 +10,24 @@ BddTest().given('an update trace modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateTraceModal>>
   let onClose: ReturnType<typeof vi.fn>
 
-  const mockedTrace: TraceViewDTO = {
+  const mockedTrace: TraceDetailDTO = {
     id: 'mock-trace',
     title: 'An awesome trace',
     status: ETraceStatus.ASSOCIATED,
-    createdAt: `2025-06-01T10:42:00.000Z`,
-    updatedAt: `2025-06-02T11:42:00.000Z`,
-    willBeDeletedAt: `2026-07-03T10:42:00.000Z`
+    createdAt: '2025-06-01T10:42:00.000Z',
+    updatedAt: '2025-06-02T11:42:00.000Z',
+    programName: 'An awesome program',
+    aiUseJustification: 'An awesome justification',
+    isGroup: false,
+    personalNote: 'An awesome personal note',
+    attachment: {
+      id: 'mock-attachment',
+      fileName: 'An awesome attachment',
+      fileType: EFileType.TXT,
+      fileSize: 1,
+      version: 1,
+      uploadedAt: '2025-06-02T11:42:00.000Z',
+    }
   }
 
   const stubs = {

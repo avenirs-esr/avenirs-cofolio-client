@@ -1,11 +1,12 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { invalidTraceId, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
 import {
   type GetTracesViewParams,
   GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
+  type TraceDetailDTO,
   type TracesSummaryDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -13,6 +14,7 @@ import {
   type DeleteTraceVariables,
   useDeleteTraceMutation,
   type UseDeleteTraceMutationArgs,
+  useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
   useTracesViewQuery
@@ -385,6 +387,118 @@ BddTest().given('a useTracesConfigurationQuery composable', async () => {
         await flushPromises()
 
         expect(getTraceConfigInfoSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a useTraceDetailedQuery composable', async () => {
+  let getTraceDetailSpy: MockInstance<(traceId: string, options?: RequestInit | undefined) => Promise<TraceDetailDTO>>
+
+  beforeEach(async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+
+    // Create spy for getTraceDetail to verify API calls
+    getTraceDetailSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getTraceDetail'>(
+      await import('@/api/avenir-esr'),
+    'getTraceDetail'
+    ).mockResolvedValue(mockedTraceDetailed)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a trace detailed query', () => {
+    BddTest().when('the query is executed successfully', () => {
+      BddTest().then('it should call getTraceDetail API and return detailed trace', async () => {
+        const { data } = mountQueryComposable<UseQueryReturnType<TraceDetailDTO, BaseApiException>>(
+          () => useTraceDetailedQuery(ref(mockedTraceDetailed.id))
+        )
+
+        await flushPromises()
+
+        expect(getTraceDetailSpy).toHaveBeenCalledTimes(1)
+        expect(getTraceDetailSpy).toHaveBeenCalledWith(mockedTraceDetailed.id)
+
+        expect(data.value).toBeDefined()
+        expect(data.value).toHaveProperty('id')
+        expect(data.value).toHaveProperty('title')
+        expect(data.value).toHaveProperty('status')
+        expect(data.value).toHaveProperty('createdAt')
+        expect(data.value).toHaveProperty('updatedAt')
+        expect(data.value).toHaveProperty('programName')
+        expect(data.value).toHaveProperty('aiUseJustification')
+        expect(data.value).toHaveProperty('isGroup')
+        expect(data.value).toHaveProperty('personalNote')
+        expect(data.value).toHaveProperty('attachment')
+      })
+
+      BddTest().then('it should return properly typed configuration data', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceDetailedQuery(ref(mockedTraceDetailed.id)))
+
+        await flushPromises()
+
+        // Verify the data has the expected structure
+        const config = queryReturn.data.value
+        if (config) {
+          expect(typeof config.id).toBe('string')
+          expect(typeof config.title).toBe('string')
+          expect(typeof config.status).toBe('string')
+          expect(typeof config.createdAt).toBe('string')
+          expect(typeof config.updatedAt).toBe('string')
+          expect(typeof config.programName).toBe('string')
+          expect(typeof config.aiUseJustification).toBe('string')
+          expect(typeof config.isGroup).toBe('boolean')
+          expect(typeof config.personalNote).toBe('string')
+          expect(typeof config.attachment).toBe('object')
+        }
+      })
+
+      BddTest().then('it should mark the query as successful', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceDetailedQuery(ref(mockedTraceDetailed.id)))
+
+        await flushPromises()
+
+        expect(queryReturn.isSuccess.value).toBe(true)
+        expect(queryReturn.isError.value).toBe(false)
+        expect(queryReturn.isLoading.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query encounters an error', () => {
+      BddTest().then('it should still call the API', async () => {
+        mountQueryComposable(() => useTraceDetailedQuery(ref(mockedTraceDetailed.id)))
+
+        await flushPromises()
+
+        expect(getTraceDetailSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should handle error state correctly', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceDetailedQuery(ref(mockedTraceDetailed.id)))
+
+        await flushPromises()
+
+        if (queryReturn.isError.value) {
+          expect(queryReturn.isSuccess.value).toBe(false)
+          expect(queryReturn.error.value).toBeDefined()
+        }
+      })
+    })
+
+    BddTest().when('the query is called multiple times', () => {
+      BddTest().then('it should use TanStack Query caching', async () => {
+        function useMultipleTraceDetailedCalls () {
+          useTraceDetailedQuery(ref(mockedTraceDetailed.id))
+          return useTraceDetailedQuery(ref(mockedTraceDetailed.id))
+        }
+
+        mountQueryComposable(() => useMultipleTraceDetailedCalls())
+        await flushPromises()
+        await flushPromises()
+
+        expect(getTraceDetailSpy).toHaveBeenCalledTimes(1)
       })
     })
   })

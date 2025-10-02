@@ -5,11 +5,13 @@ import {
   type CreateTraceDTO,
   deleteTrace,
   getTraceConfig,
+  getTraceDetail,
   getTracesSummary,
   getTracesView,
   type GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
+  type TraceDetailDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO,
   type TraceViewDTO,
@@ -148,4 +150,26 @@ export function useUploadAttachmentMutation ({ onError, onSuccess }: UseUploadAt
     onSuccess,
     onError
   })
+}
+
+export function useTraceDetailedQuery (traceId: Ref<string>) {
+  const queryKey = computed(() => [...commonQueryKeys, 'trace-detailed', traceId.value])
+
+  const queryFn = computed(() => async (): Promise<TraceDetailDTO> => {
+    return await getTraceDetail(toValue(traceId))
+  })
+
+  const query = useQuery<TraceDetailDTO, BaseApiException, TraceDetailDTO, readonly unknown[]>({
+    queryKey,
+    queryFn,
+    staleTime: TWO_MINUTES,
+    enabled: computed(() => traceId.value.trim().length > 0),
+  })
+
+  const traceDetailed = computed(() => query.data.value)
+
+  return {
+    ...query,
+    traceDetailed,
+  }
 }

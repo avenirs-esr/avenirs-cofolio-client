@@ -4,6 +4,7 @@ import {
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
+  mockedTraceDetailed,
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
@@ -17,12 +18,13 @@ import {
   getGetTracesViewUrl,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
+  type TraceDetailDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO
 } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import isNil from 'lodash-es/isNil'
-import { http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   return http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -38,6 +40,17 @@ export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
 export function createTracesViewHandler (payload: PagedResponseTraceViewDTO) {
   return http.get(`*${getGetTracesViewUrl()}`, () => {
     return HttpResponse.json<PagedResponseTraceViewDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export function createTraceDetailedHandler (payload: TraceDetailDTO) {
+  return http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, () => {
+    return HttpResponse.json<TraceDetailDTO>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -150,4 +163,13 @@ export const tracesHandlers = [
     })
   }),
 
+  http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, async () => {
+    await delay(100)
+    return HttpResponse.json(mockedTraceDetailed, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
 ]

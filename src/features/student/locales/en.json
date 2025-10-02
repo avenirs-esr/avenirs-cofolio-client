@@ -293,9 +293,6 @@
         "title": "(placeholder) All my resumes"
       },
       "studentToolsTracesView": {
-        "errors": {
-          "delete": "An error occurred while deleting the trace"
-        },
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
         },
@@ -320,7 +317,7 @@
           }
         },
         "studentToolsTracesActionButtons": {
-          "addTrace": "ADD A TRACE TO MY LIBRARY"
+          "addTrace": "Add a trace to my library"
         },
         "studentToolsTracesAddTraceDrawer": {
           "title": "Add a trace",
@@ -380,6 +377,32 @@
           "description": "Are you sure you want to delete your trace?",
           "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
         },
+        "warningMessage": {
+          "delete": {
+            "days": "tomorrow | in the coming {daysWarning} days.",
+            "loneTrace": "Please note that the trace will be deleted",
+            "traces": "Please note that **1 of them** will be deleted. | Please note that **{tracesToDeleteCount} of them** will be deleted."
+          },
+          "reminder": "As a reminder, without any action on your part, unassociated traces are deleted within {maxDayBeforeDeletion} days.",
+          "unassociated": "You have an unassociated trace. | You have {unassociatedTracesCount} unassociated traces."
+        }
+      },
+      "studentTraceView": {
+        "errors": {
+          "delete": "An error occurred while deleting the trace"
+        },
+        "settings": {
+          "ariaLabel": "More actions",
+          "assign": "Assign my trace",
+          "delete": "Delete my trace",
+          "update": "Update my trace"
+        },
+        "subtitle": "Detail of my trace",
+        "title": "Trace {trace}",
+        "traceDeletionConfirmationModal": {
+          "description": "Are you sure you want to delete your trace?",
+          "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
+        },
         "updateTraceModal": {
           "buttons": {
             "close": "Close the window",
@@ -403,15 +426,6 @@
             }
           },
           "title": "Update my trace"
-        },
-        "warningMessage": {
-          "delete": {
-            "days": "tomorrow | in the coming {daysWarning} days.",
-            "loneTrace": "Please note that the trace will be deleted",
-            "traces": "Please note that **1 of them** will be deleted. | Please note that **{tracesToDeleteCount} of them** will be deleted."
-          },
-          "reminder": "As a reminder, without any action on your part, unassociated traces are deleted within {maxDayBeforeDeletion} days.",
-          "unassociated": "You have an unassociated trace. | You have {unassociatedTracesCount} unassociated traces."
         }
       }
     },
