@@ -21,6 +21,7 @@ import type StudentSkillView from '@/features/student/views/StudentSkillView/Stu
 import type StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import type StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import type StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
+import type StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const studentHomeRoute: AvRoute = {
@@ -179,6 +180,18 @@ export const studentToolsResumesRoute: AvRoute = {
     }>,
 }
 
+export const studentTraceRoute: AvRoute = {
+  path: 'trace/:id',
+  name: 'student-trace',
+  props: route => ({
+    traceId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/views/StudentTraceView/StudentTraceView.vue') as Promise<{
+      default: typeof StudentTraceView
+    }>,
+}
+
 export const studentAboutRoute: AvRoute = {
   path: 'about',
   name: 'student-about',
@@ -239,6 +252,7 @@ const routes: RouteRecordRaw[] = [
       studentToolsTracesRoute,
       studentToolsPagesRoute,
       studentToolsResumesRoute,
+      studentTraceRoute,
       studentAboutRoute,
       studentMailboxRoute,
       studentNotificationsRoute,

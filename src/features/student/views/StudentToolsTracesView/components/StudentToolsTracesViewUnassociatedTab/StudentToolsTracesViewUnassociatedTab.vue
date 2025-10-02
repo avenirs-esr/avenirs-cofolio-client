@@ -4,7 +4,7 @@ import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTracesViewQuery } from '@/features/student/queries'
 import StudentDetailedTraceCard
-  from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTracesCard/StudentDetailedTraceCard.vue'
+  from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice
   from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { useTracesStore } from '@/store'

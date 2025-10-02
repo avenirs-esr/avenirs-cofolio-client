@@ -24,7 +24,8 @@ import routes, {
   studentSkillRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracesRoute
+  studentToolsTracesRoute,
+  studentTraceRoute
 } from '@/features/student/routes/routes'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
 import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
@@ -43,6 +44,7 @@ import StudentSkillView from '@/features/student/views/StudentSkillView/StudentS
 import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
+import StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
 import { BddTest, testRoute } from 'tests/utils'
 
 testRoute(
@@ -199,6 +201,15 @@ testRoute(
 )
 
 testRoute(
+  studentTraceRoute,
+  {
+    path: 'trace/:id',
+    name: 'student-trace',
+  },
+  StudentTraceView
+)
+
+testRoute(
   studentAboutRoute,
   {
     path: 'about',
@@ -259,6 +270,7 @@ BddTest().given('the student root route', () => {
         studentToolsTracesRoute,
         studentToolsPagesRoute,
         studentToolsResumesRoute,
+        studentTraceRoute,
         studentAboutRoute,
         studentMailboxRoute,
         studentNotificationsRoute,

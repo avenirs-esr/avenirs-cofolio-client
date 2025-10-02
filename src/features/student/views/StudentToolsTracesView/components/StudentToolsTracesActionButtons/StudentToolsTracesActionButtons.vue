@@ -10,7 +10,7 @@ const tracesStore = useTracesStore()
 <template>
   <div class="student-tools-trace-action-buttons">
     <AvButton
-      :label="t('student.views.studentToolsTracesView.studentToolsTracesActionButtons.addTrace')"
+      :label="t('student.views.studentToolsTracesView.studentToolsTracesActionButtons.addTrace').toUpperCase()"
       size="small"
       variant="OUTLINED"
       :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"

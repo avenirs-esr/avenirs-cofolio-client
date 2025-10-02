@@ -1,7 +1,7 @@
-import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/queries'
-import TraceDeletionConfirmationModal from '@/features/student/views/StudentToolsTracesView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
+import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useToasterStore } from '@/store'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -32,13 +32,24 @@ BddTest().given('a trace deletion confirmation modal', () => {
   const mockIsPending = ref(false)
   const mockAddErrorMessage = vi.fn()
 
-  const mockedTrace: TraceViewDTO = {
+  const mockedTrace: TraceDetailDTO = {
     id: 'trace1',
-    title: 'Ma trace',
+    title: 'Développement d\'un ePortfolio',
     status: ETraceStatus.UNASSOCIATED,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
-    willBeDeletedAt: '2025-07-16T10:42:00.000Z'
+    programName: 'An awesome program',
+    aiUseJustification: 'An awesome justification',
+    isGroup: false,
+    personalNote: 'An awesome personal note',
+    attachment: {
+      id: 'mock-attachment',
+      fileName: 'An awesome attachment',
+      fileType: EFileType.TXT,
+      fileSize: 1,
+      version: 1,
+      uploadedAt: '2025-06-02T11:42:00.000Z',
+    }
   }
 
   const stubs = {
@@ -167,7 +178,6 @@ BddTest().given('a trace deletion confirmation modal', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
         description: 'Failed to delete trace',
-        type: 'error'
       })
     })
 
@@ -201,8 +211,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     BddTest().then('an error message should be added with empty description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
-        description: '',
-        type: 'error'
+        description: ''
       })
     })
   })
