@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus } from '@/api/avenir-esr'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { level } = defineProps<{ level: SkillLevelProgressOverviewDTO | SkillLevelViewDTO }>()
+const { status } = defineProps<{ status: ESkillLevelStatus }>()
 
 const { t } = useI18n()
 
-function levelToBadge (status: ESkillLevelStatus) {
+function statusToBadge (status: ESkillLevelStatus) {
   const basePath = import.meta.env.BASE_URL
 
   switch (status) {
-    // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case ESkillLevelStatus.NOT_STARTED:
     case ESkillLevelStatus.UNDER_ACQUISITION:
     case ESkillLevelStatus.TO_BE_EVALUATED:
@@ -45,7 +44,7 @@ function levelToBadge (status: ESkillLevelStatus) {
   }
 }
 
-const levelBadge = computed(() => levelToBadge(level.status))
+const levelBadge = computed(() => statusToBadge(status))
 const label = computed(() => t(levelBadge.value.labelkey))
 </script>
 

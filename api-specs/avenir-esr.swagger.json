@@ -575,7 +575,7 @@
         "tags": [
           "trace-controller"
         ],
-        "operationId": "getTraceAssociates",
+        "operationId": "getTraceAssociations",
         "parameters": [
           {
             "name": "traceId",
@@ -593,10 +593,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AssociationTraceDTO"
-                  }
+                  "$ref": "#/components/schemas/AssociationsTraceDTO"
                 }
               }
             }
@@ -1688,19 +1685,26 @@
           "title"
         ]
       },
-      "AssociationTraceDTO": {
+      "AssociationsTraceDTO": {
         "type": "object",
         "properties": {
-          "skillLevelAssociation": {
-            "$ref": "#/components/schemas/SkillLevelAssociationDTO"
+          "skillLevelAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillLevelAssociationDTO"
+            }
           },
-          "additionalSkillAssociation": {
-            "$ref": "#/components/schemas/AdditionalSkillAssociationDTO"
-          },
-          "skillLevelOrAdditionalSkillPresent": {
-            "type": "boolean"
+          "additionalSkillAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillAssociationDTO"
+            }
           }
-        }
+        },
+        "required": [
+          "additionalSkillAssociations",
+          "skillLevelAssociations"
+        ]
       },
       "SkillLevelAssociationDTO": {
         "type": "object",
@@ -1709,7 +1713,7 @@
             "type": "string",
             "format": "uuid"
           },
-          "title": {
+          "skillTitle": {
             "type": "string"
           },
           "level": {
@@ -1734,8 +1738,8 @@
         "required": [
           "id",
           "level",
-          "status",
-          "title"
+          "skillTitle",
+          "status"
         ]
       },
       "PageInfoDTO": {

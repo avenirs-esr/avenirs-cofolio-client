@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
-import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentLevelBadge } from '@/features/student/components/'
+import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentSkillLevelStatusBadge } from '@/features/student/components/'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
@@ -38,9 +38,9 @@ const basePath = import.meta.env.BASE_URL
       <div class="firstline-container">
         <div class="line-container">
           <span class="n6">{{ skill.currentSkillLevel.name }}</span>
-          <StudentLevelBadge
+          <StudentSkillLevelStatusBadge
             v-if="showLevelBadge"
-            :level="currentSkillLevel"
+            :status="currentSkillLevel.status"
           />
         </div>
         <div class="line-container">

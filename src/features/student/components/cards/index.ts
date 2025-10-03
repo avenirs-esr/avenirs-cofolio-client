@@ -1,3 +1,6 @@
 export { default as StudentDetailedEducationalSkillCard } from './StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 export { default as StudentDetailedPastSkillCard } from './StudentDetailedPastSkillCard/StudentDetailedPastSkillCard.vue'
 export { default as StudentDetailedSkillCard } from './StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
+export { default as StudentTraceAdditionalSkillAssociationCard } from './StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
+export { default as StudentTraceAssociationCard } from './StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
+export { default as StudentTraceSkillLevelAssociationCard } from './StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'

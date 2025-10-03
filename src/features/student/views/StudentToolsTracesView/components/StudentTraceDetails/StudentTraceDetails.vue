@@ -46,18 +46,18 @@ const traceAttachmentFile = computed(() => {
 
           <div class="student-detailed-trace-information__upload-section">
             <div class="caption-regular">
-              {{ t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.documentLabel') }} - {{ t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.addedOn', { date: formattedUploadDate }) }}
+              {{ t('student.views.studentToolsTracesView.studentTraceDetails.documentLabel') }} - {{ t('student.views.studentToolsTracesView.studentTraceDetails.addedOn', { date: formattedUploadDate }) }}
             </div>
             <TraceFileUpload
               :model-value="traceAttachmentFile"
-              :aria-label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.documentLabel')"
+              :aria-label="t('student.views.studentToolsTracesView.studentTraceDetails.documentLabel')"
               delete-button-label=""
               disabled
             />
             <div class="student-detailed-trace-information__file-info">
               <div class="b2-light student-detailed-trace-information__upload-date">
                 {{
-                  t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.addedOn', { date: formattedTraceCreationDate })
+                  t('student.views.studentToolsTracesView.studentTraceDetails.addedOn', { date: formattedTraceCreationDate })
                 }}
               </div>
             </div>
@@ -67,7 +67,7 @@ const traceAttachmentFile = computed(() => {
         <div class="student-detailed-trace-information__right-column">
           <TracePersonalNoteTextarea
             :model-value="trace.personalNote"
-            :label="t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.personalNoteLabel')"
+            :label="t('student.views.studentToolsTracesView.studentTraceDetails.personalNoteLabel')"
             disabled
           />
         </div>
@@ -80,13 +80,13 @@ const traceAttachmentFile = computed(() => {
               typography-class="b2-light"
               icon-color="var(--text2)"
               :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
-              :text="t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.groupProduction')"
+              :text="t('student.views.studentToolsTracesView.studentTraceDetails.groupProduction')"
             />
             <AvIconText
               typography-class="b2-light"
               icon-color="var(--text2)"
               :icon="MDI_ICONS.CHECK"
-              :text="t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.authenticProduction')"
+              :text="t('student.views.studentToolsTracesView.studentTraceDetails.authenticProduction')"
             />
           </div>
         </div>
@@ -95,7 +95,7 @@ const traceAttachmentFile = computed(() => {
           <div class="student-detailed-trace-information__ia">
             <AvToggle
               :model-value="!!trace.aiUseJustification"
-              :description="t('student.views.studentToolsTracesView.studentDetailedTraceModal.studentTraceDetails.iaToggleLabel')"
+              :description="t('student.views.studentToolsTracesView.studentTraceDetails.iaToggleLabel')"
               disabled
             />
             <TraceIaJustificationTextarea

@@ -306,15 +306,18 @@
             "assign": "Assign my trace",
             "delete": "Delete my trace",
             "update": "Update my trace"
-          },
-          "studentTraceDetails": {
-            "addedOn": "Added on {date}",
-            "authenticProduction": "Authentic and personal production",
-            "documentLabel": "My uploaded document",
-            "groupProduction": "This trace is a group production",
-            "iaToggleLabel": "AI production",
-            "personalNoteLabel": "Personal note"
           }
+        },
+        "studentTraceAssociations": {
+          "title": "My trace associations ({count})"
+        },
+        "studentTraceDetails": {
+          "addedOn": "Added on {date}",
+          "authenticProduction": "Authentic and personal production",
+          "documentLabel": "My uploaded document",
+          "groupProduction": "This trace is a group production",
+          "iaToggleLabel": "AI production",
+          "personalNoteLabel": "Personal note"
         },
         "studentToolsTracesActionButtons": {
           "addTrace": "Add a trace to my library"

@@ -1,5 +1,6 @@
 import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
-import StudentTraceDetails from '@/features/student/views/StudentTraceView/components/StudentTraceDetails/StudentTraceDetails.vue'
+import StudentTraceDetails
+  from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'

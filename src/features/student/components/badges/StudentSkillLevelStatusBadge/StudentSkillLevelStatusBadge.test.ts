@@ -1,5 +1,5 @@
-import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO } from '@/api/avenir-esr'
-import StudentLevelBadge from '@/features/student/components/badges/StudentLevelBadge/StudentLevelBadge.vue'
+import { ESkillLevelStatus } from '@/api/avenir-esr'
+import StudentSkillLevelStatusBadge from '@/features/student/components/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 
@@ -25,53 +25,17 @@ BddTest().given('a studentLevelBadge', () => {
         backgroundColor: String,
         iconPath: String
       }
-    },
-  }
-
-  const notStartedLevel: SkillLevelProgressOverviewDTO = {
-    id: 'NOT_STARTED',
-    name: 'NOT_STARTED',
-    traceCount: 0,
-    activityCount: 0,
-    status: ESkillLevelStatus.NOT_STARTED
-  }
-  const notValidatedLevel: SkillLevelProgressOverviewDTO = {
-    id: 'NOT_VALIDATED',
-    name: 'NOT_VALIDATED',
-    traceCount: 0,
-    activityCount: 0,
-    status: ESkillLevelStatus.FAILED
-  }
-  const toEvaluateLevel: SkillLevelProgressOverviewDTO = {
-    id: 'TO_EVALUATE',
-    name: 'TO_EVALUATE',
-    traceCount: 0,
-    activityCount: 0,
-    status: ESkillLevelStatus.TO_BE_EVALUATED
-  }
-  const underReviewLevel: SkillLevelProgressOverviewDTO = {
-    id: 'UNDER_REVIEW',
-    name: 'UNDER_REVIEW',
-    traceCount: 0,
-    activityCount: 0,
-    status: ESkillLevelStatus.UNDER_REVIEW
-  }
-  const validatedLevel: SkillLevelProgressOverviewDTO = {
-    id: 'VALIDATED',
-    name: 'VALIDATED',
-    traceCount: 0,
-    activityCount: 0,
-    status: ESkillLevelStatus.VALIDATED
+    }
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the component is mounted with a notValidatedLevel', () => {
+  BddTest().when('the component is mounted with FAILED status', () => {
     beforeEach(() => {
-      wrapper = mount(StudentLevelBadge, {
-        props: { level: notValidatedLevel },
+      wrapper = mount(StudentSkillLevelStatusBadge, {
+        props: { status: ESkillLevelStatus.FAILED },
         global: {
           stubs
         }
@@ -93,10 +57,10 @@ BddTest().given('a studentLevelBadge', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a notStartedLevel', () => {
+  BddTest().when('the component is mounted with NOT_STARTED status', () => {
     beforeEach(() => {
-      wrapper = mount(StudentLevelBadge, {
-        props: { level: notStartedLevel },
+      wrapper = mount(StudentSkillLevelStatusBadge, {
+        props: { status: ESkillLevelStatus.NOT_STARTED },
         global: {
           stubs
         }
@@ -118,10 +82,10 @@ BddTest().given('a studentLevelBadge', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a toEvaluateLevel', () => {
+  BddTest().when('the component is mounted with TO_BE_EVALUATED status', () => {
     beforeEach(() => {
-      wrapper = mount(StudentLevelBadge, {
-        props: { level: toEvaluateLevel },
+      wrapper = mount(StudentSkillLevelStatusBadge, {
+        props: { status: ESkillLevelStatus.TO_BE_EVALUATED },
         global: {
           stubs
         }
@@ -143,10 +107,10 @@ BddTest().given('a studentLevelBadge', () => {
     })
   })
 
-  BddTest().when('the component is mounted with an underReviewLevel', () => {
+  BddTest().when('the component is mounted with UNDER_REVIEW status', () => {
     beforeEach(() => {
-      wrapper = mount(StudentLevelBadge, {
-        props: { level: underReviewLevel },
+      wrapper = mount(StudentSkillLevelStatusBadge, {
+        props: { status: ESkillLevelStatus.UNDER_REVIEW },
         global: {
           stubs
         }
@@ -168,10 +132,10 @@ BddTest().given('a studentLevelBadge', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a validatedLevel', () => {
+  BddTest().when('the component is mounted with VALIDATED status', () => {
     beforeEach(() => {
-      wrapper = mount(StudentLevelBadge, {
-        props: { level: validatedLevel },
+      wrapper = mount(StudentSkillLevelStatusBadge, {
+        props: { status: ESkillLevelStatus.VALIDATED },
         global: {
           stubs
         }

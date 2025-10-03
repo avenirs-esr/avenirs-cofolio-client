@@ -42,10 +42,10 @@ function createWrapper (skill: SkillDTO = baseSkill) {
           props: ['skill', 'skillColor', 'icon', 'color'],
           template: `<div class="student-detailed-skill-card"><slot /></div>`
         },
-        StudentLevelBadge: {
-          name: 'StudentLevelBadge',
-          props: ['level'],
-          template: `<div class="student-level-badge">{{ level.name }}</div>`
+        StudentSkillLevelStatusBadge: {
+          name: 'StudentSkillLevelStatusBadge',
+          props: ['status'],
+          template: `<div class="student-level-badge">{{ status }}</div>`
         },
         StudentCountTracesIconText: {
           name: 'StudentCountTracesIconText',
@@ -101,20 +101,20 @@ BddTest().given('a student detailed educationnal skill card with valid props', (
       expect(badge.text()).toContain(`${baseSkill.levelCount} niveaux`)
     })
 
-    BddTest().then('it should render the StudentLevelBadge when status is TO_BE_EVALUATED', () => {
+    BddTest().then('it should render the StudentSkillLevelStatusBadge when status is TO_BE_EVALUATED', () => {
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toContain(baseSkill.currentSkillLevel.name)
+      expect(badge.text()).toContain(ESkillLevelStatus.TO_BE_EVALUATED)
     })
 
-    BddTest().then('it should render the StudentLevelBadge when status is UNDER_REVIEW', () => {
+    BddTest().then('it should render the StudentSkillLevelStatusBadge when status is UNDER_REVIEW', () => {
       const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.UNDER_REVIEW } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')
       expect(badge.exists()).toBe(true)
     })
 
-    BddTest().then('it should not render the StudentLevelBadge when status is VALIDATED', () => {
+    BddTest().then('it should not render the StudentSkillLevelStatusBadge when status is VALIDATED', () => {
       const skill = { ...baseSkill, currentSkillLevel: { ...baseSkill.currentSkillLevel, status: ESkillLevelStatus.VALIDATED } }
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.student-level-badge')

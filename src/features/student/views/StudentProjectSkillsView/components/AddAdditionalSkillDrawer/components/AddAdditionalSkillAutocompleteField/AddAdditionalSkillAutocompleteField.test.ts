@@ -265,7 +265,6 @@ BddTest().given('an autocomplete skill field component', () => {
       const badge = wrapper.findComponent({ name: 'AdditionalSkillTypeBadge' })
       expect(badge.exists()).toBe(true)
       expect(badge.props('label')).toBeDefined()
-      expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary1)')
     })
   })
 

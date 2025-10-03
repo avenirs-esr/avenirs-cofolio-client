@@ -1,0 +1,56 @@
+<script setup lang="ts">
+import type { AdditionalSkillAssociationDTO, SkillLevelAssociationDTO } from '@/api/avenir-esr'
+import { StudentTraceAdditionalSkillAssociationCard, StudentTraceSkillLevelAssociationCard } from '@/features/student/components/cards'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+
+export interface StudentTraceAssociationsProps {
+  skillLevelAssociations: SkillLevelAssociationDTO[]
+  additionalSkillAssociations: AdditionalSkillAssociationDTO[]
+}
+
+const { skillLevelAssociations, additionalSkillAssociations } = defineProps<StudentTraceAssociationsProps>()
+
+const totalAssociations = computed(() => skillLevelAssociations.length + additionalSkillAssociations.length)
+
+function getSkillColor (index: number): string {
+  return `var(--skill${(index % 12) + 1})`
+}
+</script>
+
+<template>
+  <div class="student-trace-associations">
+    <AvIconText
+      :text="$t('student.views.studentToolsTracesView.studentTraceAssociations.title', { count: totalAssociations })"
+      :icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
+      icon-color="var(--text2)"
+      typography-class="caption-light"
+    />
+    <div class="associations-container">
+      <StudentTraceSkillLevelAssociationCard
+        v-for="(skill, index) in skillLevelAssociations"
+        :key="skill.id"
+        :skill="skill"
+        :level-color="getSkillColor(index)"
+      />
+      <StudentTraceAdditionalSkillAssociationCard
+        v-for="additionalSkill in additionalSkillAssociations"
+        :key="additionalSkill.id"
+        :additional-skill="additionalSkill"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.student-trace-associations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.associations-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+</style>
