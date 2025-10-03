@@ -161,7 +161,6 @@ function highlightCaptionText (text: string, query: string): string {
 
                 <AdditionalSkillTypeBadge
                   :label="option.type"
-                  background-color="var(--dark-background-primary1)"
                 />
               </div>
             </AvListItem>

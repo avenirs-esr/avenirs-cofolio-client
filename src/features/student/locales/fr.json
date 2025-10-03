@@ -306,15 +306,18 @@
             "assign": "Assigner ma trace",
             "delete": "Supprimer ma trace",
             "update": "Modifier ma trace"
-          },
-          "studentTraceDetails": {
-            "addedOn": "Ajouté le {date}",
-            "authenticProduction": "Production authentique et personnelle",
-            "documentLabel": "Mon document chargé",
-            "groupProduction": "Cette trace est une production de groupe",
-            "iaToggleLabel": "Production avec IA",
-            "personalNoteLabel": "Note personnelle"
           }
+        },
+        "studentTraceAssociations": {
+          "title": "Les associations de ma trace ({count})"
+        },
+        "studentTraceDetails": {
+          "addedOn": "Ajouté le {date}",
+          "authenticProduction": "Production authentique et personnelle",
+          "documentLabel": "Mon document chargé",
+          "groupProduction": "Cette trace est une production de groupe",
+          "iaToggleLabel": "Production avec IA",
+          "personalNoteLabel": "Note personnelle"
         },
         "studentToolsTracesActionButtons": {
           "addTrace": "Ajouter une trace dans ma bibliothèque"

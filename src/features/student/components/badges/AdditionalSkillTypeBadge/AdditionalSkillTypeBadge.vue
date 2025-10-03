@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
-defineProps<{ label: string, backgroundColor: string }>()
+const {
+  color = 'white',
+  backgroundColor = 'var(--dark-background-primary1)'
+} = defineProps<{
+  label: string
+  backgroundColor?: string
+  color?: string
+}>()
 </script>
 
 <template>
   <AvBadge
     :label="label"
-    color="white"
+    :color="color"
     :border-color="backgroundColor"
     :background-color="backgroundColor"
     class="additional-skill-type-badge"
