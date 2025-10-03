@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceViewDTO } from '@/api/avenir-esr'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
 import { studentTraceRoute } from '@/features/student'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
-const { id, title, status, willBeDeletedAt } = trace
+const { id, title, isAssociated, willBeDeletedAt } = trace
 
-const getDaysUntilDeletion = computed(() => status === ETraceStatus.UNASSOCIATED && willBeDeletedAt
+const getDaysUntilDeletion = computed(() => !isAssociated && willBeDeletedAt
   ? getDaysUntil(parseDateISO(willBeDeletedAt))
   : -1)
 

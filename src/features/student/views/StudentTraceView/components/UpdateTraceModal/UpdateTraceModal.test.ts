@@ -1,5 +1,5 @@
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
-import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { AvStepperStub, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -14,7 +14,7 @@ BddTest().given('an update trace modal', () => {
   const mockedTrace: TraceDetailDTO = {
     id: 'mock-trace',
     title: 'An awesome trace',
-    status: ETraceStatus.ASSOCIATED,
+    isAssociated: true,
     createdAt: '2025-06-01T10:42:00.000Z',
     updatedAt: '2025-06-02T11:42:00.000Z',
     programName: 'An awesome program',

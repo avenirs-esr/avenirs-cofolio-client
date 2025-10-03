@@ -1,4 +1,4 @@
-import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import StudentTraceDetails
   from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -56,7 +56,7 @@ BddTest().given('a student detailed trace information component', () => {
   const mockTrace: TraceDetailDTO = {
     id: '1',
     title: 'Test Trace Title',
-    status: ETraceStatus.ASSOCIATED,
+    isAssociated: true,
     programName: 'Test Program',
     isGroup: false,
     aiUseJustification: '',
