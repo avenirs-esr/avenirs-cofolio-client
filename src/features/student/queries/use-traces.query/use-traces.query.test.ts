@@ -1,14 +1,14 @@
+import type {
+  PagedResponseTraceViewDTO,
+  TraceConfigurationDTO,
+  TraceDetailDTO,
+  TraceFilter,
+  TracesSummaryDTO,
+  TracesViewParams
+} from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
-import {
-  type GetTracesViewParams,
-  GetTracesViewStatus,
-  type PagedResponseTraceViewDTO,
-  type TraceConfigurationDTO,
-  type TraceDetailDTO,
-  type TracesSummaryDTO
-} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeleteTraceVariables,
@@ -33,14 +33,14 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 BddTest().given('a useTracesViewQuery composable', async () => {
-  let getTracesViewSpy: MockInstance<(params?: GetTracesViewParams | undefined, options?: RequestInit | undefined) => Promise<PagedResponseTraceViewDTO>>
+  let tracesViewSpy: MockInstance<(traceFilter: TraceFilter, params?: TracesViewParams | undefined, options?: RequestInit | undefined) => Promise<PagedResponseTraceViewDTO>>
 
   beforeEach(async () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5)
 
-    getTracesViewSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getTracesView'>(
+    tracesViewSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'tracesView'>(
       await import('@/api/avenir-esr'),
-    'getTracesView'
+    'tracesView'
     )
   })
 
@@ -50,24 +50,25 @@ BddTest().given('a useTracesViewQuery composable', async () => {
 
   BddTest().when('the composable is called', () => {
     BddTest().then('it should return mocked traces data for given page and pageSize', async () => {
-      const params = ref<GetTracesViewParams>({
-        page: 1,
-        pageSize: PageSizes.FOUR,
-        status: GetTracesViewStatus.UNASSOCIATED
-      })
+      const page = ref(1)
+      const pageSize = ref(4)
+      const traceFilter = ref<TraceFilter>({})
 
       const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
-        () => useTracesViewQuery({ params })
+        () => useTracesViewQuery({
+          traceFilter,
+          page,
+          pageSize,
+        })
       )
 
       await flushPromises()
 
-      expect(getTracesViewSpy).toHaveBeenCalledWith({
+      expect(tracesViewSpy).toHaveBeenCalledWith({}, {
         pageSize: PageSizes.FOUR,
-        page: 1,
-        status: GetTracesViewStatus.UNASSOCIATED
+        page: page.value,
       })
-      expect(getTracesViewSpy).toHaveBeenCalledTimes(1)
+      expect(tracesViewSpy).toHaveBeenCalledTimes(1)
 
       expect(data.value).toBeDefined()
       expect(data.value?.data).toBeInstanceOf(Array)
@@ -77,13 +78,15 @@ BddTest().given('a useTracesViewQuery composable', async () => {
     })
 
     BddTest().then('it should return correct pages array', async () => {
-      const params = ref<GetTracesViewParams>({
-        page: 1,
-        pageSize: PageSizes.FOUR,
-        status: GetTracesViewStatus.UNASSOCIATED
-      })
+      const page = ref(1)
+      const pageSize = ref(4)
+      const traceFilter = ref<TraceFilter>({})
 
-      const queryReturn = mountQueryComposable(() => useTracesViewQuery({ params }))
+      const queryReturn = mountQueryComposable(() => useTracesViewQuery({
+        traceFilter,
+        page,
+        pageSize,
+      }))
 
       await flushPromises()
 
@@ -422,7 +425,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         expect(data.value).toBeDefined()
         expect(data.value).toHaveProperty('id')
         expect(data.value).toHaveProperty('title')
-        expect(data.value).toHaveProperty('status')
+        expect(data.value).toHaveProperty('isAssociated')
         expect(data.value).toHaveProperty('createdAt')
         expect(data.value).toHaveProperty('updatedAt')
         expect(data.value).toHaveProperty('programName')
@@ -443,7 +446,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         if (config) {
           expect(typeof config.id).toBe('string')
           expect(typeof config.title).toBe('string')
-          expect(typeof config.status).toBe('string')
+          expect(typeof config.isAssociated).toBe('boolean')
           expect(typeof config.createdAt).toBe('string')
           expect(typeof config.updatedAt).toBe('string')
           expect(typeof config.programName).toBe('string')

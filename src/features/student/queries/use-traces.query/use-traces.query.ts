@@ -10,29 +10,31 @@ import {
   getTraceConfig,
   getTraceDetail,
   getTracesSummary,
-  getTracesView,
-  type GetTracesViewParams,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceAssociationSearchResult,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
+  type TraceFilter,
   type TracesCreationResponse,
   type TracesSummaryDTO,
+  tracesView,
   type TraceViewDTO,
   uploadAttachment,
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
+import { type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'traces']
 const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
 const TWO_MINUTES = 2 * 60 * 1000
 
 interface UseTracesViewQueryParams {
-  params: MaybeRef<GetTracesViewParams>
+  traceFilter: Ref<TraceFilter>
+  page: Ref<number>
+  pageSize: Ref<number>
 }
 
 type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
@@ -40,13 +42,16 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 }
 
-export function useTracesViewQuery ({ params }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
-  const queryKey = computed(() => [...unassignedTracesQueryKey, toValue(params)])
+export function useTracesViewQuery ({ traceFilter, page, pageSize }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+  const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value }])
 
   const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<PagedResponseTraceViewDTO> => {
-      return await getTracesView(toValue(params))
+      return await tracesView(traceFilter.value, {
+        pageSize: pageSize.value,
+        page: page.value
+      })
     },
     staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData

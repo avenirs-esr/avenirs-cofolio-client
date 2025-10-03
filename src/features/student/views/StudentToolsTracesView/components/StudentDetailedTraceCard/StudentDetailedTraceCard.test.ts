@@ -1,4 +1,4 @@
-import { ETraceStatus, type TraceViewDTO } from '@/api/avenir-esr'
+import type { TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import { AvVIconStub } from '@avenirs-esr/avenirs-dsav'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
@@ -30,7 +30,7 @@ BddTest().given('a student detailed trace card', () => {
   const mockedTrace: TraceViewDTO = {
     id: 'trace1',
     title: 'Ma super trace',
-    status: ETraceStatus.UNASSOCIATED,
+    isAssociated: false,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     willBeDeletedAt: nextMonthDateIsoString
@@ -38,7 +38,7 @@ BddTest().given('a student detailed trace card', () => {
 
   const mockedAssociatedTrace: TraceViewDTO = {
     ...mockedTrace,
-    status: ETraceStatus.ASSOCIATED
+    isAssociated: true
   }
 
   BddTest().when('the component is mounted', () => {

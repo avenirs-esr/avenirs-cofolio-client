@@ -6,7 +6,6 @@ import {
   EAmsStatus,
   EFileType,
   ESkillLevelStatus,
-  ETraceStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TracesCreationResponse,
@@ -25,13 +24,7 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (
-  pageSize: number,
-  totalElements: number,
-  page: number,
-  status: ETraceStatus = ETraceStatus.UNASSOCIATED,
-  keyword?: string
-): PagedResponseTraceViewDTO {
+export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, isAssociated = false): PagedResponseTraceViewDTO {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -39,7 +32,7 @@ export function createMockedTracesViewResponse (
     const rand = Math.floor(Math.random() * 31) + 1
     const randomDayNumber = rand < 10 ? `0${rand}` : rand
     const trace = {
-      status,
+      isAssociated,
       id: `trace${i}`,
       title: `Ma super trace numéro ${i}`,
       createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
@@ -174,7 +167,7 @@ export const mockedTraceAssociations: AssociationsTraceDTO = {
 export const mockedTraceDetailed = {
   id: 'trace1',
   title: 'Développement d\'un ePortfolio',
-  status: ETraceStatus.UNASSOCIATED,
+  isAssociated: false,
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',
   programName: 'An awesome program',

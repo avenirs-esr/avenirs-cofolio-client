@@ -51,6 +51,76 @@
         }
       }
     },
+    "/me/traces/{traceId}": {
+      "put": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "updateTrace",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTraceDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Trace"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "deleteTrace",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/storage/users/{userCategory}/{photoType}": {
       "put": {
         "tags": [
@@ -130,6 +200,72 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/TracesCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/view": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "tracesView",
+        "parameters": [
+          {
+            "name": "dateFilter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/DateFilter"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceFilter"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseTraceViewDTO"
                 }
               }
             }
@@ -570,49 +706,20 @@
         }
       }
     },
-    "/me/traces/view": {
+    "/me/traces/{traceId}/associations": {
       "get": {
         "tags": [
           "trace-controller"
         ],
-        "operationId": "getTracesView",
+        "operationId": "getTraceAssociations",
         "parameters": [
           {
-            "name": "status",
-            "in": "query",
-            "required": false,
+            "name": "traceId",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "UNASSOCIATED",
-                "ASSOCIATED"
-              ]
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+              "format": "uuid"
             }
           }
         ],
@@ -622,7 +729,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseTraceViewDTO"
+                  "$ref": "#/components/schemas/AssociationsTraceDTO"
                 }
               }
             }
@@ -870,6 +977,29 @@
         }
       }
     },
+    "/me/skill-level-progress/all-skill": {
+      "get": {
+        "tags": [
+          "skill-level-progress-controller"
+        ],
+        "operationId": "getAllSkills",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SkillListItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/navigation-access": {
       "get": {
         "tags": [
@@ -1027,37 +1157,6 @@
         }
       }
     },
-    "/me/traces/{traceId}": {
-      "delete": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "deleteTrace",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/storage/users/{fileId}": {
       "delete": {
         "tags": [
@@ -1106,6 +1205,383 @@
           },
           "bio": {
             "type": "string"
+          }
+        }
+      },
+      "UpdateTraceDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 70,
+            "minLength": 0
+          },
+          "language": {
+            "type": "string",
+            "$ref": "#/components/schemas/ELanguage",
+            "enum": [
+              "FRENCH",
+              "ENGLISH",
+              "SPANISH"
+            ]
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "iaJustification": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "isGroup",
+          "language",
+          "title"
+        ]
+      },
+      "AMS": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED"
+            ]
+          }
+        }
+      },
+      "AdditionalSkill": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pathSegments": {
+            "$ref": "#/components/schemas/PathSegments"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ROME4"
+            ]
+          }
+        }
+      },
+      "AdditionalSkillProgress": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "skill": {
+            "$ref": "#/components/schemas/AdditionalSkill"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          }
+        }
+      },
+      "PathSegments": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "$ref": "#/components/schemas/SegmentDetail"
+          },
+          "macroSkill": {
+            "$ref": "#/components/schemas/SegmentDetail"
+          },
+          "target": {
+            "$ref": "#/components/schemas/SegmentDetail"
+          },
+          "issue": {
+            "$ref": "#/components/schemas/SegmentDetail"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/SegmentDetail"
+          }
+        }
+      },
+      "SegmentDetail": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "libelle": {
+            "type": "string"
+          }
+        }
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SkillLevel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          },
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "SkillLevelProgress": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "student": {
+            "$ref": "#/components/schemas/Student"
+          },
+          "skillLevel": {
+            "$ref": "#/components/schemas/SkillLevel"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VALIDATED",
+              "FAILED",
+              "UNDER_ACQUISITION",
+              "UNDER_REVIEW",
+              "TO_BE_EVALUATED",
+              "NOT_STARTED"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "amses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AMS"
+            }
+          }
+        }
+      },
+      "Student": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "Trace": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deletedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "title": {
+            "type": "string"
+          },
+          "skillLevels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillLevelProgress"
+            }
+          },
+          "additionalSkillProgresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillProgress"
+            }
+          },
+          "amses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AMS"
+            }
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "FRENCH",
+              "ENGLISH",
+              "SPANISH"
+            ]
+          },
+          "aiUseJustification": {
+            "type": "string"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "unassociated": {
+            "type": "boolean"
+          },
+          "group": {
+            "type": "boolean"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "studentBio": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "teacherBio": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "teacher": {
+            "type": "boolean"
+          },
+          "student": {
+            "type": "boolean"
           }
         }
       },
@@ -1234,6 +1710,184 @@
           "traceId"
         ]
       },
+      "TraceFilter": {
+        "type": "object",
+        "properties": {
+          "isAssociated": {
+            "type": "boolean"
+          },
+          "fileTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PNG",
+                "JPEG",
+                "PJPEG",
+                "GIF",
+                "WEBP",
+                "OGG_APP",
+                "OGG",
+                "WEBM_AUDIO",
+                "_3GPP_AUDIO",
+                "MP4_AUDIO",
+                "MP3",
+                "MPEG4_GENERIC",
+                "MPEG3",
+                "X_MPEG3",
+                "VORBIS",
+                "AVI",
+                "OGG_VIDEO",
+                "MSVIDEO",
+                "X_MSVIDEO",
+                "MP4",
+                "MPEG",
+                "MPEG3_VIDEO",
+                "X_MPEG_VIDEO",
+                "WEBM_VIDEO",
+                "_3GPP_VIDEO",
+                "_3GPP2_VIDEO",
+                "TXT",
+                "CSV",
+                "ICS",
+                "RICHTEXT",
+                "PDF",
+                "POSTSCRIPT",
+                "DOC",
+                "MSPPT",
+                "PPT",
+                "X_PPT",
+                "XLS",
+                "X_XLS",
+                "X_MSEXCEL",
+                "XLS_VND",
+                "PPT_VND",
+                "ODT",
+                "VSD",
+                "RTF",
+                "X_RTF",
+                "PPTX_SLIDESHOW",
+                "PPTX",
+                "ODP",
+                "XLSX",
+                "ODS",
+                "DOCX"
+              ]
+            }
+          },
+          "skillIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "statuses": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "ASSOCIATED_EVALUATED",
+                "ASSOCIATED_IN_EVALUATION",
+                "ASSOCIATED_NOT_EVALUATED",
+                "ASSOCIATED_WITH_ADDITIONAL_SKILL"
+              ]
+            }
+          }
+        }
+      },
+      "DateFilter": {
+        "type": "object",
+        "properties": {
+          "fromDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "PageInfoDTO": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "page",
+          "pageSize",
+          "totalElements",
+          "totalPages"
+        ]
+      },
+      "PagedResponseTraceViewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "TraceViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "isAssociated": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "willBeDeletedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "isAssociated",
+          "title",
+          "updatedAt"
+        ]
+      },
       "AssociateTraceDTO": {
         "type": "object",
         "properties": {
@@ -1262,7 +1916,7 @@
         "required": [
           "additionalSkillProgressIds",
           "amsIds",
-          "skillLevelIds"
+          "skillIds"
         ]
       },
       "AttachmentUploadDTO": {
@@ -1537,6 +2191,56 @@
           "name"
         ]
       },
+      "TraceDetailDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "isAssociated": {
+            "type": "boolean"
+          },
+          "programName": {
+            "type": "string"
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "aiUseJustification": {
+            "type": "string"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/AttachmentUploadDTO"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "aiUseJustification",
+          "attachment",
+          "createdAt",
+          "id",
+          "isGroup",
+          "personalNote",
+          "programName",
+          "status",
+          "title",
+          "updatedAt"
+        ]
+      },
       "AdditionalSkillAssociationDTO": {
         "type": "object",
         "properties": {
@@ -1662,149 +2366,6 @@
           "level",
           "skillTitle",
           "status"
-        ]
-      },
-      "TraceDetailDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/ETraceStatus",
-            "enum": [
-              "UNASSOCIATED",
-              "ASSOCIATED"
-            ]
-          },
-          "programName": {
-            "type": "string"
-          },
-          "isGroup": {
-            "type": "boolean"
-          },
-          "aiUseJustification": {
-            "type": "string"
-          },
-          "personalNote": {
-            "type": "string"
-          },
-          "attachment": {
-            "$ref": "#/components/schemas/AttachmentUploadDTO"
-          },
-          "associationsTrace": {
-            "$ref": "#/components/schemas/AssociationsTraceDTO"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "aiUseJustification",
-          "attachment",
-          "createdAt",
-          "id",
-          "isGroup",
-          "personalNote",
-          "programName",
-          "status",
-          "title",
-          "updatedAt"
-        ]
-      },
-      "PageInfoDTO": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "page",
-          "pageSize",
-          "totalElements",
-          "totalPages"
-        ]
-      },
-      "PagedResponseTraceViewDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceViewDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
-      "TraceViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/ETraceStatus",
-            "enum": [
-              "UNASSOCIATED",
-              "ASSOCIATED"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "willBeDeletedAt": {
-            "type": "string",
-            "format": "date"
-          }
-        },
-        "required": [
-          "createdAt",
-          "id",
-          "status",
-          "title",
-          "updatedAt",
-          "willBeDeletedAt"
         ]
       },
       "TracesSummaryDTO": {
@@ -2159,6 +2720,22 @@
         "required": [
           "id",
           "name"
+        ]
+      },
+      "SkillListItemDTO": {
+        "type": "object",
+        "properties": {
+          "skillId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "skillId",
+          "title"
         ]
       },
       "AccessInfoAPC": {
@@ -2567,8 +3144,10 @@
         "type": "string",
         "description": "Enum for trace status",
         "enum": [
-          "UNASSOCIATED",
-          "ASSOCIATED"
+          "ASSOCIATED_EVALUATED",
+          "ASSOCIATED_IN_EVALUATION",
+          "ASSOCIATED_NOT_EVALUATED",
+          "ASSOCIATED_WITH_ADDITIONAL_SKILL"
         ]
       },
       "ETraceAssociationType": {

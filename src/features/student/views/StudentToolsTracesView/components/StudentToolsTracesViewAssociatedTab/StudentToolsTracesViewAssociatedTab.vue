@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { GetTracesViewStatus } from '@/api/avenir-esr'
+import type { TraceFilter } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/composables'
@@ -24,16 +24,12 @@ const {
 
 const { traceFilter, handleChangeTraceFilter } = useTraceFilters()
 
-const tracesViewParams = computed(() => ({
-  page: currentPage.value,
-  pageSize: pageSizeSelected.value,
-  status: GetTracesViewStatus.ASSOCIATED,
-  keyword: traceFilter.value.keyword
-}))
-
-const { traces, pageInfo, error } = useTracesViewQuery({
-  params: tracesViewParams
-})
+const tracesViewQueryParams = {
+  traceFilter: ref<TraceFilter>({}),
+  page: currentPage,
+  pageSize: pageSizeSelected,
+}
+const { traces, pageInfo, error } = useTracesViewQuery(tracesViewQueryParams)
 useBaseApiExceptionToast(error)
 </script>
 

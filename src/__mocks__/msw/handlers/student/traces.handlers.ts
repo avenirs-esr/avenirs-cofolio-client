@@ -13,11 +13,10 @@ import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
   ETraceAssociationType,
-  ETraceStatus,
   getCreateTraceUrl,
   getGetTraceConfigUrl,
   getGetTracesSummaryUrl,
-  getGetTracesViewUrl,
+  getTracesViewUrl,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
@@ -27,7 +26,6 @@ import {
 } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import isNil from 'lodash-es/isNil'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
@@ -42,7 +40,7 @@ export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
 }
 
 export function createTracesViewHandler (payload: PagedResponseTraceViewDTO) {
-  return http.get(`*${getGetTracesViewUrl()}`, () => {
+  return http.post(`*${getTracesViewUrl()}`, () => {
     return HttpResponse.json<PagedResponseTraceViewDTO>(payload, {
       status: 200,
       headers: {
@@ -92,26 +90,16 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get(`*${getGetTracesViewUrl()}`, ({ request }) => {
+  http.post(`*${getTracesViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const statusQueryParam: string | null = searchParams.get('status')
+    const isAssociated = Boolean(searchParams.get('isAssociated') ?? false)
     const keyword: string | null = searchParams.get('keyword')
-    const status: ETraceStatus = !isNil(statusQueryParam) && Object.values(ETraceStatus).includes(statusQueryParam as ETraceStatus)
-      ? ETraceStatus[statusQueryParam as keyof typeof ETraceStatus]
-      : ETraceStatus.UNASSOCIATED
 
-    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(
-      pageSize,
-      20,
-      page,
-      status,
-      keyword ?? undefined
-    )
-
+    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(pageSize, 20, page, isAssociated, keyword)
     return HttpResponse.json<PagedResponseTraceViewDTO>(response, {
       status: 200,
       headers: {
