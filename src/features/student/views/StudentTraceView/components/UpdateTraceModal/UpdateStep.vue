@@ -24,7 +24,7 @@ const activeTab = ref(0)
       </AvTab>
       <AvTab
         :title="t('student.views.studentTraceView.updateTraceModal.steps.update.tabs.associations.title')"
-        icon="mdi:chat-alert"
+        :icon="MDI_ICONS.LINK"
       >
         <p>Placeholder...</p>
         <p>Placeholder...</p>

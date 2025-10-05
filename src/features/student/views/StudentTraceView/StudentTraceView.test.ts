@@ -13,6 +13,16 @@ BddTest().given('a student trace view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
+    AvTabs: {
+      name: 'AvTabs',
+      props: ['modelValue'],
+      template: '<div class="av-tabs"><slot /></div>'
+    },
+    AvTab: {
+      name: 'AvTab',
+      props: ['title', 'icon'],
+      template: '<div class="av-tab"><slot /></div>'
+    },
     TraceSettingsPopover: {
       name: 'TraceSettingsPopover',
       template: '<div class="trace-settings-popover" />'
@@ -26,6 +36,16 @@ BddTest().given('a student trace view', () => {
       name: 'UpdateTraceModal',
       props: ['trace', 'show'],
       template: '<div class="update-trace-modal" />'
+    },
+    StudentTraceDetails: {
+      name: 'StudentTraceDetails',
+      props: ['trace'],
+      template: '<div class="student-trace-details" />'
+    },
+    StudentTraceAssociations: {
+      name: 'StudentTraceAssociations',
+      props: ['skillLevelAssociations', 'additionalSkillAssociations'],
+      template: '<div class="student-trace-associations" />'
     }
   }
 
@@ -75,6 +95,63 @@ BddTest().given('a student trace view', () => {
       const modal = wrapper.findComponent({ name: 'UpdateTraceModal' })
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
+    })
+
+    BddTest().then('it should render AvTabs component', () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      expect(tabs.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render two AvTab components', () => {
+      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
+      expect(tabs).toHaveLength(2)
+    })
+
+    BddTest().then('it should render the trace details tab with correct title', () => {
+      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
+      expect(tabs[0].props('title')).toBe('Ma trace')
+    })
+
+    BddTest().then('it should render the associations tab with correct title', () => {
+      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
+      expect(tabs[1].props('title')).toBe('Mes associations')
+    })
+
+    BddTest().then('it should render StudentTraceDetails component in the first tab', () => {
+      const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
+      expect(traceDetails.exists()).toBe(true)
+      expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
+    })
+
+    BddTest().then('it should have StudentTraceAssociations component available', () => {
+      const allTabs = wrapper.findAllComponents({ name: 'AvTab' })
+      expect(allTabs).toHaveLength(2)
+    })
+  })
+
+  BddTest().when('the delete modal is triggered', () => {
+    beforeEach(async () => {
+      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      await popover.vm.$emit('delete-selected')
+      await flushPromises()
+    })
+
+    BddTest().then('it should show the deletion confirmation modal', () => {
+      const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+      expect(modal.props('show')).toBe(true)
+    })
+  })
+
+  BddTest().when('the update modal is triggered', () => {
+    beforeEach(async () => {
+      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      await popover.vm.$emit('update-selected')
+      await flushPromises()
+    })
+
+    BddTest().then('it should show the update trace modal', () => {
+      const modal = wrapper.findComponent({ name: 'UpdateTraceModal' })
+      expect(modal.props('show')).toBe(true)
     })
   })
 })

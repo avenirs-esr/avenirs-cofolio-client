@@ -1,7 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import { invalidTraceId, mockedTraceAssociations, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
 import {
+  type AssociationsTraceDTO,
   type GetTracesViewParams,
   GetTracesViewStatus,
   type PagedResponseTraceViewDTO,
@@ -14,6 +15,7 @@ import {
   type DeleteTraceVariables,
   useDeleteTraceMutation,
   type UseDeleteTraceMutationArgs,
+  useTraceAssociationsQuery,
   useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
@@ -499,6 +501,116 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         await flushPromises()
 
         expect(getTraceDetailSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a useTraceAssociationsQuery composable', () => {
+  BddTest().and('a trace associations query', () => {
+    BddTest().when('the query is executed successfully with enabled true', () => {
+      BddTest().then('it should return associations data from MSW handler', async () => {
+        const { data } = mountQueryComposable<UseQueryReturnType<AssociationsTraceDTO, BaseApiException>>(
+          () => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true))
+        )
+
+        await vi.waitFor(() => {
+          expect(data.value).toBeDefined()
+        })
+
+        expect(data.value).toHaveProperty('skillLevelAssociations')
+        expect(data.value).toHaveProperty('additionalSkillAssociations')
+        expect(Array.isArray(data.value?.skillLevelAssociations)).toBe(true)
+        expect(Array.isArray(data.value?.additionalSkillAssociations)).toBe(true)
+      })
+
+      BddTest().then('it should return computed skill level associations', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true)))
+
+        await vi.waitFor(() => {
+          expect(queryReturn.skillLevelAssociations.value.length).toBeGreaterThan(0)
+        })
+
+        expect(queryReturn.skillLevelAssociations.value).toBeDefined()
+        expect(queryReturn.skillLevelAssociations.value).toEqual(mockedTraceAssociations.skillLevelAssociations)
+      })
+
+      BddTest().then('it should return computed additional skill associations', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true)))
+
+        await vi.waitFor(() => {
+          expect(queryReturn.additionalSkillAssociations.value.length).toBeGreaterThan(0)
+        })
+
+        expect(queryReturn.additionalSkillAssociations.value).toBeDefined()
+        expect(queryReturn.additionalSkillAssociations.value).toEqual(mockedTraceAssociations.additionalSkillAssociations)
+      })
+
+      BddTest().then('it should mark the query as successful', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true)))
+
+        await vi.waitFor(() => {
+          expect(queryReturn.isSuccess.value).toBe(true)
+        })
+
+        expect(queryReturn.isError.value).toBe(false)
+        expect(queryReturn.isLoading.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query is executed with enabled false', () => {
+      BddTest().then('it should return empty arrays for associations', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(false)))
+
+        await flushPromises()
+
+        expect(queryReturn.skillLevelAssociations.value).toEqual([])
+        expect(queryReturn.additionalSkillAssociations.value).toEqual([])
+      })
+    })
+
+    BddTest().when('the enabled parameter changes from false to true', () => {
+      BddTest().then('it should fetch data when enabled becomes true', async () => {
+        const enabled = ref(false)
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), enabled))
+
+        await flushPromises()
+
+        expect(queryReturn.data.value).toBeUndefined()
+
+        enabled.value = true
+
+        await vi.waitFor(() => {
+          expect(queryReturn.data.value).toBeDefined()
+        })
+
+        expect(queryReturn.skillLevelAssociations.value.length).toBeGreaterThan(0)
+        expect(queryReturn.additionalSkillAssociations.value.length).toBeGreaterThan(0)
+      })
+    })
+
+    BddTest().when('the query is called with empty trace ID', () => {
+      BddTest().then('it should not fetch data', async () => {
+        const queryReturn = mountQueryComposable(() => useTraceAssociationsQuery(ref(''), ref(true)))
+
+        await flushPromises()
+
+        expect(queryReturn.skillLevelAssociations.value).toEqual([])
+        expect(queryReturn.additionalSkillAssociations.value).toEqual([])
+      })
+    })
+
+    BddTest().when('the query is called multiple times with same parameters', () => {
+      BddTest().then('it should use TanStack Query caching', async () => {
+        const queryReturn1 = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true)))
+        const queryReturn2 = mountQueryComposable(() => useTraceAssociationsQuery(ref(mockedTraceDetailed.id), ref(true)))
+
+        await vi.waitFor(() => {
+          expect(queryReturn1.isSuccess.value).toBe(true)
+          expect(queryReturn2.isSuccess.value).toBe(true)
+        })
+
+        expect(queryReturn1.data.value).toEqual(queryReturn2.data.value)
       })
     })
   })

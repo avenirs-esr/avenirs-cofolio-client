@@ -4,15 +4,18 @@ import {
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
+  mockedTraceAssociations,
   mockedTraceDetailed,
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
 import {
+  type AssociationsTraceDTO,
   type AttachmentUploadDTO,
   type CreateTraceDTO,
   ETraceStatus,
   getCreateTraceUrl,
+  getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTracesSummaryUrl,
   getGetTracesViewUrl,
@@ -166,6 +169,16 @@ export const tracesHandlers = [
   http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, async () => {
     await delay(100)
     return HttpResponse.json(mockedTraceDetailed, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, AssociationsTraceDTO>(`*${getGetTraceAssociationsUrl(':traceId')}`, async () => {
+    await delay(100)
+    return HttpResponse.json<AssociationsTraceDTO>(mockedTraceAssociations, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

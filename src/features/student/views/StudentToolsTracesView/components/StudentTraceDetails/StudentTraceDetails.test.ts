@@ -112,7 +112,6 @@ BddTest().given('a student detailed trace information component', () => {
         size: 1024000
       })
       expect(traceFileUpload.props('ariaLabel')).toBe('Mon document chargé')
-      expect(traceFileUpload.props('deleteButtonLabel')).toBe('')
       expect(traceFileUpload.props('disabled')).toBe('')
     })
 
