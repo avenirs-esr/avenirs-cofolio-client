@@ -401,6 +401,10 @@
           "update": "Update my trace"
         },
         "subtitle": "Detail of my trace",
+        "tabs": {
+          "associations": "My associations",
+          "details": "My trace"
+        },
         "title": "Trace {trace}",
         "traceDeletionConfirmationModal": {
           "description": "Are you sure you want to delete your trace?",

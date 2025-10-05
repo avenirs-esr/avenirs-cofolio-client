@@ -51,7 +51,7 @@ const traceAttachmentFile = computed(() => {
             <TraceFileUpload
               :model-value="traceAttachmentFile"
               :aria-label="t('student.views.studentToolsTracesView.studentTraceDetails.documentLabel')"
-              delete-button-label=""
+              :valid-message="t('global.success.file.loaded')"
               disabled
             />
             <div class="student-detailed-trace-information__file-info">
