@@ -46,7 +46,7 @@ BddTest().given('a setting popover', () => {
     BddTest().then('it should emit the assignSelected event', async () => {
       const button = wrapper.findAll('.menu-item')[1]
       await button.trigger('click')
-      expect(wrapper.emitted('assignSelected')).toHaveLength(1)
+      expect(wrapper.emitted('associateSelected')).toHaveLength(1)
     })
   })
 

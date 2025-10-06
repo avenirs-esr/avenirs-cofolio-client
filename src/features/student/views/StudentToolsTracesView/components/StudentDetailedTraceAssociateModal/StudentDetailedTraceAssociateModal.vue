@@ -1,0 +1,83 @@
+<script lang="ts" setup>
+import { ETraceAssociationType, type TraceDetailDTO } from '@/api/avenir-esr'
+import AssociateSkillAutocompleteField
+  from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/AssociateSkillAutocompleteField/AssociateSkillAutocompleteField.vue'
+import {
+  useAssociateTraceForm
+} from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
+import { useToasterStore } from '@/store'
+import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+
+const { trace, show, onConfirmAssociateTrace, onClose } = defineProps<{
+  trace: TraceDetailDTO
+  show: boolean
+  onConfirmAssociateTrace: () => void
+  onClose: () => void
+}>()
+
+const { t } = useI18n()
+const { addSuccessMessage } = useToasterStore()
+
+const { form, isSubmitting } = useAssociateTraceForm({
+  trace,
+  onAssociated: () => {
+    addSuccessMessage({
+      timeout: 2000,
+      description: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.success'),
+    })
+    form.reset()
+    onConfirmAssociateTrace()
+    onClose()
+  },
+})
+
+const formState = form.useStore(s => s)
+
+const isDisabled = computed(() => {
+  const v = formState.value.values
+  const hasSelection = !!v.selectedAssociation
+  return !hasSelection || isSubmitting.value
+})
+</script>
+
+<template>
+  <AvModal
+    :opened="show"
+    :close-button-label="t('global.buttons.cancel')"
+    @close="onClose"
+  >
+    <template #header>
+      <h3>{{ t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
+      <span class="n5">{{ trace.title }}</span>
+    </template>
+    <div class="content-container">
+      <AssociateSkillAutocompleteField
+        :form="form"
+        field-name="selectedAssociation"
+        :association-type="ETraceAssociationType.SKILL_LEVEL"
+      />
+    </div>
+    <template #footer>
+      <AvButton
+        variant="DEFAULT"
+        theme="PRIMARY"
+        :label="t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.buttons.associate')"
+        :icon="MDI_ICONS.ATTACH_FILE"
+        size="sm"
+        :disabled="isDisabled"
+        :is-loading="isSubmitting"
+        :on-click="form.handleSubmit"
+      />
+    </template>
+  </AvModal>
+</template>
+
+<style lang="scss" scoped>
+.content-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-bottom: 20vh;
+}
+</style>

@@ -2,8 +2,10 @@ import {
   type AdditionalSkillDTO,
   EAdditionalSkillType,
   ESkillLevelStatus,
+  ETraceAssociationType,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
+  type PagedResponseTraceAssociationSearchResult,
   type SkillDTO
 } from '@/api/avenir-esr'
 
@@ -154,4 +156,64 @@ export const mockedSkillDetailed = {
       name: 'Niveau 2',
     }
   ]
+}
+
+export const mockedStudentSkills = [
+  {
+    id: '1',
+    title: 'Physique',
+    description: 'Compétence liée aux principes et lois de la physique.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '2',
+    title: 'Chimie',
+    description: 'Compétence liée aux substances chimiques et leurs interactions.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '3',
+    title: 'Science',
+    description: 'Compétence liée à l\'étude systématique du monde naturel.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '4',
+    title: 'Histoire',
+    description: 'Compétence liée à l\'étude des événements passés.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '5',
+    title: 'Informatique',
+    description: 'Compétence liée aux technologies de l\'information et de la communication.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '6',
+    title: 'Mathématiques',
+    description: 'Compétence liée aux nombres, aux quantités et aux formes.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  },
+  {
+    id: '7',
+    title: 'Artistique',
+    description: 'Compétence liée aux arts visuels et plastiques.',
+    type: ETraceAssociationType.SKILL_LEVEL
+  }
+]
+
+export function createMockedSearchStudentSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseTraceAssociationSearchResult {
+  const allSkills = mockedStudentSkills
+  const filteredSkills = allSkills.filter(skill => skill.title.toLowerCase().includes(keyword.toLowerCase()))
+  const actualTotalElements = Math.min(filteredSkills.length, totalElements)
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedSkills = filteredSkills.slice(start, end)
+  const totalPages = Math.ceil(actualTotalElements / pageSize)
+
+  return {
+    data: paginatedSkills,
+    page: { pageSize, totalElements: actualTotalElements, totalPages, page }
+  }
 }

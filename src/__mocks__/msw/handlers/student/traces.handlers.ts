@@ -9,6 +9,7 @@ import {
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
+import { createMockedSearchStudentSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AssociationsTraceDTO,
   type AttachmentUploadDTO,
@@ -19,6 +20,7 @@ import {
   getGetTraceConfigUrl,
   getGetTracesSummaryUrl,
   getGetTracesViewUrl,
+  type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
@@ -169,6 +171,38 @@ export const tracesHandlers = [
   http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, async () => {
     await delay(100)
     return HttpResponse.json(mockedTraceDetailed, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, PagedResponseTraceAssociationSearchResult>(`*/me/traces/search-association/:associationType`, ({ request }) => {
+    const url = new URL(request.url)
+    const searchParams = url.searchParams
+    const keyword = searchParams.get('keyword') ?? ''
+
+    const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
+    const page = Number(searchParams.get('page') ?? 0)
+    const response = createMockedSearchStudentSkillsDTO(pageSize, 20, page, keyword)
+
+    return HttpResponse.json<PagedResponseTraceAssociationSearchResult>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post(`*/me/traces/associate/:traceId`, async ({ params }) => {
+    const traceId: string | undefined = params.traceId as string | undefined
+
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+
+    return HttpResponse.json<string>('Ok', {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
