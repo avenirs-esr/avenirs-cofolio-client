@@ -146,7 +146,7 @@ BddTest().given('a student trace view', () => {
   })
 
   BddTest().when('TraceSettingsPopover emits associate-selected', () => {
-    BddTest().then('it should open the associate modal when TraceSettingsPopover emits associate-selected', async () => {
+    BddTest().then('it should open the associate modal', async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
       await popover.vm.$emit('associate-selected')
       await flushPromises()
@@ -158,16 +158,18 @@ BddTest().given('a student trace view', () => {
   })
 
   BddTest().when('Associate modal is opened', () => {
-    BddTest().then('it should hide the associate modal when its close is triggered', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
-      await popover.vm.$emit('associate-selected')
-      await flushPromises()
+    BddTest().and('its close is triggered', () => {
+      BddTest().then('it should hide the associate modal', async () => {
+        const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+        await popover.vm.$emit('associate-selected')
+        await flushPromises()
 
-      await wrapper.find('.associate-close').trigger('click')
-      await flushPromises()
+        await wrapper.find('.associate-close').trigger('click')
+        await flushPromises()
 
-      const modal = wrapper.findComponent({ name: 'StudentDetailedTraceAssociateModal' })
-      expect(modal.props('show')).toBe(false)
+        const modal = wrapper.findComponent({ name: 'StudentDetailedTraceAssociateModal' })
+        expect(modal.props('show')).toBe(false)
+      })
     })
   })
 

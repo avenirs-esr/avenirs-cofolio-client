@@ -14,6 +14,7 @@ import {
   type AssociationsTraceDTO,
   type AttachmentUploadDTO,
   type CreateTraceDTO,
+  ETraceAssociationType,
   ETraceStatus,
   getCreateTraceUrl,
   getGetTraceAssociationsUrl,
@@ -178,7 +179,11 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseTraceAssociationSearchResult>(`*/me/traces/search-association/:associationType`, ({ request }) => {
+  http.get<PathParams, PagedResponseTraceAssociationSearchResult>(`*/me/traces/search-association/:associationType`, ({ params, request }) => {
+    const associationType: ETraceAssociationType | undefined = params.traceId as ETraceAssociationType | undefined
+    if (!associationType || !associationType?.includes(ETraceAssociationType.SKILL_LEVEL)) {
+      return HttpResponse.json({ error: 'Invalid or missing association type' }, { status: 400 })
+    }
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const keyword = searchParams.get('keyword') ?? ''

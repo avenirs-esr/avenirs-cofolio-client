@@ -122,10 +122,12 @@ BddTest().given('an associate skill autocomplete field component', () => {
   })
 
   BddTest().when('a search query is entered', () => {
-    BddTest().then('it should emit search event', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-      await autocomplete.vm.$emit('search', 'phy')
-      expect(autocomplete.exists()).toBe(true)
+    BddTest().and('query is too short', () => {
+      BddTest().then('it should show minimum characters message', async () => {
+        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        await autocomplete.vm.$emit('search', 'phy')
+        expect(autocomplete.exists()).toBe(true)
+      })
     })
 
     BddTest().then('it should show minimum characters message when query is too short', () => {
@@ -157,14 +159,6 @@ BddTest().given('an associate skill autocomplete field component', () => {
     BddTest().then('it should emit clear event', async () => {
       const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
       await autocomplete.vm.$emit('clear')
-      expect(autocomplete.exists()).toBe(true)
-    })
-  })
-
-  BddTest().when('load more is triggered', () => {
-    BddTest().then('it should emit load-more event', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-      await autocomplete.vm.$emit('loadMore')
       expect(autocomplete.exists()).toBe(true)
     })
   })

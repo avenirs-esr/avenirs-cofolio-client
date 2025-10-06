@@ -128,7 +128,7 @@ BddTest().given('the useAssociateTraceForm composable', () => {
   })
 
   BddTest().when('form state changes are observed', () => {
-    BddTest().then('isFormValid stays reactive', () => {
+    BddTest().then('isFormValid should stay reactive', () => {
       expect(composableResult.isFormValid.value).toBeDefined()
       expect(typeof composableResult.isFormValid.value).toBe('boolean')
     })

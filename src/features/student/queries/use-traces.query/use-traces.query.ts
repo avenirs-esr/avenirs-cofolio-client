@@ -1,31 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-
-import {
-  associate,
-  type AssociateTraceDTO,
-  createTrace,
-  type CreateTraceDTO,
-  deleteTrace,
-  type ETraceAssociationType,
-  getAssociatedTraces,
-  getTraceAssociations,
-  getTraceConfig,
-  getTraceDetail,
-  getTracesSummary,
-  getTracesView,
-  type GetTracesViewStatus,
-  type PagedResponseTraceAssociationSearchResult,
-  type PagedResponseTraceViewDTO,
-  type TraceConfigurationDTO,
-  type TraceDetailDTO,
-  type TracesCreationResponse,
-  type TracesSummaryDTO,
-  type TraceViewDTO,
-  uploadAttachment,
-  type UploadAttachmentBody
-
-} from '@/api/avenir-esr'
-
+import { associate, type AssociateTraceDTO, type AssociationsTraceDTO, createTrace, type CreateTraceDTO, deleteTrace, type ETraceAssociationType, getAssociatedTraces, getTraceAssociations, getTraceConfig, getTraceDetail, getTracesSummary, getTracesView, type GetTracesViewStatus, type PagedResponseTraceAssociationSearchResult, type PagedResponseTraceViewDTO, type TraceConfigurationDTO, type TraceDetailDTO, type TracesCreationResponse, type TracesSummaryDTO, type TraceViewDTO, uploadAttachment, type UploadAttachmentBody } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, type QueryKey, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
@@ -184,6 +158,20 @@ export interface UseTracesAssociationQueryParams {
   keyword: string
   page: number
   pageSize: number
+}
+
+export function useTracesAssociationQuery (associationType: Ref<ETraceAssociationType>, params: Ref<UseTracesAssociationQueryParams>): UseQueryReturnType<PagedResponseTraceAssociationSearchResult, BaseApiException> {
+  const queryKey = computed(() => [...commonQueryKeys, 'association', {
+    associationType: associationType.value,
+    ...params.value
+  }])
+  return useQuery<PagedResponseTraceAssociationSearchResult, BaseApiException>({
+    queryKey,
+    queryFn: async (): Promise<PagedResponseTraceAssociationSearchResult> => {
+      return await getAssociatedTraces(associationType.value, params.value)
+    },
+    staleTime: TWO_MINUTES,
+  })
 }
 
 export interface UseCreateAssociateTraceMutationArgs {

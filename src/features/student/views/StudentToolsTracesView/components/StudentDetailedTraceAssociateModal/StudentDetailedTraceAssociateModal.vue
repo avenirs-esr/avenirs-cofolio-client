@@ -9,10 +9,9 @@ import { useToasterStore } from '@/store'
 import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { trace, show, onConfirmAssociateTrace, onClose } = defineProps<{
+const { trace, show, onClose } = defineProps<{
   trace: TraceDetailDTO
   show: boolean
-  onConfirmAssociateTrace: () => void
   onClose: () => void
 }>()
 
@@ -27,7 +26,6 @@ const { form, isSubmitting } = useAssociateTraceForm({
       description: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.success'),
     })
     form.reset()
-    onConfirmAssociateTrace()
     onClose()
   },
 })
@@ -35,8 +33,7 @@ const { form, isSubmitting } = useAssociateTraceForm({
 const formState = form.useStore(s => s)
 
 const isDisabled = computed(() => {
-  const v = formState.value.values
-  const hasSelection = !!v.selectedAssociation
+  const hasSelection = !!formState.value.values.selectedAssociation
   return !hasSelection || isSubmitting.value
 })
 </script>
@@ -54,7 +51,6 @@ const isDisabled = computed(() => {
     <div class="content-container">
       <AssociateSkillAutocompleteField
         :form="form"
-        field-name="selectedAssociation"
         :association-type="ETraceAssociationType.SKILL_LEVEL"
       />
     </div>
@@ -78,6 +74,7 @@ const isDisabled = computed(() => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+  // Padding bottom to avoid a display bug while adding content
   padding-bottom: 20vh;
 }
 </style>

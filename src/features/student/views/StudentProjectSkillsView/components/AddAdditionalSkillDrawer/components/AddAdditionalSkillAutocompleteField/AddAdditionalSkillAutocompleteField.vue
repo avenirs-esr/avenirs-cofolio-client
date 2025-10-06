@@ -4,6 +4,7 @@ import type { AdditionalSkillOption } from '@/features/student/views/StudentProj
 import type {
   AdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
+import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -73,24 +74,6 @@ const emptySlotTextContent = computed<string>(() => {
 
   return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping')
 })
-
-function highlightMatchedText (text: string, query: string, className: string): string {
-  if (!query || query.trim().length === 0) {
-    return text
-  }
-
-  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${escapedQuery})`, 'gi')
-  return text.replace(regex, `<span class="${className} highlight">$1</span>`)
-}
-
-function highlightTitleText (text: string, query: string): string {
-  return highlightMatchedText(text, query, 'b1-bold')
-}
-
-function highlightCaptionText (text: string, query: string): string {
-  return highlightMatchedText(text, query, 'caption-light')
-}
 </script>
 
 <template>
