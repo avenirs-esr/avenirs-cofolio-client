@@ -3,10 +3,10 @@ import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/queries'
-import StudentTraceAssociations from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
-import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
+import StudentTraceAssociations from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
+import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsPopover from '@/features/student/views/StudentTraceView/components/TraceSettingsPopover/TraceSettingsPopover.vue'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
@@ -109,7 +109,6 @@ const breadcrumbLinks = computed(() => [
     <StudentDetailedTraceAssociateModal
       :trace="traceDetailed"
       :show="showAssociateModal"
-      :on-confirm-associate-trace="() => {}"
       :on-close="() => hideAssociateModal()"
     />
 

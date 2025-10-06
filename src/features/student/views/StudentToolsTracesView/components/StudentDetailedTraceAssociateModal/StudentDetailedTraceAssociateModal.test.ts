@@ -16,8 +16,6 @@ const formStoreRef = ref({
   values: { selectedAssociation: null as null | { id: string, title: string } },
 })
 
-vi.mock('@/api/avenir-esr', async () => ({ ETraceAssociationType: { SKILL_LEVEL: 'SKILL_LEVEL' } }))
-
 vi.mock('@/store', () => ({
   useToasterStore: () => ({ addSuccessMessage: addSuccessMessageSpy }),
 }))
@@ -39,17 +37,6 @@ vi.mock(
   })
 )
 
-interface AvButtonProps {
-  variant?: string
-  theme?: string
-  label?: string
-  icon?: string
-  size?: string
-  disabled?: boolean | { value: boolean }
-  isLoading?: boolean | { value: boolean }
-  onClick?: () => void
-}
-
 const stubs = {
   AvModal: {
     name: 'AvModal',
@@ -66,33 +53,12 @@ const stubs = {
   },
   AvButton: {
     name: 'AvButton',
-    props: {
-      variant: { type: String, default: 'DEFAULT' },
-      theme: { type: String, default: 'PRIMARY' },
-      label: { type: String, default: '' },
-      icon: { type: String, default: '' },
-      size: { type: String, default: 'sm' },
-      disabled: { type: [Boolean, Object] as any, default: false },
-      isLoading: { type: [Boolean, Object] as any, default: false },
-      onClick: { type: Function, default: undefined },
-    },
-    setup (props: AvButtonProps) {
-      const toBool = (v: any) =>
-        v && typeof v === 'object' && 'value' in v ? !!v.value : !!v
-      const disabledBool = computed(() => toBool(props.disabled))
-      const loadingBool = computed(() => toBool(props.isLoading))
-      const handleClick = () => {
-        if (!disabledBool.value && !loadingBool.value) {
-          props.onClick?.()
-        }
-      }
-      return { disabledBool, loadingBool, handleClick }
-    },
+    props: ['variant', 'theme', 'label', 'icon', 'size', 'disabled', 'isLoading', 'onClick'],
     template: `
       <button
         class="av-button-stub"
-        :disabled="disabledBool || loadingBool"
-        @click="handleClick"
+        :disabled="(disabled && (disabled.value ?? disabled)) || (isLoading && (isLoading.value ?? isLoading))"
+        @click="!((disabled && (disabled.value ?? disabled)) || (isLoading && (isLoading.value ?? isLoading))) && onClick && onClick()"
       >
         {{ label }}
       </button>
@@ -109,11 +75,10 @@ const stubs = {
 const TestHost = {
   components: { StudentDetailedTraceAssociateModal },
   props: {
-    onConfirmAssociateTrace: { type: Function, required: true },
     onClose: { type: Function, required: true },
   },
   setup () {
-    const trace = { id: 't-001', title: 'Ma super trace' } as any
+    const trace = { id: 't-001', title: 'Ma super trace' }
     const show = true
     return { trace, show }
   },
@@ -121,7 +86,6 @@ const TestHost = {
     <StudentDetailedTraceAssociateModal
       :trace="trace"
       :show="show"
-      :on-confirm-associate-trace="onConfirmAssociateTrace"
       :on-close="onClose"
     />
   `,
@@ -129,7 +93,6 @@ const TestHost = {
 
 BddTest().given('StudentDetailedTraceAssociateModal', () => {
   let wrapper: VueWrapper
-  const onConfirmAssociateTrace = vi.fn()
   const onClose = vi.fn()
 
   beforeEach(() => {
@@ -144,7 +107,7 @@ BddTest().given('StudentDetailedTraceAssociateModal', () => {
     }
 
     wrapper = mountComponent(TestHost, {
-      props: { onConfirmAssociateTrace, onClose },
+      props: { onClose },
       global: { stubs },
       useI18n: true,
       useTanstack: true,
@@ -157,56 +120,61 @@ BddTest().given('StudentDetailedTraceAssociateModal', () => {
   })
 
   BddTest().when('the modal is opened', () => {
-    BddTest().then('it renders header and trace title', () => {
+    BddTest().then('it should render header and trace title', () => {
       expect(wrapper.find('.av-modal-stub').exists()).toBe(true)
       expect(wrapper.text()).toContain('Ma super trace')
     })
 
-    BddTest().then('it renders the AssociateSkillAutocompleteField', () => {
+    BddTest().then('it should render the AssociateSkillAutocompleteField', () => {
       const child = wrapper.findComponent({ name: 'AssociateSkillAutocompleteField' })
       expect(child.exists()).toBe(true)
     })
   })
 
-  BddTest().when('footer primary button is displayed', () => {
-    BddTest().then('it is enabled when form is valid and not submitting', async () => {
-      isFormValidRef.value = true
-      isSubmittingRef.value = false
-      formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
-      await nextTick()
-      const btn = wrapper.find('.av-button-stub')
-      expect((btn.element as HTMLButtonElement).disabled).toBe(false)
+  BddTest().when('the submit button is displayed', () => {
+    BddTest().and('form is valid and not submitting', async () => {
+      BddTest().then('the submit button should be enabled', async () => {
+        isFormValidRef.value = true
+        isSubmittingRef.value = false
+        formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
+        await nextTick()
+        const btn = wrapper.find('.av-button-stub')
+        expect((btn.element as HTMLButtonElement).disabled).toBe(false)
+      })
     })
 
-    BddTest().then('it becomes disabled if form invalid or submitting', async () => {
-      isFormValidRef.value = false
-      await nextTick()
-      let btn = wrapper.find('.av-button-stub')
-      expect((btn.element as HTMLButtonElement).disabled).toBe(true)
+    BddTest().and('it becomes disabled if form invalid or submitting', () => {
+      BddTest().then('the submit button should be disabled', async () => {
+        isFormValidRef.value = false
+        await nextTick()
+        let btn = wrapper.find('.av-button-stub')
+        expect((btn.element as HTMLButtonElement).disabled).toBe(true)
 
-      isFormValidRef.value = true
-      isSubmittingRef.value = true
-      await nextTick()
-      btn = wrapper.find('.av-button-stub')
-      expect((btn.element as HTMLButtonElement).disabled).toBe(true)
+        isFormValidRef.value = true
+        isSubmittingRef.value = true
+        await nextTick()
+        btn = wrapper.find('.av-button-stub')
+        expect((btn.element as HTMLButtonElement).disabled).toBe(true)
+      })
     })
   })
 
-  BddTest().when('clicking the primary button', () => {
-    BddTest().then('it calls form.handleSubmit, triggers success pipeline and closes modal', async () => {
-      isFormValidRef.value = true
-      isSubmittingRef.value = false
-      formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
-      await nextTick()
+  BddTest().when('clicking on the submit button', () => {
+    BddTest().and('it calls form.handleSubmit', async () => {
+      BddTest().then('the form should be submitted and modal closed', async () => {
+        isFormValidRef.value = true
+        isSubmittingRef.value = false
+        formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
+        await nextTick()
 
-      const btn = wrapper.find('.av-button-stub')
-      await btn.trigger('click')
+        const btn = wrapper.find('.av-button-stub')
+        await btn.trigger('click')
 
-      expect(handleSubmitSpy).toHaveBeenCalled()
-      expect(addSuccessMessageSpy).toHaveBeenCalled()
-      expect(resetSpy).toHaveBeenCalled()
-      expect(onConfirmAssociateTrace).toHaveBeenCalled()
-      expect(onClose).toHaveBeenCalled()
+        expect(handleSubmitSpy).toHaveBeenCalled()
+        expect(addSuccessMessageSpy).toHaveBeenCalled()
+        expect(resetSpy).toHaveBeenCalled()
+        expect(onClose).toHaveBeenCalled()
+      })
     })
   })
 

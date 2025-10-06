@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import type { ETraceAssociationType, PagedResponseTraceAssociationSearchResult, TraceAssociationSearchResult } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import type {
+  AssociateTraceForm
+} from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav/dist/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
+import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import { useTracesAssociationQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
@@ -11,23 +15,18 @@ import { useI18n } from 'vue-i18n'
 
 interface SearchTraceAssociationFieldProps {
   associationType: ETraceAssociationType
-  fieldName?: string
-  pageSize?: number
-  minLength?: number
-  form: any
+  form: AssociateTraceForm
 }
 
-const props = withDefaults(defineProps<SearchTraceAssociationFieldProps>(), {
-  fieldName: 'selectedTraceAssociation',
-  pageSize: 10,
-  minLength: 3,
-})
+const {
+  associationType,
+  form
+} = defineProps<SearchTraceAssociationFieldProps>()
 
-const form = props.form
+const PAGE_SIZE = 10
+const SEARCH_MIN_LENGTH = 3
+
 const { t } = useI18n()
-
-const SEARCH_MIN_LENGTH = props.minLength
-const PAGE_SIZE = props.pageSize
 
 const searchQuery = ref('')
 const page = ref(0)
@@ -40,7 +39,7 @@ const params = computed(() => ({
 }))
 
 const { data, isLoading, isFetching, refetch } = useTracesAssociationQuery(
-  computed(() => toValue(props.associationType)),
+  computed(() => toValue(associationType)),
   params,
 ) as UseQueryReturnType<PagedResponseTraceAssociationSearchResult, BaseApiException>
 
@@ -57,13 +56,11 @@ function handleSearch (query: string) {
 function handleClear () {
   searchQuery.value = ''
   page.value = 0
-  // refetch()
 }
 
 function handleLoadMore () {
   if (hasNextPage.value && !isFetching.value) {
     page.value = page.value + 1
-    // refetch()
   }
 }
 
@@ -82,11 +79,7 @@ const options = computed<TraceAssociationOption[]>(() => {
 })
 
 const displayedOptions = computed(() => {
-  const q = searchQuery.value.trim()
-  if (q.length === 0) {
-    return []
-  }
-  if (q.length < SEARCH_MIN_LENGTH) {
+  if (searchQuery.value.trim().length < SEARCH_MIN_LENGTH) {
     return []
   }
   return options.value
@@ -107,32 +100,15 @@ const emptySlotTextContent = computed<string>(() => {
     return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.errors.noResultsFound')
   }
   if (!isEmpty(keyword) && keyword.length < SEARCH_MIN_LENGTH) {
-    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.errors.minimumCharacters')
+    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.minimumCharacters')
   }
   return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.startTyping')
 })
-
-function highlightMatchedText (text: string, query: string, className: string): string {
-  if (!query || query.trim().length === 0) {
-    return text
-  }
-  const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${escapedQuery})`, 'gi')
-  return text.replace(regex, `<span class="${className} highlight">$1</span>`)
-}
-
-function highlightTitleText (text: string, query: string): string {
-  return highlightMatchedText(text, query, 'b1-bold')
-}
-
-function highlightCaptionText (text: string, query: string): string {
-  return highlightMatchedText(text, query, 'caption-light')
-}
 </script>
 
 <template>
   <div class="search-trace-association-field">
-    <form.Field :name="props.fieldName">
+    <form.Field name="selectedAssociation">
       <template #default="{ field }">
         <AvAutocomplete
           dropdown-class="associate-dropdown"
@@ -152,7 +128,7 @@ function highlightCaptionText (text: string, query: string): string {
           :enable-load-more="true"
           max-dropdown-height="14.5rem"
           :debounce-delay="500"
-          @update:model-value="field.handleChange"
+          @update:model-value="() => field.handleChange"
           @search="handleSearch"
           @clear="handleClear"
           @load-more="handleLoadMore"
@@ -206,7 +182,9 @@ function highlightCaptionText (text: string, query: string): string {
 </template>
 
 <style scoped lang="scss">
-.search-trace-association-field { position: relative; }
+.search-trace-association-field {
+  position: relative;
+}
 
 :deep(.associate-dropdown) {
   position: absolute;
@@ -214,6 +192,7 @@ function highlightCaptionText (text: string, query: string): string {
   right: 0;
   z-index: 10000;
 }
+
 .search-trace-association-field {
   display: flex;
   flex-direction: column;
