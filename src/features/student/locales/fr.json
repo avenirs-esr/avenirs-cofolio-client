@@ -296,6 +296,24 @@
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
         },
+        "studentDetailedTraceAssociateModal": {
+          "buttons": {
+            "associate": "Associer"
+          },
+          "errors": {
+            "associateTrace": "Erreur lors de l'association de la trace",
+            "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
+            "noResultsFound": "Aucune compétence trouvée"
+          },
+          "searchLabel": "Rechercher parmi mes compétences",
+          "searchPlaceholder": "Entrer le nom d'une compétence",
+          "startTyping": "Commencez à taper pour rechercher une compétence",
+          "success": "Trace associée avec succès",
+          "title": "Associer une compétence",
+          "validation": {
+            "associationRequired": "Une compétence doit être sélectionnée"
+          }
+        },
         "studentDetailedTraceModal": {
           "buttons": {
             "close": "Fermer la fenêtre"
@@ -303,9 +321,17 @@
           "title": "Détail de ma trace",
           "settings": {
             "ariaLabel": "Plus d'actions",
-            "assign": "Assigner ma trace",
+            "associate": "Associer ma trace",
             "delete": "Supprimer ma trace",
             "update": "Modifier ma trace"
+          },
+          "studentTraceDetails": {
+            "addedOn": "Ajouté le {date}",
+            "authenticProduction": "Production authentique et personnelle",
+            "documentLabel": "Mon document chargé",
+            "groupProduction": "Cette trace est une production de groupe",
+            "iaToggleLabel": "Production avec IA",
+            "personalNoteLabel": "Note personnelle"
           }
         },
         "studentTraceAssociations": {
@@ -396,7 +422,7 @@
         },
         "settings": {
           "ariaLabel": "Plus d'actions",
-          "assign": "Assigner ma trace",
+          "associate": "Associer ma trace",
           "delete": "Supprimer ma trace",
           "update": "Modifier ma trace"
         },

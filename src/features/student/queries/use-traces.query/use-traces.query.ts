@@ -1,16 +1,20 @@
 import type { BaseApiException } from '@/common/exceptions'
 
 import {
-  type AssociationsTraceDTO,
+  associate,
+  type AssociateTraceDTO,
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
+  type ETraceAssociationType,
+  getAssociatedTraces,
   getTraceAssociations,
   getTraceConfig,
   getTraceDetail,
   getTracesSummary,
   getTracesView,
   type GetTracesViewStatus,
+  type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
@@ -174,6 +178,37 @@ export function useTraceDetailedQuery (traceId: Ref<string>) {
     ...query,
     traceDetailed,
   }
+}
+
+export interface UseTracesAssociationQueryParams {
+  keyword: string
+  page: number
+  pageSize: number
+}
+
+export interface UseCreateAssociateTraceMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export interface UseCreateAssociateTraceMutationVariables {
+  traceId: string
+  associateTraceDTO: AssociateTraceDTO
+}
+
+export function useCreateAssociateTraceMutation ({ onError, onSuccess }: UseCreateAssociateTraceMutationArgs = {}) {
+  const invalidateAssociateTracesViewQuery = useInvalidateQuery([...commonQueryKeys, 'associate'])
+
+  return useMutation<void, BaseApiException, UseCreateAssociateTraceMutationVariables>({
+    mutationFn: async ({ traceId, associateTraceDTO }): Promise<void> => {
+      await associate(traceId, associateTraceDTO)
+    },
+    onSuccess: async () => {
+      await invalidateAssociateTracesViewQuery()
+      onSuccess?.()
+    },
+    onError
+  })
 }
 
 export function useTraceAssociationsQuery (traceId: Ref<string>, enabled: Ref<boolean>) {

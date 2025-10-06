@@ -3,7 +3,7 @@ import { AvButton, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
-  (e: 'assignSelected'): void
+  (e: 'associateSelected'): void
   (e: 'deleteSelected'): void
   (e: 'updateSelected'): void
 }>()
@@ -18,8 +18,8 @@ const menuItems = computed(() => [
   },
   {
     icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-    label: t('student.views.studentTraceView.settings.assign'),
-    onClick: () => emit('assignSelected')
+    label: t('student.views.studentTraceView.settings.associate'),
+    onClick: () => emit('associateSelected')
   },
   {
     icon: MDI_ICONS.PENCIL_OUTLINE,

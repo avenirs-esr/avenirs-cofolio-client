@@ -5,6 +5,8 @@ import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/queries'
 import StudentTraceAssociations from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
 import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
+import StudentDetailedTraceAssociateModal
+  from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsPopover from '@/features/student/views/StudentTraceView/components/TraceSettingsPopover/TraceSettingsPopover.vue'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
@@ -31,6 +33,11 @@ const {
   showModal: showUpdateModal,
   displayModal: displayUpdateModal,
   hideModal: hideUpdateModal
+} = useModal()
+const {
+  showModal: showAssociateModal,
+  displayModal: displayAssociateModal,
+  hideModal: hideAssociateModal
 } = useModal()
 
 const activeTab = ref(0)
@@ -67,6 +74,7 @@ const breadcrumbLinks = computed(() => [
       </h5>
       <TraceSettingsPopover
         @delete-selected="displayDeleteModal"
+        @associate-selected="displayAssociateModal"
         @update-selected="displayUpdateModal"
       />
     </div>
@@ -97,6 +105,13 @@ const breadcrumbLinks = computed(() => [
         />
       </AvTab>
     </AvTabs>
+
+    <StudentDetailedTraceAssociateModal
+      :trace="traceDetailed"
+      :show="showAssociateModal"
+      :on-confirm-associate-trace="() => {}"
+      :on-close="() => hideAssociateModal()"
+    />
 
     <TraceDeletionConfirmationModal
       :trace="traceDetailed"

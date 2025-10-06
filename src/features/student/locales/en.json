@@ -296,6 +296,24 @@
         "studentDetailedTraceCard": {
           "getDaysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
         },
+        "studentDetailedTraceAssociateModal": {
+          "buttons": {
+            "associate": "Associate"
+          },
+          "errors": {
+            "associateTrace": "Error while associating the trace",
+            "minimumCharacters": "Type at least 3 characters to search",
+            "noResultsFound": "No skills found"
+          },
+          "searchLabel": "Search among my skills",
+          "searchPlaceholder": "Enter the name of a skill",
+          "startTyping": "Start typing to search for a skill",
+          "success": "Trace associated successfully",
+          "title": "Associate a skill",
+          "validation": {
+            "associationRequired": "A skill must be selected"
+          }
+        },
         "studentDetailedTraceModal": {
           "buttons": {
             "close": "Close the window"
@@ -303,9 +321,17 @@
           "title": "Detail of my trace",
           "settings": {
             "ariaLabel": "More actions",
-            "assign": "Assign my trace",
+            "associate": "Associate my trace",
             "delete": "Delete my trace",
             "update": "Update my trace"
+          },
+          "studentTraceDetails": {
+            "addedOn": "Added on {date}",
+            "authenticProduction": "Authentic and personal production",
+            "documentLabel": "My uploaded document",
+            "groupProduction": "This trace is a group production",
+            "iaToggleLabel": "AI production",
+            "personalNoteLabel": "Personal note"
           }
         },
         "studentTraceAssociations": {
@@ -396,7 +422,7 @@
         },
         "settings": {
           "ariaLabel": "More actions",
-          "assign": "Assign my trace",
+          "associate": "Associate my trace",
           "delete": "Delete my trace",
           "update": "Update my trace"
         },
