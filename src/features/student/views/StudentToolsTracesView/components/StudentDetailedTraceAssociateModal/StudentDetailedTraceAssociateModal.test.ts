@@ -30,7 +30,7 @@ vi.mock(
           opts?.onAssociated?.()
         },
         reset: resetSpy,
-        useStore: (sel: any) => sel(formStoreRef),
+        useStore: (sel: (s: typeof formStoreRef) => typeof formStoreRef) => sel(formStoreRef)
       }
       return { form, isFormValid: isFormValidRef, isSubmitting: isSubmittingRef }
     },

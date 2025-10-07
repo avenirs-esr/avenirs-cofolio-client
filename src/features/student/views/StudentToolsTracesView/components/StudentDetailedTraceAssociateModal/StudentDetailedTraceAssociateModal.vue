@@ -74,7 +74,7 @@ const isDisabled = computed(() => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  // Padding bottom to avoid a display bug while adding content
+  // TODO: Padding bottom to avoid a display bug while adding content (remove when fixed)
   padding-bottom: 20vh;
 }
 </style>

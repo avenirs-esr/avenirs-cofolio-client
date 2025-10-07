@@ -28,6 +28,7 @@ import {
   type TracesCreationResponse,
   type TracesSummaryDTO
 } from '@/api/avenir-esr'
+import { isEnumMember } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import isNil from 'lodash-es/isNil'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
@@ -180,8 +181,9 @@ export const tracesHandlers = [
   }),
 
   http.get<PathParams, PagedResponseTraceAssociationSearchResult>(`*/me/traces/search-association/:associationType`, ({ params, request }) => {
-    const associationType: ETraceAssociationType | undefined = params.traceId as ETraceAssociationType | undefined
-    if (!associationType || !associationType?.includes(ETraceAssociationType.SKILL_LEVEL)) {
+    const { associationType } = params
+    const associationTypeParam: ETraceAssociationType | undefined = typeof associationType === 'string' && isEnumMember(ETraceAssociationType, associationType) ? associationType : undefined
+    if (!associationTypeParam || !associationTypeParam?.includes(ETraceAssociationType.SKILL_LEVEL)) {
       return HttpResponse.json({ error: 'Invalid or missing association type' }, { status: 400 })
     }
     const url = new URL(request.url)
@@ -207,7 +209,7 @@ export const tracesHandlers = [
       return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
     }
 
-    return HttpResponse.json<string>('Ok', {
+    return HttpResponse.json({ message: 'Ok' }, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
