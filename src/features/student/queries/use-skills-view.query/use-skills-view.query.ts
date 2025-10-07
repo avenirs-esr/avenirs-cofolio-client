@@ -5,6 +5,7 @@ import {
   type AdditionalSkillProgressDTO,
   createAdditionalSkillProgress,
   getAdditionalSkillsProgresses,
+  getAllSkills,
   getDetailedSkill,
   getSkillLevelProgresses,
   type PagedResponseAdditionalSkillDTO,
@@ -13,7 +14,8 @@ import {
   type PageInfoDTO,
   searchAdditionalSkills,
   type SkillDetailedDTO,
-  type SkillDTO
+  type SkillDTO,
+  type SkillListItemDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
@@ -187,5 +189,26 @@ export function useSkillDetailedQuery (skillId: Ref<string>) {
   return {
     ...query,
     skillDetailed,
+  }
+}
+
+export function useAllSkillsQuery () {
+  const queryKey = computed(() => [...commonQueryKeys, 'all-skills'])
+
+  const queryFn = computed(() => async (): Promise<SkillListItemDTO[]> => {
+    return await getAllSkills()
+  })
+
+  const query = useQuery<SkillListItemDTO[], BaseApiException, SkillListItemDTO[], readonly unknown[]>({
+    queryKey,
+    queryFn,
+    staleTime: TWO_MINUTES,
+  })
+
+  const allSkills = computed(() => query.data.value)
+
+  return {
+    ...query,
+    allSkills,
   }
 }

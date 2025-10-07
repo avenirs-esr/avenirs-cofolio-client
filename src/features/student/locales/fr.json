@@ -420,6 +420,29 @@
           "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
           "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
         },
+        "traceFilter": {
+          "labels": {
+            "fromDate": "Date de début",
+            "reset": "Réinitialiser les filtres",
+            "skills": "Compétence",
+            "statuses": "Statut",
+            "statusesOptions": {
+              "associatedEvaluated": "Associée à un niveau de compétence évalué",
+              "associatedInEvaluation": "Associée à un niveau de compétence soumis pour évaluation",
+              "associatedNotEvaluated": "Associée à un niveau de compétence non évalué",
+              "associatedWithAdditionalSkill": "Associée à un niveau de compétence supplémentaire"
+            },
+            "toDate": "Date de fin",
+            "types": "Type",
+            "typesOptions": {
+              "doc": "Fichier DOC",
+              "docx": "Fichier DOCX",
+              "jpeg": "Fichier JPEG",
+              "pdf": "Fichier PDF",
+              "png": "Fichier PNG"
+            }
+          }
+        },
         "warningMessage": {
           "delete": {
             "days": "demain. | dans les {count} jours à venir.",

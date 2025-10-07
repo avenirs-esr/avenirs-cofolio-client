@@ -1,4 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
+
+import type { DateFilter } from '@/types'
+
 import {
   associate,
   type AssociateTraceDTO,
@@ -31,10 +34,13 @@ const commonQueryKeys = ['user', 'student', 'traces']
 const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
 const TWO_MINUTES = 2 * 60 * 1000
 
-interface UseTracesViewQueryParams {
-  traceFilter: Ref<TraceFilter>
+export interface UseTracesViewQueryParams {
+  fromDate?: Ref<DateFilter['fromDate']>
+  toDate?: Ref<DateFilter['toDate']>
+  keyword?: Ref<string>
   page: Ref<number>
   pageSize: Ref<number>
+  traceFilter: Ref<TraceFilter>
 }
 
 type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
@@ -42,13 +48,26 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 }
 
-export function useTracesViewQuery ({ traceFilter, page, pageSize }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
-  const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value }])
+export function useTracesViewQuery ({
+  fromDate,
+  toDate,
+  keyword,
+  traceFilter,
+  page,
+  pageSize
+}: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+  const queryKey = computed(() => [...unassignedTracesQueryKey, {
+    page: page.value,
+    pageSize: pageSize.value
+  }])
 
   const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<PagedResponseTraceViewDTO> => {
       return await tracesView(traceFilter.value, {
+        fromDate: fromDate?.value,
+        toDate: toDate?.value,
+        keyword: keyword?.value,
         pageSize: pageSize.value,
         page: page.value
       })

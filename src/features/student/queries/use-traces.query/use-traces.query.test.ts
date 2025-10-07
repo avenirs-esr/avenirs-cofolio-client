@@ -53,12 +53,18 @@ BddTest().given('a useTracesViewQuery composable', async () => {
       const page = ref(1)
       const pageSize = ref(4)
       const traceFilter = ref<TraceFilter>({})
+      const fromDate = ref('2025-10-01')
+      const toDate = ref('2025-10-10')
+      const keyword = ref('')
 
       const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
         () => useTracesViewQuery({
           traceFilter,
           page,
           pageSize,
+          fromDate,
+          toDate,
+          keyword
         })
       )
 
@@ -67,6 +73,9 @@ BddTest().given('a useTracesViewQuery composable', async () => {
       expect(tracesViewSpy).toHaveBeenCalledWith({}, {
         pageSize: PageSizes.FOUR,
         page: page.value,
+        fromDate: fromDate.value,
+        toDate: toDate.value,
+        keyword: keyword.value
       })
       expect(tracesViewSpy).toHaveBeenCalledTimes(1)
 

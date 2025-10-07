@@ -33,7 +33,12 @@ BddTest().given('a student tools traces view container', () => {
       emits: ['changeTraceFilter'],
       template: '<div class="student-trace-filters-stub" />'
     },
-    Pagination: PaginationStub
+    TraceFilterContainer: {
+      name: 'TraceFilterContainer',
+      template: `<button class="trace-filter-container" @click="$emit('filtersUpdated')" />`,
+      emits: ['filtersUpdated']
+    },
+    Pagination: PaginationStub,
   }
 
   const mockedTracesData: PagedResponseTraceViewDTO = {

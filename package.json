@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@avenirs-esr/avenirs-dsav": "^0.1.38",
-    "@gouvfr/dsfr": "^1.13.2",
+    "@gouvfr/dsfr": "^1.14.0",
     "@gouvminint/vue-dsfr": "^8.4.0",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
