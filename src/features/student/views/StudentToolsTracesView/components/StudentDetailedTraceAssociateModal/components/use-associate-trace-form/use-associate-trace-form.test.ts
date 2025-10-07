@@ -1,8 +1,22 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { useAssociateTraceForm } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
+import {
+  type AssociateTraceFormData,
+  type TraceAssociationOption,
+  useAssociateTraceForm
+} from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
 import { BddTest, mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
+
+function makeOption (id = 'skillLevel-123', title = 'Physique', description = 'test'): TraceAssociationOption {
+  return {
+    id,
+    title,
+    label: title,
+    value: id,
+    description,
+  }
+}
 
 BddTest().given('the useAssociateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useAssociateTraceForm>
@@ -10,12 +24,12 @@ BddTest().given('the useAssociateTraceForm composable', () => {
   let associateSpy: MockInstance<(traceId: string, dto: any, options?: RequestInit) => Promise<string>>
   const trace: TraceDetailDTO = { id: 'trace-001', title: 'Ma trace' } as any
 
-  const createAssociation = (id = 'skillLevel-123', title = 'Physique') => ({ id, title })
-  const createValidFormData = (assoc = createAssociation()) => ({
-    selectedAssociation: assoc,
+  const createAssociation = (id = 'skillLevel-123', title = 'Physique', description = 'Une description pour la physique') => makeOption(id, title, description)
+  const createValidFormData = (assoc = createAssociation()): AssociateTraceFormData => ({
+    selectedAssociation: [assoc],
   })
-  const createInvalidFormData = () => ({
-    selectedAssociation: null,
+  const createInvalidFormData = (): AssociateTraceFormData => ({
+    selectedAssociation: [],
   })
 
   const getOnSubmitValidator = () => {
@@ -64,7 +78,7 @@ BddTest().given('the useAssociateTraceForm composable', () => {
 
     BddTest().then('it should set default values', () => {
       const state = composableResult.form.useStore(s => s)
-      expect(state.value.values.selectedAssociation).toBeNull()
+      expect(state.value.values.selectedAssociation).toEqual([])
     })
   })
 
@@ -89,7 +103,7 @@ BddTest().given('the useAssociateTraceForm composable', () => {
   BddTest().when('form is submitted with valid data', () => {
     BddTest().then('it should call the associate API with correct payload', async () => {
       const handler = getOnSubmitHandler()
-      const assoc = createAssociation('lvl-999', 'Mathématiques')
+      const assoc = createAssociation('lvl-999', 'Mathématiques', 'Niveau en mathématiques')
 
       handler({ value: createValidFormData(assoc), formApi: composableResult.form, meta: {} })
 

@@ -1,5 +1,5 @@
-import type { ETraceAssociationType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { ETraceAssociationType } from '@/api/avenir-esr'
 import AssociateSkillAutocompleteField from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/AssociateSkillAutocompleteField/AssociateSkillAutocompleteField.vue'
 import { AvListItemStub } from '@avenirs-esr/avenirs-dsav'
 import { useForm } from '@tanstack/vue-form'
@@ -68,16 +68,14 @@ const TestWrapper = {
       }
     })
 
-    const ETraceAssociationTypeAny = { SKILL_LEVEL: 'SKILL_LEVEL' } as unknown as Record<string, ETraceAssociationType>
-
-    return { form, ETraceAssociationTypeAny }
+    return { form, ETraceAssociationType }
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
       <AssociateSkillAutocompleteField
         :form="form"
         field-name="selectedAssociation"
-        :association-type="ETraceAssociationTypeAny.SKILL_LEVEL"
+        :association-type="ETraceAssociationType.SKILL_LEVEL"
       />
     </form>
   `

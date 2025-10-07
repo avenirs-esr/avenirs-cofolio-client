@@ -1,8 +1,33 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { associate, type AssociateTraceDTO, type AssociationsTraceDTO, createTrace, type CreateTraceDTO, deleteTrace, type ETraceAssociationType, getAssociatedTraces, getTraceAssociations, getTraceConfig, getTraceDetail, getTracesSummary, getTracesView, type GetTracesViewStatus, type PagedResponseTraceAssociationSearchResult, type PagedResponseTraceViewDTO, type TraceConfigurationDTO, type TraceDetailDTO, type TracesCreationResponse, type TracesSummaryDTO, type TraceViewDTO, uploadAttachment, type UploadAttachmentBody } from '@/api/avenir-esr'
+import {
+  associate,
+  type AssociateTraceDTO,
+  type AssociationsTraceDTO,
+  createTrace,
+  type CreateTraceDTO,
+  deleteTrace,
+  type ETraceAssociationType,
+  getAssociatedTraces,
+  getTraceAssociations,
+  getTraceConfig,
+  getTraceDetail,
+  getTracesSummary,
+  getTracesView,
+  type GetTracesViewStatus,
+  type PagedResponseTraceAssociationSearchResult,
+  type PagedResponseTraceViewDTO,
+  type TraceAssociationSearchResult,
+  type TraceConfigurationDTO,
+  type TraceDetailDTO,
+  type TracesCreationResponse,
+  type TracesSummaryDTO,
+  type TraceViewDTO,
+  uploadAttachment,
+  type UploadAttachmentBody
+} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import { keepPreviousData, type QueryKey, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue } from 'vue'
+import { keepPreviousData, type QueryKey, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'traces']
 const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
@@ -154,24 +179,56 @@ export function useTraceDetailedQuery (traceId: Ref<string>) {
   }
 }
 
-export interface UseTracesAssociationQueryParams {
-  keyword: string
-  page: number
-  pageSize: number
-}
-
-export function useTracesAssociationQuery (associationType: Ref<ETraceAssociationType>, params: Ref<UseTracesAssociationQueryParams>): UseQueryReturnType<PagedResponseTraceAssociationSearchResult, BaseApiException> {
-  const queryKey = computed(() => [...commonQueryKeys, 'association', {
-    associationType: associationType.value,
-    ...params.value
-  }])
-  return useQuery<PagedResponseTraceAssociationSearchResult, BaseApiException>({
-    queryKey,
-    queryFn: async (): Promise<PagedResponseTraceAssociationSearchResult> => {
-      return await getAssociatedTraces(associationType.value, params.value)
+export function useTracesAssociationQuery (
+  associationType: Ref<ETraceAssociationType>,
+  keyword: Ref<string>,
+  pageSize: Ref<number>
+) {
+  const queryKey = computed(() => [
+    ...commonQueryKeys,
+    'association',
+    {
+      associationType: associationType.value,
+      keyword: keyword.value,
+      pageSize: pageSize.value,
     },
+  ])
+
+  const queryFn = computed(
+    () =>
+      async ({ pageParam = 0 }): Promise<PagedResponseTraceAssociationSearchResult> =>
+        await getAssociatedTraces(associationType.value, {
+          keyword: toValue(keyword),
+          page: pageParam,
+          pageSize: toValue(pageSize)
+        })
+  )
+
+  const query = useInfiniteQuery<
+    PagedResponseTraceAssociationSearchResult,
+    BaseApiException,
+    TraceAssociationSearchResult[],
+    Readonly<UnwrapRef<typeof queryKey>>,
+    number
+  >({
+    queryKey,
+    queryFn,
+    enabled: computed(() => keyword.value.trim().length >= 3),
     staleTime: TWO_MINUTES,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage.page
+      return page + 1 < totalPages ? page + 1 : undefined
+    },
+    select: data => data.pages.flatMap(p => p.data)
   })
+
+  const associations = computed(() => (keyword.value.trim().length >= 3 ? query.data.value ?? [] : []))
+
+  return {
+    ...query,
+    associations
+  }
 }
 
 export interface UseCreateAssociateTraceMutationArgs {

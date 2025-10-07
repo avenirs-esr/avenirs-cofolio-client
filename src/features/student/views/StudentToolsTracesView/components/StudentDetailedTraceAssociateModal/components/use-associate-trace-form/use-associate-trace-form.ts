@@ -1,17 +1,19 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import { useCreateAssociateTraceMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
-export interface TraceAssociationOption {
+export interface TraceAssociationOption extends AvAutocompleteOption {
   id: string
   title: string
+  description: string
 }
 
 export interface AssociateTraceFormData {
-  selectedAssociation: TraceAssociationOption | null
+  selectedAssociation: TraceAssociationOption[]
 }
 
 interface UseAssociateTraceFormOptions {
@@ -34,14 +36,14 @@ export function useAssociateTraceForm (opts: UseAssociateTraceFormOptions) {
 
   const form = useForm({
     defaultValues: {
-      selectedAssociation: null,
+      selectedAssociation: [],
     } as AssociateTraceFormData,
 
     validators: {
       onSubmit ({ value }: { value: AssociateTraceFormData }) {
         return {
           fields: {
-            selectedAssociation: !value.selectedAssociation
+            selectedAssociation: !value.selectedAssociation || value.selectedAssociation.length === 0
               ? t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.validation.associationRequired')
               : undefined,
           },
@@ -51,14 +53,14 @@ export function useAssociateTraceForm (opts: UseAssociateTraceFormOptions) {
 
     onSubmit: ({ value }: { value: AssociateTraceFormData }) => {
       const selected = value.selectedAssociation
-      if (!selected) {
+      if (!selected || selected.length === 0) {
         return
       }
 
       const associateTraceDTO = {
-        amsIds: [] as string[],
-        skillLevelIds: [selected.id],
-        additionalSkillProgressIds: [] as string[],
+        amsIds: [],
+        skillLevelIds: selected.map(s => s.id),
+        additionalSkillProgressIds: [],
       }
 
       mutate(

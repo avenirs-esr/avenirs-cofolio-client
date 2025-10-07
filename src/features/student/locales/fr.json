@@ -304,7 +304,7 @@
             "associateTrace": "Erreur lors de l'association de la trace",
             "noResultsFound": "Aucune compétence trouvée"
           },
-          "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
+          "minimumCharacters": "Tapez au moins {count} caractères pour rechercher",
           "searchLabel": "Rechercher parmi mes compétences",
           "searchPlaceholder": "Entrer le nom d'une compétence",
           "startTyping": "Commencez à taper pour rechercher une compétence",

@@ -304,7 +304,7 @@
             "associateTrace": "Error while associating the trace",
             "noResultsFound": "No skills found"
           },
-          "minimumCharacters": "Type at least 3 characters to search",
+          "minimumCharacters": "Type at least {count} characters to search",
           "searchLabel": "Search among my skills",
           "searchPlaceholder": "Enter the name of a skill",
           "startTyping": "Start typing to search for a skill",

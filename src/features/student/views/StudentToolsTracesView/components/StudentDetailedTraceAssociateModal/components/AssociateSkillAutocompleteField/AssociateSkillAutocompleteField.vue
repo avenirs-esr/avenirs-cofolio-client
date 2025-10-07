@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import type { ETraceAssociationType, PagedResponseTraceAssociationSearchResult, TraceAssociationSearchResult } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
+import type { ETraceAssociationType } from '@/api/avenir-esr'
 import type {
-  AssociateTraceForm
+  AssociateTraceForm,
+  TraceAssociationOption
 } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
-import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav/dist/components/interaction/selects/AvAutocomplete/AvAutocomplete.types'
-import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import { useTracesAssociationQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -32,20 +30,14 @@ const searchQuery = ref('')
 const page = ref(0)
 const pageSize = ref(PAGE_SIZE)
 
-const params = computed(() => ({
-  keyword: searchQuery.value,
-  page: page.value,
-  pageSize: pageSize.value,
-}))
+const { associations, isLoading, isFetching, hasNextPage, fetchNextPage, refetch }
+  = useTracesAssociationQuery(
+    computed(() => toValue(associationType)),
+    searchQuery,
+    pageSize
+  )
 
-const { data, isLoading, isFetching, refetch } = useTracesAssociationQuery(
-  computed(() => toValue(associationType)),
-  params,
-) as UseQueryReturnType<PagedResponseTraceAssociationSearchResult, BaseApiException>
-
-const items = computed(() => data.value?.data ?? [])
-const totalPages = computed(() => data.value?.page?.totalPages ?? 0)
-const hasNextPage = computed(() => (page.value + 1) < totalPages.value)
+const items = associations
 
 function handleSearch (query: string) {
   searchQuery.value = query
@@ -60,23 +52,20 @@ function handleClear () {
 
 function handleLoadMore () {
   if (hasNextPage.value && !isFetching.value) {
-    page.value = page.value + 1
+    fetchNextPage()
   }
 }
 
-export interface TraceAssociationOption extends AvAutocompleteOption {
-  type: ETraceAssociationType
-  title: string
-  description?: string | undefined
-}
-
-const options = computed<TraceAssociationOption[]>(() => {
-  return (items.value as TraceAssociationSearchResult[]).map(item => ({
+const options = computed(() =>
+  (items.value ?? []).map(item => ({
+    id: item.id ?? '',
     label: item.title,
     value: item.id ?? item.title,
-    ...item,
+    title: item.title,
+    type: item.type as ETraceAssociationType,
+    description: item.description ?? '',
   }))
-})
+)
 
 const displayedOptions = computed(() => {
   if (searchQuery.value.trim().length < SEARCH_MIN_LENGTH) {
@@ -85,11 +74,11 @@ const displayedOptions = computed(() => {
   return options.value
 })
 
-function getOptionLabel (option: TraceAssociationSearchResult): string {
+function getOptionLabel (option: TraceAssociationOption): string {
   return option.title
 }
 
-function getOptionKey (option: TraceAssociationSearchResult): string {
+function getOptionKey (option: TraceAssociationOption): string {
   return option.id || option.title
 }
 
@@ -100,7 +89,7 @@ const emptySlotTextContent = computed<string>(() => {
     return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.errors.noResultsFound')
   }
   if (!isEmpty(keyword) && keyword.length < SEARCH_MIN_LENGTH) {
-    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.minimumCharacters')
+    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.minimumCharacters', { count: SEARCH_MIN_LENGTH })
   }
   return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.startTyping')
 })
@@ -128,8 +117,8 @@ const emptySlotTextContent = computed<string>(() => {
           :enable-load-more="true"
           max-dropdown-height="14.5rem"
           :debounce-delay="500"
-          @update:model-value="() => field.handleChange"
           @search="handleSearch"
+          @update:model-value="(v) => field.handleChange(v as TraceAssociationOption[])"
           @clear="handleClear"
           @load-more="handleLoadMore"
         >
