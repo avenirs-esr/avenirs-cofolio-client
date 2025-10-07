@@ -6,7 +6,8 @@ import {
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
   type PagedResponseTraceAssociationSearchResult,
-  type SkillDTO
+  type SkillDTO,
+  type SkillListItemDTO
 } from '@/api/avenir-esr'
 
 function getRandomSkillLevelStatus (): ESkillLevelStatus {
@@ -216,4 +217,17 @@ export function createMockedSearchStudentSkillsDTO (pageSize: number, totalEleme
     data: paginatedSkills,
     page: { pageSize, totalElements: actualTotalElements, totalPages, page }
   }
+}
+
+export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
+  const mockedAllSkills: SkillListItemDTO[] = []
+  for (let i = 1; i <= 20; i++) {
+    const skill: SkillListItemDTO = {
+      skillId: crypto.randomUUID(),
+      title: `Ma super compétence complémentaire ${i}`,
+    }
+    mockedAllSkills.push(skill)
+  }
+
+  return mockedAllSkills
 }

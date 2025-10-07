@@ -215,14 +215,6 @@
         "operationId": "tracesView",
         "parameters": [
           {
-            "name": "dateFilter",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/DateFilter"
-            }
-          },
-          {
             "name": "keyword",
             "in": "query",
             "required": false,
@@ -246,6 +238,24 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
             }
           }
         ],
@@ -1793,19 +1803,6 @@
                 "ASSOCIATED_WITH_ADDITIONAL_SKILL"
               ]
             }
-          }
-        }
-      },
-      "DateFilter": {
-        "type": "object",
-        "properties": {
-          "fromDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "toDate": {
-            "type": "string",
-            "format": "date"
           }
         }
       },

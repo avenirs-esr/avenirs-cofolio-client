@@ -420,6 +420,29 @@
           "description": "Are you sure you want to delete your trace?",
           "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
         },
+        "traceFilter": {
+          "labels": {
+            "fromDate": "Start date",
+            "reset": "Reset filters",
+            "skills": "Skill",
+            "statuses": "Status",
+            "statusesOptions": {
+              "associatedEvaluated": "Associated with an evaluated skill level",
+              "associatedInEvaluation": "Associated to a skill level submitted for evaluation",
+              "associatedNotEvaluated": "Associated to a not evaluated skill level",
+              "associatedWithAdditionalSkill": "Associated to an additional skill"
+            },
+            "toDate": "End date",
+            "types": "Type",
+            "typesOptions": {
+              "doc": "DOC file",
+              "docx": "DOCX file",
+              "jpeg": "JPEG file",
+              "pdf": "PDF file",
+              "png": "PNG file"
+            }
+          }
+        },
         "warningMessage": {
           "delete": {
             "days": "tomorrow | in the coming {daysWarning} days.",

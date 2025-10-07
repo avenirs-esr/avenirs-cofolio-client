@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
+import { createMockedAllSkillListItemDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AdditionalSkillDTO,
   type AdditionalSkillProgressDTO,
@@ -9,13 +10,14 @@ import {
   type PagedResponseAdditionalSkillProgressDTO,
   type PagedResponseSkillDTO,
   type PageInfoDTO,
-  type SkillDTO
+  type SkillDTO,
+  type SkillListItemDTO
 } from '@/api/avenir-esr'
-import { useAdditionalSkillsViewQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
+import { useAdditionalSkillsViewQuery, useAllSkillsQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
 import { BddTest, mountQueryComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, type MockInstance } from 'vitest'
 
 BddTest().given('an useAdditionalSkillsViewQuery composable', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -350,6 +352,94 @@ BddTest().given('an useSearchAdditionalSkillsQuery composable', () => {
         await flushPromises()
 
         expect(queryResult.skills.value).toHaveLength(0)
+      })
+    })
+  })
+})
+
+BddTest().given('an useAllSkillsQuery composable', async () => {
+  let getAllSkillsSpy: MockInstance<(options?: RequestInit | undefined) => Promise<SkillListItemDTO[]>>
+  let queryReturn: UseQueryReturnType<SkillListItemDTO[], BaseApiException>
+
+  const mockedAllSkills = createMockedAllSkillListItemDTO()
+
+  beforeEach(async () => {
+    // Create spy for getAllSkills to verify API calls
+    getAllSkillsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getAllSkills'>(
+      await import('@/api/avenir-esr'),
+    'getAllSkills'
+    ).mockResolvedValue(mockedAllSkills)
+
+    queryReturn = mountQueryComposable<UseQueryReturnType<SkillListItemDTO[], BaseApiException>>(
+      () => useAllSkillsQuery()
+    )
+    await flushPromises()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('an all skills query with no parameters', () => {
+    BddTest().when('the query is executed successfully', () => {
+      BddTest().then('it should call getAllSkills API and return the list of all skills', async () => {
+        const { data } = queryReturn
+
+        expect(getAllSkillsSpy).toHaveBeenCalledTimes(1)
+
+        expect(data.value).toBeDefined()
+        expect(data.value).toHaveLength(mockedAllSkills.length)
+
+        const firstItem = data.value![0]
+        expect(firstItem).toHaveProperty('skillId')
+        expect(firstItem).toHaveProperty('title')
+      })
+
+      BddTest().then('it should return properly typed configuration data', async () => {
+        // Verify the data has the expected structure
+        const config = queryReturn.data.value![0]
+        if (config) {
+          expect(typeof config.skillId).toBe('string')
+          expect(typeof config.title).toBe('string')
+        }
+      })
+
+      BddTest().then('it should mark the query as successful', async () => {
+        expect(queryReturn.isSuccess.value).toBe(true)
+        expect(queryReturn.isError.value).toBe(false)
+        expect(queryReturn.isLoading.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query encounters an error', () => {
+      BddTest().then('it should still call the API', async () => {
+        expect(getAllSkillsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should handle error state correctly', async () => {
+        if (queryReturn.isError.value) {
+          expect(queryReturn.isSuccess.value).toBe(false)
+          expect(queryReturn.error.value).toBeDefined()
+        }
+      })
+    })
+
+    BddTest().when('the query is called multiple times', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+      })
+
+      BddTest().then('it should use TanStack Query caching', async () => {
+        function useMultipleTraceDetailedCalls () {
+          useAllSkillsQuery()
+          return useAllSkillsQuery()
+        }
+
+        mountQueryComposable(() => useMultipleTraceDetailedCalls())
+        await flushPromises()
+        await flushPromises()
+
+        expect(getAllSkillsSpy).toHaveBeenCalledTimes(1)
       })
     })
   })

@@ -1,4 +1,5 @@
 import {
+  createMockedAllSkillListItemDTO,
   createMockedPagedResponseAdditionalSkillsDTO,
   createMockedPagedResponseSkillsDTO,
   createMockedSearchAdditionalSkillsDTO,
@@ -8,10 +9,12 @@ import {
   type AdditionalSkillConfigurationDTO,
   EAdditionalSkillLevel,
   getGetAdditionalSkillConfigUrl,
+  getGetAllSkillsUrl,
   getGetSkillLevelProgressesUrl,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
-  type SkillDetailedDTO
+  type SkillDetailedDTO,
+  type SkillListItemDTO
 } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
@@ -48,6 +51,17 @@ export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
 export function createSkillDetailedHandler (payload: SkillDetailedDTO) {
   return http.get<PathParams, SkillDetailedDTO>(`*/me/skill-level-progress/details/:skillId`, () => {
     return HttpResponse.json<SkillDetailedDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export function createAllSkillsHandler (payload: SkillListItemDTO[]) {
+  return http.get(`*${getGetAllSkillsUrl()}`, () => {
+    return HttpResponse.json<SkillListItemDTO[]>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -160,6 +174,16 @@ export const skillsHandlers = [
   http.get<PathParams, SkillDetailedDTO>(`*/me/skill-level-progress/details/:skillId`, async () => {
     await delay(100)
     return HttpResponse.json(mockedSkillDetailed, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, SkillListItemDTO[]>(`*${getGetAllSkillsUrl()}`, async () => {
+    const response = createMockedAllSkillListItemDTO()
+    return HttpResponse.json(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
