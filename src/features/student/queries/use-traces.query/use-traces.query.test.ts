@@ -52,22 +52,21 @@ BddTest().given('a useTracesViewQuery composable', async () => {
 
   BddTest().when('the composable is called', () => {
     BddTest().then('it should return mocked traces data for given page and pageSize', async () => {
-      const page = ref(1)
-      const pageSize = ref(4)
+      const params = ref<GetTracesViewParams>({
+        page: 1,
+        pageSize: PageSizes.FOUR,
+        status: GetTracesViewStatus.UNASSOCIATED
+      })
 
       const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
-        () => useTracesViewQuery({
-          page,
-          pageSize,
-          status: GetTracesViewStatus.UNASSOCIATED
-        })
+        () => useTracesViewQuery({ params })
       )
 
       await flushPromises()
 
       expect(getTracesViewSpy).toHaveBeenCalledWith({
         pageSize: PageSizes.FOUR,
-        page: page.value,
+        page: 1,
         status: GetTracesViewStatus.UNASSOCIATED
       })
       expect(getTracesViewSpy).toHaveBeenCalledTimes(1)
@@ -80,14 +79,13 @@ BddTest().given('a useTracesViewQuery composable', async () => {
     })
 
     BddTest().then('it should return correct pages array', async () => {
-      const page = ref(1)
-      const pageSize = ref(4)
-
-      const queryReturn = mountQueryComposable(() => useTracesViewQuery({
-        page,
-        pageSize,
+      const params = ref<GetTracesViewParams>({
+        page: 1,
+        pageSize: PageSizes.FOUR,
         status: GetTracesViewStatus.UNASSOCIATED
-      }))
+      })
+
+      const queryReturn = mountQueryComposable(() => useTracesViewQuery({ params }))
 
       await flushPromises()
 

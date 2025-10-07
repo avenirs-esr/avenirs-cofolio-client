@@ -27,7 +27,13 @@ BddTest().given('a student tools traces view container', () => {
       props: ['trace'],
       template: '<div class="student-detailed-trace-card-stub" />'
     },
-    Pagination: PaginationStub,
+    StudentTraceFilters: {
+      name: 'StudentTraceFilters',
+      props: ['searchLabel'],
+      emits: ['changeTraceFilter'],
+      template: '<div class="student-trace-filters-stub" />'
+    },
+    Pagination: PaginationStub
   }
 
   const mockedTracesData: PagedResponseTraceViewDTO = {
@@ -65,6 +71,12 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the StudentTraceFilters component', () => {
+        const filters = wrapper.findComponent({ name: 'StudentTraceFilters' })
+        expect(filters.exists()).toBe(true)
+        expect(filters.props('searchLabel')).toBe('Rechercher une trace associée')
+      })
+
       BddTest().then('it should render the Pagination component', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
@@ -106,6 +118,11 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the StudentTraceFilters component', () => {
+        const filters = wrapper.findComponent({ name: 'StudentTraceFilters' })
+        expect(filters.exists()).toBe(true)
+      })
+
       BddTest().then('it should not render any trace cards', () => {
         const cards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(cards).toHaveLength(0)

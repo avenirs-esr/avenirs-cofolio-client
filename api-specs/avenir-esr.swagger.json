@@ -637,6 +637,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

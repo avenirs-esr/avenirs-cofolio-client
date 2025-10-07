@@ -334,6 +334,11 @@
             "personalNoteLabel": "Note personnelle"
           }
         },
+        "studentTraceFilters": {
+          "resetButton": "Réinitialiser les filtres",
+          "searchLabel": "Rechercher une trace",
+          "searchPlaceholder": "Commencer la recherche..."
+        },
         "studentTraceAssociations": {
           "title": "Les associations de ma trace ({count})"
         },
@@ -399,7 +404,17 @@
         },
         "studentToolsTracesViewTabs": {
           "associated": "Aucune trace associée ({count})  | Ma trace associée ({count}) | Mes traces associées ({count})",
-          "unassociated": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})"
+          "unassociated": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})",
+          "associatedTracesTab": {
+            "studentTraceFilters": {
+              "searchLabel": "Rechercher une trace associée"
+            }
+          },
+          "unassociatedTracesTab": {
+            "studentTraceFilters": {
+              "searchLabel": "Rechercher une trace non associée"
+            }
+          }
         },
         "title": "Ma bibliothèque de traces",
         "traceDeletionConfirmationModal": {
