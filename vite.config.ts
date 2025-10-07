@@ -48,8 +48,6 @@ export default ({ mode }: { mode: string }) => {
           // @ts-expect-error TS2322
           'pinia',
           // @ts-expect-error TS2322
-          'vitest',
-          // @ts-expect-error TS2322
           vueDsfrAutoimportPreset,
         ],
         vueTemplate: true,
@@ -93,7 +91,6 @@ export default ({ mode }: { mode: string }) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
-      dedupe: ['vue'],
     },
     // TODO: uncomment when each route has its orval generated file
     // build: {

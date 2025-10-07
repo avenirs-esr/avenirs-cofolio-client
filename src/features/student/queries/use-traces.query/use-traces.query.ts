@@ -13,7 +13,7 @@ import {
   getTraceDetail,
   getTracesSummary,
   getTracesView,
-  type GetTracesViewStatus,
+  type GetTracesViewParams,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceAssociationSearchResult,
@@ -34,9 +34,7 @@ const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
 const TWO_MINUTES = 2 * 60 * 1000
 
 interface UseTracesViewQueryParams {
-  page: Ref<number>
-  pageSize: Ref<number>
-  status: MaybeRef<GetTracesViewStatus>
+  params: MaybeRef<GetTracesViewParams>
 }
 
 type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
@@ -44,17 +42,13 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 }
 
-export function useTracesViewQuery ({ page, pageSize, status }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
-  const queryKey = computed(() => [...unassignedTracesQueryKey, { page: page.value, pageSize: pageSize.value, status: toValue(status) }])
+export function useTracesViewQuery ({ params }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+  const queryKey = computed(() => [...unassignedTracesQueryKey, toValue(params)])
 
   const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<PagedResponseTraceViewDTO> => {
-      return await getTracesView({
-        pageSize: pageSize.value,
-        page: page.value,
-        status: toValue(status)
-      })
+      return await getTracesView(toValue(params))
     },
     staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData

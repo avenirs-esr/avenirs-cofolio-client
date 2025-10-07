@@ -25,7 +25,13 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, status: ETraceStatus = ETraceStatus.UNASSOCIATED): PagedResponseTraceViewDTO {
+export function createMockedTracesViewResponse (
+  pageSize: number,
+  totalElements: number,
+  page: number,
+  status: ETraceStatus = ETraceStatus.UNASSOCIATED,
+  keyword?: string
+): PagedResponseTraceViewDTO {
   const mockedTraces: TraceViewDTO[] = []
   for (let i = 1; i <= totalElements; i++) {
     const rawDay = (i % 28) + 1
@@ -43,14 +49,22 @@ export function createMockedTracesViewResponse (pageSize: number, totalElements:
     mockedTraces.push(trace)
   }
 
+  let filteredTraces = mockedTraces
+
+  if (keyword && keyword.trim() !== '') {
+    filteredTraces = mockedTraces.filter(trace =>
+      trace.title.toLowerCase().includes(keyword.toLowerCase())
+    )
+  }
+
   const start = page * pageSize
   const end = start + pageSize
-  const paginatedTraces = mockedTraces.slice(start, end)
-  const totalPages = Math.ceil(totalElements / pageSize)
+  const paginatedTraces = filteredTraces.slice(start, end)
+  const totalPages = Math.ceil(filteredTraces.length / pageSize)
 
   return {
     data: paginatedTraces,
-    page: { pageSize, totalElements, totalPages, page }
+    page: { pageSize, totalElements: filteredTraces.length, totalPages, page }
   }
 }
 

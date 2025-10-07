@@ -6,7 +6,10 @@
     "lib": [],
     "paths": {
       "@/*": ["./src/*"],
-      "tests/*": ["./tests/*"]
+      "tests/*": ["./tests/*"],
+      "vue": ["./node_modules/vue"],
+      "vue-router": ["./node_modules/vue-router"],
+      "@vue/*": ["./node_modules/@vue/*"]
     },
     "types": ["node", "jsdom"]
   },

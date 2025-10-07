@@ -102,11 +102,19 @@ export const tracesHandlers = [
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
     const statusQueryParam: string | null = searchParams.get('status')
+    const keyword: string | null = searchParams.get('keyword')
     const status: ETraceStatus = !isNil(statusQueryParam) && Object.values(ETraceStatus).includes(statusQueryParam as ETraceStatus)
       ? ETraceStatus[statusQueryParam as keyof typeof ETraceStatus]
       : ETraceStatus.UNASSOCIATED
 
-    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(pageSize, 20, page, status)
+    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(
+      pageSize,
+      20,
+      page,
+      status,
+      keyword ?? undefined
+    )
+
     return HttpResponse.json<PagedResponseTraceViewDTO>(response, {
       status: 200,
       headers: {

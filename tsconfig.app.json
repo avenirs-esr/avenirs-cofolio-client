@@ -6,9 +6,12 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "vue": ["./node_modules/vue"],
+      "vue-router": ["./node_modules/vue-router"],
+      "@vue/*": ["./node_modules/@vue/*"]
     },
-    "types": []
+    "types": [],
   },
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts"],
   "exclude": ["src/**/*.test.ts"]

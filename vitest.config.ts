@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import { configDefaults, coverageConfigDefaults, defineConfig, mergeConfig } from 'vitest/config'
 import viteConfig from './vite.config'
@@ -32,6 +31,7 @@ export default ({ mode }: { mode: string }) => {
         __ENABLE_MSW__: true,
       },
       test: {
+        globals: true,
         environment: 'jsdom',
         exclude: [...configDefaults.exclude, ...sharedExclusions, ...tempExclusions],
         root: fileURLToPath(new URL('./', import.meta.url)),
@@ -54,11 +54,11 @@ export default ({ mode }: { mode: string }) => {
         alias: {
           '@': fileURLToPath(new URL('./src', import.meta.url)),
           'tests': fileURLToPath(new URL('./tests', import.meta.url)),
-          // TODO temp
-          '@avenirs-esr/avenirs-dsav': path.resolve(__dirname, 'node_modules/@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.es.js')
-
+          '@avenirs-esr/avenirs-dsav': fileURLToPath(new URL('node_modules/@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.es.js', import.meta.url)),
+          'vue': fileURLToPath(new URL('./node_modules/vue', import.meta.url)),
+          'vue-router': fileURLToPath(new URL('./node_modules/vue-router', import.meta.url)),
+          '@vue/*': fileURLToPath(new URL('./node_modules/@vue/*', import.meta.url)),
         },
-        dedupe: ['vue'],
       },
     }),
   )

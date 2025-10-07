@@ -91,6 +91,52 @@ npm run test:unit
 npm run test:watch
 ```
 
+### Local Development with Design System (npm link)
+
+When developing the design system (`@avenirs-esr/avenirs-dsav`) locally alongside this project, use npm link for live updates:
+
+**Initial Setup:**
+
+1. In the design system repository (`avenirs-dsav`):
+```bash
+cd /path/to/avenirs-dsav
+npm install
+npm link
+```
+
+2. In this project (`avenirs-cofolio-client`):
+```bash
+npm link @avenirs-esr/avenirs-dsav
+```
+
+**Development Workflow:**
+
+In the design system repository, use watch mode to automatically rebuild on changes:
+```bash
+cd /path/to/avenirs-dsav
+npm run build:watch
+```
+
+This command runs in parallel:
+- `vite build --watch` - Rebuilds the library on file changes
+- `vue-tsc --watch` - Regenerates TypeScript declarations
+
+Then start the dev server in this project:
+```bash
+npm run dev
+```
+
+**Important Notes:**
+- TypeScript configuration automatically excludes the symlinked library's `node_modules` to prevent type conflicts
+- Changes in the design system are reflected immediately in this project
+- No need to manually rebuild or reinstall after each change
+
+**To Unlink:**
+```bash
+npm unlink @avenirs-esr/avenirs-dsav
+npm install
+```
+
 ## Features
 
 - Student portfolio management
