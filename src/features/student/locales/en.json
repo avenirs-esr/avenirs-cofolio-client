@@ -334,11 +334,6 @@
             "personalNoteLabel": "Personal note"
           }
         },
-        "studentTraceFilters": {
-          "resetButton": "Reset filters",
-          "searchLabel": "Search for a trace",
-          "searchPlaceholder": "Start search..."
-        },
         "studentTraceAssociations": {
           "title": "My trace associations ({count})"
         },
@@ -349,6 +344,10 @@
           "groupProduction": "This trace is a group production",
           "iaToggleLabel": "AI production",
           "personalNoteLabel": "Personal note"
+        },
+        "studentTraceFilters": {
+          "resetButton": "Reset filters",
+          "searchLabel": "Search for a trace"
         },
         "studentToolsTracesActionButtons": {
           "addTrace": "Add a trace to my library"
