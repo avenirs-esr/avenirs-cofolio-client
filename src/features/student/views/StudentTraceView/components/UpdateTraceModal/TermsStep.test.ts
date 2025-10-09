@@ -73,7 +73,7 @@ BddTest().given('a terms step', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the impact and alert messages', () => {
-      expect(wrapper.find('.impact-message').text()).toEqual('Vos modifications affecteront la trace dans les associations suivantes :')
+      expect(wrapper.find('.caption-regular').text()).toEqual('Vos modifications affecteront la trace dans les associations suivantes :')
       expect(wrapper.find('.alert-message').text()).toEqual('Attention, message d\'information')
     })
 
