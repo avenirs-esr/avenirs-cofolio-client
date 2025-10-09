@@ -458,6 +458,8 @@
           },
           "steps": {
             "terms": {
+              "alertMessage": "Attention, information message",
+              "impactMessage": "Your changes will affect the trace in the following associations:",
               "title": "Terms of modifications"
             },
             "update": {

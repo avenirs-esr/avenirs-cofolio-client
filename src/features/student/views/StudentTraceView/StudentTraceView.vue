@@ -43,7 +43,7 @@ const {
 const activeTab = ref(0)
 const isAssociationsTabActive = computed(() => activeTab.value === 1)
 
-const { skillLevelAssociations, additionalSkillAssociations } = useTraceAssociationsQuery(traceId, isAssociationsTabActive)
+const { skillLevelAssociations, additionalSkillAssociations, refetch } = useTraceAssociationsQuery(traceId, isAssociationsTabActive)
 
 function onDeleteTraceSuccess () {
   hideDeleteModal()
@@ -55,6 +55,10 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.tools.items.traces'), to: studentToolsTracesRoute },
   { text: traceDetailed.value?.title || '' }
 ])
+
+watch(showUpdateModal, () => {
+  refetch()
+})
 </script>
 
 <template>
@@ -121,6 +125,8 @@ const breadcrumbLinks = computed(() => [
 
     <UpdateTraceModal
       :trace="traceDetailed"
+      :skill-level-associations="skillLevelAssociations"
+      :additional-skill-associations="additionalSkillAssociations"
       :show="showUpdateModal"
       :on-close="() => hideUpdateModal()"
     />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { AdditionalSkillAssociationDTO, SkillLevelAssociationDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import TermsStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import UpdateStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { AvButton, AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -7,9 +7,11 @@ import { useI18n } from 'vue-i18n'
 
 const {
   trace,
+  skillLevelAssociations,
+  additionalSkillAssociations,
   show,
   onClose
-} = defineProps<{ trace: TraceDetailDTO, show: boolean, onClose: () => void }>()
+} = defineProps<{ trace: TraceDetailDTO, skillLevelAssociations: SkillLevelAssociationDTO[], additionalSkillAssociations: AdditionalSkillAssociationDTO[], show: boolean, onClose: () => void }>()
 
 const { t } = useI18n()
 
@@ -31,6 +33,11 @@ const confirmLabel = computed(() => currentStep.value === 0
 const confirmIcon = computed(() => currentStep.value === 0
   ? MDI_ICONS.CHECK_CIRCLE
   : MDI_ICONS.CONTENT_SAVE_OUTLINE)
+const displayedProps = computed(() =>
+  currentStep.value === 0
+    ? { skillLevelAssociations, additionalSkillAssociations }
+    : {}
+)
 </script>
 
 <template>
@@ -62,6 +69,7 @@ const confirmIcon = computed(() => currentStep.value === 0
         :is="displayedStep"
         :trace="trace"
         :on-close="onClose"
+        v-bind="displayedProps"
       />
     </div>
 
