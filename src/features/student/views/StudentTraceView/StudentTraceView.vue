@@ -56,8 +56,10 @@ const breadcrumbLinks = computed(() => [
   { text: traceDetailed.value?.title || '' }
 ])
 
-watch(showUpdateModal, () => {
-  refetch()
+watch(showUpdateModal, (newVal) => {
+  if (newVal) {
+    refetch()
+  }
 })
 </script>
 
