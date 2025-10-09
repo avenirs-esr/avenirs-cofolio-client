@@ -444,6 +444,8 @@
           },
           "steps": {
             "terms": {
+              "alertMessage": "Attention, message d'information",
+              "impactMessage": "Vos modifications affecteront la trace dans les associations suivantes :",
               "title": "Modalités de modifications"
             },
             "update": {

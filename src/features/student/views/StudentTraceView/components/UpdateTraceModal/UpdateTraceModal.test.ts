@@ -1,3 +1,4 @@
+import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, ETraceStatus, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { AvStepperStub, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -52,6 +53,7 @@ BddTest().given('an update trace modal', () => {
     AvStepper: AvStepperStub,
     TermsStep: {
       name: 'TermsStep',
+      props: ['skillLevelAssociations', 'additionalSkillAssociations'],
       template: '<div class="terms-step" />'
     },
     UpdateStep: {
@@ -65,7 +67,7 @@ BddTest().given('an update trace modal', () => {
       vi.clearAllMocks()
       onClose = vi.fn()
       wrapper = mount(UpdateTraceModal, {
-        props: { trace: mockedTrace, show: false, onClose },
+        props: { trace: mockedTrace, skillLevelAssociations: mockedTraceAssociations.skillLevelAssociations, additionalSkillAssociations: mockedTraceAssociations.additionalSkillAssociations, show: false, onClose },
         global: { stubs }
       })
     })
@@ -84,7 +86,7 @@ BddTest().given('an update trace modal', () => {
       vi.clearAllMocks()
       onClose = vi.fn()
       wrapper = mount(UpdateTraceModal, {
-        props: { trace: mockedTrace, show: true, onClose },
+        props: { trace: mockedTrace, skillLevelAssociations: mockedTraceAssociations.skillLevelAssociations, additionalSkillAssociations: mockedTraceAssociations.additionalSkillAssociations, show: true, onClose },
         global: { stubs }
       })
     })
@@ -126,6 +128,16 @@ BddTest().given('an update trace modal', () => {
 
       BddTest().then('it should display the trace details', () => {
         expect(wrapper.find('.n5').text()).toContain(mockedTrace.title)
+      })
+
+      BddTest().then('it passes associations props to TermsStep', () => {
+        const terms = wrapper.findComponent({ name: 'TermsStep' })
+        expect(terms.exists()).toBe(true)
+
+        expect(terms.props('skillLevelAssociations'))
+          .toEqual(mockedTraceAssociations.skillLevelAssociations)
+        expect(terms.props('additionalSkillAssociations'))
+          .toEqual(mockedTraceAssociations.additionalSkillAssociations)
       })
 
       BddTest().and('the close button is clicked', () => {
