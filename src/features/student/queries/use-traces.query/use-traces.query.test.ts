@@ -19,7 +19,6 @@ import {
   useTracesSummaryQuery,
   useTracesViewQuery
 } from '@/features/student/queries/use-traces.query/use-traces.query'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises } from '@vue/test-utils'
 import { BddTest, mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, type MockInstance, vi } from 'vitest'
@@ -33,6 +32,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 BddTest().given('a useTracesViewQuery composable', async () => {
+  let useTracesViewQueryReturn: ReturnType<typeof useTracesViewQuery>
   let tracesViewSpy: MockInstance<(traceFilter: TraceFilter, params?: TracesViewParams | undefined, options?: RequestInit | undefined) => Promise<PagedResponseTraceViewDTO>>
 
   beforeEach(async () => {
@@ -49,69 +49,159 @@ BddTest().given('a useTracesViewQuery composable', async () => {
   })
 
   BddTest().when('the composable is called', () => {
-    BddTest().then('it should return mocked traces data for given page and pageSize', async () => {
-      const page = ref(1)
-      const pageSize = ref(4)
+    BddTest().and('is given page and pageSize but no filter', () => {
       const traceFilter = ref<TraceFilter>({})
-      const fromDate = ref('2025-10-01')
-      const toDate = ref('2025-10-10')
-      const keyword = ref('')
+      const params = ref<TracesViewParams>({
+        page: 1,
+        pageSize: 4,
+      })
 
-      const { data } = mountQueryComposable<UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException>>(
+      beforeEach(async () => {
+        useTracesViewQueryReturn = mountQueryComposable(
+          () => useTracesViewQuery({
+            traceFilter,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should not have been called with filters other than page and pageSize', async () => {
+        expect(tracesViewSpy).toHaveBeenCalledWith({}, {
+          pageSize: params.value.pageSize,
+          page: params.value.page,
+        })
+      })
+
+      BddTest().then('it should return mocked traces data for given page and pageSize', async () => {
+        expect(tracesViewSpy).toHaveBeenCalledTimes(1)
+
+        expect(useTracesViewQueryReturn.data.value).toBeDefined()
+        expect(useTracesViewQueryReturn.data.value?.data).toBeInstanceOf(Array)
+        expect(useTracesViewQueryReturn.data.value?.data.length).toBe(4)
+        expect(useTracesViewQueryReturn.data.value?.data).toBeDefined()
+        expect(useTracesViewQueryReturn.data.value?.page).toBeDefined()
+      })
+
+      BddTest().then('it should return correct pages array', async () => {
+        expect(useTracesViewQueryReturn.pageInfo.value.totalPages).toBe(5)
+      })
+    })
+
+    BddTest().and('is given page and pageSize with isAssociated and keyword filters', () => {
+      const traceFilter = ref<TraceFilter>({ isAssociated: true })
+      const params = ref<TracesViewParams>({
+        page: 1,
+        pageSize: 4,
+        keyword: 'Ma super trace'
+      })
+
+      beforeEach(async () => {
+        useTracesViewQueryReturn = mountQueryComposable(
+          () => useTracesViewQuery({
+            traceFilter,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should not have been called with filters other than page, pageSize, isAssociated and keyword', async () => {
+        expect(tracesViewSpy).toHaveBeenCalledWith({ isAssociated: true }, {
+          pageSize: params.value.pageSize,
+          page: params.value.page,
+          keyword: 'Ma super trace'
+        })
+      })
+
+      BddTest().then('it should return mocked traces data for given filters', async () => {
+        expect(tracesViewSpy).toHaveBeenCalledTimes(1)
+
+        expect(useTracesViewQueryReturn.data.value).toBeDefined()
+        expect(useTracesViewQueryReturn.data.value?.data).toBeInstanceOf(Array)
+        expect(useTracesViewQueryReturn.data.value?.data.length).toBe(4)
+        expect(useTracesViewQueryReturn.data.value?.data).toBeDefined()
+        expect(useTracesViewQueryReturn.data.value?.page).toBeDefined()
+      })
+
+      BddTest().then('it should return correct pages array', async () => {
+        expect(useTracesViewQueryReturn.pageInfo.value.totalPages).toBe(5)
+      })
+    })
+  })
+
+  BddTest().and('is given page and pageSize with unmatched keyword filters', () => {
+    const traceFilter = ref<TraceFilter>({ isAssociated: true })
+    const params = ref<TracesViewParams>({
+      page: 1,
+      pageSize: 4,
+      keyword: crypto.randomUUID()
+    })
+
+    beforeEach(async () => {
+      useTracesViewQueryReturn = mountQueryComposable(
         () => useTracesViewQuery({
           traceFilter,
-          page,
-          pageSize,
-          fromDate,
-          toDate,
-          keyword
+          params
         })
+      )
+      await flushPromises()
+    })
+
+    BddTest().then('it should return mocked traces data for given filters', async () => {
+      expect(tracesViewSpy).toHaveBeenCalledTimes(1)
+
+      expect(useTracesViewQueryReturn.data.value).toBeDefined()
+      expect(useTracesViewQueryReturn.data.value?.data).toBeInstanceOf(Array)
+      expect(useTracesViewQueryReturn.data.value?.data.length).toBe(0)
+      expect(useTracesViewQueryReturn.data.value?.data).toBeDefined()
+      expect(useTracesViewQueryReturn.data.value?.page).toBeDefined()
+    })
+
+    BddTest().then('it should return correct pages array', async () => {
+      expect(useTracesViewQueryReturn.pageInfo.value.totalPages).toBe(0)
+    })
+  })
+
+  BddTest().and('is given empty and non-empty filters', () => {
+    const traceFilter = ref<TraceFilter>({ fileTypes: [], skillIds: ['skill-1'] })
+    const params = ref<TracesViewParams>({
+      page: 1,
+      pageSize: 4,
+      keyword: '',
+      fromDate: '2025-10-09'
+    })
+
+    beforeEach(async () => {
+      useTracesViewQueryReturn = mountQueryComposable(
+        () => useTracesViewQuery({
+          traceFilter,
+          params
+        })
+      )
+      await flushPromises()
+    })
+
+    BddTest().then('it should been called with only non-empty filters', async () => {
+      expect(tracesViewSpy).toHaveBeenCalledWith({ skillIds: ['skill-1'] }, {
+        pageSize: params.value.pageSize,
+        page: params.value.page,
+        fromDate: params.value.fromDate,
+      })
+    })
+  })
+})
+
+BddTest().given('a useTracesSummaryQuery composable', () => {
+  BddTest().when('API is not yet connected', () => {
+    BddTest().then('it should return mockedTracesSummary', async () => {
+      const { data } = mountQueryComposable<UseQueryReturnType<TracesSummaryDTO, BaseApiException>>(
+        () => useTracesSummaryQuery()
       )
 
       await flushPromises()
 
-      expect(tracesViewSpy).toHaveBeenCalledWith({}, {
-        pageSize: PageSizes.FOUR,
-        page: page.value,
-        fromDate: fromDate.value,
-        toDate: toDate.value,
-        keyword: keyword.value
-      })
-      expect(tracesViewSpy).toHaveBeenCalledTimes(1)
-
-      expect(data.value).toBeDefined()
-      expect(data.value?.data).toBeInstanceOf(Array)
-      expect(data.value?.data.length).toBe(4)
-      expect(data.value?.data).toBeDefined()
-      expect(data.value?.page).toBeDefined()
-    })
-
-    BddTest().then('it should return correct pages array', async () => {
-      const page = ref(1)
-      const pageSize = ref(4)
-      const traceFilter = ref<TraceFilter>({})
-
-      const queryReturn = mountQueryComposable(() => useTracesViewQuery({
-        traceFilter,
-        page,
-        pageSize,
-      }))
-
-      await flushPromises()
-
-      expect(queryReturn.pageInfo.value.totalPages).toBe(5)
-    })
-
-    BddTest().and('when API is not yet connected', () => {
-      BddTest().then('it should return mockedTracesSummary', async () => {
-        const { data } = mountQueryComposable<UseQueryReturnType<TracesSummaryDTO, BaseApiException>>(
-          () => useTracesSummaryQuery()
-        )
-
-        await flushPromises()
-
-        expect(data.value).toEqual(mockedTracesSummary)
-      })
+      expect(data.value).toEqual(mockedTracesSummary)
     })
   })
 })

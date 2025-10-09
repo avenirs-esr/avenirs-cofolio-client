@@ -73,6 +73,17 @@ BddTest().given('an usePagination composable', () => {
         expect(pagination.currentPage.value).toBe(0)
       })
     })
+
+    BddTest().when('resetCurrentPage is called', () => {
+      beforeEach(() => {
+        pagination.resetCurrentPage()
+      })
+
+      BddTest().then('currentPage should be reset', () => {
+        expect(pagination.currentPage.value).toBe(0)
+        expect(storeCurrentPage.value).toBe(0)
+      })
+    })
   })
 
   BddTest().and('multiple pagination instances', () => {

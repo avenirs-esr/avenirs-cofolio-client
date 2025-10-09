@@ -13,8 +13,12 @@ export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelec
     pageSizeSelected.value = pageSize
   }
 
-  watch(pageSizeSelected, () => {
+  function resetCurrentPage () {
     currentPage.value = 0
+  }
+
+  watch(pageSizeSelected, () => {
+    resetCurrentPage()
   }, { immediate: true })
 
   return {
@@ -22,5 +26,6 @@ export function usePagination (storeCurrentPage: Ref<number>, storePageSizeSelec
     pageSizeSelected,
     onUpdateCurrentPage,
     onUpdatePageSize,
+    resetCurrentPage
   }
 }

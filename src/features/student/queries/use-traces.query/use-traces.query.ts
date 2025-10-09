@@ -1,7 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
 
-import type { DateFilter } from '@/types'
-
 import {
   associate,
   type AssociateTraceDTO,
@@ -22,11 +20,13 @@ import {
   type TracesCreationResponse,
   type TracesSummaryDTO,
   tracesView,
+  type TracesViewParams,
   type TraceViewDTO,
   uploadAttachment,
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
+import { removeEmpty } from '@/common/utils'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type Ref, toValue, type UnwrapRef } from 'vue'
 
@@ -35,11 +35,7 @@ const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
 const TWO_MINUTES = 2 * 60 * 1000
 
 export interface UseTracesViewQueryParams {
-  fromDate?: Ref<DateFilter['fromDate']>
-  toDate?: Ref<DateFilter['toDate']>
-  keyword?: Ref<string>
-  page: Ref<number>
-  pageSize: Ref<number>
+  params: Ref<TracesViewParams>
   traceFilter: Ref<TraceFilter>
 }
 
@@ -48,29 +44,19 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 }
 
-export function useTracesViewQuery ({
-  fromDate,
-  toDate,
-  keyword,
-  traceFilter,
-  page,
-  pageSize
-}: UseTracesViewQueryParams): UseTracesViewQueryReturn {
-  const queryKey = computed(() => [...unassignedTracesQueryKey, {
-    page: page.value,
-    pageSize: pageSize.value
-  }])
+export function useTracesViewQuery ({ params, traceFilter }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+  const queryKey = computed(() => [
+    ...commonQueryKeys,
+    toValue(params),
+    toValue(traceFilter),
+  ])
 
   const query = useQuery<PagedResponseTraceViewDTO, BaseApiException, PagedResponseTraceViewDTO, readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<PagedResponseTraceViewDTO> => {
-      return await tracesView(traceFilter.value, {
-        fromDate: fromDate?.value,
-        toDate: toDate?.value,
-        keyword: keyword?.value,
-        pageSize: pageSize.value,
-        page: page.value
-      })
+      const cleanFilter = computed(() => removeEmpty(traceFilter.value))
+      const cleanParams = computed(() => removeEmpty(params.value))
+      return await tracesView(cleanFilter.value, cleanParams.value)
     },
     staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData

@@ -437,7 +437,6 @@ BddTest().given('an useAllSkillsQuery composable', async () => {
 
         mountQueryComposable(() => useMultipleTraceDetailedCalls())
         await flushPromises()
-        await flushPromises()
 
         expect(getAllSkillsSpy).toHaveBeenCalledTimes(1)
       })

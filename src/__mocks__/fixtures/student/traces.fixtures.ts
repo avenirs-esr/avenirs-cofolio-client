@@ -8,10 +8,14 @@ import {
   ESkillLevelStatus,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
+  type TraceFilter,
   type TracesCreationResponse,
   type TracesSummaryDTO,
+  type TracesViewParams,
   type TraceViewDTO
 } from '@/api/avenir-esr'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { isAfter, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
 
 export const mockedTracesSummary: TracesSummaryDTO = {
   associated: 24,
@@ -24,29 +28,52 @@ export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted
 
 export const invalidTraceId = 'invalid-trace-id'
 
-export function createMockedTracesViewResponse (pageSize: number, totalElements: number, page: number, isAssociated = false): PagedResponseTraceViewDTO {
+export function createMockedTracesViewResponse (
+  traceFilter: TraceFilter,
+  tracesViewParams: TracesViewParams,
+  totalElements: number,
+): PagedResponseTraceViewDTO {
+  const { isAssociated = false } = traceFilter
+  const { keyword, page = 0, pageSize = PageSizes.FOUR, fromDate, toDate } = tracesViewParams
   const mockedTraces: TraceViewDTO[] = []
+
   for (let i = 1; i <= totalElements; i++) {
+    const rawMonth = (i % 12) + 1
+    const monthNumber = rawMonth < 10 ? `0${rawMonth}` : `${rawMonth}`
     const rawDay = (i % 28) + 1
     const dayNumber = rawDay < 10 ? `0${rawDay}` : `${rawDay}`
-    const rand = Math.floor(Math.random() * 31) + 1
-    const randomDayNumber = rand < 10 ? `0${rand}` : rand
     const trace = {
       isAssociated,
-      id: `trace${i}`,
-      title: `Ma super trace numéro ${i}`,
-      createdAt: `2025-06-${dayNumber}T10:42:00.000Z`,
-      updatedAt: `2025-06-${dayNumber}T11:42:00.000Z`,
-      willBeDeletedAt: `2026-07-${randomDayNumber}T10:42:00.000Z`
+      id: `trace-${isAssociated ? 'associee' : 'non-associee'}${i}`,
+      title: `Ma super trace ${isAssociated ? 'associée' : 'non associée'} numéro ${i}`,
+      createdAt: `2025-${monthNumber}-${dayNumber}T10:42:00.000Z`,
+      updatedAt: `2025-${monthNumber}-${dayNumber}T11:42:00.000Z`,
+      willBeDeletedAt: `2026-07-${dayNumber}T10:42:00.000Z`
     }
     mockedTraces.push(trace)
   }
 
-  let filteredTraces = mockedTraces
+  let filteredTraces = mockedTraces.filter(trace => trace.isAssociated === isAssociated)
 
-  if (keyword && keyword.trim() !== '') {
-    filteredTraces = mockedTraces.filter(trace =>
+  if (keyword?.trim()) {
+    filteredTraces = filteredTraces.filter(trace =>
       trace.title.toLowerCase().includes(keyword.toLowerCase())
+    )
+  }
+
+  if (fromDate?.trim()) {
+    const from = startOfDay(parseISO(fromDate))
+    filteredTraces = filteredTraces.filter(trace =>
+      isAfter(startOfDay(parseISO(trace.createdAt)), from)
+      || isSameDay(startOfDay(parseISO(trace.createdAt)), from)
+    )
+  }
+
+  if (toDate?.trim()) {
+    const to = startOfDay(parseISO(toDate))
+    filteredTraces = filteredTraces.filter(trace =>
+      isBefore(startOfDay(parseISO(trace.createdAt)), to)
+      || isSameDay(startOfDay(parseISO(trace.createdAt)), to)
     )
   }
 

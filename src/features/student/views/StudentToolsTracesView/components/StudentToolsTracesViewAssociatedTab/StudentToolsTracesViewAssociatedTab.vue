@@ -1,77 +1,46 @@
 <script setup lang="ts">
-import type { TraceFilter } from '@/api/avenir-esr'
-import type { DateFilter } from '@/types'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/composables'
-import { useTracesViewQuery, type UseTracesViewQueryParams } from '@/features/student/queries'
+import { useTracesViewQuery } from '@/features/student/queries'
 import StudentDetailedTraceCard
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
-import StudentTraceFilters
-  from '@/features/student/views/StudentToolsTracesView/components/StudentTraceFilters/StudentTraceFilters.vue'
 import TraceFilterContainer from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { useTracesStore } from '@/store'
-import { useI18n } from 'vue-i18n'
 
 const tracesStore = useTracesStore()
-
-const { t } = useI18n()
 
 const {
   currentPage,
   pageSizeSelected,
   onUpdateCurrentPage,
-  onUpdatePageSize
+  onUpdatePageSize,
+  resetCurrentPage
 } = usePagination(toRef(tracesStore, 'associatedCurrentPage'), toRef(tracesStore, 'associatedPageSizeSelected'))
 
-const { traceFilter: traceFilterComposable, handleChangeTraceFilter } = useTraceFilters()
+const { tracesViewQueryParams, onUpdateFilters } = useTraceFilters({ isAssociated: true })
 
-const traceFilter = ref<TraceFilter>({ isAssociated: true })
-const fromDateFilter = ref<DateFilter['fromDate']>(undefined)
-const toDateFilter = ref<DateFilter['toDate']>(undefined)
+const traceFilter = computed(() => tracesViewQueryParams.traceFilter.value)
+const params = computed(() => ({
+  ...tracesViewQueryParams.params.value,
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value
+}))
 
-const tracesViewQueryParams: UseTracesViewQueryParams = {
-  traceFilter,
-  fromDate: fromDateFilter,
-  toDate: toDateFilter,
-  page: currentPage,
-  pageSize: pageSizeSelected,
-}
-const { traces, pageInfo, error, refetch } = useTracesViewQuery(tracesViewQueryParams)
+const { traces, pageInfo, error } = useTracesViewQuery({ traceFilter, params })
 useBaseApiExceptionToast(error)
 
-function onFiltersUpdated (newFilters: Partial<TraceFilter> & Partial<DateFilter>) {
-  const traceFilterKeys: (keyof TraceFilter)[] = ['fileTypes', 'statuses', 'skillIds']
-  const dateFilterKeys: (keyof DateFilter)[] = ['fromDate', 'toDate']
-
-  const traceFilterUpdates: Partial<TraceFilter> = {}
-  const dateFilterUpdates: Partial<DateFilter> = {}
-
-  for (const key in newFilters) {
-    if (traceFilterKeys.includes(key as keyof TraceFilter)) {
-      traceFilterUpdates[key as keyof TraceFilter] = newFilters[key as keyof typeof newFilters] as any
-    }
-    if (dateFilterKeys.includes(key as keyof DateFilter)) {
-      dateFilterUpdates[key as keyof DateFilter] = newFilters[key as keyof typeof newFilters] as any
-    }
-  }
-
-  traceFilter.value = { ...traceFilter.value, ...traceFilterUpdates }
-  fromDateFilter.value = dateFilterUpdates.fromDate
-  toDateFilter.value = dateFilterUpdates.toDate
-
-  refetch()
-}
+watch([
+  () => tracesViewQueryParams.params.value,
+  () => tracesViewQueryParams.traceFilter.value
+], () => resetCurrentPage())
 </script>
 
 <template>
   <div class="student-tools-traces-view-tabs-container">
-    <StudentTraceFilters
-      :search-label="t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.associatedTracesTab.studentTraceFilters.searchLabel')"
-      @change-trace-filter="handleChangeTraceFilter"
-    />
     <TraceFilterContainer
-      @filters-updated="onFiltersUpdated"
+      :is-associated="true"
+      @update:filters="onUpdateFilters"
     />
     <Pagination
       :page-info="pageInfo"

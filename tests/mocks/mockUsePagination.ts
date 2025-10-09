@@ -13,10 +13,15 @@ export function createUsePaginationMock () {
     currentPage.value = 0
   })
 
+  const resetCurrentPage = vi.fn(() => {
+    currentPage.value = 0
+  })
+
   return {
     currentPage,
     pageSizeSelected,
     onUpdateCurrentPage,
-    onUpdatePageSize
+    onUpdatePageSize,
+    resetCurrentPage
   }
 }
