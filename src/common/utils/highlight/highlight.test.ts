@@ -2,7 +2,7 @@ import {
   highlightCaptionText,
   highlightMatchedText,
   highlightTitleText,
-} from '@/common/utils/highlight'
+} from '@/common/utils/highlight/highlight'
 import { BddTest } from 'tests/utils'
 
 BddTest().given('a highlight text utility', () => {

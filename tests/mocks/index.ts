@@ -1,4 +1,5 @@
 export * from './ams'
+export * from './mockUseTraceFilters'
 export * from './mockUseUnassignedTracesView'
 export * from './toaster'
 export * from './vueQueryError'

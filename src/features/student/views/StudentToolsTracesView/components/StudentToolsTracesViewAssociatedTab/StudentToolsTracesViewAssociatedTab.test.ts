@@ -3,18 +3,27 @@ import { createTracesViewHandler } from '@/__mocks__/msw/handlers/student/traces
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import StudentToolsTracesViewAssociatedTab from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
+import { TraceFilterContainerStub } from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
+import { createUseTraceFiltersMock } from 'tests/mocks'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
+let traceFiltersMock: ReturnType<typeof createUseTraceFiltersMock>
 
 vi.mock('@/common/composables/use-pagination/use-pagination', () => {
   return {
     usePagination: vi.fn(() => paginationMock)
+  }
+})
+
+vi.mock('@/features/student/composables/use-trace-filters/use-trace-filters', () => {
+  return {
+    useTraceFilters: vi.fn(() => traceFiltersMock)
   }
 })
 
@@ -27,17 +36,7 @@ BddTest().given('a student tools traces view container', () => {
       props: ['trace'],
       template: '<div class="student-detailed-trace-card-stub" />'
     },
-    StudentTraceFilters: {
-      name: 'StudentTraceFilters',
-      props: ['searchLabel'],
-      emits: ['changeTraceFilter'],
-      template: '<div class="student-trace-filters-stub" />'
-    },
-    TraceFilterContainer: {
-      name: 'TraceFilterContainer',
-      template: `<button class="trace-filter-container" @click="$emit('filtersUpdated')" />`,
-      emits: ['filtersUpdated']
-    },
+    TraceFilterContainer: TraceFilterContainerStub,
     Pagination: PaginationStub,
   }
 
@@ -61,6 +60,7 @@ BddTest().given('a student tools traces view container', () => {
       vi.clearAllMocks()
 
       paginationMock = createUsePaginationMock()
+      traceFiltersMock = createUseTraceFiltersMock()
 
       setActivePinia(createPinia())
       const handler = createTracesViewHandler(mockedTracesData)
@@ -76,10 +76,10 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the StudentTraceFilters component', () => {
-        const filters = wrapper.findComponent({ name: 'StudentTraceFilters' })
+      BddTest().then('it should render the TraceFilterContainer component', () => {
+        const filters = wrapper.findComponent({ name: 'TraceFilterContainer' })
         expect(filters.exists()).toBe(true)
-        expect(filters.props('searchLabel')).toBe('Rechercher une trace associée')
+        expect(filters.props('isAssociated')).toBe(true)
       })
 
       BddTest().then('it should render the Pagination component', () => {
@@ -90,6 +90,25 @@ BddTest().given('a student tools traces view container', () => {
         await flushPromises()
         const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(traceCards).toHaveLength(4)
+      })
+    })
+
+    BddTest().when('clicking on the filters buttons', () => {
+      beforeEach(async () => {
+        await flushPromises()
+        await wrapper.find('.emit-update-filters').trigger('click')
+      })
+
+      BddTest().then('it should update current keyword, fromDate and skillIds in the mock', async () => {
+        expect(traceFiltersMock.onUpdateFilters).toHaveBeenCalledWith({
+          keyword: 'example',
+          fromDate: '2025-10-10',
+          skillIds: ['skill-1', 'skill-2']
+        })
+      })
+
+      BddTest().then('it should reset current page', async () => {
+        expect(paginationMock.resetCurrentPage).toHaveBeenCalled()
       })
     })
 
@@ -123,9 +142,10 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the StudentTraceFilters component', () => {
-        const filters = wrapper.findComponent({ name: 'StudentTraceFilters' })
+      BddTest().then('it should render the TraceFilterContainer component', () => {
+        const filters = wrapper.findComponent({ name: 'TraceFilterContainer' })
         expect(filters.exists()).toBe(true)
+        expect(filters.props('isAssociated')).toBe(true)
       })
 
       BddTest().then('it should not render any trace cards', () => {

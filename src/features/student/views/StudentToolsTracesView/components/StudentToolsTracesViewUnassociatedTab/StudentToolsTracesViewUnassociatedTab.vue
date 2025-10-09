@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceFilter, TracesSummaryDTO } from '@/api/avenir-esr'
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/composables'
@@ -8,10 +8,8 @@ import StudentDetailedTraceCard
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice
   from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
-import StudentTraceFilters
-  from '@/features/student/views/StudentToolsTracesView/components/StudentTraceFilters/StudentTraceFilters.vue'
+import TraceFilterContainer from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { useTracesStore } from '@/store'
-import { useI18n } from 'vue-i18n'
 
 defineProps<{
   tracesSummary: TracesSummaryDTO | undefined
@@ -19,31 +17,37 @@ defineProps<{
 
 const tracesStore = useTracesStore()
 
-const { t } = useI18n()
-
 const {
   currentPage,
   pageSizeSelected,
   onUpdateCurrentPage,
-  onUpdatePageSize
+  onUpdatePageSize,
+  resetCurrentPage
 } = usePagination(toRef(tracesStore, 'unassociatedCurrentPage'), toRef(tracesStore, 'unassociatedPageSizeSelected'))
 
-const { traceFilter, handleChangeTraceFilter } = useTraceFilters()
+const { tracesViewQueryParams, onUpdateFilters } = useTraceFilters({ isAssociated: false })
 
-const tracesViewQueryParams = {
-  traceFilter: ref<TraceFilter>({}),
-  page: currentPage,
-  pageSize: pageSizeSelected,
-}
-const { traces, pageInfo, error } = useTracesViewQuery(tracesViewQueryParams)
+const traceFilter = computed(() => tracesViewQueryParams.traceFilter.value)
+const params = computed(() => ({
+  ...tracesViewQueryParams.params.value,
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value
+}))
+
+const { traces, pageInfo, error } = useTracesViewQuery({ traceFilter, params })
 useBaseApiExceptionToast(error)
+
+watch([
+  () => tracesViewQueryParams.params.value,
+  () => tracesViewQueryParams.traceFilter.value
+], () => resetCurrentPage())
 </script>
 
 <template>
   <div class="student-tools-traces-view-tabs-container">
-    <StudentTraceFilters
-      :search-label="t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.unassociatedTracesTab.studentTraceFilters.searchLabel')"
-      @change-trace-filter="handleChangeTraceFilter"
+    <TraceFilterContainer
+      :is-associated="false"
+      @update:filters="onUpdateFilters"
     />
     <StudentToolsTracesViewNotice :traces-summary="tracesSummary" />
     <Pagination

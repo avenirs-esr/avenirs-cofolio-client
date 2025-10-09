@@ -21,8 +21,10 @@ import {
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
+  type TraceFilter,
   type TracesCreationResponse,
-  type TracesSummaryDTO
+  type TracesSummaryDTO,
+  type TracesViewParams
 } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -90,16 +92,30 @@ export const tracesHandlers = [
     })
   }),
 
-  http.post(`*${getTracesViewUrl()}`, ({ request }) => {
+  http.post(`*${getTracesViewUrl()}`, async ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
+    const traceFilter = await request.json() as TraceFilter
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const isAssociated = Boolean(searchParams.get('isAssociated') ?? false)
     const keyword: string | null = searchParams.get('keyword')
+    const fromDate: string | null = searchParams.get('fromDate')
+    const toDate: string | null = searchParams.get('toDate')
 
-    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(pageSize, 20, page, isAssociated, keyword)
+    const tracesViewParams: TracesViewParams = {
+      keyword: keyword ?? undefined,
+      page,
+      pageSize,
+      fromDate: fromDate ?? undefined,
+      toDate: toDate ?? undefined
+    }
+
+    const response: PagedResponseTraceViewDTO = createMockedTracesViewResponse(
+      traceFilter ?? {},
+      tracesViewParams,
+      20
+    )
     return HttpResponse.json<PagedResponseTraceViewDTO>(response, {
       status: 200,
       headers: {

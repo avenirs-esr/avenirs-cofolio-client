@@ -2216,6 +2216,9 @@
           "attachment": {
             "$ref": "#/components/schemas/AttachmentUploadDTO"
           },
+          "associationsTrace": {
+            "$ref": "#/components/schemas/AssociationsTraceDTO"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"

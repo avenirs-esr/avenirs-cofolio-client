@@ -224,7 +224,7 @@ export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
   for (let i = 1; i <= 20; i++) {
     const skill: SkillListItemDTO = {
       skillId: crypto.randomUUID(),
-      title: `Ma super compétence complémentaire ${i}`,
+      title: `Ma super compétence ${i}`,
     }
     mockedAllSkills.push(skill)
   }

@@ -424,6 +424,11 @@
           "labels": {
             "fromDate": "Date de début",
             "reset": "Réinitialiser les filtres",
+            "search": {
+              "associated": "Rechercher une trace associée",
+              "unassociated": "Rechercher une trace non associée"
+            },
+            "selected": "{count} choix",
             "skills": "Compétence",
             "statuses": "Statut",
             "statusesOptions": {
