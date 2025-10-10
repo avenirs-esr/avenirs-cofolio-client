@@ -90,26 +90,6 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
   }
 }
 
-export const mockedTraceDetailed = {
-  id: 'trace1',
-  title: 'Développement d\'un ePortfolio',
-  status: ETraceStatus.UNASSOCIATED,
-  createdAt: '2025-06-16T10:42:00.000Z',
-  updatedAt: '2025-06-17T15:18:00.000Z',
-  programName: 'An awesome program',
-  aiUseJustification: 'An awesome justification',
-  isGroup: false,
-  personalNote: 'An awesome personal note',
-  attachment: {
-    id: 'mock-attachment',
-    fileName: 'An awesome attachment',
-    fileType: EFileType.TXT,
-    fileSize: 1,
-    version: 1,
-    uploadedAt: '2025-06-02T11:42:00.000Z',
-  }
-}
-
 export const mockedTraceAssociations: AssociationsTraceDTO = {
   skillLevelAssociations: [
     {
@@ -175,4 +155,25 @@ export const mockedTraceAssociations: AssociationsTraceDTO = {
       type: EAdditionalSkillType.ROME4
     }
   ]
+}
+
+export const mockedTraceDetailed = {
+  id: 'trace1',
+  title: 'Développement d\'un ePortfolio',
+  status: ETraceStatus.UNASSOCIATED,
+  createdAt: '2025-06-16T10:42:00.000Z',
+  updatedAt: '2025-06-17T15:18:00.000Z',
+  programName: 'An awesome program',
+  aiUseJustification: 'An awesome justification',
+  isGroup: false,
+  personalNote: 'An awesome personal note',
+  attachment: {
+    id: 'mock-attachment',
+    fileName: 'An awesome attachment',
+    fileType: EFileType.TXT,
+    fileSize: 1,
+    version: 1,
+    uploadedAt: '2025-06-02T11:42:00.000Z',
+  },
+  associationsTrace: mockedTraceAssociations
 }

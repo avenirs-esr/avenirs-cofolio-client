@@ -570,37 +570,6 @@
         }
       }
     },
-    "/me/traces/{traceId}/associations": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "getTraceAssociations",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssociationsTraceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/view": {
       "get": {
         "tags": [
@@ -1560,61 +1529,6 @@
           "name"
         ]
       },
-      "TraceDetailDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/ETraceStatus",
-            "enum": [
-              "UNASSOCIATED",
-              "ASSOCIATED"
-            ]
-          },
-          "programName": {
-            "type": "string"
-          },
-          "isGroup": {
-            "type": "boolean"
-          },
-          "aiUseJustification": {
-            "type": "string"
-          },
-          "personalNote": {
-            "type": "string"
-          },
-          "attachment": {
-            "$ref": "#/components/schemas/AttachmentUploadDTO"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "aiUseJustification",
-          "attachment",
-          "createdAt",
-          "id",
-          "isGroup",
-          "personalNote",
-          "programName",
-          "status",
-          "title",
-          "updatedAt"
-        ]
-      },
       "AdditionalSkillAssociationDTO": {
         "type": "object",
         "properties": {
@@ -1740,6 +1654,64 @@
           "level",
           "skillTitle",
           "status"
+        ]
+      },
+      "TraceDetailDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceStatus",
+            "enum": [
+              "UNASSOCIATED",
+              "ASSOCIATED"
+            ]
+          },
+          "programName": {
+            "type": "string"
+          },
+          "isGroup": {
+            "type": "boolean"
+          },
+          "aiUseJustification": {
+            "type": "string"
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/AttachmentUploadDTO"
+          },
+          "associationsTrace": {
+            "$ref": "#/components/schemas/AssociationsTraceDTO"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "aiUseJustification",
+          "attachment",
+          "createdAt",
+          "id",
+          "isGroup",
+          "personalNote",
+          "programName",
+          "status",
+          "title",
+          "updatedAt"
         ]
       },
       "PageInfoDTO": {

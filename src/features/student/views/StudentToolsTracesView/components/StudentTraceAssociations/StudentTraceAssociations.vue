@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import type { AdditionalSkillAssociationDTO, SkillLevelAssociationDTO } from '@/api/avenir-esr'
+import type { AssociationsTraceDTO } from '@/api/avenir-esr'
 import { StudentTraceAdditionalSkillAssociationCard, StudentTraceSkillLevelAssociationCard } from '@/features/student/components/cards'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceAssociationsProps {
-  skillLevelAssociations: SkillLevelAssociationDTO[]
-  additionalSkillAssociations: AdditionalSkillAssociationDTO[]
+  associations: AssociationsTraceDTO | undefined
 }
 
-const { skillLevelAssociations, additionalSkillAssociations } = defineProps<StudentTraceAssociationsProps>()
+const { associations } = defineProps<StudentTraceAssociationsProps>()
 
-const totalAssociations = computed(() => skillLevelAssociations.length + additionalSkillAssociations.length)
+const skillLevelAssociations = computed(() => associations && associations.skillLevelAssociations ? associations.skillLevelAssociations : [])
+const additionalSkillAssociations = computed(() => associations && associations.additionalSkillAssociations ? associations.additionalSkillAssociations : [])
+const totalAssociations = computed(() => skillLevelAssociations.value.length + additionalSkillAssociations.value.length)
 
 function getSkillColor (index: number): string {
   return `var(--skill${(index % 12) + 1})`

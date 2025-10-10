@@ -34,7 +34,7 @@ BddTest().given('a student trace view', () => {
     },
     UpdateTraceModal: {
       name: 'UpdateTraceModal',
-      props: ['trace', 'show', 'skill-level-associations', 'additional-skill-associations'],
+      props: ['trace', 'show'],
       template: '<div class="update-trace-modal" />'
     },
     StudentDetailedTraceAssociateModal: {
