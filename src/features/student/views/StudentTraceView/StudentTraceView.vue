@@ -2,7 +2,7 @@
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
-import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/queries'
+import { useTraceDetailedQuery } from '@/features/student/queries'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceAssociations from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
@@ -43,8 +43,6 @@ const {
 const activeTab = ref(0)
 const isAssociationsTabActive = computed(() => activeTab.value === 1)
 
-const { skillLevelAssociations, additionalSkillAssociations, refetch } = useTraceAssociationsQuery(traceId, isAssociationsTabActive)
-
 function onDeleteTraceSuccess () {
   hideDeleteModal()
 }
@@ -55,12 +53,6 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.tools.items.traces'), to: studentToolsTracesRoute },
   { text: traceDetailed.value?.title || '' }
 ])
-
-watch(showUpdateModal, (newVal) => {
-  if (newVal) {
-    refetch()
-  }
-})
 </script>
 
 <template>
@@ -87,7 +79,7 @@ watch(showUpdateModal, (newVal) => {
 
     <AvTabs
       v-model="activeTab"
-      v-memo="[traceDetailed, skillLevelAssociations, additionalSkillAssociations]"
+      v-memo="[traceDetailed, traceDetailed.associationsTrace?.skillLevelAssociations, traceDetailed.associationsTrace?.additionalSkillAssociations]"
       class="trace-tabs"
       compact
     >
@@ -106,8 +98,7 @@ watch(showUpdateModal, (newVal) => {
       >
         <StudentTraceAssociations
           v-if="isAssociationsTabActive"
-          :skill-level-associations="skillLevelAssociations"
-          :additional-skill-associations="additionalSkillAssociations"
+          :associations="traceDetailed.associationsTrace"
         />
       </AvTab>
     </AvTabs>
@@ -127,8 +118,6 @@ watch(showUpdateModal, (newVal) => {
 
     <UpdateTraceModal
       :trace="traceDetailed"
-      :skill-level-associations="skillLevelAssociations"
-      :additional-skill-associations="additionalSkillAssociations"
       :show="showUpdateModal"
       :on-close="() => hideUpdateModal()"
     />

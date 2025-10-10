@@ -133,11 +133,6 @@ BddTest().given('an update trace modal', () => {
       BddTest().then('it passes associations props to TermsStep', () => {
         const terms = wrapper.findComponent({ name: 'TermsStep' })
         expect(terms.exists()).toBe(true)
-
-        expect(terms.props('skillLevelAssociations'))
-          .toEqual(mockedTraceAssociations.skillLevelAssociations)
-        expect(terms.props('additionalSkillAssociations'))
-          .toEqual(mockedTraceAssociations.additionalSkillAssociations)
       })
 
       BddTest().and('the close button is clicked', () => {

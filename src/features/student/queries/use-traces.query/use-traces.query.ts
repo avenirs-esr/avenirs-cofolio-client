@@ -2,13 +2,11 @@ import type { BaseApiException } from '@/common/exceptions'
 import {
   associate,
   type AssociateTraceDTO,
-  type AssociationsTraceDTO,
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
   type ETraceAssociationType,
   getAssociatedTraces,
-  getTraceAssociations,
   getTraceConfig,
   getTraceDetail,
   getTracesSummary,
@@ -26,7 +24,7 @@ import {
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import { keepPreviousData, type QueryKey, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'traces']
@@ -248,28 +246,4 @@ export function useCreateAssociateTraceMutation ({ onError, onSuccess }: UseCrea
     },
     onError
   })
-}
-
-export function useTraceAssociationsQuery (traceId: Ref<string>, enabled: Ref<boolean>) {
-  const queryKey = computed(() => [...commonQueryKeys, 'trace-associations', traceId.value])
-
-  const queryFn = computed(() => async (): Promise<AssociationsTraceDTO> => {
-    return await getTraceAssociations(toValue(traceId))
-  })
-
-  const query = useQuery<AssociationsTraceDTO, BaseApiException, AssociationsTraceDTO, QueryKey>({
-    queryKey,
-    queryFn,
-    staleTime: TWO_MINUTES,
-    enabled: computed(() => traceId.value.trim().length > 0 && enabled.value),
-  })
-
-  const skillLevelAssociations = computed(() => query.data.value?.skillLevelAssociations ?? [])
-  const additionalSkillAssociations = computed(() => query.data.value?.additionalSkillAssociations ?? [])
-
-  return {
-    ...query,
-    skillLevelAssociations,
-    additionalSkillAssociations,
-  }
 }

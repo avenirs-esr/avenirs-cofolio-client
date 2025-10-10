@@ -3,7 +3,7 @@ import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAdditionalS
 import StudentTraceAssociations
   from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
 import { BddTest, mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   AvIconText: {
@@ -35,16 +35,12 @@ const stubs = {
 BddTest().given('a student trace associations component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentTraceAssociations>>
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
   BddTest().when('the component is mounted with empty associations', () => {
     beforeEach(() => {
+      const associationsProps = { skillLevelAssociations: [], additionalSkillAssociations: [] }
       wrapper = mountComponent(StudentTraceAssociations, {
         props: {
-          skillLevelAssociations: [],
-          additionalSkillAssociations: []
+          associations: associationsProps
         },
         global: {
           stubs
@@ -89,11 +85,12 @@ BddTest().given('a student trace associations component', () => {
       }
     ]
 
+    const associationsProps = { skillLevelAssociations, additionalSkillAssociations: [] }
+
     beforeEach(() => {
       wrapper = mountComponent(StudentTraceAssociations, {
         props: {
-          skillLevelAssociations,
-          additionalSkillAssociations: []
+          associations: associationsProps
         },
         global: {
           stubs
@@ -146,11 +143,12 @@ BddTest().given('a student trace associations component', () => {
       }
     ]
 
+    const associationsProps = { skillLevelAssociations: [], additionalSkillAssociations }
+
     beforeEach(() => {
       wrapper = mountComponent(StudentTraceAssociations, {
         props: {
-          skillLevelAssociations: [],
-          additionalSkillAssociations
+          associations: associationsProps
         },
         global: {
           stubs
@@ -216,11 +214,12 @@ BddTest().given('a student trace associations component', () => {
       }
     ]
 
+    const associationsProps = { skillLevelAssociations, additionalSkillAssociations }
+
     beforeEach(() => {
       wrapper = mountComponent(StudentTraceAssociations, {
         props: {
-          skillLevelAssociations,
-          additionalSkillAssociations
+          associations: associationsProps
         },
         global: {
           stubs
@@ -256,11 +255,12 @@ BddTest().given('a student trace associations component', () => {
       status: ESkillLevelStatus.VALIDATED
     }))
 
+    const associationsProps = { skillLevelAssociations, additionalSkillAssociations: [] }
+
     beforeEach(() => {
       wrapper = mountComponent(StudentTraceAssociations, {
         props: {
-          skillLevelAssociations,
-          additionalSkillAssociations: []
+          associations: associationsProps
         },
         global: {
           stubs

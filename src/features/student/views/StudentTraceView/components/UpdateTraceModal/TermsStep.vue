@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { type AdditionalSkillAssociationDTO, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
+import { ESkillLevelStatus, type TraceDetailDTO } from '@/api/avenir-esr'
 import { StudentSkillLevelStatusBadge } from '@/features/student'
 import { AvList, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { skillLevelAssociations, additionalSkillAssociations } = defineProps<{ skillLevelAssociations: SkillLevelAssociationDTO[], additionalSkillAssociations: AdditionalSkillAssociationDTO[] }>()
+const { trace } = defineProps<{ trace: TraceDetailDTO }>()
 const { t } = useI18n()
 const isActiveStatus = [ESkillLevelStatus.NOT_STARTED, ESkillLevelStatus.TO_BE_EVALUATED, ESkillLevelStatus.UNDER_ACQUISITION]
+const skillLevelAssociations = computed(() => trace.associationsTrace && trace.associationsTrace.skillLevelAssociations ? trace.associationsTrace.skillLevelAssociations : [])
+const additionalSkillAssociations = computed(() => trace.associationsTrace && trace.associationsTrace.additionalSkillAssociations ? trace.associationsTrace.additionalSkillAssociations : [])
 
 function getListIcon (skillStatus: ESkillLevelStatus) {
   return isActiveStatus.includes(skillStatus)
