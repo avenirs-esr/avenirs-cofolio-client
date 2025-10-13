@@ -30,19 +30,19 @@ BddTest().given('a student home view', () => {
 
   BddTest().when('the view is mounted', () => {
     BddTest().then('it should render all expected widgets in the correct layout', () => {
-      const leftContainer = wrapper.find('.student-home-left-container')
-      const rightContainer = wrapper.find('.student-home-right-container')
+      const sidebar = wrapper.find('.layout-home__sidebar')
+      const main = wrapper.find('.layout-home__main')
 
-      expect(leftContainer.exists()).toBe(true)
-      expect(leftContainer.findComponent({ name: 'StudentOverviewWidget' }).exists()).toBe(true)
-      expect(leftContainer.findComponent({ name: 'StudentEventsWidget' }).exists()).toBe(true)
-      expect(leftContainer.findComponent({ name: 'StudentResumesWidget' }).exists()).toBe(true)
-      expect(leftContainer.findComponent({ name: 'StudentPagesWidget' }).exists()).toBe(true)
+      expect(sidebar.exists()).toBe(true)
+      expect(sidebar.findComponent({ name: 'StudentOverviewWidget' }).exists()).toBe(true)
+      expect(sidebar.findComponent({ name: 'StudentEventsWidget' }).exists()).toBe(true)
+      expect(sidebar.findComponent({ name: 'StudentResumesWidget' }).exists()).toBe(true)
+      expect(sidebar.findComponent({ name: 'StudentPagesWidget' }).exists()).toBe(true)
 
-      expect(rightContainer.exists()).toBe(true)
-      expect(rightContainer.findComponent({ name: 'StudentSkillsWidget' }).exists()).toBe(true)
-      expect(rightContainer.findComponent({ name: 'StudentDeliverablesWidget' }).exists()).toBe(true)
-      expect(rightContainer.findComponent({ name: 'StudentTracesWidget' }).exists()).toBe(true)
+      expect(main.exists()).toBe(true)
+      expect(main.findComponent({ name: 'StudentSkillsWidget' }).exists()).toBe(true)
+      expect(main.findComponent({ name: 'StudentDeliverablesWidget' }).exists()).toBe(true)
+      expect(main.findComponent({ name: 'StudentTracesWidget' }).exists()).toBe(true)
     })
   })
 })
