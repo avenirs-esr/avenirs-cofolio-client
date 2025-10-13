@@ -16,10 +16,9 @@ interface SearchTraceAssociationFieldProps {
   form: AssociateTraceForm
 }
 
-const {
-  associationType,
-  form
-} = defineProps<SearchTraceAssociationFieldProps>()
+const props = defineProps<SearchTraceAssociationFieldProps>()
+const associationType = props.associationType
+const form = props.form
 
 const PAGE_SIZE = 10
 const SEARCH_MIN_LENGTH = 3
@@ -97,76 +96,78 @@ const emptySlotTextContent = computed<string>(() => {
 
 <template>
   <div class="search-trace-association-field">
-    <form.Field name="selectedAssociation">
-      <template #default="{ field }">
-        <AvAutocomplete
-          dropdown-class="associate-dropdown"
-          dropdown-width="100%"
-          :model-value="Array.isArray(field.state.value) ? field.state.value : []"
-          :options="displayedOptions"
-          :loading="isLoading || isFetching"
-          :input-options="{
-            label: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchLabel'),
-            placeholder: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchPlaceholder'),
-            errorMessage: field.state.meta.errors?.join(', '),
-          }"
-          :get-option-label="getOptionLabel"
-          :get-option-key="getOptionKey"
-          :multi-select="true"
-          :server-side-filtering="true"
-          :enable-load-more="true"
-          max-dropdown-height="14.5rem"
-          :debounce-delay="500"
-          @search="handleSearch"
-          @update:model-value="(v) => field.handleChange(v as TraceAssociationOption[])"
-          @clear="handleClear"
-          @load-more="handleLoadMore"
-        >
-          <template #empty>
-            <div v-memo="[searchQuery, options]">
-              <span class="b2-regular">
-                {{ emptySlotTextContent }}
-              </span>
-            </div>
-          </template>
+    <component
+      :is="form.Field"
+      v-slot="slot"
+      name="selectedAssociation"
+    >
+      <AvAutocomplete
+        dropdown-class="associate-dropdown"
+        dropdown-width="100%"
+        :model-value="Array.isArray(slot.field.state.value) ? slot.field.state.value : []"
+        :options="displayedOptions"
+        :loading="isLoading || isFetching"
+        :input-options="{
+          label: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchLabel'),
+          placeholder: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchPlaceholder'),
+          errorMessage: slot.field.state.meta.errors?.join(', '),
+        }"
+        :get-option-label="getOptionLabel"
+        :get-option-key="getOptionKey"
+        :multi-select="true"
+        :server-side-filtering="true"
+        :enable-load-more="true"
+        max-dropdown-height="14.5rem"
+        :debounce-delay="500"
+        @search="handleSearch"
+        @update:model-value="(v) => slot.field.handleChange(v as TraceAssociationOption[])"
+        @clear="handleClear"
+        @load-more="handleLoadMore"
+      >
+        <template #empty>
+          <div v-memo="[searchQuery, options]">
+            <span class="b2-regular">
+              {{ emptySlotTextContent }}
+            </span>
+          </div>
+        </template>
 
-          <template #item="{ option, isSelected, toggle }">
-            <AvListItem
-              v-memo="[option, isSelected, toggle, searchQuery]"
-              clickable
-              hover-background-color="var(--light-background-neutral)"
-              :selected="isSelected"
-              :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
-              :icon-size="2"
-              icon-color="var(--icon)"
-              color-on-hover="var(--text1)"
-              @click="toggle"
+        <template #item="{ option, isSelected, toggle }">
+          <AvListItem
+            v-memo="[option, isSelected, toggle, searchQuery]"
+            clickable
+            hover-background-color="var(--light-background-neutral)"
+            :selected="isSelected"
+            :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
+            :icon-size="2"
+            icon-color="var(--icon)"
+            color-on-hover="var(--text1)"
+            @click="toggle"
+          >
+            <div
+              v-memo="[option, isSelected]"
+              class="trace-item"
             >
-              <div
-                v-memo="[option, isSelected]"
-                class="trace-item"
-              >
-                <div class="trace-item__content">
-                  <div
-                    class="b1-bold"
-                    v-html="highlightTitleText(option.title, searchQuery)"
+              <div class="trace-item__content">
+                <div
+                  class="b1-bold"
+                  v-html="highlightTitleText(option.title, searchQuery)"
+                />
+                <div
+                  v-if="option.description?.length"
+                  class="caption-light"
+                >
+                  <span
+                    class="trace-item__path-segment"
+                    v-html="highlightCaptionText(option.description, searchQuery)"
                   />
-                  <div
-                    v-if="option.description?.length"
-                    class="caption-light"
-                  >
-                    <span
-                      class="trace-item__path-segment"
-                      v-html="highlightCaptionText(option.description, searchQuery)"
-                    />
-                  </div>
                 </div>
               </div>
-            </AvListItem>
-          </template>
-        </AvAutocomplete>
-      </template>
-    </form.Field>
+            </div>
+          </AvListItem>
+        </template>
+      </AvAutocomplete>
+    </component>
   </div>
 </template>
 
