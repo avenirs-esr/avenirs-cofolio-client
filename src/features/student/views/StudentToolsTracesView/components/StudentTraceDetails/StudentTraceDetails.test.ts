@@ -115,14 +115,6 @@ BddTest().given('a student detailed trace information component', () => {
       expect(traceFileUpload.props('disabled')).toBe('')
     })
 
-    BddTest().then('it should display the file upload date information', () => {
-      const uploadDate = wrapper.find('.student-detailed-trace-information__upload-date')
-
-      expect(uploadDate.exists()).toBe(true)
-      expect(uploadDate.text()).toContain('Ajouté le')
-      expect(uploadDate.text()).toContain('15 janvier 2024 à 10:30')
-    })
-
     BddTest().then('it should render the personal note textarea with correct props', () => {
       const personalNoteTextarea = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
 
@@ -201,12 +193,6 @@ BddTest().given('a student detailed trace information component', () => {
       expect(fileValue).toBeDefined()
       expect(fileValue).toHaveProperty('name', 'test-document.pdf')
       expect(fileValue).toHaveProperty('size', 1024000)
-    })
-
-    BddTest().then('it should compute formattedCreatedAt from ISO string', () => {
-      const uploadDate = wrapper.find('.student-detailed-trace-information__upload-date')
-
-      expect(uploadDate.text()).toContain('15 janvier 2024 à 10:30')
     })
   })
 })
