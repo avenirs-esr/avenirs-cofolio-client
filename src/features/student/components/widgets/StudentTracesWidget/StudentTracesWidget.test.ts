@@ -1,12 +1,11 @@
-import type { BaseApiException } from '@/common/exceptions'
-import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { VueWrapper } from '@vue/test-utils'
-import type { Ref } from 'vue'
+import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
-import { useStudentTracesSummaryQuery } from '@/features/student/queries'
-import { type TraceOverviewDTO, TraceType } from '@/types'
+import { AvButtonStub } from '@avenirs-esr/avenirs-dsav'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
+import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
@@ -31,78 +30,43 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock('@/features/student/queries', () => ({
-  useStudentTracesSummaryQuery: vi.fn()
-}))
-
-const mockedUseStudentTracesSummaryQuery = vi.mocked(useStudentTracesSummaryQuery)
-
-function mockUseStudentTracesSummaryQuery (payload: TraceOverviewDTO[]) {
-  const mockData: Ref<TraceOverviewDTO[]> = ref(payload)
-  const mockError: Ref<null | null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError,
-  } as unknown as UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException>
-  mockedUseStudentTracesSummaryQuery.mockReturnValue(queryMockedData)
-}
-
 BddTest().given('a student traces widget', async () => {
   let wrapper: VueWrapper
 
-  const traces: Array<TraceOverviewDTO> = [
-    {
-      id: 'trace1',
-      name: 'Prévenir la pollution à la source',
-      skillCount: 1,
-      activityCount: 8,
-      type: TraceType.GROUP,
-      filedAt: '2024-05-13T08:42:17',
-      course: 'Master Chimie Verte et Éco-innovations'
-    },
-    {
-      id: 'trace2',
-      name: 'Mettre en place des filières d’économies circulaires',
-      skillCount: 2,
-      activityCount: 7,
-      type: TraceType.INDIVIDUAL,
-      filedAt: '2024-11-29T19:15:03'
-    },
-    {
-      id: 'trace3',
-      name: 'Évaluer l’impact environnemental et économique',
-      skillCount: 3,
-      activityCount: 6,
-      type: TraceType.INDIVIDUAL,
-      filedAt: '2025-02-07T23:08:51',
-      course: 'Master Chimie Verte et Éco-innovations'
-
-    },
-    {
-      id: 'trace4',
-      name: 'Concevoir des synthèses chimiques durables',
-      skillCount: 4,
-      activityCount: 5,
-      type: TraceType.GROUP,
-      filedAt: '2024-08-21T04:26:39'
-    },
-  ]
+  const stubs = {
+    AvButton: AvButtonStub,
+    StudentTraceCard: {
+      name: 'StudentTraceCard',
+      template: '<div class="student-trace-card" />'
+    }
+  }
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    mockUseStudentTracesSummaryQuery(traces)
+    const handler = createTraceOverviewHandler()
+    server.use(handler)
 
     wrapper = await mountWithRouter(StudentTracesWidget, {
       global: {
-        plugins: [createPinia()],
+        stubs,
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient: new QueryClient({
+          defaultOptions: {
+            queries: {
+              retry: false,
+            },
+          },
+        })
+        }]],
       },
     })
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should display up to 3 traces', () => {
-      const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-      expect(studentTraceCards).toHaveLength(3)
+    BddTest().then('it should display up to 3 traces', async () => {
+      await vi.waitFor(() => {
+        const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+        expect(studentTraceCards).toHaveLength(3)
+      })
     })
   })
 
@@ -115,13 +79,29 @@ BddTest().given('a student traces widget', async () => {
     })
   })
 
-  testUseBaseApiExceptionToast<TraceOverviewDTO[]>({
-    mockedUseQuery: mockedUseStudentTracesSummaryQuery,
-    payload: [],
-    mountComponent: () => mountWithRouter(StudentTracesWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
+  BddTest().when('the API returns an error', () => {
+    beforeEach(async () => {
+      server.use(traceOverviewErrorHandler)
+      wrapper = await mountWithRouter(StudentTracesWidget, {
+        global: {
+          stubs,
+          plugins: [createPinia(), [VueQueryPlugin, { queryClient: new QueryClient({
+            defaultOptions: {
+              queries: {
+                retry: false,
+              },
+            },
+          })
+          }]],
+        },
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should call addErrorMessage with error toast', async () => {
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalled()
+      })
     })
   })
 })

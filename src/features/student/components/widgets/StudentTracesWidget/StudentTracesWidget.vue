@@ -1,23 +1,14 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
-import { parseDateISO } from '@/common/utils'
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { compareDesc } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
 const { data: traces, error } = useStudentTracesSummaryQuery()
 useBaseApiExceptionToast(error)
 const { navigateToStudentTraces } = useNavigation()
 const { t } = useI18n()
-
-const renderedTraces = computed(() => {
-  return traces.value
-    .slice()
-    .sort((a, b) => compareDesc(parseDateISO(a.filedAt), parseDateISO(b.filedAt)))
-    .slice(0, 3)
-})
 </script>
 
 <template>
@@ -40,8 +31,8 @@ const renderedTraces = computed(() => {
     <template #body>
       <div class="traces-widget-container__body">
         <StudentTraceCard
-          v-for="trace in renderedTraces"
-          :key="trace.id"
+          v-for="trace in traces"
+          :key="trace.traceId"
           :trace="trace"
         />
       </div>
@@ -50,9 +41,9 @@ const renderedTraces = computed(() => {
       <div class="traces-widget-container__footer">
         <AvButton
           :label="t('student.widgets.traces.buttons.seeAll')"
-          :on-click="navigateToStudentTraces"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           size="sm"
+          @click="navigateToStudentTraces"
         />
       </div>
     </template>

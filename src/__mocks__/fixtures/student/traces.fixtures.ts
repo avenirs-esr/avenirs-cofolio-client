@@ -9,6 +9,7 @@ import {
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
+  type TraceOverviewDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO,
   type TracesViewParams,
@@ -23,6 +24,39 @@ export const mockedTracesSummary: TracesSummaryDTO = {
   totalWarnings: 5,
   totalCriticals: 2,
 }
+
+export const mockedTraceOverview: TraceOverviewDTO[] = [
+  {
+    traceId: 'trace1',
+    title: 'Prévenir la pollution à la source',
+    skillCount: 1,
+    AMSCount: 8,
+    isGroup: false,
+    programName: 'Master Chimie Verte et Éco-innovations',
+    createdAt: '2024-05-13T08:42:17',
+    updatedAt: '2024-05-13T08:42:17',
+  },
+  {
+    traceId: 'trace2',
+    title: 'Mettre en place des filières d’économies circulaires',
+    skillCount: 2,
+    AMSCount: 7,
+    isGroup: true,
+    programName: 'Master Chimie Verte et Éco-innovations',
+    createdAt: '2024-11-29T19:15:03',
+    updatedAt: '2024-11-29T19:15:03'
+  },
+  {
+    traceId: 'trace3',
+    title: 'Évaluer l’impact environnemental et économique',
+    skillCount: 3,
+    AMSCount: 6,
+    isGroup: false,
+    programName: 'Master Chimie Verte et Éco-innovations',
+    createdAt: '2025-02-07T23:08:51',
+    updatedAt: '2025-02-07T23:08:51',
+  }
+]
 
 export const createDeletedTraceIdMock = (traceId: string) => `${traceId}-deleted`
 
