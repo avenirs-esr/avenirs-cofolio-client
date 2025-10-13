@@ -123,7 +123,7 @@ BddTest().given('an update trace modal', () => {
       BddTest().then('it should show validate confirm button', () => {
         const confirmButton = wrapper.findComponent({ name: 'AvButton' })
         expect(confirmButton.text()).toBe('Valider la sélection')
-        expect(confirmButton.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE)
+        expect(confirmButton.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE_OUTLINE)
       })
 
       BddTest().then('it should display the trace details', () => {

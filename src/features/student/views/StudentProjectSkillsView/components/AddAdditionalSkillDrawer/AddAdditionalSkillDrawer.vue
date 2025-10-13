@@ -99,7 +99,7 @@ function confirmCancel () {
           :disabled="!isFormValid || isSubmitting"
           :is-loading="isSubmitting"
           size="sm"
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           @click="form.handleSubmit"
         />
       </div>
