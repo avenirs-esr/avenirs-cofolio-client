@@ -370,10 +370,6 @@
               "title": "Ajouter une nouvelle trace de type fichier",
               "subtitle": "ou glisser et déposer ici"
             },
-            "buttons": {
-              "cancel": "QUITTER",
-              "save": "ENREGISTRER"
-            },
             "declaration": {
               "productionNature": {
                 "title": "Déclarer la nature de ma production"

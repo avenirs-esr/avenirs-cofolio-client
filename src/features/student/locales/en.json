@@ -370,10 +370,6 @@
               "title": "Add a new trace file",
               "subtitle": "or drag and drop here"
             },
-            "buttons": {
-              "cancel": "QUIT",
-              "save": "SAVE"
-            },
             "declaration": {
               "productionNature": {
                 "title": "Declare the nature of my production"
