@@ -89,6 +89,8 @@ function confirmCancel () {
           variant="OUTLINED"
           type="button"
           :disabled="isSubmitting"
+          size="sm"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           @click="handleCancel"
         />
         <AvButton
@@ -96,6 +98,8 @@ function confirmCancel () {
           variant="FLAT"
           :disabled="!isFormValid || isSubmitting"
           :is-loading="isSubmitting"
+          size="sm"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           @click="form.handleSubmit"
         />
       </div>
