@@ -81,18 +81,21 @@ async function onSave () {
     <template #footer>
       <div class="student-tools-traces-add-trace-drawer__footer">
         <AvButton
-          :label="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.buttons.cancel')"
+          :label="t('global.buttons.exit')"
           variant="OUTLINED"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           type="button"
+          size="sm"
           @click="handleCancel"
         />
         <AvButton
-          :label="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.buttons.save')"
+          :label="t('global.buttons.save')"
           variant="FLAT"
           type="button"
           :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :disabled="!isFormValid"
           :is-loading="isSubmitting"
+          size="sm"
           @click="onSave"
         />
       </div>

@@ -152,8 +152,8 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       const saveButton = getSaveButton()
 
       expect(buttons).toHaveLength(2)
-      expect(cancelButton?.props('label')).toBe('QUITTER')
-      expect(saveButton?.props('label')).toBe('ENREGISTRER')
+      expect(cancelButton?.props('label')).toBe('Quitter')
+      expect(saveButton?.props('label')).toBe('Enregistrer')
     })
 
     BddTest().then('it should render form element', () => {
