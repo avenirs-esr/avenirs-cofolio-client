@@ -24,7 +24,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   >
     <AvCard
       border-color="var(--other-border-skill-card)"
-      title-background="var(--dark-background-primary2)"
+      title-background="var(--light-background-neutral)"
       title-height="4.375rem"
     >
       <template #title>
@@ -34,11 +34,11 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
           </span>
           <div
             class="student-detailed-trace-card__icon"
-            :style="{ background: 'var(--dark-background-primary2)' }"
+            :style="{ background: 'var(--light-background-neutral)' }"
           >
             <AvVIcon
               :name="MDI_ICONS.ATTACH_FILE"
-              color="var(--card)"
+              color="var(--icon)"
               :size="1.938"
             />
           </div>
@@ -103,6 +103,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 
 .student-detailed-trace-card__titletruncate {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   height: var(--dimension-2xl);
@@ -129,9 +130,5 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-}
-
-.b1-bold {
-  color: var(--card);
 }
 </style>

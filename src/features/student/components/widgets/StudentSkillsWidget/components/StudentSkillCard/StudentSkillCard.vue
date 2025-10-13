@@ -116,6 +116,7 @@ const theme = ref({
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
 }
 

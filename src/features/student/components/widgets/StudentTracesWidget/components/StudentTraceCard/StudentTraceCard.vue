@@ -137,6 +137,7 @@ const theme = ref({
 
 .student-trace-card__titletruncate {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   height: var(--dimension-2xl);
