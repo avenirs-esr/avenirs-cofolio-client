@@ -192,6 +192,7 @@ watch(() => show, (newVal) => {
       <div class="footer">
         <AvButton
           size="sm"
+          variant="OUTLINED"
           :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :label="t('global.buttons.exit')"
           :is-loading="isPending"
