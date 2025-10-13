@@ -29,14 +29,14 @@ const confirmLabel = computed(() => currentStep.value === 0
   ? t('student.views.studentTraceView.updateTraceModal.buttons.validate')
   : t('student.views.studentTraceView.updateTraceModal.buttons.save'))
 const confirmIcon = computed(() => currentStep.value === 0
-  ? MDI_ICONS.CHECK_CIRCLE
+  ? MDI_ICONS.CHECK_CIRCLE_OUTLINE
   : MDI_ICONS.CONTENT_SAVE_OUTLINE)
 </script>
 
 <template>
   <AvModal
     :opened="show"
-    :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close').toUpperCase()"
+    :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close')"
     close-button-variant="OUTLINED"
     size="lg"
     @close="onClose"
