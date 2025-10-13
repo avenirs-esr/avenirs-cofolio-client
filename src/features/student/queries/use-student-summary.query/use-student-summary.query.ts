@@ -1,5 +1,12 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { CommonMutationArgs } from '@/features/student/queries/types'
+import type {
+  DeliverableOverviewDTO,
+  EventOverviewDTO,
+  PageOverviewDTO,
+  ResumeOverviewDTO,
+  StudentHeaderSummaryDTO,
+} from '@/types'
 import {
   mockedDeliverablesOverview,
   mockedEventsOverview,
@@ -13,23 +20,16 @@ import {
   EUserPhotoType,
   getProfile,
   getStudentProgressOverview,
+  getTraceOverview,
   type ProfileOverviewDTO,
   type ProfileUpdateRequest,
   type StudentProgressOverviewDTO,
+  type TraceOverviewDTO,
   updateProfile,
   updateProfilePhoto,
   type UpdateProfilePhotoBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import {
-  type DeliverableOverviewDTO,
-  type EventOverviewDTO,
-  type PageOverviewDTO,
-  type ResumeOverviewDTO,
-  type StudentHeaderSummaryDTO,
-  type TraceOverviewDTO,
-  TraceType
-} from '@/types'
 import { useMutation, useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['user', 'student']
@@ -122,44 +122,8 @@ export function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<Trace
   return useQuery<TraceOverviewDTO[], BaseApiException>({
     queryKey,
     initialData: [],
-    // TODO: call /me/formations/traces/overview when the endpoint and client are ready
     queryFn: async (): Promise<TraceOverviewDTO[]> => {
-      return [
-        {
-          id: 'trace1',
-          name: 'Prévenir la pollution à la source',
-          skillCount: 1,
-          activityCount: 8,
-          type: TraceType.GROUP,
-          filedAt: '2024-05-13T08:42:17',
-          course: 'Master Chimie Verte et Éco-innovations'
-        },
-        {
-          id: 'trace2',
-          name: 'Mettre en place des filières d’économies circulaires',
-          skillCount: 2,
-          activityCount: 7,
-          type: TraceType.INDIVIDUAL,
-          filedAt: '2024-11-29T19:15:03'
-        },
-        {
-          id: 'trace3',
-          name: 'Évaluer l’impact environnemental et économique',
-          skillCount: 3,
-          activityCount: 6,
-          type: TraceType.INDIVIDUAL,
-          filedAt: '2025-02-07T23:08:51',
-          course: 'Master Chimie Verte et Éco-innovations'
-        },
-        {
-          id: 'trace4',
-          name: 'Concevoir des synthèses chimiques durables',
-          skillCount: 4,
-          activityCount: 5,
-          type: TraceType.GROUP,
-          filedAt: '2024-08-21T04:26:39'
-        },
-      ]
+      return getTraceOverview()
     }
   })
 }

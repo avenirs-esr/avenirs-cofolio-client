@@ -5,6 +5,7 @@ import {
   createMockedTracesViewResponse,
   invalidTraceId,
   mockedTraceDetailed,
+  mockedTraceOverview,
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
@@ -15,6 +16,7 @@ import {
   ETraceAssociationType,
   getCreateTraceUrl,
   getGetTraceConfigUrl,
+  getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
   getTracesViewUrl,
   type PagedResponseTraceAssociationSearchResult,
@@ -22,6 +24,7 @@ import {
   type TraceConfigurationDTO,
   type TraceDetailDTO,
   type TraceFilter,
+  type TraceOverviewDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO,
   type TracesViewParams
@@ -62,6 +65,24 @@ export function createTraceDetailedHandler (payload: TraceDetailDTO) {
     })
   })
 }
+
+export function createTraceOverviewHandler () {
+  return http.get<PathParams, TraceOverviewDTO[]>(`*${getGetTraceOverviewUrl()}`, () => {
+    return HttpResponse.json<TraceOverviewDTO[]>(mockedTraceOverview, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const traceOverviewErrorHandler = http.get(`*${getGetTraceOverviewUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
 
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -219,6 +240,16 @@ export const tracesHandlers = [
     }
 
     return HttpResponse.json({ message: 'Ok' }, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, TraceDetailDTO>(`*${getGetTraceOverviewUrl()}`, async () => {
+    await delay(100)
+    return HttpResponse.json(mockedTraceOverview, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

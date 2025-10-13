@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import type { RouteLocationRaw } from 'vue-router'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
-import { type TraceOverviewDTO, TraceType } from '@/types'
 import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { DsfrTag } from '@gouvminint/vue-dsfr'
 import { useI18n } from 'vue-i18n'
@@ -13,7 +13,7 @@ export interface StudentTraceCardProps {
 }
 
 const { trace, to = studentToolsTracesRoute } = defineProps<StudentTraceCardProps>()
-const { name, skillCount, activityCount, type, course } = trace
+const { title, skillCount, AMSCount, isGroup, programName } = trace
 
 const { t } = useI18n()
 
@@ -22,8 +22,8 @@ function getRandomSkillColor () {
   return `var(--skill${random})`
 }
 
-const category = computed(() => course ?? t('student.cards.studentTraceCard.lifeProject'))
-const typeInfo = computed(() => type === TraceType.GROUP
+const category = computed(() => programName ?? t('student.cards.studentTraceCard.lifeProject'))
+const typeInfo = computed(() => isGroup
   ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
   : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
 
@@ -45,7 +45,7 @@ const theme = ref({
       <template #title>
         <div class="student-trace-card__title">
           <span class="b1-bold student-trace-card__titletruncate">
-            {{ name }}
+            {{ title }}
           </span>
           <div
             class="student-trace-card__icon"
@@ -77,7 +77,7 @@ const theme = ref({
           </div>
           <div class="student-trace-card__activities">
             <StudentCountAmsIconText
-              :count-ams="activityCount"
+              :count-ams="AMSCount"
               gap="0.75rem"
             />
           </div>

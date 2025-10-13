@@ -1,5 +1,5 @@
+import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
-import { TraceType } from '@/types'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { BddTest, mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
@@ -33,14 +33,7 @@ BddTest().given('a student trace card', () => {
   let wrapper: VueWrapper
 
   const baseProps = {
-    trace: {
-      id: 'trace1',
-      name: 'Parcours scientifique',
-      skillCount: 3,
-      activityCount: 5,
-      filedAt: '2025-02-07T23:08:51',
-      type: TraceType.GROUP
-    },
+    trace: mockedTraceOverview[0],
   } as const
 
   const stubs = {
@@ -67,21 +60,21 @@ BddTest().given('a student trace card', () => {
     })
 
     BddTest().then('it should render the trace name, skill and activity counts', () => {
-      expect(wrapper.text()).toContain('Parcours scientifique')
-      expect(wrapper.text()).toContain('3 compétences')
+      expect(wrapper.text()).toContain('Prévenir la pollution à la source')
+      expect(wrapper.text()).toContain('1 compétence')
       const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
       expect(amsIconText.exists()).toBe(true)
-      expect(amsIconText.props()).toMatchObject({ countAms: baseProps.trace.activityCount })
+      expect(amsIconText.props()).toMatchObject({ countAms: baseProps.trace.AMSCount })
     })
 
-    BddTest().then('it should render the fixed label "Projet de vie"', () => {
-      expect(wrapper.text()).toContain('Projet de vie')
+    BddTest().then('it should render the program name', () => {
+      expect(wrapper.text()).toContain('Master Chimie Verte et Éco-innovations')
     })
 
-    BddTest().then('it should render the DsfrTag with label "Groupe"', () => {
+    BddTest().then('it should render the DsfrTag with label "Individuel"', () => {
       const tag = wrapper.find('.fr-tag')
       expect(tag.exists()).toBe(true)
-      expect(tag.text()).toBe('Groupe')
+      expect(tag.text()).toBe('Individuel')
     })
   })
 
