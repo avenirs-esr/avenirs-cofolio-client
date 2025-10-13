@@ -80,7 +80,7 @@ BddTest().given('a student trace additional skill association card', () => {
       const typeBadge = wrapper.findComponent({ name: 'AdditionalSkillTypeBadge' })
 
       expect(typeBadge.exists()).toBe(true)
-      expect(typeBadge.props('label')).toBe(EAdditionalSkillType.ROME4)
+      expect(typeBadge.props('label')).toBe('Rome 4.0')
     })
 
     BddTest().then('it should render AdditionalSkillLevelBadge with skill level', () => {
@@ -153,7 +153,7 @@ BddTest().given('a student trace additional skill association card', () => {
 
     BddTest().then('it should render ROME4 type correctly', () => {
       const typeBadge = wrapper.findComponent({ name: 'AdditionalSkillTypeBadge' })
-      expect(typeBadge.props('label')).toBe(EAdditionalSkillType.ROME4)
+      expect(typeBadge.props('label')).toBe('Rome 4.0')
     })
   })
 

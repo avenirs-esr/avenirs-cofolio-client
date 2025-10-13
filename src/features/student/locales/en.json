@@ -1,5 +1,11 @@
 {
   "student": {
+    "additionalSkillTypes": {
+      "CASOC": "Casoc onisep",
+      "CASOL": "Casol onisep",
+      "ROME4": "Rome 4.0",
+      "XXI": "XXIᵉ onisep"
+    },
     "badges": {
       "studentAmsStatusBadge": {
         "status": {

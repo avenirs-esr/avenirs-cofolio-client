@@ -3,23 +3,25 @@ import type { AdditionalSkillDTO, AdditionalSkillProgressDTO } from '@/api/aveni
 
 import { StudentDetailedSkillCard } from '@/features/student/components/cards'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedAdditionalSkillCardProps {
   additionalSkill: AdditionalSkillDTO | AdditionalSkillProgressDTO
 }
 
 const { additionalSkill } = defineProps<StudentDetailedAdditionalSkillCardProps>()
+const { t } = useI18n()
 const basePath = import.meta.env.BASE_URL
 const additionalSkillColor = 'var(--dark-background-primary1)'
 const typeBadge = {
-  label: additionalSkill.type,
+  label: t(`student.additionalSkillTypes.${additionalSkill.type}`),
   color: 'var(--text1)',
   borderColor: 'var(--other-border-skill-card)',
   backgroundColor: 'var(--surface-background)',
   iconPath: `${basePath}assets/icons/bookmark-check.svg`
 }
 const pathBadge = {
-  label: additionalSkill.pathSegments.join(', '),
+  label: additionalSkill.pathSegments.join(' > '),
   color: 'var(--dark-background-accent)',
   backgroundColor: 'var(--light-background-accent)',
   iconPath: `${basePath}assets/icons/stars.svg`

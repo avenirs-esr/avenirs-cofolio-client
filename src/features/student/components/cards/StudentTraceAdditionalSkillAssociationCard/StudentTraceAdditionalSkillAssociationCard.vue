@@ -3,12 +3,15 @@ import type { AdditionalSkillAssociationDTO } from '@/api/avenir-esr'
 import { AdditionalSkillLevelBadge, AdditionalSkillTypeBadge } from '@/features/student/components/badges'
 import { StudentTraceAssociationCard } from '@/features/student/components/cards'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceAmsAssociationCardProps {
   additionalSkill: AdditionalSkillAssociationDTO
 }
 
 const { additionalSkill } = defineProps<StudentTraceAmsAssociationCardProps>()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -19,7 +22,7 @@ const { additionalSkill } = defineProps<StudentTraceAmsAssociationCardProps>()
     <template #title-prepend>
       <div class="badges-container">
         <AdditionalSkillTypeBadge
-          :label="additionalSkill.type"
+          :label="t(`student.additionalSkillTypes.${additionalSkill.type}`)"
         />
         <AdditionalSkillLevelBadge
           :level="additionalSkill.level"

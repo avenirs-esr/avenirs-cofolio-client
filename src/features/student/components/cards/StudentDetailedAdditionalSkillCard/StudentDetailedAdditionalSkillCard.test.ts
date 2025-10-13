@@ -55,13 +55,13 @@ BddTest().given('a student detailed additional skill card', () => {
     BddTest().then('it should render the type badge with correct label', () => {
       const typeBadge = wrapper.findAllComponents({ name: 'AvBadge' })[0]
       expect(typeBadge.exists()).toBe(true)
-      expect(typeBadge.text()).toBe(mockSkill.type)
+      expect(typeBadge.text()).toBe('Rome 4.0')
     })
 
     BddTest().then('it should render the path badge with joined pathSegments', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
       expect(pathBadge.exists()).toBe(true)
-      expect(pathBadge.text()).toBe(mockSkill.pathSegments.join(', '))
+      expect(pathBadge.text()).toBe(mockSkill.pathSegments.join(' > '))
     })
   })
 })

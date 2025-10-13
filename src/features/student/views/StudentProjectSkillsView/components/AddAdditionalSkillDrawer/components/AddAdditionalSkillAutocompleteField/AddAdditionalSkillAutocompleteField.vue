@@ -143,7 +143,7 @@ const emptySlotTextContent = computed<string>(() => {
                 </div>
 
                 <AdditionalSkillTypeBadge
-                  :label="option.type"
+                  :label="t(`student.additionalSkillTypes.${option.type}`)"
                 />
               </div>
             </AvListItem>
