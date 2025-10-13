@@ -61,6 +61,8 @@ const { icon, color, name, skillColor } = defineProps<StudentDetailedSkillCardPr
   width: 100%;
   border-radius: 1.5rem;
   height: 10.875rem;
+  padding: 0 2px;
+  background-image: none;
 }
 
 .title-container {

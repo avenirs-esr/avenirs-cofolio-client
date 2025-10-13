@@ -68,7 +68,8 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   height: 14rem;
   border-radius: 1.5rem;
   text-align: left;
-  padding: 0;
+  padding: 0 2px;
+  background-image: none;
 }
 
 .av-card {

@@ -123,6 +123,7 @@ const theme = ref({
   display: flex;
   width: 17.25rem;
   border-radius: 1.5rem;
+  background-image: none;
 }
 
 .student-skill-card__title {

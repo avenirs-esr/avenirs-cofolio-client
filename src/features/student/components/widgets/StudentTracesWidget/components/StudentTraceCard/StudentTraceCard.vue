@@ -123,6 +123,7 @@ const theme = ref({
   width: 17.125rem;
   height: 14rem;
   border-radius: 1.5rem;
+  background-image: none;
 }
 
 .student-trace-card__title {
