@@ -80,26 +80,29 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   >
     <div class="separator" />
     <div class="line-container anr">
-      <a
-        href="https://anr.fr/ProjetIA-21-DMAV-0001"
-        :title="t('global.footer.links.anr')"
-      >
-        <img
-          class="long-img"
-          src="/assets/images/anr-logo.jpg"
-          alt="Logo ANR"
+      <div class="support-logo-container">
+        <a
+          href="https://anr.fr/ProjetIA-21-DMAV-0001"
+          :title="t('global.footer.links.anr')"
         >
-      </a>
-      <a
-        href="https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de"
-        :title="t('global.footer.links.france2030')"
-      >
-        <img
-          class="square-img"
-          src="/assets/images/france2030-logo.png"
-          alt="Logo France 2030"
+          <img
+            class="long-img"
+            src="/assets/images/anr-logo.jpg"
+            alt="Logo ANR"
+          >
+        </a>
+        <a
+          href="https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de"
+          :title="t('global.footer.links.france2030')"
         >
-      </a>
+          <img
+            class="square-img"
+            src="/assets/images/france2030-logo.png"
+            alt="Logo France 2030"
+          >
+        </a>
+      </div>
+
       <span class="caption-regular anr-desc">
         {{ t('global.footer.anr') }}
       </span>
@@ -197,6 +200,8 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 </template>
 
 <style scoped lang="scss">
+@use "@avenirs-esr/avenirs-dsav/src/styles/breakpoints" as *;
+
 .fr-footer {
   padding-top: var(--dimension-xl);
   box-shadow: none;
@@ -218,6 +223,11 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   justify-content: space-between;
   padding: var(--spacing-xl) var(--spacing-5xl) var(--spacing-xl) var(--spacing-5xl);
   gap: var(--spacing-md);
+
+  @include respond-below("md") {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
 }
 
 .copyright-container {
@@ -244,6 +254,11 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   justify-content: flex-end;
   gap: var(--spacing-5xl);
   padding-top: var(--spacing-md);
+
+  @include respond-below("lg") {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
 }
 
 .links-column, .links-list {
@@ -282,6 +297,17 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   width: 100%;
   border-bottom: 1px solid var(--stroke);
   justify-content: center;
+}
+
+.support-logo-container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-md);
+
+  @include respond-below("sm") {
+    flex-wrap: wrap;
+    justify-content: start;
+  }
 }
 
 .anr {
