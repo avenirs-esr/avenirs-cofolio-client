@@ -22,7 +22,6 @@ function formatDate (date: string) {
     locale: currentLocale === 'fr' ? fr : enUS
   })
 }
-const formattedTraceCreationDate = computed(() => formatDate(props.trace.createdAt))
 const formattedUploadDate = computed(() => formatDate(props.trace.attachment.uploadedAt))
 
 const traceAttachmentFile = computed(() => {
@@ -54,13 +53,6 @@ const traceAttachmentFile = computed(() => {
               :valid-message="t('global.success.file.loaded')"
               disabled
             />
-            <div class="student-detailed-trace-information__file-info">
-              <div class="b2-light student-detailed-trace-information__upload-date">
-                {{
-                  t('student.views.studentToolsTracesView.studentTraceDetails.addedOn', { date: formattedTraceCreationDate })
-                }}
-              </div>
-            </div>
           </div>
         </div>
 
@@ -145,10 +137,6 @@ const traceAttachmentFile = computed(() => {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxxs);
-}
-
-.student-detailed-trace-information__upload-date {
-  text-align: right;
 }
 
 .student-detailed-trace-information__indicators {
