@@ -40,7 +40,7 @@ const menuItems = computed(() => [
         :icon="{ name: MDI_ICONS.DOTS_VERTICAL }"
         variant="OUTLINED"
         size="sm"
-        :label="t('student.views.studentTraceView.settings.ariaLabel').toUpperCase()"
+        :label="t('student.views.studentTraceView.settings.ariaLabel')"
         :on-click="toggle"
       />
     </template>
