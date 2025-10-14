@@ -16,13 +16,13 @@ const activeTab = ref(0)
 <template>
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="`${t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.unassociated', { count: tracesSummary?.unassociated ?? 0 })}`"
+      :title="`${t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.unassociatedTracesTab.title', { count: tracesSummary?.unassociated ?? 0 })}`"
       :icon="MDI_ICONS.ALERT_OUTLINE"
     >
       <StudentToolsTracesViewUnassociatedTab :traces-summary="tracesSummary" />
     </AvTab>
     <AvTab
-      :title="`${t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.associated', { count: tracesSummary?.associated ?? 0 })}`"
+      :title="`${t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.associatedTracesTab.title', { count: tracesSummary?.associated ?? 0 })}`"
       :icon="MDI_ICONS.LINK"
     >
       <StudentToolsTracesViewAssociatedTab />

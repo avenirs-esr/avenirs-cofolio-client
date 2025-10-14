@@ -56,7 +56,7 @@ BddTest().given('a student tools traces view container', () => {
   }
 
   BddTest().and('trace data is available', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
 
       paginationMock = createUsePaginationMock()
@@ -73,6 +73,8 @@ BddTest().given('a student tools traces view container', () => {
         useTanstack: true,
         usePinia: true
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted', () => {
@@ -86,8 +88,11 @@ BddTest().given('a student tools traces view container', () => {
         expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
       })
 
+      BddTest().then('it should not render the no trace found text', () => {
+        expect(wrapper.text()).not.toContain('Aucune trace trouvée.')
+      })
+
       BddTest().then('it should render the correct number of trace cards', async () => {
-        await flushPromises()
         const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(traceCards).toHaveLength(4)
       })
@@ -95,7 +100,6 @@ BddTest().given('a student tools traces view container', () => {
 
     BddTest().when('clicking on the filters buttons', () => {
       beforeEach(async () => {
-        await flushPromises()
         await wrapper.find('.emit-update-filters').trigger('click')
       })
 
@@ -114,7 +118,6 @@ BddTest().given('a student tools traces view container', () => {
 
     BddTest().when('clicking on the page update buttons', () => {
       BddTest().then('it should update current page and page size in the mock', async () => {
-        await flushPromises()
         await wrapper.find('.emit-current-page').trigger('click')
         expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
         expect(paginationMock.currentPage.value).toBe(5)
@@ -128,7 +131,7 @@ BddTest().given('a student tools traces view container', () => {
   })
 
   BddTest().and('no trace data is available', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
 
@@ -153,8 +156,12 @@ BddTest().given('a student tools traces view container', () => {
         expect(cards).toHaveLength(0)
       })
 
-      BddTest().then('it should still render all UI components', () => {
-        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
+      BddTest().then('it should not render the pagination', () => {
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(false)
+      })
+
+      BddTest().then('it should render the no trace found text', () => {
+        expect(wrapper.text()).toContain('Aucune trace trouvée.')
       })
     })
   })
