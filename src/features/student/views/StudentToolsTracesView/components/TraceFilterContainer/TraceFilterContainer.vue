@@ -130,58 +130,62 @@ watch([
 
 <template>
   <div class="main-container">
-    <div class="filters-container">
-      <AvInput
-        :model-value="keyword"
-        :label="isAssociated ? t('student.views.studentToolsTracesView.traceFilter.labels.search.associated') : t('student.views.studentToolsTracesView.traceFilter.labels.search.unassociated')"
-        class="search-input"
-        @update:model-value="handleKeywordChange"
-      />
-      <AvMultiselect
-        v-model="skillsSelected"
-        class="skills-multiselect"
-        :options="skillsOptions"
-        :label="t('student.views.studentToolsTracesView.traceFilter.labels.skills')"
-        :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.labels.skills')"
-        :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
-        dense
-        width="9.5rem"
-      />
-      <AvInput
-        v-model="fromDateSelected"
-        class="start-date-input"
-        :label="t('student.views.studentToolsTracesView.traceFilter.labels.fromDate')"
-        type="date"
-        :max-date="getDateSelectedFromString(toDateSelected)"
-      />
-      <AvInput
-        v-model="toDateSelected"
-        class="end-date-input"
-        :label="t('student.views.studentToolsTracesView.traceFilter.labels.toDate')"
-        type="date"
-        :min-date="getDateSelectedFromString(fromDateSelected)"
-      />
-      <AvMultiselect
-        v-model="typesSelected"
-        class="types-multiselect"
-        :options="typesOptions"
-        :label="t('student.views.studentToolsTracesView.traceFilter.labels.types')"
-        :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.labels.types')"
-        :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
-        dense
-        width="8rem"
-      />
-      <AvMultiselect
-        v-model="statusesSelected"
-        class="statuses-multiselect"
-        :options="statusesOptions"
-        :label="t('student.views.studentToolsTracesView.traceFilter.labels.statuses')"
-        :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.labels.statuses')"
-        :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
-        dense
-        width="8rem"
-      />
-    </div>
+    <AvInput
+      :model-value="keyword"
+      :label="isAssociated ? t('student.views.studentToolsTracesView.traceFilter.labels.search.associated') : t('student.views.studentToolsTracesView.traceFilter.labels.search.unassociated')"
+      class="search-input"
+      :placeholder="isAssociated ? t('student.views.studentToolsTracesView.traceFilter.labels.search.associated') : t('student.views.studentToolsTracesView.traceFilter.labels.search.unassociated')"
+      width="14.875rem"
+      @update:model-value="handleKeywordChange"
+    />
+    <AvMultiselect
+      v-if="isAssociated"
+      v-model="skillsSelected"
+      class="skills-multiselect"
+      :options="skillsOptions"
+      :label="t('student.views.studentToolsTracesView.traceFilter.labels.skills')"
+      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.skills')"
+      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
+      dense
+      width="14.875rem"
+    />
+    <AvInput
+      v-model="fromDateSelected"
+      class="start-date-input"
+      :label="t('student.views.studentToolsTracesView.traceFilter.labels.fromDate')"
+      type="date"
+      :max-date="getDateSelectedFromString(toDateSelected)"
+      width="14.875rem"
+    />
+    <AvInput
+      v-model="toDateSelected"
+      class="end-date-input"
+      :label="t('student.views.studentToolsTracesView.traceFilter.labels.toDate')"
+      type="date"
+      :min-date="getDateSelectedFromString(fromDateSelected)"
+      width="14.875rem"
+    />
+    <AvMultiselect
+      v-model="typesSelected"
+      class="types-multiselect"
+      :options="typesOptions"
+      :label="t('student.views.studentToolsTracesView.traceFilter.labels.types')"
+      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.types')"
+      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
+      dense
+      width="14.875rem"
+    />
+    <AvMultiselect
+      v-if="isAssociated"
+      v-model="statusesSelected"
+      class="statuses-multiselect"
+      :options="statusesOptions"
+      :label="t('student.views.studentToolsTracesView.traceFilter.labels.statuses')"
+      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.statuses')"
+      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
+      dense
+      width="14.875rem"
+    />
     <AvButton
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.reset')"
       class="reset-button"
@@ -193,21 +197,12 @@ watch([
 </template>
 
 <style scoped lang="scss">
-.main-container, .filters-container {
+.main-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--spacing-xs);
   align-items: end;
-}
-
-.main-container {
-  width: 100%;
-  justify-content: space-between;
-}
-
-.search-input {
-  width: 15.5rem;
 }
 
 :deep(input) {

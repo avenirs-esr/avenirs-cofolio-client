@@ -448,6 +448,11 @@
               "pdf": "PDF file",
               "png": "PNG file"
             }
+          },
+          "placeholders": {
+            "skills": "Sort by associated skill",
+            "statuses": "Sort by trace status",
+            "types": "Sort by file type"
           }
         },
         "warningMessage": {

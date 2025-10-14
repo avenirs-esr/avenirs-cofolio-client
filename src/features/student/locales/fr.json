@@ -448,6 +448,11 @@
               "pdf": "Fichier PDF",
               "png": "Fichier PNG"
             }
+          },
+          "placeholders": {
+            "skills": "Trier par compétence associée",
+            "statuses": "Trier par statut de la trace",
+            "types": "Trier par type de document"
           }
         },
         "warningMessage": {
