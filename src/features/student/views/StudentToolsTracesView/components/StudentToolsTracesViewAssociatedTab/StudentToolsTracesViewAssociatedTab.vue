@@ -7,7 +7,9 @@ import StudentDetailedTraceCard
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import TraceFilterContainer from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { useTracesStore } from '@/store'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const tracesStore = useTracesStore()
 
 const {
@@ -43,6 +45,7 @@ watch([
       @update:filters="onUpdateFilters"
     />
     <Pagination
+      v-if="traces.length > 0"
       :page-info="pageInfo"
       :page-size-selected="pageSizeSelected"
       :on-update-current-page="onUpdateCurrentPage"
@@ -56,6 +59,14 @@ watch([
         />
       </div>
     </Pagination>
+    <div
+      v-else
+      class="no-result-container"
+    >
+      <span class="b2-regular">
+        {{ t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.noTraceFound') }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -74,5 +85,9 @@ watch([
   width: 100%;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
+}
+
+.no-result-container {
+  padding-bottom: var(--dimension-7xl);
 }
 </style>

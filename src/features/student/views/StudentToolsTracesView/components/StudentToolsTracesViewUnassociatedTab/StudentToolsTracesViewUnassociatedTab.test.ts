@@ -60,7 +60,7 @@ BddTest().given('a student tools traces view container', () => {
   }
 
   BddTest().and('trace data is available', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
 
       paginationMock = createUsePaginationMock()
@@ -85,6 +85,8 @@ BddTest().given('a student tools traces view container', () => {
         useTanstack: true,
         usePinia: true
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted', () => {
@@ -103,9 +105,12 @@ BddTest().given('a student tools traces view container', () => {
       })
 
       BddTest().then('it should render the correct number of trace cards', async () => {
-        await flushPromises()
         const traceCards = wrapper.findAllComponents({ name: 'StudentDetailedTraceCard' })
         expect(traceCards).toHaveLength(4)
+      })
+
+      BddTest().then('it should not render the no trace found text', () => {
+        expect(wrapper.text()).not.toContain('Aucune trace trouvée.')
       })
     })
 
@@ -144,7 +149,7 @@ BddTest().given('a student tools traces view container', () => {
   })
 
   BddTest().and('no trace data is available', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
 
@@ -177,9 +182,16 @@ BddTest().given('a student tools traces view container', () => {
         expect(cards).toHaveLength(0)
       })
 
-      BddTest().then('it should still render all UI components', () => {
+      BddTest().then('it should render the notice', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesViewNotice' }).exists()).toBe(true)
-        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
+      })
+
+      BddTest().then('it should not render the pagination', () => {
+        expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(false)
+      })
+
+      BddTest().then('it should render the no trace found text', () => {
+        expect(wrapper.text()).toContain('Aucune trace trouvée.')
       })
     })
   })

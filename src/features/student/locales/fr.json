@@ -404,17 +404,18 @@
           }
         },
         "studentToolsTracesViewTabs": {
-          "associated": "Aucune trace associée ({count})  | Ma trace associée ({count}) | Mes traces associées ({count})",
-          "unassociated": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})",
           "associatedTracesTab": {
             "studentTraceFilters": {
               "searchLabel": "Rechercher une trace associée"
-            }
+            },
+            "title": "Aucune trace associée ({count})  | Ma trace associée ({count}) | Mes traces associées ({count})"
           },
+          "noTraceFound": "Aucune trace trouvée.",
           "unassociatedTracesTab": {
             "studentTraceFilters": {
               "searchLabel": "Rechercher une trace non associée"
-            }
+            },
+            "title": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})"
           }
         },
         "title": "Ma bibliothèque de traces",

@@ -203,9 +203,15 @@ watch([
   flex-wrap: wrap;
   gap: var(--spacing-xs);
   align-items: end;
+  padding: var(--spacing-none) var(--spacing-xs);
 }
 
 :deep(input) {
   line-height: unset !important;
+}
+
+:deep(.fr-multiselect__collapse__fieldset) {
+  max-height: var(--dimension-7xl) !important;
+  margin-bottom: var(--spacing-none) !important;
 }
 </style>
