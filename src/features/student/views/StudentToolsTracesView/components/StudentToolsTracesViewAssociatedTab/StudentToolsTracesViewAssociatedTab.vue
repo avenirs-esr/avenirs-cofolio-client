@@ -85,6 +85,7 @@ watch([
   width: 100%;
   gap: var(--spacing-sm);
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .no-result-container {
