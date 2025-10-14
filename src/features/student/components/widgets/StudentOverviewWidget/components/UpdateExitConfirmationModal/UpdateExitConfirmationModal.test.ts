@@ -8,14 +8,9 @@ BddTest().given('an update exit confirmation modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateExitConfirmationModal>>
 
   const stubs = {
-    AvButton: {
-      name: 'AvButton',
-      props: ['label', 'onClick'],
-      template: `<button class="av-button" @click="onClick" />`
-    },
     AvModal: {
       name: 'AvModal',
-      props: ['opened'],
+      props: ['opened', 'confirmButtonLabel'],
       template: `
         <div class="av-modal">
           <slot />
@@ -49,20 +44,17 @@ BddTest().given('an update exit confirmation modal', () => {
         expect(wrapper.text()).toContain('Êtes-vous sûr de vouloir quitter ?')
         expect(wrapper.text()).toContain('Toutes les modifications non enregistrées seront perdues.')
 
-        const avButton = wrapper.findComponent({ name: 'AvButton' })
-        expect(avButton.exists()).toBe(true)
-        expect(avButton.props('label')).toBe('Confirmer')
-
         const avModal = wrapper.findComponent({ name: 'AvModal' })
         expect(avModal.exists()).toBe(true)
         expect(avModal.props('opened')).toBe(true)
+        expect(avModal.props('confirmButtonLabel')).toBe('Confirmer')
       })
     })
 
     BddTest().when('clicking confirm button', () => {
       BddTest().then('it should emit onConfirm', async () => {
-        const button = wrapper.find('button')
-        await button.trigger('click')
+        await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
+        await nextTick()
 
         expect(onConfirm).toHaveBeenCalled()
       })

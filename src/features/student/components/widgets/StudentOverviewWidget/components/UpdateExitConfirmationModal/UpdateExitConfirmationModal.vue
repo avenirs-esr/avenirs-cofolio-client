@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { showModal, isLoading, onCancel, onConfirm } = defineProps<{
@@ -16,8 +16,10 @@ const { t } = useI18n()
   <AvModal
     :opened="showModal"
     :close-button-label="t('global.buttons.cancel')"
+    :confirm-button-label="t('global.buttons.confirm')"
     :is-loading="isLoading"
     @close="onCancel"
+    @confirm="onConfirm"
   >
     <h5 class="n5">
       {{ t('student.widgets.overview.updateProfileDrawer.confirmModal.title') }}
@@ -25,17 +27,6 @@ const { t } = useI18n()
     <span class="b2-regular">
       {{ t('student.widgets.overview.updateProfileDrawer.confirmModal.subtitle') }}
     </span>
-    <template #footer>
-      <AvButton
-        :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
-        :label="t('global.buttons.confirm')"
-        :title="t('global.buttons.confirm')"
-        :is-loading="isLoading"
-        variant="FLAT"
-        size="sm"
-        :on-click="onConfirm"
-      />
-    </template>
   </AvModal>
 </template>
 

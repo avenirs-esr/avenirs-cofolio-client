@@ -2,7 +2,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import TermsStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import UpdateStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
-import { AvButton, AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
@@ -37,9 +37,11 @@ const confirmIcon = computed(() => currentStep.value === 0
   <AvModal
     :opened="show"
     :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close')"
-    close-button-variant="OUTLINED"
+    :confirm-button-label="confirmLabel"
+    :confirm-button-icon="confirmIcon"
     size="lg"
     @close="onClose"
+    @confirm="() => onConfirm()"
   >
     <template #header>
       <div class="header">
@@ -64,16 +66,6 @@ const confirmIcon = computed(() => currentStep.value === 0
         :on-close="onClose"
       />
     </div>
-
-    <template #footer>
-      <AvButton
-        size="sm"
-        variant="OUTLINED"
-        :label="confirmLabel"
-        :icon="confirmIcon"
-        @click="() => onConfirm()"
-      />
-    </template>
   </AvModal>
 </template>
 
