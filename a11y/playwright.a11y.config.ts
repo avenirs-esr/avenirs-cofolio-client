@@ -7,7 +7,14 @@ export default defineConfig({
   tsconfig: './tsconfig.a11y.json',
   use: {
     baseURL: 'http://localhost:4173/cofolio/',
-    headless: !!process.env.CI
+    headless: true,
+    colorScheme: 'light',
+    deviceScaleFactor: 1,
+    locale: 'fr-FR',
+    timezoneId: 'Europe/Paris',
+    launchOptions: {
+      args: ['--force-color-profile=srgb'],
+    },
   },
   timeout: GLOBAL_TIMEOUT,
   /* Configure projects for major browsers */
@@ -16,6 +23,8 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
+        colorScheme: 'light',
+        deviceScaleFactor: 1,
       }
     },
   ],
