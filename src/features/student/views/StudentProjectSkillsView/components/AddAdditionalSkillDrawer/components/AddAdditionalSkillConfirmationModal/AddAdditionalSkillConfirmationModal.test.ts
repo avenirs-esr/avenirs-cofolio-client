@@ -6,7 +6,7 @@ import AddAdditionalSkillConfirmationModal from './AddAdditionalSkillConfirmatio
 const stubs = {
   AvModal: {
     name: 'AvModal',
-    props: ['opened', 'closeButtonLabel'],
+    props: ['opened', 'closeButtonLabel', 'confirmButtonLabel'],
     emits: ['close'],
     template: `
       <div v-if="opened" class="av-modal-stub">
@@ -58,13 +58,9 @@ BddTest().given('a confirmation modal component', () => {
       expect(message.text()).toBe('Souhaitez-vous abandonner l\'ajout de votre compétence complémentaire ?')
     })
 
-    BddTest().then('it should render only confirm button in footer', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-
-      expect(buttons).toHaveLength(1)
-      expect(buttons[0].props('label')).toBe('Oui, quitter sans enregistrer')
-      expect(buttons[0].props('variant')).toBe('OUTLINED')
-      expect(buttons[0].props('theme')).toBe('PRIMARY')
+    BddTest().then('it should render the confirm button', () => {
+      const modal = wrapper.findComponent({ name: 'AvModal' })
+      expect(modal.props('confirmButtonLabel')).toBe('Oui, quitter sans enregistrer')
     })
   })
 
@@ -88,9 +84,7 @@ BddTest().given('a confirmation modal component', () => {
 
   BddTest().when('confirm button is clicked', () => {
     BddTest().then('it should emit confirm event', async () => {
-      const confirmButton = wrapper.findComponent({ name: 'AvButton' })
-
-      await confirmButton.vm.$emit('click')
+      await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
       expect(wrapper.emitted('confirm')).toHaveLength(1)
       expect(wrapper.emitted('cancel')).toBeUndefined()

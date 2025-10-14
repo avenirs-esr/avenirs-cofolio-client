@@ -53,22 +53,9 @@ BddTest().given('a trace deletion confirmation modal', () => {
   }
 
   const stubs = {
-    AvButton: {
-      name: 'AvButton',
-      props: ['isLoading', 'onClick'],
-      template: `
-        <button
-          data-testid="confirm-button"
-          :disabled="isLoading"
-          @click="onClick && onClick()"
-        >
-          <slot />
-        </button>
-      `
-    },
     AvModal: {
       name: 'AvModal',
-      props: ['opened', 'closeButtonLabel'],
+      props: ['opened', 'closeButtonLabel', 'confirmButtonLabel'],
       emits: ['close'],
       template: `
         <div v-if="opened" data-testid="av-modal">
@@ -130,7 +117,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     })
 
     BddTest().then('clicking confirm button should call mutate with traceId', async () => {
-      await wrapper.find('[data-testid="confirm-button"]').trigger('click')
+      await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
       expect(mockMutate).toHaveBeenCalledWith({ traceId: mockedTrace.id })
     })
   })

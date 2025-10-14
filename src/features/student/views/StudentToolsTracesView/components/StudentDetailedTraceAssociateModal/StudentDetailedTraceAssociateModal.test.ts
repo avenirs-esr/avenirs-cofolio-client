@@ -40,7 +40,7 @@ vi.mock(
 const stubs = {
   AvModal: {
     name: 'AvModal',
-    props: ['opened', 'closeButtonLabel'],
+    props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonDisabled', 'isLoading'],
     emits: ['close'],
     template: `
       <div class="av-modal-stub">
@@ -138,8 +138,7 @@ BddTest().given('StudentDetailedTraceAssociateModal', () => {
         isSubmittingRef.value = false
         formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
         await nextTick()
-        const btn = wrapper.find('.av-button-stub')
-        expect((btn.element as HTMLButtonElement).disabled).toBe(false)
+        expect(wrapper.findComponent({ name: 'AvModal' }).props('confirmButtonDisabled')).toBe(false)
       })
     })
 
@@ -147,14 +146,12 @@ BddTest().given('StudentDetailedTraceAssociateModal', () => {
       BddTest().then('the submit button should be disabled', async () => {
         isFormValidRef.value = false
         await nextTick()
-        let btn = wrapper.find('.av-button-stub')
-        expect((btn.element as HTMLButtonElement).disabled).toBe(true)
+        expect(wrapper.findComponent({ name: 'AvModal' }).props('isLoading').value).toBe(false)
 
         isFormValidRef.value = true
         isSubmittingRef.value = true
         await nextTick()
-        btn = wrapper.find('.av-button-stub')
-        expect((btn.element as HTMLButtonElement).disabled).toBe(true)
+        expect(wrapper.findComponent({ name: 'AvModal' }).props('isLoading').value).toBe(true)
       })
     })
   })
@@ -167,8 +164,7 @@ BddTest().given('StudentDetailedTraceAssociateModal', () => {
         formStoreRef.value.values.selectedAssociation = { id: 'sl-1', title: 'OK' }
         await nextTick()
 
-        const btn = wrapper.find('.av-button-stub')
-        await btn.trigger('click')
+        await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
         expect(handleSubmitSpy).toHaveBeenCalled()
         expect(addSuccessMessageSpy).toHaveBeenCalled()

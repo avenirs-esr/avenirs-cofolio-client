@@ -6,7 +6,7 @@ import {
   useAssociateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
 import { useToasterStore } from '@/store'
-import { AvButton, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace, show, onClose } = defineProps<{
@@ -42,7 +42,12 @@ const isDisabled = computed(() => {
   <AvModal
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
+    :confirm-button-label="t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.buttons.associate')"
+    :confirm-button-icon="MDI_ICONS.ATTACH_FILE"
+    :confirm-button-disabled="isDisabled"
+    :is-loading="isSubmitting"
     @close="onClose"
+    @confirm="form.handleSubmit"
   >
     <template #header>
       <h3>{{ t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
@@ -54,18 +59,6 @@ const isDisabled = computed(() => {
         :association-type="ETraceAssociationType.SKILL_LEVEL"
       />
     </div>
-    <template #footer>
-      <AvButton
-        variant="DEFAULT"
-        theme="PRIMARY"
-        :label="t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.buttons.associate')"
-        :icon="MDI_ICONS.ATTACH_FILE"
-        size="sm"
-        :disabled="isDisabled"
-        :is-loading="isSubmitting"
-        :on-click="form.handleSubmit"
-      />
-    </template>
   </AvModal>
 </template>
 

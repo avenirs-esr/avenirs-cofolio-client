@@ -32,15 +32,9 @@ BddTest().given('an update trace modal', () => {
   }
 
   const stubs = {
-    AvButton: {
-      name: 'AvButton',
-      props: ['label', 'variant', 'type', 'disabled', 'isLoading', 'icon'],
-      emits: ['click'],
-      template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
-    },
     AvModal: {
       name: 'AvModal',
-      props: ['opened', 'closeButtonLabel'],
+      props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon'],
       emits: ['close'],
       template: `
         <div class="av-modal">
@@ -121,9 +115,9 @@ BddTest().given('an update trace modal', () => {
       })
 
       BddTest().then('it should show validate confirm button', () => {
-        const confirmButton = wrapper.findComponent({ name: 'AvButton' })
-        expect(confirmButton.text()).toBe('Valider la sélection')
-        expect(confirmButton.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE_OUTLINE)
+        const modal = wrapper.findComponent({ name: 'AvModal' })
+        expect(modal.props('confirmButtonLabel')).toBe('Valider la sélection')
+        expect(modal.props('confirmButtonIcon')).toBe(MDI_ICONS.CHECK_CIRCLE_OUTLINE)
       })
 
       BddTest().then('it should display the trace details', () => {
@@ -148,7 +142,7 @@ BddTest().given('an update trace modal', () => {
 
       BddTest().and('the confirm button is clicked', () => {
         beforeEach(async () => {
-          await wrapper.findComponent({ name: 'AvButton' }).trigger('click')
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
           await nextTick()
         })
 
@@ -167,14 +161,14 @@ BddTest().given('an update trace modal', () => {
         })
 
         BddTest().then('it should show save confirm button', () => {
-          const confirmButton = wrapper.findComponent({ name: 'AvButton' })
-          expect(confirmButton.text()).toBe('Enregistrer les modifications')
-          expect(confirmButton.props('icon')).toBe(MDI_ICONS.CONTENT_SAVE_OUTLINE)
+          const modal = wrapper.findComponent({ name: 'AvModal' })
+          expect(modal.props('confirmButtonLabel')).toBe('Enregistrer les modifications')
+          expect(modal.props('confirmButtonIcon')).toBe(MDI_ICONS.CONTENT_SAVE_OUTLINE)
         })
 
         BddTest().and('the confirm button is clicked a second time', () => {
           beforeEach(async () => {
-            await wrapper.findComponent({ name: 'AvButton' }).trigger('click')
+            await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
             await nextTick()
           })
 
