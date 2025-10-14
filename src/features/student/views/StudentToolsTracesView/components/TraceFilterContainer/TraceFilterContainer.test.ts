@@ -21,7 +21,7 @@ interface TraceFilterContainerRefs {
 }
 
 vi.mock('lodash-es', () => ({
-  debounce: (fn: any) => fn
+  debounce: (fn: unknown) => fn
 }))
 
 BddTest().given('a trace filter container', () => {
@@ -169,7 +169,7 @@ BddTest().given('a trace filter container', () => {
         expect(avMultiselect.props('label')).toBe('Statut')
       })
 
-      BddTest().then('it should render the types multiselect options', () => {
+      BddTest().then('it should render the types statuses options', () => {
         const statusesMultiselect = wrapper.find('.statuses-multiselect')
         const avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
         const select = avMultiselect.find('select')
@@ -186,8 +186,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('a keyword is typed in the search input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avInput: Omit<VueWrapper<any, any>, 'exists'>
+      let avInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const searchInput = wrapper.find('.search-input')
@@ -212,8 +211,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some skills are selected in the skills select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
+      let avMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const skillsMultiselect = wrapper.find('.skills-multiselect')
@@ -245,8 +243,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('a date is selected in the start date input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let startDateAvInput: Omit<VueWrapper<any, any>, 'exists'>
+      let startDateAvInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const startDateInput = wrapper.find('.start-date-input')
@@ -277,8 +274,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('a date is selected in the end date input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let endDateAvInput: Omit<VueWrapper<any, any>, 'exists'>
+      let endDateAvInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const endDateInput = wrapper.find('.end-date-input')
@@ -309,8 +305,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some types are selected in the types select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
+      let avMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const typesMultiselect = wrapper.find('.types-multiselect')
@@ -342,8 +337,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some statuses are selected in the statuses select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
+      let avMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const statusesMultiselect = wrapper.find('.statuses-multiselect')
@@ -510,18 +504,9 @@ BddTest().given('a trace filter container', () => {
         expect(avInput.props('label')).toBe('Rechercher une trace non associée')
       })
 
-      BddTest().then('it should render the skills multiselect', () => {
+      BddTest().then('it should not render the skills multiselect', () => {
         const skillsMultiselect = wrapper.find('.skills-multiselect')
-        expect(skillsMultiselect.exists()).toBe(true)
-        const avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Compétence')
-      })
-
-      BddTest().then('it should render the skills multiselect options', () => {
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        const avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(mockedAllSkills.length)
+        expect(skillsMultiselect.exists()).toBe(false)
       })
 
       BddTest().then('it should render the start date input', () => {
@@ -552,18 +537,9 @@ BddTest().given('a trace filter container', () => {
         expect(select.findAll('option').length).toBe(5)
       })
 
-      BddTest().then('it should render the statuses multiselect', () => {
+      BddTest().then('it should not render the statuses multiselect', () => {
         const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        expect(statusesMultiselect.exists()).toBe(true)
-        const avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Statut')
-      })
-
-      BddTest().then('it should render the types multiselect options', () => {
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        const avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(4)
+        expect(statusesMultiselect.exists()).toBe(false)
       })
 
       BddTest().then('it should render the reset filter button', () => {
@@ -576,8 +552,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('a keyword is typed in the search input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avInput: Omit<VueWrapper<any, any>, 'exists'>
+      let avInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const searchInput = wrapper.find('.search-input')
@@ -601,42 +576,8 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('some skills are selected in the skills select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
-
-      beforeEach(async () => {
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-
-        const select = avMultiselect.find('select')
-        await select.setValue([mockedAllSkills[0].skillId, mockedAllSkills[1].skillId])
-      })
-
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          { value: mockedAllSkills[0].skillId, label: mockedAllSkills[0].title },
-          { value: mockedAllSkills[1].skillId, label: mockedAllSkills[1].title },
-        ])
-      })
-
-      BddTest().then('the trace filter container should emit update:filters', () => {
-        expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [],
-          statuses: [],
-          skillIds: [mockedAllSkills[0].skillId, mockedAllSkills[1].skillId],
-          fromDate: '',
-          toDate: '',
-          keyword: ''
-        })
-      })
-    })
-
     BddTest().when('a date is selected in the start date input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let startDateAvInput: Omit<VueWrapper<any, any>, 'exists'>
+      let startDateAvInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const startDateInput = wrapper.find('.start-date-input')
@@ -667,8 +608,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('a date is selected in the end date input', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let endDateAvInput: Omit<VueWrapper<any, any>, 'exists'>
+      let endDateAvInput: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const endDateInput = wrapper.find('.end-date-input')
@@ -699,8 +639,7 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some types are selected in the types select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
+      let avMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
         const typesMultiselect = wrapper.find('.types-multiselect')
@@ -731,48 +670,6 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('some statuses are selected in the statuses select', async () => {
-      // any are allowed here due to the wrapper.find('.x').getComponent({ name: 'y' }) return type
-      let avMultiselect: Omit<VueWrapper<any, any>, 'exists'>
-
-      beforeEach(async () => {
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-
-        const select = avMultiselect.find('select')
-        await select.setValue([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-        ])
-      })
-
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          {
-            value: TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-            label: 'Associée à un niveau de compétence évalué'
-          },
-          {
-            value: TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION,
-            label: 'Associée à un niveau de compétence soumis pour évaluation'
-          },
-        ])
-      })
-
-      BddTest().then('the trace filter container should emit update:filters', () => {
-        expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [],
-          statuses: [TraceFilterStatusesItem.ASSOCIATED_EVALUATED, TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION],
-          skillIds: [],
-          fromDate: '',
-          toDate: '',
-          keyword: ''
-        })
-      })
-    })
-
     BddTest().when('values are set', () => {
       let vm: TraceFilterContainerRefs
 
@@ -782,11 +679,6 @@ BddTest().given('a trace filter container', () => {
         const searchInput = wrapper.find('.search-input')
         const searchAvInput = searchInput.getComponent({ name: 'AvInput' })
         await searchAvInput.find('input').setValue('example')
-
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        const skillsAvMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        const skillsSelect = skillsAvMultiselect.find('select')
-        await skillsSelect.setValue([mockedAllSkills[0].skillId, mockedAllSkills[1].skillId])
 
         const startDateInput = wrapper.find('.start-date-input')
         const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
@@ -800,31 +692,15 @@ BddTest().given('a trace filter container', () => {
         const typesAvMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
         const typesSelect = typesAvMultiselect.find('select')
         await typesSelect.setValue([TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG])
-
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        const statusesAvMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const statusesSelect = statusesAvMultiselect.find('select')
-        await statusesSelect.setValue([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-        ])
       })
 
       BddTest().then('the values should be set in the component refs', () => {
         expect(vm.keyword).toBe('example')
-        expect(vm.skillsSelected.map(skill => skill.value)).toEqual([
-          mockedAllSkills[0].skillId,
-          mockedAllSkills[1].skillId
-        ])
         expect(vm.fromDateSelected).toBe('2025-10-10')
         expect(vm.toDateSelected).toBe('2026-10-10')
         expect(vm.typesSelected.map(type => type.value)).toEqual([
           TraceFilterFileTypesItem.DOC,
           TraceFilterFileTypesItem.PNG
-        ])
-        expect(vm.statusesSelected.map(status => status.value)).toEqual([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
         ])
       })
 
@@ -833,11 +709,8 @@ BddTest().given('a trace filter container', () => {
         const lastEmitted = emitted![emitted!.length - 1][0]
         expect(lastEmitted).toEqual({
           fileTypes: [TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG],
-          statuses: [
-            TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-            TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-          ],
-          skillIds: [mockedAllSkills[0].skillId, mockedAllSkills[1].skillId,],
+          statuses: [],
+          skillIds: [],
           fromDate: '2025-10-10',
           toDate: '2026-10-10',
           keyword: 'example'
@@ -853,11 +726,9 @@ BddTest().given('a trace filter container', () => {
 
         BddTest().then('it should reset the refs', () => {
           expect(vm.keyword).toBe('')
-          expect(vm.skillsSelected.length).toBe(0)
           expect(vm.fromDateSelected).toBe('')
           expect(vm.toDateSelected).toBe('')
           expect(vm.typesSelected.length).toBe(0)
-          expect(vm.statusesSelected.length).toBe(0)
         })
 
         BddTest().then('the trace filter container should emit the reset filter', () => {
