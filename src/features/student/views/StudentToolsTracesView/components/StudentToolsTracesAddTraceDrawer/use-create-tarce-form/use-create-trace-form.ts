@@ -1,16 +1,12 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { TraceFormData, } from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
+import type { TraceFormData } from '@/features/student/types'
 import type { ComputedRef } from 'vue'
 import { ELanguage } from '@/api/avenir-esr'
-import { useFileValidation } from '@/common/composables'
-import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/components/inputs'
+import { useTraceFileValidation } from '@/features/student/composables'
 import { useCreateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
-
-const FIVE_MB = 5 * 1024 * 1024
-const TEN_MB = 10 * 1024 * 1024
 
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
@@ -37,18 +33,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const isFileUploading = ref(false)
 
-  const { validateFile } = useFileValidation({
-    acceptedFileTypes: [...TRACE_ACCEPTED_FILE_TYPES],
-    maxSizeConfig: {
-      'image/*': FIVE_MB,
-      'text/*': FIVE_MB,
-      'audio/*': FIVE_MB,
-      'video/*': TEN_MB,
-      'application/*': TEN_MB,
-      '*': FIVE_MB
-    },
-    isRequired: true
-  })
+  const { validateFile } = useTraceFileValidation(true)
 
   function mutateFile (file: File | null, traceId: string) {
     if (!file) {
@@ -94,7 +79,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
           fields: {
             file: validateFile(value.file),
             traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
-            isAuthentic: !value.isAuthentic ? t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionAuthenticity.required') : undefined,
+            isAuthentic: !value.isAuthentic ? t('student.components.traceAuthenticDeclarationToggle.requiredMessage') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
           }
         }
@@ -127,5 +112,3 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     isSubmitting
   }
 }
-
-export type CreateTraceForm = ReturnType<typeof useCreateTraceForm>['form']

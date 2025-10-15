@@ -330,26 +330,15 @@
             "associate": "Associer ma trace",
             "delete": "Supprimer ma trace",
             "update": "Modifier ma trace"
-          },
-          "studentTraceDetails": {
-            "addedOn": "Ajouté le {date}",
-            "authenticProduction": "Production authentique et personnelle",
-            "documentLabel": "Mon document chargé",
-            "groupProduction": "Cette trace est une production de groupe",
-            "iaToggleLabel": "Production avec IA",
-            "personalNoteLabel": "Note personnelle"
           }
         },
         "studentTraceAssociations": {
           "title": "Les associations de ma trace ({count})"
         },
         "studentTraceDetails": {
-          "addedOn": "Ajouté le {date}",
           "authenticProduction": "Production authentique et personnelle",
-          "documentLabel": "Mon document chargé",
-          "groupProduction": "Cette trace est une production de groupe",
           "iaToggleLabel": "Production avec IA",
-          "personalNoteLabel": "Note personnelle"
+          "groupProduction": "Cette trace est une production de groupe"
         },
         "studentTraceFilters": {
           "resetButton": "Réinitialiser les filtres",
@@ -375,8 +364,7 @@
                 "title": "Déclarer la nature de ma production"
               },
               "productionAuthenticity": {
-                "label": "Je soumets une production authentique et personnelle",
-                "required": "Vous devez accepter de soumettre une production authentique et personnelle"
+                "label": "Je soumets une production authentique et personnelle"
               },
               "groupProduction": {
                 "label": "Je soumets une production de groupe"
@@ -492,6 +480,10 @@
             "save": "Enregistrer les modifications",
             "validate": "Valider la sélection"
           },
+          "errors": {
+            "fileUpload": "Une erreur est survenue lors du téléchargement du fichier.",
+            "updateTrace": "Une erreur est survenue lors de la modification de la trace."
+          },
           "steps": {
             "terms": {
               "alertMessage": "Attention, message d'information",
@@ -510,7 +502,18 @@
               "title": "Modifier ma trace"
             }
           },
-          "title": "Modifier ma trace"
+          "success": "Votre trace a été modifiée avec succès.",
+          "title": "Modifier ma trace",
+          "updateTraceForm": {
+            "declaration": {
+              "iaUsage": {
+                "title": "Déclarer si c'est une production réalisée avec IA"
+              },
+              "productionNature": {
+                "title": "Déclarer la nature de ma production"
+              }
+            }
+          }
         }
       }
     },
@@ -597,6 +600,20 @@
       }
     },
     "components": {
+      "traceAiUsageToggle": {
+        "description": "Je soumets une production réalisée avec IA"
+      },
+      "traceAuthenticDeclarationToggle": {
+        "description": "Je soumets une production authentique et personnelle",
+        "requiredMessage": "Vous devez accepter de soumettre une production authentique et personnelle"
+      },
+      "traceFileUpload": {
+        "addedOn": "Ajouté le {date}",
+        "documentLabel": "Mon document chargé"
+      },
+      "traceGroupProductionToggle": {
+        "description": "Je soumets une production de groupe"
+      },
       "traceIaJustificationTextarea": {
         "hint": "{count} / {maxlength} caractères (espaces compris)",
         "label": "Justification de l'usage de l'IA",

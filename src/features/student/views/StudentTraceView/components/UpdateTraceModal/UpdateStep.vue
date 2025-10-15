@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import UpdateTraceForm from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-defineProps<{ trace: TraceDetailDTO }>()
+interface UpdateStepProps {
+  trace: TraceDetailDTO
+}
+
+defineProps<UpdateStepProps>()
 
 const { t } = useI18n()
 
@@ -20,7 +25,9 @@ const activeTab = ref(0)
         :title="t('student.views.studentTraceView.updateTraceModal.steps.update.tabs.update.title')"
         :icon="MDI_ICONS.PENCIL_OUTLINE"
       >
-        <span>Placeholder...</span>
+        <UpdateTraceForm
+          :trace="trace"
+        />
       </AvTab>
       <AvTab
         :title="t('student.views.studentTraceView.updateTraceModal.steps.update.tabs.associations.title')"

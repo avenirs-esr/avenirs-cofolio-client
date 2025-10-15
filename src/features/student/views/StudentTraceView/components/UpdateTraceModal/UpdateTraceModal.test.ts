@@ -1,15 +1,15 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
+import { useTracesStore } from '@/store'
 import { AvStepperStub, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
+import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 BddTest().given('an update trace modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateTraceModal>>
-  let onClose: ReturnType<typeof vi.fn>
 
   const mockedTrace: TraceDetailDTO = {
     id: 'mock-trace',
@@ -28,14 +28,15 @@ BddTest().given('an update trace modal', () => {
       fileSize: 1,
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
-    }
+    },
+    associationsTrace: mockedTraceAssociations
   }
 
   const stubs = {
     AvModal: {
       name: 'AvModal',
       props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon'],
-      emits: ['close'],
+      emits: ['close', 'confirm'],
       template: `
         <div class="av-modal">
           <slot name="header"></slot>
@@ -47,11 +48,12 @@ BddTest().given('an update trace modal', () => {
     AvStepper: AvStepperStub,
     TermsStep: {
       name: 'TermsStep',
-      props: ['skillLevelAssociations', 'additionalSkillAssociations'],
+      props: ['trace'],
       template: '<div class="terms-step" />'
     },
     UpdateStep: {
       name: 'UpdateStep',
+      props: ['trace'],
       template: '<div class="update-step" />'
     }
   }
@@ -59,11 +61,15 @@ BddTest().given('an update trace modal', () => {
   BddTest().and('the modal is initially closed', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      onClose = vi.fn()
-      wrapper = mount(UpdateTraceModal, {
-        props: { trace: mockedTrace, skillLevelAssociations: mockedTraceAssociations.skillLevelAssociations, additionalSkillAssociations: mockedTraceAssociations.additionalSkillAssociations, show: false, onClose },
+      wrapper = mountComponent(UpdateTraceModal, {
+        props: {
+          trace: mockedTrace
+        },
         global: { stubs }
       })
+
+      const tracesStore = useTracesStore()
+      tracesStore.showUpdateTraceModal = false
     })
 
     BddTest().when('the component is mounted', () => {
@@ -78,11 +84,16 @@ BddTest().given('an update trace modal', () => {
   BddTest().and('the modal is initially opened', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      onClose = vi.fn()
-      wrapper = mount(UpdateTraceModal, {
-        props: { trace: mockedTrace, skillLevelAssociations: mockedTraceAssociations.skillLevelAssociations, additionalSkillAssociations: mockedTraceAssociations.additionalSkillAssociations, show: true, onClose },
+      wrapper = mountComponent(UpdateTraceModal, {
+        props: {
+          trace: mockedTrace
+        },
         global: { stubs }
       })
+
+      const tracesStore = useTracesStore()
+      tracesStore.showUpdateTraceModal = true
+      await nextTick()
     })
 
     BddTest().when('the component is mounted', () => {
@@ -124,19 +135,22 @@ BddTest().given('an update trace modal', () => {
         expect(wrapper.find('.n5').text()).toContain(mockedTrace.title)
       })
 
-      BddTest().then('it passes associations props to TermsStep', () => {
+      BddTest().then('it should pass trace prop to TermsStep', () => {
         const terms = wrapper.findComponent({ name: 'TermsStep' })
         expect(terms.exists()).toBe(true)
+        expect(terms.props('trace')).toEqual(mockedTrace)
       })
 
       BddTest().and('the close button is clicked', () => {
-        beforeEach(async () => {
+        BddTest().then('it should hide the modal', async () => {
+          const tracesStore = useTracesStore()
+
+          expect(tracesStore.showUpdateTraceModal).toBe(true)
+
           await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
           await nextTick()
-        })
 
-        BddTest().then('it should close the modal', async () => {
-          expect(onClose).toHaveBeenCalled()
+          expect(tracesStore.showUpdateTraceModal).toBe(false)
         })
       })
 
@@ -166,14 +180,22 @@ BddTest().given('an update trace modal', () => {
           expect(modal.props('confirmButtonIcon')).toBe(MDI_ICONS.CONTENT_SAVE_OUTLINE)
         })
 
+        BddTest().then('it should pass trace prop to UpdateStep', () => {
+          const updateStep = wrapper.findComponent({ name: 'UpdateStep' })
+          expect(updateStep.props('trace')).toEqual(mockedTrace)
+        })
+
         BddTest().and('the confirm button is clicked a second time', () => {
           beforeEach(async () => {
+            const tracesStore = useTracesStore()
+            vi.spyOn(tracesStore, 'submitUpdateTraceForm')
             await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
             await nextTick()
           })
 
-          BddTest().then('it should call onClose', () => {
-            expect(onClose).toHaveBeenCalled()
+          BddTest().then('it should call submitUpdateTraceForm', () => {
+            const tracesStore = useTracesStore()
+            expect(tracesStore.submitUpdateTraceForm).toHaveBeenCalled()
           })
         })
       })

@@ -10,6 +10,7 @@ import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsPopover from '@/features/student/views/StudentTraceView/components/TraceSettingsPopover/TraceSettingsPopover.vue'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
+import { useTracesStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -29,11 +30,9 @@ const {
   displayModal: displayDeleteModal,
   hideModal: hideDeleteModal
 } = useModal()
-const {
-  showModal: showUpdateModal,
-  displayModal: displayUpdateModal,
-  hideModal: hideUpdateModal
-} = useModal()
+
+const { displayUpdateTraceModal } = useTracesStore()
+
 const {
   showModal: showAssociateModal,
   displayModal: displayAssociateModal,
@@ -73,7 +72,7 @@ const breadcrumbLinks = computed(() => [
       <TraceSettingsPopover
         @delete-selected="displayDeleteModal"
         @associate-selected="displayAssociateModal"
-        @update-selected="displayUpdateModal"
+        @update-selected="displayUpdateTraceModal"
       />
     </div>
 
@@ -118,8 +117,6 @@ const breadcrumbLinks = computed(() => [
 
     <UpdateTraceModal
       :trace="traceDetailed"
-      :show="showUpdateModal"
-      :on-close="() => hideUpdateModal()"
     />
   </div>
 </template>

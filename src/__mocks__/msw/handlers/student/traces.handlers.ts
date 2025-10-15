@@ -19,6 +19,7 @@ import {
   getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
   getTracesViewUrl,
+  getUpdateTraceUrl,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
@@ -27,7 +28,8 @@ import {
   type TraceOverviewDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO,
-  type TracesViewParams
+  type TracesViewParams,
+  type UpdateTraceDTO
 } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -240,6 +242,48 @@ export const tracesHandlers = [
     }
 
     return HttpResponse.json({ message: 'Ok' }, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.put(`*${getUpdateTraceUrl(':traceId')}`, async ({ params, request }) => {
+    const traceId: string | undefined = params.traceId as string | undefined
+
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+
+    if (traceId === invalidTraceId) {
+      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+    }
+
+    const updateTraceDTO = await request.json() as UpdateTraceDTO
+
+    if (!updateTraceDTO.title || updateTraceDTO.title.trim() === '') {
+      return HttpResponse.json({ error: 'Title is required' }, { status: 400 })
+    }
+
+    if (updateTraceDTO.title === 'ERROR_TRACE') {
+      return HttpResponse.json(
+        { error: 'Internal server error', message: 'Failed to update trace' },
+        { status: 500 }
+      )
+    }
+
+    const response: TraceDetailDTO = {
+      ...mockedTraceDetailed,
+      id: traceId,
+      title: updateTraceDTO.title,
+      personalNote: updateTraceDTO.personalNote || mockedTraceDetailed.personalNote,
+      isGroup: updateTraceDTO.isGroup,
+      aiUseJustification: updateTraceDTO.iaJustification || mockedTraceDetailed.aiUseJustification,
+      updatedAt: new Date().toISOString()
+    }
+
+    return HttpResponse.json<TraceDetailDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

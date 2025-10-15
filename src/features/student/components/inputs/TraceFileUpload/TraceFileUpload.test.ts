@@ -75,7 +75,8 @@ BddTest().given('a trace file upload component', () => {
     BddTest().then('it should use the custom title', () => {
       wrapper = mount(TraceFileUpload, {
         props: {
-          title: 'Custom Upload Title'
+          title: 'Custom Upload Title',
+          modelValue: null
         },
         global: {
           stubs
@@ -92,7 +93,8 @@ BddTest().given('a trace file upload component', () => {
     BddTest().then('it should use the custom description', () => {
       wrapper = mount(TraceFileUpload, {
         props: {
-          description: 'Custom description text'
+          description: 'Custom description text',
+          modelValue: null
         },
         global: {
           stubs
@@ -109,7 +111,8 @@ BddTest().given('a trace file upload component', () => {
     BddTest().then('it should use the custom accept types', () => {
       wrapper = mount(TraceFileUpload, {
         props: {
-          accept: ['.pdf', '.doc']
+          accept: ['.pdf', '.doc'],
+          modelValue: null
         },
         global: {
           stubs
@@ -126,7 +129,8 @@ BddTest().given('a trace file upload component', () => {
     BddTest().then('it should pass disabled state to AvFileUpload', () => {
       wrapper = mount(TraceFileUpload, {
         props: {
-          disabled: true
+          disabled: true,
+          modelValue: null
         },
         global: {
           stubs
@@ -174,7 +178,8 @@ BddTest().given('a trace file upload component', () => {
     BddTest().then('it should pass the label to AvFileUpload', () => {
       wrapper = mount(TraceFileUpload, {
         props: {
-          deleteButtonLabel: 'Remove file'
+          deleteButtonLabel: 'Remove file',
+          modelValue: null
         },
         global: {
           stubs

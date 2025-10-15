@@ -1,6 +1,4 @@
-import type {
-  TraceFormData
-} from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
+import type { TraceFormData } from '@/features/student/types'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -239,7 +237,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await wrapper.find('form').trigger('submit')
 
       await vi.waitFor(() => {
-        const errorElement = wrapper.find('.declaration-items__authentic-error')
+        const errorElement = wrapper.find('.trace-form__authentic-error')
         expect(errorElement.exists()).toBe(true)
         expect(errorElement.text()).toBe('Required field')
       })
