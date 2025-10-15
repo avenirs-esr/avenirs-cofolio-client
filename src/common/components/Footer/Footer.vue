@@ -203,8 +203,10 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 @use "@avenirs-esr/avenirs-dsav/src/styles/breakpoints" as *;
 
 .fr-footer {
-  padding-top: var(--dimension-xl);
+  margin-top: var(--spacing-4xl);
+  padding-top: var(--spacing-none);
   box-shadow: none;
+  background-color: var(--other-background-base);
 }
 
 [href] {

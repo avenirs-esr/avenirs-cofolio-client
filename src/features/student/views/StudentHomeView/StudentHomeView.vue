@@ -8,6 +8,9 @@ import {
   StudentSkillsWidget,
   StudentTracesWidget
 } from '@/features/student/components'
+import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+
+useGlobalBackgroundColor('var(--surface-background)')
 </script>
 
 <template>

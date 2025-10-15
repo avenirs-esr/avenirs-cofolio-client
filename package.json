@@ -31,7 +31,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.44",
+    "@avenirs-esr/avenirs-dsav": "^0.1.49",
     "@gouvfr/dsfr": "^1.14.0",
     "@gouvminint/vue-dsfr": "^8.4.0",
     "@tanstack/vue-form": "^1.15.0",
