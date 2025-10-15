@@ -2,7 +2,19 @@ import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const mockHideUpdateTraceModal = vi.fn()
+
+vi.mock('@/store', async () => {
+  const actual = await vi.importActual<typeof import('@/store')>('@/store')
+  return {
+    ...actual,
+    useTracesStore: vi.fn(() => ({
+      hideUpdateTraceModal: mockHideUpdateTraceModal
+    }))
+  }
+})
 
 BddTest().given('an update step', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateStep>>
@@ -24,23 +36,34 @@ BddTest().given('an update step', () => {
       fileSize: 1,
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
+    },
+    associationsTrace: {
+      skillLevelAssociations: [],
+      additionalSkillAssociations: []
     }
   }
 
   const stubs = {
     AvTab: {
       name: 'AvTab',
-      props: ['title'],
+      props: ['title', 'icon'],
       template: '<div class="av-tab"><slot /></div>'
     },
     AvTabs: {
       name: 'AvTabs',
-      props: ['compact'],
+      props: ['compact', 'modelValue'],
+      emits: ['update:modelValue'],
       template: '<div class="av-tabs"><slot /></div>'
+    },
+    UpdateTraceForm: {
+      name: 'UpdateTraceForm',
+      props: ['trace', 'onTraceUpdated'],
+      template: '<div class="update-trace-form">Update Trace Form</div>'
     }
   }
 
   beforeEach(async () => {
+    vi.clearAllMocks()
     wrapper = mount(UpdateStep, { props: { trace: mockedTrace }, global: { stubs } })
   })
 
@@ -51,6 +74,30 @@ BddTest().given('an update step', () => {
 
     BddTest().then('it should render two tabs', () => {
       expect(wrapper.findAllComponents({ name: 'AvTab' })).toHaveLength(2)
+    })
+
+    BddTest().then('it should render UpdateTraceForm component', () => {
+      const updateTraceForm = wrapper.findComponent({ name: 'UpdateTraceForm' })
+      expect(updateTraceForm.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass trace prop to UpdateTraceForm', () => {
+      const updateTraceForm = wrapper.findComponent({ name: 'UpdateTraceForm' })
+      expect(updateTraceForm.props('trace')).toEqual(mockedTrace)
+    })
+
+    BddTest().then('it should initialize activeTab to 0', () => {
+      const avTabs = wrapper.findComponent({ name: 'AvTabs' })
+      expect(avTabs.props('modelValue')).toBe(0)
+    })
+  })
+
+  BddTest().when('accessing i18n translations', () => {
+    BddTest().then('it should use correct translation keys for tabs', () => {
+      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
+
+      expect(tabs[0].props('title')).toBe('Modifier ma trace')
+      expect(tabs[1].props('title')).toBe('Mes associations')
     })
   })
 })

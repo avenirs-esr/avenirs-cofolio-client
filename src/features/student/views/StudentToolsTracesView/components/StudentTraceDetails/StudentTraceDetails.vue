@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types'
-import { TraceFileUpload, TraceIaJustificationTextarea, TraceNameInput, TracePersonalNoteTextarea } from '@/features/student/components/inputs'
-import { AvIconText, AvToggle, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { format } from 'date-fns'
-import { enUS, fr } from 'date-fns/locale'
+import {
+  TraceAiUsageToggle,
+  TraceFileUpload,
+  TraceIaJustificationTextarea,
+  TraceNameInput,
+  TracePersonalNoteTextarea
+} from '@/features/student/components'
+import { useTraceAttachmentFile } from '@/features/student/composables'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface StudentDetailedTraceInformationProps {
@@ -13,23 +17,16 @@ interface StudentDetailedTraceInformationProps {
 
 const props = defineProps<StudentDetailedTraceInformationProps>()
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 
-function formatDate (date: string) {
-  const currentLocale: AvLocale = locale.value as AvLocale
-  const createdAtDate = new Date(date)
-  return format(createdAtDate, 'dd MMMM yyyy à HH:mm', {
-    locale: currentLocale === 'fr' ? fr : enUS
-  })
+const attachment = computed(() => props.trace.attachment)
+
+const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
+
+const traceFileUploadLabel = computed<string>(() => {
+  return `${t('student.components.traceFileUpload.documentLabel')} - ${t('student.components.traceFileUpload.addedOn', { date: uploadDate.value })}`
 }
-const formattedUploadDate = computed(() => formatDate(props.trace.attachment.uploadedAt))
-
-const traceAttachmentFile = computed(() => {
-  return {
-    name: props.trace.attachment.fileName,
-    size: props.trace.attachment.fileSize
-  } as File
-})
+)
 </script>
 
 <template>
@@ -44,12 +41,9 @@ const traceAttachmentFile = computed(() => {
           />
 
           <div class="student-detailed-trace-information__upload-section">
-            <div class="caption-regular">
-              {{ t('student.views.studentToolsTracesView.studentTraceDetails.documentLabel') }} - {{ t('student.views.studentToolsTracesView.studentTraceDetails.addedOn', { date: formattedUploadDate }) }}
-            </div>
             <TraceFileUpload
-              :model-value="traceAttachmentFile"
-              :aria-label="t('student.views.studentToolsTracesView.studentTraceDetails.documentLabel')"
+              :label="traceFileUploadLabel"
+              :model-value="attachmentFile"
               :valid-message="t('global.success.file.loaded')"
               disabled
             />
@@ -59,7 +53,6 @@ const traceAttachmentFile = computed(() => {
         <div class="student-detailed-trace-information__right-column">
           <TracePersonalNoteTextarea
             :model-value="trace.personalNote"
-            :label="t('student.views.studentToolsTracesView.studentTraceDetails.personalNoteLabel')"
             disabled
           />
         </div>
@@ -69,6 +62,7 @@ const traceAttachmentFile = computed(() => {
         <div class="student-detailed-trace-information__left-column">
           <div class="student-detailed-trace-information__indicators">
             <AvIconText
+              v-if="trace.isGroup"
               typography-class="b2-light"
               icon-color="var(--text2)"
               :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
@@ -85,7 +79,7 @@ const traceAttachmentFile = computed(() => {
 
         <div class="student-detailed-trace-information__right-column">
           <div class="student-detailed-trace-information__ia">
-            <AvToggle
+            <TraceAiUsageToggle
               :model-value="!!trace.aiUseJustification"
               :description="t('student.views.studentToolsTracesView.studentTraceDetails.iaToggleLabel')"
               disabled
@@ -93,7 +87,6 @@ const traceAttachmentFile = computed(() => {
             <TraceIaJustificationTextarea
               v-if="trace.aiUseJustification"
               :model-value="trace.aiUseJustification"
-              :maxlength="500"
               :label-visible="false"
               disabled
             />

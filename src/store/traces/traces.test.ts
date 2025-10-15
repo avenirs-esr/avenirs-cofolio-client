@@ -1,3 +1,4 @@
+import type { UpdateTraceForm } from '@/features/student/types'
 import { useTracesStore } from '@/store/traces/traces'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { createPinia, setActivePinia } from 'pinia'
@@ -29,6 +30,56 @@ BddTest().given('a useTracesStore composable', () => {
       store.associatedPageSizeSelected = newPageSizeSelected
       expect(store.unassociatedPageSizeSelected).toBe(newPageSizeSelected)
       expect(store.associatedPageSizeSelected).toBe(newPageSizeSelected)
+    })
+  })
+
+  BddTest().when('managing update trace form', () => {
+    BddTest().then('it should set update trace form', () => {
+      const store = useTracesStore()
+      const mockForm = { handleSubmit: vi.fn() } as unknown as UpdateTraceForm
+
+      store.setUpdateTraceForm(mockForm)
+
+      expect(mockForm).toBeDefined()
+    })
+
+    BddTest().then('it should set update trace form valid state', () => {
+      const store = useTracesStore()
+
+      store.setUpdateTraceFormValid(true)
+      expect(store.updateTraceFormValid).toBe(true)
+
+      store.setUpdateTraceFormValid(false)
+      expect(store.updateTraceFormValid).toBe(false)
+    })
+
+    BddTest().then('it should submit update trace form', async () => {
+      const store = useTracesStore()
+      const mockHandleSubmit = vi.fn()
+      const mockForm = { handleSubmit: mockHandleSubmit } as unknown as ReturnType<typeof store.setUpdateTraceForm> extends (form: infer T) => void ? T : never
+
+      store.setUpdateTraceForm(mockForm)
+      await store.submitUpdateTraceForm()
+
+      expect(mockHandleSubmit).toHaveBeenCalledOnce()
+    })
+  })
+
+  BddTest().when('managing UI state', () => {
+    BddTest().then('it should have drawer controls', () => {
+      const store = useTracesStore()
+
+      expect(store.showCreateTraceDrawer).toBeDefined()
+      expect(store.displayCreateTraceDrawer).toBeDefined()
+      expect(store.hideCreateTraceDrawer).toBeDefined()
+    })
+
+    BddTest().then('it should have modal controls', () => {
+      const store = useTracesStore()
+
+      expect(store.showUpdateTraceModal).toBeDefined()
+      expect(store.displayUpdateTraceModal).toBeDefined()
+      expect(store.hideUpdateTraceModal).toBeDefined()
     })
   })
 })

@@ -330,26 +330,15 @@
             "associate": "Associate my trace",
             "delete": "Delete my trace",
             "update": "Update my trace"
-          },
-          "studentTraceDetails": {
-            "addedOn": "Added on {date}",
-            "authenticProduction": "Authentic and personal production",
-            "documentLabel": "My uploaded document",
-            "groupProduction": "This trace is a group production",
-            "iaToggleLabel": "AI production",
-            "personalNoteLabel": "Personal note"
           }
         },
         "studentTraceAssociations": {
           "title": "My trace associations ({count})"
         },
         "studentTraceDetails": {
-          "addedOn": "Added on {date}",
           "authenticProduction": "Authentic and personal production",
-          "documentLabel": "My uploaded document",
           "groupProduction": "This trace is a group production",
-          "iaToggleLabel": "AI production",
-          "personalNoteLabel": "Personal note"
+          "iaToggleLabel": "AI production"
         },
         "studentTraceFilters": {
           "resetButton": "Reset filters",
@@ -492,6 +481,10 @@
             "save": "Save the modifications",
             "validate": "Validate the selection"
           },
+          "errors": {
+            "fileUpload": "An error occurred while uploading the file.",
+            "updateTrace": "An error occurred while updating the trace."
+          },
           "steps": {
             "terms": {
               "alertMessage": "Attention, information message",
@@ -510,7 +503,18 @@
               "title": "Update my trace"
             }
           },
-          "title": "Update my trace"
+          "success": "Your trace has been successfully updated.",
+          "title": "Update my trace",
+          "updateTraceForm": {
+            "declaration": {
+              "iaUsage": {
+                "title": "Declare if this is a production made with AI"
+              },
+              "productionNature": {
+                "title": "Declare the nature of my production"
+              }
+            }
+          }
         }
       }
     },
@@ -597,6 +601,19 @@
       }
     },
     "components": {
+      "traceAiUsageToggle": {
+        "description": "I submit a production made with AI"
+      },
+      "traceAuthenticDeclarationToggle": {
+        "description": "I submit an authentic and personal production"
+      },
+      "traceFileUpload": {
+        "addedOn": "Added on {date}",
+        "documentLabel": "My uploaded document"
+      },
+      "traceGroupProductionToggle": {
+        "description": "I submit a group production"
+      },
       "traceIaJustificationTextarea": {
         "hint": "{count} / {maxlength} characters (including spaces)",
         "label": "AI usage justification",

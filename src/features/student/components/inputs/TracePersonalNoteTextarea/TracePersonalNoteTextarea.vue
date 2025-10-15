@@ -29,20 +29,41 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <AvInput
-    v-bind="avInputProps"
-    v-model="modelValue"
-  >
-    <template
-      v-if="!$slots.customCaptions"
-      #customCaptions="{ currentValue }"
+  <div class="trace-personal-note-textarea">
+    <AvInput
+      v-bind="avInputProps"
+      v-model="modelValue"
     >
-      <span class="caption-light">
-        {{ t('student.components.tracePersonalNoteTextarea.hint', {
-          count: currentValue?.toString().length || 0,
-          maxlength,
-        }) }}
-      </span>
-    </template>
-  </AvInput>
+      <template
+        v-if="!$slots.customCaptions"
+        #customCaptions="{ currentValue }"
+      >
+        <span class="caption-light">
+          {{ t('student.components.tracePersonalNoteTextarea.hint', {
+            count: currentValue?.toString().length || 0,
+            maxlength,
+          }) }}
+        </span>
+      </template>
+    </AvInput>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.trace-personal-note-textarea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  :deep(.av-input),
+  :deep(.av-input__wrapper) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  :deep(.av-input__wrapper textarea) {
+    height: 100%;
+  }
+}
+</style>

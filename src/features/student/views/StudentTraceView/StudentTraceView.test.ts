@@ -34,7 +34,7 @@ BddTest().given('a student trace view', () => {
     },
     UpdateTraceModal: {
       name: 'UpdateTraceModal',
-      props: ['trace', 'show'],
+      props: ['trace'],
       template: '<div class="update-trace-modal" />'
     },
     StudentDetailedTraceAssociateModal: {
@@ -101,10 +101,10 @@ BddTest().given('a student trace view', () => {
       expect(modal.props('show')).toBe(false)
     })
 
-    BddTest().then('it should render the UpdateTraceModal initially hidden', async () => {
+    BddTest().then('it should render the UpdateTraceModal', async () => {
       const modal = wrapper.findComponent({ name: 'UpdateTraceModal' })
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('trace')).toEqual(mockedTraceDetailed)
     })
 
     BddTest().then('it should render AvTabs component', () => {
@@ -193,9 +193,10 @@ BddTest().given('a student trace view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should show the update trace modal', () => {
-      const modal = wrapper.findComponent({ name: 'UpdateTraceModal' })
-      expect(modal.props('show')).toBe(true)
+    BddTest().then('it should call displayUpdateTraceModal from store', async () => {
+      const { useTracesStore } = await import('@/store')
+      const tracesStore = useTracesStore()
+      expect(tracesStore.showUpdateTraceModal).toBe(true)
     })
   })
 })

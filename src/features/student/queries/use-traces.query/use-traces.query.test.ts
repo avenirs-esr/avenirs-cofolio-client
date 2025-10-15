@@ -1,23 +1,28 @@
-import type {
-  PagedResponseTraceViewDTO,
-  TraceConfigurationDTO,
-  TraceDetailDTO,
-  TraceFilter,
-  TracesSummaryDTO,
-  TracesViewParams
-} from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import {
+  ELanguage,
+  type PagedResponseTraceViewDTO,
+  type TraceConfigurationDTO,
+  type TraceDetailDTO,
+  type TraceFilter,
+  type TracesSummaryDTO,
+  type TracesViewParams,
+} from '@/api/avenir-esr'
+
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeleteTraceVariables,
+  type UpdateTraceVariables,
   useDeleteTraceMutation,
   type UseDeleteTraceMutationArgs,
   useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
-  useTracesViewQuery
+  useTracesViewQuery,
+  useUpdateTraceMutation,
+  type UseUpdateTraceMutationArgs
 } from '@/features/student/queries/use-traces.query/use-traces.query'
 import { flushPromises } from '@vue/test-utils'
 import { BddTest, mountQueryComposable } from 'tests/utils'
@@ -601,6 +606,253 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         await flushPromises()
 
         expect(getTraceDetailSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a useUpdateTraceMutation composable', async () => {
+  let updateTraceSpy: MockInstance<typeof import('@/api/avenir-esr')['updateTrace']>
+  let mutationResult: ReturnType<typeof useUpdateTraceMutation>
+
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateTraceDetailFunction = vi.fn()
+  const mockInvalidateTracesViewFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+
+    updateTraceSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'updateTrace'>(
+      await import('@/api/avenir-esr'),
+    'updateTrace'
+    )
+
+    mockUseInvalidateQuery
+      .mockReturnValueOnce(mockInvalidateTraceDetailFunction)
+      .mockReturnValueOnce(mockInvalidateTracesViewFunction)
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
+  BddTest().and('a valid trace update with success callback', () => {
+    const traceId = 'trace1'
+    const mutationArgs: UseUpdateTraceMutationArgs = {
+      onSuccess: mockOnSuccess,
+      onError: mockOnError
+    }
+    const variables: UpdateTraceVariables = {
+      traceId,
+      updateTraceDTO: {
+        title: 'Updated Title',
+        personalNote: 'Updated note',
+        isGroup: true,
+        iaJustification: 'AI justification',
+        language: ELanguage.FRENCH
+      }
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateTraceMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateTrace API with correct parameters', () => {
+        expect(updateTraceSpy).toHaveBeenCalledWith(traceId, variables.updateTraceDTO)
+        expect(updateTraceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should execute the updateTrace mutation successfully', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+        expect(mutationResult.data.value).toHaveProperty('id')
+        expect(mutationResult.data.value).toHaveProperty('title')
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call both invalidation functions', () => {
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(2)
+        expect(mockInvalidateTraceDetailFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateTracesViewFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith()
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateTraceMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateTrace API with correct parameters', () => {
+        expect(updateTraceSpy).toHaveBeenCalledWith(traceId, variables.updateTraceDTO)
+        expect(updateTraceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should execute the updateTrace mutation successfully', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call both invalidation functions', () => {
+        expect(mockInvalidateTraceDetailFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateTracesViewFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const traceId = 'trace1'
+    const mutationArgs: UseUpdateTraceMutationArgs = {}
+    const variables: UpdateTraceVariables = {
+      traceId,
+      updateTraceDTO: {
+        title: 'Updated Title',
+        personalNote: 'Updated note',
+        isGroup: false,
+        language: ELanguage.FRENCH
+      }
+    }
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateTraceMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateTrace API with correct parameters', () => {
+        expect(updateTraceSpy).toHaveBeenCalledWith(traceId, variables.updateTraceDTO)
+        expect(updateTraceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should execute the updateTrace mutation successfully', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should still call both invalidation functions', () => {
+        expect(mockInvalidateTraceDetailFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateTracesViewFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid trace ID with error callback', () => {
+    const traceId = invalidTraceId
+    const mutationArgs: UseUpdateTraceMutationArgs = {
+      onSuccess: mockOnSuccess,
+      onError: mockOnError
+    }
+    const variables: UpdateTraceVariables = {
+      traceId,
+      updateTraceDTO: {
+        title: 'Updated Title',
+        personalNote: 'Updated note',
+        isGroup: false,
+        language: ELanguage.FRENCH
+      }
+    }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateTraceMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateTrace API with the invalid ID', () => {
+        expect(updateTraceSpy).toHaveBeenCalledWith(traceId, variables.updateTraceDTO)
+        expect(updateTraceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should attempt to update the trace with invalid ID', () => {
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation functions on error', () => {
+        expect(mockInvalidateTraceDetailFunction).not.toHaveBeenCalled()
+        expect(mockInvalidateTracesViewFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateTraceMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateTrace API with the invalid ID', () => {
+        expect(updateTraceSpy).toHaveBeenCalledWith(traceId, variables.updateTraceDTO)
+        expect(updateTraceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should attempt to update the trace with invalid ID', () => {
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
       })
     })
   })

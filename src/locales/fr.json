@@ -1,5 +1,8 @@
 {
   "global": {
+    "application": "Application",
+    "at": "à",
+    "audio": "Audio",
     "avPagination": {
       "ariaLabel": "Pagination",
       "current": "Page {current} sur {total}",
@@ -85,7 +88,6 @@
     },
     "text": "Texte",
     "images": "Images",
-    "audio": "Audio",
     "video": "Vidéo",
     "views": {
       "accessibilityView": {
@@ -100,7 +102,6 @@
       "personnalDataView": {
         "title": "Données personnelles"
       }
-    },
-    "application": "Application"
+    }
   }
 }

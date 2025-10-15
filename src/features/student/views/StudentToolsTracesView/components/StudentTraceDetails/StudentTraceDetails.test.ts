@@ -13,7 +13,7 @@ const TraceNameInputStub = {
 
 const TraceFileUploadStub = {
   name: 'TraceFileUpload',
-  props: ['modelValue', 'ariaLabel', 'deleteButtonLabel', 'disabled'],
+  props: ['modelValue', 'label', 'validMessage', 'disabled'],
   template: '<div class="trace-file-upload-stub"></div>'
 }
 
@@ -25,7 +25,7 @@ const TracePersonalNoteTextareaStub = {
 
 const TraceIaJustificationTextareaStub = {
   name: 'TraceIaJustificationTextarea',
-  props: ['modelValue', 'maxlength', 'labelVisible', 'disabled'],
+  props: ['modelValue', 'labelVisible', 'disabled'],
   template: '<div class="trace-ia-justification-textarea-stub"></div>'
 }
 
@@ -95,23 +95,24 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should display the document label and upload date', () => {
-      const captionText = wrapper.find('.caption-regular')
+      const traceFileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
 
-      expect(captionText.exists()).toBe(true)
-      expect(captionText.text()).toContain('Mon document')
-      expect(captionText.text()).toContain('Ajouté le')
-      expect(captionText.text()).toContain('15 janvier 2024 à 10:30')
+      expect(traceFileUpload.exists()).toBe(true)
+      expect(traceFileUpload.props('label')).toContain('Mon document')
+      expect(traceFileUpload.props('label')).toContain('Ajouté le')
+      expect(traceFileUpload.props('label')).toContain('15 janvier 2024 à 10:30')
     })
 
     BddTest().then('it should render the trace file upload with correct props', () => {
       const traceFileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
 
       expect(traceFileUpload.exists()).toBe(true)
-      expect(traceFileUpload.props('modelValue')).toEqual({
-        name: 'test-document.pdf',
-        size: 1024000
-      })
-      expect(traceFileUpload.props('ariaLabel')).toBe('Mon document chargé')
+
+      const modelValue = traceFileUpload.props('modelValue')
+      expect(modelValue).toBeInstanceOf(File)
+      expect(modelValue.name).toBe('test-document.pdf')
+
+      expect(traceFileUpload.props('validMessage')).toBe('Document chargé.')
       expect(traceFileUpload.props('disabled')).toBe('')
     })
 
@@ -120,7 +121,6 @@ BddTest().given('a student detailed trace information component', () => {
 
       expect(personalNoteTextarea.exists()).toBe(true)
       expect(personalNoteTextarea.props('modelValue')).toBe('Test personal note content')
-      expect(personalNoteTextarea.props('label')).toBe('Note personnelle')
       expect(personalNoteTextarea.props('disabled')).toBe('')
     })
 
@@ -129,9 +129,8 @@ BddTest().given('a student detailed trace information component', () => {
       const iconTexts = indicators.findAllComponents({ name: 'AvIconText' })
 
       expect(indicators.exists()).toBe(true)
-      expect(iconTexts).toHaveLength(2)
-      expect(iconTexts[0].props('text')).toBe('Cette trace est une production de groupe')
-      expect(iconTexts[1].props('text')).toBe('Production authentique et personnelle')
+      expect(iconTexts).toHaveLength(1)
+      expect(iconTexts[0].props('text')).toBe('Production authentique et personnelle')
     })
 
     BddTest().then('it should render the IA toggle with correct props', () => {
@@ -140,7 +139,7 @@ BddTest().given('a student detailed trace information component', () => {
       expect(avToggle.exists()).toBe(true)
       expect(avToggle.props('modelValue')).toBe(false)
       expect(avToggle.props('description')).toBe('Production avec IA')
-      expect(avToggle.props('disabled')).toBe('')
+      expect(avToggle.props('disabled')).toBe(true)
     })
 
     BddTest().then('it should not render the IA justification textarea when aiUseJustification is empty', () => {
@@ -165,7 +164,6 @@ BddTest().given('a student detailed trace information component', () => {
 
       expect(iaJustificationTextarea.exists()).toBe(true)
       expect(iaJustificationTextarea.props('modelValue')).toBe('Test AI justification text')
-      expect(iaJustificationTextarea.props('maxlength')).toBe(500)
       expect(iaJustificationTextarea.props('labelVisible')).toBe(false)
       expect(iaJustificationTextarea.props('disabled')).toBe('')
     })
@@ -179,9 +177,9 @@ BddTest().given('a student detailed trace information component', () => {
 
   BddTest().when('the component displays formatted date', () => {
     BddTest().then('it should format the date correctly in French locale', () => {
-      const captionText = wrapper.find('.caption-regular')
+      const traceFileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
 
-      expect(captionText.text()).toContain('15 janvier 2024 à 10:30')
+      expect(traceFileUpload.props('label')).toContain('15 janvier 2024 à 10:30')
     })
   })
 
@@ -191,8 +189,8 @@ BddTest().given('a student detailed trace information component', () => {
       const fileValue = traceFileUpload.props('modelValue')
 
       expect(fileValue).toBeDefined()
-      expect(fileValue).toHaveProperty('name', 'test-document.pdf')
-      expect(fileValue).toHaveProperty('size', 1024000)
+      expect(fileValue).toBeInstanceOf(File)
+      expect(fileValue.name).toBe('test-document.pdf')
     })
   })
 })

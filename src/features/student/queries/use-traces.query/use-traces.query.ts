@@ -22,16 +22,19 @@ import {
   tracesView,
   type TracesViewParams,
   type TraceViewDTO,
+  updateTrace,
+  type UpdateTraceDTO,
   uploadAttachment,
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { removeEmpty } from '@/common/utils'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type Ref, toValue, type UnwrapRef } from 'vue'
+import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'traces']
-const unassignedTracesQueryKey = [...commonQueryKeys, 'unassigned']
+const traceDetailQueryKey = [...commonQueryKeys, 'trace-detailed']
+const tracesViewQueryKey = [...commonQueryKeys, 'view']
 const TWO_MINUTES = 2 * 60 * 1000
 
 export interface UseTracesViewQueryParams {
@@ -94,13 +97,13 @@ export interface UseDeleteTraceMutationArgs {
 }
 
 export function useDeleteTraceMutation ({ onError, onSuccess }: UseDeleteTraceMutationArgs = {}) {
-  const invalidateUnassignedTracesViewQuery = useInvalidateQuery(unassignedTracesQueryKey)
+  const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
   return useMutation<string, BaseApiException, DeleteTraceVariables>({
     mutationFn: async ({ traceId }: DeleteTraceVariables): Promise<string> => {
       return await deleteTrace(traceId)
     },
     onSuccess: async () => {
-      await invalidateUnassignedTracesViewQuery()
+      await invalidateTracesViewQuery()
       onSuccess?.()
     },
     onError
@@ -124,14 +127,14 @@ export interface UseCreateTraceMutationArgs {
 }
 
 export function useCreateTraceMutation ({ onError, onSuccess }: UseCreateTraceMutationArgs = {}) {
-  const invalidateUnassignedTracesViewQuery = useInvalidateQuery(unassignedTracesQueryKey)
+  const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
 
   return useMutation<TracesCreationResponse, BaseApiException, CreateTraceDTO>({
     mutationFn: async (createTraceDTO: CreateTraceDTO): Promise<TracesCreationResponse> => {
       return await createTrace(createTraceDTO)
     },
     onSuccess: async (data) => {
-      await invalidateUnassignedTracesViewQuery()
+      await invalidateTracesViewQuery()
       onSuccess?.(data)
     },
     onError
@@ -148,19 +151,23 @@ export interface UseUploadAttachmentMutationArgs {
   onError?: (error: BaseApiException) => void
 }
 
-export function useUploadAttachmentMutation ({ onError, onSuccess }: UseUploadAttachmentMutationArgs = {}) {
+export function useUploadAttachmentMutation ({ onError, onSuccess }: UseUploadAttachmentMutationArgs) {
+  const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
   return useMutation<void, BaseApiException, UploadAttachmentVariables>({
     mutationFn: async ({ traceId, file }: UploadAttachmentVariables): Promise<void> => {
       const uploadAttachmentBody: UploadAttachmentBody = { file }
       await uploadAttachment(traceId, uploadAttachmentBody)
     },
-    onSuccess,
+    onSuccess: async (_, { traceId }) => {
+      await invalidateTraceDetailQuery(traceId)
+      onSuccess?.()
+    },
     onError
   })
 }
 
-export function useTraceDetailedQuery (traceId: Ref<string>) {
-  const queryKey = computed(() => [...commonQueryKeys, 'trace-detailed', traceId.value])
+export function useTraceDetailedQuery (traceId: MaybeRef<string>) {
+  const queryKey = computed(() => [...traceDetailQueryKey, toValue(traceId)])
 
   const queryFn = computed(() => async (): Promise<TraceDetailDTO> => {
     return await getTraceDetail(toValue(traceId))
@@ -170,7 +177,7 @@ export function useTraceDetailedQuery (traceId: Ref<string>) {
     queryKey,
     queryFn,
     staleTime: TWO_MINUTES,
-    enabled: computed(() => traceId.value.trim().length > 0),
+    enabled: computed(() => toValue(traceId).trim().length > 0),
   })
 
   const traceDetailed = computed(() => query.data.value)
@@ -179,6 +186,16 @@ export function useTraceDetailedQuery (traceId: Ref<string>) {
     ...query,
     traceDetailed,
   }
+}
+
+export function useInvalidateTraceDetailQuery () {
+  const invalidateQuery = useInvalidateQuery()
+
+  async function invalidateTraceDetailsQuery (traceId: string) {
+    await invalidateQuery([...traceDetailQueryKey, traceId])
+  }
+
+  return invalidateTraceDetailsQuery
 }
 
 export function useTracesAssociationQuery (
@@ -243,15 +260,43 @@ export interface UseCreateAssociateTraceMutationVariables {
   associateTraceDTO: AssociateTraceDTO
 }
 
-export function useCreateAssociateTraceMutation ({ onError, onSuccess }: UseCreateAssociateTraceMutationArgs = {}) {
-  const invalidateAssociateTracesViewQuery = useInvalidateQuery([...commonQueryKeys, 'associate'])
+export function useCreateAssociateTraceMutation ({ onError, onSuccess }: UseCreateAssociateTraceMutationArgs) {
+  const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
 
   return useMutation<void, BaseApiException, UseCreateAssociateTraceMutationVariables>({
     mutationFn: async ({ traceId, associateTraceDTO }): Promise<void> => {
       await associate(traceId, associateTraceDTO)
     },
-    onSuccess: async () => {
-      await invalidateAssociateTracesViewQuery()
+    onSuccess: async (_, { traceId }) => {
+      await invalidateTraceDetailQuery(traceId)
+      onSuccess?.()
+    },
+    onError
+  })
+}
+
+export interface UpdateTraceVariables {
+  traceId: string
+  updateTraceDTO: UpdateTraceDTO
+}
+
+export interface UseUpdateTraceMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useUpdateTraceMutation ({ onError, onSuccess }: UseUpdateTraceMutationArgs) {
+  const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
+  const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
+
+  return useMutation<TraceDetailDTO, BaseApiException, UpdateTraceVariables>({
+    mutationFn: async ({ traceId, updateTraceDTO }: UpdateTraceVariables): Promise<TraceDetailDTO> => {
+      // TODO: remove cast after fixing API endpoint return type
+      return await updateTrace(traceId, updateTraceDTO) as TraceDetailDTO
+    },
+    onSuccess: async (_, { traceId }) => {
+      await invalidateTraceDetailQuery(traceId)
+      await invalidateTracesViewQuery()
       onSuccess?.()
     },
     onError

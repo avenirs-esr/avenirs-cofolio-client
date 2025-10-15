@@ -32,20 +32,22 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <AvInput
-    v-bind="avInputProps"
-    v-model="modelValue"
-  >
-    <template
-      v-if="!$slots.customCaptions"
-      #customCaptions="{ currentValue }"
+  <div class="trace-ia-justification-textarea">
+    <AvInput
+      v-bind="avInputProps"
+      v-model="modelValue"
     >
-      <span class="caption-light">
-        {{ t('student.components.traceIaJustificationTextarea.hint', {
-          count: currentValue?.toString().length || 0,
-          maxlength,
-        }) }}
-      </span>
-    </template>
-  </AvInput>
+      <template
+        v-if="!$slots.customCaptions"
+        #customCaptions="{ currentValue }"
+      >
+        <span class="caption-light">
+          {{ t('student.components.traceIaJustificationTextarea.hint', {
+            count: currentValue?.toString().length || 0,
+            maxlength,
+          }) }}
+        </span>
+      </template>
+    </AvInput>
+  </div>
 </template>

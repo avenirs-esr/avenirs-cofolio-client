@@ -93,16 +93,13 @@ export default ({ mode }: { mode: string }) => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
       },
-      dedupe: ['vue'],
+      dedupe: [
+        'vue',
+        'vue-router',
+        '@vue/runtime-core',
+        '@gouvminint/vue-dsfr',
+        '@avenirs-esr/avenirs-dsav'
+      ],
     },
-    // TODO: uncomment when each route has its orval generated file
-    // build: {
-    //   rollupOptions: {
-    //     input: {
-    //       main: fileURLToPath(new URL('./index.html', import.meta.url)),
-    //     },
-    //     external: id => !isMSWEnabled && id.includes('__mocks__'),
-    //   }
-    // }
   })
 }

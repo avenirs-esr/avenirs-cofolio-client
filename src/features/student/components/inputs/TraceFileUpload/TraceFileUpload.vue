@@ -9,6 +9,7 @@ interface TraceFileUploadProps extends Omit<AvFileUploadProps, 'title' | 'descri
   description?: string
   accept?: string[]
   deleteButtonLabel?: string
+  label?: string
 }
 
 const props = withDefaults(defineProps<TraceFileUploadProps>(), {
@@ -19,7 +20,10 @@ const props = withDefaults(defineProps<TraceFileUploadProps>(), {
   disabled: false
 })
 
-const modelValue = defineModel<File | null>()
+const modelValue = defineModel<File | null>({
+  required: true
+})
+
 const { t } = useI18n()
 const attrs = useAttrs()
 
@@ -35,13 +39,20 @@ const avFileUploadProps = computed(() => ({
   ...attrs,
   ...props,
   title: props.title ?? t('global.information.fileUpload.title'),
+  ariaLabel: props.title ?? t('global.information.fileUpload.title'),
   description: props.description ?? t('global.information.fileUpload.dragAndDrop'),
   deleteButtonLabel: props.deleteButtonLabel ?? t('global.buttons.delete')
 }))
 </script>
 
 <template>
-  <div>
+  <div class="trace-file-upload">
+    <div
+      v-if="label"
+      class="b2-light trace-file-upload__label"
+    >
+      {{ label }}
+    </div>
     <AvFileUpload
       v-bind="avFileUploadProps"
       v-model="modelValue"
@@ -58,3 +69,13 @@ const avFileUploadProps = computed(() => ({
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.trace-file-upload {
+
+  &__label {
+    color: var(--text1);
+    padding-bottom: var(--spacing-xxs);
+  }
+}
+</style>

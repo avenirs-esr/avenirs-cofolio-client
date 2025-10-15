@@ -1,6 +1,4 @@
-import type {
-  TraceFormData
-} from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
+import type { TraceFormData } from '@/features/student/types'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -13,7 +11,7 @@ const TestWrapper = {
   setup () {
     const form = useForm({
       defaultValues: {
-        file: null as unknown as File,
+        file: null,
         traceName: '',
         personalNote: ''
       } as TraceFormData,
@@ -88,7 +86,7 @@ BddTest().given('a create trace form trace definition items component', () => {
       const traceNameInput = wrapper.findComponent({ name: 'TraceNameInput' })
 
       expect(traceNameInput.exists()).toBe(true)
-      expect(traceNameInput.props('id')).toBe('trace-name')
+      expect(traceNameInput.props('id')).toBe('traceName')
       expect(traceNameInput.props('required')).toBe('')
     })
 
@@ -96,7 +94,7 @@ BddTest().given('a create trace form trace definition items component', () => {
       const personalNoteInput = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
 
       expect(personalNoteInput.exists()).toBe(true)
-      expect(personalNoteInput.props('id')).toBe('personal-note')
+      expect(personalNoteInput.props('id')).toBe('personalNote')
     })
   })
 
@@ -119,7 +117,7 @@ BddTest().given('a create trace form trace definition items component', () => {
 
   BddTest().when('trace name is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const traceNameInput = wrapper.find('#trace-name')
+      const traceNameInput = wrapper.find('#traceName')
 
       await traceNameInput.setValue('My test trace')
 
@@ -130,7 +128,7 @@ BddTest().given('a create trace form trace definition items component', () => {
 
   BddTest().when('personal note is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const personalNoteInput = wrapper.find('#personal-note')
+      const personalNoteInput = wrapper.find('#personalNote')
 
       await personalNoteInput.setValue('My personal note')
 

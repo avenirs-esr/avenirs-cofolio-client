@@ -58,8 +58,8 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   }
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
-    const traceNameInput = wrapper.find('#trace-name')
-    const personalNoteInput = wrapper.find('#personal-note')
+    const traceNameInput = wrapper.find('#traceName')
+    const personalNoteInput = wrapper.find('#personalNote')
     const fileInput = wrapper.find('#trace-file-upload')
 
     const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
