@@ -4,6 +4,18 @@ import { mount } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockRespondBelow = vi.fn(() => ({ value: false }))
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useBreakpoint: () => ({
+      respondBelow: mockRespondBelow,
+    })
+  }
+})
+
 const defaultPageInfo = {
   page: 1,
   totalPages: 3,
@@ -29,7 +41,7 @@ function createWrapper (props = {}, slots = {}) {
         },
         AvPagination: {
           name: 'AvPagination',
-          props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact'],
+          props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact', 'truncLimit'],
           emits: ['update:current-page'],
           template: `<button class="pagination" @click="$emit('update:current-page', 2)">Page 2</button>`
         }
@@ -57,6 +69,11 @@ BddTest().given('a pagination', () => {
         const pageSize = wrapper.findComponent({ name: 'AvPageSizePicker' })
         expect(pageSize.exists()).toBe(true)
       })
+
+      BddTest().then('it should not add a truncLimit to AvPagination', () => {
+        expect(wrapper.find('.bottom-pagination-container')
+          .findComponent({ name: 'AvPagination' }).props('truncLimit')).toBeUndefined()
+      })
     })
 
     BddTest().when('AvPagination emits update:current-page', () => {
@@ -83,6 +100,18 @@ BddTest().given('a pagination', () => {
 
         expect(wrapper.find('.slot-content').exists()).toBe(true)
         expect(wrapper.text()).toContain('Hello slot')
+      })
+    })
+  })
+
+  BddTest().and('it is viewed in mobile', () => {
+    BddTest().when('the component is mounted', () => {
+      BddTest().then('it should add a truncLimit to AvPagination', () => {
+        mockRespondBelow.mockReturnValueOnce({ value: true })
+        const wrapper = createWrapper()
+
+        expect(wrapper.find('.bottom-pagination-container')
+          .findComponent({ name: 'AvPagination' }).props('truncLimit')).toBe(1)
       })
     })
   })

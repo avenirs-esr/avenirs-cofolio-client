@@ -5,9 +5,11 @@ import {
   AvPageSizePicker,
   AvPagination,
   type AvTagPickerOption,
+  BREAKPOINTS,
   getPaginationPages,
   type PageSizes,
-  pageSizeValues
+  pageSizeValues,
+  useBreakpoint
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -24,10 +26,13 @@ defineSlots<{
   default?: Slot
 }>()
 
+const { respondBelow } = useBreakpoint()
+
 const { t } = useI18n()
 
 const totalPages = computed(() => pageInfo.totalPages)
 const pages = computed(() => getPaginationPages(totalPages))
+const truncLimit = computed(() => respondBelow(BREAKPOINTS.SM).value ? 1 : undefined)
 
 function handleSelectChange (val: AvTagPickerOption): void {
   const numberVal = Number(val.value)
@@ -70,6 +75,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
       :prev-page-label="t('global.avPagination.prevPageTitle')"
       :next-page-label="t('global.avPagination.nextPageTitle')"
       :last-page-label="t('global.avPagination.lastPageTitle')"
+      :trunc-limit="truncLimit"
       @update:current-page="onUpdateCurrentPage"
     />
   </div>
@@ -79,8 +85,11 @@ function handleSelectChange (val: AvTagPickerOption): void {
 .top-pagination-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-md);
+
 }
 
 .bottom-pagination-container {
