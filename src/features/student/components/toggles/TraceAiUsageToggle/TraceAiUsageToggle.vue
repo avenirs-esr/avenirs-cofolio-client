@@ -5,8 +5,6 @@ import { useI18n } from 'vue-i18n'
 
 interface TraceAiUsageToggleProps extends Omit<AvToggleProps, 'description' | 'activeText' | 'inactiveText'> {
   description?: string
-  activeText?: string
-  inactiveText?: string
 }
 
 const props = defineProps<TraceAiUsageToggleProps>()
@@ -18,8 +16,8 @@ const avToggleProps = computed(() => ({
   ...attr,
   ...props,
   description: props.description ?? t('student.components.traceAiUsageToggle.description'),
-  activeText: props.activeText ?? t('global.avToggle.activeText'),
-  inactiveText: props.inactiveText ?? t('global.avToggle.inactiveText')
+  activeText: t('global.avToggle.activeText'),
+  inactiveText: t('global.avToggle.inactiveText'),
 }))
 </script>
 

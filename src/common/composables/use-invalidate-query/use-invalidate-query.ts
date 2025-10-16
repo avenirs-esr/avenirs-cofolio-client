@@ -3,6 +3,7 @@ import { type QueryKey, useQueryClient } from '@tanstack/vue-query'
 
 export function useInvalidateQuery (queryKey?: QueryKey) {
   const queryClient = useQueryClient()
+
   return async (overrideQueryKey?: QueryKey): Promise<void> => {
     if (queryKey || overrideQueryKey) {
       await queryClient.invalidateQueries({

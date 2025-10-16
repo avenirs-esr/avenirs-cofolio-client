@@ -1,5 +1,7 @@
 import {
+  formatDateLocalized,
   formatDateToLocaleString,
+  formatTimeLocalized,
   getCalendarDate,
   getDaysUntil,
   getLocalizedAbbrMonth,
@@ -126,6 +128,56 @@ BddTest().given('a days until getter', () => {
 
       const daysUntil = getDaysUntil(futureDate)
       expect(daysUntil).toBe(30)
+    })
+  })
+})
+
+BddTest().given('a localized date formatter', () => {
+  BddTest().when('providing a date with time and a locale', () => {
+    BddTest().then('it should format the date to the provided locale in dd MMMM yyyy format', () => {
+      const date = '2025-01-15T14:30:00.000Z'
+      const formattedFrDate = formatDateLocalized(date, 'fr')
+      const formattedEnDate = formatDateLocalized(date, 'en')
+
+      expect(formattedFrDate).toBe('15 janvier 2025')
+      expect(formattedEnDate).toBe('15 January 2025')
+    })
+  })
+
+  BddTest().when('providing a date without time', () => {
+    BddTest().then('it should format the date correctly', () => {
+      const date = '2025-12-25'
+      const formattedFrDate = formatDateLocalized(date, 'fr')
+      const formattedEnDate = formatDateLocalized(date, 'en')
+
+      expect(formattedFrDate).toBe('25 décembre 2025')
+      expect(formattedEnDate).toBe('25 December 2025')
+    })
+  })
+})
+
+BddTest().given('a localized time formatter', () => {
+  BddTest().when('providing a date with time and a locale', () => {
+    BddTest().then('it should format the time in 24-hour format', () => {
+      const date = '2025-01-15T14:30:45.000Z'
+      const formattedFrTime = formatTimeLocalized(date, 'fr')
+      const formattedEnTime = formatTimeLocalized(date, 'en')
+
+      expect(formattedFrTime).toMatch(/^\d{2}:\d{2}$/)
+      expect(formattedEnTime).toMatch(/^\d{2}:\d{2}$/)
+    })
+  })
+
+  BddTest().when('providing different times', () => {
+    BddTest().then('it should format morning and evening times correctly', () => {
+      const morningDate = '2025-01-15T09:05:00.000Z'
+      const eveningDate = '2025-01-15T23:55:00.000Z'
+
+      const morningTime = formatTimeLocalized(morningDate, 'fr')
+      const eveningTime = formatTimeLocalized(eveningDate, 'fr')
+
+      expect(morningTime).toMatch(/^\d{2}:05$/)
+      expect(eveningTime).toMatch(/^\d{2}:55$/)
     })
   })
 })

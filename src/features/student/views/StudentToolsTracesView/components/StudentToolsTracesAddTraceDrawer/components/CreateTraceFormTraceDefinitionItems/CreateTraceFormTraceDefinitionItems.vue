@@ -20,17 +20,20 @@ const form: CreateTraceForm = props.form
     <div class="create-trace-form-trace-definition-items__fields">
       <div class="create-trace-form-trace-definition-items__field">
         <TraceFileUploadFormField
-          id="trace-file-upload"
           :form="form"
         />
       </div>
 
       <div class="create-trace-form-trace-definition-items__field">
-        <TraceNameInputFormField :form="form" />
+        <TraceNameInputFormField
+          :form="form"
+        />
       </div>
 
       <div class="create-trace-form-trace-definition-items__field">
-        <TracePersonalNoteTextareaFormField :form="form" />
+        <TracePersonalNoteTextareaFormField
+          :form="form"
+        />
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@ defineProps<TraceNameInputFormFieldProps>()
     <template #default="{ field }">
       <TraceNameInput
         v-bind="$attrs"
-        id="traceName"
+        id="trace-name"
         v-model="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         required

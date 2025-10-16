@@ -58,8 +58,8 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   }
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
-    const traceNameInput = wrapper.find('#traceName')
-    const personalNoteInput = wrapper.find('#personalNote')
+    const traceNameInput = wrapper.find('#trace-name')
+    const personalNoteInput = wrapper.find('#personal-note')
     const fileInput = wrapper.find('#trace-file-upload')
 
     const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
@@ -85,7 +85,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   const setAuthenticToggle = async (value: boolean) => {
     const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
-    const authenticToggle = toggles.find(toggle => toggle.props('id') === 'isAuthentic')
+    const authenticToggle = toggles.find(toggle => toggle.props('id') === 'is-authentic')
     expect(authenticToggle).toBeDefined()
     await authenticToggle!.vm.$emit('update:modelValue', value)
     await wrapper.vm.$nextTick()
@@ -93,7 +93,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   const setIAToggle = async (value: boolean) => {
     const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
-    const iaToggle = toggles.find(toggle => toggle.props('id') === 'useIA')
+    const iaToggle = toggles.find(toggle => toggle.props('id') === 'use-ia')
     expect(iaToggle).toBeDefined()
     await iaToggle!.vm.$emit('update:modelValue', value)
     await wrapper.vm.$nextTick()

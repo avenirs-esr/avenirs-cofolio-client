@@ -1,7 +1,7 @@
+import TraceGroupProductionToggle from '@/features/student/components/toggles/TraceGroupProductionToggle/TraceGroupProductionToggle.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceGroupProductionToggle from './TraceGroupProductionToggle.vue'
 
 BddTest().given('a trace group production toggle component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceGroupProductionToggle>>
@@ -85,48 +85,6 @@ BddTest().given('a trace group production toggle component', () => {
     BddTest().then('it should use the custom description', () => {
       const toggle = wrapper.findComponent({ name: 'AvToggle' })
       expect(toggle.props('description')).toBe('Custom description')
-    })
-  })
-
-  BddTest().when('custom activeText prop is provided', () => {
-    beforeEach(() => {
-      wrapper = mount(TraceGroupProductionToggle, {
-        props: {
-          id: 'group',
-          name: 'group',
-          modelValue: false,
-          activeText: 'Custom active'
-        },
-        global: {
-          stubs
-        }
-      })
-    })
-
-    BddTest().then('it should use the custom active text', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
-      expect(toggle.props('activeText')).toBe('Custom active')
-    })
-  })
-
-  BddTest().when('custom inactiveText prop is provided', () => {
-    beforeEach(() => {
-      wrapper = mount(TraceGroupProductionToggle, {
-        props: {
-          id: 'group',
-          name: 'group',
-          modelValue: false,
-          inactiveText: 'Custom inactive'
-        },
-        global: {
-          stubs
-        }
-      })
-    })
-
-    BddTest().then('it should use the custom inactive text', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
-      expect(toggle.props('inactiveText')).toBe('Custom inactive')
     })
   })
 

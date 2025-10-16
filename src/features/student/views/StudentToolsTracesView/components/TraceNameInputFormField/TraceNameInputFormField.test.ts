@@ -1,9 +1,10 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TraceNameInputFormField
+  from '@/features/student/views/StudentToolsTracesView/components/TraceNameInputFormField/TraceNameInputFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceNameInputFormField from './TraceNameInputFormField.vue'
 
 const TestWrapper = {
   components: {
@@ -66,7 +67,7 @@ BddTest().given('a trace name input form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const input = wrapper.findComponent({ name: 'TraceNameInput' })
-      expect(input.props('id')).toBe('traceName')
+      expect(input.props('id')).toBe('trace-name')
     })
 
     BddTest().then('it should have required attribute', () => {

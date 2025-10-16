@@ -1,9 +1,10 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TracePersonalNoteTextareaFormField
+  from '@/features/student/views/StudentToolsTracesView/components/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TracePersonalNoteTextareaFormField from './TracePersonalNoteTextareaFormField.vue'
 
 const TestWrapper = {
   components: {
@@ -64,7 +65,7 @@ BddTest().given('a trace personal note textarea form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const textarea = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
-      expect(textarea.props('id')).toBe('personalNote')
+      expect(textarea.props('id')).toBe('personal-note')
     })
 
     BddTest().then('it should have empty initial value', () => {

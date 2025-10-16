@@ -1,9 +1,11 @@
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import {
+  useUpdateTraceForm
+} from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { BddTest, mountComposable } from 'tests/utils'
 import { type MockInstance, vi } from 'vitest'
-import { useUpdateTraceForm } from './use-update-trace-form'
 
 const mockTrace: TraceDetailDTO = {
   ...mockedTraceDetailed,

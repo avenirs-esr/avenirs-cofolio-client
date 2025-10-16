@@ -14,7 +14,7 @@ defineProps<TracePersonalNoteTextareaFormFieldProps>()
     <template #default="{ field }">
       <TracePersonalNoteTextarea
         v-bind="$attrs"
-        id="personalNote"
+        id="personal-note"
         v-model="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"

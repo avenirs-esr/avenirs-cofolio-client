@@ -49,9 +49,11 @@ const avFileUploadProps = computed(() => ({
   <div class="trace-file-upload">
     <div
       v-if="label"
-      class="b2-light trace-file-upload__label"
+      class="trace-file-upload__label"
     >
-      {{ label }}
+      <span class="b2-light">
+        {{ label }}
+      </span>
     </div>
     <AvFileUpload
       v-bind="avFileUploadProps"
@@ -74,8 +76,11 @@ const avFileUploadProps = computed(() => ({
 .trace-file-upload {
 
   &__label {
-    color: var(--text1);
     padding-bottom: var(--spacing-xxs);
+  }
+
+  .b2-light {
+    color: var(--text1);
   }
 }
 </style>

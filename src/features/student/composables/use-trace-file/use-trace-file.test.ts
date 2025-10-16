@@ -1,6 +1,6 @@
 import { type AttachmentUploadDTO, EFileType } from '@/api/avenir-esr'
+import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/composables/use-trace-file/use-trace-file'
 import { BddTest, mountComposable } from 'tests/utils'
-import { useTraceAttachmentFile, useTraceFileValidation } from './use-trace-file'
 
 BddTest().given('a use-trace-file-validation composable', () => {
   BddTest().when('validating files with required flag true', () => {

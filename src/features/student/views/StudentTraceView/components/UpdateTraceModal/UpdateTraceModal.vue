@@ -45,7 +45,7 @@ const confirmIcon = computed(() => currentStep.value === 0
 <template>
   <AvModal
     :opened="showUpdateTraceModal"
-    :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close').toUpperCase()"
+    :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close')"
     :confirm-button-label="confirmLabel"
     :confirm-button-icon="confirmIcon"
     size="lg"

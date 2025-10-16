@@ -30,7 +30,10 @@ BddTest().given('a trace file upload component', () => {
   beforeEach(() => {
     wrapper = mount(TraceFileUpload, {
       global: {
-        stubs
+        stubs,
+      },
+      props: {
+        modelValue: null
       }
     })
   })
@@ -41,6 +44,7 @@ BddTest().given('a trace file upload component', () => {
 
       expect(fileUpload.exists()).toBe(true)
       expect(fileUpload.props('title')).toBe('Ajouter un fichier')
+      expect(fileUpload.attributes('aria-label')).toBe('Ajouter un fichier')
       expect(fileUpload.props('description')).toBe('ou glisser et déposer ici')
     })
 
@@ -86,6 +90,24 @@ BddTest().given('a trace file upload component', () => {
       const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
 
       expect(fileUpload.props('title')).toBe('Custom Upload Title')
+    })
+  })
+
+  BddTest().when('custom label is provided as prop', () => {
+    BddTest().then('it should display the label before component', () => {
+      wrapper = mount(TraceFileUpload, {
+        props: {
+          title: 'Custom Upload Title',
+          label: 'Choose your file',
+          modelValue: null
+        },
+        global: {
+          stubs
+        }
+      })
+
+      const label = wrapper.find('.trace-file-upload__label')
+      expect(label.text()).toContain('Choose your file')
     })
   })
 

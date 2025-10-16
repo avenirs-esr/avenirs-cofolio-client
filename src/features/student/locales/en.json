@@ -605,7 +605,8 @@
         "description": "I submit a production made with AI"
       },
       "traceAuthenticDeclarationToggle": {
-        "description": "I submit an authentic and personal production"
+        "description": "I submit an authentic and personal production",
+        "requiredMessage": "You must agree to submit an authentic and personal work"
       },
       "traceFileUpload": {
         "addedOn": "Added on {date}",

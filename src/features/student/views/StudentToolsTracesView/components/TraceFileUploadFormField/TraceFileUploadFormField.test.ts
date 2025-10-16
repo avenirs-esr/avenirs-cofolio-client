@@ -1,9 +1,10 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TraceFileUploadFormField
+  from '@/features/student/views/StudentToolsTracesView/components/TraceFileUploadFormField/TraceFileUploadFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceFileUploadFormField from './TraceFileUploadFormField.vue'
 
 const TestWrapper = {
   components: {
@@ -42,7 +43,7 @@ BddTest().given('a trace file upload form field component', () => {
       name: 'TraceFileUpload',
       props: ['id', 'modelValue', 'error', 'validMessage'],
       emits: ['blur', 'change', 'update:modelValue'],
-      template: '<div><input type="file" :id="id" @change="$emit(\'change\', $event.target.files)" @blur="$emit(\'blur\')" /><span v-if="error" class="error">{{ error }}</span><span v-if="validMessage" class="valid">{{ validMessage }}</span></div>'
+      template: '<div><input type="traceFileUpload" :id="id" @change="$emit(\'change\', $event.target.files)" @blur="$emit(\'blur\')" /><span v-if="error" class="error">{{ error }}</span><span v-if="validMessage" class="valid">{{ validMessage }}</span></div>'
     }
   }
 
@@ -64,7 +65,7 @@ BddTest().given('a trace file upload form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
-      expect(fileUpload.props('id')).toBe('file')
+      expect(fileUpload.props('id')).toBe('trace-file-upload')
     })
 
     BddTest().then('it should have null initial value', () => {
@@ -114,7 +115,7 @@ BddTest().given('a trace file upload form field component', () => {
   BddTest().when('the user blurs the file input', () => {
     BddTest().then('it should trigger blur handler', async () => {
       const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
-      const fileInput = fileUpload.find('input[type="file"]')
+      const fileInput = fileUpload.find('input[type="traceFileUpload"]')
 
       await fileInput.trigger('blur')
       await wrapper.vm.$nextTick()

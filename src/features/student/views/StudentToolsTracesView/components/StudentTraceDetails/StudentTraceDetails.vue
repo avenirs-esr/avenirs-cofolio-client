@@ -23,7 +23,7 @@ const attachment = computed(() => props.trace.attachment)
 
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
-const traceFileUploadLabel = computed<string>(() => {
+const traceFileUploadLabel = computed(() => {
   return `${t('student.components.traceFileUpload.documentLabel')} - ${t('student.components.traceFileUpload.addedOn', { date: uploadDate.value })}`
 }
 )

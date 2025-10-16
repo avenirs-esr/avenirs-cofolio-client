@@ -1,7 +1,6 @@
 {
   "global": {
     "application": "Application",
-    "at": "at",
     "audio": "Audio",
     "avPagination": {
       "ariaLabel": "Pagination",
@@ -23,6 +22,9 @@
       "exit": "Exit",
       "goBack": "Go back",
       "save": "Save"
+    },
+    "dates": {
+      "dateTimeAt": "{date} at {time}"
     },
     "footer": {
       "anr": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
