@@ -1,4 +1,5 @@
 import type { TraceFormData } from '@/features/student/types'
+import { ToggleStub } from '@/common/components'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -46,12 +47,7 @@ BddTest().given('a create trace form declaration items component', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvToggle: {
-      name: 'AvToggle',
-      props: ['id', 'modelValue', 'description', 'name', 'activeText', 'inactiveText'],
-      emits: ['update:modelValue'],
-      template: '<div><input type="checkbox" :id="id" :name="name" :checked="modelValue" @change="$emit(\'update:modelValue\', $event.target.checked)" /><label :for="id">{{ description }}</label></div>'
-    },
+    Toggle: ToggleStub,
     TraceIaJustificationTextarea: {
       name: 'TraceIaJustificationTextarea',
       props: ['id', 'modelValue', 'errorMessage', 'required'],
@@ -83,7 +79,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should render production authenticity toggle', () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const authenticToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production authentique et personnelle'
       )
@@ -94,7 +90,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should render group production toggle', () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const groupToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production de groupe'
       )
@@ -114,7 +110,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should render IA usage toggle', () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
@@ -132,7 +128,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the production authenticity toggle is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const authenticToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production authentique et personnelle'
       )
@@ -146,7 +142,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the group production toggle is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const groupToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production de groupe'
       )
@@ -160,7 +156,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the IA usage toggle is changed to true', () => {
     BddTest().then('it should show IA justification textarea', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
@@ -175,7 +171,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should update the form field value', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
@@ -189,7 +185,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the IA usage toggle is changed to false', () => {
     BddTest().then('it should clear IA justification field', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
@@ -210,7 +206,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the IA justification is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )
@@ -246,7 +242,7 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the IA usage is enabled and justification is empty', () => {
     BddTest().then('it should show error message on form validation', async () => {
-      const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+      const toggles = wrapper.findAllComponents({ name: 'Toggle' })
       const iaToggle = toggles.find(toggle =>
         toggle.props('description') === 'Je soumets une production réalisée avec IA'
       )

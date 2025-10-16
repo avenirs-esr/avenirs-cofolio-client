@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ToggleStub } from '@/common/components'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { useTracesStore } from '@/store'
 import { BddTest, mountComponent } from 'tests/utils'
@@ -43,6 +44,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       emits: ['click'],
       template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
     },
+    Toggle: ToggleStub
   }
 
   const getSaveButton = () => {
@@ -84,7 +86,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   }
 
   const setAuthenticToggle = async (value: boolean) => {
-    const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+    const toggles = wrapper.findAllComponents({ name: 'Toggle' })
     const authenticToggle = toggles.find(toggle => toggle.props('id') === 'is-authentic')
     expect(authenticToggle).toBeDefined()
     await authenticToggle!.vm.$emit('update:modelValue', value)
@@ -92,7 +94,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   }
 
   const setIAToggle = async (value: boolean) => {
-    const toggles = wrapper.findAllComponents({ name: 'AvToggle' })
+    const toggles = wrapper.findAllComponents({ name: 'Toggle' })
     const iaToggle = toggles.find(toggle => toggle.props('id') === 'use-ia')
     expect(iaToggle).toBeDefined()
     await iaToggle!.vm.$emit('update:modelValue', value)
