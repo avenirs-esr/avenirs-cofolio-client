@@ -1,3 +1,4 @@
+import { ToggleStub } from '@/common/components'
 import TraceAuthenticDeclarationToggle from '@/features/student/components/toggles/TraceAuthenticDeclarationToggle/TraceAuthenticDeclarationToggle.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
@@ -7,12 +8,7 @@ BddTest().given('a trace authentic declaration toggle component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceAuthenticDeclarationToggle>>
 
   const stubs = {
-    AvToggle: {
-      name: 'AvToggle',
-      props: ['id', 'name', 'modelValue', 'description', 'activeText', 'inactiveText'],
-      emits: ['update:modelValue'],
-      template: '<div class="av-toggle"><input type="checkbox" :id="id" :name="name" :checked="modelValue" @change="$emit(\'update:modelValue\', $event.target.checked)" /><span class="description">{{ description }}</span><span class="active-text">{{ activeText }}</span><span class="inactive-text">{{ inactiveText }}</span></div>'
-    }
+    Toggle: ToggleStub
   }
 
   beforeEach(() => {
@@ -31,38 +27,28 @@ BddTest().given('a trace authentic declaration toggle component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the AvToggle component', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+    BddTest().then('it should render the Toggle component', () => {
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.exists()).toBe(true)
     })
 
     BddTest().then('it should have the default description from i18n', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('description')).toBe('Je soumets une production authentique et personnelle')
     })
 
-    BddTest().then('it should have the default active text from i18n', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
-      expect(toggle.props('activeText')).toBe('Oui')
-    })
-
-    BddTest().then('it should have the default inactive text from i18n', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
-      expect(toggle.props('inactiveText')).toBe('Non')
-    })
-
     BddTest().then('it should pass through id prop', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('id')).toBe('authentic')
     })
 
     BddTest().then('it should pass through name prop', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('name')).toBe('authentic')
     })
 
     BddTest().then('it should pass through modelValue prop', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('modelValue')).toBe(false)
     })
   })
@@ -83,14 +69,14 @@ BddTest().given('a trace authentic declaration toggle component', () => {
     })
 
     BddTest().then('it should use the custom description', () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('description')).toBe('Custom description')
     })
   })
 
   BddTest().when('the toggle checkbox is changed', () => {
     BddTest().then('it should emit update:modelValue event', async () => {
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       const checkbox = toggle.find('input[type="checkbox"]')
 
       await checkbox.setValue(true)
@@ -106,7 +92,7 @@ BddTest().given('a trace authentic declaration toggle component', () => {
       await wrapper.setProps({ modelValue: true })
       await wrapper.vm.$nextTick()
 
-      const toggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
       expect(toggle.props('modelValue')).toBe(true)
     })
   })

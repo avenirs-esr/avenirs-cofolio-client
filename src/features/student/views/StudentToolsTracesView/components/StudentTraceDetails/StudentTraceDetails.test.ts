@@ -1,4 +1,5 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { ToggleStub } from '@/common/components'
 import StudentTraceDetails
   from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -35,19 +36,13 @@ const AvIconTextStub = {
   template: '<div class="av-icon-text-stub"></div>'
 }
 
-const AvToggleStub = {
-  name: 'AvToggle',
-  props: ['modelValue', 'description', 'disabled'],
-  template: '<div class="av-toggle-stub"></div>'
-}
-
 const stubs = {
   TraceNameInput: TraceNameInputStub,
   TraceFileUpload: TraceFileUploadStub,
   TracePersonalNoteTextarea: TracePersonalNoteTextareaStub,
   TraceIaJustificationTextarea: TraceIaJustificationTextareaStub,
   AvIconText: AvIconTextStub,
-  AvToggle: AvToggleStub
+  Toggle: ToggleStub
 }
 
 BddTest().given('a student detailed trace information component', () => {
@@ -134,12 +129,12 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should render the IA toggle with correct props', () => {
-      const avToggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
 
-      expect(avToggle.exists()).toBe(true)
-      expect(avToggle.props('modelValue')).toBe(false)
-      expect(avToggle.props('description')).toBe('Production avec IA')
-      expect(avToggle.props('disabled')).toBe(true)
+      expect(toggle.exists()).toBe(true)
+      expect(toggle.props('modelValue')).toBe(false)
+      expect(toggle.props('description')).toBe('Production avec IA')
+      expect(toggle.props('disabled')).toBe(true)
     })
 
     BddTest().then('it should not render the IA justification textarea when aiUseJustification is empty', () => {
@@ -169,9 +164,9 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should render the IA toggle as enabled', () => {
-      const avToggle = wrapper.findComponent({ name: 'AvToggle' })
+      const toggle = wrapper.findComponent({ name: 'Toggle' })
 
-      expect(avToggle.props('modelValue')).toBe(true)
+      expect(toggle.props('modelValue')).toBe(true)
     })
   })
 
