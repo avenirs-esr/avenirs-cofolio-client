@@ -79,3 +79,29 @@ export function getDaysUntil (date: Date): number {
 
   return differenceInDays(target, today)
 }
+
+/**
+ * Formats a date string to a localized date format (day month year)
+ * @param date yyyy-MM-dd'T'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd'T'HH:mm:ss | yyyy-MM-dd'T'HH:mm | yyyy-MM-dd
+ * @param localeCode The locale to use for formatting of type AvLocale
+ * @returns Formatted date string (e.g., "15 janvier 2025" for fr, "15 January 2025" for en)
+ */
+export function formatDateLocalized (date: string, localeCode: AvLocale): string {
+  const parsedDate = new Date(date)
+  return format(parsedDate, 'dd MMMM yyyy', {
+    locale: localesMap[localeCode]
+  })
+}
+
+/**
+ * Formats a date string to a localized time format (24-hour)
+ * @param date yyyy-MM-dd'T'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd'T'HH:mm:ss | yyyy-MM-dd'T'HH:mm | yyyy-MM-dd
+ * @param localeCode The locale to use for formatting of type AvLocale
+ * @returns Formatted time string in 24-hour format (e.g., "14:30")
+ */
+export function formatTimeLocalized (date: string, localeCode: AvLocale): string {
+  const parsedDate = new Date(date)
+  return format(parsedDate, 'HH:mm', {
+    locale: localesMap[localeCode]
+  })
+}

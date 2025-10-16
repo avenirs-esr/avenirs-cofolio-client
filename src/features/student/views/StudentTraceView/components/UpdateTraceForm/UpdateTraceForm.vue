@@ -12,17 +12,16 @@ import { useUpdateTraceForm } from '@/features/student/views/StudentTraceView/co
 import { useToasterStore, useTracesStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
-const { trace } = defineProps<UpdateTraceFormProps>()
-
-const { addSuccessMessage, } = useToasterStore()
-const { hideUpdateTraceModal } = useTracesStore()
-
 interface UpdateTraceFormProps {
   trace: TraceDetailDTO
 }
 
+const { trace } = defineProps<UpdateTraceFormProps>()
+
+const { addSuccessMessage } = useToasterStore()
+const { hideUpdateTraceModal, setUpdateTraceForm, setUpdateTraceFormValid } = useTracesStore()
+
 const { t } = useI18n()
-const { setUpdateTraceForm, setUpdateTraceFormValid } = useTracesStore()
 
 function onTraceUpdated () {
   addSuccessMessage({
@@ -45,11 +44,10 @@ function onChangeAiUsageToggle (value: boolean) {
     iaJustificationField.api.handleChange('')
   }
 }
-const traceFileUploadLabel = computed<string>(() => {
+const traceFileUploadLabel = computed(() => {
   const uploadDate = formatTranslatedDateTime(trace.attachment.uploadedAt)
   return `${t('student.components.traceFileUpload.documentLabel')} - ${t('student.components.traceFileUpload.addedOn', { date: uploadDate })}`
-}
-)
+})
 
 watch(() => form, () => {
   setUpdateTraceForm(form)

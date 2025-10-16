@@ -28,7 +28,7 @@ function handleFilesChange (files: FileList) {
   <form.Field name="file">
     <template #default="{ field }">
       <TraceFileUpload
-        id="file"
+        id="trace-file-upload"
         v-bind="$attrs"
         v-model="field.state.value"
         :error="field.state.meta.errors.join(', ')"

@@ -37,12 +37,10 @@ function onChangeAiUsageToggle (value: boolean) {
 
         <div class="declaration-items__inline-toggles">
           <TraceAuthenticDeclarationToggleFormField
-            id="isAuthentic"
             :form="form"
           />
 
           <TraceGroupProductionToggleFormField
-            id="isGroup"
             :form="form"
           />
         </div>
@@ -55,14 +53,12 @@ function onChangeAiUsageToggle (value: boolean) {
 
         <div class="declaration-items__field">
           <TraceAiUsageToggleFormField
-            id="useIA"
             :form="form"
             @change="onChangeAiUsageToggle"
           />
         </div>
 
         <TraceAiJustificationTextareaFormField
-          id="ia-justification"
           :form="form"
           :show-ai-justification="showIAJustification"
         />

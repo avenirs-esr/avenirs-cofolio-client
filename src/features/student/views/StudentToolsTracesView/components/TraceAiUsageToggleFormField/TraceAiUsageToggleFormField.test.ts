@@ -1,9 +1,9 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TraceAiUsageToggleFormField from '@/features/student/views/StudentToolsTracesView/components/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceAiUsageToggleFormField from './TraceAiUsageToggleFormField.vue'
 
 const TestWrapper = {
   components: {
@@ -64,7 +64,7 @@ BddTest().given('a trace AI usage toggle form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const toggle = wrapper.findComponent({ name: 'TraceAiUsageToggle' })
-      expect(toggle.props('id')).toBe('useIA')
+      expect(toggle.props('id')).toBe('use-ia')
     })
 
     BddTest().then('it should have the correct name', () => {

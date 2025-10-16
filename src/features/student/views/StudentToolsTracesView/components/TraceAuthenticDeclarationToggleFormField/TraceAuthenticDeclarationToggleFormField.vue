@@ -18,7 +18,7 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
       <template #default="{ field }">
         <TraceAuthenticDeclarationToggle
           v-bind="$attrs"
-          id="isAuthentic"
+          id="is-authentic"
           name="isAuthentic"
           :model-value="field.state.value"
           @update:model-value="(value) => field.handleChange(value)"
@@ -29,15 +29,21 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
       v-if="authenticErrors.length > 0"
       class="trace-form__authentic-error"
     >
-      {{ authenticErrors.join(', ') }}
+      <span class="caption-regular trace-form__authentic-error-message">
+        {{ authenticErrors.join(', ') }}
+      </span>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+@use "@avenirs-esr/avenirs-dsav/src/styles/main.scss" as ds;
+
 .trace-form__authentic-error {
-  font-size: var(--font-size-xs);
-  color: var(--dark-background-error);
   padding-bottom: var(--spacing-sm);
+
+  .trace-form__authentic-error-message {
+    color: var(--dark-background-error);
+  }
 }
 </style>

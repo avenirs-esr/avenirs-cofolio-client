@@ -10,7 +10,7 @@ BddTest().given('an useInvalidateQuery composable', () => {
     mockInvalidateQueries = vi.fn().mockResolvedValue(undefined)
   })
 
-  BddTest().and('a queryKey', () => {
+  BddTest().and('a queryKey is defined', () => {
     const queryKey = ['my', 'query', 'key']
 
     BddTest().when('the invalidate function is called', () => {
@@ -56,6 +56,29 @@ BddTest().given('an useInvalidateQuery composable', () => {
         await result()
 
         expect(mockInvalidateQueries).toHaveBeenCalledWith()
+      })
+    })
+    BddTest().when('the invalidate function is called with override key', () => {
+      BddTest().then('it should call queryClient.invalidateQueries without override queryKey', async () => {
+        const { result } = mountComposable(() => {
+          const queryClient = useQueryClient()
+          vi.spyOn(queryClient, 'invalidateQueries').mockImplementation(mockInvalidateQueries)
+          return useInvalidateQuery()
+        }, {
+          useTanstack: true,
+          queryClientConfig: {
+            defaultOptions: {
+              queries: { retry: false },
+              mutations: { retry: false }
+            }
+          }
+        })
+
+        await result(['custom-key'])
+
+        expect(mockInvalidateQueries).toHaveBeenCalledWith({
+          queryKey: ['custom-key']
+        })
       })
     })
   })

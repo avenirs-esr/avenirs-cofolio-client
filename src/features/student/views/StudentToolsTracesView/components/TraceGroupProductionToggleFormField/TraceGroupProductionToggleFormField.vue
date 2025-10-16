@@ -14,7 +14,7 @@ defineProps<TraceGroupProductionToggleFormFieldProps>()
     <template #default="{ field }">
       <TraceGroupProductionToggle
         v-bind="$attrs"
-        id="isGroup"
+        id="is-group"
         name="isGroup"
         :model-value="field.state.value"
         @update:model-value="(value) => field.handleChange(value)"

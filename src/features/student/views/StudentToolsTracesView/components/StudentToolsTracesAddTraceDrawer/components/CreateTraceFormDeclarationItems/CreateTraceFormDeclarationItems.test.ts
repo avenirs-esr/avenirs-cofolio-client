@@ -89,7 +89,7 @@ BddTest().given('a create trace form declaration items component', () => {
       )
 
       expect(authenticToggle).toBeDefined()
-      expect(authenticToggle?.props('id')).toBe('isAuthentic')
+      expect(authenticToggle?.props('id')).toBe('is-authentic')
       expect(authenticToggle?.props('modelValue')).toBe(false)
     })
 
@@ -100,7 +100,7 @@ BddTest().given('a create trace form declaration items component', () => {
       )
 
       expect(groupToggle).toBeDefined()
-      expect(groupToggle?.props('id')).toBe('isGroup')
+      expect(groupToggle?.props('id')).toBe('is-group')
       expect(groupToggle?.props('modelValue')).toBe(false)
     })
 
@@ -120,7 +120,7 @@ BddTest().given('a create trace form declaration items component', () => {
       )
 
       expect(iaToggle).toBeDefined()
-      expect(iaToggle?.props('id')).toBe('useIA')
+      expect(iaToggle?.props('id')).toBe('use-ia')
       expect(iaToggle?.props('modelValue')).toBe(false)
     })
 

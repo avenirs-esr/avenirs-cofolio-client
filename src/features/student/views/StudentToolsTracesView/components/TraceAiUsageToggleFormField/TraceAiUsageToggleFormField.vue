@@ -24,21 +24,13 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
 <template>
   <form.Field name="useIA">
     <template #default="{ field }">
-      <div class="declaration-items__field">
-        <TraceAiUsageToggle
-          v-bind="attrs"
-          id="useIA"
-          name="useIA"
-          :model-value="field.state.value"
-          @update:model-value="(value) => handleChange(value, field.handleChange)"
-        />
-        <div
-          v-if="field.state.meta.errors.length > 0"
-          class="declaration-items__error"
-        >
-          {{ field.state.meta.errors.join(', ') }}
-        </div>
-      </div>
+      <TraceAiUsageToggle
+        v-bind="attrs"
+        id="use-ia"
+        name="useIA"
+        :model-value="field.state.value"
+        @update:model-value="(value) => handleChange(value, field.handleChange)"
+      />
     </template>
   </form.Field>
 </template>

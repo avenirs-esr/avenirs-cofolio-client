@@ -1,9 +1,10 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TraceAiJustificationTextareaFormField
+  from '@/features/student/views/StudentToolsTracesView/components/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceAiJustificationTextareaFormField from './TraceAiJustificationTextareaFormField.vue'
 
 const TestWrapper = {
   components: {

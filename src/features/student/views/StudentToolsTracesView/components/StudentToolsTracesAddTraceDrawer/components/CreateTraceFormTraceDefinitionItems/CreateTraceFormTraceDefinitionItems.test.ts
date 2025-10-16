@@ -86,7 +86,7 @@ BddTest().given('a create trace form trace definition items component', () => {
       const traceNameInput = wrapper.findComponent({ name: 'TraceNameInput' })
 
       expect(traceNameInput.exists()).toBe(true)
-      expect(traceNameInput.props('id')).toBe('traceName')
+      expect(traceNameInput.props('id')).toBe('trace-name')
       expect(traceNameInput.props('required')).toBe('')
     })
 
@@ -94,7 +94,7 @@ BddTest().given('a create trace form trace definition items component', () => {
       const personalNoteInput = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
 
       expect(personalNoteInput.exists()).toBe(true)
-      expect(personalNoteInput.props('id')).toBe('personalNote')
+      expect(personalNoteInput.props('id')).toBe('personal-note')
     })
   })
 
@@ -117,7 +117,7 @@ BddTest().given('a create trace form trace definition items component', () => {
 
   BddTest().when('trace name is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const traceNameInput = wrapper.find('#traceName')
+      const traceNameInput = wrapper.find('#trace-name')
 
       await traceNameInput.setValue('My test trace')
 
@@ -128,7 +128,7 @@ BddTest().given('a create trace form trace definition items component', () => {
 
   BddTest().when('personal note is changed', () => {
     BddTest().then('it should update the form field value', async () => {
-      const personalNoteInput = wrapper.find('#personalNote')
+      const personalNoteInput = wrapper.find('#personal-note')
 
       await personalNoteInput.setValue('My personal note')
 

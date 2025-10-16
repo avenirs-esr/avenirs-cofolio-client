@@ -1,9 +1,10 @@
 import type { CreateTraceForm } from '@/features/student/types'
+import TraceGroupProductionToggleFormField
+  from '@/features/student/views/StudentToolsTracesView/components/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import TraceGroupProductionToggleFormField from './TraceGroupProductionToggleFormField.vue'
 
 const TestWrapper = {
   components: {
@@ -64,7 +65,7 @@ BddTest().given('a trace group production toggle form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const toggle = wrapper.findComponent({ name: 'TraceGroupProductionToggle' })
-      expect(toggle.props('id')).toBe('isGroup')
+      expect(toggle.props('id')).toBe('is-group')
     })
 
     BddTest().then('it should have the correct name', () => {

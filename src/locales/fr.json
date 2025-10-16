@@ -1,7 +1,6 @@
 {
   "global": {
     "application": "Application",
-    "at": "à",
     "audio": "Audio",
     "avPagination": {
       "ariaLabel": "Pagination",
@@ -23,6 +22,9 @@
       "exit": "Quitter",
       "goBack": "Retour",
       "save": "Enregistrer"
+    },
+    "dates": {
+      "dateTimeAt": "{date} à {time}"
     },
     "error": {
       "file": {
