@@ -9,6 +9,18 @@ import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHom
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 
+export const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
+
 BddTest().given('a student home view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentHomeView>>
 
@@ -43,6 +55,20 @@ BddTest().given('a student home view', () => {
       expect(main.findComponent({ name: 'StudentSkillsWidget' }).exists()).toBe(true)
       expect(main.findComponent({ name: 'StudentDeliverablesWidget' }).exists()).toBe(true)
       expect(main.findComponent({ name: 'StudentTracesWidget' }).exists()).toBe(true)
+    })
+  })
+
+  BddTest().then('it should not render the mobile containers', () => {
+    expect(wrapper.find('.layout-home--mobile').exists()).toBe(false)
+  })
+
+  BddTest().and('is in mobile view', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+    })
+
+    BddTest().then('it should render the mobile containers', () => {
+      expect(wrapper.find('.layout-home--mobile').exists()).toBe(true)
     })
   })
 })

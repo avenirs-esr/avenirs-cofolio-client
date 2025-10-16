@@ -6,7 +6,7 @@ import type { RouteLocationRaw } from 'vue-router'
 import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
 import { studentAccessibilityRoute, studentCookiesRoute, studentLegalRoute, studentPersonnalDataRoute } from '@/features/student'
 import { teacherAccessibilityRoute, teacherCookiesRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher'
-import { EsupLogo } from '@avenirs-esr/avenirs-dsav'
+import { EsupLogo, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface FooterProps {
@@ -32,6 +32,7 @@ const props = defineProps<FooterProps>()
 
 const { t } = useI18n()
 const route = useRoute()
+const { isMobile, isTablet } = useAvBreakpoints()
 
 const isStudentRoute = computed(() => route.path.startsWith('/student'))
 
@@ -108,7 +109,12 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
       </span>
     </div>
 
-    <div class="main-container">
+    <div
+      class="main-container"
+      :class="{
+        'main-container--mobile': isMobile,
+      }"
+    >
       <div class="cofolio-container">
         <CofolioLogoSvg />
         <span class="caption-regular">
@@ -116,7 +122,13 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         </span>
       </div>
 
-      <div class="links-container">
+      <div
+        class="links-container"
+        :class="{
+          'links-container--mobile': isMobile,
+          'links-container--tablet': isTablet,
+        }"
+      >
         <div class="links-column">
           <span class="b2-bold">
             {{ "Informations" }}
@@ -226,7 +238,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   padding: var(--spacing-xl) var(--spacing-5xl) var(--spacing-xl) var(--spacing-5xl);
   gap: var(--spacing-md);
 
-  @include respond-below("md") {
+  &--mobile {
     flex-wrap: wrap;
     justify-content: start;
   }
@@ -257,7 +269,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   gap: var(--spacing-5xl);
   padding-top: var(--spacing-md);
 
-  @include respond-below("lg") {
+  &--tablet, &--mobile {
     flex-wrap: wrap;
     justify-content: start;
   }
