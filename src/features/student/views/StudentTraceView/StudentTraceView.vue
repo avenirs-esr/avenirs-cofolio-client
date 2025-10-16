@@ -78,7 +78,7 @@ const breadcrumbLinks = computed(() => [
 
     <AvTabs
       v-model="activeTab"
-      v-memo="[traceDetailed, traceDetailed.associationsTrace?.skillLevelAssociations, traceDetailed.associationsTrace?.additionalSkillAssociations]"
+      v-memo="[traceDetailed, traceDetailed.traceAssociations?.skillLevelAssociations, traceDetailed.traceAssociations?.additionalSkillAssociations]"
       class="trace-tabs"
       compact
     >
@@ -97,7 +97,7 @@ const breadcrumbLinks = computed(() => [
       >
         <StudentTraceAssociations
           v-if="isAssociationsTabActive"
-          :associations="traceDetailed.associationsTrace"
+          :associations="traceDetailed.traceAssociations"
         />
       </AvTab>
     </AvTabs>

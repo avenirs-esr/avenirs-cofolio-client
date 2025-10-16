@@ -37,7 +37,7 @@ BddTest().given('an update step', () => {
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
     },
-    associationsTrace: {
+    traceAssociations: {
       skillLevelAssociations: [],
       additionalSkillAssociations: []
     }

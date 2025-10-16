@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { AssociationsTraceDTO } from '@/api/avenir-esr'
+import type { TraceAssociationsDTO } from '@/api/avenir-esr'
 import { StudentTraceAdditionalSkillAssociationCard, StudentTraceSkillLevelAssociationCard } from '@/features/student/components/cards'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceAssociationsProps {
-  associations: AssociationsTraceDTO | undefined
+  associations: TraceAssociationsDTO | undefined
 }
 
 const { associations } = defineProps<StudentTraceAssociationsProps>()

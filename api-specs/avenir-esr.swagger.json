@@ -739,7 +739,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AssociationsTraceDTO"
+                  "$ref": "#/components/schemas/TraceAssociationsDTO"
                 }
               }
             }
@@ -2216,8 +2216,8 @@
           "attachment": {
             "$ref": "#/components/schemas/AttachmentUploadDTO"
           },
-          "associationsTrace": {
-            "$ref": "#/components/schemas/AssociationsTraceDTO"
+          "traceAssociations": {
+            "$ref": "#/components/schemas/TraceAssociationsDTO"
           },
           "createdAt": {
             "type": "string",
@@ -2311,7 +2311,7 @@
           "title"
         ]
       },
-      "AssociationsTraceDTO": {
+      "TraceAssociationsDTO": {
         "type": "object",
         "properties": {
           "skillLevelAssociations": {

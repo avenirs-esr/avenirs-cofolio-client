@@ -29,7 +29,7 @@ BddTest().given('an update trace modal', () => {
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
     },
-    associationsTrace: mockedTraceAssociations
+    traceAssociations: mockedTraceAssociations
   }
 
   const stubs = {
