@@ -7,8 +7,8 @@ import { useI18n } from 'vue-i18n'
 const { trace } = defineProps<{ trace: TraceDetailDTO }>()
 const { t } = useI18n()
 const isActiveStatus = [ESkillLevelStatus.NOT_STARTED, ESkillLevelStatus.TO_BE_EVALUATED, ESkillLevelStatus.UNDER_ACQUISITION]
-const skillLevelAssociations = computed(() => trace.associationsTrace && trace.associationsTrace.skillLevelAssociations ? trace.associationsTrace.skillLevelAssociations : [])
-const additionalSkillAssociations = computed(() => trace.associationsTrace && trace.associationsTrace.additionalSkillAssociations ? trace.associationsTrace.additionalSkillAssociations : [])
+const skillLevelAssociations = computed(() => trace.traceAssociations && trace.traceAssociations.skillLevelAssociations ? trace.traceAssociations.skillLevelAssociations : [])
+const additionalSkillAssociations = computed(() => trace.traceAssociations && trace.traceAssociations.additionalSkillAssociations ? trace.traceAssociations.additionalSkillAssociations : [])
 
 function getListIcon (skillStatus: ESkillLevelStatus) {
   return isActiveStatus.includes(skillStatus)

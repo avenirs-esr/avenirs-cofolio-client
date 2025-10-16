@@ -537,7 +537,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         expect(data.value).toHaveProperty('isGroup')
         expect(data.value).toHaveProperty('personalNote')
         expect(data.value).toHaveProperty('attachment')
-        expect(data.value).toHaveProperty('associationsTrace')
+        expect(data.value).toHaveProperty('traceAssociations')
       })
 
       BddTest().then('it should return properly typed configuration data', async () => {
@@ -558,7 +558,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
           expect(typeof config.isGroup).toBe('boolean')
           expect(typeof config.personalNote).toBe('string')
           expect(typeof config.attachment).toBe('object')
-          expect(typeof config.associationsTrace).toBe('object')
+          expect(typeof config.traceAssociations).toBe('object')
         }
       })
 

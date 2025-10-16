@@ -1,5 +1,4 @@
 import {
-  type AssociationsTraceDTO,
   type AttachmentUploadDTO,
   EAdditionalSkillLevel,
   EAdditionalSkillType,
@@ -7,6 +6,7 @@ import {
   EFileType,
   ESkillLevelStatus,
   type PagedResponseTraceViewDTO,
+  type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
   type TraceOverviewDTO,
@@ -158,7 +158,7 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
   }
 }
 
-export const mockedTraceAssociations: AssociationsTraceDTO = {
+export const mockedTraceAssociations: TraceAssociationsDTO = {
   skillLevelAssociations: [
     {
       id: 'skill-1',
@@ -243,5 +243,5 @@ export const mockedTraceDetailed = {
     version: 1,
     uploadedAt: '2025-06-02T11:42:00.000Z',
   },
-  associationsTrace: mockedTraceAssociations
+  traceAssociations: mockedTraceAssociations
 }
