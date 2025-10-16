@@ -3,6 +3,29 @@ import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+export const mockIsMobile = ref(false)
+export const mockIsTablet = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    EsupLogo: {
+      name: 'EsupLogo',
+      template: '<svg class="esup-logo" />'
+    },
+    PageSizes: {
+      FOUR: 4,
+      EIGHT: 8,
+      TWELVE: 12
+    },
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+      isTablet: mockIsTablet,
+    })
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
   return {
@@ -10,18 +33,6 @@ vi.mock('vue-router', async (importOriginal) => {
     useRoute: vi.fn(),
   }
 })
-
-vi.mock('@avenirs-esr/avenirs-dsav', () => ({
-  EsupLogo: {
-    name: 'EsupLogo',
-    template: '<svg class="esup-logo" />'
-  },
-  PageSizes: {
-    FOUR: 4,
-    EIGHT: 8,
-    TWELVE: 12
-  }
-}))
 
 BddTest().given('a footer', () => {
   let wrapper: VueWrapper<InstanceType<typeof Footer>>
@@ -61,6 +72,49 @@ BddTest().given('a footer', () => {
         const copyright = wrapper.find('.copyright')
         expect(copyright.exists()).toBe(true)
         expect(copyright.text()).toBe('@ESUP-Portail. Tous droits réservés.')
+      })
+
+      BddTest().then('it should not render the mobile containers', () => {
+        expect(wrapper.find('.main-container--mobile').exists()).toBe(false)
+        expect(wrapper.find('.links-container--mobile').exists()).toBe(false)
+      })
+
+      BddTest().then('it should not render the tablet containers', () => {
+        expect(wrapper.find('.links-container--tablet').exists()).toBe(false)
+      })
+
+      BddTest().and('is in tablet view', () => {
+        beforeEach(async () => {
+          mockIsMobile.value = false
+          mockIsTablet.value = true
+          wrapper = await mountWithRouter<typeof Footer>(Footer, { global: { stubs } })
+        })
+
+        BddTest().then('it should not render the mobile containers', () => {
+          expect(wrapper.find('.main-container--mobile').exists()).toBe(false)
+          expect(wrapper.find('.links-container--mobile').exists()).toBe(false)
+        })
+
+        BddTest().then('it should render the tablet containers', () => {
+          expect(wrapper.find('.links-container--tablet').exists()).toBe(true)
+        })
+      })
+
+      BddTest().and('is in mobile view', () => {
+        beforeEach(async () => {
+          mockIsMobile.value = true
+          mockIsTablet.value = false
+          wrapper = await mountWithRouter<typeof Footer>(Footer, { global: { stubs } })
+        })
+
+        BddTest().then('it should render the mobile containers', () => {
+          expect(wrapper.find('.main-container--mobile').exists()).toBe(true)
+          expect(wrapper.find('.links-container--mobile').exists()).toBe(true)
+        })
+
+        BddTest().then('it should not render the tablet containers', () => {
+          expect(wrapper.find('.links-container--tablet').exists()).toBe(false)
+        })
       })
     })
 

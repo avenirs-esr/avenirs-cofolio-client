@@ -8,13 +8,19 @@ import {
   StudentSkillsWidget,
   StudentTracesWidget
 } from '@/features/student/components'
-import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useAvBreakpoints, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 
 useGlobalBackgroundColor('var(--surface-background)')
+const { isMobile } = useAvBreakpoints()
 </script>
 
 <template>
-  <div class="layout-home">
+  <div
+    class="layout-home"
+    :class="{
+      'layout-home--mobile': isMobile,
+    }"
+  >
     <div class="layout-home__sidebar">
       <StudentOverviewWidget />
       <StudentEventsWidget class="demo-display-none" />
@@ -53,7 +59,7 @@ useGlobalBackgroundColor('var(--surface-background)')
     gap: var(--spacing-xl);
   }
 
-  @include respond-below("md") {
+  &--mobile {
     flex-wrap: wrap;
     justify-content: center;
 

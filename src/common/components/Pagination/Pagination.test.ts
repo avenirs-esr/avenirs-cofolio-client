@@ -4,14 +4,14 @@ import { mount } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockRespondBelow = vi.fn(() => ({ value: false }))
+export const mockIsMobile = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
   return {
     ...actual,
-    useBreakpoint: () => ({
-      respondBelow: mockRespondBelow,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
     })
   }
 })
@@ -107,7 +107,7 @@ BddTest().given('a pagination', () => {
   BddTest().and('it is viewed in mobile', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should add a truncLimit to AvPagination', () => {
-        mockRespondBelow.mockReturnValueOnce({ value: true })
+        mockIsMobile.value = true
         const wrapper = createWrapper()
 
         expect(wrapper.find('.bottom-pagination-container')

@@ -5,11 +5,10 @@ import {
   AvPageSizePicker,
   AvPagination,
   type AvTagPickerOption,
-  BREAKPOINTS,
   getPaginationPages,
   type PageSizes,
   pageSizeValues,
-  useBreakpoint
+  useAvBreakpoints
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -26,13 +25,13 @@ defineSlots<{
   default?: Slot
 }>()
 
-const { respondBelow } = useBreakpoint()
+const { isMobile } = useAvBreakpoints()
 
 const { t } = useI18n()
 
 const totalPages = computed(() => pageInfo.totalPages)
 const pages = computed(() => getPaginationPages(totalPages))
-const truncLimit = computed(() => respondBelow(BREAKPOINTS.SM).value ? 1 : undefined)
+const truncLimit = computed(() => isMobile.value ? 1 : undefined)
 
 function handleSelectChange (val: AvTagPickerOption): void {
   const numberVal = Number(val.value)
