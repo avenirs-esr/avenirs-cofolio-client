@@ -3,7 +3,7 @@ import { EAdditionalSkillType } from '@/api/avenir-esr'
 import { AdditionalSkillTypeBadgeStub } from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.stub'
 import { AddAdditionalSkillConfirmationModalStub } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.stub'
 import { useSkillsStore } from '@/store'
-import { AvAutocompleteStub, AvButtonStub, AvDrawerStub, AvListItemStub, VIconStub } from '@avenirs-esr/avenirs-dsav'
+import { AvAutocompleteStub, AvButtonStub, AvDrawerStub, AvListItemStub, AvVIconStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BddTest, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
@@ -29,7 +29,7 @@ const stubs = {
   AvListItem: AvListItemStub,
   AdditionalSkillTypeBadge: AdditionalSkillTypeBadgeStub,
   AddAdditionalSkillConfirmationModal: AddAdditionalSkillConfirmationModalStub,
-  VIcon: VIconStub
+  AvVIcon: AvVIconStub
 }
 
 BddTest().given('an add additional skill drawer component', () => {
@@ -98,7 +98,7 @@ BddTest().given('an add additional skill drawer component', () => {
     BddTest().then('it should render the header with title and icon', () => {
       const header = wrapper.find('.add-additional-skill-drawer__header')
       const title = wrapper.find('.add-additional-skill-drawer__title')
-      const icon = wrapper.findComponent({ name: 'VIcon' })
+      const icon = wrapper.findComponent({ name: 'AvVIcon' })
 
       expect(header.exists()).toBe(true)
       expect(title.exists()).toBe(true)

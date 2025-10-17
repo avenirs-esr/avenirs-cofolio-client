@@ -7,7 +7,7 @@ import {
   useAdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useSkillsStore, useToasterStore } from '@/store'
-import { AvButton, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvDrawer, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -57,9 +57,9 @@ function confirmCancel () {
     <div class="add-additional-skill-drawer">
       <div class="add-additional-skill-drawer__header">
         <div class="add-additional-skill-drawer__icon">
-          <VIcon
+          <AvVIcon
             :name="MDI_ICONS.PENCIL_OUTLINE"
-            size="1.5rem"
+            :size="1.5"
             color="var(--text2)"
           />
         </div>

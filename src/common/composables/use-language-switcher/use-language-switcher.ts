@@ -1,5 +1,5 @@
 import type { AvLocale } from '@/types'
-import type { DsfrLanguageSelectorElement } from '@gouvminint/vue-dsfr'
+import type { AvLanguageSelectorElement } from '@avenirs-esr/avenirs-dsav'
 import { getBrowserLocale } from '@/plugins/vue-i18n'
 import { useI18n } from 'vue-i18n'
 
@@ -14,7 +14,7 @@ export function useLanguageSwitcher () {
     currentLanguage: getBrowserLocale(),
   })
 
-  function selectLanguage (language: DsfrLanguageSelectorElement) {
+  function selectLanguage (language: AvLanguageSelectorElement) {
     languageSelector.value.currentLanguage = language.codeIso as AvLocale
     locale.value = language.codeIso
   }

@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import type { DsfrBadgeProps } from '@gouvminint/vue-dsfr'
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentSkillCardProps {
@@ -17,7 +16,7 @@ const { traceCount, activityCount } = currentSkillLevel
 
 const { t } = useI18n()
 
-function levelStatusToBadgeInfo (status: ESkillLevelStatus): { status: string, type: DsfrBadgeProps['type'] } {
+function levelStatusToBadgeInfo (status: ESkillLevelStatus): { status: string, type: AvBadgeProps['type'] } {
   switch (status) {
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case ESkillLevelStatus.NOT_STARTED:
@@ -89,7 +88,9 @@ const theme = ref({
       </template>
       <template #footer>
         <div class="student-skill-card__footer">
-          <DsfrBadge
+          <AvBadge
+            color=""
+            background-color=""
             :label="firstBadge.label"
             :type="firstBadge.type"
             small
@@ -158,24 +159,24 @@ const theme = ref({
     gap: var(--spacing-xxs);
 }
 
-.fr-badge--success {
-  color: var(--light-foreground-success);
-  background-color: var(--light-background-success);
+:deep(.fr-badge--success) {
+  color: var(--light-foreground-success) !important;
+  background-color: var(--light-background-success) !important;
 }
 
-.fr-badge--new {
-  color: var(--text1);
-  background-color: var(--light-background-neutral);
+:deep(.fr-badge--new) {
+  color: var(--text1) !important;
+  background-color: var(--light-background-neutral) !important;
 }
 
-.fr-badge--info {
-  color: var(--dark-background-primary1);
-  background-color: var(--light-background-primary2);
+:deep(.fr-badge--info) {
+  color: var(--dark-background-primary1) !important;
+  background-color: var(--light-background-primary2) !important;
 }
 
-.fr-badge--error {
-  color: var(--light-foreground-error);
-  background-color: var(--light-background-error);
+:deep(.fr-badge--error) {
+  color: var(--light-foreground-error) !important;
+  background-color: var(--light-background-error) !important;
 }
 
 .n6 {

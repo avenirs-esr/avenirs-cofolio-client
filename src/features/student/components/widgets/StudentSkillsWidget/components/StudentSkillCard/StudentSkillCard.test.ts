@@ -1,5 +1,6 @@
 import { ESkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillCard from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillCard/StudentSkillCard.vue'
+import { AvBadgeStub, AvVIconStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { BddTest, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -8,16 +9,8 @@ BddTest().given('a studentSkillCard', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    DsfrBadge: {
-      name: 'DsfrBadge',
-      template: `<div class="dsfr-badge" :class="['fr-badge--' + type]">{{ label }}</div>`,
-      props: ['label', 'type', 'small', 'ellipsis'],
-    },
-    VIcon: {
-      name: 'VIcon',
-      props: ['name'],
-      template: '<i class="mock-v-icon" />',
-    },
+    AvBadge: AvBadgeStub,
+    AvVIcon: AvVIconStub,
     StudentCountTracesIconText: {
       name: 'StudentCountTracesIconText',
       template: `<div class="student-count-traces-icon-text" />`,
@@ -88,9 +81,9 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render only one badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges).toHaveLength(1)
-      expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
+      expect(badges[0].props('label')).toContain('Niveau 1 en cours d\'évaluation')
     })
   })
 
@@ -109,9 +102,9 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render one toBeEvaluated badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges).toHaveLength(1)
-      expect(badges[0].text()).toContain('Niveau 1 à évaluer')
+      expect(badges[0].props('label')).toContain('Niveau 1 à évaluer')
     })
   })
 
@@ -130,9 +123,9 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render one toBeEvaluated badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges).toHaveLength(1)
-      expect(badges[0].text()).toContain('Niveau 1 à évaluer')
+      expect(badges[0].props('label')).toContain('Niveau 1 à évaluer')
     })
   })
 
@@ -151,9 +144,9 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render one underReview badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges).toHaveLength(1)
-      expect(badges[0].text()).toContain('Niveau 1 en cours d\'évaluation')
+      expect(badges[0].props('label')).toContain('Niveau 1 en cours d\'évaluation')
     })
   })
 

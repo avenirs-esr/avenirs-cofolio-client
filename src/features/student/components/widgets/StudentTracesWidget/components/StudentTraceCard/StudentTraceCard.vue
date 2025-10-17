@@ -3,8 +3,7 @@ import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import type { RouteLocationRaw } from 'vue-router'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
-import { AvCard, AvIconText, AvVIcon, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { DsfrTag } from '@gouvminint/vue-dsfr'
+import { AvCard, AvIconText, AvTag, AvVIcon, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
@@ -92,7 +91,7 @@ const theme = ref({
             />
           </div>
           <div class="student-trace-card__line student-trace-card__type">
-            <DsfrTag
+            <AvTag
               :label="typeInfo.label"
               :icon="typeInfo.icon"
             />

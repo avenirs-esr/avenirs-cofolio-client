@@ -81,7 +81,12 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   >
     <div class="separator" />
     <div class="line-container anr">
-      <div class="support-logo-container">
+      <div
+        class="support-logo-container"
+        :class="{
+          'support-logo-container--mobile': isMobile,
+        }"
+      >
         <a
           href="https://anr.fr/ProjetIA-21-DMAV-0001"
           :title="t('global.footer.links.anr')"
@@ -212,8 +217,6 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 </template>
 
 <style scoped lang="scss">
-@use "@avenirs-esr/avenirs-dsav/src/styles/breakpoints" as *;
-
 .fr-footer {
   margin-top: var(--spacing-4xl);
   padding-top: var(--spacing-none);
@@ -318,7 +321,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   flex-direction: row;
   gap: var(--spacing-md);
 
-  @include respond-below("sm") {
+  &--mobile {
     flex-wrap: wrap;
     justify-content: start;
   }

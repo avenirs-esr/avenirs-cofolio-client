@@ -1,7 +1,7 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
-import { AvButtonStub } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
