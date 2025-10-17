@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
-import { StudentCountAmsIconText, StudentCountTracesIconText, StudentLastCompletedLevelBadge, StudentSkillLevelStatusBadge } from '@/features/student/components/'
+import { StudentLastCompletedLevelBadge, StudentSkillLevelStatusBadge } from '@/features/student/components/badges'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
+import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/iconTexts'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedEducationalSkillCardProps {

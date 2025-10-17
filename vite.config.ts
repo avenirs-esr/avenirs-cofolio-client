@@ -39,8 +39,7 @@ export default ({ mode }: { mode: string }) => {
             vue: autoImportConfig.vue,
           },
           'vue-router',
-          'pinia',
-          'vitest',
+          'pinia'
         ],
         vueTemplate: true,
         dts: './src/auto-imports.d.ts',

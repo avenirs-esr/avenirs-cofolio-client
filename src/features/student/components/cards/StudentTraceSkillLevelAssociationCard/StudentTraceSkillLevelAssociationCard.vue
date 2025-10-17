@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SkillLevelAssociationDTO } from '@/api/avenir-esr'
 import { StudentAmsStatusBadge, StudentSkillLevelStatusBadge, StudentTraceAssociationContentBadge } from '@/features/student/components/badges'
-import { StudentTraceAssociationCard } from '@/features/student/components/cards'
+import StudentTraceAssociationCard from '@/features/student/components/cards/StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceSkillAssociationCardProps {
