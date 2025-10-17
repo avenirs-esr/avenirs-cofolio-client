@@ -54,7 +54,6 @@ export default ({ mode }: { mode: string }) => {
         alias: {
           '@': fileURLToPath(new URL('./src', import.meta.url)),
           'tests': fileURLToPath(new URL('./tests', import.meta.url)),
-          '@avenirs-esr/avenirs-dsav': fileURLToPath(new URL('node_modules/@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.es.js', import.meta.url)),
         },
         // in dev mode using npm link, @avenirs-dsav has also those packages in node_modules so we dedupe them
         dedupe: ['vue', 'vue-router', '@vue/runtime-core', '@gouvminint/vue-dsfr'],

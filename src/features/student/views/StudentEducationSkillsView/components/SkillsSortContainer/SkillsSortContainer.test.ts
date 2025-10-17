@@ -1,7 +1,7 @@
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { StudentProgressViewSortableFields } from '@/features/student/types'
-import { AvSelectStub } from '@avenirs-esr/avenirs-dsav'
+import { AvSelectStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'

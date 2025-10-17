@@ -1,21 +1,9 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
+import { AvTagStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { BddTest, mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
-
-vi.doMock('@gouvminint/vue-dsfr', () => ({
-  DsfrTag: {
-    name: 'DsfrTag',
-    props: ['label', 'icon'],
-    template: `<div class="fr-tag">{{ label }}</div>`,
-  },
-  VIcon: defineComponent({
-    name: 'VIcon',
-    props: ['name'],
-    template: '<i class="mock-v-icon" />',
-  }),
-}))
 
 vi.doMock('@avenirs-esr/avenirs-dsav', () => ({
   MDI_ICONS: {
@@ -37,6 +25,7 @@ BddTest().given('a student trace card', () => {
   } as const
 
   const stubs = {
+    AvTag: AvTagStub,
     StudentCountAmsIconText: {
       name: 'StudentCountAmsIconText',
       template: `<div class="student-count-ams-icon-text" />`,
@@ -71,10 +60,10 @@ BddTest().given('a student trace card', () => {
       expect(wrapper.text()).toContain('Master Chimie Verte et Éco-innovations')
     })
 
-    BddTest().then('it should render the DsfrTag with label "Individuel"', () => {
-      const tag = wrapper.find('.fr-tag')
+    BddTest().then('it should render the AvTag with label "Individuel"', () => {
+      const tag = wrapper.findComponent({ name: 'AvTag' })
       expect(tag.exists()).toBe(true)
-      expect(tag.text()).toBe('Individuel')
+      expect(tag.props('label')).toBe('Individuel')
     })
   })
 

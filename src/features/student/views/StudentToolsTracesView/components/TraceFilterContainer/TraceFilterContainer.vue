@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { DateFilter, SearchFilter } from '@/types'
-import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav/dist/components/interaction/selects/AvMultiselect/AvMultiselect.vue'
 import { type TraceFilter, TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
 import { useAllSkillsQuery } from '@/features/student/queries'
-import { AvButton, AvInput, AvMultiselect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvInput, AvMultiselect, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { isValid } from 'date-fns'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'

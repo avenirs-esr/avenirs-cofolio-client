@@ -36,8 +36,6 @@ const { isMobile } = useAvBreakpoints()
 </template>
 
 <style lang="scss" scoped>
-@use "@avenirs-esr/avenirs-dsav/src/styles/breakpoints" as *;
-
 .layout-home {
   display: flex;
   gap: var(--spacing-xl);

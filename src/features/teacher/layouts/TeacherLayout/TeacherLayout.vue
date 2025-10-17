@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { DsfrHeaderProps } from '@gouvminint/vue-dsfr'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables/'
 import { teacherHomeRoute } from '@/features/teacher/routes'
-import { AvHeader } from '@avenirs-esr/avenirs-dsav'
+import { AvHeader, type AvHeaderProps } from '@avenirs-esr/avenirs-dsav'
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 const serviceTitle = 'CoFolio Enseignant'
 
-const quickLinks: DsfrHeaderProps['quickLinks'] = [
+const quickLinks: AvHeaderProps['quickLinks'] = [
   {
     label: 'Home',
     to: teacherHomeRoute,

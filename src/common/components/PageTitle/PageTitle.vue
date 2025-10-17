@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { teacherHomeRoute } from '@/features/teacher'
-import type { DsfrBreadcrumbProps } from '@gouvminint/vue-dsfr'
 import { studentHomeRoute } from '@/features/student/routes'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBreadcrumb, type AvBreadcrumbProps, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
@@ -10,7 +9,7 @@ const {
   title,
   back = studentHomeRoute
 } = defineProps<{
-  breadcrumbLinks: DsfrBreadcrumbProps['links']
+  breadcrumbLinks: AvBreadcrumbProps['links']
   title: string
   back?: typeof studentHomeRoute | typeof teacherHomeRoute
 }>()
@@ -30,7 +29,7 @@ function goBack () {
 
 <template>
   <div class="page-title-container">
-    <DsfrBreadcrumb :links="breadcrumbLinks" />
+    <AvBreadcrumb :links="breadcrumbLinks" />
     <div class="page-title">
       <AvButton
         :label="t('global.buttons.goBack')"

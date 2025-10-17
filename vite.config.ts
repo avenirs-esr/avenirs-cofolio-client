@@ -1,9 +1,5 @@
 import process from 'node:process'
 import { fileURLToPath, URL } from 'node:url'
-import {
-  vueDsfrAutoimportPreset,
-  vueDsfrComponentResolver,
-} from '@gouvminint/vue-dsfr/meta'
 
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -40,17 +36,11 @@ export default ({ mode }: { mode: string }) => {
         ],
         imports: [
           {
-            // @ts-expect-error TS2322
             vue: autoImportConfig.vue,
           },
-          // @ts-expect-error TS2322
           'vue-router',
-          // @ts-expect-error TS2322
           'pinia',
-          // @ts-expect-error TS2322
           'vitest',
-          // @ts-expect-error TS2322
-          vueDsfrAutoimportPreset,
         ],
         vueTemplate: true,
         dts: './src/auto-imports.d.ts',
@@ -65,9 +55,6 @@ export default ({ mode }: { mode: string }) => {
         dirs: ['src/components'], // Autoimport de vos composants qui sont dans le dossier `src/components`
         include: [/\.vue$/, /\.vue\?vue/],
         dts: './src/components.d.ts',
-        resolvers: [
-          vueDsfrComponentResolver, // Autoimport des composants de VueDsfr dans les templates
-        ],
       }),
       // plugin disabled because currently we have same routes that are not yet implemented and mock is used in production
       // TODO: uncomment when each route has its orval generated file
@@ -97,7 +84,6 @@ export default ({ mode }: { mode: string }) => {
         'vue',
         'vue-router',
         '@vue/runtime-core',
-        '@gouvminint/vue-dsfr',
         '@avenirs-esr/avenirs-dsav'
       ],
     },

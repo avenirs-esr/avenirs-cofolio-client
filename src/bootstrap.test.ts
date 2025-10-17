@@ -27,12 +27,6 @@ vi.mock('@/__mocks__/msw/browser', () => ({
   }
 }))
 
-vi.mock('@gouvfr/dsfr/dist/core/core.main.min.css')
-vi.mock('@gouvfr/dsfr/dist/component/component.main.min.css')
-vi.mock('@gouvfr/dsfr/dist/utility/utility.main.min.css')
-vi.mock('@gouvminint/vue-dsfr/styles')
-vi.mock('@gouvfr/dsfr/dist/scheme/scheme.min.css')
-vi.mock('@gouvfr/dsfr/dist/utility/icons/icons.min.css')
 vi.mock('@avenirs-esr/avenirs-dsav/dist/avenirs-dsav.css')
 vi.mock('@/assets/main.css')
 

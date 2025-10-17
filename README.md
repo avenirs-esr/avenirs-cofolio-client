@@ -151,7 +151,7 @@ npm install
 - **Routing**: Vue Router
 - **API Client**: Axios
 - **Data Fetching**: TanStack Vue Query
-- **UI Framework**: DSFR (Design System France) via @gouvminint/vue-dsfr 6.0
+- **UI Framework**: DSAV (Design System AVENIR(s)) via @avenirs-esr/avenirs-dsav
 - **Build Tool**: Vite
 - **Language**: TypeScript
 - **Testing**:
