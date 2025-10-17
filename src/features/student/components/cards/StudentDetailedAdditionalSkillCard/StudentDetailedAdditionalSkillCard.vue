@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AdditionalSkillDTO, AdditionalSkillProgressDTO } from '@/api/avenir-esr'
 
-import { StudentDetailedSkillCard } from '@/features/student/components/cards'
+import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

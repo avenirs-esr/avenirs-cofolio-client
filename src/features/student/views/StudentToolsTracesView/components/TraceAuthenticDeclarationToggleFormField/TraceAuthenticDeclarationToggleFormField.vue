@@ -37,8 +37,6 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
 </template>
 
 <style scoped lang="scss">
-@use "@avenirs-esr/avenirs-dsav/src/styles/main.scss" as ds;
-
 .trace-form__authentic-error {
   padding-bottom: var(--spacing-sm);
 
