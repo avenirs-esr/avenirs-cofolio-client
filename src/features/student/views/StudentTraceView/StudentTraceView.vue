@@ -2,10 +2,10 @@
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
+import { TraceAssociations } from '@/features/student/components'
 import { useTraceDetailedQuery } from '@/features/student/queries'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
-import StudentTraceAssociations from '@/features/student/views/StudentToolsTracesView/components/StudentTraceAssociations/StudentTraceAssociations.vue'
 import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsPopover from '@/features/student/views/StudentTraceView/components/TraceSettingsPopover/TraceSettingsPopover.vue'
@@ -95,7 +95,7 @@ const breadcrumbLinks = computed(() => [
         :title="t('student.views.studentTraceView.tabs.associations')"
         :icon="MDI_ICONS.LINK"
       >
-        <StudentTraceAssociations
+        <TraceAssociations
           v-if="isAssociationsTabActive"
           :associations="traceDetailed.traceAssociations"
         />

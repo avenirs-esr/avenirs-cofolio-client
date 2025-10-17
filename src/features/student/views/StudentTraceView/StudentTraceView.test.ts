@@ -133,7 +133,7 @@ BddTest().given('a student trace view', () => {
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
     })
 
-    BddTest().then('it should have StudentTraceAssociations component available', () => {
+    BddTest().then('it should have TraceAssociations component available', () => {
       const allTabs = wrapper.findAllComponents({ name: 'AvTab' })
       expect(allTabs).toHaveLength(2)
     })

@@ -26,8 +26,8 @@ const attr = useAttrs()
 const avInputProps = computed(() => ({
   ...attr,
   ...props,
-  label: props.label ?? t('student.components.traceIaJustificationTextarea.label'),
-  placeholder: props.placeholder ?? t('student.components.traceIaJustificationTextarea.placeholder')
+  label: props.label ?? t('student.traces.traceIaJustificationTextarea.label'),
+  placeholder: props.placeholder ?? t('student.traces.traceIaJustificationTextarea.placeholder')
 }))
 </script>
 
@@ -42,7 +42,7 @@ const avInputProps = computed(() => ({
         #customCaptions="{ currentValue }"
       >
         <span class="caption-light">
-          {{ t('student.components.traceIaJustificationTextarea.hint', {
+          {{ t('student.traces.traceIaJustificationTextarea.hint', {
             count: currentValue?.toString().length || 0,
             maxlength,
           }) }}

@@ -46,7 +46,7 @@ function onChangeAiUsageToggle (value: boolean) {
 }
 const traceFileUploadLabel = computed(() => {
   const uploadDate = formatTranslatedDateTime(trace.attachment.uploadedAt)
-  return `${t('student.components.traceFileUpload.documentLabel')} - ${t('student.components.traceFileUpload.addedOn', { date: uploadDate })}`
+  return `${t('student.traces.traceFileUpload.documentLabel')} - ${t('student.traces.traceFileUpload.addedOn', { date: uploadDate })}`
 })
 
 watch(() => form, () => {

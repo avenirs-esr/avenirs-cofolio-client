@@ -141,6 +141,39 @@
         }
       }
     },
+    "traces": {
+      "traceAiUsageToggle": {
+        "description": "Je soumets une production réalisée avec IA"
+      },
+      "traceAssociations": {
+        "caption": "Les associations de ma trace ({count})"
+      },
+      "traceAuthenticDeclarationToggle": {
+        "description": "Je soumets une production authentique et personnelle",
+        "requiredMessage": "Vous devez accepter de soumettre une production authentique et personnelle"
+      },
+      "traceFileUpload": {
+        "addedOn": "Ajouté le {date}",
+        "documentLabel": "Mon document chargé"
+      },
+      "traceGroupProductionToggle": {
+        "description": "Je soumets une production de groupe"
+      },
+      "traceIaJustificationTextarea": {
+        "hint": "{count} / {maxlength} caractères (espaces compris)",
+        "label": "Justification de l'usage de l'IA",
+        "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
+      },
+      "traceNameInput": {
+        "label": "Nom de ma trace",
+        "placeholder": "Nom-de-ma-trace-01"
+      },
+      "tracePersonalNoteTextarea": {
+        "hint": "{count} / {maxlength} caractères (espaces compris)",
+        "label": "Note personnelle",
+        "placeholder": "Ajoutez votre note personnelle ici..."
+      }
+    },
     "views": {
       "studentAmsView": {
         "breadcrumb": {
@@ -332,9 +365,6 @@
             "update": "Modifier ma trace"
           }
         },
-        "studentTraceAssociations": {
-          "title": "Les associations de ma trace ({count})"
-        },
         "studentTraceDetails": {
           "authenticProduction": "Production authentique et personnelle",
           "iaToggleLabel": "Production avec IA",
@@ -493,6 +523,7 @@
             "update": {
               "tabs": {
                 "associations": {
+                  "caption": "Emplacement(s) de ma trace en cours de modification",
                   "title": "Mes associations"
                 },
                 "update": {
@@ -597,36 +628,6 @@
           "seeAll": "Voir toutes mes traces"
         },
         "title": "Mes dernières traces"
-      }
-    },
-    "components": {
-      "traceAiUsageToggle": {
-        "description": "Je soumets une production réalisée avec IA"
-      },
-      "traceAuthenticDeclarationToggle": {
-        "description": "Je soumets une production authentique et personnelle",
-        "requiredMessage": "Vous devez accepter de soumettre une production authentique et personnelle"
-      },
-      "traceFileUpload": {
-        "addedOn": "Ajouté le {date}",
-        "documentLabel": "Mon document chargé"
-      },
-      "traceGroupProductionToggle": {
-        "description": "Je soumets une production de groupe"
-      },
-      "traceIaJustificationTextarea": {
-        "hint": "{count} / {maxlength} caractères (espaces compris)",
-        "label": "Justification de l'usage de l'IA",
-        "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
-      },
-      "traceNameInput": {
-        "label": "Nom de ma trace",
-        "placeholder": "Nom-de-ma-trace-01"
-      },
-      "tracePersonalNoteTextarea": {
-        "hint": "{count} / {maxlength} caractères (espaces compris)",
-        "label": "Note personnelle",
-        "placeholder": "Ajoutez votre note personnelle ici..."
       }
     }
   }

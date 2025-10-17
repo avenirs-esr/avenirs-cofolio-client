@@ -141,6 +141,39 @@
         }
       }
     },
+    "traces": {
+      "traceAiUsageToggle": {
+        "description": "I submit a production made with AI"
+      },
+      "traceAssociations": {
+        "caption": "The associations of my trace ({count})"
+      },
+      "traceAuthenticDeclarationToggle": {
+        "description": "I submit an authentic and personal production",
+        "requiredMessage": "You must agree to submit an authentic and personal work"
+      },
+      "traceFileUpload": {
+        "addedOn": "Added on {date}",
+        "documentLabel": "My uploaded document"
+      },
+      "traceGroupProductionToggle": {
+        "description": "I submit a group production"
+      },
+      "traceIaJustificationTextarea": {
+        "hint": "{count} / {maxlength} characters (including spaces)",
+        "label": "AI usage justification",
+        "placeholder": "Describe how and why you used AI..."
+      },
+      "traceNameInput": {
+        "label": "My trace name",
+        "placeholder": "My-trace-name-01"
+      },
+      "tracePersonalNoteTextarea": {
+        "hint": "{count} / {maxlength} characters (including spaces)",
+        "label": "Personal note",
+        "placeholder": "Add your personal note here..."
+      }
+    },
     "views": {
       "studentAmsView": {
         "breadcrumb": {
@@ -494,6 +527,7 @@
             "update": {
               "tabs": {
                 "associations": {
+                  "caption": "Location(s) of my trace currently being edited",
                   "title": "My associations"
                 },
                 "update": {
@@ -598,36 +632,6 @@
           "seeAll": "See all my traces"
         },
         "title": "My last traces"
-      }
-    },
-    "components": {
-      "traceAiUsageToggle": {
-        "description": "I submit a production made with AI"
-      },
-      "traceAuthenticDeclarationToggle": {
-        "description": "I submit an authentic and personal production",
-        "requiredMessage": "You must agree to submit an authentic and personal work"
-      },
-      "traceFileUpload": {
-        "addedOn": "Added on {date}",
-        "documentLabel": "My uploaded document"
-      },
-      "traceGroupProductionToggle": {
-        "description": "I submit a group production"
-      },
-      "traceIaJustificationTextarea": {
-        "hint": "{count} / {maxlength} characters (including spaces)",
-        "label": "AI usage justification",
-        "placeholder": "Describe how and why you used AI..."
-      },
-      "traceNameInput": {
-        "label": "My trace name",
-        "placeholder": "My-trace-name-01"
-      },
-      "tracePersonalNoteTextarea": {
-        "hint": "{count} / {maxlength} characters (including spaces)",
-        "label": "Personal note",
-        "placeholder": "Add your personal note here..."
       }
     }
   }

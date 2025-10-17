@@ -16,7 +16,7 @@ const attr = useAttrs()
 const toggleProps = computed(() => ({
   ...attr,
   ...props,
-  description: props.description ?? t('student.components.traceGroupProductionToggle.description')
+  description: props.description ?? t('student.traces.traceGroupProductionToggle.description')
 }))
 </script>
 
