@@ -23,8 +23,8 @@ const { t } = useI18n()
 
 const avInputProps = computed(() => ({
   ...props,
-  label: props.label ?? t('student.components.tracePersonalNoteTextarea.label'),
-  placeholder: props.placeholder ?? t('student.components.tracePersonalNoteTextarea.placeholder')
+  label: props.label ?? t('student.traces.tracePersonalNoteTextarea.label'),
+  placeholder: props.placeholder ?? t('student.traces.tracePersonalNoteTextarea.placeholder')
 }))
 </script>
 
@@ -39,7 +39,7 @@ const avInputProps = computed(() => ({
         #customCaptions="{ currentValue }"
       >
         <span class="caption-light">
-          {{ t('student.components.tracePersonalNoteTextarea.hint', {
+          {{ t('student.traces.tracePersonalNoteTextarea.hint', {
             count: currentValue?.toString().length || 0,
             maxlength,
           }) }}

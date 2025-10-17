@@ -51,7 +51,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
         return {
           fields: {
             file: validateFile(value.file),
-            isAuthentic: !value.isAuthentic ? t('student.components.traceAuthenticDeclarationToggle.requiredMessage') : undefined,
+            isAuthentic: !value.isAuthentic ? t('student.traces.traceAuthenticDeclarationToggle.requiredMessage') : undefined,
             traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
           }

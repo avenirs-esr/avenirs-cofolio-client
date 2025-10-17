@@ -57,8 +57,13 @@ BddTest().given('an update step', () => {
     },
     UpdateTraceForm: {
       name: 'UpdateTraceForm',
-      props: ['trace', 'onTraceUpdated'],
+      props: ['trace'],
       template: '<div class="update-trace-form">Update Trace Form</div>'
+    },
+    TraceAssociations: {
+      name: 'TraceAssociations',
+      props: ['associations'],
+      template: '<div class="trace-associations"><slot name="caption" /></div>'
     }
   }
 
@@ -98,6 +103,18 @@ BddTest().given('an update step', () => {
 
       expect(tabs[0].props('title')).toBe('Modifier ma trace')
       expect(tabs[1].props('title')).toBe('Mes associations')
+    })
+  })
+
+  BddTest().when('rendering the associations tab', () => {
+    BddTest().then('it should render TraceAssociations component', () => {
+      const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
+      expect(traceAssociations.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass associations prop to TraceAssociations', () => {
+      const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
+      expect(traceAssociations.props('associations')).toEqual(mockedTrace.traceAssociations)
     })
   })
 })

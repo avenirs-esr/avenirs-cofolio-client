@@ -24,9 +24,9 @@ const attr = useAttrs()
 const avInputProps = computed(() => ({
   ...attr,
   ...props,
-  label: props.label ?? t('student.components.traceNameInput.label'),
+  label: props.label ?? t('student.traces.traceNameInput.label'),
   prefixIcon: props.prefixIcon ?? MDI_ICONS.ATTACH_FILE,
-  placeholder: props.placeholder ?? t('student.components.traceNameInput.placeholder')
+  placeholder: props.placeholder ?? t('student.traces.traceNameInput.placeholder')
 }))
 </script>
 

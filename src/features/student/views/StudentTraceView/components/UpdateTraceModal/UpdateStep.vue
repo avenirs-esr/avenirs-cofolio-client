@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { TraceAssociations } from '@/features/student/components/'
 import UpdateTraceForm from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -33,8 +34,13 @@ const activeTab = ref(0)
         :title="t('student.views.studentTraceView.updateTraceModal.steps.update.tabs.associations.title')"
         :icon="MDI_ICONS.LINK"
       >
-        <p>Placeholder...</p>
-        <p>Placeholder...</p>
+        <TraceAssociations :associations="trace.traceAssociations">
+          <template #caption>
+            <span class="caption-regular">
+              {{ t('student.views.studentTraceView.updateTraceModal.steps.update.tabs.associations.caption') }}
+            </span>
+          </template>
+        </TraceAssociations>
       </AvTab>
     </AvTabs>
   </div>
