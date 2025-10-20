@@ -5,7 +5,8 @@ import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataVie
 import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
 import routes, { teacherAccessibilityRoute, teacherCookiesRoute, teacherHomeRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher/routes/routes'
 import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
-import { BddTest, testRoute } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { testRoute } from 'tests/utils'
 
 testRoute(
   teacherHomeRoute,

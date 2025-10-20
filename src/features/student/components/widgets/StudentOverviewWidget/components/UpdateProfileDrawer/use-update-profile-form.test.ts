@@ -1,10 +1,11 @@
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile'
 import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { Exception } from 'sass-embedded'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, mountComposable } from 'tests/utils'
+import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { nextTick } from 'vue'
 

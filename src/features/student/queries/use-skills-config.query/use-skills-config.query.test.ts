@@ -1,6 +1,6 @@
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
-import { BddTest, mountQueryComposable } from 'tests/utils'
-
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountQueryComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { useAdditionalSkillConfig } from './use-skills-config.query'
 

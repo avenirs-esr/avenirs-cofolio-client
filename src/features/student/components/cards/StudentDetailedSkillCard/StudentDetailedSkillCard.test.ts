@@ -1,6 +1,6 @@
 import StudentDetailedSkillCard, { type StudentDetailedSkillCardProps } from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { expect } from 'vitest'
 
 const props: StudentDetailedSkillCardProps = {

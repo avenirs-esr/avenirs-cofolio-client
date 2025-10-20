@@ -1,8 +1,8 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
 import { studentHomeRoute } from '@/features/student/routes'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()

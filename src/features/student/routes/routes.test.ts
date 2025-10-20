@@ -45,7 +45,8 @@ import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesVie
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
-import { BddTest, testRoute } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { testRoute } from 'tests/utils'
 
 testRoute(
   studentHomeRoute,

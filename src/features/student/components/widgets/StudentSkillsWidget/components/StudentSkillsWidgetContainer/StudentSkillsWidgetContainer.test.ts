@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ESkillLevelStatus, type SkillOverviewDTO, type StudentProgressOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillsWidgetContainer from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 BddTest().given('a studentSkillsWidgetContainer', () => {

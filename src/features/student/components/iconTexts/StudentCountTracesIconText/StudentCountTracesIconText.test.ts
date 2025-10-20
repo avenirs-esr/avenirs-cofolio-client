@@ -1,6 +1,6 @@
 import StudentCountTracesIconText from '@/features/student/components/iconTexts/StudentCountTracesIconText/StudentCountTracesIconText.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach } from 'vitest'
 
 BddTest().given('studentCountTracesIconText', () => {

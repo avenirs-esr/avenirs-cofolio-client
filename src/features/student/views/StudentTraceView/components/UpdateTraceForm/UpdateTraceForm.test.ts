@@ -2,7 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateTraceForm from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { useTracesStore } from '@/store'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()

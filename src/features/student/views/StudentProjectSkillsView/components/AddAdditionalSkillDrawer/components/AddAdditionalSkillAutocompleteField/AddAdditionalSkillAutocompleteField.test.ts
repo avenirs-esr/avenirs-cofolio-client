@@ -4,9 +4,9 @@ import type {
 import type { VueWrapper } from '@vue/test-utils'
 import { AdditionalSkillType } from '@/api/avenir-esr'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
-import { AvListItemStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = {

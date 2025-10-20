@@ -3,10 +3,11 @@ import type {
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
+import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import AddAdditionalSkillLevelField from './AddAdditionalSkillLevelField.vue'
 
 const TestWrapper = {
   components: {

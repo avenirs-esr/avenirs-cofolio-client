@@ -1,6 +1,6 @@
 import TanstackQueryPlugin from '@/plugins/tanstack-query/tanstack-query'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { VueQueryPlugin } from '@tanstack/vue-query'
-import { BddTest } from 'tests/utils'
 import { expect, vi } from 'vitest'
 
 const useMock = vi.fn()

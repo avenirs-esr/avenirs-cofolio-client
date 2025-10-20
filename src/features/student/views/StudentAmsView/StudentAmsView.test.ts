@@ -1,7 +1,7 @@
 import { studentEducationAmsRoute, studentHomeRoute } from '@/features/student/routes'
 import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a student AMS view', () => {
   let wrapper: VueWrapper

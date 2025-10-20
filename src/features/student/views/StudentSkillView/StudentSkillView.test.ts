@@ -1,13 +1,13 @@
 import { mockedSkillDetailed } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createSkillDetailedHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
-
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentEducationSkillsRoute, studentHomeRoute } from '@/features/student/routes'
 import StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 
 BddTest().given('a student skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentSkillView>>

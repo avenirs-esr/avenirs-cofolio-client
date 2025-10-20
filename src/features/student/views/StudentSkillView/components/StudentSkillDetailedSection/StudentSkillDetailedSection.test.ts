@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
-
 import StudentSkillDetailedSection from '@/features/student/views/StudentSkillView/components/StudentSkillDetailedSection/StudentSkillDetailedSection.vue'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a student skill detailed placeholder section', () => {

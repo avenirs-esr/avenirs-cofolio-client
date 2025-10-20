@@ -2,7 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ToggleStub } from '@/common/components'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { useTracesStore } from '@/store'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()

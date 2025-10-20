@@ -1,5 +1,5 @@
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an useModal composable', () => {

@@ -1,8 +1,8 @@
+import StudentProjectExperiencesSideMenuContent from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesSideMenuContent/StudentProjectExperiencesSideMenuContent.vue'
+import { ProjectExperienceItems } from '@/features/student/views/StudentProjectExperiencesView/types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { ProjectExperienceItems } from '../../types'
-import StudentProjectExperiencesSideMenuContent from './StudentProjectExperiencesSideMenuContent.vue'
 
 const stubs = {
   AvList: {

@@ -1,9 +1,10 @@
 import { createPutUpdateProfileCoverHandler, createPutUpdateProfileHandler, createPutUpdateProfilePhotoHandler, putUpdateProfileCoverErrorHandler, putUpdateProfileErrorHandler, putUpdateProfilePhotoErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, mountComposable } from 'tests/utils'
+import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {

@@ -1,6 +1,6 @@
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { expect, type Mock, vi } from 'vitest'
 
 const error = ref('')

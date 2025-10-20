@@ -1,8 +1,8 @@
 import type { TraceConfigurationDTO, TracesSummaryDTO } from '@/api/avenir-esr'
 import { useTracesConfigurationQuery } from '@/features/student/queries'
 import StudentToolsTracesViewNotice from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 

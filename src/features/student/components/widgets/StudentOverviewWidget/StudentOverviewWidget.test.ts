@@ -5,9 +5,10 @@ import profile_picture_placeholder from '@/assets/profile_picture_placeholder.pn
 import { BaseApiException } from '@/common/exceptions'
 import StudentOverviewWidget from '@/features/student/components/widgets/StudentOverviewWidget/StudentOverviewWidget.vue'
 import { useStudentSummaryQuery } from '@/features/student/queries'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { capitalize, nextTick, type Ref } from 'vue'
 
 vi.mock('@/store', async (importOriginal) => {

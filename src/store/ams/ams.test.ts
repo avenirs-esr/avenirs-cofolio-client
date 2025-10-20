@@ -1,7 +1,7 @@
 import { useAmsStore } from '@/store/ams/ams'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an ams store', () => {

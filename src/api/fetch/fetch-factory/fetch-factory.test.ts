@@ -1,7 +1,7 @@
 import { createCustomFetch } from '@/api/fetch/fetch-factory/fetch-factory'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import { BaseApiErrorCode, BaseApiException } from '@/common/exceptions'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 BddTest().given('a custom fetch creator', () => {

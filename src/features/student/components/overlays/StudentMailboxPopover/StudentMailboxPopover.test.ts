@@ -1,6 +1,6 @@
 import StudentMailboxPopover from '@/features/student/components/overlays/StudentMailboxPopover/StudentMailboxPopover.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/common/composables', () => ({

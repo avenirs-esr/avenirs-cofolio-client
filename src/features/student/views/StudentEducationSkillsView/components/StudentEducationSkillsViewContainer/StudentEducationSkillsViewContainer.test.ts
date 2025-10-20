@@ -1,8 +1,8 @@
 import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { StudentDetailedEducationalSkillCardStub } from '@/features/student/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.stub'
 import StudentEducationSkillsViewContainer from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a student education skills view container', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentEducationSkillsViewContainer>>

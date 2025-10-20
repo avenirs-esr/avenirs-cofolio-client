@@ -5,7 +5,8 @@ import {
   type TraceAssociationOption,
   useAssociateTraceForm
 } from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
-import { BddTest, mountComposable } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
 
 function makeOption (id = 'skillLevel-123', title = 'Physique', description = 'test'): TraceAssociationOption {

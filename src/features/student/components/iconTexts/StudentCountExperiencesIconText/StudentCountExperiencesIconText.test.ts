@@ -1,7 +1,7 @@
 import StudentCountExperiencesIconText
   from '@/features/student/components/iconTexts/StudentCountExperiencesIconText/StudentCountExperiencesIconText.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { expect } from 'vitest'
 
 function createWrapper (props = { countExperiences: 3 }) {

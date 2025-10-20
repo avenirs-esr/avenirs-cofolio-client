@@ -1,5 +1,5 @@
 import { SortDirection } from '@/common/types'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
 import { formatSortParam } from './http-params'
 

@@ -1,8 +1,8 @@
 import { AmsListContainerStub } from '@/features/student/views/StudentEducationAmsView/components/AmsListContainer/AmsListContainer.stub'
 import { AmsPlanningContainerStub } from '@/features/student/views/StudentEducationAmsView/components/AmsPlanningContainer/AmsPlanningContainer.stub'
 import AmsViewTabs from '@/features/student/views/StudentEducationAmsView/components/AmsViewTabs/AmsViewTabs.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an ams tab switcher', () => {

@@ -5,11 +5,12 @@ import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import StudentToolsTracesViewUnassociatedTab from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewUnassociatedTab/StudentToolsTracesViewUnassociatedTab.vue'
 import { TraceFilterContainerStub } from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createUseTraceFiltersMock } from 'tests/mocks'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>

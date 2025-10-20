@@ -6,10 +6,10 @@ import { StudentResumesWidgetStub } from '@/features/student/components/widgets/
 import { StudentSkillsWidgetStub } from '@/features/student/components/widgets/StudentSkillsWidget/StudentSkillsWidget.stub'
 import { StudentTracesWidgetStub } from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.stub'
 import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
-export const mockIsMobile = ref(false)
+const mockIsMobile = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()

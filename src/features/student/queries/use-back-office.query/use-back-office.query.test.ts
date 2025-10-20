@@ -1,5 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest, mountQueryComposable } from 'tests/utils'
+import { mountQueryComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
 import { useBackOfficeBuildLifeProjectConfigQuery } from './use-back-office.query'
 

@@ -4,11 +4,11 @@ import { createAllSkillsHandler } from '@/__mocks__/msw/handlers/student/skills.
 import { server } from '@/__mocks__/msw/server'
 import { TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
 import TraceFilterContainer from '@/features/student/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
-import { AvButtonStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { format } from 'date-fns'
 import { createPinia, setActivePinia } from 'pinia'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 interface TraceFilterContainerRefs {

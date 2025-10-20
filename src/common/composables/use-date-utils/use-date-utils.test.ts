@@ -1,5 +1,6 @@
 import { useDateUtils } from '@/common/composables/use-date-utils/use-date-utils'
-import { BddTest, mountComposable } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 
 BddTest().given('a use-date-utils composable', () => {
   let composableResult: ReturnType<typeof useDateUtils>

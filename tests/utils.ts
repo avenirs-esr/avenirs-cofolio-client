@@ -3,37 +3,13 @@ import type { CommonMutationArgs } from '@/features/student/queries/types'
 import { useInvalidateQuery } from '@/common/composables'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { describe, expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
 import { type Component, createApp, type Plugin } from 'vue'
-
-/**
- * Function allowing developpers to use a common BDD format for tests
- * @returns given (describe), when (describe) and then (it)
- */
-export function BddTest () {
-  return {
-    given (description: string, fn: () => void) {
-      describe(`🔵 GIVEN ${description}`, fn)
-      return this
-    },
-    when (description: string, fn: () => void) {
-      describe(`🔶 WHEN ${description}`, fn)
-      return this
-    },
-    and (description: string, fn: () => void) {
-      describe(`➕ AND ${description}`, fn)
-      return this
-    },
-    then (description: string, fn: () => void) {
-      it(`🟩 THEN ${description}`, fn)
-      return this
-    },
-  }
-}
 
 /**
  * Options to configure the mounting of a component under test.

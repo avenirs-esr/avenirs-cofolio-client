@@ -7,8 +7,9 @@ import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock(import('@/features/student/queries'), async (importOriginal) => {

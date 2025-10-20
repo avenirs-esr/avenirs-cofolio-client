@@ -1,6 +1,6 @@
 import { usePagination } from '@/common/composables/use-pagination/use-pagination'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
 import { nextTick, type Ref } from 'vue'
 
