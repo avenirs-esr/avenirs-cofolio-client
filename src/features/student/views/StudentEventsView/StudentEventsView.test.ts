@@ -1,8 +1,8 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a student events view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentEventsView>>

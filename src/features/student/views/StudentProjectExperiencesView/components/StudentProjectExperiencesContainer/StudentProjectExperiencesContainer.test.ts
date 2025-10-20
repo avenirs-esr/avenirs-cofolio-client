@@ -4,9 +4,8 @@ import StudentProjectExperiencesContainer from '@/features/student/views/Student
 import { StudentProjectExperiencesEducationsSectionStub } from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesEducationsSection/StudentProjectExperiencesEducationsSection.stub'
 import { StudentProjectExperiencesExperiencesSectionStub } from '@/features/student/views/StudentProjectExperiencesView/components/StudentProjectExperiencesExperiencesSection/StudentProjectExperiencesExperiencesSection.stub'
 import { ProjectExperienceItems } from '@/features/student/views/StudentProjectExperiencesView/types'
-import { AvSideNavigationStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const stubs = {

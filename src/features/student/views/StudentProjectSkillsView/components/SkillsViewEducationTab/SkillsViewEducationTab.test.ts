@@ -4,11 +4,11 @@ import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import SkillsViewEducationTab from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewEducationTab/SkillsViewEducationTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>

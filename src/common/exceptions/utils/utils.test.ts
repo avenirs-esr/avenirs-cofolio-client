@@ -5,7 +5,7 @@ import {
   createBasApiExceptionFromResponseBody,
   createBaseApiExceptionFromUnknownError
 } from '@/common/exceptions/utils/utils'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('exceptions utils', () => {
   BddTest().and('a createBasApiExceptionFromResponseBody function', () => {

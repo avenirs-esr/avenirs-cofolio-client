@@ -1,7 +1,8 @@
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
 

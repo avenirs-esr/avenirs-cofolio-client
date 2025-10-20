@@ -1,6 +1,7 @@
 import Footer from '@/common/components/Footer/Footer.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 export const mockIsMobile = ref(false)

@@ -1,6 +1,6 @@
 import type { Message } from '@avenirs-esr/avenirs-dsav'
 import { useToasterStore } from '@/store/toaster/toaster'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('a useToasterStore composable', () => {
   let toaster: ReturnType<typeof useToasterStore>

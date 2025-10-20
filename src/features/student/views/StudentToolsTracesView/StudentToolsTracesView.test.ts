@@ -1,9 +1,9 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student tools traces view component', () => {

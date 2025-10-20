@@ -1,7 +1,7 @@
 import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
 import StudentDetailedEducationalSkillCard from '@/features/student/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const baseSkill: SkillDTO = {

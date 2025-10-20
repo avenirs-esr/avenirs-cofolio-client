@@ -6,8 +6,9 @@ import type { Ref } from 'vue'
 import { mockedProgramsProgressOverview } from '@/__mocks__/fixtures/student'
 import StudentSkillsWidget from '@/features/student/components/widgets/StudentSkillsWidget/StudentSkillsWidget.vue'
 import { useStudentCoursesSummaryQuery } from '@/features/student/queries'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
-import { BddTest, mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
+import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {

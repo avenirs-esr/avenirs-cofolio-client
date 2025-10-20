@@ -4,7 +4,7 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useStudentApcAccess } from '@/features/student/composables'
 import { useStudentNavigationAccessControlQuery } from '@/features/student/queries'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', () => ({

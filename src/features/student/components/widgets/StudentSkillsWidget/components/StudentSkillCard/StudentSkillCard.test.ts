@@ -1,8 +1,8 @@
 import { ESkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillCard from '@/features/student/components/widgets/StudentSkillsWidget/components/StudentSkillCard/StudentSkillCard.vue'
-import { AvBadgeStub, AvVIconStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvVIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a studentSkillCard', () => {

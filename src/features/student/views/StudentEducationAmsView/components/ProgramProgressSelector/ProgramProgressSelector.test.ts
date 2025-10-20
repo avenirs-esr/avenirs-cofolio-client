@@ -5,10 +5,9 @@ import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
 import { useAllMyProgramProgressQuery } from '@/features/student/queries'
 import ProgramProgressSelector from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAmsStore } from '@/store'
-import { AvTagPickerStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/features/student/queries', async (importOriginal) => {

@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import StudentDetailedTraceAssociateModal from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 

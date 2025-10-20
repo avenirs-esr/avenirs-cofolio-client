@@ -1,6 +1,6 @@
 import StudentSkillEvaluateSection from '@/features/student/views/StudentSkillView/components/StudentSkillEvaluateSection/StudentSkillEvaluateSection.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a student skill evaluate placeholder section', () => {

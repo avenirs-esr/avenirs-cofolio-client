@@ -1,6 +1,6 @@
 import UpdateExitConfirmationModal from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateExitConfirmationModal/UpdateExitConfirmationModal.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, type Mock, vi } from 'vitest'
 import { nextTick } from 'vue'
 

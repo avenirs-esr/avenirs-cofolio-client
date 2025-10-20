@@ -7,9 +7,10 @@ import AmsListContainer from '@/features/student/views/StudentEducationAmsView/c
 import { ProgramProgressSelectorStub } from '@/features/student/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelect.stub'
 import { StudentDetailedAmsCardStub } from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createMockedAmsViewQueryReturn } from 'tests/mocks'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>

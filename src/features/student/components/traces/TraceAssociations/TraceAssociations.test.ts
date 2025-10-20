@@ -2,7 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAdditionalSkillType, EAmsStatus, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
 import TraceAssociations
   from '@/features/student/components/traces/TraceAssociations/TraceAssociations.vue'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const stubs = {

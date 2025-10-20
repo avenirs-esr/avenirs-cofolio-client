@@ -1,5 +1,5 @@
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a useDrawer composable', () => {

@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
 import { teacherHomeRoute } from '@/features/teacher/routes'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a teacher layout component', () => {

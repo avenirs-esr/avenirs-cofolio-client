@@ -1,7 +1,7 @@
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 export const mockIsMobile = ref(false)

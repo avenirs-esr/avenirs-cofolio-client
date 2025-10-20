@@ -1,5 +1,5 @@
 import { hasStringField } from '@/common/utils/type-guards/type-guards'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('a hasStringField checker', () => {
   BddTest().when('the field exists', () => {

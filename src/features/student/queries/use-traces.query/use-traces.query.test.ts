@@ -24,8 +24,9 @@ import {
   useUpdateTraceMutation,
   type UseUpdateTraceMutationArgs
 } from '@/features/student/queries/use-traces.query/use-traces.query'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest, mountQueryComposable } from 'tests/utils'
+import { mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, type MockInstance, vi } from 'vitest'
 
 vi.mock('@/common/composables', async (importOriginal) => {

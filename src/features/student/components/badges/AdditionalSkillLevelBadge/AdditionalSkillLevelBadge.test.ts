@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { AdditionalSkillLevelBadge } from '@/features/student/components/badges'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {

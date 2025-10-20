@@ -1,5 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useQueryClient } from '@tanstack/vue-query'
-import { BddTest, mountComposable } from 'tests/utils'
+import { mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from './use-invalidate-query'
 

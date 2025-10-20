@@ -1,9 +1,9 @@
 import { createTracesSummaryHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-
 import StudentToolsTracesViewTabs from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a studentToolsTracesViewTabs', () => {

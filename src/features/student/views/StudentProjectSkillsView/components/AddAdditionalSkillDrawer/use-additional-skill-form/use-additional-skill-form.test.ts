@@ -1,7 +1,8 @@
 import type { AdditionalSkillFormData } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
 import { type AddAdditionalSkillDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { BddTest, mountComposable } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 import { beforeEach, type MockInstance, vi } from 'vitest'
 import { useAdditionalSkillForm } from './use-additional-skill-form'
 

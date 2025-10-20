@@ -3,10 +3,10 @@ import { createAdditionalSkillsViewHandler } from '@/__mocks__/msw/handlers/stud
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import SkillsViewOtherTab from './SkillsViewOtherTab.vue'
 

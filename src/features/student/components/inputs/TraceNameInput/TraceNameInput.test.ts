@@ -1,6 +1,6 @@
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import TraceNameInput from './TraceNameInput.vue'
 

@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { BddTest, mountComponent } from 'tests/utils'
+import AddAdditionalSkillConfirmationModal from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import AddAdditionalSkillConfirmationModal from './AddAdditionalSkillConfirmationModal.vue'
 
 const stubs = {
   AvModal: {

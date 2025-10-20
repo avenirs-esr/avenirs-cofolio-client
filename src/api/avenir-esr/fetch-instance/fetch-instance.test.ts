@@ -1,6 +1,5 @@
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
-import { BddTest } from 'tests/utils'
-
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/api/fetch', () => ({

@@ -6,7 +6,7 @@ import {
   registerFeatureLocales
 } from '@/plugins/vue-i18n/vue-i18n'
 import { AvAvailableLocales } from '@/types/i18n.types'
-import { BddTest } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect, vi } from 'vitest'
 
 BddTest().given('a locale modules parser', () => {

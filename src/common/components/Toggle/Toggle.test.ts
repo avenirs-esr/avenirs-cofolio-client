@@ -1,6 +1,6 @@
 import Toggle from '@/common/components/Toggle/Toggle.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { expect } from 'vitest'
 
 const AvToggleStub = {

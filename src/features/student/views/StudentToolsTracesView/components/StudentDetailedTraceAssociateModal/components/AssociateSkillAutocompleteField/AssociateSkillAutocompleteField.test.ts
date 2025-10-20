@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ETraceAssociationType } from '@/api/avenir-esr'
 import AssociateSkillAutocompleteField from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/AssociateSkillAutocompleteField/AssociateSkillAutocompleteField.vue'
-import { AvListItemStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { BddTest, mountComponent } from 'tests/utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {

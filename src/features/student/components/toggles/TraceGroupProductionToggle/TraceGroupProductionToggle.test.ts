@@ -1,7 +1,7 @@
 import { ToggleStub } from '@/common/components'
 import TraceGroupProductionToggle from '@/features/student/components/toggles/TraceGroupProductionToggle/TraceGroupProductionToggle.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a trace group production toggle component', () => {

@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { StudentTraceAssociationContentBadge } from '@/features/student/components/badges'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
-import { BddTest, mountComponent } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {

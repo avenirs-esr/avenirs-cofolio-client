@@ -19,8 +19,9 @@ import {
   useStudentSummaryQuery,
   useStudentTracesSummaryQuery
 } from '@/features/student/queries'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest, mountQueryComposable } from 'tests/utils'
+import { mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 vi.mock('@/common/composables', async (importOriginal) => {

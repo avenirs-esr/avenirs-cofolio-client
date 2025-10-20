@@ -1,8 +1,8 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
-import { AvTagStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTagStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
 
 vi.doMock('@avenirs-esr/avenirs-dsav', () => ({

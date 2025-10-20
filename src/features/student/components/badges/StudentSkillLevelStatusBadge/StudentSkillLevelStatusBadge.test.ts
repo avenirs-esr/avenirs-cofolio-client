@@ -1,7 +1,7 @@
 import { ESkillLevelStatus } from '@/api/avenir-esr'
 import StudentSkillLevelStatusBadge from '@/features/student/components/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a studentLevelBadge', () => {
   let wrapper: VueWrapper

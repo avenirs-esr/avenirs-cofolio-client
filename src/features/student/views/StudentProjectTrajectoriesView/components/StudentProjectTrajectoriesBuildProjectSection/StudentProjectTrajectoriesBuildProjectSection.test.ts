@@ -1,5 +1,5 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import StudentProjectTrajectoriesBuildProjectSection from './StudentProjectTrajectoriesBuildProjectSection.vue'
 

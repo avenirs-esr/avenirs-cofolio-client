@@ -1,6 +1,6 @@
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a student about view', () => {
   let wrapper: VueWrapper

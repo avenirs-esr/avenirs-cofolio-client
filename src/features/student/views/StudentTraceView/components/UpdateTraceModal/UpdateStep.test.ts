@@ -1,7 +1,7 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockHideUpdateTraceModal = vi.fn()

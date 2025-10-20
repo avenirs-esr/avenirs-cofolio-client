@@ -9,9 +9,9 @@ import { StudentProgressViewSortableFields } from '@/features/student/types'
 import { SkillsSortContainerStub } from '@/features/student/views/StudentEducationSkillsView/components/SkillsSortContainer/SkillsSortContainer.stub'
 import { StudentEducationSkillsViewContainerStub } from '@/features/student/views/StudentEducationSkillsView/components/StudentEducationSkillsViewContainer/StudentEducationSkillsViewContainer.stub'
 import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 export const mockAddErrorMessage = vi.fn()

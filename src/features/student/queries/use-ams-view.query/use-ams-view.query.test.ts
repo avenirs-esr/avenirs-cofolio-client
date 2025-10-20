@@ -4,8 +4,9 @@ import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { useAmsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest, mountQueryComposable } from 'tests/utils'
+import { mountQueryComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an useAmsViewQuery composable', () => {

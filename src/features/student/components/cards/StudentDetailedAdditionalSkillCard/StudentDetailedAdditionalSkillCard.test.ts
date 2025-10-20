@@ -1,8 +1,8 @@
 import { type AdditionalSkillDTO, EAdditionalSkillType } from '@/api/avenir-esr'
 import StudentDetailedAdditionalSkillCard
   from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const mockSkill: AdditionalSkillDTO = {

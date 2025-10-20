@@ -2,8 +2,8 @@ import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, ESkillLevelStatus, type TraceDetailDTO } from '@/api/avenir-esr'
 import TermsStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a terms step', () => {

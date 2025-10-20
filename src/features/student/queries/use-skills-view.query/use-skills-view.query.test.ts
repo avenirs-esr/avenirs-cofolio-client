@@ -15,8 +15,9 @@ import {
 } from '@/api/avenir-esr'
 import { useAdditionalSkillsViewQuery, useAllSkillsQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { BddTest, mountQueryComposable } from 'tests/utils'
+import { mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect, type MockInstance } from 'vitest'
 
 BddTest().given('an useAdditionalSkillsViewQuery composable', () => {

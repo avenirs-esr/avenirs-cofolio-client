@@ -2,8 +2,8 @@ import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { ToggleStub } from '@/common/components'
 import StudentTraceDetails
   from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const TraceNameInputStub = {

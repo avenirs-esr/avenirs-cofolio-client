@@ -1,8 +1,8 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentHomeRoute } from '@/features/student/routes'
 import StudentMailboxView from '@/features/student/views/StudentMailboxView/StudentMailboxView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 
 BddTest().given('a student mailbox view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentMailboxView>>

@@ -1,8 +1,8 @@
 import StudentProjectTrajectoriesContainer from '@/features/student/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesContainer/StudentProjectTrajectoriesContainer.vue'
 import { ProjectTrajectoryItems } from '@/features/student/views/StudentProjectTrajectoriesView/types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { BddTest } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a project trajectories container component', () => {

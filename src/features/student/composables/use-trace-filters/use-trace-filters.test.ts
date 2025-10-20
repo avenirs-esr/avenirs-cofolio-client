@@ -1,6 +1,7 @@
 import type { DateFilter, SearchFilter } from '@/types'
 import { type TraceFilter, TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
-import { BddTest, mountComposable } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { useTraceFilters } from './use-trace-filters'
 

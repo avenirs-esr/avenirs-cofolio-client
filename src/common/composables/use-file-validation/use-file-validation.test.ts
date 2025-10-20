@@ -1,4 +1,5 @@
-import { BddTest, mountComposable } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
 import { useFileValidation, type UseFileValidationOptions } from './use-file-validation'
 

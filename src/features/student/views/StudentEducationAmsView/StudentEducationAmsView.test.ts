@@ -3,7 +3,8 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { studentHomeRoute } from '@/features/student/routes'
 import { AmsViewTabsStub } from '@/features/student/views/StudentEducationAmsView/components/AmsViewTabs/AmsViewTabs.stub'
 import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
-import { BddTest, mountWithRouter } from 'tests/utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from 'tests/utils'
 
 BddTest().given('a student education AMS view', () => {
   let wrapper: VueWrapper
