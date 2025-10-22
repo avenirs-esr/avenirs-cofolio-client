@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import { AvModal, type AvModalProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,6 +11,12 @@ export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonL
 }
 
 defineProps<ConfirmationModalProps>()
+
+defineSlots<{
+  header?: Slot
+  default?: Slot
+}>()
+
 const { t } = useI18n()
 </script>
 
@@ -27,7 +34,6 @@ const { t } = useI18n()
     >
       <slot name="header" />
     </template>
-
     <slot>
       <div class="content-container">
         <span class="n5">{{ title ?? t('global.modals.confirmation.title') }}</span>

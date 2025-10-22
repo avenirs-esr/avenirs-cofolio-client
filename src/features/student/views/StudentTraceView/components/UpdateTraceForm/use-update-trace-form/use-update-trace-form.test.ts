@@ -48,16 +48,6 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       expect(state.value.values.useIA).toBe(false)
       expect(state.value.values.iaJustification).toBe('')
     })
-
-    BddTest().then('it should return isFormValid as false initially', () => {
-      expect(composableResult.isFormValid).toBeDefined()
-      expect(composableResult.isFormValid.value).toBe(false)
-    })
-
-    BddTest().then('it should return isSubmitting as false initially', () => {
-      expect(composableResult.isSubmitting).toBeDefined()
-      expect(composableResult.isSubmitting.value).toBe(false)
-    })
   })
 
   BddTest().when('form is initialized with trace having AI justification', () => {

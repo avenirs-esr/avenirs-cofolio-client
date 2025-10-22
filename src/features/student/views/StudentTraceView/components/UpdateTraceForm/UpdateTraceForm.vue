@@ -19,7 +19,7 @@ interface UpdateTraceFormProps {
 const { trace } = defineProps<UpdateTraceFormProps>()
 
 const { addSuccessMessage } = useToasterStore()
-const { hideUpdateTraceModal, setUpdateTraceForm, setUpdateTraceFormValid } = useTracesStore()
+const { hideUpdateTraceModal } = useTracesStore()
 
 const { t } = useI18n()
 
@@ -31,7 +31,7 @@ function onTraceUpdated () {
   hideUpdateTraceModal()
 }
 
-const { form, isFormValid } = useUpdateTraceForm(trace, onTraceUpdated)
+const { form } = useUpdateTraceForm(trace, onTraceUpdated)
 const { formatTranslatedDateTime } = useDateUtils()
 
 const useIAField = form.useField({ name: 'useIA' })
@@ -48,14 +48,6 @@ const traceFileUploadLabel = computed(() => {
   const uploadDate = formatTranslatedDateTime(trace.attachment.uploadedAt)
   return `${t('student.traces.traceFileUpload.documentLabel')} - ${t('student.traces.traceFileUpload.addedOn', { date: uploadDate })}`
 })
-
-watch(() => form, () => {
-  setUpdateTraceForm(form)
-}, { immediate: true })
-
-watch(() => isFormValid.value, (valid) => {
-  setUpdateTraceFormValid(valid)
-}, { immediate: true })
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { ConfirmationModal } from '@/common/components'
+import { useModal } from '@/common/composables'
 import TermsStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import UpdateStep from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { useTracesStore } from '@/store'
@@ -8,11 +10,22 @@ import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceDetailDTO }>()
 
+enum UpdateTraceModalSteps {
+  Terms = 0,
+  Update = 1
+}
+
 const { t } = useI18n()
 const tracesStore = useTracesStore()
-const { showUpdateTraceModal, hideUpdateTraceModal } = toRefs(tracesStore)
+const { showUpdateTraceModal, updateTraceFormModified } = toRefs(tracesStore)
 
-const currentStep = ref(0)
+const {
+  showModal: showConfirmationModal,
+  displayModal: displayConfirmationModal,
+  hideModal: hideConfirmationModal
+} = useModal()
+
+const currentStep = ref(UpdateTraceModalSteps.Terms)
 
 const steps = computed(() => [
   t('student.views.studentTraceView.updateTraceModal.steps.terms.title'),
@@ -24,7 +37,7 @@ function goToNextStep () {
 }
 
 async function handleConfirm () {
-  if (currentStep.value === 0) {
+  if (currentStep.value === UpdateTraceModalSteps.Terms) {
     goToNextStep()
   }
   else {
@@ -32,12 +45,30 @@ async function handleConfirm () {
   }
 }
 
-const displayedStep = computed(() => currentStep.value === 0 ? TermsStep : UpdateStep)
-const confirmLabel = computed(() => currentStep.value === 0
+function handleClose () {
+  if (currentStep.value === UpdateTraceModalSteps.Update && updateTraceFormModified.value) {
+    displayConfirmationModal()
+  }
+  else {
+    closeModal()
+  }
+}
+
+function closeModal () {
+  tracesStore.hideUpdateTraceModal()
+  hideConfirmationModal()
+  currentStep.value = UpdateTraceModalSteps.Terms
+}
+
+const displayedStep = computed(() => currentStep.value === UpdateTraceModalSteps.Terms
+  ? TermsStep
+  : UpdateStep)
+
+const confirmLabel = computed(() => currentStep.value === UpdateTraceModalSteps.Terms
   ? t('student.views.studentTraceView.updateTraceModal.buttons.validate')
   : t('student.views.studentTraceView.updateTraceModal.buttons.save'))
 
-const confirmIcon = computed(() => currentStep.value === 0
+const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.Terms
   ? MDI_ICONS.CHECK_CIRCLE_OUTLINE
   : MDI_ICONS.CONTENT_SAVE_OUTLINE)
 </script>
@@ -49,7 +80,7 @@ const confirmIcon = computed(() => currentStep.value === 0
     :confirm-button-label="confirmLabel"
     :confirm-button-icon="confirmIcon"
     size="lg"
-    @close="hideUpdateTraceModal"
+    @close="handleClose"
     @confirm="handleConfirm"
   >
     <template #header>
@@ -75,6 +106,12 @@ const confirmIcon = computed(() => currentStep.value === 0
       />
     </div>
   </AvModal>
+
+  <ConfirmationModal
+    :show="showConfirmationModal"
+    @close="hideConfirmationModal"
+    @confirm="closeModal"
+  />
 </template>
 
 <style lang="scss" scoped>

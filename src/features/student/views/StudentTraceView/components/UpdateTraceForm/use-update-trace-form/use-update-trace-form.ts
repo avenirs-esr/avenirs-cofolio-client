@@ -3,7 +3,7 @@ import type { TraceFormData } from '@/features/student/types'
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/composables'
 import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
-import { useToasterStore } from '@/store'
+import { useToasterStore, useTracesStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
@@ -11,6 +11,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const { t } = useI18n()
 
   const { addErrorMessage } = useToasterStore()
+  const { setUpdateTraceForm, setUpdateTraceFormModified } = useTracesStore()
   const { validateFile } = useTraceFileValidation()
   const { attachmentFile } = useTraceAttachmentFile(trace.attachment)
 
@@ -100,18 +101,20 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
     })
   }
 
-  const isFormValid = computed(() => {
+  const isModified = computed(() => {
     const state = form.useStore(state => state)
-    return state.value.isValid && !state.value.isValidating && state.value.isDirty
+    return state.value.isDirty
   })
 
-  const isSubmitting = computed<boolean>(() => {
-    return updateTraceMutation.isPending.value || uploadAttachmentMutation.isPending.value
-  })
+  watch(() => form, () => {
+    setUpdateTraceForm(form)
+  }, { immediate: true })
+
+  watch(() => isModified.value, (modified) => {
+    setUpdateTraceFormModified(modified)
+  }, { immediate: true })
 
   return {
-    form,
-    isFormValid,
-    isSubmitting
+    form
   }
 }

@@ -1,4 +1,4 @@
-export const ConfirmationModalStub = {
+export const ConfirmationModalStub = defineComponent({
   name: 'ConfirmationModal',
   props: {
     show: Boolean,
@@ -15,4 +15,4 @@ export const ConfirmationModalStub = {
       </slot>
     </div>
   `
-}
+})

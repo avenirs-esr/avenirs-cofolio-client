@@ -43,14 +43,16 @@ BddTest().given('a useTracesStore composable', () => {
       expect(mockForm).toBeDefined()
     })
 
-    BddTest().then('it should set update trace form valid state', () => {
+    BddTest().then('it should set update trace form modified state', () => {
       const store = useTracesStore()
 
-      store.setUpdateTraceFormValid(true)
-      expect(store.updateTraceFormValid).toBe(true)
+      expect(store.updateTraceFormModified).toBe(false)
 
-      store.setUpdateTraceFormValid(false)
-      expect(store.updateTraceFormValid).toBe(false)
+      store.setUpdateTraceFormModified(true)
+      expect(store.updateTraceFormModified).toBe(true)
+
+      store.setUpdateTraceFormModified(false)
+      expect(store.updateTraceFormModified).toBe(false)
     })
 
     BddTest().then('it should submit update trace form', async () => {
