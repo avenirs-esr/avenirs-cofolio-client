@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ConfirmationModal } from '@/common/components'
+import { useModal } from '@/common/composables'
 import CreateTraceFormDeclarationItems from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import {
@@ -23,12 +25,30 @@ function onTraceCreated () {
 }
 const { form, isFormValid, isSubmitting } = useCreateTraceForm(onTraceCreated)
 
+const isFormDirty = form.useStore(state => state.isDirty)
+
+const {
+  showModal: showDiscardChangesModal,
+  displayModal: displayDiscardChangesModal,
+  hideModal: hideDiscardChangesModal
+} = useModal()
+
 const activeAccordion = ref(0)
 
-function handleCancel () {
+function confirmCancel () {
   form.reset()
   activeAccordion.value = 0
   tracesStore.hideCreateTraceDrawer()
+  hideDiscardChangesModal()
+}
+
+function handleCancel () {
+  if (isFormDirty.value) {
+    displayDiscardChangesModal()
+  }
+  else {
+    confirmCancel()
+  }
 }
 
 async function onSave () {
@@ -37,6 +57,11 @@ async function onSave () {
 </script>
 
 <template>
+  <ConfirmationModal
+    :show="showDiscardChangesModal"
+    @confirm="confirmCancel"
+    @close="hideDiscardChangesModal"
+  />
   <AvDrawer
     :show="showDrawer"
     position="right"

@@ -581,10 +581,6 @@
             "subtitle": "This action will permanently delete your profile picture. Confirm deletion?",
             "title": "Are you sure you want to delete your photo?"
           },
-          "confirmModal": {
-            "subtitle": "Any unsaved changes will be lost.",
-            "title": "Are you sure you want to exit?"
-          },
           "identity": {
             "description": "Description",
             "firstname": "First name",

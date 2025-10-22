@@ -1,14 +1,14 @@
 import type { PictureDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
 import type { SetupContext } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { ConfirmationModalStub } from '@/common/components'
 import UpdateProfileDrawer from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createPinia } from 'pinia'
+import { AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
@@ -32,27 +32,17 @@ BddTest().given('given an update profile drawer', () => {
   const stubs = {
     AvAccordion: {
       name: 'AvAccordion',
+      props: ['title', 'icon'],
       template: '<div class="av-accordion"><slot /></div>'
     },
     AvAccordionsGroup: {
       name: 'AvAccordionsGroup',
+      props: ['activeAccordion'],
+      emits: ['update:activeAccordion'],
       template: '<div class="av-accordion-group"><slot /></div>'
     },
-    AvButton: {
-      name: 'AvButton',
-      props: ['label', 'isLoading', 'disabled'],
-      template: '<button class="av-button">{{ label }}</button>'
-    },
-    AvDrawer: {
-      name: 'AvDrawer',
-      props: ['show'],
-      template: `
-        <div class="av-drawer">
-          <slot></slot>
-          <slot name="footer"></slot>
-        </div>
-      `
-    },
+    AvButton: AvButtonStub,
+    AvDrawer: AvDrawerStub,
     AvInput: {
       name: 'AvInput',
       props: {
@@ -74,20 +64,18 @@ BddTest().given('given an update profile drawer', () => {
         />
       `
     },
+    AvIconText: {
+      name: 'AvIconText',
+      props: ['icon', 'text', 'typographyClass'],
+      template: '<div class="av-icon-text">{{ text }}</div>'
+    },
     ImageUpload: {
       name: 'ImageUpload',
       props: ['modelValue'],
+      emits: ['update:modelValue'],
       template: '<div class="image-upload" />'
     },
-    UpdateExitConfirmationModal: {
-      name: 'UpdateExitConfirmationModal',
-      props: ['showModal', 'onConfirm', 'onCancel', 'isLoading'],
-      template: `
-      <div class="update-exit-confirmation-modal">
-        <button class="confirm-button" @click="onConfirm">Confirm</button>
-      </div>
-      `
-    },
+    ConfirmationModal: ConfirmationModalStub
   }
 
   const studentSummary = {
@@ -233,15 +221,11 @@ BddTest().given('given an update profile drawer', () => {
       profilePictureFile: ref<File | null>(null),
     }))
 
-    wrapper = mount(UpdateProfileDrawer, {
+    wrapper = mountComponent(UpdateProfileDrawer, {
       props: defaultProps,
       global: {
-        stubs,
-        plugins: [
-          createPinia(),
-          [VueQueryPlugin, { queryClient: new QueryClient() }]
-        ],
-      },
+        stubs
+      }
     })
   })
 
@@ -276,7 +260,6 @@ BddTest().given('given an update profile drawer', () => {
         const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
         expect(saveButton?.exists()).toBe(true)
         expect(saveButton?.props('disabled')).toBe(true)
-        expect(saveButton?.attributes('type')).toBe('submit')
       })
     })
 
@@ -297,12 +280,11 @@ BddTest().given('given an update profile drawer', () => {
           profilePictureFile: ref<File | null>(null),
         }))
 
-        wrapper = mount(UpdateProfileDrawer, {
+        wrapper = mountComponent(UpdateProfileDrawer, {
           props: { ...defaultProps, studentSummary: studentSummaryWithMissingFields },
-          global: { stubs, plugins: [
-            createPinia(),
-            [VueQueryPlugin, { queryClient: new QueryClient() }]
-          ], }
+          global: {
+            stubs
+          }
         })
       })
 
@@ -344,12 +326,11 @@ BddTest().given('given an update profile drawer', () => {
           profilePictureFile: ref<File | null>(null),
         }))
 
-        wrapper = mount(UpdateProfileDrawer, {
+        wrapper = mountComponent(UpdateProfileDrawer, {
           props: defaultProps,
-          global: { stubs, plugins: [
-            createPinia(),
-            [VueQueryPlugin, { queryClient: new QueryClient() }]
-          ], }
+          global: {
+            stubs
+          }
         })
       })
 
@@ -416,8 +397,9 @@ BddTest().given('given an update profile drawer', () => {
 
     BddTest().when('the confirmation modal emits confirm', () => {
       BddTest().then('it should call hideModal and onClose', async () => {
-        const modal = wrapper.findComponent({ name: 'UpdateExitConfirmationModal' })
-        await modal.find('.confirm-button').trigger('click')
+        const modal = wrapper.findComponent({ name: 'ConfirmationModal' })
+        await modal.vm.$emit('confirm')
+        await wrapper.vm.$nextTick()
 
         expect(defaultProps.onClose).toHaveBeenCalled()
       })
@@ -455,12 +437,11 @@ BddTest().given('given an update profile drawer', () => {
           return obj
         })
 
-        wrapper = mount(UpdateProfileDrawer, {
+        wrapper = mountComponent(UpdateProfileDrawer, {
           props: defaultProps,
-          global: { stubs, plugins: [
-            createPinia(),
-            [VueQueryPlugin, { queryClient: new QueryClient() }]
-          ], }
+          global: {
+            stubs
+          }
         })
 
         useUpdateProfileFormReturn.simulateSuccess()

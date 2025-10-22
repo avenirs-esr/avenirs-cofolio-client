@@ -1,3 +1,5 @@
+export { ConfirmationModalStub } from './ConfirmationModal/ConfirmationModal.stub'
+export { default as ConfirmationModal, type ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
 export * from './PageTitle'

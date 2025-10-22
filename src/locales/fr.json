@@ -32,8 +32,8 @@
         "size": "La taille du fichier dépasse la limite autorisée."
       },
       "form": {
-        "requiredFiled": "Ce champ est requis.",
-        "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)"
+        "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)",
+        "requiredFiled": "Ce champ est requis."
       },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
@@ -63,25 +63,32 @@
         "teacher": "Enseignant"
       }
     },
+    "images": "Images",
     "information": {
       "fileUpload": {
         "dragAndDrop": "ou glisser et déposer ici",
         "filesIndication": "Format : ",
         "filesTypes": "PDF, JPG, JPEG, PNG •",
-        "sizeIndication": "Poids : ",
         "size": "10 Mo max",
+        "sizeIndication": "Poids : ",
         "title": "Ajouter un fichier"
+      }
+    },
+    "modals": {
+      "confirmation": {
+        "description": "Toutes les modifications non enregistrées seront perdues.",
+        "title": "Êtes-vous sûr de vouloir quitter ?"
       }
     },
     "pageSizePicker": {
       "label": "Nombre de résultats par page :"
     },
     "sort": {
+      "dateAsc": "Trier du plus ancien au plus récent",
+      "dateDesc": "Trier du plus récent au plus ancien",
       "label": "Trier",
       "nameAsc": "Trier de A à Z",
-      "nameDesc": "Trier de Z à A",
-      "dateAsc": "Trier du plus ancien au plus récent",
-      "dateDesc": "Trier du plus récent au plus ancien"
+      "nameDesc": "Trier de Z à A"
     },
     "success": {
       "file": {
@@ -89,7 +96,6 @@
       }
     },
     "text": "Texte",
-    "images": "Images",
     "video": "Vidéo",
     "views": {
       "accessibilityView": {

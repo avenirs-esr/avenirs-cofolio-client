@@ -577,10 +577,6 @@
             "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression ?",
             "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
           },
-          "confirmModal": {
-            "subtitle": "Toutes les modifications non enregistrées seront perdues.",
-            "title": "Êtes-vous sûr de vouloir quitter ?"
-          },
           "identity": {
             "description": "Description",
             "firstname": "Prénom",

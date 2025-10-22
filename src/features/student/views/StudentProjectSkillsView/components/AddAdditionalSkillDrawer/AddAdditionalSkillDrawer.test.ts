@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillType } from '@/api/avenir-esr'
+import { ConfirmationModalStub } from '@/common/components'
 import { AdditionalSkillTypeBadgeStub } from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.stub'
-import { AddAdditionalSkillConfirmationModalStub } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.stub'
 import { useSkillsStore } from '@/store'
 import { AvAutocompleteStub, AvButtonStub, AvDrawerStub, AvIconStub, AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -28,8 +28,8 @@ const stubs = {
   AvButton: AvButtonStub,
   AvListItem: AvListItemStub,
   AdditionalSkillTypeBadge: AdditionalSkillTypeBadgeStub,
-  AddAdditionalSkillConfirmationModal: AddAdditionalSkillConfirmationModalStub,
-  AvIcon: AvIconStub
+  AvIcon: AvIconStub,
+  ConfirmationModal: ConfirmationModalStub,
 }
 
 BddTest().given('an add additional skill drawer component', () => {
@@ -68,7 +68,7 @@ BddTest().given('an add additional skill drawer component', () => {
     const cancelButton = getCancelButton()
     await cancelButton?.vm.$emit('click')
     await wrapper.vm.$nextTick()
-    return wrapper.findComponent({ name: 'AddAdditionalSkillConfirmationModal' })
+    return wrapper.findComponent({ name: 'ConfirmationModal' })
   }
 
   beforeEach(() => {
@@ -237,10 +237,11 @@ BddTest().given('an add additional skill drawer component', () => {
       expect(hideDrawerSpy).toHaveBeenCalled()
     })
 
-    BddTest().then('it should hide confirmation modal when cancel is triggered', async () => {
+    BddTest().then('it should hide confirmation modal when close is triggered', async () => {
       await setupFormWithMockSkill()
       const confirmationModal = await triggerCancelAndGetModal()
-      await confirmationModal.vm.$emit('cancel')
+      await confirmationModal.vm.$emit('close')
+      await wrapper.vm.$nextTick()
 
       expect(confirmationModal.props('show')).toBe(false)
     })

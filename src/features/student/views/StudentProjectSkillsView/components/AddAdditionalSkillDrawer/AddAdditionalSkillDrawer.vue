@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
-import AddAdditionalSkillConfirmationModal from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillConfirmationModal/AddAdditionalSkillConfirmationModal.vue'
 import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
 import {
   useAdditionalSkillForm
@@ -106,9 +106,10 @@ function confirmCancel () {
     </template>
   </AvDrawer>
 
-  <AddAdditionalSkillConfirmationModal
+  <ConfirmationModal
     :show="showConfirmationModal"
-    @cancel="hideConfirmationModal"
+    :description="t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.confirmationModal.description')"
+    @close="hideConfirmationModal"
     @confirm="confirmCancel"
   />
 </template>
