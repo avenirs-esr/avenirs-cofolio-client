@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { ImageUpload } from '@/common/components'
+import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
-import UpdateExitConfirmationModal
-  from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateExitConfirmationModal/UpdateExitConfirmationModal.vue'
+
 import {
   useUpdateProfileForm
 } from '@/features/student/components/widgets/StudentOverviewWidget/components/UpdateProfileDrawer/use-update-profile-form'
@@ -211,14 +210,14 @@ watch(() => show, (newVal) => {
       </div>
     </template>
   </AvDrawer>
-  <UpdateExitConfirmationModal
-    :show-modal="showModal"
-    :on-confirm="() => {
+  <ConfirmationModal
+    :show="showModal"
+    :is-loading="isPending"
+    @confirm="() => {
       hideModal()
       onClose()
     }"
-    :on-cancel="hideModal"
-    :is-loading="isPending"
+    @close="hideModal"
   />
 </template>
 

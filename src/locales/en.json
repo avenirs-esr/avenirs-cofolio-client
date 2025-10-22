@@ -26,6 +26,17 @@
     "dates": {
       "dateTimeAt": "{date} at {time}"
     },
+    "error": {
+      "file": {
+        "acceptType": "The file does not meet the expected format.",
+        "size": "The file size exceeds the allowed limit."
+      },
+      "form": {
+        "invalidEmail": "Please provide a valid email address (e.g.: name@example.com).",
+        "requiredFiled": "This field is required."
+      },
+      "generic": "An error has occurred. Please try again later."
+    },
     "footer": {
       "anr": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
       "instituteInfo": "An ePortfolio for Higher Education and Research",
@@ -52,36 +63,32 @@
         "teacher": "Teacher"
       }
     },
+    "images": "Images",
     "information": {
       "fileUpload": {
         "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
         "filesTypes": "PDF, JPG, JPEG, PNG •",
-        "sizeIndication": "Size : ",
         "size": "10 Mo max",
+        "sizeIndication": "Size : ",
         "title": "Add a file"
       }
     },
-    "error": {
-      "file": {
-        "acceptType": "The file does not meet the expected format.",
-        "size": "The file size exceeds the allowed limit."
-      },
-      "form": {
-        "requiredFiled": "This field is required.",
-        "invalidEmail": "Please provide a valid email address (e.g.: name@example.com)."
-      },
-      "generic": "An error has occurred. Please try again later."
+    "modals": {
+      "confirmation": {
+        "description": "Any unsaved changes will be lost.",
+        "title": "Are you sure you want to exit?"
+      }
     },
     "pageSizePicker": {
       "label": "Number of results per page:"
     },
     "sort": {
+      "dateAsc": "Sort from oldest to newest",
+      "dateDesc": "Sort from newest to oldest",
       "label": "Sort",
       "nameAsc": "Sort from A to Z",
-      "nameDesc": "Sort from Z to A",
-      "dateAsc": "Sort from oldest to newest",
-      "dateDesc": "Sort from newest to oldest"
+      "nameDesc": "Sort from Z to A"
     },
     "success": {
       "file": {
@@ -89,7 +96,6 @@
       }
     },
     "text": "Text",
-    "images": "Images",
     "video": "Video",
     "views": {
       "accessibilityView": {

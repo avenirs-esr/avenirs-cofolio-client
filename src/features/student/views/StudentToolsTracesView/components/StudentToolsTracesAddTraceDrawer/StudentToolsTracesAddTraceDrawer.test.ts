@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ToggleStub } from '@/common/components'
+import { ConfirmationModalStub, ToggleStub } from '@/common/components'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { useTracesStore } from '@/store'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -24,14 +24,11 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
   const stubs = {
-    AvDrawer: {
-      name: 'AvDrawer',
-      props: ['show', 'position', 'width'],
-      emits: ['escape-pressed'],
-      template: '<div class="av-drawer-stub"><slot /><slot name="footer" /></div>'
-    },
+    AvDrawer: AvDrawerStub,
     AvAccordionsGroup: {
       name: 'AvAccordionsGroup',
+      props: ['activeAccordion'],
+      emits: ['update:activeAccordion'],
       template: '<div class="av-accordions-group-stub"><slot /></div>'
     },
     AvAccordion: {
@@ -39,13 +36,9 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       props: ['title', 'icon'],
       template: '<div class="av-accordion-stub"><slot /></div>'
     },
-    AvButton: {
-      name: 'AvButton',
-      props: ['label', 'variant', 'type', 'icon', 'disabled', 'loading'],
-      emits: ['click'],
-      template: '<button :disabled="disabled" @click="$emit(\'click\')">{{ label }}</button>'
-    },
-    Toggle: ToggleStub
+    AvButton: AvButtonStub,
+    Toggle: ToggleStub,
+    ConfirmationModal: ConfirmationModalStub
   }
 
   const getSaveButton = () => {
@@ -275,6 +268,46 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       const associateTraceAccordion = accordions[2]
 
       expect(associateTraceAccordion.props('title')).toBe('Associer ma trace')
+    })
+  })
+
+  BddTest().when('form is dirty and cancel is clicked', () => {
+    BddTest().then('it should show confirmation modal when form has changes', async () => {
+      await fillFormFields()
+      const cancelButton = getCancelButton()
+      await cancelButton?.vm.$emit('click')
+      await wrapper.vm.$nextTick()
+
+      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      expect(confirmationModal.props('show')).toBe(true)
+    })
+
+    BddTest().then('it should hide drawer when confirmation modal confirm is triggered', async () => {
+      const store = useTracesStore()
+      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
+
+      await fillFormFields()
+      const cancelButton = getCancelButton()
+      await cancelButton?.vm.$emit('click')
+      await wrapper.vm.$nextTick()
+
+      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      await confirmationModal.vm.$emit('confirm')
+
+      expect(hideDrawerSpy).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should hide confirmation modal when close is triggered', async () => {
+      await fillFormFields()
+      const cancelButton = getCancelButton()
+      await cancelButton?.vm.$emit('click')
+      await wrapper.vm.$nextTick()
+
+      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      await confirmationModal.vm.$emit('close')
+      await wrapper.vm.$nextTick()
+
+      expect(confirmationModal.props('show')).toBe(false)
     })
   })
 })
