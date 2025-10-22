@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { ConfirmationModalStub } from '@/common/components'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { useTracesStore } from '@/store'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -56,7 +57,8 @@ BddTest().given('an update trace modal', () => {
       name: 'UpdateStep',
       props: ['trace'],
       template: '<div class="update-step" />'
-    }
+    },
+    ConfirmationModal: ConfirmationModalStub
   }
 
   BddTest().and('the modal is initially closed', () => {
@@ -198,6 +200,72 @@ BddTest().given('an update trace modal', () => {
             const tracesStore = useTracesStore()
             expect(tracesStore.submitUpdateTraceForm).toHaveBeenCalled()
           })
+        })
+      })
+    })
+
+    BddTest().when('the form is not modified', () => {
+      beforeEach(async () => {
+        const tracesStore = useTracesStore()
+        tracesStore.updateTraceFormModified = false
+        await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
+        await nextTick()
+      })
+
+      BddTest().and('close button is clicked', () => {
+        BddTest().then('it should close the modal without showing confirmation', async () => {
+          const tracesStore = useTracesStore()
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+          await nextTick()
+
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          expect(confirmationModal.props('show')).toBe(false)
+          expect(tracesStore.showUpdateTraceModal).toBe(false)
+        })
+      })
+    })
+
+    BddTest().when('the form is modified', () => {
+      beforeEach(async () => {
+        const tracesStore = useTracesStore()
+        tracesStore.updateTraceFormModified = true
+        await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
+        await nextTick()
+      })
+
+      BddTest().and('close button is clicked', () => {
+        BddTest().then('it should show confirmation modal', async () => {
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+          await nextTick()
+
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          expect(confirmationModal.props('show')).toBe(true)
+        })
+
+        BddTest().then('it should close modal when confirmation is confirmed', async () => {
+          const tracesStore = useTracesStore()
+
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+          await nextTick()
+
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await nextTick()
+
+          expect(tracesStore.showUpdateTraceModal).toBe(false)
+        })
+
+        BddTest().then('it should hide confirmation modal when close is triggered', async () => {
+          await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+          await nextTick()
+
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          expect(confirmationModal.props('show')).toBe(true)
+
+          await confirmationModal.vm.$emit('close')
+          await nextTick()
+
+          expect(confirmationModal.props('show')).toBe(false)
         })
       })
     })

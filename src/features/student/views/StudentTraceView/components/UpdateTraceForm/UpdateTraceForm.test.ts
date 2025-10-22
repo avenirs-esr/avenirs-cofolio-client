@@ -1,7 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateTraceForm from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
-import { useTracesStore } from '@/store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -137,13 +136,6 @@ BddTest().given('an update trace form component', () => {
       expect(aiJustificationField.exists()).toBe(true)
       expect(aiJustificationField.props('labelVisible')).toBe(false)
     })
-
-    BddTest().then('it should update form valid state in store', async () => {
-      await vi.waitFor(() => {
-        const store = useTracesStore()
-        expect(typeof store.updateTraceFormValid).toBe('boolean')
-      })
-    })
   })
 
   BddTest().when('the AI usage toggle is changed to false', () => {
@@ -188,19 +180,6 @@ BddTest().given('an update trace form component', () => {
       const label = fileUploadField.props('label')
       expect(label).toContain('Mon document chargé')
       expect(label).toContain('Ajouté le')
-    })
-  })
-
-  BddTest().when('the form validity changes', () => {
-    BddTest().then('it should update store with validity state', async () => {
-      const traceNameInput = wrapper.find('#traceName')
-      await traceNameInput.setValue('New Name')
-      await wrapper.vm.$nextTick()
-
-      await vi.waitFor(() => {
-        const store = useTracesStore()
-        expect(store.updateTraceFormValid).toBeDefined()
-      })
     })
   })
 })

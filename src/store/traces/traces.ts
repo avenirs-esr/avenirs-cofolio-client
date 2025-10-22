@@ -44,14 +44,14 @@ function useTracesUI () {
 
 function useUpdateTraceForm () {
   const updateTraceForm = ref<UpdateTraceForm | null>(null)
-  const updateTraceFormValid = ref(false)
+  const updateTraceFormModified = ref(false)
 
   function setUpdateTraceForm (form: UpdateTraceForm | null) {
     updateTraceForm.value = form
   }
 
-  function setUpdateTraceFormValid (isValid: boolean) {
-    updateTraceFormValid.value = isValid
+  function setUpdateTraceFormModified (isModified: boolean) {
+    updateTraceFormModified.value = isModified
   }
 
   async function submitUpdateTraceForm () {
@@ -59,9 +59,9 @@ function useUpdateTraceForm () {
   }
 
   return {
-    updateTraceFormValid,
+    updateTraceFormModified,
     setUpdateTraceForm,
-    setUpdateTraceFormValid,
+    setUpdateTraceFormModified,
     submitUpdateTraceForm
   }
 }
