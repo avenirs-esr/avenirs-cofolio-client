@@ -17,6 +17,7 @@ const stubs = {
       'getOptionLabel',
       'getOptionKey',
       'multiSelect',
+      'showSelectedSection',
       'serverSideFiltering',
       'enableLoadMore',
       'maxDropdownHeight',
@@ -103,6 +104,7 @@ BddTest().given('an associate skill autocomplete field component', () => {
       expect(autocomplete.props('maxDropdownHeight')).toBe('14.5rem')
       expect(autocomplete.props('debounceDelay')).toBe(500)
       expect(autocomplete.props('multiSelect')).toBe(true)
+      expect(autocomplete.props('showSelectedSection')).toBe(true)
     })
 
     BddTest().then('it should set input options (label, placeholder)', () => {

@@ -115,6 +115,7 @@ const emptySlotTextContent = computed<string>(() => {
         :get-option-label="getOptionLabel"
         :get-option-key="getOptionKey"
         :multi-select="true"
+        :show-selected-section="true"
         :server-side-filtering="true"
         :enable-load-more="true"
         max-dropdown-height="14.5rem"
