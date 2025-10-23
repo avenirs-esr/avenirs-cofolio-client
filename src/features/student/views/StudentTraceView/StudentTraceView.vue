@@ -8,7 +8,7 @@ import StudentDetailedTraceAssociateModal
   from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceDetails from '@/features/student/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceDeletionConfirmationModal from '@/features/student/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
-import TraceSettingsPopover from '@/features/student/views/StudentTraceView/components/TraceSettingsPopover/TraceSettingsPopover.vue'
+import TraceSettingsDropdown from '@/features/student/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import UpdateTraceModal from '@/features/student/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { useTracesStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -69,7 +69,7 @@ const breadcrumbLinks = computed(() => [
       <h5 class="n5">
         {{ t('student.views.studentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed?.title }}</span>
       </h5>
-      <TraceSettingsPopover
+      <TraceSettingsDropdown
         @delete-selected="displayDeleteModal"
         @associate-selected="displayAssociateModal"
         @update-selected="displayUpdateTraceModal"

@@ -8,15 +8,16 @@ export interface StudentDetailedSkillCardProps {
   skillColor: string
   icon: string
   color: string
+  to?: string
 }
 
-const { icon, color, name, skillColor } = defineProps<StudentDetailedSkillCardProps>()
+const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSkillCardProps>()
 </script>
 
 <template>
   <RouterLink
     class="student-detailed-skill-card"
-    :to="{ name: studentSkillRoute.name, params: { id } }"
+    :to="{ name: to ?? studentSkillRoute.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"

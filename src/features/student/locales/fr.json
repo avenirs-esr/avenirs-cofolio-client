@@ -123,6 +123,7 @@
         "project": {
           "header": "Construire mon projet de vie",
           "items": {
+            "additionalSkills": "Mes autres compétences et certifications déclarées",
             "experiences": "Mon parcours",
             "skills": "Toutes mes compétences",
             "trajectories": "Bâtir mon projet"
@@ -259,6 +260,19 @@
         "activities": {
           "title": "Mes activités"
         }
+      },
+      "studentAdditionalSkillView": {
+        "settings": {
+          "ariaLabel": "Paramètres de la compétence déclarée",
+          "delete": "Supprimer ma compétence",
+          "deleteAssociation": "Supprimer une association",
+          "update": "Modifier ma compétence"
+        },
+        "tabs": {
+          "associations": "Mes associations ({count})",
+          "info": "Ma compétence déclarée"
+        },
+        "title": "Détail de ma compétence déclarée"
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {
