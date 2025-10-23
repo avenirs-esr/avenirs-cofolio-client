@@ -23,6 +23,7 @@
       "goBack": "Go back",
       "save": "Save"
     },
+    "colon": "{before}:{after}",
     "dates": {
       "dateTimeAt": "{date} at {time}"
     },
@@ -73,6 +74,9 @@
         "sizeIndication": "Size : ",
         "title": "Add a file"
       }
+    },
+    "inputs": {
+      "limit": "{count} / {maxlength} characters (including spaces)"
     },
     "modals": {
       "confirmation": {
