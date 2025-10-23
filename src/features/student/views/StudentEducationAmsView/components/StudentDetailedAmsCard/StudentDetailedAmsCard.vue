@@ -2,7 +2,7 @@
 import type { AmsViewDTO } from '@/api/avenir-esr'
 import { StudentAmsStatusBadge, StudentCountSkillsIconText, StudentCountTracesIconText } from '@/features/student/components'
 import { studentAmsRoute } from '@/features/student/routes'
-import { AvBadge, AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { ams } = defineProps<{ ams: AmsViewDTO }>()
@@ -28,7 +28,7 @@ const { t } = useI18n()
             {{ title }}
           </span>
           <div class="student-detailed-ams-card__icon">
-            <AvVIcon
+            <AvIcon
               :name="MDI_ICONS.BOOK_LOCATION_OUTLINE"
               color="var(--card2)"
               :size="2.1875"

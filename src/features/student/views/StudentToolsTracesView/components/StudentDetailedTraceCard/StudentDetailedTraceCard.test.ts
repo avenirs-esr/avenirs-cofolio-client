@@ -1,6 +1,6 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import StudentDetailedTraceCard from '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
-import { AvVIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -8,7 +8,7 @@ BddTest().given('a student detailed trace card', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCard>>
 
   const stubs = {
-    AvVIcon: AvVIconStub,
+    AvIcon: AvIconStub,
     StudentDetailedTraceModal: {
       name: 'StudentDetailedTraceModal',
       template: '<div />'

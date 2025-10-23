@@ -3,7 +3,7 @@ import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import type { RouteLocationRaw } from 'vue-router'
 import { StudentCountAmsIconText } from '@/features/student/components/'
 import { studentToolsTracesRoute } from '@/features/student/routes'
-import { AvCard, AvIconText, AvTag, AvVIcon, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
@@ -50,7 +50,7 @@ const theme = ref({
             class="student-trace-card__icon"
             :style="{ background: 'var(--surface-background)' }"
           >
-            <AvVIcon
+            <AvIcon
               :name="MDI_ICONS.ATTACH_FILE"
               color="var(--text1)"
               :size="1.9375"
@@ -67,7 +67,7 @@ const theme = ref({
               class="student-trace-card__lineicon"
               :style="{ backgroundColor: getRandomSkillColor() }"
             >
-              <AvVIcon
+              <AvIcon
                 :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
                 color="var(--other-background-base)"
               />

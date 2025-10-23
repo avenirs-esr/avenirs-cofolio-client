@@ -2,7 +2,7 @@
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/'
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvBadge, type AvBadgeProps, AvCard, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentSkillCardProps {
@@ -66,7 +66,7 @@ const theme = ref({
             class="student-skill-card__icon"
             :style="{ background: `var(${skillColor})` }"
           >
-            <AvVIcon
+            <AvIcon
               :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
               color="var(--card2)"
               :size="2.0625"

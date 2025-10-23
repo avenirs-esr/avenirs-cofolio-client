@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentResumesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvCard, AvIcon, AvIconText, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { data: resumes, error } = useStudentResumesSummaryQuery()
@@ -45,7 +45,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
             >
               <div class="resumes-widget-action__body">
                 <div class="resumes-widget-action__leftIcon">
-                  <AvVIcon
+                  <AvIcon
                     :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
                     color="var(--other-background-base)"
                     :size="1.5"

@@ -1,5 +1,5 @@
 import StudentDetailedSkillCard, { type StudentDetailedSkillCardProps } from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { expect } from 'vitest'
 
@@ -27,11 +27,7 @@ function createWrapper (slots = {}) {
             </div>
           `
         },
-        AvVIcon: {
-          name: 'AvVIcon',
-          props: ['name', 'color', 'size'],
-          template: `<i class="mock-icon" />`
-        }
+        AvIcon: AvIconStub
       }
     },
     slots
@@ -51,7 +47,7 @@ BddTest().given('a student detailed skill card with valid props', () => {
     })
 
     BddTest().then('it should render the icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvVIcon' })
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
       expect(icon.exists()).toBe(true)
       expect(icon.props('name')).toBe(props.icon)
       expect(icon.props('color')).toBe(props.color)
