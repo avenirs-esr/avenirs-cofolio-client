@@ -1,5 +1,11 @@
 {
   "student": {
+    "additionalSkillCategoryTypes": {
+      "DOMAIN": "Domaine",
+      "ISSUE": "Enjeu",
+      "MACRO_SKILL": "Macro-compétence",
+      "TARGET": "Objectif"
+    },
     "additionalSkillTypes": {
       "CASOC": "Casoc onisep",
       "CASOL": "Casol onisep",
@@ -180,6 +186,16 @@
         "tabs": {
           "associations": {
             "associatedTracesLabel": "Mes traces associées ({count})"
+          },
+          "details": {
+            "commentTitle": "Description de ma compétence",
+            "dateDetails": {
+              "added": "Compétence ajoutée le {date}",
+              "updated": "Modifiée le {date}"
+            },
+            "levelTitle": "Auto-positionnement",
+            "refTitle": "Issu du référentiel :",
+            "skillTitle": "Intitulé :"
           }
         }
       },

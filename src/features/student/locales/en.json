@@ -1,5 +1,11 @@
 {
   "student": {
+    "additionalSkillCategoryTypes": {
+      "DOMAIN": "Domain",
+      "ISSUE": "Issue",
+      "MACRO_SKILL": "Macro-skill",
+      "TARGET": "Target"
+    },
     "additionalSkillTypes": {
       "CASOC": "Casoc onisep",
       "CASOL": "Casol onisep",
@@ -180,8 +186,17 @@
         "tabs": {
           "associations": {
             "associatedTracesLabel": "My associated traces ({count})"
+          },
+          "details": {
+            "commentTitle": "Description of my skill",
+            "dateDetails": {
+              "added": "Skill added on {date}",
+              "updated": "Updated on {date}"
+            },
+            "levelTitle": "Self-positioning",
+            "refTitle": "From the reference system:",
+            "skillTitle": "Title:"
           }
-        }
       },
       "studentAmsView": {
         "breadcrumb": {
