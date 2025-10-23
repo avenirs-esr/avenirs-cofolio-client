@@ -2,7 +2,7 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
 import { studentTraceRoute } from '@/features/student'
-import { AvCard, AvIconText, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
@@ -36,7 +36,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
             class="student-detailed-trace-card__icon"
             :style="{ background: 'var(--light-background-neutral)' }"
           >
-            <AvVIcon
+            <AvIcon
               :name="MDI_ICONS.ATTACH_FILE"
               color="var(--icon)"
               :size="1.938"

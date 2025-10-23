@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import { formatDateToLocaleString } from '@/common/utils'
 import { useStudentPagesSummaryQuery } from '@/features/student/queries'
-import { AvButton, AvCard, AvIconText, AvRichButton, AvVIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvCard, AvIcon, AvIconText, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { data: pages, error } = useStudentPagesSummaryQuery()
@@ -45,7 +45,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
             >
               <div class="pages-widget-action__body">
                 <div class="pages-widget-action__leftIcon">
-                  <AvVIcon
+                  <AvIcon
                     :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
                     color="var(--other-background-base)"
                     :size="1.5"

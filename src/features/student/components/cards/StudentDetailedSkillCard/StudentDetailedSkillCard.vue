@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { studentSkillRoute } from '@/features/student/routes'
-import { AvCard, AvVIcon } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedSkillCardProps {
   id: string
@@ -31,7 +31,7 @@ const { icon, color, name, skillColor } = defineProps<StudentDetailedSkillCardPr
             class="icon-container"
             :style="{ background: skillColor }"
           >
-            <AvVIcon
+            <AvIcon
               :name="icon"
               :color="color"
               :size="2.5625"

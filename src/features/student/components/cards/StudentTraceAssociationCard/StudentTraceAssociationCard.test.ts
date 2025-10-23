@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { StudentTraceAssociationCard } from '@/features/student/components/cards'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -18,15 +18,7 @@ const stubs = {
       borderColor: String
     }
   },
-  AvVIcon: {
-    name: 'AvVIcon',
-    template: '<div class="av-v-icon" />',
-    props: {
-      name: String,
-      color: String,
-      size: Number
-    }
-  }
+  AvIcon: AvIconStub
 }
 
 BddTest().given('a student trace association card', () => {
@@ -60,7 +52,7 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the default icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvVIcon' })
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
 
       expect(icon.exists()).toBe(true)
       expect(icon.props('name')).toBe(MDI_ICONS.STAR_SHOOTING_OUTLINE)
@@ -82,7 +74,7 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the custom icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvVIcon' })
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
 
       expect(icon.exists()).toBe(true)
       expect(icon.props('name')).toBe(MDI_ICONS.STARS)
