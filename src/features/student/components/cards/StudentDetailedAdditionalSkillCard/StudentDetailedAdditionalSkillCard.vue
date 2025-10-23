@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { AdditionalSkillDTO, AdditionalSkillProgressDTO } from '@/api/avenir-esr'
 
+import { studentAdditionalSkillRoute } from '@/features/student'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -34,6 +35,7 @@ const pathBadge = {
     :name="additionalSkill.title"
     :skill-color="additionalSkillColor"
     :icon="MDI_ICONS.STARS"
+    :to="studentAdditionalSkillRoute.name"
     color="var(--card2)"
   >
     <div class="body-container">

@@ -5,6 +5,7 @@ import type LegalView from '@/common/views/LegalView/LegalView.vue'
 import type PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
 import type StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import type StudentAdditionalSkillView from '@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
 import type StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import type StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import type StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
@@ -219,6 +220,18 @@ export const studentNotificationsRoute: AvRoute = {
     }>,
 }
 
+export const studentAdditionalSkillRoute: AvRoute = {
+  path: 'additional-skill/:id',
+  name: 'student-additional-skill',
+  props: route => ({
+    skillId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue') as Promise<{
+      default: typeof StudentAdditionalSkillView
+    }>,
+}
+
 export const studentApcUnavailableRoute: AvRoute = {
   path: 'apc-unavailable',
   name: 'student-apc-unavailable',
@@ -237,6 +250,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       studentHomeRoute,
       studentAccessibilityRoute,
+      studentAdditionalSkillRoute,
       studentAmsRoute,
       studentCookiesRoute,
       studentDeliverablesRoute,

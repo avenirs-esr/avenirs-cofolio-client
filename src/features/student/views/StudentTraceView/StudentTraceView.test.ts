@@ -24,8 +24,8 @@ BddTest().given('a student trace view', () => {
       props: ['title', 'icon'],
       template: '<div class="av-tab"><slot /></div>'
     },
-    TraceSettingsPopover: {
-      name: 'TraceSettingsPopover',
+    TraceSettingsDropdown: {
+      name: 'TraceSettingsDropdown',
       template: '<div class="trace-settings-popover" />'
     },
     TraceDeletionConfirmationModal: {
@@ -92,7 +92,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should render the popover', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       expect(popover.exists()).toBe(true)
     })
 
@@ -146,9 +146,9 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('TraceSettingsPopover emits associate-selected', () => {
+  BddTest().when('TraceSettingsDropdown emits associate-selected', () => {
     BddTest().then('it should open the associate modal', async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       await popover.vm.$emit('associate-selected')
       await flushPromises()
 
@@ -161,7 +161,7 @@ BddTest().given('a student trace view', () => {
   BddTest().when('Associate modal is opened', () => {
     BddTest().and('its close is triggered', () => {
       BddTest().then('it should hide the associate modal', async () => {
-        const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+        const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
         await popover.vm.$emit('associate-selected')
         await flushPromises()
 
@@ -176,7 +176,7 @@ BddTest().given('a student trace view', () => {
 
   BddTest().when('the delete modal is triggered', () => {
     beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       await popover.vm.$emit('delete-selected')
       await flushPromises()
     })
@@ -189,7 +189,7 @@ BddTest().given('a student trace view', () => {
 
   BddTest().when('the update modal is triggered', () => {
     beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsPopover' })
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       await popover.vm.$emit('update-selected')
       await flushPromises()
     })

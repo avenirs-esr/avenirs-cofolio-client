@@ -11,9 +11,12 @@ const props: StudentDetailedSkillCardProps = {
   color: 'var(--text1)'
 }
 
-function createWrapper (slots = {}) {
+function createWrapper (slots = {}, customProps = {}) {
   return mount(StudentDetailedSkillCard, {
-    props,
+    props: {
+      ...props,
+      ...customProps
+    },
     global: {
       stubs: {
         RouterLink: RouterLinkStub,
@@ -59,7 +62,7 @@ BddTest().given('a student detailed skill card with valid props', () => {
       expect(iconContainer.attributes('style')).toContain(`background: ${props.skillColor}`)
     })
 
-    BddTest().then('it should use the correct router-link props', () => {
+    BddTest().then('it should use the default student-skill route when to prop is not provided', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
       expect(routerLink.props('to')).toEqual({
         name: 'student-skill',
@@ -78,5 +81,23 @@ BddTest().given('a student detailed skill card with default slot provided', () =
     const slot = wrapper.find('.slot-content')
     expect(slot.exists()).toBe(true)
     expect(wrapper.text()).toContain('Slot Body')
+  })
+})
+
+BddTest().given('a student detailed skill card with custom to prop', () => {
+  let wrapper: ReturnType<typeof createWrapper>
+
+  beforeEach(() => {
+    wrapper = createWrapper({}, { to: 'custom-route' })
+  })
+
+  BddTest().when('the component is mounted with custom route', () => {
+    BddTest().then('it should use the custom route name', () => {
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+      expect(routerLink.props('to')).toEqual({
+        name: 'custom-route',
+        params: { id: 'skill-2-2' }
+      })
+    })
   })
 })

@@ -6,6 +6,7 @@ import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayou
 import routes, {
   studentAboutRoute,
   studentAccessibilityRoute,
+  studentAdditionalSkillRoute,
   studentAmsRoute,
   studentApcUnavailableRoute,
   studentCookiesRoute,
@@ -28,6 +29,7 @@ import routes, {
   studentTraceRoute
 } from '@/features/student/routes/routes'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
+import StudentAdditionalSkillView from '@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
 import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
@@ -64,6 +66,15 @@ testRoute(
     name: 'student-accessibility',
   },
   AccessibilityView
+)
+
+testRoute(
+  studentAdditionalSkillRoute,
+  {
+    path: 'additional-skill/:id',
+    name: 'student-additional-skill',
+  },
+  StudentAdditionalSkillView
 )
 
 testRoute(
@@ -256,6 +267,7 @@ BddTest().given('the student root route', () => {
       expect(studentRootRoute?.children).toEqual([
         studentHomeRoute,
         studentAccessibilityRoute,
+        studentAdditionalSkillRoute,
         studentAmsRoute,
         studentCookiesRoute,
         studentDeliverablesRoute,

@@ -123,6 +123,7 @@
         "project": {
           "header": "Building my life project",
           "items": {
+            "additionalSkills": "My other declared skills and certifications",
             "experiences": "My career",
             "skills": "All my skills",
             "trajectories": "Building my project"
@@ -252,6 +253,19 @@
         "activities": {
           "title": "My activities"
         }
+      },
+      "studentAdditionalSkillView": {
+        "settings": {
+          "ariaLabel": "Declared skill settings",
+          "delete": "Delete my skill",
+          "deleteAssociation": "Delete an association",
+          "update": "Edit my skill"
+        },
+        "tabs": {
+          "associations": "My associations ({count})",
+          "info": "My declared skill"
+        },
+        "title": "Declared skill details"
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {

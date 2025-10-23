@@ -3,6 +3,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import routes, {
   studentAboutRoute,
+  studentAdditionalSkillRoute,
   studentAmsRoute,
   studentEducationAmsRoute,
   studentEducationSkillsRoute,
@@ -36,7 +37,8 @@ const routesToCheck = [
   studentToolsResumesRoute,
   studentAboutRoute,
   studentMailboxRoute,
-  studentNotificationsRoute
+  studentNotificationsRoute,
+  studentAdditionalSkillRoute
 ]
 const parentRoute = routes[0]
 
