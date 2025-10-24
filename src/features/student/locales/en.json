@@ -175,6 +175,13 @@
       }
     },
     "views": {
+      "studentAdditionalSkillView": {
+        "tabs": {
+          "associations": {
+            "associatedTracesLabel": "My associated traces ({count})"
+          }
+        }
+      },
       "studentAmsView": {
         "breadcrumb": {
           "current": {
