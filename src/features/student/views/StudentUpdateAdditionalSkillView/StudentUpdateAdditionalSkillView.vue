@@ -48,7 +48,7 @@ const breadcrumbLinks = computed(() => [
       :label="t('student.views.studentUpdateAdditionalSkillView.wipBadge')"
       background-color="var(--dark-background-primary1)"
       color="var(--dark-foreground)"
-      :icon-path="ICONS_DATA_URL.AMS_SAE"
+      :icon-data-url="ICONS_DATA_URL.AMS_SAE"
     />
   </div>
 

@@ -1,33 +1,15 @@
 import { EAmsStatus } from '@/api/avenir-esr'
 import StudentAmsStatusBadge from '@/features/student/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
 BddTest().given('a student AMS status badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentAmsStatusBadge>>
 
-  const basePath = import.meta.env.BASE_URL
-
   const stubs = {
-    AvBadge: {
-      name: 'AvBadge',
-      template: `<div class="av-badge"/>`,
-      props: {
-        label: String,
-        small: {
-          type: Boolean,
-          default: false
-        },
-        ellipsis: {
-          type: Boolean,
-          default: false
-        },
-        color: String,
-        backgroundColor: String,
-        iconPath: String
-      }
-    },
+    AvBadge: AvBadgeStub,
   }
 
   beforeEach(() => {
@@ -54,7 +36,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-neutral)',
         backgroundColor: 'var(--light-background-neutral)',
-        iconPath: `${basePath}assets/icons/calendar-check-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
       })
     })
   })
@@ -79,7 +61,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: `${basePath}assets/icons/calendar-range-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
       })
     })
   })
@@ -104,7 +86,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--text2)',
         backgroundColor: 'var(--other-background-base)',
-        iconPath: `${basePath}assets/icons/calendar-clock-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
       })
     })
   })
@@ -129,7 +111,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       })
     })
   })

@@ -4,7 +4,7 @@ import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/
 import { StudentLastCompletedLevelBadge, StudentSkillLevelStatusBadge } from '@/features/student/components/badges'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { StudentCountAmsIconText, StudentCountTracesIconText } from '@/features/student/components/iconTexts'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedEducationalSkillCardProps {
   skill: SkillDTO
@@ -24,7 +24,6 @@ const showLevelBadge = computed((): boolean => {
 })
 
 const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = computed(() => skill.achievedSkillLevels)
-const basePath = import.meta.env.BASE_URL
 </script>
 
 <template>
@@ -49,7 +48,7 @@ const basePath = import.meta.env.BASE_URL
             :label="`${levelCount} niveaux`"
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
+            :icon-data-url="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
             small
             ellipsis
           />

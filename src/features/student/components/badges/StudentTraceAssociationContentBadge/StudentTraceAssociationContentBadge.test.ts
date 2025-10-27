@@ -13,7 +13,7 @@ const stubs = {
       label: String,
       color: String,
       backgroundColor: String,
-      iconPath: String,
+      iconDataUrl: String,
       small: Boolean,
       ellipsis: Boolean
     }
@@ -53,7 +53,7 @@ BddTest().given('a student trace association content badge', () => {
     BddTest().then('it should render with default icon', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
-      expect(badge.props('iconPath')).toBe(ICONS_DATA_URL.AMS_SAE)
+      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.AMS_SAE)
     })
 
     BddTest().then('it should have proper styling classes', () => {
@@ -69,7 +69,7 @@ BddTest().given('a student trace association content badge', () => {
       wrapper = mountComponent(StudentTraceAssociationContentBadge, {
         props: {
           label: 'Custom Icon Badge',
-          iconPath: ICONS_DATA_URL.CLOCK_QUARTER_CHECK
+          iconDataUrl: ICONS_DATA_URL.CLOCK_QUARTER_CHECK
         },
         global: {
           stubs
@@ -81,7 +81,7 @@ BddTest().given('a student trace association content badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('iconPath')).toBe(ICONS_DATA_URL.CLOCK_QUARTER_CHECK)
+      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.CLOCK_QUARTER_CHECK)
     })
   })
 

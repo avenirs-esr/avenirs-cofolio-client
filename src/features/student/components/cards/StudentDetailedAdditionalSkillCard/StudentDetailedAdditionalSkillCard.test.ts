@@ -54,7 +54,7 @@ BddTest().given('a student detailed additional skill card', () => {
     BddTest().then('it should render the type badge with correct label', () => {
       const typeBadge = wrapper.findAllComponents({ name: 'AvBadge' })[0]
       expect(typeBadge.exists()).toBe(true)
-      expect(typeBadge.text()).toBe('Rome 4.0')
+      expect(typeBadge.props('label')).toBe('Rome 4.0')
     })
 
     BddTest().then('it should render the type badge with correct props', () => {
@@ -69,7 +69,7 @@ BddTest().given('a student detailed additional skill card', () => {
     BddTest().then('it should render the path badge with joined pathSegments', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
       expect(pathBadge.exists()).toBe(true)
-      expect(pathBadge.text()).toBe(mockSkill.pathSegments.join(' > '))
+      expect(pathBadge.props('label')).toBe(mockSkill.pathSegments.join(' > '))
     })
 
     BddTest().then('it should render the path badge with correct props', () => {
@@ -97,7 +97,7 @@ BddTest().given('a student detailed additional skill card', () => {
 
     BddTest().then('it should render the path badge with single segment', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
-      expect(pathBadge.text()).toBe('Single Path')
+      expect(pathBadge.props('label')).toBe('Single Path')
     })
   })
 
@@ -112,7 +112,7 @@ BddTest().given('a student detailed additional skill card', () => {
 
     BddTest().then('it should render the path badge with all segments joined', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
-      expect(pathBadge.text()).toBe('Path 1 > Path 2 > Path 3')
+      expect(pathBadge.props('label')).toBe('Path 1 > Path 2 > Path 3')
     })
   })
 })

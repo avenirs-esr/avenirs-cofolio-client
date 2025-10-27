@@ -1,22 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { AdditionalSkillLevelBadge } from '@/features/student/components/badges'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
-  AvBadge: {
-    name: 'AvBadge',
-    template: '<div class="av-badge" />',
-    props: {
-      label: String,
-      backgroundColor: String,
-      color: String,
-      iconPath: String,
-      small: Boolean
-    }
-  }
+  AvBadge: AvBadgeStub
 }
 
 BddTest().given('an additional skill level badge', () => {
@@ -48,7 +38,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.BEGINNER)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary3)')
       expect(badge.props('color')).toBe('var(--dark-background-primary3)')
-      expect(badge.props('iconPath')).toBeDefined()
+      expect(badge.props('iconDataUrl')).toBeDefined()
       expect(badge.props('small')).toBe(false)
     })
   })
@@ -75,7 +65,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.INTERMEDIATE)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-info)')
       expect(badge.props('color')).toBe('var(--dark-background-info)')
-      expect(badge.props('iconPath')).toBeDefined()
+      expect(badge.props('iconDataUrl')).toBeDefined()
     })
   })
 
@@ -101,7 +91,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.COMPETENT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-critical)')
       expect(badge.props('color')).toBe('var(--light-foreground-critical)')
-      expect(badge.props('iconPath')).toBeDefined()
+      expect(badge.props('iconDataUrl')).toBeDefined()
     })
   })
 
@@ -127,7 +117,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.ADVANCED)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary2)')
       expect(badge.props('color')).toBe('var(--dark-background-primary2)')
-      expect(badge.props('iconPath')).toBeDefined()
+      expect(badge.props('iconDataUrl')).toBeDefined()
     })
   })
 
@@ -153,7 +143,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.EXPERT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary1)')
       expect(badge.props('color')).toBe('var(--light-foreground-primary2)')
-      expect(badge.props('iconPath')).toBeDefined()
+      expect(badge.props('iconDataUrl')).toBeDefined()
     })
   })
 

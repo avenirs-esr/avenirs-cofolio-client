@@ -14,7 +14,6 @@ const { skill } = defineProps<StudentDetailedEducationaSkillCardProps>()
 const { levelCount } = skill
 const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = computed(() => skill.achievedSkillLevels)
 const { t } = useI18n()
-const basePath = import.meta.env.BASE_URL
 </script>
 
 <template>
@@ -31,7 +30,7 @@ const basePath = import.meta.env.BASE_URL
           <AvBadge
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-path="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+            :icon-data-url="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
             :label="t('student.cards.studentDetailedPastSkillCard.programFinished')"
             small
             ellipsis
@@ -42,7 +41,7 @@ const basePath = import.meta.env.BASE_URL
             :label="`${levelCount} niveaux`"
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
+            :icon-data-url="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
             small
             ellipsis
           />

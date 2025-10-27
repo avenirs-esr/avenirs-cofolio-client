@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
-import { AvBadge } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { level } = defineProps<{ level: SkillLevelProgressOverviewDTO | SkillLevelViewDTO }>()
 
 const { t } = useI18n()
-const basePath = import.meta.env.BASE_URL
 
-const levelToBadgeProps = computed(() => {
+const levelToBadgeProps: ComputedRef<AvBadgeProps | undefined> = computed(() => {
   const status = level.status
 
   switch (status) {
@@ -17,14 +17,14 @@ const levelToBadgeProps = computed(() => {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.validated')}`,
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconPath: `${basePath}assets/icons/check-circle.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       }
     case ESkillLevelStatus.FAILED:
       return {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.failed')}`,
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconPath: `${basePath}assets/icons/close-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
       }
   }
   return undefined

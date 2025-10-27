@@ -178,7 +178,7 @@ BddTest().given('a student detailed AMS card', () => {
       })
 
       BddTest().then('it should render activity count badge', () => {
-        expect(wrapper.findComponent('.student-detailed-ams-card__ams-badge').exists()).toBe(true)
+        expect(wrapper.findComponent({ name: 'AvBadge' }).exists()).toBe(true)
       })
     })
   })
