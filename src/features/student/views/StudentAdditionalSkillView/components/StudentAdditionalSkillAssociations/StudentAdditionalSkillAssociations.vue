@@ -9,7 +9,7 @@ const { t } = useI18n()
 
 <template>
   <div class="student-additional-skill-associations-container">
-    <span class="associated-trace-count">{{ t('student.views.studentAdditionalSkillView.tabs.associations.associatedTracesLabel', traceAssociations.length) }}</span>
+    <span class="b2-regular associated-trace-count">{{ t('student.views.studentAdditionalSkillView.tabs.associations.associatedTracesLabel', traceAssociations.length) }}</span>
     <div class="student-trace-card-container">
       <StudentTraceCard
         v-for="trace in traceAssociations"
@@ -23,12 +23,12 @@ const { t } = useI18n()
 <style scoped lang="scss">
 .student-trace-card-container {
   background-color: var(--surface-background);
-  padding: 1.5rem;
+  padding: var(--spacing-md);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1.25rem;
-  border-radius: 1.5rem;
+  gap: var(--spacing-md);
+  border-radius: var(--radius-xl);
 }
 
 .associated-trace-count {
