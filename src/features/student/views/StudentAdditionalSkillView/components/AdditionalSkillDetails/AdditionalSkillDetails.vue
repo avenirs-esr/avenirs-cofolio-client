@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDateUtils } from '@/common/composables'
 import AdditionalSkillLevelBadge from '@/features/student/components/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
 import { type AdditionalSkillCategory, type AdditionalSkillProgressDetailsDTO, EAdditionalSkillCategoryType } from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
 import { AvBadge, AvCard, AvIcon, AvIconText, AvInput, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
@@ -9,10 +10,11 @@ export interface AdditionalSkillDetailsProps {
 }
 
 const { additionalSkillProgressDetails } = defineProps<AdditionalSkillDetailsProps>()
-const { title, comment, type, pathSegments, level } = additionalSkillProgressDetails
+const { title, comment, type, pathSegments, level, createdAt, updatedAt } = additionalSkillProgressDetails
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
+const { formatTranslatedDateTime } = useDateUtils()
 
 function getPathSegmentLabel (segment: AdditionalSkillCategory) {
   const before = t(`student.additionalSkillCategoryTypes.${EAdditionalSkillCategoryType[segment.type]}`)
@@ -29,14 +31,14 @@ function getPathSegmentLabel (segment: AdditionalSkillCategory) {
   >
     <div class="layout-additional-skill-details__main">
       <AvInput
-        :label="t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.skillTitle')"
+        :label="t('student.views.studentAdditionalSkillView.tabs.details.skillTitle')"
         label-class="caption-regular"
         :prefix-icon="RI_ICONS.LOADER_LINE"
         :model-value="title"
         disabled
       />
       <div class="ref--container">
-        <span class="caption-regular">{{ t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.refTitle') }}</span>
+        <span class="caption-regular">{{ t('student.views.studentAdditionalSkillView.tabs.details.refTitle') }}</span>
         <AvCard>
           <div class="ref--content">
             <div class="ref--type">
@@ -92,26 +94,28 @@ function getPathSegmentLabel (segment: AdditionalSkillCategory) {
         border-color="transparent"
       >
         <div class="level-card--content">
-          <span class="b2-regular">{{ t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.levelTitle') }}</span>
+          <span class="b2-regular">{{ t('student.views.studentAdditionalSkillView.tabs.details.levelTitle') }}</span>
           <AdditionalSkillLevelBadge :level="level" />
         </div>
       </AvCard>
       <div class="date-details">
         <AvIconText
+          v-if="createdAt"
           :icon="RI_ICONS.LOADER_LINE"
-          :text="t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.dateDetails.added',
-                   { date: '3 juillet 2025 à 9h23' })"
+          :text="t('student.views.studentAdditionalSkillView.tabs.details.dateDetails.added',
+                   { date: formatTranslatedDateTime(createdAt) })"
         />
         <AvIconText
+          v-if="updatedAt"
           :icon="MDI_ICONS.PENCIL_OUTLINE"
-          :text="t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.dateDetails.updated',
-                   { date: '3 juillet 2025 à 10h46' })"
+          :text="t('student.views.studentAdditionalSkillView.tabs.details.dateDetails.updated',
+                   { date: formatTranslatedDateTime(updatedAt) })"
         />
       </div>
     </div>
     <div class="layout-additional-skill-details__side">
       <AvInput
-        :label="t('student.views.studentAdditionalSkillDetailsView.additionalSkillDetails.commentTitle')"
+        :label="t('student.views.studentAdditionalSkillView.tabs.details.commentTitle')"
         label-class="caption-regular"
         :model-value="comment"
         :maxlength="400"

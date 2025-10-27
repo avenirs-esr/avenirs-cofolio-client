@@ -183,8 +183,15 @@
     },
     "views": {
       "studentAdditionalSkillView": {
+        "settings": {
+          "ariaLabel": "Paramètres de la compétence déclarée",
+          "delete": "Supprimer ma compétence",
+          "deleteAssociation": "Supprimer une association",
+          "update": "Modifier ma compétence"
+        },
         "tabs": {
           "associations": {
+            "title": "Mes associations ({count})",
             "associatedTracesLabel": "Mes traces associées ({count})"
           },
           "details": {
@@ -195,9 +202,11 @@
             },
             "levelTitle": "Auto-positionnement",
             "refTitle": "Issu du référentiel :",
-            "skillTitle": "Intitulé :"
+            "skillTitle": "Intitulé :",
+            "title": "Ma compétence déclarée"
           }
-        }
+        },
+        "title": "Détail de ma compétence déclarée"
       },
       "studentAmsView": {
         "breadcrumb": {
@@ -276,19 +285,6 @@
         "activities": {
           "title": "Mes activités"
         }
-      },
-      "studentAdditionalSkillView": {
-        "settings": {
-          "ariaLabel": "Paramètres de la compétence déclarée",
-          "delete": "Supprimer ma compétence",
-          "deleteAssociation": "Supprimer une association",
-          "update": "Modifier ma compétence"
-        },
-        "tabs": {
-          "associations": "Mes associations ({count})",
-          "info": "Ma compétence déclarée"
-        },
-        "title": "Détail de ma compétence déclarée"
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {

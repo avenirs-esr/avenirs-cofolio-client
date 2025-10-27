@@ -9,6 +9,8 @@ export interface AdditionalSkillProgressDetailsDTO {
   type: EAdditionalSkillType
   level: EAdditionalSkillLevel
   traceAssociations: Array<TraceOverviewDTO>
+  createdAt?: string
+  updatedAt?: string
 }
 
 export enum EAdditionalSkillCategoryType {

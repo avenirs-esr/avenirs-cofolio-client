@@ -47,13 +47,13 @@ const breadcrumbLinks = computed(() => [
 
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.info')"
+      :title="t('student.views.studentAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
       Placeholder for AdditionalSkillDetails
     </AvTab>
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.associations', { count: 4 })"
+      :title="t('student.views.studentAdditionalSkillView.tabs.associations.title', { count: 4 })"
       :icon="MDI_ICONS.LINK"
     >
       Placeholder for AdditionalSkillAssociations

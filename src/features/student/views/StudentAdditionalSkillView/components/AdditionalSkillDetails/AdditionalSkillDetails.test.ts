@@ -43,6 +43,8 @@ const mockedAdditionalSkillProgressDetailsWithUndefinedComment: AdditionalSkillP
   ],
   type: EAdditionalSkillType.ROME4,
   level: EAdditionalSkillLevel.ADVANCED,
+  createdAt: '2023-10-10T10:00:00Z',
+  updatedAt: '2023-10-15T12:00:00Z',
   traceAssociations: []
 }
 
