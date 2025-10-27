@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
-import { useNavigation } from '@/common/composables'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
-import AdditionalSkillSettingDropdown
-  from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillSettingDropdown/AdditionalSkillSettingDropdown.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface StudentAdditionalSkillViewProps {
@@ -19,10 +16,10 @@ enum StudentAdditionalSkillViewTabs {
 }
 
 const { t } = useI18n()
-const { navigateToStudentUpdateAdditionalSkill } = useNavigation()
 
 const activeTab = ref(StudentAdditionalSkillViewTabs.DETAILS)
 const skillTitle = ref<string>('Placeholder Skill Title')
+const wip = ref(true) // placeholder
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -30,48 +27,51 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.skills'), to: studentProjectSkillsRoute },
   { text: t('student.navigation.tabs.project.items.additionalSkills') }
 ])
-
-function handleUpdateSelected () {
-  navigateToStudentUpdateAdditionalSkill()
-}
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentAdditionalSkillView.title')"
+    :title="t('student.views.studentUpdateAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="studentProjectSkillsRoute"
   />
 
-  <div class="student-additional-skill-view__title">
+  <div class="update-additional-skill-view__title">
     <span class="n4">{{ skillTitle }}</span>
   </div>
 
-  <div class="student-additional-skill-view__actions">
-    <AdditionalSkillSettingDropdown @update-selected="handleUpdateSelected" />
+  <div
+    v-if="wip"
+    class="update-additional-skill-view__wip"
+  >
+    <AvBadge
+      :label="t('student.views.studentUpdateAdditionalSkillView.wipBadge')"
+      background-color="var(--dark-background-primary1)"
+      color="var(--dark-foreground)"
+      :icon-path="ICONS_DATA_URL.AMS_SAE"
+    />
   </div>
 
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.details.title')"
+      :title="t('student.views.studentUpdateAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
-      Placeholder for AdditionalSkillDetails
+      Placeholder for UpdateAdditionalSkillDetails
     </AvTab>
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.associations.title', { count: 4 })"
+      :title="t('student.views.studentUpdateAdditionalSkillView.tabs.associations.title', { count: 4 })"
       :icon="MDI_ICONS.LINK"
     >
-      Placeholder for AdditionalSkillAssociations
+      Placeholder for UpdateAdditionalSkillAssociations
     </AvTab>
   </AvTabs>
 </template>
 
 <style lang="scss" scoped>
-.student-additional-skill-view {
-
+.update-additional-skill-view {
   &__title {
-    padding: var(--spacing-md) 0;
+    padding: var(--spacing-md) var(--spacing-none);
     display: flex;
     flex-direction: row;
 
@@ -79,6 +79,13 @@ function handleUpdateSelected () {
       color: var(--text2);
     }
   }
+
+  &__wip {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-md) var(--spacing-none);
+  }
+
   &__actions {
     display: flex;
     justify-content: flex-end;

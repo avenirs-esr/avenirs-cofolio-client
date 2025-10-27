@@ -7,7 +7,8 @@ import {
   studentNotificationsRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracesRoute
+  studentToolsTracesRoute,
+  studentUpdateAdditionalSkillRoute
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { type NavigationFailure, useRouter } from 'vue-router'
@@ -51,6 +52,10 @@ export function useNavigation () {
     return router.push(studentToolsTracesRoute)
   }
 
+  const navigateToStudentUpdateAdditionalSkill = () => {
+    return router.push(studentUpdateAdditionalSkillRoute)
+  }
+
   const navigateToTeacherHome = (
   ): Promise<NavigationFailure | void | undefined> => {
     return router.push(teacherHomeRoute)
@@ -66,6 +71,7 @@ export function useNavigation () {
     navigateToStudentResumes,
     navigateToStudentSkills,
     navigateToStudentTraces,
+    navigateToStudentUpdateAdditionalSkill,
     navigateToTeacherHome,
   }
 }

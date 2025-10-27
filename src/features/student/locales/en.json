@@ -583,6 +583,18 @@
             }
           }
         }
+      },
+      "studentUpdateAdditionalSkillView": {
+        "tabs": {
+          "associations": {
+            "title": "My associations ({count})"
+          },
+          "details": {
+            "title": "My declared skill"
+          }
+        },
+        "title": "Update my declared skill",
+        "wipBadge": "Update in progress"
       }
     },
     "widgets": {
