@@ -4,7 +4,7 @@ import type {
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -64,11 +64,7 @@ const stubs = {
       </div>
     `
   },
-  AvBadge: {
-    name: 'AvBadge',
-    props: ['label', 'backgroundColor', 'color', 'iconPath'],
-    template: '<div class="badge-stub" :style="{ backgroundColor, color }">{{ label }}</div>'
-  }
+  AvBadge: AvBadgeStub
 }
 
 BddTest().given('a skill level field component', () => {
@@ -150,11 +146,11 @@ BddTest().given('a skill level field component', () => {
     BddTest().then('it should render badges with correct icons', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
 
-      expect(badges[0].props('iconPath')).toBeDefined()
-      expect(badges[1].props('iconPath')).toBeDefined()
-      expect(badges[2].props('iconPath')).toBeDefined()
-      expect(badges[3].props('iconPath')).toBeDefined()
-      expect(badges[4].props('iconPath')).toBeDefined()
+      expect(badges[0].props('iconDataUrl')).toBeDefined()
+      expect(badges[1].props('iconDataUrl')).toBeDefined()
+      expect(badges[2].props('iconDataUrl')).toBeDefined()
+      expect(badges[3].props('iconDataUrl')).toBeDefined()
+      expect(badges[4].props('iconDataUrl')).toBeDefined()
     })
   })
 
@@ -279,9 +275,9 @@ BddTest().given('a skill level field component', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
 
       badges.forEach((badge) => {
-        const iconPath = badge.props('iconPath')
-        expect(iconPath).toBeDefined()
-        expect(typeof iconPath).toBe('string')
+        const iconDataUrl = badge.props('iconDataUrl')
+        expect(iconDataUrl).toBeDefined()
+        expect(typeof iconDataUrl).toBe('string')
       })
     })
   })

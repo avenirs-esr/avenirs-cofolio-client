@@ -1,31 +1,14 @@
 import { ESkillLevelStatus } from '@/api/avenir-esr'
 import StudentSkillLevelStatusBadge from '@/features/student/components/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('a studentLevelBadge', () => {
   let wrapper: VueWrapper
 
-  const basePath = import.meta.env.BASE_URL
   const stubs = {
-    AvBadge: {
-      name: 'AvBadge',
-      template: `<div class="av-badge"/>`,
-      props: {
-        label: String,
-        small: {
-          type: Boolean,
-          default: false
-        },
-        ellipsis: {
-          type: Boolean,
-          default: false
-        },
-        color: String,
-        backgroundColor: String,
-        iconPath: String
-      }
-    }
+    AvBadge: AvBadgeStub
   }
 
   beforeEach(() => {
@@ -52,7 +35,7 @@ BddTest().given('a studentLevelBadge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconPath: `${basePath}assets/icons/close-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
       })
     })
   })
@@ -77,7 +60,7 @@ BddTest().given('a studentLevelBadge', () => {
         ellipsis: true,
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: `${basePath}assets/icons/hourglass.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_HOURGLASS
       })
     })
   })
@@ -102,7 +85,7 @@ BddTest().given('a studentLevelBadge', () => {
         ellipsis: true,
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: `${basePath}assets/icons/hourglass.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_HOURGLASS
       })
     })
   })
@@ -127,7 +110,7 @@ BddTest().given('a studentLevelBadge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       })
     })
   })
@@ -152,7 +135,7 @@ BddTest().given('a studentLevelBadge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconPath: `${basePath}assets/icons/check-circle.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       })
     })
   })

@@ -1,43 +1,42 @@
 <script setup lang="ts">
 import { EAmsStatus } from '@/api/avenir-esr'
-import { AvBadge } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { status } = defineProps<{ status: EAmsStatus }>()
 
 const { t } = useI18n()
-const basePath = import.meta.env.BASE_URL
 
-function getStatusBadge (status: EAmsStatus) {
+function getStatusBadge (status: EAmsStatus): AvBadgeProps {
   switch (status) {
     case EAmsStatus.COMPLETED:
       return {
-        labelkey: 'student.badges.studentAmsStatusBadge.status.completed',
+        label: t('student.badges.studentAmsStatusBadge.status.completed'),
         color: 'var(--light-foreground-neutral)',
         backgroundColor: 'var(--light-background-neutral)',
-        iconPath: `${basePath}assets/icons/calendar-check-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
       }
     case EAmsStatus.IN_PROGRESS:
       return {
-        labelkey: 'student.badges.studentAmsStatusBadge.status.inProgress',
+        label: t('student.badges.studentAmsStatusBadge.status.inProgress'),
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: `${basePath}assets/icons/calendar-range-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
       }
     case EAmsStatus.NOT_STARTED:
       return {
-        labelkey: 'student.badges.studentAmsStatusBadge.status.notStarted',
+        label: t('student.badges.studentAmsStatusBadge.status.notStarted'),
         color: 'var(--text2)',
         backgroundColor: 'var(--other-background-base)',
         borderColor: 'var(--other-border-skill-card)',
-        iconPath: `${basePath}assets/icons/calendar-clock-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
       }
     case EAmsStatus.SUBMITTED:
       return {
-        labelkey: 'student.badges.studentAmsStatusBadge.status.submitted',
+        label: t('student.badges.studentAmsStatusBadge.status.submitted'),
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       }
   }
 }
@@ -48,7 +47,6 @@ const statusBadge = computed(() => getStatusBadge(status))
 <template>
   <AvBadge
     v-bind="statusBadge"
-    :label="t(statusBadge.labelkey)"
     small
     ellipsis
   />

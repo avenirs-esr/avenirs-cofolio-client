@@ -3,7 +3,7 @@ import type { AdditionalSkillDTO, AdditionalSkillProgressDTO } from '@/api/aveni
 
 import { studentAdditionalSkillRoute } from '@/features/student'
 import StudentDetailedSkillCard from '@/features/student/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedAdditionalSkillCardProps {
@@ -12,21 +12,21 @@ export interface StudentDetailedAdditionalSkillCardProps {
 
 const { additionalSkill } = defineProps<StudentDetailedAdditionalSkillCardProps>()
 const { t } = useI18n()
-const basePath = import.meta.env.BASE_URL
 const additionalSkillColor = 'var(--dark-background-primary1)'
-const typeBadge = {
+const typeBadge = computed<AvBadgeProps>(() => ({
   label: t(`student.additionalSkillTypes.${additionalSkill.type}`),
   color: 'var(--text1)',
   borderColor: 'var(--other-border-skill-card)',
   backgroundColor: 'var(--surface-background)',
-  iconPath: `${basePath}assets/icons/bookmark-check.svg`
-}
-const pathBadge = {
+  iconDataUrl: ICONS_DATA_URL.MDI_BOOKMARK_CHECK
+}))
+
+const pathBadge = computed<AvBadgeProps>(() => ({
   label: additionalSkill.pathSegments.join(' > '),
   color: 'var(--dark-background-accent)',
   backgroundColor: 'var(--light-background-accent)',
-  iconPath: `${basePath}assets/icons/stars.svg`
-}
+  iconDataUrl: ICONS_DATA_URL.MDI_STARS
+}))
 </script>
 
 <template>
@@ -47,6 +47,7 @@ const pathBadge = {
             ellipsis
           />
           <AvBadge
+            v-if="additionalSkill.pathSegments.length > 0"
             v-bind="pathBadge"
             small
             ellipsis

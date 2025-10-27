@@ -1,19 +1,15 @@
 import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 import StudentDetailedPastSkillCard from './StudentDetailedPastSkillCard.vue'
 
 const stubs = {
+  AvBadge: AvBadgeStub,
   StudentDetailedSkillCard: {
     name: 'StudentDetailedSkillCard',
     props: ['id', 'name', 'skillColor', 'icon', 'color'],
     template: '<div class="student-detailed-skill-card-stub"><slot /></div>'
-  },
-  AvBadge: {
-    name: 'AvBadge',
-    props: ['color', 'backgroundColor', 'iconPath', 'label', 'small', 'ellipsis'],
-    template: '<div class="av-badge-stub">{{ label }}</div>'
   },
   StudentLastCompletedLevelBadge: {
     name: 'StudentLastCompletedLevelBadge',
@@ -96,8 +92,8 @@ BddTest().given('a student detailed past skill card component', () => {
       expect(programBadge.props('label')).toBe('Formation associée')
       expect(programBadge.props('color')).toBe('var(--foreground-text)')
       expect(programBadge.props('backgroundColor')).toBe('var(--surface-background)')
-      expect(programBadge.props('small')).toBe('')
-      expect(programBadge.props('ellipsis')).toBe('')
+      expect(programBadge.props('small')).toBe(true)
+      expect(programBadge.props('ellipsis')).toBe(true)
     })
 
     BddTest().then('it should render level count badge', () => {
@@ -108,8 +104,8 @@ BddTest().given('a student detailed past skill card component', () => {
       expect(levelBadge.props('label')).toBe('3 niveaux')
       expect(levelBadge.props('color')).toBe('var(--foreground-text)')
       expect(levelBadge.props('backgroundColor')).toBe('var(--surface-background)')
-      expect(levelBadge.props('small')).toBe('')
-      expect(levelBadge.props('ellipsis')).toBe('')
+      expect(levelBadge.props('small')).toBe(true)
+      expect(levelBadge.props('ellipsis')).toBe(true)
     })
 
     BddTest().then('it should render StudentLastCompletedLevelBadge when achievedSkillLevels exists', () => {

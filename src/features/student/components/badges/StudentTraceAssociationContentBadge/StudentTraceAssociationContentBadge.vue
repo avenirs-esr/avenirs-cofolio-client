@@ -3,12 +3,12 @@ import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceAssociationContentBadgeProps {
   label: string
-  iconPath?: string
+  iconDataUrl?: string
 }
 
 const {
   label,
-  iconPath = ICONS_DATA_URL.AMS_SAE
+  iconDataUrl = ICONS_DATA_URL.AMS_SAE
 } = defineProps<StudentTraceAssociationContentBadgeProps>()
 </script>
 
@@ -17,7 +17,7 @@ const {
     :label="label"
     color="var(--light-foreground-text1)"
     background-color="var(--surface-background)"
-    :icon-path="iconPath"
+    :icon-data-url="iconDataUrl"
     small
     ellipsis
     class="student-trace-association-content-badge caption-regular"

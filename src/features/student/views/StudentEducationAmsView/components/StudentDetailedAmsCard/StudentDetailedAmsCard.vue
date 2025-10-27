@@ -2,13 +2,12 @@
 import type { AmsViewDTO } from '@/api/avenir-esr'
 import { StudentAmsStatusBadge, StudentCountSkillsIconText, StudentCountTracesIconText } from '@/features/student/components'
 import { studentAmsRoute } from '@/features/student/routes'
-import { AvBadge, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, AvCard, AvIcon, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { ams } = defineProps<{ ams: AmsViewDTO }>()
 const { id, title, progress, countSkills, countTraces, status } = ams
 const { startedActivities, totalActivities } = progress
-const basePath = import.meta.env.BASE_URL
 
 const { t } = useI18n()
 </script>
@@ -46,7 +45,7 @@ const { t } = useI18n()
                 :label="t('student.views.studentEducationAmsView.amsListContainer.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
                 color="var(--text1)"
                 background-color="var(--surface-background)"
-                :icon-path="`${basePath}assets/icons/text-box-check-outline.svg`"
+                :icon-data-url="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
                 small
                 ellipsis
               />

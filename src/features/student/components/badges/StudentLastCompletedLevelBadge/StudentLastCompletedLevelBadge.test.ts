@@ -1,15 +1,12 @@
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO } from '@/api/avenir-esr'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
 import StudentLastCompletedLevelBadge from './StudentLastCompletedLevelBadge.vue'
 
 const stubs = {
-  AvBadge: {
-    name: 'AvBadge',
-    props: ['label', 'color', 'backgroundColor', 'iconPath', 'small', 'ellipsis'],
-    template: '<div class="av-badge-stub" />'
-  }
+  AvBadge: AvBadgeStub
 }
 
 BddTest().given('a student last completed level badge component', () => {
@@ -42,7 +39,7 @@ BddTest().given('a student last completed level badge component', () => {
       expect(badge.props('label')).toBe('Niveau 1 Validé')
       expect(badge.props('color')).toBe('var(--light-foreground-success)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
-      expect(badge.props('iconPath')).toContain('check-circle.svg')
+      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.MDI_CHECK_CIRCLE)
     })
   })
 
@@ -73,7 +70,7 @@ BddTest().given('a student last completed level badge component', () => {
       expect(badge.props('label')).toBe('Niveau 2 Non validé')
       expect(badge.props('color')).toBe('var(--light-foreground-error)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
-      expect(badge.props('iconPath')).toContain('close-circle-outline.svg')
+      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE)
     })
   })
 

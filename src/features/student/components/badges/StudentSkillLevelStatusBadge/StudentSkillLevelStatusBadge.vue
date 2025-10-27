@@ -1,57 +1,53 @@
 <script setup lang="ts">
 import { ESkillLevelStatus } from '@/api/avenir-esr'
-import { AvBadge } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { status } = defineProps<{ status: ESkillLevelStatus }>()
 
 const { t } = useI18n()
 
-function statusToBadge (status: ESkillLevelStatus) {
-  const basePath = import.meta.env.BASE_URL
-
+function statusToBadge (status: ESkillLevelStatus): AvBadgeProps {
   switch (status) {
     case ESkillLevelStatus.NOT_STARTED:
     case ESkillLevelStatus.UNDER_ACQUISITION:
     case ESkillLevelStatus.TO_BE_EVALUATED:
       return {
-        labelkey: 'student.badges.studentLevelBadge.status.inProgress',
+        label: t('student.badges.studentLevelBadge.status.inProgress'),
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconPath: `${basePath}assets/icons/hourglass.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_HOURGLASS
       }
     case ESkillLevelStatus.UNDER_REVIEW:
       return {
-        labelkey: 'student.badges.studentLevelBadge.status.underReview',
+        label: t('student.badges.studentLevelBadge.status.underReview'),
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconPath: `${basePath}assets/icons/dots-horizontal-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       }
     case ESkillLevelStatus.VALIDATED:
       return {
-        labelkey: 'student.badges.studentLevelBadge.status.validated',
+        label: t('student.badges.studentLevelBadge.status.validated'),
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconPath: `${basePath}assets/icons/check-circle.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       }
     case ESkillLevelStatus.FAILED:
       return {
-        labelkey: 'student.badges.studentLevelBadge.status.failed',
+        label: t('student.badges.studentLevelBadge.status.failed'),
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconPath: `${basePath}assets/icons/close-circle-outline.svg`
+        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
       }
   }
 }
 
 const levelBadge = computed(() => statusToBadge(status))
-const label = computed(() => t(levelBadge.value.labelkey))
 </script>
 
 <template>
   <AvBadge
     v-bind="levelBadge"
-    :label="label"
     small
     ellipsis
   />

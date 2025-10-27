@@ -226,7 +226,7 @@ testRoute(
 testRoute(
   studentUpdateAdditionalSkillRoute,
   {
-    path: 'update-additional-skill/:skillId',
+    path: 'update-additional-skill/:id',
     name: 'student-update-additional-skill',
   },
   StudentUpdateAdditionalSkillView

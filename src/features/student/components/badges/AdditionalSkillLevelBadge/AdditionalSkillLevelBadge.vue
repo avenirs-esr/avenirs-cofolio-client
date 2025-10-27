@@ -60,7 +60,7 @@ const label = computed(() => getBadgeLabel(level))
     :label="label"
     :background-color="badgeConfig.background"
     :color="badgeConfig.color"
-    :icon-path="badgeConfig.icon"
+    :icon-data-url="badgeConfig.icon"
     :small="small"
   />
 </template>
