@@ -183,9 +183,16 @@
     },
     "views": {
       "studentAdditionalSkillView": {
+        "settings": {
+          "ariaLabel": "Declared skill settings",
+          "delete": "Delete my skill",
+          "deleteAssociation": "Delete an association",
+          "update": "Edit my skill"
+        },
         "tabs": {
           "associations": {
-            "associatedTracesLabel": "My associated traces ({count})"
+            "associatedTracesLabel": "My associated traces ({count})",
+            "title": "My associations ({count})"
           },
           "details": {
             "commentTitle": "Description of my skill",
@@ -195,8 +202,11 @@
             },
             "levelTitle": "Self-positioning",
             "refTitle": "From the reference system:",
-            "skillTitle": "Title:"
+            "skillTitle": "Title:",
+            "title": "My declared skill"
           }
+        },
+        "title": "Declared skill details"
       },
       "studentAmsView": {
         "breadcrumb": {
@@ -275,19 +285,6 @@
         "activities": {
           "title": "My activities"
         }
-      },
-      "studentAdditionalSkillView": {
-        "settings": {
-          "ariaLabel": "Declared skill settings",
-          "delete": "Delete my skill",
-          "deleteAssociation": "Delete an association",
-          "update": "Edit my skill"
-        },
-        "tabs": {
-          "associations": "My associations ({count})",
-          "info": "My declared skill"
-        },
-        "title": "Declared skill details"
       },
       "studentProjectSkillsView": {
         "skillsViewTabs": {
