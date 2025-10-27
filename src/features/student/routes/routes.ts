@@ -23,6 +23,7 @@ import type StudentToolsPagesView from '@/features/student/views/StudentToolsPag
 import type StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import type StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import type StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
+import type StudentUpdateAdditionalSkillView from '@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const studentHomeRoute: AvRoute = {
@@ -193,6 +194,18 @@ export const studentTraceRoute: AvRoute = {
     }>,
 }
 
+export const studentUpdateAdditionalSkillRoute: AvRoute = {
+  path: 'update-additional-skill/:id',
+  name: 'student-update-additional-skill',
+  props: route => ({
+    skillId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue') as Promise<{
+      default: typeof StudentUpdateAdditionalSkillView
+    }>,
+}
+
 export const studentAboutRoute: AvRoute = {
   path: 'about',
   name: 'student-about',
@@ -267,6 +280,7 @@ const routes: RouteRecordRaw[] = [
       studentToolsPagesRoute,
       studentToolsResumesRoute,
       studentTraceRoute,
+      studentUpdateAdditionalSkillRoute,
       studentAboutRoute,
       studentMailboxRoute,
       studentNotificationsRoute,

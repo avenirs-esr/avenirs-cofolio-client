@@ -4,6 +4,18 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const navigateToStudentUpdateAdditionalSkill = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentUpdateAdditionalSkill,
+    }),
+  }
+})
+
 const AdditionalSkillSettingDropdownStub = {
   name: 'AdditionalSkillSettingDropdown',
   emits: ['updateSelected', 'deleteAssociationSelected', 'deleteSelected'],
@@ -101,6 +113,7 @@ BddTest().given('a student additional skill view component', () => {
     BddTest().then('it should handle the event', async () => {
       const settingPopover = wrapper.findComponent({ name: 'AdditionalSkillSettingDropdown' })
       await settingPopover.vm.$emit('updateSelected')
+      expect(navigateToStudentUpdateAdditionalSkill).toHaveBeenCalled()
     })
   })
 

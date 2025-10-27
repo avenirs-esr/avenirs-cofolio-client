@@ -8,7 +8,8 @@ import {
   studentNotificationsRoute,
   studentToolsPagesRoute,
   studentToolsResumesRoute,
-  studentToolsTracesRoute
+  studentToolsTracesRoute,
+  studentUpdateAdditionalSkillRoute
 } from '@/features/student/routes'
 import { teacherHomeRoute } from '@/features/teacher/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -105,6 +106,14 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentTraces } = navigation
       navigateToStudentTraces()
       expect(pushMock).toHaveBeenCalledWith(studentToolsTracesRoute)
+    })
+  })
+
+  BddTest().when('trying to navigate to student update additional skill', () => {
+    BddTest().then('it should navigate to student update additional skill', () => {
+      const { navigateToStudentUpdateAdditionalSkill } = navigation
+      navigateToStudentUpdateAdditionalSkill()
+      expect(pushMock).toHaveBeenCalledWith(studentUpdateAdditionalSkillRoute)
     })
   })
 

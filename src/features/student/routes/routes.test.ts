@@ -26,7 +26,8 @@ import routes, {
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentToolsTracesRoute,
-  studentTraceRoute
+  studentTraceRoute,
+  studentUpdateAdditionalSkillRoute,
 } from '@/features/student/routes/routes'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
 import StudentAdditionalSkillView from '@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
@@ -47,6 +48,7 @@ import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesVie
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
+import StudentUpdateAdditionalSkillView from '@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 
@@ -222,6 +224,15 @@ testRoute(
 )
 
 testRoute(
+  studentUpdateAdditionalSkillRoute,
+  {
+    path: 'update-additional-skill/:skillId',
+    name: 'student-update-additional-skill',
+  },
+  StudentUpdateAdditionalSkillView
+)
+
+testRoute(
   studentAboutRoute,
   {
     path: 'about',
@@ -284,6 +295,7 @@ BddTest().given('the student root route', () => {
         studentToolsPagesRoute,
         studentToolsResumesRoute,
         studentTraceRoute,
+        studentUpdateAdditionalSkillRoute,
         studentAboutRoute,
         studentMailboxRoute,
         studentNotificationsRoute,
