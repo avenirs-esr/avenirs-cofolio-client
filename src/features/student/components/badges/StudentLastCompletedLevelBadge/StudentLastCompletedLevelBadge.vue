@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
 import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -8,7 +7,7 @@ const { level } = defineProps<{ level: SkillLevelProgressOverviewDTO | SkillLeve
 
 const { t } = useI18n()
 
-const levelToBadgeProps: ComputedRef<AvBadgeProps | undefined> = computed(() => {
+const levelToBadgeProps = computed<AvBadgeProps | undefined>(() => {
   const status = level.status
 
   switch (status) {

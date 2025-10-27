@@ -4,22 +4,22 @@ import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/
 import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-interface StudentAdditionalSkillViewProps {
+interface StudentUpdateAdditionalSkillViewProps {
   skillId: string
 }
 
-defineProps<StudentAdditionalSkillViewProps>()
+defineProps<StudentUpdateAdditionalSkillViewProps>()
 
-enum StudentAdditionalSkillViewTabs {
+enum StudentUpdateAdditionalSkillViewTabs {
   DETAILS = 0,
   ASSOCIATIONS = 1
 }
 
 const { t } = useI18n()
 
-const activeTab = ref(StudentAdditionalSkillViewTabs.DETAILS)
+const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const skillTitle = ref<string>('Placeholder Skill Title')
-const wip = ref(true) // placeholder
+const updateInProgress = ref(true) // placeholder
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -41,8 +41,8 @@ const breadcrumbLinks = computed(() => [
   </div>
 
   <div
-    v-if="wip"
-    class="update-additional-skill-view__wip"
+    v-if="updateInProgress"
+    class="update-additional-skill-view__uip"
   >
     <AvBadge
       :label="t('student.views.studentUpdateAdditionalSkillView.wipBadge')"
@@ -80,7 +80,7 @@ const breadcrumbLinks = computed(() => [
     }
   }
 
-  &__wip {
+  &__uip {
     display: flex;
     justify-content: flex-end;
     padding: var(--spacing-md) var(--spacing-none);
