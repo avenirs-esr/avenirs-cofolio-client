@@ -193,7 +193,6 @@ const theme = ref({
 }
 
 .fr-tag {
-  display: block;
   color: var(--text2);
   background-color: var(--light-background-neutral);
   align-items: center;
