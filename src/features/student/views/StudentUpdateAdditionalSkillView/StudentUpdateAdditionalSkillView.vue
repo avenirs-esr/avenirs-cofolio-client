@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { PageTitle } from '@/common/components'
+import { useNavigation } from '@/common/composables'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
+import UpdateAdditionalSkillForm
+  from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
 import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -16,10 +20,11 @@ enum StudentUpdateAdditionalSkillViewTabs {
 }
 
 const { t } = useI18n()
+const { navigateToStudentAdditionalSkill } = useNavigation()
 
 const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const skillTitle = ref<string>('Placeholder Skill Title')
-const updateInProgress = ref(true) // placeholder
+const updateInProgress = ref(true)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -27,6 +32,10 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.skills'), to: studentProjectSkillsRoute },
   { text: t('student.navigation.tabs.project.items.additionalSkills') }
 ])
+
+function onSkillUpdated () {
+  navigateToStudentAdditionalSkill()
+}
 </script>
 
 <template>
@@ -57,7 +66,10 @@ const breadcrumbLinks = computed(() => [
       :title="t('student.views.studentUpdateAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
-      Placeholder for UpdateAdditionalSkillDetails
+      <UpdateAdditionalSkillForm
+        :additional-skill-progress-details="mockedAdditionalSkillProgressDetails"
+        :on-skill-updated="onSkillUpdated"
+      />
     </AvTab>
     <AvTab
       :title="t('student.views.studentUpdateAdditionalSkillView.tabs.associations.title', { count: 4 })"

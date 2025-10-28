@@ -4,6 +4,9 @@ import type { AdditionalSkillOption } from '@/features/student/views/StudentProj
 import type {
   AdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
+import type {
+  UpdateAdditionalSkillForm
+} from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import AdditionalSkillTypeBadge from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
@@ -13,7 +16,7 @@ import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface SearchSkillFieldProps {
-  form: AdditionalSkillForm
+  form: AdditionalSkillForm | UpdateAdditionalSkillForm
 }
 
 const props = defineProps<SearchSkillFieldProps>()

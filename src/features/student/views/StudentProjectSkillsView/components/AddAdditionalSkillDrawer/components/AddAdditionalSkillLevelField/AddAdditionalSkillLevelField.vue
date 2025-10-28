@@ -2,6 +2,9 @@
 import type {
   AdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
+import type {
+  UpdateAdditionalSkillForm
+} from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import { AdditionalSkillLevelBadge } from '@/features/student/components/badges'
@@ -10,7 +13,7 @@ import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface SkillLevelFieldProps {
-  form: AdditionalSkillForm
+  form: AdditionalSkillForm | UpdateAdditionalSkillForm
 }
 
 const props = defineProps<SkillLevelFieldProps>()

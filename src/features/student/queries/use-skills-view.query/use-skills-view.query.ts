@@ -1,4 +1,10 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type {
+  AdditionalSkillProgressDetailsDTO
+} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
+import {
+  updateMockedAdditionalSkillProgressDetails
+} from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,
@@ -236,4 +242,24 @@ export function useAdditionalSkillDetailedQuery (skillId: MaybeRef<string>) {
     ...query,
     additionalSkillDetailed,
   }
+}
+
+export interface UseUpdateAdditionalSkillMutationArgs {
+  onSuccess?: () => void
+  onError?: (error: BaseApiException) => void
+}
+
+export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpdateAdditionalSkillMutationArgs = {}) {
+  const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'update', 'additional'])
+
+  return useMutation<void, BaseApiException, AdditionalSkillProgressDetailsDTO>({
+    mutationFn: async (additionalSkillProgressDetailsDTO: AdditionalSkillProgressDetailsDTO): Promise<void> => {
+      await updateMockedAdditionalSkillProgressDetails(additionalSkillProgressDetailsDTO)
+    },
+    onSuccess: async () => {
+      await invalidateAdditionalSkillsViewQuery()
+      onSuccess?.()
+    },
+    onError
+  })
 }
