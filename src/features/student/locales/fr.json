@@ -195,11 +195,11 @@
             "associatedTracesLabel": "Mes traces associées ({count})"
           },
           "details": {
-            "commentTitle": "Description de ma compétence",
             "dateDetails": {
               "added": "Compétence ajoutée le {date}",
               "updated": "Modifiée le {date}"
             },
+            "descriptionTitle": "Description de ma compétence",
             "levelTitle": "Auto-positionnement",
             "refTitle": "Issu du référentiel :",
             "skillTitle": "Intitulé :",

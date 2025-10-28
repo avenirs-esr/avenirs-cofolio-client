@@ -1,5 +1,7 @@
-import { EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
-import { type AdditionalSkillProgressDetailsDTO, EAdditionalSkillCategoryType } from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
+import type {
+  AdditionalSkillProgressDetailsDTO
+} from '@/api/avenir-esr'
+import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import AdditionalSkillDetails, { type AdditionalSkillDetailsProps } from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -17,35 +19,11 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const mockedAdditionalSkillProgressDetails: AdditionalSkillProgressDetailsDTO = {
-  id: 'additional-skill1',
-  title: 'Conduire un projet de bout en bout',
-  pathSegments: [
-    { type: EAdditionalSkillCategoryType.ISSUE, title: 'Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail' },
-    { type: EAdditionalSkillCategoryType.TARGET, title: 'Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.' },
-    { type: EAdditionalSkillCategoryType.MACRO_SKILL, title: 'Conduire un projet de bout en bout' }
-  ],
-  comment: `Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
-Enjeu : Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail
-Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.`,
-  type: EAdditionalSkillType.ROME4,
-  level: EAdditionalSkillLevel.ADVANCED,
-  traceAssociations: []
-}
+const mockedAdditionalSkillProgressDetails: AdditionalSkillProgressDetailsDTO = createMockedAdditionalSkillProgressDetailsDTO('additional-skill1')
 
-const mockedAdditionalSkillProgressDetailsWithUndefinedComment: AdditionalSkillProgressDetailsDTO = {
-  id: 'additional-skill1',
-  title: 'Conduire un projet de bout en bout',
-  pathSegments: [
-    { type: EAdditionalSkillCategoryType.ISSUE, title: 'Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail' },
-    { type: EAdditionalSkillCategoryType.TARGET, title: 'Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.' },
-    { type: EAdditionalSkillCategoryType.MACRO_SKILL, title: 'Conduire un projet de bout en bout' }
-  ],
-  type: EAdditionalSkillType.ROME4,
-  level: EAdditionalSkillLevel.ADVANCED,
-  createdAt: '2023-10-10T10:00:00Z',
-  updatedAt: '2023-10-15T12:00:00Z',
-  traceAssociations: []
+const mockedAdditionalSkillProgressDetailsWithUndefinedDescription: AdditionalSkillProgressDetailsDTO = {
+  ...mockedAdditionalSkillProgressDetails,
+  description: undefined
 }
 
 const AvInputStub = {
@@ -130,10 +108,10 @@ BddTest().given('the AdditionalSkillDetails component', () => {
         expect(avBadge.exists()).toBe(index === mockedAdditionalSkillProgressDetails.pathSegments.length - 1)
 
         if (avIconText.exists()) {
-          expect(avIconText.props('text')).toContain(mockedAdditionalSkillProgressDetails.pathSegments[index].title)
+          expect(avIconText.props('text')).toContain(mockedAdditionalSkillProgressDetails.pathSegments[index].libelle)
         }
         else if (avBadge.exists()) {
-          expect(avBadge.props('label')).toContain(mockedAdditionalSkillProgressDetails.pathSegments[index].title)
+          expect(avBadge.props('label')).toContain(mockedAdditionalSkillProgressDetails.pathSegments[index].libelle)
         }
       })
     })
@@ -147,12 +125,12 @@ BddTest().given('the AdditionalSkillDetails component', () => {
     BddTest().then('it should render the additional skill comment', () => {
       const commentTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
       expect(commentTextarea.exists()).toBe(true)
-      expect(commentTextarea.props('modelValue')).toBe(mockedAdditionalSkillProgressDetails.comment)
+      expect(commentTextarea.props('modelValue')).toBe(mockedAdditionalSkillProgressDetails.description)
     })
 
     BddTest().and('the additional skill comment is undefined', () => {
       const newProps: AdditionalSkillDetailsProps = {
-        additionalSkillProgressDetails: mockedAdditionalSkillProgressDetailsWithUndefinedComment
+        additionalSkillProgressDetails: mockedAdditionalSkillProgressDetailsWithUndefinedDescription
       }
 
       beforeEach(async () => {

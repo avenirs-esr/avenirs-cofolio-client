@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { type AdditionalSkillCategoryDTO, type AdditionalSkillProgressDetailsDTO, EAdditionalSkillCategoryType } from '@/api/avenir-esr'
 import { useDateUtils } from '@/common/composables'
 import AdditionalSkillLevelBadge from '@/features/student/components/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
-import { type AdditionalSkillCategory, type AdditionalSkillProgressDetailsDTO, EAdditionalSkillCategoryType } from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
 import { AvBadge, AvCard, AvIcon, AvIconText, AvInput, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,15 +10,15 @@ export interface AdditionalSkillDetailsProps {
 }
 
 const { additionalSkillProgressDetails } = defineProps<AdditionalSkillDetailsProps>()
-const { title, comment, type, pathSegments, level, createdAt, updatedAt } = additionalSkillProgressDetails
+const { title, description, type, pathSegments, level, createdAt, updatedAt } = additionalSkillProgressDetails
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 const { formatTranslatedDateTime } = useDateUtils()
 
-function getPathSegmentLabel (segment: AdditionalSkillCategory) {
+function getPathSegmentLabel (segment: AdditionalSkillCategoryDTO) {
   const before = t(`student.additionalSkillCategoryTypes.${EAdditionalSkillCategoryType[segment.type]}`)
-  return t('global.colon', { before, after: segment.title })
+  return t('global.colon', { before, after: segment.libelle })
 }
 </script>
 
@@ -115,16 +115,16 @@ function getPathSegmentLabel (segment: AdditionalSkillCategory) {
     </div>
     <div class="layout-additional-skill-details__side">
       <AvInput
-        :label="t('student.views.studentAdditionalSkillView.tabs.details.commentTitle')"
+        :label="t('student.views.studentAdditionalSkillView.tabs.details.descriptionTitle')"
         label-class="caption-regular"
-        :model-value="comment"
+        :model-value="description"
         :maxlength="400"
         is-textarea
         disabled
       >
         <template #customCaptions>
           <span class="caption-regular">
-            {{ t('global.inputs.limit', { count: comment?.length ?? 0, maxlength: 400 }) }}
+            {{ t('global.inputs.limit', { count: description?.length ?? 0, maxlength: 400 }) }}
           </span>
         </template>
       </AvInput>

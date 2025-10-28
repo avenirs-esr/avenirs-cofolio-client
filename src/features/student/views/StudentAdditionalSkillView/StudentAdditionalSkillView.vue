@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
+import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
+import AdditionalSkillDetails
+  from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
 import AdditionalSkillSettingDropdown
   from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillSettingDropdown/AdditionalSkillSettingDropdown.vue'
+import StudentAdditionalSkillAssociations
+  from '@/features/student/views/StudentAdditionalSkillView/components/StudentAdditionalSkillAssociations/StudentAdditionalSkillAssociations.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -11,7 +16,7 @@ interface StudentAdditionalSkillViewProps {
   skillId: string
 }
 
-defineProps<StudentAdditionalSkillViewProps>()
+const { skillId } = defineProps<StudentAdditionalSkillViewProps>()
 
 enum StudentAdditionalSkillViewTabs {
   DETAILS = 0,
@@ -21,8 +26,12 @@ enum StudentAdditionalSkillViewTabs {
 const { t } = useI18n()
 const { navigateToStudentUpdateAdditionalSkill } = useNavigation()
 
+const { additionalSkillDetailed } = useAdditionalSkillDetailedQuery(skillId)
+
 const activeTab = ref(StudentAdditionalSkillViewTabs.DETAILS)
-const skillTitle = ref<string>('Placeholder Skill Title')
+
+const skillTitle = computed(() => additionalSkillDetailed.value?.title ?? '')
+const countAssociations = computed(() => additionalSkillDetailed.value?.traceAssociations?.length ?? 0)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -56,13 +65,19 @@ function handleUpdateSelected () {
       :title="t('student.views.studentAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
-      Placeholder for AdditionalSkillDetails
+      <AdditionalSkillDetails
+        v-if="additionalSkillDetailed"
+        :additional-skill-progress-details="additionalSkillDetailed"
+      />
     </AvTab>
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.associations.title', { count: 4 })"
+      :title="t('student.views.studentAdditionalSkillView.tabs.associations.title', { count: countAssociations })"
       :icon="MDI_ICONS.LINK"
     >
-      Placeholder for AdditionalSkillAssociations
+      <StudentAdditionalSkillAssociations
+        v-if="additionalSkillDetailed"
+        :trace-associations="additionalSkillDetailed.traceAssociations"
+      />
     </AvTab>
   </AvTabs>
 </template>

@@ -4,6 +4,7 @@ import type { Ref } from 'vue'
 import { createMockedAllSkillListItemDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AdditionalSkillDTO,
+  type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
   EAdditionalSkillType,
   type PagedResponseAdditionalSkillDTO,
@@ -13,7 +14,7 @@ import {
   type SkillDTO,
   type SkillListItemDTO
 } from '@/api/avenir-esr'
-import { useAdditionalSkillsViewQuery, useAllSkillsQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
+import { useAdditionalSkillDetailedQuery, useAdditionalSkillsViewQuery, useAllSkillsQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -440,6 +441,103 @@ BddTest().given('an useAllSkillsQuery composable', async () => {
         await flushPromises()
 
         expect(getAllSkillsSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('an useAdditionalSkillDetailedQuery composable', () => {
+  BddTest().and('a valid skill id', () => {
+    const skillId = ref('test-skill-id-123')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<AdditionalSkillProgressDetailsDTO, BaseApiException> & {
+        additionalSkillDetailed: Ref<AdditionalSkillProgressDetailsDTO | undefined>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useAdditionalSkillDetailedQuery(skillId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should return the additional skill details', () => {
+        expect(queryResult.data.value).toBeDefined()
+        expect(queryResult.data.value?.id).toBe('test-skill-id-123')
+        expect(queryResult.data.value?.title).toBe('Conduire un projet de bout en bout')
+        expect(queryResult.data.value?.type).toBe(EAdditionalSkillType.ROME4)
+      })
+
+      BddTest().then('it should return computed additionalSkillDetailed', () => {
+        expect(queryResult.additionalSkillDetailed.value).toBeDefined()
+        expect(queryResult.additionalSkillDetailed.value?.id).toBe('test-skill-id-123')
+        expect(queryResult.additionalSkillDetailed.value?.title).toBe('Conduire un projet de bout en bout')
+      })
+
+      BddTest().then('it should include path segments', () => {
+        expect(queryResult.data.value?.pathSegments).toHaveLength(3)
+        expect(queryResult.data.value?.pathSegments[0].libelle).toBe('Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail')
+        expect(queryResult.data.value?.pathSegments[1].libelle).toBe('Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.')
+        expect(queryResult.data.value?.pathSegments[2].libelle).toBe('Conduire un projet de bout en bout')
+      })
+
+      BddTest().then('it should include trace associations', () => {
+        expect(queryResult.data.value?.traceAssociations).toHaveLength(3)
+      })
+
+      BddTest().then('it should include description', () => {
+        expect(queryResult.data.value?.description).toBe(`Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
+Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
+Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`)
+      })
+
+      BddTest().then('it should include timestamps', () => {
+        expect(queryResult.data.value?.createdAt).toBeDefined()
+        expect(queryResult.data.value?.updatedAt).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an empty skill id', () => {
+    const skillId = ref('')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<AdditionalSkillProgressDetailsDTO, BaseApiException> & {
+        additionalSkillDetailed: Ref<AdditionalSkillProgressDetailsDTO | undefined>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useAdditionalSkillDetailedQuery(skillId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not fetch data', () => {
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.additionalSkillDetailed.value).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().and('a reactive skill id that changes', () => {
+    const skillId = ref('initial-skill-id')
+
+    BddTest().when('the skill id changes', () => {
+      let queryResult: UseQueryReturnType<AdditionalSkillProgressDetailsDTO, BaseApiException> & {
+        additionalSkillDetailed: Ref<AdditionalSkillProgressDetailsDTO | undefined>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useAdditionalSkillDetailedQuery(skillId))
+        await flushPromises()
+      })
+
+      BddTest().then('the query should update with new skill id', async () => {
+        const initialId = queryResult.data.value?.id
+
+        skillId.value = 'new-skill-id'
+        await flushPromises()
+
+        expect(queryResult.data.value?.id).toBe('new-skill-id')
+        expect(queryResult.data.value?.id).not.toBe(initialId)
       })
     })
   })

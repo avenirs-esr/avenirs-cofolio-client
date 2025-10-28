@@ -1,7 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import StudentAdditionalSkillView from '@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateAdditionalSkill = vi.fn()
@@ -40,11 +41,25 @@ const PageTitleStubWithBack = {
   props: ['title', 'breadcrumbLinks', 'back']
 }
 
+const AdditionalSkillDetailsStub = {
+  name: 'AdditionalSkillDetails',
+  props: ['additionalSkillProgressDetails'],
+  template: '<div class="additional-skill-details-stub" />'
+}
+
+const StudentAdditionalSkillAssociationsStub = {
+  name: 'StudentAdditionalSkillAssociations',
+  props: ['traceAssociations'],
+  template: '<div class="student-additional-skill-associations-stub" />'
+}
+
 const stubs = {
   PageTitle: PageTitleStubWithBack,
   AdditionalSkillSettingDropdown: AdditionalSkillSettingDropdownStub,
   AvTabs: AvTabsStub,
-  AvTab: AvTabStub
+  AvTab: AvTabStub,
+  AdditionalSkillDetails: AdditionalSkillDetailsStub,
+  StudentAdditionalSkillAssociations: StudentAdditionalSkillAssociationsStub
 }
 
 BddTest().given('a student additional skill view component', () => {
@@ -53,7 +68,7 @@ BddTest().given('a student additional skill view component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    wrapper = mount(StudentAdditionalSkillView, {
+    wrapper = mountComponent(StudentAdditionalSkillView, {
       props: {
         skillId: '123'
       },
@@ -89,10 +104,12 @@ BddTest().given('a student additional skill view component', () => {
       })
     })
 
-    BddTest().then('it should render the skill title', () => {
-      const title = wrapper.find('.student-additional-skill-view__title .n4')
-      expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Placeholder Skill Title')
+    BddTest().then('it should render the skill title from query data', async () => {
+      await vi.waitFor(() => {
+        const title = wrapper.find('.student-additional-skill-view__title .n4')
+        expect(title.exists()).toBe(true)
+        expect(title.text()).toBe('Conduire un projet de bout en bout')
+      })
     })
 
     BddTest().then('it should render AdditionalSkillSettingDropdown', () => {
@@ -106,6 +123,32 @@ BddTest().given('a student additional skill view component', () => {
 
       const tabComponents = wrapper.findAllComponents({ name: 'AvTab' })
       expect(tabComponents).toHaveLength(2)
+    })
+
+    BddTest().then('it should render AdditionalSkillDetails component with correct props', async () => {
+      await vi.waitFor(() => {
+        const detailsComponent = wrapper.findComponent({ name: 'AdditionalSkillDetails' })
+        expect(detailsComponent.exists()).toBe(true)
+        expect(detailsComponent.props('additionalSkillProgressDetails')).toBeDefined()
+        expect(detailsComponent.props('additionalSkillProgressDetails').title).toBe('Conduire un projet de bout en bout')
+      })
+    })
+
+    BddTest().then('it should render StudentAdditionalSkillAssociations component with correct props', async () => {
+      await vi.waitFor(() => {
+        const associationsComponent = wrapper.findComponent({ name: 'StudentAdditionalSkillAssociations' })
+        expect(associationsComponent.exists()).toBe(true)
+        expect(associationsComponent.props('traceAssociations')).toBeDefined()
+        expect(associationsComponent.props('traceAssociations')).toHaveLength(3)
+      })
+    })
+
+    BddTest().then('it should display the correct count of associations in tab title', async () => {
+      await vi.waitFor(() => {
+        const tabComponents = wrapper.findAllComponents({ name: 'AvTab' })
+        const associationsTab = tabComponents[1]
+        expect(associationsTab.props('title')).toContain('0')
+      })
     })
   })
 

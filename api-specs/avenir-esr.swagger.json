@@ -434,6 +434,37 @@
         }
       }
     },
+    "/me/additional-skill-progress/{additionalSkillId}": {
+      "get": {
+        "tags": [
+          "additional-skill-progress-controller"
+        ],
+        "operationId": "getAdditionalSkillProgressDetails",
+        "parameters": [
+          {
+            "name": "additionalSkillId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalSkillProgressDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
@@ -1349,6 +1380,72 @@
             ]
           }
         }
+      },
+      "AdditionalSkillProgressDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillCategoryDTO"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceOverviewDTO"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "level",
+          "pathSegments",
+          "title",
+          "traceAssociations",
+          "type",
+          "updatedAt"
+        ]
       },
       "PathSegments": {
         "type": "object",
@@ -2981,6 +3078,38 @@
         "description": "Enum for additional skill type",
         "enum": [
           "ROME4"
+        ]
+      },
+      "AdditionalSkillCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillCategoryType",
+            "enum": [
+              "MACRO_SKILL",
+              "TARGET",
+              "ISSUE",
+              "DOMAIN"
+            ]
+          }
+        },
+        "required": [
+          "libelle",
+          "type"
+        ]
+      },
+      "EAdditionalSkillCategoryType": {
+        "type": "string",
+        "description": "Enum for additional skill category type",
+        "enum": [
+          "MACRO_SKILL",
+          "TARGET",
+          "ISSUE",
+          "DOMAIN"
         ]
       },
       "EAmsStatus": {
