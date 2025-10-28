@@ -1,4 +1,5 @@
 import {
+  studentAdditionalSkillRoute,
   studentDeliverablesRoute,
   studentEducationSkillsRoute,
   studentEventsRoute,
@@ -15,6 +16,10 @@ import { type NavigationFailure, useRouter } from 'vue-router'
 
 export function useNavigation () {
   const router = useRouter()
+
+  const navigateToStudentAdditionalSkill = () => {
+    return router.push(studentAdditionalSkillRoute)
+  }
 
   const navigateToStudentDeliverables = () => {
     return router.push(studentDeliverablesRoute)
@@ -62,6 +67,7 @@ export function useNavigation () {
   }
 
   return {
+    navigateToStudentAdditionalSkill,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,

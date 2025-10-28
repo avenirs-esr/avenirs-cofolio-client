@@ -585,6 +585,16 @@
         }
       },
       "studentUpdateAdditionalSkillView": {
+        "updateForm": {
+          "errors": {
+            "updateAdditionalSkill": "An error occurred while updating the additional skill."
+          },
+          "success": "Additional skill updated",
+          "validation": {
+            "levelRequired": "Self-positioning is required",
+            "commentTooLong": "The description must not exceed {count} characters"
+          }
+        },
         "tabs": {
           "associations": {
             "title": "My associations ({count})"

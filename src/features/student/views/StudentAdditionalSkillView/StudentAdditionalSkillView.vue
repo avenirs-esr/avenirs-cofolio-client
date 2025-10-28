@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
