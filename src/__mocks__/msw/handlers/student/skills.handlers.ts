@@ -1,4 +1,5 @@
 import {
+  createMockedAdditionalSkillProgressDetailsDTO,
   createMockedAllSkillListItemDTO,
   createMockedPagedResponseAdditionalSkillsDTO,
   createMockedPagedResponseSkillsDTO,
@@ -7,8 +8,10 @@ import {
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AdditionalSkillConfigurationDTO,
+  type AdditionalSkillProgressDetailsDTO,
   EAdditionalSkillLevel,
   getGetAdditionalSkillConfigUrl,
+  getGetAdditionalSkillProgressDetailsUrl,
   getGetAllSkillsUrl,
   getGetSkillLevelProgressesUrl,
   type PagedResponseAdditionalSkillDTO,
@@ -183,6 +186,17 @@ export const skillsHandlers = [
 
   http.get<PathParams, SkillListItemDTO[]>(`*${getGetAllSkillsUrl()}`, async () => {
     const response = createMockedAllSkillListItemDTO()
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<{ id: string }, AdditionalSkillProgressDetailsDTO>(`*${getGetAdditionalSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
+    const { id } = params
+    const response = createMockedAdditionalSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
       headers: {

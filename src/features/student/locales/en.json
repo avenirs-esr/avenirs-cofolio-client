@@ -195,11 +195,11 @@
             "title": "My associations ({count})"
           },
           "details": {
-            "commentTitle": "Description of my skill",
             "dateDetails": {
               "added": "Skill added on {date}",
               "updated": "Updated on {date}"
             },
+            "descriptionTitle": "Description of my skill",
             "levelTitle": "Self-positioning",
             "refTitle": "From the reference system:",
             "skillTitle": "Title:",

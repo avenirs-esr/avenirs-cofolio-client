@@ -2,8 +2,10 @@ import type { BaseApiException } from '@/common/exceptions'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,
+  type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
   createAdditionalSkillProgress,
+  getAdditionalSkillProgressDetails,
   getAdditionalSkillsProgresses,
   getAllSkills,
   getDetailedSkill,
@@ -19,9 +21,10 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type Ref, toValue, type UnwrapRef } from 'vue'
+import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'skills']
+const additionalSkillCommonQueryKey = ['user', 'student', 'additional-skills']
 
 const TWO_MINUTES = 2 * 60 * 1000
 
@@ -32,7 +35,7 @@ export function useAdditionalSkillsViewQuery (
   skills: Ref<AdditionalSkillDTO[] | AdditionalSkillProgressDTO[]>
   pageInfo: Ref<PageInfoDTO>
 } {
-  const queryKey = computed(() => [...commonQueryKeys, 'additional', {
+  const queryKey = computed(() => [...additionalSkillCommonQueryKey, 'view', {
     page: page.value,
     pageSize: pageSize.value
   }])
@@ -109,7 +112,7 @@ export function useSearchAdditionalSkillsQuery (
   keyword: Ref<string>,
   pageSize: Ref<number>
 ) {
-  const queryKey = computed(() => [...commonQueryKeys, 'search-additional', {
+  const queryKey = computed(() => [...additionalSkillCommonQueryKey, 'search-additional', {
     keyword: keyword.value,
     pageSize: pageSize.value
   }])
@@ -156,7 +159,7 @@ export interface UseCreateAdditionalSkillMutationArgs {
 }
 
 export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: UseCreateAdditionalSkillMutationArgs = {}) {
-  const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'additional'])
+  const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...additionalSkillCommonQueryKey])
 
   return useMutation<void, BaseApiException, AddAdditionalSkillDTO>({
     mutationFn: async (addAdditionalSkillDTO: AddAdditionalSkillDTO): Promise<void> => {
@@ -210,5 +213,27 @@ export function useAllSkillsQuery () {
   return {
     ...query,
     allSkills,
+  }
+}
+
+export function useAdditionalSkillDetailedQuery (skillId: MaybeRef<string>) {
+  const queryKey = computed(() => [...additionalSkillCommonQueryKey, toValue(skillId)])
+
+  const queryFn = computed(() => async (): Promise<AdditionalSkillProgressDetailsDTO> => {
+    return await getAdditionalSkillProgressDetails(toValue(skillId))
+  })
+
+  const query = useQuery<AdditionalSkillProgressDetailsDTO, BaseApiException, AdditionalSkillProgressDetailsDTO, readonly unknown[]>({
+    queryKey,
+    queryFn,
+    staleTime: TWO_MINUTES,
+    enabled: computed(() => toValue(skillId).trim().length > 0),
+  })
+
+  const additionalSkillDetailed = computed(() => query.data.value)
+
+  return {
+    ...query,
+    additionalSkillDetailed,
   }
 }

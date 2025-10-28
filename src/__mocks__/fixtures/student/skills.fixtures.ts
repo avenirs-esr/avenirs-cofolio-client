@@ -1,5 +1,9 @@
+import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type AdditionalSkillDTO,
+  type AdditionalSkillProgressDetailsDTO,
+  EAdditionalSkillCategoryType,
+  EAdditionalSkillLevel,
   EAdditionalSkillType,
   ESkillLevelStatus,
   ETraceAssociationType,
@@ -230,4 +234,33 @@ export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
   }
 
   return mockedAllSkills
+}
+
+export function createMockedAdditionalSkillProgressDetailsDTO (skillId: string): AdditionalSkillProgressDetailsDTO {
+  return {
+    id: skillId,
+    title: 'Conduire un projet de bout en bout',
+    pathSegments: [
+      {
+        type: EAdditionalSkillCategoryType.ISSUE,
+        libelle: 'Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail'
+      },
+      {
+        type: EAdditionalSkillCategoryType.TARGET,
+        libelle: 'Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.'
+      },
+      {
+        type: EAdditionalSkillCategoryType.MACRO_SKILL,
+        libelle: 'Conduire un projet de bout en bout'
+      }
+    ],
+    description: `Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
+Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
+Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`,
+    type: EAdditionalSkillType.ROME4,
+    level: EAdditionalSkillLevel.ADVANCED,
+    traceAssociations: mockedTraceOverview,
+    createdAt: '2023-10-10T10:00:00Z',
+    updatedAt: '2023-10-15T12:00:00Z'
+  }
 }
