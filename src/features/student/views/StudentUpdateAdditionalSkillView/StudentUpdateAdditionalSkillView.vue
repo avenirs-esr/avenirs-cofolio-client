@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
+import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import UpdateAdditionalSkillForm
   from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
@@ -12,7 +12,7 @@ interface StudentUpdateAdditionalSkillViewProps {
   skillId: string
 }
 
-defineProps<StudentUpdateAdditionalSkillViewProps>()
+const { skillId } = defineProps<StudentUpdateAdditionalSkillViewProps>()
 
 enum StudentUpdateAdditionalSkillViewTabs {
   DETAILS = 0,
@@ -21,10 +21,11 @@ enum StudentUpdateAdditionalSkillViewTabs {
 
 const { t } = useI18n()
 const { navigateToStudentAdditionalSkill } = useNavigation()
+const { additionalSkillDetailed } = useAdditionalSkillDetailedQuery(skillId)
 
 const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const skillTitle = ref<string>('Placeholder Skill Title')
-const updateInProgress = ref(false) // placeholder
+const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -67,7 +68,7 @@ function onSkillUpdated () {
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
       <UpdateAdditionalSkillForm
-        :additional-skill-progress-details="mockedAdditionalSkillProgressDetails"
+        :additional-skill-progress-details="additionalSkillDetailed!"
         :on-skill-updated="onSkillUpdated"
         @dirty-change="updateInProgress = $event"
       />

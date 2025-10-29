@@ -1,10 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type {
-  AdditionalSkillProgressDetailsDTO
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
-import {
-  updateMockedAdditionalSkillProgressDetails
-} from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,
@@ -252,9 +247,10 @@ export interface UseUpdateAdditionalSkillMutationArgs {
 export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpdateAdditionalSkillMutationArgs = {}) {
   const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'update', 'additional'])
 
+  // TODO: Call api endpoint when swagger updated
   return useMutation<void, BaseApiException, AdditionalSkillProgressDetailsDTO>({
     mutationFn: async (additionalSkillProgressDetailsDTO: AdditionalSkillProgressDetailsDTO): Promise<void> => {
-      await updateMockedAdditionalSkillProgressDetails(additionalSkillProgressDetailsDTO)
+      await createMockedAdditionalSkillProgressDetailsDTO(additionalSkillProgressDetailsDTO.id)
     },
     onSuccess: async () => {
       await invalidateAdditionalSkillsViewQuery()

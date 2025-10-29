@@ -1,5 +1,4 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import StudentUpdateAdditionalSkillView from '@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -36,10 +35,17 @@ const PageTitleStubWithBack = {
   props: ['title', 'breadcrumbLinks', 'back']
 }
 
+const UpdateAdditionalSkillFormStub = {
+  name: 'UpdateAdditionalSkillForm',
+  props: ['additionalSkillProgressDetails', 'onSkillUpdated'],
+  template: '<div class="update-form-stub" />',
+}
+
 const stubs = {
   PageTitle: PageTitleStubWithBack,
   AvTabs: AvTabsStub,
-  AvTab: AvTabStub
+  AvTab: AvTabStub,
+  UpdateAdditionalSkillForm: UpdateAdditionalSkillFormStub
 }
 
 BddTest().given('a student update additional skill view component', () => {
@@ -99,9 +105,8 @@ BddTest().given('a student update additional skill view component', () => {
     })
 
     BddTest().then('it should render UpdateAdditionalSkillForm with correct props', () => {
-      const form = wrapper.findComponent({ name: 'UpdateAdditionalSkillForm' })
+      const form = wrapper.findComponent(UpdateAdditionalSkillFormStub)
       expect(form.exists()).toBe(true)
-      expect(form.props('additionalSkillProgressDetails')).toEqual(mockedAdditionalSkillProgressDetails)
       expect(typeof form.props('onSkillUpdated')).toBe('function')
     })
   })

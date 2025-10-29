@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { AdditionalSkillDateDetails } from '@/features/student/components/additionalSkills'
+import { AdditionalSkillDateDetails, type AdditionalSkillDateDetailsProps } from '@/features/student/components/additionalSkills'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -29,7 +29,7 @@ BddTest().given('an AdditionalSkillDateDetails component', () => {
     `,
   }
 
-  const mountWith = (props: { createdAt: string | undefined, updatedAt: string | undefined }) => {
+  const mountWith = (props: AdditionalSkillDateDetailsProps) => {
     wrapper = mountComponent(AdditionalSkillDateDetails, {
       props,
       global: { stubs: { AvIconText: AvIconTextStub } },

@@ -1,5 +1,5 @@
 import type { EAdditionalSkillLevel } from '@/api/avenir-esr'
-import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import * as queries from '@/features/student/queries'
 import { useUpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -10,6 +10,8 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
   let result: ReturnType<typeof useUpdateAdditionalSkillForm>
   let onSkillUpdated: ReturnType<typeof vi.fn>
   let useMutationSpy = vi.spyOn(queries, 'useUpdateAdditionalSkillMutation')
+
+  const mockedAdditionalSkillProgressDetails = createMockedAdditionalSkillProgressDetailsDTO('1234')
 
   const mountForm = () =>
     mountComposable(
@@ -46,7 +48,7 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
       expect(values.type).toBe(mockedAdditionalSkillProgressDetails.type)
       expect(values.level).toBe(mockedAdditionalSkillProgressDetails.level)
       expect(values.pathSegments).toEqual(mockedAdditionalSkillProgressDetails.pathSegments)
-      expect(values.comment).toBe((mockedAdditionalSkillProgressDetails.comment ?? '').slice(0, 400))
+      expect(values.description).toBe((mockedAdditionalSkillProgressDetails.description ?? '').slice(0, 400))
     })
 
     BddTest().then('it should have submit validators configured', async () => {
@@ -71,20 +73,20 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
       const payload = (mutate.mock.calls[0] as [unknown])[0]
       expect(payload).toEqual({
         ...mockedAdditionalSkillProgressDetails,
-        comment: (mockedAdditionalSkillProgressDetails.comment ?? '').slice(0, 400),
+        description: (mockedAdditionalSkillProgressDetails.description ?? '').slice(0, 400),
       })
     })
   })
 
   BddTest().when('the form is submitted with invalid data', () => {
-    BddTest().then('it should set validation errors for level and comment', async () => {
+    BddTest().then('it should set validation errors for level and description', async () => {
       result.form.setFieldValue('level', undefined as unknown as EAdditionalSkillLevel)
-      result.form.setFieldValue('comment', 'a'.repeat(500))
+      result.form.setFieldValue('description', 'a'.repeat(500))
 
       const validation = await result.form.validate('submit')
 
       expect(validation.level?.onSubmit).toBeDefined()
-      expect(validation.comment?.onSubmit).toBeDefined()
+      expect(validation.description?.onSubmit).toBeDefined()
     })
   })
 

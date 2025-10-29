@@ -13,10 +13,6 @@ import {
   type SkillDTO,
   type SkillListItemDTO
 } from '@/api/avenir-esr'
-import {
-  type AdditionalSkillProgressDetailsDTO,
-  EAdditionalSkillCategoryType
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
 
 function getRandomSkillLevelStatus (): ESkillLevelStatus {
   const statuses = Object.values(ESkillLevelStatus)

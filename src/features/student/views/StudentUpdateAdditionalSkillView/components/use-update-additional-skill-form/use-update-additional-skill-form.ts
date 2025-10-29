@@ -1,7 +1,5 @@
+import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type {
-  AdditionalSkillProgressDetailsDTO
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
 import { useUpdateAdditionalSkillMutation } from '@/features/student/queries'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -10,7 +8,7 @@ import { useI18n } from 'vue-i18n'
 function normalize (dto: AdditionalSkillProgressDetailsDTO): AdditionalSkillProgressDetailsDTO {
   return {
     ...dto,
-    comment: (dto.comment ?? '').slice(0, 400),
+    description: (dto.description ?? '').slice(0, 400),
   }
 }
 
@@ -45,7 +43,7 @@ export function useUpdateAdditionalSkillForm (
             level: (value.level == null)
               ? t('student.views.studentUpdateAdditionalSkillView.updateForm.validation.levelRequired')
               : undefined,
-            comment: (value.comment && value.comment.length > 400)
+            description: (value.description && value.description.length > 400)
               ? t('student.views.studentUpdateAdditionalSkillView.updateForm.validation.commentTooLong', 400)
               : undefined
           }

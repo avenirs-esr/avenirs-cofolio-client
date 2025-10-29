@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type {
-  AdditionalSkillProgressDetailsDTO
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
+import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { AdditionalSkillDateDetails, AdditionalSkillRefCard } from '@/features/student/components/additionalSkills'
 import AdditionalSkillCommentFormField
   from '@/features/student/views/StudentUpdateAdditionalSkillView/components/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
