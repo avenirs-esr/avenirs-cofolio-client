@@ -24,7 +24,7 @@ const { navigateToStudentAdditionalSkill } = useNavigation()
 
 const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const skillTitle = ref<string>('Placeholder Skill Title')
-const updateInProgress = ref(true)
+const updateInProgress = ref(false) // placeholder
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
@@ -69,6 +69,7 @@ function onSkillUpdated () {
       <UpdateAdditionalSkillForm
         :additional-skill-progress-details="mockedAdditionalSkillProgressDetails"
         :on-skill-updated="onSkillUpdated"
+        @dirty-change="updateInProgress = $event"
       />
     </AvTab>
     <AvTab

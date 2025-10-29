@@ -7,6 +7,13 @@ import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
+function normalize (dto: AdditionalSkillProgressDetailsDTO): AdditionalSkillProgressDetailsDTO {
+  return {
+    ...dto,
+    comment: (dto.comment ?? '').slice(0, 400),
+  }
+}
+
 export function useUpdateAdditionalSkillForm (
   additionalSkillProgressDetails: AdditionalSkillProgressDetailsDTO,
   onSkillUpdated?: () => void
@@ -30,9 +37,7 @@ export function useUpdateAdditionalSkillForm (
   })
 
   const form = useForm({
-    defaultValues: {
-      ...additionalSkillProgressDetails,
-    },
+    defaultValues: normalize(additionalSkillProgressDetails),
     validators: {
       onSubmit ({ value }) {
         return {

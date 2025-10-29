@@ -7,29 +7,17 @@ import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = {
-  components: { AdditionalSkillCommentFormField },
-  setup () {
-    const form = useForm({
-      defaultValues: { comment: '' },
-      validators: {
-        onSubmit () {
-          return { fields: { comment: undefined } }
-        }
-      }
-    }) as unknown as UpdateAdditionalSkillForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <AdditionalSkillCommentFormField :form="form" />
-    </form>
-  `
-}
-
 BddTest().given('an additional skill comment form field component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillCommentFormField>>
+
+  const form = useForm({
+    defaultValues: { comment: '' },
+    validators: {
+      onSubmit () {
+        return { fields: { comment: undefined } }
+      }
+    }
+  }) as unknown as UpdateAdditionalSkillForm
 
   const stubs = {
     AvInput: {
@@ -62,7 +50,8 @@ BddTest().given('an additional skill comment form field component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    wrapper = mountComponent(TestWrapper, {
+    wrapper = mountComponent(AdditionalSkillCommentFormField, {
+      props: { form },
       global: { stubs }
     })
   })
@@ -141,7 +130,7 @@ BddTest().given('an additional skill comment form field component', () => {
 
   BddTest().when('the form is submitted', () => {
     BddTest().then('it should not show validation error', async () => {
-      await wrapper.find('form').trigger('submit')
+      await form.handleSubmit()
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {

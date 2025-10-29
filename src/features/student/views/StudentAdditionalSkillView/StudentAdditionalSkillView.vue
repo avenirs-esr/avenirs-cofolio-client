@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
-import AdditionalSkillDetails
-  from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
 import AdditionalSkillSettingDropdown
   from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillSettingDropdown/AdditionalSkillSettingDropdown.vue'
 import StudentAdditionalSkillAssociations

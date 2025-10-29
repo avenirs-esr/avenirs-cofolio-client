@@ -1,61 +1,59 @@
+import type { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import type { UpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
+import type { VueWrapper } from '@vue/test-utils'
 import AdditionalSkillLevelFormField
   from '@/features/student/views/StudentUpdateAdditionalSkillView/components/AdditionalSkillLevelFormField/AdditionalSkillLevelFormField.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = {
-  components: {
-    AdditionalSkillLevelFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        level: 'INTERMEDIATE'
-      },
-      validators: {
-        onSubmit ({ value }) {
-          return {
-            fields: {
-              level: !value.level
-                ? 'Ce champ est requis'
-                : undefined
-            }
+BddTest().given('an additional skill level form field component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillLevelFormField>>
+
+  const form = useForm({
+    defaultValues: {
+      level: 'INTERMEDIATE'
+    },
+    validators: {
+      onSubmit ({ value }) {
+        return {
+          fields: {
+            level: !value.level
+              ? 'Ce champ est requis'
+              : undefined
           }
         }
       }
-    }) as unknown as UpdateAdditionalSkillForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <AdditionalSkillLevelFormField :form="form" />
-    </form>
-  `
-}
-
-BddTest().given('an additional skill level form field component', () => {
-  let wrapper: VueWrapper
+    }
+  }) as unknown as UpdateAdditionalSkillForm
 
   const stubs = {
     AddAdditionalSkillLevelField: {
       name: 'AddAdditionalSkillLevelField',
       props: ['form', 'errorMessage'],
       emits: ['blur'],
-      template: '<div><select @change="$emit(\'blur\')"><option value="BEGINNER">Débutant</option><option value="INTERMEDIATE">Intermédiaire</option></select><span v-if="errorMessage" class="error">{{ errorMessage }}</span></div>'
+      template: `<div>
+          <select @change="$emit(\'blur\')">
+              <option value="BEGINNER">Débutant</option>
+              <option value="INTERMEDIATE">Intermédiaire</option>
+          </select>
+          <span 
+            v-if="errorMessage" 
+            class="error"
+          >
+            {{ errorMessage }}
+          </span>
+        </div>`
     }
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
 
-    wrapper = mount(TestWrapper, {
-      global: {
-        stubs
-      }
+    wrapper = mountComponent(AdditionalSkillLevelFormField, {
+      props: { form },
+      global: { stubs }
     })
   })
 
@@ -91,10 +89,10 @@ BddTest().given('an additional skill level form field component', () => {
   BddTest().when('the form is submitted with empty level', () => {
     BddTest().then('it should show validation error', async () => {
       const form = wrapper.vm.form
-      form.setFieldValue('level', '')
+      form.setFieldValue('level', undefined as unknown as EAdditionalSkillLevel)
       await wrapper.vm.$nextTick()
 
-      await wrapper.find('form').trigger('submit')
+      await form.handleSubmit()
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
@@ -106,7 +104,7 @@ BddTest().given('an additional skill level form field component', () => {
 
   BddTest().when('the form is submitted with valid level', () => {
     BddTest().then('it should not show validation error', async () => {
-      await wrapper.find('form').trigger('submit')
+      await wrapper.vm.form.handleSubmit()
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
