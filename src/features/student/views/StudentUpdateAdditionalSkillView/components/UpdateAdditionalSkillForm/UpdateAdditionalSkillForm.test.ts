@@ -1,4 +1,4 @@
-import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import UpdateAdditionalSkillForm from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
 import { AvBadgeStub, AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -45,6 +45,8 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateAdditionalSkillForm>>
   const onCancel = vi.fn()
   const onSkillUpdated = vi.fn()
+
+  const mockedAdditionalSkillProgressDetails = createMockedAdditionalSkillProgressDetailsDTO('1234')
 
   beforeEach(() => {
     vi.clearAllMocks()

@@ -1,25 +1,19 @@
 <script setup lang="ts">
-import type { EAdditionalSkillType } from '@/api/avenir-esr'
-import {
-  type AdditionalSkillCategory,
-  EAdditionalSkillCategoryType
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
+import type {
+  AdditionalSkillCategoryDTO,
+  EAdditionalSkillType
+} from '@/api/avenir-esr'
 import { AvBadge, AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AdditionalSkillRefCardProps {
   type: EAdditionalSkillType
-  pathSegments: Array<AdditionalSkillCategory>
+  pathSegments: AdditionalSkillCategoryDTO[]
 }
 
 const { type, pathSegments } = defineProps<AdditionalSkillRefCardProps>()
 
 const { t } = useI18n()
-
-function getPathSegmentLabel (segment: AdditionalSkillCategory) {
-  const before = t(`student.additionalSkillCategoryTypes.${EAdditionalSkillCategoryType[segment.type]}`)
-  return t('global.colon', { before, after: segment.title })
-}
 </script>
 
 <template>
@@ -52,7 +46,7 @@ function getPathSegmentLabel (segment: AdditionalSkillCategory) {
             v-if="index < pathSegments.length - 1"
             :icon="MDI_ICONS.ARROW_RIGHT_BOTTOM"
             icon-color="var(--dark-background-primary1)"
-            :text="getPathSegmentLabel(segment)"
+            :text="segment.libelle"
             text-color="var(--text1)"
             inline
           />
@@ -68,7 +62,7 @@ function getPathSegmentLabel (segment: AdditionalSkillCategory) {
             <AvBadge
               background-color="var(--light-background-accent)"
               color="var(--dark-background-accent)"
-              :label="getPathSegmentLabel(segment)"
+              :label="segment.libelle"
               no-icon
             />
           </div>

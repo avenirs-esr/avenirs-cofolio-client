@@ -9,14 +9,10 @@ interface AdditionalSkillCommentFormFieldProps {
 
 defineProps<AdditionalSkillCommentFormFieldProps>()
 const { t } = useI18n()
-
-function onCommentInput (field: any, v: string | number | null) {
-  field.handleChange(String(v ?? '').slice(0, 400))
-}
 </script>
 
 <template>
-  <form.Field name="comment">
+  <form.Field name="description">
     <template #default="{ field }">
       <AvInput
         v-bind="$attrs"
@@ -28,7 +24,7 @@ function onCommentInput (field: any, v: string | number | null) {
         is-textarea
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(v) => onCommentInput(field, v)"
+        @update:model-value="(v) => form.setFieldValue('description', String(v ?? '').slice(0, 400))"
       >
         <template #customCaptions>
           <span class="caption-regular">

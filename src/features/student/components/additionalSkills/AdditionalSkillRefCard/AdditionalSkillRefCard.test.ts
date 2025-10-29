@@ -1,10 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EAdditionalSkillType } from '@/api/avenir-esr'
+import { type AdditionalSkillCategoryDTO, EAdditionalSkillCategoryType, EAdditionalSkillType } from '@/api/avenir-esr'
 import { AdditionalSkillRefCard } from '@/features/student/components/additionalSkills'
-import {
-  type AdditionalSkillCategory,
-  EAdditionalSkillCategoryType,
-} from '@/features/student/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -25,10 +21,10 @@ const AvIconTextStub = {
 BddTest().given('an AdditionalSkillRefCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillRefCard>>
 
-  const makeSegments = (n = 2): AdditionalSkillCategory[] => {
-    const base: AdditionalSkillCategory[] = [
-      { type: EAdditionalSkillCategoryType.MACRO_SKILL, title: 'Langues' },
-      { type: EAdditionalSkillCategoryType.DOMAIN, title: 'Anglais' },
+  const makeSegments = (n = 2): AdditionalSkillCategoryDTO[] => {
+    const base: AdditionalSkillCategoryDTO[] = [
+      { type: EAdditionalSkillCategoryType.MACRO_SKILL, libelle: 'Langues' },
+      { type: EAdditionalSkillCategoryType.DOMAIN, libelle: 'Anglais' },
     ]
     if (n <= 0) {
       return []
