@@ -584,16 +584,6 @@
         }
       },
       "studentUpdateAdditionalSkillView": {
-        "updateForm": {
-          "errors": {
-            "updateAdditionalSkill": "Une erreur est survenue lors de la mise à jour de la compétence déclarée"
-          },
-          "success": "Compétence déclarée mise à jour",
-          "validation": {
-            "levelRequired": "L'auto-positionnement est requis",
-            "commentTooLong": "La description ne doit pas dépasser les {count} charactères"
-          }
-        },
         "tabs": {
           "associations": {
             "title": "Mes associations ({count})"
@@ -603,6 +593,16 @@
           }
         },
         "title": "Modifier ma compétence déclarée",
+        "updateForm": {
+          "errors": {
+            "updateAdditionalSkill": "Une erreur est survenue lors de la mise à jour de la compétence déclarée"
+          },
+          "success": "Compétence déclarée mise à jour",
+          "validation": {
+            "commentTooLong": "La description ne doit pas dépasser les {count} charactères",
+            "levelRequired": "L'auto-positionnement est requis"
+          }
+        },
         "wipBadge": "Modifications en cours"
       }
     },

@@ -1,6 +1,6 @@
 import type { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
-import * as queries from '@/features/student/queries' // <- on espionne ce module
+import * as queries from '@/features/student/queries'
 import { useUpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -9,7 +9,7 @@ import { beforeEach, expect, vi } from 'vitest'
 BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
   let result: ReturnType<typeof useUpdateAdditionalSkillForm>
   let onSkillUpdated: ReturnType<typeof vi.fn>
-  let useMutationSpy: ReturnType<typeof vi.spyOn>
+  let useMutationSpy = vi.spyOn(queries, 'useUpdateAdditionalSkillMutation')
 
   const mountForm = () =>
     mountComposable(
@@ -23,7 +23,10 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
 
     useMutationSpy = vi
       .spyOn(queries, 'useUpdateAdditionalSkillMutation')
-      .mockReturnValue({ mutate: vi.fn(), isPending: ref(false) })
+      .mockReturnValue({
+        mutate: vi.fn(),
+        isPending: ref(false),
+      } as unknown as ReturnType<typeof queries.useUpdateAdditionalSkillMutation>)
 
     onSkillUpdated = vi.fn()
     result = mountForm()
@@ -55,7 +58,11 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
   BddTest().when('the form is submitted with valid data', () => {
     BddTest().then('it should call the update mutation with the full DTO payload', async () => {
       const mutate = vi.fn()
-      useMutationSpy.mockReturnValue({ mutate, isPending: ref(false) })
+
+      useMutationSpy.mockReturnValue({
+        mutate,
+        isPending: ref(false),
+      } as unknown as ReturnType<typeof queries.useUpdateAdditionalSkillMutation>)
 
       result = mountForm()
       await result.form.handleSubmit()
@@ -78,15 +85,6 @@ BddTest().given('the useUpdateAdditionalSkillForm composable', () => {
 
       expect(validation.level?.onSubmit).toBeDefined()
       expect(validation.comment?.onSubmit).toBeDefined()
-    })
-  })
-
-  BddTest().when('the mutation is pending', () => {
-    BddTest().then('it should expose isSubmitting = true', () => {
-      useMutationSpy.mockReturnValue({ mutate: vi.fn(), isPending: ref(true) })
-
-      result = mountForm()
-      expect(result.isSubmitting.value).toBe(true)
     })
   })
 

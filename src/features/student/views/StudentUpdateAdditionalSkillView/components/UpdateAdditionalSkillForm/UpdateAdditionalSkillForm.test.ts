@@ -1,6 +1,6 @@
 import { mockedAdditionalSkillProgressDetails } from '@/__mocks__/fixtures/student/skills.fixtures'
 import UpdateAdditionalSkillForm from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -13,6 +13,7 @@ const AvCardStub = {
   props: ['borderColor'],
   template: `<div class="av-card"><slot /><slot name="header" /><slot name="footer" /></div>`,
 }
+
 const AvInputStub = {
   name: 'AvInput',
   props: ['label', 'labelClass', 'prefixIcon', 'modelValue', 'disabled', 'maxlength', 'isTextarea'],
@@ -22,28 +23,11 @@ const AvInputStub = {
     <slot name="customCaptions" />
   </div>`,
 }
-const AvBadgeStub = {
-  name: 'AvBadge',
-  props: ['label', 'backgroundColor', 'borderColor', 'color', 'noIcon'],
-  template: `<div class="av-badge">{{ label }}</div>`,
-}
-const AvIconStub = {
-  name: 'AvIcon',
-  props: ['name', 'color', 'size'],
-  template: `<i class="av-icon" />`,
-}
+
 const AvIconTextStub = {
   name: 'AvIconText',
   props: ['icon', 'iconColor', 'text', 'textColor', 'inline'],
   template: `<div class="av-icon-text">{{ text }}</div>`,
-}
-const AvButtonStub = {
-  name: 'AvButton',
-  props: ['label', 'icon', 'variant', 'size', 'disabled', 'loading', 'type'],
-  emits: ['click'],
-  template: `<button class="av-button" :disabled="disabled" @click="$emit('click')">
-    <span class="btn-label">{{ label }}</span>
-  </button>`,
 }
 
 const AdditionalSkillLevelFormFieldStub = {
@@ -111,14 +95,14 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
 
   BddTest().when('rendering the reference block', () => {
     BddTest().then('it should display a badge for the type and the path segments chain', () => {
-      const badges = wrapper.findAll('.av-badge')
+      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges.length).toBeGreaterThan(0)
 
       const segments = mockedAdditionalSkillProgressDetails.pathSegments
       const iconTexts = wrapper.findAll('.ref--item .av-icon-text')
       expect(iconTexts.length).toBe(Math.max(segments.length - 1, 0))
 
-      const lastSegment = wrapper.find('.ref--last-segment .av-badge')
+      const lastSegment = wrapper.findComponent({ name: 'AvBadge', className: 'ref--last-segment' })
       if (segments.length > 0) {
         expect(lastSegment.exists()).toBe(true)
       }

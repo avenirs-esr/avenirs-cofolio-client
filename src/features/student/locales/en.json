@@ -588,16 +588,6 @@
         }
       },
       "studentUpdateAdditionalSkillView": {
-        "updateForm": {
-          "errors": {
-            "updateAdditionalSkill": "An error occurred while updating the additional skill."
-          },
-          "success": "Additional skill updated",
-          "validation": {
-            "levelRequired": "Self-positioning is required",
-            "commentTooLong": "The description must not exceed {count} characters"
-          }
-        },
         "tabs": {
           "associations": {
             "title": "My associations ({count})"
@@ -607,6 +597,16 @@
           }
         },
         "title": "Update my declared skill",
+        "updateForm": {
+          "errors": {
+            "updateAdditionalSkill": "An error occurred while updating the additional skill."
+          },
+          "success": "Additional skill updated",
+          "validation": {
+            "commentTooLong": "The description must not exceed {count} characters",
+            "levelRequired": "Self-positioning is required"
+          }
+        },
         "wipBadge": "Update in progress"
       }
     },
