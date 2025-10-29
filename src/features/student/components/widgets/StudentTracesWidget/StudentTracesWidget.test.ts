@@ -1,5 +1,8 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
+import {
+  StudentTraceCardStub
+} from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.stub'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
@@ -35,10 +38,7 @@ BddTest().given('a student traces widget', async () => {
 
   const stubs = {
     AvButton: AvButtonStub,
-    StudentTraceCard: {
-      name: 'StudentTraceCard',
-      template: '<div class="student-trace-card" />'
-    }
+    StudentTraceCard: StudentTraceCardStub
   }
 
   beforeEach(async () => {
