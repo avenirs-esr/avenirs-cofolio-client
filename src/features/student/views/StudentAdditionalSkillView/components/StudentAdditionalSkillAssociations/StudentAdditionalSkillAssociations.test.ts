@@ -5,28 +5,31 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const TracesSelectorStub = {
+  name: 'TracesSelector',
+  props: ['traces', 'readonly'],
+  template: '<div class="traces-selector-stub" />'
+}
+
+const stubs = {
+  TracesSelector: TracesSelectorStub
+}
+
 BddTest().given('a student additional skill associations component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof StudentAdditionalSkillAssociations>>
   const traces = mockedTraceOverview
-  const stubs = {
-    StudentTraceCard: {
-      name: 'StudentTraceCard',
-      props: ['trace'],
-      template: '<div class="student-trace-card" />'
-    }
-  }
 
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('rendered with a list of traces', () => {
+  BddTest().when('the component is rendered with a list of traces', () => {
     beforeEach(() => {
       wrapper = mount(StudentAdditionalSkillAssociations, {
         props: { traceAssociations: traces },
         global: {
-          stubs,
-        },
+          stubs
+        }
       })
     })
 
@@ -36,36 +39,43 @@ BddTest().given('a student additional skill associations component', () => {
       expect(label.text()).toBe('Mes traces associées (3)')
     })
 
-    BddTest().then('it should render one StudentTraceCard per trace', () => {
-      const cards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-      expect(cards.length).toBe(3)
+    BddTest().then('it should render TracesSelector component', () => {
+      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      expect(tracesSelector.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the correct trace prop to each StudentTraceCard', () => {
-      const cards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-      expect(cards[0].props('trace')).toEqual(traces[0])
-      expect(cards[1].props('trace')).toEqual(traces[1])
-      expect(cards[2].props('trace')).toEqual(traces[2])
+    BddTest().then('it should pass traces prop to TracesSelector', () => {
+      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      expect(tracesSelector.props('traces')).toEqual(traces)
+    })
+
+    BddTest().then('it should render TracesSelector in readonly mode', () => {
+      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      const readonlyProp = tracesSelector.props('readonly')
+      expect(readonlyProp !== undefined && readonlyProp !== false).toBe(true)
     })
   })
 
-  BddTest().when('rendered with an empty list', () => {
+  BddTest().when('the component is rendered with an empty list', () => {
     beforeEach(() => {
       wrapper = mount(StudentAdditionalSkillAssociations, {
         props: { traceAssociations: [] },
         global: {
           stubs
-        },
+        }
       })
     })
 
-    BddTest().then('it should display a count of 0 and no StudentTraceCard', () => {
+    BddTest().then('it should display a count of 0', () => {
       const label = wrapper.find('.associated-trace-count')
       expect(label.exists()).toBe(true)
       expect(label.text()).toBe('Mes traces associées (0)')
+    })
 
-      const cards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-      expect(cards.length).toBe(0)
+    BddTest().then('it should render TracesSelector with empty traces array', () => {
+      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      expect(tracesSelector.exists()).toBe(true)
+      expect(tracesSelector.props('traces')).toEqual([])
     })
   })
 })

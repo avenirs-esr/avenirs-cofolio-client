@@ -179,6 +179,9 @@
         "hint": "{count} / {maxlength} characters (including spaces)",
         "label": "Personal note",
         "placeholder": "Add your personal note here..."
+      },
+      "tracesSelector": {
+        "ariaLabel": "Select trace {title}"
       }
     },
     "views": {
