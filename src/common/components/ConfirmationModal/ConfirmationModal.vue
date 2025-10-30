@@ -22,8 +22,8 @@ const { t } = useI18n()
 
 <template>
   <AvModal
+    id="confirmation-modal"
     :opened="show"
-    modal-id="confirmation-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.confirm')"
     v-bind="$attrs"

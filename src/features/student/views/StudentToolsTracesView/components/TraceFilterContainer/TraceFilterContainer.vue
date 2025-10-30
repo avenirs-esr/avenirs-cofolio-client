@@ -143,7 +143,7 @@ watch([
       class="skills-multiselect"
       :options="skillsOptions"
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.skills')"
-      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.skills')"
+      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.skills')"
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
       dense
       width="14.875rem"
@@ -169,7 +169,7 @@ watch([
       class="types-multiselect"
       :options="typesOptions"
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.types')"
-      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.types')"
+      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.types')"
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
       dense
       width="14.875rem"
@@ -180,7 +180,7 @@ watch([
       class="statuses-multiselect"
       :options="statusesOptions"
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.statuses')"
-      :default-unselected-text="t('student.views.studentToolsTracesView.traceFilter.placeholders.statuses')"
+      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.statuses')"
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
       dense
       width="14.875rem"

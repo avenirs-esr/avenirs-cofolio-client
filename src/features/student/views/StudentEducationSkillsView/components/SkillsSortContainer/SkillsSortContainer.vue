@@ -46,7 +46,7 @@ function useSortEducationSkills () {
       v-model="sort"
       :label="t('global.sort.label')"
       select-id="education-skills-sort"
-      default-unselected-text=""
+      placeholder=""
       :options="sortOptions"
       :aria-label="t('student.views.studentEducationSkillsView.skillsSortContainer.sort.selectAriaLabel')"
       dense

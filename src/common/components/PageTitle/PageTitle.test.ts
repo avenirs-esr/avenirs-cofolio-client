@@ -43,7 +43,7 @@ BddTest().given('a page title', () => {
     })
 
     BddTest().then('it should render properly', () => {
-      const breadcrumb = wrapper.getComponent({ name: 'DsfrBreadcrumb' })
+      const breadcrumb = wrapper.getComponent({ name: 'AvBreadcrumb' })
       expect(breadcrumb.props('links')).toStrictEqual(breadcrumbLinks)
 
       const pageTitle = wrapper.find('.page-title')

@@ -12,7 +12,7 @@ const stubs = {
         <slot />
       </div>
     `,
-    props: ['opened', 'modalId', 'closeButtonLabel', 'confirmButtonLabel'],
+    props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
     emits: ['close', 'confirm']
   }
 }
@@ -37,7 +37,7 @@ BddTest().given('a confirmation modal', () => {
 
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(true)
-      expect(modal.props('modalId')).toBe('confirmation-modal')
+      expect(modal.props('id')).toBe('confirmation-modal')
       expect(modal.props('closeButtonLabel')).toBe('Annuler')
       expect(modal.props('confirmButtonLabel')).toBe('Confirmer')
     })

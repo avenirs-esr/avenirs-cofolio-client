@@ -11,8 +11,48 @@ vi.mock('@/features/student/composables', () => ({
   useStudentApcAccess: vi.fn(),
 }))
 
+const AvNavigationStub = defineComponent({
+  name: 'AvNavigation',
+  props: {
+    id: { type: String, default: 'nav-stub' },
+    label: { type: String, default: 'Menu principal' },
+    navItems: { type: Array, required: true },
+  },
+  emits: ['toggle-id'],
+  template: `
+    <nav :id="id" :aria-label="label" class="fr-nav">
+      <ul class="fr-nav__list">
+        <li
+          v-for="(item, index) in navItems"
+          :key="index"
+          class="fr-nav__item"
+          @click="$emit('toggle-id', item.id)"
+        >
+          <span class="nav-item-text">{{ item.text || item.title }}</span>
+          <ul v-if="item.links" class="fr-nav__submenu">
+            <li
+              v-for="(link, linkIndex) in item.links"
+              :key="linkIndex"
+              class="fr-nav__subitem"
+            >
+              <RouterLink
+                :to="link.to"
+                class="nav-link"
+              >
+                {{ link.text }}
+              </RouterLink>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  `,
+})
+
 BddTest().given('a student navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNavigation>>
+
+  const stubs = { AvNavigation: AvNavigationStub }
 
   const mockUseStudentApcAccess = vi.mocked(useStudentApcAccess)
   const succeedMyEducationMenuTitle = 'RÉUSSIR MA FORMATION'
@@ -20,6 +60,7 @@ BddTest().given('a student navigation', () => {
   const mountComponent = async () => {
     const wrapper = mount(StudentNavigation, {
       global: {
+        stubs,
         plugins: [router],
         provide: {
           [registerNavigationLinkKey]: vi.fn()
