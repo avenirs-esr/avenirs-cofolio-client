@@ -8,6 +8,11 @@ BddTest().given('a skills tab switcher', () => {
   let wrapper: VueWrapper<InstanceType<typeof SkillsViewTabs>>
 
   const stubs = {
+    AvTab: {
+      name: 'AvTab',
+      props: ['title', 'icon'],
+      template: '<div class="av-tab-stub"><slot /></div>'
+    },
     RouterLink: RouterLinkStub,
     SkillsViewEducationTab: {
       name: 'SkillsViewEducationTab',
@@ -55,11 +60,8 @@ BddTest().given('a skills tab switcher', () => {
     })
 
     BddTest().then('it should have icons for both tabs', () => {
-      const tabItems = wrapper.findAllComponents({ name: 'DsfrTabItem' })
-      expect(tabItems).toHaveLength(2)
-      tabItems.forEach((tab) => {
-        expect(tab.props('icon')).toBeDefined()
-      })
+      const icons = wrapper.findAllComponents({ name: 'AvIcon' })
+      expect(icons).toHaveLength(2)
     })
   })
 

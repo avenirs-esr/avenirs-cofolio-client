@@ -55,7 +55,7 @@ BddTest().given('a trace filter container', () => {
         modelValue: Array,
         options: Array,
         label: String,
-        defaultUnselectedText: String,
+        placeholder: String,
         selectedText: String,
         dense: Boolean
       },
@@ -85,7 +85,7 @@ BddTest().given('a trace filter container', () => {
           <p class="av-multiselect__caption">
             {{ modelValue.length
               ? (selectedText || modelValue.length + ' sélection(s)')
-              : defaultUnselectedText
+              : placeholder
             }}
           </p>
         </div>

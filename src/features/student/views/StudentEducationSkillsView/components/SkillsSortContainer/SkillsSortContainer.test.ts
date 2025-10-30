@@ -32,7 +32,7 @@ BddTest().given('a student education skills filters container', () => {
 
     BddTest().then('the AvSelect should have correct props', () => {
       const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('defaultUnselectedText')).toBe('')
+      expect(select.props('placeholder')).toBe('')
       expect(select.props('dense')).toBe(true)
     })
 
