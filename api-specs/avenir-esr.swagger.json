@@ -434,7 +434,7 @@
         }
       }
     },
-    "/me/additional-skill-progress/{additionalSkillId}": {
+    "/me/additional-skill-progress/{additionalSkillProgressId}": {
       "get": {
         "tags": [
           "additional-skill-progress-controller"
@@ -442,7 +442,7 @@
         "operationId": "getAdditionalSkillProgressDetails",
         "parameters": [
           {
-            "name": "additionalSkillId",
+            "name": "additionalSkillProgressId",
             "in": "path",
             "required": true,
             "schema": {
@@ -458,6 +458,45 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AdditionalSkillProgressDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "additional-skill-progress-controller"
+        ],
+        "operationId": "updateAdditionalSkillProgress",
+        "parameters": [
+          {
+            "name": "additionalSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdditionalSkillProgressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdditionalSkillProgressDTO"
                 }
               }
             }
@@ -2950,6 +2989,31 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "AdditionalSkillProgressRequest": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "description",
+          "level"
         ]
       },
       "AdditionalSkillProgressDTO": {
