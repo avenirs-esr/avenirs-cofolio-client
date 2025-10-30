@@ -1,10 +1,10 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,
   type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
+  type AdditionalSkillProgressRequest,
   createAdditionalSkillProgress,
   getAdditionalSkillProgressDetails,
   getAdditionalSkillsProgresses,
@@ -18,7 +18,8 @@ import {
   searchAdditionalSkills,
   type SkillDetailedDTO,
   type SkillDTO,
-  type SkillListItemDTO
+  type SkillListItemDTO,
+  updateAdditionalSkillProgress
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
@@ -247,10 +248,13 @@ export interface UseUpdateAdditionalSkillMutationArgs {
 export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpdateAdditionalSkillMutationArgs = {}) {
   const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'update', 'additional'])
 
-  // TODO: Call api endpoint when swagger updated
   return useMutation<void, BaseApiException, AdditionalSkillProgressDetailsDTO>({
     mutationFn: async (additionalSkillProgressDetailsDTO: AdditionalSkillProgressDetailsDTO): Promise<void> => {
-      await createMockedAdditionalSkillProgressDetailsDTO(additionalSkillProgressDetailsDTO.id)
+      const additionalSkillProgressRequest: AdditionalSkillProgressRequest = {
+        level: additionalSkillProgressDetailsDTO.level,
+        description: additionalSkillProgressDetailsDTO.description ?? '',
+      }
+      await updateAdditionalSkillProgress(additionalSkillProgressDetailsDTO.id, additionalSkillProgressRequest)
     },
     onSuccess: async () => {
       await invalidateAdditionalSkillsViewQuery()

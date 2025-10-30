@@ -14,6 +14,7 @@ import {
   getGetAdditionalSkillProgressDetailsUrl,
   getGetAllSkillsUrl,
   getGetSkillLevelProgressesUrl,
+  getUpdateAdditionalSkillProgressUrl,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseSkillDTO,
   type SkillDetailedDTO,
@@ -195,6 +196,17 @@ export const skillsHandlers = [
   }),
 
   http.get<{ id: string }, AdditionalSkillProgressDetailsDTO>(`*${getGetAdditionalSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
+    const { id } = params
+    const response = createMockedAdditionalSkillProgressDetailsDTO(id)
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.put<{ id: string }, AdditionalSkillProgressDetailsDTO>(`*${getUpdateAdditionalSkillProgressUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedAdditionalSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
