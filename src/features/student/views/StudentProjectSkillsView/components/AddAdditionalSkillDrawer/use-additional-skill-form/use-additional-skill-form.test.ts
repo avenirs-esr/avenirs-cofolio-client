@@ -1,15 +1,15 @@
 import type { AdditionalSkillFormData } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
-import { type AddAdditionalSkillDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
+import { type AddAdditionalSkillDTO, type AdditionalSkillProgressDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { beforeEach, type MockInstance, vi } from 'vitest'
+import { type MockInstance, vi } from 'vitest'
 import { useAdditionalSkillForm } from './use-additional-skill-form'
 
 BddTest().given('the useAdditionalSkillForm composable', () => {
   let composableResult: ReturnType<typeof useAdditionalSkillForm>
   let mockOnSubmit: ReturnType<typeof vi.fn>
-  let createAdditionalSkillProgressSpy: MockInstance<(addAdditionalSkillDTO: AddAdditionalSkillDTO, options?: RequestInit | undefined) => Promise<void>>
+  let createAdditionalSkillProgressSpy: MockInstance<(addAdditionalSkillDTO: AddAdditionalSkillDTO, options?: RequestInit | undefined) => Promise<AdditionalSkillProgressDTO>>
 
   const createMockSkill = (id = '1', label = 'Test Skill', type = EAdditionalSkillType.ROME4) => ({
     id,
@@ -216,7 +216,6 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
     BddTest().then('it should call onSubmit callback after successful API call', async () => {
       const validData = createValidFormData()
       const handler = getOnSubmitHandler()
-      createAdditionalSkillProgressSpy.mockResolvedValueOnce(undefined)
 
       handler({ value: validData, formApi: composableResult.form, meta: {} })
 

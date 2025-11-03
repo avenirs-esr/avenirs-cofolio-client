@@ -2,12 +2,14 @@ import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixture
 import {
   type AdditionalSkillDTO,
   type AdditionalSkillProgressDetailsDTO,
+  type AdditionalSkillProgressDTO,
   EAdditionalSkillCategoryType,
   EAdditionalSkillLevel,
   EAdditionalSkillType,
   ESkillLevelStatus,
   ETraceAssociationType,
   type PagedResponseAdditionalSkillDTO,
+  type PagedResponseAdditionalSkillProgressDTO,
   type PagedResponseSkillDTO,
   type PagedResponseTraceAssociationSearchResult,
   type SkillDTO,
@@ -63,14 +65,18 @@ export function createMockedPagedResponseSkillsDTO (pageSize: number, totalEleme
   }
 }
 
-export function createMockedPagedResponseAdditionalSkillsDTO (pageSize: number, totalElements: number, page: number, _keyword: string): PagedResponseAdditionalSkillDTO {
-  const mockedSkills: AdditionalSkillDTO[] = []
+export function createMockedPagedResponseAdditionalSkillProgressDTO (pageSize: number, totalElements: number, page: number): PagedResponseAdditionalSkillProgressDTO {
+  const mockedSkills: AdditionalSkillProgressDTO[] = []
+  const levels = Object.values(EAdditionalSkillLevel)
+
   for (let i = 1; i <= totalElements; i++) {
-    const skill = {
+    const skill: AdditionalSkillProgressDTO = {
       id: crypto.randomUUID(),
       title: `Ma super compétence complémentaire ${i}`,
-      pathSegments: [],
+      pathSegments: ['Catégorie', `Sous-catégorie ${i}`],
       type: EAdditionalSkillType.ROME4,
+      level: levels[i % levels.length],
+      description: `Description de la compétence complémentaire ${i}`
     }
     mockedSkills.push(skill)
   }

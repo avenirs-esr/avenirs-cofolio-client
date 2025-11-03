@@ -2,6 +2,7 @@ import {
   EDurationUnit,
   ESkillLevelStatus,
   type SkillLevelViewDTO,
+  type StudentProgressDTO,
   type StudentProgressOverviewDTO,
   type StudentProgressViewDTO,
 } from '@/api/avenir-esr'
@@ -194,4 +195,10 @@ export const mockedAllMyProgramsProgress = mockedProgramsProgressView.slice(0, 2
   name: program.name,
   durationUnit: EDurationUnit.YEAR,
   durationCount: 2
+}))
+
+export const mockedStudentProgress: StudentProgressDTO[] = mockedAllMyProgramsProgress.map((trainingPath, index) => ({
+  id: `student-progress-${index + 1}`,
+  studentId: 'student-123',
+  trainingPath
 }))

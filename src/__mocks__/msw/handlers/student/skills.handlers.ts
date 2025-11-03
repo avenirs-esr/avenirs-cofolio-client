@@ -1,21 +1,27 @@
 import {
   createMockedAdditionalSkillProgressDetailsDTO,
   createMockedAllSkillListItemDTO,
-  createMockedPagedResponseAdditionalSkillsDTO,
+  createMockedPagedResponseAdditionalSkillProgressDTO,
   createMockedPagedResponseSkillsDTO,
   createMockedSearchAdditionalSkillsDTO,
   mockedSkillDetailed
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
+  type AddAdditionalSkillDTO,
   type AdditionalSkillConfigurationDTO,
   type AdditionalSkillProgressDetailsDTO,
+  type AdditionalSkillProgressDTO,
   EAdditionalSkillLevel,
+  EAdditionalSkillType,
+  getCreateAdditionalSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAdditionalSkillProgressDetailsUrl,
+  getGetAdditionalSkillsProgressesUrl,
   getGetAllSkillsUrl,
   getGetSkillLevelProgressesUrl,
   getUpdateAdditionalSkillProgressUrl,
   type PagedResponseAdditionalSkillDTO,
+  type PagedResponseAdditionalSkillProgressDTO,
   type PagedResponseSkillDTO,
   type SkillDetailedDTO,
   type SkillListItemDTO
@@ -23,9 +29,9 @@ import {
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
-export function createAdditionalSkillsViewHandler (payload: PagedResponseAdditionalSkillDTO) {
-  return http.get(`*/me/additional-skills`, () => {
-    return HttpResponse.json<PagedResponseAdditionalSkillDTO>(payload, {
+export function createAdditionalSkillsProgressViewHandler (payload: PagedResponseAdditionalSkillProgressDTO) {
+  return http.get(`*${getGetAdditionalSkillsProgressesUrl()}`, () => {
+    return HttpResponse.json<PagedResponseAdditionalSkillProgressDTO>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -33,13 +39,6 @@ export function createAdditionalSkillsViewHandler (payload: PagedResponseAdditio
     })
   })
 }
-
-export const skillsAdditionalViewErrorHandler = http.get(`*/me/additional-skills`, () => {
-  return HttpResponse.json(
-    { message: 'Internal server error' },
-    { status: 500 }
-  )
-})
 
 export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
   return http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
@@ -99,16 +98,15 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseAdditionalSkillDTO>(`*/me/additional-skills`, ({ request }) => {
+  http.get<PathParams, PagedResponseAdditionalSkillProgressDTO>(`*${getGetAdditionalSkillsProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
-    const keyword = searchParams.get('keyword') ?? ''
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedPagedResponseAdditionalSkillsDTO(pageSize, 20, page, keyword)
+    const response = createMockedPagedResponseAdditionalSkillProgressDTO(pageSize, 20, page)
 
-    return HttpResponse.json<PagedResponseAdditionalSkillDTO>(response, {
+    return HttpResponse.json<PagedResponseAdditionalSkillProgressDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -211,6 +209,27 @@ export const skillsHandlers = [
     const response = createMockedAdditionalSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post<PathParams, AddAdditionalSkillDTO>(`*${getCreateAdditionalSkillProgressUrl()}`, async ({ request }) => {
+    const body = await request.json()
+    await delay(100)
+
+    const response: AdditionalSkillProgressDTO = {
+      id: body.id ?? crypto.randomUUID(),
+      title: `Mocked Skill ${body.id}`,
+      pathSegments: ['Category', 'Subcategory'],
+      type: body.type ?? EAdditionalSkillType.ROME4,
+      level: body.level ?? EAdditionalSkillLevel.INTERMEDIATE,
+      description: body.description ?? 'Mocked skill description'
+    }
+
+    return HttpResponse.json(response, {
+      status: 201,
       headers: {
         'Content-Type': 'application/json',
       }

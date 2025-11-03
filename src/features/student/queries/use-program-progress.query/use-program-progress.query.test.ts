@@ -5,9 +5,8 @@ import { mockedAllMyProgramsProgress, mockedProgramsProgressView } from '@/__moc
 import { useAllMyProgramProgressQuery, useProgramProgressViewQuery } from '@/features/student/queries/use-program-progress.query/use-program-progress.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { waitFor } from 'storybook/test'
 import { mountQueryComposable } from 'tests/utils'
-import { expect } from 'vitest'
+import { expect, vi } from 'vitest'
 import { unref } from 'vue'
 
 BddTest().given('a useStudentCoursesSummaryQuery composable', () => {
@@ -18,7 +17,7 @@ BddTest().given('a useStudentCoursesSummaryQuery composable', () => {
       )
       await flushPromises()
       const result = unref(data)
-      await waitFor(() => {
+      await vi.waitFor(() => {
         expect(result).toBeDefined()
       })
       expect(result).toHaveLength(2)

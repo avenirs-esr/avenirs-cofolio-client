@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import {
-  getAllTrainingPaths,
+  getAllStudentProgress,
   getStudentProgressView,
   type GetStudentProgressViewParams,
   type StudentProgressViewDTO,
@@ -28,7 +28,8 @@ export function useAllMyProgramProgressQuery () {
   return useQuery<TrainingPathDTO[], BaseApiException>({
     queryKey,
     queryFn: async (): Promise<TrainingPathDTO[]> => {
-      return getAllTrainingPaths()
+      const response = await getAllStudentProgress()
+      return response.map(studentProgress => studentProgress.trainingPath)
     },
     initialData: []
   })
