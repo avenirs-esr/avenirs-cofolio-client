@@ -11,8 +11,9 @@ export interface StudentSkillCardProps {
 }
 
 const { skill, skillColor } = defineProps<StudentSkillCardProps>()
-const { name, currentSkillLevel } = skill
-const { traceCount, activityCount } = currentSkillLevel
+
+const name = computed(() => skill.name)
+const currentSkillLevel = computed(() => skill.currentSkillLevel)
 
 const { t } = useI18n()
 
@@ -39,7 +40,7 @@ function levelToBadge (level: SkillLevelProgressOverviewDTO) {
   return { label, type }
 }
 
-const firstBadge = computed(() => levelToBadge(currentSkillLevel))
+const firstBadge = computed(() => levelToBadge(currentSkillLevel.value))
 const varSkillColor = computed(() => `var(${skillColor})`)
 
 const theme = ref({
@@ -77,11 +78,11 @@ const theme = ref({
       <template #body>
         <div class="student-skill-card__body">
           <StudentCountTracesIconText
-            :count-traces="traceCount"
+            :count-traces="currentSkillLevel.traceCount"
             gap="0.75rem"
           />
           <StudentCountAmsIconText
-            :count-ams="activityCount"
+            :count-ams="currentSkillLevel.activityCount"
             gap="0.75rem"
           />
         </div>

@@ -1,11 +1,11 @@
-import { mockedAllMyProgramsProgress, mockedProgramsProgressOverview, mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
+import { mockedProgramsProgressOverview, mockedProgramsProgressView, mockedStudentProgress } from '@/__mocks__/fixtures/student'
 import {
-  getGetAllTrainingPathsUrl,
+  getGetAllStudentProgressUrl,
   getGetStudentProgressOverviewUrl,
   getGetStudentProgressViewUrl,
+  type StudentProgressDTO,
   type StudentProgressOverviewDTO,
-  type StudentProgressViewDTO,
-  type TrainingPathDTO
+  type StudentProgressViewDTO
 } from '@/api/avenir-esr'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
@@ -31,8 +31,8 @@ export const programProgressViewErrorHandler = http.get(`*${getGetStudentProgres
 })
 
 export const programProgressHandlers = [
-  http.get(`*${getGetAllTrainingPathsUrl()}`, () => {
-    return HttpResponse.json<TrainingPathDTO[]>(mockedAllMyProgramsProgress, {
+  http.get(`*${getGetAllStudentProgressUrl()}`, () => {
+    return HttpResponse.json<StudentProgressDTO[]>(mockedStudentProgress, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

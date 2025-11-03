@@ -1,5 +1,5 @@
-import { createMockedPagedResponseAdditionalSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { createAdditionalSkillsViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { createMockedPagedResponseAdditionalSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createAdditionalSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -36,7 +36,7 @@ BddTest().given('a skills view other tab component', () => {
     vi.clearAllMocks()
     queryClient = new QueryClient()
 
-    const handler = createAdditionalSkillsViewHandler(createMockedPagedResponseAdditionalSkillsDTO(PageSizes.FOUR, 20, 0, ''))
+    const handler = createAdditionalSkillsProgressViewHandler(createMockedPagedResponseAdditionalSkillProgressDTO(PageSizes.FOUR, 20, 0))
     server.use(handler)
 
     paginationMock = createUsePaginationMock()

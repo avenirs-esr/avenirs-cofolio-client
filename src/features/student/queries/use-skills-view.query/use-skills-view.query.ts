@@ -27,6 +27,7 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const commonQueryKeys = ['user', 'student', 'skills']
 const additionalSkillCommonQueryKey = ['user', 'student', 'additional-skills']
+const additionalSkillDetailsQueryKey = [...additionalSkillCommonQueryKey, 'details']
 
 const TWO_MINUTES = 2 * 60 * 1000
 
@@ -165,7 +166,7 @@ export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: UseCre
 
   return useMutation<void, BaseApiException, AddAdditionalSkillDTO>({
     mutationFn: async (addAdditionalSkillDTO: AddAdditionalSkillDTO): Promise<void> => {
-      return await createAdditionalSkillProgress(addAdditionalSkillDTO)
+      await createAdditionalSkillProgress(addAdditionalSkillDTO)
     },
     onSuccess: async () => {
       await invalidateAdditionalSkillsViewQuery()
@@ -219,7 +220,7 @@ export function useAllSkillsQuery () {
 }
 
 export function useAdditionalSkillDetailedQuery (skillId: MaybeRef<string>) {
-  const queryKey = computed(() => [...additionalSkillCommonQueryKey, toValue(skillId)])
+  const queryKey = computed(() => [...additionalSkillDetailsQueryKey, toValue(skillId)])
 
   const queryFn = computed(() => async (): Promise<AdditionalSkillProgressDetailsDTO> => {
     return await getAdditionalSkillProgressDetails(toValue(skillId))
@@ -246,7 +247,7 @@ export interface UseUpdateAdditionalSkillMutationArgs {
 }
 
 export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpdateAdditionalSkillMutationArgs = {}) {
-  const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...commonQueryKeys, 'update', 'additional'])
+  const invalidateQueryKey = useInvalidateQuery()
 
   return useMutation<void, BaseApiException, AdditionalSkillProgressDetailsDTO>({
     mutationFn: async (additionalSkillProgressDetailsDTO: AdditionalSkillProgressDetailsDTO): Promise<void> => {
@@ -257,7 +258,7 @@ export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpd
       await updateAdditionalSkillProgress(additionalSkillProgressDetailsDTO.id, additionalSkillProgressRequest)
     },
     onSuccess: async () => {
-      await invalidateAdditionalSkillsViewQuery()
+      await invalidateQueryKey([...additionalSkillCommonQueryKey])
       onSuccess?.()
     },
     onError
