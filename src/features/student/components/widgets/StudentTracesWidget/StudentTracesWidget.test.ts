@@ -2,7 +2,7 @@ import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks
 import { server } from '@/__mocks__/msw/server'
 import {
   StudentTraceCardStub
-} from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.stub'
+} from '@/features/student/components/cards/StudentTraceCard/StudentTraceCard.stub'
 import StudentTracesWidget from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'

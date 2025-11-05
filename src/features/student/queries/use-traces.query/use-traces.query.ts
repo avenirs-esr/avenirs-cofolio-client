@@ -49,7 +49,7 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
 
 export function useTracesViewQuery ({ params, traceFilter }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
   const queryKey = computed(() => [
-    ...commonQueryKeys,
+    ...tracesViewQueryKey,
     toValue(params),
     toValue(traceFilter),
   ])
@@ -291,8 +291,7 @@ export function useUpdateTraceMutation ({ onError, onSuccess }: UseUpdateTraceMu
 
   return useMutation<TraceDetailDTO, BaseApiException, UpdateTraceVariables>({
     mutationFn: async ({ traceId, updateTraceDTO }: UpdateTraceVariables): Promise<TraceDetailDTO> => {
-      // TODO: remove cast after fixing API endpoint return type
-      return await updateTrace(traceId, updateTraceDTO) as TraceDetailDTO
+      return await updateTrace(traceId, updateTraceDTO)
     },
     onSuccess: async (_, { traceId }) => {
       await invalidateTraceDetailQuery(traceId)

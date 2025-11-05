@@ -247,6 +247,51 @@
         }
       }
     },
+    "/me/additional-skill-progress/{additionalSkillProgressId}/unassociate/traces": {
+      "post": {
+        "tags": [
+          "additional-skill-progress-controller"
+        ],
+        "operationId": "unassociateTraces",
+        "parameters": [
+          {
+            "name": "additionalSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces": {
       "post": {
         "tags": [

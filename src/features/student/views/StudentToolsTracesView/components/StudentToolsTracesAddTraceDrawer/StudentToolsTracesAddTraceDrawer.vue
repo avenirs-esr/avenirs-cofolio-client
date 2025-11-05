@@ -21,7 +21,7 @@ function onTraceCreated () {
     timeout: 2000,
     description: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
   })
-  handleCancel()
+  confirmCancel()
 }
 const { form, isFormValid, isSubmitting } = useCreateTraceForm(onTraceCreated)
 

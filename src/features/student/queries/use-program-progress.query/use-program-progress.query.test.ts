@@ -6,7 +6,6 @@ import { useAllMyProgramProgressQuery, useProgramProgressViewQuery } from '@/fea
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
-import { expect, vi } from 'vitest'
 import { unref } from 'vue'
 
 BddTest().given('a useStudentCoursesSummaryQuery composable', () => {

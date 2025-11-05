@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import type { RouteLocationRaw } from 'vue-router'
-import { StudentCountAmsIconText } from '@/features/student/components/'
+import { StudentCountAmsIconText } from '@/features/student/components'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { AvCard, AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

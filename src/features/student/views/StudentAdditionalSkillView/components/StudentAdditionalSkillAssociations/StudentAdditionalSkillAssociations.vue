@@ -9,7 +9,7 @@ const { t } = useI18n()
 
 <template>
   <div class="student-additional-skill-associations-container">
-    <span class="b2-regular associated-trace-count">{{ t('student.views.studentAdditionalSkillView.tabs.associations.associatedTracesLabel', traceAssociations.length) }}</span>
+    <span class="b2-regular associated-trace-count">{{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     <TracesSelector
       :traces="traceAssociations"
       readonly

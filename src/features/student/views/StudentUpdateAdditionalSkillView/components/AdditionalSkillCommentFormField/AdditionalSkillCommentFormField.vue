@@ -7,12 +7,14 @@ interface AdditionalSkillCommentFormFieldProps {
   form: UpdateAdditionalSkillForm
 }
 
-defineProps<AdditionalSkillCommentFormFieldProps>()
+const { form } = defineProps<AdditionalSkillCommentFormFieldProps>()
+const FormField = form.Field
+
 const { t } = useI18n()
 </script>
 
 <template>
-  <form.Field name="description">
+  <FormField name="description">
     <template #default="{ field }">
       <AvInput
         v-bind="$attrs"
@@ -33,5 +35,5 @@ const { t } = useI18n()
         </template>
       </AvInput>
     </template>
-  </form.Field>
+  </FormField>
 </template>

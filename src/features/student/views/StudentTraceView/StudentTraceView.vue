@@ -40,7 +40,6 @@ const {
 } = useModal()
 
 const activeTab = ref(0)
-const isAssociationsTabActive = computed(() => activeTab.value === 1)
 
 function onDeleteTraceSuccess () {
   hideDeleteModal()
@@ -78,7 +77,7 @@ const breadcrumbLinks = computed(() => [
 
     <AvTabs
       v-model="activeTab"
-      v-memo="[traceDetailed, traceDetailed.traceAssociations?.skillLevelAssociations, traceDetailed.traceAssociations?.additionalSkillAssociations]"
+      v-memo="[traceDetailed, activeTab]"
       class="trace-tabs"
       compact
     >
@@ -87,7 +86,6 @@ const breadcrumbLinks = computed(() => [
         :icon="MDI_ICONS.ATTACH_FILE"
       >
         <StudentTraceDetails
-          v-if="!isAssociationsTabActive"
           :trace="traceDetailed"
         />
       </AvTab>
@@ -96,7 +94,6 @@ const breadcrumbLinks = computed(() => [
         :icon="MDI_ICONS.LINK"
       >
         <TraceAssociations
-          v-if="isAssociationsTabActive"
           :associations="traceDetailed.traceAssociations"
         />
       </AvTab>
