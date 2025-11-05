@@ -7,6 +7,7 @@ interface TraceAuthenticDeclarationToggleFormFieldProps {
 }
 
 const { form } = defineProps<TraceAuthenticDeclarationToggleFormFieldProps>()
+const FormField = form.Field
 
 const isAuthenticField = form.useField({ name: 'isAuthentic' })
 const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
@@ -14,7 +15,7 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
 
 <template>
   <div>
-    <form.Field name="isAuthentic">
+    <FormField name="isAuthentic">
       <template #default="{ field }">
         <TraceAuthenticDeclarationToggle
           v-bind="$attrs"
@@ -24,7 +25,7 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
           @update:model-value="(value) => field.handleChange(value)"
         />
       </template>
-    </form.Field>
+    </FormField>
     <div
       v-if="authenticErrors.length > 0"
       class="trace-form__authentic-error"

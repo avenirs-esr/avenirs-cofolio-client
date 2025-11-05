@@ -6,11 +6,12 @@ interface TraceGroupProductionToggleFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
-defineProps<TraceGroupProductionToggleFormFieldProps>()
+const { form } = defineProps<TraceGroupProductionToggleFormFieldProps>()
+const FormField = form.Field
 </script>
 
 <template>
-  <form.Field name="isGroup">
+  <FormField name="isGroup">
     <template #default="{ field }">
       <TraceGroupProductionToggle
         v-bind="$attrs"
@@ -20,7 +21,7 @@ defineProps<TraceGroupProductionToggleFormFieldProps>()
         @update:model-value="(value) => field.handleChange(value)"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">

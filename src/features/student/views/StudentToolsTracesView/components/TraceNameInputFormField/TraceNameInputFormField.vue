@@ -6,11 +6,12 @@ interface TraceNameInputFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
-defineProps<TraceNameInputFormFieldProps>()
+const { form } = defineProps<TraceNameInputFormFieldProps>()
+const FormField = form.Field
 </script>
 
 <template>
-  <form.Field name="traceName">
+  <FormField name="traceName">
     <template #default="{ field }">
       <TraceNameInput
         v-bind="$attrs"
@@ -22,7 +23,7 @@ defineProps<TraceNameInputFormFieldProps>()
         @update:model-value="(value) => typeof value == 'string' && field.handleChange(value)"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">
