@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { UseQueryReturnType } from '@tanstack/vue-query'
+import type { UseMutationReturnType, UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { createMockedAllSkillListItemDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
@@ -14,12 +14,20 @@ import {
   type SkillDTO,
   type SkillListItemDTO
 } from '@/api/avenir-esr'
-import { useAdditionalSkillDetailedQuery, useAdditionalSkillsViewQuery, useAllSkillsQuery, useSearchAdditionalSkillsQuery, useSkillsViewQuery } from '@/features/student/queries'
+import {
+  useAdditionalSkillDetailedQuery,
+  useAdditionalSkillsViewQuery,
+  useAllSkillsQuery,
+  useSearchAdditionalSkillsQuery,
+  useSkillsViewQuery,
+  useUnassociateTracesFromAdditionalSkillMutation,
+  type UseUnassociateTracesFromAdditionalSkillMutationVariables
+} from '@/features/student/queries'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { mountQueryComposable } from 'tests/utils'
-import { beforeEach, expect, type MockInstance } from 'vitest'
+import { mountComposable, mountQueryComposable } from 'tests/utils'
+import { beforeEach, expect, type MockInstance, vi } from 'vitest'
 
 BddTest().given('an useAdditionalSkillsViewQuery composable', () => {
   const uiidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -539,6 +547,50 @@ Objectif : Développer une approche par compétences pour favoriser la mobilité
         expect(queryResult.data.value?.id).toBe('new-skill-id')
         expect(queryResult.data.value?.id).not.toBe(initialId)
       })
+    })
+  })
+})
+
+BddTest().given('the useUnassociateTracesFromAdditionalSkillMutation composable', () => {
+  let composableResult: UseMutationReturnType<string, BaseApiException, UseUnassociateTracesFromAdditionalSkillMutationVariables, unknown>
+  let mockOnSuccess: ReturnType<typeof vi.fn>
+  let mockOnError: ReturnType<typeof vi.fn>
+
+  beforeEach(() => {
+    mockOnSuccess = vi.fn()
+    mockOnError = vi.fn()
+    const result = mountComposable(() => useUnassociateTracesFromAdditionalSkillMutation({ onSuccess: mockOnSuccess, onError: mockOnError }), {
+      useI18n: true,
+      useTanstack: true,
+      usePinia: true
+    })
+    composableResult = result.result
+  })
+
+  BddTest().when('the mutation is called with valid data', () => {
+    BddTest().then('it should successfully unassociate traces from additional skill', async () => {
+      const variables: UseUnassociateTracesFromAdditionalSkillMutationVariables = {
+        additionalSkillProgressId: 'skill-1',
+        traceIds: ['trace-1', 'trace-2']
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      expect(composableResult.data.value).toBe('success')
+    })
+  })
+
+  BddTest().when('checking the mutation initial state', () => {
+    BddTest().then('it should have correct initial values', () => {
+      expect(composableResult.isPending.value).toBe(false)
+      expect(composableResult.isError.value).toBe(false)
+      expect(composableResult.isSuccess.value).toBe(false)
+      expect(composableResult.data.value).toBeUndefined()
     })
   })
 })

@@ -59,6 +59,10 @@
         }
       }
     },
+    "global": {
+      "myAssociatedTracesWithCount": "Ma trace associée ({count}) | Mes traces associées ({count})",
+      "myAssociationsWithCount": "Mes associations ({count})"
+    },
     "iconTexts": {
       "studentCountAmsIconText": {
         "text": "0 mise en situation | 1 mise en situation | {count} mises en situation"
@@ -193,10 +197,6 @@
           "update": "Modifier ma compétence"
         },
         "tabs": {
-          "associations": {
-            "title": "Mes associations ({count})",
-            "associatedTracesLabel": "Mes traces associées ({count})"
-          },
           "details": {
             "dateDetails": {
               "added": "Compétence ajoutée le {date}",
@@ -462,14 +462,14 @@
             "studentTraceFilters": {
               "searchLabel": "Rechercher une trace associée"
             },
-            "title": "Aucune trace associée ({count})  | Ma trace associée ({count}) | Mes traces associées ({count})"
+            "title": "Aucune trace associée ({count}) | Ma trace associée ({count}) | Mes traces associées ({count})"
           },
           "noTraceFound": "Aucune trace trouvée.",
           "unassociatedTracesTab": {
             "studentTraceFilters": {
               "searchLabel": "Rechercher une trace non associée"
             },
-            "title": "Aucune trace non associée ({count})  | Ma trace non associée ({count}) | Mes traces non associées ({count})"
+            "title": "Aucune trace non associée ({count}) | Ma trace non associée ({count}) | Mes traces non associées ({count})"
           }
         },
         "title": "Ma bibliothèque de traces",
@@ -585,14 +585,19 @@
       },
       "studentUpdateAdditionalSkillView": {
         "tabs": {
-          "associations": {
-            "title": "Mes associations ({count})"
-          },
           "details": {
             "title": "Ma compétence déclarée"
           }
         },
         "title": "Modifier ma compétence déclarée",
+        "updateAssociations": {
+          "addTraceButton": "Ajouter une trace",
+          "errors": {
+            "unassociateTraces": "Une erreur est survenue lors de la suppression des associations"
+          },
+          "removeButton": "Supprimer",
+          "success": "{count} association supprimée avec succès | {count} associations supprimées avec succès"
+        },
         "updateForm": {
           "errors": {
             "updateAdditionalSkill": "Une erreur est survenue lors de la mise à jour de la compétence déclarée"

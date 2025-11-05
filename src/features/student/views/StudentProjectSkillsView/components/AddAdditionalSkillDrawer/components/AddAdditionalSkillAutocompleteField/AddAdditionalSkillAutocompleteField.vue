@@ -19,8 +19,8 @@ interface SearchSkillFieldProps {
   form: AdditionalSkillForm | UpdateAdditionalSkillForm
 }
 
-const props = defineProps<SearchSkillFieldProps>()
-const form = props.form
+const { form } = defineProps<SearchSkillFieldProps>()
+const FormField = form.Field
 
 const { t } = useI18n()
 
@@ -81,7 +81,7 @@ const emptySlotTextContent = computed<string>(() => {
 
 <template>
   <div class="search-skill-field">
-    <form.Field name="selectedSkills">
+    <FormField name="selectedSkills">
       <template #default="{ field }">
         <AvAutocomplete
           :model-value="field.state.value"
@@ -153,7 +153,7 @@ const emptySlotTextContent = computed<string>(() => {
           </template>
         </AvAutocomplete>
       </template>
-    </form.Field>
+    </FormField>
   </div>
 </template>
 

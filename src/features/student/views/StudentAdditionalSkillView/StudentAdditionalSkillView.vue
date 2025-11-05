@@ -71,7 +71,7 @@ function handleUpdateSelected () {
       />
     </AvTab>
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.associations.title', { count: countAssociations })"
+      :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
       :icon="MDI_ICONS.LINK"
     >
       <StudentAdditionalSkillAssociations

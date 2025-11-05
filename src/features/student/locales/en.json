@@ -59,6 +59,10 @@
         }
       }
     },
+    "global": {
+      "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
+      "myAssociationsWithCount": "My associations ({count})"
+    },
     "iconTexts": {
       "studentCountAmsIconText": {
         "text": "0 role-play activity | 1 role-play activity | {count} role-play activities"
@@ -193,10 +197,6 @@
           "update": "Edit my skill"
         },
         "tabs": {
-          "associations": {
-            "associatedTracesLabel": "My associated traces ({count})",
-            "title": "My associations ({count})"
-          },
           "details": {
             "dateDetails": {
               "added": "Skill added on {date}",
@@ -589,14 +589,19 @@
       },
       "studentUpdateAdditionalSkillView": {
         "tabs": {
-          "associations": {
-            "title": "My associations ({count})"
-          },
           "details": {
             "title": "My declared skill"
           }
         },
         "title": "Update my declared skill",
+        "updateAssociations": {
+          "addTraceButton": "Add a trace",
+          "errors": {
+            "unassociateTraces": "An error occurred while removing associations"
+          },
+          "removeButton": "Remove",
+          "success": "{count} association removed successfully | {count} associations removed successfully "
+        },
         "updateForm": {
           "errors": {
             "updateAdditionalSkill": "An error occurred while updating the additional skill."

@@ -3,4 +3,5 @@ export { default as StudentDetailedPastSkillCard } from './StudentDetailedPastSk
 export { default as StudentDetailedSkillCard } from './StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 export { default as StudentTraceAdditionalSkillAssociationCard } from './StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
 export { default as StudentTraceAssociationCard } from './StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
+export { default as StudentTraceCard, type StudentTraceCardProps } from './StudentTraceCard/StudentTraceCard.vue'
 export { default as StudentTraceSkillLevelAssociationCard } from './StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'

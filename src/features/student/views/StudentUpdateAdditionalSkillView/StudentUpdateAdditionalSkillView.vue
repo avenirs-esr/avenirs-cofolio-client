@@ -3,6 +3,8 @@ import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
+import UpdateAdditionalSkillAssociations
+  from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillAssociations/UpdateAdditionalSkillAssociations.vue'
 import UpdateAdditionalSkillForm
   from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
 import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -24,7 +26,6 @@ const { navigateToStudentAdditionalSkill } = useNavigation()
 const { additionalSkillDetailed } = useAdditionalSkillDetailedQuery(skillId)
 
 const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
-const skillTitle = ref<string>('Placeholder Skill Title')
 const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
@@ -47,7 +48,7 @@ function backToStudentAdditionalSkillViewTabs () {
   />
 
   <div class="update-additional-skill-view__title">
-    <span class="n4">{{ skillTitle }}</span>
+    <span class="n4">{{ additionalSkillDetailed?.title ?? '' }}</span>
   </div>
 
   <div
@@ -68,6 +69,7 @@ function backToStudentAdditionalSkillViewTabs () {
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
       <UpdateAdditionalSkillForm
+        v-if="additionalSkillDetailed"
         :additional-skill-progress-details="additionalSkillDetailed!"
         :on-skill-updated="backToStudentAdditionalSkillViewTabs"
         :on-cancel="backToStudentAdditionalSkillViewTabs"
@@ -75,10 +77,14 @@ function backToStudentAdditionalSkillViewTabs () {
       />
     </AvTab>
     <AvTab
-      :title="t('student.views.studentUpdateAdditionalSkillView.tabs.associations.title', { count: 4 })"
+      :title="t('student.global.myAssociationsWithCount', { count: additionalSkillDetailed?.traceAssociations?.length ?? 0 })"
       :icon="MDI_ICONS.LINK"
     >
-      Placeholder for UpdateAdditionalSkillAssociations
+      <UpdateAdditionalSkillAssociations
+        v-if="additionalSkillDetailed"
+        :trace-associations="additionalSkillDetailed.traceAssociations"
+        :additional-skill-id="additionalSkillDetailed.id"
+      />
     </AvTab>
   </AvTabs>
 </template>

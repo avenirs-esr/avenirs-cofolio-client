@@ -6,11 +6,12 @@ interface AdditionalSkillLevelFormFieldProps {
   form: UpdateAdditionalSkillForm
 }
 
-defineProps<AdditionalSkillLevelFormFieldProps>()
+const { form } = defineProps<AdditionalSkillLevelFormFieldProps>()
+const FormField = form.Field
 </script>
 
 <template>
-  <form.Field name="level">
+  <FormField name="level">
     <template #default="{ field }">
       <AddAdditionalSkillLevelField
         v-bind="$attrs"
@@ -19,7 +20,7 @@ defineProps<AdditionalSkillLevelFormFieldProps>()
         @blur="field.handleBlur"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">

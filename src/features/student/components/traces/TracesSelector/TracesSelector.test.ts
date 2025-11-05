@@ -1,8 +1,8 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
-import TracesSelector from '@/features/student/components/traces/TracesSelector/TracesSelector.vue'
 import {
   StudentTraceCardStub
-} from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.stub'
+} from '@/features/student/components/cards/StudentTraceCard/StudentTraceCard.stub'
+import TracesSelector from '@/features/student/components/traces/TracesSelector/TracesSelector.vue'
 import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 

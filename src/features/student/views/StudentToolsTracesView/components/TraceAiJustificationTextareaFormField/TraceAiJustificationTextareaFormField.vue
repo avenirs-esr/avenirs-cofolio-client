@@ -8,7 +8,7 @@ interface TraceIaJustificationTextareaFormFieldProps {
   labelVisible?: boolean
 }
 
-const { form, showAiJustification, labelVisible } = defineProps<TraceIaJustificationTextareaFormFieldProps>()
+const { form } = defineProps<TraceIaJustificationTextareaFormFieldProps>()
 const FormField = form.Field
 </script>
 
@@ -21,7 +21,7 @@ const FormField = form.Field
       <TraceIaJustificationTextarea
         id="ia-justification"
         v-model="field.state.value"
-        :error-message="field.state.meta.errors?.join(', ')"
+        :error-message="field.state.meta.errors.join(', ')"
         :required="showAiJustification"
         :label-visible="labelVisible"
         v-bind="$attrs"

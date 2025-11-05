@@ -1,4 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { MutationArgs } from '@/features/student/queries/types'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,
@@ -19,6 +20,7 @@ import {
   type SkillDetailedDTO,
   type SkillDTO,
   type SkillListItemDTO,
+  unassociateTraces,
   updateAdditionalSkillProgress
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -257,9 +259,32 @@ export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpd
       }
       await updateAdditionalSkillProgress(additionalSkillProgressDetailsDTO.id, additionalSkillProgressRequest)
     },
-    onSuccess: async () => {
-      await invalidateQueryKey([...additionalSkillCommonQueryKey])
+    onSuccess: async (_, { id }) => {
+      await invalidateQueryKey([...additionalSkillCommonQueryKey, id])
       onSuccess?.()
+    },
+    onError
+  })
+}
+
+export interface UseUnassociateTracesFromAdditionalSkillMutationVariables {
+  additionalSkillProgressId: string
+  traceIds: string[]
+}
+
+export function useUnassociateTracesFromAdditionalSkillMutation ({ onError, onSuccess }: MutationArgs<
+  string,
+  UseUnassociateTracesFromAdditionalSkillMutationVariables
+>) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<string, BaseApiException, UseUnassociateTracesFromAdditionalSkillMutationVariables>({
+    mutationFn: async ({ additionalSkillProgressId, traceIds }: UseUnassociateTracesFromAdditionalSkillMutationVariables): Promise<string> => {
+      return await unassociateTraces(additionalSkillProgressId, traceIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...additionalSkillDetailsQueryKey, variables.additionalSkillProgressId])
+      onSuccess?.(data, variables)
     },
     onError
   })

@@ -16,8 +16,8 @@ interface SkillLevelFieldProps {
   form: AdditionalSkillForm | UpdateAdditionalSkillForm
 }
 
-const props = defineProps<SkillLevelFieldProps>()
-const form = props.form
+const { form } = defineProps<SkillLevelFieldProps>()
+const FormField = form.Field
 
 const { t } = useI18n()
 const { data: skillConfig } = useAdditionalSkillConfig()
@@ -37,7 +37,7 @@ function getDescription (level: EAdditionalSkillLevel) {
     v-if="skillConfig"
     class="skill-level-field"
   >
-    <form.Field name="level">
+    <FormField name="level">
       <template #default="{ field }">
         <AvRadioButtonSet
           :model-value="field.state.value"
@@ -67,7 +67,7 @@ function getDescription (level: EAdditionalSkillLevel) {
           </template>
         </AvRadioButtonSet>
       </template>
-    </form.Field>
+    </FormField>
   </div>
 </template>
 

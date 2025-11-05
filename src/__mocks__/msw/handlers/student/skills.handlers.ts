@@ -19,6 +19,7 @@ import {
   getGetAdditionalSkillsProgressesUrl,
   getGetAllSkillsUrl,
   getGetSkillLevelProgressesUrl,
+  getUnassociateTracesUrl,
   getUpdateAdditionalSkillProgressUrl,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseAdditionalSkillProgressDTO,
@@ -234,5 +235,14 @@ export const skillsHandlers = [
         'Content-Type': 'application/json',
       }
     })
-  })
+  }),
+
+  http.post(`*${getUnassociateTracesUrl(':additionalSkillProgressId')}`, () => {
+    return HttpResponse.json<string>('success', {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
 ]

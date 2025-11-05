@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import StudentTraceCard from '@/features/student/components/widgets/StudentTracesWidget/components/StudentTraceCard/StudentTraceCard.vue'
+import { StudentTraceCard } from '@/features/student/components/cards'
 import { AvCheckbox } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -46,7 +46,6 @@ const selectedTraceIds = defineModel<string[]>({ default: [] })
 .traces-selector {
 
   &__container {
-    background-color: var(--surface-background);
     padding: var(--spacing-md);
     border-radius: var(--radius-xl);
     display: flex;
