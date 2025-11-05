@@ -7,11 +7,13 @@ interface TraceAiUsageToggleFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
-defineProps<TraceAiUsageToggleFormFieldProps>()
+const { form } = defineProps<TraceAiUsageToggleFormFieldProps>()
 
 const emit = defineEmits<{
   (event: 'change', payload: boolean): void
 }>()
+
+const FormField = form.Field
 
 const attrs = useAttrs()
 
@@ -22,7 +24,7 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
 </script>
 
 <template>
-  <form.Field name="useIA">
+  <FormField name="useIA">
     <template #default="{ field }">
       <TraceAiUsageToggle
         v-bind="attrs"
@@ -32,7 +34,7 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
         @update:model-value="(value) => handleChange(value, field.handleChange)"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">

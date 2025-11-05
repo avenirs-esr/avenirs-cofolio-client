@@ -6,11 +6,14 @@ interface TracePersonalNoteTextareaFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
-defineProps<TracePersonalNoteTextareaFormFieldProps>()
+const { form } = defineProps<TracePersonalNoteTextareaFormFieldProps>()
+const FormField = form.Field
 </script>
 
 <template>
-  <form.Field name="personalNote">
+  <FormField
+    name="personalNote"
+  >
     <template #default="{ field }">
       <TracePersonalNoteTextarea
         v-bind="$attrs"
@@ -21,7 +24,7 @@ defineProps<TracePersonalNoteTextareaFormFieldProps>()
         @update:model-value="(value) => typeof value == 'string' ? field.handleChange(value) : field.handleChange(undefined)"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">

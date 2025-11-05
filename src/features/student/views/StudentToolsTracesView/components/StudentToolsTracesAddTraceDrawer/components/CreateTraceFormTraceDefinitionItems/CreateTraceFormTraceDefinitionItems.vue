@@ -11,8 +11,7 @@ interface CreateTraceFormTraceDefinitionItemsProps {
   form: CreateTraceForm
 }
 
-const props = defineProps<CreateTraceFormTraceDefinitionItemsProps>()
-const form: CreateTraceForm = props.form
+const { form } = defineProps<CreateTraceFormTraceDefinitionItemsProps>()
 </script>
 
 <template>

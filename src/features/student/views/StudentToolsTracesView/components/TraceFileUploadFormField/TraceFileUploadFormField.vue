@@ -8,6 +8,7 @@ interface TraceFileUploadFormFieldProps {
 }
 
 const { form } = defineProps<TraceFileUploadFormFieldProps>()
+const FormField = form.Field
 
 const { t } = useI18n()
 
@@ -25,7 +26,7 @@ function handleFilesChange (files: FileList) {
 </script>
 
 <template>
-  <form.Field name="file">
+  <FormField name="file">
     <template #default="{ field }">
       <TraceFileUpload
         id="trace-file-upload"
@@ -38,7 +39,7 @@ function handleFilesChange (files: FileList) {
         @update:model-value="(value: File | null) => field.handleChange(value)"
       />
     </template>
-  </form.Field>
+  </FormField>
 </template>
 
 <style scoped lang="scss">

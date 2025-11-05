@@ -10,8 +10,7 @@ interface CreateTraceFormDeclarationItemsProps {
   form: CreateTraceForm
 }
 
-const props = defineProps<CreateTraceFormDeclarationItemsProps>()
-const form: CreateTraceForm = props.form
+const { form } = defineProps<CreateTraceFormDeclarationItemsProps>()
 
 const { t } = useI18n()
 
