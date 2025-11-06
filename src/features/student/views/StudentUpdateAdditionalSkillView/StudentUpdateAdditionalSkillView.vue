@@ -34,7 +34,7 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.additionalSkills') }
 ])
 
-function onSkillUpdated () {
+function backToStudentAdditionalSkillViewTabs () {
   navigateToStudentAdditionalSkill()
 }
 </script>
@@ -69,7 +69,8 @@ function onSkillUpdated () {
     >
       <UpdateAdditionalSkillForm
         :additional-skill-progress-details="additionalSkillDetailed!"
-        :on-skill-updated="onSkillUpdated"
+        :on-skill-updated="backToStudentAdditionalSkillViewTabs"
+        :on-cancel="backToStudentAdditionalSkillViewTabs"
         @dirty-change="updateInProgress = $event"
       />
     </AvTab>
