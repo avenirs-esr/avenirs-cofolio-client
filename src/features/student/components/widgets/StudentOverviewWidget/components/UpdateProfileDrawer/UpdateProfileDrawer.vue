@@ -18,6 +18,7 @@ import {
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { studentSummary, show, onClose } = defineProps<{
@@ -39,6 +40,7 @@ const {
   onProfilePictureUpdate,
   resetForm
 } = useUpdateProfileForm(studentSummary, onUpdateProfileSuccess)
+const FormField = markRaw(form.Field)
 const { onConfirmDeleteCoverPhoto } = useDeleteCoverPhoto()
 const { onConfirmDeleteProfilePhoto } = useDeleteProfilePhoto()
 
@@ -112,7 +114,7 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
           >
             <div class="form">
-              <form.Field name="lastname">
+              <FormField name="lastname">
                 <template #default="{ field }">
                   <AvInput
                     v-model="field.state.value"
@@ -122,8 +124,8 @@ watch(() => show, (newVal) => {
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
                 </template>
-              </form.Field>
-              <form.Field name="firstname">
+              </FormField>
+              <FormField name="firstname">
                 <template #default="{ field }">
                   <AvInput
                     v-model="field.state.value"
@@ -133,8 +135,8 @@ watch(() => show, (newVal) => {
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
                 </template>
-              </form.Field>
-              <form.Field name="email">
+              </FormField>
+              <FormField name="email">
                 <template #default="{ field }">
                   <AvInput
                     v-model="field.state.value"
@@ -144,8 +146,8 @@ watch(() => show, (newVal) => {
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
                 </template>
-              </form.Field>
-              <form.Field name="bio">
+              </FormField>
+              <FormField name="bio">
                 <template #default="{ field }">
                   <AvInput
                     v-model="field.state.value"
@@ -156,7 +158,7 @@ watch(() => show, (newVal) => {
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
                 </template>
-              </form.Field>
+              </FormField>
             </div>
           </AvAccordion>
           <AvAccordion

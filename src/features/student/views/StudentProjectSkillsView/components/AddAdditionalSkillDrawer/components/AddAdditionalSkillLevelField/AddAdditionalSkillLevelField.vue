@@ -10,6 +10,7 @@ import { isEnumMember } from '@/common/utils'
 import { AdditionalSkillLevelBadge } from '@/features/student/components/badges'
 import { useAdditionalSkillConfig } from '@/features/student/queries'
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface SkillLevelFieldProps {
@@ -17,7 +18,7 @@ interface SkillLevelFieldProps {
 }
 
 const { form } = defineProps<SkillLevelFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
 const { data: skillConfig } = useAdditionalSkillConfig()

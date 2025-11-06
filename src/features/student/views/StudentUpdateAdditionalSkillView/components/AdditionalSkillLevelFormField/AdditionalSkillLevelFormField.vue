@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { UpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
+import { markRaw } from 'vue'
 
 interface AdditionalSkillLevelFormFieldProps {
   form: UpdateAdditionalSkillForm
 }
 
 const { form } = defineProps<AdditionalSkillLevelFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 </script>
 
 <template>

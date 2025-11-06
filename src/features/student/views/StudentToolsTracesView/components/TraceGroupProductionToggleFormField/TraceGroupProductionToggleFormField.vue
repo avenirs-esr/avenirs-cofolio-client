@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TraceGroupProductionToggle } from '@/features/student/components'
+import { markRaw } from 'vue'
 
 interface TraceGroupProductionToggleFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
 const { form } = defineProps<TraceGroupProductionToggleFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 </script>
 
 <template>

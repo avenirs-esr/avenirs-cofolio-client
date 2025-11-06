@@ -12,7 +12,7 @@ import AdditionalSkillTypeBadge from '@/features/student/components/badges/Addit
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
-import { toValue } from 'vue'
+import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface SearchSkillFieldProps {
@@ -20,7 +20,7 @@ interface SearchSkillFieldProps {
 }
 
 const { form } = defineProps<SearchSkillFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
 

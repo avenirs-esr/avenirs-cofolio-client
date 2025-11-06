@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TraceIaJustificationTextarea } from '@/features/student/components'
+import { markRaw } from 'vue'
 
 interface TraceIaJustificationTextareaFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
@@ -9,7 +10,7 @@ interface TraceIaJustificationTextareaFormFieldProps {
 }
 
 const { form } = defineProps<TraceIaJustificationTextareaFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 </script>
 
 <template>
