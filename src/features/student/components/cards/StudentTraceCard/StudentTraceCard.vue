@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import type { RouteLocationRaw } from 'vue-router'
+import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText } from '@/features/student/components'
 import { studentToolsTracesRoute } from '@/features/student/routes'
 import { AvCard, AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -21,7 +21,7 @@ function getRandomSkillColor () {
   return `var(--skill${random})`
 }
 
-const category = computed(() => programName ?? t('student.cards.studentTraceCard.lifeProject'))
+const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.cards.studentTraceCard.lifeProject'))
 const typeInfo = computed(() => isGroup
   ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
   : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
