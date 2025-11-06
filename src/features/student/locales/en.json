@@ -193,7 +193,6 @@
         "settings": {
           "ariaLabel": "Declared skill settings",
           "delete": "Delete my skill",
-          "deleteAssociation": "Delete an association",
           "update": "Edit my skill"
         },
         "tabs": {
