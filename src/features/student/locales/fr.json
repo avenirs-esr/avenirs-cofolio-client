@@ -193,7 +193,6 @@
         "settings": {
           "ariaLabel": "Paramètres de la compétence déclarée",
           "delete": "Supprimer ma compétence",
-          "deleteAssociation": "Supprimer une association",
           "update": "Modifier ma compétence"
         },
         "tabs": {

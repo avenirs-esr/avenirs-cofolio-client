@@ -4,13 +4,11 @@ import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
   (e: 'updateSelected'): void
-  (e: 'deleteAssociationSelected'): void
   (e: 'deleteSelected'): void
 }>()
 
 enum AdditionalSkillSettingPopoverEvents {
   UPDATE = 'update',
-  DELETE_ASSOCIATION = 'deleteAssociation',
   DELETE = 'delete'
 }
 
@@ -23,11 +21,6 @@ const menuItems = computed(() => [
     label: t('student.views.studentAdditionalSkillView.settings.update')
   },
   {
-    name: AdditionalSkillSettingPopoverEvents.DELETE_ASSOCIATION,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.views.studentAdditionalSkillView.settings.deleteAssociation')
-  },
-  {
     name: AdditionalSkillSettingPopoverEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('student.views.studentAdditionalSkillView.settings.delete')
@@ -38,9 +31,6 @@ function handleItemSelected (itemName: string) {
   switch (itemName) {
     case AdditionalSkillSettingPopoverEvents.UPDATE:
       emit('updateSelected')
-      break
-    case AdditionalSkillSettingPopoverEvents.DELETE_ASSOCIATION:
-      emit('deleteAssociationSelected')
       break
     case AdditionalSkillSettingPopoverEvents.DELETE:
       emit('deleteSelected')
