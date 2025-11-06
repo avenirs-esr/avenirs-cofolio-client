@@ -18,7 +18,7 @@ const { t } = useI18n()
         v-bind="$attrs"
         id="skill-comment"
         :model-value="(field.state.value ?? '').slice(0, 400)"
-        :label="t('student.views.studentAdditionalSkillView.tabs.details.commentTitle')"
+        :label="t('student.views.studentAdditionalSkillView.tabs.details.descriptionTitle')"
         label-class="caption-regular"
         :maxlength="400"
         is-textarea

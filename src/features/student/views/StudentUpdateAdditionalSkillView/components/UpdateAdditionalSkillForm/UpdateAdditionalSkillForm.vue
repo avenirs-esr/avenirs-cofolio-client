@@ -82,6 +82,9 @@ watch(
       <div class="update-additional-skill-form__actions">
         <AvButton
           :label="t('global.buttons.cancel')"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          variant="OUTLINED"
+          size="sm"
           @click="handleCancel"
         />
 
