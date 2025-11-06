@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TraceAuthenticDeclarationToggle } from '@/features/student/components/toggles'
+import { markRaw } from 'vue'
 
 interface TraceAuthenticDeclarationToggleFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
 const { form } = defineProps<TraceAuthenticDeclarationToggleFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const isAuthenticField = form.useField({ name: 'isAuthentic' })
 const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)

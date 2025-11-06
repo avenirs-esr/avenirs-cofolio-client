@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TraceAiUsageToggle } from '@/features/student/components'
-import { useAttrs } from 'vue'
+import { markRaw, useAttrs } from 'vue'
 
 interface TraceAiUsageToggleFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
 const { form } = defineProps<TraceAiUsageToggleFormFieldProps>()
-
 const emit = defineEmits<{
   (event: 'change', payload: boolean): void
 }>()
 
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const attrs = useAttrs()
 

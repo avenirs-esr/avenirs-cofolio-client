@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TraceFileUpload } from '@/features/student/components'
+import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface TraceFileUploadFormFieldProps {
@@ -8,7 +9,7 @@ interface TraceFileUploadFormFieldProps {
 }
 
 const { form } = defineProps<TraceFileUploadFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
 

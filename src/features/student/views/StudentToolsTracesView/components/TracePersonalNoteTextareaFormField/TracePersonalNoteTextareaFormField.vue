@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/types'
 import { TracePersonalNoteTextarea } from '@/features/student/components'
+import { markRaw } from 'vue'
 
 interface TracePersonalNoteTextareaFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
 const { form } = defineProps<TracePersonalNoteTextareaFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 </script>
 
 <template>

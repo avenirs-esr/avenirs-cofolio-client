@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { UpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface AdditionalSkillCommentFormFieldProps {
@@ -8,7 +9,7 @@ interface AdditionalSkillCommentFormFieldProps {
 }
 
 const { form } = defineProps<AdditionalSkillCommentFormFieldProps>()
-const FormField = form.Field
+const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
 </script>
