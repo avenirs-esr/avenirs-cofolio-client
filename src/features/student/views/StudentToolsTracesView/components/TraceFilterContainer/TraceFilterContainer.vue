@@ -147,6 +147,7 @@ watch([
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
       dense
       width="14.875rem"
+      height="2.5rem"
     />
     <AvInput
       v-model="fromDateSelected"
@@ -173,6 +174,7 @@ watch([
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
       dense
       width="14.875rem"
+      height="2.5rem"
     />
     <AvMultiselect
       v-if="isAssociated"
@@ -184,6 +186,7 @@ watch([
       :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
       dense
       width="14.875rem"
+      height="2.5rem"
     />
     <AvButton
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.reset')"
