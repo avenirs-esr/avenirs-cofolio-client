@@ -1076,7 +1076,7 @@
         }
       }
     },
-    "/me/additional-skills/search": {
+    "/additional-skills/search": {
       "get": {
         "tags": [
           "additional-skill-controller"

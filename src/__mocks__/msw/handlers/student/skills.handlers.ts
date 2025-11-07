@@ -115,7 +115,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseAdditionalSkillDTO>(`*/me/additional-skills/search`, ({ request }) => {
+  http.get<PathParams, PagedResponseAdditionalSkillDTO>(`*/additional-skills/search`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const keyword = searchParams.get('keyword') ?? ''
