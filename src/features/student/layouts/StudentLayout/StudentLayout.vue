@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Footer } from '@/common/components'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
-import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange, useLanguageSwitcher } from '@/common/composables/'
+import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables/'
 import {
   StudentMailboxPopover,
   StudentNavigation,
@@ -10,6 +10,7 @@ import {
 } from '@/features/student'
 import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/queries'
 import { studentHomeRoute } from '@/features/student/routes'
+import { useUserStore } from '@/store'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -18,7 +19,7 @@ useInvalidateAllQueriesAfterLocaleChange()
 
 const { t } = useI18n()
 
-const { languageSelector, selectLanguage } = useLanguageSwitcher()
+const { languageSelector, selectLanguage } = useUserStore()
 const { data: headerSummary, error: studentHeaderSummaryError } = useStudentHeaderSummaryQuery()
 const { data: studentSummary, error: studentSummaryError } = useStudentSummaryQuery()
 useBaseApiExceptionToast(studentHeaderSummaryError)

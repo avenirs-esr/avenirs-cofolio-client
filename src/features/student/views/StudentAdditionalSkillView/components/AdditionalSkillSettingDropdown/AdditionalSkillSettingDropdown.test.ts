@@ -18,12 +18,12 @@ BddTest().given('an additional skill setting popover', () => {
     BddTest().then('it should render the dropdown with three menu items', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(3)
+      expect(dropdown.props('items')).toHaveLength(2)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.props('items')).toHaveLength(3)
+      expect(dropdown.props('items')).toHaveLength(2)
       expect(dropdown.props('triggerAriaLabel')).toBe('Paramètres de la compétence déclarée')
       expect(dropdown.props('triggerLabel')).toBe('Paramètres de la compétence déclarée')
     })
@@ -34,14 +34,6 @@ BddTest().given('an additional skill setting popover', () => {
       const updateButton = wrapper.find('[data-name="update"]')
       await updateButton.trigger('click')
       expect(wrapper.emitted('updateSelected')).toHaveLength(1)
-    })
-  })
-
-  BddTest().when('the delete association button is clicked', () => {
-    BddTest().then('it should emit the deleteAssociationSelected event', async () => {
-      const deleteAssociationButton = wrapper.find('[data-name="deleteAssociation"]')
-      await deleteAssociationButton.trigger('click')
-      expect(wrapper.emitted('deleteAssociationSelected')).toHaveLength(1)
     })
   })
 

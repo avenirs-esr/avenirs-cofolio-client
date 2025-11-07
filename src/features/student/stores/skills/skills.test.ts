@@ -1,4 +1,4 @@
-import { useSkillsStore } from '@/store/skills/skills'
+import { useSkillsStore } from '@/features/student/stores/skills/skills'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
