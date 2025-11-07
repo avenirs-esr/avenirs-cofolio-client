@@ -3,7 +3,7 @@ import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { StudentDetailedEducationalSkillCard, StudentDetailedPastSkillCard } from '@/features/student/components/cards'
 import { useSkillsViewQuery } from '@/features/student/queries'
-import { useSkillsStore } from '@/store/skills/skills'
+import { useSkillsStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
