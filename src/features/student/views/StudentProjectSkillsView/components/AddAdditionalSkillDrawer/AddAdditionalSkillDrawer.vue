@@ -2,7 +2,7 @@
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
-import AddAdditionalSkillLevelField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillLevelField/AddAdditionalSkillLevelField.vue'
+import { AdditionalSkillLevelFormField } from '@/features/student/components'
 import {
   useAdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
@@ -74,7 +74,7 @@ function confirmCancel () {
           @submit.prevent.stop="form.handleSubmit"
         >
           <AddAdditionalSkillAutocompleteField :form="form" />
-          <AddAdditionalSkillLevelField :form="form" />
+          <AdditionalSkillLevelFormField :form="form" />
         </form>
       </div>
     </div>
