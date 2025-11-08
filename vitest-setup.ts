@@ -1,6 +1,5 @@
 import { config } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll } from 'vitest'
-import { server } from './src/__mocks__/msw/server'
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 
@@ -8,23 +7,51 @@ window.matchMedia = function () {
   return { matches: false }
 }
 
+const IGNORED_WARNINGS = [
+
+]
+const originalWarn = console.warn
+
+function setupWarningHandler () {
+  console.warn = (...args: any[]) => {
+    const message = args.map(String).join(' ')
+
+    const isIgnoredWarning = (message: string) => IGNORED_WARNINGS.some(text => message.includes(text))
+
+    if (message.includes('[Vue warn]')) {
+      if (isIgnoredWarning(message)) {
+        originalWarn(...args)
+        return
+      }
+
+      throw new Error(`❌ Vue warning detected during test:\n${message}`)
+    }
+
+    originalWarn(...args)
+  }
+}
+
 if (__ENABLE_MSW__) {
-  beforeAll(() => {
+  beforeAll(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.listen({
       onUnhandledRequest: 'error'
     })
   })
 
-  afterEach(() => {
+  afterEach(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.resetHandlers()
   })
 
-  afterAll(() => {
+  afterAll(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.close()
   })
 }
 
 beforeAll(async () => {
+  setupWarningHandler()
   i18n.global.locale.value = 'fr'
   await registerFeatureLocales('student')
   config.global.plugins = config.global.plugins || []

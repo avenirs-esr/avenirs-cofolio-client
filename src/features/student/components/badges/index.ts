@@ -1,6 +1,0 @@
-export { default as AdditionalSkillLevelBadge } from './AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
-export { default as AdditionalSkillTypeBadge } from './AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
-export { default as StudentAmsStatusBadge } from './StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
-export { default as StudentLastCompletedLevelBadge } from './StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
-export { default as StudentSkillLevelStatusBadge } from './StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
-export { default as StudentTraceAssociationContentBadge } from './StudentTraceAssociationContentBadge/StudentTraceAssociationContentBadge.vue'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { PageTitle } from '@/common/components'
+import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { studentHomeRoute } from '@/features/student/routes'
-import { teacherHomeRoute } from '@/features/teacher'
+import { teacherHomeRoute } from '@/features/teacher/routes'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

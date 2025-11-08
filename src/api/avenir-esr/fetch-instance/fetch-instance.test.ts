@@ -2,17 +2,23 @@ import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
+const mockAddRequestInterceptor = vi.fn()
+const mockAddResponseInterceptor = vi.fn()
+const mockRemoveRequestInterceptor = vi.fn()
+const mockRemoveResponseInterceptor = vi.fn()
+
 vi.mock('@/api/fetch', () => ({
   createCustomFetch: vi.fn(),
-  FetchInterceptorManager: vi.fn(),
+  FetchInterceptorManager: vi.fn(() => ({
+    addRequestInterceptor: mockAddRequestInterceptor,
+    addResponseInterceptor: mockAddResponseInterceptor,
+    removeRequestInterceptor: mockRemoveRequestInterceptor,
+    removeResponseInterceptor: mockRemoveResponseInterceptor,
+  })),
 }))
 
 BddTest().given('avenir-esr customFetch', () => {
   const mockFetcher = vi.fn()
-  const mockAddRequestInterceptor = vi.fn()
-  const mockAddResponseInterceptor = vi.fn()
-  const mockRemoveRequestInterceptor = vi.fn()
-  const mockRemoveResponseInterceptor = vi.fn()
   const mockFetch: MockedFunction<typeof fetch> = vi.fn()
 
   const mockedCreateCustomFetch = vi.mocked(createCustomFetch)
@@ -20,13 +26,6 @@ BddTest().given('avenir-esr customFetch', () => {
 
   beforeEach(() => {
     vi.stubGlobal('fetch', mockFetch)
-
-    mockedFetchInterceptorManager.mockImplementation(() => ({
-      addRequestInterceptor: mockAddRequestInterceptor,
-      addResponseInterceptor: mockAddResponseInterceptor,
-      removeRequestInterceptor: mockRemoveRequestInterceptor,
-      removeResponseInterceptor: mockRemoveResponseInterceptor,
-    }) as unknown as FetchInterceptorManager)
 
     mockedCreateCustomFetch.mockReturnValue(mockFetcher)
 
@@ -43,6 +42,7 @@ BddTest().given('avenir-esr customFetch', () => {
 
   BddTest().and('a fresh module import', () => {
     beforeEach(() => {
+      vi.clearAllMocks()
       vi.resetModules()
     })
 
@@ -92,6 +92,7 @@ BddTest().given('avenir-esr customFetch', () => {
 
     beforeEach(() => {
       mockFetcher.mockResolvedValueOnce(mockResponse)
+      vi.clearAllMocks()
       vi.resetModules()
     })
 
@@ -125,6 +126,7 @@ BddTest().given('avenir-esr customFetch', () => {
 
     beforeEach(() => {
       mockFetcher.mockResolvedValueOnce(mockUser)
+      vi.clearAllMocks()
       vi.resetModules()
     })
 
@@ -158,6 +160,7 @@ BddTest().given('avenir-esr customFetch', () => {
 
     beforeEach(() => {
       mockFetcher.mockResolvedValueOnce({ success: true })
+      vi.clearAllMocks()
       vi.resetModules()
     })
 
@@ -175,6 +178,7 @@ BddTest().given('avenir-esr customFetch', () => {
 
   BddTest().and('a module is imported', () => {
     beforeEach(async () => {
+      vi.clearAllMocks()
       vi.resetModules()
       await import('./fetch-instance')
     })
