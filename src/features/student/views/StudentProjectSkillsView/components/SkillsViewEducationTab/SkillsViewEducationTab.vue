@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { StudentDetailedEducationalSkillCard, StudentDetailedPastSkillCard } from '@/features/student/components/cards'
+import { StudentDetailedEducationalSkillCard } from '@/features/student/components'
 import { useSkillsViewQuery } from '@/features/student/queries'
+import StudentDetailedPastSkillCard from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewEducationTab/components/StudentDetailedPastSkillCard/StudentDetailedPastSkillCard.vue'
 import { useSkillsStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 

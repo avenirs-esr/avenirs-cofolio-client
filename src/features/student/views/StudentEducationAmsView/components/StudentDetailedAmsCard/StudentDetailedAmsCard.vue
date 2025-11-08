@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import type { AmsViewDTO } from '@/api/avenir-esr'
-import { StudentAmsStatusBadge, StudentCountSkillsIconText, StudentCountTracesIconText } from '@/features/student/components'
+import { StudentAmsStatusBadge } from '@/features/student/components/ams'
+import { StudentCountTracesIconText } from '@/features/student/components/traces'
 import { studentAmsRoute } from '@/features/student/routes'
+import StudentCountSkillsIconText from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/components/StudentCountSkillsIconText/StudentCountSkillsIconText.vue'
 import { AvBadge, AvCard, AvIcon, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

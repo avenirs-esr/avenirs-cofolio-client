@@ -23,5 +23,12 @@ export const useSkillsStore = defineStore('skills', () => {
     hideCreateAdditionalSkillDrawer
   }
 }, {
-  persist: true
+  persist: {
+    pick: [
+      'currentPage',
+      'additionalCurrentPage',
+      'pageSizeSelected',
+      'additionalPageSizeSelected'
+    ]
+  }
 })

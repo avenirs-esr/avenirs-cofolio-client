@@ -6,7 +6,7 @@ import {
   TraceIaJustificationTextarea,
   TraceNameInput,
   TracePersonalNoteTextarea
-} from '@/features/student/components'
+} from '@/features/student/components/traces'
 import { useTraceAttachmentFile } from '@/features/student/composables'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

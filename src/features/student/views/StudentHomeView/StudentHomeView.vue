@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import {
-  StudentDeliverablesWidget,
-  StudentEventsWidget,
-  StudentOverviewWidget,
-  StudentPagesWidget,
-  StudentResumesWidget,
-  StudentSkillsWidget,
-  StudentTracesWidget
-} from '@/features/student/components'
+import StudentDeliverablesWidget from '@/features/student/views/StudentHomeView/components/StudentDeliverablesWidget/StudentDeliverablesWidget.vue'
+import StudentEventsWidget from '@/features/student/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.vue'
+import StudentOverviewWidget from '@/features/student/views/StudentHomeView/components/StudentOverviewWidget/StudentOverviewWidget.vue'
+import StudentPagesWidget from '@/features/student/views/StudentHomeView/components/StudentPagesWidget/StudentPagesWidget.vue'
+import StudentResumesWidget from '@/features/student/views/StudentHomeView/components/StudentResumesWidget/StudentResumesWidget.vue'
+import StudentSkillsWidget from '@/features/student/views/StudentHomeView/components/StudentSkillsWidget/StudentSkillsWidget.vue'
+import StudentTracesWidget from '@/features/student/views/StudentHomeView/components/StudentTracesWidget/StudentTracesWidget.vue'
 import { useAvBreakpoints, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 
 useGlobalBackgroundColor('var(--surface-background)')

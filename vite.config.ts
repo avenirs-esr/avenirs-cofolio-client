@@ -86,5 +86,12 @@ export default ({ mode }: { mode: string }) => {
         '@avenirs-esr/avenirs-dsav'
       ],
     },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
+    }
   })
 }

@@ -1,6 +1,6 @@
 import { type AttachmentUploadDTO, EFileType } from '@/api/avenir-esr'
 import { useDateUtils, useFileValidation } from '@/common/composables'
-import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/components/inputs'
+import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/components'
 import { type ComputedRef, type MaybeRef, toValue } from 'vue'
 
 const FIVE_MB = 5 * 1024 * 1024

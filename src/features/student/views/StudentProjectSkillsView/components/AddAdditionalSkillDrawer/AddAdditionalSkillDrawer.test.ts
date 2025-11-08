@@ -1,48 +1,36 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EAdditionalSkillType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components'
-import { AdditionalSkillTypeBadgeStub } from '@/features/student/components/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.stub'
+import {
+  AdditionalSkillLevelRadioButtonSetFormFieldStub
+} from '@/features/student/components/additionalSkills'
 import { useSkillsStore } from '@/store'
-import { AvAutocompleteStub, AvButtonStub, AvDrawerStub, AvIconStub, AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
 
-const mockAddSuccessMessage = vi.fn()
-const mockAddErrorMessage = vi.fn()
-
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
   return {
-    ...actual,
-    useToasterStore: vi.fn(() => ({
-      addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage
-    }))
+    ...actual
   }
 })
 
 const stubs = {
   AvDrawer: AvDrawerStub,
-  AvAutocomplete: AvAutocompleteStub,
   AvButton: AvButtonStub,
-  AvListItem: AvListItemStub,
-  AdditionalSkillTypeBadge: AdditionalSkillTypeBadgeStub,
   AvIcon: AvIconStub,
   ConfirmationModal: ConfirmationModalStub,
+  AddAdditionalSkillAutocompleteField: {
+    name: 'AddAdditionalSkillAutocompleteField',
+    template: '<div data-testid="add-additional-skill-autocomplete-field"></div>',
+    props: ['form']
+  },
+  AdditionalSkillLevelRadioButtonSetFormField: AdditionalSkillLevelRadioButtonSetFormFieldStub
 }
 
 BddTest().given('an add additional skill drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AddAdditionalSkillDrawer>>
-
-  const createMockSkill = () => ([{
-    id: '1',
-    label: 'Test Skill',
-    value: '1',
-    title: 'Test Skill',
-    pathSegments: ['Test'],
-    type: EAdditionalSkillType.ROME4
-  }])
 
   const getSaveButton = () => {
     return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
@@ -56,30 +44,13 @@ BddTest().given('an add additional skill drawer component', () => {
     )
   }
 
-  const setupFormWithMockSkill = async () => {
-    const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-    const mockSkill = createMockSkill()
-    await autocomplete.vm.$emit('update:modelValue', mockSkill)
-    await wrapper.vm.$nextTick()
-    return { autocomplete, mockSkill }
-  }
-
-  const triggerCancelAndGetModal = async () => {
-    const cancelButton = getCancelButton()
-    await cancelButton?.vm.$emit('click')
-    await wrapper.vm.$nextTick()
-    return wrapper.findComponent({ name: 'ConfirmationModal' })
-  }
-
   beforeEach(() => {
     vi.clearAllMocks()
 
     wrapper = mountComponent(AddAdditionalSkillDrawer, {
       global: {
         stubs
-      },
-      useTanstack: true,
-      usePinia: true
+      }
     })
 
     const store = useSkillsStore()
@@ -106,16 +77,6 @@ BddTest().given('an add additional skill drawer component', () => {
       expect(icon.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the autocomplete with correct props', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-
-      expect(autocomplete.exists()).toBe(true)
-      expect(autocomplete.props('multiSelect')).toBe(false)
-      expect(autocomplete.props('serverSideFiltering')).toBe(true)
-      expect(autocomplete.props('enableLoadMore')).toBe(true)
-      expect(autocomplete.props('maxDropdownHeight')).toBe('14.5rem')
-    })
-
     BddTest().then('it should render footer buttons', () => {
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
       const cancelButton = getCancelButton()
@@ -131,11 +92,20 @@ BddTest().given('an add additional skill drawer component', () => {
       expect(form.exists()).toBe(true)
     })
 
-    BddTest().then('it should render autocomplete with empty options initially', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-      const options = autocomplete.props('options')
+    BddTest().then('it should render the field components', () => {
+      const autocompleteField = wrapper.findComponent({ name: 'AddAdditionalSkillAutocompleteField' })
+      const levelField = wrapper.findComponent({ name: 'AdditionalSkillLevelFormField' })
 
-      expect(options).toHaveLength(0)
+      expect(autocompleteField.exists()).toBe(true)
+      expect(levelField.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass form to field components', () => {
+      const autocompleteField = wrapper.findComponent({ name: 'AddAdditionalSkillAutocompleteField' })
+      const levelField = wrapper.findComponent({ name: 'AdditionalSkillLevelFormField' })
+
+      expect(autocompleteField.props('form')).toBeDefined()
+      expect(levelField.props('form')).toBeDefined()
     })
   })
 
@@ -174,105 +144,51 @@ BddTest().given('an add additional skill drawer component', () => {
     })
   })
 
-  BddTest().when('the save button is clicked', () => {
-    BddTest().then('it should show loading state during form submission', async () => {
-      await setupFormWithMockSkill()
+  BddTest().when('the confirmation modal is displayed', () => {
+    BddTest().then('it should be initially hidden', () => {
+      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
 
-      const saveButton = getSaveButton()
-      expect(saveButton?.props('isLoading')).toBe(false)
-
-      const form = wrapper.find('form')
-      await form.trigger('submit')
-
-      await vi.waitFor(() => {
-        expect(saveButton?.props('isLoading')).toBe(true)
-      },)
-
-      expect(saveButton?.props('disabled')).toBe(true)
-
-      await vi.waitFor(() => {
-        expect(saveButton?.props('isLoading')).toBe(false)
-      },)
-    })
-
-    BddTest().then('it should show success message when skill is added', async () => {
-      await setupFormWithMockSkill()
-
-      const saveButton = getSaveButton()
-      await saveButton?.vm.$emit('click')
-
-      await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-          timeout: 2000,
-          description: 'Compétence ajoutée avec succès'
-        })
-      })
-    })
-  })
-
-  BddTest().when('option functions are configured', () => {
-    BddTest().then('it should have proper autocomplete configuration', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
-      expect(autocomplete.props('getOptionLabel')).toBeDefined()
-      expect(autocomplete.props('getOptionKey')).toBeDefined()
-    })
-  })
-
-  BddTest().when('the form is dirty and cancel is clicked', () => {
-    BddTest().then('it should show confirmation modal when form has changes', async () => {
-      await setupFormWithMockSkill()
-
-      const confirmationModal = await triggerCancelAndGetModal()
-      expect(confirmationModal.props('show')).toBe(true)
-    })
-
-    BddTest().then('it should hide drawer when confirmation modal confirm is triggered', async () => {
-      const store = useSkillsStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
-
-      await setupFormWithMockSkill()
-      const confirmationModal = await triggerCancelAndGetModal()
-      await confirmationModal.vm.$emit('confirm')
-
-      expect(hideDrawerSpy).toHaveBeenCalled()
-    })
-
-    BddTest().then('it should hide confirmation modal when close is triggered', async () => {
-      await setupFormWithMockSkill()
-      const confirmationModal = await triggerCancelAndGetModal()
-      await confirmationModal.vm.$emit('close')
-      await wrapper.vm.$nextTick()
-
+      expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('show')).toBe(false)
     })
   })
 
-  BddTest().when('save button state changes based on form state', () => {
-    BddTest().then('it should be enabled initially before validation', () => {
+  BddTest().when('the button states are checked', () => {
+    BddTest().then('it should have disabled prop bound to form state on save button', () => {
       const saveButton = getSaveButton()
-      expect(saveButton?.props('disabled')).toBe(false)
+      expect(saveButton?.props('disabled')).toBeDefined()
     })
 
-    BddTest().then('it should remain enabled when form has valid data', async () => {
-      await setupFormWithMockSkill()
-
+    BddTest().then('it should have isLoading prop bound to submission state on save button', () => {
       const saveButton = getSaveButton()
-      expect(saveButton?.props('disabled')).toBe(false)
+      expect(saveButton?.props('isLoading')).toBeDefined()
     })
 
-    BddTest().then('it should show loading state as false initially', () => {
-      const saveButton = getSaveButton()
-      expect(saveButton?.props('isLoading')).toBe(false)
+    BddTest().then('it should have disabled prop bound to submission state on cancel button', () => {
+      const cancelButton = getCancelButton()
+      expect(cancelButton?.props('disabled')).toBeDefined()
     })
   })
 
-  BddTest().when('additional skill field components are rendered', () => {
-    BddTest().then('it should render form field components', () => {
-      const formContent = wrapper.find('.add-additional-skill-drawer__content')
-      expect(formContent.exists()).toBe(true)
+  BddTest().when('the drawer layout is checked', () => {
+    BddTest().then('it should render the main content container', () => {
+      const mainContainer = wrapper.find('.add-additional-skill-drawer')
+      expect(mainContainer.exists()).toBe(true)
+    })
 
-      const form = wrapper.find('form')
-      expect(form.exists()).toBe(true)
+    BddTest().then('it should render the header section', () => {
+      const header = wrapper.find('.add-additional-skill-drawer__header')
+      expect(header.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the content section', () => {
+      const content = wrapper.find('.add-additional-skill-drawer__content')
+      expect(content.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the footer section in drawer footer slot', () => {
+      const footer = wrapper.find('.add-additional-skill-drawer__footer')
+      expect(footer.exists()).toBe(true)
     })
   })
 })

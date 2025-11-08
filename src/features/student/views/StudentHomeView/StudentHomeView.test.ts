@@ -1,13 +1,13 @@
-import { StudentDeliverablesWidgetStub } from '@/features/student/components/widgets/StudentDeliverablesWidget/StudentDeliverablesWidget.stub'
-import { StudentEventsWidgetStub } from '@/features/student/components/widgets/StudentEventsWidget/StudentEventsWidget.stub'
-import { StudentOverviewWidgetStub } from '@/features/student/components/widgets/StudentOverviewWidget/StudentOverviewWidget.stub'
-import { StudentPagesWidgetStub } from '@/features/student/components/widgets/StudentPagesWidget/StudentPagesWidget.stub'
-import { StudentResumesWidgetStub } from '@/features/student/components/widgets/StudentResumesWidget/StudentResumesWidget.stub'
-import { StudentSkillsWidgetStub } from '@/features/student/components/widgets/StudentSkillsWidget/StudentSkillsWidget.stub'
-import { StudentTracesWidgetStub } from '@/features/student/components/widgets/StudentTracesWidget/StudentTracesWidget.stub'
 import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { StudentDeliverablesWidgetStub } from './components/StudentDeliverablesWidget/StudentDeliverablesWidget.stub'
+import { StudentEventsWidgetStub } from './components/StudentEventsWidget/StudentEventsWidget.stub'
+import { StudentOverviewWidgetStub } from './components/StudentOverviewWidget/StudentOverviewWidget.stub'
+import { StudentPagesWidgetStub } from './components/StudentPagesWidget/StudentPagesWidget.stub'
+import { StudentResumesWidgetStub } from './components/StudentResumesWidget/StudentResumesWidget.stub'
+import { StudentSkillsWidgetStub } from './components/StudentSkillsWidget/StudentSkillsWidget.stub'
+import { StudentTracesWidgetStub } from './components/StudentTracesWidget/StudentTracesWidget.stub'
 
 const mockIsMobile = ref(false)
 

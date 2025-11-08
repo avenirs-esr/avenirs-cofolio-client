@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@avenirs-esr/avenirs-dsav": "^0.1.72",
+    "@faker-js/faker": "^10.1.0",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "@vueuse/core": "^13.7.0",

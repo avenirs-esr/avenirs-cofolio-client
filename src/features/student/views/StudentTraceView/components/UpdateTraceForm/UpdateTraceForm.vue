@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { useDateUtils } from '@/common/composables'
-import TraceAiJustificationTextareaFormField from '@/features/student/views/StudentToolsTracesView/components/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
-import TraceAiUsageToggleFormField from '@/features/student/views/StudentToolsTracesView/components/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
-import TraceAuthenticDeclarationToggleFormField from '@/features/student/views/StudentToolsTracesView/components/TraceAuthenticDeclarationToggleFormField/TraceAuthenticDeclarationToggleFormField.vue'
-import TraceFileUploadFormField from '@/features/student/views/StudentToolsTracesView/components/TraceFileUploadFormField/TraceFileUploadFormField.vue'
-import TraceGroupProductionToggleFormField from '@/features/student/views/StudentToolsTracesView/components/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
-import TraceNameInputFormField from '@/features/student/views/StudentToolsTracesView/components/TraceNameInputFormField/TraceNameInputFormField.vue'
-import TracePersonalNoteTextareaFormField from '@/features/student/views/StudentToolsTracesView/components/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
+import {
+  TraceAiJustificationTextareaFormField,
+  TraceAiUsageToggleFormField,
+  TraceAuthenticDeclarationToggleFormField,
+  TraceFileUploadFormField,
+  TraceGroupProductionToggleFormField,
+  TraceNameInputFormField,
+  TracePersonalNoteTextareaFormField
+} from '@/features/student/components/traces'
 import { useUpdateTraceForm } from '@/features/student/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { useToasterStore, useTracesStore } from '@/store'
 import { useI18n } from 'vue-i18n'

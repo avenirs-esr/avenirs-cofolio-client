@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import StudentDetailedAdditionalSkillCard
-  from '@/features/student/components/cards/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
 import { useAdditionalSkillsViewQuery } from '@/features/student/queries'
 import AddAdditionalSkillDrawer from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/AddAdditionalSkillDrawer.vue'
+import StudentDetailedAdditionalSkillCard from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
 import { useSkillsStore } from '@/store'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 

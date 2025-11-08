@@ -1,4 +1,5 @@
 import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { AdditionalSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/components/additionalSkills'
 import UpdateAdditionalSkillForm from '@/features/student/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
 import { AvBadgeStub, AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -30,11 +31,6 @@ const AvIconTextStub = {
   template: `<div class="av-icon-text">{{ text }}</div>`,
 }
 
-const AdditionalSkillLevelFormFieldStub = {
-  name: 'AdditionalSkillLevelFormField',
-  props: ['form'],
-  template: `<div class="level-field-stub"></div>`,
-}
 const AdditionalSkillCommentFormFieldStub = {
   name: 'AdditionalSkillCommentFormField',
   props: ['form'],
@@ -66,7 +62,7 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
           AvIcon: AvIconStub,
           AvIconText: AvIconTextStub,
           AvButton: AvButtonStub,
-          AdditionalSkillLevelFormField: AdditionalSkillLevelFormFieldStub,
+          AdditionalSkillLevelRadioButtonSetFormField: AdditionalSkillLevelRadioButtonSetFormFieldStub,
           AdditionalSkillCommentFormField: AdditionalSkillCommentFormFieldStub,
         },
       },
@@ -90,7 +86,7 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
     })
 
     BddTest().then('it should render level and comment fields', () => {
-      expect(wrapper.find('.level-field-stub').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="additional-skill-level-form-field"]').exists()).toBe(true)
       expect(wrapper.find('.comment-field-stub').exists()).toBe(true)
     })
   })
