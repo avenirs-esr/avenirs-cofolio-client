@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
-import { AdditionalSkillDateDetails, AdditionalSkillRefCard } from '@/features/student/components/additionalSkills'
-import AdditionalSkillCommentFormField
-  from '@/features/student/views/StudentUpdateAdditionalSkillView/components/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
-import AdditionalSkillLevelFormField
-  from '@/features/student/views/StudentUpdateAdditionalSkillView/components/AdditionalSkillLevelFormField/AdditionalSkillLevelFormField.vue'
+import { AdditionalSkillDateDetails, AdditionalSkillRefCard, AdditionalSkillCommentFormField, AdditionalSkillLevelFormField } from '@/features/student/components'
 import { useUpdateAdditionalSkillForm } from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { AvButton, AvCard, AvInput, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
