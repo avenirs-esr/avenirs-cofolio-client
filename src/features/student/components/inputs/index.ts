@@ -1,5 +1,0 @@
-export { default as TraceFileUpload } from './TraceFileUpload/TraceFileUpload.vue'
-export * from './TraceFileUpload/types'
-export { default as TraceIaJustificationTextarea } from './TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
-export { default as TraceNameInput } from './TraceNameInput/TraceNameInput.vue'
-export { default as TracePersonalNoteTextarea } from './TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'

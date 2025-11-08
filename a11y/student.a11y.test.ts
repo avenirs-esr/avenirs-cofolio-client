@@ -15,7 +15,7 @@ import routes, {
   studentToolsPagesRoute,
   studentToolsResumesRoute,
   studentToolsTracesRoute
-} from '@/features/student/routes/routes'
+} from '@/features/student/routes'
 
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'

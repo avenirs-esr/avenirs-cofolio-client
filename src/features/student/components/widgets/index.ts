@@ -1,7 +1,0 @@
-export * from './StudentDeliverablesWidget'
-export * from './StudentEventsWidget'
-export * from './StudentOverviewWidget'
-export * from './StudentPagesWidget'
-export * from './StudentResumesWidget'
-export * from './StudentSkillsWidget'
-export * from './StudentTracesWidget'

@@ -2,15 +2,15 @@ import type AccessibilityView from '@/common/views/AccessibilityView/Accessibili
 import type CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import type LegalView from '@/common/views/LegalView/LegalView.vue'
 import type PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
-import type TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
-import type TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
+import type TeacherLayout from '@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue'
+import type TeacherHomeView from '@/features/teacher/global/views/TeacherHomeView/TeacherHomeView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 
 export const teacherHomeRoute = {
   path: '',
   name: 'teacher-home',
   component: () =>
-    import('@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue') as Promise<{
+    import('@/features/teacher/global/views/TeacherHomeView/TeacherHomeView.vue') as Promise<{
       default: typeof TeacherHomeView
     }>,
 }
@@ -54,7 +54,7 @@ export const teacherPersonnalDataRoute = {
 const routes: RouteRecordRaw[] = [
   {
     path: '/teacher',
-    component: () => import('@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue') as Promise<{
+    component: () => import('@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue') as Promise<{
       default: typeof TeacherLayout
     }>,
     children: [

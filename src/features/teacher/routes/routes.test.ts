@@ -2,9 +2,9 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
-import TeacherLayout from '@/features/teacher/layouts/TeacherLayout/TeacherLayout.vue'
+import TeacherLayout from '@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue'
+import TeacherHomeView from '@/features/teacher/global/views/TeacherHomeView/TeacherHomeView.vue'
 import routes, { teacherAccessibilityRoute, teacherCookiesRoute, teacherHomeRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher/routes/routes'
-import TeacherHomeView from '@/features/teacher/views/TeacherHomeView/TeacherHomeView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 

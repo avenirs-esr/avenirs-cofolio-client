@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import StudentProjectExperiencesContainer
+  from '@/features/student/global/views/StudentProjectExperiencesView/components/StudentProjectExperiencesContainer/StudentProjectExperiencesContainer.vue'
+import { studentHomeRoute } from '@/features/student/routes'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const breadcrumbLinks = computed(() => [
+  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.project.header') },
+  { text: t('student.navigation.tabs.project.items.experiences') }
+])
+</script>
+
+<template>
+  <PageTitle
+    :title="t('student.navigation.tabs.project.items.experiences')"
+    :breadcrumb-links="breadcrumbLinks"
+    :back="studentHomeRoute"
+  />
+
+  <StudentProjectExperiencesContainer />
+</template>

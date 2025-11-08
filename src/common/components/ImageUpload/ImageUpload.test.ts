@@ -20,7 +20,6 @@ function createWrapper (props = {}) {
   return mount<typeof ImageUpload>(ImageUpload, {
     props: {
       defaultImageName: 'default.jpg',
-      defaultImageLink: 'exemple.com/image.png',
       imageAlt: 'alt text',
       onUpdate: vi.fn(),
       ...props

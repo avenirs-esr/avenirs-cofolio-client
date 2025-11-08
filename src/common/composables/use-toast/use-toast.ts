@@ -1,4 +1,4 @@
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { Ref } from 'vue'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
