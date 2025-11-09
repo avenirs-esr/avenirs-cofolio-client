@@ -1,7 +1,7 @@
 import type { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import * as queries from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import { useUpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
-import * as queries from '@/features/student/queries'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

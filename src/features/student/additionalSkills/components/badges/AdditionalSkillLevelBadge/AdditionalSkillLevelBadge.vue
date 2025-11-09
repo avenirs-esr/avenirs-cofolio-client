@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
-import { useAdditionalSkillConfig } from '@/features/student/queries'
+import { useAdditionalSkillConfig } from '@/features/student/additionalSkills/queries/use-skills-config.query/use-skills-config.query'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 
 export interface AdditionalSkillLevelBadgeProps {

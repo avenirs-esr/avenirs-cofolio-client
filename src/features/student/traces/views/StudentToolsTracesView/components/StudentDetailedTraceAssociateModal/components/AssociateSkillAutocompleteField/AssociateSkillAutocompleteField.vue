@@ -5,7 +5,7 @@ import type {
   TraceAssociationOption
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
-import { useTracesAssociationQuery } from '@/features/student/queries'
+import { useTracesAssociationQuery } from '@/features/student/traces'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { toValue } from 'vue'

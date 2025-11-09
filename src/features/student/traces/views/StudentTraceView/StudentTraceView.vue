@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
-import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
-import { useTraceDetailedQuery } from '@/features/student/queries'
-import { TraceAssociations } from '@/features/student/traces'
+import { studentHomeRoute } from '@/features/student/routes'
+import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
+import { useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { studentToolsTracesRoute } from '@/features/student/traces/routes'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'

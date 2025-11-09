@@ -4,7 +4,7 @@ import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
-import { studentHomeRoute } from '@/features/student/routes/routes'
+import { studentHomeRoute } from '@/features/student/routes'
 import { useProgramProgressViewQuery } from '@/features/student/skills/queries/use-program-progress.query/use-program-progress.query'
 import { StudentProgressViewSortableFields } from '@/features/student/skills/types/student-progress.types'
 import SkillsSortContainer

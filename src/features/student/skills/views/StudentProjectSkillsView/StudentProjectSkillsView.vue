@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
-import { studentHomeRoute } from '@/features/student/routes/routes'
+import { studentHomeRoute } from '@/features/student/routes'
 import SkillsViewTabs from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewTabs/SkillsViewTabs.vue'
 import { useI18n } from 'vue-i18n'
 

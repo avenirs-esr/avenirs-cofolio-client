@@ -21,8 +21,10 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
   }
 })
 
+vi.mock('@/features/student/skills/queries/use-program-progress.query/use-program-progress.query')
+
 vi.mock('@/features/student/queries', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/queries')>()
+  const actual = await importOriginal<typeof import('@/features/student/global/queries/use-student-summary.query/use-student-summary.query')>()
   return {
     ...actual,
     useAllMyProgramProgressQuery: vi.fn(() => ({

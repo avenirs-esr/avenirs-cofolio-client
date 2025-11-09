@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { PageTitle } from '@/common/components'
 import { useNavigation } from '@/common/composables'
+import { useAdditionalSkillDetailedQuery } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import AdditionalSkillDetails
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
 import AdditionalSkillSettingDropdown
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillSettingDropdown/AdditionalSkillSettingDropdown.vue'
 import StudentAdditionalSkillAssociations
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/StudentAdditionalSkillAssociations/StudentAdditionalSkillAssociations.vue'
-import { useAdditionalSkillDetailedQuery } from '@/features/student/queries'
 import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

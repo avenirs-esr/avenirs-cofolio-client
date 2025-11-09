@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesConfigurationQuery } from '@/features/student/queries'
+import { useTracesConfigurationQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { AvNotice } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

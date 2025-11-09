@@ -2,7 +2,7 @@
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import {
   useUnassociateTracesFromAdditionalSkillMutation
-} from '@/features/student/queries'
+} from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import { TracesSelector } from '@/features/student/traces'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

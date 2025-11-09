@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { useTracesViewQuery } from '@/features/student/queries'
-import { useTraceFilters } from '@/features/student/traces'
+import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
+import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentDetailedTraceCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'

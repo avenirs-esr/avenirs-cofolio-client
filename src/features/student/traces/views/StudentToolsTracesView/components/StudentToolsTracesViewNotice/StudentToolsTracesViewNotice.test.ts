@@ -1,13 +1,13 @@
 import type { TraceConfigurationDTO, TracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesConfigurationQuery } from '@/features/student/queries'
+import { useTracesConfigurationQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentToolsTracesViewNotice from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-vi.mock('@/features/student/queries', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/queries')>()
+vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
 
   return {
     ...actual,

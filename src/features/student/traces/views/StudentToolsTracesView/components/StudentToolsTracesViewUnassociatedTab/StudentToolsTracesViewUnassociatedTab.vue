@@ -2,8 +2,8 @@
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { useTracesViewQuery } from '@/features/student/queries'
 import { useTraceFilters } from '@/features/student/traces'
+import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentDetailedTraceCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice

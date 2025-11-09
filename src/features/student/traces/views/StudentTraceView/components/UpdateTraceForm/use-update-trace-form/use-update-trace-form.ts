@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
-import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/queries'
 import { type TraceFormData, useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces'
+import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore, useTracesStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
-import { StudentProgressViewSortableFields } from '@/features/student/types'
+import { StudentProgressViewSortableFields } from '@/features/student/skills'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTracesSummaryQuery } from '@/features/student/queries'
+import { useTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentToolsTracesViewAssociatedTab
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import StudentToolsTracesViewUnassociatedTab

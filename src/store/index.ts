@@ -4,7 +4,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const store = createPinia()
 store.use(piniaPluginPersistedstate)
 
-export { useAmsStore, useSkillsStore, useTracesStore } from '@/features/student/stores'
+export { useAmsStore } from '@/features/student/ams'
+export { useSkillsStore } from '@/features/student/skills'
+export { useTracesStore } from '@/features/student/traces'
 export { useToasterStore } from '@/store/toaster/toaster'
 export { useUserStore } from '@/store/user/user'
 

@@ -41,7 +41,7 @@ const i18n = createI18n({
 async function registerFeatureLocales (feature: string) {
   for (const lang of AvAvailableLocales) {
     try {
-      const module = await import(`@/features/${feature}/locales/${lang}.json`)
+      const module = await import(`@/features/${feature}/global/locales/${lang}.json`)
       i18n.global.mergeLocaleMessage(lang, module.default)
     }
     catch {

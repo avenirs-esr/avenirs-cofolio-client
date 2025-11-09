@@ -2,7 +2,7 @@
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import AdditionalSkillLevelBadge from '@/features/student/additionalSkills/components/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
-import { useAdditionalSkillConfig } from '@/features/student/queries'
+import { useAdditionalSkillConfig } from '@/features/student/additionalSkills/queries/use-skills-config.query/use-skills-config.query'
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

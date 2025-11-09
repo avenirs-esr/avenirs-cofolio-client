@@ -2,7 +2,7 @@
 import type { TrainingPathDTO } from '@/api/avenir-esr'
 import type { ComputedRef } from 'vue'
 import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
-import { useAllMyProgramProgressQuery } from '@/features/student/queries'
+import { useAllMyProgramProgressQuery } from '@/features/student/skills'
 import { AvTagPicker, type AvTagPickerOption, } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import isNil from 'lodash-es/isNil'

@@ -1,6 +1,6 @@
 import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { useUpdateAdditionalSkillMutation } from '@/features/student/queries'
+import { useUpdateAdditionalSkillMutation } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

@@ -1,5 +1,5 @@
 import type { AvRoute } from '@/common/types'
-import type { CommonMutationArgs } from '@/features/student/queries/types'
+import type { CommonMutationArgs } from '@/features/student/global/queries/types'
 import { useInvalidateQuery } from '@/common/composables'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'

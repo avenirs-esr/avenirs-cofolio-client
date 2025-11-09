@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DateFilter, SearchFilter } from '@/types'
 import { type TraceFilter, TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
-import { useAllSkillsQuery } from '@/features/student/queries'
+import { useAllSkillsQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import { AvButton, AvInput, AvMultiselect, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { isValid } from 'date-fns'
 import { debounce } from 'lodash-es'

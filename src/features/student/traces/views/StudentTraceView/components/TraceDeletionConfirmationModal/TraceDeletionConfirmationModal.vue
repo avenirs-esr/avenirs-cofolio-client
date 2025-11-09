@@ -2,7 +2,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal } from '@/common/components'
-import { useDeleteTraceMutation } from '@/features/student/queries'
+import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

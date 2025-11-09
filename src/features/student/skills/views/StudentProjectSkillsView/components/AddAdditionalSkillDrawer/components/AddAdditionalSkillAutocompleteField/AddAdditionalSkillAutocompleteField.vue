@@ -8,8 +8,7 @@ import type {
   AdditionalSkillForm
 } from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
-import { AdditionalSkillTypeBadge } from '@/features/student/additionalSkills'
-import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
+import { AdditionalSkillTypeBadge, useSearchAdditionalSkillsQuery } from '@/features/student/additionalSkills'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
-import { studentTraceRoute } from '@/features/student'
+import { studentTraceRoute } from '@/features/student/traces/routes'
 import { AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

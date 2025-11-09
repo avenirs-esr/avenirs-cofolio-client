@@ -1,14 +1,14 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
-import { useDeleteTraceMutation } from '@/features/student/queries'
+import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useToasterStore } from '@/store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
-vi.mock('@/features/student/queries', async (importActual) => {
-  const actual = await importActual<typeof import('@/features/student/queries')>()
+vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importActual) => {
+  const actual = await importActual<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
   return {
     ...actual,
     useDeleteTraceMutation: vi.fn()
