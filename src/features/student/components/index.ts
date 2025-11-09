@@ -1,4 +1,3 @@
-export * from './additionalSkills'
 export * from './ams'
 export * from './shared'
 export * from './skills'

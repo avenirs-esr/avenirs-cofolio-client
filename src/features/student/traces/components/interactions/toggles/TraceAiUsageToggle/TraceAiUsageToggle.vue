@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ToggleProps } from '@/common/components'
-import Toggle from 'src/common/components/Toggle/Toggle.vue'
+import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 

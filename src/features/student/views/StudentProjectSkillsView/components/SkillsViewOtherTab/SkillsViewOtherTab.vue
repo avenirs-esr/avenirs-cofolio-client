@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
+import { useAdditionalSkillsStore } from '@/features/student/additionalSkills'
 import { useAdditionalSkillsViewQuery } from '@/features/student/queries'
 import AddAdditionalSkillDrawer from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/AddAdditionalSkillDrawer.vue'
 import StudentDetailedAdditionalSkillCard from '@/features/student/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
-import { useSkillsStore } from '@/store'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const skillsStore = useSkillsStore()
+const additionalSkillsStore = useAdditionalSkillsStore()
 const {
   currentPage,
   pageSizeSelected,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePagination(toRef(skillsStore, 'additionalCurrentPage'), toRef(skillsStore, 'additionalPageSizeSelected'))
+} = usePagination(toRef(additionalSkillsStore, 'currentPage'), toRef(additionalSkillsStore, 'pageSizeSelected'))
 
 const { skills, pageInfo, error } = useAdditionalSkillsViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
 function handleAddSkill (): void {
-  skillsStore.displayCreateAdditionalSkillDrawer()
+  additionalSkillsStore.displayCreateAdditionalSkillDrawer()
 }
 </script>
 

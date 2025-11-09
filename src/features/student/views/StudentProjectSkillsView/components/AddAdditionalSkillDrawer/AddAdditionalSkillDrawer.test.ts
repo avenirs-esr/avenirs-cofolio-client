@@ -1,20 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components'
 import {
-  AdditionalSkillLevelRadioButtonSetFormFieldStub
-} from '@/features/student/components/additionalSkills'
-import { useSkillsStore } from '@/store'
+  AdditionalSkillLevelRadioButtonSetFormFieldStub,
+  useAdditionalSkillsStore
+} from '@/features/student/additionalSkills'
 import { AvButtonStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
-
-vi.mock('@/store', async () => {
-  const actual = await vi.importActual<typeof import('@/store')>('@/store')
-  return {
-    ...actual
-  }
-})
 
 const stubs = {
   AvDrawer: AvDrawerStub,
@@ -53,7 +46,7 @@ BddTest().given('an add additional skill drawer component', () => {
       }
     })
 
-    const store = useSkillsStore()
+    const store = useAdditionalSkillsStore()
     store.displayCreateAdditionalSkillDrawer()
   })
 
@@ -111,7 +104,7 @@ BddTest().given('an add additional skill drawer component', () => {
 
   BddTest().when('the store showCreateAdditionalSkillDrawer is false', () => {
     BddTest().then('it should pass false to drawer show prop', async () => {
-      const store = useSkillsStore()
+      const store = useAdditionalSkillsStore()
       store.hideCreateAdditionalSkillDrawer()
       await wrapper.vm.$nextTick()
 
@@ -122,7 +115,7 @@ BddTest().given('an add additional skill drawer component', () => {
 
   BddTest().when('the escape key is pressed on drawer', () => {
     BddTest().then('it should hide the additional skill drawer', async () => {
-      const store = useSkillsStore()
+      const store = useAdditionalSkillsStore()
       const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
       const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
@@ -134,7 +127,7 @@ BddTest().given('an add additional skill drawer component', () => {
 
   BddTest().when('the cancel button is clicked', () => {
     BddTest().then('it should hide the drawer and reset form', async () => {
-      const store = useSkillsStore()
+      const store = useAdditionalSkillsStore()
       const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
       const cancelButton = getCancelButton()
 

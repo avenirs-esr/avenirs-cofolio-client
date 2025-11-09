@@ -2,6 +2,8 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
+import StudentAdditionalSkillView from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
+import StudentUpdateAdditionalSkillView from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import routes, {
   studentAboutRoute,
@@ -32,7 +34,6 @@ import routes, {
 import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import StudentAdditionalSkillView from '@/features/student/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
 import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
@@ -48,7 +49,6 @@ import StudentProjectTrajectoriesView from '@/features/student/views/StudentProj
 import StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
 import StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
-import StudentUpdateAdditionalSkillView from '@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 

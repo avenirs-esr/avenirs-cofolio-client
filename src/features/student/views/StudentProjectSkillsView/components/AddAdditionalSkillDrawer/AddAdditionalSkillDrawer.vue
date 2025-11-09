@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import { AdditionalSkillLevelRadioButtonSetFormField } from '@/features/student/components/additionalSkills'
+import { AdditionalSkillLevelRadioButtonSetFormField, useAdditionalSkillsStore } from '@/features/student/additionalSkills'
 import AddAdditionalSkillAutocompleteField from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
 import {
   useAdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
-import { useSkillsStore, useToasterStore } from '@/store'
+import { useToasterStore } from '@/store'
 import { AvButton, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const skillsStore = useSkillsStore()
+const additionalSkillsStore = useAdditionalSkillsStore()
 const { addSuccessMessage } = useToasterStore()
-const showDrawer = toRef(skillsStore, 'showCreateAdditionalSkillDrawer')
+const showDrawer = toRef(additionalSkillsStore, 'showCreateAdditionalSkillDrawer')
 
 const { form, isFormValid, isSubmitting } = useAdditionalSkillForm(() => {
   addSuccessMessage({
@@ -21,7 +21,7 @@ const { form, isFormValid, isSubmitting } = useAdditionalSkillForm(() => {
     description: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.success')
   })
   form.reset()
-  skillsStore.hideCreateAdditionalSkillDrawer()
+  additionalSkillsStore.hideCreateAdditionalSkillDrawer()
 })
 
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
@@ -42,7 +42,7 @@ function handleCancel () {
 
 function confirmCancel () {
   form.reset()
-  skillsStore.hideCreateAdditionalSkillDrawer()
+  additionalSkillsStore.hideCreateAdditionalSkillDrawer()
   hideConfirmationModal()
 }
 </script>

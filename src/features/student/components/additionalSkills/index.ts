@@ -1,8 +1,0 @@
-export { default as AdditionalSkillLevelBadge, type AdditionalSkillLevelBadgeProps } from '@/features/student/components/additionalSkills/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
-export { default as AdditionalSkillTypeBadge } from '@/features/student/components/additionalSkills/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
-export { default as AdditionalSkillDateDetails, type AdditionalSkillDateDetailsProps } from '@/features/student/components/additionalSkills/base/AdditionalSkillDateDetails/AdditionalSkillDateDetails.vue'
-export { default as AdditionalSkillRefCard, type AdditionalSkillRefCardProps } from '@/features/student/components/additionalSkills/cards/AdditionalSkillRefCard/AdditionalSkillRefCard.vue'
-export { default as AdditionalSkillCommentFormField } from '@/features/student/components/additionalSkills/interactions/formFields/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
-export { AdditionalSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/components/additionalSkills/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.stub'
-export { default as AdditionalSkillLevelRadioButtonSetFormField } from '@/features/student/components/additionalSkills/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.vue'
-export { default as AdditionalSkillLevelRadioButtonSet } from '@/features/student/components/additionalSkills/interactions/radios/AdditionalSkillLevelRadioButtonSet/AdditionalSkillLevelRadioButtonSet.vue'

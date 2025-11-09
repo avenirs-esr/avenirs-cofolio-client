@@ -22,7 +22,7 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
   }
 })
 
-vi.mock('@/features/student/composables/use-trace-filters/use-trace-filters', () => {
+vi.mock('@/features/student/traces/composables/use-trace-filters/use-trace-filters', () => {
   return {
     useTraceFilters: vi.fn(() => traceFiltersMock)
   }

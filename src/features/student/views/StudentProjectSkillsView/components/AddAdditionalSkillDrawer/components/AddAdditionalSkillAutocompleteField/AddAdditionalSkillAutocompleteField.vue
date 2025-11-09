@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { AdditionalSkillDTO } from '@/api/avenir-esr'
+import type {
+  UpdateAdditionalSkillForm
+} from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import type { AdditionalSkillOption } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
 import type {
   AdditionalSkillForm
 } from '@/features/student/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
-import type {
-  UpdateAdditionalSkillForm
-} from '@/features/student/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
-import AdditionalSkillTypeBadge from '@/features/student/components/additionalSkills/badges/AdditionalSkillTypeBadge/AdditionalSkillTypeBadge.vue'
+import { AdditionalSkillTypeBadge } from '@/features/student/additionalSkills'
 import { useSearchAdditionalSkillsQuery } from '@/features/student/queries'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'

@@ -22,7 +22,7 @@ vi.mock('@/store', () => ({
 }))
 
 vi.mock(
-  '@/features/student/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form',
+  '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/components/use-associate-trace-form/use-associate-trace-form',
   () => ({
     useAssociateTraceForm: (opts: { onAssociated?: () => void }) => {
       const form = {
