@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { CreateTraceForm } from '@/features/student/traces'
 import {
+  type CreateTraceForm,
   TraceFileUploadFormField,
   TraceNameInputFormField,
   TracePersonalNoteTextareaFormField
-} from '@/features/student/components/traces'
+} from '@/features/student/traces'
 
 interface CreateTraceFormTraceDefinitionItemsProps {
   form: CreateTraceForm

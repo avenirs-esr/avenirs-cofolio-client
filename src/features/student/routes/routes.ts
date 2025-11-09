@@ -5,10 +5,8 @@ import type LegalView from '@/common/views/LegalView/LegalView.vue'
 import type PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
 import type StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import type StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import type StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import type StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import type StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import type StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import type StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
 import type StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
@@ -22,9 +20,10 @@ import type StudentToolsPagesView from '@/features/student/views/StudentToolsPag
 import type StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
+import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
-export { studentAdditionalSkillRoute, studentToolsTracesRoute, studentTraceRoute, studentUpdateAdditionalSkillRoute }
+export { studentAdditionalSkillRoute, studentAmsRoute, studentEducationAmsRoute, studentToolsTracesRoute, studentTraceRoute, studentUpdateAdditionalSkillRoute }
 
 export const studentHomeRoute: AvRoute = {
   path: '',
@@ -41,15 +40,6 @@ export const studentAccessibilityRoute: AvRoute = {
   component: () =>
     import('@/common/views/AccessibilityView/AccessibilityView.vue') as Promise<{
       default: typeof AccessibilityView
-    }>,
-}
-
-export const studentAmsRoute: AvRoute = {
-  path: 'activity/:id',
-  name: 'student-activity',
-  component: () =>
-    import('@/features/student/views/StudentAmsView/StudentAmsView.vue') as Promise<{
-      default: typeof StudentAmsView
     }>,
 }
 
@@ -86,15 +76,6 @@ export const studentEducationSkillsRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue') as Promise<{
       default: typeof StudentEducationSkillsView
-    }>,
-}
-
-export const studentEducationAmsRoute: AvRoute = {
-  path: 'education/activities',
-  name: 'student-education-activities',
-  component: () =>
-    import('@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue') as Promise<{
-      default: typeof StudentEducationAmsView
     }>,
 }
 

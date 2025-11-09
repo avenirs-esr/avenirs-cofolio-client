@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import { TracesSelector } from '@/features/student/components/traces'
+import { TracesSelector } from '@/features/student/traces'
 import { useI18n } from 'vue-i18n'
 
 const { traceAssociations } = defineProps<{ traceAssociations: TraceOverviewDTO[] }>()

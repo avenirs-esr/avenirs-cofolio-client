@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EAmsStatus, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
-import { StudentTraceSkillLevelAssociationCard } from '@/features/student/components/traces'
+import { StudentTraceSkillLevelAssociationCard } from '@/features/student/traces'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

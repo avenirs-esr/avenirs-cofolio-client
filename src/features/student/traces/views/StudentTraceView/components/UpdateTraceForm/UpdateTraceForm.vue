@@ -9,7 +9,7 @@ import {
   TraceGroupProductionToggleFormField,
   TraceNameInputFormField,
   TracePersonalNoteTextareaFormField
-} from '@/features/student/components/traces'
+} from '@/features/student/traces'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { useToasterStore, useTracesStore } from '@/store'
 import { useI18n } from 'vue-i18n'

@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
-import { StudentTraceAdditionalSkillAssociationCard } from '@/features/student/components/traces'
+import { StudentTraceAdditionalSkillAssociationCard } from '@/features/student/traces'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'

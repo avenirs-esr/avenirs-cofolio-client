@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { CreateTraceForm } from '@/features/student/traces'
 import {
+  type CreateTraceForm,
   TraceAiJustificationTextareaFormField,
   TraceAiUsageToggleFormField,
   TraceAuthenticDeclarationToggleFormField,
   TraceGroupProductionToggleFormField
-} from '@/features/student/components/traces'
+} from '@/features/student/traces'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {

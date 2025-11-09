@@ -6,8 +6,8 @@ import {
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useCreateTraceForm } from 'src/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { waitFor } from 'storybook/test'
 import { mountComposable } from 'tests/utils'
 import { type MockInstance, vi } from 'vitest'

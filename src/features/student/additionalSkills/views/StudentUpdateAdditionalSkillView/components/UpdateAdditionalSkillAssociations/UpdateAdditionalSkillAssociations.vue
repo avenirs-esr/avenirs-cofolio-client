@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import { TracesSelector } from '@/features/student/components/traces'
 import {
   useUnassociateTracesFromAdditionalSkillMutation
 } from '@/features/student/queries'
+import { TracesSelector } from '@/features/student/traces'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

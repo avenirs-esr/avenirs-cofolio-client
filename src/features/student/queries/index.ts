@@ -1,4 +1,3 @@
-export * from './use-ams-view.query/use-ams-view.query'
 export * from './use-back-office.query/use-back-office.query'
 export * from './use-program-progress.query/use-program-progress.query'
 export * from './use-skills-view.query/use-skills-view.query'
@@ -6,4 +5,5 @@ export * from './use-student-access-control.query/use-student-access-control.que
 export * from './use-student-summary.query/use-student-summary.query'
 export * from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 export * from '@/features/student/additionalSkills/queries/use-skills-config.query/use-skills-config.query'
+export * from '@/features/student/ams/queries/use-ams-view.query/use-ams-view.query'
 export * from '@/features/student/traces/queries/use-traces.query/use-traces.query'

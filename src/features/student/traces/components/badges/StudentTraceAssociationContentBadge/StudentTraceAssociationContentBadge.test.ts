@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { StudentTraceAssociationContentBadge } from '@/features/student/components/traces'
+import { StudentTraceAssociationContentBadge } from '@/features/student/traces'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'

@@ -2,8 +2,8 @@
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student'
-import { TraceAssociations } from '@/features/student/components/traces'
 import { useTraceDetailedQuery } from '@/features/student/queries'
+import { TraceAssociations } from '@/features/student/traces'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'

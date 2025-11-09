@@ -2,8 +2,8 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
-import StudentAdditionalSkillView from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/StudentAdditionalSkillView.vue'
-import StudentUpdateAdditionalSkillView from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
+import { StudentAdditionalSkillView, StudentUpdateAdditionalSkillView } from '@/features/student/additionalSkills'
+import { StudentAmsView, StudentEducationAmsView } from '@/features/student/ams'
 import StudentLayout from '@/features/student/layouts/StudentLayout/StudentLayout.vue'
 import routes, {
   studentAboutRoute,
@@ -31,13 +31,10 @@ import routes, {
   studentTraceRoute,
   studentUpdateAdditionalSkillRoute,
 } from '@/features/student/routes/routes'
-import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
+import { StudentToolsTracesView, StudentTraceView } from '@/features/student/traces'
 import StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
-import StudentAmsView from '@/features/student/views/StudentAmsView/StudentAmsView.vue'
 import StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import StudentEducationAmsView from '@/features/student/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
 import StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'

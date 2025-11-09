@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
-import StudentCountAmsIconText from '@/features/student/components/ams/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
+import { StudentCountAmsIconText } from '@/features/student/ams'
 import StudentLastCompletedLevelBadge from '@/features/student/components/skills/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
 import StudentSkillLevelStatusBadge from '@/features/student/components/skills/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
 import StudentDetailedSkillCard from '@/features/student/components/skills/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'

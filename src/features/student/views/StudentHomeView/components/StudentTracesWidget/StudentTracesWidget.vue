@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
-import { StudentTraceCard } from '@/features/student/components/traces'
 import { useStudentTracesSummaryQuery } from '@/features/student/queries'
+import { StudentTraceCard } from '@/features/student/traces'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
