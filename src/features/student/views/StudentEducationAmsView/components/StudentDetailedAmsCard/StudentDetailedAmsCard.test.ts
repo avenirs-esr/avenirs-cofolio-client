@@ -1,6 +1,6 @@
 import { type AmsViewDTO, EAmsStatus } from '@/api/avenir-esr'
 import { StudentAmsStatusBadgeStub } from '@/features/student/components/ams/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.stub'
-import { StudentCountTracesIconTextStub } from '@/features/student/components/traces/base/StudentCountTracesIconText/StudentCountTracesIconText.stub'
+import { StudentCountTracesIconTextStub } from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.stub'
 import { StudentCountSkillsIconTextStub } from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/components/StudentCountSkillsIconText/StudentCountSkillsIconText.stub'
 import StudentDetailedAmsCard from '@/features/student/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

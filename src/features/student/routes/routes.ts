@@ -21,10 +21,11 @@ import type StudentProjectTrajectoriesView from '@/features/student/views/Studen
 import type StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
 import type StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import type StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
-import type StudentToolsTracesView from '@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import type StudentTraceView from '@/features/student/views/StudentTraceView/StudentTraceView.vue'
 import type StudentUpdateAdditionalSkillView from '@/features/student/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
 import type { RouteRecordRaw } from 'vue-router'
+import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
+
+export { studentToolsTracesRoute, studentTraceRoute }
 
 export const studentHomeRoute: AvRoute = {
   path: '',
@@ -155,15 +156,6 @@ export const studentSkillRoute: AvRoute = {
     }>,
 }
 
-export const studentToolsTracesRoute: AvRoute = {
-  path: 'tools/traces',
-  name: 'student-tools-traces',
-  component: () =>
-    import('@/features/student/views/StudentToolsTracesView/StudentToolsTracesView.vue') as Promise<{
-      default: typeof StudentToolsTracesView
-    }>,
-}
-
 export const studentToolsPagesRoute: AvRoute = {
   path: 'tools/pages',
   name: 'student-tools-pages',
@@ -179,18 +171,6 @@ export const studentToolsResumesRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue') as Promise<{
       default: typeof StudentToolsResumesView
-    }>,
-}
-
-export const studentTraceRoute: AvRoute = {
-  path: 'trace/:id',
-  name: 'student-trace',
-  props: route => ({
-    traceId: route.params.id,
-  }),
-  component: () =>
-    import('@/features/student/views/StudentTraceView/StudentTraceView.vue') as Promise<{
-      default: typeof StudentTraceView
     }>,
 }
 

@@ -5,7 +5,7 @@ import StudentCountAmsIconText from '@/features/student/components/ams/base/Stud
 import StudentLastCompletedLevelBadge from '@/features/student/components/skills/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
 import StudentSkillLevelStatusBadge from '@/features/student/components/skills/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
 import StudentDetailedSkillCard from '@/features/student/components/skills/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-import StudentCountTracesIconText from '@/features/student/components/traces/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
+import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
 import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedEducationalSkillCardProps {
