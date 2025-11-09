@@ -1,5 +1,0 @@
-export { default as StudentLastCompletedLevelBadge } from '@/features/student/components/skills/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
-export { default as StudentSkillLevelStatusBadge } from '@/features/student/components/skills/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
-export { default as StudentDetailedEducationalSkillCard, type StudentDetailedEducationalSkillCardProps } from '@/features/student/components/skills/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
-export { default as StudentDetailedSkillCard, type StudentDetailedSkillCardProps } from '@/features/student/components/skills/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-export { default as StudentSkillCard, type StudentSkillCardProps } from '@/features/student/components/skills/cards/StudentSkillCard/StudentSkillCard.vue'

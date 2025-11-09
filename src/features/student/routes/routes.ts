@@ -7,23 +7,21 @@ import type StudentLayout from '@/features/student/layouts/StudentLayout/Student
 import type StudentAboutView from '@/features/student/views/StudentAboutView/StudentAboutView.vue'
 import type StudentApcUnavailableView from '@/features/student/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import type StudentDeliverablesView from '@/features/student/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import type StudentEducationSkillsView from '@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue'
 import type StudentEventsView from '@/features/student/views/StudentEventsView/StudentEventsView.vue'
 import type StudentHomeView from '@/features/student/views/StudentHomeView/StudentHomeView.vue'
 import type StudentMailboxView from '@/features/student/views/StudentMailboxView/StudentMailboxView.vue'
 import type StudentNotificationsView from '@/features/student/views/StudentNotificationsView/StudentNotificationsView.vue'
 import type StudentProjectExperiencesView from '@/features/student/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
-import type StudentProjectSkillsView from '@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
 import type StudentProjectTrajectoriesView from '@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import type StudentSkillView from '@/features/student/views/StudentSkillView/StudentSkillView.vue'
 import type StudentToolsPagesView from '@/features/student/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import type StudentToolsResumesView from '@/features/student/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
+import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
-export { studentAdditionalSkillRoute, studentAmsRoute, studentEducationAmsRoute, studentToolsTracesRoute, studentTraceRoute, studentUpdateAdditionalSkillRoute }
+export { studentAdditionalSkillRoute, studentAmsRoute, studentEducationAmsRoute, studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute, studentToolsTracesRoute, studentTraceRoute, studentUpdateAdditionalSkillRoute }
 
 export const studentHomeRoute: AvRoute = {
   path: '',
@@ -70,15 +68,6 @@ export const studentEventsRoute: AvRoute = {
     }>,
 }
 
-export const studentEducationSkillsRoute: AvRoute = {
-  path: 'education/skills',
-  name: 'student-education-skills',
-  component: () =>
-    import('@/features/student/views/StudentEducationSkillsView/StudentEducationSkillsView.vue') as Promise<{
-      default: typeof StudentEducationSkillsView
-    }>,
-}
-
 export const studentLegalRoute: AvRoute = {
   path: 'legal',
   name: 'student-legal',
@@ -97,15 +86,6 @@ export const studentPersonnalDataRoute: AvRoute = {
     }>,
 }
 
-export const studentProjectSkillsRoute: AvRoute = {
-  path: 'projects/skills',
-  name: 'student-project-skills',
-  component: () =>
-    import('@/features/student/views/StudentProjectSkillsView/StudentProjectSkillsView.vue') as Promise<{
-      default: typeof StudentProjectSkillsView
-    }>,
-}
-
 export const studentProjectExperiencesRoute: AvRoute = {
   path: 'projects/experiences',
   name: 'student-project-experiences',
@@ -121,18 +101,6 @@ export const studentProjectTrajectoriesRoute: AvRoute = {
   component: () =>
     import('@/features/student/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue') as Promise<{
       default: typeof StudentProjectTrajectoriesView
-    }>,
-}
-
-export const studentSkillRoute: AvRoute = {
-  path: 'skill/:id',
-  name: 'student-skill',
-  props: route => ({
-    skillId: route.params.id,
-  }),
-  component: () =>
-    import('@/features/student/views/StudentSkillView/StudentSkillView.vue') as Promise<{
-      default: typeof StudentSkillView
     }>,
 }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ESkillLevelStatus, type TraceDetailDTO } from '@/api/avenir-esr'
-import { StudentSkillLevelStatusBadge } from '@/features/student'
+import { StudentSkillLevelStatusBadge } from '@/features/student/skills'
 import { AvList, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

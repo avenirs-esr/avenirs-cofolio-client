@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { StudentProgressOverviewDTO } from '@/api/avenir-esr'
-import { StudentSkillCard } from '@/features/student/components/skills'
+import { StudentSkillCard } from '@/features/student/skills'
 
 const { course, maxSkillsDisplayed = 6 } = defineProps<{ course: StudentProgressOverviewDTO, maxSkillsDisplayed: number }>()
 

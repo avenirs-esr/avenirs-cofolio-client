@@ -1,1 +1,1 @@
-export * from './student-progress.types'
+export * from '@/features/student/skills/types/student-progress.types'
