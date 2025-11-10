@@ -2,6 +2,7 @@
 import { PageTitle } from '@/common/components'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { studentHomeRoute } from '@/features/student/routes'
+import { useTracesStore } from '@/features/student/traces'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { studentToolsTracesRoute } from '@/features/student/traces/routes'
@@ -11,7 +12,6 @@ import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTra
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import UpdateTraceModal from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
-import { useTracesStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

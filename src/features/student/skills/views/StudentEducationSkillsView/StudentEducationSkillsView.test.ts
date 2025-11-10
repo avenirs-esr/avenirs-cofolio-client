@@ -1,5 +1,5 @@
 import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
-import { createProgramProgressViewHandler, programProgressViewErrorHandler } from '@/__mocks__/msw/handlers'
+import { createProgramProgressViewHandler, programProgressViewErrorHandler } from '@/__mocks__/msw/handlers/student/program-progress.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { SortDirection } from '@/common/types'

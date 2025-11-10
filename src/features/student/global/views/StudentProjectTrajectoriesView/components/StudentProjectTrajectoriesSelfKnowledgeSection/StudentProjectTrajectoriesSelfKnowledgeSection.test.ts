@@ -1,6 +1,6 @@
+import StudentProjectTrajectoriesSelfKnowledgeSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesSelfKnowledgeSection/StudentProjectTrajectoriesSelfKnowledgeSection.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import StudentProjectTrajectoriesSelfKnowledgeSection from 'src/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesSelfKnowledgeSection/StudentProjectTrajectoriesSelfKnowledgeSection.vue'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a self knowledge section component', () => {

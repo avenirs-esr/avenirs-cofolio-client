@@ -1,5 +1,5 @@
+import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
-import { useTracesStore } from '@/store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'

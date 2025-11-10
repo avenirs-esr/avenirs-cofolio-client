@@ -10,15 +10,15 @@ import {
   TraceNameInputFormField,
   TracePersonalNoteTextareaFormField
 } from '@/features/student/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
-import { useToasterStore, useTracesStore } from '@/store'
+import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
+const { trace } = defineProps<UpdateTraceFormProps>()
 interface UpdateTraceFormProps {
   trace: TraceDetailDTO
 }
-
-const { trace } = defineProps<UpdateTraceFormProps>()
 
 const { addSuccessMessage } = useToasterStore()
 const { hideUpdateTraceModal } = useTracesStore()

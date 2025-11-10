@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useTracesStore } from '@/features/student/traces'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import {
   useCreateTraceForm
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
-import { useToasterStore, useTracesStore } from '@/store'
+import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

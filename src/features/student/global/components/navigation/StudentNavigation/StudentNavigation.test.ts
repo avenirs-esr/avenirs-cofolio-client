@@ -7,7 +7,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
-vi.mock('@/features/student/composables', () => ({
+vi.mock('@/features/student/global/composables/use-student-apc-access/use-student-apc-access', () => ({
   useStudentApcAccess: vi.fn(),
 }))
 

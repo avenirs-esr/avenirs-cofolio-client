@@ -1,6 +1,6 @@
+import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import StudentProjectTrajectoriesBuildProjectSection from 'src/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a build project section component', () => {

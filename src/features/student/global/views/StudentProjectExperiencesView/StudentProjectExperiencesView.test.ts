@@ -1,9 +1,9 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { StudentProjectExperiencesContainerStub } from '@/features/student/global/views/StudentProjectExperiencesView/components/StudentProjectExperiencesContainer/StudentProjectExperiencesContainer.stub'
+import StudentProjectExperiencesView from '@/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
 import { studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import StudentProjectExperiencesView from 'src/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
 import { beforeEach, expect } from 'vitest'
 
 const stubs = {

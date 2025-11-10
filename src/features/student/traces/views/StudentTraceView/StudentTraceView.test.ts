@@ -195,7 +195,7 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should call displayUpdateTraceModal from store', async () => {
-      const { useTracesStore } = await import('@/store')
+      const { useTracesStore } = await import('@/features/student/traces')
       const tracesStore = useTracesStore()
       expect(tracesStore.showUpdateTraceModal).toBe(true)
     })

@@ -2,14 +2,13 @@
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { useTraceFilters } from '@/features/student/traces'
+import { useTraceFilters, useTracesStore } from '@/features/student/traces'
 import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentDetailedTraceCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import StudentToolsTracesViewNotice
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
-import { useTracesStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{

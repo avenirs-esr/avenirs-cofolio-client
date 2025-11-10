@@ -14,7 +14,7 @@ vi.mock('vue-router', async () => {
   }
 })
 
-vi.mock('@/features/student/composables', () => ({
+vi.mock('@/features/student/global/composables/use-student-apc-access/use-student-apc-access', () => ({
   useStudentApcAccess: vi.fn()
 }))
 

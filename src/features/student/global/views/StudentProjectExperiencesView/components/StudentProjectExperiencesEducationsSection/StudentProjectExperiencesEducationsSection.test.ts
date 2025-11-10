@@ -1,6 +1,6 @@
+import StudentProjectExperiencesEducationsSection from '@/features/student/global/views/StudentProjectExperiencesView/components/StudentProjectExperiencesEducationsSection/StudentProjectExperiencesEducationsSection.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import StudentProjectExperiencesEducationsSection from 'src/features/student/global/views/StudentProjectExperiencesView/components/StudentProjectExperiencesEducationsSection/StudentProjectExperiencesEducationsSection.vue'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an educations section component', () => {

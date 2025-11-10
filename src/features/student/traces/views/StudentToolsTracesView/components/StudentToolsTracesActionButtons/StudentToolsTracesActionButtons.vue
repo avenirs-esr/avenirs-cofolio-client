@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTracesStore } from '@/store'
+import { useTracesStore } from '@/features/student/traces'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

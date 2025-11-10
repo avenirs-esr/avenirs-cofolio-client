@@ -9,7 +9,7 @@ import {
 } from '@/api/avenir-esr'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
-import { StudentProgressViewSortableFields } from '@/features/student/skills'
+import { StudentProgressViewSortableFields } from '@/features/student/skills/types/student-progress.types'
 import { http, HttpResponse } from 'msw'
 
 export function createProgramProgressViewHandler (payload: StudentProgressViewDTO[]) {

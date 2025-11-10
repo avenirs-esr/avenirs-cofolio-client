@@ -1,13 +1,13 @@
+import { StudentDeliverablesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentDeliverablesWidget/StudentDeliverablesWidget.stub'
+import { StudentEventsWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.stub'
+import { StudentOverviewWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentOverviewWidget/StudentOverviewWidget.stub'
+import { StudentPagesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentPagesWidget/StudentPagesWidget.stub'
+import { StudentResumesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentResumesWidget/StudentResumesWidget.stub'
+import { StudentSkillsWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentSkillsWidget/StudentSkillsWidget.stub'
+import { StudentTracesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentTracesWidget/StudentTracesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { StudentDeliverablesWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentDeliverablesWidget/StudentDeliverablesWidget.stub'
-import { StudentEventsWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.stub'
-import { StudentOverviewWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentOverviewWidget/StudentOverviewWidget.stub'
-import { StudentPagesWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentPagesWidget/StudentPagesWidget.stub'
-import { StudentResumesWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentResumesWidget/StudentResumesWidget.stub'
-import { StudentSkillsWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentSkillsWidget/StudentSkillsWidget.stub'
-import { StudentTracesWidgetStub } from 'src/features/student/global/views/StudentHomeView/components/StudentTracesWidget/StudentTracesWidget.stub'
 
 const mockIsMobile = ref(false)
 

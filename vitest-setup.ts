@@ -1,6 +1,5 @@
 import { config } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll } from 'vitest'
-import { server } from './src/__mocks__/msw/server'
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 
@@ -9,17 +8,20 @@ window.matchMedia = function () {
 }
 
 if (__ENABLE_MSW__) {
-  beforeAll(() => {
+  beforeAll(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.listen({
       onUnhandledRequest: 'error'
     })
   })
 
-  afterEach(() => {
+  afterEach(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.resetHandlers()
   })
 
-  afterAll(() => {
+  afterAll(async () => {
+    const { server } = await import('./src/__mocks__/msw/server')
     server.close()
   })
 }

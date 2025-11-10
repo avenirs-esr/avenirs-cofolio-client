@@ -7,7 +7,7 @@ import { useStudentNavigationAccessControlQuery } from '@/features/student/user'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-vi.mock('@/features/student/queries', () => ({
+vi.mock('@/features/student/user/queries/use-student-access-control.query/use-student-access-control.query', () => ({
   useStudentNavigationAccessControlQuery: vi.fn()
 }))
 

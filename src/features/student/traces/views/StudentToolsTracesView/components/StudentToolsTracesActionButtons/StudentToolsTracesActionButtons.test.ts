@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesActionButtons from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
-import { useTracesStore } from '@/store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'

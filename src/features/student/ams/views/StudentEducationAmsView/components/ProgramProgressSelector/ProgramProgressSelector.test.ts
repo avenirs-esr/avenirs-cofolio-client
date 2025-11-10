@@ -1,8 +1,9 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { Ref } from 'vue'
 import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
-import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
 
+import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
 import ProgramProgressSelector from '@/features/student/ams/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAllMyProgramProgressQuery } from '@/features/student/skills'
 import { AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -49,9 +50,9 @@ BddTest().given('a program progress selector', () => {
   ]
 
   function mockUseAllMyProgramProgressQuery (programs: TrainingPathDTO[], isFetched = true): void {
-    const mockData = ref(programs)
-    const mockIsFetched = ref(isFetched)
-    const mockError = ref<BaseApiException | null>(null)
+    const mockData: Ref<TrainingPathDTO[]> = ref(programs)
+    const mockIsFetched: Ref<boolean> = ref(isFetched)
+    const mockError: Ref<BaseApiException | null> = ref(null)
 
     const queryMockedData = {
       data: mockData,
@@ -63,6 +64,7 @@ BddTest().given('a program progress selector', () => {
   }
 
   beforeEach(() => {
+    vi.clearAllMocks()
     setActivePinia(createPinia())
     mockUseAllMyProgramProgressQuery(mockPrograms)
   })
@@ -192,9 +194,9 @@ BddTest().given('a program progress selector', () => {
 
   BddTest().and('the programs are fetched and no program is initially selected', () => {
     beforeEach(async () => {
-      const mockData = ref(mockPrograms)
-      const mockIsFetched = ref(false)
-      const mockError = ref<BaseApiException | null>(null)
+      const mockData: Ref<TrainingPathDTO[]> = ref(mockPrograms)
+      const mockIsFetched: Ref<boolean> = ref(false)
+      const mockError: Ref<BaseApiException | null> = ref(null)
 
       const queryMockedData = {
         data: mockData,
@@ -281,9 +283,9 @@ BddTest().given('a program progress selector', () => {
 
   BddTest().and('programs data changes', () => {
     beforeEach(() => {
-      const mockData = ref<TrainingPathDTO[]>([])
-      const mockIsFetched = ref(false)
-      const mockError = ref<BaseApiException | null>(null)
+      const mockData: Ref<TrainingPathDTO[]> = ref([])
+      const mockIsFetched: Ref<boolean> = ref(false)
+      const mockError: Ref<BaseApiException | null> = ref(null)
 
       const queryMockedData = {
         data: mockData,

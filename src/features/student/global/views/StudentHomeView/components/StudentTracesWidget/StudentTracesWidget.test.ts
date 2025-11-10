@@ -1,12 +1,12 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
+import StudentTracesWidget from '@/features/student/global/views/StudentHomeView/components/StudentTracesWidget/StudentTracesWidget.vue'
 import {
   StudentTraceCardStub
 } from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import StudentTracesWidget from 'src/features/student/global/views/StudentHomeView/components/StudentTracesWidget/StudentTracesWidget.vue'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'

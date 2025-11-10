@@ -1,5 +1,5 @@
 import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
-import type { UseTracesViewQueryParams } from '@/features/student/traces'
+import type { UseTracesViewQueryParams } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import type { DateFilter, SearchFilter } from '@/types'
 import type { Ref } from 'vue'
 

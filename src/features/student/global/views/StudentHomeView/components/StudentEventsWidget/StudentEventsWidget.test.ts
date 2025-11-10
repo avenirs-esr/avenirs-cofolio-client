@@ -5,8 +5,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
 import { useStudentEventsSummaryQuery } from '@/features/student/global/queries/use-student-summary.query/use-student-summary.query'
+import StudentEventsWidget from '@/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import StudentEventsWidget from 'src/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.vue'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
@@ -33,7 +33,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock('@/features/student/queries', () => ({
+vi.mock('@/features/student/global/queries/use-student-summary.query/use-student-summary.query', () => ({
   useStudentEventsSummaryQuery: vi.fn()
 }))
 
