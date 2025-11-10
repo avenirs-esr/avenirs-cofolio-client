@@ -52,7 +52,7 @@ async function handleRemoveAssociations () {
       <span class="b2-regular">
         {{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     </div>
-    <AvCard class="update-additional-skill-associations__container">
+    <AvCard class="demo-display-none update-additional-skill-associations__container">
       <template #body>
         <div class="update-additional-skill-associations__card-actions">
           <AvButton

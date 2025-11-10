@@ -91,7 +91,7 @@ const { isMobile } = useAvBreakpoints()
     gap: var(--spacing-xl);
 
     :deep(textarea) {
-      height: 75vh !important;
+      min-height: 35vh !important;
       resize: none;
     }
   }
