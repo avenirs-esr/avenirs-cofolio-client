@@ -1,7 +1,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
-import { useCreateAssociateTraceMutation } from '@/features/student/traces'
+import { useCreateAssociateTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

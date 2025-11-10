@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
 import { useStudentSummaryQuery } from '@/features/student/global/queries/use-student-summary.query/use-student-summary.query'
-import UpdateProfileDrawer from '@/features/student/user/components/composites/UpdateProfileDrawer/UpdateProfileDrawer.vue'
+import { UpdateProfileDrawer } from '@/features/student/user'
 import { AvCard, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'

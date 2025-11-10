@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import {
-  type CreateTraceForm,
-  TraceFileUploadFormField,
-  TraceNameInputFormField,
-  TracePersonalNoteTextareaFormField
-} from '@/features/student/traces'
+import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
+import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
+import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
+import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
 
 interface CreateTraceFormTraceDefinitionItemsProps {
   form: CreateTraceForm

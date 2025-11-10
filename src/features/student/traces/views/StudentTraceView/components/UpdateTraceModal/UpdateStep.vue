@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import { TraceAssociations } from '@/features/student/traces'
+import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

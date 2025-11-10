@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { SkillDTO, SkillLevelViewDTO } from '@/api/avenir-esr'
 import type { ComputedRef } from 'vue'
-import { StudentDetailedSkillCard, StudentLastCompletedLevelBadge } from '@/features/student/skills'
+import StudentLastCompletedLevelBadge from '@/features/student/skills/components/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
+import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

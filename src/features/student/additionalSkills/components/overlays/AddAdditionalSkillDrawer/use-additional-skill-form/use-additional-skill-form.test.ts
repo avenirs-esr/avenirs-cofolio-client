@@ -1,4 +1,4 @@
-import type { AdditionalSkillFormData } from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
+import type { AdditionalSkillFormData } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/types'
 import { type AddAdditionalSkillDTO, type AdditionalSkillProgressDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

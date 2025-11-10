@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces'
+import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
 import { markRaw } from 'vue'
 

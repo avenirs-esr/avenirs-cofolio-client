@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type ProfileUpdateRequest, type UpdateProfilePhotoBody } from '@/api/avenir-esr'
-import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/global/queries/use-student-summary.query/use-student-summary.query'
+import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/global'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 

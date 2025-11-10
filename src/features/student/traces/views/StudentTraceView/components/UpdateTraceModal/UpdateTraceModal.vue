@@ -2,7 +2,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import { useTracesStore } from '@/features/student/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
 import TermsStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

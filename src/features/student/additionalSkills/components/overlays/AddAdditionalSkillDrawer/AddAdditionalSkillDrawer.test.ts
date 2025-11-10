@@ -2,11 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components'
 import {
   AdditionalSkillLevelRadioButtonSetFormFieldStub,
-  useAdditionalSkillsStore
-} from '@/features/student/additionalSkills'
+} from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.stub'
+import { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills/additionalSkills'
 import { AvButtonStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
 
 const stubs = {

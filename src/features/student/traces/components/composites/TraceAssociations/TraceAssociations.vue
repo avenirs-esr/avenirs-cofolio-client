@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TraceAssociationsDTO } from '@/api/avenir-esr'
-import { StudentTraceAdditionalSkillAssociationCard, StudentTraceSkillLevelAssociationCard } from '@/features/student/traces'
+import StudentTraceAdditionalSkillAssociationCard from '@/features/student/traces/components/cards/StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
+import StudentTraceSkillLevelAssociationCard from '@/features/student/traces/components/cards/StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface TraceAssociationsProps {

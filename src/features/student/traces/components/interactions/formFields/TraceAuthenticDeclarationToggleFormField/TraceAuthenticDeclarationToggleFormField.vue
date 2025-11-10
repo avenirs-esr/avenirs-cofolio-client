@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces'
+import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 import TraceAuthenticDeclarationToggle from '@/features/student/traces/components/interactions/toggles/TraceAuthenticDeclarationToggle/TraceAuthenticDeclarationToggle.vue'
 import { markRaw } from 'vue'
 

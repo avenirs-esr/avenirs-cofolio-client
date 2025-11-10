@@ -1,4 +1,4 @@
-import { useStudentNavigationAccessControlQuery } from '@/features/student/user/queries/use-student-access-control.query/use-student-access-control.query'
+import { useStudentNavigationAccessControlQuery } from '@/features/student/user'
 
 function useStudentApcAccess () {
   const { data } = useStudentNavigationAccessControlQuery()

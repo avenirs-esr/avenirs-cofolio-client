@@ -4,7 +4,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
 
-import { useDeletePhotoMutation } from '@/features/student/global/queries/use-student-summary.query/use-student-summary.query'
+import { useDeletePhotoMutation } from '@/features/student/global'
 import { useUpdateProfileForm } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile-form'
 import { useToasterStore } from '@/store'
 import {

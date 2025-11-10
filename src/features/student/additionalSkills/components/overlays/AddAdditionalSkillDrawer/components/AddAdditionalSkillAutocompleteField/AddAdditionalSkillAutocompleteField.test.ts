@@ -1,9 +1,9 @@
 import type {
   AdditionalSkillFormData
-} from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
+} from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { EAdditionalSkillType } from '@/api/avenir-esr'
-import AddAdditionalSkillAutocompleteField from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
+import AddAdditionalSkillAutocompleteField from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
 import { AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { UpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
-import type { AdditionalSkillForm } from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
+import type { AdditionalSkillForm, UpdateAdditionalSkillForm } from '@/features/student/additionalSkills/types/forms.types'
 import { EAdditionalSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import AdditionalSkillLevelRadioButtonSet from '@/features/student/additionalSkills/components/interactions/radios/AdditionalSkillLevelRadioButtonSet/AdditionalSkillLevelRadioButtonSet.vue'

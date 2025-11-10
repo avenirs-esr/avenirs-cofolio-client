@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import {
-  TraceAiUsageToggle,
-  TraceFileUpload,
-  TraceIaJustificationTextarea,
-  TraceNameInput,
-  TracePersonalNoteTextarea,
-  useTraceAttachmentFile
-} from '@/features/student/traces'
+import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
+import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
+import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
+import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
+import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
+import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

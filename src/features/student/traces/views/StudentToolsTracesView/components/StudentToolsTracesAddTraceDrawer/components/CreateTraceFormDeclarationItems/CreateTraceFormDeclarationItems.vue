@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import {
-  type CreateTraceForm,
-  TraceAiJustificationTextareaFormField,
-  TraceAiUsageToggleFormField,
-  TraceAuthenticDeclarationToggleFormField,
-  TraceGroupProductionToggleFormField
-} from '@/features/student/traces'
+import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
+import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
+import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
+import TraceAuthenticDeclarationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAuthenticDeclarationToggleFormField/TraceAuthenticDeclarationToggleFormField.vue'
+import TraceGroupProductionToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {

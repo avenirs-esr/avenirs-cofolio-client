@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { AdditionalSkillFormData } from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/types'
-import { useCreateAdditionalSkillMutation } from '@/features/student/additionalSkills'
+import type { AdditionalSkillFormData } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/types'
+import { useCreateAdditionalSkillMutation } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

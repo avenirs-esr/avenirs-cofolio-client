@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import { useTracesStore } from '@/features/student/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import {

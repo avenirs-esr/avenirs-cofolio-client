@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { MutationArgs } from '@/features/student/global/queries/types'
+import type { MutationArgs } from '@/features/student/global'
 import {
   type AddAdditionalSkillDTO,
   type AdditionalSkillDTO,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces'
+import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'

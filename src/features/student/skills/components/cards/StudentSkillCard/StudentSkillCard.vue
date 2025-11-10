@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { StudentCountAmsIconText } from '@/features/student/ams'
-import { studentSkillRoute } from '@/features/student/routes'
+import { studentSkillRoute } from '@/features/student/skills/routes'
 import { StudentCountTracesIconText } from '@/features/student/traces'
 import { AvBadge, type AvBadgeProps, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

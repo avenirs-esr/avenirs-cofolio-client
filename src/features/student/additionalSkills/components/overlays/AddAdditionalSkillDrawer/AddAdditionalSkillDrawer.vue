@@ -2,10 +2,10 @@
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { AdditionalSkillLevelRadioButtonSetFormField, useAdditionalSkillsStore } from '@/features/student/additionalSkills'
-import AddAdditionalSkillAutocompleteField from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
+import AddAdditionalSkillAutocompleteField from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
 import {
   useAdditionalSkillForm
-} from '@/features/student/skills/views/StudentProjectSkillsView/components/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
+} from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useToasterStore } from '@/store'
 import { AvButton, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
