@@ -260,7 +260,7 @@ export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpd
       await updateAdditionalSkillProgress(additionalSkillProgressDetailsDTO.id, additionalSkillProgressRequest)
     },
     onSuccess: async (_, { id }) => {
-      await invalidateQueryKey([...additionalSkillCommonQueryKey, id])
+      await invalidateQueryKey([...additionalSkillDetailsQueryKey, id])
       onSuccess?.()
     },
     onError
