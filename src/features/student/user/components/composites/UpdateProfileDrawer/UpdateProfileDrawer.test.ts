@@ -452,5 +452,61 @@ BddTest().given('given an update profile drawer', () => {
         expect(mockOnClose).toHaveBeenCalled()
       })
     })
+
+    BddTest().when('cover photo has fileId', () => {
+      const studentSummaryWithCoverPhotoFileId = {
+        ...studentSummary,
+        coverPicture: {
+          fileId: 'cover-file-id',
+          fileName: 'cover.jpg',
+          url: 'https://example.com/cover.jpg'
+        }
+      }
+
+      beforeEach(() => {
+        wrapper = mountComponent(UpdateProfileDrawer, {
+          props: {
+            ...defaultProps,
+            studentSummary: studentSummaryWithCoverPhotoFileId
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      BddTest().then('it should render with cover photo', () => {
+        const imageUploadComponents = wrapper.findAllComponents({ name: 'ImageUpload' })
+        expect(imageUploadComponents).toHaveLength(2)
+      })
+    })
+
+    BddTest().when('profile photo has fileId', () => {
+      const studentSummaryWithProfilePhotoFileId = {
+        ...studentSummary,
+        profilePicture: {
+          fileId: 'profile-file-id',
+          fileName: 'profile.jpg',
+          url: 'https://example.com/profile.jpg'
+        }
+      }
+
+      beforeEach(() => {
+        wrapper = mountComponent(UpdateProfileDrawer, {
+          props: {
+            ...defaultProps,
+            studentSummary: studentSummaryWithProfilePhotoFileId
+          },
+          global: {
+            stubs
+          }
+        })
+      })
+
+      BddTest().then('it should render with profile photo', () => {
+        const imageUploadComponents = wrapper.findAllComponents({ name: 'ImageUpload' })
+        expect(imageUploadComponents).toHaveLength(2)
+      })
+    })
   })
 })

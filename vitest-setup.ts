@@ -7,9 +7,8 @@ window.matchMedia = function () {
   return { matches: false }
 }
 
-const IGNORED_WARNINGS = [
+const IGNORED_WARNINGS = []
 
-]
 const originalWarn = console.warn
 
 function setupWarningHandler () {
@@ -31,6 +30,8 @@ function setupWarningHandler () {
   }
 }
 
+setupWarningHandler()
+
 if (__ENABLE_MSW__) {
   beforeAll(async () => {
     const { server } = await import('./src/__mocks__/msw/server')
@@ -51,7 +52,6 @@ if (__ENABLE_MSW__) {
 }
 
 beforeAll(async () => {
-  setupWarningHandler()
   i18n.global.locale.value = 'fr'
   await registerFeatureLocales('student')
   config.global.plugins = config.global.plugins || []

@@ -28,8 +28,7 @@
     "generate:api": "orval",
     "postgenerate:api": "eslint ./src/api --fix",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "check:circular": "node scripts/check-circular.js"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@avenirs-esr/avenirs-dsav": "^0.1.74",

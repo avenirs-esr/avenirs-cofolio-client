@@ -44,24 +44,26 @@ const a11yCompliance = computed(() => {
   }
   return t('global.footer.links.accessibility.partiallyCompliant')
 })
+
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
     label: a11yCompliance.value,
-    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.ACCESSIBILITY.name : ROUTE_NAMES.TEACHER.ACCESSIBILITY.name },
+    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.ACCESSIBILITY : ROUTE_NAMES.TEACHER.ACCESSIBILITY
   },
   {
     label: t('global.footer.links.legal'),
-    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.LEGAL.name : ROUTE_NAMES.TEACHER.LEGAL.name },
+    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.LEGAL : ROUTE_NAMES.TEACHER.LEGAL
   },
   {
     label: t('global.footer.links.data'),
-    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.PERSONNAL_DATA.name : ROUTE_NAMES.TEACHER.PERSONNAL_DATA.name },
+    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.PERSONNAL_DATA : ROUTE_NAMES.TEACHER.PERSONNAL_DATA
   },
   {
     label: t('global.footer.links.cookies'),
-    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.COOKIES.name : ROUTE_NAMES.TEACHER.COOKIES.name },
+    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.COOKIES : ROUTE_NAMES.TEACHER.COOKIES
   },
 ])
+
 const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   {
     label: 'avenirs-esr.fr',

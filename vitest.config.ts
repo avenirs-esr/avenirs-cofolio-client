@@ -10,6 +10,9 @@ export default ({ mode }: { mode: string }) => {
     '**/*stub.ts',
     '**/*.stories.ts',
     'src/common/types/*',
+    'src/bootstrap.ts',
+    'src/main.ts',
+    'src/features/**/index.ts',
     'src/api/**/generated/*',
     'orval.config.ts',
     'src/App.vue',
@@ -24,6 +27,7 @@ export default ({ mode }: { mode: string }) => {
   ]
 
   const COVERAGE_THRESHOLD = 85
+
   return mergeConfig(
     viteConfig({ mode }),
     defineConfig({
