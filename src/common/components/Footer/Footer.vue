@@ -4,8 +4,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
-import { studentAccessibilityRoute, studentCookiesRoute, studentLegalRoute, studentPersonnalDataRoute } from '@/features/student/routes'
-import { teacherAccessibilityRoute, teacherCookiesRoute, teacherLegalRoute, teacherPersonnalDataRoute } from '@/features/teacher'
+import { ROUTE_NAMES } from '@/common/constants'
 import { EsupLogo, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -48,19 +47,19 @@ const a11yCompliance = computed(() => {
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
     label: a11yCompliance.value,
-    to: { name: isStudentRoute.value ? studentAccessibilityRoute.name : teacherAccessibilityRoute.name },
+    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.ACCESSIBILITY.name : ROUTE_NAMES.TEACHER.ACCESSIBILITY.name },
   },
   {
     label: t('global.footer.links.legal'),
-    to: { name: isStudentRoute.value ? studentLegalRoute.name : teacherLegalRoute.name },
+    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.LEGAL.name : ROUTE_NAMES.TEACHER.LEGAL.name },
   },
   {
     label: t('global.footer.links.data'),
-    to: { name: isStudentRoute.value ? studentPersonnalDataRoute.name : teacherPersonnalDataRoute.name },
+    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.PERSONNAL_DATA.name : ROUTE_NAMES.TEACHER.PERSONNAL_DATA.name },
   },
   {
     label: t('global.footer.links.cookies'),
-    to: { name: isStudentRoute.value ? studentCookiesRoute.name : teacherCookiesRoute.name },
+    to: { name: isStudentRoute.value ? ROUTE_NAMES.STUDENT.COOKIES.name : ROUTE_NAMES.TEACHER.COOKIES.name },
   },
 ])
 const ecosystemLinks = computed(() => props.ecosystemLinks ?? [

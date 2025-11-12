@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ROUTE_NAMES } from '@/common/constants'
 import TeacherLayout from '@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue'
-import { teacherHomeRoute } from '@/features/teacher/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -40,7 +40,7 @@ BddTest().given('a teacher layout component', () => {
       expect(quickLinks).toEqual([
         {
           label: 'Home',
-          to: teacherHomeRoute,
+          to: ROUTE_NAMES.TEACHER.HOME,
           icon: 'ri-home-4-line',
           iconAttrs: { color: 'var(--red-marianne-425-625)' },
         },

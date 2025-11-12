@@ -1,5 +1,5 @@
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
@@ -20,7 +20,7 @@ BddTest().given('a page title', () => {
     { text: 'Page name' }
   ]
   const title = 'Page title'
-  const back = studentProjectSkillsRoute
+  const back = ROUTE_NAMES.STUDENT.PROJECT_SKILLS
   const props = {
     breadcrumbLinks,
     title
@@ -72,7 +72,11 @@ BddTest().given('a page title', () => {
     BddTest().then('it should call router.push with default "back" path', async () => {
       const button = wrapper.findComponent({ name: 'AvButton' })
       await button.trigger('click')
-      expect(mockRouter.push).toHaveBeenCalledWith(studentHomeRoute)
+      expect(mockRouter.push).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: ROUTE_NAMES.STUDENT.HOME.name
+        })
+      )
     })
   })
 

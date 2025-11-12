@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// no barel import to avoid circular dependency
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { ROUTE_NAMES } from '@/common/constants'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import AdditionalSkillDetails
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
@@ -9,7 +9,6 @@ import AdditionalSkillSettingDropdown
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillSettingDropdown/AdditionalSkillSettingDropdown.vue'
 import StudentAdditionalSkillAssociations
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/StudentAdditionalSkillAssociations/StudentAdditionalSkillAssociations.vue'
-import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -35,9 +34,9 @@ const skillTitle = computed(() => additionalSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() => additionalSkillDetailed.value?.traceAssociations?.length ?? 0)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
   { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.skills'), to: studentProjectSkillsRoute },
+  { text: t('student.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
   { text: t('student.navigation.tabs.project.items.additionalSkills') }
 ])
 
@@ -50,7 +49,7 @@ function handleUpdateSelected () {
   <PageTitle
     :title="t('student.views.studentAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentProjectSkillsRoute"
+    :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
   />
 
   <div class="student-additional-skill-view__title">

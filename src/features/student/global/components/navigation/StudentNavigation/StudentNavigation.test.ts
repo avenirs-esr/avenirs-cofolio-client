@@ -1,6 +1,6 @@
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
-import { studentEducationAmsRoute, studentEducationSkillsRoute } from '@/features/student/routes'
 import router from '@/router'
 import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -173,12 +173,12 @@ BddTest().given('a student navigation', () => {
       const skillsLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[0]))
       expect(skillsLink).toBeTruthy()
       expect(skillsLink!.props('to')).toEqual(
-        expect.objectContaining({ name: studentEducationSkillsRoute.name })
+        expect.objectContaining({ name: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS.name })
       )
       const activitiesLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[1]))
       expect(activitiesLink).toBeTruthy()
       expect(activitiesLink!.props('to')).toEqual(
-        expect.objectContaining({ name: studentEducationAmsRoute.name })
+        expect.objectContaining({ name: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES.name })
       )
     })
 

@@ -2,7 +2,7 @@ import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixture
 import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { studentHomeRoute, studentToolsTracesRoute } from '@/features/student/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -77,9 +77,9 @@ BddTest().given('a student trace view', () => {
 
   const title = `Trace ${mockedTraceDetailed.title}`
   const breadcrumbLinks = [
-    { text: 'Accueil', to: studentHomeRoute },
+    { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME },
     { text: 'Mes outils' },
-    { text: 'Mes traces', to: studentToolsTracesRoute },
+    { text: 'Mes traces', to: ROUTE_NAMES.STUDENT.TOOLS_TRACES },
     { text: mockedTraceDetailed.title }
   ]
 

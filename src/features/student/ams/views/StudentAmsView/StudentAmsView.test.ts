@@ -1,5 +1,5 @@
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentAmsView from '@/features/student/ams/views/StudentAmsView/StudentAmsView.vue'
-import { studentEducationAmsRoute, studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -23,11 +23,11 @@ BddTest().given('a student AMS view', () => {
   })
 
   const mockedAmsCode = 'SAE 1.1'
-  const mockedAmsName = `${mockedAmsCode} Réaliser l’audit environnemental d’un procédé de synthèse chimique`
+  const mockedAmsName = `${mockedAmsCode} Réaliser l'audit environnemental d'un procédé de synthèse chimique`
 
   const title = `AMS - ${mockedAmsName}`
-  const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
-  const activitiesBreadcrumbLink = { text: 'Mes AMS', to: studentEducationAmsRoute }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
+  const activitiesBreadcrumbLink = { text: 'Mes AMS', to: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES }
   const currentBreadcrumbLink = { text: `AMS ${mockedAmsCode}` }
 
   BddTest().when('the view is mounted', () => {

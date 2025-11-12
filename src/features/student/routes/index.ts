@@ -1,196 +1,83 @@
-import type { AvRoute } from '@/common/types/router.types'
-import type AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
-import type CookiesView from '@/common/views/CookiesView/CookiesView.vue'
-import type LegalView from '@/common/views/LegalView/LegalView.vue'
-import type PersonnalDataView from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
-import type StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
-import type StudentAboutView from '@/features/student/global/views/StudentAboutView/StudentAboutView.vue'
-import type StudentApcUnavailableView from '@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
-import type StudentDeliverablesView from '@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import type StudentEventsView from '@/features/student/global/views/StudentEventsView/StudentEventsView.vue'
-import type StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
-import type StudentProjectExperiencesView from '@/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
-import type StudentProjectTrajectoriesView from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import type StudentToolsPagesView from '@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'
-import type StudentToolsResumesView from '@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'
-import type StudentMailboxView from '@/features/student/user/components/composites/StudentMailboxView/StudentMailboxView.vue'
-import type StudentNotificationsView from '@/features/student/user/components/composites/StudentNotificationsView/StudentNotificationsView.vue'
-import type { RouteRecordRaw } from 'vue-router'
+import { ROUTE_NAMES } from '@/common/constants'
 import { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
-export { studentAdditionalSkillRoute, studentAmsRoute, studentEducationAmsRoute, studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute, studentToolsTracesRoute, studentTraceRoute, studentUpdateAdditionalSkillRoute }
-
-export const studentHomeRoute: AvRoute = {
-  path: '',
-  name: 'student-home',
-  component: () =>
-    import('@/features/student/global/views/StudentHomeView/StudentHomeView.vue') as Promise<{
-      default: typeof StudentHomeView
-    }>,
-}
-
-export const studentAccessibilityRoute: AvRoute = {
-  path: 'accessibility',
-  name: 'student-accessibility',
-  component: () =>
-    import('@/common/views/AccessibilityView/AccessibilityView.vue') as Promise<{
-      default: typeof AccessibilityView
-    }>,
-}
-
-export const studentCookiesRoute: AvRoute = {
-  path: 'cookies',
-  name: 'student-cookies',
-  component: () =>
-    import('@/common/views/CookiesView/CookiesView.vue') as Promise<{
-      default: typeof CookiesView
-    }>,
-}
-
-export const studentDeliverablesRoute: AvRoute = {
-  path: 'deliverables',
-  name: 'student-deliverables',
-  component: () =>
-    import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue') as Promise<{
-      default: typeof StudentDeliverablesView
-    }>,
-}
-
-export const studentEventsRoute: AvRoute = {
-  path: 'events',
-  name: 'student-events',
-  component: () =>
-    import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue') as Promise<{
-      default: typeof StudentEventsView
-    }>,
-}
-
-export const studentLegalRoute: AvRoute = {
-  path: 'legal',
-  name: 'student-legal',
-  component: () =>
-    import('@/common/views/LegalView/LegalView.vue') as Promise<{
-      default: typeof LegalView
-    }>,
-}
-
-export const studentPersonnalDataRoute: AvRoute = {
-  path: 'personnal-data',
-  name: 'student-personnal-data',
-  component: () =>
-    import('@/common/views/PersonnalDataView/PersonnalDataView.vue') as Promise<{
-      default: typeof PersonnalDataView
-    }>,
-}
-
-export const studentProjectExperiencesRoute: AvRoute = {
-  path: 'projects/experiences',
-  name: 'student-project-experiences',
-  component: () =>
-    import('@/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue') as Promise<{
-      default: typeof StudentProjectExperiencesView
-    }>,
-}
-
-export const studentProjectTrajectoriesRoute: AvRoute = {
-  path: 'projects/trajectories',
-  name: 'student-project-trajectories',
-  component: () =>
-    import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue') as Promise<{
-      default: typeof StudentProjectTrajectoriesView
-    }>,
-}
-
-export const studentToolsPagesRoute: AvRoute = {
-  path: 'tools/pages',
-  name: 'student-tools-pages',
-  component: () =>
-    import('@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue') as Promise<{
-      default: typeof StudentToolsPagesView
-    }>,
-}
-
-export const studentToolsResumesRoute: AvRoute = {
-  path: 'tools/resumes',
-  name: 'student-tools-resumes',
-  component: () =>
-    import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue') as Promise<{
-      default: typeof StudentToolsResumesView
-    }>,
-}
-
-export const studentAboutRoute: AvRoute = {
-  path: 'about',
-  name: 'student-about',
-  component: () =>
-    import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue') as Promise<{
-      default: typeof StudentAboutView
-    }>,
-}
-
-export const studentMailboxRoute: AvRoute = {
-  path: 'mailbox',
-  name: 'student-mailbox',
-  component: () =>
-    import('@/features/student/user/components/composites/StudentMailboxView/StudentMailboxView.vue') as Promise<{
-      default: typeof StudentMailboxView
-    }>,
-}
-
-export const studentNotificationsRoute: AvRoute = {
-  path: 'notifications',
-  name: 'student-notifications',
-  component: () =>
-    import('@/features/student/user/components/composites/StudentNotificationsView/StudentNotificationsView.vue') as Promise<{
-      default: typeof StudentNotificationsView
-    }>,
-}
-
-export const studentApcUnavailableRoute: AvRoute = {
-  path: 'apc-unavailable',
-  name: 'student-apc-unavailable',
-  component: () =>
-    import('@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue') as Promise<{
-      default: typeof StudentApcUnavailableView
-    }>,
-}
-
-const index: RouteRecordRaw[] = [
+export default [
   {
     path: '/student',
-    component: () => import('@/features/student/global/layouts/StudentLayout/StudentLayout.vue') as Promise<{
-      default: typeof StudentLayout
-    }>,
+    component: () => import('@/features/student/global/layouts/StudentLayout/StudentLayout.vue'),
     children: [
-      studentHomeRoute,
-      studentAccessibilityRoute,
+      {
+        ...ROUTE_NAMES.STUDENT.HOME,
+        component: () => import('@/features/student/global/views/StudentHomeView/StudentHomeView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.ACCESSIBILITY,
+        component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
+      },
       studentAdditionalSkillRoute,
       studentAmsRoute,
-      studentCookiesRoute,
-      studentDeliverablesRoute,
+      {
+        ...ROUTE_NAMES.STUDENT.COOKIES,
+        component: () => import('@/common/views/CookiesView/CookiesView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.DELIVERABLES,
+        component: () => import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
+      },
       studentEducationSkillsRoute,
       studentEducationAmsRoute,
-      studentEventsRoute,
-      studentLegalRoute,
-      studentPersonnalDataRoute,
+      {
+        ...ROUTE_NAMES.STUDENT.EVENTS,
+        component: () => import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.LEGAL,
+        component: () => import('@/common/views/LegalView/LegalView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.PERSONNAL_DATA,
+        component: () => import('@/common/views/PersonnalDataView/PersonnalDataView.vue'),
+      },
       studentProjectSkillsRoute,
-      studentProjectExperiencesRoute,
-      studentProjectTrajectoriesRoute,
+      {
+        ...ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
+        component: () => import('@/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
+        component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
+      },
       studentSkillRoute,
       studentToolsTracesRoute,
-      studentToolsPagesRoute,
-      studentToolsResumesRoute,
+      {
+        ...ROUTE_NAMES.STUDENT.TOOLS_PAGES,
+        component: () => import('@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.TOOLS_RESUMES,
+        component: () => import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
+      },
       studentTraceRoute,
       studentUpdateAdditionalSkillRoute,
-      studentAboutRoute,
-      studentMailboxRoute,
-      studentNotificationsRoute,
-      studentApcUnavailableRoute
+      {
+        ...ROUTE_NAMES.STUDENT.ABOUT,
+        component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.MAILBOX,
+        component: () => import('@/features/student/user/components/composites/StudentMailboxView/StudentMailboxView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.NOTIFICATIONS,
+        component: () => import('@/features/student/user/components/composites/StudentNotificationsView/StudentNotificationsView.vue'),
+      },
+      {
+        ...ROUTE_NAMES.STUDENT.APC_UNAVAILABLE,
+        component: () => import('@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'),
+      },
     ],
   },
 ]
-
-export default index

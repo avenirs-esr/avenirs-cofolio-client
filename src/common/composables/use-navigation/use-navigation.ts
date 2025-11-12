@@ -1,69 +1,56 @@
-import {
-  studentAdditionalSkillRoute,
-  studentDeliverablesRoute,
-  studentEducationSkillsRoute,
-  studentEventsRoute,
-  studentHomeRoute,
-  studentMailboxRoute,
-  studentNotificationsRoute,
-  studentToolsPagesRoute,
-  studentToolsResumesRoute,
-  studentToolsTracesRoute,
-  studentUpdateAdditionalSkillRoute
-} from '@/features/student/routes'
-import { teacherHomeRoute } from '@/features/teacher/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
 export function useNavigation () {
   const router = useRouter()
 
   const navigateToStudentAdditionalSkill = () => {
-    return router.push(studentAdditionalSkillRoute)
+    return router.push(ROUTE_NAMES.STUDENT.ADDITIONAL_SKILL)
   }
 
   const navigateToStudentDeliverables = () => {
-    return router.push(studentDeliverablesRoute)
+    return router.push(ROUTE_NAMES.STUDENT.DELIVERABLES)
   }
 
   const navigateToStudentEvents = () => {
-    return router.push(studentEventsRoute)
+    return router.push(ROUTE_NAMES.STUDENT.EVENTS)
   }
 
   const navigateToStudentHome = () => {
-    return router.push(studentHomeRoute)
+    return router.push(ROUTE_NAMES.STUDENT.HOME)
   }
 
   const navigateToStudentMailbox = () => {
-    return router.push(studentMailboxRoute)
+    return router.push(ROUTE_NAMES.STUDENT.MAILBOX)
   }
 
   const navigateToStudentNotifications = () => {
-    return router.push(studentNotificationsRoute)
+    return router.push(ROUTE_NAMES.STUDENT.NOTIFICATIONS)
   }
 
   const navigateToStudentPages = () => {
-    return router.push(studentToolsPagesRoute)
+    return router.push(ROUTE_NAMES.STUDENT.TOOLS_PAGES)
   }
 
   const navigateToStudentResumes = () => {
-    return router.push(studentToolsResumesRoute)
+    return router.push(ROUTE_NAMES.STUDENT.TOOLS_RESUMES)
   }
 
   const navigateToStudentSkills = () => {
-    return router.push(studentEducationSkillsRoute)
+    return router.push(ROUTE_NAMES.STUDENT.EDUCATION_SKILLS)
   }
 
   const navigateToStudentTraces = () => {
-    return router.push(studentToolsTracesRoute)
+    return router.push(ROUTE_NAMES.STUDENT.TOOLS_TRACES)
   }
 
   const navigateToStudentUpdateAdditionalSkill = () => {
-    return router.push(studentUpdateAdditionalSkillRoute)
+    return router.push(ROUTE_NAMES.STUDENT.UPDATE_ADDITIONAL_SKILL)
   }
 
   const navigateToTeacherHome = (
   ): Promise<NavigationFailure | void | undefined> => {
-    return router.push(teacherHomeRoute)
+    return router.push(ROUTE_NAMES.TEACHER.HOME)
   }
 
   return {

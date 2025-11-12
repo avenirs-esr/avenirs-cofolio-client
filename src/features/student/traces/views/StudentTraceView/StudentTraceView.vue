@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
-import { studentHomeRoute } from '@/features/student/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { studentToolsTracesRoute } from '@/features/student/traces/routes'
 import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
@@ -47,9 +46,9 @@ function onDeleteTraceSuccess () {
 }
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
   { text: t('student.navigation.tabs.tools.header') },
-  { text: t('student.navigation.tabs.tools.items.traces'), to: studentToolsTracesRoute },
+  { text: t('student.navigation.tabs.tools.items.traces'), to: ROUTE_NAMES.STUDENT.TOOLS_TRACES },
   { text: traceDetailed.value?.title || '' }
 ])
 </script>
@@ -58,7 +57,7 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.views.studentTraceView.title', { trace: traceDetailed?.title ?? '' })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentHomeRoute"
+    :back="ROUTE_NAMES.STUDENT.HOME"
   />
 
   <div

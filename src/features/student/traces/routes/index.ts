@@ -1,24 +1,17 @@
 import type { AvRoute } from '@/common/types'
-import type StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
-import type StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
+import { ROUTE_NAMES } from '@/common/constants'
 
 export const studentToolsTracesRoute: AvRoute = {
-  path: 'tools/traces',
-  name: 'student-tools-traces',
+  ...ROUTE_NAMES.STUDENT.TOOLS_TRACES,
   component: () =>
-    import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue') as Promise<{
-      default: typeof StudentToolsTracesView
-    }>,
+    import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
 }
 
 export const studentTraceRoute: AvRoute = {
-  path: 'trace/:id',
-  name: 'student-trace',
+  ...ROUTE_NAMES.STUDENT.TRACE,
   props: route => ({
     traceId: route.params.id,
   }),
   component: () =>
-    import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue') as Promise<{
-      default: typeof StudentTraceView
-    }>,
+    import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
 }

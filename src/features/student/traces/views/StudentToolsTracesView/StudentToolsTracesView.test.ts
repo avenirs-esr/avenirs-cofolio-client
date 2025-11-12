@@ -1,5 +1,5 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { studentHomeRoute } from '@/features/student/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -40,7 +40,7 @@ BddTest().given('a student tools traces view component', () => {
       expect(breadcrumbLinks).toHaveLength(3)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: studentHomeRoute
+        to: ROUTE_NAMES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Mes outils'

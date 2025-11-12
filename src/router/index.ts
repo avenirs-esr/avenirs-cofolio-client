@@ -1,5 +1,6 @@
-import studentRoutes, { studentHomeRoute } from '@/features/student/routes'
-import { routes as teacherRoutes } from '@/features/teacher'
+import { ROUTE_NAMES } from '@/common/constants'
+import studentRoutes from '@/features/student/routes'
+import teacherRoutes from '@/features/teacher/routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const MAIN_TITLE = 'Cofolio'
@@ -9,7 +10,9 @@ const routes = [
   ...teacherRoutes,
   {
     path: '/',
-    redirect: studentHomeRoute,
+    redirect: {
+      name: ROUTE_NAMES.STUDENT.HOME.name
+    },
   },
 ]
 

@@ -3,7 +3,7 @@ import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import {
   useUnassociateTracesFromAdditionalSkillMutation
 } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
-import { TracesSelector } from '@/features/student/traces'
+import TracesSelector from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

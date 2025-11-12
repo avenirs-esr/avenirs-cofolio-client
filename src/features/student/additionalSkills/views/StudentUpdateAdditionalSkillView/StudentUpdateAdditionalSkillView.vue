@@ -1,13 +1,12 @@
 <script setup lang="ts">
-// no barel import to avoid circular dependency
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { ROUTE_NAMES } from '@/common/constants'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import UpdateAdditionalSkillAssociations
   from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillAssociations/UpdateAdditionalSkillAssociations.vue'
 import UpdateAdditionalSkillForm
   from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
-import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -30,9 +29,9 @@ const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
   { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.skills'), to: studentProjectSkillsRoute },
+  { text: t('student.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
   { text: t('student.navigation.tabs.project.items.additionalSkills') }
 ])
 
@@ -45,7 +44,7 @@ function backToStudentAdditionalSkillViewTabs () {
   <PageTitle
     :title="t('student.views.studentUpdateAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentProjectSkillsRoute"
+    :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
   />
 
   <div class="update-additional-skill-view__title">

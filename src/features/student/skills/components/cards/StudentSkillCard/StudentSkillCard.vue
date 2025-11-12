@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
-import { StudentCountAmsIconText } from '@/features/student/ams'
-import { studentSkillRoute } from '@/features/student/skills/routes'
-import { StudentCountTracesIconText } from '@/features/student/traces'
+import { ROUTE_NAMES } from '@/common/constants'
+import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
+import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
 import { AvBadge, type AvBadgeProps, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -47,7 +47,7 @@ const varSkillColor = computed(() => `var(${skillColor})`)
 const theme = ref({
   hoverBorderColor: varSkillColor,
 })
-const studentSkillRouteName = studentSkillRoute.name
+const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
 </script>
 
 <template>

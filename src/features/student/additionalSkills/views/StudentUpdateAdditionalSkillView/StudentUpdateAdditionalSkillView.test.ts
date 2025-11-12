@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentUpdateAdditionalSkillView from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/StudentUpdateAdditionalSkillView.vue'
-import { studentHomeRoute, studentProjectSkillsRoute } from '@/features/student/routes'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -80,20 +80,20 @@ BddTest().given('a student update additional skill view component', () => {
 
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('title')).toBe('Modifier ma compétence déclarée')
-      expect(pageTitle.props('back')).toBe(studentProjectSkillsRoute)
+      expect(pageTitle.props('back')).toBe(ROUTE_NAMES.STUDENT.PROJECT_SKILLS)
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: studentHomeRoute
+        to: ROUTE_NAMES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'
       })
       expect(breadcrumbLinks[2]).toEqual({
         text: 'Toutes mes compétences',
-        to: studentProjectSkillsRoute
+        to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS
       })
       expect(breadcrumbLinks[3]).toEqual({
         text: 'Mes autres compétences et certifications déclarées'
