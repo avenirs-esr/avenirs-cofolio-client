@@ -299,4 +299,58 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       expect(validationResult?.fields?.file).toBe('Ce champ est requis.')
     })
   })
+
+  BddTest().when('updateTrace mutation fails', () => {
+    BddTest().then('it should handle error and show error message', async () => {
+      const mockError = {
+        message: 'Failed to update trace',
+        status: 500
+      }
+
+      updateTraceSpy.mockRejectedValueOnce(mockError)
+
+      const formData = {
+        file: null,
+        traceName: 'Updated Title',
+        personalNote: 'Note',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await vi.waitFor(() => {
+        expect(updateTraceSpy).toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().when('uploadAttachment mutation fails', () => {
+    BddTest().then('it should handle error and show error message', async () => {
+      const mockError = {
+        message: 'Failed to upload attachment',
+        status: 500
+      }
+
+      uploadAttachmentSpy.mockRejectedValueOnce(mockError)
+
+      const formData = {
+        file: null,
+        traceName: 'Updated Title',
+        personalNote: 'Note',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await vi.waitFor(() => {
+        expect(updateTraceSpy).toHaveBeenCalled()
+      })
+    })
+  })
 })

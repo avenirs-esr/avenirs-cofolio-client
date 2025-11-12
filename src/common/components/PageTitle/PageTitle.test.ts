@@ -72,11 +72,7 @@ BddTest().given('a page title', () => {
     BddTest().then('it should call router.push with default "back" path', async () => {
       const button = wrapper.findComponent({ name: 'AvButton' })
       await button.trigger('click')
-      expect(mockRouter.push).toHaveBeenCalledWith(
-        expect.objectContaining({
-          name: ROUTE_NAMES.STUDENT.HOME.name
-        })
-      )
+      expect(mockRouter.push).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.HOME)
     })
   })
 

@@ -2,7 +2,7 @@ export { ConfirmationModalStub } from './ConfirmationModal/ConfirmationModal.stu
 export { default as ConfirmationModal, type ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
-export * from './PageTitle'
+export { default as PageTitle } from './PageTitle/PageTitle.vue'
 export { default as Pagination } from './Pagination/Pagination.vue'
 export { ToggleStub } from './Toggle/Toggle.stub'
 export { default as Toggle, type ToggleProps } from './Toggle/Toggle.vue'

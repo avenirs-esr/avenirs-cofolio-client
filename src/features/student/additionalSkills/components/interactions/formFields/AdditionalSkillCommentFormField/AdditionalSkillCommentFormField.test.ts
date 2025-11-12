@@ -1,24 +1,36 @@
 import type { UpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
-import type { VueWrapper } from '@vue/test-utils'
 import AdditionalSkillCommentFormField
   from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { mountComponent } from 'tests/utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { markRaw } from 'vue'
+
+const TestWrapper = {
+  components: {
+    AdditionalSkillCommentFormField
+  },
+  setup () {
+    const form = useForm({
+      defaultValues: { comment: '' },
+      validators: {
+        onSubmit () {
+          return { fields: { comment: undefined } }
+        }
+      }
+    }) as unknown as UpdateAdditionalSkillForm
+
+    return { form }
+  },
+  template: `
+    <form @submit.prevent="form.handleSubmit">
+      <AdditionalSkillCommentFormField :form="form" />
+    </form>
+  `
+}
 
 BddTest().given('an additional skill comment form field component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AdditionalSkillCommentFormField>>
-
-  const form = markRaw(useForm({
-    defaultValues: { comment: '' },
-    validators: {
-      onSubmit () {
-        return { fields: { comment: undefined } }
-      }
-    }
-  })) as unknown as UpdateAdditionalSkillForm
+  let wrapper: VueWrapper
 
   const stubs = {
     AvInput: {
@@ -51,8 +63,7 @@ BddTest().given('an additional skill comment form field component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    wrapper = mountComponent(AdditionalSkillCommentFormField, {
-      props: { form },
+    wrapper = mount(TestWrapper, {
       global: { stubs }
     })
   })
@@ -131,7 +142,7 @@ BddTest().given('an additional skill comment form field component', () => {
 
   BddTest().when('the form is submitted', () => {
     BddTest().then('it should not show validation error', async () => {
-      await form.handleSubmit()
+      await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
