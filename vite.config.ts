@@ -86,5 +86,20 @@ export default ({ mode }: { mode: string }) => {
         '@avenirs-esr/avenirs-dsav'
       ],
     },
+    build: {
+      rollupOptions: {
+        onwarn (warning, warn) {
+          if (warning.code === 'CIRCULAR_DEPENDENCY') {
+            const isCofolioIssue = warning.ids?.some(id => !id.includes('node_modules'))
+
+            if (isCofolioIssue) {
+              const message = warning.message || JSON.stringify(warning)
+              throw new Error(`❌ Circular dependency detected in your project:\n${message}`)
+            }
+          }
+          warn(warning)
+        },
+      },
+    },
   })
 }

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import type { AvRoute } from '@/common/types'
-import type { teacherHomeRoute } from '@/features/teacher/routes'
-import { studentHomeRoute } from '@/features/student/routes'
+import type { RouteLocationRaw } from 'vue-router'
+import { ROUTE_NAMES } from '@/common/constants'
 import { AvBreadcrumb, type AvBreadcrumbProps, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
   breadcrumbLinks,
   title,
-  back = studentHomeRoute
+  back = ROUTE_NAMES.STUDENT.HOME
 } = defineProps<{
   breadcrumbLinks: AvBreadcrumbProps['links']
   title: string
-  back?: typeof teacherHomeRoute | AvRoute
+  back?: RouteLocationRaw
 }>()
 
 const router = useRouter()

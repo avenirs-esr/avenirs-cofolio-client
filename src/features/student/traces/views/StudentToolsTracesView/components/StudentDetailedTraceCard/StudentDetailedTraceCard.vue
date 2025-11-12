@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { ROUTE_NAMES } from '@/common/constants'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
-import { studentTraceRoute } from '@/features/student/traces/routes'
 import { AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -20,7 +20,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 <template>
   <RouterLink
     class="student-detailed-trace-card"
-    :to="{ name: studentTraceRoute.name, params: { id } }"
+    :to="{ name: ROUTE_NAMES.STUDENT.TRACE.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"

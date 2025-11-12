@@ -1,18 +1,6 @@
 <script setup lang="ts">
-import type { AvRoute } from '@/common/types'
+import { ROUTE_NAMES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
-import {
-  studentApcUnavailableRoute,
-  studentEducationAmsRoute,
-  studentEducationSkillsRoute,
-  studentHomeRoute,
-  studentProjectExperiencesRoute,
-  studentProjectSkillsRoute,
-  studentProjectTrajectoriesRoute,
-  studentToolsPagesRoute,
-  studentToolsResumesRoute,
-  studentToolsTracesRoute
-} from '@/features/student/routes'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 
@@ -27,7 +15,7 @@ const {
   showApcSubmenus,
 } = useStudentApcAccess()
 
-function isRouteActive (routes: AvRoute[]): boolean {
+function isRouteActive (routes: Array<{ name: string }>): boolean {
   return routes.some(avRoute => avRoute.name === route.name)
 }
 
@@ -35,9 +23,9 @@ const educationMenu = computed(() => {
   const menu: Record<string, any> = {
     get active () {
       return isRouteActive([
-        studentApcUnavailableRoute,
-        studentEducationSkillsRoute,
-        studentEducationAmsRoute,
+        ROUTE_NAMES.STUDENT.APC_UNAVAILABLE,
+        ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
+        ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
       ])
     },
   }
@@ -49,13 +37,13 @@ const educationMenu = computed(() => {
     menu.text = t('student.navigation.tabs.education.header').toUpperCase()
   }
   if (showApcGenericInfoPage.value) {
-    menu.to = studentApcUnavailableRoute
+    menu.to = ROUTE_NAMES.STUDENT.APC_UNAVAILABLE
   }
   if (showApcSubmenus.value) {
     if (__DEMO_MODE__) {
       menu.links = [
         {
-          to: studentEducationSkillsRoute,
+          to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
           text: t('student.navigation.tabs.education.items.skills'),
           icon: MDI_ICONS.STARS,
         },
@@ -64,12 +52,12 @@ const educationMenu = computed(() => {
     else {
       menu.links = [
         {
-          to: studentEducationSkillsRoute,
+          to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
           text: t('student.navigation.tabs.education.items.skills'),
           icon: MDI_ICONS.STARS,
         },
         {
-          to: studentEducationAmsRoute,
+          to: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES,
           text: t('student.navigation.tabs.education.items.activities'),
           icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
         },
@@ -84,21 +72,25 @@ const allToolsMenu
   = computed(() => ({
     title: t('student.navigation.tabs.tools.header').toUpperCase(),
     get active () {
-      return isRouteActive([studentToolsTracesRoute, studentToolsPagesRoute, studentToolsResumesRoute])
+      return isRouteActive([
+        ROUTE_NAMES.STUDENT.TOOLS_TRACES,
+        ROUTE_NAMES.STUDENT.TOOLS_PAGES,
+        ROUTE_NAMES.STUDENT.TOOLS_RESUMES
+      ])
     },
     links: [
       {
-        to: studentToolsTracesRoute,
+        to: ROUTE_NAMES.STUDENT.TOOLS_TRACES,
         text: t('student.navigation.tabs.tools.items.traces'),
         icon: MDI_ICONS.ATTACH_FILE
       },
       {
-        to: studentToolsPagesRoute,
+        to: ROUTE_NAMES.STUDENT.TOOLS_PAGES,
         text: t('student.navigation.tabs.tools.items.pages'),
         icon: MDI_ICONS.POST_IT_NOTES_OUTLINE
       },
       {
-        to: studentToolsResumesRoute,
+        to: ROUTE_NAMES.STUDENT.TOOLS_RESUMES,
         text: t('student.navigation.tabs.tools.items.resumes'),
         icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE
       },
@@ -110,10 +102,10 @@ const demoModeToolsMenu
     {
       title: t('student.navigation.tabs.tools.header').toUpperCase(),
       get active () {
-        return isRouteActive([studentToolsTracesRoute])
+        return isRouteActive([ROUTE_NAMES.STUDENT.TOOLS_TRACES])
       },
       links: [
-        { to: studentToolsTracesRoute, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+        { to: ROUTE_NAMES.STUDENT.TOOLS_TRACES, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
       ],
     }
   ))
@@ -121,21 +113,25 @@ const demoModeToolsMenu
 const buildLifeProjectMenu = computed(() => ({
   title: t('student.navigation.tabs.project.header').toUpperCase(),
   get active () {
-    return isRouteActive([studentProjectSkillsRoute, studentProjectExperiencesRoute, studentProjectTrajectoriesRoute])
+    return isRouteActive([
+      ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
+      ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
+      ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES
+    ])
   },
   links: [
     {
-      to: studentProjectSkillsRoute,
+      to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
       text: t('student.navigation.tabs.project.items.skills'),
       icon: MDI_ICONS.STARS,
     },
     {
-      to: studentProjectExperiencesRoute,
+      to: ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
       text: t('student.navigation.tabs.project.items.experiences'),
       icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
     },
     {
-      to: studentProjectTrajectoriesRoute,
+      to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
       text: t('student.navigation.tabs.project.items.trajectories'),
       icon: MDI_ICONS.ARROW_DECISION
     },
@@ -147,16 +143,19 @@ const demoModeBuildLifeProjectMenu
     {
       title: t('student.navigation.tabs.project.header').toUpperCase(),
       get active () {
-        return isRouteActive([studentProjectSkillsRoute, studentProjectTrajectoriesRoute])
+        return isRouteActive([
+          ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
+          ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES
+        ])
       },
       links: [
         {
-          to: studentProjectSkillsRoute,
+          to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
           text: t('student.navigation.tabs.project.items.skills'),
           icon: MDI_ICONS.STARS,
         },
         {
-          to: studentProjectTrajectoriesRoute,
+          to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
           text: t('student.navigation.tabs.project.items.trajectories'),
           icon: MDI_ICONS.ARROW_DECISION
         },
@@ -168,7 +167,7 @@ const homeItemId = useId()
 const navItems = computed(() => [
   {
     id: homeItemId,
-    to: studentHomeRoute,
+    to: ROUTE_NAMES.STUDENT.HOME,
     text: t('student.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },

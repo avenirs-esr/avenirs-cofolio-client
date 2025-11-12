@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Footer } from '@/common/components'
+import Footer from '@/common/components/Footer/Footer.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 import {
   StudentMailboxPopover,
   StudentNotificationsPopover,
@@ -45,7 +45,7 @@ defineExpose({ searchQuery })
   <AvHeader
     v-model="searchQuery"
     :service-title="t('student.layout.header.serviceTitle')"
-    :home-to="studentHomeRoute"
+    :home-to="{ name: ROUTE_NAMES.STUDENT.HOME.name }"
     show-search
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"

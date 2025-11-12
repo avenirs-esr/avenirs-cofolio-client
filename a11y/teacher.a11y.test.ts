@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import routes from '@/features/teacher/routes/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
@@ -11,10 +11,8 @@ import { createHtmlReport } from 'axe-html-reporter'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-const parentRoute = routes[0]
-
 const pathsToTest = [
-  `.${parentRoute.path}`,
+  `./teacher${ROUTE_NAMES.TEACHER.HOME.path}`,
 ]
 
 test.describe('teacher routes', () => {

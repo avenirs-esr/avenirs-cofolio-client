@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentProjectTrajectoriesContainer
   from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesContainer/StudentProjectTrajectoriesContainer.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: studentHomeRoute },
+  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
   { text: t('student.navigation.tabs.project.header') },
   { text: t('student.navigation.tabs.project.items.trajectories') }
 ])
@@ -19,7 +19,7 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.views.studentProjectTrajectoriesView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="studentHomeRoute"
+    :back="ROUTE_NAMES.STUDENT.HOME"
   />
   <StudentProjectTrajectoriesContainer />
 </template>

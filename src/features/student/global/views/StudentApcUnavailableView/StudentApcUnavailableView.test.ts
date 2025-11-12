@@ -1,6 +1,6 @@
+import { ROUTE_NAMES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import StudentApcUnavailableView from '@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -53,7 +53,7 @@ BddTest().given('a student APC unavailable page', () => {
         })
         await mountWithRouter(StudentApcUnavailableView)
         expect(replaceMock).toHaveBeenCalledWith(
-          expect.objectContaining({ name: studentHomeRoute.name })
+          expect.objectContaining(ROUTE_NAMES.STUDENT.HOME)
         )
       })
     })

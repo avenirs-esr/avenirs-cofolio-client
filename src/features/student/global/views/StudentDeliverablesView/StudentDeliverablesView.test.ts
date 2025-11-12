@@ -1,6 +1,6 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentDeliverablesView from '@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -17,7 +17,7 @@ BddTest().given('a student deliverables view', () => {
   })
 
   const title = '(placeholder) Tous mes rendus'
-  const homeBreadcrumbLink = { text: 'Accueil', to: studentHomeRoute }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
   const currentBreadcrumbLink = { text: title }
 
   BddTest().when('the view is mounted', () => {

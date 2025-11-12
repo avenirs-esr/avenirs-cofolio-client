@@ -1,7 +1,7 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTE_NAMES } from '@/common/constants'
 import { StudentProjectExperiencesContainerStub } from '@/features/student/global/views/StudentProjectExperiencesView/components/StudentProjectExperiencesContainer/StudentProjectExperiencesContainer.stub'
 import StudentProjectExperiencesView from '@/features/student/global/views/StudentProjectExperiencesView/StudentProjectExperiencesView.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -35,7 +35,7 @@ BddTest().given('a student project experiences view component', () => {
       expect(breadcrumbLinks).toHaveLength(3)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: studentHomeRoute
+        to: ROUTE_NAMES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'

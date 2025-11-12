@@ -1,21 +1,7 @@
 import fs from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import routes, {
-  studentAboutRoute,
-  studentAdditionalSkillRoute,
-  studentAmsRoute,
-  studentEducationAmsRoute,
-  studentEducationSkillsRoute,
-  studentMailboxRoute,
-  studentNotificationsRoute,
-  studentProjectExperiencesRoute,
-  studentProjectSkillsRoute,
-  studentProjectTrajectoriesRoute,
-  studentToolsPagesRoute,
-  studentToolsResumesRoute,
-  studentToolsTracesRoute
-} from '@/features/student/routes'
+import { ROUTE_NAMES } from '@/common/constants'
 
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
@@ -26,25 +12,24 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const routesToCheck = [
-  studentAmsRoute,
-  studentEducationSkillsRoute,
-  studentEducationAmsRoute,
-  studentProjectSkillsRoute,
-  studentProjectExperiencesRoute,
-  studentProjectTrajectoriesRoute,
-  studentToolsTracesRoute,
-  studentToolsPagesRoute,
-  studentToolsResumesRoute,
-  studentAboutRoute,
-  studentMailboxRoute,
-  studentNotificationsRoute,
-  studentAdditionalSkillRoute
+  ROUTE_NAMES.STUDENT.ACTIVITY,
+  ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
+  ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES,
+  ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
+  ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
+  ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
+  ROUTE_NAMES.STUDENT.TOOLS_TRACES,
+  ROUTE_NAMES.STUDENT.TOOLS_PAGES,
+  ROUTE_NAMES.STUDENT.TOOLS_RESUMES,
+  ROUTE_NAMES.STUDENT.ABOUT,
+  ROUTE_NAMES.STUDENT.MAILBOX,
+  ROUTE_NAMES.STUDENT.NOTIFICATIONS,
+  ROUTE_NAMES.STUDENT.ADDITIONAL_SKILL
 ]
-const parentRoute = routes[0]
 
 const pathsToTest = [
-  `.${parentRoute.path}`,
-  ...routesToCheck.map(route => join(`.${parentRoute.path}`, route.path))
+  `.${ROUTE_NAMES.STUDENT.HOME.path}`,
+  ...routesToCheck.map(route => join(`./student`, route.path))
 ]
 
 pathsToTest.forEach((path) => {

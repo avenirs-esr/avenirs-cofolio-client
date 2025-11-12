@@ -1,6 +1,6 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTE_NAMES } from '@/common/constants'
 import StudentProjectTrajectoriesView from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import { studentHomeRoute } from '@/features/student/routes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -18,7 +18,7 @@ BddTest().given('a student project trajectories view component', () => {
 
   const title = 'Bâtir mon projet'
   const breadcrumbLinks = [
-    { text: 'Accueil', to: studentHomeRoute },
+    { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME },
     { text: 'Construire mon projet de vie' },
     { text: 'Bâtir mon projet' }
   ]
