@@ -1,6 +1,6 @@
 import { ROUTE_NAMES } from '@/common/constants'
-import studentRoutes from '@/features/student/routes'
-import teacherRoutes from '@/features/teacher/routes'
+import studentRoutes from '@/features/student/global/routes'
+import teacherRoutes from '@/features/teacher/global/routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const MAIN_TITLE = 'Cofolio'
