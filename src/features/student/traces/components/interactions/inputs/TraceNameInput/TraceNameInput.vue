@@ -9,13 +9,17 @@ interface TraceNameInputProps extends Omit<AvInputProps, 'label' | 'prefixIcon' 
   placeholder?: string
 }
 
-const props = withDefaults(defineProps<TraceNameInputProps>(), {
-  isValid: false,
-  isTextarea: false,
-  labelVisible: true,
-  disabled: false,
-  required: true
-})
+const {
+  isValid = false,
+  isTextarea = false,
+  labelVisible = true,
+  disabled = false,
+  required = true,
+  label,
+  prefixIcon,
+  placeholder,
+  errorMessage,
+} = defineProps<TraceNameInputProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
@@ -23,10 +27,15 @@ const attr = useAttrs()
 
 const avInputProps = computed(() => ({
   ...attr,
-  ...props,
-  label: props.label ?? t('student.traces.traceNameInput.label'),
-  prefixIcon: props.prefixIcon ?? MDI_ICONS.ATTACH_FILE,
-  placeholder: props.placeholder ?? t('student.traces.traceNameInput.placeholder')
+  isValid,
+  isTextarea,
+  labelVisible,
+  disabled,
+  required,
+  errorMessage,
+  label: label ?? t('student.traces.traceNameInput.label'),
+  prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
+  placeholder: placeholder ?? t('student.traces.traceNameInput.placeholder')
 }))
 </script>
 

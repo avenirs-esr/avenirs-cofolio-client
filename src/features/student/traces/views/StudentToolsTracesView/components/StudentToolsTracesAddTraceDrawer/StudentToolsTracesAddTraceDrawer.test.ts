@@ -54,20 +54,22 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   }
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
-    const traceNameInput = wrapper.find('#trace-name')
-    const personalNoteInput = wrapper.find('#personal-note')
-    const fileInput = wrapper.find('#trace-file-upload')
+    await wrapper.vm.$nextTick()
+
+    const nameCmp = wrapper.findComponent({ name: 'TraceNameInput' })
+    expect(nameCmp.exists()).toBe(true)
+    await nameCmp.vm.$emit('update:modelValue', traceName)
+
+    const noteCmp = wrapper.findComponent({ name: 'TracePersonalNoteTextarea' })
+    expect(noteCmp.exists()).toBe(true)
+    await noteCmp.vm.$emit('update:modelValue', personalNote)
+
+    const fileCmp = wrapper.findComponent({ name: 'TraceFileUpload' })
+    expect(fileCmp.exists()).toBe(true)
 
     const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
 
-    await traceNameInput.setValue(traceName)
-    await personalNoteInput.setValue(personalNote)
-
-    Object.defineProperty(fileInput.element, 'files', {
-      value: [mockFile],
-      writable: false,
-    })
-    await fileInput.trigger('change')
+    await fileCmp.vm.$emit('update:modelValue', mockFile)
 
     await wrapper.vm.$nextTick()
 
