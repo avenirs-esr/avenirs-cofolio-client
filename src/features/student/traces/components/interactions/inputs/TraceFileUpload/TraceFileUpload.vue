@@ -12,13 +12,13 @@ interface TraceFileUploadProps extends Omit<AvFileUploadProps, 'title' | 'descri
   label?: string
 }
 
-const props = withDefaults(defineProps<TraceFileUploadProps>(), {
-  title: undefined,
-  description: undefined,
-  accept: () => [...TRACE_ACCEPTED_FILE_TYPES],
-  deleteButtonLabel: undefined,
-  disabled: false
-})
+const {
+  title = undefined,
+  description = undefined,
+  accept = [...TRACE_ACCEPTED_FILE_TYPES],
+  deleteButtonLabel = undefined,
+  disabled = false
+} = defineProps<TraceFileUploadProps>()
 
 const modelValue = defineModel<File | null>({
   required: true
@@ -37,11 +37,12 @@ const filesTypesMaxSize = [
 
 const avFileUploadProps = computed(() => ({
   ...attrs,
-  ...props,
-  title: props.title ?? t('global.information.fileUpload.title'),
-  ariaLabel: props.title ?? t('global.information.fileUpload.title'),
-  description: props.description ?? t('global.information.fileUpload.dragAndDrop'),
-  deleteButtonLabel: props.deleteButtonLabel ?? t('global.buttons.delete')
+  accept,
+  disabled,
+  title: title ?? t('global.information.fileUpload.title'),
+  ariaLabel: title ?? t('global.information.fileUpload.title'),
+  description: description ?? t('global.information.fileUpload.dragAndDrop'),
+  deleteButtonLabel: deleteButtonLabel ?? t('global.buttons.delete')
 }))
 </script>
 

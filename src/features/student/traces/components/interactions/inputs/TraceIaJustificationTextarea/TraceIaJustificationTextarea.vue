@@ -10,14 +10,17 @@ interface TraceIaJustificationTextareaProps extends Omit<AvInputProps, 'label' |
   isTextarea?: boolean
 }
 
-const props = withDefaults(defineProps<TraceIaJustificationTextareaProps>(), {
-  isValid: false,
-  isTextarea: true,
-  labelVisible: true,
-  disabled: false,
-  required: false,
-  maxlength: 200
-})
+const {
+  isValid = false,
+  isTextarea = true,
+  labelVisible = true,
+  disabled = false,
+  required = false,
+  maxlength = 200,
+  label,
+  placeholder,
+  errorMessage,
+} = defineProps<TraceIaJustificationTextareaProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
@@ -25,9 +28,15 @@ const attr = useAttrs()
 
 const avInputProps = computed(() => ({
   ...attr,
-  ...props,
-  label: props.label ?? t('student.traces.traceIaJustificationTextarea.label'),
-  placeholder: props.placeholder ?? t('student.traces.traceIaJustificationTextarea.placeholder')
+  isValid,
+  isTextarea,
+  labelVisible,
+  disabled,
+  required,
+  maxlength,
+  errorMessage,
+  label: label ?? t('student.traces.traceIaJustificationTextarea.label'),
+  placeholder: placeholder ?? t('student.traces.traceIaJustificationTextarea.placeholder')
 }))
 </script>
 

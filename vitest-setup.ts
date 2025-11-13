@@ -1,5 +1,5 @@
 import { config } from '@vue/test-utils'
-import { afterAll, afterEach, beforeAll } from 'vitest'
+import { afterAll, afterEach, beforeAll, vi } from 'vitest'
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 
@@ -52,6 +52,7 @@ if (__ENABLE_MSW__) {
 }
 
 beforeAll(async () => {
+  vi.stubGlobal('__DEMO_MODE__', false)
   i18n.global.locale.value = 'fr'
   await registerFeatureLocales('student')
   config.global.plugins = config.global.plugins || []
