@@ -165,7 +165,7 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render one validated badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAll('.av-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 validé')
     })
@@ -186,7 +186,7 @@ BddTest().given('a studentSkillCard', () => {
     })
 
     BddTest().then('it should render one failed badge', async () => {
-      const badges = wrapper.findAll('.fr-badge')
+      const badges = wrapper.findAll('.av-badge')
       expect(badges).toHaveLength(1)
       expect(badges[0].text()).toContain('Niveau 1 non validé')
     })

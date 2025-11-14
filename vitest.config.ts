@@ -60,7 +60,7 @@ export default ({ mode }: { mode: string }) => {
           'tests': fileURLToPath(new URL('./tests', import.meta.url)),
         },
         // in dev mode using npm link, @avenirs-dsav has also those packages in node_modules so we dedupe them
-        dedupe: ['vue', 'vue-router', '@vue/runtime-core', '@gouvminint/vue-dsfr'],
+        dedupe: ['vue', 'vue-router', '@vue/runtime-core'],
       },
     }),
   )

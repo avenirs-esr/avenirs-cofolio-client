@@ -36,7 +36,7 @@ function goBack () {
         :icon-only="true"
         variant="OUTLINED"
         :icon="MDI_ICONS.ARROW_LEFT_THIN"
-        :on-click="goBack"
+        @click="goBack"
       />
       <span class="n2">{{ title }}</span>
     </div>

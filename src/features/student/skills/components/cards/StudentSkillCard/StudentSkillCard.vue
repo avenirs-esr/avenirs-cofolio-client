@@ -3,7 +3,7 @@ import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOvervi
 import { ROUTE_NAMES } from '@/common/constants'
 import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
 import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
-import { AvBadge, type AvBadgeProps, AvCard, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, AvCard, AvIcon, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentSkillCardProps {
@@ -18,30 +18,50 @@ const currentSkillLevel = computed(() => skill.currentSkillLevel)
 
 const { t } = useI18n()
 
-function levelStatusToBadgeInfo (status: ESkillLevelStatus): { status: string, type: AvBadgeProps['type'] } {
+function levelStatusToBadge (status: ESkillLevelStatus): Pick<AvBadgeProps, 'color' | 'backgroundColor' | 'iconDataUrl'> & { status: string } {
   switch (status) {
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
+    case ESkillLevelStatus.UNDER_REVIEW:
+      return {
+        status: t('student.cards.studentSkillCard.badgeStatus.underReview'),
+        color: 'var(--light-foreground-primary1)',
+        backgroundColor: 'var(--light-background-critical)',
+        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
+      }
+    case ESkillLevelStatus.VALIDATED:
+      return {
+        status: t('student.cards.studentSkillCard.badgeStatus.validated'),
+        color: 'var(--light-foreground-success)',
+        backgroundColor: 'var(--light-background-success)',
+        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
+      }
+    case ESkillLevelStatus.FAILED:
+      return {
+        status: t('student.cards.studentSkillCard.badgeStatus.failed'),
+        color: 'var(--light-foreground-error)',
+        backgroundColor: 'var(--light-background-error)',
+        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
+      }
     case ESkillLevelStatus.NOT_STARTED:
     case ESkillLevelStatus.UNDER_ACQUISITION:
     case ESkillLevelStatus.TO_BE_EVALUATED:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'), type: 'new' }
-    case ESkillLevelStatus.UNDER_REVIEW:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.underReview'), type: 'info' }
-    case ESkillLevelStatus.VALIDATED:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.validated'), type: 'success' }
-    case ESkillLevelStatus.FAILED:
-      return { status: t('student.cards.studentSkillCard.badgeStatus.failed'), type: 'error' }
+    default:
+      return {
+        status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'),
+        color: 'var(--dark-background-primary1)',
+        backgroundColor: 'var(--light-background-primary2)',
+        iconDataUrl: ICONS_DATA_URL.MDI_HOURGLASS
+      }
   }
 }
 
-function levelToBadge (level: SkillLevelProgressOverviewDTO) {
-  const { status, type } = levelStatusToBadgeInfo(level.status)
-  const label = `${level.name} ${status}`
+function levelToBadge (level: SkillLevelProgressOverviewDTO): Pick<AvBadgeProps, 'label' | 'color' | 'backgroundColor' | 'iconDataUrl'> {
+  const { status, color, backgroundColor, iconDataUrl } = levelStatusToBadge(level.status)
 
-  return { label, type }
+  return { label: `${level.name} ${status}`, color, backgroundColor, iconDataUrl }
 }
 
-const firstBadge = computed(() => levelToBadge(currentSkillLevel.value))
+const levelStatusBadge = computed(() => levelToBadge(currentSkillLevel.value))
 const varSkillColor = computed(() => `var(${skillColor})`)
 
 const theme = ref({
@@ -58,11 +78,14 @@ const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
     <AvCard
       border-color="var(--other-border-skill-card)"
       :title-background="varSkillColor"
-      title-height="6.6875rem"
+      title-height="6.75rem"
     >
       <template #title>
         <div class="student-skill-card__title">
-          <span class="n6 skill-name">
+          <span
+            class="n6 skill-name"
+            :title="name"
+          >
             {{ name }}
           </span>
           <div
@@ -92,10 +115,7 @@ const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
       <template #footer>
         <div class="student-skill-card__footer">
           <AvBadge
-            color=""
-            background-color=""
-            :label="firstBadge.label"
-            :type="firstBadge.type"
+            v-bind="levelStatusBadge"
             small
             ellipsis
           />
@@ -109,80 +129,56 @@ const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
 .av-card {
   height: 16.875rem;
   width: 100%;
-}
 
-.av-card:hover {
-  border: 1px solid v-bind('theme.hoverBorderColor') !important;
-  box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
-}
-
-.skill-name {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
+  &:hover {
+    border: 1px solid v-bind('theme.hoverBorderColor') !important;
+    box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+  }
 }
 
 .student-skill-card {
   display: flex;
   width: 17.25rem;
   border-radius: 1.5rem;
-  background-image: none;
-}
 
-.student-skill-card__title {
-  position: relative
-}
+  &__title {
+    position: relative;
+  }
 
-.student-skill-card__icon {
-  position: absolute;
-  width: 3.125rem;
-  height: 3.125rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--other-background-base);
-  right: 0;
-  top: 4.6875rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  &__icon {
+    position: absolute;
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--other-background-base);
+    right: 0;
+    top: 4.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.student-skill-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 
-.student-skill-card__footer {
+  &__footer {
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--spacing-xxs);
+  }
 }
 
-:deep(.fr-badge--success) {
-  color: var(--light-foreground-success) !important;
-  background-color: var(--light-background-success) !important;
-}
-
-:deep(.fr-badge--new) {
-  color: var(--text1) !important;
-  background-color: var(--light-background-neutral) !important;
-}
-
-:deep(.fr-badge--info) {
-  color: var(--dark-background-primary1) !important;
-  background-color: var(--light-background-primary2) !important;
-}
-
-:deep(.fr-badge--error) {
-  color: var(--light-foreground-error) !important;
-  background-color: var(--light-background-error) !important;
-}
-
-.n6 {
+.skill-name {
   color: var(--card2);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
 }
 </style>

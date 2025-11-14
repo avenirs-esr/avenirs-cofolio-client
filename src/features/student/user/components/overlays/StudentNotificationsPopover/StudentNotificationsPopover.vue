@@ -21,6 +21,7 @@ const { t } = useI18n()
         :label="t('student.layout.header.quicklinks.notifications')"
         :on-click="toggle"
         :icon="notificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE"
+        small
       />
     </template>
     <template #popover="{ close }">

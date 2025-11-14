@@ -1,6 +1,3 @@
-<!-- This code is an adaptation of the source code of DsfrFooter available at:
- https://vue-ds.fr/composants/DsfrFooter -->
-
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
@@ -77,7 +74,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 <template>
   <footer
     id="footer"
-    class="fr-footer"
+    class="av-footer"
     role="contentinfo"
   >
     <div class="separator" />
@@ -164,10 +161,10 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
             <li
               v-for="({ href, label, title, ...attrs }, index) in ecosystemLinks"
               :key="index"
-              class="fr-footer__content-item"
+              class="av-footer__content-item"
             >
               <a
-                class="fr-footer__content-link caption-regular"
+                class="av-footer__content-link caption-regular"
                 :href="href"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -218,20 +215,12 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
 </template>
 
 <style scoped lang="scss">
-.fr-footer {
-  margin-top: var(--spacing-4xl);
-  padding-top: var(--spacing-none);
-  box-shadow: none;
-  background-color: var(--other-background-base);
-}
-
 [href] {
   background-image: none;
 }
 
 .separator {
   height: var(--dimension-5xl);
-  width: 100%;
   background: var(--dark-background-primary1);
 }
 
@@ -252,7 +241,6 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   padding: var(--spacing-xs) var(--spacing-5xl) var(--spacing-md) var(--spacing-5xl);
   border-top: 1px solid var(--stroke);
 }
@@ -312,7 +300,6 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   align-items: center;
   gap: var(--spacing-md);
   padding: var(--spacing-sm);
-  width: 100%;
   border-bottom: 1px solid var(--stroke);
   justify-content: center;
 }

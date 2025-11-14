@@ -37,7 +37,7 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render two AvTab with correct titles and icon', async () => {
       await flushPromises()
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       expect(tabs).toHaveLength(2)
 
       expect(tabs[0].text()).toBe('Mes traces non associées (20)')
@@ -63,17 +63,17 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
   BddTest().when('user interacts with tabs', () => {
     BddTest().then('it should switch to second tab when clicked', async () => {
       await flushPromises()
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       await tabs[1].trigger('click')
       await wrapper.vm.$nextTick()
 
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.text()).toBe('Mes traces associées (24)')
     })
 
     BddTest().then('it should switch back to first tab when clicked', async () => {
       await flushPromises()
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
 
       await tabs[1].trigger('click')
       await wrapper.vm.$nextTick()
@@ -81,7 +81,7 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
       await tabs[0].trigger('click')
       await wrapper.vm.$nextTick()
 
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.text()).toBe('Mes traces non associées (20)')
     })
   })
@@ -101,7 +101,7 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
         usePinia: true
       })
       await vi.waitFor(() => {
-        const tabs = wrapper.findAll('.fr-tabs__tab')
+        const tabs = wrapper.findAll('.av-tab-item__tab')
         expect(tabs).toHaveLength(2)
 
         expect(tabs[0].text()).toBe('Ma trace non associée (1)')
@@ -110,7 +110,7 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
     })
 
     BddTest().then('titles should display 0 for both counts', async () => {
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       expect(tabs[0].text()).toBe('Aucune trace non associée (0)')
       expect(tabs[1].text()).toBe('Aucune trace associée (0)')
     })

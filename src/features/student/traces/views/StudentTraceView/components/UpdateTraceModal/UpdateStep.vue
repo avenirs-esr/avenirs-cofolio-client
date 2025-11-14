@@ -52,18 +52,4 @@ const activeTab = ref(0)
   flex-direction: column;
   width: 100%;
 }
-
-// // TODO: this style prevents weird rendering due to modal in modal
-// :deep(.fr-tabs__panel) {
-//   display: block !important;
-//   visibility: hidden !important;
-//   height: 0 !important;
-//   overflow: hidden !important;
-// }
-
-// // TODO: this style prevents weird rendering due to modal in modal
-// :deep(.fr-tabs__panel--selected) {
-//   visibility: visible !important;
-//   height: auto !important;
-// }
 </style>

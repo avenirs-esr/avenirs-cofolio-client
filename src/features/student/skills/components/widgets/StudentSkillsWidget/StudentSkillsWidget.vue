@@ -25,6 +25,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
         <AvIconText
           :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
           :text="t('student.widgets.skills.title')"
+          :title="t('student.widgets.skills.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="n5"

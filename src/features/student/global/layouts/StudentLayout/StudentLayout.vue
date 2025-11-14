@@ -51,7 +51,7 @@ defineExpose({ searchQuery })
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>
-      <ul class="fr-btns-group">
+      <ul class="av-btns-group">
         <li class="demo-display-none">
           <StudentMailboxPopover :messages-count="messagesCount" />
         </li>
@@ -72,7 +72,7 @@ defineExpose({ searchQuery })
   </AvHeader>
 
   <main>
-    <div class="fr-container  fr-mt-3w  fr-mt-md-5w  fr-mb-5w">
+    <div class="av-container av-mt-md">
       <router-view />
     </div>
   </main>
@@ -80,19 +80,4 @@ defineExpose({ searchQuery })
   <Footer />
 </template>
 
-<style lang="scss" scoped>
-:deep(.fr-header__menu-links > nav .fr-nav__item > .fr-translate__btn) {
-  padding-left: var(--spacing-xs) !important;
-  padding-right: var(--spacing-xs) !important;
-}
-
-:deep(.fr-header__menu-links > .fr-btns-group > li > .av-popover-wrapper > .av-popover-trigger-wrapper > .fr-btn),
-:deep(.fr-header__menu-links > nav .fr-btns-group > li > .fr-btn) {
-  padding-left: var(--spacing-xs) !important;
-  padding-right: var(--spacing-xs) !important;
-}
-
-:deep(.fr-btns-group .fr-btn) {
-  margin-bottom: var(--spacing-none);
-}
-</style>
+<style lang="scss" scoped></style>

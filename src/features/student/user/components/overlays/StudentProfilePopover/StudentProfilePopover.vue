@@ -17,6 +17,7 @@ const { t } = useI18n()
         :label="username"
         :on-click="toggle"
         :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
+        small
       />
     </template>
     <template #popover>

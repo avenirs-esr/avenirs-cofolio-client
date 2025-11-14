@@ -63,7 +63,7 @@ BddTest().given('a footer', () => {
       })
 
       BddTest().then('it should render default ecosystem links', () => {
-        const ecosystemLinks = wrapper.findAll('.fr-footer__content-link')
+        const ecosystemLinks = wrapper.findAll('.av-footer__content-link')
         expect(ecosystemLinks.length).toBe(1)
         expect(ecosystemLinks[0].text()).toBe('avenirs-esr.fr')
         expect(ecosystemLinks[0].attributes('href')).toBe('https://avenirs-esr.fr/')
@@ -185,7 +185,7 @@ BddTest().given('a footer', () => {
       })
 
       BddTest().then('it should override ecosystem links', () => {
-        const links = wrapper.findAll('.fr-footer__content-link')
+        const links = wrapper.findAll('.av-footer__content-link')
         expect(links.length).toBe(1)
         expect(links[0].text()).toBe('Mon site')
         expect(links[0].attributes('href')).toBe('https://example.com')
@@ -216,7 +216,7 @@ BddTest().given('a footer', () => {
       })
 
       BddTest().then('it should render default ecosystem links', () => {
-        const ecosystemLinks = wrapper.findAll('.fr-footer__content-link')
+        const ecosystemLinks = wrapper.findAll('.av-footer__content-link')
         expect(ecosystemLinks.length).toBe(1)
         expect(ecosystemLinks[0].text()).toBe('avenirs-esr.fr')
         expect(ecosystemLinks[0].attributes('href')).toBe('https://avenirs-esr.fr/')
@@ -295,7 +295,7 @@ BddTest().given('a footer', () => {
       })
 
       BddTest().then('it should override ecosystem links', () => {
-        const links = wrapper.findAll('.fr-footer__content-link')
+        const links = wrapper.findAll('.av-footer__content-link')
         expect(links.length).toBe(1)
         expect(links[0].text()).toBe('Mon site')
         expect(links[0].attributes('href')).toBe('https://example.com')

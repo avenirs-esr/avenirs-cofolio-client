@@ -95,10 +95,6 @@ const { t } = useI18n()
 
   &--last-segment {
     align-items: start;
-
-    :deep(.fr-badge span) {
-      text-transform: initial !important;
-    }
   }
 
   &--item {

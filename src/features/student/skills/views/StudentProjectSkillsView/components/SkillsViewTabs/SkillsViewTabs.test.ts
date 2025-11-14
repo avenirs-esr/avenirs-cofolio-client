@@ -37,14 +37,14 @@ BddTest().given('a skills tab switcher', () => {
 
   BddTest().when('the skills tab switcher is mounted', () => {
     BddTest().then('it should render two tabs', () => {
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       expect(tabs).toHaveLength(2)
       expect(tabs[0].text()).toBe('Les compétences de mes formations (terminées et en cours)')
       expect(tabs[1].text()).toBe('Mes autres compétences')
     })
 
     BddTest().then('it should render with ams list tab selected', () => {
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.exists()).toBe(true)
       expect(selectedTab.text()).toBe('Les compétences de mes formations (terminées et en cours)')
     })
@@ -67,16 +67,16 @@ BddTest().given('a skills tab switcher', () => {
 
   BddTest().when('user interacts with tabs', () => {
     BddTest().then('it should switch to second tab when clicked', async () => {
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       await tabs[1].trigger('click')
       await wrapper.vm.$nextTick()
 
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.text()).toBe('Mes autres compétences')
     })
 
     BddTest().then('it should switch back to first tab when clicked', async () => {
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
 
       await tabs[1].trigger('click')
       await wrapper.vm.$nextTick()
@@ -84,7 +84,7 @@ BddTest().given('a skills tab switcher', () => {
       await tabs[0].trigger('click')
       await wrapper.vm.$nextTick()
 
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.text()).toBe('Les compétences de mes formations (terminées et en cours)')
     })
   })

@@ -35,7 +35,7 @@ const renderedDeliverables = computed(() => {
           color="var(--icon)"
           :size="2"
         />
-        <span class="s1-bold">
+        <span class="n5">
           {{ t('student.widgets.deliverables.title') }}
         </span>
       </div>

@@ -104,7 +104,7 @@ const modelValue = defineModel<File | null>()
   <template v-if="imageUpload.error.value">
     <span
       :id="errorId"
-      class="fr-sr-only"
+      class="av-sr-only"
     >
       {{ imageUpload.error.value }}
     </span>

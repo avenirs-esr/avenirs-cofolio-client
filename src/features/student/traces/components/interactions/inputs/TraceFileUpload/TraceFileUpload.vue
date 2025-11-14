@@ -35,7 +35,7 @@ const filesTypesMaxSize = [
   { type: 'global.application', size: '10Mo' }
 ]
 
-const avFileUploadProps = computed(() => ({
+const avFileUploadProps = computed<AvFileUploadProps>(() => ({
   ...attrs,
   accept,
   disabled,

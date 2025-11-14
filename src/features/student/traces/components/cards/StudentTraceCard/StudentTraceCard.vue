@@ -39,11 +39,14 @@ const theme = ref({
     <AvCard
       border-color="var(--other-border-skill-card)"
       title-background="var(--surface-background)"
-      title-height="4.375rem"
+      title-height="4.6875rem"
     >
       <template #title>
         <div class="student-trace-card__title">
-          <span class="b1-bold student-trace-card__titletruncate">
+          <span
+            class="b1-bold student-trace-card__titletruncate"
+            :title="title"
+          >
             {{ title }}
           </span>
           <div
@@ -106,99 +109,77 @@ const theme = ref({
 .av-card {
   height: 14rem;
   width: 100%;
-}
 
-.av-card:hover {
-  border: 1px solid v-bind('theme.hoverBorderColor') !important;
-  box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
-}
-
-.student-trace-card__body {
-  padding-top: 1.5rem;
+  &:hover {
+    border: 1px solid v-bind('theme.hoverBorderColor') !important;
+    box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+  }
 }
 
 .student-trace-card {
   display: flex;
   width: 17.125rem;
-  height: 14rem;
   border-radius: 1.5rem;
-  background-image: none;
-}
 
-.student-trace-card__title {
-  position: relative
-}
+  &__title {
+    position: relative;
+  }
 
-.student-trace-card__titlecontent {
-  width: 11.25rem;
-  height: var(--dimension-2xl);
-}
+  &__titlecontent {
+    width: 11.25rem;
+    height: var(--dimension-2xl);
+  }
 
-.student-trace-card__titletruncate {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  height: var(--dimension-2xl);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
+  &__titletruncate {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: var(--dimension-2xl);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
 
-.student-trace-card__icon {
-  position: absolute;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--other-border-skill-card);
-  right: 0.75rem;
-  top: var(--spacing-lg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  &__icon {
+    position: absolute;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--other-border-skill-card);
+    right: calc(var(--spacing-md) / 2);
+    top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.student-trace-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing-md) / 2);
+    padding-top: var(--spacing-md);
+  }
 
-.student-trace-card__line {
+  &__line {
     display: flex;
     flex-direction: row;
-    gap: 0.75rem;
+    gap: calc(var(--spacing-md) / 2);
     align-items: center;
-}
+  }
 
-.student-trace-card__lineicon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 1.375rem;
-  width: 1.375rem;
-  border-radius: var(--radius-sm);
-}
-
-.student-trace-card__line.student-trace-card__skills {
+  &__skills {
     gap: var(--spacing-xs);
-}
+  }
 
-.student-trace-card__categoryText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-}
-
-.fr-tag {
-  color: var(--text2);
-  background-color: var(--light-background-neutral);
-  align-items: center;
-  padding: var(--spacing-none) var(--spacing-xs) var(--spacing-none) var(--spacing-xs);
-  min-height: unset;
-  width: unset;
-  border-radius: var(--radius-sm);
+  &__lineicon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.375rem;
+    width: 1.375rem;
+    border-radius: var(--radius-sm);
+  }
 }
 </style>

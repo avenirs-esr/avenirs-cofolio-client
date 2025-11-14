@@ -62,73 +62,69 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
 </template>
 
 <style lang="scss" scoped>
+.av-card {
+  height: 14rem;
+  width: 100%;
+
+  &:hover {
+    border: 1px solid v-bind('hoverBorderColor') !important;
+    box-shadow: 0 0 0 2px v-bind('hoverBorderColor');
+  }
+}
+
 .student-detailed-trace-card {
   display: flex;
   width: 41.25rem;
-  height: 14rem;
   border-radius: 1.5rem;
   text-align: left;
   padding: 0 2px;
   background-image: none;
-}
 
-.av-card {
-  height: 14rem;
-  width: 100%;
-}
+  &__title {
+    position: relative;
+  }
 
-.av-card:hover {
-  border: 1px solid v-bind('hoverBorderColor') !important;
-  box-shadow: 0 0 0 2px v-bind('hoverBorderColor');
-}
+  &__titlecontent {
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    align-content: start;
+    align-self: flex-start;
+    width: 36.0625rem;
+    height: 4.375rem;
+  }
 
-.student-detailed-trace-card__body {
-  padding-top: var(--spacing-md);
-  justify-content: flex-end;
-}
+  &__titletruncate {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 4.375rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
 
-.student-detailed-trace-card__title {
-  position: relative;
-}
+  &__icon {
+    position: absolute;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--other-border-skill-card);
+    right: 0.75rem;
+    top: var(--dimension-4xl);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.student-detailed-trace-card__titlecontent {
-  display: flex;
-  justify-content: flex-start;
-  align-items: start;
-  align-content: start;
-  align-self: flex-start;
-  width: 36.0625rem;
-  height: var(--dimension-2xl);
-}
-
-.student-detailed-trace-card__titletruncate {
-  display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  height: var(--dimension-2xl);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-
-.student-detailed-trace-card__icon {
-  position: absolute;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--other-border-skill-card);
-  right: 0.75rem;
-  top: var(--spacing-lg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.student-detailed-trace-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  &__body {
+    padding-top: var(--spacing-md);
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 }
 </style>

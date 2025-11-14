@@ -76,17 +76,11 @@ function handleUpdateModelValue (value: unknown) {
 </template>
 
 <style scoped lang="scss">
-@use "@avenirs-esr/avenirs-dsav/src/styles/main.scss" as ds;
-
 .skill-level-field {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
   margin-top: var(--spacing-sm);
-}
-
-:deep(.fr-fieldset__legend--regular) {
-  @extend .caption-regular;
 }
 
 .level-option {

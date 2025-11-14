@@ -21,6 +21,7 @@ const { t } = useI18n()
         :label="t('student.layout.header.quicklinks.mailbox')"
         :on-click="toggle"
         :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
+        small
       />
     </template>
     <template #popover="{ close }">
