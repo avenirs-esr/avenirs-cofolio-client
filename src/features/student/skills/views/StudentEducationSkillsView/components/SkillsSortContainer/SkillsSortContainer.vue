@@ -62,7 +62,7 @@ function useSortEducationSkills () {
   margin: var(--spacing-md) 0;
 }
 
-:deep(.fr-select-group) {
+:deep(.av-select-group) {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

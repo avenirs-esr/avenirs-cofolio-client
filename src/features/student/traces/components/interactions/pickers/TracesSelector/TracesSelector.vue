@@ -69,7 +69,7 @@ const selectedTraceIds = defineModel<string[]>({ default: [] })
       display: flex;
       transition: opacity 0.2s ease-in-out;
 
-      :deep(.fr-label) {
+      :deep(.av-label) {
         justify-content: flex-end;
         padding:  var(--spacing-xs) 0;
 

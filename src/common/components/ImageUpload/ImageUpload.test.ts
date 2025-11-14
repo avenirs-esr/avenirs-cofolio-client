@@ -160,7 +160,7 @@ BddTest().given('and image upload with valid props', () => {
       const errorSpan = wrapper.find('#image-upload-error')
       expect(errorSpan.exists()).toBe(true)
       expect(errorSpan.text()).toBe('Le fichier ne respecte pas le format attendu.')
-      expect(errorSpan.classes()).toContain('fr-sr-only')
+      expect(errorSpan.classes()).toContain('av-sr-only')
     })
 
     BddTest().then('it should update describedBy to include error id', async () => {

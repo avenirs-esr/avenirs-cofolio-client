@@ -1,3 +1,4 @@
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import StudentApcUnavailableView from '@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
@@ -23,6 +24,8 @@ BddTest().given('a student APC unavailable page', () => {
   const mockedUseStudentApcAccess = vi.mocked(useStudentApcAccess)
   const mockedUseRouter = vi.mocked(useRouter)
 
+  const stubs = { PageTitle: PageTitleStub }
+
   beforeEach(() => {
     mockedUseRouter.mockReturnValue({ replace: replaceMock } as unknown as Router)
   })
@@ -39,7 +42,7 @@ BddTest().given('a student APC unavailable page', () => {
           showApcSubmenus: computed(() => false),
           isApcVisible: computed(() => false)
         })
-        await mountWithRouter(StudentApcUnavailableView)
+        await mountWithRouter(StudentApcUnavailableView, { global: { stubs } })
         expect(replaceMock).not.toHaveBeenCalled()
       })
     })
@@ -51,7 +54,7 @@ BddTest().given('a student APC unavailable page', () => {
           showApcSubmenus: computed(() => false),
           isApcVisible: computed(() => false)
         })
-        await mountWithRouter(StudentApcUnavailableView)
+        await mountWithRouter(StudentApcUnavailableView, { global: { stubs } })
         expect(replaceMock).toHaveBeenCalledWith(
           expect.objectContaining(ROUTE_NAMES.STUDENT.HOME)
         )

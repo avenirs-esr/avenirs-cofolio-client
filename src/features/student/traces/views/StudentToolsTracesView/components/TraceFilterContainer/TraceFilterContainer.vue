@@ -210,9 +210,14 @@ watch([
 
 :deep(input) {
   line-height: unset !important;
+  height: var(--dimension-xl);
 }
 
-:deep(.fr-multiselect__collapse__fieldset) {
+.reset-button {
+  height: var(--dimension-xl);
+}
+
+:deep(.av-multiselect__collapse__fieldset) {
   max-height: var(--dimension-7xl) !important;
   margin-bottom: var(--spacing-none) !important;
 }

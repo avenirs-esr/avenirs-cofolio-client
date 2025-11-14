@@ -19,7 +19,7 @@ BddTest().given('an ams tab switcher', () => {
 
   BddTest().when('the ams planning container is mounted', () => {
     BddTest().then('it should render two tabs and their content', () => {
-      const tabs = wrapper.findAll('.fr-tabs__tab')
+      const tabs = wrapper.findAll('.av-tab-item__tab')
       expect(tabs).toHaveLength(2)
       expect(tabs[0].text()).toBe('Liste de mes AMS')
       expect(wrapper.find('.ams-list-container').exists()).toBe(true)
@@ -28,7 +28,7 @@ BddTest().given('an ams tab switcher', () => {
     })
 
     BddTest().then('it should render with ams list tab selected', () => {
-      const selectedTab = wrapper.find('.fr-tabs__tab[aria-selected="true"]')
+      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.exists()).toBe(true)
       expect(selectedTab.text()).toBe('Liste de mes AMS')
     })

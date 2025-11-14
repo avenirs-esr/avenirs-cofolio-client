@@ -20,20 +20,20 @@ const AvNavigationStub = defineComponent({
   },
   emits: ['toggle-id'],
   template: `
-    <nav :id="id" :aria-label="label" class="fr-nav">
-      <ul class="fr-nav__list">
+    <nav :id="id" :aria-label="label" class="av-nav">
+      <ul class="av-nav__list">
         <li
           v-for="(item, index) in navItems"
           :key="index"
-          class="fr-nav__item"
+          class="av-nav__item"
           @click="$emit('toggle-id', item.id)"
         >
           <span class="nav-item-text">{{ item.text || item.title }}</span>
-          <ul v-if="item.links" class="fr-nav__submenu">
+          <ul v-if="item.links" class="av-nav__submenu">
             <li
               v-for="(link, linkIndex) in item.links"
               :key="linkIndex"
-              class="fr-nav__subitem"
+              class="av-nav__subitem"
             >
               <RouterLink
                 :to="link.to"
@@ -93,7 +93,7 @@ BddTest().given('a student navigation', () => {
     })
 
     BddTest().then('it should generate navigation items without education menu', () => {
-      expect(wrapper.findAll('.fr-nav__item')).toHaveLength(3)
+      expect(wrapper.findAll('.av-nav__item')).toHaveLength(3)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
       expect(navItems).toHaveLength(3)
@@ -127,7 +127,7 @@ BddTest().given('a student navigation', () => {
     })
 
     BddTest().then('it should include education menu in navigation items', () => {
-      expect(wrapper.findAll('.fr-nav__item')).toHaveLength(4)
+      expect(wrapper.findAll('.av-nav__item')).toHaveLength(4)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
       expect(navItems).toHaveLength(4)
@@ -136,7 +136,7 @@ BddTest().given('a student navigation', () => {
     })
 
     BddTest().then('it should not include education submenus when showApcSubmenus is false', () => {
-      expect(wrapper.findAll('.fr-nav__item')).toHaveLength(4)
+      expect(wrapper.findAll('.av-nav__item')).toHaveLength(4)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 

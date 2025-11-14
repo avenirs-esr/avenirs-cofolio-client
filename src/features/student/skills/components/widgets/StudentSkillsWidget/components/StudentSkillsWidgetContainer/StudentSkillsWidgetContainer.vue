@@ -17,7 +17,10 @@ const renderedProgramTitle = computed(() => {
 
 <template>
   <div class="skills-widget-container">
-    <span class="s1-regular">
+    <span
+      class="s1-regular"
+      :title="course.programTitle"
+    >
       {{ renderedProgramTitle }}
     </span>
     <div class="skills-container">

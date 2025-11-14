@@ -1,7 +1,7 @@
+import type { VueWrapper } from '@vue/test-utils'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTE_NAMES } from '@/common/constants'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { AvBreadcrumbStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { type Router, useRouter } from 'vue-router'
@@ -26,6 +26,8 @@ BddTest().given('a page title', () => {
     title
   }
 
+  const stubs = { AvBreadcrumb: AvBreadcrumbStub, AvButton: AvButtonStub }
+
   beforeEach(async () => {
     vi.clearAllMocks()
   })
@@ -34,11 +36,7 @@ BddTest().given('a page title', () => {
     beforeEach(async () => {
       wrapper = await mountWithRouter(PageTitle, {
         props,
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub,
-          }
-        }
+        global: { stubs }
       })
     })
 
@@ -61,16 +59,12 @@ BddTest().given('a page title', () => {
 
       wrapper = await mountWithRouter(PageTitle, {
         props,
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub,
-          }
-        }
+        global: { stubs }
       })
     })
 
     BddTest().then('it should call router.push with default "back" path', async () => {
-      const button = wrapper.findComponent({ name: 'AvButton' })
+      const button = wrapper.findComponent(AvButtonStub)
       await button.trigger('click')
       expect(mockRouter.push).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.HOME)
     })
@@ -85,16 +79,12 @@ BddTest().given('a page title', () => {
 
       wrapper = await mountWithRouter(PageTitle, {
         props: { ...props, back },
-        global: {
-          stubs: {
-            RouterLink: RouterLinkStub,
-          }
-        }
+        global: { stubs }
       })
     })
 
     BddTest().then('it should call router.push with provided "back" path', async () => {
-      const button = wrapper.findComponent({ name: 'AvButton' })
+      const button = wrapper.findComponent(AvButtonStub)
       await button.trigger('click')
       expect(mockRouter.push).toHaveBeenCalledWith(back)
     })

@@ -22,16 +22,16 @@ const {
 </template>
 
 <style lang="scss">
-.fr-badge.av-badge.additional-skill-type-badge {
+.av-badge.additional-skill-type-badge {
   border-radius: var(--radius-xl);
   padding: var(--spacing-xs);
   height: var(--dimension-md);
   font-size: var(--font-size-sm) !important;
   font-weight: var(--font-weight-regular) !important;
-}
 
-.fr-badge.av-badge.additional-skill-type-badge::before {
-  display: none !important;
-  content: none !important;
+  &::before {
+    display: none !important;
+    content: none !important;
+  }
 }
 </style>

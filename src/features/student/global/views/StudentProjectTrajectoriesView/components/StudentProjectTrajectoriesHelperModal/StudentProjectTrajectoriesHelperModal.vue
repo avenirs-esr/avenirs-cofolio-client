@@ -17,7 +17,6 @@ const { data: config } = useBackOfficeBuildLifeProjectConfigQuery()
   <AvModal
     :opened="showModal"
     :close-button-label="t('student.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.closeButtonLabel')"
-    size="lg"
     @close="onClose"
   >
     <div

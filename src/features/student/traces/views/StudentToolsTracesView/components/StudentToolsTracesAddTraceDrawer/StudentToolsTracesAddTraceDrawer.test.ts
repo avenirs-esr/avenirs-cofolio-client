@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub, ToggleStub } from '@/common/components'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
-import { AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -38,20 +38,13 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     },
     AvButton: AvButtonStub,
     Toggle: ToggleStub,
-    ConfirmationModal: ConfirmationModalStub
+    ConfirmationModal: ConfirmationModalStub,
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub
   }
 
-  const getSaveButton = () => {
-    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-      button.props('variant') === 'FLAT'
-    )
-  }
-
-  const getCancelButton = () => {
-    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-      button.props('variant') === 'OUTLINED'
-    )
-  }
+  const getCancelConfirmButton = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getSaveButton = () => getCancelConfirmButton()?.find('.confirm')
+  const getCancelButton = () => getCancelConfirmButton()?.find('.cancel')
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
     await wrapper.vm.$nextTick()
@@ -78,7 +71,12 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   const clickSaveButton = async () => {
     const saveButton = getSaveButton()
-    await saveButton?.vm.$emit('click')
+    await saveButton?.trigger('click')
+  }
+
+  const clickCancelButton = async () => {
+    const cancelButton = getCancelButton()
+    await cancelButton?.trigger('click')
   }
 
   const setAuthenticToggle = async (value: boolean) => {
@@ -145,13 +143,13 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
 
     BddTest().then('it should render footer buttons', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
       const cancelButton = getCancelButton()
+      expect(cancelButton.exists()).toBe(true)
       const saveButton = getSaveButton()
+      expect(saveButton.exists()).toBe(true)
 
-      expect(buttons).toHaveLength(2)
-      expect(cancelButton?.props('label')).toBe('Quitter')
-      expect(saveButton?.props('label')).toBe('Enregistrer')
+      expect(cancelButton.text()).toBe('Quitter')
+      expect(saveButton.text()).toBe('Enregistrer')
     })
 
     BddTest().then('it should render form element', () => {
@@ -187,9 +185,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     BddTest().then('it should hideCreateTraceDrawer', async () => {
       const store = useTracesStore()
       const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-      const cancelButton = getCancelButton()
-
-      await cancelButton?.vm.$emit('click')
+      await clickCancelButton()
 
       expect(hideDrawerSpy).toHaveBeenCalled()
     })
@@ -243,9 +239,9 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   BddTest().when('save button state', () => {
     BddTest().then('it should be enabled by default', async () => {
-      const saveButton = getSaveButton()
+      const cancelConfirmButtons = getCancelConfirmButton()
 
-      expect(saveButton?.props('disabled')).toBe(false)
+      expect(cancelConfirmButtons.props('confirmDisabled')).toBe(false)
     })
   })
 
@@ -276,8 +272,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   BddTest().when('form is dirty and cancel is clicked', () => {
     BddTest().then('it should show confirmation modal when form has changes', async () => {
       await fillFormFields()
-      const cancelButton = getCancelButton()
-      await cancelButton?.vm.$emit('click')
+      await clickCancelButton()
       await wrapper.vm.$nextTick()
 
       const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
@@ -289,8 +284,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
 
       await fillFormFields()
-      const cancelButton = getCancelButton()
-      await cancelButton?.vm.$emit('click')
+      await clickCancelButton()
       await wrapper.vm.$nextTick()
 
       const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
@@ -301,8 +295,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
     BddTest().then('it should hide confirmation modal when close is triggered', async () => {
       await fillFormFields()
-      const cancelButton = getCancelButton()
-      await cancelButton?.vm.$emit('click')
+      await clickCancelButton()
       await wrapper.vm.$nextTick()
 
       const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })

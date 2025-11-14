@@ -79,7 +79,6 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
     :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close')"
     :confirm-button-label="confirmLabel"
     :confirm-button-icon="confirmIcon"
-    size="lg"
     @close="handleClose"
     @confirm="handleConfirm"
   >
