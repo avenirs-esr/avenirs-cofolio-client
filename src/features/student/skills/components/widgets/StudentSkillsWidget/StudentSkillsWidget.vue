@@ -46,9 +46,9 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
       <div class="skills-widget-container__footer">
         <AvButton
           :label="t('student.widgets.skills.buttons.seeAll')"
-          :on-click="navigateToStudentSkills"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
+          @click="navigateToStudentSkills"
         />
       </div>
     </template>

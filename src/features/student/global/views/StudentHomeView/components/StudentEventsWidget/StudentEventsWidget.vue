@@ -84,9 +84,9 @@ function getEventInfo (event: EventOverviewDTO) {
       <div class="events-widget-container__footer">
         <AvButton
           :label="t('student.widgets.events.buttons.seeAll')"
-          :on-click="navigateToStudentEvents"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
+          @click="navigateToStudentEvents"
         />
       </div>
     </template>

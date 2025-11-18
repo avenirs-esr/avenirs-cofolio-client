@@ -7,12 +7,17 @@ import { StudentSkillsWidget } from '@/features/student/skills'
 import { StudentTracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
 import { useAvBreakpoints, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { isMobile } = useAvBreakpoints()
+const { t } = useI18n()
 </script>
 
 <template>
+  <h1 class="av-sr-only">
+    {{ t('student.views.studentHomeView.title') }}
+  </h1>
   <div
     class="layout-home"
     :class="{

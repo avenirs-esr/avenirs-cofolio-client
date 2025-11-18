@@ -1,7 +1,7 @@
 import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { AdditionalSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.stub'
 import UpdateAdditionalSkillForm from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillForm/UpdateAdditionalSkillForm.vue'
-import { AvBadgeStub, AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -61,7 +61,7 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
           AvBadge: AvBadgeStub,
           AvIcon: AvIconStub,
           AvIconText: AvIconTextStub,
-          AvButton: AvButtonStub,
+          AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
           AdditionalSkillLevelRadioButtonSetFormField: AdditionalSkillLevelRadioButtonSetFormFieldStub,
           AdditionalSkillCommentFormField: AdditionalSkillCommentFormFieldStub,
         },
@@ -117,11 +117,10 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
 
   BddTest().when('clicking on cancel', () => {
     BddTest().then('it should call onCancel prop', async () => {
-      const buttons = wrapper.findAllComponents(AvButtonStub as any)
-      const cancelBtn = buttons[0]
-      expect(cancelBtn.exists()).toBe(true)
+      const cancelConfirmButtons = wrapper.findComponent(AvCancelConfirmButtonsStub)
+      expect(cancelConfirmButtons.exists()).toBe(true)
 
-      await cancelBtn.trigger('click')
+      await cancelConfirmButtons.vm.$emit('cancel')
       expect(onCancel).toHaveBeenCalledTimes(1)
     })
   })

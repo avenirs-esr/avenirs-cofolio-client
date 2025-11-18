@@ -59,7 +59,7 @@ async function handleRemoveAssociations () {
             :label="t('student.views.studentUpdateAdditionalSkillView.updateAssociations.removeButton')"
             :disabled="isPending || selectedTraceIds.length === 0"
             variant="OUTLINED"
-            size="sm"
+            small
             @click="handleRemoveAssociations"
           />
         </div>

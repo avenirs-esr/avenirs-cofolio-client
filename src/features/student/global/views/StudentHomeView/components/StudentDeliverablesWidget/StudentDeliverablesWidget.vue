@@ -80,9 +80,9 @@ const renderedDeliverables = computed(() => {
       <div class="deliverables-widget-container__footer">
         <AvButton
           :label="t('student.widgets.deliverables.buttons.seeAll')"
-          :on-click="navigateToStudentDeliverables"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
+          @click="navigateToStudentDeliverables"
         />
       </div>
     </template>

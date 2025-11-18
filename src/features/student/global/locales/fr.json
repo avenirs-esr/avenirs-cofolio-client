@@ -267,6 +267,9 @@
       "studentEventsView": {
         "title": "(placeholder) Tous mes événements"
       },
+      "studentHomeView": {
+        "title": "Accueil Cofolio Étudiant"
+      },
       "studentMailboxView": {
         "title": "Ma messagerie"
       },

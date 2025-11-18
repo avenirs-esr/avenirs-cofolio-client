@@ -28,6 +28,9 @@ function goBack () {
 </script>
 
 <template>
+  <h1 class="av-sr-only">
+    {{ title }}
+  </h1>
   <div class="page-title-container">
     <AvBreadcrumb :links="breadcrumbLinks" />
     <div class="page-title">

@@ -25,12 +25,12 @@ useBaseApiExceptionToast(error)
 <template>
   <div class="main-container">
     <div class="title-container">
-      <h5 class="n5">
+      <span class="n5">
         {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.title') }}
         <span class="b1-regular">
           {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.subtitle') }}
         </span>
-      </h5>
+      </span>
     </div>
     <Pagination
       :page-info="pageInfo"

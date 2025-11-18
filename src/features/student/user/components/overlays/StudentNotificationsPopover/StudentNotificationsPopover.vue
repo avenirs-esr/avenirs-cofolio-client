@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
-import { AvButton, AvIconText, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvCancelConfirmButtons, AvIconText, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
@@ -48,19 +48,13 @@ const { t } = useI18n()
           Notifications...
         </div>
         <div class="footer">
-          <AvButton
-            :label="t('global.buttons.exit')"
-            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-            :on-click="close"
-            size="sm"
-          />
-          <AvButton
-            v-if="notificationsCount > 0"
-            data-testid="notifications-popover-navigate"
-            :label="t('student.overlays.notificationsPopover.buttons.seeAll')"
-            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-            :on-click="navigateToStudentNotifications"
-            size="sm"
+          <AvCancelConfirmButtons
+            :cancel-label="t('global.buttons.exit')"
+            :confirm-label="notificationsCount > 0 ? t('student.overlays.notificationsPopover.buttons.seeAll') : undefined"
+            :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            :confirm-icon="MDI_ICONS.ARROW_RIGHT_THIN"
+            @cancel="close"
+            @confirm="navigateToStudentNotifications"
           />
         </div>
       </div>

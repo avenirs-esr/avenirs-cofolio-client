@@ -46,14 +46,14 @@ function onTeacherButtonClick () {
       <AvButton
         :label="t('global.header.switchUniverse.teacher')"
         theme="SECONDARY"
-        size="sm"
-        :on-click="onTeacherButtonClick"
+        small
+        @click="onTeacherButtonClick"
       />
       <AvButton
         :label="t('global.header.switchUniverse.student')"
         theme="SECONDARY"
-        size="sm"
-        :on-click="onStudentButtonClick"
+        small
+        @click="onStudentButtonClick"
       />
     </div>
   </AvModal>

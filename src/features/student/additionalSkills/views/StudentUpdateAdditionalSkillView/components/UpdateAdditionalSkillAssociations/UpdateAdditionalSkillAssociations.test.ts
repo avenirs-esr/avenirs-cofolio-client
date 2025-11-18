@@ -81,7 +81,6 @@ BddTest().given('an update additional skill associations component', () => {
       const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
       expect(removeButton).toBeDefined()
       expect(removeButton?.props('variant')).toBe('OUTLINED')
-      expect(removeButton?.props('size')).toBe('sm')
     })
 
     BddTest().then('it should render the add trace button', () => {
