@@ -10,7 +10,7 @@ import { useToasterStore } from '@/store'
 import {
   AvAccordion,
   AvAccordionsGroup,
-  AvButton,
+  AvCancelConfirmButtons,
   AvDrawer,
   AvIconText,
   AvInput,
@@ -189,23 +189,17 @@ watch(() => show, (newVal) => {
     </div>
     <template #footer>
       <div class="footer">
-        <AvButton
-          size="sm"
-          variant="OUTLINED"
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :label="t('global.buttons.exit')"
-          :is-loading="isPending"
-          :on-click="isModified ? displayModal : onClose"
-        />
-        <AvButton
-          variant="FLAT"
-          size="sm"
-          :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :label="t('global.buttons.save')"
-          :disabled="!isModified"
-          :is-loading="isPending"
-          type="submit"
+        <AvCancelConfirmButtons
+          :cancel-label="t('global.buttons.exit')"
+          :confirm-label="t('global.buttons.save')"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+          :cancel-is-loading="isPending"
+          :confirm-is-loading="isPending"
+          :confirm-disabled="!isModified"
           form="profile-form"
+          @cancel="() => isModified ? displayModal() : onClose()"
+          @confirm="form.handleSubmit"
         />
       </div>
     </template>

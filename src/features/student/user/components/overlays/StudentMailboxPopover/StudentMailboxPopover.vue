@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNavigation } from '@/common/composables'
-import { AvButton, AvIconText, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvCancelConfirmButtons, AvIconText, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
@@ -42,27 +42,13 @@ const { t } = useI18n()
           Messages...
         </div>
         <div class="footer">
-          <AvButton
-            :label="t('global.buttons.exit')"
-            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-            :on-click="close"
-            size="sm"
-          />
-          <AvButton
-            v-if="messagesCount === 0"
-            data-testid="mailbox-popover-navigate-none"
-            :label="t('student.overlays.mailboxPopover.buttons.navigate')"
-            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-            :on-click="navigateToStudentMailbox"
-            size="sm"
-          />
-          <AvButton
-            v-else
-            data-testid="mailbox-popover-navigate-some"
-            :label="t('student.overlays.mailboxPopover.buttons.seeAll')"
-            :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-            :on-click="navigateToStudentMailbox"
-            size="sm"
+          <AvCancelConfirmButtons
+            :cancel-label="t('global.buttons.exit')"
+            :confirm-label="messagesCount === 0 ? t('student.overlays.mailboxPopover.buttons.navigate') : t('student.overlays.mailboxPopover.buttons.seeAll')"
+            :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+            :confirm-icon="MDI_ICONS.ARROW_RIGHT_THIN"
+            @cancel="close"
+            @confirm="navigateToStudentMailbox"
           />
         </div>
       </div>
@@ -79,8 +65,6 @@ const { t } = useI18n()
 
 .footer {
   display: flex;
-  flex: 1;
-  justify-content: right;
-  gap: var(--spacing-sm);
+  justify-content: flex-end;
 }
 </style>

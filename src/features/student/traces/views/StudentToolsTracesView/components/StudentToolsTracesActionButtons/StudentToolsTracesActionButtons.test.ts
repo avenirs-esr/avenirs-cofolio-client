@@ -35,7 +35,6 @@ BddTest().given('a student tools traces action buttons component', () => {
 
       expect(addButton.exists()).toBe(true)
       expect(addButton.props('label')).toBe('Ajouter une trace dans ma bibliothèque')
-      expect(addButton.props('size')).toBe('small')
       expect(addButton.props('variant')).toBe('OUTLINED')
       expect(addButton.props('icon')).toBeDefined()
     })

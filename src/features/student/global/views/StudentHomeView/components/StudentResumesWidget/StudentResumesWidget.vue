@@ -67,9 +67,9 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
       <div class="resumes-widget-container__footer">
         <AvButton
           :label="t('student.widgets.resumes.buttons.seeAll')"
-          :on-click="navigateToStudentResumes"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
+          @click="navigateToStudentResumes"
         />
       </div>
     </template>

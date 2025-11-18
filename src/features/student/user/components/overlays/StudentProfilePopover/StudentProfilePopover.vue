@@ -28,7 +28,7 @@ const { t } = useI18n()
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
-            size="sm"
+            small
             no-radius
           />
         </li>
@@ -38,7 +38,7 @@ const { t } = useI18n()
             :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
-            size="sm"
+            small
             no-radius
           />
         </li>
@@ -48,7 +48,7 @@ const { t } = useI18n()
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
-            size="sm"
+            small
             no-radius
           />
         </li>
@@ -58,7 +58,7 @@ const { t } = useI18n()
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
-            size="sm"
+            small
             no-radius
           />
         </li>
@@ -68,7 +68,7 @@ const { t } = useI18n()
             :icon="MDI_ICONS.LOGOUT"
             variant="DEFAULT"
             theme="SECONDARY"
-            size="sm"
+            small
             no-radius
           />
         </li>

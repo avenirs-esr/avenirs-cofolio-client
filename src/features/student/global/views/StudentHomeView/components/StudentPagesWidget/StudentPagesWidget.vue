@@ -67,9 +67,9 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
       <div class="pages-widget-container__footer">
         <AvButton
           :label="t('student.widgets.pages.buttons.seeAll')"
-          :on-click="navigateToStudentPages"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
+          @click="navigateToStudentPages"
         />
       </div>
     </template>

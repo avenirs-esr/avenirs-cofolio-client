@@ -267,6 +267,9 @@
       "studentEventsView": {
         "title": "(placeholder) All my events"
       },
+      "studentHomeView": {
+        "title": "Cofolio Student Home"
+      },
       "studentMailboxView": {
         "title": "My mailbox"
       },

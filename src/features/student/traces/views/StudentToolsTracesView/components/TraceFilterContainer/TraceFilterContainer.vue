@@ -192,7 +192,7 @@ watch([
       :label="t('student.views.studentToolsTracesView.traceFilter.labels.reset')"
       class="reset-button"
       variant="OUTLINED"
-      size="sm"
+      small
       @click="resetAllFilters"
     />
   </div>

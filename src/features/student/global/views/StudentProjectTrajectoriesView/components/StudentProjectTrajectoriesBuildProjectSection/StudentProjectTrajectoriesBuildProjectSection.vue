@@ -17,9 +17,9 @@ const { showModal, displayModal, hideModal } = useModal()
     </div>
     <AvButton
       variant="OUTLINED"
-      size="sm"
       :label="t('student.views.studentProjectTrajectoriesView.buildProject.consultHelpButtonLabel')"
       :icon="MDI_ICONS.FLAG_VARIANT"
+      small
       @click="displayModal"
     />
   </div>

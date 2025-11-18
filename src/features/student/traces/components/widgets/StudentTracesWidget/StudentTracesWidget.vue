@@ -42,7 +42,7 @@ const { t } = useI18n()
         <AvButton
           :label="t('student.widgets.traces.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          size="sm"
+          small
           @click="navigateToStudentTraces"
         />
       </div>

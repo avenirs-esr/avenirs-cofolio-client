@@ -5,7 +5,7 @@ import AdditionalSkillRefCard from '@/features/student/additionalSkills/componen
 import AdditionalSkillCommentFormField from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
 import AdditionalSkillLevelRadioButtonSetFormField from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.vue'
 import { useUpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
-import { AvButton, AvCard, AvInput, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, AvCard, AvInput, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface UpdateAdditionalSkillFormProps {
@@ -79,22 +79,16 @@ watch(
 
     <template #footer>
       <div class="update-additional-skill-form__actions">
-        <AvButton
-          :label="t('global.buttons.cancel')"
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          variant="OUTLINED"
-          size="sm"
-          @click="handleCancel"
-        />
-
-        <AvButton
-          variant="FLAT"
-          size="sm"
-          :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :label="t('global.buttons.save')"
-          :disabled="!isFormValid || isSubmitting"
-          :loading="isSubmitting"
-          @click="handleSubmit"
+        <AvCancelConfirmButtons
+          :cancel-label="t('global.buttons.cancel')"
+          :confirm-label="t('global.buttons.save')"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+          :cancel-disabled="isSubmitting"
+          :confirm-disabled="!isFormValid || isSubmitting"
+          :confirm-is-loading="isSubmitting"
+          @cancel="handleCancel"
+          @confirm="handleSubmit"
         />
       </div>
     </template>
@@ -141,7 +135,6 @@ watch(
   &__actions {
     display: flex;
     justify-content: flex-end;
-    gap: var(--spacing-sm);
   }
 }
 </style>

@@ -1,5 +1,5 @@
 import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -9,32 +9,30 @@ vi.mock('@/common/composables', () => ({
   })
 }))
 
+const AvPopoverStub = defineComponent({
+  name: 'AvPopOver',
+  template: `
+    <div>
+      <slot name="trigger" :toggle="() => {}"></slot>
+      <slot name="popover" :close="() => {}"></slot>
+    </div>
+  `
+})
+
 BddTest().given('a student notifications popover', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentNotificationsPopover>>
+
   const stubs = {
-    AvButton: {
-      name: 'AvButton',
-      props: ['label'],
-      template: '<button class="av-button" />'
-    },
-    AvIconText: {
-      name: 'AvIconText',
-      props: ['text'],
-      template: '<div class="av-icon-text" />'
-    },
-    AvPopover: {
-      name: 'AvPopOver',
-      template: `
-        <div>
-          <slot name="trigger" :toggle="() => {}"></slot>
-          <slot name="popover" :close="() => {}"></slot>
-        </div>
-      `
-    }
+    AvButton: AvButtonStub,
+    AvIconText: AvIconTextStub,
+    AvPopover: AvPopoverStub,
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub
   }
 
-  BddTest().and('no notifications', () => {
-    let wrapper: VueWrapper
+  const getIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
 
+  BddTest().and('no notifications', () => {
     beforeEach(() => {
       wrapper = mount(StudentNotificationsPopover, {
         props: { notificationsCount: 0 },
@@ -44,21 +42,20 @@ BddTest().given('a student notifications popover', () => {
 
     BddTest().when('the popover is rendered', () => {
       BddTest().then('it should render the no notifications message', () => {
-        const titleIconText = wrapper.findComponent('[data-testid="notifications-popover-title"]') as VueWrapper<{ $props: { text: string } }>
-        expect(titleIconText).toBeDefined()
+        const titleIconText = getIconText()
+        expect(titleIconText.exists()).toBe(true)
         expect(titleIconText?.props('text')).toBe('Aucune notification')
-        expect(wrapper.find('ul').exists()).toBe(true)
       })
 
       BddTest().then('it should not show the "See All" button', () => {
-        expect(wrapper.findAll('button').some(btn => btn.text().includes('Voir tout'))).toBe(false)
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        expect(cancelConfirmButtons.exists()).toBe(true)
+        expect(cancelConfirmButtons.props('confirmLabel')).toBeUndefined()
       })
     })
   })
 
   BddTest().and('notifications', () => {
-    let wrapper: VueWrapper
-
     beforeEach(() => {
       wrapper = mount(StudentNotificationsPopover, {
         props: { notificationsCount: 5 },
@@ -68,14 +65,15 @@ BddTest().given('a student notifications popover', () => {
 
     BddTest().when('the popover is rendered', () => {
       BddTest().then('it should render the notifications title with count', () => {
-        const titleIconText = wrapper.findComponent('[data-testid="notifications-popover-title"]') as VueWrapper<{ $props: { text: string } }>
-        expect(titleIconText).toBeDefined()
+        const titleIconText = getIconText()
+        expect(titleIconText.exists()).toBe(true)
         expect(titleIconText?.props('text')).toBe('5 notifications non lues')
       })
 
       BddTest().then('it should display the "See All" button', () => {
-        const navButton = wrapper.findComponent('[data-testid="notifications-popover-navigate"]')
-        expect(navButton).toBeDefined()
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        expect(cancelConfirmButtons.exists()).toBe(true)
+        expect(cancelConfirmButtons.props('confirmLabel')).toBe('Voir tout')
       })
     })
   })

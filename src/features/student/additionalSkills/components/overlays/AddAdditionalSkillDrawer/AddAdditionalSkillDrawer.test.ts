@@ -4,15 +4,16 @@ import {
   AdditionalSkillLevelRadioButtonSetFormFieldStub,
 } from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.stub'
 import { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills/additionalSkills'
-import { AvButtonStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
+import { beforeEach, expect, vi } from 'vitest'
 import AddAdditionalSkillDrawer from './AddAdditionalSkillDrawer.vue'
 
 const stubs = {
   AvDrawer: AvDrawerStub,
   AvButton: AvButtonStub,
+  AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   AvIcon: AvIconStub,
   ConfirmationModal: ConfirmationModalStub,
   AddAdditionalSkillAutocompleteField: {
@@ -26,17 +27,9 @@ const stubs = {
 BddTest().given('an add additional skill drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AddAdditionalSkillDrawer>>
 
-  const getSaveButton = () => {
-    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-      button.props('variant') === 'FLAT'
-    )
-  }
-
-  const getCancelButton = () => {
-    return wrapper.findAllComponents({ name: 'AvButton' }).find(button =>
-      button.props('variant') === 'OUTLINED'
-    )
-  }
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getSaveButton = () => getCancelConfirmButtons()?.find('.confirm')
+  const getCancelButton = () => getCancelConfirmButtons()?.find('.cancel')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -72,13 +65,14 @@ BddTest().given('an add additional skill drawer component', () => {
     })
 
     BddTest().then('it should render footer buttons', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const cancelConfirmButtons = getCancelConfirmButtons()
+      expect(cancelConfirmButtons.exists()).toBe(true)
+
       const cancelButton = getCancelButton()
       const saveButton = getSaveButton()
 
-      expect(buttons).toHaveLength(2)
-      expect(cancelButton?.props('label')).toBe('Annuler')
-      expect(saveButton?.props('label')).toBe('Enregistrer')
+      expect(cancelButton?.text()).toBe('Annuler')
+      expect(saveButton?.text()).toBe('Enregistrer')
     })
 
     BddTest().then('it should render form element', () => {
@@ -132,7 +126,7 @@ BddTest().given('an add additional skill drawer component', () => {
       const hideDrawerSpy = vi.spyOn(store, 'hideCreateAdditionalSkillDrawer')
       const cancelButton = getCancelButton()
 
-      await cancelButton?.vm.$emit('click')
+      await cancelButton?.trigger('click')
 
       expect(hideDrawerSpy).toHaveBeenCalled()
     })
@@ -148,19 +142,19 @@ BddTest().given('an add additional skill drawer component', () => {
   })
 
   BddTest().when('the button states are checked', () => {
-    BddTest().then('it should have disabled prop bound to form state on save button', () => {
-      const saveButton = getSaveButton()
-      expect(saveButton?.props('disabled')).toBeDefined()
+    BddTest().then('it should have disabled prop bound to form state on confirm button', () => {
+      const cancelConfirmButtons = getCancelConfirmButtons()
+      expect(cancelConfirmButtons?.props('confirmDisabled')).toBeDefined()
     })
 
-    BddTest().then('it should have isLoading prop bound to submission state on save button', () => {
-      const saveButton = getSaveButton()
-      expect(saveButton?.props('isLoading')).toBeDefined()
+    BddTest().then('it should have isLoading prop bound to submission state on confirm button', () => {
+      const cancelConfirmButtons = getCancelConfirmButtons()
+      expect(cancelConfirmButtons?.props('confirmIsLoading')).toBeDefined()
     })
 
     BddTest().then('it should have disabled prop bound to submission state on cancel button', () => {
-      const cancelButton = getCancelButton()
-      expect(cancelButton?.props('disabled')).toBeDefined()
+      const cancelConfirmButtons = getCancelConfirmButtons()
+      expect(cancelConfirmButtons?.props('cancelDisabled')).toBeDefined()
     })
   })
 

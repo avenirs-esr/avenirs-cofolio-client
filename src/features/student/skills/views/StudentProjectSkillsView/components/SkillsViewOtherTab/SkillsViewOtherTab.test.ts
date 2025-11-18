@@ -223,7 +223,7 @@ BddTest().given('a skills view other tab component', () => {
   BddTest().when('checking button styling and layout', () => {
     BddTest().then('it should render button with correct size', () => {
       const button = wrapper.find('button')
-      expect(button.attributes('size')).toBe('sm')
+      expect(button.attributes('small')).toBeDefined()
     })
 
     BddTest().then('it should position button container at flex-end', () => {

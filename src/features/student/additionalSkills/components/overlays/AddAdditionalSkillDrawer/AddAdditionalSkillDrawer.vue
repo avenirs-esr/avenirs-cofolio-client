@@ -8,7 +8,7 @@ import {
 } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
 import { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills/additionalSkills'
 import { useToasterStore } from '@/store'
-import { AvButton, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -85,23 +85,16 @@ function confirmCancel () {
         v-memo="[isFormValid, isSubmitting]"
         class="add-additional-skill-drawer__footer"
       >
-        <AvButton
-          :label="t('global.buttons.cancel')"
-          variant="OUTLINED"
-          type="button"
-          :disabled="isSubmitting"
-          size="sm"
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          @click="handleCancel"
-        />
-        <AvButton
-          :label="t('global.buttons.save')"
-          variant="FLAT"
-          :disabled="!isFormValid || isSubmitting"
-          :is-loading="isSubmitting"
-          size="sm"
-          :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          @click="form.handleSubmit"
+        <AvCancelConfirmButtons
+          :cancel-label="t('global.buttons.cancel')"
+          :confirm-label="t('global.buttons.save')"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+          :cancel-disabled="isSubmitting"
+          :confirm-disabled="!isFormValid || isSubmitting"
+          :confirm-is-loading="isSubmitting"
+          @cancel="handleCancel"
+          @confirm="form.handleSubmit"
         />
       </div>
     </template>
@@ -152,7 +145,6 @@ function confirmCancel () {
 .add-additional-skill-drawer__footer {
   display: flex;
   justify-content: flex-end;
-  gap: var(--spacing-sm);
   padding: var(--spacing-md);
 }
 </style>

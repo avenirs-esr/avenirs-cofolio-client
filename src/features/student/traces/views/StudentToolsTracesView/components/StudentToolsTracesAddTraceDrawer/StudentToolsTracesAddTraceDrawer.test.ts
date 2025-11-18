@@ -42,9 +42,9 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub
   }
 
-  const getCancelConfirmButton = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
-  const getSaveButton = () => getCancelConfirmButton()?.find('.confirm')
-  const getCancelButton = () => getCancelConfirmButton()?.find('.cancel')
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getSaveButton = () => getCancelConfirmButtons()?.find('.confirm')
+  const getCancelButton = () => getCancelConfirmButtons()?.find('.cancel')
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
     await wrapper.vm.$nextTick()
@@ -239,7 +239,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   BddTest().when('save button state', () => {
     BddTest().then('it should be enabled by default', async () => {
-      const cancelConfirmButtons = getCancelConfirmButton()
+      const cancelConfirmButtons = getCancelConfirmButtons()
 
       expect(cancelConfirmButtons.props('confirmDisabled')).toBe(false)
     })
