@@ -118,8 +118,8 @@
                 <tbody>
                     <tr>
                         <th scope="row"><a href="#1" class="card-link">1</a></th>
-                        <td>Page should contain a level-one heading</td>
-                        <td>page-has-heading-one</td>
+                        <td>Heading levels should only increase by one</td>
+                        <td>heading-order</td>
                         <td>Best practice</td>
                         <td>moderate</td>
                         <td>1</td>
@@ -131,23 +131,23 @@
                 <div class="card-body">
                     <div class="violationCardLine">
                         <p class="card-title">
-                            <a id="1">1.</a> Page should contain a level-one heading
+                            <a id="1">1.</a> Heading levels should only increase by one
                         </p>
                         <a
-                            href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;page-has-heading-one?application&#x3D;playwright"
+                            href="https:&#x2F;&#x2F;dequeuniversity.com&#x2F;rules&#x2F;axe&#x2F;4.10&#x2F;heading-order?application&#x3D;playwright"
                             target="_blank"
                             class="card-link violationCardTitleItem learnMore"
                             >Learn more</a
                         >
                     </div>
                     <div class="violationCardLine">
-                        <p class="card-subtitle mb-2 text-muted">page-has-heading-one</p>
+                        <p class="card-subtitle mb-2 text-muted">heading-order</p>
                         <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
                             Best practice
                         </p>
                     </div>
                     <div class="violationCardLine">
-                        <p class="card-text">Ensure that the page, or at least one of its frames contains a level-one heading</p>
+                        <p class="card-text">Ensure the order of headings is semantically correct</p>
                         <p class="card-subtitle mb-2 text-muted violationCardTitleItem">
                             moderate
                         </p>
@@ -176,15 +176,15 @@
                                     <td>1</td>
                                     <td>
                                         <p><strong>Element location</strong></p>
-                                        <pre><code class="css text-wrap">html</code></pre>
+                                        <pre><code class="css text-wrap">h5</code></pre>
                                         <p><strong>Element source</strong></p>
-                                        <pre><code class="html text-wrap">&lt;html lang&#x3D;&quot;en&quot; demo-mode&#x3D;&quot;false&quot;&gt;</code></pre>
+                                        <pre><code class="html text-wrap">&lt;h5 data-v-4563c084&#x3D;&quot;&quot; class&#x3D;&quot;n5&quot;&gt;My educational skills  &lt;span data-v-4563c084&#x3D;&quot;&quot; class&#x3D;&quot;b1-regular&quot;&gt;(validated and in progress)&lt;&#x2F;span&gt;&lt;&#x2F;h5&gt;</code></pre>
                                     </td>
                                     <td>
                                         <div class="wrapBreakWord">
-                                            <p>Fix all of the following:</p>
+                                            <p>Fix any of the following:</p>
                                             <ul class="text-muted">
-                                                <li>  Page must have a level-one heading</li>
+                                                <li>  Heading order invalid</li>
                                             </ul>
                                         </div>
                                     </td>
@@ -205,7 +205,7 @@
                                 aria-expanded="false"
                                 aria-controls="passes"
                             >
-                                axe returned 45 passed axe
+                                axe returned 46 passed axe
                                 checks. Expand details on
                                 click
                             </button>
@@ -325,7 +325,7 @@
                                         <td>Inline text spacing must be adjustable with custom stylesheets</td>
                                         <td>avoid-inline-spacing</td>
                                         <td>WCAG 2.1 Level AA, WCAG 1.4.1.2</td>
-                                        <td>80</td>
+                                        <td>81</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">15</th>
@@ -346,7 +346,7 @@
                                         <td>Elements must meet minimum color contrast ratio thresholds</td>
                                         <td>color-contrast</td>
                                         <td>WCAG 2 Level AA, WCAG 1.4.3</td>
-                                        <td>60</td>
+                                        <td>61</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">18</th>
@@ -367,7 +367,7 @@
                                         <td>Headings should not be empty</td>
                                         <td>empty-heading</td>
                                         <td>Best practice</td>
-                                        <td>1</td>
+                                        <td>2</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">21</th>
@@ -525,20 +525,27 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">43</th>
+                                        <td>Page should contain a level-one heading</td>
+                                        <td>page-has-heading-one</td>
+                                        <td>Best practice</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">44</th>
                                         <td>Ensure elements marked as presentational are consistently ignored</td>
                                         <td>presentation-role-conflict</td>
                                         <td>Best practice</td>
                                         <td>2</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">44</th>
+                                        <th scope="row">45</th>
                                         <td>All page content should be contained by landmarks</td>
                                         <td>region</td>
                                         <td>Best practice</td>
-                                        <td>309</td>
+                                        <td>311</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">45</th>
+                                        <th scope="row">46</th>
                                         <td>Elements should not have tabindex greater than zero</td>
                                         <td>tabindex</td>
                                         <td>Best practice</td>
