@@ -3140,6 +3140,37 @@
           "description",
           "label"
         ]
+      },
+      "SelfKnowledgeElementViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description"
+        ]
+      },
+      "ESelfKnowledgeCategoryType": {
+        "type": "string",
+        "description": "Enum for self knowledge category type",
+        "enum": [
+          "STRENGTHS",
+          "VALUES",
+          "ASPIRATIONS"
+        ]
       }
     }
   }

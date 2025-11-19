@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { ROUTE_NAMES } from '@/common/constants'
-import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
+import { StudentCountAmsIconText } from '@/features/student/ams'
+import { FloatingIconCard } from '@/features/student/global'
 import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
-import { AvBadge, type AvBadgeProps, AvCard, AvIcon, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentSkillCardProps {
@@ -64,10 +65,11 @@ function levelToBadge (level: SkillLevelProgressOverviewDTO): Pick<AvBadgeProps,
 const levelStatusBadge = computed(() => levelToBadge(currentSkillLevel.value))
 const varSkillColor = computed(() => `var(${skillColor})`)
 
-const theme = ref({
-  hoverBorderColor: varSkillColor,
-})
 const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
+
+const iconOptions = {
+  name: MDI_ICONS.STAR_SHOOTING_OUTLINE,
+}
 </script>
 
 <template>
@@ -75,42 +77,21 @@ const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
     class="student-skill-card"
     :to="{ name: studentSkillRouteName, params: { id: skill.id } }"
   >
-    <AvCard
-      border-color="var(--other-border-skill-card)"
-      :title-background="varSkillColor"
-      title-height="6.75rem"
+    <FloatingIconCard
+      :title="name"
+      :icon-options="iconOptions"
+      :color="varSkillColor"
+      title-typography-classes="student-skill-card__title b1-bold"
     >
-      <template #title>
-        <div class="student-skill-card__title">
-          <span
-            class="n6 skill-name"
-            :title="name"
-          >
-            {{ name }}
-          </span>
-          <div
-            class="student-skill-card__icon"
-            :style="{ background: `var(${skillColor})` }"
-          >
-            <AvIcon
-              :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
-              color="var(--card2)"
-              :size="2.0625"
-            />
-          </div>
-        </div>
-      </template>
       <template #body>
-        <div class="student-skill-card__body">
-          <StudentCountTracesIconText
-            :count-traces="currentSkillLevel.traceCount"
-            gap="0.75rem"
-          />
-          <StudentCountAmsIconText
-            :count-ams="currentSkillLevel.activityCount"
-            gap="0.75rem"
-          />
-        </div>
+        <StudentCountTracesIconText
+          :count-traces="currentSkillLevel.traceCount"
+          gap="0.75rem"
+        />
+        <StudentCountAmsIconText
+          :count-ams="currentSkillLevel.activityCount"
+          gap="0.75rem"
+        />
       </template>
       <template #footer>
         <div class="student-skill-card__footer">
@@ -121,64 +102,33 @@ const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
           />
         </div>
       </template>
-    </AvCard>
+    </FloatingIconCard>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.av-card {
-  height: 16.875rem;
-  width: 100%;
-
-  &:hover {
-    border: 1px solid v-bind('theme.hoverBorderColor') !important;
-    box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
-  }
-}
-
 .student-skill-card {
   display: flex;
   width: 17.25rem;
   border-radius: 1.5rem;
 
-  &__title {
-    position: relative;
+  :deep(.floating-icon-card__title.b1-bold) {
+    color: var(--card2);
   }
 
-  &__icon {
-    position: absolute;
-    width: 3.125rem;
-    height: 3.125rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--other-background-base);
-    right: 0;
-    top: 4.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  &__footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--spacing-xxs);
-  }
+}
+:deep(.fr-badge--success) {
+  color: var(--light-foreground-success) !important;
+  background-color: var(--light-background-success) !important;
 }
 
-.skill-name {
-  color: var(--card2);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
+:deep(.fr-badge--info) {
+  color: var(--dark-background-primary1) !important;
+  background-color: var(--light-background-primary2) !important;
+}
+
+:deep(.fr-badge--error) {
+  color: var(--light-foreground-error) !important;
+  background-color: var(--light-background-error) !important;
 }
 </style>
