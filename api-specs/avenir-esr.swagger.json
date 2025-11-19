@@ -826,6 +826,60 @@
         }
       }
     },
+    "/me/self-knowledge/categories": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeCategories_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/student-progress": {
       "get": {
         "tags": [
@@ -2502,6 +2556,42 @@
           "page"
         ]
       },
+      "SelfKnowledgeCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESelfKnowledgeCategoryType",
+            "enum": [
+              "STRENGTHS",
+              "VALUES",
+              "ASPIRATIONS",
+              "MOTIVATION",
+              "IMPROVEMENT",
+              "INTERESTS",
+              "INSPIRATIONS",
+              "OBLIGATIONS",
+              "TESTIMONIALS"
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "title",
+          "type"
+        ]
+      },
       "SkillDetailedDTO": {
         "type": "object",
         "properties": {
@@ -3169,7 +3259,13 @@
         "enum": [
           "STRENGTHS",
           "VALUES",
-          "ASPIRATIONS"
+          "ASPIRATIONS",
+          "MOTIVATION",
+          "IMPROVEMENT",
+          "INTERESTS",
+          "INSPIRATIONS",
+          "OBLIGATIONS",
+          "TESTIMONIALS"
         ]
       }
     }
