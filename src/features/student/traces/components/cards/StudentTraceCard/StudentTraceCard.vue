@@ -3,7 +3,8 @@ import type { RouteLocationRaw } from 'vue-router'
 import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
 import { ROUTE_NAMES } from '@/common/constants'
 import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
-import { AvCard, AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { FloatingIconCard } from '@/features/student/global'
+import { AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
@@ -26,9 +27,13 @@ const typeInfo = computed(() => isGroup
   ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
   : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
 
-const theme = ref({
-  hoverBorderColor: 'var(--dark-background-primary1)',
-})
+const iconOptions = {
+  name: MDI_ICONS.ATTACH_FILE,
+  color: 'var(--text1)',
+  bottom: 'calc(-1 * var(--spacing-lg))',
+  right: '0.75rem',
+  borderColor: 'var(--other-border-skill-card)'
+}
 </script>
 
 <template>
@@ -36,31 +41,16 @@ const theme = ref({
     class="student-trace-card"
     :to="to"
   >
-    <AvCard
+    <FloatingIconCard
+      :title="title"
+      :icon-options="iconOptions"
       border-color="var(--other-border-skill-card)"
-      title-background="var(--surface-background)"
-      title-height="4.6875rem"
+      border-color-on-hover="var(--dark-background-primary1)"
+      color="var(--surface-background)"
+      :header-rows="2"
+      height="14rem"
+      title-typography-classes="b1-bold"
     >
-      <template #title>
-        <div class="student-trace-card__title">
-          <span
-            class="b1-bold student-trace-card__titletruncate"
-            :title="title"
-          >
-            {{ title }}
-          </span>
-          <div
-            class="student-trace-card__icon"
-            :style="{ background: 'var(--surface-background)' }"
-          >
-            <AvIcon
-              :name="MDI_ICONS.ATTACH_FILE"
-              color="var(--text1)"
-              :size="1.9375"
-            />
-          </div>
-        </div>
-      </template>
       <template #body>
         <div class="student-trace-card__body">
           <div class="student-trace-card__line student-trace-card__skills">
@@ -101,85 +91,55 @@ const theme = ref({
           </div>
         </div>
       </template>
-    </AvCard>
+    </FloatingIconCard>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.av-card {
-  height: 14rem;
-  width: 100%;
+.student-trace-card {
+  width: 17.125rem;
 
-  &:hover {
-    border: 1px solid v-bind('theme.hoverBorderColor') !important;
-    box-shadow: 0 0 0 2px v-bind('theme.hoverBorderColor');
+  :deep(.av-card:hover) {
+    border: 1px solid var(--dark-background-primary1) !important;
+    box-shadow: 0 0 0 2px var(--dark-background-primary1);
+  }
+  :deep(.floating-icon-card__icon) {
+    width: 2.75rem;
+    height: 2.75rem;
   }
 }
 
-.student-trace-card {
+.student-trace-card__body {
   display: flex;
-  width: 17.125rem;
-  border-radius: 1.5rem;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
-  &__title {
-    position: relative;
-  }
+.student-trace-card__line {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  align-items: center;
+}
 
-  &__titlecontent {
-    width: 11.25rem;
-    height: var(--dimension-2xl);
-  }
+.student-trace-card__line.student-trace-card__skills {
+  gap: var(--spacing-xs);
+}
 
-  &__titletruncate {
-    display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    height: var(--dimension-2xl);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
+.student-trace-card__categoryText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+}
 
-  &__icon {
-    position: absolute;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--other-border-skill-card);
-    right: calc(var(--spacing-md) / 2);
-    top: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: calc(var(--spacing-md) / 2);
-    padding-top: var(--spacing-md);
-  }
-
-  &__line {
-    display: flex;
-    flex-direction: row;
-    gap: calc(var(--spacing-md) / 2);
-    align-items: center;
-  }
-
-  &__skills {
-    gap: var(--spacing-xs);
-  }
-
-  &__lineicon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 1.375rem;
-    width: 1.375rem;
-    border-radius: var(--radius-sm);
-  }
+.fr-tag {
+  color: var(--text2);
+  background-color: var(--light-background-neutral);
+  align-items: center;
+  padding: var(--spacing-none) var(--spacing-xs) var(--spacing-none) var(--spacing-xs);
+  min-height: unset;
+  width: unset;
+  border-radius: var(--radius-sm);
 }
 </style>

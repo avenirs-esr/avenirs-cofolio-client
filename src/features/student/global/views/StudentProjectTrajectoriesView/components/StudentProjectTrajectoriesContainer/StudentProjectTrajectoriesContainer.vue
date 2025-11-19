@@ -3,9 +3,9 @@ import type { Component } from 'vue'
 import StudentProjectTrajectoriesActivitiesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesActivitiesSection/StudentProjectTrajectoriesActivitiesSection.vue'
 import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
-import StudentProjectTrajectoriesSelfKnowledgeSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesSelfKnowledgeSection/StudentProjectTrajectoriesSelfKnowledgeSection.vue'
 import StudentProjectTrajectoriesTrajectoriesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
 import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
+import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
 import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -17,12 +17,12 @@ const selectedItem = ref<ProjectTrajectoryItems>(ProjectTrajectoryItems.BUILD_PR
 const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
   [ProjectTrajectoryItems.BUILD_PROJECT]: StudentProjectTrajectoriesBuildProjectSection,
   [ProjectTrajectoryItems.TRAJECTORIES]: StudentProjectTrajectoriesTrajectoriesSection,
-  [ProjectTrajectoryItems.SELF_KNOWLEDGE]: StudentProjectTrajectoriesSelfKnowledgeSection,
+  [ProjectTrajectoryItems.SELF_KNOWLEDGE]: SelfKnowledgeMainSection,
   [ProjectTrajectoryItems.EXPLORE_FUTURES]: StudentProjectTrajectoriesExploreFuturesSection,
   [ProjectTrajectoryItems.ACTIVITIES]: StudentProjectTrajectoriesActivitiesSection
 }
 
-const ALL_ITEMS: AvSideNavigationItem[] = [
+const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
   {
     id: ProjectTrajectoryItems.BUILD_PROJECT,
     label: t('student.views.studentProjectTrajectoriesView.buildProject.title'),
@@ -48,13 +48,13 @@ const ALL_ITEMS: AvSideNavigationItem[] = [
     label: t('student.views.studentProjectTrajectoriesView.activities.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
-]
+])
 
 const items = computed<AvSideNavigationItem[]>(() => {
   if (__DEMO_MODE__) {
-    return ALL_ITEMS.slice(0, 1)
+    return ALL_ITEMS.value.slice(0, 1)
   }
-  return ALL_ITEMS
+  return ALL_ITEMS.value
 })
 
 const displayedSection = computed<Component>(() => {

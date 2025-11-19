@@ -28,8 +28,8 @@ BddTest().given('a project trajectories container component', () => {
       name: 'StudentProjectTrajectoriesTrajectoriesSection',
       template: '<div class="trajectories-section-stub">Trajectories Section</div>'
     },
-    StudentProjectTrajectoriesSelfKnowledgeSection: {
-      name: 'StudentProjectTrajectoriesSelfKnowledgeSection',
+    SelfKnowledgeMainSection: {
+      name: 'SelfKnowledgeMainSection',
       template: '<div class="self-knowledge-section-stub">Self Knowledge Section</div>'
     },
     StudentProjectTrajectoriesExploreFuturesSection: {
@@ -109,7 +109,7 @@ BddTest().given('a project trajectories container component', () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
       await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.SELF_KNOWLEDGE)
 
-      const selfKnowledgeSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesSelfKnowledgeSection' })
+      const selfKnowledgeSection = wrapper.findComponent({ name: 'SelfKnowledgeMainSection' })
       expect(selfKnowledgeSection.exists()).toBe(true)
     })
 

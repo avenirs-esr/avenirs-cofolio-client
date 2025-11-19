@@ -1,13 +1,13 @@
-import StudentProjectTrajectoriesSelfKnowledgeSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesSelfKnowledgeSection/StudentProjectTrajectoriesSelfKnowledgeSection.vue'
+import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a self knowledge section component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof StudentProjectTrajectoriesSelfKnowledgeSection>>
+  let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeMainSection>>
 
   beforeEach(() => {
-    wrapper = mount(StudentProjectTrajectoriesSelfKnowledgeSection)
+    wrapper = mount(SelfKnowledgeMainSection)
   })
 
   BddTest().when('the self knowledge section is mounted', () => {
