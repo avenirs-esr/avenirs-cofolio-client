@@ -110,3 +110,5 @@ export function createMockedPagedResponseSelfKnowledgeElementViewDTO (
     page: { pageSize, totalElements: actualTotalElements, totalPages, page }
   }
 }
+
+export const mockedSelfKnowledgeCategoriesAvailable: SelfKnowledgeCategoryDTO[] = mockedSelfKnowledgeCategories.slice(1)

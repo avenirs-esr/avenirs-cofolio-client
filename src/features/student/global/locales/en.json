@@ -328,27 +328,39 @@
         "title": "All my skills"
       },
       "studentProjectTrajectoriesView": {
-        "title": "Building my project",
+        "activities": {
+          "title": "My activities"
+        },
         "buildProject": {
-          "title": "Building my project",
           "consultHelpButtonLabel": "How to build my project?",
           "projectTrajectoriesHelperModal": {
-            "title": "##Imagine your future by identifying possible paths##",
+            "closeButtonLabel": "Close",
             "content": "Following the work on your interests, motivations and values, and on the exploration of possible futures, one or several life project ideas may start to take shape.\n##The validation phase of your project(s) can then begin.##\nThe questions to ask yourself at this stage are:\n\n(-##What skills have I already acquired that are useful for this project?##)(-##What new skills do I need to acquire to carry out this project?##)(-##How can I acquire them?##)\nThe answers to these questions will help you ##build one or more coherent paths for your project by combining several possible future profiles## (training programs, mobility, careers, etc.) that you have added to your portfolio.\n##To support your reflection, you can associate evidences you have added to your skills portfolio.## These evidences will help demonstrate your learning and contribute to showing your commitment and progress in:\n\n(-the development of your skills)(-the construction of a life project consistent with your background, skills, and interests.)",
-            "closeButtonLabel": "Close"
-          }
-        },
-        "trajectories": {
-          "title": "My Trajectories"
-        },
-        "selfKnowledge": {
-          "title": "Self-knowledge"
+            "title": "##Imagine your future by identifying possible paths##"
+          },
+          "title": "Building my project"
         },
         "exploreFutures": {
           "title": "Explore my futures"
         },
-        "activities": {
-          "title": "My activities"
+        "selfKnowledge": {
+          "buttons": {
+            "addCategory": "Add category"
+          },
+          "modals": {
+            "addSelfKnowledgeCategories": {
+              "success": "{count} category added successfully | {count} categories added successfully",
+              "title": "You have added all the categories currently available on COFOLIO. | Which category would you like to add? | Which categories would you like to add?"
+            }
+          },
+          "title": {
+            "content": "Who am I?",
+            "menu": "Self-knowledge"
+          }
+        },
+        "title": "Building my project",
+        "trajectories": {
+          "title": "My Trajectories"
         }
       },
       "studentSkillView": {

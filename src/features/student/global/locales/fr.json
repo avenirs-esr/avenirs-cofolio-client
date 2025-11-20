@@ -328,27 +328,39 @@
         "title": "Toutes mes compétences"
       },
       "studentProjectTrajectoriesView": {
-        "title": "Bâtir mon projet",
+        "activities": {
+          "title": "Mes activités"
+        },
         "buildProject": {
           "title": "Bâtir mon projet",
           "consultHelpButtonLabel": "Comment construire mon projet ?",
           "projectTrajectoriesHelperModal": {
-            "title": "##Imaginez votre futur en identifiant des trajectoires possibles##",
+            "closeButtonLabel": "Quitter",
             "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l’exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont :\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet ?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet ?##)(-##Comment les acquérir ?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans :\n\n(-le développement de vos compétences)(-la construction d’un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
-            "closeButtonLabel": "Quitter"
+            "title": "##Imaginez votre futur en identifiant des trajectoires possibles##"
           }
-        },
-        "trajectories": {
-          "title": "Mes Trajectoires"
-        },
-        "selfKnowledge": {
-          "title": "Me connaître"
         },
         "exploreFutures": {
           "title": "Explorer mes futurs"
         },
-        "activities": {
-          "title": "Mes activités"
+        "selfKnowledge": {
+          "buttons": {
+            "addCategory": "Ajouter une catégorie"
+          },
+          "modals": {
+            "addSelfKnowledgeCategories": {
+              "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
+              "title": "Vous avez ajouté toutes les catégories actuellement disponible sur COFOLIO. | Quelle catégorie souhaitez-vous ajouter ? | Quelles catégories souhaitez-vous ajouter ?"
+            }
+          },
+          "title": {
+            "content": "Qui je suis ?",
+            "menu": "Me connaître"
+          }
+        },
+        "title": "Bâtir mon projet",
+        "trajectories": {
+          "title": "Mes Trajectoires"
         }
       },
       "studentSkillView": {

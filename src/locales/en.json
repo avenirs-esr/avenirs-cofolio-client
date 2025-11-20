@@ -15,6 +15,7 @@
       "inactiveText": "Off"
     },
     "buttons": {
+      "add": "Add",
       "cancel": "Cancel",
       "close": "Close",
       "confirm": "Confirm",
@@ -23,7 +24,7 @@
       "goBack": "Go back",
       "save": "Save"
     },
-    "colon": "{before}:{after}",
+    "colon": "{before}:",
     "dates": {
       "dateTimeAt": "{date} at {time}"
     },
