@@ -288,6 +288,16 @@ interface MountComposableOptions {
   queryClientConfig?: QueryClientConfig
 }
 
+const defaultQueryClientConfig: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      retry: false
+    },
+    mutations: {
+      retry: false
+    }
+  }
+}
 /**
  * Mounts a Vue composable for testing with configuration options.
  *
@@ -300,7 +310,7 @@ interface MountComposableOptions {
  * @param {QueryClientConfig} [options.queryClientConfig] - Custom configuration of TanStack Query QueryClient.
  * @returns {{ result: T, unmount: () => void }} An object containing the result of the composable and a function to unmount the application.
  */
-export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = {} }: MountComposableOptions): { result: T, unmount: () => void } {
+export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = defaultQueryClientConfig }: MountComposableOptions): { result: T, unmount: () => void } {
   let composableResult: T | undefined
   const app = createApp({
     setup () {
@@ -316,8 +326,8 @@ export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n 
     setActivePinia(pinia)
     app.use(pinia)
   }
-  const queryClient = new QueryClient(queryClientConfig)
   if (useTanstack) {
+    const queryClient = new QueryClient(queryClientConfig)
     app.use(VueQueryPlugin, { queryClient })
   }
   app.mount(document.createElement('div'))
