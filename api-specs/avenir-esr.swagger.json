@@ -247,51 +247,6 @@
         }
       }
     },
-    "/me/additional-skill-progress/{additionalSkillProgressId}/unassociate/traces": {
-      "post": {
-        "tags": [
-          "additional-skill-progress-controller"
-        ],
-        "operationId": "unassociateTraces",
-        "parameters": [
-          {
-            "name": "additionalSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces": {
       "post": {
         "tags": [
@@ -529,6 +484,148 @@
         }
       }
     },
+    "/me/self-knowledge/{selfKnowledgeCategoryId}/elements": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeElements",
+        "parameters": [
+          {
+            "name": "selfKnowledgeCategoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseSelfKnowledgeElementViewDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "createSelfKnowledgeElement",
+        "parameters": [
+          {
+            "name": "selfKnowledgeCategoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelfKnowledgeElementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfKnowledgeElementViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/self-knowledge/categories": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeCategories",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeCategories_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/additional-skill-progress": {
       "get": {
         "tags": [
@@ -590,6 +687,51 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AdditionalSkillProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/additional-skill-progress/{additionalSkillProgressId}/unassociate/traces": {
+      "post": {
+        "tags": [
+          "additional-skill-progress-controller"
+        ],
+        "operationId": "unassociateTraces",
+        "parameters": [
+          {
+            "name": "additionalSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -826,60 +968,6 @@
         }
       }
     },
-    "/me/self-knowledge/categories": {
-      "get": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "getSelfKnowledgeCategories",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "getSelfKnowledgeCategories_1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/student-progress": {
       "get": {
         "tags": [
@@ -1053,6 +1141,29 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/SkillListItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/self-knowledge/categories/available": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeCategoriesAvailable",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
                   }
                 }
               }
@@ -2556,42 +2667,6 @@
           "page"
         ]
       },
-      "SelfKnowledgeCategoryDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/ESelfKnowledgeCategoryType",
-            "enum": [
-              "STRENGTHS",
-              "VALUES",
-              "ASPIRATIONS",
-              "MOTIVATION",
-              "IMPROVEMENT",
-              "INTERESTS",
-              "INSPIRATIONS",
-              "OBLIGATIONS",
-              "TESTIMONIALS"
-            ]
-          }
-        },
-        "required": [
-          "description",
-          "id",
-          "title",
-          "type"
-        ]
-      },
       "SkillDetailedDTO": {
         "type": "object",
         "properties": {
@@ -2645,6 +2720,60 @@
         "required": [
           "skillId",
           "title"
+        ]
+      },
+      "SelfKnowledgeCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESelfKnowledgeCategoryType",
+            "enum": [
+              "STRENGTHS",
+              "VALUES",
+              "ASPIRATIONS",
+              "MOTIVATION",
+              "IMPROVEMENT",
+              "INTERESTS",
+              "INSPIRATIONS",
+              "OBLIGATIONS",
+              "TESTIMONIALS"
+            ]
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "title",
+          "type"
+        ]
+      },
+      "PagedResponseSelfKnowledgeElementViewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfKnowledgeElementViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "AccessInfoAPC": {
@@ -2764,58 +2893,6 @@
           "page"
         ]
       },
-      "AdditionalSkillDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "pathSegments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EAdditionalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "pathSegments",
-          "title",
-          "type"
-        ]
-      },
-      "PagedResponseAdditionalSkillDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AdditionalSkillDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
       "PagedResponseAdditionalSkillProgressDTO": {
         "type": "object",
         "properties": {
@@ -2920,6 +2997,58 @@
           "traceAssociations",
           "type",
           "updatedAt"
+        ]
+      },
+      "AdditionalSkillDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAdditionalSkillType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "pathSegments",
+          "title",
+          "type"
+        ]
+      },
+      "PagedResponseAdditionalSkillDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdditionalSkillDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "EAdditionalSkillCategoryType": {
@@ -3067,7 +3196,13 @@
           "STUDENT_PROGRESS_NOT_FOUND",
           "FILE_NOT_FOUND",
           "CONFIGURATION_ERROR",
-          "DESCRIPTION_TOO_LONG"
+          "TITLE_TOO_LONG",
+          "DESCRIPTION_TOO_LONG",
+          "ASSOCIATION_NOT_FOUND",
+          "SELF_KNOWLEDGE_ELEMENT_NOT_FOUND",
+          "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY",
+          "SELF_KNOWLEDGE_CATEGORY_NOT_FOUND",
+          "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE"
         ]
       },
       "ELanguage": {
@@ -3235,7 +3370,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "format": "uuid"
           },
           "title": {
             "type": "string"
@@ -3244,13 +3380,37 @@
             "type": "string"
           },
           "rating": {
-            "type": "number"
+            "type": "integer",
+            "format": "int32"
           }
         },
         "required": [
+          "description",
           "id",
-          "title",
-          "description"
+          "title"
+        ]
+      },
+      "SelfKnowledgeElementRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "minLength": 0
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "description",
+          "title"
         ]
       },
       "ESelfKnowledgeCategoryType": {
