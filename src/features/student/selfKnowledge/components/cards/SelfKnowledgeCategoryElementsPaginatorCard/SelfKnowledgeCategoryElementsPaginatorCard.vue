@@ -1,0 +1,210 @@
+<script setup lang="ts">
+import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
+import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
+import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils'
+import { AvCard, AvIconText, AvPagination, getPaginationPages, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+
+export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
+  category: SelfKnowledgeCategoryDTO
+}
+
+const { category } = defineProps<SelfKnowledgeCategoryElementsPaginatorCardProps>()
+
+const { t } = useI18n()
+
+const currentPage = ref(0)
+
+const { elements, pageInfo, isLoading } = useSelfKnowledgeCategoryElementsViewQuery({
+  selfKnowledgeCategoryId: computed(() => category.id),
+  page: currentPage
+})
+
+const categoryType = computed(() => category.type)
+const categoryIcon = computed(() => getSelfKnowledgeCategoryIcon(categoryType.value))
+const totalElements = computed(() => pageInfo.value.totalElements)
+const categoryTitle = computed(() => `${category.title} (${totalElements.value})`)
+const totalPages = computed(() => pageInfo.value.totalPages)
+
+const { isMobile } = useAvBreakpoints()
+
+const justifyContentDirection = computed(() => {
+  return isMobile.value ? 'center' : 'flex-start'
+})
+
+const addLabel = computed(() => {
+  switch (categoryType.value) {
+    case 'VALUES':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addValue')
+    case 'STRENGTHS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addStrength')
+    case 'ASPIRATIONS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addAspiration')
+    default:
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addElement')
+  }
+})
+
+const deleteLabel = computed(() => {
+  switch (categoryType.value) {
+    case 'VALUES':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteValue')
+    case 'STRENGTHS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteStrength')
+    case 'ASPIRATIONS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteAspiration')
+    default:
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteElement')
+  }
+})
+
+const pages = computed(() => getPaginationPages(totalPages))
+
+const shareLabel = computed(() => {
+  switch (categoryType.value) {
+    case 'VALUES':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareValues')
+    case 'STRENGTHS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareStrengths')
+    case 'ASPIRATIONS':
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareAspirations')
+    default:
+      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareElements')
+  }
+})
+</script>
+
+<template>
+  <AvCard
+    background-color="var(--surface-background)"
+    title-background="var(--surface-background)"
+    border-color="var(--stroke)"
+    collapsible
+  >
+    <template #title>
+      <div class="category-elements-paginator__title">
+        <AvIconText
+          typography-class="n5"
+          :icon="categoryIcon"
+          icon-color="var(--icon)"
+          :text="categoryTitle"
+          text-color="var(--title)"
+          gap="var(--spacing-sm)"
+        />
+        <div class="category-elements-paginator__title-actions">
+          <SelfKnowledgeElementsDropdown
+            :add-label="addLabel"
+            :delete-label="deleteLabel"
+            :share-label="shareLabel"
+            :is-category-deletable="true"
+          />
+        </div>
+      </div>
+    </template>
+
+    <div class="category-elements-paginator__body">
+      <span class="s2-regular category-elements-paginator__description">{{ category.description }}</span>
+
+      <div
+        v-if="!isLoading && elements.length > 0"
+        class="category-elements-paginator__content"
+      >
+        <AvPagination
+          class="category-elements-paginator__pagination"
+          :current-page="pageInfo.page"
+          :pages="pages"
+          compact
+          :prev-page-label="t('global.avPagination.prevPageTitle')"
+          :next-page-label="t('global.avPagination.nextPageTitle')"
+          :compact-current-page-label="t('global.avPagination.current', {
+            current: (pageInfo.page + 1),
+            total: (pageInfo.totalPages),
+          })"
+          @update:current-page="(page) => currentPage = page"
+        />
+
+        <div class="category-elements-paginator__cards">
+          <SelfKnowledgeElementCard
+            v-for="element in elements"
+            :key="element.id"
+            :element="element"
+            :category-type="categoryType"
+          />
+        </div>
+      </div>
+
+      <div
+        v-else-if="!isLoading && elements.length === 0"
+        class="category-elements-paginator__empty"
+      >
+        <span class="b2-regular">
+          {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.emptyState') }}
+        </span>
+      </div>
+    </div>
+  </AvCard>
+</template>
+
+<style lang="scss" scoped>
+.category-elements-paginator {
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-md);
+  }
+
+  &__title-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  &__description {
+    color: var(--text2);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+  }
+
+  &__pagination {
+    :deep(.av-pagination__list) {
+      justify-content: flex-end !important;
+    }
+  }
+
+  &__cards {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: v-bind('justifyContentDirection');
+    padding: 0 var(--spacing-sm);
+
+    > * {
+      flex: 1 1 calc((100% - 2 * var(--spacing-md)) / 3);
+      min-width: 20rem;
+      max-width: calc((100% - 2 * var(--spacing-md)) / 3);
+    }
+  }
+
+  &__empty {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    color: var(--text2);
+  }
+}
+</style>

@@ -398,7 +398,8 @@
                 "testimonials": "Share my testimonials",
                 "values": "Share my values"
               }
-            }
+            },
+            "emptyState": "No elements in this category"
           },
           "elementsDetails": {
             "valorized": "Valorize in my resumes"

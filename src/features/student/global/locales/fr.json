@@ -398,7 +398,8 @@
                 "testimonials": "Partager mes témoignages",
                 "values": "Partager mes valeurs"
               }
-            }
+            },
+            "emptyState": "Aucun élément dans cette catégorie"
           },
           "elementsDetails": {
             "valorized": "Valoriser dans mes CV"

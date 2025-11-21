@@ -2,7 +2,7 @@
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import { FloatingIconCard } from '@/features/student/global'
-import { getCategoryIcon } from '@/features/student/selfKnowledge/utils'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils'
 
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
@@ -17,7 +17,7 @@ const {
 } = defineProps<SelfKnowledgeElementCardProps>()
 
 const iconOptions = computed(() => ({
-  name: getCategoryIcon(categoryType),
+  name: getSelfKnowledgeCategoryIcon(categoryType),
 }))
 </script>
 
@@ -27,11 +27,14 @@ const iconOptions = computed(() => ({
     :header-rows="2"
     :icon-options="iconOptions"
     :color="categoryColor"
+    class="self-knowledge-element-card"
   >
     <template #body>
-      <p class="b3-regular">
-        {{ element.description }}
-      </p>
+      <div class="self-knowledge-element-card__body">
+        <p class="b3-regular">
+          {{ element.description }}
+        </p>
+      </div>
     </template>
     <template
       v-if="element.rating"
@@ -43,3 +46,13 @@ const iconOptions = computed(() => ({
     </template>
   </FloatingIconCard>
 </template>
+
+<style lang="scss">
+.self-knowledge-element-card {
+  flex: 1;
+
+  &__body {
+    display: flex;
+  }
+}
+</style>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
-import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
+import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
+import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -13,26 +13,7 @@ const {
   showModal: showAddCategoryModal
 } = useModal()
 
-const dummyElements: SelfKnowledgeElementViewDTO[] = [
-  {
-    id: '1',
-    title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
-    description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
-    rating: 3
-  },
-  {
-    id: '2',
-    title: 'Force de communication',
-    description: 'J\'ai développé cette compétence lors de mes projets de groupe et mes présentations en classe.',
-    rating: 4
-  },
-  {
-    id: '3',
-    title: 'Créativité',
-    description: 'Ma créativité s\'exprime dans mes projets artistiques et mes solutions innovantes.',
-    rating: 5
-  }
-]
+const { categories } = useSelfKnowledgeCategoriesQuery()
 </script>
 
 <template>
@@ -54,12 +35,11 @@ const dummyElements: SelfKnowledgeElementViewDTO[] = [
         @click="displayAddCategoryModal"
       />
     </div>
-    <div class="self-knowledge-main-section__cards">
-      <SelfKnowledgeElementCard
-        v-for="element in dummyElements"
-        :key="element.id"
-        :element="element"
-        :category-type="ESelfKnowledgeCategoryType.STRENGTHS"
+    <div class="self-knowledge-main-section__categories">
+      <SelfKnowledgeCategoryElementsPaginatorCard
+        v-for="category in categories"
+        :key="category.id"
+        :category="category"
       />
     </div>
   </div>
@@ -82,10 +62,10 @@ const dummyElements: SelfKnowledgeElementViewDTO[] = [
     align-self: flex-end;
   }
 
-  &__cards {
+  &__categories {
     display: flex;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: var(--spacing-xl);
   }
 }
 </style>
