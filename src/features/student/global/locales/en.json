@@ -356,6 +356,10 @@
             "addSelfKnowledgeCategories": {
               "success": "{count} category added successfully | {count} categories added successfully",
               "title": "You have added all the categories currently available on COFOLIO. | Which category would you like to add? | Which categories would you like to add?"
+            },
+            "deleteSelfKnowledgeCategory": {
+              "title": "Are you sure you want to delete the category {category}?",
+              "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted."
             }
           },
           "title": {
