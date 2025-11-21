@@ -1,7 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { MutationArgs } from '@/types'
 import {
+  addSelfKnowledgeCategories,
   getSelfKnowledgeCategories,
-  getSelfKnowledgeCategories1,
   getSelfKnowledgeCategoriesAvailable,
   getSelfKnowledgeElements,
   type PagedResponseSelfKnowledgeElementViewDTO,
@@ -17,6 +18,7 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 const selfKnowledgeCommonQueryKey = [...commonQueryKeys, 'self-knowledge']
 const selfKnowledgeCategoriesQueryKey = [...selfKnowledgeCommonQueryKey, 'categories']
 const selfKnowledgeElementsQueryKey = [...selfKnowledgeCommonQueryKey, 'elements']
+const selfKnowledgeCategoriesAvailableQueryKey = [...selfKnowledgeCommonQueryKey, 'available']
 
 const TWO_MINUTES = 2 * 60 * 1000
 const CATEGORY_ELEMENTS_PAGE_SIZE = 3
@@ -95,7 +97,7 @@ export function useSelfKnowledgeCategoryElementsViewQuery ({
 export function useSelfKnowledgeCategoriesAvailableQuery (): UseQueryReturnType<SelfKnowledgeCategoryDTO[], BaseApiException> & {
   categoriesAvailable: Ref<SelfKnowledgeCategoryDTO[]>
 } {
-  const queryKey = computed(() => [...selfKnowledgeCommonQueryKey, 'available'])
+  const queryKey = computed(() => [...selfKnowledgeCategoriesAvailableQueryKey])
 
   const queryFn = computed(() => async (): Promise<SelfKnowledgeCategoryDTO[]> => {
     return await getSelfKnowledgeCategoriesAvailable()
@@ -115,20 +117,15 @@ export function useSelfKnowledgeCategoriesAvailableQuery (): UseQueryReturnType<
   }
 }
 
-export interface UpdateSelfKnowledgeCategoriesVariables {
+export interface AddSelfKnowledgeCategoriesVariables {
   selectedIds: string[]
 }
 
-export interface UseUpdateSelfKnowledgeCategoriesMutationArgs {
-  onSuccess?: (data: string, variables: UpdateSelfKnowledgeCategoriesVariables) => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useUpdateSelfKnowledgeCategoriesMutation ({ onError, onSuccess }: UseUpdateSelfKnowledgeCategoriesMutationArgs = {}) {
-  const invalidateSelfKnowledgeCategoriesQuery = useInvalidateQuery([...selfKnowledgeCommonQueryKey, 'available'])
-  return useMutation<string, BaseApiException, UpdateSelfKnowledgeCategoriesVariables>({
-    mutationFn: async ({ selectedIds }: UpdateSelfKnowledgeCategoriesVariables): Promise<string> => {
-      return await getSelfKnowledgeCategories1(selectedIds)
+export function useAddSelfKnowledgeCategoriesMutation ({ onError, onSuccess }: MutationArgs<string, AddSelfKnowledgeCategoriesVariables> = {}) {
+  const invalidateSelfKnowledgeCategoriesQuery = useInvalidateQuery([...selfKnowledgeCategoriesAvailableQueryKey])
+  return useMutation<string, BaseApiException, AddSelfKnowledgeCategoriesVariables>({
+    mutationFn: async ({ selectedIds }: AddSelfKnowledgeCategoriesVariables): Promise<string> => {
+      return await addSelfKnowledgeCategories(selectedIds)
     },
     onSuccess: async (data, variables) => {
       await invalidateSelfKnowledgeCategoriesQuery()

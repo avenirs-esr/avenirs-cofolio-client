@@ -161,7 +161,6 @@ BddTest().given('an add self knowledge categories modal', () => {
       })
     })
 
-    // false case: no categories selected but confirm pressed (invalid case but needed for error during mutation)
     BddTest().and('the user does not select categories but confirms anyway', () => {
       beforeEach(async () => {
         wrapper.findComponent(AvModalStub).vm.$emit('confirm')

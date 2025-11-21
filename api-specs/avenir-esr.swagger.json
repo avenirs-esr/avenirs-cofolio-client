@@ -598,7 +598,7 @@
         "tags": [
           "self-knowledge-controller"
         ],
-        "operationId": "getSelfKnowledgeCategories_1",
+        "operationId": "addSelfKnowledgeCategories",
         "requestBody": {
           "content": {
             "application/json": {
