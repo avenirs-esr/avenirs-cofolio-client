@@ -1,8 +1,16 @@
-import { AddSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+
+const AddSelfKnowledgeCategoriesModalStub = defineComponent({
+  name: 'AddSelfKnowledgeCategoriesModal',
+  props: { show: Boolean },
+  emits: ['cancel', 'confirm'],
+  template: `
+    <div v-if="show" data-testid="add-self-knowledge-categories-modal" />
+  `
+})
 
 BddTest().given('a self knowledge section component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeMainSection>>

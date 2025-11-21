@@ -4,11 +4,11 @@ import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
-  type UpdateSelfKnowledgeCategoriesVariables,
+  type AddSelfKnowledgeCategoriesVariables,
+  useAddSelfKnowledgeCategoriesMutation,
   useSelfKnowledgeCategoriesAvailableQuery,
   useSelfKnowledgeCategoriesQuery,
-  useSelfKnowledgeCategoryElementsViewQuery,
-  useUpdateSelfKnowledgeCategoriesMutation
+  useSelfKnowledgeCategoryElementsViewQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -426,9 +426,9 @@ BddTest().given('a self knowledge categories available query', () => {
   })
 })
 
-BddTest().given('an update self knowledge categories mutation', () => {
-  let getSelfKnowledgeCategories1Spy: MockInstance<(selectedIds: string[], options?: (RequestInit | undefined)) => Promise<string>>
-  let mutationResult: ReturnType<typeof useUpdateSelfKnowledgeCategoriesMutation>
+BddTest().given('an add self knowledge categories mutation', () => {
+  let addSelfKnowledgeCategoriesSpy: MockInstance<(selectedIds: string[], options?: (RequestInit | undefined)) => Promise<string>>
+  let mutationResult: ReturnType<typeof useAddSelfKnowledgeCategoriesMutation>
 
   const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
   const mockInvalidateFunction = vi.fn()
@@ -443,9 +443,9 @@ BddTest().given('an update self knowledge categories mutation', () => {
     vi.clearAllMocks()
     vi.restoreAllMocks()
 
-    getSelfKnowledgeCategories1Spy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getSelfKnowledgeCategories1'>(
+    addSelfKnowledgeCategoriesSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'addSelfKnowledgeCategories'>(
       await import('@/api/avenir-esr'),
-    'getSelfKnowledgeCategories1'
+    'addSelfKnowledgeCategories'
     )
 
     mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
@@ -457,18 +457,18 @@ BddTest().given('an update self knowledge categories mutation', () => {
 
   BddTest().and('a valid selected IDs array and success callback', () => {
     const selectedIds = ['4aec2faa-d986-4553-a14b-2ecabba415c8', 'a0c79a9a-b5c0-411b-ba54-68d73de72225']
-    const variables: UpdateSelfKnowledgeCategoriesVariables = { selectedIds }
+    const variables: AddSelfKnowledgeCategoriesVariables = { selectedIds }
 
     BddTest().when('the mutation is called with mutateAsync', () => {
       beforeEach(async () => {
-        mutationResult = mountQueryComposable(() => useUpdateSelfKnowledgeCategoriesMutation(mutationArgs))
+        mutationResult = mountQueryComposable(() => useAddSelfKnowledgeCategoriesMutation(mutationArgs))
         await mutationResult.mutateAsync(variables)
         await flushPromises()
       })
 
-      BddTest().then('it should call the getSelfKnowledgeCategories1 API with correct parameters', () => {
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledWith(selectedIds)
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the addSelfKnowledgeCategories API with correct parameters', () => {
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should return the expected success response', () => {
@@ -498,14 +498,14 @@ BddTest().given('an update self knowledge categories mutation', () => {
 
     BddTest().when('the mutation is called with mutate', () => {
       beforeEach(async () => {
-        mutationResult = mountQueryComposable(() => useUpdateSelfKnowledgeCategoriesMutation(mutationArgs))
+        mutationResult = mountQueryComposable(() => useAddSelfKnowledgeCategoriesMutation(mutationArgs))
         mutationResult.mutate(variables)
         await flushPromises()
       })
 
-      BddTest().then('it should call the getSelfKnowledgeCategories1 API with correct parameters', () => {
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledWith(selectedIds)
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the addSelfKnowledgeCategories API with correct parameters', () => {
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -520,19 +520,19 @@ BddTest().given('an update self knowledge categories mutation', () => {
 
   BddTest().and('no success or error callbacks', () => {
     const selectedIds = ['4aec2faa-d986-4553-a14b-2ecabba415c8', 'a0c79a9a-b5c0-411b-ba54-68d73de72225']
-    const variables: UpdateSelfKnowledgeCategoriesVariables = { selectedIds }
+    const variables: AddSelfKnowledgeCategoriesVariables = { selectedIds }
     const mutationArgs = {}
 
     BddTest().when('the mutation is called without callbacks', () => {
       beforeEach(async () => {
-        mutationResult = mountQueryComposable(() => useUpdateSelfKnowledgeCategoriesMutation(mutationArgs))
+        mutationResult = mountQueryComposable(() => useAddSelfKnowledgeCategoriesMutation(mutationArgs))
         await mutationResult.mutateAsync(variables)
         await flushPromises()
       })
 
-      BddTest().then('it should call the getSelfKnowledgeCategories1 API with correct parameters', () => {
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledWith(selectedIds)
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the addSelfKnowledgeCategories API with correct parameters', () => {
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should still call the invalidation function', () => {
@@ -552,18 +552,18 @@ BddTest().given('an update self knowledge categories mutation', () => {
 
   BddTest().and('an invalid selected IDs array with error callback', () => {
     const selectedIds: string[] = []
-    const variables: UpdateSelfKnowledgeCategoriesVariables = { selectedIds }
+    const variables: AddSelfKnowledgeCategoriesVariables = { selectedIds }
 
     BddTest().when('the mutation encounters an error', () => {
       beforeEach(async () => {
-        mutationResult = mountQueryComposable(() => useUpdateSelfKnowledgeCategoriesMutation(mutationArgs))
+        mutationResult = mountQueryComposable(() => useAddSelfKnowledgeCategoriesMutation(mutationArgs))
         await mutationResult.mutateAsync(variables).catch(() => {})
         await flushPromises()
       })
 
-      BddTest().then('it should call the getSelfKnowledgeCategories1 API with the invalid parameters', () => {
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledWith(selectedIds)
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the addSelfKnowledgeCategories API with the invalid parameters', () => {
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should mark the mutation as error', () => {
@@ -590,17 +590,17 @@ BddTest().given('an update self knowledge categories mutation', () => {
     })
 
     BddTest().when('the mutation is called using mutate with error', () => {
-      let mutationResult: ReturnType<typeof useUpdateSelfKnowledgeCategoriesMutation>
+      let mutationResult: ReturnType<typeof useAddSelfKnowledgeCategoriesMutation>
 
       beforeEach(async () => {
-        mutationResult = mountQueryComposable(() => useUpdateSelfKnowledgeCategoriesMutation(mutationArgs))
+        mutationResult = mountQueryComposable(() => useAddSelfKnowledgeCategoriesMutation(mutationArgs))
         mutationResult.mutate(variables)
         await flushPromises()
       })
 
-      BddTest().then('it should call the getSelfKnowledgeCategories1 API with the invalid parameters', () => {
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledWith(selectedIds)
-        expect(getSelfKnowledgeCategories1Spy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the addSelfKnowledgeCategories API with the invalid parameters', () => {
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
+        expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {

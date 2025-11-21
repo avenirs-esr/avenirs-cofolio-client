@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSelfKnowledgeCategoriesAvailableQuery, useUpdateSelfKnowledgeCategoriesMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useAddSelfKnowledgeCategoriesMutation, useSelfKnowledgeCategoriesAvailableQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -19,7 +19,7 @@ const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { categoriesAvailable } = useSelfKnowledgeCategoriesAvailableQuery()
 
-const { mutate: updateSelfKnowledgeCategories } = useUpdateSelfKnowledgeCategoriesMutation({
+const { mutate: addSelfKnowledgeCategories } = useAddSelfKnowledgeCategoriesMutation({
   onSuccess: (_data, variables) => {
     addSuccessMessage(t('student.views.studentProjectTrajectoriesView.selfKnowledge.modals.addSelfKnowledgeCategories.success', { count: variables.selectedIds.length }))
     emit('confirm')
@@ -33,7 +33,7 @@ const { mutate: updateSelfKnowledgeCategories } = useUpdateSelfKnowledgeCategori
 const selected = ref<string[]>([])
 
 function onConfirm () {
-  updateSelfKnowledgeCategories({ selectedIds: selected.value })
+  addSelfKnowledgeCategories({ selectedIds: selected.value })
 }
 
 function onCancel () {

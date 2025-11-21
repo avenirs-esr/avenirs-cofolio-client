@@ -4,7 +4,7 @@ import {
   mockedSelfKnowledgeCategoriesAvailable
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
-  getGetSelfKnowledgeCategories1Url,
+  getAddSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeCategoriesAvailableUrl,
   getGetSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeElementsUrl,
@@ -61,7 +61,7 @@ export function createSelfKnowledgeCategoriesAvailableHandler (payload: SelfKnow
 }
 
 export function updateSelectedSelfKnowledgeCategoriesHandler (payload: string[]) {
-  return http.post(`*${getGetSelfKnowledgeCategories1Url()}`, () => {
+  return http.post(`*${getAddSelfKnowledgeCategoriesUrl()}`, () => {
     return HttpResponse.json<string[]>(payload, {
       status: 200,
       headers: {
@@ -107,7 +107,7 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.post(`*${getGetSelfKnowledgeCategories1Url()}`, async ({ request }) => {
+  http.post(`*${getAddSelfKnowledgeCategoriesUrl()}`, async ({ request }) => {
     const selfKnowledgeCategoryDTOs = await request.json() as SelfKnowledgeCategoryDTO[]
 
     if (selfKnowledgeCategoryDTOs.length === 0) {
