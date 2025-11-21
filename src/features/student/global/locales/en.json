@@ -349,7 +349,40 @@
           },
           "categoryElementsPaginator": {
             "buttons": {
-              "deleteCategory": "Delete category"
+              "add": {
+                "aspirations": "Add an aspiration",
+                "improvement": "Add an area for improvement",
+                "inspirations": "Add an inspiration",
+                "interests": "Add an area of interest",
+                "motivation": "Add a professional motivation",
+                "obligations": "Add an obligation",
+                "strengths": "Add a strength",
+                "testimonials": "Add a testimonial",
+                "values": "Add a value"
+              },
+              "delete": {
+                "aspirations": "Delete an aspiration",
+                "category": "Delete category",
+                "improvement": "Delete an area for improvement",
+                "inspirations": "Delete an inspiration",
+                "interests": "Delete an area of interest",
+                "motivation": "Delete a professional motivation",
+                "obligations": "Delete an obligation",
+                "strengths": "Delete a strength",
+                "testimonials": "Delete a testimonial",
+                "values": "Delete a value"
+              },
+              "share": {
+                "aspirations": "Share my aspirations",
+                "improvement": "Share my areas for improvement",
+                "inspirations": "Share my inspirations",
+                "interests": "Share my areas of interest",
+                "motivation": "Share my professional motivations",
+                "obligations": "Share my obligations",
+                "strengths": "Share my strengths",
+                "testimonials": "Share my testimonials",
+                "values": "Share my values"
+              }
             }
           },
           "modals": {

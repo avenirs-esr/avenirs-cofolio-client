@@ -349,7 +349,40 @@
           },
           "categoryElementsPaginator": {
             "buttons": {
-              "deleteCategory": "Supprimer la catégorie"
+              "add": {
+                "aspirations": "Ajouter une envie",
+                "improvement": "Ajouter un axe d'amélioration",
+                "inspirations": "Ajouter une inspiration",
+                "interests": "Ajouter un centre d'intérêt",
+                "motivation": "Ajouter une motivation professionnelle",
+                "obligations": "Ajouter une obligation",
+                "strengths": "Ajouter un point fort",
+                "testimonials": "Ajouter un témoignage",
+                "values": "Ajouter une valeur"
+              },
+              "delete": {
+                "aspirations": "Supprimer une envie",
+                "category": "Supprimer la catégorie",
+                "improvement": "Supprimer un axe d'amélioration",
+                "inspirations": "Supprimer une inspiration",
+                "interests": "Supprimer un centre d'intérêt",
+                "motivation": "Supprimer une motivation professionnelle",
+                "obligations": "Supprimer une obligation",
+                "strengths": "Supprimer un point fort",
+                "testimonials": "Supprimer un témoignage",
+                "values": "Supprimer une valeur"
+              },
+              "share": {
+                "aspirations": "Partager mes envies",
+                "improvement": "Partager mes axes d'amélioration",
+                "inspirations": "Partager mes inspirations",
+                "interests": "Partager mes centres d'intérêt",
+                "motivation": "Partager mes motivations professionnelles",
+                "obligations": "Partager mes obligations",
+                "strengths": "Partager mes points forts",
+                "testimonials": "Partager mes témoignages",
+                "values": "Partager mes valeurs"
+              }
             }
           },
           "modals": {

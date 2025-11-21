@@ -1,15 +1,13 @@
 <script lang="ts" setup>
+import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementsDropdownProps {
-  addLabel: string
-  deleteLabel: string
-  shareLabel: string
-  isCategoryDeletable: boolean
+  categoryType: ESelfKnowledgeCategoryType
 }
 
-const { addLabel, deleteLabel, shareLabel, isCategoryDeletable } = defineProps<SelfKnowledgeElementsDropdownProps>()
+const { categoryType } = defineProps<SelfKnowledgeElementsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'addSelected'): void
@@ -19,6 +17,12 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+
+const isCategoryDeletable = computed(() => ![
+  ESelfKnowledgeCategoryType.VALUES,
+  ESelfKnowledgeCategoryType.STRENGTHS,
+  ESelfKnowledgeCategoryType.ASPIRATIONS
+].includes(categoryType))
 
 enum SelfKnowledgeElementsDropdownEvents {
   ADD = 'add',
@@ -32,25 +36,25 @@ const menuItems = computed<AvDropdownItem[]>(() => {
     {
       name: SelfKnowledgeElementsDropdownEvents.ADD,
       icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      label: addLabel
+      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.add.${categoryType.toLowerCase()}`)
     },
     {
       name: SelfKnowledgeElementsDropdownEvents.DELETE,
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: deleteLabel
+      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.delete.${categoryType.toLowerCase()}`)
     },
     {
       name: SelfKnowledgeElementsDropdownEvents.SHARE,
       icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: shareLabel
+      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.share.${categoryType.toLowerCase()}`)
     }
   ]
 
-  if (isCategoryDeletable) {
+  if (isCategoryDeletable.value) {
     items.push({
       name: SelfKnowledgeElementsDropdownEvents.DELETE_CATEGORY,
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteCategory')
+      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.delete.category')
     })
   }
 
