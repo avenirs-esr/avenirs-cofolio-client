@@ -22,6 +22,7 @@
       "delete": "Delete",
       "exit": "Exit",
       "goBack": "Go back",
+      "moreActions": "More actions",
       "save": "Save"
     },
     "colon": "{before}:",

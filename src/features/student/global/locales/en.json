@@ -347,6 +347,11 @@
           "buttons": {
             "addCategory": "Add category"
           },
+          "categoryElementsPaginator": {
+            "buttons": {
+              "deleteCategory": "Delete category"
+            }
+          },
           "modals": {
             "addSelfKnowledgeCategories": {
               "success": "{count} category added successfully | {count} categories added successfully",
@@ -409,7 +414,6 @@
           },
           "title": "Detail of my trace",
           "settings": {
-            "ariaLabel": "More actions",
             "associate": "Associate my trace",
             "delete": "Delete my trace",
             "update": "Update my trace"
@@ -543,7 +547,6 @@
           "delete": "An error occurred while deleting the trace"
         },
         "settings": {
-          "ariaLabel": "More actions",
           "associate": "Associate my trace",
           "delete": "Delete my trace",
           "update": "Update my trace"
