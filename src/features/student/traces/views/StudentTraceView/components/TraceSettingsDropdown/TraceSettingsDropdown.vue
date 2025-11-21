@@ -52,8 +52,8 @@ function handleItemSelected (itemName: string) {
 <template>
   <AvDropdown
     :items="menuItems"
-    :trigger-aria-label="t('student.views.studentTraceView.settings.ariaLabel')"
-    :trigger-label="t('student.views.studentTraceView.settings.ariaLabel')"
+    :trigger-aria-label="t('global.buttons.moreActions')"
+    :trigger-label="t('global.buttons.moreActions')"
     @item-selected="handleItemSelected"
   />
 </template>

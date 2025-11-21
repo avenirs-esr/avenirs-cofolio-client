@@ -347,6 +347,11 @@
           "buttons": {
             "addCategory": "Ajouter une catégorie"
           },
+          "categoryElementsPaginator": {
+            "buttons": {
+              "deleteCategory": "Supprimer la catégorie"
+            }
+          },
           "modals": {
             "addSelfKnowledgeCategories": {
               "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
@@ -409,7 +414,6 @@
           },
           "title": "Détail de ma trace",
           "settings": {
-            "ariaLabel": "Plus d'actions",
             "associate": "Associer ma trace",
             "delete": "Supprimer ma trace",
             "update": "Modifier ma trace"
@@ -539,7 +543,6 @@
           "delete": "Une erreur est survenue lors de la suppression de la trace."
         },
         "settings": {
-          "ariaLabel": "Plus d'actions",
           "associate": "Associer ma trace",
           "delete": "Supprimer ma trace",
           "update": "Modifier ma trace"
