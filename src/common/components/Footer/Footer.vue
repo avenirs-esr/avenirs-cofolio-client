@@ -361,4 +361,13 @@ a:focus {
 a:hover, a span:hover {
   color: var(--dark-background-primary1) !important;
 }
+
+ul {
+  padding-inline-start: 0;
+}
+
+li::marker {
+  content: none;
+  margin: 0;
+}
 </style>

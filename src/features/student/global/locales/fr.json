@@ -385,6 +385,9 @@
               }
             }
           },
+          "elementsDetails": {
+            "valorized": "Valoriser dans mes CV"
+          },
           "modals": {
             "addSelfKnowledgeCategories": {
               "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
@@ -393,6 +396,19 @@
             "deleteSelfKnowledgeCategory": {
               "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie {category} ?",
               "description": "L'élément renseigné dans cette catégorie sera définitivement supprimé. | {count} éléments renseignés dans cette catégorie seront définitivement supprimés."
+            }
+          },
+          "navigation": {
+            "elementsSideMenu": {
+              "aspirations": "Toutes mes envies",
+              "improvement": "Tous mes axes d'amélioration",
+              "inspirations": "Toutes mes inspirations",
+              "interests": "Tous mes centres d'intérêt",
+              "motivation": "Toutes mes motivations professionnelles",
+              "obligations": "Toutes mes obligations",
+              "strengths": "Tous mes points forts",
+              "testimonials": "Tous mes témoignages",
+              "values": "Toutes mes valeurs"
             }
           },
           "title": {

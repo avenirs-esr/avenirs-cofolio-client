@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import { FloatingIconCard } from '@/features/student/global'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { getCategoryIcon } from '@/features/student/selfKnowledge/utils'
 
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
@@ -15,19 +15,6 @@ const {
   categoryType,
   element,
 } = defineProps<SelfKnowledgeElementCardProps>()
-
-function getCategoryIcon (categoryType: ESelfKnowledgeCategoryType): string {
-  switch (categoryType) {
-    case ESelfKnowledgeCategoryType.VALUES:
-      return MDI_ICONS.DIAMOND_STONE
-    case ESelfKnowledgeCategoryType.STRENGTHS:
-      return MDI_ICONS.WEIGHTS
-    case ESelfKnowledgeCategoryType.ASPIRATIONS:
-      return RI_ICONS.HAND_HEART_LINE
-    default:
-      return MDI_ICONS.STAR_SHOOTING_OUTLINE
-  }
-}
 
 const iconOptions = computed(() => ({
   name: getCategoryIcon(categoryType),
