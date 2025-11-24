@@ -3,8 +3,8 @@ import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
 import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils'
-import { AvCard, AvIconText, AvPagination, getPaginationPages, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
+import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
@@ -28,52 +28,7 @@ const totalElements = computed(() => pageInfo.value.totalElements)
 const categoryTitle = computed(() => `${category.title} (${totalElements.value})`)
 const totalPages = computed(() => pageInfo.value.totalPages)
 
-const { isMobile } = useAvBreakpoints()
-
-const justifyContentDirection = computed(() => {
-  return isMobile.value ? 'center' : 'flex-start'
-})
-
-const addLabel = computed(() => {
-  switch (categoryType.value) {
-    case 'VALUES':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addValue')
-    case 'STRENGTHS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addStrength')
-    case 'ASPIRATIONS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addAspiration')
-    default:
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.addElement')
-  }
-})
-
-const deleteLabel = computed(() => {
-  switch (categoryType.value) {
-    case 'VALUES':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteValue')
-    case 'STRENGTHS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteStrength')
-    case 'ASPIRATIONS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteAspiration')
-    default:
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteElement')
-  }
-})
-
 const pages = computed(() => getPaginationPages(totalPages))
-
-const shareLabel = computed(() => {
-  switch (categoryType.value) {
-    case 'VALUES':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareValues')
-    case 'STRENGTHS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareStrengths')
-    case 'ASPIRATIONS':
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareAspirations')
-    default:
-      return t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.shareElements')
-  }
-})
 </script>
 
 <template>
@@ -95,10 +50,7 @@ const shareLabel = computed(() => {
         />
         <div class="category-elements-paginator__title-actions">
           <SelfKnowledgeElementsDropdown
-            :add-label="addLabel"
-            :delete-label="deleteLabel"
-            :share-label="shareLabel"
-            :is-category-deletable="true"
+            :category-type="category.type"
           />
         </div>
       </div>
@@ -125,7 +77,7 @@ const shareLabel = computed(() => {
           @update:current-page="(page) => currentPage = page"
         />
 
-        <div class="category-elements-paginator__cards">
+        <div class="av-row av-row--between av-row-sm--center category-elements-paginator__cards">
           <SelfKnowledgeElementCard
             v-for="element in elements"
             :key="element.id"
@@ -155,6 +107,7 @@ const shareLabel = computed(() => {
     justify-content: space-between;
     width: 100%;
     gap: var(--spacing-md);
+    padding:  0 var(--spacing-md);
   }
 
   &__title-actions {
@@ -166,7 +119,7 @@ const shareLabel = computed(() => {
   &__body {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-sm);
   }
 
   &__description {
@@ -187,10 +140,8 @@ const shareLabel = computed(() => {
   }
 
   &__cards {
-    display: flex;
     gap: var(--spacing-md);
     flex-wrap: wrap;
-    justify-content: v-bind('justifyContentDirection');
     padding: 0 var(--spacing-sm);
 
     > * {
