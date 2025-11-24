@@ -47,7 +47,7 @@ const { t } = useI18n()
                 :label="t('student.views.studentEducationAmsView.amsListContainer.StudentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
                 color="var(--text1)"
                 background-color="var(--surface-background)"
-                :icon-data-url="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
+                :icon="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
                 small
                 ellipsis
               />

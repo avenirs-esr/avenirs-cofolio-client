@@ -113,11 +113,11 @@ BddTest().given('a skill level field component', () => {
     BddTest().then('it should render badges with correct icons', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
 
-      expect(badges[0].props('iconDataUrl')).toBeDefined()
-      expect(badges[1].props('iconDataUrl')).toBeDefined()
-      expect(badges[2].props('iconDataUrl')).toBeDefined()
-      expect(badges[3].props('iconDataUrl')).toBeDefined()
-      expect(badges[4].props('iconDataUrl')).toBeDefined()
+      expect(badges[0].props('icon')).toBeDefined()
+      expect(badges[1].props('icon')).toBeDefined()
+      expect(badges[2].props('icon')).toBeDefined()
+      expect(badges[3].props('icon')).toBeDefined()
+      expect(badges[4].props('icon')).toBeDefined()
     })
   })
 
@@ -230,9 +230,9 @@ BddTest().given('a skill level field component', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
 
       badges.forEach((badge) => {
-        const iconDataUrl = badge.props('iconDataUrl')
-        expect(iconDataUrl).toBeDefined()
-        expect(typeof iconDataUrl).toBe('string')
+        const icon = badge.props('icon')
+        expect(icon).toBeDefined()
+        expect(typeof icon).toBe('string')
       })
     })
   })

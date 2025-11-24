@@ -38,7 +38,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.BEGINNER)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary3)')
       expect(badge.props('color')).toBe('var(--dark-background-primary3)')
-      expect(badge.props('iconDataUrl')).toBeDefined()
+      expect(badge.props('icon')).toBeDefined()
       expect(badge.props('small')).toBe(false)
     })
   })
@@ -65,7 +65,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.INTERMEDIATE)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-info)')
       expect(badge.props('color')).toBe('var(--dark-background-info)')
-      expect(badge.props('iconDataUrl')).toBeDefined()
+      expect(badge.props('icon')).toBeDefined()
     })
   })
 
@@ -91,7 +91,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.COMPETENT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-critical)')
       expect(badge.props('color')).toBe('var(--light-foreground-critical)')
-      expect(badge.props('iconDataUrl')).toBeDefined()
+      expect(badge.props('icon')).toBeDefined()
     })
   })
 
@@ -117,7 +117,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.ADVANCED)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary2)')
       expect(badge.props('color')).toBe('var(--dark-background-primary2)')
-      expect(badge.props('iconDataUrl')).toBeDefined()
+      expect(badge.props('icon')).toBeDefined()
     })
   })
 
@@ -143,7 +143,7 @@ BddTest().given('an additional skill level badge', () => {
       expect(badge.props('label')).toBe(EAdditionalSkillLevel.EXPERT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary1)')
       expect(badge.props('color')).toBe('var(--light-foreground-primary2)')
-      expect(badge.props('iconDataUrl')).toBeDefined()
+      expect(badge.props('icon')).toBeDefined()
     })
   })
 
