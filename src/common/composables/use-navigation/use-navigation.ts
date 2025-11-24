@@ -36,8 +36,8 @@ export function useNavigation () {
     return router.push(ROUTE_NAMES.STUDENT.TOOLS_RESUMES)
   }
 
-  const navigateToStudentSelfKnowledgeCategories = () => {
-    return router.push(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORIES)
+  const navigateToStudentSelfKnowledgeCategory = () => {
+    return router.push(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY)
   }
 
   const navigateToStudentSkills = () => {
@@ -66,7 +66,7 @@ export function useNavigation () {
     navigateToStudentNotifications,
     navigateToStudentPages,
     navigateToStudentResumes,
-    navigateToStudentSelfKnowledgeCategories,
+    navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSkills,
     navigateToStudentTraces,
     navigateToStudentUpdateAdditionalSkill,
