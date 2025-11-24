@@ -12,6 +12,17 @@
       "ROME4": "Rome 4.0",
       "XXI": "XXIᵉ onisep"
     },
+    "selfKnowledgeCategoryType": {
+      "ASPIRATIONS": "aspirations",
+      "IMPROVEMENT_AREAS": "areas for improvement",
+      "INSPIRATIONS": "inspirations",
+      "INTERESTS": "interests",
+      "MOTIVATIONS": "professional motivations",
+      "OBLIGATIONS": "obligations",
+      "STRENGTHS": "strengths",
+      "TESTIMONIALS": "testimonials",
+      "VALUES": "values"
+    },
     "badges": {
       "studentAmsStatusBadge": {
         "status": {
@@ -189,6 +200,9 @@
       }
     },
     "views": {
+      "selfKnowledgeCategoryView": {
+        "title": "Details of my {type}"
+      },
       "studentAdditionalSkillView": {
         "settings": {
           "ariaLabel": "Declared skill settings",
