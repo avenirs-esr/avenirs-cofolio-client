@@ -1,5 +1,5 @@
 export const PageTitleStub = defineComponent({
   name: 'PageTitle',
   template: '<div />',
-  props: ['title', 'breadcrumbLinks']
+  props: ['title', 'breadcrumbLinks', 'back']
 })
