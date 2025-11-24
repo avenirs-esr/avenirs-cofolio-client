@@ -385,6 +385,9 @@
               }
             }
           },
+          "elementsDetails": {
+            "valorized": "Valorize in my resumes"
+          },
           "modals": {
             "addSelfKnowledgeCategories": {
               "success": "{count} category added successfully | {count} categories added successfully",
@@ -393,6 +396,19 @@
             "deleteSelfKnowledgeCategory": {
               "title": "Are you sure you want to delete the category {category}?",
               "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted."
+            }
+          },
+          "navigation": {
+            "elementsSideMenu": {
+              "aspirations": "All my aspirations",
+              "improvement": "All my areas for improvement",
+              "inspirations": "All my inspirations",
+              "interests": "All my areas of interest",
+              "motivation": "All my professional motivations",
+              "obligations": "All my obligations",
+              "strengths": "All my strengths",
+              "testimonials": "All my testimonials",
+              "values": "All my values"
             }
           },
           "title": {
