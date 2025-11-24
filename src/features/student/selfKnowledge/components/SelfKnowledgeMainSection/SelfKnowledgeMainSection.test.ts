@@ -1,15 +1,22 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { mountComponent } from 'tests/utils'
 
 const AddSelfKnowledgeCategoriesModalStub = defineComponent({
   name: 'AddSelfKnowledgeCategoriesModal',
   props: { show: Boolean },
   emits: ['cancel', 'confirm'],
-  template: `
-    <div v-if="show" data-testid="add-self-knowledge-categories-modal" />
-  `
+  template: '<div v-if="show" data-testid="add-self-knowledge-categories-modal" />'
+})
+
+const SelfKnowledgeCategoryElementsPaginatorCardStub = defineComponent({
+  name: 'SelfKnowledgeCategoryElementsPaginatorCard',
+  props: { category: Object },
+  template: '<div data-testid="category-paginator-card" />'
 })
 
 BddTest().given('a self knowledge section component', () => {
@@ -18,7 +25,8 @@ BddTest().given('a self knowledge section component', () => {
   const stubs = {
     AvButton: AvButtonStub,
     AvIconText: AvIconTextStub,
-    AddSelfKnowledgeCategoriesModal: AddSelfKnowledgeCategoriesModalStub
+    AddSelfKnowledgeCategoriesModal: AddSelfKnowledgeCategoriesModalStub,
+    SelfKnowledgeCategoryElementsPaginatorCard: SelfKnowledgeCategoryElementsPaginatorCardStub
   }
 
   const getAddButton = () => {
@@ -27,10 +35,38 @@ BddTest().given('a self knowledge section component', () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(SelfKnowledgeMainSection, { global: { stubs } })
+    wrapper = mountComponent(SelfKnowledgeMainSection, { global: { stubs } })
   })
 
   BddTest().when('the self knowledge section is mounted', () => {
+    BddTest().then('it should render no category cards initially', () => {
+      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+      expect(categoryCards).toHaveLength(0)
+    })
+
+    BddTest().then('it should render category cards after loading', async () => {
+      await vi.waitFor(() => {
+        const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+        expect(categoryCards.length).toBeGreaterThan(0)
+      })
+
+      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+      expect(categoryCards).toHaveLength(mockedSelfKnowledgeCategories.length)
+    })
+
+    BddTest().then('it should pass correct category props to each card', async () => {
+      await vi.waitFor(() => {
+        const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+        expect(categoryCards.length).toBe(mockedSelfKnowledgeCategories.length)
+      })
+
+      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+
+      categoryCards.forEach((card, index) => {
+        expect(card.props('category')).toEqual(mockedSelfKnowledgeCategories[index])
+      })
+    })
+
     BddTest().then('it should render the self knowledge title', () => {
       const avIconText = wrapper.findComponent(AvIconTextStub)
       expect(avIconText.exists()).toBe(true)
@@ -84,6 +120,31 @@ BddTest().given('a self knowledge section component', () => {
           expect(addModal.props('show')).toBe(false)
         })
       })
+    })
+  })
+
+  BddTest().when('the categories query fails', () => {
+    beforeEach(() => {
+      server.use(selfKnowledgeCategoriesErrorHandler)
+
+      wrapper = mountComponent(SelfKnowledgeMainSection, { global: { stubs } })
+    })
+
+    BddTest().then('it should not render any category cards', async () => {
+      await vi.waitFor(() => {
+        expect(true).toBe(true)
+      }, { timeout: 100 })
+
+      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+      expect(categoryCards).toHaveLength(0)
+    })
+
+    BddTest().then('it should still render the title and add button', () => {
+      const avIconText = wrapper.findComponent(AvIconTextStub)
+      expect(avIconText.exists()).toBe(true)
+
+      const addButton = getAddButton()
+      expect(addButton).toBeDefined()
     })
   })
 })

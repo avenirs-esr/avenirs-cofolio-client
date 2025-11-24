@@ -1,15 +1,16 @@
-import type { VueWrapper } from '@vue/test-utils'
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
 import { RatingStub } from '@/common/components'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
 const stubs = {
   FloatingIconCard: FloatingIconCardStub,
-  Rating: RatingStub
+  Rating: RatingStub,
+  RouterLink: RouterLinkStub
 }
 
 BddTest().given('a self knowledge element card', () => {
@@ -48,7 +49,7 @@ BddTest().given('a self knowledge element card', () => {
     })
 
     BddTest().then('it should render the element description', () => {
-      const description = wrapper.find('.card-body .b3-regular')
+      const description = wrapper.find('.self-knowledge-element-card__body .caption-regular')
       expect(description.exists()).toBe(true)
       expect(description.text()).toBe('This is a test description for the element')
     })
@@ -179,9 +180,9 @@ BddTest().given('a self knowledge element card', () => {
     })
 
     BddTest().then('it should apply line clamp styles to the description', () => {
-      const description = wrapper.find('.card-body .b3-regular')
+      const description = wrapper.find('.self-knowledge-element-card__body .caption-regular')
       expect(description.exists()).toBe(true)
-      expect(description.classes()).toContain('b3-regular')
+      expect(description.classes()).toContain('caption-regular')
     })
   })
 
@@ -212,7 +213,7 @@ BddTest().given('a self knowledge element card', () => {
     })
 
     BddTest().then('it should render both body and footer slots', () => {
-      const description = wrapper.find('.card-body .b3-regular')
+      const description = wrapper.find('.self-knowledge-element-card__body .caption-regular')
       const rating = wrapper.findComponent(RatingStub)
       expect(description.exists()).toBe(true)
       expect(rating.exists()).toBe(true)

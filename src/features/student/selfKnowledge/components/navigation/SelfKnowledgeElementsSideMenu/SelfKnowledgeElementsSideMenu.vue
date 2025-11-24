@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { getCategoryIcon } from '@/features/student/selfKnowledge/utils'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvBadge, AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -22,7 +22,7 @@ const { t } = useI18n()
 const isCollapsed = ref(false)
 
 const iconOptions = computed(() => ({
-  name: getCategoryIcon(categoryType),
+  name: getSelfKnowledgeCategoryIcon(categoryType),
   color: 'var(--card)',
   bottom: '-1.25rem',
 }))

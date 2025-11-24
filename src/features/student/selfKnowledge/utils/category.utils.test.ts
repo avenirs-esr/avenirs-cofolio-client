@@ -1,5 +1,5 @@
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
-import { getCategoryIcon } from '@/features/student/selfKnowledge/utils'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -22,7 +22,7 @@ BddTest().given('the getCategoryIcon utility function', () => {
       let result: string
 
       beforeEach(() => {
-        result = getCategoryIcon(categoryType)
+        result = getSelfKnowledgeCategoryIcon(categoryType)
       })
 
       BddTest().then(`it should return the expected icon: ${expectedIcon}`, () => {
