@@ -14,14 +14,14 @@ function getStatusBadge (status: EAmsStatus): AvBadgeProps {
         label: t('student.badges.studentAmsStatusBadge.status.completed'),
         color: 'var(--light-foreground-neutral)',
         backgroundColor: 'var(--light-background-neutral)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
       }
     case EAmsStatus.IN_PROGRESS:
       return {
         label: t('student.badges.studentAmsStatusBadge.status.inProgress'),
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
       }
     case EAmsStatus.NOT_STARTED:
       return {
@@ -29,14 +29,14 @@ function getStatusBadge (status: EAmsStatus): AvBadgeProps {
         color: 'var(--text2)',
         backgroundColor: 'var(--other-background-base)',
         borderColor: 'var(--other-border-skill-card)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
       }
     case EAmsStatus.SUBMITTED:
       return {
         label: t('student.badges.studentAmsStatusBadge.status.submitted'),
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       }
   }
 }

@@ -59,7 +59,7 @@ function createWrapper (skill: SkillDTO = baseSkill) {
         },
         AvBadge: {
           name: 'AvBadge',
-          props: ['label', 'color', 'backgroundColor', 'iconDataUrl', 'small', 'ellipsis'],
+          props: ['label', 'color', 'backgroundColor', 'icon', 'small', 'ellipsis'],
           template: `<div class="badge">{{ label }}</div>`
         },
         StudentLastCompletedLevelBadge: {

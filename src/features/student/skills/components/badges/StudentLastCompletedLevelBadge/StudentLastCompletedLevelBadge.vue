@@ -16,14 +16,14 @@ const levelToBadgeProps = computed<AvBadgeProps | undefined>(() => {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.validated')}`,
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
+        icon: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       }
     case ESkillLevelStatus.FAILED:
       return {
         label: `${level.name} ${t('student.badges.studentLevelBadge.status.failed')}`,
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
       }
   }
   return undefined

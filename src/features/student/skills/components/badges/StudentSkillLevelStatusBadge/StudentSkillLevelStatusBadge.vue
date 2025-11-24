@@ -16,28 +16,28 @@ function statusToBadge (status: ESkillLevelStatus): AvBadgeProps {
         label: t('student.badges.studentLevelBadge.status.inProgress'),
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconDataUrl: ICONS_DATA_URL.MDI_HOURGLASS
+        icon: ICONS_DATA_URL.MDI_HOURGLASS
       }
     case ESkillLevelStatus.UNDER_REVIEW:
       return {
         label: t('student.badges.studentLevelBadge.status.underReview'),
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       }
     case ESkillLevelStatus.VALIDATED:
       return {
         label: t('student.badges.studentLevelBadge.status.validated'),
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CHECK_CIRCLE
+        icon: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       }
     case ESkillLevelStatus.FAILED:
       return {
         label: t('student.badges.studentLevelBadge.status.failed'),
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
       }
   }
 }

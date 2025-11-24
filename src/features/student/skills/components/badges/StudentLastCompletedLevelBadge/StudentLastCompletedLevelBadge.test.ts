@@ -39,7 +39,7 @@ BddTest().given('a student last completed level badge component', () => {
       expect(badge.props('label')).toBe('Niveau 1 Validé')
       expect(badge.props('color')).toBe('var(--light-foreground-success)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
-      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.MDI_CHECK_CIRCLE)
+      expect(badge.props('icon')).toBe(ICONS_DATA_URL.MDI_CHECK_CIRCLE)
     })
   })
 
@@ -70,7 +70,7 @@ BddTest().given('a student last completed level badge component', () => {
       expect(badge.props('label')).toBe('Niveau 2 Non validé')
       expect(badge.props('color')).toBe('var(--light-foreground-error)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
-      expect(badge.props('iconDataUrl')).toBe(ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE)
+      expect(badge.props('icon')).toBe(ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE)
     })
   })
 

@@ -30,7 +30,7 @@ const { t } = useI18n()
           <AvBadge
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-data-url="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+            :icon="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
             :label="t('student.cards.studentDetailedPastSkillCard.programFinished')"
             small
             ellipsis
@@ -41,7 +41,7 @@ const { t } = useI18n()
             :label="`${levelCount} niveaux`"
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
-            :icon-data-url="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
+            :icon="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
             small
             ellipsis
           />

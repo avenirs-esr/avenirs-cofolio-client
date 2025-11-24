@@ -36,7 +36,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-neutral)',
         backgroundColor: 'var(--light-background-neutral)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_CHECK_OUTLINE
       })
     })
   })
@@ -61,7 +61,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_RANGE_OUTLINE
       })
     })
   })
@@ -86,7 +86,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--text2)',
         backgroundColor: 'var(--other-background-base)',
-        iconDataUrl: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
+        icon: ICONS_DATA_URL.MDI_CALENDAR_CLOCK_OUTLINE
       })
     })
   })
@@ -111,7 +111,7 @@ BddTest().given('a student AMS status badge', () => {
         ellipsis: true,
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
-        iconDataUrl: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
+        icon: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       })
     })
   })

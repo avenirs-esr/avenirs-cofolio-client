@@ -18,14 +18,14 @@ const typeBadge = computed<AvBadgeProps>(() => ({
   color: 'var(--text1)',
   borderColor: 'var(--other-border-skill-card)',
   backgroundColor: 'var(--surface-background)',
-  iconDataUrl: ICONS_DATA_URL.MDI_BOOKMARK_CHECK
+  icon: ICONS_DATA_URL.MDI_BOOKMARK_CHECK
 }))
 
 const pathBadge = computed<AvBadgeProps>(() => ({
   label: additionalSkill.pathSegments.join(' > '),
   color: 'var(--dark-background-accent)',
   backgroundColor: 'var(--light-background-accent)',
-  iconDataUrl: ICONS_DATA_URL.MDI_STARS
+  icon: ICONS_DATA_URL.MDI_STARS
 }))
 </script>
 
