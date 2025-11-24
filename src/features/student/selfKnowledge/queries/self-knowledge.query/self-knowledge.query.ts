@@ -7,6 +7,7 @@ import {
   getSelfKnowledgeElements,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type PageInfoDTO,
+  removeSelfKnowledgeCategory,
   type SelfKnowledgeCategoryDTO,
   type SelfKnowledgeElementViewDTO
 } from '@/api/avenir-esr'
@@ -126,6 +127,24 @@ export function useAddSelfKnowledgeCategoriesMutation ({ onError, onSuccess }: M
   return useMutation<string, BaseApiException, AddSelfKnowledgeCategoriesVariables>({
     mutationFn: async ({ selectedIds }: AddSelfKnowledgeCategoriesVariables): Promise<string> => {
       return await addSelfKnowledgeCategories(selectedIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateSelfKnowledgeCategoriesQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface RemoveSelfKnowledgeCategoryVariables {
+  categoryId: string
+}
+
+export function useRemoveSelfKnowledgeCategoryMutation ({ onError, onSuccess }: MutationArgs<string, RemoveSelfKnowledgeCategoryVariables> = {}) {
+  const invalidateSelfKnowledgeCategoriesQuery = useInvalidateQuery([...selfKnowledgeCategoriesAvailableQueryKey, ...selfKnowledgeCategoriesQueryKey])
+  return useMutation<string, BaseApiException, RemoveSelfKnowledgeCategoryVariables>({
+    mutationFn: async ({ categoryId }: RemoveSelfKnowledgeCategoryVariables): Promise<string> => {
+      return await removeSelfKnowledgeCategory(categoryId)
     },
     onSuccess: async (data, variables) => {
       await invalidateSelfKnowledgeCategoriesQuery()

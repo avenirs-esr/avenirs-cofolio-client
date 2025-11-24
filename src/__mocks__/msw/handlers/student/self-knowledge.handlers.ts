@@ -8,6 +8,7 @@ import {
   getGetSelfKnowledgeCategoriesAvailableUrl,
   getGetSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeElementsUrl,
+  getRemoveSelfKnowledgeCategoryUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type SelfKnowledgeCategoryDTO
 } from '@/api/avenir-esr'
@@ -124,6 +125,22 @@ export const selfKnowledgeHandlers = [
     const response = 'Categories successfully associated with user'
     return HttpResponse.json<string>(response, {
       status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.delete(`*${getRemoveSelfKnowledgeCategoryUrl(':categoryId')}`, async ({ params }) => {
+    const categoryId = params.categoryId as string
+
+    if (categoryId === 'INVALID_CATEGORY_ID') {
+      return HttpResponse.json({ error: 'Invalid category ID' }, { status: 400 })
+    }
+
+    const response = 'Category successfully removed from user'
+    return HttpResponse.json<string>(response, {
+      status: 200,
       headers: {
         'Content-Type': 'application/json',
       }

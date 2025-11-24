@@ -1,7 +1,20 @@
+import type { VueWrapper } from '@vue/test-utils'
 import DeleteSelfKnowledgeCategoryModal, { type DeleteSelfKnowledgeCategoryModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 const AvModalStub = defineComponent({
   name: 'AvModal',
@@ -24,11 +37,14 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Category with 3 elements',
+      categoryId: 'category-1',
       elementsCount: 3,
     }
 
     beforeEach(() => {
-      wrapper = mount(DeleteSelfKnowledgeCategoryModal, {
+      vi.clearAllMocks()
+
+      wrapper = mountComponent(DeleteSelfKnowledgeCategoryModal, {
         props,
         global: { stubs }
       })
@@ -55,18 +71,41 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     })
 
     BddTest().and('the user clicks on the cancel button', () => {
-      BddTest().then('it should emit the cancel event', () => {
+      beforeEach(() => {
         const modal = wrapper.findComponent(AvModalStub)
         modal.vm.$emit('close')
+      })
+
+      BddTest().then('it should emit the cancel event', () => {
         expect(wrapper.emitted()).toHaveProperty('cancel')
+      })
+
+      BddTest().then('it should not call the mutation and not show any message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+          expect(mockAddErrorMessage).not.toHaveBeenCalled()
+        })
       })
     })
 
     BddTest().and('the user clicks on the confirm button', () => {
-      BddTest().then('it should emit the confirm event', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
         const modal = wrapper.findComponent(AvModalStub)
         modal.vm.$emit('confirm')
-        expect(wrapper.emitted()).toHaveProperty('confirm')
+      })
+
+      BddTest().then('it should call the mutation and show a success message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith(`La catégorie ${props.categoryTitle} a été supprimée avec succès`)
+          expect(mockAddErrorMessage).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().then('it should emit the confirm event', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted()).toHaveProperty('confirm')
+        })
       })
     })
   })
@@ -75,11 +114,14 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Category with 1 element',
+      categoryId: 'category-2',
       elementsCount: 1,
     }
 
     beforeEach(() => {
-      wrapper = mount(DeleteSelfKnowledgeCategoryModal, {
+      vi.clearAllMocks()
+
+      wrapper = mountComponent(DeleteSelfKnowledgeCategoryModal, {
         props,
         global: { stubs }
       })
@@ -98,15 +140,57 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with one invalid element', () => {
+    const props: DeleteSelfKnowledgeCategoryModalProps = {
+      show: true,
+      categoryTitle: 'Category with 1 invalid element',
+      categoryId: 'INVALID_CATEGORY_ID',
+      elementsCount: 1,
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+
+      wrapper = mountComponent(DeleteSelfKnowledgeCategoryModal, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().and('the user clicks on the confirm button', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+        const modal = wrapper.findComponent(AvModalStub)
+        modal.vm.$emit('confirm')
+      })
+
+      BddTest().then('it should call the mutation and show an error message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+          expect(mockAddErrorMessage).toHaveBeenCalled()
+        })
+      })
+
+      BddTest().then('it should not emit the confirm event', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted()).not.toHaveProperty('confirm')
+        })
+      })
+    })
+  })
+
   BddTest().when('the component is mounted without elements', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Empty Category',
+      categoryId: 'category-3',
       elementsCount: 0,
     }
 
     beforeEach(() => {
-      wrapper = mount(DeleteSelfKnowledgeCategoryModal, {
+      vi.clearAllMocks()
+
+      wrapper = mountComponent(DeleteSelfKnowledgeCategoryModal, {
         props,
         global: { stubs }
       })

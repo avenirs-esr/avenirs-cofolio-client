@@ -1320,6 +1320,37 @@
         }
       }
     },
+    "/me/self-knowledge/categories/{categoryId}": {
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "removeSelfKnowledgeCategory",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
@@ -3198,11 +3229,14 @@
           "CONFIGURATION_ERROR",
           "TITLE_TOO_LONG",
           "DESCRIPTION_TOO_LONG",
+          "RATING_OUT_OF_BOUNCE",
           "ASSOCIATION_NOT_FOUND",
           "SELF_KNOWLEDGE_ELEMENT_NOT_FOUND",
           "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY",
           "SELF_KNOWLEDGE_CATEGORY_NOT_FOUND",
-          "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE"
+          "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE",
+          "SELF_KNOWLEDGE_CATEGORY_IS_MANDATORY",
+          "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED"
         ]
       },
       "ELanguage": {
