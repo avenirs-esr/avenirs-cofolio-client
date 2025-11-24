@@ -82,6 +82,14 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to self-knowledge categories', () => {
+    BddTest().then('it should navigate to self-knowledge categories', () => {
+      const { navigateToStudentSelfKnowledgeCategories } = navigation
+      navigateToStudentSelfKnowledgeCategories()
+      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORIES)
+    })
+  })
+
   BddTest().when('trying to navigate to student skills', () => {
     BddTest().then('it should navigate to student skills', () => {
       const { navigateToStudentSkills } = navigation
