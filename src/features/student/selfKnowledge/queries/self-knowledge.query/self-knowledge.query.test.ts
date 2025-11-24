@@ -5,7 +5,9 @@ import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type AddSelfKnowledgeCategoriesVariables,
+  type RemoveSelfKnowledgeCategoryVariables,
   useAddSelfKnowledgeCategoriesMutation,
+  useRemoveSelfKnowledgeCategoryMutation,
   useSelfKnowledgeCategoriesAvailableQuery,
   useSelfKnowledgeCategoriesQuery,
   useSelfKnowledgeCategoryElementsViewQuery
@@ -601,6 +603,195 @@ BddTest().given('an add self knowledge categories mutation', () => {
       BddTest().then('it should call the addSelfKnowledgeCategories API with the invalid parameters', () => {
         expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledWith(selectedIds)
         expect(addSelfKnowledgeCategoriesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('an delete self knowledge category mutation', () => {
+  let removeSelfKnowledgeCategorySpy: MockInstance<(categoryId: string, options?: (RequestInit | undefined)) => Promise<string>>
+  let mutationResult: ReturnType<typeof useRemoveSelfKnowledgeCategoryMutation>
+
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    removeSelfKnowledgeCategorySpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'removeSelfKnowledgeCategory'>(
+      await import('@/api/avenir-esr'),
+    'removeSelfKnowledgeCategory'
+    )
+
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid category ID and success callback', () => {
+    const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+    const variables: RemoveSelfKnowledgeCategoryVariables = { categoryId }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useRemoveSelfKnowledgeCategoryMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the removeSelfKnowledgeCategory API with correct parameters', () => {
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(mutationResult.data.value as string, variables)
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useRemoveSelfKnowledgeCategoryMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the removeSelfKnowledgeCategory API with correct parameters', () => {
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+    const variables: RemoveSelfKnowledgeCategoryVariables = { categoryId }
+    const mutationArgs = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useRemoveSelfKnowledgeCategoryMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the removeSelfKnowledgeCategory API with correct parameters', () => {
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid categoryId with error callback', () => {
+    const categoryId: string = 'INVALID_CATEGORY_ID'
+    const variables: RemoveSelfKnowledgeCategoryVariables = { categoryId }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useRemoveSelfKnowledgeCategoryMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the removeSelfKnowledgeCategory API with the invalid parameters', () => {
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      let mutationResult: ReturnType<typeof useRemoveSelfKnowledgeCategoryMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useRemoveSelfKnowledgeCategoryMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the removeSelfKnowledgeCategory API with the invalid parameters', () => {
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
+        expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {

@@ -1,14 +1,17 @@
 <script lang="ts" setup>
+import { useRemoveSelfKnowledgeCategoryMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeCategoryModalProps {
   show: boolean
   categoryTitle: string
+  categoryId: string
   elementsCount: number
 }
 
-defineProps<DeleteSelfKnowledgeCategoryModalProps>()
+const { categoryTitle, categoryId } = defineProps<DeleteSelfKnowledgeCategoryModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -16,10 +19,20 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { addSuccessMessage, addErrorMessage } = useToasterStore()
+
+const { mutate: removeSelfKnowledgeCategory } = useRemoveSelfKnowledgeCategoryMutation({
+  onSuccess: () => {
+    addSuccessMessage(t('student.views.studentProjectTrajectoriesView.selfKnowledge.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
+    emit('confirm')
+  },
+  onError: (error) => {
+    addErrorMessage(error.message)
+  }
+})
 
 function onConfirm () {
-  // TODO: implement this when backend is ready
-  emit('confirm')
+  removeSelfKnowledgeCategory({ categoryId })
 }
 </script>
 

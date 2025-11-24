@@ -394,8 +394,9 @@
               "title": "You have added all the categories currently available on COFOLIO. | Which category would you like to add? | Which categories would you like to add?"
             },
             "deleteSelfKnowledgeCategory": {
-              "title": "Are you sure you want to delete the category {category}?",
-              "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted."
+              "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted.",
+              "success": "The category {category} has been deleted successfully",
+              "title": "Are you sure you want to delete the category {category}?"
             }
           },
           "navigation": {
