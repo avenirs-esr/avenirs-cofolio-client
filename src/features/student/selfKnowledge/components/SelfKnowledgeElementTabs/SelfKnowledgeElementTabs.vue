@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 interface SelfKnowledgeProps {
   selfKnowledgeElement: SelfKnowledgeElementViewDTO
   categoryType: ESelfKnowledgeCategoryType
+  readonly?: boolean
 }
 
 const { categoryType } = defineProps<SelfKnowledgeProps>()
