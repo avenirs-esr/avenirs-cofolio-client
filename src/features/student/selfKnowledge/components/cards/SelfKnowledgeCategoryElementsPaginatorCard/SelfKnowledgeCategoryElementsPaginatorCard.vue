@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
+import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
@@ -21,6 +23,12 @@ const { elements, pageInfo, isLoading } = useSelfKnowledgeCategoryElementsViewQu
   selfKnowledgeCategoryId: computed(() => category.id),
   page: currentPage
 })
+
+const {
+  displayModal: displayDeleteModal,
+  hideModal: hideDeleteModal,
+  showModal: showDeleteModal
+} = useModal()
 
 const categoryType = computed(() => category.type)
 const categoryIcon = computed(() => getSelfKnowledgeCategoryIcon(categoryType.value))
@@ -51,6 +59,7 @@ const pages = computed(() => getPaginationPages(totalPages))
         <div class="category-elements-paginator__title-actions">
           <SelfKnowledgeElementsDropdown
             :category-type="category.type"
+            @delete-category-selected="displayDeleteModal"
           />
         </div>
       </div>
@@ -97,6 +106,15 @@ const pages = computed(() => getPaginationPages(totalPages))
       </div>
     </div>
   </AvCard>
+
+  <DeleteSelfKnowledgeCategoryModal
+    :show="showDeleteModal"
+    :category-id="category.id"
+    :category-title="category.title"
+    :elements-count="elements.length"
+    @cancel="hideDeleteModal"
+    @confirm="hideDeleteModal"
+  />
 </template>
 
 <style lang="scss" scoped>

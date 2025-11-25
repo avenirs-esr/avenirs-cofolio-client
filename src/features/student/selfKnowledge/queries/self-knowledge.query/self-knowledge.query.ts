@@ -155,13 +155,13 @@ export interface AddSelfKnowledgeCategoriesVariables {
 }
 
 export function useAddSelfKnowledgeCategoriesMutation ({ onError, onSuccess }: MutationArgs<string, AddSelfKnowledgeCategoriesVariables> = {}) {
-  const invalidateSelfKnowledgeCategoriesQuery = useInvalidateQuery([...selfKnowledgeCategoriesAvailableQueryKey])
+  const invalidateSelfKnowledgeCommonQuery = useInvalidateQuery([...selfKnowledgeCommonQueryKey])
   return useMutation<string, BaseApiException, AddSelfKnowledgeCategoriesVariables>({
     mutationFn: async ({ selectedIds }: AddSelfKnowledgeCategoriesVariables): Promise<string> => {
       return await addSelfKnowledgeCategories(selectedIds)
     },
     onSuccess: async (data, variables) => {
-      await invalidateSelfKnowledgeCategoriesQuery()
+      await invalidateSelfKnowledgeCommonQuery()
       onSuccess?.(data, variables)
     },
     onError
@@ -173,13 +173,13 @@ export interface RemoveSelfKnowledgeCategoryVariables {
 }
 
 export function useRemoveSelfKnowledgeCategoryMutation ({ onError, onSuccess }: MutationArgs<string, RemoveSelfKnowledgeCategoryVariables> = {}) {
-  const invalidateSelfKnowledgeCategoriesQuery = useInvalidateQuery([...selfKnowledgeCategoriesAvailableQueryKey, ...selfKnowledgeCategoriesQueryKey])
+  const invalidateSelfKnowledgeCommonQuery = useInvalidateQuery([...selfKnowledgeCommonQueryKey])
   return useMutation<string, BaseApiException, RemoveSelfKnowledgeCategoryVariables>({
     mutationFn: async ({ categoryId }: RemoveSelfKnowledgeCategoryVariables): Promise<string> => {
       return await removeSelfKnowledgeCategory(categoryId)
     },
     onSuccess: async (data, variables) => {
-      await invalidateSelfKnowledgeCategoriesQuery()
+      await invalidateSelfKnowledgeCommonQuery()
       onSuccess?.(data, variables)
     },
     onError
