@@ -126,6 +126,13 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
         expect(iconText.exists()).toBe(true)
       })
 
+      BddTest().then('it should highlight the selected element', () => {
+        const selectedItem = wrapper.findAllComponents(AvButtonStub).find(item =>
+          item.props('label') === 'Force de communication'
+        )
+        expect(selectedItem?.props('variant')).toBe('OUTLINED')
+      })
+
       BddTest().and('an element is clicked', () => {
         beforeEach(async () => {
           const elementItems = wrapper.findAllComponents(AvButtonStub)

@@ -23,7 +23,8 @@
       "exit": "Quitter",
       "goBack": "Retour",
       "moreActions": "Plus d'actions",
-      "save": "Enregistrer"
+      "save": "Enregistrer",
+      "update": "Modifier"
     },
     "colon": "{before} :",
     "dates": {

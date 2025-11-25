@@ -68,6 +68,7 @@ const renderedElements = computed(() => {
             v-if="isCollapsed"
             :label="element.title"
             :icon="iconOptions.name"
+            :variant="element.id === selectedElementId ? 'OUTLINED' : 'DEFAULT'"
             icon-only
             @click="$emit('selectElement', element.id)"
           />

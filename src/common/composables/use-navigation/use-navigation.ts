@@ -40,6 +40,13 @@ export function useNavigation () {
     return router.push(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY)
   }
 
+  const navigateToStudentSelfKnowledgeElementUpdate = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
+    return router.push({
+      name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+      params: { path: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.path, categoryId, elementId }
+    })
+  }
+
   const navigateToStudentSkills = () => {
     return router.push(ROUTE_NAMES.STUDENT.EDUCATION_SKILLS)
   }
@@ -67,6 +74,7 @@ export function useNavigation () {
     navigateToStudentPages,
     navigateToStudentResumes,
     navigateToStudentSelfKnowledgeCategory,
+    navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentSkills,
     navigateToStudentTraces,
     navigateToStudentUpdateAdditionalSkill,

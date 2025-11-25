@@ -23,7 +23,8 @@
       "exit": "Exit",
       "goBack": "Go back",
       "moreActions": "More actions",
-      "save": "Save"
+      "save": "Save",
+      "update": "Update"
     },
     "colon": "{before}:",
     "dates": {

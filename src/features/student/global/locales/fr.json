@@ -204,6 +204,9 @@
       "selfKnowledgeCategoryView": {
         "title": "Détail de mes {type}"
       },
+      "selfKnowledgeElementUpdateView": {
+        "title": "Modifier {elementTitle}"
+      },
       "studentAdditionalSkillView": {
         "settings": {
           "ariaLabel": "Paramètres de la compétence déclarée",

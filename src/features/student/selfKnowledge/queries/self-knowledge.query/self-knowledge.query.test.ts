@@ -1,5 +1,5 @@
-import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
-import { selfKnowledgeCategoriesAvailableErrorHandler, selfKnowledgeCategoriesErrorHandler, selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { mockedSelfKnowledgeCategories, mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { selfKnowledgeCategoriesAvailableErrorHandler, selfKnowledgeCategoriesErrorHandler, selfKnowledgeCategoryElementsErrorHandler, selfKnowledgeElementDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -10,7 +10,8 @@ import {
   useRemoveSelfKnowledgeCategoryMutation,
   useSelfKnowledgeCategoriesAvailableQuery,
   useSelfKnowledgeCategoriesQuery,
-  useSelfKnowledgeCategoryElementsViewQuery
+  useSelfKnowledgeCategoryElementsViewQuery,
+  useSelfKnowledgeElementDetailsQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -101,6 +102,88 @@ BddTest().given('a self knowledge categories query', () => {
       server.use(selfKnowledgeCategoriesErrorHandler)
 
       const result = mountComposable(() => useSelfKnowledgeCategoriesQuery(), {
+        useTanstack: true
+      })
+      const composableResult = result.result
+
+      await vi.waitFor(() => {
+        expect(composableResult.isError.value).toBe(true)
+      })
+
+      expect(composableResult.error.value).toBeDefined()
+    })
+  })
+})
+
+BddTest().given('a self knowledge element details query', () => {
+  let composableResult: ReturnType<typeof useSelfKnowledgeElementDetailsQuery>
+
+  beforeEach(() => {
+    const result = mountComposable(() => useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: 'some-id' }), {
+      useTanstack: true
+    })
+    composableResult = result.result
+  })
+
+  BddTest().when('the query is initialized', () => {
+    BddTest().then('it should return an undefined element initially', () => {
+      expect(composableResult.element.value).toBeUndefined()
+    })
+
+    BddTest().then('it should be in loading state', () => {
+      expect(composableResult.isLoading.value).toBe(true)
+    })
+  })
+
+  BddTest().when('the query fetches data successfully', () => {
+    BddTest().then('it should return a detailed element', async () => {
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      expect(composableResult.element.value).toBeDefined()
+    })
+
+    BddTest().then('it should return detailed element with correct structure', async () => {
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      const element = composableResult.element.value
+      expect(element).toEqual(mockedSelfKnowledgeElementDetails)
+    })
+  })
+
+  BddTest().when('the query data is accessed', () => {
+    BddTest().then('it should return the same data as element computed property', async () => {
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      expect(composableResult.element.value).toEqual(composableResult.data.value ?? [])
+    })
+  })
+
+  BddTest().when('the query fails with server error', () => {
+    BddTest().then('it should set error state', async () => {
+      server.use(selfKnowledgeElementDetailsErrorHandler)
+
+      const result = mountComposable(() => useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: 'some-id' }), {
+        useTanstack: true
+      })
+      const composableResult = result.result
+
+      await vi.waitFor(() => {
+        expect(composableResult.isError.value).toBe(true)
+      })
+
+      expect(composableResult.isSuccess.value).toBe(false)
+      expect(composableResult.element.value).toBeUndefined()
+    })
+
+    BddTest().then('it should have error information', async () => {
+      server.use(selfKnowledgeElementDetailsErrorHandler)
+      const result = mountComposable(() => useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: 'some-id' }), {
         useTanstack: true
       })
       const composableResult = result.result

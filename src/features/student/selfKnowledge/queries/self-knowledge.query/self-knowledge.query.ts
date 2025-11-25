@@ -4,11 +4,13 @@ import {
   addSelfKnowledgeCategories,
   getSelfKnowledgeCategories,
   getSelfKnowledgeCategoriesAvailable,
+  getSelfKnowledgeElementDetails,
   getSelfKnowledgeElements,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type PageInfoDTO,
   removeSelfKnowledgeCategory,
   type SelfKnowledgeCategoryDTO,
+  type SelfKnowledgeElementDetailsDTO,
   type SelfKnowledgeElementViewDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -19,6 +21,7 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 const selfKnowledgeCommonQueryKey = [...commonQueryKeys, 'self-knowledge']
 const selfKnowledgeCategoriesQueryKey = [...selfKnowledgeCommonQueryKey, 'categories']
 const selfKnowledgeElementsQueryKey = [...selfKnowledgeCommonQueryKey, 'elements']
+const selfKnowledgeElementDetailsQueryKey = [...selfKnowledgeCommonQueryKey, 'element-details']
 const selfKnowledgeCategoriesAvailableQueryKey = [...selfKnowledgeCommonQueryKey, 'available']
 
 const TWO_MINUTES = 2 * 60 * 1000
@@ -44,6 +47,35 @@ export function useSelfKnowledgeCategoriesQuery (): UseQueryReturnType<SelfKnowl
   return {
     ...query,
     categories
+  }
+}
+
+export interface SelfKnowledgeElementDetailsQueryParams {
+  selfKnowledgeElementId: MaybeRef<string>
+}
+
+export function useSelfKnowledgeElementDetailsQuery ({
+  selfKnowledgeElementId
+}: SelfKnowledgeElementDetailsQueryParams): UseQueryReturnType<SelfKnowledgeElementDetailsDTO | undefined, BaseApiException> & {
+  element: Ref<SelfKnowledgeElementDetailsDTO | undefined>
+} {
+  const queryKey = computed(() => [...selfKnowledgeElementDetailsQueryKey])
+
+  const queryFn = computed(() => async (): Promise<SelfKnowledgeElementDetailsDTO> => {
+    return await getSelfKnowledgeElementDetails(toValue(selfKnowledgeElementId))
+  })
+
+  const query = useQuery<SelfKnowledgeElementDetailsDTO, BaseApiException >({
+    queryKey,
+    queryFn,
+    staleTime: TWO_MINUTES
+  })
+
+  const element = computed(() => query.data.value)
+
+  return {
+    ...query,
+    element
   }
 }
 

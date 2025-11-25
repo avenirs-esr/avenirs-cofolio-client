@@ -2,32 +2,13 @@ import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
+import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import SelfKnowledgeCategoryView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
-
-const SelfKnowledgeElementsSideMenuStub = defineComponent({
-  name: 'SelfKnowledgeElementsSideMenu',
-  props: {
-    elements: {
-      type: Array,
-      required: true
-    },
-    categoryType: {
-      type: String,
-      required: true
-    },
-    selectedElementId: {
-      type: String,
-      required: true
-    }
-  },
-  emits: ['selectElement'],
-  template: '<div class="self-knowledge-elements-side-menu-stub" />'
-})
 
 const stubs = {
   PageTitle: PageTitleStub,
