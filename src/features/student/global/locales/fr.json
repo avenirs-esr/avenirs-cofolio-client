@@ -202,7 +202,25 @@
     },
     "views": {
       "selfKnowledgeCategoryView": {
-        "title": "Détail de mes {type}"
+        "title": "Détail de mes {type}",
+        "tabs": {
+          "category": {
+            "titles": {
+              "ASPIRATIONS": "Mon envie",
+              "IMPROVEMENT_AREAS": "Mon axe d'amélioration",
+              "INSPIRATIONS": "Mon inspiration",
+              "INTERESTS": "Mon centre d'intérêt",
+              "MOTIVATIONS": "Ma motivation professionnelle",
+              "OBLIGATIONS": "Mon obligation",
+              "STRENGTHS": "Mon point fort",
+              "TESTIMONIALS": "Mon témoignage",
+              "VALUES": "Ma valeur"
+            }
+          },
+          "associations": {
+            "title": "Mes associations ({count})"
+          }
+        }
       },
       "selfKnowledgeElementUpdateView": {
         "title": "Modifier {elementTitle}"
