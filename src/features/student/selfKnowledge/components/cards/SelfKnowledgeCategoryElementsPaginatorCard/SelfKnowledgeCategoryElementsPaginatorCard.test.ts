@@ -34,6 +34,18 @@ const SelfKnowledgeElementsDropdownStub = defineComponent({
   template: '<div data-testid="self-knowledge-elements-dropdown" />'
 })
 
+const DeleteSelfKnowledgeCategoryModalStub = defineComponent({
+  name: 'DeleteSelfKnowledgeCategoryModal',
+  props: {
+    show: Boolean,
+    categoryId: String,
+    categoryTitle: String,
+    elementsCount: Number
+  },
+  emits: ['cancel', 'confirm'],
+  template: '<div data-testid="delete-self-knowledge-category-modal" />'
+})
+
 const AvCardStub = defineComponent({
   name: 'AvCard',
   props: {
@@ -77,7 +89,8 @@ const stubs = {
   SelfKnowledgeElementsDropdown: SelfKnowledgeElementsDropdownStub,
   AvCard: AvCardStub,
   AvIconText: AvIconTextStub,
-  AvPagination: AvPaginationStub
+  AvPagination: AvPaginationStub,
+  DeleteSelfKnowledgeCategoryModal: DeleteSelfKnowledgeCategoryModalStub
 }
 
 BddTest().given('a self knowledge category elements paginator card', () => {
@@ -308,6 +321,62 @@ BddTest().given('a self knowledge category elements paginator card', () => {
       BddTest().then('it should start at page 0', () => {
         const pagination = wrapper.findComponent(AvPaginationStub)
         expect(pagination.props('currentPage')).toBe(0)
+      })
+    })
+  })
+
+  BddTest().and('a deletable category', () => {
+    const obligationsCategory = {
+      id: 'deletable-category-id',
+      title: 'My obligations',
+      description: 'Some description.',
+      type: ESelfKnowledgeCategoryType.OBLIGATIONS
+    }
+
+    BddTest().when('the component is mounted', () => {
+      beforeEach(async () => {
+        wrapper = mountCard(obligationsCategory)
+        await vi.waitFor(() => {
+          expect(wrapper.exists()).toBe(true)
+        })
+      })
+
+      BddTest().then('it should not display the delete confirmation modal initially', () => {
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+        expect(deleteModal.exists()).toBe(true)
+        expect(deleteModal.props('show')).toBe(false)
+      })
+
+      BddTest().and('the delete option is selected from the dropdown', () => {
+        beforeEach(async () => {
+          const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
+          dropdown.vm.$emit('delete-category-selected')
+        })
+
+        BddTest().then('it should display the delete confirmation modal', async () => {
+          await vi.waitFor(() => {
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+            expect(deleteModal.exists()).toBe(true)
+            expect(deleteModal.props('show')).toBe(true)
+            expect(deleteModal.props('categoryId')).toBe(obligationsCategory.id)
+            expect(deleteModal.props('categoryTitle')).toBe(obligationsCategory.title)
+            expect(deleteModal.props('elementsCount')).toBe(0)
+          })
+        })
+
+        BddTest().and('the cancel event is emitted from the modal', () => {
+          beforeEach(async () => {
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+            deleteModal.vm.$emit('cancel')
+          })
+
+          BddTest().then('it should hide the delete confirmation modal', async () => {
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+            await vi.waitFor(() => {
+              expect(deleteModal.props('show')).toBe(false)
+            })
+          })
+        })
       })
     })
   })
