@@ -1,5 +1,6 @@
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
 import SelfKnowledgeElementsSideMenu, { type SelfKnowledgeElementsSideMenuProps } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import { AvBadgeStub, AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -46,7 +47,8 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
     AvBadge: AvBadgeStub,
     AvIconText: AvIconTextStub,
     AvSideMenu: AvSideMenuStub,
-    FloatingIconCard: FloatingIconCardStub
+    FloatingIconCard: FloatingIconCardStub,
+    SelfKnowledgeElementCompactCard: SelfKnowledgeElementCompactCardStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -58,7 +60,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
       const sideMenu = wrapper.findComponent(AvSideMenuStub)
       expect(sideMenu.exists()).toBe(true)
 
-      const elementItems = sideMenu.findAllComponents(FloatingIconCardStub)
+      const elementItems = sideMenu.findAllComponents(SelfKnowledgeElementCompactCardStub)
       expect(elementItems.length).toBe(dummyElements.length)
     })
 
@@ -68,10 +70,10 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
     })
 
     BddTest().then('it should highlight the selected element', () => {
-      const selectedItem = wrapper.findAllComponents(FloatingIconCardStub).find(item =>
-        item.props('title') === 'Force de communication'
+      const selectedItem = wrapper.findAll('div[role="button"]').find(item =>
+        item.text() === 'Force de communication'
       )
-      expect(selectedItem?.classes()).toContain('floating-icon-card--selected')
+      expect(selectedItem?.classes()).toContain('self-knowledge-elements-side-menu__element--selected')
     })
 
     BddTest().and('an element is clicked', () => {
