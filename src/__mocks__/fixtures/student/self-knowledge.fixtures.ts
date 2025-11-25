@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType, type PagedResponseSelfKnowledgeElementViewDTO, type SelfKnowledgeCategoryDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategoryType, type PagedResponseSelfKnowledgeElementViewDTO, type SelfKnowledgeCategoryDTO, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 
 export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   {
@@ -20,6 +20,15 @@ export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
     type: ESelfKnowledgeCategoryType.ASPIRATIONS
   }
 ]
+
+export const mockedSelfKnowledgeElementDetails: SelfKnowledgeElementDetailsDTO = {
+  id: 'element-123',
+  title: 'Créativité',
+  description: 'Je suis capable de trouver des solutions originales et innovantes aux problèmes',
+  rating: 4,
+  createdAt: '2023-10-10T10:00:00Z',
+  updatedAt: '2023-10-15T12:00:00Z'
+}
 
 const strengthsElements = [
   { title: 'Créativité', description: 'Je suis capable de trouver des solutions originales et innovantes aux problèmes' },

@@ -50,6 +50,26 @@ BddTest().given('a page title', () => {
     })
   })
 
+  BddTest().when('the component is mounted with the title slot', () => {
+    const slotTitle = 'Slot Page Title'
+
+    beforeEach(async () => {
+      wrapper = await mountWithRouter(PageTitle, {
+        props,
+        slots: {
+          title: `<span class="slot-title n2">${slotTitle}</span>`
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the slot title instead of the prop title', () => {
+      const pageTitle = wrapper.find('.page-title')
+      const spanTitle = pageTitle.find('.slot-title')
+      expect(spanTitle.text()).toBe(slotTitle)
+    })
+  })
+
   BddTest().when('clicking on the back button without back provided', () => {
     let mockRouter: Partial<Router>
 

@@ -90,6 +90,17 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to self-knowledge elements update', () => {
+    BddTest().then('it should navigate to self-knowledge elements update', () => {
+      const { navigateToStudentSelfKnowledgeElementUpdate } = navigation
+      navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+        params: { path: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.path, categoryId: 'categoryId', elementId: 'elementId' }
+      })
+    })
+  })
+
   BddTest().when('trying to navigate to student skills', () => {
     BddTest().then('it should navigate to student skills', () => {
       const { navigateToStudentSkills } = navigation

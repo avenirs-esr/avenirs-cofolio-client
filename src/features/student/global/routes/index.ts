@@ -2,6 +2,7 @@ import { ROUTE_NAMES } from '@/common/constants'
 import { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { studentSelfKnowledgeCategoryRoute } from '@/features/student/selfKnowledge'
+import { studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge/routes'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
@@ -52,6 +53,7 @@ export default [
         component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
       },
       studentSelfKnowledgeCategoryRoute,
+      studentSelfKnowledgeElementUpdateRoute,
       studentSkillRoute,
       studentToolsTracesRoute,
       {

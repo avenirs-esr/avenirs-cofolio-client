@@ -177,6 +177,105 @@
         }
       }
     },
+    "/me/self-knowledge/element/{selfKnowledgeElementId}": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeElementDetails",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfKnowledgeElementDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "updateSelfKnowledgeElement",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelfKnowledgeElementRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelfKnowledgeElementViewDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "deleteSelfKnowledgeElement",
+        "parameters": [
+          {
+            "name": "selfKnowledgeElementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/additional-skill-progress/{additionalSkillProgressId}": {
       "get": {
         "tags": [
@@ -1931,6 +2030,55 @@
           "version"
         ]
       },
+      "SelfKnowledgeElementRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "minLength": 0
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "description",
+          "title"
+        ]
+      },
+      "SelfKnowledgeElementViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "title"
+        ]
+      },
       "AdditionalSkillProgressRequest": {
         "type": "object",
         "properties": {
@@ -2753,6 +2901,40 @@
           "title"
         ]
       },
+      "SelfKnowledgeElementDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "description",
+          "id",
+          "title",
+          "updatedAt"
+        ]
+      },
       "SelfKnowledgeCategoryDTO": {
         "type": "object",
         "properties": {
@@ -3398,53 +3580,6 @@
         "required": [
           "description",
           "label"
-        ]
-      },
-      "SelfKnowledgeElementViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "rating": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "description",
-          "id",
-          "title"
-        ]
-      },
-      "SelfKnowledgeElementRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 80,
-            "minLength": 0
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 400,
-            "minLength": 0
-          },
-          "rating": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "description",
-          "title"
         ]
       },
       "ESelfKnowledgeCategoryType": {

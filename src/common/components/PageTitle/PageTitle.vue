@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import { ROUTE_NAMES } from '@/common/constants'
 import { AvBreadcrumb, type AvBreadcrumbProps, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -12,6 +13,10 @@ const {
   breadcrumbLinks: AvBreadcrumbProps['links']
   title: string
   back?: RouteLocationRaw
+}>()
+
+defineSlots<{
+  title: Slot
 }>()
 
 const router = useRouter()
@@ -41,7 +46,9 @@ function goBack () {
         :icon="MDI_ICONS.ARROW_LEFT_THIN"
         @click="goBack"
       />
-      <span class="n2">{{ title }}</span>
+      <slot name="title">
+        <span class="n2">{{ title }}</span>
+      </slot>
     </div>
   </div>
 </template>

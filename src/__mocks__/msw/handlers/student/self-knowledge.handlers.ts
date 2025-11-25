@@ -1,20 +1,35 @@
 import {
   createMockedPagedResponseSelfKnowledgeElementViewDTO,
   mockedSelfKnowledgeCategories,
-  mockedSelfKnowledgeCategoriesAvailable
+  mockedSelfKnowledgeCategoriesAvailable,
+  mockedSelfKnowledgeElementDetails
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
   getAddSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeCategoriesAvailableUrl,
   getGetSelfKnowledgeCategoriesUrl,
+  getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
   getRemoveSelfKnowledgeCategoryUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
-  type SelfKnowledgeCategoryDTO
+  type SelfKnowledgeCategoryDTO,
+  type SelfKnowledgeElementDetailsDTO
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
 export const selfKnowledgeCategoriesErrorHandler = http.get(`*${getGetSelfKnowledgeCategoriesUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+})
+
+export const selfKnowledgeElementDetailsErrorHandler = http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
     {
@@ -61,6 +76,17 @@ export function createSelfKnowledgeCategoriesAvailableHandler (payload: SelfKnow
   })
 }
 
+export function createSelfKnowledgeElementDetailsHandler (payload: SelfKnowledgeElementDetailsDTO) {
+  return http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
+    return HttpResponse.json<SelfKnowledgeElementDetailsDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
 export function updateSelectedSelfKnowledgeCategoriesHandler (payload: string[]) {
   return http.post(`*${getAddSelfKnowledgeCategoriesUrl()}`, () => {
     return HttpResponse.json<string[]>(payload, {
@@ -75,6 +101,15 @@ export function updateSelectedSelfKnowledgeCategoriesHandler (payload: string[])
 export const selfKnowledgeHandlers = [
   http.get(`*${getGetSelfKnowledgeCategoriesUrl()}`, () => {
     return HttpResponse.json<SelfKnowledgeCategoryDTO[]>(mockedSelfKnowledgeCategories, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }),
+
+  http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
+    return HttpResponse.json<SelfKnowledgeElementDetailsDTO>(mockedSelfKnowledgeElementDetails, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'

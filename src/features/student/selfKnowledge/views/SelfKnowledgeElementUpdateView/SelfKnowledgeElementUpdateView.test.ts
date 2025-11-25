@@ -1,0 +1,80 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
+import SelfKnowledgeElementUpdateView from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+
+const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
+
+vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables/use-navigation/use-navigation')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentSelfKnowledgeElementUpdate,
+    }),
+  }
+})
+
+BddTest().given('a self knowledge element update view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementUpdateView>>
+
+  const stubs = {
+    PageTitle: PageTitleStub,
+    SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
+  }
+
+  BddTest().when('the view is rendered', () => {
+    beforeEach(() => {
+      const handler = createSelfKnowledgeElementDetailsHandler(mockedSelfKnowledgeElementDetails)
+      server.use(handler)
+
+      wrapper = mountComponent(SelfKnowledgeElementUpdateView, {
+        props: {
+          categoryId: 'strengths',
+          elementId: '1',
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the PageTitle component', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      expect(pageTitle.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the SelfKnowledgeElementsSideMenu component', async () => {
+      await vi.waitFor(() => {
+        const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
+        expect(sideMenu.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should render the element title', async () => {
+      await vi.waitFor(() => {
+        const elementTitle = wrapper.find('.n4')
+        expect(elementTitle.exists()).toBe(true)
+        expect(elementTitle.text()).toBe(`Modifier ${mockedSelfKnowledgeElementDetails.title}`)
+      })
+    })
+
+    BddTest().and('an element is selected', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
+          expect(sideMenu.exists()).toBe(true)
+          sideMenu.vm.$emit('selectElement', '2')
+        })
+      })
+
+      BddTest().then('it should navigate to the element update view of the selected element', () => {
+        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: 'strengths', elementId: '2' })
+      })
+    })
+  })
+})

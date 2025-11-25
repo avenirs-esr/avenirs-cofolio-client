@@ -10,6 +10,7 @@ export const ROUTE_NAMES = {
     PROJECT_EXPERIENCES: { name: 'student-project-experiences', path: 'projects/experiences' },
     PROJECT_TRAJECTORIES: { name: 'student-project-trajectories', path: 'projects/trajectories' },
     SELFKNOWLEDGE_CATEGORY: { name: 'student-self-knowledge-category', path: 'projects/trajectories/self-knowledge/:id' },
+    SELFKNOWLEDGE_ELEMENT_UPDATE: { name: 'student-self-knowledge-element-update', path: 'projects/trajectories/self-knowledge/:categoryId/:elementId/update' },
     TOOLS_PAGES: { name: 'student-tools-pages', path: 'tools/pages' },
     TOOLS_RESUMES: { name: 'student-tools-resumes', path: 'tools/resumes' },
     ABOUT: { name: 'student-about', path: 'about' },

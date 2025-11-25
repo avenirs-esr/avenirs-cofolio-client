@@ -204,6 +204,9 @@
       "selfKnowledgeCategoryView": {
         "title": "Details of my {type}"
       },
+      "selfKnowledgeElementUpdateView": {
+        "title": "Update {elementTitle}"
+      },
       "studentAdditionalSkillView": {
         "settings": {
           "ariaLabel": "Declared skill settings",
