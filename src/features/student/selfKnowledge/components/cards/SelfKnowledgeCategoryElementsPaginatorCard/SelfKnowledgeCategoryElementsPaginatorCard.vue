@@ -4,6 +4,7 @@ import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
 import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
+import DeleteSelfKnowledgeElementModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
@@ -25,9 +26,15 @@ const { elements, pageInfo, isLoading } = useSelfKnowledgeCategoryElementsViewQu
 })
 
 const {
-  displayModal: displayDeleteModal,
-  hideModal: hideDeleteModal,
-  showModal: showDeleteModal
+  displayModal: displayDeleteCategoryModal,
+  hideModal: hideDeleteCategoryModal,
+  showModal: showDeleteCategoryModal
+} = useModal()
+
+const {
+  displayModal: displayDeleteElementModal,
+  hideModal: hideDeleteElementModal,
+  showModal: showDeleteElementModal
 } = useModal()
 
 const categoryType = computed(() => category.type)
@@ -59,7 +66,8 @@ const pages = computed(() => getPaginationPages(totalPages))
         <div class="category-elements-paginator__title-actions">
           <SelfKnowledgeElementsDropdown
             :category-type="category.type"
-            @delete-category-selected="displayDeleteModal"
+            @delete-selected="displayDeleteElementModal"
+            @delete-category-selected="displayDeleteCategoryModal"
           />
         </div>
       </div>
@@ -108,12 +116,20 @@ const pages = computed(() => getPaginationPages(totalPages))
   </AvCard>
 
   <DeleteSelfKnowledgeCategoryModal
-    :show="showDeleteModal"
+    :show="showDeleteCategoryModal"
     :category-id="category.id"
     :category-title="category.title"
     :elements-count="elements.length"
-    @cancel="hideDeleteModal"
-    @confirm="hideDeleteModal"
+    @cancel="hideDeleteCategoryModal"
+    @confirm="hideDeleteCategoryModal"
+  />
+
+  <DeleteSelfKnowledgeElementModal
+    :show="showDeleteElementModal"
+    :category-type="categoryType"
+    :elements="elements"
+    @cancel="hideDeleteElementModal"
+    @confirm="hideDeleteElementModal"
   />
 </template>
 
