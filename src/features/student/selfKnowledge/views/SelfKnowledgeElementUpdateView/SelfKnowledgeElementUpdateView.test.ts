@@ -4,7 +4,8 @@ import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handle
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
-import SelfKnowledgeElementUpdateView from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
+import SelfKnowledgeElementUpdateView
+  from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -21,12 +22,28 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
   }
 })
 
+const SelfKnowledgeElementTabsStub = defineComponent({
+  name: 'SelfKnowledgeElementTabs',
+  props: {
+    selfKnowledgeElement: {
+      type: Object,
+      required: true
+    },
+    categoryType: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  template: '<div class="self-knowledge-element-tabs-stub" />'
+})
+
 BddTest().given('a self knowledge element update view', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementUpdateView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
     SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
+    SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub
   }
 
   BddTest().when('the view is rendered', () => {
@@ -60,6 +77,16 @@ BddTest().given('a self knowledge element update view', () => {
         const elementTitle = wrapper.find('.n4')
         expect(elementTitle.exists()).toBe(true)
         expect(elementTitle.text()).toBe(`Modifier ${mockedSelfKnowledgeElementDetails.title}`)
+      })
+    })
+
+    BddTest().then('it should render SelfKnowledgeElementTabs with correct props', async () => {
+      await vi.waitFor(() => {
+        const tabs = wrapper.findComponent(SelfKnowledgeElementTabsStub)
+
+        expect(tabs.exists()).toBe(true)
+        expect(tabs.props('selfKnowledgeElement')).toEqual(mockedSelfKnowledgeElementDetails)
+        expect(tabs.props('categoryType')).toBeDefined()
       })
     })
 

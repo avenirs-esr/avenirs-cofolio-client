@@ -4,6 +4,7 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants/route-names'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
+import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeElementDetailsQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useI18n } from 'vue-i18n'
 
@@ -78,6 +79,10 @@ function onSelectElement (selectedElementId: string) {
     />
     <div class="av-flex-col-md">
       <span class="self-knowledge-element-update-view__element-title n4">{{ element.title }}</span>
+      <SelfKnowledgeElementTabs
+        :self-knowledge-element="element"
+        :category-type="dummyCategoryType"
+      />
     </div>
   </div>
 </template>
