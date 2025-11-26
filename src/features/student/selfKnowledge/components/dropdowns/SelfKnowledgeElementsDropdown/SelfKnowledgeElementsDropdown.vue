@@ -36,17 +36,17 @@ const menuItems = computed<AvDropdownItem[]>(() => {
     {
       name: SelfKnowledgeElementsDropdownEvents.ADD,
       icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.add.${categoryType.toLowerCase()}`)
+      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.add')
     },
     {
       name: SelfKnowledgeElementsDropdownEvents.DELETE,
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.delete.${categoryType.toLowerCase()}`)
+      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.delete')
     },
     {
       name: SelfKnowledgeElementsDropdownEvents.SHARE,
       icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.share.${categoryType.toLowerCase()}`)
+      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.share')
     }
   ]
 
@@ -54,7 +54,7 @@ const menuItems = computed<AvDropdownItem[]>(() => {
     items.push({
       name: SelfKnowledgeElementsDropdownEvents.DELETE_CATEGORY,
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.delete.category')
+      label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.buttons.deleteCategory')
     })
   }
 

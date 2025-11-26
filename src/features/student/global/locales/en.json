@@ -385,90 +385,20 @@
           },
           "categoryElementsPaginator": {
             "buttons": {
-              "add": {
-                "aspirations": "Add an aspiration",
-                "improvement": "Add an area for improvement",
-                "inspirations": "Add an inspiration",
-                "interests": "Add an area of interest",
-                "motivation": "Add a professional motivation",
-                "obligations": "Add an obligation",
-                "strengths": "Add a strength",
-                "testimonials": "Add a testimonial",
-                "values": "Add a value"
-              },
-              "delete": {
-                "aspirations": "Delete an aspiration",
-                "category": "Delete category",
-                "improvement": "Delete an area for improvement",
-                "inspirations": "Delete an inspiration",
-                "interests": "Delete an area of interest",
-                "motivation": "Delete a professional motivation",
-                "obligations": "Delete an obligation",
-                "strengths": "Delete a strength",
-                "testimonials": "Delete a testimonial",
-                "values": "Delete a value"
-              },
-              "share": {
-                "aspirations": "Share my aspirations",
-                "improvement": "Share my areas for improvement",
-                "inspirations": "Share my inspirations",
-                "interests": "Share my areas of interest",
-                "motivation": "Share my professional motivations",
-                "obligations": "Share my obligations",
-                "strengths": "Share my strengths",
-                "testimonials": "Share my testimonials",
-                "values": "Share my values"
-              }
+              "add": "Add an element",
+              "delete": "Delete an element",
+              "deleteCategory": "Delete category",
+              "share": "Share my elements"
             },
             "emptyState": "No elements in this category",
             "modals": {
               "confirmDeleteElements": {
-                "title": {
-                  "aspirations": "Are you sure you want to delete this aspiration? | Are you sure you want to delete these aspirations?",
-                  "improvement": "Are you sure you want to delete this area for improvement? | Are you sure you want to delete these areas for improvement?",
-                  "inspirations": "Are you sure you want to delete this inspiration? | Are you sure you want to delete these inspirations?",
-                  "interests": "Are you sure you want to delete this area of interest? | Are you sure you want to delete these areas of interest?",
-                  "motivation": "Are you sure you want to delete this professional motivation? | Are you sure you want to delete these professional motivations?",
-                  "obligations": "Are you sure you want to delete this obligation? | Are you sure you want to delete these obligations?",
-                  "strengths": "Are you sure you want to delete this strength? | Are you sure you want to delete these strengths?",
-                  "testimonials": "Are you sure you want to delete this testimonial? | Are you sure you want to delete these testimonials?",
-                  "values": "Are you sure you want to delete this value? | Are you sure you want to delete these values?"
-                }
+                "title": "Are you sure you want to delete this element? | Are you sure you want to delete these elements?"
               },
               "deleteElements": {
-                "checkboxAriaLabel": {
-                  "aspirations": "Select aspiration {title}",
-                  "improvement": "Select area for improvement {title}",
-                  "inspirations": "Select inspiration {title}",
-                  "interests": "Select area of interest {title}",
-                  "motivation": "Select professional motivation {title}",
-                  "obligations": "Select obligation {title}",
-                  "strengths": "Select strength {title}",
-                  "testimonials": "Select testimonial {title}",
-                  "values": "Select value {title}"
-                },
-                "confirmButton": {
-                  "aspirations": "Delete selected aspirations (0) | Delete selected aspiration (1) | Delete selected aspirations ({count})",
-                  "improvement": "Delete selected areas for improvement (0) | Delete selected area for improvement (1) | Delete selected areas for improvement ({count})",
-                  "inspirations": "Delete selected inspirations (0) | Delete selected inspiration (1) | Delete selected inspirations ({count})",
-                  "interests": "Delete selected areas of interest (0) | Delete selected area of interest (1) | Delete selected areas of interest ({count})",
-                  "motivation": "Delete selected professional motivations (0) | Delete selected professional motivation (1) | Delete selected professional motivations ({count})",
-                  "obligations": "Delete selected obligations (0) | Delete selected obligation (1) | Delete selected obligations ({count})",
-                  "strengths": "Delete selected strengths (0) | Delete selected strength (1) | Delete selected strengths ({count})",
-                  "testimonials": "Delete selected testimonials (0) | Delete selected testimonial (1) | Delete selected testimonials ({count})",
-                  "values": "Delete selected values (0) | Delete selected value (1) | Delete selected values ({count})"
-                },
-                "title": {
-                  "aspirations": "No aspiration to delete | Which aspiration do you want to delete? | Which aspirations do you want to delete?",
-                  "improvement": "No area for improvement to delete | Which area for improvement do you want to delete? | Which areas for improvement do you want to delete?",
-                  "inspirations": "No inspiration to delete | Which inspiration do you want to delete? | Which inspirations do you want to delete?",
-                  "interests": "No area of interest to delete | Which area of interest do you want to delete? | Which areas of interest do you want to delete?",
-                  "motivation": "No professional motivation to delete | Which professional motivation do you want to delete? | Which professional motivations do you want to delete?",
-                  "obligations": "No obligation to delete | Which obligation do you want to delete? | Which obligations do you want to delete?",
-                  "strengths": "No strength to delete | Which strength do you want to delete? | Which strengths do you want to delete?",
-                  "testimonials": "No testimonial to delete | Which testimonial do you want to delete? | Which testimonials do you want to delete?",
-                  "values": "No value to delete | Which value do you want to delete? | Which values do you want to delete?"
-                }
+                "ariaLabel": "Select the element {title}",
+                "confirmButton": "Delete selected elements (0) | Delete selected element (1) | Delete selected elements ({count})",
+                "title": "No element to delete | Which element do you want to delete? | Which elements do you want to delete?"
               }
             }
           },
@@ -487,17 +417,7 @@
             }
           },
           "navigation": {
-            "elementsSideMenu": {
-              "aspirations": "All my aspirations",
-              "improvement": "All my areas for improvement",
-              "inspirations": "All my inspirations",
-              "interests": "All my areas of interest",
-              "motivation": "All my professional motivations",
-              "obligations": "All my obligations",
-              "strengths": "All my strengths",
-              "testimonials": "All my testimonials",
-              "values": "All my values"
-            }
+            "elementsSideMenu": "All my elements"
           },
           "title": {
             "content": "Who am I?",

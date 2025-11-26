@@ -385,90 +385,20 @@
           },
           "categoryElementsPaginator": {
             "buttons": {
-              "add": {
-                "aspirations": "Ajouter une envie",
-                "improvement": "Ajouter un axe d'amélioration",
-                "inspirations": "Ajouter une inspiration",
-                "interests": "Ajouter un centre d'intérêt",
-                "motivation": "Ajouter une motivation professionnelle",
-                "obligations": "Ajouter une obligation",
-                "strengths": "Ajouter un point fort",
-                "testimonials": "Ajouter un témoignage",
-                "values": "Ajouter une valeur"
-              },
-              "delete": {
-                "aspirations": "Supprimer une envie",
-                "category": "Supprimer la catégorie",
-                "improvement": "Supprimer un axe d'amélioration",
-                "inspirations": "Supprimer une inspiration",
-                "interests": "Supprimer un centre d'intérêt",
-                "motivation": "Supprimer une motivation professionnelle",
-                "obligations": "Supprimer une obligation",
-                "strengths": "Supprimer un point fort",
-                "testimonials": "Supprimer un témoignage",
-                "values": "Supprimer une valeur"
-              },
-              "share": {
-                "aspirations": "Partager mes envies",
-                "improvement": "Partager mes axes d'amélioration",
-                "inspirations": "Partager mes inspirations",
-                "interests": "Partager mes centres d'intérêt",
-                "motivation": "Partager mes motivations professionnelles",
-                "obligations": "Partager mes obligations",
-                "strengths": "Partager mes points forts",
-                "testimonials": "Partager mes témoignages",
-                "values": "Partager mes valeurs"
-              }
+              "add": "Ajouter un élément",
+              "delete": "Supprimer un élément",
+              "deleteCategory": "Supprimer la catégorie",
+              "share": "Partager mes éléments"
             },
             "emptyState": "Aucun élément dans cette catégorie",
             "modals": {
               "confirmDeleteElements": {
-                "title": {
-                  "aspirations": "Êtes-vous certain(e) de vouloir supprimer cette envie ? | Êtes-vous certain(e) de vouloir supprimer ces envies ?",
-                  "improvement": "Êtes-vous certain(e) de vouloir supprimer cet axe d'amélioration ? | Êtes-vous certain(e) de vouloir supprimer ces axes d'amélioration ?",
-                  "inspirations": "Êtes-vous certain(e) de vouloir supprimer cette inspiration ? | Êtes-vous certain(e) de vouloir supprimer ces inspirations ?",
-                  "interests": "Êtes-vous certain(e) de vouloir supprimer ce centre d'intérêt ? | Êtes-vous certain(e) de vouloir supprimer ces centres d'intérêt ?",
-                  "motivation": "Êtes-vous certain(e) de vouloir supprimer cette motivation professionnelle ? | Êtes-vous certain(e) de vouloir supprimer ces motivations professionnelles ?",
-                  "obligations": "Êtes-vous certain(e) de vouloir supprimer cette obligation ? | Êtes-vous certain(e) de vouloir supprimer ces obligations ?",
-                  "strengths": "Êtes-vous certain(e) de vouloir supprimer ce point fort ? | Êtes-vous certain(e) de vouloir supprimer ces points forts ?",
-                  "testimonials": "Êtes-vous certain(e) de vouloir supprimer ce témoignage ? | Êtes-vous certain(e) de vouloir supprimer ces témoignages ?",
-                  "values": "Êtes-vous certain(e) de vouloir supprimer cette valeur ? | Êtes-vous certain(e) de vouloir supprimer ces valeurs ?"
-                }
+                "title": "Êtes-vous certain(e) de vouloir supprimer cet élément ? | Êtes-vous certain(e) de vouloir supprimer ces éléments ?"
               },
               "deleteElements": {
-                "checkboxAriaLabel": {
-                  "aspirations": "Sélectionner l'envie {title}",
-                  "improvement": "Sélectionner l'axe d'amélioration {title}",
-                  "inspirations": "Sélectionner l'inspiration {title}",
-                  "interests": "Sélectionner le centre d'intérêt {title}",
-                  "motivation": "Sélectionner la motivation professionnelle {title}",
-                  "obligations": "Sélectionner l'obligation {title}",
-                  "strengths": "Sélectionner le point fort {title}",
-                  "testimonials": "Sélectionner le témoignage {title}",
-                  "values": "Sélectionner la valeur {title}"
-                },
-                "confirmButton": {
-                  "aspirations": "Supprimer les envies sélectionnées (0) | Supprimer l'envie sélectionnée (1) | Supprimer les envies sélectionnées ({count})",
-                  "improvement": "Supprimer les axes d'amélioration sélectionnés (0) | Supprimer l'axe d'amélioration sélectionné (1) | Supprimer les axes d'amélioration sélectionnés ({count})",
-                  "inspirations": "Supprimer les inspirations sélectionnées (0) | Supprimer l'inspiration sélectionnée (1) | Supprimer les inspirations sélectionnées ({count})",
-                  "interests": "Supprimer les centres d'intérêt sélectionnés (0) | Supprimer le centre d'intérêt sélectionné (1) | Supprimer les centres d'intérêt sélectionnés ({count})",
-                  "motivation": "Supprimer les motivations professionnelles sélectionnées (0) | Supprimer la motivation professionnelle sélectionnée (1) | Supprimer les motivations professionnelles sélectionnées ({count})",
-                  "obligations": "Supprimer les obligations sélectionnées (0) | Supprimer l'obligation sélectionnée (1) | Supprimer les obligations sélectionnées ({count})",
-                  "strengths": "Supprimer les points forts sélectionnés (0) | Supprimer le point fort sélectionné (1) | Supprimer les points forts sélectionnés ({count})",
-                  "testimonials": "Supprimer les témoignages sélectionnés (0) | Supprimer le témoignage sélectionné (1) | Supprimer les témoignages sélectionnés ({count})",
-                  "values": "Supprimer les valeurs sélectionnées (0) | Supprimer la valeur sélectionnée (1) | Supprimer les valeurs sélectionnées ({count})"
-                },
-                "title": {
-                  "aspirations": "Aucune envie à supprimer | Quelle envie souhaitez-vous supprimer ? | Quelles envies souhaitez-vous supprimer ?",
-                  "improvement": "Aucun axe d'amélioration à supprimer | Quel axe d'amélioration souhaitez-vous supprimer ? | Quels axes d'amélioration souhaitez-vous supprimer ?",
-                  "inspirations": "Aucune inspiration à supprimer | Quelle inspiration souhaitez-vous supprimer ? | Quelles inspirations souhaitez-vous supprimer ?",
-                  "interests": "Aucun centre d'intérêt à supprimer | Quel centre d'intérêt souhaitez-vous supprimer ? | Quels centres d'intérêt souhaitez-vous supprimer ?",
-                  "motivation": "Aucune motivation professionnelle à supprimer | Quelle motivation professionnelle souhaitez-vous supprimer ? | Quelles motivations professionnelles souhaitez-vous supprimer ?",
-                  "obligations": "Aucune obligation à supprimer | Quelle obligation souhaitez-vous supprimer ? | Quelles obligations souhaitez-vous supprimer ?",
-                  "strengths": "Aucun point fort à supprimer | Quel point fort souhaitez-vous supprimer ? | Quels points forts souhaitez-vous supprimer ?",
-                  "testimonials": "Aucun témoignage à supprimer | Quel témoignage souhaitez-vous supprimer ? | Quels témoignages souhaitez-vous supprimer ?",
-                  "values": "Aucune valeur à supprimer | Quelle valeur souhaitez-vous supprimer ? | Quelles valeurs souhaitez-vous supprimer ?"
-                }
+                "ariaLabel": "Sélectionner l'élément {title}",
+                "confirmButton": "Supprimer les éléments sélectionnés (0) | Supprimer l'élément sélectionné (1) | Supprimer les éléments sélectionnés ({count})",
+                "title": "Aucun élément à supprimer | Quel élément souhaitez-vous supprimer ? | Quels éléments souhaitez-vous supprimer ?"
               }
             }
           },
@@ -487,17 +417,7 @@
             }
           },
           "navigation": {
-            "elementsSideMenu": {
-              "aspirations": "Toutes mes envies",
-              "improvement": "Tous mes axes d'amélioration",
-              "inspirations": "Toutes mes inspirations",
-              "interests": "Tous mes centres d'intérêt",
-              "motivation": "Toutes mes motivations professionnelles",
-              "obligations": "Toutes mes obligations",
-              "strengths": "Tous mes points forts",
-              "testimonials": "Tous mes témoignages",
-              "values": "Toutes mes valeurs"
-            }
+            "elementsSideMenu": "Tous mes éléments"
           },
           "title": {
             "content": "Qui je suis ?",
