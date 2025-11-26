@@ -1,5 +1,5 @@
 import type { UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'

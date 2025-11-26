@@ -1,4 +1,4 @@
-import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

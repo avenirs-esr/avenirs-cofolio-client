@@ -1,4 +1,4 @@
-import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
+import { useAmsStore } from '@/features/student/ams/stores/ams.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'

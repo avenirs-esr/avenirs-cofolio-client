@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useAmsViewQuery } from '@/features/student/ams/queries/use-ams-view.query/use-ams-view.query'
-import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
+import { useAmsStore } from '@/features/student/ams/stores/ams.store'
 import ProgramProgressSelector
   from '@/features/student/ams/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import StudentDetailedAmsCard from '@/features/student/ams/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'

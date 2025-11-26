@@ -18,7 +18,7 @@ export type { UseTracesViewQueryParams } from '@/features/student/traces/queries
 
 export { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
-export { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+export { useTracesStore } from '@/features/student/traces/stores/traces.store'
 
 export type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 

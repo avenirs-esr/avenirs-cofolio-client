@@ -4,7 +4,7 @@ import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentDetailedTraceAssociateModal
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'

@@ -8,4 +8,4 @@ export {
 } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 
 export { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
-export { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills/additionalSkills'
+export { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills.store'

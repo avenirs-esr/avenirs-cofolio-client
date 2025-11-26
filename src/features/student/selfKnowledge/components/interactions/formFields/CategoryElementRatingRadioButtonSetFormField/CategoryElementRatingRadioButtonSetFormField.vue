@@ -16,10 +16,10 @@ const FormField = markRaw(form.Field)
     <template #default="{ field }">
       <CategoryElementRatingRadioButtonSet
         v-bind="$attrs"
-        v-model="field.state.value"
+        :model-value="field.state.value ?? undefined"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(value) => field.handleChange(value)"
+        @update:model-value="(value) => typeof value === 'number' && field.handleChange(value)"
       />
     </template>
   </FormField>

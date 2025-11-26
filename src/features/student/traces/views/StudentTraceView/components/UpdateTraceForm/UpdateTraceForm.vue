@@ -8,7 +8,7 @@ import TraceFileUploadFormField from '@/features/student/traces/components/inter
 import TraceGroupProductionToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
-import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'

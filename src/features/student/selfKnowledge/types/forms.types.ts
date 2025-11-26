@@ -1,4 +1,6 @@
-import type { FormApi } from '@tanstack/vue-form'
+import type {
+  useAddSelfKnowledgeCategoryElementForm
+} from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
 
 export interface SelfKnowledgeCategoryElementFormData {
   title: string
@@ -6,4 +8,4 @@ export interface SelfKnowledgeCategoryElementFormData {
   rating: number | null
 }
 
-export type AddSelfKnowledgeCategoryElementForm = FormApi<SelfKnowledgeCategoryElementFormData, unknown>
+export type AddSelfKnowledgeCategoryElementForm = ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>['form']

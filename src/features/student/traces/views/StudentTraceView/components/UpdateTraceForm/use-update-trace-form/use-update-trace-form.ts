@@ -3,7 +3,7 @@ import type { TraceFormData } from '@/features/student/traces/types/traces.types
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { useTracesStore } from '@/features/student/traces/stores/traces/traces'
+import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
