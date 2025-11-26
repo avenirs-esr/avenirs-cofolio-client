@@ -13,15 +13,15 @@
       "XXI": "XXIᵉ onisep"
     },
     "selfKnowledgeCategoryType": {
-      "ASPIRATIONS": "aspirations",
-      "IMPROVEMENT_AREAS": "areas for improvement",
-      "INSPIRATIONS": "inspirations",
-      "INTERESTS": "interests",
-      "MOTIVATIONS": "professional motivations",
-      "OBLIGATIONS": "obligations",
-      "STRENGTHS": "strengths",
-      "TESTIMONIALS": "testimonials",
-      "VALUES": "values"
+      "ASPIRATIONS": "aspiration | aspirations",
+      "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
+      "INSPIRATIONS": "inspiration | inspirations",
+      "INTERESTS": "interest | interests",
+      "MOTIVATIONS": "professional motivation | professional motivations",
+      "OBLIGATIONS": "obligation | obligations",
+      "STRENGTHS": "strength | strengths",
+      "TESTIMONIALS": "testimonial | testimonials",
+      "VALUES": "value | values"
     },
     "badges": {
       "studentAmsStatusBadge": {
@@ -198,6 +198,44 @@
       },
       "tracesSelector": {
         "ariaLabel": "Select trace {title}"
+      }
+    },
+    "selfKnowledge": {
+      "addSelfKnowledgeCategoryElementDrawer": {
+        "accordions": {
+          "associate": "Associate my element",
+          "definition": "Add my element",
+          "rating": "Specify my element"
+        },
+        "confirmationModal": {
+          "title": "Are you sure you want to exit without saving your element?"
+        },
+        "errors": {
+          "createElement": "Error creating element"
+        },
+        "success": "Element created successfully",
+        "title": "Add a strength",
+        "titleWithCategory": "Add element - {category}"
+      },
+      "categoryElementDescriptionTextarea": {
+        "hint": "{count} / {maxlength} characters (including spaces)",
+        "label": "Description of your element",
+        "placeholder": "Describe your element..."
+      },
+      "categoryElementRatingInput": {
+        "legend": "Assess the importance of your element",
+        "levels": {
+          "essential": "Essential",
+          "important": "Important",
+          "lessImportant": "Less important",
+          "notEvaluated": "Not evaluated",
+          "notImportant": "Not important",
+          "veryImportant": "Very important"
+        }
+      },
+      "categoryElementTitleInput": {
+        "label": "Title of your element",
+        "placeholder": "Type a title for your element..."
       }
     },
     "views": {

@@ -13,15 +13,15 @@
       "XXI": "XXIᵉ onisep"
     },
     "selfKnowledgeCategoryType": {
-      "ASPIRATIONS": "envies",
-      "IMPROVEMENT_AREAS": "axes d'amélioration",
-      "INSPIRATIONS": "inspirations",
-      "INTERESTS": "centres d'intérêt",
-      "MOTIVATIONS": "motivations professionnelles",
-      "OBLIGATIONS": "obligations",
-      "STRENGTHS": "points forts",
-      "TESTIMONIALS": "témoignages",
-      "VALUES": "valeurs"
+      "ASPIRATIONS": "envie | envies",
+      "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
+      "INSPIRATIONS": "inspiration | inspirations",
+      "INTERESTS": "centre d'intérêt | centres d'intérêt",
+      "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
+      "OBLIGATIONS": "obligation | obligations",
+      "STRENGTHS": "point fort | points forts",
+      "TESTIMONIALS": "témoignage | témoignages",
+      "VALUES": "valeur | valeurs"
     },
     "badges": {
       "studentAmsStatusBadge": {
@@ -198,6 +198,44 @@
       },
       "tracesSelector": {
         "ariaLabel": "Sélectionner la trace {title}"
+      }
+    },
+    "selfKnowledge": {
+      "addSelfKnowledgeCategoryElementDrawer": {
+        "accordions": {
+          "associate": "Associer mon élément",
+          "definition": "Ajouter mon élément",
+          "rating": "Préciser mon élément"
+        },
+        "confirmationModal": {
+          "title": "Souhaitez-vous abandonner l’ajout de votre élément ?"
+        },
+        "errors": {
+          "createElement": "Erreur lors de la création de l'élément"
+        },
+        "success": "Élément créé avec succès",
+        "title": "Ajouter un point fort",
+        "titleWithCategory": "Ajouter l'élément {category}"
+      },
+      "categoryElementDescriptionTextarea": {
+        "hint": "{count} / {maxlength} caractères (espaces compris)",
+        "label": "Description de votre élément",
+        "placeholder": "Décrivez votre élément..."
+      },
+      "categoryElementRatingInput": {
+        "legend": "Évaluer l'importance de votre élément",
+        "levels": {
+          "essential": "Essentiel",
+          "important": "Important",
+          "lessImportant": "Peu important",
+          "notEvaluated": "Non évalué",
+          "notImportant": "Pas important",
+          "veryImportant": "Très important"
+        }
+      },
+      "categoryElementTitleInput": {
+        "label": "Intitulé de votre élément",
+        "placeholder": "Saisir un nom pour votre élément"
       }
     },
     "views": {

@@ -2,6 +2,8 @@
 import { useModal } from '@/common/composables'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
+import AddSelfKnowledgeCategoryElementDrawer
+  from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -49,6 +51,7 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
     @cancel="hideAddCategoryModal"
     @confirm="hideAddCategoryModal"
   />
+  <AddSelfKnowledgeCategoryElementDrawer />
 </template>
 
 <style lang="scss" scoped>

@@ -6,6 +6,7 @@ import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/comp
 import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import DeleteSelfKnowledgeElementModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -17,6 +18,8 @@ export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
 const { category } = defineProps<SelfKnowledgeCategoryElementsPaginatorCardProps>()
 
 const { t } = useI18n()
+
+const { openAddElementDrawer } = useSelfKnowledgeStore()
 
 const currentPage = ref(0)
 
@@ -44,6 +47,10 @@ const categoryTitle = computed(() => `${category.title} (${totalElements.value})
 const totalPages = computed(() => pageInfo.value.totalPages)
 
 const pages = computed(() => getPaginationPages(totalPages))
+
+function openAddCategoryElementDrawer () {
+  openAddElementDrawer(category)
+}
 </script>
 
 <template>
@@ -68,6 +75,7 @@ const pages = computed(() => getPaginationPages(totalPages))
             :category-type="category.type"
             @delete-selected="displayDeleteElementModal"
             @delete-category-selected="displayDeleteCategoryModal"
+            @add-selected="openAddCategoryElementDrawer"
           />
         </div>
       </div>
@@ -94,7 +102,7 @@ const pages = computed(() => getPaginationPages(totalPages))
           @update:current-page="(page) => currentPage = page"
         />
 
-        <div class="av-row av-row--between av-row-sm--center category-elements-paginator__cards">
+        <div class="av-row av-row--center av-row-md--left category-elements-paginator__cards">
           <SelfKnowledgeElementCard
             v-for="element in elements"
             :key="element.id"

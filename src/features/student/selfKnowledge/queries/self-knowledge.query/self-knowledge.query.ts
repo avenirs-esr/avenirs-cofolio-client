@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
   addSelfKnowledgeCategories,
+  createSelfKnowledgeElement,
   deleteSelfKnowledgeElements,
   getSelfKnowledgeCategories,
   getSelfKnowledgeCategoriesAvailable,
@@ -12,6 +13,7 @@ import {
   removeSelfKnowledgeCategory,
   type SelfKnowledgeCategoryDTO,
   type SelfKnowledgeElementDetailsDTO,
+  type SelfKnowledgeElementRequest,
   type SelfKnowledgeElementViewDTO
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -196,6 +198,25 @@ export function useDeleteSelfKnowledgeElementsMutation ({ onError, onSuccess }: 
   return useMutation<string, BaseApiException, DeleteSelfKnowledgeElementsVariables>({
     mutationFn: async ({ selfKnowledgeElementIds }: DeleteSelfKnowledgeElementsVariables): Promise<string> => {
       return await deleteSelfKnowledgeElements(selfKnowledgeElementIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateSelfKnowledgeElementsQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface AddSelfKnowledgeCategoryElementVariables {
+  selfKnowledgeCategoryId: string
+  element: SelfKnowledgeElementRequest
+}
+
+export function useAddSelfKnowledgeCategoryElementMutation ({ onError, onSuccess }: MutationArgs<SelfKnowledgeElementViewDTO, AddSelfKnowledgeCategoryElementVariables> = {}) {
+  const invalidateSelfKnowledgeElementsQuery = useInvalidateQuery([...selfKnowledgeElementsQueryKey])
+  return useMutation<SelfKnowledgeElementViewDTO, BaseApiException, AddSelfKnowledgeCategoryElementVariables>({
+    mutationFn: async ({ selfKnowledgeCategoryId, element }: AddSelfKnowledgeCategoryElementVariables): Promise<SelfKnowledgeElementViewDTO> => {
+      return await createSelfKnowledgeElement(selfKnowledgeCategoryId, element)
     },
     onSuccess: async (data, variables) => {
       await invalidateSelfKnowledgeElementsQuery()

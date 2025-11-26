@@ -4,8 +4,10 @@ import {
   mockedSelfKnowledgeCategoriesAvailable,
   mockedSelfKnowledgeElementDetails
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+
 import {
   getAddSelfKnowledgeCategoriesUrl,
+  getCreateSelfKnowledgeElementUrl,
   getDeleteSelfKnowledgeElementsUrl,
   getGetSelfKnowledgeCategoriesAvailableUrl,
   getGetSelfKnowledgeCategoriesUrl,
@@ -14,7 +16,9 @@ import {
   getRemoveSelfKnowledgeCategoryUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type SelfKnowledgeCategoryDTO,
-  type SelfKnowledgeElementDetailsDTO
+  type SelfKnowledgeElementDetailsDTO,
+  type SelfKnowledgeElementRequest,
+  type SelfKnowledgeElementViewDTO
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
@@ -55,6 +59,18 @@ export const selfKnowledgeCategoryElementsErrorHandler = http.get(`*${getGetSelf
 })
 
 export const selfKnowledgeCategoriesAvailableErrorHandler = http.get(`*${getGetSelfKnowledgeCategoriesAvailableUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+})
+
+export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
     {
@@ -186,6 +202,38 @@ export const selfKnowledgeHandlers = [
     const response = 'Elements successfully removed from user'
     return HttpResponse.json<string>(response, {
       status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, async ({ request }) => {
+    const element = await request.json() as SelfKnowledgeElementRequest
+
+    if (element.title === 'ERROR_ELEMENT') {
+      return HttpResponse.json(
+        { error: 'Internal server error', message: 'Failed to create element' },
+        { status: 500 }
+      )
+    }
+
+    if (!element.title || element.title.trim().length === 0) {
+      return HttpResponse.json(
+        { error: 'Validation error', message: 'Title is required' },
+        { status: 400 }
+      )
+    }
+
+    const response: SelfKnowledgeElementViewDTO = {
+      id: crypto.randomUUID(),
+      title: element.title,
+      description: element.description,
+      rating: element.rating
+    }
+
+    return HttpResponse.json<SelfKnowledgeElementViewDTO>(response, {
+      status: 201,
       headers: {
         'Content-Type': 'application/json',
       }

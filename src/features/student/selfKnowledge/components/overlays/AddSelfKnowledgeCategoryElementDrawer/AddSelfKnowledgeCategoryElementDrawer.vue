@@ -1,0 +1,153 @@
+<script setup lang="ts">
+import { ConfirmationModal } from '@/common/components'
+import { useModal } from '@/common/composables'
+import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
+import CategoryElementRatingRadioButtonSetFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
+import CategoryElementTitleInputFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
+import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
+import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
+import { useToasterStore } from '@/store'
+import { AvAccordion, AvAccordionsGroup, AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const selfKnowledgeStore = useSelfKnowledgeStore()
+const { addSuccessMessage } = useToasterStore()
+
+const showDrawer = toRef(selfKnowledgeStore, 'showAddElementDrawer')
+
+const selectedCategoryType = computed(() => selfKnowledgeStore.selectedCategory!.type)
+const selectedCategoryTypeTranslation = computed(() => t(`student.selfKnowledgeCategoryType.${selectedCategoryType.value}`))
+
+const selectedCategoryId = computed(() => selfKnowledgeStore.selectedCategory!.id)
+const selectedCategoryIcon = computed(() => getSelfKnowledgeCategoryIcon(selectedCategoryType.value))
+
+function onElementCreated () {
+  addSuccessMessage({
+    timeout: 2000,
+    description: t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.success')
+  })
+  confirmCancel()
+}
+
+const { form, isFormValid, isSubmitting } = useAddSelfKnowledgeCategoryElementForm(selectedCategoryId, onElementCreated)
+
+const isFormDirty = form.useStore(state => state.isDirty)
+
+const {
+  showModal: showDiscardChangesModal,
+  displayModal: displayDiscardChangesModal,
+  hideModal: hideDiscardChangesModal
+} = useModal()
+
+const activeAccordion = ref(0)
+
+function confirmCancel () {
+  form.reset()
+  activeAccordion.value = 0
+  selfKnowledgeStore.closeAddElementDrawer()
+  hideDiscardChangesModal()
+}
+
+function handleCancel () {
+  if (isFormDirty.value) {
+    displayDiscardChangesModal()
+  }
+  else {
+    confirmCancel()
+  }
+}
+
+async function onSave () {
+  await form.handleSubmit()
+}
+
+const drawerTitle = computed(() => {
+  return t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.titleWithCategory', {
+    category: capitalize(selectedCategoryTypeTranslation.value)
+  })
+})
+</script>
+
+<template>
+  <ConfirmationModal
+    :show="showDiscardChangesModal"
+    :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.confirmationModal.title')"
+    @confirm="confirmCancel"
+    @close="hideDiscardChangesModal"
+  />
+  <AvDrawer
+    :show="showDrawer"
+    position="right"
+    width="50rem"
+    @escape-pressed="handleCancel"
+  >
+    <div class="av-flex-col-md h-full">
+      <h2 class="n5">
+        {{ drawerTitle }}
+      </h2>
+
+      <div class="add-self-knowledge-category-element-drawer__content">
+        <form
+          novalidate
+          @submit.prevent.stop="form.handleSubmit"
+        >
+          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
+            <AvAccordion
+              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.definition', { categoryType: selectedCategoryTypeTranslation })"
+              :icon="selectedCategoryIcon"
+            >
+              <div class="av-flex-col-md av-p-md">
+                <CategoryElementTitleInputFormField :form="form" />
+                <CategoryElementDescriptionTextareaFormField :form="form" />
+              </div>
+            </AvAccordion>
+
+            <AvAccordion
+              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.rating', { categoryType: selectedCategoryTypeTranslation })"
+              :icon="MDI_ICONS.RATE_REVIEW"
+            >
+              <div class="av-flex-col-md av-p-sm">
+                <CategoryElementRatingRadioButtonSetFormField :form="form" />
+              </div>
+            </AvAccordion>
+
+            <AvAccordion
+              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.associate', { categoryType: selectedCategoryTypeTranslation })"
+              :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+            >
+              <div class="add-self-knowledge-category-element-drawer__placeholder av-p-md">
+                <p>Placeholder for associations</p>
+              </div>
+            </AvAccordion>
+          </AvAccordionsGroup>
+        </form>
+      </div>
+    </div>
+
+    <template #footer>
+      <div class="av-row av-row--right av-p-md">
+        <AvCancelConfirmButtons
+          :cancel-label="t('global.buttons.exit')"
+          :confirm-label="t('global.buttons.save')"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+          :confirm-disabled="!isFormValid"
+          :confirm-is-loading="isSubmitting"
+          @cancel="handleCancel"
+          @confirm="onSave"
+        />
+      </div>
+    </template>
+  </AvDrawer>
+</template>
+
+<style scoped lang="scss">
+.add-self-knowledge-category-element-drawer {
+  &__content {
+    flex: 1;
+  }
+}
+</style>
