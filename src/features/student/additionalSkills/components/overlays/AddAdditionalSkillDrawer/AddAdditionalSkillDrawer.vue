@@ -6,7 +6,7 @@ import AddAdditionalSkillAutocompleteField from '@/features/student/additionalSk
 import {
   useAdditionalSkillForm
 } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/use-additional-skill-form/use-additional-skill-form'
-import { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills/additionalSkills'
+import { useAdditionalSkillsStore } from '@/features/student/additionalSkills/stores/additionalSkills.store'
 import { useToasterStore } from '@/store'
 import { AvCancelConfirmButtons, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

@@ -6,4 +6,4 @@ export * from '@/features/student/ams/queries/use-ams-view.query/use-ams-view.qu
 
 export { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 
-export { useAmsStore } from '@/features/student/ams/stores/ams/ams'
+export { useAmsStore } from '@/features/student/ams/stores/ams.store'

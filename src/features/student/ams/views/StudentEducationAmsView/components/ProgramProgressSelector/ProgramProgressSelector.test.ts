@@ -3,7 +3,7 @@ import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
 
-import { useAmsStore } from '@/features/student/ams/stores/ams/ams'
+import { useAmsStore } from '@/features/student/ams/stores/ams.store'
 import ProgramProgressSelector from '@/features/student/ams/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAllMyProgramProgressQuery } from '@/features/student/skills'
 import { AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

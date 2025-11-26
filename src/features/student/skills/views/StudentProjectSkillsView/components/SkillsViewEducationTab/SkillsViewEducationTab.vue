@@ -3,7 +3,7 @@ import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import StudentDetailedEducationalSkillCard from '@/features/student/skills/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 import { useSkillsViewQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
-import { useSkillsStore } from '@/features/student/skills/stores/skills/skills'
+import { useSkillsStore } from '@/features/student/skills/stores/skills.store'
 import StudentDetailedPastSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewEducationTab/components/StudentDetailedPastSkillCard/StudentDetailedPastSkillCard.vue'
 import { useI18n } from 'vue-i18n'
 
