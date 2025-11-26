@@ -3,6 +3,8 @@ import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/
 import { useModal } from '@/common/composables'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import SelfKnowledgeElementsSelector from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
+import { useDeleteSelfKnowledgeElementsMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -25,6 +27,25 @@ const {
   displayModal: displayConfirmModal,
   hideModal: hideConfirmModal
 } = useModal()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
+
+function onDeleteSuccess (deletedCount: number) {
+  addSuccessMessage(
+    t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.success', { count: deletedCount })
+  )
+  hideConfirmModal()
+  emit('confirm')
+  resetSelectedElements()
+}
+
+const { mutate: deleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElementsMutation({
+  onSuccess: (_data, variables) => onDeleteSuccess(variables.selfKnowledgeElementIds.length),
+  onError: error => addErrorMessage({
+    title: t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.error'),
+    description: error.message
+  })
+
+})
 
 const selectedElementIds = ref<string[]>([])
 
@@ -37,18 +58,8 @@ function onCancel () {
   emit('cancel')
 }
 
-function onConfirm () {
-  displayConfirmModal()
-}
-
-function onCancelDelete () {
-  hideConfirmModal()
-}
-
 function onConfirmDelete () {
-  hideConfirmModal()
-  emit('confirm')
-  resetSelectedElements()
+  deleteSelfKnowledgeElements({ selfKnowledgeElementIds: selectedElementIds.value })
 }
 </script>
 
@@ -61,7 +72,7 @@ function onConfirmDelete () {
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedElementIds.length === 0"
     @close="onCancel"
-    @confirm="onConfirm"
+    @confirm="displayConfirmModal"
   >
     <template #header>
       <div class="header av-row av-row--center">
@@ -83,7 +94,7 @@ function onConfirmDelete () {
   <ConfirmDeleteSelfKnowledgeElementsModal
     :show="showConfirmModal"
     :elements="elements.filter(element => selectedElementIds.includes(element.id))"
-    @cancel="onCancelDelete"
+    @cancel="hideConfirmModal"
     @confirm="onConfirmDelete"
   />
 </template>

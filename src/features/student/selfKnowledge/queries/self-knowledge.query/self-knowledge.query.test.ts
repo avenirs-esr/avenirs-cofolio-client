@@ -5,8 +5,10 @@ import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type AddSelfKnowledgeCategoriesVariables,
+  type DeleteSelfKnowledgeElementsVariables,
   type RemoveSelfKnowledgeCategoryVariables,
   useAddSelfKnowledgeCategoriesMutation,
+  useDeleteSelfKnowledgeElementsMutation,
   useRemoveSelfKnowledgeCategoryMutation,
   useSelfKnowledgeCategoriesAvailableQuery,
   useSelfKnowledgeCategoriesQuery,
@@ -700,7 +702,7 @@ BddTest().given('an add self knowledge categories mutation', () => {
   })
 })
 
-BddTest().given('an delete self knowledge category mutation', () => {
+BddTest().given('a remove self knowledge category mutation', () => {
   let removeSelfKnowledgeCategorySpy: MockInstance<(categoryId: string, options?: (RequestInit | undefined)) => Promise<string>>
   let mutationResult: ReturnType<typeof useRemoveSelfKnowledgeCategoryMutation>
 
@@ -875,6 +877,259 @@ BddTest().given('an delete self knowledge category mutation', () => {
       BddTest().then('it should call the removeSelfKnowledgeCategory API with the invalid parameters', () => {
         expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledWith(categoryId)
         expect(removeSelfKnowledgeCategorySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a delete self knowledge elements mutation', () => {
+  let deleteSelfKnowledgeElementsSpy: MockInstance<(selfKnowledgeElementIds: string[], options?: (RequestInit | undefined)) => Promise<string>>
+  let mutationResult: ReturnType<typeof useDeleteSelfKnowledgeElementsMutation>
+
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    deleteSelfKnowledgeElementsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'deleteSelfKnowledgeElements'>(
+      await import('@/api/avenir-esr'),
+    'deleteSelfKnowledgeElements'
+    )
+
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('valid element IDs and success callback', () => {
+    const elementsIds = ['element-1-id', 'element-2-id', 'element-3-id']
+    const variables: DeleteSelfKnowledgeElementsVariables = { selfKnowledgeElementIds: elementsIds }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with correct parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(mutationResult.data.value as string, variables)
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with correct parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const elementsIds = ['element-1-id', 'element-2-id', 'element-3-id']
+    const variables: DeleteSelfKnowledgeElementsVariables = { selfKnowledgeElementIds: elementsIds }
+    const mutationArgs = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with correct parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid elementsId in elementsIds with error callback', () => {
+    const elementsIds: string[] = ['element-id-1', 'INVALID_ELEMENT_ID', 'element-id-3']
+    const variables: DeleteSelfKnowledgeElementsVariables = { selfKnowledgeElementIds: elementsIds }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with the invalid parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      let mutationResult: ReturnType<typeof useDeleteSelfKnowledgeElementsMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with the invalid parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('an empty elementsIds with error callback', () => {
+    const elementsIds: string[] = []
+    const variables: DeleteSelfKnowledgeElementsVariables = { selfKnowledgeElementIds: elementsIds }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with the invalid parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      let mutationResult: ReturnType<typeof useDeleteSelfKnowledgeElementsMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteSelfKnowledgeElementsMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteSelfKnowledgeElements API with the invalid parameters', () => {
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledWith(elementsIds)
+        expect(deleteSelfKnowledgeElementsSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {

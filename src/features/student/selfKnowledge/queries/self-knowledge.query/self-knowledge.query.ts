@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
   addSelfKnowledgeCategories,
+  deleteSelfKnowledgeElements,
   getSelfKnowledgeCategories,
   getSelfKnowledgeCategoriesAvailable,
   getSelfKnowledgeElementDetails,
@@ -180,6 +181,24 @@ export function useRemoveSelfKnowledgeCategoryMutation ({ onError, onSuccess }: 
     },
     onSuccess: async (data, variables) => {
       await invalidateSelfKnowledgeCommonQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface DeleteSelfKnowledgeElementsVariables {
+  selfKnowledgeElementIds: string[]
+}
+
+export function useDeleteSelfKnowledgeElementsMutation ({ onError, onSuccess }: MutationArgs<string, DeleteSelfKnowledgeElementsVariables> = {}) {
+  const invalidateSelfKnowledgeElementsQuery = useInvalidateQuery([...selfKnowledgeElementsQueryKey])
+  return useMutation<string, BaseApiException, DeleteSelfKnowledgeElementsVariables>({
+    mutationFn: async ({ selfKnowledgeElementIds }: DeleteSelfKnowledgeElementsVariables): Promise<string> => {
+      return await deleteSelfKnowledgeElements(selfKnowledgeElementIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateSelfKnowledgeElementsQuery()
       onSuccess?.(data, variables)
     },
     onError
