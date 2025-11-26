@@ -6,6 +6,7 @@ import {
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
   getAddSelfKnowledgeCategoriesUrl,
+  getDeleteSelfKnowledgeElementsUrl,
   getGetSelfKnowledgeCategoriesAvailableUrl,
   getGetSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeElementDetailsUrl,
@@ -79,17 +80,6 @@ export function createSelfKnowledgeCategoriesAvailableHandler (payload: SelfKnow
 export function createSelfKnowledgeElementDetailsHandler (payload: SelfKnowledgeElementDetailsDTO) {
   return http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
     return HttpResponse.json<SelfKnowledgeElementDetailsDTO>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
-export function updateSelectedSelfKnowledgeCategoriesHandler (payload: string[]) {
-  return http.post(`*${getAddSelfKnowledgeCategoriesUrl()}`, () => {
-    return HttpResponse.json<string[]>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -174,6 +164,26 @@ export const selfKnowledgeHandlers = [
     }
 
     const response = 'Category successfully removed from user'
+    return HttpResponse.json<string>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.delete(`*${getDeleteSelfKnowledgeElementsUrl()}`, async ({ request }) => {
+    const elementsIds = await request.json() as string[]
+
+    if (elementsIds.length === 0) {
+      return HttpResponse.json({ error: 'No element IDs provided' }, { status: 400 })
+    }
+
+    if (elementsIds.find(id => id === 'INVALID_ELEMENT_ID')) {
+      return HttpResponse.json({ error: 'Invalid element ID' }, { status: 400 })
+    }
+
+    const response = 'Elements successfully removed from user'
     return HttpResponse.json<string>(response, {
       status: 200,
       headers: {

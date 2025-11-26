@@ -398,6 +398,8 @@
               "deleteElements": {
                 "ariaLabel": "Select the element {title}",
                 "confirmButton": "Delete selected elements (0) | Delete selected element (1) | Delete selected elements ({count})",
+                "error": "An error occurred while deleting the element. | An error occurred while deleting the elements.",
+                "success": "{count} element deleted successfully | {count} elements deleted successfully",
                 "title": "No element to delete | Which element do you want to delete? | Which elements do you want to delete?"
               }
             }

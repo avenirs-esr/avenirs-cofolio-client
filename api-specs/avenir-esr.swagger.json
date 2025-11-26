@@ -245,35 +245,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "deleteSelfKnowledgeElement",
-        "parameters": [
-          {
-            "name": "selfKnowledgeElementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/me/additional-skill-progress/{additionalSkillProgressId}": {
@@ -1405,6 +1376,40 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/self-knowledge/elements": {
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "deleteSelfKnowledgeElements",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -2901,6 +2906,24 @@
           "title"
         ]
       },
+      "PagedResponseSelfKnowledgeElementViewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelfKnowledgeElementViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "SelfKnowledgeElementDetailsDTO": {
         "type": "object",
         "properties": {
@@ -2969,24 +2992,6 @@
           "id",
           "title",
           "type"
-        ]
-      },
-      "PagedResponseSelfKnowledgeElementViewDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SelfKnowledgeElementViewDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "AccessInfoAPC": {
@@ -3414,6 +3419,7 @@
           "RATING_OUT_OF_BOUNCE",
           "ASSOCIATION_NOT_FOUND",
           "SELF_KNOWLEDGE_ELEMENT_NOT_FOUND",
+          "SELF_KNOWLEDGE_ELEMENTS_ARE_NOT_IN_SAME_CATEGORY",
           "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY",
           "SELF_KNOWLEDGE_CATEGORY_NOT_FOUND",
           "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE",
