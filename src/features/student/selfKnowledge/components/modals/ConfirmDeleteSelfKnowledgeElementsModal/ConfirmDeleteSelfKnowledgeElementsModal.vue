@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmDeleteSelfKnowledgeElementsModalProps {
   show: boolean
-  categoryType: ESelfKnowledgeCategoryType
   elements: SelfKnowledgeElementViewDTO[]
 }
 
@@ -20,17 +19,14 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <AvModal
-    :opened="show"
-    :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('global.buttons.confirm')"
-    :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
+  <ConfirmationModal
+    :show="show"
     @close="$emit('cancel')"
     @confirm="$emit('confirm')"
   >
     <template #header>
       <span class="b2-bold">
-        {{ t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.confirmDeleteElements.title.${categoryType.toLowerCase()}`,
+        {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.confirmDeleteElements.title',
              { count: elements.length }) }}
       </span>
     </template>
@@ -43,7 +39,7 @@ const { t } = useI18n()
         <span class="b2-light">{{ element.title }}</span>
       </li>
     </ul>
-  </AvModal>
+  </ConfirmationModal>
 </template>
 
 <style lang="scss" scoped>

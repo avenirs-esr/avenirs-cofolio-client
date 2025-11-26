@@ -44,7 +44,7 @@ function onSelectElement (elementId: string) {
         :class="{ 'self-knowledge-element-compact-card__overlay--selected': selectedElementIds.includes(element.id) }"
         role="button"
         tabindex="0"
-        :aria-label="t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.title.${categoryType.toLowerCase()}`, { title: element.title })"
+        :aria-label="t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.ariaLabel`, { title: element.title })"
         @click="() => onSelectElement(element.id)"
       >
         <AvIcon

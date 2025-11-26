@@ -1,25 +1,13 @@
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { ConfirmationModalStub } from '@/common/components'
 import ConfirmDeleteSelfKnowledgeElementsModal, { type ConfirmDeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-const AvModalStub = defineComponent({
-  name: 'AvModal',
-  template: `
-      <div class="av-modal-stub">
-        <slot name="header" />
-        <slot />
-      </div>
-    `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
-  emits: ['close', 'confirm']
-})
-
 BddTest().given('a confirm delete self knowledge element modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof ConfirmDeleteSelfKnowledgeElementsModal>>
 
-  const stubs = { AvModal: AvModalStub }
+  const stubs = { ConfirmationModal: ConfirmationModalStub }
 
   BddTest().and('a single element to delete is provided', () => {
     const props: ConfirmDeleteSelfKnowledgeElementsModalProps = {
@@ -27,7 +15,6 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
       elements: [
         { id: '1', title: 'Element 1', description: 'Description 1' }
       ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
     }
 
     BddTest().when('the modal is rendered with the provided element', () => {
@@ -37,7 +24,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title', () => {
         const header = wrapper.find('.b2-bold')
-        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer ce point fort ?')
+        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer cet élément ?')
       })
 
       BddTest().then('it should list the element to delete', () => {
@@ -48,7 +35,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().and('the modal emits close event', () => {
         beforeEach(() => {
-          wrapper.findComponent(AvModalStub).vm.$emit('close')
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('close')
         })
 
         BddTest().then('the cancel event should be emitted', () => {
@@ -58,7 +45,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().and('the modal emits confirm event', () => {
         beforeEach(() => {
-          wrapper.findComponent(AvModalStub).vm.$emit('confirm')
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
         })
 
         BddTest().then('the confirm event should be emitted', () => {
@@ -75,7 +62,6 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
         { id: '1', title: 'Element 1', description: 'Description 1' },
         { id: '2', title: 'Element 2', description: 'Description 2' },
       ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
     }
 
     BddTest().when('the modal is rendered with the provided elements', () => {
@@ -85,7 +71,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title with element count', () => {
         const header = wrapper.find('.b2-bold')
-        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer ces points forts ?')
+        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer ces éléments ?')
       })
 
       BddTest().then('it should list the element to delete', () => {
@@ -97,7 +83,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().and('the modal emits close event', () => {
         beforeEach(() => {
-          wrapper.findComponent(AvModalStub).vm.$emit('close')
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('close')
         })
 
         BddTest().then('the cancel event should be emitted', () => {
@@ -107,7 +93,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().and('the modal emits confirm event', () => {
         beforeEach(() => {
-          wrapper.findComponent(AvModalStub).vm.$emit('confirm')
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
         })
 
         BddTest().then('the confirm event should be emitted', () => {

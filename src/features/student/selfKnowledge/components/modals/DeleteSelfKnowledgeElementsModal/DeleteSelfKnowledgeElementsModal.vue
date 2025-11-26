@@ -56,7 +56,7 @@ function onConfirmDelete () {
   <AvModal
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.confirmButton.${categoryType.toLowerCase()}`,
+    :confirm-button-label="t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.confirmButton',
                              { count: selectedElementIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedElementIds.length === 0"
@@ -66,7 +66,7 @@ function onConfirmDelete () {
     <template #header>
       <div class="header av-row av-row--center">
         <span class="b2-regular">
-          {{ t(`student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.title.${categoryType.toLowerCase()}`,
+          {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.title',
                { count: elements.length }) }}
         </span>
       </div>
@@ -82,7 +82,6 @@ function onConfirmDelete () {
 
   <ConfirmDeleteSelfKnowledgeElementsModal
     :show="showConfirmModal"
-    :category-type="categoryType"
     :elements="elements.filter(element => selectedElementIds.includes(element.id))"
     @cancel="onCancelDelete"
     @confirm="onConfirmDelete"

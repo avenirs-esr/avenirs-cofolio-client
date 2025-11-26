@@ -53,7 +53,7 @@ BddTest().given('a delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title for zero elements', () => {
         const header = wrapper.find('.header')
-        expect(header.text()).toBe('Aucun point fort à supprimer')
+        expect(header.text()).toBe('Aucun élément à supprimer')
       })
     })
   })
@@ -74,7 +74,7 @@ BddTest().given('a delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title', () => {
         const header = wrapper.find('.header')
-        expect(header.text()).toBe('Quel point fort souhaitez-vous supprimer ?')
+        expect(header.text()).toBe('Quel élément souhaitez-vous supprimer ?')
       })
 
       BddTest().then('it should render the SelfKnowledgeElementSelector component', () => {
@@ -172,7 +172,7 @@ BddTest().given('a delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title with element count', () => {
         const header = wrapper.find('.header')
-        expect(header.text()).toBe('Quels points forts souhaitez-vous supprimer ?')
+        expect(header.text()).toBe('Quels éléments souhaitez-vous supprimer ?')
       })
     })
   })
