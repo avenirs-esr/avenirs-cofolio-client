@@ -2,7 +2,8 @@
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { AvButton, AvIconText, AvSideMenu, toSentenceCase } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, AvSideMenu } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementsSideMenuProps {
@@ -37,7 +38,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
         }"
       >
         <span class="s2-regular">
-          {{ toSentenceCase(t(`student.selfKnowledgeCategoryType.${categoryType}`)) }} - {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.navigation.elementsSideMenu') }}
+          {{ capitalize(t(`student.selfKnowledgeCategoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.navigation.elementsSideMenu') }}
         </span>
         ({{ elements.length }})
       </span>

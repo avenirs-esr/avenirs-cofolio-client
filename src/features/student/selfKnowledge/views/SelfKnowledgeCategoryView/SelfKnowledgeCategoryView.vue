@@ -14,7 +14,7 @@ interface SelfKnowledgeCategoryViewProps {
 const { categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
 const { t } = useI18n()
 
-const categoryTypeLabel = computed(() => t(`student.selfKnowledgeCategoryType.${categoryType}`))
+const categoryTypeLabel = computed(() => t(`student.selfKnowledgeCategoryType.${categoryType}`, { count: 2 }))
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
