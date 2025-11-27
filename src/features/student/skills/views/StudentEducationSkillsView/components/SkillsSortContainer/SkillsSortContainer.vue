@@ -59,7 +59,7 @@ function useSortEducationSkills () {
   display: flex;
   flex-direction: row;
   gap: var(--spacing-sm);
-  margin: var(--spacing-md) 0;
+  margin: 0 0 var(--spacing-md) 0;
 }
 
 :deep(.av-select-group) {

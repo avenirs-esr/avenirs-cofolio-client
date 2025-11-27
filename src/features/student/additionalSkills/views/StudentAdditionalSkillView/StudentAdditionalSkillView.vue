@@ -52,11 +52,8 @@ function handleUpdateSelected () {
     :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
   />
 
-  <div class="student-additional-skill-view__title">
+  <div class="student-additional-skill-view__title av-row-lg av-row-lg--top av-row-lg--between">
     <span class="n4">{{ skillTitle }}</span>
-  </div>
-
-  <div class="student-additional-skill-view__actions">
     <AdditionalSkillSettingDropdown @update-selected="handleUpdateSelected" />
   </div>
 
@@ -83,12 +80,12 @@ function handleUpdateSelected () {
 </template>
 
 <style lang="scss" scoped>
-.student-additional-skill-view {
+@use '@avenirs-esr/avenirs-dsav/src/styles/settings/breakpoints' as *;
 
+.student-additional-skill-view {
   &__title {
-    padding: var(--spacing-md) 0;
-    display: flex;
-    flex-direction: row;
+    gap: var(--spacing-sm);
+    padding: 0 0 var(--spacing-md) 0;
 
     .n4 {
       color: var(--text2);
