@@ -3,6 +3,7 @@ import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import SelfKnowledgeElementUpdateView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
@@ -43,7 +44,8 @@ BddTest().given('a self knowledge element update view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
-    SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub
+    SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
+    SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub
   }
 
   BddTest().when('the view is rendered', () => {
@@ -74,9 +76,9 @@ BddTest().given('a self knowledge element update view', () => {
 
     BddTest().then('it should render the element title', async () => {
       await vi.waitFor(() => {
-        const elementTitle = wrapper.find('.n4')
-        expect(elementTitle.exists()).toBe(true)
-        expect(elementTitle.text()).toBe(`Modifier ${mockedSelfKnowledgeElementDetails.title}`)
+        const container = wrapper.findComponent(SelfKnowledgeElementDetailsContainerStub)
+        expect(container.exists()).toBe(true)
+        expect(container.props('elementTitle')).toBe(mockedSelfKnowledgeElementDetails.title)
       })
     })
 

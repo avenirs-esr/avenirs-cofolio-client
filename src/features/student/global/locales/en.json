@@ -260,7 +260,7 @@
         }
       },
       "selfKnowledgeElementUpdateView": {
-        "title": "Update {elementTitle}"
+        "title": "Update my {categoryType}"
       },
       "studentAdditionalSkillView": {
         "settings": {
