@@ -18,19 +18,29 @@ BddTest().given('an ams tab switcher', () => {
   })
 
   BddTest().when('the ams planning container is mounted', () => {
-    BddTest().then('it should render two tabs and their content', () => {
+    BddTest().then('it should render two tabs', () => {
       const tabs = wrapper.findAll('.av-tab-item__tab')
       expect(tabs).toHaveLength(2)
       expect(tabs[0].text()).toBe('Liste de mes AMS')
-      expect(wrapper.find('.ams-list-container').exists()).toBe(true)
       expect(tabs[1].text()).toBe('Planning de mes AMS')
-      expect(wrapper.find('.ams-planning-container').exists()).toBe(true)
     })
 
     BddTest().then('it should render with ams list tab selected', () => {
       const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
       expect(selectedTab.exists()).toBe(true)
       expect(selectedTab.text()).toBe('Liste de mes AMS')
+    })
+
+    BddTest().then('it should render AmsListContainer in first tab', () => {
+      expect(wrapper.find('.ams-list-container').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render AmsPlanningContainer in second tab', async () => {
+      const tabs = wrapper.findAll('.av-tab-item__tab')
+      await tabs[1].trigger('click')
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.find('.ams-planning-container').exists()).toBe(true)
     })
   })
 })
