@@ -3,9 +3,6 @@ import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface CategoryElementDescriptionTextareaProps extends AvInputProps {
-}
-
 const {
   isValid = false,
   isTextarea = true,
@@ -16,7 +13,7 @@ const {
   label,
   placeholder,
   errorMessage,
-} = defineProps<CategoryElementDescriptionTextareaProps>()
+} = defineProps<AvInputProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
@@ -59,7 +56,6 @@ const avInputProps = computed(() => ({
 
 <style lang="scss" scoped>
 .self-knowledge-category-element-description-textarea {
-
   :deep(.av-input__wrapper textarea) {
     min-height: 8rem;
   }

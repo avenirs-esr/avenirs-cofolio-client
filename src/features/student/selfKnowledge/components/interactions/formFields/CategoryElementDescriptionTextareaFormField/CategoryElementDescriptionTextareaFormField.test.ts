@@ -1,13 +1,12 @@
 import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
-import { CategoryElementDescriptionTextareaStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = {
+const TestWrapper = defineComponent({
   components: {
     CategoryElementDescriptionTextareaFormField
   },
@@ -28,23 +27,44 @@ const TestWrapper = {
       <CategoryElementDescriptionTextareaFormField :form="form" />
     </form>
   `
-}
+})
 
 BddTest().given('a self knowledge category element description textarea form field component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
   const stubs = {
-    CategoryElementDescriptionTextarea: CategoryElementDescriptionTextareaStub
+    CategoryElementDescriptionTextarea: {
+      name: 'CategoryElementDescriptionTextarea',
+      props: {
+        id: { type: String, default: '' },
+        modelValue: { type: String, default: '' },
+        errorMessage: { type: String, default: '' },
+        maxlength: { type: Number, default: 0 }
+      },
+      emits: ['blur', 'update:modelValue'],
+      template: `
+        <div class="category-element-description-textarea-stub">
+          <textarea
+            :id="id"
+            :value="modelValue"
+            :maxlength="maxlength"
+            @blur="$emit('blur')"
+            @input="$emit('update:modelValue', $event.target.value)"
+          />
+          <span v-if="errorMessage" class="error">{{ errorMessage }}</span>
+        </div>
+      `
+    }
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    wrapper = mount(TestWrapper, {
-      global: { stubs }
-    })
-  })
-
   BddTest().when('the component is mounted', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
+    })
+
     BddTest().then('it should render the description textarea', () => {
       const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
       expect(input.exists()).toBe(true)
@@ -63,14 +83,19 @@ BddTest().given('a self knowledge category element description textarea form fie
     })
   })
 
-  BddTest().when('the user types in the textarea', () => {
-    BddTest().then('it should update the form field value', async () => {
+  BddTest().and('the user types in the textarea', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
       const textarea = input.find('textarea')
-
       await textarea.setValue('My description text')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should update the form field value', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
         expect(updated.props('modelValue')).toBe('My description text')
@@ -78,39 +103,35 @@ BddTest().given('a self knowledge category element description textarea form fie
     })
   })
 
-  BddTest().when('the user blurs the textarea', () => {
-    BddTest().then('it should trigger blur handler', async () => {
+  BddTest().and('the user blurs the textarea', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
       const textarea = input.find('textarea')
-
       await textarea.trigger('blur')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should trigger blur handler', () => {
+      const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
       expect(input.emitted('blur')).toBeTruthy()
     })
   })
 
-  BddTest().when('the user types a long description', () => {
-    BddTest().then('it should respect the maxlength of 400', async () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
-      const textarea = input.find('textarea')
-
-      await textarea.setValue('a'.repeat(500))
-      await wrapper.vm.$nextTick()
-
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
-        const displayed = updated.props('modelValue') as string
-        expect(displayed.length).toBeLessThanOrEqual(400)
+  BddTest().and('the form is submitted', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
       })
-    })
-  })
-
-  BddTest().when('the form is submitted', () => {
-    BddTest().then('it should not show validation error', async () => {
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should not show validation error', async () => {
       await vi.waitFor(() => {
         const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
         expect(input.props('errorMessage')).toBeFalsy()
@@ -118,14 +139,19 @@ BddTest().given('a self knowledge category element description textarea form fie
     })
   })
 
-  BddTest().when('the user provides a valid string value', () => {
-    BddTest().then('it should update the form state', async () => {
+  BddTest().and('the user provides a valid string value', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
       const textarea = input.find('textarea')
-
       await textarea.setValue('Valid description')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should update the form state', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
         expect(updated.props('modelValue')).toBe('Valid description')

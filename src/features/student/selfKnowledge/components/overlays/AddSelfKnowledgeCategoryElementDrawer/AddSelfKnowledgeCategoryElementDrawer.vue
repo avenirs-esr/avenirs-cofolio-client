@@ -19,7 +19,7 @@ const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(selfKnowledgeStore, 'showAddElementDrawer')
 
 const selectedCategoryType = computed(() => selfKnowledgeStore.selectedCategory!.type)
-const selectedCategoryTypeTranslation = computed(() => t(`student.selfKnowledgeCategoryType.${selectedCategoryType.value}`))
+const selectedCategoryTypeTranslation = computed(() => t(`student.selfKnowledge.categoryType.${selectedCategoryType.value}`))
 
 const selectedCategoryId = computed(() => selfKnowledgeStore.selectedCategory!.id)
 const selectedCategoryIcon = computed(() => getSelfKnowledgeCategoryIcon(selectedCategoryType.value))

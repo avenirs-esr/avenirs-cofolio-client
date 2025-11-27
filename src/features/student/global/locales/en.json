@@ -12,17 +12,6 @@
       "ROME4": "Rome 4.0",
       "XXI": "XXIᵉ onisep"
     },
-    "selfKnowledgeCategoryType": {
-      "ASPIRATIONS": "aspiration | aspirations",
-      "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
-      "INSPIRATIONS": "inspiration | inspirations",
-      "INTERESTS": "interest | interests",
-      "MOTIVATIONS": "professional motivation | professional motivations",
-      "OBLIGATIONS": "obligation | obligations",
-      "STRENGTHS": "strength | strengths",
-      "TESTIMONIALS": "testimonial | testimonials",
-      "VALUES": "value | values"
-    },
     "badges": {
       "studentAmsStatusBadge": {
         "status": {
@@ -214,7 +203,6 @@
           "createElement": "Error creating element"
         },
         "success": "Element created successfully",
-        "title": "Add a strength",
         "titleWithCategory": "Add element - {category}"
       },
       "categoryElementDescriptionTextarea": {
@@ -236,6 +224,17 @@
       "categoryElementTitleInput": {
         "label": "Title of your element",
         "placeholder": "Type a title for your element..."
+      },
+      "categoryType": {
+        "ASPIRATIONS": "aspiration | aspirations",
+        "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "INTERESTS": "interest | interests",
+        "MOTIVATIONS": "professional motivation | professional motivations",
+        "OBLIGATIONS": "obligation | obligations",
+        "STRENGTHS": "strength | strengths",
+        "TESTIMONIALS": "testimonial | testimonials",
+        "VALUES": "value | values"
       }
     },
     "views": {
