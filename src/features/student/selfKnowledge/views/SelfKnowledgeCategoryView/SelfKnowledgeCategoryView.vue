@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTE_NAMES } from '@/common/constants'
+import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import { useI18n } from 'vue-i18n'
@@ -23,9 +24,9 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.selfKnowledge') }
 ])
 
-const dummyElements: SelfKnowledgeElementViewDTO[] = [
+const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
   {
-    id: '1',
+    id: 'ff8beb56-4739-4b6a-8e5c-9aef2fb02688',
     title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
     description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
     rating: 3
@@ -42,7 +43,15 @@ const dummyElements: SelfKnowledgeElementViewDTO[] = [
     description: 'Ma créativité s\'exprime dans mes projets artistiques et mes solutions innovantes.',
     rating: 5
   },
-]
+])
+
+const dummySelectedElement = computed<SelfKnowledgeElementDetailsDTO>(() => {
+  return {
+    ...dummyElements.value[0],
+    createdAt: '2023-10-01T12:00:00Z',
+    updatedAt: '2023-10-15T15:30:00Z'
+  }
+})
 
 const selectedElementId = ref<string>('1')
 
@@ -56,12 +65,21 @@ function onSelectElement (elementId: string) {
     :title="t('student.views.selfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <SelfKnowledgeElementsSideMenu
-    :elements="dummyElements"
-    :category-type="ESelfKnowledgeCategoryType.STRENGTHS"
-    :selected-element-id="selectedElementId"
-    @select-element="onSelectElement"
-  />
+  <div class="self-knowledge-element-update-view av-flex-row-sm">
+    <SelfKnowledgeElementsSideMenu
+      :elements="dummyElements"
+      :category-type="ESelfKnowledgeCategoryType.STRENGTHS"
+      :selected-element-id="selectedElementId"
+      @select-element="onSelectElement"
+    />
+    <SelfKnowledgeElementDetailsContainer :element-title="dummySelectedElement.title">
+      <template #title>
+      <!-- TODO: Dropdown "Gérer mon élément" -->
+      </template>
+
+    <!-- TODO: Details selected element -->
+    </SelfKnowledgeElementDetailsContainer>
+  </div>
 </template>
 
 <style scoped lang="scss">

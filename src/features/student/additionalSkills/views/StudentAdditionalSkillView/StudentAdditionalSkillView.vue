@@ -80,8 +80,6 @@ function handleUpdateSelected () {
 </template>
 
 <style lang="scss" scoped>
-@use '@avenirs-esr/avenirs-dsav/src/styles/settings/breakpoints' as *;
-
 .student-additional-skill-view {
   &__title {
     gap: var(--spacing-sm);

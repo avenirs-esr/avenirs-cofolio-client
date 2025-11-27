@@ -3,6 +3,7 @@ import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants/route-names'
+import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeElementDetailsQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
@@ -29,7 +30,7 @@ const breadcrumbLinks = computed(() => [
 // TODO: replace with real elements from API when ready
 const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
   {
-    id: '1',
+    id: 'ff8beb56-4739-4b6a-8e5c-9aef2fb02688',
     title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
     description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
     rating: 3
@@ -58,15 +59,9 @@ function onSelectElement (selectedElementId: string) {
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeElementUpdateView.title', { elementTitle: element?.title })"
+    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: t(`student.selfKnowledgeCategoryType.${dummyCategoryType}`) })"
     :breadcrumb-links="breadcrumbLinks"
-  >
-    <template #title>
-      <span class="page-title__title n4">{{ t('global.buttons.update') }}
-        <span class="page-title__subtitle s1-regular">{{ element?.title }}</span>
-      </span>
-    </template>
-  </PageTitle>
+  />
   <div
     v-if="element"
     class="self-knowledge-element-update-view av-flex-row-sm"
@@ -77,27 +72,20 @@ function onSelectElement (selectedElementId: string) {
       :elements="dummyElements"
       @select-element="onSelectElement"
     />
-    <div class="av-flex-col-md">
-      <span class="self-knowledge-element-update-view__element-title n4">{{ element.title }}</span>
+    <SelfKnowledgeElementDetailsContainer :element-title="element.title">
+      <template #title>
+        <!-- TODO: Badge "Modification en cours" -->
+      </template>
+
       <SelfKnowledgeElementTabs
         :self-knowledge-element="element"
         :category-type="dummyCategoryType"
       />
-    </div>
+    </SelfKnowledgeElementDetailsContainer>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.page-title {
-  &__title {
-    color: var(--text1);
-  }
-
-  &__subtitle {
-    color: var(--text2);
-  }
-}
-
 .self-knowledge-element-update-view {
   &__element-title {
     color: var(--text2);

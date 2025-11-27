@@ -2,6 +2,7 @@ import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
+import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import SelfKnowledgeCategoryView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'
@@ -12,7 +13,8 @@ import { nextTick } from 'vue'
 
 const stubs = {
   PageTitle: PageTitleStub,
-  SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub
+  SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
+  SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub
 }
 
 BddTest().given('a self knowledge category view component', () => {
@@ -71,7 +73,7 @@ BddTest().given('a self knowledge category view component', () => {
       const selectedElementId = sideMenu.props('selectedElementId') as string
 
       expect(elements).toHaveLength(3)
-      expect(elements[0].id).toBe('1')
+      expect(elements[0].id).toBe('ff8beb56-4739-4b6a-8e5c-9aef2fb02688')
       expect(elements[1].id).toBe('2')
       expect(elements[2].id).toBe('3')
 
