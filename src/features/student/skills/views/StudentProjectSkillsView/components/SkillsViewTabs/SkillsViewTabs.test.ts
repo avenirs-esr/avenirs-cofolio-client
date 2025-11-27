@@ -54,7 +54,11 @@ BddTest().given('a skills tab switcher', () => {
       expect(educationTab.exists()).toBe(true)
     })
 
-    BddTest().then('it should render SkillsViewOtherTab component in second tab', () => {
+    BddTest().then('it should render SkillsViewOtherTab component in second tab', async () => {
+      const tabs = wrapper.findAll('.av-tab-item__tab')
+      await tabs[1].trigger('click')
+      await wrapper.vm.$nextTick()
+
       const otherTab = wrapper.find('.skills-view-other-tab-stub')
       expect(otherTab.exists()).toBe(true)
     })

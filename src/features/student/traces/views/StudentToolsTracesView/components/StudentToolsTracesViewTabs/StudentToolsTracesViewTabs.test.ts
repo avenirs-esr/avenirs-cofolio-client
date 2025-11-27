@@ -54,7 +54,12 @@ BddTest().given('a studentToolsTracesViewTabs', () => {
       expect(container.props('tracesSummary')).toEqual({ associated: 24, unassociated: 20, totalWarnings: 5, totalCriticals: 2 })
     })
 
-    BddTest().then('it should find the associated traces container', () => {
+    BddTest().then('it should find the associated traces container', async () => {
+      await flushPromises()
+      const tabs = wrapper.findAll('.av-tab-item__tab')
+      await tabs[1].trigger('click')
+      await wrapper.vm.$nextTick()
+
       const container = wrapper.findComponent({ name: 'StudentToolsTracesViewAssociatedTab' })
       expect(container.exists()).toBe(true)
     })
