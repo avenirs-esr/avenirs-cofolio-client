@@ -3,9 +3,6 @@ import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface CategoryElementTitleInputProps extends AvInputProps {
-}
-
 const {
   isValid = false,
   isTextarea = false,
@@ -16,7 +13,7 @@ const {
   prefixIcon,
   placeholder,
   errorMessage,
-} = defineProps<CategoryElementTitleInputProps>()
+} = defineProps<AvInputProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()

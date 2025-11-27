@@ -12,17 +12,6 @@
       "ROME4": "Rome 4.0",
       "XXI": "XXIᵉ onisep"
     },
-    "selfKnowledgeCategoryType": {
-      "ASPIRATIONS": "envie | envies",
-      "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
-      "INSPIRATIONS": "inspiration | inspirations",
-      "INTERESTS": "centre d'intérêt | centres d'intérêt",
-      "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
-      "OBLIGATIONS": "obligation | obligations",
-      "STRENGTHS": "point fort | points forts",
-      "TESTIMONIALS": "témoignage | témoignages",
-      "VALUES": "valeur | valeurs"
-    },
     "badges": {
       "studentAmsStatusBadge": {
         "status": {
@@ -214,8 +203,7 @@
           "createElement": "Erreur lors de la création de l'élément"
         },
         "success": "Élément créé avec succès",
-        "title": "Ajouter un point fort",
-        "titleWithCategory": "Ajouter l'élément {category}"
+        "titleWithCategory": "Ajouter un élément - {category}"
       },
       "categoryElementDescriptionTextarea": {
         "hint": "{count} / {maxlength} caractères (espaces compris)",
@@ -236,6 +224,17 @@
       "categoryElementTitleInput": {
         "label": "Intitulé de votre élément",
         "placeholder": "Saisir un nom pour votre élément"
+      },
+      "categoryType": {
+        "ASPIRATIONS": "envie | envies",
+        "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "INTERESTS": "centre d'intérêt | centres d'intérêt",
+        "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
+        "OBLIGATIONS": "obligation | obligations",
+        "STRENGTHS": "point fort | points forts",
+        "TESTIMONIALS": "témoignage | témoignages",
+        "VALUES": "valeur | valeurs"
       }
     },
     "views": {

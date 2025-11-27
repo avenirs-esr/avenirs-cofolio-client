@@ -9,6 +9,13 @@ interface CategoryElementRatingInputFormFieldProps {
 
 const { form } = defineProps<CategoryElementRatingInputFormFieldProps>()
 const FormField = markRaw(form.Field)
+const ratingField = form.useField({ name: 'rating' })
+
+function onUpdateModelValue (value: (number | undefined)) {
+  if (typeof value === 'number') {
+    ratingField.api.handleChange(value)
+  }
+}
 </script>
 
 <template>
@@ -19,7 +26,7 @@ const FormField = markRaw(form.Field)
         :model-value="field.state.value ?? undefined"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(value) => typeof value === 'number' && field.handleChange(value)"
+        @update:model-value="onUpdateModelValue"
       />
     </template>
   </FormField>

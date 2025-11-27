@@ -9,6 +9,16 @@ interface CategoryElementDescriptionTextareaFormFieldProps {
 
 const { form } = defineProps<CategoryElementDescriptionTextareaFormFieldProps>()
 const FormField = markRaw(form.Field)
+const descriptionField = form.useField({ name: 'description' })
+
+function onUpdateModelValue (value: string | undefined) {
+  if (typeof value === 'string') {
+    descriptionField.api.handleChange(value)
+  }
+  else {
+    descriptionField.api.handleChange('')
+  }
+}
 </script>
 
 <template>
@@ -20,7 +30,7 @@ const FormField = markRaw(form.Field)
         v-model="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(value) => typeof value == 'string' ? field.handleChange(value) : field.handleChange('')"
+        @update:model-value="onUpdateModelValue"
       />
     </template>
   </FormField>

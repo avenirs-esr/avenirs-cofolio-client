@@ -7,7 +7,7 @@ import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = {
+const TestWrapper = defineComponent({
   components: {
     CategoryElementTitleInputFormField
   },
@@ -35,23 +35,23 @@ const TestWrapper = {
       <CategoryElementTitleInputFormField :form="form" />
     </form>
   `
-}
+})
 
 BddTest().given('a self knowledge category element title input form field component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
   const stubs = {
     CategoryElementTitleInput: CategoryElementTitleInputStub
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    wrapper = mount(TestWrapper, {
-      global: { stubs }
-    })
-  })
-
   BddTest().when('the component is mounted', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
+    })
+
     BddTest().then('it should render the title input', () => {
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       expect(input.exists()).toBe(true)
@@ -75,14 +75,19 @@ BddTest().given('a self knowledge category element title input form field compon
     })
   })
 
-  BddTest().when('the user types in the input', () => {
-    BddTest().then('it should update the form field value', async () => {
+  BddTest().and('the user types in the input', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       const textInput = input.find('input')
-
       await textInput.setValue('My element title')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should update the form field value', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
         expect(updated.props('modelValue')).toBe('My element title')
@@ -90,23 +95,35 @@ BddTest().given('a self knowledge category element title input form field compon
     })
   })
 
-  BddTest().when('the user blurs the input', () => {
-    BddTest().then('it should trigger blur handler', async () => {
+  BddTest().and('the user blurs the input', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       const textInput = input.find('input')
-
       await textInput.trigger('blur')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should trigger blur handler', () => {
+      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       expect(input.emitted('blur')).toBeTruthy()
     })
   })
 
-  BddTest().when('the form is submitted with empty title', () => {
-    BddTest().then('it should show validation error', async () => {
+  BddTest().and('the form is submitted with empty title', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should show validation error', async () => {
       await vi.waitFor(() => {
         const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
         expect(input.props('errorMessage')).toBe('Le titre est requis')
@@ -114,17 +131,21 @@ BddTest().given('a self knowledge category element title input form field compon
     })
   })
 
-  BddTest().when('the form is submitted with valid title', () => {
-    BddTest().then('it should not show validation error', async () => {
+  BddTest().and('the form is submitted with valid title', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       const textInput = input.find('input')
-
       await textInput.setValue('Valid title')
       await wrapper.vm.$nextTick()
-
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should not show validation error', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
         expect(updated.props('errorMessage')).toBeFalsy()
@@ -132,14 +153,19 @@ BddTest().given('a self knowledge category element title input form field compon
     })
   })
 
-  BddTest().when('the user provides a valid string value', () => {
-    BddTest().then('it should update the form state', async () => {
+  BddTest().and('the user provides a valid string value', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       const textInput = input.find('input')
-
       await textInput.setValue('Valid title')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should update the form state', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
         expect(updated.props('modelValue')).toBe('Valid title')
@@ -147,20 +173,23 @@ BddTest().given('a self knowledge category element title input form field compon
     })
   })
 
-  BddTest().when('the user types and then clears the title', () => {
-    BddTest().then('it should show validation error on submit', async () => {
+  BddTest().and('the user types and then clears the title', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapper, {
+        global: { stubs }
+      })
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       const textInput = input.find('input')
-
       await textInput.setValue('Some title')
       await wrapper.vm.$nextTick()
-
       await textInput.setValue('')
       await wrapper.vm.$nextTick()
-
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
+    })
 
+    BddTest().then('it should show validation error on submit', async () => {
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
         expect(updated.props('errorMessage')).toBe('Le titre est requis')

@@ -46,7 +46,7 @@ function handleUpdateModelValue (value: string | number | boolean) {
     >
       <template
         v-for="level in ratingLevels"
-        :key="level.value ?? 'null'"
+        :key="level.value"
       >
         <AvRadioButton :value="level.value">
           <div class="av-flex-col-xs">
@@ -76,7 +76,6 @@ function handleUpdateModelValue (value: string | number | boolean) {
   }
 
   .rating-option {
-
     &__description {
       color: var(--text2);
     }

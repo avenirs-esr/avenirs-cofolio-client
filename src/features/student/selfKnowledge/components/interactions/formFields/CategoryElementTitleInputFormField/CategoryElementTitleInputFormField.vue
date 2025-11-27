@@ -9,6 +9,16 @@ interface CategoryElementTitleInputFormFieldProps {
 
 const { form } = defineProps<CategoryElementTitleInputFormFieldProps>()
 const FormField = markRaw(form.Field)
+const titleField = form.useField({ name: 'title' })
+
+function onUpdateModelValue (value: string | undefined) {
+  if (typeof value === 'string') {
+    titleField.api.handleChange(value)
+  }
+  else {
+    titleField.api.handleChange('')
+  }
+}
 </script>
 
 <template>
@@ -21,7 +31,7 @@ const FormField = markRaw(form.Field)
         :error-message="field.state.meta.errors?.join(', ')"
         required
         @blur="field.handleBlur"
-        @update:model-value="(value) => typeof value == 'string' && field.handleChange(value)"
+        @update:model-value="onUpdateModelValue"
       />
     </template>
   </FormField>
