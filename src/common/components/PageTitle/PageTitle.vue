@@ -55,8 +55,9 @@ function goBack () {
 
 <style lang="scss" scoped>
 .page-title-container {
-  padding-bottom: var(--spacing-4xl);
+  padding-bottom: var(--spacing-xl);
 }
+
 .page-title {
   display: flex;
   flex-direction: row;

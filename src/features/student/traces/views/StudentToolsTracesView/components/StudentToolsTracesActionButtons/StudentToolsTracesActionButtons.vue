@@ -24,7 +24,7 @@ const tracesStore = useTracesStore()
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  padding: var(--spacing-sm);
+  padding: 0 var(--spacing-sm);
   gap: var(--spacing-sm);
 }
 </style>
