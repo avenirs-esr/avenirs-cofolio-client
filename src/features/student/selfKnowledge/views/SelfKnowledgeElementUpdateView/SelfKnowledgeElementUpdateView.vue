@@ -14,9 +14,9 @@ export interface SelfKnowledgeElementUpdateViewProps {
   elementId: string
 }
 
-const { elementId, categoryId } = defineProps<SelfKnowledgeElementUpdateViewProps>()
+const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 
-const { element } = useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: elementId })
+const { element } = useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: toRef(props, 'elementId') })
 const { t } = useI18n()
 const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
 
@@ -30,7 +30,7 @@ const breadcrumbLinks = computed(() => [
 // TODO: replace with real elements from API when ready
 const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
   {
-    id: 'ff8beb56-4739-4b6a-8e5c-9aef2fb02688',
+    id: 'a73e0883-ad08-4a62-ab1f-16947250b4fe',
     title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
     description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
     rating: 3
@@ -53,17 +53,16 @@ const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
 const dummyCategoryType = computed<ESelfKnowledgeCategoryType>(() => ESelfKnowledgeCategoryType.STRENGTHS)
 
 function onSelectElement (selectedElementId: string) {
-  navigateToStudentSelfKnowledgeElementUpdate({ categoryId, elementId: selectedElementId })
+  navigateToStudentSelfKnowledgeElementUpdate({ categoryId: props.categoryId, elementId: selectedElementId, replace: true })
 }
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: t(`student.selfKnowledgeCategoryType.${dummyCategoryType}`) })"
+    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: t(`student.selfKnowledge.categoryType.${dummyCategoryType}`, { count: 2 }) })"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div
-    v-if="element"
     class="self-knowledge-element-update-view av-flex-row-sm"
   >
     <SelfKnowledgeElementsSideMenu
@@ -72,7 +71,10 @@ function onSelectElement (selectedElementId: string) {
       :elements="dummyElements"
       @select-element="onSelectElement"
     />
-    <SelfKnowledgeElementDetailsContainer :element-title="element.title">
+    <SelfKnowledgeElementDetailsContainer
+      v-if="element"
+      :element-title="element.title"
+    >
       <template #title>
         <!-- TODO: Badge "Modification en cours" -->
       </template>

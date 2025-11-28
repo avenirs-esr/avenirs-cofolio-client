@@ -11,10 +11,29 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 
+const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
+
+vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables/use-navigation/use-navigation')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentSelfKnowledgeElementUpdate,
+    }),
+  }
+})
+
+const SelfKnowledgeElementDetailsDropdownStub = defineComponent({
+  name: 'SelfKnowledgeElementDetailsDropdown',
+  emits: ['updateSelected', 'shareSelected', 'deleteSelected'],
+  template: '<div data-testid="self-knowledge-element-details-dropdown" />'
+})
+
 const stubs = {
   PageTitle: PageTitleStub,
   SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
-  SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub
+  SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
+  SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub
 }
 
 BddTest().given('a self knowledge category view component', () => {
@@ -73,13 +92,13 @@ BddTest().given('a self knowledge category view component', () => {
       const selectedElementId = sideMenu.props('selectedElementId') as string
 
       expect(elements).toHaveLength(3)
-      expect(elements[0].id).toBe('ff8beb56-4739-4b6a-8e5c-9aef2fb02688')
+      expect(elements[0].id).toBe('a73e0883-ad08-4a62-ab1f-16947250b4fe')
       expect(elements[1].id).toBe('2')
       expect(elements[2].id).toBe('3')
 
       expect(categoryType).toBe('STRENGTHS')
 
-      expect(selectedElementId).toBe('1')
+      expect(selectedElementId).toBe('a73e0883-ad08-4a62-ab1f-16947250b4fe')
     })
 
     BddTest().then('it should update selectedElementId when an element is selected from the side menu', async () => {
@@ -89,6 +108,17 @@ BddTest().given('a self knowledge category view component', () => {
       await nextTick()
 
       expect(sideMenu.props('selectedElementId')).toBe('2')
+    })
+
+    BddTest().and('clicking the update option in dropdown', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
+        dropdown.vm.$emit('updateSelected')
+      })
+
+      BddTest().then('it should navigate to the self knowledge element update view with correct params', () => {
+        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: '123', elementId: 'a73e0883-ad08-4a62-ab1f-16947250b4fe' })
+      })
     })
   })
 })

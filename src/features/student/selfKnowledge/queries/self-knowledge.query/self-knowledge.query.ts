@@ -62,7 +62,7 @@ export function useSelfKnowledgeElementDetailsQuery ({
 }: SelfKnowledgeElementDetailsQueryParams): UseQueryReturnType<SelfKnowledgeElementDetailsDTO | undefined, BaseApiException> & {
   element: Ref<SelfKnowledgeElementDetailsDTO | undefined>
 } {
-  const queryKey = computed(() => [...selfKnowledgeElementDetailsQueryKey])
+  const queryKey = computed(() => [...selfKnowledgeElementDetailsQueryKey, toValue(selfKnowledgeElementId)])
 
   const queryFn = computed(() => async (): Promise<SelfKnowledgeElementDetailsDTO> => {
     return await getSelfKnowledgeElementDetails(toValue(selfKnowledgeElementId))

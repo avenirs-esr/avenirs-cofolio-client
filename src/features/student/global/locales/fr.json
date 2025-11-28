@@ -239,8 +239,11 @@
     },
     "views": {
       "selfKnowledgeCategoryView": {
-        "title": "Détail de mes {type}",
+        "dropdown": "Gérer mon élément",
         "tabs": {
+          "associations": {
+            "title": "Mes associations ({count})"
+          },
           "category": {
             "titles": {
               "ASPIRATIONS": "Mon envie",
@@ -253,11 +256,9 @@
               "TESTIMONIALS": "Mon témoignage",
               "VALUES": "Ma valeur"
             }
-          },
-          "associations": {
-            "title": "Mes associations ({count})"
           }
-        }
+        },
+        "title": "Détail de mes {type}"
       },
       "selfKnowledgeElementUpdateView": {
         "title": "Modifier mes {categoryType}"

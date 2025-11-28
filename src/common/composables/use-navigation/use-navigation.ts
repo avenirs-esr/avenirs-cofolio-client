@@ -40,11 +40,15 @@ export function useNavigation () {
     return router.push(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY)
   }
 
-  const navigateToStudentSelfKnowledgeElementUpdate = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
-    return router.push({
+  const navigateToStudentSelfKnowledgeElementUpdate = ({ categoryId, elementId, replace }: { categoryId: string, elementId: string, replace?: boolean }) => {
+    const to = {
       name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
-      params: { path: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.path, categoryId, elementId }
-    })
+      params: { categoryId, elementId }
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
   }
 
   const navigateToStudentSkills = () => {

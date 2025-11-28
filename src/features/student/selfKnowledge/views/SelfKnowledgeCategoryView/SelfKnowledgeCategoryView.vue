@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
+import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeCategoryViewProps {
@@ -12,8 +14,9 @@ interface SelfKnowledgeCategoryViewProps {
   categoryType: ESelfKnowledgeCategoryType
 }
 
-const { categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
+const { categoryId, categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
 const { t } = useI18n()
+const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
 
 const categoryTypeLabel = computed(() => t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }))
 
@@ -26,7 +29,7 @@ const breadcrumbLinks = computed(() => [
 
 const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
   {
-    id: 'ff8beb56-4739-4b6a-8e5c-9aef2fb02688',
+    id: 'a73e0883-ad08-4a62-ab1f-16947250b4fe',
     title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
     description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
     rating: 3
@@ -45,18 +48,22 @@ const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
   },
 ])
 
+const selectedElementId = ref<string>('a73e0883-ad08-4a62-ab1f-16947250b4fe')
+
 const dummySelectedElement = computed<SelfKnowledgeElementDetailsDTO>(() => {
   return {
-    ...dummyElements.value[0],
+    ...dummyElements.value.find(el => el.id === selectedElementId.value)!,
     createdAt: '2023-10-01T12:00:00Z',
     updatedAt: '2023-10-15T15:30:00Z'
   }
 })
 
-const selectedElementId = ref<string>('1')
-
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
+}
+
+function onUpdateSelected () {
+  navigateToStudentSelfKnowledgeElementUpdate({ categoryId, elementId: selectedElementId.value })
 }
 </script>
 
@@ -74,7 +81,9 @@ function onSelectElement (elementId: string) {
     />
     <SelfKnowledgeElementDetailsContainer :element-title="dummySelectedElement.title">
       <template #title>
-      <!-- TODO: Dropdown "Gérer mon élément" -->
+        <SelfKnowledgeElementDetailsDropdown
+          @update-selected="onUpdateSelected"
+        />
       </template>
 
     <!-- TODO: Details selected element -->

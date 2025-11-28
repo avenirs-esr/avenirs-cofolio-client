@@ -6,11 +6,15 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const pushMock = vi.fn()
+const replaceMock = vi.fn()
 
 vi.mock('vue-router', () => ({
   useRouter: () => ({
     push: vi.fn().mockImplementation((args) => {
       pushMock(args)
+    }),
+    replace: vi.fn().mockImplementation((args) => {
+      replaceMock(args)
     }),
   }),
 }))
@@ -96,7 +100,18 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId' })
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
-        params: { path: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.path, categoryId: 'categoryId', elementId: 'elementId' }
+        params: { categoryId: 'categoryId', elementId: 'elementId' }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to self-knowledge elements update with replace', () => {
+    BddTest().then('it should navigate to self-knowledge elements update with replace', () => {
+      const { navigateToStudentSelfKnowledgeElementUpdate } = navigation
+      navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId', replace: true })
+      expect(replaceMock).toHaveBeenCalledWith({
+        name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+        params: { categoryId: 'categoryId', elementId: 'elementId' }
       })
     })
   })
