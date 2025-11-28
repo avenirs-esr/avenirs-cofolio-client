@@ -1,0 +1,61 @@
+{
+  "student": {
+    "buildProject": {
+      "mindMap": {
+        "actions": {
+          "addFreeText": "Ajouter un texte libre",
+          "addHyperlink": "Ajouter un hyperlien",
+          "screenshot": "Capture d'écran"
+        },
+        "researchs": {
+          "addResearchButton": {
+            "label": "Ajouter une recherche"
+          }
+        },
+        "selfKnowledge": {
+          "addCategoryButton": {
+            "confirm": "Ajouter cette catégorie | Ajouter ces catégories",
+            "errors": {
+              "categoryNotFound": "Catégorie avec l'ID {{id}} introuvable."
+            },
+            "label": "Ajouter une catégorie"
+          },
+          "addElementButton": {
+            "confirm": "Ajouter cet élément | Ajouter ces éléments",
+            "errors": {
+              "elementNotFound": "Élément avec l'ID {{id}} introuvable.",
+              "existingNode": "Un élément avec ce titre et cette description existe déjà.",
+              "formDataUndefined": "Les données du formulaire sont nécessaires pour les nouveaux éléments."
+            },
+            "label": "Ajouter un élément",
+            "tabs": {
+              "existing": {
+                "title": "Éléments existants"
+              },
+              "new": {
+                "form": {
+                  "description": "Description de l'élément",
+                  "title": "Titre de l'élément"
+                },
+                "title": "Nouvel élément"
+              }
+            }
+          },
+          "element": {
+            "error": "Erreur lors de la mise à jour de l'élément dans votre profil",
+            "success": "Élément mis à jour dans votre profil"
+          }
+        },
+        "title": "Ma carte mentale",
+        "trajectories": {
+          "addTrajectoryButton": {
+            "label": "Ajouter une trajectoire"
+          }
+        },
+        "user": {
+          "profilePictureAlt": "Photo de profil"
+        }
+      }
+    }
+  }
+}

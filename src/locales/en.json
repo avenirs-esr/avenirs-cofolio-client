@@ -20,13 +20,19 @@
       "add": "Add",
       "cancel": "Cancel",
       "close": "Close",
+      "collapse": "Collapse",
       "confirm": "Confirm",
       "delete": "Delete",
       "exit": "Exit",
+      "expand": "Expand",
       "goBack": "Go back",
       "moreActions": "More actions",
+      "redo": "Redo",
+      "reset": "Reset",
+      "restore": "Restore",
       "save": "Save",
       "share": "Share",
+      "undo": "Undo",
       "update": "Update"
     },
     "colon": "{before}:",
@@ -125,6 +131,26 @@
       },
       "personnalDataView": {
         "title": "Personnal data"
+      }
+    },
+    "vueFlow": {
+      "NodeDropdown": {
+        "updateInProfile": "Update in my profile"
+      },
+      "state": {
+        "saved": "State successfully saved in slot {index}."
+      },
+      "UpdateHandlesModal": {
+        "preview": "Node preview",
+        "title": "Update node handles"
+      },
+      "UpdateHandleSelector": {
+        "position": {
+          "bottom": "Bottom",
+          "left": "Left",
+          "right": "Right",
+          "top": "Top"
+        }
       }
     }
   }

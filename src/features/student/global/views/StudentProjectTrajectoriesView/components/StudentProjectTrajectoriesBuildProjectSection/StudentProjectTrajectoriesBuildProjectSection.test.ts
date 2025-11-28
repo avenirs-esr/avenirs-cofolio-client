@@ -6,7 +6,13 @@ import { beforeEach, expect, vi } from 'vitest'
 BddTest().given('a build project section component', () => {
   let wrapper: ReturnType<typeof mount<typeof StudentProjectTrajectoriesBuildProjectSection>>
 
+  const MindMapStub = {
+    name: 'MindMap',
+    template: '<div data-testid="mind-map" />',
+  }
+
   const stubs = {
+    MindMap: MindMapStub,
     StudentProjectTrajectoriesHelperModal: {
       name: 'StudentProjectTrajectoriesHelperModal',
       props: ['showModal', 'onClose', 'trace'],
@@ -27,6 +33,11 @@ BddTest().given('a build project section component', () => {
       const titleElement = wrapper.find('.b1-bold')
       expect(titleElement.exists()).toBe(true)
       expect(titleElement.text()).toBe('Bâtir mon projet')
+    })
+
+    BddTest().then('it should render the mind map component', () => {
+      const mindMap = wrapper.findComponent(MindMapStub)
+      expect(mindMap.exists()).toBe(true)
     })
 
     BddTest().then('it should have the correct CSS class', () => {

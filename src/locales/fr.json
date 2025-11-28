@@ -20,13 +20,19 @@
       "add": "Ajouter",
       "cancel": "Annuler",
       "close": "Fermer",
+      "collapse": "Réduire",
       "confirm": "Confirmer",
       "delete": "Supprimer",
       "exit": "Quitter",
+      "expand": "Développer",
       "goBack": "Retour",
       "moreActions": "Plus d'actions",
+      "redo": "Rétablir",
+      "reset": "Réinitialiser",
+      "restore": "Restaurer",
       "save": "Enregistrer",
       "share": "Partager",
+      "undo": "Annuler",
       "update": "Modifier"
     },
     "colon": "{before} :",
@@ -125,6 +131,26 @@
       },
       "personnalDataView": {
         "title": "Données personnelles"
+      }
+    },
+    "vueFlow": {
+      "NodeDropdown": {
+        "updateInProfile": "Mettre à jour dans mon profil"
+      },
+      "state": {
+        "saved": "État sauvegardé avec succès dans l'emplacement {index}."
+      },
+      "UpdateHandlesModal": {
+        "preview": "Aperçu du nœud",
+        "title": "Mise à jour des prises du nœud"
+      },
+      "UpdateHandleSelector": {
+        "position": {
+          "bottom": "Bas",
+          "left": "Gauche",
+          "right": "Droite",
+          "top": "Haut"
+        }
       }
     }
   }

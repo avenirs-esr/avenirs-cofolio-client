@@ -69,7 +69,7 @@ const aspirationsElements = [
   { title: 'Partager mes connaissances', description: 'Transmettre mon savoir et former d\'autres personnes' }
 ]
 
-function getCategoryElements (selfKnowledgeCategoryId: string): Array<{ title: string, description: string }> {
+export function getCategoryElements (selfKnowledgeCategoryId: string): Array<{ title: string, description: string }> {
   const category = mockedSelfKnowledgeCategories.find(cat => cat.id === selfKnowledgeCategoryId)
 
   if (!category) {
