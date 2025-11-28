@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import SelfKnowledgeCategoryTab from '@/features/student/selfKnowledge/components/SelfKnowledgeCategoryTab/SelfKnowledgeCategoryTab.vue'
-import SelfKnowledgeElementAssociationsTab
-  from '@/features/student/selfKnowledge/components/SelfKnowledgeElementAssociationsTab/SelfKnowledgeElementAssociationsTab.vue'
+import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import type { Slot } from '@vue/test-utils/dist/types'
+
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeProps {
-  selfKnowledgeElement: SelfKnowledgeElementViewDTO
   categoryType: ESelfKnowledgeCategoryType
-  readonly?: boolean
 }
 
 const { categoryType } = defineProps<SelfKnowledgeProps>()
+
+defineSlots<{
+  element?: Slot
+  associations?: Slot
+}>()
+
 const { t } = useI18n()
 
 const categoryTypeLabel = computed(() => t(`student.views.selfKnowledgeCategoryView.tabs.category.titles.${categoryType}`))
@@ -25,13 +28,13 @@ const activeTab = ref(0)
       :title="categoryTypeLabel"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
-      <SelfKnowledgeCategoryTab />
+      <slot name="element" />
     </AvTab>
     <AvTab
       :title="t('student.views.selfKnowledgeCategoryView.tabs.associations.title', 0)"
       :icon="MDI_ICONS.LINK"
     >
-      <SelfKnowledgeElementAssociationsTab />
+      <slot name="associations" />
     </AvTab>
   </AvTabs>
 </template>
