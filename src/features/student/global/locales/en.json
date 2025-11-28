@@ -239,8 +239,11 @@
     },
     "views": {
       "selfKnowledgeCategoryView": {
-        "title": "Details of my {type}",
+        "dropdown": "Manage my element",
         "tabs": {
+          "associations": {
+            "title": "My associations ({count})"
+          },
           "category": {
             "titles": {
               "ASPIRATIONS": "My aspiration",
@@ -253,11 +256,9 @@
               "TESTIMONIALS": "My testimonial",
               "VALUES": "My value"
             }
-          },
-          "associations": {
-            "title": "My associations ({count})"
           }
-        }
+        },
+        "title": "Details of my {type}"
       },
       "selfKnowledgeElementUpdateView": {
         "title": "Update my {categoryType}"

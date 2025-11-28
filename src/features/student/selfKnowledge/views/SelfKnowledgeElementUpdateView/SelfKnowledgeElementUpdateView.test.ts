@@ -102,7 +102,7 @@ BddTest().given('a self knowledge element update view', () => {
       })
 
       BddTest().then('it should navigate to the element update view of the selected element', () => {
-        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: 'strengths', elementId: '2' })
+        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: 'strengths', elementId: '2', replace: true })
       })
     })
   })
