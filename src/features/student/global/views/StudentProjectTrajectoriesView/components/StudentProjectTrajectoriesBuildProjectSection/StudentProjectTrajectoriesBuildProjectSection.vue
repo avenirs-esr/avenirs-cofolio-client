@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useModal } from '@/common/composables'
+import MindMap from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.vue'
 import StudentProjectTrajectoriesHelperModal
   from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -23,6 +24,8 @@ const { showModal, displayModal, hideModal } = useModal()
       @click="displayModal"
     />
   </div>
+
+  <MindMap />
 
   <StudentProjectTrajectoriesHelperModal
     :show-modal="showModal"

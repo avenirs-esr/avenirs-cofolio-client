@@ -1,0 +1,61 @@
+{
+  "student": {
+    "buildProject": {
+      "mindMap": {
+        "actions": {
+          "addFreeText": "Add free text",
+          "addHyperlink": "Add a hyperlink",
+          "screenshot": "Screenshot"
+        },
+        "researchs": {
+          "addResearchButton": {
+            "label": "Add a research"
+          }
+        },
+        "selfKnowledge": {
+          "addCategoryButton": {
+            "confirm": "Add this category | Add these categories",
+            "errors": {
+              "categoryNotFound": "Category with ID {{id}} not found."
+            },
+            "label": "Add a category"
+          },
+          "addElementButton": {
+            "confirm": "Add this element | Add these elements",
+            "errors": {
+              "elementNotFound": "Element with ID {{id}} not found.",
+              "existingNode": "An element with this title and description already exists.",
+              "formDataUndefined": "Form data is required for new elements."
+            },
+            "label": "Add an element",
+            "tabs": {
+              "existing": {
+                "title": "Existing elements"
+              },
+              "new": {
+                "form": {
+                  "description": "Description of the element",
+                  "title": "Title of the element"
+                },
+                "title": "New element"
+              }
+            }
+          },
+          "element": {
+            "error": "Error updating element in your profile",
+            "success": "Element updated in your profile"
+          }
+        },
+        "title": "My Mind Map",
+        "trajectories": {
+          "addTrajectoryButton": {
+            "label": "Add a trajectory"
+          }
+        },
+        "user": {
+          "profilePictureAlt": "Profile picture"
+        }
+      }
+    }
+  }
+}

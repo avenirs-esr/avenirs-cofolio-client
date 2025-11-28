@@ -6,6 +6,7 @@ import {
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 
 import {
+  EErrorCode,
   getAddSelfKnowledgeCategoriesUrl,
   getCreateSelfKnowledgeElementUrl,
   getDeleteSelfKnowledgeElementsUrl,
@@ -14,6 +15,7 @@ import {
   getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
   getRemoveSelfKnowledgeCategoryUrl,
+  getUpdateSelfKnowledgeElementUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type SelfKnowledgeCategoryDTO,
   type SelfKnowledgeElementDetailsDTO,
@@ -82,6 +84,27 @@ export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSel
   )
 })
 
+export const putUpdateSelfKnowledgeElementErrorHandler = http.put(`*${getUpdateSelfKnowledgeElementUrl(':selfKnowledgeElementId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
+export const putUpdateSelfKnowledgeElementErrorNotFoundHandler = http.put(`*${getUpdateSelfKnowledgeElementUrl(':selfKnowledgeElementId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Self knowledge element not found', code: EErrorCode.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND },
+    { status: 404 }
+  )
+})
+
+export const postCreateSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal server error' },
+    { status: 500 }
+  )
+})
+
 export function createSelfKnowledgeCategoriesAvailableHandler (payload: SelfKnowledgeCategoryDTO[]) {
   return http.get(`*${getGetSelfKnowledgeCategoriesAvailableUrl()}`, () => {
     return HttpResponse.json<SelfKnowledgeCategoryDTO[]>(payload, {
@@ -96,6 +119,17 @@ export function createSelfKnowledgeCategoriesAvailableHandler (payload: SelfKnow
 export function createSelfKnowledgeElementDetailsHandler (payload: SelfKnowledgeElementDetailsDTO) {
   return http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
     return HttpResponse.json<SelfKnowledgeElementDetailsDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export function createPutUpdateSelfKnowledgeElementHandler (payload: SelfKnowledgeElementViewDTO) {
+  return http.put(`*${getUpdateSelfKnowledgeElementUrl(':selfKnowledgeElementId')}`, () => {
+    return HttpResponse.json<SelfKnowledgeElementViewDTO>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -164,6 +198,29 @@ export const selfKnowledgeHandlers = [
     }
 
     const response = 'Categories successfully associated with user'
+    return HttpResponse.json<string>(response, {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.put(`*${getUpdateSelfKnowledgeElementUrl(':selfKnowledgeElementId')}`, async ({ request }) => {
+    const element = await request.json() as SelfKnowledgeElementRequest
+
+    if (!element) {
+      return HttpResponse.json({ error: 'No element provided' }, { status: 400 })
+    }
+
+    if (element.title === 'ERROR_ELEMENT') {
+      return HttpResponse.json(
+        { error: 'Internal server error', message: 'Failed to update selected element' },
+        { status: 500 }
+      )
+    }
+
+    const response = 'Element successfully updated'
     return HttpResponse.json<string>(response, {
       status: 201,
       headers: {
