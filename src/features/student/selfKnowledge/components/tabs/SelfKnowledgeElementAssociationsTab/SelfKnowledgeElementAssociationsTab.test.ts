@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import SelfKnowledgeElementAssociationsTab
-  from '@/features/student/selfKnowledge/components/SelfKnowledgeElementAssociationsTab/SelfKnowledgeElementAssociationsTab.vue'
+  from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementAssociationsTab/SelfKnowledgeElementAssociationsTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
