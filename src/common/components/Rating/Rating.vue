@@ -1,15 +1,17 @@
 <script lang="ts" setup>
 export interface RatingProps {
   id?: string
-  rating: number
   maxRating?: number
+  rating: number
+  starsFirst?: boolean
   withBackground?: boolean
 }
 
 const {
   id,
-  rating,
   maxRating = 5,
+  rating,
+  starsFirst = true,
   withBackground = true,
 } = defineProps<RatingProps>()
 
@@ -25,11 +27,22 @@ const stars = computed(() => {
     class="rating"
     :class="{ 'rating--with-background': withBackground }"
   >
-    <span
-      v-for="star in stars"
-      :key="`${realId}-star-${star}`"
-    >⭐</span>
+    <template v-if="starsFirst">
+      <span
+        v-for="star in stars"
+        :key="`${realId}-star-${star}`"
+      >⭐</span>
+    </template>
+
     <span class="rating__value b2-bold">{{ rating }}/{{ maxRating }}</span>
+
+    <template v-if="!starsFirst">
+      <span class="rating__value b2-bold">{{ rating }}/{{ maxRating }}</span>
+      <span
+        v-for="star in stars"
+        :key="`${realId}-star-${star}`"
+      >⭐</span>
+    </template>
   </div>
 </template>
 

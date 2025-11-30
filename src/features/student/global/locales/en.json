@@ -235,11 +235,18 @@
         "STRENGTHS": "strength | strengths",
         "TESTIMONIALS": "testimonial | testimonials",
         "VALUES": "value | values"
-      }
+      },
+      "element": "element | elements"
+    },
+    "skills": {
+      "skill": "skill | skills"
     },
     "views": {
       "selfKnowledgeCategoryView": {
         "dropdown": "Manage my element",
+        "selfKnowledgeElementDetails": {
+          "ratingLabel": "Level of importance"
+        },
         "tabs": {
           "associations": {
             "title": "My associations ({count})"

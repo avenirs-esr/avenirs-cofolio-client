@@ -235,11 +235,18 @@
         "STRENGTHS": "point fort | points forts",
         "TESTIMONIALS": "témoignage | témoignages",
         "VALUES": "valeur | valeurs"
-      }
+      },
+      "element": "élément | éléments"
+    },
+    "skills": {
+      "skill": "compétence | compétences"
     },
     "views": {
       "selfKnowledgeCategoryView": {
         "dropdown": "Gérer mon élément",
+        "selfKnowledgeElementDetails": {
+          "ratingLabel": "Degré d'importance"
+        },
         "tabs": {
           "associations": {
             "title": "Mes associations ({count})"

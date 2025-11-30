@@ -1,4 +1,4 @@
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import SelfKnowledgeElementTabs
   from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
@@ -16,28 +16,14 @@ const stubs = {
         required: false
       }
     },
+    emits: ['update:modelValue'],
     template: '<div class="av-tabs-stub"><slot /></div>'
   },
   AvTab: {
     name: 'AvTab',
     props: ['title', 'icon'],
     template: '<div class="av-tab-stub"><slot /></div>'
-  },
-  SelfKnowledgeCategoryTab: {
-    name: 'SelfKnowledgeCategoryTab',
-    template: '<div class="self-knowledge-category-tab-stub" />'
-  },
-  SelfKnowledgeElementAssociationsTab: {
-    name: 'SelfKnowledgeElementAssociationsTab',
-    template: '<div class="self-knowledge-element-associations-tab-stub" />'
   }
-}
-
-const dummySelfKnowledgeElement: SelfKnowledgeElementViewDTO = {
-  id: '1',
-  title: 'Intitulé de test',
-  description: 'Description de test',
-  rating: 3
 }
 
 BddTest().given('a self knowledge tabs component', () => {
@@ -47,8 +33,11 @@ BddTest().given('a self knowledge tabs component', () => {
     beforeEach(() => {
       wrapper = mountComponent(SelfKnowledgeElementTabs, {
         props: {
-          selfKnowledgeElement: dummySelfKnowledgeElement,
           categoryType: 'STRENGTHS' as ESelfKnowledgeCategoryType
+        },
+        slots: {
+          element: '<div class="element-slot-content">Element content</div>',
+          associations: '<div class="associations-slot-content">Associations content</div>'
         },
         global: {
           stubs
@@ -87,12 +76,18 @@ BddTest().given('a self knowledge tabs component', () => {
       expect(associationsTab.props('icon')).toBe(MDI_ICONS.LINK)
     })
 
-    BddTest().then('it should render the category and associations tab content components', () => {
-      const categoryTabContent = wrapper.findComponent({ name: 'SelfKnowledgeCategoryTab' })
-      const associationsTabContent = wrapper.findComponent({ name: 'SelfKnowledgeElementAssociationsTab' })
+    BddTest().then('it should render the element slot content', () => {
+      const elementSlotContent = wrapper.find('.element-slot-content')
 
-      expect(categoryTabContent.exists()).toBe(true)
-      expect(associationsTabContent.exists()).toBe(true)
+      expect(elementSlotContent.exists()).toBe(true)
+      expect(elementSlotContent.text()).toBe('Element content')
+    })
+
+    BddTest().then('it should render the associations slot content', () => {
+      const associationsSlotContent = wrapper.find('.associations-slot-content')
+
+      expect(associationsSlotContent.exists()).toBe(true)
+      expect(associationsSlotContent.text()).toBe('Associations content')
     })
   })
 })
