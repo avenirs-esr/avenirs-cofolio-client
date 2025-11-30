@@ -124,4 +124,120 @@ BddTest().given('a rating component', () => {
       })
     })
   })
+
+  BddTest().when('the component is rendered with starsFirst set to true (default)', () => {
+    let wrapper: VueWrapper<InstanceType<typeof Rating>>
+
+    beforeEach(() => {
+      wrapper = mount(Rating, {
+        props: {
+          rating: 3,
+          starsFirst: true
+        }
+      })
+    })
+
+    BddTest().then('it should render stars before the rating value', () => {
+      const ratingDiv = wrapper.find('.rating')
+      const text = ratingDiv.text()
+
+      const starPosition = text.indexOf('⭐')
+      const ratingPosition = text.indexOf('3/5')
+
+      expect(starPosition).toBeLessThan(ratingPosition)
+    })
+  })
+
+  BddTest().when('the component is rendered with starsFirst set to false', () => {
+    let wrapper: VueWrapper<InstanceType<typeof Rating>>
+
+    beforeEach(() => {
+      wrapper = mount(Rating, {
+        props: {
+          rating: 3,
+          starsFirst: false
+        }
+      })
+    })
+
+    BddTest().then('it should render the rating value before stars', () => {
+      const ratingDiv = wrapper.find('.rating')
+      const text = ratingDiv.text()
+
+      const ratingPosition = text.indexOf('3/5')
+      const starPosition = text.indexOf('⭐')
+
+      expect(ratingPosition).toBeLessThan(starPosition)
+    })
+
+    BddTest().then('it should still render 3 star emojis', () => {
+      const stars = wrapper.findAll('span').filter(span => span.text() === '⭐')
+      expect(stars).toHaveLength(3)
+    })
+
+    BddTest().then('it should still display the rating value as "3/5"', () => {
+      const ratingValue = wrapper.find('.rating__value')
+      expect(ratingValue.text()).toBe('3/5')
+    })
+  })
+
+  BddTest().when('the component is rendered without starsFirst prop', () => {
+    let wrapper: VueWrapper<InstanceType<typeof Rating>>
+
+    beforeEach(() => {
+      wrapper = mount(Rating, {
+        props: {
+          rating: 2
+        }
+      })
+    })
+
+    BddTest().then('it should default to starsFirst=true and render stars before the rating value', () => {
+      const ratingDiv = wrapper.find('.rating')
+      const text = ratingDiv.text()
+
+      const starPosition = text.indexOf('⭐')
+      const ratingPosition = text.indexOf('2/5')
+
+      expect(starPosition).toBeLessThan(ratingPosition)
+    })
+  })
+
+  BddTest().when('the component is rendered with withBackground set to false', () => {
+    let wrapper: VueWrapper<InstanceType<typeof Rating>>
+
+    beforeEach(() => {
+      wrapper = mount(Rating, {
+        props: {
+          rating: 3,
+          withBackground: false
+        }
+      })
+    })
+
+    BddTest().then('it should not have the rating--with-background class', () => {
+      expect(wrapper.find('.rating--with-background').exists()).toBe(false)
+    })
+
+    BddTest().then('it should have the rating class', () => {
+      expect(wrapper.find('.rating').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is rendered with withBackground set to true', () => {
+    let wrapper: VueWrapper<InstanceType<typeof Rating>>
+
+    beforeEach(() => {
+      wrapper = mount(Rating, {
+        props: {
+          rating: 3,
+          withBackground: true
+        }
+      })
+    })
+
+    BddTest().then('it should have the rating--with-background class', () => {
+      expect(wrapper.find('.rating--with-background').exists()).toBe(true)
+    })
+  })
 })

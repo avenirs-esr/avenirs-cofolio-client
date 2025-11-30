@@ -6,6 +6,8 @@ import { ROUTE_NAMES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
+import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
@@ -86,7 +88,14 @@ function onUpdateSelected () {
         />
       </template>
 
-    <!-- TODO: Details selected element -->
+      <SelfKnowledgeElementTabs :category-type="categoryType">
+        <template #element>
+          <SelfKnowledgeElementDetails :element="dummySelectedElement" />
+        </template>
+        <template #associations>
+          Element associations placeholder
+        </template>
+      </SelfKnowledgeElementTabs>
     </SelfKnowledgeElementDetailsContainer>
   </div>
 </template>

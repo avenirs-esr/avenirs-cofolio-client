@@ -29,7 +29,10 @@
     },
     "colon": "{before} :",
     "dates": {
-      "dateTimeAt": "{date} à {time}"
+      "createdAt": "Créé le {date}",
+      "createdAtWithPrefix": "{prefix} créé le {date}",
+      "dateTimeAt": "{date} à {time}",
+      "updatedAt": "Modifié le {date}"
     },
     "error": {
       "file": {

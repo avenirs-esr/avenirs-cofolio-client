@@ -110,7 +110,7 @@ BddTest().given('an UpdateAdditionalSkillForm component', () => {
   BddTest().when('rendering dates', () => {
     BddTest().then('it should show created and updated AvIconText if provided', async () => {
       await flushPromises()
-      const dateLines = wrapper.findAll('.date-details .av-icon-text')
+      const dateLines = wrapper.findAll('.av-icon-text')
       expect(dateLines.length).toBeGreaterThanOrEqual(2)
     })
   })

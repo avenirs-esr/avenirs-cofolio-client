@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
-import AdditionalSkillDateDetails from '@/features/student/additionalSkills/components/base/AdditionalSkillDateDetails/AdditionalSkillDateDetails.vue'
+import { CreationUpdateDateDetails } from '@/common/components'
 import AdditionalSkillRefCard from '@/features/student/additionalSkills/components/cards/AdditionalSkillRefCard/AdditionalSkillRefCard.vue'
 import AdditionalSkillCommentFormField from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillCommentFormField/AdditionalSkillCommentFormField.vue'
 import AdditionalSkillLevelRadioButtonSetFormField from '@/features/student/additionalSkills/components/interactions/formFields/AdditionalSkillLevelRadioButtonSetFormField/AdditionalSkillLevelRadioButtonSetFormField.vue'
 import { useUpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
 import { AvCancelConfirmButtons, AvCard, AvInput, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 interface UpdateAdditionalSkillFormProps {
@@ -39,6 +40,8 @@ watch(
   dirty => emit('dirtyChange', dirty),
   { immediate: true }
 )
+
+const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
@@ -63,9 +66,10 @@ watch(
             <AdditionalSkillLevelRadioButtonSetFormField :form="form" />
           </div>
 
-          <AdditionalSkillDateDetails
+          <CreationUpdateDateDetails
             :created-at="additionalSkillProgressDetails.createdAt"
             :updated-at="additionalSkillProgressDetails.updatedAt"
+            :created-at-prefix="createdAtPrefix"
           />
         </div>
 

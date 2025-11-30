@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
+import { CreationUpdateDateDetails } from '@/common/components'
 import AdditionalSkillLevelBadge from '@/features/student/additionalSkills/components/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
-import AdditionalSkillDateDetails from '@/features/student/additionalSkills/components/base/AdditionalSkillDateDetails/AdditionalSkillDateDetails.vue'
 import AdditionalSkillRefCard from '@/features/student/additionalSkills/components/cards/AdditionalSkillRefCard/AdditionalSkillRefCard.vue'
 import { AvCard, AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface AdditionalSkillDetailsProps {
@@ -15,6 +16,8 @@ const { title, description, type, pathSegments, level, createdAt, updatedAt } = 
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
+
+const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
@@ -45,8 +48,9 @@ const { isMobile } = useAvBreakpoints()
           <AdditionalSkillLevelBadge :level="level" />
         </div>
       </AvCard>
-      <AdditionalSkillDateDetails
+      <CreationUpdateDateDetails
         :created-at="createdAt"
+        :created-at-prefix="createdAtPrefix"
         :updated-at="updatedAt"
       />
     </div>
