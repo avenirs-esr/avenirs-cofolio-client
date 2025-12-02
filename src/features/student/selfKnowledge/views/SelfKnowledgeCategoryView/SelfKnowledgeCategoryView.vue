@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants'
@@ -7,20 +7,27 @@ import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowled
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import {
+  useGetCachedSelfKnowledgeElements,
+  useSelfKnowledgeCategoriesQuery,
+  useSelfKnowledgeCategoryElementsViewQuery
+} from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeCategoryViewProps {
-  categoryId: string
   categoryType: ESelfKnowledgeCategoryType
 }
 
-const { categoryId, categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
-const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
+const { categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
 
-const categoryTypeLabel = computed(() => t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }))
+const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
+const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
+const { categories } = useSelfKnowledgeCategoriesQuery()
+const { getCachedElements } = useGetCachedSelfKnowledgeElements()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
@@ -28,44 +35,77 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
   { text: t('student.navigation.tabs.project.items.selfKnowledge') }
 ])
+const categoryTypeLabel = computed(() => t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }))
 
-const dummyElements = computed<SelfKnowledgeElementViewDTO[]>(() => [
-  {
-    id: 'a73e0883-ad08-4a62-ab1f-16947250b4fe',
-    title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
-    description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
-    rating: 3
-  },
-  {
-    id: '2',
-    title: 'Force de communication',
-    description: 'J\'ai développé cette compétence lors de mes projets de groupe et mes présentations en classe.',
-    rating: 4
-  },
-  {
-    id: '3',
-    title: 'Créativité',
-    description: 'Ma créativité s\'exprime dans mes projets artistiques et mes solutions innovantes.',
-    rating: 5
-  },
-])
+const selectedElementId = ref('')
 
-const selectedElementId = ref<string>('a73e0883-ad08-4a62-ab1f-16947250b4fe')
+const page = ref(0)
+const pageSize = ref(3)
 
-const dummySelectedElement = computed<SelfKnowledgeElementDetailsDTO>(() => {
-  return {
-    ...dummyElements.value.find(el => el.id === selectedElementId.value)!,
-    createdAt: '2023-10-01T12:00:00Z',
-    updatedAt: '2023-10-15T15:30:00Z'
+const categoryId = computed(() => {
+  const category = categories.value.find(cat => cat.type === categoryType)
+  return category ? category.id : ''
+})
+
+const elements = ref<SelfKnowledgeElementViewDTO[]>([])
+
+watch(categoryId, (newCategoryId) => {
+  if (!newCategoryId) {
+    return
   }
+
+  const cached = getCachedElements(newCategoryId)
+  elements.value = cached.elements
+
+  if (cached.currentPage > 0) {
+    page.value = cached.currentPage
+  }
+}, { immediate: true })
+
+const { pageInfo, elements: fetchedElements, isFetching } = useSelfKnowledgeCategoryElementsViewQuery({
+  selfKnowledgeCategoryId: categoryId,
+  page,
+  pageSize
+})
+
+watch(fetchedElements, (newElements) => {
+  if (page.value === 0) {
+    elements.value = newElements
+  }
+  else {
+    elements.value = elements.value.concat(newElements)
+  }
+})
+
+watch(() => route.query.elementId, (elementId) => {
+  if (elementId) {
+    selectedElementId.value = elementId.toString()
+  }
+}, { immediate: true })
+
+const selectedElement = computed<SelfKnowledgeElementDetailsDTO | undefined>(() => {
+  return elements.value.find(el => el.id === selectedElementId.value) as SelfKnowledgeElementDetailsDTO | undefined
 })
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
+  router.replace({ query: { ...route.query, elementId } })
 }
 
 function onUpdateSelected () {
-  navigateToStudentSelfKnowledgeElementUpdate({ categoryId, elementId: selectedElementId.value })
+  navigateToStudentSelfKnowledgeElementUpdate({
+    categoryId: categoryId.value,
+    elementId: selectedElementId.value
+  })
+}
+
+function loadMoreElements () {
+  if (isFetching.value) {
+    return
+  }
+  if (page.value < pageInfo.value.totalPages) {
+    page.value += 1
+  }
 }
 </script>
 
@@ -74,14 +114,17 @@ function onUpdateSelected () {
     :title="t('student.views.selfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <div class="self-knowledge-element-update-view av-flex-row-sm">
+  <div class="self-knowledge-category-elements-view av-flex-row-sm">
     <SelfKnowledgeElementsSideMenu
-      :elements="dummyElements"
-      :category-type="ESelfKnowledgeCategoryType.STRENGTHS"
+      :elements="elements"
+      :category-type="categoryType"
       :selected-element-id="selectedElementId"
+      :count-elements="pageInfo.totalElements"
       @select-element="onSelectElement"
+      @load-more-elements="loadMoreElements"
     />
-    <SelfKnowledgeElementDetailsContainer :element-title="dummySelectedElement.title">
+
+    <SelfKnowledgeElementDetailsContainer :element-title="selectedElement?.title ?? ''">
       <template #title>
         <SelfKnowledgeElementDetailsDropdown
           @update-selected="onUpdateSelected"
@@ -90,7 +133,10 @@ function onUpdateSelected () {
 
       <SelfKnowledgeElementTabs :category-type="categoryType">
         <template #element>
-          <SelfKnowledgeElementDetails :element="dummySelectedElement" />
+          <SelfKnowledgeElementDetails
+            v-if="selectedElement"
+            :element="selectedElement"
+          />
         </template>
         <template #associations>
           Element associations placeholder
@@ -99,7 +145,3 @@ function onUpdateSelected () {
     </SelfKnowledgeElementDetailsContainer>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

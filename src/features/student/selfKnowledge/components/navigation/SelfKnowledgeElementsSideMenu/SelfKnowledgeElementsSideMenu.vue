@@ -3,6 +3,7 @@ import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvButton, AvIconText, AvSideMenu } from '@avenirs-esr/avenirs-dsav'
+import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -10,15 +11,27 @@ export interface SelfKnowledgeElementsSideMenuProps {
   categoryType: ESelfKnowledgeCategoryType
   selectedElementId: string
   elements: SelfKnowledgeElementViewDTO[]
+  countElements?: number
 }
 
-const { categoryType, elements } = defineProps<SelfKnowledgeElementsSideMenuProps>()
+const { categoryType, elements, countElements = 0 } = defineProps<SelfKnowledgeElementsSideMenuProps>()
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'selectElement', elementId: string): void
+  (e: 'loadMoreElements'): void
 }>()
 
 const { t } = useI18n()
+
+const elementsContainer = ref<HTMLElement | null>(null)
+
+useInfiniteScroll(
+  elementsContainer,
+  () => {
+    emit('loadMoreElements')
+  },
+  { distance: 10 }
+)
 
 const isCollapsed = ref(false)
 
@@ -40,7 +53,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
         <span class="s2-regular">
           {{ capitalize(t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.views.studentProjectTrajectoriesView.selfKnowledge.navigation.elementsSideMenu') }}
         </span>
-        ({{ elements.length }})
+        ({{ countElements }})
       </span>
       <AvIconText
         v-if="isCollapsed"
@@ -49,7 +62,10 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
         typography-class="s2-bold"
         gap="var(--spacing-sm)"
       />
-      <div class="self-knowledge-elements-side-menu__elements">
+      <div
+        ref="elementsContainer"
+        class="self-knowledge-elements-side-menu__elements"
+      >
         <div
           v-for="element in elements"
           :key="element.id"
@@ -88,12 +104,13 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  padding: var(--spacing-sm);
 
   &__elements {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
+    max-height: 40rem;
+    overflow-y: auto;
 
     & div[role="button"] {
       cursor: pointer;

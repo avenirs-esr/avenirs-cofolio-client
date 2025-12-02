@@ -18,7 +18,7 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const selfKnowledgeCommonQueryKey = [...commonQueryKeys, 'self-knowledge']
@@ -99,8 +99,7 @@ export function useSelfKnowledgeCategoryElementsViewQuery ({
   pageSize
 }: SelfKnowledgeCategoryElementsViewQueryParams
 ): SelfKnowledgeCategoryElementsViewQueryReturnType {
-  const queryKey = computed(() => [...selfKnowledgeElementsQueryKey, 'view', {
-    selfKnowledgeCategoryId: toValue(selfKnowledgeCategoryId),
+  const queryKey = computed(() => [...selfKnowledgeElementsQueryKey, 'view', toValue(selfKnowledgeCategoryId), {
     page: toValue(page),
     pageSize: toValue(pageSize) ?? CATEGORY_ELEMENTS_PAGE_SIZE
   }])
@@ -150,6 +149,43 @@ export function useSelfKnowledgeCategoriesAvailableQuery (): UseQueryReturnType<
   return {
     ...query,
     categoriesAvailable
+  }
+}
+
+export interface GetCachedSelfKnowledgeElementsResult {
+  elements: SelfKnowledgeElementViewDTO[]
+  currentPage: number
+}
+
+export function useGetCachedSelfKnowledgeElements () {
+  const queryClient = useQueryClient()
+
+  function getCachedElements (categoryId: string): GetCachedSelfKnowledgeElementsResult {
+    const allElements: SelfKnowledgeElementViewDTO[] = []
+    let maxPage = -1
+
+    const queries = queryClient.getQueriesData<PagedResponseSelfKnowledgeElementViewDTO>({
+      queryKey: [...selfKnowledgeElementsQueryKey, 'view', categoryId]
+    })
+
+    queries.forEach(([, data]) => {
+      console.log(data)
+      if (data?.data) {
+        allElements.push(...data.data)
+        if (data.page && data.page.page > maxPage) {
+          maxPage = data.page.page
+        }
+      }
+    })
+
+    return {
+      elements: allElements,
+      currentPage: maxPage
+    }
+  }
+
+  return {
+    getCachedElements
   }
 }
 

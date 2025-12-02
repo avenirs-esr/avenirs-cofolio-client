@@ -23,7 +23,7 @@ const iconOptions = computed(() => ({
 </script>
 
 <template>
-  <RouterLink :to="{ name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryType } }">
+  <RouterLink :to="{ name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryType }, query: { elementId: element.id } }">
     <FloatingIconCard
       :title="element.title"
       :header-rows="2"
