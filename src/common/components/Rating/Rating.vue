@@ -37,7 +37,6 @@ const stars = computed(() => {
     <span class="rating__value b2-bold">{{ rating }}/{{ maxRating }}</span>
 
     <template v-if="!starsFirst">
-      <span class="rating__value b2-bold">{{ rating }}/{{ maxRating }}</span>
       <span
         v-for="star in stars"
         :key="`${realId}-star-${star}`"
