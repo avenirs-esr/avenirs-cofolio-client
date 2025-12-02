@@ -184,4 +184,8 @@ li {
   padding: 0;
   margin: 0;
 }
+
+:deep(.av-card__title) {
+  display: block;
+}
 </style>
