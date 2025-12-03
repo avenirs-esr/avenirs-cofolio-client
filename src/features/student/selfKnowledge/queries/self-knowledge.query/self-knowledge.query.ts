@@ -24,6 +24,7 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 const selfKnowledgeCommonQueryKey = [...commonQueryKeys, 'self-knowledge']
 const selfKnowledgeCategoriesQueryKey = [...selfKnowledgeCommonQueryKey, 'categories']
 const selfKnowledgeElementsQueryKey = [...selfKnowledgeCommonQueryKey, 'elements']
+const selfKnowledgeElementsViewQueryKey = [...selfKnowledgeElementsQueryKey, 'view']
 const selfKnowledgeElementDetailsQueryKey = [...selfKnowledgeCommonQueryKey, 'element-details']
 const selfKnowledgeCategoriesAvailableQueryKey = [...selfKnowledgeCommonQueryKey, 'available']
 
@@ -99,7 +100,7 @@ export function useSelfKnowledgeCategoryElementsViewQuery ({
   pageSize
 }: SelfKnowledgeCategoryElementsViewQueryParams
 ): SelfKnowledgeCategoryElementsViewQueryReturnType {
-  const queryKey = computed(() => [...selfKnowledgeElementsQueryKey, 'view', toValue(selfKnowledgeCategoryId), {
+  const queryKey = computed(() => [...selfKnowledgeElementsViewQueryKey, toValue(selfKnowledgeCategoryId), {
     page: toValue(page),
     pageSize: toValue(pageSize) ?? CATEGORY_ELEMENTS_PAGE_SIZE
   }])
@@ -165,11 +166,10 @@ export function useGetCachedSelfKnowledgeElements () {
     let maxPage = -1
 
     const queries = queryClient.getQueriesData<PagedResponseSelfKnowledgeElementViewDTO>({
-      queryKey: [...selfKnowledgeElementsQueryKey, 'view', categoryId]
+      queryKey: [...selfKnowledgeElementsViewQueryKey, categoryId]
     })
 
     queries.forEach(([, data]) => {
-      console.log(data)
       if (data?.data) {
         allElements.push(...data.data)
         if (data.page && data.page.page > maxPage) {
@@ -194,7 +194,7 @@ export interface AddSelfKnowledgeCategoriesVariables {
 }
 
 export function useAddSelfKnowledgeCategoriesMutation ({ onError, onSuccess }: MutationArgs<string, AddSelfKnowledgeCategoriesVariables> = {}) {
-  const invalidateSelfKnowledgeCommonQuery = useInvalidateQuery([...selfKnowledgeCommonQueryKey])
+  const invalidateSelfKnowledgeCommonQuery = useInvalidateQuery(selfKnowledgeCategoriesQueryKey)
   return useMutation<string, BaseApiException, AddSelfKnowledgeCategoriesVariables>({
     mutationFn: async ({ selectedIds }: AddSelfKnowledgeCategoriesVariables): Promise<string> => {
       return await addSelfKnowledgeCategories(selectedIds)
@@ -249,13 +249,13 @@ export interface AddSelfKnowledgeCategoryElementVariables {
 }
 
 export function useAddSelfKnowledgeCategoryElementMutation ({ onError, onSuccess }: MutationArgs<SelfKnowledgeElementViewDTO, AddSelfKnowledgeCategoryElementVariables> = {}) {
-  const invalidateSelfKnowledgeElementsQuery = useInvalidateQuery([...selfKnowledgeElementsQueryKey])
+  const invalidateQuery = useInvalidateQuery()
   return useMutation<SelfKnowledgeElementViewDTO, BaseApiException, AddSelfKnowledgeCategoryElementVariables>({
     mutationFn: async ({ selfKnowledgeCategoryId, element }: AddSelfKnowledgeCategoryElementVariables): Promise<SelfKnowledgeElementViewDTO> => {
       return await createSelfKnowledgeElement(selfKnowledgeCategoryId, element)
     },
     onSuccess: async (data, variables) => {
-      await invalidateSelfKnowledgeElementsQuery()
+      await invalidateQuery([...selfKnowledgeElementsViewQueryKey, variables.selfKnowledgeCategoryId])
       onSuccess?.(data, variables)
     },
     onError

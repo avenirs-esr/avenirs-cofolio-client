@@ -3,7 +3,19 @@ import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentP
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
+
+const mockRoute = ref({ query: {} })
+const mockRouter = {
+  push: vi.fn(),
+  replace: vi.fn()
+}
+
+vi.mock('vue-router', () => ({
+  useRoute: () => mockRoute.value,
+  useRouter: () => mockRouter
+}))
 
 BddTest().given('a project trajectories container component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentProjectTrajectoriesContainer>>
@@ -148,6 +160,147 @@ BddTest().given('a project trajectories container component', () => {
 
       expect(wrapper.findComponent({ name: 'StudentProjectTrajectoriesBuildProjectSection' }).exists()).toBe(false)
       expect(wrapper.findComponent({ name: 'StudentProjectTrajectoriesTrajectoriesSection' }).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('component is mounted with route query section parameter', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
+
+    BddTest().and('section query param is SELF_KNOWLEDGE', () => {
+      beforeEach(async () => {
+        mockRoute.value = { query: { section: ProjectTrajectoryItems.SELF_KNOWLEDGE } }
+        wrapper = mount(StudentProjectTrajectoriesContainer, {
+          global: { stubs }
+        })
+        await nextTick()
+      })
+
+      BddTest().then('it should display self knowledge section', () => {
+        const selfKnowledgeSection = wrapper.findComponent({ name: 'SelfKnowledgeMainSection' })
+        expect(selfKnowledgeSection.exists()).toBe(true)
+      })
+
+      BddTest().then('it should set selectedItem to SELF_KNOWLEDGE', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.SELF_KNOWLEDGE)
+      })
+    })
+
+    BddTest().and('section query param is TRAJECTORIES', () => {
+      beforeEach(async () => {
+        mockRoute.value = { query: { section: ProjectTrajectoryItems.TRAJECTORIES } }
+        wrapper = mount(StudentProjectTrajectoriesContainer, {
+          global: { stubs }
+        })
+        await nextTick()
+      })
+
+      BddTest().then('it should display trajectories section', () => {
+        const trajectoriesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesTrajectoriesSection' })
+        expect(trajectoriesSection.exists()).toBe(true)
+      })
+
+      BddTest().then('it should set selectedItem to TRAJECTORIES', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.TRAJECTORIES)
+      })
+    })
+
+    BddTest().and('section query param is EXPLORE_FUTURES', () => {
+      beforeEach(async () => {
+        mockRoute.value = { query: { section: ProjectTrajectoryItems.EXPLORE_FUTURES } }
+        wrapper = mount(StudentProjectTrajectoriesContainer, {
+          global: { stubs }
+        })
+        await nextTick()
+      })
+
+      BddTest().then('it should display explore futures section', () => {
+        const exploreFuturesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesExploreFuturesSection' })
+        expect(exploreFuturesSection.exists()).toBe(true)
+      })
+
+      BddTest().then('it should set selectedItem to EXPLORE_FUTURES', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.EXPLORE_FUTURES)
+      })
+    })
+
+    BddTest().and('section query param is invalid', () => {
+      beforeEach(async () => {
+        mockRoute.value = { query: { section: 'INVALID_SECTION' } }
+        wrapper = mount(StudentProjectTrajectoriesContainer, {
+          global: { stubs }
+        })
+        await nextTick()
+      })
+
+      BddTest().then('it should display default build project section', () => {
+        const buildProjectSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesBuildProjectSection' })
+        expect(buildProjectSection.exists()).toBe(true)
+      })
+
+      BddTest().then('it should keep selectedItem as BUILD_PROJECT', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+      })
+    })
+
+    BddTest().and('section query param is empty string', () => {
+      beforeEach(async () => {
+        mockRoute.value = { query: { section: '' } }
+        wrapper = mount(StudentProjectTrajectoriesContainer, {
+          global: { stubs }
+        })
+        await nextTick()
+      })
+
+      BddTest().then('it should keep selectedItem as BUILD_PROJECT', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+      })
+    })
+  })
+
+  BddTest().when('route query section changes dynamically', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      mockRoute.value = { query: {} }
+      wrapper = mount(StudentProjectTrajectoriesContainer, {
+        global: { stubs }
+      })
+      await nextTick()
+    })
+
+    BddTest().and('section changes to SELF_KNOWLEDGE', () => {
+      beforeEach(async () => {
+        mockRoute.value.query = { section: ProjectTrajectoryItems.SELF_KNOWLEDGE }
+        await nextTick()
+      })
+
+      BddTest().then('it should update to display self knowledge section', () => {
+        const selfKnowledgeSection = wrapper.findComponent({ name: 'SelfKnowledgeMainSection' })
+        expect(selfKnowledgeSection.exists()).toBe(true)
+      })
+
+      BddTest().then('it should update selectedItem', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.SELF_KNOWLEDGE)
+      })
+    })
+
+    BddTest().and('section changes to invalid value', () => {
+      beforeEach(async () => {
+        mockRoute.value.query = { section: 'INVALID' }
+        await nextTick()
+      })
+
+      BddTest().then('it should not change selectedItem', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+      })
     })
   })
 })

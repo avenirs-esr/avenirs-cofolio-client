@@ -12,8 +12,12 @@ export const SelfKnowledgeElementsSideMenuStub = defineComponent({
     selectedElementId: {
       type: String,
       required: true
+    },
+    countElements: {
+      type: Number,
+      default: 0
     }
   },
-  emits: ['selectElement'],
+  emits: ['selectElement', 'loadMoreElements'],
   template: '<div class="self-knowledge-elements-side-menu-stub" />'
 })

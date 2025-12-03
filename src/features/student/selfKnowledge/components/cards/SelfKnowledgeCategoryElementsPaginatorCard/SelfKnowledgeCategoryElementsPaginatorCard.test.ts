@@ -1,12 +1,20 @@
-import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper, } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const mockOpenAddElementDrawer = vi.fn()
+
+vi.mock('@/features/student/selfKnowledge/stores/self-knowledge.store', () => ({
+  useSelfKnowledgeStore: vi.fn(() => ({
+    openAddElementDrawer: mockOpenAddElementDrawer
+  }))
+}))
 
 const SelfKnowledgeElementCardStub = defineComponent({
   name: 'SelfKnowledgeElementCard',
@@ -411,6 +419,103 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             })
           })
         })
+
+        BddTest().and('the confirm event is emitted from the modal', () => {
+          beforeEach(async () => {
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+            deleteModal.vm.$emit('confirm')
+          })
+
+          BddTest().then('it should hide the delete confirmation modal', async () => {
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
+            await vi.waitFor(() => {
+              expect(deleteModal.props('show')).toBe(false)
+            })
+          })
+        })
+      })
+    })
+  })
+
+  BddTest().and('the add elements option is selected from dropdown', () => {
+    const strengthsCategory = mockedSelfKnowledgeCategories[0]
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+    })
+
+    BddTest().when('the add option is clicked', () => {
+      beforeEach(async () => {
+        wrapper = mountCard(strengthsCategory)
+        await vi.waitFor(() => {
+          expect(wrapper.exists()).toBe(true)
+        })
+
+        const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
+        dropdown.vm.$emit('add-selected')
+        await flushPromises()
+      })
+
+      BddTest().then('it should call openAddElementDrawer from store', () => {
+        expect(mockOpenAddElementDrawer).toHaveBeenCalledWith(strengthsCategory)
+        expect(mockOpenAddElementDrawer).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('the delete element modal is confirmed', () => {
+    const strengthsCategory = mockedSelfKnowledgeCategories[0]
+
+    BddTest().when('the confirm event is emitted from delete element modal', () => {
+      beforeEach(async () => {
+        wrapper = mountCard(strengthsCategory)
+
+        await vi.waitFor(() => {
+          const elementCards = wrapper.findAllComponents(SelfKnowledgeElementCardStub)
+          expect(elementCards.length).toBeGreaterThan(0)
+        })
+
+        const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
+        dropdown.vm.$emit('delete-selected')
+        await wrapper.vm.$nextTick()
+
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        deleteModal.vm.$emit('confirm')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should hide the delete elements modal', () => {
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        expect(deleteModal.props('show')).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('confirming element deletion from cancel modal', () => {
+    const strengthsCategory = mockedSelfKnowledgeCategories[0]
+
+    BddTest().when('delete elements modal is cancelled', () => {
+      beforeEach(async () => {
+        vi.clearAllMocks()
+        wrapper = mountCard(strengthsCategory)
+
+        await vi.waitFor(() => {
+          const elementCards = wrapper.findAllComponents(SelfKnowledgeElementCardStub)
+          expect(elementCards.length).toBeGreaterThan(0)
+        })
+
+        const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
+        dropdown.vm.$emit('delete-selected')
+        await wrapper.vm.$nextTick()
+
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        deleteModal.vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should hide the delete elements modal', () => {
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        expect(deleteModal.props('show')).toBe(false)
       })
     })
   })

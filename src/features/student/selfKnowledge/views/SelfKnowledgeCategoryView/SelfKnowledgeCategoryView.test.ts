@@ -1,5 +1,4 @@
-import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
-import type { VueWrapper } from '@vue/test-utils'
+import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
@@ -7,11 +6,22 @@ import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowle
 import SelfKnowledgeCategoryView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
+const mockSelectedElementId = ref('')
+
+vi.mock('@vueuse/router', () => ({
+  useRouteQuery: vi.fn((key: string, defaultValue: string) => {
+    if (key === 'elementId') {
+      return mockSelectedElementId
+    }
+    return ref(defaultValue)
+  })
+}))
 
 vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables/use-navigation/use-navigation')>()
@@ -29,27 +39,63 @@ const SelfKnowledgeElementDetailsDropdownStub = defineComponent({
   template: '<div data-testid="self-knowledge-element-details-dropdown" />'
 })
 
+const SelfKnowledgeElementDetailsStub = defineComponent({
+  name: 'SelfKnowledgeElementDetails',
+  props: ['element'],
+  template: '<div data-testid="self-knowledge-element-details" />'
+})
+
+const SelfKnowledgeElementTabsStub = defineComponent({
+  name: 'SelfKnowledgeElementTabs',
+  props: ['categoryType'],
+  template: '<div data-testid="self-knowledge-element-tabs"><slot name="element" /><slot name="associations" /></div>'
+})
+
 const stubs = {
   PageTitle: PageTitleStub,
   SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
   SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
-  SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub
+  SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub,
+  SelfKnowledgeElementDetails: SelfKnowledgeElementDetailsStub,
+  SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub
 }
 
 BddTest().given('a self knowledge category view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeCategoryView>>
+  const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+
+  const mountComponentWithDefaults = async () => {
+    wrapper = mountComponent(SelfKnowledgeCategoryView, {
+      props: {
+        categoryType: 'STRENGTHS' as ESelfKnowledgeCategoryType
+      },
+      global: {
+        stubs
+      }
+    })
+
+    await vi.waitFor(() => {
+      const sideMenu = wrapper.findComponent({ name: 'SelfKnowledgeElementsSideMenu' })
+      const elements = sideMenu.props('elements') as SelfKnowledgeElementViewDTO[]
+      expect(elements.length).toBeGreaterThan(0)
+    })
+  }
+
+  const getSideMenu = () => wrapper.findComponent({ name: 'SelfKnowledgeElementsSideMenu' })
+
+  const getSideMenuElements = () => {
+    const sideMenu = getSideMenu()
+    return sideMenu.props('elements') as SelfKnowledgeElementViewDTO[]
+  }
+
+  beforeEach(() => {
+    mockSelectedElementId.value = ''
+    vi.clearAllMocks()
+  })
 
   BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      wrapper = mountComponent(SelfKnowledgeCategoryView, {
-        props: {
-          categoryId: '123',
-          categoryType: 'STRENGTHS' as ESelfKnowledgeCategoryType
-        },
-        global: {
-          stubs
-        }
-      })
+    beforeEach(async () => {
+      await mountComponentWithDefaults()
     })
 
     BddTest().then('it should render PageTitle with correct props', () => {
@@ -83,42 +129,197 @@ BddTest().given('a self knowledge category view component', () => {
     })
 
     BddTest().then('it should render the side menu with correct props', () => {
-      const sideMenu = wrapper.findComponent({ name: 'SelfKnowledgeElementsSideMenu' })
+      const sideMenu = getSideMenu()
+      const elements = getSideMenuElements()
 
       expect(sideMenu.exists()).toBe(true)
 
-      const elements = sideMenu.props('elements') as Array<any>
       const categoryType = sideMenu.props('categoryType') as string
       const selectedElementId = sideMenu.props('selectedElementId') as string
 
       expect(elements).toHaveLength(3)
-      expect(elements[0].id).toBe('a73e0883-ad08-4a62-ab1f-16947250b4fe')
-      expect(elements[1].id).toBe('2')
-      expect(elements[2].id).toBe('3')
+      expect(elements[0].title).toBe('Créativité')
+      expect(elements[1].title).toBe('Esprit d\'équipe')
+      expect(elements[2].title).toBe('Leadership')
 
       expect(categoryType).toBe('STRENGTHS')
-
-      expect(selectedElementId).toBe('a73e0883-ad08-4a62-ab1f-16947250b4fe')
+      expect(selectedElementId).toBe('')
     })
 
-    BddTest().then('it should update selectedElementId when an element is selected from the side menu', async () => {
-      const sideMenu = wrapper.findComponent({ name: 'SelfKnowledgeElementsSideMenu' })
+    BddTest().then('it should render element details container with empty title initially', () => {
+      const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
 
-      await sideMenu.vm.$emit('selectElement', '2')
-      await nextTick()
+      expect(detailsContainer.exists()).toBe(true)
+      expect(detailsContainer.props('elementTitle')).toBe('')
+    })
 
-      expect(sideMenu.props('selectedElementId')).toBe('2')
+    BddTest().then('it should pass correct category type to element tabs', () => {
+      const elementTabs = wrapper.findComponent({ name: 'SelfKnowledgeElementTabs' })
+
+      expect(elementTabs.exists()).toBe(true)
+      expect(elementTabs.props('categoryType')).toBe('STRENGTHS')
+    })
+
+    BddTest().and('selecting an element from the side menu', () => {
+      let firstElementId: string
+
+      beforeEach(async () => {
+        const sideMenu = getSideMenu()
+        const elements = getSideMenuElements()
+        firstElementId = elements[0].id
+
+        sideMenu.vm.$emit('selectElement', firstElementId)
+        await nextTick()
+      })
+
+      BddTest().then('it should update selectedElementId', () => {
+        const sideMenu = getSideMenu()
+
+        expect(sideMenu.props('selectedElementId')).toBe(firstElementId)
+      })
+
+      BddTest().then('it should update the element title in details container', () => {
+        const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
+
+        expect(detailsContainer.props('elementTitle')).toBe('Créativité')
+      })
+
+      BddTest().then('it should pass the selected element to element details component', () => {
+        const elementDetails = wrapper.findComponent({ name: 'SelfKnowledgeElementDetails' })
+        const element = elementDetails.props('element') as SelfKnowledgeElementViewDTO
+
+        expect(elementDetails.exists()).toBe(true)
+        expect(element.title).toBe('Créativité')
+      })
     })
 
     BddTest().and('clicking the update option in dropdown', () => {
-      beforeEach(() => {
+      let firstElementId: string
+
+      beforeEach(async () => {
+        const sideMenu = getSideMenu()
+        const elements = getSideMenuElements()
+        firstElementId = elements[0].id
+
+        sideMenu.vm.$emit('selectElement', firstElementId)
+        await nextTick()
+
         const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
         dropdown.vm.$emit('updateSelected')
       })
 
       BddTest().then('it should navigate to the self knowledge element update view with correct params', () => {
-        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: '123', elementId: 'a73e0883-ad08-4a62-ab1f-16947250b4fe' })
+        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
+          categoryId,
+          elementId: firstElementId
+        })
       })
+    })
+
+    BddTest().and('loading more elements when scrolling', () => {
+      beforeEach(async () => {
+        const sideMenu = getSideMenu()
+        sideMenu.vm.$emit('loadMoreElements')
+        await flushPromises()
+      })
+
+      BddTest().then('it should fetch the next page of elements', async () => {
+        await vi.waitFor(() => {
+          const elements = getSideMenuElements()
+          expect(elements.length).toBeGreaterThan(3)
+        })
+
+        const elements = getSideMenuElements()
+
+        expect(elements).toHaveLength(6)
+        expect(elements[3].title).toBe('Persévérance')
+      })
+
+      BddTest().then('it should accumulate elements without duplicates', async () => {
+        await vi.waitFor(() => {
+          const elements = getSideMenuElements()
+          expect(elements.length).toBe(6)
+        })
+
+        const elements = getSideMenuElements()
+        const uniqueIds = new Set(elements.map(el => el.id))
+        expect(uniqueIds.size).toBe(elements.length)
+      })
+    })
+
+    BddTest().and('loading more elements multiple times', () => {
+      beforeEach(async () => {
+        const sideMenu = getSideMenu()
+
+        await sideMenu.vm.$emit('loadMoreElements')
+        await flushPromises()
+
+        await vi.waitFor(() => {
+          const elements = getSideMenuElements()
+          expect(elements.length).toBe(6)
+        })
+
+        sideMenu.vm.$emit('loadMoreElements')
+        await flushPromises()
+      })
+
+      BddTest().then('it should continue accumulating elements', async () => {
+        await vi.waitFor(() => {
+          const elements = getSideMenuElements()
+          expect(elements.length).toBe(9)
+        })
+
+        const elements = getSideMenuElements()
+
+        expect(elements).toHaveLength(9)
+        expect(elements[6].title).toBe('Organisation')
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with an elementId query param', () => {
+    beforeEach(async () => {
+      mockSelectedElementId.value = 'existing-element-id'
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should set selectedElementId from query param', () => {
+      const sideMenu = getSideMenu()
+
+      expect(sideMenu.props('selectedElementId')).toBe('existing-element-id')
+    })
+  })
+
+  BddTest().when('the component is remounted after fetching data', () => {
+    beforeEach(async () => {
+      await mountComponentWithDefaults()
+
+      await vi.waitFor(() => {
+        const elements = getSideMenuElements()
+        expect(elements.length).toBe(3)
+      })
+
+      const sideMenu = getSideMenu()
+      sideMenu.vm.$emit('loadMoreElements')
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        const elements = getSideMenuElements()
+        expect(elements.length).toBe(6)
+      })
+    })
+
+    BddTest().then('it should have accumulated elements from multiple pages', () => {
+      const elements = getSideMenuElements()
+
+      expect(elements.length).toBe(6)
+    })
+
+    BddTest().then('it should show the total count of elements', () => {
+      const sideMenu = getSideMenu()
+      const countElements = sideMenu.props('countElements') as number
+
+      expect(countElements).toBe(10)
     })
   })
 })

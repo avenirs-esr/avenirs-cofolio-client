@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import { mockedSelfKnowledgeCategories, mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementErrorHandler, selfKnowledgeCategoriesAvailableErrorHandler, selfKnowledgeCategoriesErrorHandler, selfKnowledgeCategoryElementsErrorHandler, selfKnowledgeElementDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -11,6 +12,7 @@ import {
   useAddSelfKnowledgeCategoriesMutation,
   useAddSelfKnowledgeCategoryElementMutation,
   useDeleteSelfKnowledgeElementsMutation,
+  useGetCachedSelfKnowledgeElements,
   useRemoveSelfKnowledgeCategoryMutation,
   useSelfKnowledgeCategoriesAvailableQuery,
   useSelfKnowledgeCategoriesQuery,
@@ -1379,6 +1381,200 @@ BddTest().given('useAddSelfKnowledgeCategoryElementMutation', () => {
       BddTest().then('it should not call the invalidation function on error', () => {
         expect(mockInvalidateFunction).not.toHaveBeenCalled()
       })
+    })
+  })
+})
+
+BddTest().given('useGetCachedSelfKnowledgeElements', () => {
+  const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+
+  function useTestWrapper (page: Ref<number>, pageSize: Ref<number>, selfKnowledgeCategoryId: Ref<string>) {
+    const query = useSelfKnowledgeCategoryElementsViewQuery({
+      selfKnowledgeCategoryId,
+      page,
+      pageSize
+    })
+    const cache = useGetCachedSelfKnowledgeElements()
+    return { query, cache }
+  }
+
+  BddTest().when('no cached data exists', () => {
+    let getCachedElementsComposable: ReturnType<typeof useGetCachedSelfKnowledgeElements>
+
+    beforeEach(() => {
+      const page = ref(0)
+      const pageSize = ref(3)
+      const selfKnowledgeCategoryId = ref('non-queried-category')
+
+      const result = mountComposable(() => useTestWrapper(page, pageSize, selfKnowledgeCategoryId), {
+        useTanstack: true
+      })
+      getCachedElementsComposable = result.result.cache
+    })
+
+    BddTest().then('it should return empty elements array', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.elements).toEqual([])
+    })
+
+    BddTest().then('it should return currentPage as -1', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.currentPage).toBe(-1)
+    })
+  })
+
+  BddTest().when('cached data exists for one page', () => {
+    let queryResult: ReturnType<typeof useSelfKnowledgeCategoryElementsViewQuery>
+    let getCachedElementsComposable: ReturnType<typeof useGetCachedSelfKnowledgeElements>
+
+    beforeEach(async () => {
+      const page = ref(0)
+      const pageSize = ref(3)
+      const selfKnowledgeCategoryId = ref(categoryId)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize, selfKnowledgeCategoryId), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedElementsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return the cached elements', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.elements.length).toBeGreaterThan(0)
+      expect(cached.elements.length).toBe(3)
+    })
+
+    BddTest().then('it should return the currentPage', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.currentPage).toBe(0)
+    })
+
+    BddTest().then('it should return elements with valid structure', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      const firstElement = cached.elements[0]
+      expect(firstElement).toHaveProperty('id')
+      expect(firstElement).toHaveProperty('title')
+      expect(firstElement).toHaveProperty('description')
+    })
+  })
+
+  BddTest().when('cached data exists for multiple pages', () => {
+    let queryResult: ReturnType<typeof useSelfKnowledgeCategoryElementsViewQuery>
+    let getCachedElementsComposable: ReturnType<typeof useGetCachedSelfKnowledgeElements>
+    let page: Ref<number>
+
+    beforeEach(async () => {
+      page = ref(0)
+      const pageSize = ref(3)
+      const selfKnowledgeCategoryId = ref(categoryId)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize, selfKnowledgeCategoryId), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedElementsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+
+      page.value = 1
+
+      await vi.waitFor(() => {
+        expect(queryResult.pageInfo.value.page).toBe(1)
+      })
+    })
+
+    BddTest().then('it should return all accumulated cached elements', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.elements.length).toBeGreaterThan(3)
+      expect(cached.elements.length).toBe(6)
+    })
+
+    BddTest().then('it should return the highest page number', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.currentPage).toBe(1)
+    })
+
+    BddTest().then('it should not have duplicate elements', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      const ids = cached.elements.map(el => el.id)
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
+  })
+
+  BddTest().when('requesting cache for non-existent category', () => {
+    let queryResult: ReturnType<typeof useSelfKnowledgeCategoryElementsViewQuery>
+    let getCachedElementsComposable: ReturnType<typeof useGetCachedSelfKnowledgeElements>
+
+    beforeEach(async () => {
+      const page = ref(0)
+      const pageSize = ref(3)
+      const selfKnowledgeCategoryId = ref(categoryId)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize, selfKnowledgeCategoryId), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedElementsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return empty elements for non-cached category', () => {
+      const cached = getCachedElementsComposable.getCachedElements('non-existent-category-id')
+      expect(cached.elements).toEqual([])
+      expect(cached.currentPage).toBe(-1)
+    })
+  })
+
+  BddTest().when('cached data exists with incomplete pages', () => {
+    let queryResult: ReturnType<typeof useSelfKnowledgeCategoryElementsViewQuery>
+    let getCachedElementsComposable: ReturnType<typeof useGetCachedSelfKnowledgeElements>
+    let page: Ref<number>
+
+    beforeEach(async () => {
+      page = ref(0)
+      const pageSize = ref(3)
+      const selfKnowledgeCategoryId = ref(categoryId)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize, selfKnowledgeCategoryId), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedElementsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+
+      page.value = 2
+
+      await vi.waitFor(() => {
+        expect(queryResult.pageInfo.value.page).toBe(2)
+      })
+    })
+
+    BddTest().then('it should return elements from all cached pages', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.elements.length).toBeGreaterThan(0)
+    })
+
+    BddTest().then('it should return the maximum page number from cached data', () => {
+      const cached = getCachedElementsComposable.getCachedElements(categoryId)
+      expect(cached.currentPage).toBe(2)
     })
   })
 })

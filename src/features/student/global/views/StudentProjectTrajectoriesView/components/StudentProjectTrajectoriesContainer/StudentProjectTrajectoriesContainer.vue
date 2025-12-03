@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
+import { useQueryParam, useWatchQueryParam } from '@/common/composables'
 import StudentProjectTrajectoriesActivitiesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesActivitiesSection/StudentProjectTrajectoriesActivitiesSection.vue'
 import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
@@ -11,7 +12,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const isSideMenuCollapsed = ref<boolean>(false)
-
+const { setQueryParamValue } = useQueryParam()
 const selectedItem = ref<ProjectTrajectoryItems>(ProjectTrajectoryItems.BUILD_PROJECT)
 
 const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
@@ -60,6 +61,16 @@ const items = computed<AvSideNavigationItem[]>(() => {
 const displayedSection = computed<Component>(() => {
   return sectionsMap[selectedItem.value]
 })
+
+useWatchQueryParam('section', (newSection) => {
+  if (newSection && Object.values(ProjectTrajectoryItems).includes(newSection as ProjectTrajectoryItems)) {
+    selectedItem.value = newSection as ProjectTrajectoryItems
+  }
+})
+
+watch(selectedItem, (newSelectedItem) => {
+  setQueryParamValue('section', newSelectedItem)
+}, { immediate: true })
 </script>
 
 <template>
