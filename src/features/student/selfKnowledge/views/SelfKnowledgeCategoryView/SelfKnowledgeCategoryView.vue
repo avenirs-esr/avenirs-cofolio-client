@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
@@ -11,7 +11,8 @@ import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/component
 import {
   useGetCachedSelfKnowledgeElements,
   useSelfKnowledgeCategoriesQuery,
-  useSelfKnowledgeCategoryElementsViewQuery
+  useSelfKnowledgeCategoryElementsViewQuery,
+  useSelfKnowledgeElementDetailsQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
@@ -76,9 +77,7 @@ watch(fetchedElements, (newElements) => {
   }
 })
 
-const selectedElement = computed<SelfKnowledgeElementDetailsDTO | undefined>(() => {
-  return elements.value.find(el => el.id === selectedElementId.value) as SelfKnowledgeElementDetailsDTO | undefined
-})
+const { element: selectedElementDetails } = useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: selectedElementId })
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
@@ -95,7 +94,7 @@ function loadMoreElements () {
   if (isFetching.value) {
     return
   }
-  if (page.value < pageInfo.value.totalPages) {
+  if (page.value < pageInfo.value.totalPages - 1) {
     page.value += 1
   }
 }
@@ -116,7 +115,7 @@ function loadMoreElements () {
       @load-more-elements="loadMoreElements"
     />
 
-    <SelfKnowledgeElementDetailsContainer :element-title="selectedElement?.title ?? ''">
+    <SelfKnowledgeElementDetailsContainer :element-title="selectedElementDetails?.title ?? ''">
       <template #title>
         <SelfKnowledgeElementDetailsDropdown
           @update-selected="onUpdateSelected"
@@ -126,8 +125,8 @@ function loadMoreElements () {
       <SelfKnowledgeElementTabs :category-type="categoryType">
         <template #element>
           <SelfKnowledgeElementDetails
-            v-if="selectedElement"
-            :element="selectedElement"
+            v-if="selectedElementDetails"
+            :element="selectedElementDetails"
           />
         </template>
         <template #associations>

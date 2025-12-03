@@ -236,7 +236,13 @@
         "TESTIMONIALS": "testimonial | testimonials",
         "VALUES": "value | values"
       },
-      "element": "element | elements"
+      "element": "element | elements",
+      "updateSelfKnowledgeElementForm": {
+        "errors": {
+          "updateElement": "Error updating item"
+        },
+        "success": "Your changes have been successfully saved."
+      }
     },
     "skills": {
       "skill": "skill | skills"
@@ -246,6 +252,14 @@
         "dropdown": "Manage my element",
         "selfKnowledgeElementDetails": {
           "ratingLabel": "Level of importance"
+        },
+        "selfKnowledgeElementUpdate": {
+          "buttons": {
+            "save": "Save changes"
+          },
+          "confirmationModal": {
+            "title": "Are you sure you want to discard the changes to your item?"
+          }
         },
         "tabs": {
           "associations": {
