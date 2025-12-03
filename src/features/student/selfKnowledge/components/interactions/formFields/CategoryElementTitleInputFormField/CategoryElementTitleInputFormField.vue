@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
+import type {
+  AddSelfKnowledgeCategoryElementForm,
+  UpdateSelfKnowledgeCategoryElementForm
+} from '@/features/student/selfKnowledge/types/forms.types'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
 import { markRaw } from 'vue'
 
 interface CategoryElementTitleInputFormFieldProps {
-  form: AddSelfKnowledgeCategoryElementForm
+  form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm
 }
 
 const { form } = defineProps<CategoryElementTitleInputFormFieldProps>()

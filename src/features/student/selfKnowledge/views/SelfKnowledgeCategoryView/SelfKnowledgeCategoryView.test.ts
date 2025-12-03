@@ -170,6 +170,7 @@ BddTest().given('a self knowledge category view component', () => {
 
         sideMenu.vm.$emit('selectElement', firstElementId)
         await nextTick()
+        await flushPromises()
       })
 
       BddTest().then('it should update selectedElementId', () => {
@@ -178,17 +179,22 @@ BddTest().given('a self knowledge category view component', () => {
         expect(sideMenu.props('selectedElementId')).toBe(firstElementId)
       })
 
-      BddTest().then('it should update the element title in details container', () => {
-        const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
-
-        expect(detailsContainer.props('elementTitle')).toBe('Créativité')
+      BddTest().then('it should update the element title in details container', async () => {
+        await vi.waitFor(() => {
+          const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
+          expect(detailsContainer.props('elementTitle')).toBe('Créativité')
+        })
       })
 
-      BddTest().then('it should pass the selected element to element details component', () => {
-        const elementDetails = wrapper.findComponent({ name: 'SelfKnowledgeElementDetails' })
+      BddTest().then('it should pass the selected element to element details component', async () => {
+        await vi.waitFor(() => {
+          const elementDetails = wrapper.findComponent(SelfKnowledgeElementDetailsStub)
+          expect(elementDetails.exists()).toBe(true)
+        })
+
+        const elementDetails = wrapper.findComponent(SelfKnowledgeElementDetailsStub)
         const element = elementDetails.props('element') as SelfKnowledgeElementViewDTO
 
-        expect(elementDetails.exists()).toBe(true)
         expect(element.title).toBe('Créativité')
       })
     })

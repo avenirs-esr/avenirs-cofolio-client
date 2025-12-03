@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
+import type {
+  AddSelfKnowledgeCategoryElementForm,
+  UpdateSelfKnowledgeCategoryElementForm
+} from '@/features/student/selfKnowledge/types/forms.types'
 import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
 import { markRaw } from 'vue'
 
 interface CategoryElementRatingInputFormFieldProps {
-  form: AddSelfKnowledgeCategoryElementForm
+  form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm
 }
 
 const { form } = defineProps<CategoryElementRatingInputFormFieldProps>()

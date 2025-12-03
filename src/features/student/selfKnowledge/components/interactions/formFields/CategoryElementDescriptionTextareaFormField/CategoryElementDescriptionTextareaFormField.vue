@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
+import type {
+  AddSelfKnowledgeCategoryElementForm,
+  UpdateSelfKnowledgeCategoryElementForm
+} from '@/features/student/selfKnowledge/types/forms.types'
 import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 import { markRaw } from 'vue'
 
 interface CategoryElementDescriptionTextareaFormFieldProps {
-  form: AddSelfKnowledgeCategoryElementForm
+  form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm
 }
 
 const { form } = defineProps<CategoryElementDescriptionTextareaFormFieldProps>()

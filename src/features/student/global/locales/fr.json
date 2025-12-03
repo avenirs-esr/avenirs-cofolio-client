@@ -236,7 +236,13 @@
         "TESTIMONIALS": "témoignage | témoignages",
         "VALUES": "valeur | valeurs"
       },
-      "element": "élément | éléments"
+      "element": "élément | éléments",
+      "updateSelfKnowledgeElementForm": {
+        "errors": {
+          "updateElement": "Erreur lors de la mise à jour de l'élément"
+        },
+        "success": "Vos modifications ont été enregistrées avec succès"
+      }
     },
     "skills": {
       "skill": "compétence | compétences"
@@ -246,6 +252,14 @@
         "dropdown": "Gérer mon élément",
         "selfKnowledgeElementDetails": {
           "ratingLabel": "Degré d'importance"
+        },
+        "selfKnowledgeElementUpdate": {
+          "buttons": {
+            "save": "Enregistrer les modifications"
+          },
+          "confirmationModal": {
+            "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?"
+          }
         },
         "tabs": {
           "associations": {

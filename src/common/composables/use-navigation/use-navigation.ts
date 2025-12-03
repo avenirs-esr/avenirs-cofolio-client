@@ -36,8 +36,12 @@ export function useNavigation () {
     return router.push(ROUTE_NAMES.STUDENT.TOOLS_RESUMES)
   }
 
-  const navigateToStudentSelfKnowledgeCategory = () => {
-    return router.push(ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY)
+  const navigateToStudentSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
+    return router.push({
+      name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      params: { id: categoryId },
+      query: elementId ? { elementId } : undefined
+    })
   }
 
   const navigateToStudentSelfKnowledgeElementUpdate = ({ categoryId, elementId, replace }: { categoryId: string, elementId: string, replace?: boolean }) => {

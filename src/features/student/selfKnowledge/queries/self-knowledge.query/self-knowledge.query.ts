@@ -14,7 +14,8 @@ import {
   type SelfKnowledgeCategoryDTO,
   type SelfKnowledgeElementDetailsDTO,
   type SelfKnowledgeElementRequest,
-  type SelfKnowledgeElementViewDTO
+  type SelfKnowledgeElementViewDTO,
+  updateSelfKnowledgeElement
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
@@ -256,6 +257,28 @@ export function useAddSelfKnowledgeCategoryElementMutation ({ onError, onSuccess
     },
     onSuccess: async (data, variables) => {
       await invalidateQuery([...selfKnowledgeElementsViewQueryKey, variables.selfKnowledgeCategoryId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UpdateSelfKnowledgeElementVariables {
+  selfKnowledgeElementId: string
+  element: SelfKnowledgeElementRequest
+}
+
+export function useUpdateSelfKnowledgeElementMutation (
+  { onError, onSuccess }: MutationArgs<SelfKnowledgeElementViewDTO, UpdateSelfKnowledgeElementVariables> = {}
+) {
+  const invalidateQuery = useInvalidateQuery()
+
+  return useMutation<SelfKnowledgeElementViewDTO, BaseApiException, UpdateSelfKnowledgeElementVariables>({
+    mutationFn: async ({ selfKnowledgeElementId, element }: UpdateSelfKnowledgeElementVariables) => {
+      return await updateSelfKnowledgeElement(selfKnowledgeElementId, element)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQuery([...selfKnowledgeElementDetailsQueryKey, variables.selfKnowledgeElementId])
       onSuccess?.(data, variables)
     },
     onError

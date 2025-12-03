@@ -18,8 +18,8 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentSelfKnowledgeElementUpdate,
-    }),
+      navigateToStudentSelfKnowledgeElementUpdate
+    })
   }
 })
 
@@ -35,7 +35,38 @@ const SelfKnowledgeElementTabsStub = defineComponent({
       required: true
     }
   },
-  template: '<div class="self-knowledge-element-tabs-stub" />'
+  template: `
+    <div class="self-knowledge-element-tabs-stub">
+      <slot name="element" />
+      <slot name="associations" />
+    </div>
+  `
+})
+
+const SelfKnowledgeElementUpdateFormStub = defineComponent({
+  name: 'SelfKnowledgeElementUpdateForm',
+  props: {
+    element: {
+      type: Object,
+      required: true
+    },
+    categoryType: {
+      type: [String, Number],
+      required: true
+    }
+  },
+  template: '<div class="self-knowledge-element-update-form-stub" />'
+})
+
+const AvBadgeStub = defineComponent({
+  name: 'AvBadge',
+  props: {
+    label: String,
+    backgroundColor: String,
+    color: String,
+    icon: String
+  },
+  template: '<div class="av-badge-stub" />'
 })
 
 BddTest().given('a self knowledge element update view', () => {
@@ -45,7 +76,9 @@ BddTest().given('a self knowledge element update view', () => {
     PageTitle: PageTitleStub,
     SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
     SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
-    SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub
+    SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
+    SelfKnowledgeElementUpdateForm: SelfKnowledgeElementUpdateFormStub,
+    AvBadge: AvBadgeStub
   }
 
   BddTest().when('the view is rendered', () => {
@@ -56,9 +89,9 @@ BddTest().given('a self knowledge element update view', () => {
       wrapper = mountComponent(SelfKnowledgeElementUpdateView, {
         props: {
           categoryId: 'strengths',
-          elementId: '1',
+          elementId: '1'
         },
-        global: { stubs },
+        global: { stubs }
       })
     })
 
@@ -74,7 +107,7 @@ BddTest().given('a self knowledge element update view', () => {
       })
     })
 
-    BddTest().then('it should render the element title', async () => {
+    BddTest().then('it should render the element title in the details container', async () => {
       await vi.waitFor(() => {
         const container = wrapper.findComponent(SelfKnowledgeElementDetailsContainerStub)
         expect(container.exists()).toBe(true)
@@ -92,6 +125,25 @@ BddTest().given('a self knowledge element update view', () => {
       })
     })
 
+    BddTest().then('it should render the update form inside the tabs', async () => {
+      await vi.waitFor(() => {
+        const form = wrapper.findComponent(SelfKnowledgeElementUpdateFormStub)
+
+        expect(form.exists()).toBe(true)
+        expect(form.props('element')).toEqual(mockedSelfKnowledgeElementDetails)
+        expect(form.props('categoryType')).toBeDefined()
+      })
+    })
+
+    BddTest().then('it should render the badge in the title slot', async () => {
+      await vi.waitFor(() => {
+        const badge = wrapper.findComponent(AvBadgeStub)
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('label')).toBeDefined()
+        expect(badge.props('icon')).toBeDefined()
+      })
+    })
+
     BddTest().and('an element is selected', () => {
       beforeEach(async () => {
         await vi.waitFor(() => {
@@ -102,7 +154,11 @@ BddTest().given('a self knowledge element update view', () => {
       })
 
       BddTest().then('it should navigate to the element update view of the selected element', () => {
-        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({ categoryId: 'strengths', elementId: '2', replace: true })
+        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
+          categoryId: 'strengths',
+          elementId: '2',
+          replace: true
+        })
       })
     })
   })
