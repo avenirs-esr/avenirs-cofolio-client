@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { Ref } from 'vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants'
@@ -14,6 +15,7 @@ import {
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
+import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeCategoryViewProps {
@@ -23,8 +25,6 @@ interface SelfKnowledgeCategoryViewProps {
 const { categoryType } = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
 const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
 const { categories } = useSelfKnowledgeCategoriesQuery()
 const { getCachedElements } = useGetCachedSelfKnowledgeElements()
@@ -37,8 +37,6 @@ const breadcrumbLinks = computed(() => [
 ])
 const categoryTypeLabel = computed(() => t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }))
 
-const selectedElementId = ref('')
-
 const page = ref(0)
 const pageSize = ref(3)
 
@@ -47,6 +45,7 @@ const categoryId = computed(() => {
   return category ? category.id : ''
 })
 
+const selectedElementId: Ref<string> = useRouteQuery('elementId', '')
 const elements = ref<SelfKnowledgeElementViewDTO[]>([])
 
 watch(categoryId, (newCategoryId) => {
@@ -77,19 +76,12 @@ watch(fetchedElements, (newElements) => {
   }
 })
 
-watch(() => route.query.elementId, (elementId) => {
-  if (elementId) {
-    selectedElementId.value = elementId.toString()
-  }
-}, { immediate: true })
-
 const selectedElement = computed<SelfKnowledgeElementDetailsDTO | undefined>(() => {
   return elements.value.find(el => el.id === selectedElementId.value) as SelfKnowledgeElementDetailsDTO | undefined
 })
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
-  router.replace({ query: { ...route.query, elementId } })
 }
 
 function onUpdateSelected () {

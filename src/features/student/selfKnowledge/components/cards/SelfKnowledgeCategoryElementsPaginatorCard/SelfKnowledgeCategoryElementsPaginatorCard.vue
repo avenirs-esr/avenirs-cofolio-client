@@ -51,6 +51,13 @@ const pages = computed(() => getPaginationPages(totalPages))
 function openAddCategoryElementDrawer () {
   openAddElementDrawer(category)
 }
+
+function onElementDeleted () {
+  if (elements.value.length === 0 && currentPage.value > 0) {
+    currentPage.value -= 1
+  }
+  hideDeleteElementModal()
+}
 </script>
 
 <template>
@@ -137,7 +144,7 @@ function openAddCategoryElementDrawer () {
     :category-type="categoryType"
     :elements="elements"
     @cancel="hideDeleteElementModal"
-    @confirm="hideDeleteElementModal"
+    @confirm="onElementDeleted"
   />
 </template>
 
