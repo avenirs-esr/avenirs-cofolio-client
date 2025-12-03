@@ -4,7 +4,7 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-const query = ref<Record<string, any>>({})
+const query = ref<Record<string, unknown>>({})
 const replaceMock = vi.fn()
 
 vi.mock('vue-router', () => ({
