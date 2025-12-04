@@ -31,7 +31,7 @@ const { t } = useI18n()
       >
         <template #customCaptions>
           <span class="caption-regular">
-            {{ t('global.inputs.limit', { count: (field.state.value?.length ?? 0), maxlength: 400 }) }}
+            {{ t('global.inputs.textarea.limit', { count: (field.state.value?.length ?? 0), maxlength: 400 }) }}
           </span>
         </template>
       </AvInput>

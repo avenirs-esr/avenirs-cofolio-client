@@ -65,7 +65,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       >
         <template #customCaptions>
           <span class="caption-regular">
-            {{ t('global.inputs.limit', { count: description?.length ?? 0, maxlength: 400 }) }}
+            {{ t('global.inputs.textarea.limit', { count: description?.length ?? 0, maxlength: 400 }) }}
           </span>
         </template>
       </AvInput>
