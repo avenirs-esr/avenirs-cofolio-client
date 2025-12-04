@@ -1,21 +1,24 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants'
-import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
+import SelfKnowledgeElementDetailsContainer
+  from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import SelfKnowledgeElementTabs
+  from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import { useSelfKnowledgeCategory }
+  from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import {
-  useSelfKnowledgeCategoriesQuery,
   useSelfKnowledgeElementDetailsQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
+import SelfKnowledgeElementDetails
+  from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown
   from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
 import { useRouteQuery } from '@vueuse/router'
@@ -29,12 +32,11 @@ const props = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
 const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
-const { categories } = useSelfKnowledgeCategoriesQuery()
 
-const categoryType = computed(() => {
-  const category = categories.value.find(cat => cat.id === props.categoryId)
-  return category ? category.type : ESelfKnowledgeCategoryType.STRENGTHS
-})
+const {
+  categoryType,
+  categoryTypeLabel
+} = useSelfKnowledgeCategory(computed(() => props.categoryId))
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
@@ -42,9 +44,6 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
   { text: t('student.navigation.tabs.project.items.selfKnowledge') }
 ])
-const categoryTypeLabel = computed(() =>
-  t(`student.selfKnowledge.categoryType.${categoryType.value}`, { count: 2 })
-)
 
 const selectedElementId: Ref<string> = useRouteQuery('elementId', '')
 

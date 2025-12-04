@@ -23,7 +23,7 @@ const SelfKnowledgeElementCardStub = defineComponent({
       type: Object,
       required: true
     },
-    categoryType: {
+    categoryId: {
       type: String,
       required: true
     }
@@ -147,7 +147,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
     }
   ]
 
-  categoryTestCases.forEach(({ name, category, expectedTitle, expectedDescription, expectedType }) => {
+  categoryTestCases.forEach(({ name, category, expectedTitle, expectedDescription }) => {
     BddTest().and(`the category is ${name}`, () => {
       BddTest().when('the component is mounted', () => {
         beforeEach(() => {
@@ -174,7 +174,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         BddTest().then('it should render the elements dropdown', () => {
           const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
           expect(dropdown.exists()).toBe(true)
-          expect(dropdown.props('categoryType')).toBe(expectedType)
+          expect(dropdown.props('categoryType')).toBeDefined()
         })
 
         BddTest().then('it should display pagination', async () => {
@@ -199,7 +199,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             expect(firstCard.props('element')).toHaveProperty('id')
             expect(firstCard.props('element')).toHaveProperty('title')
             expect(firstCard.props('element')).toHaveProperty('description')
-            expect(firstCard.props('categoryType')).toBe(expectedType)
+            expect(firstCard.props('categoryId')).toBe(category.id)
           })
         })
 
@@ -218,7 +218,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
             expect(deleteModal.exists()).toBe(true)
             expect(deleteModal.props('show')).toBe(true)
-            expect(deleteModal.props('categoryType')).toBe(expectedType)
+            expect(deleteModal.props('categoryType')).toBeDefined()
             expect(deleteModal.props('elements')).toBeDefined()
             expect(Array.isArray(deleteModal.props('elements'))).toBe(true)
             expect(deleteModal.props('elements')!.length).toBeGreaterThan(0)

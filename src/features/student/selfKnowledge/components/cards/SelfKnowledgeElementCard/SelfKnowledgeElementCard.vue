@@ -1,13 +1,16 @@
 <script lang="ts" setup>
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import { ROUTE_NAMES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
+import {
+  useSelfKnowledgeCategory
+} from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
+import { toValue } from 'vue'
 
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
-  categoryType: ESelfKnowledgeCategoryType
   categoryId: string
   categoryColor?: string
 }
@@ -15,12 +18,13 @@ export interface SelfKnowledgeElementCardProps {
 const {
   categoryColor = 'var(--light-foreground-primary1)',
   categoryId,
-  categoryType,
   element,
 } = defineProps<SelfKnowledgeElementCardProps>()
 
+const { categoryType } = useSelfKnowledgeCategory(computed(() => categoryId))
+
 const iconOptions = computed(() => ({
-  name: getSelfKnowledgeCategoryIcon(categoryType),
+  name: getSelfKnowledgeCategoryIcon(toValue(categoryType)),
 }))
 </script>
 
