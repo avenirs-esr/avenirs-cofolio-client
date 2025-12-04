@@ -172,7 +172,6 @@
         "description": "Je soumets une production de groupe"
       },
       "traceIaJustificationTextarea": {
-        "hint": "{count} / {maxlength} caractères (espaces compris)",
         "label": "Justification de l'usage de l'IA",
         "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
       },
@@ -181,7 +180,6 @@
         "placeholder": "Nom-de-ma-trace-01"
       },
       "tracePersonalNoteTextarea": {
-        "hint": "{count} / {maxlength} caractères (espaces compris)",
         "label": "Note personnelle",
         "placeholder": "Ajoutez votre note personnelle ici..."
       },
@@ -206,7 +204,6 @@
         "titleWithCategory": "Ajouter un élément - {category}"
       },
       "categoryElementDescriptionTextarea": {
-        "hint": "{count} / {maxlength} caractères (espaces compris)",
         "label": "Description de votre élément",
         "placeholder": "Décrivez votre élément..."
       },

@@ -83,7 +83,9 @@
       }
     },
     "inputs": {
-      "limit": "{count} / {maxlength} caractères (espaces compris)"
+      "textarea": {
+        "limit": "{count} / {maxlength} caractères (espaces compris)"
+      }
     },
     "modals": {
       "confirmation": {

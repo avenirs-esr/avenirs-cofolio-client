@@ -44,7 +44,7 @@ const avInputProps = computed(() => ({
         #customCaptions="{ currentValue }"
       >
         <span class="caption-light">
-          {{ t('student.selfKnowledge.categoryElementDescriptionTextarea.hint', {
+          {{ t('global.inputs.textarea.limit', {
             count: currentValue?.toString().length || 0,
             maxlength,
           }) }}
