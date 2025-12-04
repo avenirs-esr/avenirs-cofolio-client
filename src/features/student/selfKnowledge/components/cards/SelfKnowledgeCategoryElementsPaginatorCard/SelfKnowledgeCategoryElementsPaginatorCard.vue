@@ -5,9 +5,9 @@ import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/component
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
 import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import DeleteSelfKnowledgeElementModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
+import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
-import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -18,7 +18,6 @@ export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
 const { category } = defineProps<SelfKnowledgeCategoryElementsPaginatorCardProps>()
 
 const { t } = useI18n()
-
 const { openAddElementDrawer } = useSelfKnowledgeStore()
 
 const currentPage = ref(0)
@@ -27,6 +26,11 @@ const { elements, pageInfo, isLoading } = useSelfKnowledgeCategoryElementsViewQu
   selfKnowledgeCategoryId: computed(() => category.id),
   page: currentPage
 })
+
+const {
+  categoryType,
+  categoryIcon
+} = useSelfKnowledgeCategory(computed(() => category.id))
 
 const {
   displayModal: displayDeleteCategoryModal,
@@ -40,12 +44,9 @@ const {
   showModal: showDeleteElementModal
 } = useModal()
 
-const categoryType = computed(() => category.type)
-const categoryIcon = computed(() => getSelfKnowledgeCategoryIcon(categoryType.value))
 const totalElements = computed(() => pageInfo.value.totalElements)
 const categoryTitle = computed(() => `${category.title} (${totalElements.value})`)
 const totalPages = computed(() => pageInfo.value.totalPages)
-
 const pages = computed(() => getPaginationPages(totalPages))
 
 function openAddCategoryElementDrawer () {
@@ -79,7 +80,7 @@ function onElementDeleted () {
         />
         <div class="category-elements-paginator__title-actions">
           <SelfKnowledgeElementsDropdown
-            :category-type="category.type"
+            :category-type="categoryType"
             @delete-selected="displayDeleteElementModal"
             @delete-category-selected="displayDeleteCategoryModal"
             @add-selected="openAddCategoryElementDrawer"
@@ -114,7 +115,6 @@ function onElementDeleted () {
             v-for="element in elements"
             :key="element.id"
             :element="element"
-            :category-type="categoryType"
             :category-id="category.id"
           />
         </div>
@@ -148,64 +148,3 @@ function onElementDeleted () {
     @confirm="onElementDeleted"
   />
 </template>
-
-<style lang="scss" scoped>
-.category-elements-paginator {
-  &__title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: var(--spacing-md);
-    padding:  0 var(--spacing-md);
-  }
-
-  &__title-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  &__description {
-    color: var(--text2);
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-  }
-
-  &__pagination {
-    :deep(.av-pagination__list) {
-      justify-content: flex-end !important;
-    }
-  }
-
-  &__cards {
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
-    padding: 0 var(--spacing-sm);
-
-    > * {
-      flex: 1 1 calc((100% - 2 * var(--spacing-md)) / 3);
-      min-width: 20rem;
-      max-width: calc((100% - 2 * var(--spacing-md)) / 3);
-    }
-  }
-
-  &__empty {
-    display: flex;
-    justify-content: center;
-    padding: var(--spacing-xl);
-    color: var(--text2);
-  }
-}
-</style>

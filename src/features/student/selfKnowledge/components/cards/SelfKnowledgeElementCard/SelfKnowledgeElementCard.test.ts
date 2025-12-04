@@ -4,7 +4,7 @@ import { FloatingIconCardStub } from '@/features/student/global/components/cards
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
 const stubs = {
@@ -28,7 +28,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'cat-1'
+          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
         },
         global: { stubs }
       })
@@ -39,7 +39,8 @@ BddTest().given('a self knowledge element card', () => {
       expect(card.exists()).toBe(true)
     })
 
-    BddTest().then('it should display the correct icon for VALUES', () => {
+    BddTest().then('it should display the correct icon for VALUES', async () => {
+      await flushPromises()
       const icon = wrapper.find('.card-icon')
       expect(icon.text()).toBe(MDI_ICONS.DIAMOND_STONE)
     })
@@ -67,7 +68,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
-          categoryId: 'cat-2'
+          categoryId: '4aec2faa-d986-4553-a14b-2ecabba415c8'
         },
         global: { stubs }
       })
@@ -85,13 +86,14 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.ASPIRATIONS,
-          categoryId: 'cat-3'
+          categoryId: '609965be-ebb1-44b3-bf8b-458a7ece6fb7'
         },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should display the correct icon for ASPIRATIONS', () => {
+    BddTest().then('it should display the correct icon for ASPIRATIONS', async () => {
+      await flushPromises()
       const icon = wrapper.find('.card-icon')
       expect(icon.text()).toBe(RI_ICONS.HAND_HEART_LINE)
     })
@@ -103,7 +105,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'cat-1',
+          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225',
           categoryColor: 'var(--custom-color)'
         },
         global: { stubs }
@@ -127,7 +129,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: elementWithRating,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'cat-1'
+          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
         },
         global: { stubs }
       })
@@ -157,7 +159,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'cat-1'
+          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
         },
         global: { stubs }
       })
@@ -180,7 +182,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: elementWithLongDescription,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'cat-1'
+          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
         },
         global: { stubs }
       })
@@ -206,7 +208,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: completeElement,
           categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
-          categoryId: 'cat-2',
+          categoryId: '4aec2faa-d986-4553-a14b-2ecabba415c8',
           categoryColor: 'var(--strength-color)'
         },
         global: { stubs }

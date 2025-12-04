@@ -1,5 +1,4 @@
 import type {
-  ESelfKnowledgeCategoryType,
   SelfKnowledgeElementDetailsDTO
 } from '@/api/avenir-esr'
 import { ConfirmationModalStub, CreationUpdateDateDetailsStub } from '@/common/components'
@@ -60,8 +59,6 @@ BddTest().given('a self knowledge element update form component', () => {
     updatedAt: new Date('2024-02-01T10:00:00Z').toISOString()
   } as SelfKnowledgeElementDetailsDTO
 
-  const mockCategoryType = 'STRENGTHS' as ESelfKnowledgeCategoryType
-
   const stubs = {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     CategoryElementTitleInputFormField: CategoryElementTitleInputFormFieldStub,
@@ -85,7 +82,6 @@ BddTest().given('a self knowledge element update form component', () => {
       {
         props: {
           element: mockElement,
-          categoryType: mockCategoryType,
           onCancel: vi.fn(),
         },
         global: {

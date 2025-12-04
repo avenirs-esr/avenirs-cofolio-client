@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, CreationUpdateDateDetails } from '@/common/components'
 import { useModal } from '@/common/composables'
 import CategoryElementDescriptionTextareaFormField
@@ -18,7 +18,6 @@ import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateFormProps {
   element: SelfKnowledgeElementDetailsDTO
-  categoryType: ESelfKnowledgeCategoryType
   onCancel: () => void
 }
 

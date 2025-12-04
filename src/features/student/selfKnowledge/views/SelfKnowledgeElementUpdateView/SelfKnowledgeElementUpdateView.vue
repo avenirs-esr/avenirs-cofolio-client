@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants/route-names'
@@ -9,11 +8,12 @@ import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import SelfKnowledgeElementTabs
   from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import { useSelfKnowledgeCategory }
+  from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import {
-  useSelfKnowledgeCategoriesQuery,
   useSelfKnowledgeElementDetailsQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementUpdateForm
@@ -31,15 +31,17 @@ const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 const { element } = useSelfKnowledgeElementDetailsQuery({
   selfKnowledgeElementId: toRef(props, 'elementId')
 })
-const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
-const { categories } = useSelfKnowledgeCategoriesQuery()
-const { navigateToStudentSelfKnowledgeCategory } = useNavigation()
 
-const categoryType = computed(() => {
-  const category = categories.value.find(cat => cat.id === props.categoryId)
-  return category ? category.type : ESelfKnowledgeCategoryType.STRENGTHS
-})
+const { t } = useI18n()
+const {
+  navigateToStudentSelfKnowledgeElementUpdate,
+  navigateToStudentSelfKnowledgeCategory
+} = useNavigation()
+
+const {
+  categoryType,
+  categoryTypeLabel
+} = useSelfKnowledgeCategory(computed(() => props.categoryId))
 
 const {
   elements,
@@ -66,18 +68,19 @@ function onSelectElement (selectedElementId: string) {
 }
 
 function backToElementDetails () {
-  navigateToStudentSelfKnowledgeCategory({ categoryId: props.categoryId, elementId: props.elementId })
+  navigateToStudentSelfKnowledgeCategory({
+    categoryId: props.categoryId,
+    elementId: props.elementId
+  })
 }
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }) })"
+    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <div
-    class="self-knowledge-element-update-view av-flex-row-sm"
-  >
+  <div class="self-knowledge-element-update-view av-flex-row-sm">
     <SelfKnowledgeElementsSideMenu
       :elements="elements"
       :category-type="categoryType"
@@ -106,7 +109,6 @@ function backToElementDetails () {
         <template #element>
           <SelfKnowledgeElementUpdateForm
             :element="element"
-            :category-type="categoryType"
             :on-cancel="() => backToElementDetails()"
           />
         </template>
