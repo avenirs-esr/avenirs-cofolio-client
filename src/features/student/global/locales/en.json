@@ -784,7 +784,12 @@
             "title": "Are you sure you want to delete your photo?"
           },
           "identity": {
-            "description": "Description",
+            "biography": {
+              "label": "Biography",
+              "errors": {
+                "tooLong": "The biography must not exceed {maxLength} characters"
+              }
+            },
             "firstname": "First name",
             "lastname": "Last name",
             "mail": "Personal email address",

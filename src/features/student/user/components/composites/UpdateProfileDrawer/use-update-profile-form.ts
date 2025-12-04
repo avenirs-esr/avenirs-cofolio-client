@@ -1,5 +1,6 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile'
 import { useToasterStore } from '@/store'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
@@ -16,6 +17,12 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
   const coverPictureFile = ref<File | null>(null)
   const profilePictureFile = ref<File | null>(null)
 
+  const validateBiography = (value: string) => {
+    if (!value) {
+      return
+    }
+    return value.trim().length > BIOGRAPHY_MAX_LENGTH ? t('student.widgets.overview.updateProfileDrawer.identity.biography.errors.tooLong', { maxLength: BIOGRAPHY_MAX_LENGTH }) : undefined
+  }
   const form = useForm({
     defaultValues: { ...initialData },
     validators: {
@@ -25,6 +32,7 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
             lastname: !value.lastname.trim() ? t('global.error.form.requiredFiled') : undefined,
             firstname: !value.firstname.trim() ? t('global.error.form.requiredFiled') : undefined,
             email: value.email && !isValidEmail(value.email) ? t('global.error.form.invalidEmail') : undefined,
+            bio: validateBiography(value.bio)
           }
         }
       }

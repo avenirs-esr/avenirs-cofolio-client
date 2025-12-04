@@ -4,6 +4,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
 
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile-form'
 import { useDeletePhotoMutation } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { useToasterStore } from '@/store'
@@ -150,9 +151,9 @@ watch(() => show, (newVal) => {
                   <AvInput
                     v-model="field.state.value"
                     :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.widgets.overview.updateProfileDrawer.identity.description')"
+                    :label="t('student.widgets.overview.updateProfileDrawer.identity.biography.label')"
                     is-textarea
-                    :maxlength="350"
+                    :maxlength="BIOGRAPHY_MAX_LENGTH"
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
                 </template>

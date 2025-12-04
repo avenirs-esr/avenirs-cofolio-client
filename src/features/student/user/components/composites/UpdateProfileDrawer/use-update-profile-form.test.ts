@@ -1,4 +1,5 @@
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile'
 import { useUpdateProfileForm } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -148,6 +149,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
     BddTest().then('it should return validation errors', async () => {
       result.form.setFieldValue('firstname', '')
       result.form.setFieldValue('lastname', '')
+      result.form.setFieldValue('bio', Array.from({ length: BIOGRAPHY_MAX_LENGTH + 1 }).fill('a').join(''))
       result.form.setFieldValue('email', 'invalid')
 
       const errors = await result.form.validate('submit')
@@ -155,6 +157,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       expect(errors.firstname!.onSubmit).toBe('Ce champ est requis.')
       expect(errors.lastname!.onSubmit).toBe('Ce champ est requis.')
       expect(errors.email!.onSubmit).toBe('Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)')
+      expect(errors.bio!.onSubmit).toBe('La biographie ne doit pas dépasser les 400 charactères')
     })
   })
 

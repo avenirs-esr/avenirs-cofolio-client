@@ -777,7 +777,12 @@
             "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
           },
           "identity": {
-            "description": "Description",
+            "biography": {
+              "label": "Biographie",
+              "errors": {
+                "tooLong": "La biographie ne doit pas dépasser les {maxLength} charactères"
+              }
+            },
             "firstname": "Prénom",
             "lastname": "Nom",
             "mail": "Adresse mail personnelle",
