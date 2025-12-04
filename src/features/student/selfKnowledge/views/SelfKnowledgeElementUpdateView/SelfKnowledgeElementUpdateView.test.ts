@@ -1,3 +1,4 @@
+import type { PageInfoDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
@@ -22,6 +23,36 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
     })
   }
 })
+
+// --- Mock du composable useSelfKnowledgePaginatedElements ---
+
+const elementsMock = ref<SelfKnowledgeElementViewDTO[]>([])
+const pageInfoMock = ref<PageInfoDTO>({
+  page: 0,
+  pageSize: 3,
+  totalElements: 0,
+  totalPages: 0
+})
+const pageMock = ref(0)
+const isFetchingMock = ref(false)
+let loadMoreElementsSpy = vi.fn()
+let resetPaginationSpy = vi.fn()
+
+vi.mock(
+  '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements',
+  () => ({
+    useSelfKnowledgePaginatedElements: vi.fn(() => ({
+      elements: elementsMock,
+      pageInfo: pageInfoMock,
+      page: pageMock,
+      isFetching: isFetchingMock,
+      loadMoreElements: loadMoreElementsSpy,
+      resetPagination: resetPaginationSpy
+    }))
+  })
+)
+
+// --- Stubs locaux ---
 
 const SelfKnowledgeElementTabsStub = defineComponent({
   name: 'SelfKnowledgeElementTabs',
@@ -81,15 +112,36 @@ BddTest().given('a self knowledge element update view', () => {
     AvBadge: AvBadgeStub
   }
 
+  const categoryId = 'strengths'
+  const elementId = '1'
+
   BddTest().when('the view is rendered', () => {
     beforeEach(() => {
+      vi.clearAllMocks()
+
+      // Reset des mocks du composable
+      loadMoreElementsSpy = vi.fn()
+      resetPaginationSpy = vi.fn()
+      elementsMock.value = [
+        { id: '1', title: 'Element 1' } as SelfKnowledgeElementViewDTO,
+        { id: '2', title: 'Element 2' } as SelfKnowledgeElementViewDTO
+      ]
+      pageInfoMock.value = {
+        page: 0,
+        pageSize: 3,
+        totalElements: 10,
+        totalPages: 4
+      }
+      pageMock.value = 0
+      isFetchingMock.value = false
+
       const handler = createSelfKnowledgeElementDetailsHandler(mockedSelfKnowledgeElementDetails)
       server.use(handler)
 
       wrapper = mountComponent(SelfKnowledgeElementUpdateView, {
         props: {
-          categoryId: 'strengths',
-          elementId: '1'
+          categoryId,
+          elementId
         },
         global: { stubs }
       })
@@ -104,6 +156,16 @@ BddTest().given('a self knowledge element update view', () => {
       await vi.waitFor(() => {
         const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
         expect(sideMenu.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should pass elements and count to the side menu', async () => {
+      await vi.waitFor(() => {
+        const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
+
+        expect(sideMenu.exists()).toBe(true)
+        expect(sideMenu.props('elements')).toEqual(elementsMock.value)
+        expect(sideMenu.props('countElements')).toBe(pageInfoMock.value.totalElements)
       })
     })
 
@@ -155,10 +217,24 @@ BddTest().given('a self knowledge element update view', () => {
 
       BddTest().then('it should navigate to the element update view of the selected element', () => {
         expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
-          categoryId: 'strengths',
+          categoryId,
           elementId: '2',
           replace: true
         })
+      })
+    })
+
+    BddTest().and('the side menu emits loadMoreElements', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
+          expect(sideMenu.exists()).toBe(true)
+          sideMenu.vm.$emit('loadMoreElements')
+        })
+      })
+
+      BddTest().then('it should call loadMoreElements from the paginated composable', () => {
+        expect(loadMoreElementsSpy).toHaveBeenCalledTimes(1)
       })
     })
   })

@@ -113,12 +113,20 @@ export function useSelfKnowledgeCategoryElementsViewQuery ({
     })
   })
 
-  const query = useQuery<PagedResponseSelfKnowledgeElementViewDTO, BaseApiException >({
+  const query = useQuery<PagedResponseSelfKnowledgeElementViewDTO, BaseApiException>({
     queryKey,
     queryFn,
     staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData,
-    enabled: computed(() => toValue(selfKnowledgeCategoryId).trim().length > 0)
+    enabled: computed(() => {
+      const id = toValue(selfKnowledgeCategoryId)
+
+      if (id === undefined) {
+        return false
+      }
+
+      return id.trim().length > 0
+    })
   })
 
   const elements = computed(() => query.data.value?.data ?? [])

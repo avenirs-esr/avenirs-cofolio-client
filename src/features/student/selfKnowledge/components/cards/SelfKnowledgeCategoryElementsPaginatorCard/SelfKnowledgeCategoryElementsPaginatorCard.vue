@@ -115,6 +115,7 @@ function onElementDeleted () {
             :key="element.id"
             :element="element"
             :category-type="categoryType"
+            :category-id="category.id"
           />
         </div>
       </div>

@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTE_NAMES } from '@/common/constants/route-names'
 import SelfKnowledgeElementDetailsContainer
   from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
-
 import SelfKnowledgeElementsSideMenu
   from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import SelfKnowledgeElementTabs
   from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import {
-  useGetCachedSelfKnowledgeElements,
+  useSelfKnowledgePaginatedElements
+} from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
+import {
   useSelfKnowledgeCategoriesQuery,
-  useSelfKnowledgeCategoryElementsViewQuery,
   useSelfKnowledgeElementDetailsQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementUpdateForm
@@ -28,50 +28,27 @@ export interface SelfKnowledgeElementUpdateViewProps {
 
 const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 
-const { element } = useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: toRef(props, 'elementId') })
+const { element } = useSelfKnowledgeElementDetailsQuery({
+  selfKnowledgeElementId: toRef(props, 'elementId')
+})
 const { t } = useI18n()
 const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
 const { categories } = useSelfKnowledgeCategoriesQuery()
-const { getCachedElements } = useGetCachedSelfKnowledgeElements()
+const { navigateToStudentSelfKnowledgeCategory } = useNavigation()
 
 const categoryType = computed(() => {
   const category = categories.value.find(cat => cat.id === props.categoryId)
   return category ? category.type : ESelfKnowledgeCategoryType.STRENGTHS
 })
-const elements = ref<SelfKnowledgeElementViewDTO[]>([])
 
-const page = computed(() => {
-  const cached = getCachedElements(props.categoryId)
-  return cached.currentPage
+const {
+  elements,
+  pageInfo,
+  loadMoreElements
+} = useSelfKnowledgePaginatedElements({
+  selfKnowledgeCategoryId: computed(() => props.categoryId),
+  pageSize: 3
 })
-const pageSize = ref(3)
-
-const { pageInfo, elements: fetchedElements }
-  = useSelfKnowledgeCategoryElementsViewQuery({
-    selfKnowledgeCategoryId: props.categoryId,
-    page,
-    pageSize
-  })
-
-onMounted(() => {
-  const cached = getCachedElements(props.categoryId)
-  elements.value = cached.elements
-})
-
-watch(
-  fetchedElements,
-  (newElements) => {
-    elements.value = newElements
-
-    if (page.value === 0) {
-      elements.value = newElements
-    }
-    else {
-      elements.value = elements.value.concat(newElements)
-    }
-  },
-  { immediate: true }
-)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
@@ -81,7 +58,15 @@ const breadcrumbLinks = computed(() => [
 ])
 
 function onSelectElement (selectedElementId: string) {
-  navigateToStudentSelfKnowledgeElementUpdate({ categoryId: props.categoryId, elementId: selectedElementId, replace: true })
+  navigateToStudentSelfKnowledgeElementUpdate({
+    categoryId: props.categoryId,
+    elementId: selectedElementId,
+    replace: true
+  })
+}
+
+function backToElementDetails () {
+  navigateToStudentSelfKnowledgeCategory({ categoryId: props.categoryId, elementId: props.elementId })
 }
 </script>
 
@@ -99,6 +84,7 @@ function onSelectElement (selectedElementId: string) {
       :selected-element-id="props.elementId"
       :count-elements="pageInfo.totalElements"
       @select-element="onSelectElement"
+      @load-more-elements="loadMoreElements"
     />
     <SelfKnowledgeElementDetailsContainer
       v-if="element"
@@ -121,6 +107,7 @@ function onSelectElement (selectedElementId: string) {
           <SelfKnowledgeElementUpdateForm
             :element="element"
             :category-type="categoryType"
+            :on-cancel="() => backToElementDetails()"
           />
         </template>
         <template #associations>
