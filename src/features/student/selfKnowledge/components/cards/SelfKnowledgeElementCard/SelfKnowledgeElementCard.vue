@@ -8,11 +8,13 @@ import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/u
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
   categoryType: ESelfKnowledgeCategoryType
+  categoryId: string
   categoryColor?: string
 }
 
 const {
   categoryColor = 'var(--light-foreground-primary1)',
+  categoryId,
   categoryType,
   element,
 } = defineProps<SelfKnowledgeElementCardProps>()
@@ -23,7 +25,7 @@ const iconOptions = computed(() => ({
 </script>
 
 <template>
-  <RouterLink :to="{ name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryType }, query: { elementId: element.id } }">
+  <RouterLink :to="{ name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryId }, query: { elementId: element.id } }">
     <FloatingIconCard
       :title="element.title"
       :header-rows="2"

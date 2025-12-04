@@ -27,7 +27,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.VALUES
+          categoryType: ESelfKnowledgeCategoryType.VALUES,
+          categoryId: 'cat-1'
         },
         global: { stubs }
       })
@@ -65,7 +66,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.STRENGTHS
+          categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+          categoryId: 'cat-2'
         },
         global: { stubs }
       })
@@ -82,7 +84,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.ASPIRATIONS
+          categoryType: ESelfKnowledgeCategoryType.ASPIRATIONS,
+          categoryId: 'cat-3'
         },
         global: { stubs }
       })
@@ -100,6 +103,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: baseElement,
           categoryType: ESelfKnowledgeCategoryType.VALUES,
+          categoryId: 'cat-1',
           categoryColor: 'var(--custom-color)'
         },
         global: { stubs }
@@ -122,7 +126,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: elementWithRating,
-          categoryType: ESelfKnowledgeCategoryType.VALUES
+          categoryType: ESelfKnowledgeCategoryType.VALUES,
+          categoryId: 'cat-1'
         },
         global: { stubs }
       })
@@ -151,7 +156,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.VALUES
+          categoryType: ESelfKnowledgeCategoryType.VALUES,
+          categoryId: 'cat-1'
         },
         global: { stubs }
       })
@@ -173,7 +179,8 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: elementWithLongDescription,
-          categoryType: ESelfKnowledgeCategoryType.VALUES
+          categoryType: ESelfKnowledgeCategoryType.VALUES,
+          categoryId: 'cat-1'
         },
         global: { stubs }
       })
@@ -199,6 +206,7 @@ BddTest().given('a self knowledge element card', () => {
         props: {
           element: completeElement,
           categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+          categoryId: 'cat-2',
           categoryColor: 'var(--strength-color)'
         },
         global: { stubs }

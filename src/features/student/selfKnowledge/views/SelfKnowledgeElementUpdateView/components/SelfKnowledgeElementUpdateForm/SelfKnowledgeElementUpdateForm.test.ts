@@ -85,7 +85,8 @@ BddTest().given('a self knowledge element update form component', () => {
       {
         props: {
           element: mockElement,
-          categoryType: mockCategoryType
+          categoryType: mockCategoryType,
+          onCancel: vi.fn(),
         },
         global: {
           stubs
@@ -173,10 +174,6 @@ BddTest().given('a self knowledge element update form component', () => {
       await modal.vm.$emit('confirm')
 
       expect(resetSpy).toHaveBeenCalledTimes(1)
-      expect(navigateToStudentSelfKnowledgeCategory).toHaveBeenCalledWith({
-        categoryId: mockCategoryType,
-        elementId: mockElement.id
-      })
     })
   })
 

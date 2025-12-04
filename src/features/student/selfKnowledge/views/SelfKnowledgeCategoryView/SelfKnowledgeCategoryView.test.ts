@@ -1,4 +1,4 @@
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
@@ -67,7 +67,7 @@ BddTest().given('a self knowledge category view component', () => {
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(SelfKnowledgeCategoryView, {
       props: {
-        categoryType: 'STRENGTHS' as ESelfKnowledgeCategoryType
+        categoryId,
       },
       global: {
         stubs

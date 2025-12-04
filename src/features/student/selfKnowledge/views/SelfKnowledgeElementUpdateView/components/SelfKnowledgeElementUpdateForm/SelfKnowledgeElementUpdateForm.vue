@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, CreationUpdateDateDetails } from '@/common/components'
-import { useModal, useNavigation } from '@/common/composables'
+import { useModal } from '@/common/composables'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField
@@ -19,7 +19,7 @@ import { useI18n } from 'vue-i18n'
 export interface SelfKnowledgeElementUpdateFormProps {
   element: SelfKnowledgeElementDetailsDTO
   categoryType: ESelfKnowledgeCategoryType
-  onUpdated?: () => void
+  onCancel: () => void
 }
 
 const props = defineProps<SelfKnowledgeElementUpdateFormProps>()
@@ -33,7 +33,6 @@ const { form, isFormValid, isSubmitting } = useUpdateSelfKnowledgeElementForm(
   toRef(props, 'element'),
   onUpdated
 )
-const { navigateToStudentSelfKnowledgeCategory } = useNavigation()
 
 async function onSubmit () {
   await form.handleSubmit()
@@ -44,17 +43,13 @@ function onUpdated () {
     timeout: 2000,
     description: t('student.selfKnowledge.updateSelfKnowledgeElementForm.success')
   })
-  backToElementDetails()
+  props.onCancel()
 }
 
 function confirmCancel () {
   form.reset()
   hideConfirmationModal()
-  backToElementDetails()
-}
-
-function backToElementDetails () {
-  navigateToStudentSelfKnowledgeCategory({ categoryId: props.categoryType, elementId: props.element.id })
+  props.onCancel()
 }
 </script>
 
