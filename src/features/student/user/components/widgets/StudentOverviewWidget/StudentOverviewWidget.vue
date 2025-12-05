@@ -151,6 +151,7 @@ defineExpose({ fullName })
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  line-clamp: 5;
   -webkit-line-clamp: 5;
 }
 

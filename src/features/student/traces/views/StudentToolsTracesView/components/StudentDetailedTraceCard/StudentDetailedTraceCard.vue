@@ -120,7 +120,6 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
   }
 
   &__body {
-    padding-top: var(--spacing-md);
     justify-content: flex-end;
     display: flex;
     flex-direction: column;

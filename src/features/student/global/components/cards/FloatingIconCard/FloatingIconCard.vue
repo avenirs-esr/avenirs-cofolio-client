@@ -147,7 +147,6 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding-top: var(--spacing-lg);
   }
 
   &__footer {
