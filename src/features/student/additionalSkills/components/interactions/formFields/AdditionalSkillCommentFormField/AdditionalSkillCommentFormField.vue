@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { UpdateAdditionalSkillForm } from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/use-update-additional-skill-form/use-update-additional-skill-form'
-import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import AdditionalSkillCommentInput
+  from '@/features/student/additionalSkills/components/interactions/inputs/AdditionalSkillCommentInput/AdditionalSkillCommentInput.vue'
+import { ADDITIONAL_SKILL_COMMENT_MAX_LENGTH } from '@/features/student/additionalSkills/config'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -10,31 +12,31 @@ interface AdditionalSkillCommentFormFieldProps {
 
 const { form } = defineProps<AdditionalSkillCommentFormFieldProps>()
 const FormField = markRaw(form.Field)
+const commentField = form.useField({ name: 'description' })
 
+function onUpdateComment (value: string | undefined) {
+  commentField.api.handleChange(String(value ?? '').slice(0, ADDITIONAL_SKILL_COMMENT_MAX_LENGTH))
+}
 const { t } = useI18n()
 </script>
 
 <template>
   <FormField name="description">
     <template #default="{ field }">
-      <AvInput
+      <AdditionalSkillCommentInput
         v-bind="$attrs"
         id="skill-comment"
-        :model-value="(field.state.value ?? '').slice(0, 400)"
-        :label="t('student.views.studentAdditionalSkillView.tabs.details.descriptionTitle')"
-        label-class="caption-regular"
-        :maxlength="400"
-        is-textarea
+        :model-value="(field.state.value ?? '').slice(0, ADDITIONAL_SKILL_COMMENT_MAX_LENGTH)"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(v) => form.setFieldValue('description', String(v ?? '').slice(0, 400))"
+        @update:model-value="onUpdateComment"
       >
         <template #customCaptions>
           <span class="caption-regular">
-            {{ t('global.inputs.textarea.limit', { count: (field.state.value?.length ?? 0), maxlength: 400 }) }}
+            {{ t('global.inputs.textarea.limit', { count: (field.state.value?.length ?? 0), maxlength: ADDITIONAL_SKILL_COMMENT_MAX_LENGTH }) }}
           </span>
         </template>
-      </AvInput>
+      </AdditionalSkillCommentInput>
     </template>
   </FormField>
 </template>

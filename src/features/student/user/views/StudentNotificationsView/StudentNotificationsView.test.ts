@@ -1,6 +1,6 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTE_NAMES } from '@/common/constants'
-import StudentNotificationsView from '@/features/student/user/components/composites/StudentNotificationsView/StudentNotificationsView.vue'
+import StudentNotificationsView from '@/features/student/user/views/StudentNotificationsView/StudentNotificationsView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 

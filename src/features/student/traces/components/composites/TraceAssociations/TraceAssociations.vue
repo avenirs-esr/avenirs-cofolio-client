@@ -23,7 +23,7 @@ function getSkillColor (index: number): string {
   <div class="student-trace-associations">
     <slot name="caption">
       <AvIconText
-        :text="$t('student.traces.traceAssociations.caption', { count: totalAssociations })"
+        :text="$t('student.traces.composites.TraceAssociations.caption', { count: totalAssociations })"
         :icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
         icon-color="var(--text2)"
         typography-class="caption-light"

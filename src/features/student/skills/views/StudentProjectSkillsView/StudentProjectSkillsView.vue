@@ -7,15 +7,15 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.skills') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.skills') }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentProjectSkillsView.title')"
+    :title="t('student.skills.views.StudentProjectSkillsView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="{ name: ROUTE_NAMES.STUDENT.HOME.name }"
   />

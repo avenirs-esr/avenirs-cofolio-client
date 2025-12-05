@@ -15,7 +15,7 @@ const { t } = useI18n()
       title-height="4.375rem"
     >
       <template #title>
-        <h3>{{ t('student.views.studentSkillView.detailed.title') }}</h3>
+        <h3>{{ t('student.skills.views.StudentSkillView.detailed.title') }}</h3>
       </template>
       <template #body>
         <h3 class="student-skill-detailed-name">

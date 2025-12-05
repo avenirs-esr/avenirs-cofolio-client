@@ -13,11 +13,11 @@ const { showModal, displayModal, hideModal } = useModal()
 <template>
   <div class="student-project-trajectories-build-project-header">
     <div class="student-project-trajectories-build-project-header__title b1-bold">
-      {{ t('student.views.studentProjectTrajectoriesView.buildProject.title') }}
+      {{ t('student.global.views.studentProjectTrajectoriesView.buildProject.title') }}
     </div>
     <AvButton
       variant="OUTLINED"
-      :label="t('student.views.studentProjectTrajectoriesView.buildProject.consultHelpButtonLabel')"
+      :label="t('student.global.views.studentProjectTrajectoriesView.buildProject.consultHelpButtonLabel')"
       :icon="MDI_ICONS.FLAG_VARIANT"
       small
       @click="displayModal"

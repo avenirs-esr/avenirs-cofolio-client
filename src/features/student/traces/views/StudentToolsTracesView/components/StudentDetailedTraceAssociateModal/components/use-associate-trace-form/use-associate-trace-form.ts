@@ -27,7 +27,7 @@ export function useAssociateTraceForm (opts: UseAssociateTraceFormOptions) {
 
   const onAssociateError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.errors.associateTrace'),
+      title: t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.errors.associateTrace'),
       description: error.message,
     })
   }
@@ -44,7 +44,7 @@ export function useAssociateTraceForm (opts: UseAssociateTraceFormOptions) {
         return {
           fields: {
             selectedAssociation: !value.selectedAssociation || value.selectedAssociation.length === 0
-              ? t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.validation.associationRequired')
+              ? t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.validation.associationRequired')
               : undefined,
           },
         }

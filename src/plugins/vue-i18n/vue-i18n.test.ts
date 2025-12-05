@@ -74,7 +74,8 @@ BddTest().given('a feature locales resgister', () => {
 
   BddTest().when('a feature locale is missing', () => {
     BddTest().then('it should warn if a feature locale is missing', async () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const warnSpy = vi.spyOn(console, 'warn')
+      warnSpy.mockImplementation(() => {})
       await registerFeatureLocales('non-existent-feature')
 
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('No'))

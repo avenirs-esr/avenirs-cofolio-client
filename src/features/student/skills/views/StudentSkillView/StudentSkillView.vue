@@ -19,15 +19,15 @@ const { skillDetailed, error } = useSkillDetailedQuery(skillId)
 useBaseApiExceptionToast(error)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.education.items.skills'), to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.education.items.skills'), to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS },
   { text: skillDetailed.value?.name || '' }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentSkillView.title', { skill: skillDetailed?.name ?? '' })"
+    :title="t('student.skills.views.StudentSkillView.title', { skill: skillDetailed?.name ?? '' })"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.HOME"
   />

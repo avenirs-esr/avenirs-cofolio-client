@@ -40,7 +40,7 @@ async function onSubmit () {
 function onUpdated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.selfKnowledge.updateSelfKnowledgeElementForm.success')
+    description: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.updateForm.success')
   })
   props.onCancel()
 }
@@ -63,7 +63,7 @@ function confirmCancel () {
 
       <div class="av-flex-col-sm">
         <span class="b2-light">
-          {{ t('student.views.selfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}
+          {{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}
         </span>
         <CategoryElementRatingRadioButtonSetFormField :form="form" />
       </div>
@@ -85,7 +85,7 @@ function confirmCancel () {
   <div class="av-row av-row--right av-p-md">
     <AvCancelConfirmButtons
       :cancel-label="t('global.buttons.cancel')"
-      :confirm-label="t('student.views.selfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
+      :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
       :confirm-disabled="!isFormValid"
       :confirm-is-loading="isSubmitting"
       :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
@@ -96,7 +96,7 @@ function confirmCancel () {
   </div>
   <ConfirmationModal
     :show="showConfirmationModal"
-    :title="t('student.views.selfKnowledgeCategoryView.selfKnowledgeElementUpdate.confirmationModal.title')"
+    :title="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.confirmationModal.title')"
     @close="hideConfirmationModal"
     @confirm="confirmCancel"
   />

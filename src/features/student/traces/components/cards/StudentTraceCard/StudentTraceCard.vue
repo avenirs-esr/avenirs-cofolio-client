@@ -22,10 +22,10 @@ function getRandomSkillColor () {
   return `var(--skill${random})`
 }
 
-const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.cards.studentTraceCard.lifeProject'))
+const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.traces.cards.StudentTraceCard.lifeProject'))
 const typeInfo = computed(() => isGroup
-  ? { label: t('student.cards.studentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
-  : { label: t('student.cards.studentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
+  ? { label: t('student.traces.cards.StudentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
+  : { label: t('student.traces.cards.StudentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
 
 const iconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
@@ -65,7 +65,7 @@ const iconOptions = {
                 color="var(--other-background-base)"
               />
             </div>
-            <span class="b2-regular">{{ t('student.cards.studentTraceCard.skillCount', { count: skillCount }) }}</span>
+            <span class="b2-regular">{{ t('student.traces.cards.StudentTraceCard.skillCount', { count: skillCount }) }}</span>
           </div>
           <div class="student-trace-card__activities">
             <StudentCountAmsIconText

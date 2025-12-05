@@ -52,8 +52,8 @@ function handleItemSelected (itemName: string) {
 <template>
   <AvDropdown
     :items="menuItems"
-    :trigger-aria-label="t('student.views.selfKnowledgeCategoryView.dropdown')"
-    :trigger-label="t('student.views.selfKnowledgeCategoryView.dropdown')"
+    :trigger-aria-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.dropdown')"
+    :trigger-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.dropdown')"
     width="max-content"
     @item-selected="handleItemSelected"
   />

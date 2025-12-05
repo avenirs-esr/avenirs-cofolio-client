@@ -24,21 +24,21 @@ function levelStatusToBadge (status: ESkillLevelStatus): Pick<AvBadgeProps, 'col
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
     case ESkillLevelStatus.UNDER_REVIEW:
       return {
-        status: t('student.cards.studentSkillCard.badgeStatus.underReview'),
+        status: t('student.skills.cards.StudentSkillCard.badgeStatus.underReview'),
         color: 'var(--light-foreground-primary1)',
         backgroundColor: 'var(--light-background-critical)',
         icon: ICONS_DATA_URL.MDI_DOTS_HORIZONTAL_CIRCLE_OUTLINE
       }
     case ESkillLevelStatus.VALIDATED:
       return {
-        status: t('student.cards.studentSkillCard.badgeStatus.validated'),
+        status: t('student.skills.cards.StudentSkillCard.badgeStatus.validated'),
         color: 'var(--light-foreground-success)',
         backgroundColor: 'var(--light-background-success)',
         icon: ICONS_DATA_URL.MDI_CHECK_CIRCLE
       }
     case ESkillLevelStatus.FAILED:
       return {
-        status: t('student.cards.studentSkillCard.badgeStatus.failed'),
+        status: t('student.skills.cards.StudentSkillCard.badgeStatus.failed'),
         color: 'var(--light-foreground-error)',
         backgroundColor: 'var(--light-background-error)',
         icon: ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE
@@ -48,7 +48,7 @@ function levelStatusToBadge (status: ESkillLevelStatus): Pick<AvBadgeProps, 'col
     case ESkillLevelStatus.TO_BE_EVALUATED:
     default:
       return {
-        status: t('student.cards.studentSkillCard.badgeStatus.toBeEvaluated'),
+        status: t('student.skills.cards.StudentSkillCard.badgeStatus.toBeEvaluated'),
         color: 'var(--dark-background-primary1)',
         backgroundColor: 'var(--light-background-primary2)',
         icon: ICONS_DATA_URL.MDI_HOURGLASS

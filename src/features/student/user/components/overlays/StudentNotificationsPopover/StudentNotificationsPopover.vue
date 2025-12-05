@@ -18,7 +18,7 @@ const { t } = useI18n()
   >
     <template #trigger="{ toggle }">
       <AvButton
-        :label="t('student.layout.header.quicklinks.notifications')"
+        :label="t('student.global.layout.header.quicklinks.notifications')"
         :on-click="toggle"
         :icon="notificationsCount > 0 ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE"
         small
@@ -28,7 +28,7 @@ const { t } = useI18n()
       <div class="container">
         <AvIconText
           data-testid="notifications-popover-title"
-          :text="t('student.overlays.notificationsPopover.title', { count: notificationsCount })"
+          :text="t('student.user.overlays.StudentNotificationsPopover.title', { count: notificationsCount })"
           :icon="MDI_ICONS.NOTIFICATIONS_NONE"
           text-color="var(--title)"
           icon-color="var(--dark-background-primary1)"
@@ -36,12 +36,12 @@ const { t } = useI18n()
           gap="var(--spacing-md)"
         />
         <div v-if="notificationsCount === 0">
-          <span class="b2-light">{{ t('student.overlays.notificationsPopover.bodyNoNew.header') }}</span>
+          <span class="b2-light">{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.header') }}</span>
           <ul class="b2-regular">
-            <li><span>{{ t('student.overlays.notificationsPopover.bodyNoNew.teacherMessage') }}</span></li>
-            <li><span>{{ t('student.overlays.notificationsPopover.bodyNoNew.assessedSkill') }}</span></li>
-            <li><span>{{ t('student.overlays.notificationsPopover.bodyNoNew.validatedTrace') }}</span></li>
-            <li><span>{{ t('student.overlays.notificationsPopover.bodyNoNew.comingUpEvent') }}</span></li>
+            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.teacherMessage') }}</span></li>
+            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.assessedSkill') }}</span></li>
+            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.validatedTrace') }}</span></li>
+            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.comingUpEvent') }}</span></li>
           </ul>
         </div>
         <div v-else>
@@ -50,7 +50,7 @@ const { t } = useI18n()
         <div class="footer">
           <AvCancelConfirmButtons
             :cancel-label="t('global.buttons.exit')"
-            :confirm-label="notificationsCount > 0 ? t('student.overlays.notificationsPopover.buttons.seeAll') : undefined"
+            :confirm-label="notificationsCount > 0 ? t('student.user.overlays.StudentNotificationsPopover.buttons.seeAll') : undefined"
             :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             :confirm-icon="MDI_ICONS.ARROW_RIGHT_THIN"
             @cancel="close"

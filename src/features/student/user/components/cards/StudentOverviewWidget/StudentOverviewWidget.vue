@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
-import UpdateProfileDrawer from '@/features/student/user/components/composites/UpdateProfileDrawer/UpdateProfileDrawer.vue'
+import UpdateProfileDrawer from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useStudentSummaryQuery } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { AvCard, AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
@@ -36,7 +36,7 @@ defineExpose({ fullName })
       <div class="student-overview-widget__title">
         <img
           :src="studentSummary.coverPicture.url"
-          :alt="t('student.widgets.overview.bannerAlt')"
+          :alt="t('student.user.cards.StudentOverviewWidget.bannerAlt')"
           class="student-overview-widget__banner"
         >
         <div
@@ -44,7 +44,7 @@ defineExpose({ fullName })
         >
           <img
             :src="studentSummary.profilePicture.url"
-            :alt="t('student.widgets.overview.pictureAlt')"
+            :alt="t('student.user.cards.StudentOverviewWidget.pictureAlt')"
             class="student-overview-widget__picture"
           >
         </div>
@@ -62,38 +62,38 @@ defineExpose({ fullName })
           <li>
             <AvRichButton
               class="av-rich-button--edit-profile"
-              :label="t('student.widgets.overview.buttons.editProfile')"
+              :label="t('student.user.cards.StudentOverviewWidget.buttons.editProfile')"
               :icon-right="MDI_ICONS.PENCIL_OUTLINE"
               :on-click="displayDrawer"
             >
-              <span class="b1-regular">{{ t('student.widgets.overview.buttons.editProfile') }}</span>
+              <span class="b1-regular">{{ t('student.user.cards.StudentOverviewWidget.buttons.editProfile') }}</span>
             </AvRichButton>
           </li>
           <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--share-resume"
-              :label="t('student.widgets.overview.buttons.shareResume')"
+              :label="t('student.user.cards.StudentOverviewWidget.buttons.shareResume')"
               :icon-right="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
             >
-              <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareResume') }}</span>
+              <span class="b1-regular">{{ t('student.user.cards.StudentOverviewWidget.buttons.shareResume') }}</span>
             </AvRichButton>
           </li>
           <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--share-cofolio"
-              :label="t('student.widgets.overview.buttons.shareCofolio')"
+              :label="t('student.user.cards.StudentOverviewWidget.buttons.shareCofolio')"
               :icon-right="MDI_ICONS.SHARE_VARIANT_OUTLINE"
             >
-              <span class="b1-regular">{{ t('student.widgets.overview.buttons.shareCofolio') }}</span>
+              <span class="b1-regular">{{ t('student.user.cards.StudentOverviewWidget.buttons.shareCofolio') }}</span>
             </AvRichButton>
           </li>
           <li class="demo-display-none">
             <AvRichButton
               class="av-rich-button--establishments"
-              :label="t('student.widgets.overview.buttons.establishments')"
+              :label="t('student.user.cards.StudentOverviewWidget.buttons.establishments')"
               :icon-right="MDI_ICONS.SWAP_HORIZONTAL"
             >
-              <span class="b1-regular">{{ t('student.widgets.overview.buttons.establishments') }}</span>
+              <span class="b1-regular">{{ t('student.user.cards.StudentOverviewWidget.buttons.establishments') }}</span>
             </AvRichButton>
           </li>
         </ul>

@@ -48,12 +48,12 @@ const ALL_ITEMS: AvSideNavigationItem[] = [
   ...levelNavItems.value,
   {
     id: SkillItems.SKILL_PROGRESS,
-    label: t('student.views.studentSkillView.progress.title').toUpperCase(),
+    label: t('student.skills.views.StudentSkillView.progress.title').toUpperCase(),
     icon: MDI_ICONS.CHART_TIMELINE_VARIANT_SHIMMER
   },
   {
     id: SkillItems.SKILL_EVALUATE,
-    label: t('student.views.studentSkillView.evaluation.title').toUpperCase(),
+    label: t('student.skills.views.StudentSkillView.evaluation.title').toUpperCase(),
     icon: MDI_ICONS.NOTEBOOK_CHECK
   }
 ]

@@ -29,10 +29,10 @@ const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
-  { text: t('student.navigation.tabs.project.items.additionalSkills') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
+  { text: t('student.global.navigation.tabs.project.items.additionalSkills') }
 ])
 
 function backToStudentAdditionalSkillViewTabs () {
@@ -42,7 +42,7 @@ function backToStudentAdditionalSkillViewTabs () {
 
 <template>
   <PageTitle
-    :title="t('student.views.studentUpdateAdditionalSkillView.title')"
+    :title="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
   />
@@ -56,7 +56,7 @@ function backToStudentAdditionalSkillViewTabs () {
     class="update-additional-skill-view__uip"
   >
     <AvBadge
-      :label="t('student.views.studentUpdateAdditionalSkillView.wipBadge')"
+      :label="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.wipBadge')"
       background-color="var(--dark-background-primary1)"
       color="var(--dark-foreground)"
       :icon="ICONS_DATA_URL.AMS_SAE"
@@ -65,7 +65,7 @@ function backToStudentAdditionalSkillViewTabs () {
 
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.views.studentUpdateAdditionalSkillView.tabs.details.title')"
+      :title="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
       <UpdateAdditionalSkillForm

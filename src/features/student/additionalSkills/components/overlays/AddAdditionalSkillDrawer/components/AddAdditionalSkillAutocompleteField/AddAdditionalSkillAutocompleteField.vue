@@ -67,13 +67,13 @@ const emptySlotTextContent = computed<string>(() => {
   const keyword = toValue(searchQuery)
 
   if (keyword.length >= SEARCH_SKILLS_MIN_LENGTH && toValue(skills).length === 0) {
-    return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.noResultsFound')
+    return t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.autocompleteField.noResultsFound')
   }
   if (!isEmpty(keyword) && keyword.length < SEARCH_SKILLS_MIN_LENGTH) {
-    return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.minimumCharacters')
+    return t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.autocompleteField.minimumCharacters')
   }
 
-  return t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.startTyping')
+  return t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.autocompleteField.startTyping')
 })
 </script>
 
@@ -86,8 +86,8 @@ const emptySlotTextContent = computed<string>(() => {
           :options="skills"
           :loading="isLoading || isFetchingNextPage"
           :input-options="{
-            label: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.searchLabel'),
-            placeholder: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.searchPlaceholder'),
+            label: t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.autocompleteField.searchLabel'),
+            placeholder: t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.autocompleteField.searchPlaceholder'),
             errorMessage: field.state.meta.errors?.join(', '),
           }"
           :get-option-label="getOptionLabel"
@@ -144,7 +144,7 @@ const emptySlotTextContent = computed<string>(() => {
                 </div>
 
                 <AdditionalSkillTypeBadge
-                  :label="t(`student.additionalSkillTypes.${option.type}`)"
+                  :label="t(`student.additionalSkills.additionalSkillTypes.${option.type}`)"
                 />
               </div>
             </AvListItem>

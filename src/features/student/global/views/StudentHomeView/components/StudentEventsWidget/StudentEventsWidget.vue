@@ -37,7 +37,7 @@ function getEventInfo (event: EventOverviewDTO) {
       <div class="events-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
-          :text="t('student.widgets.events.title')"
+          :text="t('student.global.widgets.events.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="s1-bold"
@@ -83,7 +83,7 @@ function getEventInfo (event: EventOverviewDTO) {
     <template #footer>
       <div class="events-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.events.buttons.seeAll')"
+          :label="t('student.global.widgets.events.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentEvents"

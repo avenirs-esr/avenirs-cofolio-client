@@ -4,8 +4,8 @@ import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
 
-import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
-import { useUpdateProfileForm } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile-form'
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/overlays/UpdateProfileDrawer/config'
+import { useUpdateProfileForm } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile-form'
 import { useDeletePhotoMutation } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { useToasterStore } from '@/store'
 import {
@@ -44,13 +44,13 @@ const { onConfirmDeleteCoverPhoto } = useDeleteCoverPhoto()
 const { onConfirmDeleteProfilePhoto } = useDeleteProfilePhoto()
 
 function onUpdateProfileSuccess () {
-  addSuccessMessage(t('student.widgets.overview.updateProfileDrawer.onUpdate.success'))
+  addSuccessMessage(t('student.user.overlays.UpdateProfileDrawer.onUpdate.success'))
   onClose()
 }
 
 function useDeleteCoverPhoto () {
   function onDeleteCoverPhotoError (error: BaseApiException) {
-    addErrorMessage({ title: t('student.widgets.overview.updateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
+    addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
   }
 
   const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
@@ -67,7 +67,7 @@ function useDeleteCoverPhoto () {
 
 function useDeleteProfilePhoto () {
   function onDeleteProfilePhotoError (error: BaseApiException) {
-    addErrorMessage({ title: t('student.widgets.overview.updateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
+    addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
   }
 
   const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
@@ -98,7 +98,7 @@ watch(() => show, (newVal) => {
       <AvIconText
         :icon="MDI_ICONS.PENCIL_OUTLINE"
         icon-color="var(--icon)"
-        :text="t('student.widgets.overview.updateProfileDrawer.title')"
+        :text="t('student.user.overlays.UpdateProfileDrawer.title')"
         text-color="var(--title)"
         typography-class="n6"
       />
@@ -109,7 +109,7 @@ watch(() => show, (newVal) => {
       >
         <AvAccordionsGroup>
           <AvAccordion
-            :title="t('student.widgets.overview.updateProfileDrawer.identity.title')"
+            :title="t('student.user.overlays.UpdateProfileDrawer.identity.title')"
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
           >
             <div class="form">
@@ -118,7 +118,7 @@ watch(() => show, (newVal) => {
                   <AvInput
                     v-model="field.state.value"
                     :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.widgets.overview.updateProfileDrawer.identity.lastname')"
+                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.lastname')"
                     required
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
@@ -129,7 +129,7 @@ watch(() => show, (newVal) => {
                   <AvInput
                     v-model="field.state.value"
                     :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.widgets.overview.updateProfileDrawer.identity.firstname')"
+                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.firstname')"
                     required
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
@@ -140,7 +140,7 @@ watch(() => show, (newVal) => {
                   <AvInput
                     v-model="field.state.value"
                     :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.widgets.overview.updateProfileDrawer.identity.mail')"
+                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.mail')"
                     type="email"
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
                   />
@@ -151,7 +151,7 @@ watch(() => show, (newVal) => {
                   <AvInput
                     v-model="field.state.value"
                     :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.widgets.overview.updateProfileDrawer.identity.biography.label')"
+                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.biography.label')"
                     is-textarea
                     :maxlength="BIOGRAPHY_MAX_LENGTH"
                     @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
@@ -161,7 +161,7 @@ watch(() => show, (newVal) => {
             </div>
           </AvAccordion>
           <AvAccordion
-            :title="t('student.widgets.overview.updateProfileDrawer.pictures.banner')"
+            :title="t('student.user.overlays.UpdateProfileDrawer.pictures.banner')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
@@ -169,19 +169,19 @@ watch(() => show, (newVal) => {
               :on-delete-image="onConfirmDeleteCoverPhoto"
               :default-image-url="studentSummary.coverPicture.fileName ? studentSummary.coverPicture.url : undefined"
               :default-image-name="studentSummary.coverPicture.fileName ?? undefined"
-              :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.banner')"
+              :image-alt="t('student.user.overlays.UpdateProfileDrawer.pictures.banner')"
               :on-update="onCoverPictureUpdate"
             />
           </AvAccordion>
           <AvAccordion
-            :title="t('student.widgets.overview.updateProfileDrawer.pictures.picture')"
+            :title="t('student.user.overlays.UpdateProfileDrawer.pictures.picture')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
             <ImageUpload
               v-model="profilePictureFile"
               :on-delete-image="onConfirmDeleteProfilePhoto"
               :default-image-name="studentSummary.profilePicture.fileName ?? undefined"
-              :image-alt="t('student.widgets.overview.updateProfileDrawer.pictures.picture')"
+              :image-alt="t('student.user.overlays.UpdateProfileDrawer.pictures.picture')"
               :on-update="onProfilePictureUpdate"
             />
           </AvAccordion>

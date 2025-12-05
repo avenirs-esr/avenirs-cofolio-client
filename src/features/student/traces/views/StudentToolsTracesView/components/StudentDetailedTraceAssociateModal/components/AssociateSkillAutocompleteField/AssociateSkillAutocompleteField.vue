@@ -85,12 +85,12 @@ const emptySlotTextContent = computed<string>(() => {
   const keyword = toValue(searchQuery)
 
   if (keyword.length >= SEARCH_MIN_LENGTH && toValue(options).length === 0) {
-    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.errors.noResultsFound')
+    return t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.errors.noResultsFound')
   }
   if (!isEmpty(keyword) && keyword.length < SEARCH_MIN_LENGTH) {
-    return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.minimumCharacters', { count: SEARCH_MIN_LENGTH })
+    return t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.minimumCharacters', { count: SEARCH_MIN_LENGTH })
   }
-  return t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.startTyping')
+  return t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.startTyping')
 })
 </script>
 
@@ -108,8 +108,8 @@ const emptySlotTextContent = computed<string>(() => {
         :options="displayedOptions"
         :loading="isLoading || isFetching"
         :input-options="{
-          label: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchLabel'),
-          placeholder: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.searchPlaceholder'),
+          label: t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.searchLabel'),
+          placeholder: t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.searchPlaceholder'),
           errorMessage: slot.field.state.meta.errors?.join(', '),
         }"
         :get-option-label="getOptionLabel"

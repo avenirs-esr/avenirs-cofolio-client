@@ -1,7 +1,7 @@
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
-import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile'
-import { useUpdateProfileForm } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile-form'
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/overlays/UpdateProfileDrawer/config'
+import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile'
+import { useUpdateProfileForm } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { Exception } from 'sass-embedded'
@@ -30,7 +30,7 @@ vi.mock('@/store', async (importOriginal) => {
 })
 
 vi.mock('./use-update-profile', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile')>()
+  const actual = await importOriginal<typeof import('@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile')>()
 
   return {
     ...actual,

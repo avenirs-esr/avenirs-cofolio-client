@@ -16,7 +16,7 @@ const { t } = useI18n()
 
 <template>
   <h1 class="av-sr-only">
-    {{ t('student.views.studentHomeView.title') }}
+    {{ t('student.global.views.studentHomeView.title') }}
   </h1>
   <div
     class="layout-home"

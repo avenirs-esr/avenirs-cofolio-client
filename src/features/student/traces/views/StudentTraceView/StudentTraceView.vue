@@ -46,16 +46,16 @@ function onDeleteTraceSuccess () {
 }
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.tools.header') },
-  { text: t('student.navigation.tabs.tools.items.traces'), to: ROUTE_NAMES.STUDENT.TOOLS_TRACES },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.tools.header') },
+  { text: t('student.global.navigation.tabs.tools.items.traces'), to: ROUTE_NAMES.STUDENT.TOOLS_TRACES },
   { text: traceDetailed.value?.title || '' }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentTraceView.title', { trace: traceDetailed?.title ?? '' })"
+    :title="t('student.traces.views.StudentTraceView.title', { trace: traceDetailed?.title ?? '' })"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.HOME"
   />
@@ -66,7 +66,7 @@ const breadcrumbLinks = computed(() => [
   >
     <div class="header">
       <h5 class="n5">
-        {{ t('student.views.studentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed?.title }}</span>
+        {{ t('student.traces.views.StudentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed?.title }}</span>
       </h5>
       <TraceSettingsDropdown
         @delete-selected="displayDeleteModal"
@@ -82,7 +82,7 @@ const breadcrumbLinks = computed(() => [
       compact
     >
       <AvTab
-        :title="t('student.views.studentTraceView.tabs.details')"
+        :title="t('student.traces.views.StudentTraceView.tabs.details')"
         :icon="MDI_ICONS.ATTACH_FILE"
       >
         <StudentTraceDetails
@@ -90,7 +90,7 @@ const breadcrumbLinks = computed(() => [
         />
       </AvTab>
       <AvTab
-        :title="t('student.views.studentTraceView.tabs.associations')"
+        :title="t('student.traces.views.StudentTraceView.tabs.associations')"
         :icon="MDI_ICONS.LINK"
       >
         <TraceAssociations

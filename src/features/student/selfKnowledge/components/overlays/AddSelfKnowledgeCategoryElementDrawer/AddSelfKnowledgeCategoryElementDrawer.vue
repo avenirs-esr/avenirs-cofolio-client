@@ -27,7 +27,7 @@ const selectedCategoryIcon = computed(() => getSelfKnowledgeCategoryIcon(selecte
 function onElementCreated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.success')
+    description: t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.success')
   })
   confirmCancel()
 }
@@ -65,7 +65,7 @@ async function onSave () {
 }
 
 const drawerTitle = computed(() => {
-  return t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.titleWithCategory', {
+  return t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.titleWithCategory', {
     category: capitalize(selectedCategoryTypeTranslation.value)
   })
 })
@@ -74,7 +74,7 @@ const drawerTitle = computed(() => {
 <template>
   <ConfirmationModal
     :show="showDiscardChangesModal"
-    :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.confirmationModal.title')"
+    :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.confirmationModal.title')"
     @confirm="confirmCancel"
     @close="hideDiscardChangesModal"
   />
@@ -96,7 +96,7 @@ const drawerTitle = computed(() => {
         >
           <AvAccordionsGroup v-model:active-accordion="activeAccordion">
             <AvAccordion
-              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.definition', { categoryType: selectedCategoryTypeTranslation })"
+              :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.definition', { categoryType: selectedCategoryTypeTranslation })"
               :icon="selectedCategoryIcon"
             >
               <div class="av-flex-col-md av-p-md">
@@ -106,7 +106,7 @@ const drawerTitle = computed(() => {
             </AvAccordion>
 
             <AvAccordion
-              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.rating', { categoryType: selectedCategoryTypeTranslation })"
+              :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.rating', { categoryType: selectedCategoryTypeTranslation })"
               :icon="MDI_ICONS.RATE_REVIEW"
             >
               <div class="av-flex-col-md av-p-sm">
@@ -115,7 +115,7 @@ const drawerTitle = computed(() => {
             </AvAccordion>
 
             <AvAccordion
-              :title="t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.accordions.associate', { categoryType: selectedCategoryTypeTranslation })"
+              :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.associate', { categoryType: selectedCategoryTypeTranslation })"
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
             >
               <div class="add-self-knowledge-category-element-drawer__placeholder av-p-md">

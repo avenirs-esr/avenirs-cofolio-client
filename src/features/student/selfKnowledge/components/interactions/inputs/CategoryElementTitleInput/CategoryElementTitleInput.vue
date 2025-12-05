@@ -27,9 +27,9 @@ const avInputProps = computed(() => ({
   disabled,
   required,
   errorMessage,
-  label: label ?? t('student.selfKnowledge.categoryElementTitleInput.label'),
+  label: label ?? t('student.selfKnowledge.interactions.inputs.CategoryElementTitleInput.label'),
   prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
-  placeholder: placeholder ?? t('student.selfKnowledge.categoryElementTitleInput.placeholder')
+  placeholder: placeholder ?? t('student.selfKnowledge.interactions.inputs.CategoryElementTitleInput.placeholder')
 }))
 </script>
 

@@ -18,7 +18,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
 
   const onUpdateTraceError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentTraceView.updateTraceModal.errors.updateTrace'),
+      title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.updateTrace'),
       description: error.message
     })
   }
@@ -29,7 +29,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
 
   const onUploadAttachmentError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentTraceView.updateTraceModal.errors.fileUpload'),
+      title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.fileUpload'),
       description: error.message
     })
   }
@@ -53,7 +53,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
         return {
           fields: {
             file: validateFile(value.file),
-            isAuthentic: !value.isAuthentic ? t('student.traces.traceAuthenticDeclarationToggle.requiredMessage') : undefined,
+            isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
             traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
           }

@@ -23,7 +23,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
       <div class="resumes-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
-          :text="t('student.widgets.resumes.title')"
+          :text="t('student.global.widgets.resumes.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="s1-bold"
@@ -54,7 +54,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
                 <div class="resumes-widget-action__description ellipsis-container">
                   <span class="ellipsis b1-regular">{{ resume.name }}</span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.resumes.updatedAt', { date: formatDateToLocaleString(resume.updatedAt, locale as AvLocale) }) }}
+                    {{ t('student.global.widgets.resumes.updatedAt', { date: formatDateToLocaleString(resume.updatedAt, locale as AvLocale) }) }}
                   </span>
                 </div>
               </div>
@@ -66,7 +66,7 @@ const renderedResumes = computed(() => resumes.value.slice(0, 3))
     <template #footer>
       <div class="resumes-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.resumes.buttons.seeAll')"
+          :label="t('student.global.widgets.resumes.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentResumes"

@@ -1,7 +1,7 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/composites/UpdateProfileDrawer/config'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile'
+import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/overlays/UpdateProfileDrawer/config'
+import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile'
 import { useToasterStore } from '@/store'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
 import { useForm, useStore } from '@tanstack/vue-form'
@@ -21,7 +21,7 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
     if (!value) {
       return
     }
-    return value.trim().length > BIOGRAPHY_MAX_LENGTH ? t('student.widgets.overview.updateProfileDrawer.identity.biography.errors.tooLong', { maxLength: BIOGRAPHY_MAX_LENGTH }) : undefined
+    return value.trim().length > BIOGRAPHY_MAX_LENGTH ? t('student.user.overlays.UpdateProfileDrawer.identity.biography.errors.tooLong', { maxLength: BIOGRAPHY_MAX_LENGTH }) : undefined
   }
   const form = useForm({
     defaultValues: { ...initialData },
@@ -58,7 +58,7 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
       }
       catch (error) {
         addErrorMessage({
-          title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
+          title: t('student.user.overlays.UpdateProfileDrawer.onUpdate.error'),
           description: (error as BaseApiException)?.message ?? t('global.error.generic')
         })
       }

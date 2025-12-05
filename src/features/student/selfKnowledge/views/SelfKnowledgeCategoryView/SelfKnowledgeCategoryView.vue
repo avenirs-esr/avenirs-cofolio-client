@@ -39,10 +39,10 @@ const {
 } = useSelfKnowledgeCategory(computed(() => props.categoryId))
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
-  { text: t('student.navigation.tabs.project.items.selfKnowledge') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
+  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 
 const selectedElementId: Ref<string> = useRouteQuery('elementId', '')
@@ -73,7 +73,7 @@ function onUpdateSelected () {
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
+    :title="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-category-elements-view av-flex-row-sm">

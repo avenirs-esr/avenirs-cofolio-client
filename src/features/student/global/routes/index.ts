@@ -72,11 +72,11 @@ export default [
       },
       {
         ...ROUTE_NAMES.STUDENT.MAILBOX,
-        component: () => import('@/features/student/user/components/composites/StudentMailboxView/StudentMailboxView.vue'),
+        component: () => import('@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'),
       },
       {
         ...ROUTE_NAMES.STUDENT.NOTIFICATIONS,
-        component: () => import('@/features/student/user/components/composites/StudentNotificationsView/StudentNotificationsView.vue'),
+        component: () => import('@/features/student/user/views/StudentNotificationsView/StudentNotificationsView.vue'),
       },
       {
         ...ROUTE_NAMES.STUDENT.APC_UNAVAILABLE,

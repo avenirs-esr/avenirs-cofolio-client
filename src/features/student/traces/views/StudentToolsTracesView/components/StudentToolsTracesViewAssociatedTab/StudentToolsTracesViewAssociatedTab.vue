@@ -64,7 +64,7 @@ watch([
       class="no-result-container"
     >
       <span class="b2-regular">
-        {{ t('student.views.studentToolsTracesView.studentToolsTracesViewTabs.noTraceFound') }}
+        {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesViewTabs.noTraceFound') }}
       </span>
     </div>
   </div>

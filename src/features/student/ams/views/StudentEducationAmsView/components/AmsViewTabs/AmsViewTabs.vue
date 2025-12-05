@@ -12,13 +12,13 @@ const activeTab = ref(0)
 <template>
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.views.studentEducationAmsView.amsViewTabs.list')"
+      :title="t('student.ams.views.StudentEducationAmsView.amsViewTabs.list')"
       :icon="MDI_ICONS.FORMAT_LIST_BULLETED"
     >
       <AmsListContainer />
     </AvTab>
     <AvTab
-      :title="t('student.views.studentEducationAmsView.amsViewTabs.planning')"
+      :title="t('student.ams.views.StudentEducationAmsView.amsViewTabs.planning')"
       :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
     >
       <AmsPlanningContainer />

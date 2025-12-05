@@ -6,6 +6,6 @@ const { t } = useI18n()
 
 <template>
   <div class="b1-bold">
-    {{ t('student.views.studentProjectExperiencesView.experiences.title') }}
+    {{ t('student.global.views.studentProjectExperiencesView.experiences.title') }}
   </div>
 </template>

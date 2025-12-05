@@ -31,7 +31,7 @@ function onChangeAiUsageToggle (value: boolean) {
     <div class="declaration-items__content">
       <div class="declaration-items__section">
         <p class="declaration-items__section-title">
-          {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title') }}
+          {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title') }}
         </p>
 
         <div class="declaration-items__inline-toggles">
@@ -47,7 +47,7 @@ function onChangeAiUsageToggle (value: boolean) {
 
       <div class="declaration-items__section">
         <p class="declaration-items__section-title">
-          {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaUsage.title') }}
+          {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaUsage.title') }}
         </p>
 
         <div class="declaration-items__field">

@@ -14,7 +14,7 @@ const { additionalSkill } = defineProps<StudentDetailedAdditionalSkillCardProps>
 const { t } = useI18n()
 const additionalSkillColor = 'var(--dark-background-primary1)'
 const typeBadge = computed<AvBadgeProps>(() => ({
-  label: t(`student.additionalSkillTypes.${additionalSkill.type}`),
+  label: t(`student.additionalSkills.additionalSkillTypes.${additionalSkill.type}`),
   color: 'var(--text1)',
   borderColor: 'var(--other-border-skill-card)',
   backgroundColor: 'var(--surface-background)',

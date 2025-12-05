@@ -20,12 +20,12 @@ const modelValue = defineModel<number | undefined>()
 const { t } = useI18n()
 
 const ratingLevels = [
-  { value: 5, description: 'student.selfKnowledge.categoryElementRatingInput.levels.essential' },
-  { value: 4, description: 'student.selfKnowledge.categoryElementRatingInput.levels.veryImportant' },
-  { value: 3, description: 'student.selfKnowledge.categoryElementRatingInput.levels.important' },
-  { value: 2, description: 'student.selfKnowledge.categoryElementRatingInput.levels.lessImportant' },
-  { value: 1, description: 'student.selfKnowledge.categoryElementRatingInput.levels.notImportant' },
-  { value: 0, description: 'student.selfKnowledge.categoryElementRatingInput.levels.notEvaluated' }
+  { value: 5, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.essential' },
+  { value: 4, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.veryImportant' },
+  { value: 3, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.important' },
+  { value: 2, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.lessImportant' },
+  { value: 1, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.notImportant' },
+  { value: 0, description: 'student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.levels.notEvaluated' }
 ]
 
 function handleUpdateModelValue (value: string | number | boolean) {
@@ -39,7 +39,7 @@ function handleUpdateModelValue (value: string | number | boolean) {
   <div class="av-flex-col-sm self-knowledge-category-element-rating-input">
     <AvRadioButtonSet
       :model-value="modelValue"
-      :legend="legend ?? t('student.selfKnowledge.categoryElementRatingInput.legend')"
+      :legend="legend ?? t('student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.legend')"
       :error-message="errorMessage"
       :name="name"
       @update:model-value="handleUpdateModelValue"

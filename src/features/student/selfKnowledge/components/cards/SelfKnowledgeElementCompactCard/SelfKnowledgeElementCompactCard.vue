@@ -35,7 +35,7 @@ const { t } = useI18n()
     <template #body>
       <AvBadge
         v-if="valorized"
-        :label="t('student.views.studentProjectTrajectoriesView.selfKnowledge.elementsDetails.valorized')"
+        :label="t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.elementsDetails.valorized')"
         :icon="MDI_ICONS.STAR"
         color="var(--light-foreground-accent)"
         background-color="var(--light-background-accent)"

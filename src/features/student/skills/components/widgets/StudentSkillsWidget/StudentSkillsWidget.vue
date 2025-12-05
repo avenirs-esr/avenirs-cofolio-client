@@ -24,8 +24,8 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
       <div class="skills-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
-          :text="t('student.widgets.skills.title')"
-          :title="t('student.widgets.skills.title')"
+          :text="t('student.global.widgets.skills.title')"
+          :title="t('student.global.widgets.skills.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="n5"
@@ -45,7 +45,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
     <template #footer>
       <div class="skills-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.skills.buttons.seeAll')"
+          :label="t('student.global.widgets.skills.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentSkills"

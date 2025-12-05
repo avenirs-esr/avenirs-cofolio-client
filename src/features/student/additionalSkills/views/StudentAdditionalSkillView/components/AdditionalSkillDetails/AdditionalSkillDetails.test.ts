@@ -2,6 +2,7 @@ import type {
   AdditionalSkillProgressDetailsDTO
 } from '@/api/avenir-esr'
 import { createMockedAdditionalSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { ADDITIONAL_SKILL_COMMENT_MAX_LENGTH } from '@/features/student/additionalSkills/config'
 import AdditionalSkillDetails, { type AdditionalSkillDetailsProps } from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -144,9 +145,10 @@ BddTest().given('the AdditionalSkillDetails component', () => {
         expect(commentTextarea.props('modelValue')).toBeUndefined()
       })
 
-      BddTest().then('it should render the correct character count caption', () => {
-        const commentTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
-        expect(commentTextarea.text()).toContain(`0 / ${commentTextarea.props('maxlength')}`)
+      BddTest().then('it should set the correct maxLength', () => {
+        const commentTextarea = wrapper.findComponent({ name: 'AdditionalSkillCommentInput' })
+        const avInput = commentTextarea.findComponent({ name: 'AvInput' })
+        expect(avInput.props('maxlength')).toBe(ADDITIONAL_SKILL_COMMENT_MAX_LENGTH)
       })
     })
   })

@@ -10,8 +10,8 @@ const { t } = useI18n()
 const { showApcGenericInfoPage } = useStudentApcAccess()
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.apcUnavailable.title') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.apcUnavailable.title') }
 ])
 
 watchEffect(() => {
@@ -23,7 +23,7 @@ watchEffect(() => {
 
 <template>
   <PageTitle
-    :title="t('student.navigation.tabs.apcUnavailable.title')"
+    :title="t('student.global.navigation.tabs.apcUnavailable.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.HOME"
   />

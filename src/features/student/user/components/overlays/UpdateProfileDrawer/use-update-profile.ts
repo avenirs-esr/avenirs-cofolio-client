@@ -14,7 +14,7 @@ export function useUpdateProfile (onProfileUpdated: () => void) {
 
   function onUpdateProfileError (error: BaseApiException) {
     addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
+      title: t('student.user.overlays.UpdateProfileDrawer.onUpdate.error'),
       description: error.message
     })
   }
@@ -40,7 +40,7 @@ export function useUpdateProfileCover (onSuccess: (data: string) => void) {
 
   function onUpdateProfileCoverError (error: BaseApiException) {
     addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
+      title: t('student.user.overlays.UpdateProfileDrawer.onUpdate.error'),
       description: error.message
     })
   }
@@ -70,7 +70,7 @@ export function useUpdateProfilePhoto (onProfilePhotoUpdated: (data: string) => 
 
   function onUpdateProfilePhotoError (error: BaseApiException) {
     addErrorMessage({
-      title: t('student.widgets.overview.updateProfileDrawer.onUpdate.error'),
+      title: t('student.user.overlays.UpdateProfileDrawer.onUpdate.error'),
       description: error.message
     })
   }

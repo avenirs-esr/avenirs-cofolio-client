@@ -36,7 +36,7 @@ const renderedDeliverables = computed(() => {
           :size="2"
         />
         <span class="n5">
-          {{ t('student.widgets.deliverables.title') }}
+          {{ t('student.global.widgets.deliverables.title') }}
         </span>
       </div>
     </template>
@@ -64,10 +64,10 @@ const renderedDeliverables = computed(() => {
                 </div>
                 <div class="deliverables-widget-action__description ellipsis-container">
                   <span class="ellipsis b1-regular">
-                    {{ t('student.widgets.deliverables.skill', { skill: deliverable.skill }) }}
+                    {{ t('student.global.widgets.deliverables.skill', { skill: deliverable.skill }) }}
                   </span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.deliverables.ams', { ams: deliverable.activity }) }}
+                    {{ t('student.global.widgets.deliverables.ams', { ams: deliverable.activity }) }}
                   </span>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const renderedDeliverables = computed(() => {
     <template #footer>
       <div class="deliverables-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.deliverables.buttons.seeAll')"
+          :label="t('student.global.widgets.deliverables.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentDeliverables"

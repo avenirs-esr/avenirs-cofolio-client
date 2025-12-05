@@ -9,15 +9,15 @@ const mockedAmsCode = 'SAE 1.1'
 const mockedAmsName = `${mockedAmsCode} Réaliser l'audit environnemental d'un procédé de synthèse chimique`
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.views.studentEducationAmsView.breadcrumb.current.title'), to: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES },
-  { text: t('student.views.studentAmsView.breadcrumb.current.title', { ams: mockedAmsCode }) }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.ams.views.StudentEducationAmsView.breadcrumb.current.title'), to: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES },
+  { text: t('student.ams.views.StudentAmsView.breadcrumb.current.title', { ams: mockedAmsCode }) }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentAmsView.title', { ams: mockedAmsName })"
+    :title="t('student.ams.views.StudentAmsView.title', { ams: mockedAmsName })"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.HOME"
   />

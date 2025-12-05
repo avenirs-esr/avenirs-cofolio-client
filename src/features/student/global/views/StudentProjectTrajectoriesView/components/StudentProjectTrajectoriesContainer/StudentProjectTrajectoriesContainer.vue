@@ -26,27 +26,27 @@ const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
 const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
   {
     id: ProjectTrajectoryItems.BUILD_PROJECT,
-    label: t('student.views.studentProjectTrajectoriesView.buildProject.title'),
+    label: t('student.global.views.studentProjectTrajectoriesView.buildProject.title'),
     icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   },
   {
     id: ProjectTrajectoryItems.SELF_KNOWLEDGE,
-    label: t('student.views.studentProjectTrajectoriesView.selfKnowledge.title.menu'),
+    label: t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.title.menu'),
     icon: MDI_ICONS.FAMILY
   },
   {
     id: ProjectTrajectoryItems.EXPLORE_FUTURES,
-    label: t('student.views.studentProjectTrajectoriesView.exploreFutures.title'),
+    label: t('student.global.views.studentProjectTrajectoriesView.exploreFutures.title'),
     icon: MDI_ICONS.IMAGE_FILTER_CENTER_FOCUS_WEAK
   },
   {
     id: ProjectTrajectoryItems.TRAJECTORIES,
-    label: t('student.views.studentProjectTrajectoriesView.trajectories.title'),
+    label: t('student.global.views.studentProjectTrajectoriesView.trajectories.title'),
     icon: MDI_ICONS.ARROW_DECISION
   },
   {
     id: ProjectTrajectoryItems.ACTIVITIES,
-    label: t('student.views.studentProjectTrajectoriesView.activities.title'),
+    label: t('student.global.views.studentProjectTrajectoriesView.activities.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
 ])

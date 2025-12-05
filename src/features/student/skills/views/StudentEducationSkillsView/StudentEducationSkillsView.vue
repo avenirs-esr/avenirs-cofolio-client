@@ -28,14 +28,14 @@ const { data: courses, error } = useProgramProgressViewQuery(params)
 useBaseApiExceptionToast(error)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.education.items.skills') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.education.items.skills') }
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('student.views.studentEducationSkillsView.title', { count: courses?.length ?? 1 })"
+    :title="t('student.skills.views.StudentEducationSkillsView.title', { count: courses?.length ?? 1 })"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.HOME"
   />
