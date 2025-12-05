@@ -53,7 +53,7 @@ const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
 
 const items = computed<AvSideNavigationItem[]>(() => {
   if (__DEMO_MODE__) {
-    return ALL_ITEMS.value.slice(0, 1)
+    return ALL_ITEMS.value.slice(0, 2)
   }
   return ALL_ITEMS.value
 })

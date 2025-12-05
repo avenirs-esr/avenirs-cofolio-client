@@ -148,3 +148,56 @@ function onElementDeleted () {
     @confirm="onElementDeleted"
   />
 </template>
+
+<style lang="scss" scoped>
+.category-elements-paginator {
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--spacing-md);
+    padding:  0 var(--spacing-md);
+  }
+  &__title-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  &__description {
+    color: var(--text2);
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+  }
+  &__pagination {
+    :deep(.av-pagination__list) {
+      justify-content: flex-end !important;
+    }
+  }
+  &__cards {
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    padding: 0 var(--spacing-sm);
+    > * {
+      flex: 1 1 calc((100% - 2 * var(--spacing-md)) / 3);
+      min-width: 20rem;
+      max-width: calc((100% - 2 * var(--spacing-md)) / 3);
+    }
+  }
+  &__empty {
+    display: flex;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    color: var(--text2);
+  }
+}
+</style>
