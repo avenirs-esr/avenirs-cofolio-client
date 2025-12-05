@@ -115,7 +115,6 @@ const { t } = useI18n()
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  padding-top: 0.875rem;
 }
 
 .student-detailed-ams-card__firstLine {

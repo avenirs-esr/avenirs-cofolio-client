@@ -60,7 +60,7 @@ const { t } = useI18n()
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
-  padding-top: var(--spacing-xs);
+  margin-top: calc(-1 * var(--spacing-xs));
 }
 
 .line-container {

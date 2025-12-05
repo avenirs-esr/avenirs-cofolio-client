@@ -64,7 +64,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
    flex-direction: column;
    justify-content: space-between;
    gap: var(--spacing-xxs);
-   padding-top: var(--spacing-xs);
+  margin-top: calc(-1 * var(--spacing-xs));
  }
 
 .firstline-container {
