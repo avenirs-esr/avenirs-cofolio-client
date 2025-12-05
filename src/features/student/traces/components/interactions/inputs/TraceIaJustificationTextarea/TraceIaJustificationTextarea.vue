@@ -35,8 +35,8 @@ const avInputProps = computed(() => ({
   required,
   maxlength,
   errorMessage,
-  label: label ?? t('student.traces.traceIaJustificationTextarea.label'),
-  placeholder: placeholder ?? t('student.traces.traceIaJustificationTextarea.placeholder')
+  label: label ?? t('student.traces.interactions.inputs.TraceIaJustificationTextarea.label'),
+  placeholder: placeholder ?? t('student.traces.interactions.inputs.TraceIaJustificationTextarea.placeholder')
 }))
 </script>
 

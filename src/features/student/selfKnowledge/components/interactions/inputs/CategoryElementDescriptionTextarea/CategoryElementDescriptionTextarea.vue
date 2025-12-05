@@ -28,8 +28,8 @@ const avInputProps = computed(() => ({
   required,
   maxlength,
   errorMessage,
-  label: label ?? t('student.selfKnowledge.categoryElementDescriptionTextarea.label'),
-  placeholder: placeholder ?? t('student.selfKnowledge.categoryElementDescriptionTextarea.placeholder'),
+  label: label ?? t('student.selfKnowledge.interactions.inputs.CategoryElementDescriptionTextarea.label'),
+  placeholder: placeholder ?? t('student.selfKnowledge.interactions.inputs.CategoryElementDescriptionTextarea.placeholder'),
 }))
 </script>
 

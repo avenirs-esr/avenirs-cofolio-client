@@ -18,7 +18,7 @@ const { t } = useI18n()
 
 <template>
   <div class="ref--container">
-    <span class="caption-regular">{{ t('student.views.studentAdditionalSkillView.tabs.details.refTitle') }}</span>
+    <span class="caption-regular">{{ t('student.additionalSkills.cards.AdditionalSkillRefCard.refTitle') }}</span>
     <AvCard>
       <div class="ref--content">
         <div class="ref--type">
@@ -31,7 +31,7 @@ const { t } = useI18n()
             background-color="var(--surface-background)"
             border-color="var(--other-border-skill-card)"
             color="var(--text1)"
-            :label="t(`student.additionalSkillTypes.${type}`)"
+            :label="t(`student.additionalSkills.additionalSkillTypes.${type}`)"
             no-icon
           />
         </div>

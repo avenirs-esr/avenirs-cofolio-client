@@ -15,7 +15,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const onCreateTraceError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
+      title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
       description: error.message
     })
   }
@@ -24,7 +24,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const onUploadAttachmentError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
+      title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
       description: error.message
     })
   }
@@ -79,7 +79,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
           fields: {
             file: validateFile(value.file),
             traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
-            isAuthentic: !value.isAuthentic ? t('student.traces.traceAuthenticDeclarationToggle.requiredMessage') : undefined,
+            isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
           }
         }

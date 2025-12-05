@@ -34,10 +34,10 @@ const skillTitle = computed(() => additionalSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() => additionalSkillDetailed.value?.traceAssociations?.length ?? 0)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
-  { text: t('student.navigation.tabs.project.items.additionalSkills') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
+  { text: t('student.global.navigation.tabs.project.items.additionalSkills') }
 ])
 
 function handleUpdateSelected () {
@@ -47,7 +47,7 @@ function handleUpdateSelected () {
 
 <template>
   <PageTitle
-    :title="t('student.views.studentAdditionalSkillView.title')"
+    :title="t('student.additionalSkills.views.StudentAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
   />
@@ -59,7 +59,7 @@ function handleUpdateSelected () {
 
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.views.studentAdditionalSkillView.tabs.details.title')"
+      :title="t('student.additionalSkills.views.StudentAdditionalSkillView.tabs.details.title')"
       :icon="MDI_ICONS.INFORMATION_OUTLINE"
     >
       <AdditionalSkillDetails

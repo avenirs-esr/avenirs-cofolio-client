@@ -22,7 +22,7 @@ const attachment = computed(() => props.trace.attachment)
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
 const traceFileUploadLabel = computed(() => {
-  return `${t('student.traces.traceFileUpload.documentLabel')} - ${t('student.traces.traceFileUpload.addedOn', { date: uploadDate.value })}`
+  return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
 }
 )
 </script>
@@ -64,13 +64,13 @@ const traceFileUploadLabel = computed(() => {
               typography-class="b2-light"
               icon-color="var(--text2)"
               :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
-              :text="t('student.views.studentToolsTracesView.studentTraceDetails.groupProduction')"
+              :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.groupProduction')"
             />
             <AvIconText
               typography-class="b2-light"
               icon-color="var(--text2)"
               :icon="MDI_ICONS.CHECK"
-              :text="t('student.views.studentToolsTracesView.studentTraceDetails.authenticProduction')"
+              :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authenticProduction')"
             />
           </div>
         </div>
@@ -79,7 +79,7 @@ const traceFileUploadLabel = computed(() => {
           <div class="student-detailed-trace-information__ia">
             <TraceAiUsageToggle
               :model-value="!!trace.aiUseJustification"
-              :description="t('student.views.studentToolsTracesView.studentTraceDetails.iaToggleLabel')"
+              :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
               disabled
             />
             <TraceIaJustificationTextarea

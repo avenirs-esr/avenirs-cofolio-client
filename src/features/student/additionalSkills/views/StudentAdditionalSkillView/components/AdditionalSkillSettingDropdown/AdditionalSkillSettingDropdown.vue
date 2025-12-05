@@ -18,12 +18,12 @@ const menuItems = computed(() => [
   {
     name: AdditionalSkillSettingPopoverEvents.UPDATE,
     icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('student.views.studentAdditionalSkillView.settings.update')
+    label: t('student.additionalSkills.views.StudentAdditionalSkillView.settingDropdown.update')
   },
   {
     name: AdditionalSkillSettingPopoverEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.views.studentAdditionalSkillView.settings.delete')
+    label: t('student.additionalSkills.views.StudentAdditionalSkillView.settingDropdown.delete')
   }
 ])
 
@@ -42,8 +42,8 @@ function handleItemSelected (itemName: string) {
 <template>
   <AvDropdown
     :items="menuItems"
-    :trigger-aria-label="t('student.views.studentAdditionalSkillView.settings.ariaLabel')"
-    :trigger-label="t('student.views.studentAdditionalSkillView.settings.ariaLabel')"
+    :trigger-aria-label="t('student.additionalSkills.views.StudentAdditionalSkillView.settingDropdown.ariaLabel')"
+    :trigger-label="t('student.additionalSkills.views.StudentAdditionalSkillView.settingDropdown.ariaLabel')"
     @item-selected="handleItemSelected"
   />
 </template>

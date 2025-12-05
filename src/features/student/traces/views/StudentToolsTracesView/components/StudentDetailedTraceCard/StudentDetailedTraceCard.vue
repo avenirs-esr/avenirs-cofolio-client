@@ -49,7 +49,7 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
           <AvIconText
             v-if="getDaysUntilDeletion > 0"
             :icon="MDI_ICONS.HOURGLASS"
-            :text="t('student.views.studentToolsTracesView.studentDetailedTraceCard.getDaysUntilDeletion', { count: getDaysUntilDeletion })"
+            :text="t('student.traces.views.StudentToolsTracesView.studentDetailedTraceCard.getDaysUntilDeletion', { count: getDaysUntilDeletion })"
             icon-color="var(--text2)"
             text-color="var(--text2)"
             typography-class="b2-regular"

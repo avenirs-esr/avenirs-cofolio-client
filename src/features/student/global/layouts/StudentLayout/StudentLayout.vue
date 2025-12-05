@@ -44,7 +44,7 @@ defineExpose({ searchQuery })
 <template>
   <AvHeader
     v-model="searchQuery"
-    :service-title="t('student.layout.header.serviceTitle')"
+    :service-title="t('student.global.layout.header.serviceTitle')"
     :home-to="{ name: ROUTE_NAMES.STUDENT.HOME.name }"
     show-search
     :language-selector="languageSelector"

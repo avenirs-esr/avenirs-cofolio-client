@@ -3,6 +3,8 @@ import type { AdditionalSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
 import AdditionalSkillLevelBadge from '@/features/student/additionalSkills/components/badges/AdditionalSkillLevelBadge/AdditionalSkillLevelBadge.vue'
 import AdditionalSkillRefCard from '@/features/student/additionalSkills/components/cards/AdditionalSkillRefCard/AdditionalSkillRefCard.vue'
+import AdditionalSkillCommentInput
+  from '@/features/student/additionalSkills/components/interactions/inputs/AdditionalSkillCommentInput/AdditionalSkillCommentInput.vue'
 import { AvCard, AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -29,7 +31,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
   >
     <div class="layout-additional-skill-details__main">
       <AvInput
-        :label="t('student.views.studentAdditionalSkillView.tabs.details.skillTitle')"
+        :label="t('student.additionalSkills.views.StudentAdditionalSkillView.additionalSkillDetails.skillTitle')"
         label-class="caption-regular"
         :prefix-icon="RI_ICONS.LOADER_LINE"
         :model-value="title"
@@ -44,7 +46,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         border-color="transparent"
       >
         <div class="level-card--content">
-          <span class="b2-regular">{{ t('student.views.studentAdditionalSkillView.tabs.details.levelTitle') }}</span>
+          <span class="b2-regular">{{ t('student.additionalSkills.views.StudentAdditionalSkillView.additionalSkillDetails.levelTitle') }}</span>
           <AdditionalSkillLevelBadge :level="level" />
         </div>
       </AvCard>
@@ -55,20 +57,10 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       />
     </div>
     <div class="layout-additional-skill-details__side">
-      <AvInput
-        :label="t('student.views.studentAdditionalSkillView.tabs.details.descriptionTitle')"
-        label-class="caption-regular"
+      <AdditionalSkillCommentInput
         :model-value="description"
-        :maxlength="400"
-        is-textarea
         disabled
-      >
-        <template #customCaptions>
-          <span class="caption-regular">
-            {{ t('global.inputs.textarea.limit', { count: description?.length ?? 0, maxlength: 400 }) }}
-          </span>
-        </template>
-      </AvInput>
+      />
     </div>
   </div>
 </template>

@@ -26,7 +26,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
         :required="false"
       />
       <div class="av-flex-col-sm">
-        <span class="b2-light">{{ t('student.views.selfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
+        <span class="b2-light">{{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
         <Rating
           :rating="element.rating ?? 0"
           :stars-first="false"

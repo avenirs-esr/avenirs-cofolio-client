@@ -20,7 +20,7 @@ const { t } = useI18n()
       <div class="traces-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.ATTACH_FILE"
-          :text="t('student.widgets.traces.title')"
+          :text="t('student.global.widgets.traces.title')"
           icon-color="var(--icon)"
           text-color="var(--title)"
           typography-class="n5"
@@ -40,7 +40,7 @@ const { t } = useI18n()
     <template #footer>
       <div class="traces-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.traces.buttons.seeAll')"
+          :label="t('student.global.widgets.traces.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentTraces"

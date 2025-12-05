@@ -26,7 +26,7 @@ const { data: skillConfig } = useAdditionalSkillConfig()
 const skillLevels = computed(() => Object.values(EAdditionalSkillLevel))
 
 const defaultLegend = computed(() =>
-  t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.levelLabel')
+  t('student.additionalSkills.interactions.radios.AdditionalSkillLevelRadioButtonSet.legend')
 )
 
 function getDescription (level: EAdditionalSkillLevel) {

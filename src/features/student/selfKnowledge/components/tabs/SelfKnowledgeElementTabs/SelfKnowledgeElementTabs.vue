@@ -18,7 +18,7 @@ defineSlots<{
 
 const { t } = useI18n()
 
-const categoryTypeLabel = computed(() => t(`student.views.selfKnowledgeCategoryView.tabs.category.titles.${categoryType}`))
+const categoryTypeLabel = computed(() => t(`student.selfKnowledge.tabs.SelfKnowledgeElementTabs.category.titles.${categoryType}`))
 const activeTab = ref(0)
 </script>
 
@@ -31,7 +31,7 @@ const activeTab = ref(0)
       <slot name="element" />
     </AvTab>
     <AvTab
-      :title="t('student.views.selfKnowledgeCategoryView.tabs.associations.title', 0)"
+      :title="t('student.selfKnowledge.tabs.SelfKnowledgeElementTabs.associations.title', 0)"
       :icon="MDI_ICONS.LINK"
     >
       <slot name="associations" />

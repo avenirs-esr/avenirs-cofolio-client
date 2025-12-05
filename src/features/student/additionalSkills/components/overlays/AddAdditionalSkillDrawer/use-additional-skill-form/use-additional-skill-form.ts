@@ -11,7 +11,7 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
 
   const onCreateAdditionalSkillError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.errors.createAdditionalSkill'),
+      title: t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.errors.createAdditionalSkill'),
       description: error.message
     })
   }
@@ -28,10 +28,10 @@ export function useAdditionalSkillForm (onSkillAdded?: () => void) {
         return {
           fields: {
             selectedSkills: (!value.selectedSkills || value.selectedSkills.length === 0)
-              ? t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.validation.skillRequired')
+              ? t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.validation.skillRequired')
               : undefined,
             level: !value.level
-              ? t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.validation.levelRequired')
+              ? t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.validation.levelRequired')
               : undefined
           }
         }

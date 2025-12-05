@@ -31,7 +31,7 @@ const { t } = useI18n()
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
             :icon="ICONS_DATA_URL.FILE_DOCUMENT_MULTIPLE_OUTLINE"
-            :label="t('student.cards.studentDetailedPastSkillCard.programFinished')"
+            :label="t('student.skills.cards.StudentDetailedPastSkillCard.programFinished')"
             small
             ellipsis
           />

@@ -23,22 +23,22 @@ const sectionsMap: Record<ProjectExperienceItems, Component> = {
 const items = computed<AvSideNavigationItem[]>(() => [
   {
     id: ProjectExperienceItems.CAREERS,
-    label: t('student.views.studentProjectExperiencesView.careers.title'),
+    label: t('student.global.views.studentProjectExperiencesView.careers.title'),
     icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   },
   {
     id: ProjectExperienceItems.EDUCATIONS,
-    label: t('student.views.studentProjectExperiencesView.educations.title'),
+    label: t('student.global.views.studentProjectExperiencesView.educations.title'),
     icon: MDI_ICONS.SCHOOL_OUTLINE
   },
   {
     id: ProjectExperienceItems.EXPERIENCES,
-    label: t('student.views.studentProjectExperiencesView.experiences.title'),
+    label: t('student.global.views.studentProjectExperiencesView.experiences.title'),
     icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
   },
   {
     id: ProjectExperienceItems.ACTIVITIES,
-    label: t('student.views.studentProjectExperiencesView.activities.title'),
+    label: t('student.global.views.studentProjectExperiencesView.activities.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
 ])

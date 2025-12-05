@@ -23,7 +23,7 @@ const { t } = useI18n()
     <template #title-prepend>
       <div class="badges-container">
         <AdditionalSkillTypeBadge
-          :label="t(`student.additionalSkillTypes.${additionalSkill.type}`)"
+          :label="t(`student.additionalSkills.additionalSkillTypes.${additionalSkill.type}`)"
         />
         <AdditionalSkillLevelBadge
           :level="additionalSkill.level"

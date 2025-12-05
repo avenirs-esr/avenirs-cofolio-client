@@ -21,7 +21,7 @@ const { onConfirmDeleteTrace, isDeleteTracePending } = useDeleteTrace()
 function useDeleteTrace () {
   function onDeleteTraceError (error: BaseApiException) {
     addErrorMessage({
-      title: t('student.views.studentTraceView.errors.delete'),
+      title: t('student.traces.views.StudentTraceView.errors.delete'),
       description: error.message
     })
   }
@@ -59,8 +59,8 @@ function useDeleteTrace () {
       />
     </template>
     <div class="content-container">
-      <span class="b2-bold">{{ t('student.views.studentTraceView.traceDeletionConfirmationModal.description') }}</span>
-      <span class="b2-light">{{ t('student.views.studentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>
+      <span class="b2-bold">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}</span>
+      <span class="b2-light">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>
     </div>
   </ConfirmationModal>
 </template>

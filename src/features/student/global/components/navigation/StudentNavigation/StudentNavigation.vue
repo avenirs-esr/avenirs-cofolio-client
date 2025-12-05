@@ -31,10 +31,10 @@ const educationMenu = computed(() => {
   }
 
   if (!showApcGenericInfoPage.value) {
-    menu.title = t('student.navigation.tabs.education.header').toUpperCase()
+    menu.title = t('student.global.navigation.tabs.education.header').toUpperCase()
   }
   if (!showApcSubmenus.value) {
-    menu.text = t('student.navigation.tabs.education.header').toUpperCase()
+    menu.text = t('student.global.navigation.tabs.education.header').toUpperCase()
   }
   if (showApcGenericInfoPage.value) {
     menu.to = ROUTE_NAMES.STUDENT.APC_UNAVAILABLE
@@ -44,7 +44,7 @@ const educationMenu = computed(() => {
       menu.links = [
         {
           to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
-          text: t('student.navigation.tabs.education.items.skills'),
+          text: t('student.global.navigation.tabs.education.items.skills'),
           icon: MDI_ICONS.STARS,
         },
       ]
@@ -53,12 +53,12 @@ const educationMenu = computed(() => {
       menu.links = [
         {
           to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS,
-          text: t('student.navigation.tabs.education.items.skills'),
+          text: t('student.global.navigation.tabs.education.items.skills'),
           icon: MDI_ICONS.STARS,
         },
         {
           to: ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES,
-          text: t('student.navigation.tabs.education.items.activities'),
+          text: t('student.global.navigation.tabs.education.items.activities'),
           icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
         },
       ]
@@ -70,7 +70,7 @@ const educationMenu = computed(() => {
 
 const allToolsMenu
   = computed(() => ({
-    title: t('student.navigation.tabs.tools.header').toUpperCase(),
+    title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
     get active () {
       return isRouteActive([
         ROUTE_NAMES.STUDENT.TOOLS_TRACES,
@@ -81,17 +81,17 @@ const allToolsMenu
     links: [
       {
         to: ROUTE_NAMES.STUDENT.TOOLS_TRACES,
-        text: t('student.navigation.tabs.tools.items.traces'),
+        text: t('student.global.navigation.tabs.tools.items.traces'),
         icon: MDI_ICONS.ATTACH_FILE
       },
       {
         to: ROUTE_NAMES.STUDENT.TOOLS_PAGES,
-        text: t('student.navigation.tabs.tools.items.pages'),
+        text: t('student.global.navigation.tabs.tools.items.pages'),
         icon: MDI_ICONS.POST_IT_NOTES_OUTLINE
       },
       {
         to: ROUTE_NAMES.STUDENT.TOOLS_RESUMES,
-        text: t('student.navigation.tabs.tools.items.resumes'),
+        text: t('student.global.navigation.tabs.tools.items.resumes'),
         icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE
       },
     ],
@@ -100,18 +100,18 @@ const allToolsMenu
 const demoModeToolsMenu
   = computed(() => (
     {
-      title: t('student.navigation.tabs.tools.header').toUpperCase(),
+      title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
       get active () {
         return isRouteActive([ROUTE_NAMES.STUDENT.TOOLS_TRACES])
       },
       links: [
-        { to: ROUTE_NAMES.STUDENT.TOOLS_TRACES, text: t('student.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+        { to: ROUTE_NAMES.STUDENT.TOOLS_TRACES, text: t('student.global.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
       ],
     }
   ))
 
 const buildLifeProjectMenu = computed(() => ({
-  title: t('student.navigation.tabs.project.header').toUpperCase(),
+  title: t('student.global.navigation.tabs.project.header').toUpperCase(),
   get active () {
     return isRouteActive([
       ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
@@ -122,17 +122,17 @@ const buildLifeProjectMenu = computed(() => ({
   links: [
     {
       to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
-      text: t('student.navigation.tabs.project.items.skills'),
+      text: t('student.global.navigation.tabs.project.items.skills'),
       icon: MDI_ICONS.STARS,
     },
     {
       to: ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
-      text: t('student.navigation.tabs.project.items.experiences'),
+      text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
     },
     {
       to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
-      text: t('student.navigation.tabs.project.items.trajectories'),
+      text: t('student.global.navigation.tabs.project.items.trajectories'),
       icon: MDI_ICONS.ARROW_DECISION
     },
   ],
@@ -141,7 +141,7 @@ const buildLifeProjectMenu = computed(() => ({
 const demoModeBuildLifeProjectMenu
   = computed(() => (
     {
-      title: t('student.navigation.tabs.project.header').toUpperCase(),
+      title: t('student.global.navigation.tabs.project.header').toUpperCase(),
       get active () {
         return isRouteActive([
           ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
@@ -151,12 +151,12 @@ const demoModeBuildLifeProjectMenu
       links: [
         {
           to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
-          text: t('student.navigation.tabs.project.items.skills'),
+          text: t('student.global.navigation.tabs.project.items.skills'),
           icon: MDI_ICONS.STARS,
         },
         {
           to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES,
-          text: t('student.navigation.tabs.project.items.trajectories'),
+          text: t('student.global.navigation.tabs.project.items.trajectories'),
           icon: MDI_ICONS.ARROW_DECISION
         },
       ],
@@ -168,7 +168,7 @@ const navItems = computed(() => [
   {
     id: homeItemId,
     to: ROUTE_NAMES.STUDENT.HOME,
-    text: t('student.navigation.tabs.home').toUpperCase(),
+    text: t('student.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
   ...(

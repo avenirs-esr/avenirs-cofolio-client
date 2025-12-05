@@ -18,7 +18,7 @@ const { t } = useI18n()
   >
     <template #trigger="{ toggle }">
       <AvButton
-        :label="t('student.layout.header.quicklinks.mailbox')"
+        :label="t('student.global.layout.header.quicklinks.mailbox')"
         :on-click="toggle"
         :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
         small
@@ -28,7 +28,7 @@ const { t } = useI18n()
       <div class="container">
         <AvIconText
           data-testid="mailbox-popover-title"
-          :text="t('student.overlays.mailboxPopover.title', { count: messagesCount })"
+          :text="t('student.user.overlays.StudentMailboxPopover.title', { count: messagesCount })"
           :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
           text-color="var(--title)"
           icon-color="var(--dark-background-primary1)"
@@ -36,7 +36,7 @@ const { t } = useI18n()
           gap="var(--spacing-md)"
         />
         <div v-if="messagesCount === 0">
-          <span class="b2-light">{{ t('student.overlays.mailboxPopover.bodyNoNew') }}</span>
+          <span class="b2-light">{{ t('student.user.overlays.StudentMailboxPopover.bodyNoNew') }}</span>
         </div>
         <div v-else>
           Messages...
@@ -44,7 +44,7 @@ const { t } = useI18n()
         <div class="footer">
           <AvCancelConfirmButtons
             :cancel-label="t('global.buttons.exit')"
-            :confirm-label="messagesCount === 0 ? t('student.overlays.mailboxPopover.buttons.navigate') : t('student.overlays.mailboxPopover.buttons.seeAll')"
+            :confirm-label="messagesCount === 0 ? t('student.user.overlays.StudentMailboxPopover.buttons.navigate') : t('student.user.overlays.StudentMailboxPopover.buttons.seeAll')"
             :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             :confirm-icon="MDI_ICONS.ARROW_RIGHT_THIN"
             @cancel="close"

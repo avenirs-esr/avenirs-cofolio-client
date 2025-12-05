@@ -13,7 +13,7 @@ const homeRoute = computed(() => isStudentRoute.value
   : ROUTE_NAMES.TEACHER.HOME)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: homeRoute.value },
+  { text: t('student.global.navigation.tabs.home'), to: homeRoute.value },
   { text: t('global.views.legalView.title') },
 ])
 </script>

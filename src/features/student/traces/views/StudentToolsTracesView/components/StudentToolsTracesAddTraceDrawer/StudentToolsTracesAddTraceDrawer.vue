@@ -20,7 +20,7 @@ const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 function onTraceCreated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
+    description: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.success')
   })
   confirmCancel()
 }
@@ -71,7 +71,7 @@ async function onSave () {
   >
     <div class="student-tools-traces-add-trace-drawer">
       <h2 class="student-tools-traces-add-trace-drawer__title">
-        {{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.title') }}
+        {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.title') }}
       </h2>
 
       <div class="student-tools-traces-add-trace-drawer__content">
@@ -81,22 +81,22 @@ async function onSave () {
         >
           <AvAccordionsGroup v-model:active-accordion="activeAccordion">
             <AvAccordion
-              :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.addTrace')"
+              :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.addTrace')"
               :icon="MDI_ICONS.IMAGE_OUTLINE"
             >
               <CreateTraceFormTraceDefinitionItems :form="form" />
             </AvAccordion>
 
             <AvAccordion
-              :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')"
+              :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')"
               :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
             >
               <CreateTraceFormDeclarationItems :form="form" />
             </AvAccordion>
 
-            <AvAccordion :title="t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')">
+            <AvAccordion :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')">
               <div class="placeholder-content">
-                <p>{{ t('student.views.studentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace') }} - Contenu à implémenter</p>
+                <p>{{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace') }} - Contenu à implémenter</p>
               </div>
             </AvAccordion>
           </AvAccordionsGroup>

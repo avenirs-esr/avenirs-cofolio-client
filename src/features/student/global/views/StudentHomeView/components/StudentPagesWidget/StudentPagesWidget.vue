@@ -23,7 +23,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
       <div class="pages-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
-          :text="t('student.widgets.pages.title')"
+          :text="t('student.global.widgets.pages.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="s1-bold"
@@ -54,7 +54,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
                 <div class="pages-widget-action__description ellipsis-container">
                   <span class="ellipsis b1-regular">{{ page.name }}</span>
                   <span class="ellipsis caption-light">
-                    {{ t('student.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
+                    {{ t('student.global.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
                   </span>
                 </div>
               </div>
@@ -66,7 +66,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
     <template #footer>
       <div class="pages-widget-container__footer">
         <AvButton
-          :label="t('student.widgets.pages.buttons.seeAll')"
+          :label="t('student.global.widgets.pages.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentPages"

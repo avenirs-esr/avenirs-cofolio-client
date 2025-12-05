@@ -54,7 +54,7 @@ function onOptionSelected (selected: AvTagPickerOption): void {
 <template>
   <div class="program-progress-selector">
     <AvTagPicker
-      :label="t('student.views.studentEducationAmsView.amsListContainer.programProgressSelector.label')"
+      :label="t('student.ams.views.StudentEducationAmsView.programProgressSelector.label')"
       :options="options"
       :selected="selectedProgramProgressOption"
       :handle-select-change="onOptionSelected"

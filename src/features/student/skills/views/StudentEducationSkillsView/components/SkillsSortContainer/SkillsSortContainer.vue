@@ -48,7 +48,7 @@ function useSortEducationSkills () {
       select-id="education-skills-sort"
       placeholder=""
       :options="sortOptions"
-      :aria-label="t('student.views.studentEducationSkillsView.skillsSortContainer.sort.selectAriaLabel')"
+      :aria-label="t('student.skills.views.StudentEducationSkillsView.skillsSortContainer.sort.selectAriaLabel')"
       dense
     />
   </div>

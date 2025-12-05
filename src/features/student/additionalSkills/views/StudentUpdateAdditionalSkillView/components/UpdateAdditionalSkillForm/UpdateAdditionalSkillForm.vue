@@ -50,7 +50,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       <div class="update-additional-skill-form__content">
         <div class="update-additional-skill-form__main">
           <AvInput
-            :label="t('student.views.studentAdditionalSkillView.tabs.details.skillTitle')"
+            :label="t('student.additionalSkills.views.StudentAdditionalSkillView.additionalSkillDetails.skillTitle')"
             label-class="caption-regular"
             :prefix-icon="RI_ICONS.LOADER_LINE"
             :model-value="additionalSkillProgressDetails.title"

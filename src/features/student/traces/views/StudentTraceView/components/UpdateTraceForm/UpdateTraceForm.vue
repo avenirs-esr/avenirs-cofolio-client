@@ -26,7 +26,7 @@ const { t } = useI18n()
 function onTraceUpdated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.views.studentTraceView.updateTraceModal.success')
+    description: t('student.traces.views.StudentTraceView.updateTraceModal.success')
   })
   hideUpdateTraceModal()
 }
@@ -46,7 +46,7 @@ function onChangeAiUsageToggle (value: boolean) {
 }
 const traceFileUploadLabel = computed(() => {
   const uploadDate = formatTranslatedDateTime(trace.attachment.uploadedAt)
-  return `${t('student.traces.traceFileUpload.documentLabel')} - ${t('student.traces.traceFileUpload.addedOn', { date: uploadDate })}`
+  return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate })}`
 })
 </script>
 
@@ -75,7 +75,7 @@ const traceFileUploadLabel = computed(() => {
       <div class="update-trace-form__col">
         <div class="update-trace-form__section">
           <span class="caption-regular">
-            {{ t('student.views.studentTraceView.updateTraceModal.updateTraceForm.declaration.productionNature.title') }}
+            {{ t('student.traces.views.StudentTraceView.updateTraceModal.updateTraceForm.declaration.productionNature.title') }}
           </span>
 
           <div class="update-trace-form__toggles">
@@ -93,7 +93,7 @@ const traceFileUploadLabel = computed(() => {
       <div class="update-trace-form__col">
         <div class="update-trace-form__section">
           <span class="caption-regular">
-            {{ t('student.views.studentTraceView.updateTraceModal.updateTraceForm.declaration.iaUsage.title') }}
+            {{ t('student.traces.views.StudentTraceView.updateTraceModal.updateTraceForm.declaration.iaUsage.title') }}
           </span>
 
           <div class="update-trace-form__toggle">

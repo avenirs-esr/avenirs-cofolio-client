@@ -16,7 +16,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
 
   const onCreateElementError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.selfKnowledge.addSelfKnowledgeCategoryElementDrawer.errors.createElement'),
+      title: t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.errors.createElement'),
       description: error.message
     })
   }

@@ -33,9 +33,9 @@ const avInputProps = computed(() => ({
   disabled,
   required,
   errorMessage,
-  label: label ?? t('student.traces.traceNameInput.label'),
+  label: label ?? t('student.traces.interactions.inputs.TraceNameInput.label'),
   prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
-  placeholder: placeholder ?? t('student.traces.traceNameInput.placeholder')
+  placeholder: placeholder ?? t('student.traces.interactions.inputs.TraceNameInput.placeholder')
 }))
 </script>
 

@@ -24,7 +24,7 @@ const { t } = useI18n()
       <ul>
         <li>
           <AvButton
-            :label="t('student.overlays.profilePopover.buttons.manageProfile')"
+            :label="t('student.user.overlays.StudentProfilePopover.buttons.manageProfile')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
@@ -34,7 +34,7 @@ const { t } = useI18n()
         </li>
         <li>
           <AvButton
-            :label="t('student.overlays.profilePopover.buttons.seeCalendar')"
+            :label="t('student.user.overlays.StudentProfilePopover.buttons.seeCalendar')"
             :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
             variant="DEFAULT"
             theme="SECONDARY"
@@ -44,7 +44,7 @@ const { t } = useI18n()
         </li>
         <li>
           <AvButton
-            :label="t('student.overlays.profilePopover.buttons.goToDw')"
+            :label="t('student.user.overlays.StudentProfilePopover.buttons.goToDw')"
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
@@ -54,7 +54,7 @@ const { t } = useI18n()
         </li>
         <li>
           <AvButton
-            :label="t('student.overlays.profilePopover.buttons.goToSkills')"
+            :label="t('student.user.overlays.StudentProfilePopover.buttons.goToSkills')"
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
             variant="DEFAULT"
             theme="SECONDARY"
@@ -64,7 +64,7 @@ const { t } = useI18n()
         </li>
         <li>
           <AvButton
-            :label="t('student.overlays.profilePopover.buttons.logout')"
+            :label="t('student.user.overlays.StudentProfilePopover.buttons.logout')"
             :icon="MDI_ICONS.LOGOUT"
             variant="DEFAULT"
             theme="SECONDARY"

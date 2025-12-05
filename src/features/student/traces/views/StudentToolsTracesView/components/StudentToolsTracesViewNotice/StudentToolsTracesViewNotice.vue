@@ -13,20 +13,20 @@ const { t } = useI18n()
 const { data: tracesConfig } = useTracesConfigurationQuery()
 
 function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCount: number, criticalDays: number | undefined, maxDayBeforeDeletion: number | undefined): string {
-  let message = t('student.views.studentToolsTracesView.warningMessage.unassociated', unassociatedTracesCount)
+  let message = t('student.traces.views.StudentToolsTracesView.warningMessage.unassociated', unassociatedTracesCount)
   if (tracesToDeleteCount > 0) {
     if (unassociatedTracesCount === 1) {
-      message += ` ${t('student.views.studentToolsTracesView.warningMessage.delete.loneTrace')}`
+      message += ` ${t('student.traces.views.StudentToolsTracesView.warningMessage.delete.loneTrace')}`
     }
     else {
-      message += ` ${t('student.views.studentToolsTracesView.warningMessage.delete.traces', tracesToDeleteCount)}`
+      message += ` ${t('student.traces.views.StudentToolsTracesView.warningMessage.delete.traces', tracesToDeleteCount)}`
     }
     if (criticalDays !== undefined) {
-      message += ` ${t('student.views.studentToolsTracesView.warningMessage.delete.days', criticalDays)}`
+      message += ` ${t('student.traces.views.StudentToolsTracesView.warningMessage.delete.days', criticalDays)}`
     }
   }
   if (maxDayBeforeDeletion && maxDayBeforeDeletion > 0) {
-    message += ` ${t('student.views.studentToolsTracesView.warningMessage.reminder', maxDayBeforeDeletion)}`
+    message += ` ${t('student.traces.views.StudentToolsTracesView.warningMessage.reminder', maxDayBeforeDeletion)}`
   }
   return message
 }

@@ -20,14 +20,14 @@ const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const selectedTraceIds = ref<string[]>([])
 
 function onSuccess () {
-  addSuccessMessage(t('student.views.studentUpdateAdditionalSkillView.updateAssociations.success', {
+  addSuccessMessage(t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateAssociations.success', {
     count: selectedTraceIds.value.length
   }))
   selectedTraceIds.value = []
 }
 
 function onError () {
-  addErrorMessage(t('student.views.studentUpdateAdditionalSkillView.updateAssociations.errors.unassociateTraces'))
+  addErrorMessage(t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateAssociations.errors.unassociateTraces'))
 }
 
 const { mutate: unassociateTraces, isPending } = useUnassociateTracesFromAdditionalSkillMutation({
@@ -56,7 +56,7 @@ async function handleRemoveAssociations () {
       <template #body>
         <div class="update-additional-skill-associations__card-actions">
           <AvButton
-            :label="t('student.views.studentUpdateAdditionalSkillView.updateAssociations.removeButton')"
+            :label="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateAssociations.removeButton')"
             :disabled="isPending || selectedTraceIds.length === 0"
             variant="OUTLINED"
             small
@@ -75,7 +75,7 @@ async function handleRemoveAssociations () {
           >
             <template #body>
               <AvButton
-                :label="t('student.views.studentUpdateAdditionalSkillView.updateAssociations.addTraceButton')"
+                :label="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateAssociations.addTraceButton')"
                 :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
                 :disabled="isPending"
               />

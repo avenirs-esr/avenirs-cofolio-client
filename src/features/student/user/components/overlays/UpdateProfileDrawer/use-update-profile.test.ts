@@ -1,6 +1,6 @@
 import { createPutUpdateProfileCoverHandler, createPutUpdateProfileHandler, createPutUpdateProfilePhotoHandler, putUpdateProfileCoverErrorHandler, putUpdateProfileErrorHandler, putUpdateProfilePhotoErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/composites/UpdateProfileDrawer/use-update-profile'
+import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'

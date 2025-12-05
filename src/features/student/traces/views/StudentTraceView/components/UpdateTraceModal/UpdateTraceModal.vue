@@ -28,8 +28,8 @@ const {
 const currentStep = ref(UpdateTraceModalSteps.Terms)
 
 const steps = computed(() => [
-  t('student.views.studentTraceView.updateTraceModal.steps.terms.title'),
-  t('student.views.studentTraceView.updateTraceModal.steps.update.title')
+  t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.title'),
+  t('student.traces.views.StudentTraceView.updateTraceModal.steps.update.title')
 ])
 
 function goToNextStep () {
@@ -65,8 +65,8 @@ const displayedStep = computed(() => currentStep.value === UpdateTraceModalSteps
   : UpdateStep)
 
 const confirmLabel = computed(() => currentStep.value === UpdateTraceModalSteps.Terms
-  ? t('student.views.studentTraceView.updateTraceModal.buttons.validate')
-  : t('student.views.studentTraceView.updateTraceModal.buttons.save'))
+  ? t('student.traces.views.StudentTraceView.updateTraceModal.buttons.validate')
+  : t('student.traces.views.StudentTraceView.updateTraceModal.buttons.save'))
 
 const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.Terms
   ? MDI_ICONS.CHECK_CIRCLE_OUTLINE
@@ -76,7 +76,7 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
 <template>
   <AvModal
     :opened="showUpdateTraceModal"
-    :close-button-label="t('student.views.studentTraceView.updateTraceModal.buttons.close')"
+    :close-button-label="t('student.traces.views.StudentTraceView.updateTraceModal.buttons.close')"
     :confirm-button-label="confirmLabel"
     :confirm-button-icon="confirmIcon"
     @close="handleClose"
@@ -85,7 +85,7 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
     <template #header>
       <div class="header">
         <h5 class="n5">
-          {{ t('student.views.studentTraceView.updateTraceModal.title') }} <span class="s1-regular">{{ trace.title }}</span>
+          {{ t('student.traces.views.StudentTraceView.updateTraceModal.title') }} <span class="s1-regular">{{ trace.title }}</span>
         </h5>
       </div>
     </template>

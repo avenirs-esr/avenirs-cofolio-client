@@ -23,7 +23,7 @@ const { form, isSubmitting } = useAssociateTraceForm({
   onAssociated: () => {
     addSuccessMessage({
       timeout: 2000,
-      description: t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.success'),
+      description: t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.success'),
     })
     form.reset()
     onClose()
@@ -42,7 +42,7 @@ const isDisabled = computed(() => {
   <AvModal
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.buttons.associate')"
+    :confirm-button-label="t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.buttons.associate')"
     :confirm-button-icon="MDI_ICONS.ATTACH_FILE"
     :confirm-button-disabled="isDisabled"
     :is-loading="isSubmitting"
@@ -50,7 +50,7 @@ const isDisabled = computed(() => {
     @confirm="form.handleSubmit"
   >
     <template #header>
-      <h3>{{ t('student.views.studentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
+      <h3>{{ t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
       <span class="n5">{{ trace.title }}</span>
     </template>
     <div class="content-container">

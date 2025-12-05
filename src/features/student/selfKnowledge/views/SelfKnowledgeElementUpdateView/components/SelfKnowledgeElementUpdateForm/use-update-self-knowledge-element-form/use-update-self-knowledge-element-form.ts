@@ -19,7 +19,7 @@ export function useUpdateSelfKnowledgeElementForm (
 
   const onUpdateElementError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.selfKnowledge.updateSelfKnowledgeElementForm.errors.updateElement'),
+      title: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.updateForm.errors.updateElement'),
       description: error.message
     })
   }

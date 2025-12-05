@@ -19,22 +19,22 @@ const selectedItem = defineModel<ProjectExperienceItems, ProjectExperienceItems>
 const menuItems = computed<{ id: ProjectExperienceItems, title: string, icon: string }[]>(() => [
   {
     id: ProjectExperienceItems.CAREERS,
-    title: t('student.views.studentProjectExperiencesView.careers.title'),
+    title: t('student.global.views.studentProjectExperiencesView.careers.title'),
     icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   },
   {
     id: ProjectExperienceItems.EDUCATIONS,
-    title: t('student.views.studentProjectExperiencesView.educations.title'),
+    title: t('student.global.views.studentProjectExperiencesView.educations.title'),
     icon: MDI_ICONS.SCHOOL_OUTLINE
   },
   {
     id: ProjectExperienceItems.EXPERIENCES,
-    title: t('student.views.studentProjectExperiencesView.experiences.title'),
+    title: t('student.global.views.studentProjectExperiencesView.experiences.title'),
     icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
   },
   {
     id: ProjectExperienceItems.ACTIVITIES,
-    title: t('student.views.studentProjectExperiencesView.activities.title'),
+    title: t('student.global.views.studentProjectExperiencesView.activities.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
 ])

@@ -22,27 +22,27 @@ const debouncedEmit = debounce((payload: TraceFilter & DateFilter & SearchFilter
 const typesOptions: AvMultiselectOption[] = [
   {
     value: TraceFilterFileTypesItem.PDF,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.typesOptions.pdf'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.pdf'),
     icon: MDI_ICONS.FILE
   },
   {
     value: TraceFilterFileTypesItem.DOC,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.typesOptions.doc'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.doc'),
     icon: MDI_ICONS.FILE
   },
   {
     value: TraceFilterFileTypesItem.DOCX,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.typesOptions.docx'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.docx'),
     icon: MDI_ICONS.FILE
   },
   {
     value: TraceFilterFileTypesItem.JPEG,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.typesOptions.jpeg'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.jpeg'),
     icon: MDI_ICONS.FILE_IMAGE_OUTLINE
   },
   {
     value: TraceFilterFileTypesItem.PNG,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.typesOptions.png'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.png'),
     icon: MDI_ICONS.FILE_IMAGE_OUTLINE
   }
 ]
@@ -51,19 +51,19 @@ const typesSelected = ref<AvMultiselectOption[]>([])
 const statusesOptions: AvMultiselectOption[] = [
   {
     value: TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.statusesOptions.associatedEvaluated'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedEvaluated'),
   },
   {
     value: TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.statusesOptions.associatedInEvaluation'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedInEvaluation'),
   },
   {
     value: TraceFilterStatusesItem.ASSOCIATED_NOT_EVALUATED,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.statusesOptions.associatedNotEvaluated'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedNotEvaluated'),
   },
   {
     value: TraceFilterStatusesItem.ASSOCIATED_WITH_ADDITIONAL_SKILL,
-    label: t('student.views.studentToolsTracesView.traceFilter.labels.statusesOptions.associatedWithAdditionalSkill'),
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedWithAdditionalSkill'),
   },
 ]
 const statusesSelected = ref<AvMultiselectOption[]>([])
@@ -131,9 +131,9 @@ watch([
   <div class="main-container">
     <AvInput
       :model-value="keyword"
-      :label="isAssociated ? t('student.views.studentToolsTracesView.traceFilter.labels.search.associated') : t('student.views.studentToolsTracesView.traceFilter.labels.search.unassociated')"
+      :label="isAssociated ? t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.associated') : t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.unassociated')"
       class="search-input"
-      :placeholder="isAssociated ? t('student.views.studentToolsTracesView.traceFilter.labels.search.associated') : t('student.views.studentToolsTracesView.traceFilter.labels.search.unassociated')"
+      :placeholder="isAssociated ? t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.associated') : t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.unassociated')"
       width="14.875rem"
       @update:model-value="handleKeywordChange"
     />
@@ -142,9 +142,9 @@ watch([
       v-model="skillsSelected"
       class="skills-multiselect"
       :options="skillsOptions"
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.skills')"
-      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.skills')"
-      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.skills')"
+      :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.skills')"
+      :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
       dense
       width="14.875rem"
       height="2.5rem"
@@ -152,7 +152,7 @@ watch([
     <AvInput
       v-model="fromDateSelected"
       class="start-date-input"
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.fromDate')"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.fromDate')"
       type="date"
       :max-date="getDateSelectedFromString(toDateSelected)"
       width="14.875rem"
@@ -160,7 +160,7 @@ watch([
     <AvInput
       v-model="toDateSelected"
       class="end-date-input"
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.toDate')"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.toDate')"
       type="date"
       :min-date="getDateSelectedFromString(fromDateSelected)"
       width="14.875rem"
@@ -169,9 +169,9 @@ watch([
       v-model="typesSelected"
       class="types-multiselect"
       :options="typesOptions"
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.types')"
-      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.types')"
-      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.types')"
+      :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.types')"
+      :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
       dense
       width="14.875rem"
       height="2.5rem"
@@ -181,15 +181,15 @@ watch([
       v-model="statusesSelected"
       class="statuses-multiselect"
       :options="statusesOptions"
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.statuses')"
-      :placeholder="t('student.views.studentToolsTracesView.traceFilter.placeholders.statuses')"
-      :selected-text="t('student.views.studentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statuses')"
+      :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.statuses')"
+      :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
       dense
       width="14.875rem"
       height="2.5rem"
     />
     <AvButton
-      :label="t('student.views.studentToolsTracesView.traceFilter.labels.reset')"
+      :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.reset')"
       class="reset-button"
       variant="OUTLINED"
       small

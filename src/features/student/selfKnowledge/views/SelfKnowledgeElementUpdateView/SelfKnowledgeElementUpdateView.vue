@@ -53,10 +53,10 @@ const {
 })
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
-  { text: t('student.navigation.tabs.project.header') },
-  { text: t('student.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
-  { text: t('student.navigation.tabs.project.items.selfKnowledge') }
+  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
+  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 
 function onSelectElement (selectedElementId: string) {
@@ -77,7 +77,7 @@ function backToElementDetails () {
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
+    :title="t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.title', { categoryType: t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 }) })"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-element-update-view av-flex-row-sm">
@@ -95,7 +95,7 @@ function backToElementDetails () {
     >
       <template #title>
         <AvBadge
-          :label="t('student.views.studentUpdateAdditionalSkillView.wipBadge')"
+          :label="t('student.global.views.studentUpdateAdditionalSkillView.wipBadge')"
           background-color="var(--dark-background-primary1)"
           color="var(--dark-foreground)"
           :icon="ICONS_DATA_URL.MDI_PENCIL_OUTLINE"

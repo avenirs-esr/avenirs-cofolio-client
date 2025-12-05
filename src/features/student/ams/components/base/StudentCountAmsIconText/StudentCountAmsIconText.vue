@@ -10,7 +10,7 @@ const { t } = useI18n()
 <template>
   <AvIconText
     :icon="MDI_ICONS.TEST_TUBE_EMPTY"
-    :text="t('student.iconTexts.studentCountAmsIconText.text', { count: countAms })"
+    :text="t('student.ams.base.StudentCountAmsIconText.text', { count: countAms })"
     icon-color="var(--text1)"
     text-color="var(--text1)"
     typography-class="b2-regular"

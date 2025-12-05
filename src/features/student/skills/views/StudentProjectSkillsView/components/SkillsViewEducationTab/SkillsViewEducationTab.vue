@@ -26,9 +26,9 @@ useBaseApiExceptionToast(error)
   <div class="main-container">
     <div class="title-container">
       <span class="n5">
-        {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.title') }}
+        {{ t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.title') }}
         <span class="b1-regular">
-          {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.subtitle') }}
+          {{ t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.subtitle') }}
         </span>
       </span>
     </div>

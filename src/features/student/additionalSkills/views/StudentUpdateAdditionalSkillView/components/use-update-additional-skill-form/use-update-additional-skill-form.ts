@@ -21,7 +21,7 @@ export function useUpdateAdditionalSkillForm (
 
   const onUpdateAdditionalSkillError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.views.studentUpdateAdditionalSkillView.updateForm.errors.updateAdditionalSkill'),
+      title: t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateForm.errors.updateAdditionalSkill'),
       description: error.message
     })
   }
@@ -29,7 +29,7 @@ export function useUpdateAdditionalSkillForm (
   const { mutate: updateAdditionalSkill, isPending } = useUpdateAdditionalSkillMutation({
     onError: onUpdateAdditionalSkillError,
     onSuccess: () => {
-      addSuccessMessage?.(t('student.views.studentUpdateAdditionalSkillView.updateForm.success'))
+      addSuccessMessage?.(t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateForm.success'))
       onSkillUpdated?.()
     }
   })
@@ -41,10 +41,10 @@ export function useUpdateAdditionalSkillForm (
         return {
           fields: {
             level: (value.level == null)
-              ? t('student.views.studentUpdateAdditionalSkillView.updateForm.validation.levelRequired')
+              ? t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateForm.validation.levelRequired')
               : undefined,
             description: (value.description && value.description.length > 400)
-              ? t('student.views.studentUpdateAdditionalSkillView.updateForm.validation.commentTooLong', 400)
+              ? t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.updateForm.validation.commentTooLong', 400)
               : undefined
           }
         }

@@ -33,7 +33,7 @@ const selectedTraceIds = defineModel<string[]>({ default: [] })
           v-model="selectedTraceIds"
           :name="`trace-${trace.traceId}`"
           :value="trace.traceId"
-          :aria-label="t('student.traces.tracesSelector.ariaLabel', { title: trace.title })"
+          :aria-label="t('student.traces.interactions.pickers.TracesSelector.ariaLabel', { title: trace.title })"
           class="student-trace-card-checkbox"
           label=""
         />

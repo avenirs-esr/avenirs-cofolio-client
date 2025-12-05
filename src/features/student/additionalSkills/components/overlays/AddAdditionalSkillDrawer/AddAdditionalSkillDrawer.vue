@@ -19,7 +19,7 @@ const showDrawer = toRef(additionalSkillsStore, 'showCreateAdditionalSkillDrawer
 const { form, isFormValid, isSubmitting } = useAdditionalSkillForm(() => {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.success')
+    description: t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.success')
   })
   form.reset()
   additionalSkillsStore.hideCreateAdditionalSkillDrawer()
@@ -65,7 +65,7 @@ function confirmCancel () {
           />
         </div>
         <h2 class="add-additional-skill-drawer__title">
-          {{ t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.title') }}
+          {{ t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.title') }}
         </h2>
       </div>
 
@@ -102,7 +102,7 @@ function confirmCancel () {
 
   <ConfirmationModal
     :show="showConfirmationModal"
-    :description="t('student.views.studentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addAdditionalSkillDrawer.confirmationModal.description')"
+    :description="t('student.additionalSkills.overlays.AddAdditionalSkillDrawer.confirmationModal.description')"
     @close="hideConfirmationModal"
     @confirm="confirmCancel"
   />

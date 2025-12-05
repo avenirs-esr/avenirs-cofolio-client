@@ -35,7 +35,7 @@ function shouldDisplayStatusBadge (skillStatus: ESkillLevelStatus) {
 
 <template>
   <div class="terms-step-container">
-    <span class="caption-regular">{{ t('student.views.studentTraceView.updateTraceModal.steps.terms.impactMessage') }}</span>
+    <span class="caption-regular">{{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.impactMessage') }}</span>
     <AvList
       size="small"
       role="list"
@@ -61,7 +61,7 @@ function shouldDisplayStatusBadge (skillStatus: ESkillLevelStatus) {
         icon-color="var(--dark-background-primary1)"
       />
     </AvList>
-    <span class="b2-regular alert-message">{{ t('student.views.studentTraceView.updateTraceModal.steps.terms.alertMessage') }}</span>
+    <span class="b2-regular alert-message">{{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.alertMessage') }}</span>
   </div>
 </template>
 
