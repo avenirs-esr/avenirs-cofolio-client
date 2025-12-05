@@ -1,10 +1,14 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type ProfileUpdateRequest, type UpdateProfilePhotoBody } from '@/api/avenir-esr'
-import { useUpdateProfileCoverMutation, useUpdateProfileMutation, useUpdateProfilePhotoMutation } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
+import {
+  useUpdateProfileCoverMutation,
+  useUpdateProfileMutation,
+  useUpdateProfilePhotoMutation
+} from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
-export function useUpdateProfile (onSuccess: () => void) {
+export function useUpdateProfile (onProfileUpdated: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
 
@@ -15,13 +19,9 @@ export function useUpdateProfile (onSuccess: () => void) {
     })
   }
 
-  function onUpdateProfileSuccess () {
-    onSuccess()
-  }
-
   const updateProfileMutation = useUpdateProfileMutation({
     onError: onUpdateProfileError,
-    onSuccess: onUpdateProfileSuccess
+    onSuccess: onProfileUpdated
   })
 
   function onUpdateProfile (profileUpdateRequest: ProfileUpdateRequest) {
@@ -64,7 +64,7 @@ export function useUpdateProfileCover (onSuccess: (data: string) => void) {
   }
 }
 
-export function useUpdateProfilePhoto (onSuccess: (data: string) => void) {
+export function useUpdateProfilePhoto (onProfilePhotoUpdated: (data: string) => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
 
@@ -75,13 +75,9 @@ export function useUpdateProfilePhoto (onSuccess: (data: string) => void) {
     })
   }
 
-  function onUpdateProfilePhotoSuccess (data: string) {
-    onSuccess(data)
-  }
-
   const updateProfilePhotoMutation = useUpdateProfilePhotoMutation({
     onError: onUpdateProfilePhotoError,
-    onSuccess: onUpdateProfilePhotoSuccess
+    onSuccess: onProfilePhotoUpdated
   })
 
   async function onUpdateProfilePhotoAsync (updateProfilePhotoBody: UpdateProfilePhotoBody) {

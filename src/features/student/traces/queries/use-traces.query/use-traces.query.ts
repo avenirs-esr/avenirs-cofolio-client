@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 
+import type { MutationArgs } from '@/types'
 import {
   associate,
   type AssociateTraceDTO,
@@ -94,20 +95,15 @@ export interface DeleteTraceVariables {
   traceId: string
 }
 
-export interface UseDeleteTraceMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useDeleteTraceMutation ({ onError, onSuccess }: UseDeleteTraceMutationArgs = {}) {
+export function useDeleteTraceMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
   return useMutation<string, BaseApiException, DeleteTraceVariables>({
     mutationFn: async ({ traceId }: DeleteTraceVariables): Promise<string> => {
       return await deleteTrace(traceId)
     },
-    onSuccess: async () => {
+    onSuccess: async (data, variables) => {
       await invalidateTracesViewQuery()
-      onSuccess?.()
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -124,21 +120,16 @@ export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigur
   })
 }
 
-export interface UseCreateTraceMutationArgs {
-  onSuccess?: (data: TracesCreationResponse) => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useCreateTraceMutation ({ onError, onSuccess }: UseCreateTraceMutationArgs = {}) {
+export function useCreateTraceMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
 
   return useMutation<TracesCreationResponse, BaseApiException, CreateTraceDTO>({
     mutationFn: async (createTraceDTO: CreateTraceDTO): Promise<TracesCreationResponse> => {
       return await createTrace(createTraceDTO)
     },
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       await invalidateTracesViewQuery()
-      onSuccess?.(data)
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -149,21 +140,16 @@ export interface UploadAttachmentVariables {
   file: File
 }
 
-export interface UseUploadAttachmentMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useUploadAttachmentMutation ({ onError, onSuccess }: UseUploadAttachmentMutationArgs) {
+export function useUploadAttachmentMutation ({ onError, onSuccess }: MutationArgs) {
   const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
   return useMutation<void, BaseApiException, UploadAttachmentVariables>({
     mutationFn: async ({ traceId, file }: UploadAttachmentVariables): Promise<void> => {
       const uploadAttachmentBody: UploadAttachmentBody = { file }
       await uploadAttachment(traceId, uploadAttachmentBody)
     },
-    onSuccess: async (_, { traceId }) => {
-      await invalidateTraceDetailQuery(traceId)
-      onSuccess?.()
+    onSuccess: async (data, variables) => {
+      await invalidateTraceDetailQuery(variables.traceId)
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -253,26 +239,21 @@ export function useTracesAssociationQuery (
   }
 }
 
-export interface UseCreateAssociateTraceMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
 export interface UseCreateAssociateTraceMutationVariables {
   traceId: string
   associateTraceDTO: AssociateTraceDTO
 }
 
-export function useCreateAssociateTraceMutation ({ onError, onSuccess }: UseCreateAssociateTraceMutationArgs) {
+export function useCreateAssociateTraceMutation ({ onError, onSuccess }: MutationArgs) {
   const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
 
   return useMutation<void, BaseApiException, UseCreateAssociateTraceMutationVariables>({
     mutationFn: async ({ traceId, associateTraceDTO }): Promise<void> => {
       await associate(traceId, associateTraceDTO)
     },
-    onSuccess: async (_, { traceId }) => {
-      await invalidateTraceDetailQuery(traceId)
-      onSuccess?.()
+    onSuccess: async (data, variables) => {
+      await invalidateTraceDetailQuery(variables.traceId)
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -283,12 +264,7 @@ export interface UpdateTraceVariables {
   updateTraceDTO: UpdateTraceDTO
 }
 
-export interface UseUpdateTraceMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useUpdateTraceMutation ({ onError, onSuccess }: UseUpdateTraceMutationArgs) {
+export function useUpdateTraceMutation ({ onError, onSuccess }: MutationArgs<TraceDetailDTO>) {
   const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
   const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
 
@@ -296,10 +272,10 @@ export function useUpdateTraceMutation ({ onError, onSuccess }: UseUpdateTraceMu
     mutationFn: async ({ traceId, updateTraceDTO }: UpdateTraceVariables): Promise<TraceDetailDTO> => {
       return await updateTrace(traceId, updateTraceDTO)
     },
-    onSuccess: async (_, { traceId }) => {
-      await invalidateTraceDetailQuery(traceId)
+    onSuccess: async (data, variables) => {
+      await invalidateTraceDetailQuery(variables.traceId)
       await invalidateTracesViewQuery()
-      onSuccess?.()
+      onSuccess?.(data, variables)
     },
     onError
   })
