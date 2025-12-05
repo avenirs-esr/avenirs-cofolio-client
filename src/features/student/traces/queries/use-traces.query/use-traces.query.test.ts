@@ -1,6 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { MutationArgs } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+
 import {
   ELanguage,
   type PagedResponseTraceViewDTO,
@@ -11,20 +13,17 @@ import {
   type TracesSummaryDTO,
   type TracesViewParams,
 } from '@/api/avenir-esr'
-
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeleteTraceVariables,
   type UpdateTraceVariables,
   useDeleteTraceMutation,
-  type UseDeleteTraceMutationArgs,
   useStudentTracesSummaryQuery,
   useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
   useTracesViewQuery,
-  useUpdateTraceMutation,
-  type UseUpdateTraceMutationArgs
+  useUpdateTraceMutation
 } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -223,7 +222,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
   const mockInvalidateFunction = vi.fn()
   const mockOnSuccess = vi.fn()
   const mockOnError = vi.fn()
-  const mutationArgs: UseDeleteTraceMutationArgs = {
+  const mutationArgs: MutationArgs = {
     onSuccess: mockOnSuccess,
     onError: mockOnError
   }
@@ -277,7 +276,10 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
 
       BddTest().then('it should call the custom onSuccess callback', () => {
         expect(mockOnSuccess).toHaveBeenCalledTimes(1)
-        expect(mockOnSuccess).toHaveBeenCalledWith()
+        expect(mockOnSuccess).toHaveBeenCalledWith(
+          expect.any(String),
+          variables
+        )
       })
 
       BddTest().then('it should not call the onError callback', () => {
@@ -310,7 +312,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
   BddTest().and('no success or error callbacks', () => {
     const traceId = '123e4567-e89b-12d3-a456-426614174000'
     const variables: DeleteTraceVariables = { traceId }
-    const mutationArgs: UseDeleteTraceMutationArgs = {}
+    const mutationArgs: MutationArgs = {}
 
     BddTest().when('the mutation is called without callbacks', () => {
       beforeEach(async () => {
@@ -644,7 +646,7 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
 
   BddTest().and('a valid trace update with success callback', () => {
     const traceId = 'trace1'
-    const mutationArgs: UseUpdateTraceMutationArgs = {
+    const mutationArgs: MutationArgs = {
       onSuccess: mockOnSuccess,
       onError: mockOnError
     }
@@ -696,7 +698,13 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
 
       BddTest().then('it should call the custom onSuccess callback', () => {
         expect(mockOnSuccess).toHaveBeenCalledTimes(1)
-        expect(mockOnSuccess).toHaveBeenCalledWith()
+        expect(mockOnSuccess).toHaveBeenCalledWith(
+          expect.objectContaining({
+            id: traceId,
+            title: 'Updated Title'
+          }),
+          variables
+        )
       })
 
       BddTest().then('it should not call the onError callback', () => {
@@ -734,7 +742,7 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
 
   BddTest().and('no success or error callbacks', () => {
     const traceId = 'trace1'
-    const mutationArgs: UseUpdateTraceMutationArgs = {}
+    const mutationArgs: MutationArgs = {}
     const variables: UpdateTraceVariables = {
       traceId,
       updateTraceDTO: {
@@ -780,7 +788,7 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
 
   BddTest().and('an invalid trace ID with error callback', () => {
     const traceId = invalidTraceId
-    const mutationArgs: UseUpdateTraceMutationArgs = {
+    const mutationArgs: MutationArgs = {
       onSuccess: mockOnSuccess,
       onError: mockOnError
     }

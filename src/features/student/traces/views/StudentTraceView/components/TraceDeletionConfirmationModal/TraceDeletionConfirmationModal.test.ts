@@ -80,12 +80,9 @@ BddTest().given('a trace deletion confirmation modal', () => {
       addErrorMessage: mockAddErrorMessage
     } as unknown as ReturnType<typeof useToasterStore>)
 
-    mockedUseDeleteTraceMutation.mockImplementation(({ onError, onSuccess } = {}) => {
+    mockedUseDeleteTraceMutation.mockImplementation(({ onError } = {}) => {
       if (onError) {
         onErrorCallback = onError
-      }
-      if (onSuccess) {
-        onConfirmDeleteMock = onSuccess
       }
       return {
         mutate: mockMutate,

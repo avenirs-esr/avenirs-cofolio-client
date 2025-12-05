@@ -111,21 +111,16 @@ export function useSearchAdditionalSkillsQuery (
   }
 }
 
-export interface UseCreateAdditionalSkillMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: UseCreateAdditionalSkillMutationArgs = {}) {
+export function useCreateAdditionalSkillMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateAdditionalSkillsViewQuery = useInvalidateQuery([...additionalSkillCommonQueryKey])
 
   return useMutation<void, BaseApiException, AddAdditionalSkillDTO>({
     mutationFn: async (addAdditionalSkillDTO: AddAdditionalSkillDTO): Promise<void> => {
       await createAdditionalSkillProgress(addAdditionalSkillDTO)
     },
-    onSuccess: async () => {
+    onSuccess: async (data, variables) => {
       await invalidateAdditionalSkillsViewQuery()
-      onSuccess?.()
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -153,12 +148,7 @@ export function useAdditionalSkillDetailedQuery (skillId: MaybeRef<string>) {
   }
 }
 
-export interface UseUpdateAdditionalSkillMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpdateAdditionalSkillMutationArgs = {}) {
+export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateQueryKey = useInvalidateQuery()
 
   return useMutation<void, BaseApiException, AdditionalSkillProgressDetailsDTO>({
@@ -169,9 +159,9 @@ export function useUpdateAdditionalSkillMutation ({ onError, onSuccess }: UseUpd
       }
       await updateAdditionalSkillProgress(additionalSkillProgressDetailsDTO.id, additionalSkillProgressRequest)
     },
-    onSuccess: async (_, { id }) => {
-      await invalidateQueryKey([...additionalSkillDetailsQueryKey, id])
-      onSuccess?.()
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...additionalSkillDetailsQueryKey, variables.id])
+      onSuccess?.(data, variables)
     },
     onError
   })

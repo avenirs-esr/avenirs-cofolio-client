@@ -1,5 +1,5 @@
 import type { AvRoute } from '@/common/types'
-import type { CommonMutationArgs } from '@/types'
+import type { MutationArgs } from '@/types'
 import { useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
@@ -184,7 +184,7 @@ export function testUseMutation<
 
     const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
     const mockInvalidateFunction = vi.fn()
-    const mutationArgs: CommonMutationArgs = {
+    const mutationArgs: MutationArgs = {
       onSuccess: mockOnSuccess,
       onError: mockOnError
     }

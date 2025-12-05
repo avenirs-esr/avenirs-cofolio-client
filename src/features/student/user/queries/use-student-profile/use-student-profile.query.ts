@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { CommonMutationArgs, StudentHeaderSummaryDTO } from '@/types'
+import type { MutationArgs, StudentHeaderSummaryDTO } from '@/types'
 import { mockedHeaderOverview } from '@/__mocks__/fixtures/student'
 import {
   deleteUserPhoto,
@@ -45,17 +45,17 @@ export interface UpdateProfileVariables {
   profileUpdateRequest: ProfileUpdateRequest
 }
 
-export function useUpdateProfileMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+export function useUpdateProfileMutation ({ onError, onSuccess }: MutationArgs<string> = {}) {
   const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
   const invalidateHeaderSummaryQuery = useInvalidateQuery(headerSummaryQueryKeys)
   return useMutation<string, BaseApiException, UpdateProfileVariables>({
     mutationFn: async ({ profile, profileUpdateRequest }: UpdateProfileVariables): Promise<string> => {
       return await updateProfile(profile, profileUpdateRequest)
     },
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables) => {
       await invalidateStudentSummaryQuery()
       await invalidateHeaderSummaryQuery()
-      onSuccess?.(data)
+      onSuccess?.(data, variables)
     },
     onError
   })
@@ -66,7 +66,7 @@ export interface UpdateProfileCoverVariables {
   updateProfileCoverBody: UpdateProfilePhotoBody
 }
 
-export function useUpdateProfileCoverMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+export function useUpdateProfileCoverMutation ({ onError, onSuccess }: MutationArgs<string>) {
   return useMutation<string, BaseApiException, UpdateProfileCoverVariables>({
     mutationFn: async ({ profile, updateProfileCoverBody }: UpdateProfileCoverVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.COVER, updateProfileCoverBody)
@@ -82,7 +82,7 @@ export interface UpdateProfilePhotoVariables {
   updateProfilePhotoBody: UpdateProfilePhotoBody
 }
 
-export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: CommonMutationArgs = {}) {
+export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: MutationArgs<string, UpdateProfilePhotoVariables>) {
   return useMutation<string, BaseApiException, UpdateProfilePhotoVariables>({
     mutationFn: async ({ profile, updateProfilePhotoBody }: UpdateProfilePhotoVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.PROFILE, updateProfilePhotoBody)
@@ -97,20 +97,15 @@ interface DeleteUserPhotoVariables {
   fileId: string
 }
 
-export interface UseDeletePhotoMutationArgs {
-  onSuccess?: () => void
-  onError?: (error: BaseApiException) => void
-}
-
-export function useDeletePhotoMutation ({ onError, onSuccess }: UseDeletePhotoMutationArgs = {}) {
+export function useDeletePhotoMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
   return useMutation<string, BaseApiException, DeleteUserPhotoVariables>({
     mutationFn: async ({ fileId }: DeleteUserPhotoVariables): Promise<string> => {
       return await deleteUserPhoto(fileId)
     },
-    onSuccess: async () => {
+    onSuccess: async (data, variables) => {
       await invalidateStudentSummaryQuery()
-      onSuccess?.()
+      onSuccess?.(data, variables)
     },
     onError
   })
