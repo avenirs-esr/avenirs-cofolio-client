@@ -86,53 +86,6 @@
           "exploreFutures": {
             "title": "Explore my futures"
           },
-          "selfKnowledge": {
-            "buttons": {
-              "addCategory": "Add category"
-            },
-            "categoryElementsPaginator": {
-              "buttons": {
-                "add": "Add an element",
-                "delete": "Delete an element",
-                "deleteCategory": "Delete category",
-                "share": "Share my elements"
-              },
-              "emptyState": "No elements in this category",
-              "modals": {
-                "confirmDeleteElements": {
-                  "title": "Are you sure you want to delete this element? | Are you sure you want to delete these elements?"
-                },
-                "deleteElements": {
-                  "ariaLabel": "Select the element {title}",
-                  "confirmButton": "Delete selected elements (0) | Delete selected element (1) | Delete selected elements ({count})",
-                  "error": "An error occurred while deleting the element. | An error occurred while deleting the elements.",
-                  "success": "{count} element deleted successfully | {count} elements deleted successfully",
-                  "title": "No element to delete | Which element do you want to delete? | Which elements do you want to delete?"
-                }
-              }
-            },
-            "elementsDetails": {
-              "valorized": "Valorize in my resumes"
-            },
-            "modals": {
-              "addSelfKnowledgeCategories": {
-                "success": "{count} category added successfully | {count} categories added successfully",
-                "title": "You have added all the categories currently available on COFOLIO. | Which category would you like to add? | Which categories would you like to add?"
-              },
-              "deleteSelfKnowledgeCategory": {
-                "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted.",
-                "success": "The category {category} has been deleted successfully",
-                "title": "Are you sure you want to delete the category {category}?"
-              }
-            },
-            "navigation": {
-              "elementsSideMenu": "All my elements"
-            },
-            "title": {
-              "content": "Who am I?",
-              "menu": "Self-knowledge"
-            }
-          },
           "title": "Building my project",
           "trajectories": {
             "title": "My Trajectories"

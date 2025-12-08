@@ -23,7 +23,7 @@ const { addSuccessMessage, addErrorMessage } = useToasterStore()
 
 const { mutate: removeSelfKnowledgeCategory } = useRemoveSelfKnowledgeCategoryMutation({
   onSuccess: () => {
-    addSuccessMessage(t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
+    addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
     emit('confirm')
   },
   onError: (error) => {
@@ -48,7 +48,7 @@ function onConfirm () {
     <template #header>
       <div class="delete-self-knowledge-category-modal__header">
         <span class="b2-bold">
-          {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.modals.deleteSelfKnowledgeCategory.title', { category: categoryTitle }) }}
+          {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.title', { category: categoryTitle }) }}
         </span>
       </div>
     </template>
@@ -57,7 +57,7 @@ function onConfirm () {
       v-if="elementsCount > 0"
       class="delete-self-knowledge-category-modal__body"
     >
-      {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.modals.deleteSelfKnowledgeCategory.description', { count: elementsCount }) }}
+      {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.description', { count: elementsCount }) }}
     </div>
   </AvModal>
 </template>

@@ -125,7 +125,7 @@ function onElementDeleted () {
         class="category-elements-paginator__empty"
       >
         <span class="b2-regular">
-          {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.emptyState') }}
+          {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.emptyState') }}
         </span>
       </div>
     </div>

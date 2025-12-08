@@ -26,7 +26,7 @@ const { t } = useI18n()
   >
     <template #header>
       <span class="b2-bold">
-        {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.confirmDeleteElements.title',
+        {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.confirmDeleteElements.title',
              { count: elements.length }) }}
       </span>
     </template>

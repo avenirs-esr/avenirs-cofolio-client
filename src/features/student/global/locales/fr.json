@@ -86,53 +86,6 @@
           "exploreFutures": {
             "title": "Explorer mes futurs"
           },
-          "selfKnowledge": {
-            "buttons": {
-              "addCategory": "Ajouter une catégorie"
-            },
-            "categoryElementsPaginator": {
-              "buttons": {
-                "add": "Ajouter un élément",
-                "delete": "Supprimer un élément",
-                "deleteCategory": "Supprimer la catégorie",
-                "share": "Partager mes éléments"
-              },
-              "emptyState": "Aucun élément dans cette catégorie",
-              "modals": {
-                "confirmDeleteElements": {
-                  "title": "Êtes-vous certain(e) de vouloir supprimer cet élément ? | Êtes-vous certain(e) de vouloir supprimer ces éléments ?"
-                },
-                "deleteElements": {
-                  "ariaLabel": "Sélectionner l'élément {title}",
-                  "confirmButton": "Supprimer les éléments sélectionnés (0) | Supprimer l'élément sélectionné (1) | Supprimer les éléments sélectionnés ({count})",
-                  "error": "Une erreur est survenue lors de la suppression de l'élément. | Une erreur est survenue lors de la suppression des éléments.",
-                  "success": "{count} élément supprimé avec succès | {count} éléments supprimés avec succès",
-                  "title": "Aucun élément à supprimer | Quel élément souhaitez-vous supprimer ? | Quels éléments souhaitez-vous supprimer ?"
-                }
-              }
-            },
-            "elementsDetails": {
-              "valorized": "Valoriser dans mes CV"
-            },
-            "modals": {
-              "addSelfKnowledgeCategories": {
-                "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
-                "title": "Vous avez ajouté toutes les catégories actuellement disponible sur COFOLIO. | Quelle catégorie souhaitez-vous ajouter ? | Quelles catégories souhaitez-vous ajouter ?"
-              },
-              "deleteSelfKnowledgeCategory": {
-                "description": "L'élément renseigné dans cette catégorie sera définitivement supprimé. | {count} éléments renseignés dans cette catégorie seront définitivement supprimés.",
-                "success": "La catégorie {category} a été supprimée avec succès",
-                "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie {category} ?"
-              }
-            },
-            "navigation": {
-              "elementsSideMenu": "Tous mes éléments"
-            },
-            "title": {
-              "content": "Qui je suis ?",
-              "menu": "Me connaître"
-            }
-          },
           "title": "Bâtir mon projet",
           "trajectories": {
             "title": "Mes Trajectoires"

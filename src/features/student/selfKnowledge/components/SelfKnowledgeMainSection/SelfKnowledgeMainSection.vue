@@ -24,14 +24,14 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
       typography-class="n4"
       :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
       icon-color="var(--icon)"
-      :text="t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.title.content')"
+      :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title.content')"
       text-color="var(--title)"
       gap="0.75rem"
     />
     <div class="self-knowledge-main-section__add-category">
       <AvButton
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-        :label="t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.buttons.addCategory')"
+        :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.addCategory')"
         variant="OUTLINED"
         small
         @click="displayAddCategoryModal"
