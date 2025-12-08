@@ -1,0 +1,115 @@
+{
+  "student": {
+    "selfKnowledge": {
+      "categoryType": {
+        "ASPIRATIONS": "aspiration | aspirations",
+        "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "INTERESTS": "interest | interests",
+        "MOTIVATIONS": "professional motivation | professional motivations",
+        "OBLIGATIONS": "obligation | obligations",
+        "STRENGTHS": "strength | strengths",
+        "TESTIMONIALS": "testimonial | testimonials",
+        "VALUES": "value | values"
+      },
+      "element": "element | elements",
+      "interactions": {
+        "inputs": {
+          "CategoryElementDescriptionTextarea": {
+            "hint": "{count} / {maxlength} characters (including spaces)",
+            "label": "Description of your element",
+            "placeholder": "Describe your element..."
+          },
+          "CategoryElementRatingRadioButtonSet": {
+            "legend": "Assess the importance of your element",
+            "levels": {
+              "essential": "Essential",
+              "important": "Important",
+              "lessImportant": "Less important",
+              "notEvaluated": "Not evaluated",
+              "notImportant": "Not important",
+              "veryImportant": "Very important"
+            }
+          },
+          "CategoryElementTitleInput": {
+            "label": "Title of your element",
+            "placeholder": "Type a title for your element..."
+          }
+        }
+      },
+      "overlays": {
+        "AddSelfKnowledgeCategoryElementDrawer": {
+          "accordions": {
+            "associate": "Associate my element",
+            "definition": "Add my element",
+            "rating": "Specify my element"
+          },
+          "confirmationModal": {
+            "title": "Are you sure you want to exit without saving your element?"
+          },
+          "errors": {
+            "createElement": "Error creating element"
+          },
+          "success": "Element created successfully",
+          "titleWithCategory": "Add element - {category}"
+        }
+      },
+      "tabs": {
+        "SelfKnowledgeElementTabs": {
+          "associations": {
+            "title": "My associations ({count})"
+          },
+          "category": {
+            "titles": {
+              "ASPIRATIONS": "My aspiration",
+              "IMPROVEMENT_AREAS": "My area for improvement",
+              "INSPIRATIONS": "My inspiration",
+              "INTERESTS": "My area of interest",
+              "MOTIVATIONS": "My professional motivation",
+              "OBLIGATIONS": "My obligation",
+              "STRENGTHS": "My strength",
+              "TESTIMONIALS": "My testimonial",
+              "VALUES": "My value"
+            }
+          }
+        }
+      },
+      "views": {
+        "SelfKnowledgeCategoryView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Details of my {type}"
+            }
+          },
+          "dropdown": "Manage my element",
+          "selfKnowledgeElementDetails": {
+            "ratingLabel": "Level of importance"
+          },
+          "selfKnowledgeElementUpdate": {
+            "buttons": {
+              "save": "Save changes"
+            },
+            "confirmationModal": {
+              "title": "Are you sure you want to discard the changes to your item?"
+            }
+          },
+          "title": "Details of my {type}"
+        },
+        "SelfKnowledgeElementUpdateView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Update my {categoryType}"
+            }
+          },
+          "title": "Update my {categoryType}",
+          "updateForm": {
+            "errors": {
+              "updateElement": "Error updating item"
+            },
+            "success": "Your changes have been successfully saved."
+          }
+        }
+      }
+    }
+  }
+}

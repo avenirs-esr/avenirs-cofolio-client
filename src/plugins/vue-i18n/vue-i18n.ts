@@ -40,8 +40,6 @@ const i18n = createI18n({
  */
 async function registerFeatureLocales (feature: string) {
   const localeModules = import.meta.glob<{ default: any }>('/src/features/**/**/locales/*.json', { eager: false })
-  let foundLocales = 0
-
   for (const [path, importFn] of Object.entries(localeModules)) {
     const featurePattern = new RegExp(`/src/features/${feature}/`)
     if (!featurePattern.test(path)) {
@@ -55,16 +53,11 @@ async function registerFeatureLocales (feature: string) {
       try {
         const module = await importFn()
         i18n.global.mergeLocaleMessage(lang, module.default)
-        foundLocales++
       }
       catch (error) {
         console.warn(`Failed to load locale from ${path}:`, error)
       }
     }
-  }
-
-  if (foundLocales === 0) {
-    console.warn(`No locale files found for feature ${feature}`)
   }
 }
 

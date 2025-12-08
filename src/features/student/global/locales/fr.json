@@ -1,6 +1,73 @@
 {
   "student": {
+    "ams": {
+      "badges": {
+        "StudentAmsStatusBadge": {
+          "status": {
+            "completed": "Terminée",
+            "inProgress": "En cours",
+            "notStarted": "Non initiée",
+            "submitted": "Soumise pour évaluation"
+          }
+        }
+      },
+      "base": {
+        "StudentCountAmsIconText": {
+          "text": "0 mise en situation | 1 mise en situation | {count} mises en situation"
+        }
+      },
+      "views": {
+        "StudentAmsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "AMS {ams}"
+            }
+          },
+          "title": "AMS - {ams}"
+        },
+        "StudentEducationAmsView": {
+          "amsListContainer": {
+            "pagination": {
+              "bottom": {
+                "ariaLabel": "Pagination basse"
+              },
+              "top": {
+                "ariaLabel": "Pagination haute"
+              }
+            },
+            "title": "Mes AMS non initiées, en cours, soumises et terminées"
+          },
+          "amsViewTabs": {
+            "list": "Liste de mes AMS",
+            "planning": "Planning de mes AMS"
+          },
+          "breadcrumb": {
+            "current": {
+              "title": "Mes AMS"
+            }
+          },
+          "programProgressSelector": {
+            "label": "Mes formations :"
+          },
+          "studentCountSkillsIconText": {
+            "text": "0 compétence | 1 compétence | {count} compétences"
+          },
+          "studentDetailedAmsCard": {
+            "activityCount": "Activité {startedActivities}/{totalActivities} | Activités {startedActivities}/{totalActivities}",
+            "deliverables": {
+              "toSubmit": "1 rendu à soumettre pour le {date} | {count} rendus à soumettre pour le {date}",
+              "validated": "1 rendu validé | {count} rendus validés"
+            },
+            "skillCount": "0 compétence | 1 compétence | {count} compétences",
+            "traceCount": "0 trace | 1 trace | {count} traces"
+          },
+          "title": "Mes Activités de Mise en situation (AMS)"
+        }
+      }
+    },
     "global": {
+      "myAssociatedTracesWithCount": "Ma trace associée ({count}) | Mes traces associées ({count})",
+      "myAssociationsWithCount": "Mes associations ({count})",
       "base": {
         "studentCountExperiencesIconText": {
           "text": "0 expérience | 1 expérience | {count} expériences"
@@ -8,20 +75,15 @@
       },
       "layout": {
         "header": {
+          "serviceTitle": "Cofolio Étudiant",
           "quicklinks": {
             "mailbox": "Messagerie",
             "notifications": "Notifications"
-          },
-          "serviceTitle": "Cofolio Étudiant"
+          }
         }
       },
-      "myAssociatedTracesWithCount": "Ma trace associée ({count}) | Mes traces associées ({count})",
-      "myAssociationsWithCount": "Mes associations ({count})",
       "navigation": {
         "tabs": {
-          "apcUnavailable": {
-            "title": "APC indisponible"
-          },
           "education": {
             "header": "Réussir ma formation",
             "items": {
@@ -35,9 +97,9 @@
             "items": {
               "additionalSkills": "Mes autres compétences et certifications déclarées",
               "experiences": "Mon parcours",
-              "selfKnowledge": "Me connaître",
               "skills": "Toutes mes compétences",
-              "trajectories": "Bâtir mon projet"
+              "trajectories": "Bâtir mon projet",
+              "selfKnowledge": "Me connaître"
             }
           },
           "tools": {
@@ -47,7 +109,127 @@
               "resumes": "Mes CV",
               "traces": "Mes traces"
             }
+          },
+          "apcUnavailable": {
+            "title": "APC indisponible"
           }
+        }
+      },
+      "overlays": {
+        "mailboxPopover": {
+          "bodyNoNew": "Vous n'avez aucun nouveau message à consulter.",
+          "buttons": {
+            "close": "Fermer",
+            "navigate": "Aller à ma messagerie",
+            "seeAll": "Voir tout"
+          },
+          "title": "Aucun nouveau message | 1 message non lu | {count} messages non lus"
+        },
+        "notificationsPopover": {
+          "bodyNoNew": {
+            "assessedSkill": "Un tiers vous aura évalué sur une compétence",
+            "comingUpEvent": "Un événement a lieu prochainement",
+            "header": "Vous recevrez une notification dans les cas suivants :",
+            "teacherMessage": "Un enseignant vous enverra un message",
+            "validatedTrace": "Une trace a été validée"
+          },
+          "buttons": {
+            "close": "Fermer",
+            "seeAll": "Voir tout"
+          },
+          "title": "Aucune notification | 1 notification non lue | {count} notifications non lues"
+        },
+        "profilePopover": {
+          "buttons": {
+            "goToDw": "Aller sur mon ENT",
+            "goToSkills": "Aller sur le passeport de compétences",
+            "logout": "Me déconnecter",
+            "manageProfile": "Gérer mon profil",
+            "seeCalendar": "Voir mon agenda"
+          }
+        }
+      },
+      "widgets": {
+        "deliverables": {
+          "ams": "AMS - {ams}",
+          "buttons": {
+            "seeAll": "Voir tous mes rendus"
+          },
+          "skill": "Compétence {skill}",
+          "title": "Mes prochains rendus"
+        },
+        "events": {
+          "buttons": {
+            "seeAll": "Voir tous mes événements"
+          },
+          "title": "Mes 3 prochains événements"
+        },
+        "overview": {
+          "bannerAlt": "Bannière du profil",
+          "buttons": {
+            "editProfile": "Modifier mon profil",
+            "establishments": "Mon/Mes établissement(s)",
+            "shareCofolio": "Partager mon Cofolio",
+            "shareResume": "Partager mon CV"
+          },
+          "pictureAlt": "Photo de profil",
+          "updateProfileDrawer": {
+            "confirmDeletePhotoModal": {
+              "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression ?",
+              "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
+            },
+            "identity": {
+              "biography": {
+                "label": "Biographie",
+                "errors": {
+                  "tooLong": "La biographie ne doit pas dépasser les {maxLength} charactères"
+                }
+              },
+              "firstname": "Prénom",
+              "lastname": "Nom",
+              "mail": "Adresse mail personnelle",
+              "title": "Identité"
+            },
+            "onDelete": {
+              "error": "Une erreur est survenue lors de la suppression de votre photo.",
+              "success": "Votre photo a été supprimée."
+            },
+            "onUpdate": {
+              "error": "Une erreur est survenue lors de la mise à jour du profil.",
+              "success": "Votre profil a été mis à jour."
+            },
+            "pictures": {
+              "banner": "Couverture",
+              "picture": "Photo de profil"
+            },
+            "title": "Modifier mon profil"
+          }
+        },
+        "pages": {
+          "buttons": {
+            "seeAll": "Voir toutes mes pages"
+          },
+          "title": "Mes pages libres",
+          "updatedAt": "dernière modification le {date}"
+        },
+        "resumes": {
+          "buttons": {
+            "seeAll": "Voir tous mes CV"
+          },
+          "title": "Mes CV",
+          "updatedAt": "dernière modification le {date}"
+        },
+        "skills": {
+          "buttons": {
+            "seeAll": "Voir toutes mes compétences"
+          },
+          "title": "Mes compétences visées par ma formation"
+        },
+        "traces": {
+          "buttons": {
+            "seeAll": "Voir toutes mes traces"
+          },
+          "title": "Mes dernières traces"
         }
       },
       "views": {
@@ -60,10 +242,14 @@
         "studentHomeView": {
           "title": "Accueil Cofolio Étudiant"
         },
+        "studentMailboxView": {
+          "title": "Ma messagerie"
+        },
+        "studentNotificationsView": {
+          "title": "Mes notifications"
+        },
         "studentProjectExperiencesView": {
-          "activities": {
-            "title": "Mes activités"
-          },
+          "title": "(placeholder) Toutes mes expériences",
           "careers": {
             "title": "Mon parcours"
           },
@@ -73,20 +259,22 @@
           "experiences": {
             "title": "Mes expériences"
           },
-          "title": "(placeholder) Toutes mes expériences"
+          "activities": {
+            "title": "Mes activités"
+          }
         },
         "studentProjectTrajectoriesView": {
           "activities": {
             "title": "Mes activités"
           },
           "buildProject": {
+            "title": "Bâtir mon projet",
             "consultHelpButtonLabel": "Comment construire mon projet ?",
             "projectTrajectoriesHelperModal": {
               "closeButtonLabel": "Quitter",
-              "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l'exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont :\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet ?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet ?##)(-##Comment les acquérir ?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans :\n\n(-le développement de vos compétences)(-la construction d'un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
+              "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l’exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont :\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet ?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet ?##)(-##Comment les acquérir ?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans :\n\n(-le développement de vos compétences)(-la construction d’un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
               "title": "##Imaginez votre futur en identifiant des trajectoires possibles##"
-            },
-            "title": "Bâtir mon projet"
+            }
           },
           "exploreFutures": {
             "title": "Explorer mes futurs"
@@ -149,47 +337,481 @@
         "studentToolsResumesView": {
           "title": "(placeholder) Tous mes CV"
         }
+      }
+    },
+    "traces": {
+      "base": {
+        "StudentCountTracesIconText": {
+          "text": "0 trace | 1 trace | {count} traces"
+        }
       },
-      "widgets": {
-        "deliverables": {
-          "ams": "AMS - {ams}",
-          "buttons": {
-            "seeAll": "Voir tous mes rendus"
+      "composites": {
+        "TraceAssociations": {
+          "caption": "Les associations de ma trace ({count})"
+        }
+      },
+      "interactions": {
+        "inputs": {
+          "TraceFileUpload": {
+            "addedOn": "Ajouté le {date}",
+            "documentLabel": "Mon document chargé"
           },
-          "skill": "Compétence {skill}",
-          "title": "Mes prochains rendus"
+          "TraceIaJustificationTextarea": {
+            "label": "Justification de l'usage de l'IA",
+            "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
+          },
+          "TraceNameInput": {
+            "label": "Nom de ma trace",
+            "placeholder": "Nom-de-ma-trace-01"
+          },
+          "TracePersonalNoteTextarea": {
+            "label": "Note personnelle",
+            "placeholder": "Ajoutez votre note personnelle ici..."
+          }
         },
-        "events": {
-          "buttons": {
-            "seeAll": "Voir tous mes événements"
-          },
-          "title": "Mes 3 prochains événements"
+        "pickers": {
+          "TracesSelector": {
+            "ariaLabel": "Sélectionner la trace {title}"
+          }
         },
-        "pages": {
-          "buttons": {
-            "seeAll": "Voir toutes mes pages"
+        "toggles": {
+          "TraceAiUsageToggle": {
+            "description": "Je soumets une production réalisée avec IA"
           },
-          "title": "Mes pages libres",
-          "updatedAt": "dernière modification le {date}"
+          "TraceAuthenticDeclarationToggle": {
+            "description": "Je soumets une production authentique et personnelle",
+            "requiredMessage": "Vous devez accepter de soumettre une production authentique et personnelle"
+          },
+          "TraceGroupProductionToggle": {
+            "description": "Je soumets une production de groupe"
+          }
+        }
+      },
+      "views": {
+        "StudentToolsTracesView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Toutes mes traces"
+            }
+          },
+          "studentDetailedTraceAssociateModal": {
+            "buttons": {
+              "associate": "Associer"
+            },
+            "errors": {
+              "associateTrace": "Erreur lors de l'association de la trace",
+              "noResultsFound": "Aucune compétence trouvée"
+            },
+            "minimumCharacters": "Tapez au moins {count} caractères pour rechercher",
+            "searchLabel": "Rechercher parmi mes compétences",
+            "searchPlaceholder": "Entrer le nom d'une compétence",
+            "startTyping": "Commencez à taper pour rechercher une compétence",
+            "success": "Trace associée avec succès",
+            "title": "Associer une compétence",
+            "validation": {
+              "associationRequired": "Une compétence doit être sélectionnée"
+            }
+          },
+          "studentDetailedTraceCard": {
+            "getDaysUntilDeletion": "Suppression dans 1 jour | Suppression dans {count} jours"
+          },
+          "studentDetailedTraceModal": {
+            "buttons": {
+              "close": "Fermer la fenêtre"
+            },
+            "settings": {
+              "associate": "Associer ma trace",
+              "delete": "Supprimer ma trace",
+              "update": "Modifier ma trace"
+            },
+            "title": "Détail de ma trace"
+          },
+          "studentToolsTracesActionButtons": {
+            "addTrace": "Ajouter une trace dans ma bibliothèque"
+          },
+          "studentToolsTracesAddTraceDrawer": {
+            "accordionItems": {
+              "addTrace": "Ajouter ma trace",
+              "associateTrace": "Associer ma trace",
+              "declarations": "Effectuer mes déclarations"
+            },
+            "createTraceForm": {
+              "declaration": {
+                "groupProduction": {
+                  "label": "Je soumets une production de groupe"
+                },
+                "iaUsage": {
+                  "label": "Je soumets une production réalisée avec IA",
+                  "title": "Déclarer si c'est une production réalisée avec l'Intelligence Artificielle (IA)"
+                },
+                "productionAuthenticity": {
+                  "label": "Je soumets une production authentique et personnelle"
+                },
+                "productionNature": {
+                  "title": "Déclarer la nature de ma production"
+                }
+              },
+              "errors": {
+                "createTrace": "Une erreur est survenue lors de la création de la trace.",
+                "fileUpload": "Une erreur est survenue lors du téléchargement du fichier."
+              },
+              "fileUpload": {
+                "subtitle": "ou glisser et déposer ici",
+                "title": "Ajouter une nouvelle trace de type fichier"
+              },
+              "success": "Votre trace a été ajoutée à votre bibliothèque."
+            },
+            "title": "Ajouter une trace"
+          },
+          "studentToolsTracesViewContainer": {
+            "pagination": {
+              "bottom": {
+                "ariaLabel": "Pagination basse"
+              },
+              "top": {
+                "ariaLabel": "Pagination haute"
+              }
+            }
+          },
+          "studentToolsTracesViewTabs": {
+            "associatedTracesTab": {
+              "studentTraceFilters": {
+                "searchLabel": "Rechercher une trace associée"
+              },
+              "title": "Aucune trace associée ({count}) | Ma trace associée ({count}) | Mes traces associées ({count})"
+            },
+            "noTraceFound": "Aucune trace trouvée.",
+            "unassociatedTracesTab": {
+              "studentTraceFilters": {
+                "searchLabel": "Rechercher une trace non associée"
+              },
+              "title": "Aucune trace non associée ({count}) | Ma trace non associée ({count}) | Mes traces non associées ({count})"
+            }
+          },
+          "studentTraceDetails": {
+            "authenticProduction": "Production authentique et personnelle",
+            "groupProduction": "Cette trace est une production de groupe",
+            "iaToggleLabel": "Production avec IA"
+          },
+          "studentTraceFilters": {
+            "resetButton": "Réinitialiser les filtres",
+            "searchLabel": "Rechercher une trace"
+          },
+          "title": "Ma bibliothèque de traces",
+          "traceFilter": {
+            "labels": {
+              "fromDate": "Date de début",
+              "reset": "Réinitialiser les filtres",
+              "search": {
+                "associated": "Rechercher une trace associée",
+                "unassociated": "Rechercher une trace non associée"
+              },
+              "selected": "{count} choix",
+              "skills": "Compétence",
+              "statuses": "Statut",
+              "statusesOptions": {
+                "associatedEvaluated": "Associée à un niveau de compétence évalué",
+                "associatedInEvaluation": "Associée à un niveau de compétence soumis pour évaluation",
+                "associatedNotEvaluated": "Associée à un niveau de compétence non évalué",
+                "associatedWithAdditionalSkill": "Associée à un niveau de compétence supplémentaire"
+              },
+              "toDate": "Date de fin",
+              "types": "Type",
+              "typesOptions": {
+                "doc": "Fichier DOC",
+                "docx": "Fichier DOCX",
+                "jpeg": "Fichier JPEG",
+                "pdf": "Fichier PDF",
+                "png": "Fichier PNG"
+              }
+            },
+            "placeholders": {
+              "skills": "Trier par compétence associée",
+              "statuses": "Trier par statut de la trace",
+              "types": "Trier par type de document"
+            }
+          },
+          "warningMessage": {
+            "delete": {
+              "days": "demain. | dans les {count} jours à venir.",
+              "loneTrace": "Attention, la trace sera supprimée",
+              "traces": "Attention, **1 d'entre elles** sera supprimée | Attention, **{count} d'entre elles** seront supprimées"
+            },
+            "reminder": "Pour rappel, sans aucune action de votre part, les traces non associées sont supprimées sous {count} jours.",
+            "unassociated": "Vous avez une trace non associée. | Vous avez {count} traces non associées."
+          }
         },
-        "resumes": {
-          "buttons": {
-            "seeAll": "Voir tous mes CV"
+        "StudentTraceView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Trace {trace}"
+            }
           },
-          "title": "Mes CV",
-          "updatedAt": "dernière modification le {date}"
+          "errors": {
+            "delete": "Une erreur est survenue lors de la suppression de la trace."
+          },
+          "settings": {
+            "associate": "Associer ma trace",
+            "delete": "Supprimer ma trace",
+            "update": "Modifier ma trace"
+          },
+          "subtitle": "Détail de ma trace",
+          "tabs": {
+            "associations": "Mes associations",
+            "details": "Ma trace"
+          },
+          "title": "Trace {trace}",
+          "traceDeletionConfirmationModal": {
+            "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
+            "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
+          },
+          "updateTraceModal": {
+            "buttons": {
+              "close": "Fermer la fenêtre",
+              "save": "Enregistrer les modifications",
+              "validate": "Valider la sélection"
+            },
+            "errors": {
+              "fileUpload": "Une erreur est survenue lors du téléchargement du fichier.",
+              "updateTrace": "Une erreur est survenue lors de la modification de la trace."
+            },
+            "steps": {
+              "terms": {
+                "alertMessage": "Attention, message d'information",
+                "impactMessage": "Vos modifications affecteront la trace dans les associations suivantes :",
+                "title": "Modalités de modifications"
+              },
+              "update": {
+                "tabs": {
+                  "associations": {
+                    "caption": "Emplacement(s) de ma trace en cours de modification",
+                    "title": "Mes associations"
+                  },
+                  "update": {
+                    "title": "Modifier ma trace"
+                  }
+                },
+                "title": "Modifier ma trace"
+              }
+            },
+            "success": "Votre trace a été modifiée avec succès.",
+            "title": "Modifier ma trace",
+            "updateTraceForm": {
+              "declaration": {
+                "iaUsage": {
+                  "title": "Déclarer si c'est une production réalisée avec IA"
+                },
+                "productionNature": {
+                  "title": "Déclarer la nature de ma production"
+                }
+              }
+            }
+          }
+        }
+      },
+      "cards": {
+        "StudentTraceCard": {
+          "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+          "lifeProject": "Projet de vie",
+          "skillCount": "0 compétence | 1 compétence | {count} compétences",
+          "tagLabel": {
+            "group": "Groupe",
+            "solo": "Individuel"
+          }
+        }
+      }
+    },
+    "selfKnowledge": {
+      "categoryType": {
+        "ASPIRATIONS": "envie | envies",
+        "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "INTERESTS": "centre d'intérêt | centres d'intérêt",
+        "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
+        "OBLIGATIONS": "obligation | obligations",
+        "STRENGTHS": "point fort | points forts",
+        "TESTIMONIALS": "témoignage | témoignages",
+        "VALUES": "valeur | valeurs"
+      },
+      "element": "élément | éléments",
+      "interactions": {
+        "inputs": {
+          "CategoryElementDescriptionTextarea": {
+            "label": "Description de votre élément",
+            "placeholder": "Décrivez votre élément..."
+          },
+          "CategoryElementRatingRadioButtonSet": {
+            "legend": "Évaluer l'importance de votre élément",
+            "levels": {
+              "essential": "Essentiel",
+              "important": "Important",
+              "lessImportant": "Peu important",
+              "notEvaluated": "Non évalué",
+              "notImportant": "Pas important",
+              "veryImportant": "Très important"
+            }
+          },
+          "CategoryElementTitleInput": {
+            "label": "Intitulé de votre élément",
+            "placeholder": "Saisir un nom pour votre élément"
+          }
+        }
+      },
+      "overlays": {
+        "AddSelfKnowledgeCategoryElementDrawer": {
+          "accordions": {
+            "associate": "Associer mon élément",
+            "definition": "Ajouter mon élément",
+            "rating": "Préciser mon élément"
+          },
+          "confirmationModal": {
+            "title": "Souhaitez-vous abandonner l'ajout de votre élément ?"
+          },
+          "errors": {
+            "createElement": "Erreur lors de la création de l'élément"
+          },
+          "success": "Élément créé avec succès",
+          "titleWithCategory": "Ajouter un élément - {category}"
+        }
+      },
+      "tabs": {
+        "SelfKnowledgeElementTabs": {
+          "associations": {
+            "title": "Mes associations ({count})"
+          },
+          "category": {
+            "titles": {
+              "ASPIRATIONS": "Mon envie",
+              "IMPROVEMENT_AREAS": "Mon axe d'amélioration",
+              "INSPIRATIONS": "Mon inspiration",
+              "INTERESTS": "Mon centre d'intérêt",
+              "MOTIVATIONS": "Ma motivation professionnelle",
+              "OBLIGATIONS": "Mon obligation",
+              "STRENGTHS": "Mon point fort",
+              "TESTIMONIALS": "Mon témoignage",
+              "VALUES": "Ma valeur"
+            }
+          }
+        }
+      },
+      "views": {
+        "SelfKnowledgeCategoryView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Détail de mes {type}"
+            }
+          },
+          "dropdown": "Gérer mon élément",
+          "selfKnowledgeElementDetails": {
+            "ratingLabel": "Degré d'importance"
+          },
+          "selfKnowledgeElementUpdate": {
+            "buttons": {
+              "save": "Enregistrer les modifications"
+            },
+            "confirmationModal": {
+              "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?"
+            }
+          },
+          "title": "Détail de mes {type}"
         },
-        "skills": {
-          "buttons": {
-            "seeAll": "Voir toutes mes compétences"
+        "SelfKnowledgeElementUpdateView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Modifier mes {categoryType}"
+            }
           },
-          "title": "Mes compétences visées par ma formation"
+          "title": "Modifier mes {categoryType}",
+          "updateForm": {
+            "errors": {
+              "updateElement": "Erreur lors de la mise à jour de l'élément"
+            },
+            "success": "Vos modifications ont été enregistrées avec succès"
+          }
+        }
+      }
+    },
+    "skills": {
+      "badges": {
+        "StudentLevelBadge": {
+          "status": {
+            "failed": "Non validé",
+            "inProgress": "En cours d'acquisition",
+            "underReview": "Soumis pour évaluation",
+            "validated": "Validé"
+          }
+        }
+      },
+      "cards": {
+        "StudentDetailedPastSkillCard": {
+          "programFinished": "Formation associée"
         },
-        "traces": {
-          "buttons": {
-            "seeAll": "Voir toutes mes traces"
+        "StudentDetailedSkillCard": {
+          "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+          "feedbackCount": "0 feedback à consulter | 1 feedback à consulter | {count} feedbacks à consulter",
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        },
+        "StudentSkillCard": {
+          "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+          "badgeStatus": {
+            "failed": "non validé",
+            "toBeEvaluated": "à évaluer",
+            "underReview": "en cours d'évaluation",
+            "validated": "validé"
           },
-          "title": "Mes dernières traces"
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        }
+      },
+      "skill": "compétence | compétences",
+      "views": {
+        "StudentEducationSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Mes compétences visées par mes formations"
+            }
+          },
+          "skillsSortContainer": {
+            "sort": {
+              "selectAriaLabel": "Trier mes compétences visées par mes formations"
+            }
+          },
+          "title": "Mes compétences visées par ma formation | Mes compétences visées par mes formations"
+        },
+        "StudentProjectSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Toutes mes compétences"
+            }
+          },
+          "skillsViewTabs": {
+            "education": "Les compétences de mes formations (terminées et en cours)",
+            "other": "Mes autres compétences",
+            "skillsViewEducationTab": {
+              "subtitle": "(terminées et en cours)",
+              "title": "Les compétences de mes formations "
+            },
+            "skillsViewOtherTab": {
+              "addSkillButton": "Ajouter une compétence"
+            }
+          },
+          "title": "Toutes mes compétences"
+        },
+        "StudentSkillView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Compétence {skill}"
+            }
+          },
+          "detailed": {
+            "title": "Compétence"
+          },
+          "evaluation": {
+            "title": "Mon évaluation"
+          },
+          "progress": {
+            "title": "Ma progression"
+          },
+          "title": "Compétence {skill}"
         }
       }
     }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as crypto from 'node:crypto'
 import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
