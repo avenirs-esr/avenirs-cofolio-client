@@ -1,0 +1,104 @@
+{
+  "student": {
+    "additionalSkills": {
+      "additionalSkillCategoryTypes": {
+        "DOMAIN": "Domain",
+        "ISSUE": "Issue",
+        "MACRO_SKILL": "Macro-skill",
+        "TARGET": "Target"
+      },
+      "additionalSkillTypes": {
+        "CASOC": "Casoc onisep",
+        "CASOL": "Casol onisep",
+        "ROME4": "Rome 4.0",
+        "XXI": "XXIᵉ onisep"
+      },
+      "cards": {
+        "AdditionalSkillRefCard": {
+          "refTitle": "From the reference system:"
+        }
+      },
+      "interactions": {
+        "inputs": {
+          "AdditionalSkillCommentFormField": {
+            "label": "Description of my skill"
+          }
+        },
+        "radios": {
+          "AdditionalSkillLevelRadioButtonSet": {
+            "legend": "Self-positioning"
+          }
+        }
+      },
+      "overlays": {
+        "AddAdditionalSkillDrawer": {
+          "title": "Add additional skill",
+          "success": "Skill added successfully",
+          "confirmationModal": {
+            "description": "Do you want to abandon adding your additional skill ?"
+          },
+          "autocompleteField": {
+            "noResultsFound": "No skill found",
+            "minimumCharacters": "Type at least 3 characters to search",
+            "startTyping": "Start typing to search for a skill",
+            "searchLabel": "Search for a skill",
+            "searchPlaceholder": "Start search by typing at least 3 characters"
+          },
+          "errors": {
+            "createAdditionalSkill": "Error while adding the skill"
+          },
+          "validation": {
+            "skillRequired": "A skill must be selected",
+            "levelRequired": "A self-positioning level must be selected"
+          }
+        }
+      },
+      "views": {
+        "StudentAdditionalSkillView": {
+          "title": "Declared skill details",
+          "tabs": {
+            "details": {
+              "title": "My declared skill"
+            }
+          },
+          "additionalSkillDetails": {
+            "skillTitle": "Title:",
+            "levelTitle": "Self-positioning"
+          },
+          "settingDropdown": {
+            "ariaLabel": "Declared skill settings",
+            "update": "Edit my skill",
+            "delete": "Delete my skill"
+          }
+        },
+        "StudentUpdateAdditionalSkillView": {
+          "title": "Update my declared skill",
+          "wipBadge": "Update in progress",
+          "tabs": {
+            "details": {
+              "title": "My declared skill"
+            }
+          },
+          "updateForm": {
+            "success": "Additional skill updated",
+            "errors": {
+              "updateAdditionalSkill": "An error occurred while updating the additional skill."
+            },
+            "validation": {
+              "levelRequired": "Self-positioning is required",
+              "commentTooLong": "The description must not exceed {count} characters"
+            }
+          },
+          "updateAssociations": {
+            "addTraceButton": "Add a trace",
+            "removeButton": "Remove",
+            "success": "{count} association removed successfully | {count} associations removed successfully ",
+            "errors": {
+              "unassociateTraces": "An error occurred while removing associations"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,22 +1,84 @@
 {
   "student": {
+    "ams": {
+      "badges": {
+        "StudentAmsStatusBadge": {
+          "status": {
+            "completed": "Completed",
+            "inProgress": "In progress",
+            "notStarted": "Not started",
+            "submitted": "Submitted for evaluation"
+          }
+        }
+      },
+      "base": {
+        "StudentCountAmsIconText": {
+          "text": "0 role-play activity | 1 role-play activity | {count} role-play activities"
+        }
+      },
+      "views": {
+        "StudentAmsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "RPA {ams}"
+            }
+          },
+          "title": "RPA - {ams}"
+        },
+        "StudentEducationAmsView": {
+          "amsListContainer": {
+            "pagination": {
+              "bottom": {
+                "ariaLabel": "Bottom pagination"
+              },
+              "top": {
+                "ariaLabel": "Top pagination"
+              }
+            },
+            "title": "My RPA not started, in progress, submitted and completed"
+          },
+          "amsViewTabs": {
+            "list": "My RPA list",
+            "planning": "My RPA planning"
+          },
+          "breadcrumb": {
+            "current": {
+              "title": "My RPA"
+            }
+          },
+          "programProgressSelector": {
+            "label": "My education:"
+          },
+          "studentCountSkillsIconText": {
+            "text": "0 skill | 1 skill | {count} skills"
+          },
+          "studentDetailedAmsCard": {
+            "activityCount": "Activity {startedActivities}/{totalActivities} | Activities {startedActivities}/{totalActivities}",
+            "deliverables": {
+              "toSubmit": "1 delivarable to submit for {date} | {count} deliverables to submit for {date}",
+              "validated": "1 validated delivarable | {count} validated deliverables"
+            },
+            "skillCount": "0 skill | 1 skill | {count} skills",
+            "traceCount": "0 trace | 1 trace | {count} traces"
+          },
+          "title": "My Role-Play Activities (RPA)"
+        }
+      }
+    },
     "global": {
+      "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
+      "myAssociationsWithCount": "My associations ({count})",
       "layout": {
         "header": {
+          "serviceTitle": "Cofolio Student",
           "quicklinks": {
             "mailbox": "Mailbox",
             "notifications": "Notifications"
-          },
-          "serviceTitle": "Cofolio Student"
+          }
         }
       },
-      "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
-      "myAssociationsWithCount": "My associations ({count})",
       "navigation": {
         "tabs": {
-          "apcUnavailable": {
-            "title": "APC not available"
-          },
           "education": {
             "header": "Successful education",
             "items": {
@@ -30,9 +92,9 @@
             "items": {
               "additionalSkills": "My other declared skills and certifications",
               "experiences": "My career",
-              "selfKnowledge": "About me",
               "skills": "All my skills",
-              "trajectories": "Building my project"
+              "trajectories": "Building my project",
+              "selfKnowledge": "About me"
             }
           },
           "tools": {
@@ -42,7 +104,123 @@
               "resumes": "My resumes",
               "traces": "My traces"
             }
+          },
+          "apcUnavailable": {
+            "title": "APC not available"
           }
+        }
+      },
+      "overlays": {
+        "mailboxPopover": {
+          "bodyNoNew": "You have no new messages to consult.",
+          "buttons": {
+            "close": "Close",
+            "navigate": "Go to my mailbox",
+            "seeAll": "See all"
+          },
+          "title": "No new messages | 1 unread message | {count} unread messages"
+        },
+        "notificationsPopover": {
+          "bodyNoNew": {
+            "assessedSkill": "A third party will have assessed you on a skill",
+            "comingUpEvent": "An event is coming up",
+            "header": "You will receive a notification in the following cases:",
+            "teacherMessage": "A teacher will send you a message",
+            "validatedTrace": "A trace has been validated"
+          },
+          "buttons": {
+            "close": "Close",
+            "seeAll": "See all"
+          },
+          "title": "No notification | 1 unread notification | {count} unread notifications"
+        },
+        "profilePopover": {
+          "buttons": {
+            "goToDw": "Go to my DW",
+            "goToSkills": "Go to the skills passport",
+            "logout": "Logout",
+            "manageProfile": "Manage my profile",
+            "seeCalendar": "See my calendar"
+          }
+        }
+      },
+      "widgets": {
+        "deliverables": {
+          "ams": "RPA - {ams}",
+          "buttons": {
+            "seeAll": "See all my deliverables"
+          },
+          "skill": "Skills {skill}",
+          "title": "My next deliverables"
+        },
+        "events": {
+          "buttons": {
+            "seeAll": "See all my events"
+          },
+          "title": "My 3 next events"
+        },
+        "overview": {
+          "bannerAlt": "Profile banner",
+          "buttons": {
+            "editProfile": "Edit my profile",
+            "establishments": "My establishment(s)",
+            "shareCofolio": "Share my Cofolio",
+            "shareResume": "Share my resume"
+          },
+          "pictureAlt": "Profile picture",
+          "updateProfileDrawer": {
+            "identity": {
+              "biography": {
+                "label": "Biography",
+                "errors": {
+                  "tooLong": "The biography must not exceed {maxLength} characters"
+                }
+              },
+              "firstname": "First name",
+              "lastname": "Last name",
+              "mail": "Personal email address",
+              "title": "Identity"
+            },
+            "onDelete": {
+              "error": "An error occurred while deleting the photo.",
+              "success": "Your photo has been deleted."
+            },
+            "onUpdate": {
+              "error": "An error occurred while updating the profile.",
+              "success": "Your profile has been updated."
+            },
+            "pictures": {
+              "banner": "Banner",
+              "picture": "Profile picture"
+            },
+            "title": "Edit my profile"
+          }
+        },
+        "pages": {
+          "buttons": {
+            "seeAll": "See all my pages"
+          },
+          "title": "My free pages",
+          "updatedAt": "last update on {date}"
+        },
+        "resumes": {
+          "buttons": {
+            "seeAll": "See all my resumes"
+          },
+          "title": "My resumes",
+          "updatedAt": "last update on {date}"
+        },
+        "skills": {
+          "buttons": {
+            "seeAll": "See all my skills"
+          },
+          "title": "My educational skills"
+        },
+        "traces": {
+          "buttons": {
+            "seeAll": "See all my traces"
+          },
+          "title": "My last traces"
         }
       },
       "views": {
@@ -55,10 +233,14 @@
         "studentHomeView": {
           "title": "Cofolio Student Home"
         },
+        "studentMailboxView": {
+          "title": "My mailbox"
+        },
+        "studentNotificationsView": {
+          "title": "My notifications"
+        },
         "studentProjectExperiencesView": {
-          "activities": {
-            "title": "My activities"
-          },
+          "title": "(placeholder) All my experiences",
           "careers": {
             "title": "My career"
           },
@@ -68,7 +250,9 @@
           "experiences": {
             "title": "My experiences"
           },
-          "title": "(placeholder) All my experiences"
+          "activities": {
+            "title": "My activities"
+          }
         },
         "studentProjectTrajectoriesView": {
           "activities": {
@@ -144,47 +328,483 @@
         "studentToolsResumesView": {
           "title": "(placeholder) All my resumes"
         }
+      }
+    },
+    "traces": {
+      "base": {
+        "StudentCountTracesIconText": {
+          "text": "0 trace | 1 trace | {count} traces"
+        }
       },
-      "widgets": {
-        "deliverables": {
-          "ams": "RPA - {ams}",
-          "buttons": {
-            "seeAll": "See all my deliverables"
+      "composites": {
+        "TraceAssociations": {
+          "caption": "The associations of my trace ({count})"
+        }
+      },
+      "interactions": {
+        "inputs": {
+          "TraceFileUpload": {
+            "addedOn": "Added on {date}",
+            "documentLabel": "My uploaded document"
           },
-          "skill": "Skills {skill}",
-          "title": "My next deliverables"
+          "TraceIaJustificationTextarea": {
+            "label": "AI usage justification",
+            "placeholder": "Describe how and why you used AI..."
+          },
+          "TraceNameInput": {
+            "label": "My trace name",
+            "placeholder": "My-trace-name-01"
+          },
+          "TracePersonalNoteTextarea": {
+            "label": "Personal note",
+            "placeholder": "Add your personal note here..."
+          }
         },
-        "events": {
-          "buttons": {
-            "seeAll": "See all my events"
-          },
-          "title": "My 3 next events"
+        "pickers": {
+          "TracesSelector": {
+            "ariaLabel": "Select trace {title}"
+          }
         },
-        "pages": {
-          "buttons": {
-            "seeAll": "See all my pages"
+        "toggles": {
+          "TraceAiUsageToggle": {
+            "description": "I submit a production made with AI"
           },
-          "title": "My free pages",
-          "updatedAt": "last update on {date}"
+          "TraceAuthenticDeclarationToggle": {
+            "description": "I submit an authentic and personal production",
+            "requiredMessage": "You must agree to submit an authentic and personal work"
+          },
+          "TraceGroupProductionToggle": {
+            "description": "I submit a group production"
+          }
+        }
+      },
+      "views": {
+        "StudentToolsTracesView": {
+          "breadcrumb": {
+            "current": {
+              "title": "All my traces"
+            }
+          },
+          "studentDetailedTraceAssociateModal": {
+            "buttons": {
+              "associate": "Associate"
+            },
+            "errors": {
+              "associateTrace": "Error while associating the trace",
+              "noResultsFound": "No skills found"
+            },
+            "minimumCharacters": "Type at least {count} characters to search",
+            "searchLabel": "Search among my skills",
+            "searchPlaceholder": "Enter the name of a skill",
+            "startTyping": "Start typing to search for a skill",
+            "success": "Trace associated successfully",
+            "title": "Associate a skill",
+            "validation": {
+              "associationRequired": "A skill must be selected"
+            }
+          },
+          "studentDetailedTraceCard": {
+            "getDaysUntilDeletion": "Deletion in 1 day | Deletion {count} days"
+          },
+          "studentDetailedTraceModal": {
+            "buttons": {
+              "close": "Close the window"
+            },
+            "settings": {
+              "associate": "Associate my trace",
+              "delete": "Delete my trace",
+              "update": "Update my trace"
+            },
+            "title": "Detail of my trace"
+          },
+          "studentToolsTracesActionButtons": {
+            "addTrace": "Add a trace to my library"
+          },
+          "studentToolsTracesAddTraceDrawer": {
+            "accordionItems": {
+              "addTrace": "Add my trace",
+              "associateTrace": "Associate my trace",
+              "declarations": "Make my declarations"
+            },
+            "createTraceForm": {
+              "declaration": {
+                "groupProduction": {
+                  "label": "I submit a group production"
+                },
+                "iaUsage": {
+                  "label": "I submit a production made with AI",
+                  "title": "Declare if this is a production made with Artificial Intelligence (AI)"
+                },
+                "productionAuthenticity": {
+                  "label": "I submit an authentic and personal production",
+                  "required": "You must accept to submit an authentic and personal production"
+                },
+                "productionNature": {
+                  "title": "Declare the nature of my production"
+                }
+              },
+              "errors": {
+                "createTrace": "An error occurred while creating the trace.",
+                "fileUpload": "An error occurred while uploading the file."
+              },
+              "fileUpload": {
+                "subtitle": "or drag and drop here",
+                "title": "Add a new trace file"
+              },
+              "success": "Your trace has been successfully added."
+            },
+            "title": "Add a trace"
+          },
+          "studentToolsTracesViewContainer": {
+            "pagination": {
+              "bottom": {
+                "ariaLabel": "Bottom pagination"
+              },
+              "top": {
+                "ariaLabel": "Top pagination"
+              }
+            }
+          },
+          "studentToolsTracesViewTabs": {
+            "associatedTracesTab": {
+              "studentTraceFilters": {
+                "searchLabel": "Search for an associated trace"
+              },
+              "title": "No associated trace ({count})  | My associated trace ({count}) | My associated traces ({count})"
+            },
+            "noTraceFound": "No trace found.",
+            "unassociatedTracesTab": {
+              "studentTraceFilters": {
+                "searchLabel": "Search for an unassociated trace"
+              },
+              "title": "No unassociated trace ({count})  | My unassociated trace ({count}) | My unassociated traces  ({count})"
+            }
+          },
+          "studentTraceDetails": {
+            "authenticProduction": "Authentic and personal production",
+            "groupProduction": "This trace is a group production",
+            "iaToggleLabel": "AI production"
+          },
+          "studentTraceFilters": {
+            "resetButton": "Reset filters",
+            "searchLabel": "Search for a trace"
+          },
+          "title": "My collection of traces",
+          "traceFilter": {
+            "labels": {
+              "fromDate": "Start date",
+              "reset": "Reset filters",
+              "search": {
+                "associated": "Search an associated trace",
+                "unassociated": "Search an unassociated trace"
+              },
+              "selected": "{count} selected",
+              "skills": "Skill",
+              "statuses": "Status",
+              "statusesOptions": {
+                "associatedEvaluated": "Associated with an evaluated skill level",
+                "associatedInEvaluation": "Associated with a skill level submitted for evaluation",
+                "associatedNotEvaluated": "Associated with a non-evaluated skill level",
+                "associatedWithAdditionalSkill": "Associated with an additional skill level"
+              },
+              "toDate": "End date",
+              "types": "Type",
+              "typesOptions": {
+                "doc": "DOC file",
+                "docx": "DOCX file",
+                "jpeg": "JPEG file",
+                "pdf": "PDF file",
+                "png": "PNG file"
+              }
+            },
+            "placeholders": {
+              "skills": "Sort by associated skill",
+              "statuses": "Sort by trace status",
+              "types": "Sort by document type"
+            }
+          },
+          "warningMessage": {
+            "delete": {
+              "days": "tomorrow | in the coming {daysWarning} days.",
+              "loneTrace": "Please note that the trace will be deleted",
+              "traces": "Please note that **1 of them** will be deleted. | Please note that **{tracesToDeleteCount} of them** will be deleted."
+            },
+            "reminder": "As a reminder, without any action on your part, unassociated traces are deleted within {maxDayBeforeDeletion} days.",
+            "unassociated": "You have an unassociated trace. | You have {unassociatedTracesCount} unassociated traces."
+          }
         },
-        "resumes": {
-          "buttons": {
-            "seeAll": "See all my resumes"
+        "StudentTraceView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Trace {trace}"
+            }
           },
-          "title": "My resumes",
-          "updatedAt": "last update on {date}"
+          "errors": {
+            "delete": "An error occurred while deleting the trace"
+          },
+          "settings": {
+            "associate": "Associate my trace",
+            "delete": "Delete my trace",
+            "update": "Update my trace"
+          },
+          "subtitle": "Detail of my trace",
+          "tabs": {
+            "associations": "My associations",
+            "details": "My trace"
+          },
+          "title": "Trace {trace}",
+          "traceDeletionConfirmationModal": {
+            "description": "Are you sure you want to delete your trace?",
+            "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
+          },
+          "updateTraceModal": {
+            "buttons": {
+              "close": "Close the window",
+              "save": "Save the modifications",
+              "validate": "Validate the selection"
+            },
+            "errors": {
+              "fileUpload": "An error occurred while uploading the file.",
+              "updateTrace": "An error occurred while updating the trace."
+            },
+            "steps": {
+              "terms": {
+                "alertMessage": "Attention, information message",
+                "impactMessage": "Your changes will affect the trace in the following associations:",
+                "title": "Terms of modifications"
+              },
+              "update": {
+                "tabs": {
+                  "associations": {
+                    "caption": "Location(s) of my trace currently being edited",
+                    "title": "My associations"
+                  },
+                  "update": {
+                    "title": "Update my trace"
+                  }
+                },
+                "title": "Update my trace"
+              }
+            },
+            "success": "Your trace has been successfully updated.",
+            "title": "Update my trace",
+            "updateTraceForm": {
+              "declaration": {
+                "iaUsage": {
+                  "title": "Declare if this is a production made with AI"
+                },
+                "productionNature": {
+                  "title": "Declare the nature of my production"
+                }
+              }
+            }
+          }
+        }
+      },
+      "cards": {
+        "StudentTraceCard": {
+          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
+          "lifeProject": "Life project",
+          "skillCount": "0 skill | 1 skill | {count} skills",
+          "tagLabel": {
+            "group": "Group",
+            "solo": "Individual"
+          }
+        }
+      }
+    },
+    "selfKnowledge": {
+      "categoryType": {
+        "ASPIRATIONS": "aspiration | aspirations",
+        "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "INTERESTS": "interest | interests",
+        "MOTIVATIONS": "professional motivation | professional motivations",
+        "OBLIGATIONS": "obligation | obligations",
+        "STRENGTHS": "strength | strengths",
+        "TESTIMONIALS": "testimonial | testimonials",
+        "VALUES": "value | values"
+      },
+      "element": "element | elements",
+      "interactions": {
+        "inputs": {
+          "CategoryElementDescriptionTextarea": {
+            "hint": "{count} / {maxlength} characters (including spaces)",
+            "label": "Description of your element",
+            "placeholder": "Describe your element..."
+          },
+          "CategoryElementRatingRadioButtonSet": {
+            "legend": "Assess the importance of your element",
+            "levels": {
+              "essential": "Essential",
+              "important": "Important",
+              "lessImportant": "Less important",
+              "notEvaluated": "Not evaluated",
+              "notImportant": "Not important",
+              "veryImportant": "Very important"
+            }
+          },
+          "CategoryElementTitleInput": {
+            "label": "Title of your element",
+            "placeholder": "Type a title for your element..."
+          }
+        }
+      },
+      "overlays": {
+        "AddSelfKnowledgeCategoryElementDrawer": {
+          "accordions": {
+            "associate": "Associate my element",
+            "definition": "Add my element",
+            "rating": "Specify my element"
+          },
+          "confirmationModal": {
+            "title": "Are you sure you want to exit without saving your element?"
+          },
+          "errors": {
+            "createElement": "Error creating element"
+          },
+          "success": "Element created successfully",
+          "titleWithCategory": "Add element - {category}"
+        }
+      },
+      "tabs": {
+        "SelfKnowledgeElementTabs": {
+          "associations": {
+            "title": "My associations ({count})"
+          },
+          "category": {
+            "titles": {
+              "ASPIRATIONS": "My aspiration",
+              "IMPROVEMENT_AREAS": "My area for improvement",
+              "INSPIRATIONS": "My inspiration",
+              "INTERESTS": "My area of interest",
+              "MOTIVATIONS": "My professional motivation",
+              "OBLIGATIONS": "My obligation",
+              "STRENGTHS": "My strength",
+              "TESTIMONIALS": "My testimonial",
+              "VALUES": "My value"
+            }
+          }
+        }
+      },
+      "views": {
+        "SelfKnowledgeCategoryView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Details of my {type}"
+            }
+          },
+          "dropdown": "Manage my element",
+          "selfKnowledgeElementDetails": {
+            "ratingLabel": "Level of importance"
+          },
+          "selfKnowledgeElementUpdate": {
+            "buttons": {
+              "save": "Save changes"
+            },
+            "confirmationModal": {
+              "title": "Are you sure you want to discard the changes to your item?"
+            }
+          },
+          "title": "Details of my {type}"
         },
-        "skills": {
-          "buttons": {
-            "seeAll": "See all my skills"
+        "SelfKnowledgeElementUpdateView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Update my {categoryType}"
+            }
           },
-          "title": "My educational skills"
+          "title": "Update my {categoryType}",
+          "updateForm": {
+            "errors": {
+              "updateElement": "Error updating item"
+            },
+            "success": "Your changes have been successfully saved."
+          }
+        }
+      }
+    },
+    "skills": {
+      "badges": {
+        "StudentLevelBadge": {
+          "status": {
+            "failed": "Not validated",
+            "inProgress": "Under acquisition",
+            "underReview": "Submitted for evaluation",
+            "validated": "Validated"
+          }
+        }
+      },
+      "cards": {
+        "StudentDetailedPastSkillCard": {
+          "programFinished": "Program finished"
         },
-        "traces": {
-          "buttons": {
-            "seeAll": "See all my traces"
+        "StudentDetailedSkillCard": {
+          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
+          "feedbackCount": "0 feedback to read | 1 feedback to read | {count} feedbacks to read",
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        },
+        "StudentSkillCard": {
+          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
+          "badgeStatus": {
+            "failed": "not validated",
+            "toBeEvaluated": "to evaluate",
+            "underReview": "under review",
+            "validated": "validated"
           },
-          "title": "My last traces"
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        }
+      },
+      "skill": "skill | skills",
+      "views": {
+        "StudentEducationSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Skills targeted by my training programs"
+            }
+          },
+          "skillsSortContainer": {
+            "sort": {
+              "selectAriaLabel": "Sort my educational skills"
+            }
+          },
+          "title": "My educational skills | My educational skills"
+        },
+        "StudentProjectSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "All my skills"
+            }
+          },
+          "skillsViewTabs": {
+            "education": "Skills targeted by my training programs (completed and in progress)",
+            "other": "My other skills",
+            "skillsViewEducationTab": {
+              "subtitle": "(completed and in progress)",
+              "title": "Skills targeted by my training programs "
+            },
+            "skillsViewOtherTab": {
+              "addSkillButton": "Add a skill"
+            }
+          },
+          "title": "All my skills"
+        },
+        "StudentSkillView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Skill {skill}"
+            }
+          },
+          "detailed": {
+            "title": "Skill"
+          },
+          "evaluation": {
+            "title": "My evaluation"
+          },
+          "progress": {
+            "title": "My progress"
+          },
+          "title": "Skill {skill}"
         }
       }
     }

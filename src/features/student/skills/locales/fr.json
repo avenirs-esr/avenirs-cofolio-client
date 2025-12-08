@@ -1,0 +1,88 @@
+{
+  "student": {
+    "skills": {
+      "badges": {
+        "StudentLevelBadge": {
+          "status": {
+            "failed": "Non validé",
+            "inProgress": "En cours d'acquisition",
+            "underReview": "Soumis pour évaluation",
+            "validated": "Validé"
+          }
+        }
+      },
+      "cards": {
+        "StudentDetailedPastSkillCard": {
+          "programFinished": "Formation associée"
+        },
+        "StudentDetailedSkillCard": {
+          "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+          "feedbackCount": "0 feedback à consulter | 1 feedback à consulter | {count} feedbacks à consulter",
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        },
+        "StudentSkillCard": {
+          "activityCount": "0 mise en situation | 1 mise en situation | {count} mises en situation",
+          "badgeStatus": {
+            "failed": "non validé",
+            "toBeEvaluated": "à évaluer",
+            "underReview": "en cours d'évaluation",
+            "validated": "validé"
+          },
+          "traceCount": "0 trace | 1 trace | {count} traces"
+        }
+      },
+      "skill": "compétence | compétences",
+      "views": {
+        "StudentEducationSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Mes compétences visées par mes formations"
+            }
+          },
+          "skillsSortContainer": {
+            "sort": {
+              "selectAriaLabel": "Trier mes compétences visées par mes formations"
+            }
+          },
+          "title": "Mes compétences visées par ma formation | Mes compétences visées par mes formations"
+        },
+        "StudentProjectSkillsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Toutes mes compétences"
+            }
+          },
+          "skillsViewTabs": {
+            "education": "Les compétences de mes formations (terminées et en cours)",
+            "other": "Mes autres compétences",
+            "skillsViewEducationTab": {
+              "subtitle": "(terminées et en cours)",
+              "title": "Les compétences de mes formations "
+            },
+            "skillsViewOtherTab": {
+              "addSkillButton": "Ajouter une compétence"
+            }
+          },
+          "title": "Toutes mes compétences"
+        },
+        "StudentSkillView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Compétence {skill}"
+            }
+          },
+          "detailed": {
+            "title": "Compétence"
+          },
+          "evaluation": {
+            "title": "Mon évaluation"
+          },
+          "progress": {
+            "title": "Ma progression"
+          },
+          "title": "Compétence {skill}"
+        }
+      }
+    }
+  }
+}

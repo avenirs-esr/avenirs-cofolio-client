@@ -1,0 +1,69 @@
+{
+  "student": {
+    "ams": {
+      "badges": {
+        "StudentAmsStatusBadge": {
+          "status": {
+            "completed": "Completed",
+            "inProgress": "In progress",
+            "notStarted": "Not started",
+            "submitted": "Submitted for evaluation"
+          }
+        }
+      },
+      "base": {
+        "StudentCountAmsIconText": {
+          "text": "0 role-play activity | 1 role-play activity | {count} role-play activities"
+        }
+      },
+      "views": {
+        "StudentAmsView": {
+          "breadcrumb": {
+            "current": {
+              "title": "RPA {ams}"
+            }
+          },
+          "title": "RPA - {ams}"
+        },
+        "StudentEducationAmsView": {
+          "amsListContainer": {
+            "pagination": {
+              "bottom": {
+                "ariaLabel": "Bottom pagination"
+              },
+              "top": {
+                "ariaLabel": "Top pagination"
+              }
+            },
+            "title": "My RPA not started, in progress, submitted and completed"
+          },
+          "amsViewTabs": {
+            "list": "My RPA list",
+            "planning": "My RPA planning"
+          },
+          "breadcrumb": {
+            "current": {
+              "title": "My RPA"
+            }
+          },
+          "programProgressSelector": {
+            "label": "My education:"
+          },
+          "studentCountSkillsIconText": {
+            "text": "0 skill | 1 skill | {count} skills"
+          },
+          "studentDetailedAmsCard": {
+            "activityCount": "Activity {startedActivities}/{totalActivities} | Activities {startedActivities}/{totalActivities}",
+            "deliverables": {
+              "toSubmit": "1 delivarable to submit for {date} | {count} deliverables to submit for {date}",
+              "validated": "1 validated delivarable | {count} validated deliverables"
+            },
+            "skillCount": "0 skill | 1 skill | {count} skills",
+            "traceCount": "0 trace | 1 trace | {count} traces"
+          },
+          "title": "My Role-Play Activities (RPA)"
+        }
+      }
+    }
+  }
+}
