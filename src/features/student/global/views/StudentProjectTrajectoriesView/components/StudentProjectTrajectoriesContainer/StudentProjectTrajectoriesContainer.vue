@@ -31,7 +31,7 @@ const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
   },
   {
     id: ProjectTrajectoryItems.SELF_KNOWLEDGE,
-    label: t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.title.menu'),
+    label: t('student.selfKnowledge.SelfKnowledgeMainSection.title.menu'),
     icon: MDI_ICONS.FAMILY
   },
   {

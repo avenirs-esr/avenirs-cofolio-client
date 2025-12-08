@@ -1,105 +1,104 @@
 {
-}
-  }
-    }
-      }
-        }
-          "wipBadge": "Modifications en cours"
-          },
-            }
-              "levelRequired": "L'auto-positionnement est requis"
-              "commentTooLong": "La description ne doit pas dépasser les {count} charactères",
-            "validation": {
-            "success": "Compétence déclarée mise à jour",
-            },
-              "updateAdditionalSkill": "Une erreur est survenue lors de la mise à jour de la compétence déclarée"
-            "errors": {
-          "updateForm": {
-          },
-            "success": "{count} association supprimée avec succès | {count} associations supprimées avec succès"
-            "removeButton": "Supprimer",
-            },
-              "unassociateTraces": "Une erreur est survenue lors de la suppression des associations"
-            "errors": {
-            "addTraceButton": "Ajouter une trace",
-          "updateAssociations": {
-          "title": "Modifier ma compétence déclarée",
-          },
-            }
-              "title": "Ma compétence déclarée"
-            "details": {
-          "tabs": {
-        "StudentUpdateAdditionalSkillView": {
-        },
-          "title": "Détail de ma compétence déclarée"
-          },
-            }
-              "title": "Ma compétence déclarée"
-            "details": {
-          "tabs": {
-          },
-            "update": "Modifier ma compétence"
-            "delete": "Supprimer ma compétence",
-            "ariaLabel": "Paramètres de la compétence déclarée",
-          "settingDropdown": {
-          },
-            "skillTitle": "Intitulé :"
-            "levelTitle": "Auto-positionnement",
-          "additionalSkillDetails": {
-        "StudentAdditionalSkillView": {
-      "views": {
-      },
-        }
-          }
-            "skillRequired": "Une compétence doit être sélectionnée"
-            "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
-          "validation": {
-          "title": "Ajouter une compétence complémentaire",
-          "success": "Compétence ajoutée avec succès",
-          },
-            "createAdditionalSkill": "Erreur lors de l'ajout de la compétence"
-          "errors": {
-          },
-            "description": "Souhaitez-vous abandonner l'ajout de votre compétence complémentaire ?"
-          "confirmationModal": {
-          },
-            "startTyping": "Commencez à taper pour rechercher une compétence"
-            "searchPlaceholder": "Commencer la recherche en tapant au moins 3 caractères",
-            "searchLabel": "Rechercher une compétence",
-            "noResultsFound": "Aucune compétence trouvée",
-            "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
-          "autocompleteField": {
-        "AddAdditionalSkillDrawer": {
-      "overlays": {
-      },
-        }
-          }
-            "legend": "Auto-positionnement"
-          "AdditionalSkillLevelRadioButtonSet": {
-        "radios": {
-        },
-          }
-            "label": "Description de ma compétence"
-          "AdditionalSkillCommentFormField": {
-        "inputs": {
-      "interactions": {
-      },
-        }
-          "refTitle": "Issu du référentiel :"
-        "AdditionalSkillRefCard": {
-      "cards": {
-      },
-        "XXI": "XXIᵉ onisep"
-        "ROME4": "Rome 4.0",
-        "CASOL": "Casol onisep",
-        "CASOC": "Casoc onisep",
-      "additionalSkillTypes": {
-      },
-        "TARGET": "Objectif"
-        "MACRO_SKILL": "Macro-compétence",
-        "ISSUE": "Enjeu",
-        "DOMAIN": "Domaine",
-      "additionalSkillCategoryTypes": {
-    "additionalSkills": {
   "student": {
-
+    "additionalSkills": {
+      "additionalSkillCategoryTypes": {
+        "DOMAIN": "Domaine",
+        "ISSUE": "Enjeu",
+        "MACRO_SKILL": "Macro-compétence",
+        "TARGET": "Objectif"
+      },
+      "additionalSkillTypes": {
+        "CASOC": "Casoc onisep",
+        "CASOL": "Casol onisep",
+        "ROME4": "Rome 4.0",
+        "XXI": "XXIᵉ onisep"
+      },
+      "cards": {
+        "AdditionalSkillRefCard": {
+          "refTitle": "Issu du référentiel :"
+        }
+      },
+      "interactions": {
+        "inputs": {
+          "AdditionalSkillCommentFormField": {
+            "label": "Description de ma compétence"
+          }
+        },
+        "radios": {
+          "AdditionalSkillLevelRadioButtonSet": {
+            "legend": "Auto-positionnement"
+          }
+        }
+      },
+      "overlays": {
+        "AddAdditionalSkillDrawer": {
+          "autocompleteField": {
+            "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
+            "noResultsFound": "Aucune compétence trouvée",
+            "searchLabel": "Rechercher une compétence",
+            "searchPlaceholder": "Commencer la recherche en tapant au moins 3 caractères",
+            "startTyping": "Commencez à taper pour rechercher une compétence"
+          },
+          "confirmationModal": {
+            "description": "Souhaitez-vous abandonner l'ajout de votre compétence complémentaire ?"
+          },
+          "errors": {
+            "createAdditionalSkill": "Erreur lors de l'ajout de la compétence"
+          },
+          "success": "Compétence ajoutée avec succès",
+          "title": "Ajouter une compétence complémentaire",
+          "validation": {
+            "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
+            "skillRequired": "Une compétence doit être sélectionnée"
+          }
+        }
+      },
+      "views": {
+        "StudentAdditionalSkillView": {
+          "additionalSkillDetails": {
+            "levelTitle": "Auto-positionnement",
+            "skillTitle": "Intitulé :"
+          },
+          "settingDropdown": {
+            "ariaLabel": "Paramètres de la compétence déclarée",
+            "delete": "Supprimer ma compétence",
+            "update": "Modifier ma compétence"
+          },
+          "tabs": {
+            "details": {
+              "title": "Ma compétence déclarée"
+            }
+          },
+          "title": "Détail de ma compétence déclarée"
+        },
+        "StudentUpdateAdditionalSkillView": {
+          "tabs": {
+            "details": {
+              "title": "Ma compétence déclarée"
+            }
+          },
+          "title": "Modifier ma compétence déclarée",
+          "updateAssociations": {
+            "addTraceButton": "Ajouter une trace",
+            "errors": {
+              "unassociateTraces": "Une erreur est survenue lors de la suppression des associations"
+            },
+            "removeButton": "Supprimer",
+            "success": "{count} association supprimée avec succès | {count} associations supprimées avec succès"
+          },
+          "updateForm": {
+            "errors": {
+              "updateAdditionalSkill": "Une erreur est survenue lors de la mise à jour de la compétence déclarée"
+            },
+            "success": "Compétence déclarée mise à jour",
+            "validation": {
+              "commentTooLong": "La description ne doit pas dépasser les {count} charactères",
+              "levelRequired": "L'auto-positionnement est requis"
+            }
+          },
+          "wipBadge": "Modifications en cours"
+        }
+      }
+    }
+  }
+}

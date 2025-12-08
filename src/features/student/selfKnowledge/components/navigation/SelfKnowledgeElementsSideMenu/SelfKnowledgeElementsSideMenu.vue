@@ -51,7 +51,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
         }"
       >
         <span class="s2-regular">
-          {{ capitalize(t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.navigation.elementsSideMenu') }}
+          {{ capitalize(t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.selfKnowledge.SelfKnowledgeMainSection.navigation.elementsSideMenu') }}
         </span>
         ({{ countElements }})
       </span>

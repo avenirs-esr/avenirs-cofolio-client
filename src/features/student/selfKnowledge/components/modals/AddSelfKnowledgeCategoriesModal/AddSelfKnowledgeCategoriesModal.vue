@@ -21,7 +21,7 @@ const { categoriesAvailable } = useSelfKnowledgeCategoriesAvailableQuery()
 
 const { mutate: addSelfKnowledgeCategories } = useAddSelfKnowledgeCategoriesMutation({
   onSuccess: (_data, variables) => {
-    addSuccessMessage(t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.modals.addSelfKnowledgeCategories.success', { count: variables.selectedIds.length }))
+    addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.success', { count: variables.selectedIds.length }))
     emit('confirm')
     resetSelected()
   },
@@ -59,7 +59,7 @@ function resetSelected () {
     <template #header>
       <div class="add-self-knowledge-categories-modal__header">
         <span :class="categoriesAvailable.length > 0 ? 'b2-regular' : 'b2-bold'">
-          {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.modals.addSelfKnowledgeCategories.title', { count: categoriesAvailable.length }) }}
+          {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.title', { count: categoriesAvailable.length }) }}
         </span>
       </div>
     </template>

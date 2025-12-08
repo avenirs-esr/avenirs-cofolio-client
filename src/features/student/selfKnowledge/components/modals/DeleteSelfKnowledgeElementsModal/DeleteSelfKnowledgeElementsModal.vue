@@ -31,7 +31,7 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 function onDeleteSuccess (deletedCount: number) {
   addSuccessMessage(
-    t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.success', { count: deletedCount })
+    t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: deletedCount })
   )
   hideConfirmModal()
   emit('confirm')
@@ -41,7 +41,7 @@ function onDeleteSuccess (deletedCount: number) {
 const { mutate: deleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElementsMutation({
   onSuccess: (_data, variables) => onDeleteSuccess(variables.selfKnowledgeElementIds.length),
   onError: error => addErrorMessage({
-    title: t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.error'),
+    title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
     description: error.message
   })
 
@@ -67,7 +67,7 @@ function onConfirmDelete () {
   <AvModal
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.confirmButton',
+    :confirm-button-label="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.confirmButton',
                              { count: selectedElementIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedElementIds.length === 0"
@@ -77,7 +77,7 @@ function onConfirmDelete () {
     <template #header>
       <div class="header av-row av-row--center">
         <span class="b2-regular">
-          {{ t('student.global.views.studentProjectTrajectoriesView.selfKnowledge.categoryElementsPaginator.modals.deleteElements.title',
+          {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.title',
                { count: elements.length }) }}
         </span>
       </div>
