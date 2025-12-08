@@ -24,4 +24,7 @@ async function enableMsw () {
   })
 }
 
-enableMsw().then(() => createVueApp().mount('#app'))
+enableMsw().then(async () => {
+  const app = await createVueApp()
+  app.mount('#app')
+})
