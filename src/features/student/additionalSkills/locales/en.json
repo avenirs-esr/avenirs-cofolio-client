@@ -32,73 +32,74 @@
       },
       "overlays": {
         "AddAdditionalSkillDrawer": {
-          "title": "Add additional skill",
-          "success": "Skill added successfully",
+          "autocompleteField": {
+            "minimumCharacters": "Type at least 3 characters to search",
+            "noResultsFound": "No skill found",
+            "searchLabel": "Search for a skill",
+            "searchPlaceholder": "Start search by typing at least 3 characters",
+            "startTyping": "Start typing to search for a skill"
+          },
           "confirmationModal": {
             "description": "Do you want to abandon adding your additional skill ?"
-          },
-          "autocompleteField": {
-            "noResultsFound": "No skill found",
-            "minimumCharacters": "Type at least 3 characters to search",
-            "startTyping": "Start typing to search for a skill",
-            "searchLabel": "Search for a skill",
-            "searchPlaceholder": "Start search by typing at least 3 characters"
           },
           "errors": {
             "createAdditionalSkill": "Error while adding the skill"
           },
+          "success": "Skill added successfully",
+          "title": "Add additional skill",
           "validation": {
-            "skillRequired": "A skill must be selected",
-            "levelRequired": "A self-positioning level must be selected"
+            "levelRequired": "A self-positioning level must be selected",
+            "skillRequired": "A skill must be selected"
           }
         }
       },
       "views": {
         "StudentAdditionalSkillView": {
-          "title": "Declared skill details",
-          "tabs": {
-            "details": {
-              "title": "My declared skill"
-            }
-          },
           "additionalSkillDetails": {
-            "skillTitle": "Title:",
-            "levelTitle": "Self-positioning"
+            "levelTitle": "Self-positioning",
+            "skillTitle": "Title:"
           },
           "settingDropdown": {
             "ariaLabel": "Declared skill settings",
-            "update": "Edit my skill",
-            "delete": "Delete my skill"
-          }
-        },
-        "StudentUpdateAdditionalSkillView": {
-          "title": "Update my declared skill",
-          "wipBadge": "Update in progress",
+            "delete": "Delete my skill",
+            "update": "Edit my skill"
+          },
           "tabs": {
             "details": {
               "title": "My declared skill"
             }
           },
+          "title": "Declared skill details"
+        },
+        "StudentUpdateAdditionalSkillView": {
+          "tabs": {
+            "details": {
+              "title": "My declared skill"
+            }
+          },
+          "title": "Update my declared skill",
+          "updateAssociations": {
+            "addTraceButton": "Add a trace",
+            "errors": {
+              "unassociateTraces": "An error occurred while removing associations"
+            },
+            "removeButton": "Remove",
+            "success": "{count} association removed successfully | {count} associations removed successfully "
+          },
           "updateForm": {
-            "success": "Additional skill updated",
             "errors": {
               "updateAdditionalSkill": "An error occurred while updating the additional skill."
             },
+            "success": "Additional skill updated",
             "validation": {
-              "levelRequired": "Self-positioning is required",
-              "commentTooLong": "The description must not exceed {count} characters"
+              "commentTooLong": "The description must not exceed {count} characters",
+              "levelRequired": "Self-positioning is required"
             }
           },
-          "updateAssociations": {
-            "addTraceButton": "Add a trace",
-            "removeButton": "Remove",
-            "success": "{count} association removed successfully | {count} associations removed successfully ",
-            "errors": {
-              "unassociateTraces": "An error occurred while removing associations"
-            }
-          }
+          "wipBadge": "Update in progress"
         }
       }
     }
   }
 }
+

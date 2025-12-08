@@ -29,6 +29,12 @@
             "validated": "validated"
           },
           "traceCount": "0 trace | 1 trace | {count} traces"
+        },
+        "StudentSkillsWidget": {
+          "buttons": {
+            "seeAll": "See all my skills"
+          },
+          "title": "My educational skills"
         }
       },
       "skill": "skill | skills",
@@ -86,3 +92,4 @@
     }
   }
 }
+

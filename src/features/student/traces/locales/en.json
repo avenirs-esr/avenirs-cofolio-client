@@ -6,6 +6,23 @@
           "text": "0 trace | 1 trace | {count} traces"
         }
       },
+      "cards": {
+        "StudentTraceCard": {
+          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
+          "lifeProject": "Life project",
+          "skillCount": "0 skill | 1 skill | {count} skills",
+          "tagLabel": {
+            "group": "Group",
+            "solo": "Individual"
+          }
+        },
+        "StudentTracesWidget": {
+          "buttons": {
+            "seeAll": "See all my traces"
+          },
+          "title": "My last traces"
+        }
+      },
       "composites": {
         "TraceAssociations": {
           "caption": "The associations of my trace ({count})"
@@ -270,18 +287,8 @@
             }
           }
         }
-      },
-      "cards": {
-        "StudentTraceCard": {
-          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
-          "lifeProject": "Life project",
-          "skillCount": "0 skill | 1 skill | {count} skills",
-          "tagLabel": {
-            "group": "Group",
-            "solo": "Individual"
-          }
-        }
       }
     }
   }
 }
+
