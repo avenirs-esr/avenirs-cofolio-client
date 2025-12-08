@@ -61,16 +61,19 @@ async function registerFeatureLocales (feature: string) {
   }
 }
 
-function createVueI18nPlugin (registerFn = registerFeatureLocales) {
+async function initializeI18n () {
+  await registerFeatureLocales('student')
+  await registerFeatureLocales('teacher')
+}
+
+function createVueI18nPlugin () {
   return {
     install (app: App) {
       app.use(i18n)
-      registerFn('student').then()
-      registerFn('teacher').then()
     }
   }
 }
 
 export default createVueI18nPlugin()
 
-export { createVueI18nPlugin, i18n, registerFeatureLocales }
+export { createVueI18nPlugin, i18n, initializeI18n, registerFeatureLocales }

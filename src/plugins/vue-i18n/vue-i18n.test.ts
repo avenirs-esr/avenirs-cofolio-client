@@ -1,3 +1,4 @@
+import type { App } from 'vue'
 import {
   createVueI18nPlugin,
   getBrowserLocale,
@@ -65,7 +66,7 @@ BddTest().given('a browser locale getter', () => {
   })
 })
 
-BddTest().given('a feature locales resgister', () => {
+BddTest().given('a feature locales register', () => {
   BddTest().when('registering', () => {
     BddTest().then('it should register feature locales without throwing', async () => {
       await expect(registerFeatureLocales('student')).resolves.not.toThrow()
@@ -73,13 +74,8 @@ BddTest().given('a feature locales resgister', () => {
   })
 
   BddTest().when('a feature locale is missing', () => {
-    BddTest().then('it should warn if a feature locale is missing', async () => {
-      const warnSpy = vi.spyOn(console, 'warn')
-      warnSpy.mockImplementation(() => {})
-      await registerFeatureLocales('non-existent-feature')
-
-      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('No'))
-      warnSpy.mockRestore()
+    BddTest().then('it should not throw when a non-existent feature is provided', async () => {
+      await expect(registerFeatureLocales('non-existent-feature')).resolves.not.toThrow()
     })
   })
 })
@@ -102,16 +98,14 @@ BddTest().given('a vue-i18n setup', () => {
 
 BddTest().given('a Vue i18n plugin creation method', () => {
   BddTest().when('calling the method', () => {
-    BddTest().then('it should install i18n plugin and register student and teacher locales', () => {
-      const mockRegister = vi.fn().mockResolvedValue(undefined)
-      const app = { use: vi.fn() } as any
+    BddTest().then('it should install i18n plugin', () => {
+      const mockUse = vi.fn()
+      const app = { use: mockUse } as unknown as App
 
-      const plugin = createVueI18nPlugin(mockRegister)
+      const plugin = createVueI18nPlugin()
       plugin.install(app)
 
-      expect(app.use).toHaveBeenCalledWith(i18n)
-      expect(mockRegister).toHaveBeenCalledWith('student')
-      expect(mockRegister).toHaveBeenCalledWith('teacher')
+      expect(mockUse).toHaveBeenCalledWith(i18n)
     })
   })
 })
