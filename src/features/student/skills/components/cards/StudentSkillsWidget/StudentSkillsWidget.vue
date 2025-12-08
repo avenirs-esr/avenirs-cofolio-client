@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
-import StudentSkillsWidgetContainer from '@/features/student/skills/components/widgets/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
+import StudentSkillsWidgetContainer from '@/features/student/skills/components/cards/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { useStudentCoursesSummaryQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -24,8 +24,8 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
       <div class="skills-widget-container__title">
         <AvIconText
           :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
-          :text="t('student.global.widgets.skills.title')"
-          :title="t('student.global.widgets.skills.title')"
+          :text="t('student.skills.cards.StudentSkillsWidget.title')"
+          :title="t('student.skills.cards.StudentSkillsWidget.title')"
           icon-color="var(--icon)"
           text-color="var(--text1)"
           typography-class="n5"
@@ -45,7 +45,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
     <template #footer>
       <div class="skills-widget-container__footer">
         <AvButton
-          :label="t('student.global.widgets.skills.buttons.seeAll')"
+          :label="t('student.skills.cards.StudentSkillsWidget.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
           @click="navigateToStudentSkills"

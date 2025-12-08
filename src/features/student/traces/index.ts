@@ -8,11 +8,11 @@ export { default as StudentTraceAssociationCard } from '@/features/student/trace
 
 export { default as StudentTraceSkillLevelAssociationCard } from '@/features/student/traces/components/cards/StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'
 
+export { StudentTracesWidgetStub } from '@/features/student/traces/components/cards/StudentTracesWidget/StudentTracesWidget.stub'
+
+export { default as StudentTracesWidget } from '@/features/student/traces/components/cards/StudentTracesWidget/StudentTracesWidget.vue'
+
 export { default as TracesSelector } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
-
-export { StudentTracesWidgetStub } from '@/features/student/traces/components/widgets/StudentTracesWidget/StudentTracesWidget.stub'
-
-export { default as StudentTracesWidget } from '@/features/student/traces/components/widgets/StudentTracesWidget/StudentTracesWidget.vue'
 
 export type { UseTracesViewQueryParams } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 

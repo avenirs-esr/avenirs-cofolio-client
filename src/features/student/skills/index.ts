@@ -4,8 +4,8 @@ export { default as StudentDetailedSkillCard } from '@/features/student/skills/c
 
 export { default as StudentSkillCard } from '@/features/student/skills/components/cards/StudentSkillCard/StudentSkillCard.vue'
 
-export { StudentSkillsWidgetStub } from '@/features/student/skills/components/widgets/StudentSkillsWidget/StudentSkillsWidget.stub'
-export { default as StudentSkillsWidget } from '@/features/student/skills/components/widgets/StudentSkillsWidget/StudentSkillsWidget.vue'
+export { StudentSkillsWidgetStub } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.stub'
+export { default as StudentSkillsWidget } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.vue'
 
 export { useAllMyProgramProgressQuery } from '@/features/student/skills/queries/use-program-progress.query/use-program-progress.query'
 

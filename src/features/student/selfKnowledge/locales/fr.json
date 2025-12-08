@@ -1,114 +1,115 @@
 {
-  "student": {
-    "selfKnowledge": {
-      "categoryType": {
-        "ASPIRATIONS": "envie | envies",
-        "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
-        "INSPIRATIONS": "inspiration | inspirations",
-        "INTERESTS": "centre d'intérêt | centres d'intérêt",
-        "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
-        "OBLIGATIONS": "obligation | obligations",
-        "STRENGTHS": "point fort | points forts",
-        "TESTIMONIALS": "témoignage | témoignages",
-        "VALUES": "valeur | valeurs"
-      },
-      "element": "élément | éléments",
-      "interactions": {
-        "inputs": {
-          "CategoryElementDescriptionTextarea": {
-            "label": "Description de votre élément",
-            "placeholder": "Décrivez votre élément..."
-          },
-          "CategoryElementRatingRadioButtonSet": {
-            "legend": "Évaluer l'importance de votre élément",
-            "levels": {
-              "essential": "Essentiel",
-              "important": "Important",
-              "lessImportant": "Peu important",
-              "notEvaluated": "Non évalué",
-              "notImportant": "Pas important",
-              "veryImportant": "Très important"
-            }
-          },
-          "CategoryElementTitleInput": {
-            "label": "Intitulé de votre élément",
-            "placeholder": "Saisir un nom pour votre élément"
-          }
-        }
-      },
-      "overlays": {
-        "AddSelfKnowledgeCategoryElementDrawer": {
-          "accordions": {
-            "associate": "Associer mon élément",
-            "definition": "Ajouter mon élément",
-            "rating": "Préciser mon élément"
-          },
-          "confirmationModal": {
-            "title": "Souhaitez-vous abandonner l'ajout de votre élément ?"
-          },
-          "errors": {
-            "createElement": "Erreur lors de la création de l'élément"
-          },
-          "success": "Élément créé avec succès",
-          "titleWithCategory": "Ajouter un élément - {category}"
-        }
-      },
-      "tabs": {
-        "SelfKnowledgeElementTabs": {
-          "associations": {
-            "title": "Mes associations ({count})"
-          },
-          "category": {
-            "titles": {
-              "ASPIRATIONS": "Mon envie",
-              "IMPROVEMENT_AREAS": "Mon axe d'amélioration",
-              "INSPIRATIONS": "Mon inspiration",
-              "INTERESTS": "Mon centre d'intérêt",
-              "MOTIVATIONS": "Ma motivation professionnelle",
-              "OBLIGATIONS": "Mon obligation",
-              "STRENGTHS": "Mon point fort",
-              "TESTIMONIALS": "Mon témoignage",
-              "VALUES": "Ma valeur"
-            }
-          }
-        }
-      },
-      "views": {
-        "SelfKnowledgeCategoryView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Détail de mes {type}"
-            }
-          },
-          "dropdown": "Gérer mon élément",
-          "selfKnowledgeElementDetails": {
-            "ratingLabel": "Degré d'importance"
-          },
-          "selfKnowledgeElementUpdate": {
-            "buttons": {
-              "save": "Enregistrer les modifications"
-            },
-            "confirmationModal": {
-              "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?"
-            }
-          },
-          "title": "Détail de mes {type}"
-        },
-        "SelfKnowledgeElementUpdateView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Modifier mes {categoryType}"
-            }
-          },
-          "title": "Modifier mes {categoryType}",
-          "updateForm": {
-            "errors": {
-              "updateElement": "Erreur lors de la mise à jour de l'élément"
-            },
-            "success": "Vos modifications ont été enregistrées avec succès"
-          }
-        }
-      }
-    }
-  }
 }
+  }
+    }
+      }
+        }
+          }
+            "success": "Vos modifications ont été enregistrées avec succès"
+            },
+              "updateElement": "Erreur lors de la mise à jour de l'élément"
+            "errors": {
+          "updateForm": {
+          "title": "Modifier mes {categoryType}",
+          },
+            }
+              "title": "Modifier mes {categoryType}"
+            "current": {
+          "breadcrumb": {
+        "SelfKnowledgeElementUpdateView": {
+        },
+          "title": "Détail de mes {type}"
+          },
+            }
+              "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?"
+            "confirmationModal": {
+            },
+              "save": "Enregistrer les modifications"
+            "buttons": {
+          "selfKnowledgeElementUpdate": {
+          },
+            "ratingLabel": "Degré d'importance"
+          "selfKnowledgeElementDetails": {
+          "dropdown": "Gérer mon élément",
+          },
+            }
+              "title": "Détail de mes {type}"
+            "current": {
+          "breadcrumb": {
+        "SelfKnowledgeCategoryView": {
+      "views": {
+      },
+        }
+          }
+            }
+              "VALUES": "Ma valeur"
+              "TESTIMONIALS": "Mon témoignage",
+              "STRENGTHS": "Mon point fort",
+              "OBLIGATIONS": "Mon obligation",
+              "MOTIVATIONS": "Ma motivation professionnelle",
+              "INTERESTS": "Mon centre d'intérêt",
+              "INSPIRATIONS": "Mon inspiration",
+              "IMPROVEMENT_AREAS": "Mon axe d'amélioration",
+              "ASPIRATIONS": "Mon envie",
+            "titles": {
+          "category": {
+          },
+            "title": "Mes associations ({count})"
+          "associations": {
+        "SelfKnowledgeElementTabs": {
+      "tabs": {
+      },
+        }
+          "titleWithCategory": "Ajouter un élément - {category}"
+          "success": "Élément créé avec succès",
+          },
+            "createElement": "Erreur lors de la création de l'élément"
+          "errors": {
+          },
+            "title": "Souhaitez-vous abandonner l'ajout de votre élément ?"
+          "confirmationModal": {
+          },
+            "rating": "Préciser mon élément"
+            "definition": "Ajouter mon élément",
+            "associate": "Associer mon élément",
+          "accordions": {
+        "AddSelfKnowledgeCategoryElementDrawer": {
+      "overlays": {
+      },
+        }
+          }
+            "placeholder": "Saisir un nom pour votre élément"
+            "label": "Intitulé de votre élément",
+          "CategoryElementTitleInput": {
+          },
+            }
+              "veryImportant": "Très important"
+              "notImportant": "Pas important",
+              "notEvaluated": "Non évalué",
+              "lessImportant": "Peu important",
+              "important": "Important",
+              "essential": "Essentiel",
+            "levels": {
+            "legend": "Évaluer l'importance de votre élément",
+          "CategoryElementRatingRadioButtonSet": {
+          },
+            "placeholder": "Décrivez votre élément..."
+            "label": "Description de votre élément",
+          "CategoryElementDescriptionTextarea": {
+        "inputs": {
+      "interactions": {
+      "element": "élément | éléments",
+      },
+        "VALUES": "valeur | valeurs"
+        "TESTIMONIALS": "témoignage | témoignages",
+        "STRENGTHS": "point fort | points forts",
+        "OBLIGATIONS": "obligation | obligations",
+        "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
+        "INTERESTS": "centre d'intérêt | centres d'intérêt",
+        "INSPIRATIONS": "inspiration | inspirations",
+        "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
+        "ASPIRATIONS": "envie | envies",
+      "categoryType": {
+    "selfKnowledge": {
+  "student": {
+

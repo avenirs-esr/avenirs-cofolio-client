@@ -29,6 +29,12 @@
             "validated": "validé"
           },
           "traceCount": "0 trace | 1 trace | {count} traces"
+        },
+        "StudentSkillsWidget": {
+          "buttons": {
+            "seeAll": "Voir toutes mes compétences"
+          },
+          "title": "Mes compétences visées par ma formation"
         }
       },
       "skill": "compétence | compétences",
