@@ -1,0 +1,25 @@
+{
+  "student": {
+    "declaredPrograms": {
+      "interactions": {
+        "inputs": {
+          "DeclaredProgramDescriptionTextarea": {
+            "label": "Description de ma formation"
+          },
+          "DeclaredProgramInstitutionInput": {
+            "label": "Établissement / Organisme",
+            "placeholder": "Nom de l'établissement"
+          },
+          "DeclaredProgramResultInput": {
+            "label": "Résultat obtenu",
+            "placeholder": "résultat"
+          },
+          "DeclaredProgramTitleInput": {
+            "label": "Intitulé de ma formation",
+            "placeholder": "Nom de ma formation 1"
+          }
+        }
+      }
+    }
+  }
+}

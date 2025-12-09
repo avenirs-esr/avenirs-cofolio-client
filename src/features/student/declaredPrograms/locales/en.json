@@ -1,0 +1,25 @@
+{
+  "student": {
+    "declaredPrograms": {
+      "interactions": {
+        "inputs": {
+          "DeclaredProgramDescriptionTextarea": {
+            "label": "Program description"
+          },
+          "DeclaredProgramInstitutionInput": {
+            "label": "Institution / Organization",
+            "placeholder": "Institution name"
+          },
+          "DeclaredProgramResultInput": {
+            "label": "Result obtained",
+            "placeholder": "result"
+          },
+          "DeclaredProgramTitleInput": {
+            "label": "Program title",
+            "placeholder": "Program name 1"
+          }
+        }
+      }
+    }
+  }
+}
