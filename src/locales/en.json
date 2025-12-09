@@ -4,11 +4,13 @@
     "audio": "Audio",
     "avPagination": {
       "ariaLabel": "Pagination",
+      "bottomAriaLabel": "Bottom pagination",
       "current": "Page {current} of {total}",
       "firstPageTitle": "First page",
       "lastPageTitle": "Last page",
       "nextPageTitle": "Next page",
-      "prevPageTitle": "Last page"
+      "prevPageTitle": "Last page",
+      "topAriaLabel": "Top pagination"
     },
     "avToggle": {
       "activeText": "On",

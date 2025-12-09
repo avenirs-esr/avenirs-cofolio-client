@@ -59,7 +59,7 @@ BddTest().given('an additional skill comment input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with custom props', () => {
+  BddTest().when('the component is mounted with custom props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(AdditionalSkillCommentInput, {
@@ -119,7 +119,7 @@ BddTest().given('an additional skill comment input', () => {
     })
   })
 
-  BddTest().and('the user updates the input value', () => {
+  BddTest().when('the user updates the input value', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       wrapper = mount(AdditionalSkillCommentInput, {
@@ -139,7 +139,7 @@ BddTest().given('an additional skill comment input', () => {
     })
   })
 
-  BddTest().and('the component receives a modelValue prop', () => {
+  BddTest().when('the component receives a modelValue prop', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(AdditionalSkillCommentInput, {
@@ -156,7 +156,7 @@ BddTest().given('an additional skill comment input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with empty modelValue', () => {
+  BddTest().when('the component is mounted with empty modelValue', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(AdditionalSkillCommentInput, {
@@ -190,7 +190,7 @@ BddTest().given('an additional skill comment input', () => {
     })
   })
 
-  BddTest().and('the component receives multiple updates', () => {
+  BddTest().when('the component receives multiple updates', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       wrapper = mount(AdditionalSkillCommentInput, {

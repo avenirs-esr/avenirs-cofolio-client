@@ -27,11 +27,12 @@
     "lint-staged": "lint-staged",
     "generate:api": "orval",
     "postgenerate:api": "eslint ./src/api --fix",
+    "generate:feature": "node scripts/generate-feature.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.91",
+    "@avenirs-esr/avenirs-dsav": "^0.1.94",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "@vueuse/core": "^13.7.0",

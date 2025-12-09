@@ -52,7 +52,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
       id="top-pagination"
       :current-page="pageInfo.page"
       :pages="pages"
-      :aria-label="t('student.ams.views.StudentEducationAmsView.amsListContainer.pagination.top.ariaLabel')"
+      :aria-label="t('global.avPagination.topAriaLabel')"
       compact
       :prev-page-label="t('global.avPagination.prevPageTitle')"
       :next-page-label="t('global.avPagination.nextPageTitle')"
@@ -69,7 +69,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
       id="bottom-pagination"
       :current-page="pageInfo.page"
       :pages="pages"
-      :aria-label="t('student.ams.views.StudentEducationAmsView.amsListContainer.pagination.bottom.ariaLabel')"
+      :aria-label="t('global.avPagination.bottomAriaLabel')"
       :first-page-label="t('global.avPagination.firstPageTitle')"
       :prev-page-label="t('global.avPagination.prevPageTitle')"
       :next-page-label="t('global.avPagination.nextPageTitle')"
