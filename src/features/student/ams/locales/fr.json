@@ -27,14 +27,6 @@
         },
         "StudentEducationAmsView": {
           "amsListContainer": {
-            "pagination": {
-              "bottom": {
-                "ariaLabel": "Pagination basse"
-              },
-              "top": {
-                "ariaLabel": "Pagination haute"
-              }
-            },
             "title": "Mes AMS non initiées, en cours, soumises et terminées"
           },
           "amsViewTabs": {

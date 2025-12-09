@@ -27,14 +27,6 @@
         },
         "StudentEducationAmsView": {
           "amsListContainer": {
-            "pagination": {
-              "bottom": {
-                "ariaLabel": "Bottom pagination"
-              },
-              "top": {
-                "ariaLabel": "Top pagination"
-              }
-            },
             "title": "My RPA not started, in progress, submitted and completed"
           },
           "amsViewTabs": {
