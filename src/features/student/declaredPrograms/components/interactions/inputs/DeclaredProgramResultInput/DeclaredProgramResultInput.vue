@@ -17,9 +17,10 @@ const { t } = useI18n()
 
 const avInputProps = computed(() => ({
   ...restProps,
+  labelVisible: true,
   maxlength: DECLARED_PROGRAM_RESULT_MAX_LENGTH,
   label: label ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramResultInput.label'),
-  prefixIcon: prefixIcon ?? RI_ICONS.LAYOUT,
+  prefixIcon: prefixIcon ?? RI_ICONS.LAYOUT_6_LINE,
   placeholder: placeholder ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramResultInput.placeholder')
 }))
 </script>
