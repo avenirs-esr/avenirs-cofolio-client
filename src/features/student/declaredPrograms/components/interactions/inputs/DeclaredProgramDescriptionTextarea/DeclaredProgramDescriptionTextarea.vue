@@ -16,6 +16,8 @@ const { t } = useI18n()
 const avInputProps = computed(() => ({
   ...restProps,
   isTextarea: true,
+  labelVisible: true,
+  textareaMinHeight: '6.5rem',
   maxlength: DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
   label: label ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramDescriptionTextarea.label')
 }))
@@ -27,10 +29,7 @@ const avInputProps = computed(() => ({
       v-bind="avInputProps"
       v-model="modelValue"
     >
-      <template
-        v-if="!$slots.customCaptions"
-        #customCaptions="{ currentValue }"
-      >
+      <template #customCaptions="{ currentValue }">
         <span class="caption-light">
           {{ t('global.inputs.textarea.limit', {
             count: currentValue?.toString().length || 0,
@@ -41,11 +40,3 @@ const avInputProps = computed(() => ({
     </AvInput>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.declared-program-description-textarea {
-  :deep(.av-input__wrapper textarea) {
-    min-height: 6.5rem;
-  }
-}
-</style>

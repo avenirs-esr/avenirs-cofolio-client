@@ -17,6 +17,7 @@ const { t } = useI18n()
 
 const avInputProps = computed(() => ({
   ...restProps,
+  labelVisible: true,
   maxlength: DECLARED_PROGRAM_TITLE_MAX_LENGTH,
   label: label ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramTitleInput.label'),
   prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
