@@ -2,6 +2,7 @@ import {
   formatDateLocalized,
   formatDateToLocaleString,
   formatTimeLocalized,
+  formatYearMonthToDate,
   getCalendarDate,
   getDaysUntil,
   getLocalizedAbbrMonth,
@@ -178,6 +179,32 @@ BddTest().given('a localized time formatter', () => {
 
       expect(morningTime).toMatch(/^\d{2}:05$/)
       expect(eveningTime).toMatch(/^\d{2}:55$/)
+    })
+  })
+})
+
+BddTest().given('a year-month to date formatter', () => {
+  BddTest().when('providing a year-month string', () => {
+    BddTest().then('it should format to dd/MM/yyyy with day as 01', () => {
+      const date = '2025-02'
+      const formattedDate = formatYearMonthToDate(date)
+
+      expect(formattedDate).toBe('01/02/2025')
+    })
+  })
+
+  BddTest().when('providing different months', () => {
+    BddTest().then('it should format each month correctly', () => {
+      expect(formatYearMonthToDate('2025-01')).toBe('01/01/2025')
+      expect(formatYearMonthToDate('2025-06')).toBe('01/06/2025')
+      expect(formatYearMonthToDate('2025-12')).toBe('01/12/2025')
+    })
+  })
+
+  BddTest().when('providing different years', () => {
+    BddTest().then('it should format each year correctly', () => {
+      expect(formatYearMonthToDate('2020-03')).toBe('01/03/2020')
+      expect(formatYearMonthToDate('2030-09')).toBe('01/09/2030')
     })
   })
 })

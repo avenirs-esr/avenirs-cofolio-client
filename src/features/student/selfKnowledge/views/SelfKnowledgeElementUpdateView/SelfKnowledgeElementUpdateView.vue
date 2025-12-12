@@ -77,7 +77,7 @@ function backToElementDetails () {
 
 <template>
   <PageTitle
-    :title="t('student.views.selfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
+    :title="t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-element-update-view av-flex-row-sm">

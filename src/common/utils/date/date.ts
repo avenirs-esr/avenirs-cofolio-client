@@ -1,5 +1,5 @@
 import type { AvLocale } from '@/types/i18n.types'
-import { differenceInDays, format, getDate, isValid, type Locale, parseISO, startOfDay } from 'date-fns'
+import { differenceInDays, format, getDate, isValid, type Locale, parse, parseISO, startOfDay } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
 const localesMap: Record<AvLocale, Locale> = {
@@ -104,4 +104,13 @@ export function formatTimeLocalized (date: string, localeCode: AvLocale): string
   return format(parsedDate, 'HH:mm', {
     locale: localesMap[localeCode]
   })
+}
+/**
+ * Formats a year-month string to date format with day
+ * @param date yyyy-MM (e.g., "2025-02")
+ * @returns Formatted date string (e.g., "01/02/2025")
+ */
+export function formatYearMonthToDate (date: string): string {
+  const parsedDate = parse(date, 'yyyy-MM', new Date())
+  return format(parsedDate, 'dd/MM/yyyy')
 }

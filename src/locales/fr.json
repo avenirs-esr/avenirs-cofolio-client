@@ -43,7 +43,8 @@
       },
       "form": {
         "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)",
-        "requiredFiled": "Ce champ est requis."
+        "requiredFiled": "Ce champ est requis.",
+        "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères"
       },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
     },
