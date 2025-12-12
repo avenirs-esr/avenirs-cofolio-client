@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DECLARED_PROGRAM_INSTITUTION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
+import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -19,7 +19,7 @@ const avInputProps = computed(() => ({
   ...restProps,
   labelVisible: true,
   label: label ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramInstitutionInput.label'),
-  maxlength: DECLARED_PROGRAM_INSTITUTION_MAX_LENGTH,
+  maxlength: DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH,
   prefixIcon: prefixIcon ?? MDI_ICONS.BUILDING,
   placeholder: placeholder ?? t('student.declaredPrograms.interactions.inputs.DeclaredProgramInstitutionInput.placeholder')
 }))

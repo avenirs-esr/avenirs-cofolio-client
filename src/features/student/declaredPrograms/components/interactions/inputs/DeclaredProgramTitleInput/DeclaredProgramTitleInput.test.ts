@@ -104,7 +104,7 @@ BddTest().given('a declared program title input component', () => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramTitleInput, {
         props: {
-          prefixIcon: 'mdi:account',
+          prefixIcon: MDI_ICONS.LINK,
           modelValue: ''
         },
         global: { stubs }
@@ -113,7 +113,7 @@ BddTest().given('a declared program title input component', () => {
 
     BddTest().then('it should display the custom prefix icon', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('prefixIcon')).toBe('mdi:account')
+      expect(input.props('prefixIcon')).toBe(MDI_ICONS.LINK)
     })
   })
 

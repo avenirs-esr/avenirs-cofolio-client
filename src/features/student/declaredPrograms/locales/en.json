@@ -2,6 +2,19 @@
   "student": {
     "declaredPrograms": {
       "interactions": {
+        "formFields": {
+          "DeclaredProgramPeriodFormField": {
+            "endDate": "End date",
+            "endDatePlaceholder": "MM/YYYY",
+            "label": "Period",
+            "ongoing": "Ongoing",
+            "startDate": "Start date",
+            "startDatePlaceholder": "MM/YYYY",
+            "errors": {
+              "endDateBeforeStartDate": "End date must be after start date"
+            }
+          }
+        },
         "inputs": {
           "DeclaredProgramDescriptionTextarea": {
             "label": "Program description"
@@ -10,14 +23,39 @@
             "label": "Institution / Organization",
             "placeholder": "Institution name"
           },
+          "DeclaredProgramLinkInput": {
+            "label": "Link",
+            "placeholder": "https://example.com"
+          },
           "DeclaredProgramResultInput": {
             "label": "Result obtained",
             "placeholder": "result"
+          },
+          "DeclaredProgramSourceOfInformationInput": {
+            "label": "Source of information",
+            "placeholder": "Information source"
           },
           "DeclaredProgramTitleInput": {
             "label": "Program title",
             "placeholder": "Program name 1"
           }
+        }
+      },
+      "overlays": {
+        "AddDeclaredProgramDrawer": {
+          "confirmationModal": {
+            "description": "Are you sure you want to cancel? Unsaved changes will be lost."
+          },
+          "errors": {
+            "createDeclaredProgram": "Error creating declared program"
+          },
+          "sections": {
+            "addProgram": "Add my program",
+            "associateProgram": "Associate my program",
+            "specifyProgram": "Specify my program"
+          },
+          "success": "Declared program added successfully",
+          "title": "Add a declared program"
         }
       }
     }

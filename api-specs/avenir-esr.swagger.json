@@ -317,6 +317,36 @@
         }
       }
     },
+    "/me/declared/programs": {
+      "post": {
+        "tags": [
+          "declared-program-controller"
+        ],
+        "operationId": "createDeclaredProgram",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDeclaredProgramDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces": {
       "post": {
         "tags": [
@@ -3601,6 +3631,52 @@
           "INSPIRATIONS",
           "OBLIGATIONS",
           "TESTIMONIALS"
+        ]
+      },
+      "AddDeclaredProgramDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 0
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 400,
+            "minLength": 0
+          },
+          "organization": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "result": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
+          "sourceOfInformation": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 0
+          },
+          "link": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "organization",
+          "startDate",
+          "title"
         ]
       }
     }

@@ -1,5 +1,5 @@
 import DeclaredProgramInstitutionInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramInstitutionInput/DeclaredProgramInstitutionInput.vue'
-import { DECLARED_PROGRAM_INSTITUTION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
+import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -39,7 +39,7 @@ BddTest().given('a declared program institution input component', () => {
 
     BddTest().then('it should have maxlength prop set to config value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('maxlength')).toBe(DECLARED_PROGRAM_INSTITUTION_MAX_LENGTH)
+      expect(input.props('maxlength')).toBe(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH)
     })
 
     BddTest().then('it should display the correct French label', () => {
