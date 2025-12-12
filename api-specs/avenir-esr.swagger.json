@@ -339,7 +339,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/DeclaredProgramViewDTO"
                 }
               }
             }
@@ -1985,6 +1985,66 @@
           "updatedAt"
         ]
       },
+      "DeclaredProgramViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EProgramStatus",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "sourceOfInformation": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "organization",
+          "startDate",
+          "title",
+          "updatedAt"
+        ]
+      },
       "UserPhotoUploadDTO": {
         "type": "object",
         "properties": {
@@ -3509,6 +3569,15 @@
           "ASSOCIATED_IN_EVALUATION",
           "ASSOCIATED_NOT_EVALUATED",
           "ASSOCIATED_WITH_ADDITIONAL_SKILL"
+        ]
+      },
+      "EProgramStatus": {
+        "type": "string",
+        "description": "Enum for program status",
+        "enum": [
+          "NOT_STARTED",
+          "IN_PROGRESS",
+          "COMPLETED"
         ]
       },
       "ETraceAssociationType": {

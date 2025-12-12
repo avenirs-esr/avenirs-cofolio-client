@@ -1,4 +1,4 @@
-import { declaredProgramIdFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { getCreateDeclaredProgramUrl } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
@@ -20,7 +20,7 @@ export const declaredProgramsHandlers = [
   http.post(
     `*${getCreateDeclaredProgramUrl()}`,
     () => {
-      return HttpResponse.json(declaredProgramIdFixture, { status: 200 })
+      return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
     }
   )
 ]
