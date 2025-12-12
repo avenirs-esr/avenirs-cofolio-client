@@ -64,7 +64,7 @@ defineExpose({ fullName })
               class="av-rich-button--edit-profile"
               :label="t('student.user.cards.StudentOverviewWidget.buttons.editProfile')"
               :icon-right="MDI_ICONS.PENCIL_OUTLINE"
-              :on-click="displayDrawer"
+              @click="displayDrawer"
             >
               <span class="b1-regular">{{ t('student.user.cards.StudentOverviewWidget.buttons.editProfile') }}</span>
             </AvRichButton>
