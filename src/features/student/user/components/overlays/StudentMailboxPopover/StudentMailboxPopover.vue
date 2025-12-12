@@ -19,9 +19,9 @@ const { t } = useI18n()
     <template #trigger="{ toggle }">
       <AvButton
         :label="t('student.global.layout.header.quicklinks.mailbox')"
-        :on-click="toggle"
         :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
         small
+        @click="toggle"
       />
     </template>
     <template #popover="{ close }">

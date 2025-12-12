@@ -15,9 +15,9 @@ const { t } = useI18n()
     <template #trigger="{ toggle }">
       <AvButton
         :label="username"
-        :on-click="toggle"
         :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
         small
+        @click="toggle"
       />
     </template>
     <template #popover>

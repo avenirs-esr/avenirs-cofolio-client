@@ -51,7 +51,7 @@ const renderedDeliverables = computed(() => {
               :label="deliverable.id"
               :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
               custom-padding="var(--spacing-xs)"
-              :on-click="navigateToStudentDeliverables"
+              @click="navigateToStudentDeliverables"
             >
               <div class="deliverables-widget-action__body">
                 <div class="deliverables-widget-action__calendar">
