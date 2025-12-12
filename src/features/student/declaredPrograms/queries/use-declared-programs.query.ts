@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
-import { type AddDeclaredProgramDTO, createDeclaredProgram } from '@/api/avenir-esr'
+import { type AddDeclaredProgramDTO, createDeclaredProgram, type DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { commonQueryKeys } from '@/features/student/global'
 import { useMutation } from '@tanstack/vue-query'
 
@@ -8,8 +8,8 @@ import { useMutation } from '@tanstack/vue-query'
 const declaredProgramsCommonQueryKey = [...commonQueryKeys, 'declared-programs']
 
 export function useCreateDeclaredProgramMutation ({ onError, onSuccess }: MutationArgs = {}) {
-  return useMutation<string, BaseApiException, AddDeclaredProgramDTO>({
-    mutationFn: async (addDeclaredProgramDTO: AddDeclaredProgramDTO): Promise<string> => {
+  return useMutation<DeclaredProgramViewDTO, BaseApiException, AddDeclaredProgramDTO>({
+    mutationFn: async (addDeclaredProgramDTO: AddDeclaredProgramDTO): Promise<DeclaredProgramViewDTO> => {
       return await createDeclaredProgram(addDeclaredProgramDTO)
     },
     onSuccess: async (data, variables) => {
