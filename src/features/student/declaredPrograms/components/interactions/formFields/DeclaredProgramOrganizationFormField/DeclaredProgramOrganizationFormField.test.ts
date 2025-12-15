@@ -1,20 +1,20 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/declaredPrograms/types/forms.types'
-import DeclaredProgramTitleFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
-import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
+import DeclaredProgramOrganizationFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
+import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const DeclaredProgramTitleInputStub = defineComponent({
-  name: 'DeclaredProgramTitleInput',
+const DeclaredProgramInstitutionInputStub = defineComponent({
+  name: 'DeclaredProgramOrganizationInput',
   props: {
     modelValue: String,
     errorMessage: String
   },
   emits: ['update:modelValue', 'blur'],
   template: `
-    <div data-testid="declared-program-title-input-stub">
+    <div data-testid="declared-program-organization-input-stub">
       <input
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
@@ -26,23 +26,23 @@ const DeclaredProgramTitleInputStub = defineComponent({
 
 const TestWrapper = defineComponent({
   components: {
-    DeclaredProgramTitleFormField
+    DeclaredProgramInstitutionFormField: DeclaredProgramOrganizationFormField
   },
   setup () {
     const form = useForm({
       defaultValues: {
-        title: ''
+        organization: ''
       } as DeclaredProgramFormData,
       validators: {
         onSubmit ({ value }) {
-          if (!value.title || value.title.trim() === '') {
+          if (!value.organization || value.organization.trim() === '') {
             return {
               fields: {
-                title: 'Le titre est requis'
+                organization: 'L\'établissement est requis'
               }
             }
           }
-          return { fields: { title: undefined } }
+          return { fields: { organization: undefined } }
         }
       }
     }) as unknown as AddDeclaredProgramForm
@@ -51,16 +51,16 @@ const TestWrapper = defineComponent({
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
-      <DeclaredProgramTitleFormField :form="form" />
+      <DeclaredProgramInstitutionFormField :form="form" />
     </form>
   `
 })
 
-BddTest().given('a declared program title form field', () => {
+BddTest().given('a declared program institution form field', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
   const stubs = {
-    DeclaredProgramTitleInput: DeclaredProgramTitleInputStub
+    DeclaredProgramOrganizationInput: DeclaredProgramInstitutionInputStub
   }
 
   beforeEach(() => {
@@ -71,48 +71,48 @@ BddTest().given('a declared program title form field', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the title input component', () => {
-      const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+    BddTest().then('it should render the institution input component', () => {
+      const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
       expect(input.exists()).toBe(true)
     })
 
     BddTest().then('it should have empty initial value', () => {
-      const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+      const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
       expect(input.props('modelValue')).toBe('')
     })
 
-    BddTest().and('the user enters a title', () => {
+    BddTest().and('the user enters an institution name', () => {
       BddTest().then('it should update the form field value', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+        const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
         const textInput = input.find('input')
-        await textInput.setValue('My Program Title')
+        await textInput.setValue('University of Paris')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
-          expect(updated.props('modelValue')).toBe('My Program Title')
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
+          expect(updated.props('modelValue')).toBe('University of Paris')
         })
       })
     })
 
-    BddTest().and('the user enters a title exceeding max length', () => {
+    BddTest().and('the user enters an institution name exceeding max length', () => {
       BddTest().then('it should truncate the value to max length', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+        const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
         const textInput = input.find('input')
-        const longTitle = 'a'.repeat(DECLARED_PROGRAM_TITLE_MAX_LENGTH + 10)
-        await textInput.setValue(longTitle)
+        const longInstitution = 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 10)
+        await textInput.setValue(longInstitution)
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_TITLE_MAX_LENGTH)
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
+          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH)
         })
       })
     })
 
     BddTest().and('the input emits blur', () => {
       BddTest().then('it should trigger blur handler', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+        const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
         await input.vm.$emit('blur')
         await wrapper.vm.$nextTick()
 
@@ -120,29 +120,29 @@ BddTest().given('a declared program title form field', () => {
       })
     })
 
-    BddTest().and('the form is submitted with empty title', () => {
+    BddTest().and('the form is submitted with empty institution', () => {
       BddTest().then('it should show validation error', async () => {
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
-          expect(input.props('errorMessage')).toBe('Le titre est requis')
+          const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
+          expect(input.props('errorMessage')).toBe('L\'établissement est requis')
         })
       })
     })
 
-    BddTest().and('the form is submitted with valid title', () => {
+    BddTest().and('the form is submitted with valid institution', () => {
       BddTest().then('it should not show validation error', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+        const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
         const textInput = input.find('input')
-        await textInput.setValue('Valid Program Title')
+        await textInput.setValue('Valid University Name')
         await wrapper.vm.$nextTick()
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
           expect(updated.props('errorMessage')).toBeFalsy()
         })
       })

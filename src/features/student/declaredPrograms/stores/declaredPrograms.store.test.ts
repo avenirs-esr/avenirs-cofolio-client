@@ -4,61 +4,58 @@ import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a declared programs store', () => {
+  let store: ReturnType<typeof useDeclaredProgramsStore>
+
   beforeEach(() => {
     setActivePinia(createPinia())
+    store = useDeclaredProgramsStore()
   })
 
   BddTest().when('the store is initialized', () => {
     BddTest().then('it should provide drawer state and methods', () => {
-      const store = useDeclaredProgramsStore()
-
       expect(store.showAddDeclaredProgramDrawer).toBeDefined()
       expect(store.displayAddDeclaredProgramDrawer).toBeDefined()
       expect(store.hideAddDeclaredProgramDrawer).toBeDefined()
     })
 
     BddTest().then('it should have drawer initially hidden', () => {
-      const store = useDeclaredProgramsStore()
-
       expect(store.showAddDeclaredProgramDrawer).toBe(false)
     })
-  })
 
-  BddTest().when('displaying the add declared program drawer', () => {
-    BddTest().then('it should set showAddDeclaredProgramDrawer to true', () => {
-      const store = useDeclaredProgramsStore()
+    BddTest().and('displaying the add declared program drawer', () => {
+      beforeEach(() => {
+        store.displayAddDeclaredProgramDrawer()
+      })
 
-      store.displayAddDeclaredProgramDrawer()
-
-      expect(store.showAddDeclaredProgramDrawer).toBe(true)
+      BddTest().then('it should set showAddDeclaredProgramDrawer to true', () => {
+        expect(store.showAddDeclaredProgramDrawer).toBe(true)
+      })
     })
-  })
 
-  BddTest().when('hiding the add declared program drawer', () => {
-    BddTest().then('it should set showAddDeclaredProgramDrawer to false', () => {
-      const store = useDeclaredProgramsStore()
-      store.displayAddDeclaredProgramDrawer()
+    BddTest().and('hiding the add declared program drawer', () => {
+      beforeEach(() => {
+        store.displayAddDeclaredProgramDrawer()
+        store.hideAddDeclaredProgramDrawer()
+      })
 
-      store.hideAddDeclaredProgramDrawer()
-
-      expect(store.showAddDeclaredProgramDrawer).toBe(false)
+      BddTest().then('it should set showAddDeclaredProgramDrawer to false', () => {
+        expect(store.showAddDeclaredProgramDrawer).toBe(false)
+      })
     })
-  })
 
-  BddTest().when('toggling drawer visibility multiple times', () => {
-    BddTest().then('it should correctly update the state', () => {
-      const store = useDeclaredProgramsStore()
+    BddTest().and('toggling drawer visibility multiple times', () => {
+      BddTest().then('it should correctly update the state', () => {
+        expect(store.showAddDeclaredProgramDrawer).toBe(false)
 
-      expect(store.showAddDeclaredProgramDrawer).toBe(false)
+        store.displayAddDeclaredProgramDrawer()
+        expect(store.showAddDeclaredProgramDrawer).toBe(true)
 
-      store.displayAddDeclaredProgramDrawer()
-      expect(store.showAddDeclaredProgramDrawer).toBe(true)
+        store.hideAddDeclaredProgramDrawer()
+        expect(store.showAddDeclaredProgramDrawer).toBe(false)
 
-      store.hideAddDeclaredProgramDrawer()
-      expect(store.showAddDeclaredProgramDrawer).toBe(false)
-
-      store.displayAddDeclaredProgramDrawer()
-      expect(store.showAddDeclaredProgramDrawer).toBe(true)
+        store.displayAddDeclaredProgramDrawer()
+        expect(store.showAddDeclaredProgramDrawer).toBe(true)
+      })
     })
   })
 })

@@ -1,7 +1,7 @@
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
-import { DeclaredProgramInstitutionFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramInstitutionFormField/DeclaredProgramInstitutionFormField.stub'
 import { DeclaredProgramLinkFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.stub'
+import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
 import { DeclaredProgramPeriodFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.stub'
 import { DeclaredProgramResultFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.stub'
 import { DeclaredProgramSourceOfInformationFormFieldStub } from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramSourceOfInformationFormField/DeclaredProgramSourceOfInformationFormField.stub'
@@ -36,7 +36,7 @@ BddTest().given('an add declared program drawer component', () => {
     ConfirmationModal: ConfirmationModalStub,
     DeclaredProgramTitleFormField: DeclaredProgramTitleFormFieldStub,
     DeclaredProgramDescriptionFormField: DeclaredProgramDescriptionFormFieldStub,
-    DeclaredProgramInstitutionFormField: DeclaredProgramInstitutionFormFieldStub,
+    DeclaredProgramOrganizationFormField: DeclaredProgramOrganizationFormFieldStub,
     DeclaredProgramPeriodFormField: DeclaredProgramPeriodFormFieldStub,
     DeclaredProgramResultFormField: DeclaredProgramResultFormFieldStub,
     DeclaredProgramSourceOfInformationFormField: DeclaredProgramSourceOfInformationFormFieldStub,
@@ -77,7 +77,7 @@ BddTest().given('an add declared program drawer component', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const title = wrapper.find('h2')
+      const title = wrapper.find('span')
 
       expect(title.exists()).toBe(true)
       expect(title.text()).toContain('Ajouter une formation déclarée')
@@ -94,7 +94,7 @@ BddTest().given('an add declared program drawer component', () => {
     BddTest().then('it should render all form field components in first accordion', () => {
       expect(wrapper.find('[data-testid="title-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="description-form-field"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="institution-form-field"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="organization-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="period-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="result-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="source-form-field"]').exists()).toBe(true)
@@ -113,52 +113,13 @@ BddTest().given('an add declared program drawer component', () => {
       const form = wrapper.find('form')
       expect(form.exists()).toBe(true)
     })
-  })
 
-  BddTest().when('store showAddDeclaredProgramDrawer is false', () => {
-    BddTest().then('it should pass false to drawer show prop', async () => {
-      const store = useDeclaredProgramsStore()
-      store.hideAddDeclaredProgramDrawer()
-      await wrapper.vm.$nextTick()
-
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-      expect(drawer.props('show')).toBe(false)
-    })
-  })
-
-  BddTest().when('escape is pressed on drawer', () => {
-    BddTest().then('it should hide drawer when form is not dirty', async () => {
-      const store = useDeclaredProgramsStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-
-      await drawer.vm.$emit('escape-pressed')
-
-      expect(hideDrawerSpy).toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('cancel button is clicked', () => {
-    BddTest().then('it should hide drawer when form is not dirty', async () => {
-      const store = useDeclaredProgramsStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
-
-      const cancelConfirmButtons = getCancelConfirmButtons()
-      await cancelConfirmButtons.vm.$emit('cancel')
-
-      expect(hideDrawerSpy).toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('save button state', () => {
     BddTest().then('it should be disabled initially when form is invalid', async () => {
       const cancelConfirmButtons = getCancelConfirmButtons()
 
       expect(cancelConfirmButtons.props('confirmDisabled')).toBe(true)
     })
-  })
 
-  BddTest().when('component has accordion items', () => {
     BddTest().then('it should render add program accordion with correct title', () => {
       const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
       const addProgramAccordion = accordions[0]
@@ -180,12 +141,47 @@ BddTest().given('an add declared program drawer component', () => {
 
       expect(associateAccordion.props('title')).toBe('Associer ma formation')
     })
-  })
 
-  BddTest().when('confirmation modal interactions', () => {
     BddTest().then('it should have confirmation modal rendered', () => {
       const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
       expect(confirmationModal.exists()).toBe(true)
+    })
+
+    BddTest().and('store showAddDeclaredProgramDrawer is false', () => {
+      beforeEach(async () => {
+        const store = useDeclaredProgramsStore()
+        store.hideAddDeclaredProgramDrawer()
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should pass false to drawer show prop', async () => {
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        expect(drawer.props('show')).toBe(false)
+      })
+    })
+
+    BddTest().and('escape is pressed on drawer', () => {
+      BddTest().then('it should hide drawer when form is not dirty', async () => {
+        const store = useDeclaredProgramsStore()
+        const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+
+        await drawer.vm.$emit('escape-pressed')
+
+        expect(hideDrawerSpy).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('cancel button is clicked', () => {
+      BddTest().then('it should hide drawer when form is not dirty', async () => {
+        const store = useDeclaredProgramsStore()
+        const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
+
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        await cancelConfirmButtons.vm.$emit('cancel')
+
+        expect(hideDrawerSpy).toHaveBeenCalled()
+      })
     })
   })
 })

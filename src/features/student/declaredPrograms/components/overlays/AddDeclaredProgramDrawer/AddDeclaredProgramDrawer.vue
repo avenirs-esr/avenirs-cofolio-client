@@ -2,8 +2,8 @@
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import DeclaredProgramDescriptionFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
-import DeclaredProgramInstitutionFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramInstitutionFormField/DeclaredProgramInstitutionFormField.vue'
 import DeclaredProgramLinkFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.vue'
+import DeclaredProgramOrganizationFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
 import DeclaredProgramPeriodFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
 import DeclaredProgramResultFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.vue'
 import DeclaredProgramSourceOfInformationFormField from '@/features/student/declaredPrograms/components/interactions/formFields/DeclaredProgramSourceOfInformationFormField/DeclaredProgramSourceOfInformationFormField.vue'
@@ -18,7 +18,6 @@ const { t } = useI18n()
 const declaredProgramsStore = useDeclaredProgramsStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(declaredProgramsStore, 'showAddDeclaredProgramDrawer')
-const activeAccordion = ref(0)
 
 const { form, isFormValid, isSubmitting } = useAddDeclaredProgramForm(() => {
   addSuccessMessage({
@@ -60,16 +59,16 @@ function confirmCancel () {
     @escape-pressed="handleCancel"
   >
     <div class="av-flex-col-lg h-full">
-      <h2 class="n5">
+      <span class="n5">
         {{ t('student.declaredPrograms.overlays.AddDeclaredProgramDrawer.title') }}
-      </h2>
+      </span>
 
       <div class="add-declared-program-drawer__content">
         <form
           novalidate
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
+          <AvAccordionsGroup>
             <AvAccordion
               :title="t('student.declaredPrograms.overlays.AddDeclaredProgramDrawer.sections.addProgram')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
@@ -77,7 +76,7 @@ function confirmCancel () {
               <div class="av-flex-col-md">
                 <DeclaredProgramTitleFormField :form="form" />
                 <DeclaredProgramDescriptionFormField :form="form" />
-                <DeclaredProgramInstitutionFormField :form="form" />
+                <DeclaredProgramOrganizationFormField :form="form" />
                 <DeclaredProgramPeriodFormField :form="form" />
                 <DeclaredProgramResultFormField :form="form" />
                 <DeclaredProgramSourceOfInformationFormField :form="form" />

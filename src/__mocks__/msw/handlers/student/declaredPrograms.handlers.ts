@@ -3,7 +3,7 @@ import { getCreateDeclaredProgramUrl } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
-  '*/me/declared/programs',
+  `*${getCreateDeclaredProgramUrl()}`,
   () => {
     return HttpResponse.json(
       {

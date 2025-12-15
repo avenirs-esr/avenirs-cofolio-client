@@ -6,20 +6,20 @@
           "DeclaredProgramPeriodFormField": {
             "endDate": "End date",
             "endDatePlaceholder": "MM/YYYY",
+            "errors": {
+              "endDateBeforeStartDate": "End date must be after start date"
+            },
             "label": "Period",
             "ongoing": "Ongoing",
             "startDate": "Start date",
-            "startDatePlaceholder": "MM/YYYY",
-            "errors": {
-              "endDateBeforeStartDate": "End date must be after start date"
-            }
+            "startDatePlaceholder": "MM/YYYY"
           }
         },
         "inputs": {
           "DeclaredProgramDescriptionTextarea": {
             "label": "Program description"
           },
-          "DeclaredProgramInstitutionInput": {
+          "DeclaredProgramOrganizationInput": {
             "label": "Institution / Organization",
             "placeholder": "Institution name"
           },

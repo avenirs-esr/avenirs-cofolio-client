@@ -28,6 +28,15 @@ BddTest().given('an add declared program form', () => {
   let composableResult: ReturnType<typeof useAddDeclaredProgramForm>
   let mockOnProgramAdded: ReturnType<typeof vi.fn>
 
+  const mountForm = (onProgramAdded?: () => void) => {
+    const result = mountComposable(() => useAddDeclaredProgramForm(onProgramAdded), {
+      useI18n: true,
+      useTanstack: true,
+      usePinia: true
+    })
+    composableResult = result.result
+  }
+
   const getOnSubmitValidator = () => {
     const validator = composableResult.form.options.validators?.onSubmit
     expect(validator).toBeDefined()
@@ -42,16 +51,11 @@ BddTest().given('an add declared program form', () => {
     })
   }
 
-  BddTest().when('the form is initialized without callback', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
+  beforeEach(() => {
+    mountForm()
+  })
 
+  BddTest().when('the form is initialized', () => {
     BddTest().then('it should return the expected structure', () => {
       expect(composableResult).toBeDefined()
       expect(composableResult.form).toBeDefined()
@@ -78,388 +82,223 @@ BddTest().given('an add declared program form', () => {
     BddTest().then('it should not be valid initially', () => {
       expect(composableResult.isFormValid.value).toBe(false)
     })
+
+    BddTest().and('callback is provided', () => {
+      beforeEach(() => {
+        mockOnProgramAdded = vi.fn()
+        mountForm(mockOnProgramAdded)
+      })
+
+      BddTest().then('it should accept onProgramAdded callback', () => {
+        expect(composableResult).toBeDefined()
+        expect(mockOnProgramAdded).toBeDefined()
+      })
+    })
   })
 
-  BddTest().when('the form is initialized with callback', () => {
+  BddTest().when('validating form fields', () => {
+    BddTest().and('all required fields are empty', () => {
+      BddTest().then('it should return validation errors for required fields', () => {
+        const invalidData: DeclaredProgramFormData = {
+          title: '',
+          description: '',
+          organization: '',
+          result: '',
+          sourceOfInformation: '',
+          link: '',
+          startDate: '',
+          endDate: '',
+          isOngoing: false
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result?.fields?.title).toBe('Ce champ est requis.')
+        expect(result?.fields?.organization).toBe('Ce champ est requis.')
+        expect(result?.fields?.startDate).toBe('Ce champ est requis.')
+        expect(result?.fields?.endDate).toBe('Ce champ est requis.')
+      })
+    })
+
+    BddTest().and('fields exceed max length', () => {
+      BddTest().then('it should return title max length error', () => {
+        const invalidData: DeclaredProgramFormData = {
+          title: 'a'.repeat(DECLARED_PROGRAM_TITLE_MAX_LENGTH + 1),
+          description: 'a'.repeat(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH + 1),
+          organization: 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 1),
+          result: 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 1),
+          sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
+          link: '',
+          startDate: '2024-01',
+          endDate: '2024-12',
+          isOngoing: false
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result?.fields?.title).toBe('Veuillez limiter votre saisie à 80 caractères')
+        expect(result?.fields?.description).toBe('Veuillez limiter votre saisie à 400 caractères')
+        expect(result?.fields?.organization).toBe('Veuillez limiter votre saisie à 50 caractères')
+        expect(result?.fields?.result).toBe('Veuillez limiter votre saisie à 50 caractères')
+        expect(result?.fields?.sourceOfInformation).toBe('Veuillez limiter votre saisie à 200 caractères')
+      })
+    })
+
+    BddTest().and('endDate is missing when not ongoing', () => {
+      BddTest().then('it should return endDate required error', () => {
+        const invalidData: DeclaredProgramFormData = {
+          title: 'Valid Title',
+          description: '',
+          organization: 'University',
+          result: '',
+          sourceOfInformation: '',
+          link: '',
+          startDate: '2024-01',
+          endDate: '',
+          isOngoing: false
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result?.fields?.endDate).toBe('Ce champ est requis.')
+      })
+    })
+
+    BddTest().and('all required fields are filled and isOngoing is true', () => {
+      BddTest().then('it should not require endDate', () => {
+        const validData: DeclaredProgramFormData = {
+          title: 'Valid Title',
+          description: '',
+          organization: 'University',
+          result: '',
+          sourceOfInformation: '',
+          link: '',
+          startDate: '2024-01',
+          endDate: '',
+          isOngoing: true
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: validData })
+
+        expect(result?.fields?.title).toBeUndefined()
+        expect(result?.fields?.organization).toBeUndefined()
+        expect(result?.fields?.startDate).toBeUndefined()
+        expect(result?.fields?.endDate).toBeUndefined()
+      })
+    })
+
+    BddTest().and('data is valid', () => {
+      BddTest().then('it should not return validation errors', () => {
+        const validData: DeclaredProgramFormData = {
+          title: 'Master en Informatique',
+          description: 'Description of the program',
+          organization: 'University Paris-Saclay',
+          result: 'Mention Très Bien',
+          sourceOfInformation: 'University website',
+          link: 'https://example.com',
+          startDate: '2024-01',
+          endDate: '2025-12',
+          isOngoing: false
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: validData })
+
+        expect(result?.fields?.title).toBeUndefined()
+        expect(result?.fields?.description).toBeUndefined()
+        expect(result?.fields?.organization).toBeUndefined()
+        expect(result?.fields?.result).toBeUndefined()
+        expect(result?.fields?.sourceOfInformation).toBeUndefined()
+        expect(result?.fields?.startDate).toBeUndefined()
+        expect(result?.fields?.endDate).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('submitting the form', () => {
     beforeEach(() => {
       mockOnProgramAdded = vi.fn()
-      const result = mountComposable(() => useAddDeclaredProgramForm(mockOnProgramAdded), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
+      mountForm(mockOnProgramAdded)
     })
 
-    BddTest().then('it should accept onProgramAdded callback', () => {
-      expect(composableResult).toBeDefined()
-      expect(mockOnProgramAdded).toBeDefined()
-    })
-  })
-
-  BddTest().when('validating with all required fields empty', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should return validation errors for required fields', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: '',
-        description: '',
-        organization: '',
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '',
-        endDate: '',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.title).toBe('Ce champ est requis.')
-      expect(result?.fields?.organization).toBe('Ce champ est requis.')
-      expect(result?.fields?.startDate).toBe('Ce champ est requis.')
-      expect(result?.fields?.endDate).toBe('Ce champ est requis.')
-    })
-  })
-
-  BddTest().when('validating fields exceeding max length', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should return title max length error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'a'.repeat(DECLARED_PROGRAM_TITLE_MAX_LENGTH + 1),
-        description: '',
-        organization: 'University',
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '2024-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.title).toBe('Veuillez limiter votre saisie à 80 caractères')
-    })
-
-    BddTest().then('it should return description max length error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: 'a'.repeat(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH + 1),
-        organization: 'University',
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '2024-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.description).toBe('Veuillez limiter votre saisie à 400 caractères')
-    })
-
-    BddTest().then('it should return organization max length error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: '',
-        organization: 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 1),
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '2024-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.organization).toBe('Veuillez limiter votre saisie à 50 caractères')
-    })
-
-    BddTest().then('it should return result max length error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: '',
-        organization: 'University',
-        result: 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 1),
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '2024-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.result).toBe('Veuillez limiter votre saisie à 50 caractères')
-    })
-
-    BddTest().then('it should return sourceOfInformation max length error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: '',
-        organization: 'University',
-        result: '',
-        sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
-        link: '',
-        startDate: '2024-01',
-        endDate: '2024-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.sourceOfInformation).toBe('Veuillez limiter votre saisie à 200 caractères')
-    })
-  })
-
-  BddTest().when('validating with endDate missing when not ongoing', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should return endDate required error', () => {
-      const invalidData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: '',
-        organization: 'University',
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: invalidData })
-
-      expect(result?.fields?.endDate).toBe('Ce champ est requis.')
-    })
-  })
-
-  BddTest().when('validating with all required fields and isOngoing true', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should not require endDate', () => {
-      const validData: DeclaredProgramFormData = {
-        title: 'Valid Title',
-        description: '',
-        organization: 'University',
-        result: '',
-        sourceOfInformation: '',
-        link: '',
-        startDate: '2024-01',
-        endDate: '',
-        isOngoing: true
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: validData })
-
-      expect(result?.fields?.title).toBeUndefined()
-      expect(result?.fields?.organization).toBeUndefined()
-      expect(result?.fields?.startDate).toBeUndefined()
-      expect(result?.fields?.endDate).toBeUndefined()
-    })
-  })
-
-  BddTest().when('validating with valid data', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should not return validation errors', () => {
-      const validData: DeclaredProgramFormData = {
-        title: 'Master en Informatique',
-        description: 'Description of the program',
-        organization: 'University Paris-Saclay',
-        result: 'Mention Très Bien',
-        sourceOfInformation: 'University website',
-        link: 'https://example.com',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: false
-      }
-
-      const validator = getOnSubmitValidator()
-      const result = validator({ value: validData })
-
-      expect(result?.fields?.title).toBeUndefined()
-      expect(result?.fields?.description).toBeUndefined()
-      expect(result?.fields?.organization).toBeUndefined()
-      expect(result?.fields?.result).toBeUndefined()
-      expect(result?.fields?.sourceOfInformation).toBeUndefined()
-      expect(result?.fields?.startDate).toBeUndefined()
-      expect(result?.fields?.endDate).toBeUndefined()
-    })
-  })
-
-  BddTest().when('submitting the form with valid data', () => {
-    beforeEach(() => {
-      mockOnProgramAdded = vi.fn()
-      const result = mountComposable(() => useAddDeclaredProgramForm(mockOnProgramAdded), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should call onProgramAdded callback on success', async () => {
-      setFormValues({
-        title: 'Master en Informatique',
-        organization: 'University Paris-Saclay',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: false
+    BddTest().and('data is valid', () => {
+      beforeEach(() => {
+        setFormValues({
+          title: 'Master en Informatique',
+          organization: 'University Paris-Saclay',
+          startDate: '2024-01',
+          endDate: '2025-12',
+          isOngoing: false
+        })
       })
 
-      await composableResult.form.handleSubmit()
+      BddTest().then('it should call onProgramAdded callback on success', async () => {
+        await composableResult.form.handleSubmit()
 
-      await vi.waitFor(() => {
-        expect(mockOnProgramAdded).toHaveBeenCalledTimes(1)
+        await vi.waitFor(() => {
+          expect(mockOnProgramAdded).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().then('isFormValid should be true when all conditions met', async () => {
+        await vi.waitFor(() => {
+          expect(composableResult.isFormValid.value).toBe(true)
+        })
       })
     })
-  })
 
-  BddTest().when('submitting the form with isOngoing true', () => {
-    beforeEach(() => {
-      mockOnProgramAdded = vi.fn()
-      const result = mountComposable(() => useAddDeclaredProgramForm(mockOnProgramAdded), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should not send endDate in the request', async () => {
-      setFormValues({
-        title: 'Master en Informatique',
-        organization: 'University Paris-Saclay',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: true
+    BddTest().and('isOngoing is true', () => {
+      beforeEach(() => {
+        setFormValues({
+          title: 'Master en Informatique',
+          organization: 'University Paris-Saclay',
+          startDate: '2024-01',
+          endDate: '2025-12',
+          isOngoing: true
+        })
       })
 
-      await composableResult.form.handleSubmit()
+      BddTest().then('it should not send endDate in the request', async () => {
+        await composableResult.form.handleSubmit()
 
-      await vi.waitFor(() => {
-        expect(mockOnProgramAdded).toHaveBeenCalledTimes(1)
+        await vi.waitFor(() => {
+          expect(mockOnProgramAdded).toHaveBeenCalledTimes(1)
+        })
       })
     })
-  })
 
-  BddTest().when('the form submission fails', () => {
-    beforeEach(() => {
-      server.use(createDeclaredProgramErrorHandler)
-
-      mockOnProgramAdded = vi.fn()
-      const result = mountComposable(() => useAddDeclaredProgramForm(mockOnProgramAdded), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('it should not call onProgramAdded callback', async () => {
-      setFormValues({
-        title: 'Master en Informatique',
-        organization: 'University Paris-Saclay',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: false
+    BddTest().and('submission fails', () => {
+      beforeEach(() => {
+        server.use(createDeclaredProgramErrorHandler)
+        setFormValues({
+          title: 'Master en Informatique',
+          organization: 'University Paris-Saclay',
+          startDate: '2024-01',
+          endDate: '2025-12',
+          isOngoing: false
+        })
       })
 
-      await composableResult.form.handleSubmit()
+      BddTest().then('it should not call onProgramAdded callback', async () => {
+        await composableResult.form.handleSubmit()
 
-      await vi.waitFor(() => {
-        expect(composableResult.isSubmitting.value).toBe(false)
+        await vi.waitFor(() => {
+          expect(composableResult.isSubmitting.value).toBe(false)
+        })
+
+        expect(mockOnProgramAdded).not.toHaveBeenCalled()
       })
 
-      expect(mockOnProgramAdded).not.toHaveBeenCalled()
-    })
+      BddTest().then('it should set isSubmitting back to false', async () => {
+        await composableResult.form.handleSubmit()
 
-    BddTest().then('it should set isSubmitting back to false', async () => {
-      setFormValues({
-        title: 'Master en Informatique',
-        organization: 'University Paris-Saclay',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: false
-      })
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(composableResult.isSubmitting.value).toBe(false)
-      })
-    })
-  })
-
-  BddTest().when('the form becomes valid', () => {
-    beforeEach(() => {
-      const result = mountComposable(() => useAddDeclaredProgramForm(), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-      composableResult = result.result
-    })
-
-    BddTest().then('isFormValid should be true when all conditions met', async () => {
-      setFormValues({
-        title: 'Master en Informatique',
-        organization: 'University Paris-Saclay',
-        startDate: '2024-01',
-        endDate: '2025-12',
-        isOngoing: false
-      })
-
-      await vi.waitFor(() => {
-        expect(composableResult.isFormValid.value).toBe(true)
+        await vi.waitFor(() => {
+          expect(composableResult.isSubmitting.value).toBe(false)
+        })
       })
     })
   })

@@ -55,14 +55,14 @@ BddTest().given('a declared program link form field', () => {
     DeclaredProgramLinkInput: DeclaredProgramLinkInputStub
   }
 
-  BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
+  beforeEach(() => {
+    vi.clearAllMocks()
+    wrapper = mount(TestWrapper, {
+      global: { stubs }
     })
+  })
 
+  BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the link input component', () => {
       const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
       expect(input.exists()).toBe(true)
@@ -72,81 +72,56 @@ BddTest().given('a declared program link form field', () => {
       const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
       expect(input.props('modelValue')).toBe('')
     })
-  })
 
-  BddTest().and('the user enters a link', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-      const textInput = input.find('input')
-      await textInput.setValue('https://example.com/program')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the form field value', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-        expect(updated.props('modelValue')).toBe('https://example.com/program')
-      })
-    })
-  })
-
-  BddTest().and('the input emits blur', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-      await input.vm.$emit('blur')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should trigger blur handler', () => {
-      const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-      expect(input.emitted('blur')).toBeTruthy()
-    })
-  })
-
-  BddTest().and('the form is submitted with empty link', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should not show validation error', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user enters a link', () => {
+      BddTest().then('it should update the form field value', async () => {
         const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-        expect(input.props('errorMessage')).toBeFalsy()
+        const textInput = input.find('input')
+        await textInput.setValue('https://example.com/program')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
+          expect(updated.props('modelValue')).toBe('https://example.com/program')
+        })
       })
     })
-  })
 
-  BddTest().and('the form is submitted with valid link', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
+    BddTest().and('the input emits blur', () => {
+      BddTest().then('it should trigger blur handler', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
+        await input.vm.$emit('blur')
+        await wrapper.vm.$nextTick()
+
+        expect(input.emitted('blur')).toBeTruthy()
       })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-      const textInput = input.find('input')
-      await textInput.setValue('https://example.com/valid-program')
-      await wrapper.vm.$nextTick()
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should not show validation error', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
-        expect(updated.props('errorMessage')).toBeFalsy()
+    BddTest().and('the form is submitted with empty link', () => {
+      BddTest().then('it should not show validation error', async () => {
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
+          expect(input.props('errorMessage')).toBeFalsy()
+        })
+      })
+    })
+
+    BddTest().and('the form is submitted with valid link', () => {
+      BddTest().then('it should not show validation error', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
+        const textInput = input.find('input')
+        await textInput.setValue('https://example.com/valid-program')
+        await wrapper.vm.$nextTick()
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramLinkInput' })
+          expect(updated.props('errorMessage')).toBeFalsy()
+        })
       })
     })
   })

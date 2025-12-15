@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/declaredPrograms/types/forms.types'
-import DeclaredProgramInstitutionInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramInstitutionInput/DeclaredProgramInstitutionInput.vue'
+import DeclaredProgramOrganizationInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
 import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { markRaw } from 'vue'
 
@@ -24,7 +24,7 @@ function onUpdateInstitution (value: string | undefined) {
 <template>
   <FormField name="organization">
     <template #default="{ field }">
-      <DeclaredProgramInstitutionInput
+      <DeclaredProgramOrganizationInput
         v-bind="$attrs"
         :model-value="(field.state.value ?? '').slice(0, DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH)"
         :error-message="field.state.meta.errors?.join(', ')"

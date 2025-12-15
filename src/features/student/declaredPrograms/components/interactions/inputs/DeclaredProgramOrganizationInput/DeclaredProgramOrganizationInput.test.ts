@@ -1,4 +1,4 @@
-import DeclaredProgramInstitutionInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramInstitutionInput/DeclaredProgramInstitutionInput.vue'
+import DeclaredProgramOrganizationInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
 import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -6,7 +6,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared program institution input component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramInstitutionInput>>
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramOrganizationInput>>
 
   const stubs = {
     AvInput: AvInputStub
@@ -15,7 +15,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           modelValue: ''
         },
@@ -66,7 +66,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted with custom label', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           label: 'Custom Label',
           modelValue: ''
@@ -84,7 +84,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted with custom placeholder', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           placeholder: 'Custom Placeholder',
           modelValue: ''
@@ -102,7 +102,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted with custom prefix icon', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           prefixIcon: 'mdi:account',
           modelValue: ''
@@ -120,7 +120,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           errorMessage: 'Ce champ est requis',
           modelValue: ''
@@ -138,7 +138,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the user types in the input', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           modelValue: ''
         },
@@ -158,7 +158,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component is mounted with initial value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           modelValue: 'Initial institution'
         },
@@ -175,7 +175,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the component receives additional props via restProps', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           disabled: true,
           required: true,
@@ -195,7 +195,7 @@ BddTest().given('a declared program institution input component', () => {
   BddTest().when('the user clears the input', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramInstitutionInput, {
+      wrapper = mount(DeclaredProgramOrganizationInput, {
         props: {
           modelValue: 'Some text'
         },

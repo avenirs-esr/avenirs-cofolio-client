@@ -78,9 +78,9 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
         return {
           fields: {
             file: validateFile(value.file),
-            traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
+            traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
             isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
-            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
+            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
           }
         }
       },

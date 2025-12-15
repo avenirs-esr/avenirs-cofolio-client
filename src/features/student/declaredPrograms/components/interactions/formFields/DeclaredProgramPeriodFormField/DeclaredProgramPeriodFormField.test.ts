@@ -54,14 +54,14 @@ BddTest().given('a declared program period form field', () => {
     AvInput: AvInputStub
   }
 
-  BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
+  beforeEach(() => {
+    vi.clearAllMocks()
+    wrapper = mount(TestWrapper, {
+      global: { stubs }
     })
+  })
 
+  BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the checkbox and date inputs', () => {
       const checkbox = wrapper.findAllComponents({ name: 'AvCheckbox' })
       const inputs = wrapper.findAllComponents({ name: 'AvInput' })
@@ -84,169 +84,121 @@ BddTest().given('a declared program period form field', () => {
       const inputs = wrapper.findAllComponents({ name: 'AvInput' })
       expect(inputs[1].props('disabled')).toBe(false)
     })
-  })
 
-  BddTest().and('the user enters a start date', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      await inputs[0].vm.$emit('update:modelValue', '2024-01')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the start date value', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user enters a start date', () => {
+      BddTest().then('it should update the start date value', async () => {
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[0].props('modelValue')).toBe('2024-01')
+        await inputs[0].vm.$emit('update:modelValue', '2024-01')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(updatedInputs[0].props('modelValue')).toBe('2024-01')
+        })
       })
     })
-  })
 
-  BddTest().and('the user enters an end date', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      await inputs[1].vm.$emit('update:modelValue', '2024-12')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the end date value', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user enters an end date', () => {
+      BddTest().then('it should update the end date value', async () => {
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[1].props('modelValue')).toBe('2024-12')
+        await inputs[1].vm.$emit('update:modelValue', '2024-12')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(updatedInputs[1].props('modelValue')).toBe('2024-12')
+        })
       })
     })
-  })
 
-  BddTest().and('the user checks isOngoing checkbox', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-      await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should check the checkbox', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user checks isOngoing checkbox', () => {
+      BddTest().then('it should check the checkbox and disable end date input', async () => {
         const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-        expect(checkbox.props('modelValue')).toEqual(['isOngoing'])
+        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updatedCheckbox = wrapper.findComponent({ name: 'AvCheckbox' })
+          expect(updatedCheckbox.props('modelValue')).toEqual(['isOngoing'])
+        })
+
+        await vi.waitFor(() => {
+          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(inputs[1].props('disabled')).toBe(true)
+        })
+
+        await vi.waitFor(() => {
+          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(inputs[1].props('modelValue')).toBe('')
+        })
       })
     })
 
-    BddTest().then('it should disable end date input', async () => {
-      await vi.waitFor(() => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[1].props('disabled')).toBe(true)
-      })
-    })
-
-    BddTest().then('it should clear end date value', async () => {
-      await vi.waitFor(() => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[1].props('modelValue')).toBe('')
-      })
-    })
-  })
-
-  BddTest().and('the user unchecks isOngoing checkbox', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-      await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-      await wrapper.vm.$nextTick()
-      await checkbox.vm.$emit('update:modelValue', [])
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should uncheck the checkbox', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user unchecks isOngoing checkbox', () => {
+      BddTest().then('it should uncheck the checkbox and enable end date input', async () => {
         const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-        expect(checkbox.props('modelValue')).toEqual([])
+        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
+        await wrapper.vm.$nextTick()
+        await checkbox.vm.$emit('update:modelValue', [])
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updatedCheckbox = wrapper.findComponent({ name: 'AvCheckbox' })
+          expect(updatedCheckbox.props('modelValue')).toEqual([])
+        })
+
+        await vi.waitFor(() => {
+          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(inputs[1].props('disabled')).toBe(false)
+        })
       })
     })
 
-    BddTest().then('it should enable end date input', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the form is submitted with empty dates', () => {
+      BddTest().then('it should show validation errors for start and end dates', async () => {
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(inputs[0].props('errorMessage')).toBe('La date de début est requise')
+          expect(inputs[1].props('errorMessage')).toBe('La date de fin est requise')
+        })
+      })
+    })
+
+    BddTest().and('the form is submitted with valid dates', () => {
+      BddTest().then('it should not show validation errors', async () => {
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[1].props('disabled')).toBe(false)
+        await inputs[0].vm.$emit('update:modelValue', '2024-01')
+        await inputs[1].vm.$emit('update:modelValue', '2024-12')
+        await wrapper.vm.$nextTick()
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(updatedInputs[0].props('errorMessage')).toBeFalsy()
+          expect(updatedInputs[1].props('errorMessage')).toBeFalsy()
+        })
       })
     })
-  })
 
-  BddTest().and('the form is submitted with empty dates', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should show validation errors for start and end dates', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the form is submitted with isOngoing checked and start date', () => {
+      BddTest().then('it should not show validation errors', async () => {
         const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[0].props('errorMessage')).toBe('La date de début est requise')
-        expect(inputs[1].props('errorMessage')).toBe('La date de fin est requise')
-      })
-    })
-  })
+        const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
+        await inputs[0].vm.$emit('update:modelValue', '2024-01')
+        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
+        await wrapper.vm.$nextTick()
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
 
-  BddTest().and('the form is submitted with valid dates', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      await inputs[0].vm.$emit('update:modelValue', '2024-01')
-      await inputs[1].vm.$emit('update:modelValue', '2024-12')
-      await wrapper.vm.$nextTick()
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should not show validation errors', async () => {
-      await vi.waitFor(() => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[0].props('errorMessage')).toBeFalsy()
-        expect(inputs[1].props('errorMessage')).toBeFalsy()
-      })
-    })
-  })
-
-  BddTest().and('the form is submitted with isOngoing checked and start date', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-      await inputs[0].vm.$emit('update:modelValue', '2024-01')
-      await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-      await wrapper.vm.$nextTick()
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should not show validation errors', async () => {
-      await vi.waitFor(() => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(inputs[0].props('errorMessage')).toBeFalsy()
-        expect(inputs[1].props('errorMessage')).toBeFalsy()
+        await vi.waitFor(() => {
+          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
+          expect(updatedInputs[0].props('errorMessage')).toBeFalsy()
+          expect(updatedInputs[1].props('errorMessage')).toBeFalsy()
+        })
       })
     })
   })

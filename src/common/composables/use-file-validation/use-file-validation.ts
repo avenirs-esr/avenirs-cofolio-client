@@ -60,7 +60,7 @@ export function useFileValidation (options: UseFileValidationOptions) {
   function validateFile (file: File | null): string | undefined {
     if (!file) {
       if (isRequired) {
-        return customMessages?.required || t('global.error.form.requiredFiled')
+        return customMessages?.required || t('global.error.form.requiredField')
       }
       return undefined
     }

@@ -56,14 +56,14 @@ BddTest().given('a declared program result form field', () => {
     DeclaredProgramResultInput: DeclaredProgramResultInputStub
   }
 
-  BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
+  beforeEach(() => {
+    vi.clearAllMocks()
+    wrapper = mount(TestWrapper, {
+      global: { stubs }
     })
+  })
 
+  BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the result input component', () => {
       const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
       expect(input.exists()).toBe(true)
@@ -73,102 +73,71 @@ BddTest().given('a declared program result form field', () => {
       const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
       expect(input.props('modelValue')).toBe('')
     })
-  })
 
-  BddTest().and('the user enters a result', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-      const textInput = input.find('input')
-      await textInput.setValue('Admis avec mention')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the form field value', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-        expect(updated.props('modelValue')).toBe('Admis avec mention')
-      })
-    })
-  })
-
-  BddTest().and('the user enters a result exceeding max length', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-      const textInput = input.find('input')
-      const longResult = 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 10)
-      await textInput.setValue(longResult)
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should truncate the value to max length', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-        expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_RESULT_MAX_LENGTH)
-      })
-    })
-  })
-
-  BddTest().and('the input emits blur', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-      await input.vm.$emit('blur')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should trigger blur handler', () => {
-      const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-      expect(input.emitted('blur')).toBeTruthy()
-    })
-  })
-
-  BddTest().and('the form is submitted with empty result', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should not show validation error', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user enters a result', () => {
+      BddTest().then('it should update the form field value', async () => {
         const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-        expect(input.props('errorMessage')).toBeFalsy()
+        const textInput = input.find('input')
+        await textInput.setValue('Admis avec mention')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+          expect(updated.props('modelValue')).toBe('Admis avec mention')
+        })
       })
     })
-  })
 
-  BddTest().and('the form is submitted with valid result', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
+    BddTest().and('the user enters a result exceeding max length', () => {
+      BddTest().then('it should truncate the value to max length', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+        const textInput = input.find('input')
+        const longResult = 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 10)
+        await textInput.setValue(longResult)
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_RESULT_MAX_LENGTH)
+        })
       })
-      const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-      const textInput = input.find('input')
-      await textInput.setValue('Valid result')
-      await wrapper.vm.$nextTick()
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should not show validation error', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-        expect(updated.props('errorMessage')).toBeFalsy()
+    BddTest().and('the input emits blur', () => {
+      BddTest().then('it should trigger blur handler', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+        await input.vm.$emit('blur')
+        await wrapper.vm.$nextTick()
+
+        expect(input.emitted('blur')).toBeTruthy()
+      })
+    })
+
+    BddTest().and('the form is submitted with empty result', () => {
+      BddTest().then('it should not show validation error', async () => {
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+          expect(input.props('errorMessage')).toBeFalsy()
+        })
+      })
+    })
+
+    BddTest().and('the form is submitted with valid result', () => {
+      BddTest().then('it should not show validation error', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+        const textInput = input.find('input')
+        await textInput.setValue('Valid result')
+        await wrapper.vm.$nextTick()
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
+          expect(updated.props('errorMessage')).toBeFalsy()
+        })
       })
     })
   })

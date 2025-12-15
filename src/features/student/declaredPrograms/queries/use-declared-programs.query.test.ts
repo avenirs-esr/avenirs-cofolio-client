@@ -110,6 +110,23 @@ BddTest().given('a create declared program mutation', () => {
         addDeclaredProgramDTO
       )
     })
+
+    BddTest().and('resetting the mutation after success', () => {
+      BddTest().then('it should clear mutation state', async () => {
+        composableResult.mutate(addDeclaredProgramDTO)
+
+        await vi.waitFor(() => {
+          expect(composableResult.isSuccess.value).toBe(true)
+        })
+
+        composableResult.reset()
+
+        expect(composableResult.data.value).toBeUndefined()
+        expect(composableResult.isSuccess.value).toBe(false)
+        expect(composableResult.isError.value).toBe(false)
+        expect(composableResult.isPending.value).toBe(false)
+      })
+    })
   })
 
   BddTest().when('creating a declared program using mutateAsync', () => {
@@ -165,92 +182,54 @@ BddTest().given('a create declared program mutation', () => {
       composableResult = result.result
     })
 
-    BddTest().then('it should set error state', async () => {
-      composableResult.mutate(addDeclaredProgramDTO)
+    BddTest().and('using mutate', () => {
+      BddTest().then('it should set error state', async () => {
+        composableResult.mutate(addDeclaredProgramDTO)
 
-      await vi.waitFor(() => {
+        await vi.waitFor(() => {
+          expect(composableResult.isError.value).toBe(true)
+        })
+
+        expect(composableResult.isSuccess.value).toBe(false)
+        expect(composableResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call onError callback', async () => {
+        composableResult.mutate(addDeclaredProgramDTO)
+
+        await vi.waitFor(() => {
+          expect(mockOnError).toHaveBeenCalledTimes(1)
+        })
+
+        const errorCall = mockOnError.mock.calls[0]
+        expect(errorCall[0]).toMatchObject({
+          status: 500,
+          message: 'Internal Server Error'
+        })
+        expect(errorCall[1]).toEqual(addDeclaredProgramDTO)
+      })
+    })
+
+    BddTest().and('using mutateAsync', () => {
+      BddTest().then('it should throw an error', async () => {
+        await expect(
+          composableResult.mutateAsync(addDeclaredProgramDTO)
+        ).rejects.toThrow()
+
         expect(composableResult.isError.value).toBe(true)
       })
 
-      expect(composableResult.isSuccess.value).toBe(false)
-      expect(composableResult.error.value).toBeDefined()
-    })
-
-    BddTest().then('it should call onError callback', async () => {
-      composableResult.mutate(addDeclaredProgramDTO)
-
-      await vi.waitFor(() => {
-        expect(mockOnError).toHaveBeenCalledTimes(1)
-      })
-
-      const errorCall = mockOnError.mock.calls[0]
-      expect(errorCall[0]).toMatchObject({
-        status: 500,
-        message: 'Internal Server Error'
-      })
-      expect(errorCall[1]).toEqual(addDeclaredProgramDTO)
-    })
-  })
-
-  BddTest().when('the mutation fails using mutateAsync', () => {
-    beforeEach(() => {
-      server.use(createDeclaredProgramErrorHandler)
-
-      mockOnError = vi.fn()
-
-      const result = mountComposable(
-        () => useCreateDeclaredProgramMutation({
-          onError: mockOnError
-        }),
-        {
-          useTanstack: true
+      BddTest().then('it should call onError callback', async () => {
+        try {
+          await composableResult.mutateAsync(addDeclaredProgramDTO)
         }
-      )
-      composableResult = result.result
-    })
+        catch {
+        }
 
-    BddTest().then('it should throw an error', async () => {
-      await expect(
-        composableResult.mutateAsync(addDeclaredProgramDTO)
-      ).rejects.toThrow()
-
-      expect(composableResult.isError.value).toBe(true)
-    })
-
-    BddTest().then('it should call onError callback', async () => {
-      try {
-        await composableResult.mutateAsync(addDeclaredProgramDTO)
-      }
-      catch {
-      }
-
-      await vi.waitFor(() => {
-        expect(mockOnError).toHaveBeenCalledTimes(1)
+        await vi.waitFor(() => {
+          expect(mockOnError).toHaveBeenCalledTimes(1)
+        })
       })
-    })
-  })
-
-  BddTest().when('resetting the mutation', () => {
-    beforeEach(async () => {
-      const result = mountComposable(() => useCreateDeclaredProgramMutation(), {
-        useTanstack: true
-      })
-      composableResult = result.result
-
-      composableResult.mutate(addDeclaredProgramDTO)
-
-      await vi.waitFor(() => {
-        expect(composableResult.isSuccess.value).toBe(true)
-      })
-
-      composableResult.reset()
-    })
-
-    BddTest().then('it should clear mutation state', () => {
-      expect(composableResult.data.value).toBeUndefined()
-      expect(composableResult.isSuccess.value).toBe(false)
-      expect(composableResult.isError.value).toBe(false)
-      expect(composableResult.isPending.value).toBe(false)
     })
   })
 })

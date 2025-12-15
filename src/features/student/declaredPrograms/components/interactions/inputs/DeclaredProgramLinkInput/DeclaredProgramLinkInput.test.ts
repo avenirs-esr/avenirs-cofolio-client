@@ -43,9 +43,20 @@ BddTest().given('a declared program link input', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
       expect(input.props('labelVisible')).toBe(true)
     })
+
+    BddTest().and('the user enters a URL', () => {
+      BddTest().then('it should update the model value', async () => {
+        const input = wrapper.findComponent({ name: 'AvInput' })
+        await input.vm.$emit('update:modelValue', 'https://example.com/program')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['https://example.com/program'])
+      })
+    })
   })
 
-  BddTest().and('the component is mounted with custom label', () => {
+  BddTest().when('the component is mounted with custom label', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {
@@ -62,12 +73,12 @@ BddTest().given('a declared program link input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with custom prefix icon', () => {
+  BddTest().when('the component is mounted with custom prefix icon', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {
         props: {
-          prefixIcon: 'mdi:web'
+          prefixIcon: MDI_ICONS.PLUS_CIRCLE_OUTLINE
         },
         global: { stubs }
       })
@@ -75,11 +86,11 @@ BddTest().given('a declared program link input', () => {
 
     BddTest().then('it should override default prefix icon', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('prefixIcon')).toBe('mdi:web')
+      expect(input.props('prefixIcon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
     })
   })
 
-  BddTest().and('the component is mounted with custom placeholder', () => {
+  BddTest().when('the component is mounted with custom placeholder', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {
@@ -96,24 +107,7 @@ BddTest().given('a declared program link input', () => {
     })
   })
 
-  BddTest().and('the user enters a URL', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramLinkInput, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'AvInput' })
-      await input.vm.$emit('update:modelValue', 'https://example.com/program')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the model value', () => {
-      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['https://example.com/program'])
-    })
-  })
-
-  BddTest().and('the component is mounted with initial value', () => {
+  BddTest().when('the component is mounted with initial value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {
@@ -130,7 +124,7 @@ BddTest().given('a declared program link input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with error message', () => {
+  BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {
@@ -147,7 +141,7 @@ BddTest().given('a declared program link input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with maxlength prop', () => {
+  BddTest().when('the component is mounted with maxlength prop', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramLinkInput, {

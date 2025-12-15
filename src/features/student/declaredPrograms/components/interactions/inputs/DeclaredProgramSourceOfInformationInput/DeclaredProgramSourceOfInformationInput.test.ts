@@ -49,9 +49,20 @@ BddTest().given('a declared program source of information input', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
       expect(input.props('labelVisible')).toBe(true)
     })
+
+    BddTest().and('the user enters text', () => {
+      BddTest().then('it should update the model value', async () => {
+        const input = wrapper.findComponent({ name: 'AvInput' })
+        await input.vm.$emit('update:modelValue', 'University website')
+        await wrapper.vm.$nextTick()
+
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['University website'])
+      })
+    })
   })
 
-  BddTest().and('the component is mounted with custom label', () => {
+  BddTest().when('the component is mounted with custom label', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramSourceOfInformationInput, {
@@ -68,7 +79,7 @@ BddTest().given('a declared program source of information input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with custom prefix icon', () => {
+  BddTest().when('the component is mounted with custom prefix icon', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramSourceOfInformationInput, {
@@ -85,7 +96,7 @@ BddTest().given('a declared program source of information input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with custom placeholder', () => {
+  BddTest().when('the component is mounted with custom placeholder', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramSourceOfInformationInput, {
@@ -102,24 +113,7 @@ BddTest().given('a declared program source of information input', () => {
     })
   })
 
-  BddTest().and('the user enters text', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramSourceOfInformationInput, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'AvInput' })
-      await input.vm.$emit('update:modelValue', 'University website')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the model value', () => {
-      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['University website'])
-    })
-  })
-
-  BddTest().and('the component is mounted with initial value', () => {
+  BddTest().when('the component is mounted with initial value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramSourceOfInformationInput, {
@@ -136,7 +130,7 @@ BddTest().given('a declared program source of information input', () => {
     })
   })
 
-  BddTest().and('the component is mounted with error message', () => {
+  BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramSourceOfInformationInput, {

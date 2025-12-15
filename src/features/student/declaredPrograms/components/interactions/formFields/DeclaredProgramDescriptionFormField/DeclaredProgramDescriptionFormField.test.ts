@@ -64,14 +64,14 @@ BddTest().given('a declared program description form field', () => {
     DeclaredProgramDescriptionTextarea: DeclaredProgramDescriptionTextareaStub
   }
 
-  BddTest().when('the component is mounted', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
+  beforeEach(() => {
+    vi.clearAllMocks()
+    wrapper = mount(TestWrapper, {
+      global: { stubs }
     })
+  })
 
+  BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the description textarea component', () => {
       const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
       expect(textarea.exists()).toBe(true)
@@ -81,102 +81,71 @@ BddTest().given('a declared program description form field', () => {
       const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
       expect(textarea.props('modelValue')).toBe('')
     })
-  })
 
-  BddTest().and('the user enters a description', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-      const textareaElement = textarea.find('textarea')
-      await textareaElement.setValue('This is my program description')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the form field value', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-        expect(updated.props('modelValue')).toBe('This is my program description')
-      })
-    })
-  })
-
-  BddTest().and('the user enters a description exceeding max length', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-      const textareaElement = textarea.find('textarea')
-      const longDescription = 'a'.repeat(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH + 20)
-      await textareaElement.setValue(longDescription)
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should truncate the value to max length', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-        expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH)
-      })
-    })
-  })
-
-  BddTest().and('the textarea emits blur', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-      await textarea.vm.$emit('blur')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should trigger blur handler', () => {
-      const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-      expect(textarea.emitted('blur')).toBeTruthy()
-    })
-  })
-
-  BddTest().and('the form is submitted with empty description', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
-      })
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should show validation error', async () => {
-      await vi.waitFor(() => {
+    BddTest().and('the user enters a description', () => {
+      BddTest().then('it should update the form field value', async () => {
         const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-        expect(textarea.props('errorMessage')).toBe('La description est requise')
+        const textareaElement = textarea.find('textarea')
+        await textareaElement.setValue('This is my program description')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+          expect(updated.props('modelValue')).toBe('This is my program description')
+        })
       })
     })
-  })
 
-  BddTest().and('the form is submitted with valid description', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TestWrapper, {
-        global: { stubs }
+    BddTest().and('the user enters a description exceeding max length', () => {
+      BddTest().then('it should truncate the value to max length', async () => {
+        const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+        const textareaElement = textarea.find('textarea')
+        const longDescription = 'a'.repeat(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH + 20)
+        await textareaElement.setValue(longDescription)
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH)
+        })
       })
-      const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-      const textareaElement = textarea.find('textarea')
-      await textareaElement.setValue('Valid program description with enough content')
-      await wrapper.vm.$nextTick()
-      await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should not show validation error', async () => {
-      await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-        expect(updated.props('errorMessage')).toBeFalsy()
+    BddTest().and('the textarea emits blur', () => {
+      BddTest().then('it should trigger blur handler', async () => {
+        const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+        await textarea.vm.$emit('blur')
+        await wrapper.vm.$nextTick()
+
+        expect(textarea.emitted('blur')).toBeTruthy()
+      })
+    })
+
+    BddTest().and('the form is submitted with empty description', () => {
+      BddTest().then('it should show validation error', async () => {
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+          expect(textarea.props('errorMessage')).toBe('La description est requise')
+        })
+      })
+    })
+
+    BddTest().and('the form is submitted with valid description', () => {
+      BddTest().then('it should not show validation error', async () => {
+        const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+        const textareaElement = textarea.find('textarea')
+        await textareaElement.setValue('Valid program description with enough content')
+        await wrapper.vm.$nextTick()
+        await wrapper.find('form').trigger('submit')
+        await wrapper.vm.$nextTick()
+
+        await vi.waitFor(() => {
+          const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
+          expect(updated.props('errorMessage')).toBeFalsy()
+        })
       })
     })
   })
