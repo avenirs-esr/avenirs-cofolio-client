@@ -27,7 +27,7 @@ export function useFormValidators (): UseFormValidatorsReturn {
 
   function validateRequired (value: string | undefined | null): string | undefined {
     if (isEmpty(value)) {
-      return t('global.error.form.requiredFiled')
+      return t('global.error.form.requiredField')
     }
   }
 

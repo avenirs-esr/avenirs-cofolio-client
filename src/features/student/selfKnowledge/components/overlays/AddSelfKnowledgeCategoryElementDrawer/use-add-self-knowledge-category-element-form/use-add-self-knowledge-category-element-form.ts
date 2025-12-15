@@ -46,8 +46,8 @@ export function useAddSelfKnowledgeCategoryElementForm (
       onSubmit ({ value }: { value: SelfKnowledgeCategoryElementFormData }) {
         return {
           fields: {
-            title: !value.title.trim() ? t('global.error.form.requiredFiled') : undefined,
-            description: !value.description.trim() ? t('global.error.form.requiredFiled') : undefined
+            title: !value.title.trim() ? t('global.error.form.requiredField') : undefined,
+            description: !value.description.trim() ? t('global.error.form.requiredField') : undefined
           }
         }
       }

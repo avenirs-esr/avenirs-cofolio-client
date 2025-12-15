@@ -29,8 +29,8 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
       onSubmit ({ value }) {
         return {
           fields: {
-            lastname: !value.lastname.trim() ? t('global.error.form.requiredFiled') : undefined,
-            firstname: !value.firstname.trim() ? t('global.error.form.requiredFiled') : undefined,
+            lastname: !value.lastname.trim() ? t('global.error.form.requiredField') : undefined,
+            firstname: !value.firstname.trim() ? t('global.error.form.requiredField') : undefined,
             email: value.email && !isValidEmail(value.email) ? t('global.error.form.invalidEmail') : undefined,
             bio: validateBiography(value.bio)
           }

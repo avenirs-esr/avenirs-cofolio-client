@@ -43,8 +43,8 @@
       },
       "form": {
         "invalidEmail": "Please provide a valid email address (e.g.: name@example.com).",
-        "requiredFiled": "This field is required.",
-        "maxLength": "Please limit your input to {maxLength} characters"
+        "maxLength": "Please limit your input to {maxLength} characters",
+        "requiredField": "This field is required."
       },
       "generic": "An error has occurred. Please try again later."
     },

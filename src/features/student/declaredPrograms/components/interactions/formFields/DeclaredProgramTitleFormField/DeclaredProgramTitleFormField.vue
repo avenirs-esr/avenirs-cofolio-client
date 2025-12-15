@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/declaredPrograms/types/forms.types'
 import DeclaredProgramTitleInput from '@/features/student/declaredPrograms/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-
 import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/declaredPrograms/config'
 import { markRaw } from 'vue'
 

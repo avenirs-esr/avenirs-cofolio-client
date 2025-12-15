@@ -6,20 +6,20 @@
           "DeclaredProgramPeriodFormField": {
             "endDate": "Date de fin",
             "endDatePlaceholder": "MM/AAAA",
+            "errors": {
+              "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début"
+            },
             "label": "Période",
             "ongoing": "En cours",
             "startDate": "Date de début",
-            "startDatePlaceholder": "MM/AAAA",
-            "errors": {
-              "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début"
-            }
+            "startDatePlaceholder": "MM/AAAA"
           }
         },
         "inputs": {
           "DeclaredProgramDescriptionTextarea": {
             "label": "Description de ma formation"
           },
-          "DeclaredProgramInstitutionInput": {
+          "DeclaredProgramOrganizationInput": {
             "label": "Établissement / Organisme",
             "placeholder": "Nom de l'établissement"
           },

@@ -54,8 +54,8 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
           fields: {
             file: validateFile(value.file),
             isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
-            traceName: !value.traceName.trim() ? t('global.error.form.requiredFiled') : undefined,
-            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredFiled') : undefined,
+            traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
+            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
           }
         }
       },
