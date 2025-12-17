@@ -2,7 +2,8 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { getDaysUntil, parseDateISO } from '@/common/utils'
-import { AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
@@ -14,7 +15,13 @@ const getDaysUntilDeletion = computed(() => !isAssociated && willBeDeletedAt
 
 const { t } = useI18n()
 
-const hoverBorderColor = ref('var(--dark-background-primary1)')
+const iconOptions = {
+  name: MDI_ICONS.ATTACH_FILE,
+  color: 'var(--icon)',
+  bottom: 'calc(-1 * var(--spacing-lg))',
+  right: '0.75rem',
+  borderColor: 'var(--other-border-skill-card)',
+}
 </script>
 
 <template>
@@ -22,29 +29,17 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
     class="student-detailed-trace-card"
     :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id } }"
   >
-    <AvCard
+    <FloatingIconCard
+      :title="title"
+      :icon-options="iconOptions"
+      color="var(--light-background-neutral)"
       border-color="var(--other-border-skill-card)"
-      title-background="var(--light-background-neutral)"
-      title-height="4.375rem"
+      border-color-on-hover="var(--dark-background-primary1)"
+      :header-rows="2"
+      title-typography-classes="b1-bold"
+      height="14rem"
     >
-      <template #title>
-        <div class="student-detailed-trace-card__title">
-          <span class="b1-bold student-detailed-trace-card__titletruncate">
-            {{ title }}
-          </span>
-          <div
-            class="student-detailed-trace-card__icon"
-            :style="{ background: 'var(--light-background-neutral)' }"
-          >
-            <AvIcon
-              :name="MDI_ICONS.ATTACH_FILE"
-              color="var(--icon)"
-              :size="1.938"
-            />
-          </div>
-        </div>
-      </template>
-      <template #body>
+      <template #footer>
         <div class="student-detailed-trace-card__body">
           <AvIconText
             v-if="getDaysUntilDeletion > 0"
@@ -57,73 +52,16 @@ const hoverBorderColor = ref('var(--dark-background-primary1)')
           />
         </div>
       </template>
-    </AvCard>
+    </FloatingIconCard>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.av-card {
-  height: 14rem;
-  width: 100%;
-
-  &:hover {
-    border: 1px solid v-bind('hoverBorderColor') !important;
-    box-shadow: 0 0 0 2px v-bind('hoverBorderColor');
-  }
-}
-
 .student-detailed-trace-card {
-  display: flex;
   width: 41.25rem;
-  border-radius: 1.5rem;
-  text-align: left;
-  padding: 0 2px;
-  background-image: none;
 
-  &__title {
-    position: relative;
-  }
-
-  &__titlecontent {
-    display: flex;
+  :deep(.floating-icon-card__footer) {
     justify-content: flex-start;
-    align-items: start;
-    align-content: start;
-    align-self: flex-start;
-    width: 36.0625rem;
-    height: 4.375rem;
-  }
-
-  &__titletruncate {
-    display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    height: 4.375rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-word;
-    overflow-wrap: break-word;
-  }
-
-  &__icon {
-    position: absolute;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--other-border-skill-card);
-    right: 0.75rem;
-    top: var(--dimension-4xl);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__body {
-    justify-content: flex-end;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
   }
 }
 </style>

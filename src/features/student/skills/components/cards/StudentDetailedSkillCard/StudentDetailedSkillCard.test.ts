@@ -1,3 +1,4 @@
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentDetailedSkillCard, { type StudentDetailedSkillCardProps } from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub } from '@vue/test-utils'
@@ -20,16 +21,7 @@ function createWrapper (slots = {}, customProps = {}) {
     global: {
       stubs: {
         RouterLink: RouterLinkStub,
-        AvCard: {
-          name: 'AvCard',
-          props: ['borderColor', 'titleBackground'],
-          template: `
-            <div class="av-card">
-              <header class="card-title"><slot name="title" /></header>
-              <section class="card-body"><slot name="body" /></section>
-            </div>
-          `
-        },
+        FloatingIconCard: FloatingIconCardStub,
         AvIcon: AvIconStub
       }
     },
@@ -49,17 +41,9 @@ BddTest().given('a student detailed skill card with valid props', () => {
       expect(wrapper.text()).toContain(props.name)
     })
 
-    BddTest().then('it should render the icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvIcon' })
-      expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(props.icon)
-      expect(icon.props('color')).toBe(props.color)
-      expect(icon.props('size')).toBe(2.5625)
-    })
-
-    BddTest().then('it should render the icon-container with correct background', () => {
-      const iconContainer = wrapper.find('.icon-container')
-      expect(iconContainer.attributes('style')).toContain(`background: ${props.skillColor}`)
+    BddTest().then('it should render the FloatingIconCard component', () => {
+      const floatingIconCard = wrapper.findComponent(FloatingIconCardStub)
+      expect(floatingIconCard.exists()).toBe(true)
     })
 
     BddTest().then('it should use the default student-skill route when to prop is not provided', () => {
