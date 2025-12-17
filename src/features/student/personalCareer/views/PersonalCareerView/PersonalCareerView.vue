@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PageTitle } from '@/common/components'
+import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
 import PersonalCareerLayout
   from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.vue'
