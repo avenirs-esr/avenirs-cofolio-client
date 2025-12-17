@@ -42,25 +42,23 @@ vi.mock('@/store', async (importOriginal) => {
 BddTest().given('an useFlowState composable', () => {
   let composableResult: ReturnType<typeof useFlowState>
 
-  BddTest().and('initial nodes and edges are empty', () => {
+  BddTest().when('the composable is initialized with empty initial nodes and edges', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       localStorage.clear()
       composableResult = mountComposable(() => useFlowState({ initialNodes: mockInitialNodes, initialEdges: mockInitialEdges }), { usePinia: true, useI18n: true }).result
     })
 
-    BddTest().when('the composable is initialized', () => {
-      BddTest().then('it should expose the requried methods', () => {
-        expect(composableResult).toHaveProperty('saveCurrentState')
-        expect(composableResult).toHaveProperty('restoreSavedState')
-        expect(composableResult).toHaveProperty('resetToInitialState')
-        expect(typeof composableResult.saveCurrentState).toBe('function')
-        expect(typeof composableResult.restoreSavedState).toBe('function')
-        expect(typeof composableResult.resetToInitialState).toBe('function')
-      })
+    BddTest().then('it should expose the requried methods', () => {
+      expect(composableResult).toHaveProperty('saveCurrentState')
+      expect(composableResult).toHaveProperty('restoreSavedState')
+      expect(composableResult).toHaveProperty('resetToInitialState')
+      expect(typeof composableResult.saveCurrentState).toBe('function')
+      expect(typeof composableResult.restoreSavedState).toBe('function')
+      expect(typeof composableResult.resetToInitialState).toBe('function')
     })
 
-    BddTest().when('saveCurrentState is called', () => {
+    BddTest().and('saveCurrentState is called', () => {
       const prefix = 'testPrefix'
       const index = '1'
 
@@ -75,7 +73,7 @@ BddTest().given('an useFlowState composable', () => {
       })
     })
 
-    BddTest().when('restoreSavedState is called with no saved state', () => {
+    BddTest().and('restoreSavedState is called with no saved state', () => {
       const prefix = 'nonExistentPrefix'
       const index = '99'
 
@@ -89,7 +87,7 @@ BddTest().given('an useFlowState composable', () => {
       })
     })
 
-    BddTest().when('resetToInitialState is called', () => {
+    BddTest().and('resetToInitialState is called', () => {
       beforeEach(() => {
         composableResult.resetToInitialState()
       })
@@ -101,7 +99,7 @@ BddTest().given('an useFlowState composable', () => {
     })
   })
 
-  BddTest().and('initial nodes and edges are non-empty', () => {
+  BddTest().when('the composable is initialized with non-empty initial nodes and edges', () => {
     const nonEmptyInitialNodes: Node[] = [{ id: '1', position: { x: 0, y: 0 } }]
     const nonEmptyInitialEdges: Edge[] = [{ id: 'e1-2', source: '1', target: '2' }]
 
@@ -111,7 +109,7 @@ BddTest().given('an useFlowState composable', () => {
       composableResult = mountComposable(() => useFlowState({ initialNodes: nonEmptyInitialNodes, initialEdges: nonEmptyInitialEdges }), { usePinia: true, useI18n: true }).result
     })
 
-    BddTest().when('saveCurrentState is called', () => {
+    BddTest().and('saveCurrentState is called', () => {
       const prefix = 'testPrefix'
       const index = '2'
 
@@ -128,7 +126,7 @@ BddTest().given('an useFlowState composable', () => {
       })
     })
 
-    BddTest().when('restoreSavedState is called with saved state', () => {
+    BddTest().and('restoreSavedState is called with saved state', () => {
       const prefix = 'testPrefix'
       const index = '3'
       const savedNodes = [{ id: '3', position: { x: 200, y: 200 } }]
@@ -146,7 +144,7 @@ BddTest().given('an useFlowState composable', () => {
       })
     })
 
-    BddTest().when('resetToInitialState is called', () => {
+    BddTest().and('resetToInitialState is called', () => {
       beforeEach(() => {
         composableResult.resetToInitialState()
       })

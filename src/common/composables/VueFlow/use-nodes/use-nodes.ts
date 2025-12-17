@@ -101,7 +101,6 @@ export function useNodes (flowId: string): UseNodesReturn {
       Position.Left,
     ]
 
-    // === Create a new node ===
     const newNode: Node = {
       id: id ?? `${type}-${crypto.randomUUID()}`,
       type,
@@ -118,7 +117,6 @@ export function useNodes (flowId: string): UseNodesReturn {
     }
     addNodes([newNode])
 
-    // === Create a new edge from the parent to the new node ===
     if (parentId) {
       const newEdgeWithoutId: Omit<Edge, 'id'> = {
         source: parentId,

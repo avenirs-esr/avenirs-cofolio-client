@@ -24,7 +24,7 @@ vi.mock('@vue-flow/core', async (importOriginal) => {
 BddTest().given('an useEdges composable', () => {
   const flowId = 'test-flow'
 
-  BddTest().and('initial edges state', () => {
+  BddTest().when('the composable is initialized', () => {
     let composableResult: ReturnType<typeof useEdges>
 
     beforeEach(() => {
@@ -34,14 +34,12 @@ BddTest().given('an useEdges composable', () => {
       composableResult = mountComposable(() => useEdges(flowId), { usePinia: true }).result
     })
 
-    BddTest().when('the composable is initialized', () => {
-      BddTest().then('it should expose required properties and methods', () => {
-        expect(composableResult).toHaveProperty('onConnect')
-        expect(typeof composableResult.onConnect).toBe('function')
-      })
+    BddTest().then('it should expose required properties and methods', () => {
+      expect(composableResult).toHaveProperty('onConnect')
+      expect(typeof composableResult.onConnect).toBe('function')
     })
 
-    BddTest().when('onConnect is called with a null source handle', () => {
+    BddTest().and('onConnect is called with a null source handle', () => {
       beforeEach(() => {
         composableResult.onConnect({ source: 'node-1', target: 'node-2', sourceHandle: null, targetHandle: 'handle-2' })
       })
@@ -51,7 +49,7 @@ BddTest().given('an useEdges composable', () => {
       })
     })
 
-    BddTest().when('onConnect is called with a null target handle', () => {
+    BddTest().and('onConnect is called with a null target handle', () => {
       beforeEach(() => {
         composableResult.onConnect({ source: 'node-1', target: 'node-2', sourceHandle: 'handle-1', targetHandle: null })
       })
@@ -61,7 +59,7 @@ BddTest().given('an useEdges composable', () => {
       })
     })
 
-    BddTest().when('onConnect is called with a valid connection', () => {
+    BddTest().and('onConnect is called with a valid connection', () => {
       const connection = { source: 'node-1', target: 'node-2', sourceHandle: 'handle-1', targetHandle: 'handle-2' }
 
       beforeEach(() => {
@@ -82,7 +80,7 @@ BddTest().given('an useEdges composable', () => {
       })
     })
 
-    BddTest().when('onConnect is called with a duplicate connection', () => {
+    BddTest().and('onConnect is called with a duplicate connection', () => {
       const connection = { source: 'node-1', target: 'node-2', sourceHandle: 'handle-1', targetHandle: 'handle-2' }
       const existingEdge = { ...connection, type: 'smoothstep', id: getEdgeId(connection) }
 

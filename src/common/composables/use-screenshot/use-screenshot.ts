@@ -19,7 +19,6 @@ export type CaptureScreenshot = (
 export type Download = (fileName: string) => void
 
 export interface UseScreenshot {
-  // returns the data url of the screenshot
   capture: CaptureScreenshot
   download: Download
   dataUrl: Ref<string>
@@ -46,7 +45,6 @@ export function useScreenshot (): UseScreenshot {
         break
     }
 
-    // immediately download the image if shouldDownload is true
     if (options.shouldDownload && fileName !== '') {
       download(fileName)
     }

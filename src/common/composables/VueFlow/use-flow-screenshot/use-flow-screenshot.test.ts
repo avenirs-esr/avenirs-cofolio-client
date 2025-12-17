@@ -16,8 +16,8 @@ vi.mock('@vue-flow/core', async (importOriginal) => {
   }
 })
 
-vi.mock('@/common/composables/VueFlow/use-screenshot/use-screenshot', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables/VueFlow/use-screenshot/use-screenshot')>()
+vi.mock('@/common/composables/use-screenshot/use-screenshot', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables/use-screenshot/use-screenshot')>()
   return {
     ...actual,
     useScreenshot: () => ({
@@ -29,20 +29,18 @@ vi.mock('@/common/composables/VueFlow/use-screenshot/use-screenshot', async (imp
 BddTest().given('an useVueFlowScreenshot composable', () => {
   let composableResult: ReturnType<typeof useFlowScreenshot>
 
-  BddTest().and('initial vue flow ref', () => {
+  BddTest().when('the composable is initialized with a defined vue flow ref', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       composableResult = mountComposable(() => useFlowScreenshot(), {}).result
     })
 
-    BddTest().when('the composable is initialized', () => {
-      BddTest().then('it should expose the doScreenshot method', () => {
-        expect(composableResult).toHaveProperty('doScreenshot')
-        expect(typeof composableResult.doScreenshot).toBe('function')
-      })
+    BddTest().then('it should expose the doScreenshot method', () => {
+      expect(composableResult).toHaveProperty('doScreenshot')
+      expect(typeof composableResult.doScreenshot).toBe('function')
     })
 
-    BddTest().when('doScreenshot is called without filename', () => {
+    BddTest().and('doScreenshot is called without filename', () => {
       beforeEach(() => {
         composableResult.doScreenshot()
       })
@@ -52,7 +50,7 @@ BddTest().given('an useVueFlowScreenshot composable', () => {
       })
     })
 
-    BddTest().when('doScreenshot is called with a filename', () => {
+    BddTest().and('doScreenshot is called with a filename', () => {
       const testFileName = 'custom-flow'
 
       beforeEach(() => {
@@ -65,14 +63,14 @@ BddTest().given('an useVueFlowScreenshot composable', () => {
     })
   })
 
-  BddTest().and('vue flow ref is null', () => {
+  BddTest().when('the composable is initialized with a null vue flow ref', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       mockVueFlowRef.value = null
       composableResult = mountComposable(() => useFlowScreenshot(), {}).result
     })
 
-    BddTest().when('doScreenshot is called', () => {
+    BddTest().and('doScreenshot is called', () => {
       beforeEach(() => {
         composableResult.doScreenshot()
       })
