@@ -55,21 +55,6 @@
         "studentHomeView": {
           "title": "Accueil Cofolio Étudiant"
         },
-        "studentProjectExperiencesView": {
-          "activities": {
-            "title": "Mes activités"
-          },
-          "careers": {
-            "title": "Mon parcours"
-          },
-          "educations": {
-            "title": "Mes formations"
-          },
-          "experiences": {
-            "title": "Mes expériences"
-          },
-          "title": "(placeholder) Toutes mes expériences"
-        },
         "studentProjectTrajectoriesView": {
           "activities": {
             "title": "Mes activités"

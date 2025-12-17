@@ -115,7 +115,7 @@ const buildLifeProjectMenu = computed(() => ({
   get active () {
     return isRouteActive([
       ROUTE_NAMES.STUDENT.PROJECT_SKILLS,
-      ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
+      ROUTE_NAMES.STUDENT.PERSONAL_CAREER,
       ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES
     ])
   },
@@ -126,7 +126,7 @@ const buildLifeProjectMenu = computed(() => ({
       icon: MDI_ICONS.STARS,
     },
     {
-      to: ROUTE_NAMES.STUDENT.PROJECT_EXPERIENCES,
+      to: ROUTE_NAMES.STUDENT.PERSONAL_CAREER,
       text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
     },
