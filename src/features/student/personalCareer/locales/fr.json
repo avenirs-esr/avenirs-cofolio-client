@@ -1,0 +1,79 @@
+{
+  "student": {
+    "personalCareer": {
+      "interactions": {
+        "formFields": {
+          "DeclaredProgramPeriodFormField": {
+            "endDate": "Date de fin",
+            "endDatePlaceholder": "MM/AAAA",
+            "errors": {
+              "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début"
+            },
+            "label": "Période",
+            "ongoing": "En cours",
+            "startDate": "Date de début",
+            "startDatePlaceholder": "MM/AAAA"
+          }
+        },
+        "inputs": {
+          "DeclaredProgramDescriptionTextarea": {
+            "label": "Description de ma formation"
+          },
+          "DeclaredProgramOrganizationInput": {
+            "label": "Établissement / Organisme",
+            "placeholder": "Nom de l'établissement"
+          },
+          "DeclaredProgramLinkInput": {
+            "label": "Lien",
+            "placeholder": "https://exemple.com"
+          },
+          "DeclaredProgramResultInput": {
+            "label": "Résultat obtenu",
+            "placeholder": "résultat"
+          },
+          "DeclaredProgramSourceOfInformationInput": {
+            "label": "Provenance de l'information",
+            "placeholder": "Source de l'information"
+          },
+          "DeclaredProgramTitleInput": {
+            "label": "Intitulé de ma formation",
+            "placeholder": "Nom de ma formation 1"
+          }
+        }
+      },
+      "overlays": {
+        "AddDeclaredProgramDrawer": {
+          "confirmationModal": {
+            "description": "Êtes-vous sûr de vouloir annuler ? Les modifications non enregistrées seront perdues."
+          },
+          "errors": {
+            "createDeclaredProgram": "Erreur lors de la création de la formation déclarée"
+          },
+          "sections": {
+            "addProgram": "Ajouter ma formation",
+            "associateProgram": "Associer ma formation",
+            "specifyProgram": "Préciser ma formation"
+          },
+          "success": "Formation déclarée ajoutée avec succès",
+          "title": "Ajouter une formation déclarée"
+        }
+      },
+      "views": {
+        "PersonalCareerView": {
+          "ActivitiesSection": {
+            "title": "Mes activités"
+          },
+          "DeclaredProgramsSection": {
+            "title": "Mes formations"
+          },
+          "ExperiencesSection": {
+            "title": "Mes expériences"
+          },
+          "MyCareerSection": {
+            "title": "Mon parcours"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,0 @@
-export enum ProjectExperienceItems {
-  CAREERS = 'CAREERS',
-  EDUCATIONS = 'EDUCATIONS',
-  EXPERIENCES = 'EXPERIENCES',
-  ACTIVITIES = 'ACTIVITIES'
-}
