@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ROUTES } from '@/common/constants'
-import { AvCard, AvIcon } from '@avenirs-esr/avenirs-dsav'
+import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 
 export interface StudentDetailedSkillCardProps {
   id: string
@@ -12,6 +12,14 @@ export interface StudentDetailedSkillCardProps {
 }
 
 const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSkillCardProps>()
+
+const iconOptions = {
+  name: icon,
+  color,
+  bottom: 'calc(-1 * var(--spacing-lg))',
+  right: '0.75rem',
+  borderColor: 'var(--other-background-base)',
+}
 </script>
 
 <template>
@@ -19,71 +27,33 @@ const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSki
     class="student-detailed-skill-card"
     :to="{ name: to ?? ROUTES.STUDENT.SKILL.name, params: { id } }"
   >
-    <AvCard
+    <FloatingIconCard
+      :title="name"
+      :icon-options="iconOptions"
+      :color="skillColor"
       border-color="var(--other-border-skill-card)"
-      :title-background="skillColor"
+      :border-color-on-hover="skillColor"
+      :header-rows="1"
+      title-typography-classes="n5"
+      height="fit-content"
     >
-      <template #title>
-        <div class="title-container ellipsis-container">
-          <span class="n5 ellipsis">
-            {{ name }}
-          </span>
-          <div
-            class="icon-container"
-            :style="{ background: skillColor }"
-          >
-            <AvIcon
-              :name="icon"
-              :color="color"
-              :size="2.5625"
-            />
-          </div>
-        </div>
-      </template>
       <template #body>
         <slot />
       </template>
-    </AvCard>
+    </FloatingIconCard>
   </RouterLink>
 </template>
 
 <style lang="scss" scoped>
-.av-card {
-  width: 100%;
-}
-
-.av-card:hover {
-  border: 1px solid v-bind('skillColor') !important;
-  box-shadow: 0 0 0 2px v-bind('skillColor');
-}
-
 .student-detailed-skill-card {
-  display: flex;
   width: 100%;
-  border-radius: 1.5rem;
-  height: 10.875rem;
-  padding: 0 2px;
-  background-image: none;
-}
 
-.title-container {
-  position: relative
-}
+  :deep(.floating-icon-card) {
+    flex: 1;
+  }
 
-.icon-container {
-  position: absolute;
-  width: 3.125rem;
-  height: 3.125rem;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--other-background-base);
-  right: 0;
-  top: var(--spacing-xl);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.n5 {
-  color: v-bind('color');
+  :deep(.n5) {
+    color: v-bind('color');
+  }
 }
 </style>

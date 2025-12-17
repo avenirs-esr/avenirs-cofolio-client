@@ -2,6 +2,7 @@ import { type AmsViewDTO, EAmsStatus } from '@/api/avenir-esr'
 import { StudentAmsStatusBadgeStub } from '@/features/student/ams/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.stub'
 import { StudentCountSkillsIconTextStub } from '@/features/student/ams/views/StudentEducationAmsView/components/StudentDetailedAmsCard/components/StudentCountSkillsIconText/StudentCountSkillsIconText.stub'
 import StudentDetailedAmsCard from '@/features/student/ams/views/StudentEducationAmsView/components/StudentDetailedAmsCard/StudentDetailedAmsCard.vue'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { StudentCountTracesIconTextStub } from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.stub'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
@@ -13,6 +14,7 @@ BddTest().given('a student detailed AMS card', () => {
 
   const stubs = {
     AvBadge: AvBadgeStub,
+    FloatingIconCard: FloatingIconCardStub,
     StudentCountSkillsIconText: StudentCountSkillsIconTextStub,
     StudentCountTracesIconText: StudentCountTracesIconTextStub,
     StudentAmsStatusBadge: StudentAmsStatusBadgeStub,

@@ -1,6 +1,7 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentDetailedTraceCard from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -8,7 +9,7 @@ BddTest().given('a student detailed trace card', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCard>>
 
   const stubs = {
-    AvIcon: AvIconStub,
+    FLoatingIconCard: FloatingIconCardStub,
     StudentDetailedTraceModal: {
       name: 'StudentDetailedTraceModal',
       template: '<div />'
