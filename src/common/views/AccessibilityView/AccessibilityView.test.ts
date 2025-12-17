@@ -1,5 +1,5 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -28,7 +28,7 @@ BddTest().given('a student deliverables view', () => {
     })
 
     const title = 'Accessibilité'
-    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
+    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
     const currentBreadcrumbLink = { text: title }
 
     BddTest().when('the view is mounted', () => {

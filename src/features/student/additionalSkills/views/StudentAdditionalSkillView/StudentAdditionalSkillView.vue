@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import AdditionalSkillDetails
   from '@/features/student/additionalSkills/views/StudentAdditionalSkillView/components/AdditionalSkillDetails/AdditionalSkillDetails.vue'
@@ -34,9 +34,9 @@ const skillTitle = computed(() => additionalSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() => additionalSkillDetailed.value?.traceAssociations?.length ?? 0)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
+  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
   { text: t('student.global.navigation.tabs.project.items.additionalSkills') }
 ])
 
@@ -49,7 +49,7 @@ function handleUpdateSelected () {
   <PageTitle
     :title="t('student.additionalSkills.views.StudentAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
+    :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
   <div class="student-additional-skill-view__title av-row-lg av-row-lg--top av-row-lg--between">

@@ -2,7 +2,7 @@ import { mockedProgramsProgressView } from '@/__mocks__/fixtures/student'
 import { createProgramProgressViewHandler, programProgressViewErrorHandler } from '@/__mocks__/msw/handlers/student/program-progress.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { StudentProgressViewSortableFields } from '@/features/student/skills'
@@ -57,7 +57,7 @@ BddTest().given('a student education skills view', () => {
 
   const title = 'Mes compétences visées par ma formation'
   const title_plural = 'Mes compétences visées par mes formations'
-  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
   const currentBreadcrumbLink = { text: 'Mes compétences' }
 
   BddTest().when('the view is mounted', () => {

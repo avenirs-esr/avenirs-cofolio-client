@@ -1,5 +1,5 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import StudentToolsPagesView from '@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -17,7 +17,7 @@ BddTest().given('a student tools pages view', () => {
   })
 
   const title = '(placeholder) Toutes mes pages libres'
-  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
   const currentBreadcrumbLink = { text: 'Mes pages libres' }
 
   BddTest().when('the view is mounted', () => {

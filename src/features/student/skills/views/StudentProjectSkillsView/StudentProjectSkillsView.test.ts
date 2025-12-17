@@ -1,5 +1,5 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { SkillsViewTabsStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewTabs/SkillsViewTabs.stub'
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -35,7 +35,7 @@ BddTest().given('a student project skills view component', () => {
       expect(breadcrumbLinks).toHaveLength(3)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: ROUTE_NAMES.STUDENT.HOME
+        to: ROUTES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'

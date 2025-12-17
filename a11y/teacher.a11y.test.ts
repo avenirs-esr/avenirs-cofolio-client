@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const pathsToTest = [
-  `./teacher${ROUTE_NAMES.TEACHER.HOME.path}`,
+  `./teacher${ROUTES.TEACHER.HOME.path}`,
 ]
 
 test.describe('teacher routes', () => {

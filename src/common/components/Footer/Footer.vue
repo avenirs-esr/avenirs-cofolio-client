@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
 import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { EsupLogo, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -45,19 +45,19 @@ const a11yCompliance = computed(() => {
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
     label: a11yCompliance.value,
-    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.ACCESSIBILITY : ROUTE_NAMES.TEACHER.ACCESSIBILITY
+    to: isStudentRoute.value ? ROUTES.STUDENT.ACCESSIBILITY : ROUTES.TEACHER.ACCESSIBILITY
   },
   {
     label: t('global.footer.links.legal'),
-    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.LEGAL : ROUTE_NAMES.TEACHER.LEGAL
+    to: isStudentRoute.value ? ROUTES.STUDENT.LEGAL : ROUTES.TEACHER.LEGAL
   },
   {
     label: t('global.footer.links.data'),
-    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.PERSONNAL_DATA : ROUTE_NAMES.TEACHER.PERSONNAL_DATA
+    to: isStudentRoute.value ? ROUTES.STUDENT.PERSONNAL_DATA : ROUTES.TEACHER.PERSONNAL_DATA
   },
   {
     label: t('global.footer.links.cookies'),
-    to: isStudentRoute.value ? ROUTE_NAMES.STUDENT.COOKIES : ROUTE_NAMES.TEACHER.COOKIES
+    to: isStudentRoute.value ? ROUTES.STUDENT.COOKIES : ROUTES.TEACHER.COOKIES
   },
 ])
 

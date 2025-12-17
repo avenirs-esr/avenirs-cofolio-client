@@ -1,4 +1,4 @@
-export const ROUTE_NAMES = {
+export const ROUTES = {
   STUDENT: {
     HOME: { name: 'student-home', path: '' },
     ACCESSIBILITY: { name: 'student-accessibility', path: 'accessibility' },

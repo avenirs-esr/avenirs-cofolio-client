@@ -1,6 +1,6 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import SelfKnowledgeCategoryView
@@ -108,14 +108,14 @@ BddTest().given('a self knowledge category view component', () => {
       expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: ROUTE_NAMES.STUDENT.HOME
+        to: ROUTES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'
       })
       expect(breadcrumbLinks[2]).toEqual({
         text: 'Bâtir mon projet',
-        to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES
+        to: ROUTES.STUDENT.PROJECT_TRAJECTORIES
       })
       expect(breadcrumbLinks[3]).toEqual({
         text: 'Me connaître'

@@ -1,4 +1,4 @@
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import studentRoutes from '@/features/student/global/routes'
 import teacherRoutes from '@/features/teacher/global/routes'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     redirect: {
-      name: ROUTE_NAMES.STUDENT.HOME.name
+      name: ROUTES.STUDENT.HOME.name
     },
   },
 ]

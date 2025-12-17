@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AvBreadcrumbStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
@@ -20,7 +20,7 @@ BddTest().given('a page title', () => {
     { text: 'Page name' }
   ]
   const title = 'Page title'
-  const back = ROUTE_NAMES.STUDENT.PROJECT_SKILLS
+  const back = ROUTES.STUDENT.PROJECT_SKILLS
   const props = {
     breadcrumbLinks,
     title
@@ -86,7 +86,7 @@ BddTest().given('a page title', () => {
     BddTest().then('it should call router.push with default "back" path', async () => {
       const button = wrapper.findComponent(AvButtonStub)
       await button.trigger('click')
-      expect(mockRouter.push).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.HOME)
+      expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.STUDENT.HOME)
     })
   })
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AmsViewDTO } from '@/api/avenir-esr'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import StudentAmsStatusBadge from '@/features/student/ams/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
 import StudentCountSkillsIconText from '@/features/student/ams/views/StudentEducationAmsView/components/StudentDetailedAmsCard/components/StudentCountSkillsIconText/StudentCountSkillsIconText.vue'
 import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
@@ -17,7 +17,7 @@ const { t } = useI18n()
 <template>
   <RouterLink
     class="student-detailed-ams-card"
-    :to="{ name: ROUTE_NAMES.STUDENT.ACTIVITY.name, params: { id } }"
+    :to="{ name: ROUTES.STUDENT.ACTIVITY.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"

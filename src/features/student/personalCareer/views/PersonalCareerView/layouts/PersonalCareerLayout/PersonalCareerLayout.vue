@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -12,22 +12,22 @@ const selectedItem = computed<string>(() => route.name as string)
 
 const items = computed<AvSideNavigationItem[]>(() => [
   {
-    id: ROUTE_NAMES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
+    id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
     label: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'),
     icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
   },
   {
-    id: ROUTE_NAMES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
+    id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
     label: t('student.personalCareer.views.PersonalCareerView.DeclaredProgramsSection.title'),
     icon: MDI_ICONS.SCHOOL_OUTLINE
   },
   {
-    id: ROUTE_NAMES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
+    id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
     label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
     icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
   },
   {
-    id: ROUTE_NAMES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
+    id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
     label: t('student.personalCareer.views.PersonalCareerView.ActivitiesSection.title'),
     icon: MDI_ICONS.TARGET_ARROW
   }
