@@ -8,9 +8,8 @@ import { createApp } from 'vue'
 import '@avenirs-esr/avenirs-dsav/style.css'
 import '@/assets/main.css'
 
-/* these are necessary styles for vue flow */
+// === Vue Flow mandatory styles ===
 import '@vue-flow/core/dist/style.css'
-/* this contains the default theme, these are optional styles */
 import '@vue-flow/core/dist/theme-default.css'
 
 export async function createVueApp () {

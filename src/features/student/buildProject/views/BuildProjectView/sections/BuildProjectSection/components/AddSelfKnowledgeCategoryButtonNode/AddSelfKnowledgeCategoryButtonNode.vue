@@ -40,7 +40,6 @@ function categoryExists (categoryId: string) {
 }
 
 function onConfirmAddCategories () {
-  // === Create new nodes for each selected category ===
   selectedCategoriesIds.value.forEach((selectedId, index) => {
     const category = allCategories.value.find(category => category.id === selectedId)
 

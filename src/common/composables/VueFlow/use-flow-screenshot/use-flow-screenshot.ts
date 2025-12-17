@@ -1,4 +1,4 @@
-import { useScreenshot } from '@/common/composables/VueFlow/use-screenshot/use-screenshot'
+import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
 import { useVueFlow } from '@vue-flow/core'
 
 interface UseFlowScreenshotReturn {
@@ -13,7 +13,6 @@ export function useFlowScreenshot (): UseFlowScreenshotReturn {
   const { vueFlowRef } = useVueFlow()
   const { capture } = useScreenshot()
 
-  // === Capture screenshot ===
   function doScreenshot (fileName?: string) {
     if (!vueFlowRef.value) {
       console.warn('VueFlow element not found')

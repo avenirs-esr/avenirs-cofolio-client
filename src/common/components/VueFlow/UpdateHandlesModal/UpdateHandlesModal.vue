@@ -113,10 +113,10 @@ const handleIcons = [
 
 <style lang="scss" scoped>
 .demo-card-content {
-  width: 300px;
+  width: var(--dimension-8xl);
 
   &--mobile {
-    width: 150px;
+    width: var(--dimension-4xl);
   }
 }
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import NodeTemplate, { type NodeTemplateProps } from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.vue'
 
-const { titleBackground = 'var(--other-background-base)' } = defineProps<NodeTemplateProps>()
+const { titleBackground = 'var(--other-background-base)', ...restProps } = defineProps<NodeTemplateProps>()
 </script>
 
 <template>
   <NodeTemplate
-    v-bind="$props"
+    v-bind="restProps"
     :title-background="titleBackground"
   >
     <template #title>

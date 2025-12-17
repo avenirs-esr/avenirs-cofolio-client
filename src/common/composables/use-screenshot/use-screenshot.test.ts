@@ -1,4 +1,4 @@
-import { useScreenshot } from '@/common/composables/VueFlow/use-screenshot/use-screenshot'
+import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
