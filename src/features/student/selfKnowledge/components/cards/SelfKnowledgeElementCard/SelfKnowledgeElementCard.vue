@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
 import {
   useSelfKnowledgeCategory
@@ -29,7 +29,7 @@ const iconOptions = computed(() => ({
 </script>
 
 <template>
-  <RouterLink :to="{ name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryId }, query: { elementId: element.id } }">
+  <RouterLink :to="{ name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryId }, query: { elementId: element.id } }">
     <FloatingIconCard
       :title="element.title"
       :header-rows="2"

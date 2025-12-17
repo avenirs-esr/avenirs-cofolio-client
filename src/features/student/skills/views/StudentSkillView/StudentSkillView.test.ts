@@ -2,7 +2,7 @@ import { mockedSkillDetailed } from '@/__mocks__/fixtures/student/skills.fixture
 import { createSkillDetailedHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import StudentSkillView from '@/features/student/skills/views/StudentSkillView/StudentSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -35,8 +35,8 @@ BddTest().given('a student skill view', () => {
   })
 
   const title = `Compétence ${mockedSkillDetailed.name}`
-  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
-  const skillsBreadcrumbLink = { text: 'Mes compétences', to: ROUTE_NAMES.STUDENT.EDUCATION_SKILLS }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
+  const skillsBreadcrumbLink = { text: 'Mes compétences', to: ROUTES.STUDENT.EDUCATION_SKILLS }
   const currentBreadcrumbLink = { text: mockedSkillDetailed.name }
 
   BddTest().when('the view is mounted', () => {

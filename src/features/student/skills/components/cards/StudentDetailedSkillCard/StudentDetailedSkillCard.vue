@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AvCard, AvIcon } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedSkillCardProps {
@@ -17,7 +17,7 @@ const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSki
 <template>
   <RouterLink
     class="student-detailed-skill-card"
-    :to="{ name: to ?? ROUTE_NAMES.STUDENT.SKILL.name, params: { id } }"
+    :to="{ name: to ?? ROUTES.STUDENT.SKILL.name, params: { id } }"
   >
     <AvCard
       border-color="var(--other-border-skill-card)"

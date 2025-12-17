@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AvBreadcrumb, type AvBreadcrumbProps, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
   breadcrumbLinks,
   title,
-  back = ROUTE_NAMES.STUDENT.HOME
+  back = ROUTES.STUDENT.HOME
 } = defineProps<{
   breadcrumbLinks: AvBreadcrumbProps['links']
   title: string

@@ -1,8 +1,8 @@
 import type { AvRoute } from '@/common/types'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 export const studentAdditionalSkillRoute: AvRoute = {
-  ...ROUTE_NAMES.STUDENT.ADDITIONAL_SKILL,
+  ...ROUTES.STUDENT.ADDITIONAL_SKILL,
   props: route => ({
     skillId: route.params.id,
   }),
@@ -11,7 +11,7 @@ export const studentAdditionalSkillRoute: AvRoute = {
 }
 
 export const studentUpdateAdditionalSkillRoute: AvRoute = {
-  ...ROUTE_NAMES.STUDENT.UPDATE_ADDITIONAL_SKILL,
+  ...ROUTES.STUDENT.UPDATE_ADDITIONAL_SKILL,
   props: route => ({
     skillId: route.params.id,
   }),

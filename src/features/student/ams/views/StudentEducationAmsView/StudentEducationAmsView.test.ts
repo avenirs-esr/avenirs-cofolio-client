@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AmsViewTabsStub } from '@/features/student/ams/views/StudentEducationAmsView/components/AmsViewTabs/AmsViewTabs.stub'
 import StudentEducationAmsView from '@/features/student/ams/views/StudentEducationAmsView/StudentEducationAmsView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -25,7 +25,7 @@ BddTest().given('a student education AMS view', () => {
   })
 
   const title = 'Mes Activités de Mise en situation (AMS)'
-  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTE_NAMES.STUDENT.HOME }
+  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
   const currentBreadcrumbLink = { text: 'Mes AMS' }
 
   BddTest().when('the view is mounted', () => {

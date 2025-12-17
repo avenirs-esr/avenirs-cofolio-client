@@ -2,7 +2,7 @@
 import type { GetStudentProgressViewParams } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useBaseApiExceptionToast } from '@/common/composables'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { useProgramProgressViewQuery } from '@/features/student/skills/queries/use-program-progress.query/use-program-progress.query'
@@ -28,7 +28,7 @@ const { data: courses, error } = useProgramProgressViewQuery(params)
 useBaseApiExceptionToast(error)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.education.items.skills') }
 ])
 </script>
@@ -37,7 +37,7 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.skills.views.StudentEducationSkillsView.title', { count: courses?.length ?? 1 })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTE_NAMES.STUDENT.HOME"
+    :back="ROUTES.STUDENT.HOME"
   />
   <SkillsSortContainer v-model:sort="selectedSortOption" />
   <div class="courses-container">

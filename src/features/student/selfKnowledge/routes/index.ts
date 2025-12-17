@@ -1,8 +1,8 @@
 import type { AvRoute } from '@/common/types'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 export const studentSelfKnowledgeCategoryRoute: AvRoute = {
-  ...ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY,
+  ...ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY,
   props: route => ({
     categoryId: route.params.id,
   }),
@@ -11,7 +11,7 @@ export const studentSelfKnowledgeCategoryRoute: AvRoute = {
 }
 
 export const studentSelfKnowledgeElementUpdateRoute: AvRoute = {
-  ...ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE,
+  ...ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE,
   props: route => ({
     categoryId: route.params.categoryId,
     elementId: route.params.elementId,

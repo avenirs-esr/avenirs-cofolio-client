@@ -1,5 +1,5 @@
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -34,7 +34,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student delivarables', () => {
       const { navigateToStudentDeliverables } = navigation
       navigateToStudentDeliverables()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.DELIVERABLES)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.DELIVERABLES)
     })
   })
 
@@ -42,7 +42,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student home', () => {
       const { navigateToStudentHome } = navigation
       navigateToStudentHome()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.HOME)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.HOME)
     })
   })
 
@@ -50,7 +50,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student events', () => {
       const { navigateToStudentEvents } = navigation
       navigateToStudentEvents()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.EVENTS)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.EVENTS)
     })
   })
 
@@ -58,7 +58,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student mailbox', () => {
       const { navigateToStudentMailbox } = navigation
       navigateToStudentMailbox()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.MAILBOX)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.MAILBOX)
     })
   })
 
@@ -66,7 +66,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student notifications', () => {
       const { navigateToStudentNotifications } = navigation
       navigateToStudentNotifications()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.NOTIFICATIONS)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.NOTIFICATIONS)
     })
   })
 
@@ -74,7 +74,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student pages', () => {
       const { navigateToStudentPages } = navigation
       navigateToStudentPages()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.TOOLS_PAGES)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_PAGES)
     })
   })
 
@@ -82,7 +82,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student resumes', () => {
       const { navigateToStudentResumes } = navigation
       navigateToStudentResumes()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.TOOLS_RESUMES)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_RESUMES)
     })
   })
 
@@ -91,7 +91,7 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentSelfKnowledgeCategory } = navigation
       navigateToStudentSelfKnowledgeCategory({ categoryId: 'categoryId', elementId: 'elementId' })
       expect(pushMock).toHaveBeenCalledWith({
-        name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+        name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
         params: { id: 'categoryId' },
         query: { elementId: 'elementId' }
       })
@@ -103,7 +103,7 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentSelfKnowledgeElementUpdate } = navigation
       navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId' })
       expect(pushMock).toHaveBeenCalledWith({
-        name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+        name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
         params: { categoryId: 'categoryId', elementId: 'elementId' }
       })
     })
@@ -114,7 +114,7 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentSelfKnowledgeElementUpdate } = navigation
       navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId', replace: true })
       expect(replaceMock).toHaveBeenCalledWith({
-        name: ROUTE_NAMES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+        name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
         params: { categoryId: 'categoryId', elementId: 'elementId' }
       })
     })
@@ -124,7 +124,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student skills', () => {
       const { navigateToStudentSkills } = navigation
       navigateToStudentSkills()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.EDUCATION_SKILLS)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.EDUCATION_SKILLS)
     })
   })
 
@@ -132,7 +132,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student traces', () => {
       const { navigateToStudentTraces } = navigation
       navigateToStudentTraces()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.TOOLS_TRACES)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_TRACES)
     })
   })
 
@@ -140,7 +140,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to student update additional skill', () => {
       const { navigateToStudentUpdateAdditionalSkill } = navigation
       navigateToStudentUpdateAdditionalSkill()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.STUDENT.UPDATE_ADDITIONAL_SKILL)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_ADDITIONAL_SKILL)
     })
   })
 
@@ -148,7 +148,7 @@ BddTest().given('a useNavigation composable', () => {
     BddTest().then('it should navigate to teacher home', () => {
       const { navigateToTeacherHome } = navigation
       navigateToTeacherHome()
-      expect(pushMock).toHaveBeenCalledWith(ROUTE_NAMES.TEACHER.HOME)
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.TEACHER.HOME)
     })
   })
 })

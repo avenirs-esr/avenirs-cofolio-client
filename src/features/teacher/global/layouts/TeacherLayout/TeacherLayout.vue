@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { AvHeader, type AvHeaderProps } from '@avenirs-esr/avenirs-dsav'
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
@@ -10,7 +10,7 @@ const serviceTitle = 'CoFolio Enseignant'
 const quickLinks: AvHeaderProps['quickLinks'] = [
   {
     label: 'Home',
-    to: ROUTE_NAMES.TEACHER.HOME,
+    to: ROUTES.TEACHER.HOME,
     icon: 'ri-home-4-line',
     iconAttrs: { color: 'var(--red-marianne-425-625)' },
   },
@@ -25,7 +25,7 @@ defineExpose({ searchQuery })
   <AvHeader
     v-model="searchQuery"
     :service-title="serviceTitle"
-    :home-to="ROUTE_NAMES.TEACHER.HOME"
+    :home-to="ROUTES.TEACHER.HOME"
     show-search
     :quick-links="quickLinks"
     :language-selector="languageSelector"

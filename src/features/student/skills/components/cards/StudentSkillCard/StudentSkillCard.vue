@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { StudentCountAmsIconText } from '@/features/student/ams'
 import { FloatingIconCard } from '@/features/student/global'
 import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
@@ -65,7 +65,7 @@ function levelToBadge (level: SkillLevelProgressOverviewDTO): Pick<AvBadgeProps,
 const levelStatusBadge = computed(() => levelToBadge(currentSkillLevel.value))
 const varSkillColor = computed(() => `var(${skillColor})`)
 
-const studentSkillRouteName = ROUTE_NAMES.STUDENT.SKILL.name
+const studentSkillRouteName = ROUTES.STUDENT.SKILL.name
 
 const iconOptions = {
   name: MDI_ICONS.STAR_SHOOTING_OUTLINE,

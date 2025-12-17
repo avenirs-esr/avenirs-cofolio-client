@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
-import { ROUTE_NAMES } from '@/common/constants/route-names'
+import { ROUTES } from '@/common/constants/route-names'
 import SelfKnowledgeElementDetailsContainer
   from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
@@ -53,9 +53,9 @@ const {
 })
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTE_NAMES.STUDENT.PROJECT_TRAJECTORIES },
+  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
   { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 

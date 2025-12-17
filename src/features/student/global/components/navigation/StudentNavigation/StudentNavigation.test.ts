@@ -1,4 +1,4 @@
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import router from '@/router'
@@ -172,10 +172,10 @@ BddTest().given('a student navigation', () => {
       const routerLinks = avNavigation.findAllComponents({ name: 'RouterLink' })
       const skillsLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[0]))
       expect(skillsLink).toBeTruthy()
-      expect(skillsLink!.props('to')).toEqual(ROUTE_NAMES.STUDENT.EDUCATION_SKILLS)
+      expect(skillsLink!.props('to')).toEqual(ROUTES.STUDENT.EDUCATION_SKILLS)
       const activitiesLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[1]))
       expect(activitiesLink).toBeTruthy()
-      expect(activitiesLink!.props('to')).toEqual(ROUTE_NAMES.STUDENT.EDUCATION_ACTIVITIES)
+      expect(activitiesLink!.props('to')).toEqual(ROUTES.STUDENT.EDUCATION_ACTIVITIES)
     })
 
     BddTest().then('it should not set education menu "to" property when submenus are shown', () => {

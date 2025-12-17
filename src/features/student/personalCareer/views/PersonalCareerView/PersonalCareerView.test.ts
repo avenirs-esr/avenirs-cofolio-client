@@ -1,5 +1,5 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 
 import {
   PersonalCareerLayoutStub
@@ -38,7 +38,7 @@ BddTest().given('a student project experiences view component', () => {
       expect(breadcrumbLinks).toHaveLength(3)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
-        to: ROUTE_NAMES.STUDENT.HOME
+        to: ROUTES.STUDENT.HOME
       })
       expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'

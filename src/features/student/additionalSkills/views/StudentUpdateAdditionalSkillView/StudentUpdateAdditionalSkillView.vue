@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
-import { ROUTE_NAMES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import { useAdditionalSkillDetailedQuery } from '@/features/student/additionalSkills/queries/use-additional-skills.query/use-additional-skills.query'
 import UpdateAdditionalSkillAssociations
   from '@/features/student/additionalSkills/views/StudentUpdateAdditionalSkillView/components/UpdateAdditionalSkillAssociations/UpdateAdditionalSkillAssociations.vue'
@@ -29,9 +29,9 @@ const activeTab = ref(StudentUpdateAdditionalSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTE_NAMES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTE_NAMES.STUDENT.PROJECT_SKILLS },
+  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
   { text: t('student.global.navigation.tabs.project.items.additionalSkills') }
 ])
 
@@ -44,7 +44,7 @@ function backToStudentAdditionalSkillViewTabs () {
   <PageTitle
     :title="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTE_NAMES.STUDENT.PROJECT_SKILLS"
+    :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
   <div class="update-additional-skill-view__title">
