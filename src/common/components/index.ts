@@ -4,6 +4,7 @@ export { CreationUpdateDateDetailsStub } from './CreationUpdateDateDetails/Creat
 export { type AdditionalSkillDateDetailsProps, default as CreationUpdateDateDetails } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
+export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './Loader/Loader.vue'
 export { default as PageTitle } from './PageTitle/PageTitle.vue'
 export { default as Pagination } from './Pagination/Pagination.vue'
 export { RatingStub } from './Rating/Rating.stub'
