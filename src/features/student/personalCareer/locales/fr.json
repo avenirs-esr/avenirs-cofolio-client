@@ -1,6 +1,20 @@
 {
   "student": {
     "personalCareer": {
+      "cards": {
+        "DeclaredProgramCard": {
+          "status": {
+            "completed": "Terminée",
+            "inProgress": "En cours",
+            "notStarted": "Non démarrée"
+          }
+        }
+      },
+      "declaredProgramStatus": {
+        "COMPLETED": "Terminée",
+        "IN_PROGRESS": "En cours",
+        "NOT_STARTED": "Non démarrée"
+      },
       "interactions": {
         "formFields": {
           "DeclaredProgramPeriodFormField": {
