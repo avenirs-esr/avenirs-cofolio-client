@@ -7,7 +7,7 @@ import { DeclaredProgramResultFormFieldStub } from '@/features/student/personalC
 import { DeclaredProgramSourceOfInformationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramSourceOfInformationFormField/DeclaredProgramSourceOfInformationFormField.stub'
 import { DeclaredProgramTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.stub'
 import AddDeclaredProgramDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.vue'
-import { useDeclaredProgramsStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
@@ -49,7 +49,7 @@ BddTest().given('an add declared program drawer component', () => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
 
-    const store = useDeclaredProgramsStore()
+    const store = usePersonalCareerStore()
     store.displayAddDeclaredProgramDrawer()
 
     wrapper = mountComponent<typeof AddDeclaredProgramDrawer>(
@@ -149,7 +149,7 @@ BddTest().given('an add declared program drawer component', () => {
 
     BddTest().and('store showAddDeclaredProgramDrawer is false', () => {
       beforeEach(async () => {
-        const store = useDeclaredProgramsStore()
+        const store = usePersonalCareerStore()
         store.hideAddDeclaredProgramDrawer()
         await wrapper.vm.$nextTick()
       })
@@ -162,7 +162,7 @@ BddTest().given('an add declared program drawer component', () => {
 
     BddTest().and('escape is pressed on drawer', () => {
       BddTest().then('it should hide drawer when form is not dirty', async () => {
-        const store = useDeclaredProgramsStore()
+        const store = usePersonalCareerStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
@@ -174,7 +174,7 @@ BddTest().given('an add declared program drawer component', () => {
 
     BddTest().and('cancel button is clicked', () => {
       BddTest().then('it should hide drawer when form is not dirty', async () => {
-        const store = useDeclaredProgramsStore()
+        const store = usePersonalCareerStore()
         const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredProgramDrawer')
 
         const cancelConfirmButtons = getCancelConfirmButtons()

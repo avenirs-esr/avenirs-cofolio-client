@@ -77,14 +77,25 @@
           "ActivitiesSection": {
             "title": "My activities"
           },
-          "DeclaredProgramsSection": {
-            "title": "My programs"
-          },
           "ExperiencesSection": {
             "title": "My experiences"
           },
           "MyCareerSection": {
             "title": "My career"
+          },
+          "ProgramsSection": {
+            "DeclaredProgramsMoreActionsDropdown": {
+              "add": "Add a program",
+              "delete": "Delete a program",
+              "share": "Share a program"
+            },
+            "DeclaredProgramsTab": {
+              "title": "My declared programs"
+            },
+            "title": "My programs",
+            "VerifiedProgramsTab": {
+              "title": "My verified programs"
+            }
           }
         }
       }

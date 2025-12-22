@@ -11,7 +11,7 @@ export const personalCareerRoute = {
     },
     {
       ...ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
-      component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/DeclaredProgramsSection/DeclaredProgramsSection.vue'),
+      component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/ProgramsSection.vue'),
     },
     {
       ...ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES,

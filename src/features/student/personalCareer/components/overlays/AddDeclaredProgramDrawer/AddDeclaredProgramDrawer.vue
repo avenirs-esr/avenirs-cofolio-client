@@ -9,13 +9,13 @@ import DeclaredProgramResultFormField from '@/features/student/personalCareer/co
 import DeclaredProgramSourceOfInformationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramSourceOfInformationFormField/DeclaredProgramSourceOfInformationFormField.vue'
 import DeclaredProgramTitleFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
 import { useAddDeclaredProgramForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
-import { useDeclaredProgramsStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const declaredProgramsStore = useDeclaredProgramsStore()
+const declaredProgramsStore = usePersonalCareerStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(declaredProgramsStore, 'showAddDeclaredProgramDrawer')
 
@@ -49,6 +49,8 @@ function confirmCancel () {
   declaredProgramsStore.hideAddDeclaredProgramDrawer()
   hideConfirmationModal()
 }
+
+const activeAccordion = ref(0)
 </script>
 
 <template>
@@ -68,7 +70,7 @@ function confirmCancel () {
           novalidate
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AvAccordionsGroup>
+          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.addProgram')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
