@@ -77,14 +77,25 @@
           "ActivitiesSection": {
             "title": "Mes activités"
           },
-          "DeclaredProgramsSection": {
-            "title": "Mes formations"
-          },
           "ExperiencesSection": {
             "title": "Mes expériences"
           },
           "MyCareerSection": {
             "title": "Mon parcours"
+          },
+          "ProgramsSection": {
+            "DeclaredProgramsMoreActionsDropdown": {
+              "add": "Ajouter une formation",
+              "delete": "Supprimer une formation",
+              "share": "Partager une formation"
+            },
+            "DeclaredProgramsTab": {
+              "title": "Mes formations déclarées"
+            },
+            "title": "Mes formations",
+            "VerifiedProgramsTab": {
+              "title": "Mes formations vérifiées"
+            }
           }
         }
       }

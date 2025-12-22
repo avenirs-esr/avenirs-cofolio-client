@@ -1,14 +1,14 @@
-import { useDeclaredProgramsStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a declared programs store', () => {
-  let store: ReturnType<typeof useDeclaredProgramsStore>
+  let store: ReturnType<typeof usePersonalCareerStore>
 
   beforeEach(() => {
     setActivePinia(createPinia())
-    store = useDeclaredProgramsStore()
+    store = usePersonalCareerStore()
   })
 
   BddTest().when('the store is initialized', () => {

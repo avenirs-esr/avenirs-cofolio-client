@@ -18,7 +18,7 @@ const items = computed<AvSideNavigationItem[]>(() => [
   },
   {
     id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
-    label: t('student.personalCareer.views.PersonalCareerView.DeclaredProgramsSection.title'),
+    label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
     icon: MDI_ICONS.SCHOOL_OUTLINE
   },
   {
