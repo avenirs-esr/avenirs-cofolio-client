@@ -14,14 +14,11 @@ BddTest().given('a declared program card', () => {
     AvBadge: AvBadgeStub
   }
 
-  const baseDeclaredProgram: DeclaredProgramViewDTO = {
+  const baseDeclaredProgram: Omit<DeclaredProgramViewDTO, 'status'> = {
     id: '1',
     title: 'Master en Informatique',
     organization: 'Université Paris-Saclay',
-    result: 'Mention Très Bien',
-    startDate: '2023-09',
-    createdAt: '2023-09-01T00:00:00Z',
-    updatedAt: '2023-09-01T00:00:00Z'
+    result: 'Mention Très Bien'
   }
 
   beforeEach(() => {
@@ -86,21 +83,14 @@ BddTest().given('a declared program card', () => {
       expect(iconOptions.bottom).toBe('calc(-1 * 3.3rem)')
     })
 
-    BddTest().then('it should have responsive utility classes on body container', () => {
-      const bodyContainer = wrapper.find('.declared-program-card__body')
-      expect(bodyContainer.exists()).toBe(true)
-      expect(bodyContainer.classes()).toContain('av-col')
-      expect(bodyContainer.classes()).toContain('av-pr-4xl--md')
-      expect(bodyContainer.classes()).toContain('av-pt-xl')
-      expect(bodyContainer.classes()).toContain('av-pt-none--md')
-    })
-
-    BddTest().then('it should have grid and flex utilities on badges container', () => {
-      const badgesContainer = wrapper.find('.badges-container')
+    BddTest().then('it should have responsive flex utilities on badges container', () => {
+      const badgesContainer = wrapper.find('.av-justify-end--md')
       expect(badgesContainer.exists()).toBe(true)
-      expect(badgesContainer.classes()).toContain('av-row')
-      expect(badgesContainer.classes()).toContain('av-justify-end')
-      expect(badgesContainer.classes()).toContain('av-col--lg')
+      expect(badgesContainer.classes()).toContain('av-col')
+      expect(badgesContainer.classes()).toContain('av-row--md')
+      expect(badgesContainer.classes()).toContain('av-align-end')
+      expect(badgesContainer.classes()).toContain('av-justify-end--md')
+      expect(badgesContainer.classes()).toContain('av-gap-sm')
     })
 
     BddTest().and('the status badge is rendered', () => {
@@ -268,43 +258,6 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should use check outline icon', () => {
       expect(statusBadge?.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE)
-    })
-  })
-
-  BddTest().when('the component is mounted without optional fields', () => {
-    beforeEach(() => {
-      wrapper = mount(DeclaredProgramCard, {
-        props: {
-          declaredProgram: {
-            id: '2',
-            title: 'Formation sans détails',
-            organization: 'Test Org',
-            startDate: '2023-09',
-            createdAt: '2023-09-01T00:00:00Z',
-            updatedAt: '2023-09-01T00:00:00Z'
-          }
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should not render status badge when status is undefined', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const statusLabels = ['Non démarrée', 'En cours', 'Terminée']
-      const hasStatusBadge = badges.some(badge => statusLabels.includes(badge.props('label') as string))
-      expect(hasStatusBadge).toBe(false)
-    })
-
-    BddTest().then('it should render organization badge when organization is provided', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const orgBadge = badges.find(badge => badge.props('label') === 'Test Org')
-      expect(orgBadge).toBeDefined()
-    })
-
-    BddTest().then('it should not render result badge when result is undefined', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const resultBadge = badges.find(badge => badge.props('label') === baseDeclaredProgram.result)
-      expect(resultBadge).toBeUndefined()
     })
   })
 })

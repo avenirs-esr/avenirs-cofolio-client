@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export type LoaderColor = 'primary' | 'accent' | 'success' | 'info' | 'warn' | 'error' | 'neutral'
@@ -7,12 +8,17 @@ export type LoaderSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'
 export interface LoaderProps {
   color?: LoaderColor
   size?: LoaderSize
+  isLoading?: boolean
 }
 
 const {
   color = 'primary',
   size = 'md',
 } = defineProps<LoaderProps>()
+
+const slots = defineSlots<{
+  default?: Slot
+}>()
 
 const colorVariableMap: Record<LoaderColor, string> = {
   primary: 'var(--dark-background-primary1)',
@@ -39,7 +45,11 @@ const loaderSize = computed(() => sizeMap[size])
 </script>
 
 <template>
-  <div class="loader av-row av-justify-center av-p-xs">
+  <div
+    v-if="isLoading || !slots.default"
+    v-bind="$attrs"
+    class="loader av-row av-justify-center av-p-xs"
+  >
     <AvIcon
       animation="spin"
       :name="MDI_ICONS.LOADING"
@@ -47,4 +57,5 @@ const loaderSize = computed(() => sizeMap[size])
       :color="loaderColor"
     />
   </div>
+  <slot v-else />
 </template>

@@ -728,7 +728,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseDeclaredProgramDTO"
+                  "$ref": "#/components/schemas/PagedResponseDeclaredProgramViewDTO"
                 }
               }
             }
@@ -1383,7 +1383,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeclaredProgramViewDTO"
+                  "$ref": "#/components/schemas/DeclaredProgramDetailedDTO"
                 }
               }
             }
@@ -2001,7 +2001,7 @@
         "properties": {
           "title": {
             "type": "string",
-            "maxLength": 70,
+            "maxLength": 80,
             "minLength": 0
           },
           "language": {
@@ -2810,45 +2810,18 @@
           "title": {
             "type": "string"
           },
-          "description": {
-            "type": "string"
-          },
           "organization": {
             "type": "string"
           },
           "result": {
             "type": "string"
-          },
-          "sourceOfInformation": {
-            "type": "string"
-          },
-          "link": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
           }
         },
         "required": [
-          "createdAt",
           "id",
           "organization",
-          "startDate",
-          "title",
-          "updatedAt"
+          "status",
+          "title"
         ]
       },
       "DeclaredExperienceRequest": {
@@ -2869,7 +2842,7 @@
           },
           "organization": {
             "type": "string",
-            "maxLength": 80,
+            "maxLength": 50,
             "minLength": 0
           },
           "activitySector": {
@@ -3616,43 +3589,13 @@
           "LIFE_PROJECT"
         ]
       },
-      "DeclaredProgramDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "organization": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/EProgramStatus",
-            "enum": [
-              "NOT_STARTED",
-              "IN_PROGRESS",
-              "COMPLETED"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "organization",
-          "status",
-          "title"
-        ]
-      },
-      "PagedResponseDeclaredProgramDTO": {
+      "PagedResponseDeclaredProgramViewDTO": {
         "type": "object",
         "properties": {
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DeclaredProgramDTO"
+              "$ref": "#/components/schemas/DeclaredProgramViewDTO"
             }
           },
           "page": {
@@ -3662,6 +3605,66 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "DeclaredProgramDetailedDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EProgramStatus",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "sourceOfInformation": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "organization",
+          "startDate",
+          "title",
+          "updatedAt"
         ]
       },
       "PagedResponseDeclaredExperienceViewDTO": {
@@ -3918,7 +3921,7 @@
       },
       "EExternalSkillCategoryType": {
         "type": "string",
-        "description": "Enum for additional skill category type",
+        "description": "Enum for external skill category type",
         "enum": [
           "MACRO_SKILL",
           "TARGET",
@@ -3939,7 +3942,7 @@
       },
       "EExternalSkillType": {
         "type": "string",
-        "description": "Enum for additional skill type",
+        "description": "Enum for external skill type",
         "enum": [
           "ROME4",
           "XXI",

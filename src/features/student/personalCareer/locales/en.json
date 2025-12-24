@@ -90,6 +90,7 @@
               "share": "Share a program"
             },
             "DeclaredProgramsTab": {
+              "emptyState": "No declared programs yet, Click on the \"Add\" button in the More Actions menu to declare your first program!",
               "title": "My declared programs"
             },
             "title": "My programs",

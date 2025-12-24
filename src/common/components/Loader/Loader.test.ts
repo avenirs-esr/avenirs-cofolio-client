@@ -14,11 +14,14 @@ BddTest().given('a loader component', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the component is mounted with default props', () => {
+  BddTest().when('the component is mounted with isLoading true', () => {
     let icon: VueWrapper<InstanceType<typeof AvIconStub>>
 
     beforeEach(() => {
       wrapper = mount(Loader, {
+        props: {
+          isLoading: true
+        },
         global: { stubs }
       })
       icon = wrapper.findComponent({ name: 'AvIcon' }) as VueWrapper<InstanceType<typeof AvIconStub>>
@@ -52,12 +55,60 @@ BddTest().given('a loader component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with custom colors', () => {
+  BddTest().when('the component is mounted with isLoading false', () => {
+    beforeEach(() => {
+      wrapper = mount(Loader, {
+        props: {
+          isLoading: false
+        },
+        slots: {
+          default: '<div class="slot-content">Content loaded</div>'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the loader container', () => {
+      expect(wrapper.find('.loader').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the AvIcon component', () => {
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      expect(icon.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the slot content', () => {
+      const slotContent = wrapper.find('.slot-content')
+      expect(slotContent.exists()).toBe(true)
+      expect(slotContent.text()).toBe('Content loaded')
+    })
+  })
+
+  BddTest().when('the component is mounted without isLoading prop', () => {
+    beforeEach(() => {
+      wrapper = mount(Loader, {
+        slots: {
+          default: '<div class="default-slot">Default content</div>'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the slot content by default', () => {
+      const slotContent = wrapper.find('.default-slot')
+      expect(slotContent.exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the loader', () => {
+      expect(wrapper.find('.loader').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with custom colors and isLoading true', () => {
     BddTest().and('color is set to primary', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'primary' as LoaderColor },
+          props: { color: 'primary' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -70,9 +121,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to accent', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'accent' as LoaderColor },
+          props: { color: 'accent' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -85,9 +135,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to success', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'success' as LoaderColor },
+          props: { color: 'success' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -100,9 +149,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to info', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'info' as LoaderColor },
+          props: { color: 'info' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -115,9 +163,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to warn', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'warn' as LoaderColor },
+          props: { color: 'warn' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -130,9 +177,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to error', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'error' as LoaderColor },
+          props: { color: 'error' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -145,9 +191,8 @@ BddTest().given('a loader component', () => {
 
     BddTest().and('color is set to neutral', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
         wrapper = mount(Loader, {
-          props: { color: 'neutral' as LoaderColor },
+          props: { color: 'neutral' as LoaderColor, isLoading: true },
           global: { stubs }
         })
       })
@@ -159,11 +204,11 @@ BddTest().given('a loader component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with custom sizes', () => {
+  BddTest().when('the component is mounted with custom sizes and isLoading true', () => {
     BddTest().and('size is set to xs', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: 'xs' as LoaderSize },
+          props: { size: 'xs' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -177,7 +222,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to sm', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: 'sm' as LoaderSize },
+          props: { size: 'sm' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -191,7 +236,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to md', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: 'md' as LoaderSize },
+          props: { size: 'md' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -205,7 +250,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to lg', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: 'lg' as LoaderSize },
+          props: { size: 'lg' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -219,7 +264,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to xl', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: 'xl' as LoaderSize },
+          props: { size: 'xl' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -233,7 +278,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to 2xl', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: '2xl' as LoaderSize },
+          props: { size: '2xl' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
@@ -247,7 +292,7 @@ BddTest().given('a loader component', () => {
     BddTest().and('size is set to 4xl', () => {
       beforeEach(() => {
         wrapper = mount(Loader, {
-          props: { size: '4xl' as LoaderSize },
+          props: { size: '4xl' as LoaderSize, isLoading: true },
           global: { stubs }
         })
       })
