@@ -1,11 +1,151 @@
 import type { AddDeclaredProgramDTO } from '@/api/avenir-esr'
-import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
-import { createDeclaredProgramErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import type { Ref } from 'vue'
+import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student'
+import { createDeclaredProgramErrorHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { useCreateDeclaredProgramMutation } from '@/features/student/personalCareer/queries/use-declared-programs.query'
+import {
+  type DeclaredProgramsViewQueryReturnType,
+  useCreateDeclaredProgramMutation,
+  useDeclaredProgramsViewQuery
+} from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComposable, mountQueryComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+BddTest().given('a declared programs view query', () => {
+  let queryResult: DeclaredProgramsViewQueryReturnType
+  let page: Ref<number>
+  let pageSize: Ref<number>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    page = ref(0)
+    pageSize = ref(10)
+  })
+
+  BddTest().when('the query is executed with initial parameters', () => {
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useDeclaredProgramsViewQuery({ page, pageSize }))
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return paginated data', () => {
+      expect(queryResult.data.value).toBeDefined()
+      expect(queryResult.data.value?.data).toBeDefined()
+      expect(queryResult.data.value?.page).toBeDefined()
+    })
+
+    BddTest().then('it should have success state', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+
+    BddTest().then('it should compute declaredPrograms array', () => {
+      expect(queryResult.declaredPrograms.value).toBeDefined()
+      expect(Array.isArray(queryResult.declaredPrograms.value)).toBe(true)
+    })
+
+    BddTest().then('it should compute pageInfo object', () => {
+      expect(queryResult.pageInfo.value).toBeDefined()
+      expect(queryResult.pageInfo.value.page).toBe(0)
+      expect(queryResult.pageInfo.value.pageSize).toBeDefined()
+      expect(queryResult.pageInfo.value.totalElements).toBeDefined()
+      expect(queryResult.pageInfo.value.totalPages).toBeDefined()
+    })
+
+    BddTest().then('it should return declared programs with expected structure', () => {
+      const firstProgram = queryResult.declaredPrograms.value[0]
+      if (firstProgram) {
+        expect(firstProgram).toMatchObject({
+          id: expect.any(String),
+          title: expect.any(String)
+        })
+      }
+    })
+
+    BddTest().and('the page parameter changes', () => {
+      beforeEach(async () => {
+        page.value = 1
+        await vi.waitFor(() => {
+          expect(queryResult.pageInfo.value.page).toBe(1)
+        })
+      })
+
+      BddTest().then('it should fetch new page data', () => {
+        expect(queryResult.pageInfo.value.page).toBe(1)
+      })
+
+      BddTest().then('it should maintain success state', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().and('the pageSize parameter changes', () => {
+      beforeEach(async () => {
+        pageSize.value = 20
+        await vi.waitFor(() => {
+          expect(queryResult.pageInfo.value.pageSize).toBe(20)
+        })
+      })
+
+      BddTest().then('it should fetch data with new page size', () => {
+        expect(queryResult.pageInfo.value.pageSize).toBe(20)
+      })
+    })
+  })
+
+  BddTest().when('the query fails with server error', () => {
+    beforeEach(async () => {
+      server.use(declaredProgramsQueryErrorHandler)
+      queryResult = mountQueryComposable(() => useDeclaredProgramsViewQuery({ page, pageSize }))
+      await flushPromises()
+    })
+
+    BddTest().then('it should set error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should return empty declaredPrograms array', () => {
+      expect(queryResult.declaredPrograms.value).toEqual([])
+    })
+
+    BddTest().then('it should return default pageInfo', () => {
+      expect(queryResult.pageInfo.value).toEqual({
+        page: 0,
+        pageSize: 0,
+        totalElements: 0,
+        totalPages: 0
+      })
+    })
+  })
+
+  BddTest().when('the query data is undefined', () => {
+    beforeEach(() => {
+      queryResult = mountQueryComposable(() => useDeclaredProgramsViewQuery({ page, pageSize }))
+    })
+
+    BddTest().then('it should return empty array for declaredPrograms', () => {
+      expect(queryResult.declaredPrograms.value).toEqual([])
+    })
+
+    BddTest().then('it should return default pageInfo with zeros', () => {
+      expect(queryResult.pageInfo.value).toEqual({
+        page: 0,
+        pageSize: 0,
+        totalElements: 0,
+        totalPages: 0
+      })
+    })
+  })
+})
 
 BddTest().given('a create declared program mutation', () => {
   let composableResult: ReturnType<typeof useCreateDeclaredProgramMutation>

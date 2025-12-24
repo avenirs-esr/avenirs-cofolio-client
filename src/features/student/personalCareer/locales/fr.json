@@ -90,6 +90,7 @@
               "share": "Partager une formation"
             },
             "DeclaredProgramsTab": {
+              "emptyState": "Aucune formation déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première formation !",
               "title": "Mes formations déclarées"
             },
             "title": "Mes formations",

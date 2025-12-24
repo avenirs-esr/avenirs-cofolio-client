@@ -1,6 +1,9 @@
-import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
-import { getCreateDeclaredProgramUrl } from '@/api/avenir-esr'
-import { http, HttpResponse } from 'msw'
+import {
+  createMockedDeclaredProgramsPagedResponse,
+  declaredProgramViewDTOFixture
+} from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { getCreateDeclaredProgramUrl, getGetDeclaredProgramsUrl, type PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { delay, http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
   `*${getCreateDeclaredProgramUrl()}`,
@@ -16,7 +19,46 @@ export const createDeclaredProgramErrorHandler = http.post(
   }
 )
 
+export const declaredProgramsQueryErrorHandler = http.get(`*${getGetDeclaredProgramsUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
+
+export const declaredProgramsQueryEmptyHandler = http.get(`*${getGetDeclaredProgramsUrl()}`, async ({ request }) => {
+  const url = new URL(request.url)
+  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+
+  await delay('real')
+  const mockData = createMockedDeclaredProgramsPagedResponse(pageSize, 0, page)
+
+  return HttpResponse.json<PagedResponseDeclaredProgramViewDTO>(mockData, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
+export const declaredProgramsQueryHandler = http.get(`*${getGetDeclaredProgramsUrl()}`, async ({ request }) => {
+  const url = new URL(request.url)
+  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+
+  await delay('real')
+  const mockData = createMockedDeclaredProgramsPagedResponse(pageSize, 5, page)
+
+  return HttpResponse.json<PagedResponseDeclaredProgramViewDTO>(mockData, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
 export const declaredProgramsHandlers = [
+  declaredProgramsQueryHandler,
   http.post(
     `*${getCreateDeclaredProgramUrl()}`,
     () => {
