@@ -40,8 +40,8 @@ const iconOptions = {
     >
       <template #body>
         <div class="student-detailed-ams-card__body">
-          <div class="av-row av-row--between av-row--middle student-detailed-ams-card__firstLine">
-            <div class="av-row av-row--middle av-flex-row-sm">
+          <div class="av-row av-justify-between av-align-center student-detailed-ams-card__firstLine">
+            <div class="av-row av-align-center av-gap-sm">
               <AvBadge
                 v-if="totalActivities > 0"
                 class="student-detailed-ams-card__ams-badge"
@@ -65,7 +65,7 @@ const iconOptions = {
               :status="status"
             />
           </div>
-          <div class="av-row av-row--middle av-flex-row-sm">
+          <div class="av-row av-align-center av-gap-sm">
             <div
               class="student-detailed-ams-card__delivarable-placeholder"
             />

@@ -80,7 +80,7 @@ function backToElementDetails () {
     :title="t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <div class="self-knowledge-element-update-view av-flex-row-sm">
+  <div class="self-knowledge-element-update-view av-row av-gap-sm">
     <SelfKnowledgeElementsSideMenu
       :elements="elements"
       :category-type="categoryType"

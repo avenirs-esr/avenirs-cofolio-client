@@ -30,7 +30,7 @@ const updatedAtValue = computed(() => t('global.dates.updatedAt', {
 </script>
 
 <template>
-  <div class="av-flex-col-xs">
+  <div class="av-col av-gap-xs">
     <AvIconText
       v-if="createdAt"
       text-color="var(--text2)"

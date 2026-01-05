@@ -14,8 +14,8 @@ defineSlots<{
 </script>
 
 <template>
-  <div class="av-flex-col-md">
-    <div class="self-knowledge-element-details-container__title av-row-lg av-row-lg--top av-row-lg--between">
+  <div class="av-col av-flex-fill av-gap-md">
+    <div class="self-knowledge-element-details-container__title av-row--lg av-align-start--lg av-justify-between--lg">
       <span class="n4">{{ elementTitle }}</span>
       <slot name="title" />
     </div>

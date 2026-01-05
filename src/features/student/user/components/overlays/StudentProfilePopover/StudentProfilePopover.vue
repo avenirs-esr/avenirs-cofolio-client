@@ -17,6 +17,7 @@ const { t } = useI18n()
         :label="username"
         :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
         small
+        no-sentence-case
         @click="toggle"
       />
     </template>

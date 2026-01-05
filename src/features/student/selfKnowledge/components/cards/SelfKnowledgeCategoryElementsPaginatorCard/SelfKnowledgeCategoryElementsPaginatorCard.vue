@@ -110,7 +110,7 @@ function onElementDeleted () {
           @update:current-page="(page) => currentPage = page"
         />
 
-        <div class="av-row av-row--center av-row-md--left category-elements-paginator__cards">
+        <div class="av-row av-justify-start category-elements-paginator__cards">
           <SelfKnowledgeElementCard
             v-for="element in elements"
             :key="element.id"

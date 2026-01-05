@@ -76,7 +76,7 @@ function onUpdateSelected () {
     :title="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <div class="self-knowledge-category-elements-view av-flex-row-sm">
+  <div class="self-knowledge-category-elements-view av-row av-gap-sm">
     <SelfKnowledgeElementsSideMenu
       :elements="elements"
       :category-type="categoryType"

@@ -84,7 +84,7 @@ const drawerTitle = computed(() => {
     width="50rem"
     @escape-pressed="handleCancel"
   >
-    <div class="av-flex-col-md h-full">
+    <div class="av-col av-gap-md h-full">
       <h2 class="n5">
         {{ drawerTitle }}
       </h2>
@@ -99,7 +99,7 @@ const drawerTitle = computed(() => {
               :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.definition', { categoryType: selectedCategoryTypeTranslation })"
               :icon="selectedCategoryIcon"
             >
-              <div class="av-flex-col-md av-p-md">
+              <div class="av-col av-gap-md av-p-md">
                 <CategoryElementTitleInputFormField :form="form" />
                 <CategoryElementDescriptionTextareaFormField :form="form" />
               </div>
@@ -109,7 +109,7 @@ const drawerTitle = computed(() => {
               :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.rating', { categoryType: selectedCategoryTypeTranslation })"
               :icon="MDI_ICONS.RATE_REVIEW"
             >
-              <div class="av-flex-col-md av-p-sm">
+              <div class="av-col av-gap-md av-p-sm">
                 <CategoryElementRatingRadioButtonSetFormField :form="form" />
               </div>
             </AvAccordion>
@@ -128,7 +128,7 @@ const drawerTitle = computed(() => {
     </div>
 
     <template #footer>
-      <div class="av-row av-row--right av-p-md">
+      <div class="av-row av-justify-end av-p-md">
         <AvCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
           :confirm-label="t('global.buttons.save')"

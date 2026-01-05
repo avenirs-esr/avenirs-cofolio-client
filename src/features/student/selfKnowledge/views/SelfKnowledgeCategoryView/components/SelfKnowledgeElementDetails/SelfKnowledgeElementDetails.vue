@@ -18,14 +18,14 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
 </script>
 
 <template>
-  <div class="self-knowledge-element-details av-flex-row-lg">
-    <div class="self-knowledge-element-details__left-column av-flex-col-md">
+  <div class="self-knowledge-element-details av-row av-gap-lg">
+    <div class="self-knowledge-element-details__left-column av-col av-gap-md">
       <CategoryElementTitleInput
         :model-value="element.title"
         disabled
         :required="false"
       />
-      <div class="av-flex-col-sm">
+      <div class="av-col av-gap-sm">
         <span class="b2-light">{{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
         <Rating
           :rating="element.rating ?? 0"
@@ -33,12 +33,12 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
         />
       </div>
     </div>
-    <div class="self-knowledge-element-details__right-column av-flex-col-md">
+    <div class="self-knowledge-element-details__right-column av-col av-gap-md">
       <CategoryElementDescriptionTextarea
         :model-value="element.description"
         disabled
       />
-      <div class="self-knowledge-element-details__dates av-flex-col-xs">
+      <div class="self-knowledge-element-details__dates av-col av-gap-xs">
         <CreationUpdateDateDetails
           :updated-at="element.updatedAt"
           :created-at="element.createdAt"

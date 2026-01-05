@@ -54,14 +54,14 @@ function confirmCancel () {
 
 <template>
   <form
-    class="self-knowledge-element-update-form av-flex-row-lg"
+    class="self-knowledge-element-update-form av-row av-gap-lg"
     novalidate
     @submit.prevent.stop="onSubmit"
   >
-    <div class="self-knowledge-element-update-form__left-column av-flex-col-md">
+    <div class="self-knowledge-element-update-form__left-column av-col av-gap-md">
       <CategoryElementTitleInputFormField :form="form" />
 
-      <div class="av-flex-col-sm">
+      <div class="av-col av-gap-sm">
         <span class="b2-light">
           {{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}
         </span>
@@ -69,10 +69,10 @@ function confirmCancel () {
       </div>
     </div>
 
-    <div class="self-knowledge-element-update-form__right-column av-flex-col-md">
+    <div class="self-knowledge-element-update-form__right-column av-col av-gap-md">
       <CategoryElementDescriptionTextareaFormField :form="form" />
 
-      <div class="self-knowledge-element-update-form__dates av-flex-col-xs">
+      <div class="self-knowledge-element-update-form__dates av-col av-gap-xs">
         <CreationUpdateDateDetails
           :updated-at="element.updatedAt"
           :created-at="element.createdAt"
@@ -82,7 +82,7 @@ function confirmCancel () {
     </div>
   </form>
 
-  <div class="av-row av-row--right av-p-md">
+  <div class="av-row av-justify-end av-p-md">
     <AvCancelConfirmButtons
       :cancel-label="t('global.buttons.cancel')"
       :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
