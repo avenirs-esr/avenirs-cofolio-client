@@ -60,7 +60,7 @@ const activeAccordion = ref(0)
     width="40rem"
     @escape-pressed="handleCancel"
   >
-    <div class="av-flex-col-lg h-full">
+    <div class="av-col av-gap-lg h-full">
       <span class="n5">
         {{ t('student.personalCareer.overlays.AddDeclaredProgramDrawer.title') }}
       </span>
@@ -75,7 +75,7 @@ const activeAccordion = ref(0)
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.addProgram')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
             >
-              <div class="av-flex-col-md">
+              <div class="av-col av-gap-md">
                 <DeclaredProgramTitleFormField :form="form" />
                 <DeclaredProgramDescriptionFormField :form="form" />
                 <DeclaredProgramOrganizationFormField :form="form" />
@@ -90,14 +90,14 @@ const activeAccordion = ref(0)
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.specifyProgram')"
               :icon="MDI_ICONS.INFORMATION_OUTLINE"
             >
-              <div class="av-flex-col-md" />
+              <div class="av-col av-gap-md" />
             </AvAccordion>
 
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.associateProgram')"
               :icon="MDI_ICONS.ATTACH_FILE"
             >
-              <div class="av-flex-col-md" />
+              <div class="av-col av-gap-md" />
             </AvAccordion>
           </AvAccordionsGroup>
         </form>
@@ -107,7 +107,7 @@ const activeAccordion = ref(0)
     <template #footer>
       <div
         v-memo="[isFormValid, isSubmitting]"
-        class="av-row av-row--right av-p-md"
+        class="av-row av-justify-end av-p-md"
       >
         <AvCancelConfirmButtons
           :cancel-label="t('global.buttons.cancel')"

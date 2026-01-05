@@ -27,7 +27,7 @@ function onSelectElement (elementId: string) {
 </script>
 
 <template>
-  <div class="elements-selector__container av-row av-row--center av-flex-row-sm">
+  <div class="elements-selector__container av-row av-justify-center av-gap-sm">
     <div
       v-for="element in elements"
       :key="element.id"

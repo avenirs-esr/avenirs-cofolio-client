@@ -48,7 +48,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
       {{ t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label') }}
     </div>
 
-    <div class="av-flex-col-xs">
+    <div class="av-col av-gap-xs">
       <FormField :name="IS_ONGOING">
         <template #default="{ field }">
           <AvCheckbox
@@ -62,7 +62,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
         </template>
       </FormField>
 
-      <div class="av-row-md">
+      <div class="av-row--md">
         <FormField name="startDate">
           <template #default="{ field }">
             <AvInput

@@ -265,7 +265,8 @@ BddTest().given('a self knowledge category element rating input', () => {
     })
 
     BddTest().then('it should have the flex column layout class', () => {
-      expect(wrapper.classes()).toContain('av-flex-col-sm')
+      expect(wrapper.classes()).toContain('av-col')
+      expect(wrapper.classes()).toContain('av-gap-sm')
     })
   })
 })

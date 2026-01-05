@@ -89,18 +89,18 @@ BddTest().given('a declared program card', () => {
     BddTest().then('it should have responsive utility classes on body container', () => {
       const bodyContainer = wrapper.find('.declared-program-card__body')
       expect(bodyContainer.exists()).toBe(true)
-      expect(bodyContainer.classes()).toContain('av-flex-col-none')
+      expect(bodyContainer.classes()).toContain('av-col')
       expect(bodyContainer.classes()).toContain('av-pr-4xl--md')
       expect(bodyContainer.classes()).toContain('av-pt-xl')
       expect(bodyContainer.classes()).toContain('av-pt-none--md')
     })
 
     BddTest().then('it should have grid and flex utilities on badges container', () => {
-      const badgesContainer = wrapper.find('.av-flex-row-sm')
+      const badgesContainer = wrapper.find('.badges-container')
       expect(badgesContainer.exists()).toBe(true)
       expect(badgesContainer.classes()).toContain('av-row')
-      expect(badgesContainer.classes()).toContain('av-row--right')
-      expect(badgesContainer.classes()).toContain('av-col-lg')
+      expect(badgesContainer.classes()).toContain('av-justify-end')
+      expect(badgesContainer.classes()).toContain('av-col--lg')
     })
 
     BddTest().and('the status badge is rendered', () => {
@@ -164,7 +164,7 @@ BddTest().given('a declared program card', () => {
 
       BddTest().then('it should have responsive visibility classes', () => {
         expect(resultBadge?.classes()).toContain('av-hidden')
-        expect(resultBadge?.classes()).toContain('av-unhidden-md')
+        expect(resultBadge?.classes()).toContain('av-unhidden--md')
       })
     })
   })

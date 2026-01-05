@@ -52,7 +52,7 @@ function handleUpdateSelected () {
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
-  <div class="student-additional-skill-view__title av-row-lg av-row-lg--top av-row-lg--between">
+  <div class="student-additional-skill-view__title av-row--lg av-align-baseline--lg av-justify-between--lg">
     <span class="n4">{{ skillTitle }}</span>
     <AdditionalSkillSettingDropdown @update-selected="handleUpdateSelected" />
   </div>

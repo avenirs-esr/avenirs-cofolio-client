@@ -58,15 +58,15 @@ const statusBadgeProps = computed(() => {
     height="12.8rem"
   >
     <template #body>
-      <div class="av-flex-col-none av-pr-4xl--md av-pt-xl av-pt-none--md declared-program-card__body">
-        <div class="av-flex-row-sm av-row av-row--right av-col-lg">
+      <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md declared-program-card__body">
+        <div class="badges-container av-row av-justify-end av-col--lg av-gap-sm">
           <AvBadge
             v-if="declaredProgram.status"
             v-bind="statusBadgeProps"
           />
           <AvBadge
             v-if="declaredProgram.result"
-            class="av-hidden av-unhidden-md"
+            class="av-hidden av-unhidden--md"
             :label="declaredProgram.result"
             :icon="RI_ICONS.LAYOUT_6_LINE"
             color="var(--card2)"

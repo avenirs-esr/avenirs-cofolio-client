@@ -36,7 +36,7 @@ function handleUpdateModelValue (value: string | number | boolean) {
 </script>
 
 <template>
-  <div class="av-flex-col-sm self-knowledge-category-element-rating-input">
+  <div class="av-col av-gap-sm self-knowledge-category-element-rating-input">
     <AvRadioButtonSet
       :model-value="modelValue"
       :legend="legend ?? t('student.selfKnowledge.interactions.inputs.CategoryElementRatingRadioButtonSet.legend')"
@@ -49,10 +49,10 @@ function handleUpdateModelValue (value: string | number | boolean) {
         :key="level.value"
       >
         <AvRadioButton :value="level.value">
-          <div class="av-flex-col-xs">
+          <div class="av-col av-gap-xs">
             <div
               v-if="level.value > 0"
-              class="av-row--left"
+              class="av-row av-justify-start"
             >
               <Rating
                 :rating="level.value"

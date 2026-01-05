@@ -30,8 +30,9 @@ BddTest().given('a loader component', () => {
 
     BddTest().then('it should have correct layout classes', () => {
       const container = wrapper.find('.loader')
-      expect(container.classes()).toContain('av-flex-col-xs')
-      expect(container.classes()).toContain('av-row--middle')
+      expect(container.classes()).toContain('av-row')
+      expect(container.classes()).toContain('av-justify-center')
+      expect(container.classes()).toContain('av-p-xs')
     })
 
     BddTest().then('it should render the AvIcon component', () => {

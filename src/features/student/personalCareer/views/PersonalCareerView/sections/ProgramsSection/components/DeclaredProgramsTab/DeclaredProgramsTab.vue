@@ -9,7 +9,7 @@ const { displayAddDeclaredProgramDrawer } = usePersonalCareerStore()
 
 <template>
   <div class="declared-programs-tab">
-    <div class="av-row av-row--right">
+    <div class="av-row av-justify-end">
       <DeclaredProgramsMoreActionsDropdown @add-selected="displayAddDeclaredProgramDrawer" />
     </div>
     <div class="declared-programs__content">

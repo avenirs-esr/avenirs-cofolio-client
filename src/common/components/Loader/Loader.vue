@@ -39,7 +39,7 @@ const loaderSize = computed(() => sizeMap[size])
 </script>
 
 <template>
-  <div class="loader av-flex-col-xs av-row--middle">
+  <div class="loader av-row av-justify-center av-p-xs">
     <AvIcon
       animation="spin"
       :name="MDI_ICONS.LOADING"

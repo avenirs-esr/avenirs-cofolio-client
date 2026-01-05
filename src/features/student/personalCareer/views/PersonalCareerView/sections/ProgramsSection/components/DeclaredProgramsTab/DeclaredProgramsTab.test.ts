@@ -56,7 +56,7 @@ BddTest().given('a declared programs tab', () => {
     })
 
     BddTest().then('it should have the dropdown in a right-aligned row', () => {
-      const row = wrapper.find('.av-row.av-row--right')
+      const row = wrapper.find('.av-row.av-justify-end')
       expect(row.exists()).toBe(true)
       const dropdown = row.findComponent({ name: 'DeclaredProgramsMoreActionsDropdown' })
       expect(dropdown.exists()).toBe(true)
