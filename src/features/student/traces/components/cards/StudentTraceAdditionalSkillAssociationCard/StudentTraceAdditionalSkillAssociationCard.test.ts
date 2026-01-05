@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
+import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import StudentTraceAdditionalSkillAssociationCard from '@/features/student/traces/components/cards/StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -48,7 +48,7 @@ BddTest().given('a student trace additional skill association card', () => {
     const additionalSkill: AdditionalSkillAssociationDTO = {
       id: 'skill-1',
       title: 'Compétence additionnelle test',
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: EAdditionalSkillLevel.INTERMEDIATE,
       pathSegments: []
     }
@@ -97,7 +97,7 @@ BddTest().given('a student trace additional skill association card', () => {
     const skillBeginner: AdditionalSkillAssociationDTO = {
       id: 'skill-2',
       title: 'Compétence débutant',
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: EAdditionalSkillLevel.BEGINNER,
       pathSegments: []
     }
@@ -105,7 +105,7 @@ BddTest().given('a student trace additional skill association card', () => {
     const skillExpert: AdditionalSkillAssociationDTO = {
       id: 'skill-3',
       title: 'Compétence expert',
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: EAdditionalSkillLevel.EXPERT,
       pathSegments: []
     }
@@ -135,7 +135,7 @@ BddTest().given('a student trace additional skill association card', () => {
     const skillCompetent: AdditionalSkillAssociationDTO = {
       id: 'skill-4',
       title: 'Compétence compétent',
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: EAdditionalSkillLevel.COMPETENT,
       pathSegments: []
     }
@@ -162,7 +162,7 @@ BddTest().given('a student trace additional skill association card', () => {
     const additionalSkill: AdditionalSkillAssociationDTO = {
       id: 'skill-7',
       title: 'Compétence avec body',
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: EAdditionalSkillLevel.BEGINNER,
       pathSegments: []
     }

@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAdditionalSkillType, EAmsStatus, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
+import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAmsStatus, EExternalSkillType, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -140,7 +140,7 @@ BddTest().given('a student trace associations component', () => {
         title: 'Compétence additionnelle 1',
         level: EAdditionalSkillLevel.BEGINNER,
         pathSegments: [],
-        type: EAdditionalSkillType.ROME4
+        type: EExternalSkillType.ROME4
       }
     ]
 
@@ -211,7 +211,7 @@ BddTest().given('a student trace associations component', () => {
         title: 'Compétence additionnelle 1',
         level: EAdditionalSkillLevel.EXPERT,
         pathSegments: [],
-        type: EAdditionalSkillType.ROME4
+        type: EExternalSkillType.ROME4
       }
     ]
 

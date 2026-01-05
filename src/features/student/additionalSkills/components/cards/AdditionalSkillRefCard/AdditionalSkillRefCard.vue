@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type {
   AdditionalSkillCategoryDTO,
-  EAdditionalSkillType
+  EExternalSkillType
 } from '@/api/avenir-esr'
 import { AvBadge, AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AdditionalSkillRefCardProps {
-  type: EAdditionalSkillType
+  type: EExternalSkillType
   pathSegments: AdditionalSkillCategoryDTO[]
 }
 

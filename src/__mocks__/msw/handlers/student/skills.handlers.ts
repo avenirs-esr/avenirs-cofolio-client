@@ -12,7 +12,7 @@ import {
   type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
   EAdditionalSkillLevel,
-  EAdditionalSkillType,
+  EExternalSkillType,
   getCreateAdditionalSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAdditionalSkillProgressDetailsUrl,
@@ -224,7 +224,7 @@ export const skillsHandlers = [
       id: body.id ?? crypto.randomUUID(),
       title: `Mocked Skill ${body.id}`,
       pathSegments: ['Category', 'Subcategory'],
-      type: body.type ?? EAdditionalSkillType.ROME4,
+      type: body.type ?? EExternalSkillType.ROME4,
       level: body.level ?? EAdditionalSkillLevel.INTERMEDIATE,
       description: body.description ?? 'Mocked skill description'
     }

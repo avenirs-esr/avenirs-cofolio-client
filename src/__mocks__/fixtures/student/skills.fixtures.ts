@@ -3,9 +3,9 @@ import {
   type AdditionalSkillDTO,
   type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
-  EAdditionalSkillCategoryType,
   EAdditionalSkillLevel,
-  EAdditionalSkillType,
+  EExternalSkillCategoryType,
+  EExternalSkillType,
   ESkillLevelStatus,
   ETraceAssociationType,
   type PagedResponseAdditionalSkillDTO,
@@ -74,7 +74,7 @@ export function createMockedPagedResponseAdditionalSkillProgressDTO (pageSize: n
       id: crypto.randomUUID(),
       title: `Ma super compétence complémentaire ${i}`,
       pathSegments: ['Catégorie', `Sous-catégorie ${i}`],
-      type: EAdditionalSkillType.ROME4,
+      type: EExternalSkillType.ROME4,
       level: levels[i % levels.length],
       description: `Description de la compétence complémentaire ${i}`
     }
@@ -139,7 +139,7 @@ export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalEl
       id: `search-${crypto.randomUUID()}`,
       title,
       pathSegments: ['Compétence', 'professionnelle', title.toLowerCase()],
-      type: EAdditionalSkillType.ROME4
+      type: EExternalSkillType.ROME4
     }))
 
   const actualTotalElements = Math.min(filteredSkills.length, totalElements)
@@ -248,22 +248,22 @@ export function createMockedAdditionalSkillProgressDetailsDTO (skillId: string):
     title: 'Conduire un projet de bout en bout',
     pathSegments: [
       {
-        type: EAdditionalSkillCategoryType.ISSUE,
+        type: EExternalSkillCategoryType.ISSUE,
         libelle: 'Aider les entreprises à gérer des projets complexes et à s\'adapter aux mutations du marché du travail'
       },
       {
-        type: EAdditionalSkillCategoryType.TARGET,
+        type: EExternalSkillCategoryType.TARGET,
         libelle: 'Développer une approche par compétences pour favoriser la mobilité professionnelle et l\'employabilité des individus.'
       },
       {
-        type: EAdditionalSkillCategoryType.MACRO_SKILL,
+        type: EExternalSkillCategoryType.MACRO_SKILL,
         libelle: 'Conduire un projet de bout en bout'
       }
     ],
     description: `Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
 Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
 Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`,
-    type: EAdditionalSkillType.ROME4,
+    type: EExternalSkillType.ROME4,
     level: EAdditionalSkillLevel.ADVANCED,
     traceAssociations: mockedTraceOverview,
     createdAt: '2023-10-10T10:00:00Z',

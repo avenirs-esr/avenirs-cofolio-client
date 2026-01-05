@@ -1,8 +1,8 @@
 import {
   type AttachmentUploadDTO,
   EAdditionalSkillLevel,
-  EAdditionalSkillType,
   EAmsStatus,
+  EExternalSkillType,
   EFileType,
   ESkillLevelStatus,
   type PagedResponseTraceViewDTO,
@@ -206,21 +206,21 @@ export const mockedTraceAssociations: TraceAssociationsDTO = {
       title: 'Gestion de projet agile',
       level: EAdditionalSkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
-      type: EAdditionalSkillType.ROME4
+      type: EExternalSkillType.ROME4
     },
     {
       id: 'additional-2',
       title: 'Communication interpersonnelle',
       level: EAdditionalSkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
-      type: EAdditionalSkillType.ROME4
+      type: EExternalSkillType.ROME4
     },
     {
       id: 'additional-3',
       title: 'Analyse de données',
       level: EAdditionalSkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
-      type: EAdditionalSkillType.ROME4
+      type: EExternalSkillType.ROME4
     }
   ]
 }

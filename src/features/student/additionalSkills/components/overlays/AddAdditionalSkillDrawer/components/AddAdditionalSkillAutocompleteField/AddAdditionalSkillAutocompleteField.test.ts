@@ -2,7 +2,7 @@ import type {
   AdditionalSkillFormData
 } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/types'
 import type { VueWrapper } from '@vue/test-utils'
-import { EAdditionalSkillType } from '@/api/avenir-esr'
+import { EExternalSkillType } from '@/api/avenir-esr'
 import AddAdditionalSkillAutocompleteField from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/components/AddAdditionalSkillAutocompleteField/AddAdditionalSkillAutocompleteField.vue'
 import { AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
@@ -67,7 +67,7 @@ const stubs = {
         />
         <div v-if="inputOptions?.errorMessage" class="error-message">{{ inputOptions.errorMessage }}</div>
         <slot name="empty" />
-        <slot name="item" :option="{ id: '1', title: 'Test Skill', pathSegments: ['Path'], type: '${EAdditionalSkillType.ROME4}' }" :isSelected="false" :toggle="() => {}" />
+        <slot name="item" :option="{ id: '1', title: 'Test Skill', pathSegments: ['Path'], type: '${EExternalSkillType.ROME4}' }" :isSelected="false" :toggle="() => {}" />
       </div>
     `
   },

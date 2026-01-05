@@ -1,5 +1,5 @@
 import type { AdditionalSkillFormData } from '@/features/student/additionalSkills/components/overlays/AddAdditionalSkillDrawer/types'
-import { type AddAdditionalSkillDTO, type AdditionalSkillProgressDTO, EAdditionalSkillLevel, EAdditionalSkillType } from '@/api/avenir-esr'
+import { type AddAdditionalSkillDTO, type AdditionalSkillProgressDTO, EAdditionalSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -11,7 +11,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
   let mockOnSubmit: ReturnType<typeof vi.fn>
   let createAdditionalSkillProgressSpy: MockInstance<(addAdditionalSkillDTO: AddAdditionalSkillDTO, options?: RequestInit | undefined) => Promise<AdditionalSkillProgressDTO>>
 
-  const createMockSkill = (id = '1', label = 'Test Skill', type = EAdditionalSkillType.ROME4) => ({
+  const createMockSkill = (id = '1', label = 'Test Skill', type = EExternalSkillType.ROME4) => ({
     id,
     label,
     value: id,
@@ -123,7 +123,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
     })
 
     BddTest().then('it should validate with different skill types', () => {
-      const skill = createMockSkill('test-id', 'Test Skill', EAdditionalSkillType.ROME4)
+      const skill = createMockSkill('test-id', 'Test Skill', EExternalSkillType.ROME4)
       const validData = createValidFormData(EAdditionalSkillLevel.EXPERT, skill)
       const validator = getOnSubmitValidator()
       const validationResult = validator({ value: validData })
@@ -177,7 +177,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
       await vi.waitFor(() => {
         expect(createAdditionalSkillProgressSpy).toHaveBeenCalledWith({
           id: 'skill-123',
-          type: EAdditionalSkillType.ROME4,
+          type: EExternalSkillType.ROME4,
           level: EAdditionalSkillLevel.ADVANCED
         })
       })
@@ -192,14 +192,14 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
       await vi.waitFor(() => {
         expect(createAdditionalSkillProgressSpy).toHaveBeenCalledWith({
           id: 'skill-456',
-          type: EAdditionalSkillType.ROME4,
+          type: EExternalSkillType.ROME4,
           level: EAdditionalSkillLevel.BEGINNER
         })
       })
     })
 
     BddTest().then('it should handle different skill types in API call', async () => {
-      const skill = createMockSkill('skill-789', 'Design Thinking', EAdditionalSkillType.ROME4)
+      const skill = createMockSkill('skill-789', 'Design Thinking', EExternalSkillType.ROME4)
       const validData = createValidFormData(EAdditionalSkillLevel.COMPETENT, skill)
       const handler = getOnSubmitHandler()
       handler({ value: validData, formApi: composableResult.form, meta: {} })
@@ -207,7 +207,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
       await vi.waitFor(() => {
         expect(createAdditionalSkillProgressSpy).toHaveBeenCalledWith({
           id: 'skill-789',
-          type: EAdditionalSkillType.ROME4,
+          type: EExternalSkillType.ROME4,
           level: EAdditionalSkillLevel.COMPETENT
         })
       })
@@ -293,7 +293,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
 
   BddTest().when('form data is transformed to DTO', () => {
     BddTest().then('it should correctly transform form data to DTO', async () => {
-      const skill = createMockSkill('transform-test', 'Transform Test Skill', EAdditionalSkillType.ROME4)
+      const skill = createMockSkill('transform-test', 'Transform Test Skill', EExternalSkillType.ROME4)
       const validData = createValidFormData(EAdditionalSkillLevel.EXPERT, skill)
       const handler = getOnSubmitHandler()
       handler({ value: validData, formApi: composableResult.form, meta: {} })
@@ -301,7 +301,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
       await vi.waitFor(() => {
         expect(createAdditionalSkillProgressSpy).toHaveBeenCalledWith({
           id: 'transform-test',
-          type: EAdditionalSkillType.ROME4,
+          type: EExternalSkillType.ROME4,
           level: EAdditionalSkillLevel.EXPERT
         })
       })
@@ -320,7 +320,7 @@ BddTest().given('the useAdditionalSkillForm composable', () => {
       await vi.waitFor(() => {
         expect(createAdditionalSkillProgressSpy).toHaveBeenCalledWith({
           id: 'skill-1',
-          type: EAdditionalSkillType.ROME4,
+          type: EExternalSkillType.ROME4,
           level: EAdditionalSkillLevel.INTERMEDIATE
         })
       })

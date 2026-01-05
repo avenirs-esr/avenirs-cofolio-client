@@ -5,7 +5,7 @@ import {
   type AdditionalSkillDTO,
   type AdditionalSkillProgressDetailsDTO,
   type AdditionalSkillProgressDTO,
-  EAdditionalSkillType,
+  EExternalSkillType,
   type PagedResponseAdditionalSkillDTO,
   type PagedResponseAdditionalSkillProgressDTO,
   type PageInfoDTO
@@ -168,7 +168,7 @@ BddTest().given('an useSearchAdditionalSkillsQuery composable', () => {
         expect(firstSkill.title.toLowerCase()).toContain('com')
         expect(firstSkill).toHaveProperty('pathSegments')
         expect(firstSkill).toHaveProperty('type')
-        expect(firstSkill.type).toBe(EAdditionalSkillType.ROME4)
+        expect(firstSkill.type).toBe(EExternalSkillType.ROME4)
       })
 
       BddTest().then('it should have infinite query properties', () => {
@@ -245,7 +245,7 @@ BddTest().given('an useAdditionalSkillDetailedQuery composable', () => {
         expect(queryResult.data.value).toBeDefined()
         expect(queryResult.data.value?.id).toBe('test-skill-id-123')
         expect(queryResult.data.value?.title).toBe('Conduire un projet de bout en bout')
-        expect(queryResult.data.value?.type).toBe(EAdditionalSkillType.ROME4)
+        expect(queryResult.data.value?.type).toBe(EExternalSkillType.ROME4)
       })
 
       BddTest().then('it should return computed additionalSkillDetailed', () => {

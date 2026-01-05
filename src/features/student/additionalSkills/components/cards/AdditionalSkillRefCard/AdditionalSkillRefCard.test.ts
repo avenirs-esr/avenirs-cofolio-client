@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { type AdditionalSkillCategoryDTO, EAdditionalSkillCategoryType, EAdditionalSkillType } from '@/api/avenir-esr'
+import { type AdditionalSkillCategoryDTO, EExternalSkillCategoryType, EExternalSkillType } from '@/api/avenir-esr'
 import AdditionalSkillRefCard from '@/features/student/additionalSkills/components/cards/AdditionalSkillRefCard/AdditionalSkillRefCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -23,8 +23,8 @@ BddTest().given('an AdditionalSkillRefCard component', () => {
 
   const makeSegments = (n = 2): AdditionalSkillCategoryDTO[] => {
     const base: AdditionalSkillCategoryDTO[] = [
-      { type: EAdditionalSkillCategoryType.MACRO_SKILL, libelle: 'Langues' },
-      { type: EAdditionalSkillCategoryType.DOMAIN, libelle: 'Anglais' },
+      { type: EExternalSkillCategoryType.MACRO_SKILL, libelle: 'Langues' },
+      { type: EExternalSkillCategoryType.DOMAIN, libelle: 'Anglais' },
     ]
     if (n <= 0) {
       return []
@@ -35,8 +35,8 @@ BddTest().given('an AdditionalSkillRefCard component', () => {
     return base
   }
 
-  const mountWith = (opts: { type?: EAdditionalSkillType, segmentsCount?: number } = {}) => {
-    const type: EAdditionalSkillType = opts.type ?? EAdditionalSkillType.ROME4
+  const mountWith = (opts: { type?: EExternalSkillType, segmentsCount?: number } = {}) => {
+    const type: EExternalSkillType = opts.type ?? EExternalSkillType.ROME4
     const pathSegments = makeSegments(opts.segmentsCount ?? 2)
 
     wrapper = mountComponent(AdditionalSkillRefCard, {
