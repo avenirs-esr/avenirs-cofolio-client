@@ -80,7 +80,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
         </div>
       </template>
       <template #body>
-        <div class="floating-icon-card__body">
+        <div class="floating-icon-card__body av-col av-gap-sm">
           <slot name="body" />
         </div>
       </template>
@@ -88,7 +88,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
         v-if="$slots.footer"
         #footer
       >
-        <div class="floating-icon-card__footer">
+        <div class="floating-icon-card__footer av-row av-align-center av-justify-end av-wrap av-gap-xxs">
           <slot name="footer" />
         </div>
       </template>
@@ -141,21 +141,6 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  &__footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: var(--spacing-xxs);
   }
 }
 </style>

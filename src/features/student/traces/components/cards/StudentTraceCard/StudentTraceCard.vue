@@ -96,8 +96,14 @@ const iconOptions = {
 </template>
 
 <style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .student-trace-card {
-  width: 17.125rem;
+  width: 100%;
+
+  @include dsav.min-width(md) {
+    width: 17.25rem;
+  }
 
   :deep(.av-card:hover) {
     border: 1px solid var(--dark-background-primary1) !important;

@@ -107,10 +107,16 @@ const iconOptions = {
 </template>
 
 <style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .student-skill-card {
   display: flex;
-  width: 17.25rem;
+  width: 100%;
   border-radius: 1.5rem;
+
+  @include dsav.min-width(md) {
+    width: 17.25rem;
+  }
 
   :deep(.floating-icon-card__title.b1-bold) {
     color: var(--card2);

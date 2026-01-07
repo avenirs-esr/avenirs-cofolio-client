@@ -95,7 +95,7 @@ const avButtonProps = computed<AvButtonProps>(() => ({
 }
 
 :deep(.av-card) {
-  padding: 0.25rem;
-  border-radius: 0.5rem;
+  padding: 0.25rem !important;
+  border-radius: 0.5rem !important;
 }
 </style>

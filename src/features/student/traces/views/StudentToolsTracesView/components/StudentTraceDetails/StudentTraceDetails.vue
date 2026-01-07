@@ -28,116 +28,67 @@ const traceFileUploadLabel = computed(() => {
 </script>
 
 <template>
-  <div class="student-detailed-trace-information">
-    <div class="student-detailed-trace-information__content">
-      <div class="student-detailed-trace-information__row">
-        <div class="student-detailed-trace-information__left-column">
-          <TraceNameInput
-            :model-value="trace.title"
-            :required="false"
-            disabled
-          />
+  <div class="av-col av-gap-md av-px-xs">
+    <div class="av-col av-row--md av-justify-between av-gap-md">
+      <div class="av-col av-flex-fill av-gap-md">
+        <TraceNameInput
+          :model-value="trace.title"
+          :required="false"
+          disabled
+        />
 
-          <div class="student-detailed-trace-information__upload-section">
-            <TraceFileUpload
-              :label="traceFileUploadLabel"
-              :model-value="attachmentFile"
-              :valid-message="t('global.success.file.loaded')"
-              disabled
-            />
-          </div>
-        </div>
-
-        <div class="student-detailed-trace-information__right-column">
-          <TracePersonalNoteTextarea
-            :model-value="trace.personalNote"
-            disabled
-          />
-        </div>
+        <TraceFileUpload
+          :label="traceFileUploadLabel"
+          :model-value="attachmentFile"
+          :valid-message="t('global.success.file.loaded')"
+          disabled
+        />
       </div>
 
-      <div class="student-detailed-trace-information__row">
-        <div class="student-detailed-trace-information__left-column">
-          <div class="student-detailed-trace-information__indicators">
-            <AvIconText
-              v-if="trace.isGroup"
-              typography-class="b2-light"
-              icon-color="var(--text2)"
-              :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
-              :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.groupProduction')"
-            />
-            <AvIconText
-              typography-class="b2-light"
-              icon-color="var(--text2)"
-              :icon="MDI_ICONS.CHECK"
-              :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authenticProduction')"
-            />
-          </div>
-        </div>
+      <div class="av-col av-flex-fill personal-note">
+        <TracePersonalNoteTextarea
+          :model-value="trace.personalNote"
+          disabled
+        />
+      </div>
+    </div>
 
-        <div class="student-detailed-trace-information__right-column">
-          <div class="student-detailed-trace-information__ia">
-            <TraceAiUsageToggle
-              :model-value="!!trace.aiUseJustification"
-              :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
-              disabled
-            />
-            <TraceIaJustificationTextarea
-              v-if="trace.aiUseJustification"
-              :model-value="trace.aiUseJustification"
-              :label-visible="false"
-              disabled
-            />
-          </div>
-        </div>
+    <div class="av-col av-row--md av-justify-between av-gap-md">
+      <div class="av-col av-flex-fill av-gap-xs indicators">
+        <AvIconText
+          v-if="trace.isGroup"
+          typography-class="b2-light"
+          icon-color="var(--text2)"
+          :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
+          :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.groupProduction')"
+        />
+        <AvIconText
+          typography-class="b2-light"
+          icon-color="var(--text2)"
+          :icon="MDI_ICONS.CHECK"
+          :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authenticProduction')"
+        />
+      </div>
+
+      <div class="av-col av-flex-fill">
+        <TraceAiUsageToggle
+          :model-value="!!trace.aiUseJustification"
+          :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
+          disabled
+        />
+        <TraceIaJustificationTextarea
+          v-if="trace.aiUseJustification"
+          :model-value="trace.aiUseJustification"
+          :label-visible="false"
+          disabled
+        />
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-.student-detailed-trace-information {
-  padding: var(--spacing-md) var(--spacing-xs);
-}
-
-.student-detailed-trace-information__content {
-  display: grid;
-  gap: var(--spacing-md);
-}
-
-.student-detailed-trace-information__row {
-  display: flex;
-  gap: var(--spacing-lg);
-  align-items: stretch;
-}
-
-.student-detailed-trace-information__left-column,
-.student-detailed-trace-information__right-column {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.student-detailed-trace-information__row:first-child .student-detailed-trace-information__right-column :deep(.av-input textarea) {
-  flex: 1;
+<style lang="scss" scoped>
+.personal-note :deep(.av-input textarea) {
   min-height: 14rem;
-}
-
-.student-detailed-trace-information__upload-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxxs);
-}
-
-.student-detailed-trace-information__indicators {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.student-detailed-trace-information__ia {
-  display: flex;
-  flex-direction: column;
 }
 </style>

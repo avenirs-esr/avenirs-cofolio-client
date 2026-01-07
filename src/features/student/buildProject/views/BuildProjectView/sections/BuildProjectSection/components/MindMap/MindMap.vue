@@ -35,7 +35,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
 </script>
 
 <template>
-  <div class="av-flex-col-sm">
+  <div class="av-col av-gap-sm">
     <AvIconText
       :icon="RI_ICONS.LOADER_LINE"
       icon-color="var(--icon)"
@@ -44,7 +44,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
       typography-class="n5"
       gap="var(--spacing-xs)"
     />
-    <div class="av-row av-row--middle av-flex-row-sm">
+    <div class="av-row av-align-center av-gap-sm">
       <AvButton
         :label="t('global.buttons.undo')"
         :icon="MDI_ICONS.UNDO"
@@ -90,7 +90,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         @click="() => doScreenshot('mind-map')"
       />
     </div>
-    <div class="poc-container">
+    <div class="mind-map-container">
       <VueFlow
         :nodes="nodes"
         :edges="edges"
@@ -147,7 +147,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
 </template>
 
 <style lang="scss" scoped>
-.poc-container {
+.mind-map-container {
   border: 1px solid var(--stroke);
   height: 80vh;
   width: 100%;

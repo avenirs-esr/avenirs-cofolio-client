@@ -71,8 +71,9 @@ BddTest().given('a pagination', () => {
       })
 
       BddTest().then('it should not add a truncLimit to AvPagination', () => {
-        expect(wrapper.find('.bottom-pagination-container')
-          .findComponent({ name: 'AvPagination' }).props('truncLimit')).toBeUndefined()
+        const topPagination = wrapper.findAllComponents({ name: 'AvPagination' }).find(c => c.props('id') === 'top-pagination')
+        expect(topPagination?.exists()).toBe(true)
+        expect(topPagination!.props('truncLimit')).toBeUndefined()
       })
     })
 
@@ -110,8 +111,14 @@ BddTest().given('a pagination', () => {
         mockIsMobile.value = true
         const wrapper = createWrapper()
 
-        expect(wrapper.find('.bottom-pagination-container')
-          .findComponent({ name: 'AvPagination' }).props('truncLimit')).toBe(1)
+        const bottomPagination = wrapper.findAllComponents({ name: 'AvPagination' }).find(c => c.props('id') === 'bottom-pagination')
+        expect(bottomPagination?.exists()).toBe(true)
+        expect(bottomPagination!.props('truncLimit')).toBe(1)
+      })
+
+      BddTest().then('it should not render AvPageSizePicker', () => {
+        const wrapper = createWrapper()
+        expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(false)
       })
     })
   })

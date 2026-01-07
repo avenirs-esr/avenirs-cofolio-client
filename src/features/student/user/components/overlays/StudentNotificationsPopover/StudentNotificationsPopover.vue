@@ -12,10 +12,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <AvPopover
-    width="30rem"
-    padding="var(--spacing-md)"
-  >
+  <AvPopover padding="var(--spacing-md)">
     <template #trigger="{ toggle }">
       <AvButton
         :label="t('student.global.layout.header.quicklinks.notifications')"

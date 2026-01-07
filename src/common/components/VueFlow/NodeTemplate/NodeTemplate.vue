@@ -44,6 +44,7 @@ const {
   collapsed,
   data,
   id,
+  titleOnly,
   ...props
 } = defineProps<NodeTemplateProps>()
 
@@ -90,7 +91,8 @@ const avCardProps = computed<AvCardProps>(() => ({
   titleBackground,
   titleHeight,
   collapsible,
-  collapsed
+  collapsed,
+  titleOnly
 }))
 
 const nodeProps = computed<NodeProps>(() => ({
@@ -119,7 +121,7 @@ function removeNodeHandler (nodeId: string) {
       v-bind="avCardProps"
     >
       <template #title>
-        <div class="av-row av-flex-row-sm av-row--between av-row--middle">
+        <div class="av-row av-gap-sm av-justify-between av-align-center">
           <slot name="title" />
         </div>
       </template>
@@ -155,10 +157,10 @@ function removeNodeHandler (nodeId: string) {
 
 :deep(.av-card--title-only) {
   .av-card__title {
-    margin: calc(var(--spacing-sm) * -1);
+    margin: calc(var(--spacing-sm) * -1) !important;
   }
   .av-card__content-collapsible {
-    padding: var(--spacing-none);
+    padding: var(--spacing-none) !important;
   }
 }
 </style>

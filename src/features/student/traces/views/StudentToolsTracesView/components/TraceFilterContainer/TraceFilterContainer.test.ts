@@ -11,6 +11,34 @@ import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockShowModal = ref(false)
+const mockDisplayModal = vi.fn()
+const mockHideModal = vi.fn()
+
+export const mockIsMobile = ref(false)
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useModal: () => ({
+      showModal: mockShowModal,
+      displayModal: mockDisplayModal,
+      hideModal: mockHideModal
+    }),
+  }
+})
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
+
 interface TraceFilterContainerRefs {
   typesSelected: AvMultiselectOption[]
   statusesSelected: AvMultiselectOption[]
@@ -742,6 +770,48 @@ BddTest().given('a trace filter container', () => {
             toDate: '',
             keyword: ''
           })
+        })
+      })
+    })
+  })
+
+  BddTest().and('is on mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+    })
+
+    BddTest().when('the component is mounted', () => {
+      let wrapper: VueWrapper<InstanceType<typeof TraceFilterContainer>>
+
+      beforeEach(async () => {
+        setActivePinia(createPinia())
+        const handler = createAllSkillsHandler(mockedAllSkills)
+        server.use(handler)
+        wrapper = mountComponent(TraceFilterContainer, {
+          props: { isAssociated: true },
+          global: { stubs },
+          useTanstack: true,
+          usePinia: true
+        })
+
+        await flushPromises()
+      })
+
+      BddTest().then('it should render the filter button', () => {
+        const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+        const filterButton = buttons.find(button => button.props('label') === 'Filtrer mes traces')
+        expect(filterButton).toBeDefined()
+      })
+
+      BddTest().and('the filter button is clicked', () => {
+        beforeEach(async () => {
+          const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+          const filterButton = buttons.find(button => button.props('label') === 'Filtrer mes traces')
+          await filterButton!.trigger('click')
+        })
+
+        BddTest().then('it should display the modal', () => {
+          expect(mockDisplayModal).toHaveBeenCalled()
         })
       })
     })
