@@ -64,12 +64,13 @@
           "partiallyCompliant": "Accessibilité : partiellement conforme"
         },
         "anr": "Agence Nationale de la Recherche - Programme AVENIR(S)",
-        "avenirs": "Volet ESR du programme AVENIR(s)",
+        "avenirs": "Volet ESR du programme AVENIR(s) - Accueil",
         "cookies": "Gestion des cookies",
         "copyright": "{'@'}ESUP-Portail. Tous droits réservés.",
+        "copyrightAria": "{'@'}ESUP-Portail. Tous droits réservés. - Accueil",
         "data": "Données personnelles",
-        "esup": "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique",
-        "france2030": "Informations France 2030",
+        "esup": "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil",
+        "france2030": "France 2030 - Informations",
         "legal": "Mentions légales"
       }
     },

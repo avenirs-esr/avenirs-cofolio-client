@@ -119,7 +119,10 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
       }"
     >
       <div class="cofolio-container">
-        <CofolioLogoSvg />
+        <CofolioLogoSvg
+          role="img"
+          aria-label="Logo Cofolio"
+        />
         <span class="caption-regular">
           {{ t('global.footer.instituteInfo') }}
         </span>
@@ -169,6 +172,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
                 target="_blank"
                 rel="noopener noreferrer"
                 :title="title"
+                :aria-label="title"
                 v-bind="attrs"
               >
                 {{ label }}
@@ -184,6 +188,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
           <div class="partners">
             <a
               href="https://avenirs-esr.fr/"
+              :aria-label="t('global.footer.links.avenirs')"
               :title="t('global.footer.links.avenirs')"
             >
               <img
@@ -194,6 +199,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
             </a>
             <a
               href="https://www.esup-portail.org/"
+              :aria-label="t('global.footer.links.esup')"
               :title="t('global.footer.links.esup')"
             >
               <EsupLogo height="2rem" />
@@ -207,6 +213,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
       <a
         class="caption-regular copyright"
         href="https://www.esup-portail.org/"
+        :aria-label="t('global.footer.links.copyrightAria')"
       >
         {{ t('global.footer.links.copyright') }}
       </a>

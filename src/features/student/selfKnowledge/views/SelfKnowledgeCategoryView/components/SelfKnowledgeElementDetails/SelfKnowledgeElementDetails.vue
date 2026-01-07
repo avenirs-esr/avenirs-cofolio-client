@@ -18,7 +18,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
 </script>
 
 <template>
-  <div class="self-knowledge-element-details av-row av-gap-lg">
+  <div class="self-knowledge-element-details av-col av-row--md av-gap-lg">
     <div class="self-knowledge-element-details__left-column av-col av-gap-md">
       <CategoryElementTitleInput
         :model-value="element.title"

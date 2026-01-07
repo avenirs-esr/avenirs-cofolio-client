@@ -38,9 +38,9 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     :to="ROUTES.STUDENT.ADDITIONAL_SKILL.name"
     color="var(--card2)"
   >
-    <div class="body-container">
-      <div class="firstline-container">
-        <div class="line-container">
+    <div class="av-col av-justify-between av--mt-xs av-gap-xxs">
+      <div class="av-pr-5xl">
+        <div class="av-row av-w-full av-align-center av-justify-between av-gap-sm av-wrap">
           <AvBadge
             v-bind="typeBadge"
             small
@@ -59,29 +59,6 @@ const pathBadge = computed<AvBadgeProps>(() => ({
 </template>
 
 <style lang="scss" scoped>
-.body-container {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   gap: var(--spacing-xxs);
-  margin-top: calc(-1 * var(--spacing-xs));
- }
-
-.firstline-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 3.5rem;
-}
-
-.line-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
 .n6 {
   color: var(--text1);
 }

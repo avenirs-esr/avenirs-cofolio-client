@@ -42,8 +42,9 @@ function handleSelectChange (val: AvTagPickerOption): void {
 </script>
 
 <template>
-  <div class="top-pagination-container">
+  <div class="av-row av-wrap av-align-center av-justify-between av-gap-md">
     <AvPageSizePicker
+      v-if="!isMobile"
       :label="t('global.pageSizePicker.label')"
       :page-size-selected="pageSizeSelected"
       :handle-select-change="handleSelectChange"
@@ -64,7 +65,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
     />
   </div>
   <slot />
-  <div class="bottom-pagination-container">
+  <div class="av-row av-w-full av-justify-center av-pb-lg">
     <AvPagination
       id="bottom-pagination"
       :current-page="pageInfo.page"
@@ -79,23 +80,3 @@ function handleSelectChange (val: AvTagPickerOption): void {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.top-pagination-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-
-}
-
-.bottom-pagination-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: center;
-  padding-bottom: var(--spacing-lg);
-}
-</style>

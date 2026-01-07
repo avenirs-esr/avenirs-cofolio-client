@@ -120,7 +120,7 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should render the indicators section', () => {
-      const indicators = wrapper.find('.student-detailed-trace-information__indicators')
+      const indicators = wrapper.find('.indicators')
       const iconTexts = indicators.findAllComponents({ name: 'AvIconText' })
 
       expect(indicators.exists()).toBe(true)

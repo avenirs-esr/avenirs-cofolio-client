@@ -8,10 +8,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <AvPopover
-    width="22rem"
-    padding="var(--spacing-xs)"
-  >
+  <AvPopover padding="var(--spacing-xs)">
     <template #trigger="{ toggle }">
       <AvButton
         :label="username"

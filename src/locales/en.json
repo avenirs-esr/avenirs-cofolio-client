@@ -64,12 +64,13 @@
           "partiallyCompliant": "partially compliant"
         },
         "anr": "National Research Agency - AVENIR(S) Program",
-        "avenirs": "ESR component of the AVENIR(s) program",
+        "avenirs": "ESR component of the AVENIR(s) program - Home",
         "cookies": "Cookie management",
         "copyright": "{'@'}ESUP-Portail. All rights reserved.",
+        "copyrightAria": "{'@'}ESUP-Portail. All rights reserved. - Home",
         "data": "Personal data",
-        "esup": "Community of French higher education establishments for digital innovation",
-        "france2030": "France 2030 info",
+        "esup": "Community of French higher education establishments for digital innovation - Home",
+        "france2030": "France 2030 - Information",
         "legal": "Legal notices"
       }
     },
