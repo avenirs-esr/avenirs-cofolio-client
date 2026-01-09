@@ -114,7 +114,6 @@ const emptySlotTextContent = computed<string>(() => {
           <template #item="{ option, isSelected, toggle }">
             <AvListItem
               v-memo="[option, isSelected, toggle, searchQuery]"
-              clickable
               hover-background-color="var(--light-background-neutral)"
               :selected="isSelected"
               :icon="MDI_ICONS.STARS"

@@ -57,6 +57,7 @@ This modular approach ensures that:
 - Code is organized by domain rather than technical function
 - Features can be developed, tested, and maintained independently
 - Clear boundaries exist between different parts of the application
+
 ## Setup & Development
 
 ```bash
@@ -193,3 +194,8 @@ feat: add user login functionality
 fix: handle null pointer in dashboard
 docs: update installation guide
 ```
+
+### ARIA Authoring Practices Guide
+
+When developing components, please refer to the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) to ensure accessibility compliance.
+You can find [design patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) and [best practices](https://www.w3.org/WAI/ARIA/apg/practices/) for implementing accessible web components.

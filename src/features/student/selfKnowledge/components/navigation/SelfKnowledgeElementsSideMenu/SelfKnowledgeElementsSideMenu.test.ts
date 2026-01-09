@@ -70,7 +70,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
     })
 
     BddTest().then('it should highlight the selected element', () => {
-      const selectedItem = wrapper.findAll('div[role="button"]').find(item =>
+      const selectedItem = wrapper.findAll('a[role="button"]').find(item =>
         item.text() === 'Force de communication'
       )
       expect(selectedItem?.classes()).toContain('self-knowledge-elements-side-menu__element--selected')
@@ -78,7 +78,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
 
     BddTest().and('an element is clicked', () => {
       beforeEach(async () => {
-        const elementItems = wrapper.findAll('div[role="button"]')
+        const elementItems = wrapper.findAll('a[role="button"]')
         await elementItems[0].trigger('click')
       })
 
@@ -90,7 +90,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
 
     BddTest().and('a keyboard enter is pressed on an element', () => {
       beforeEach(async () => {
-        const elementItems = wrapper.findAll('div[role="button"]')
+        const elementItems = wrapper.findAll('a[role="button"]')
         await elementItems[2].trigger('keydown.enter')
       })
 
@@ -102,7 +102,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
 
     BddTest().and('a keyboard space is pressed on an element', () => {
       beforeEach(async () => {
-        const elementItems = wrapper.findAll('div[role="button"]')
+        const elementItems = wrapper.findAll('a[role="button"]')
         await elementItems[2].trigger('keydown.space')
       })
 

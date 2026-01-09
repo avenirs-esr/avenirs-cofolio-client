@@ -799,14 +799,14 @@ BddTest().given('a trace filter container', () => {
 
       BddTest().then('it should render the filter button', () => {
         const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-        const filterButton = buttons.find(button => button.props('label') === 'Filtrer mes traces')
+        const filterButton = buttons.find(button => button.props('label') === 'Filtrer les traces')
         expect(filterButton).toBeDefined()
       })
 
       BddTest().and('the filter button is clicked', () => {
         beforeEach(async () => {
           const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-          const filterButton = buttons.find(button => button.props('label') === 'Filtrer mes traces')
+          const filterButton = buttons.find(button => button.props('label') === 'Filtrer les traces')
           await filterButton!.trigger('click')
         })
 

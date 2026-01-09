@@ -179,6 +179,7 @@
           "title": "My collection of traces",
           "traceFilter": {
             "labels": {
+              "filter": "Filter traces",
               "fromDate": "Start date",
               "reset": "Reset filters",
               "search": {

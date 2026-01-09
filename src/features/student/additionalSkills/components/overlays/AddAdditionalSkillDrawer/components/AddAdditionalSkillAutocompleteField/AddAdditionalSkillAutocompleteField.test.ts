@@ -284,7 +284,6 @@ BddTest().given('an autocomplete skill field component', () => {
   BddTest().when('skill options are available', () => {
     BddTest().then('it should render skill options with proper structure', () => {
       const listItem = wrapper.findComponent({ name: 'AvListItem' })
-      expect(listItem.props('clickable')).toBeDefined()
       expect(listItem.props('icon')).toBeDefined()
     })
 
