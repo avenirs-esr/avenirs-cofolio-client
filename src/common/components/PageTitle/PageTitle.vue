@@ -37,7 +37,11 @@ function goBack () {
     {{ title }}
   </h1>
   <div class="page-title-container">
-    <AvBreadcrumb :links="breadcrumbLinks" />
+    <AvBreadcrumb
+      :navigation-label="t('global.breadcrumb.ariaLabel')"
+      :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
+      :links="breadcrumbLinks"
+    />
     <div class="page-title">
       <AvButton
         :label="t('global.buttons.goBack')"

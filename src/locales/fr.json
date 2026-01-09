@@ -16,6 +16,10 @@
       "activeText": "Oui",
       "inactiveText": "Non"
     },
+    "breadcrumb": {
+      "ariaLabel": "Fil d'Ariane",
+      "expandButtonLabel": "Voir le fil d'Ariane"
+    },
     "buttons": {
       "add": "Ajouter",
       "cancel": "Annuler",
