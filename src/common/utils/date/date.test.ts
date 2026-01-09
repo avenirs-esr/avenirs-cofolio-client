@@ -189,22 +189,22 @@ BddTest().given('a year-month to date formatter', () => {
       const date = '2025-02'
       const formattedDate = formatYearMonthToDate(date)
 
-      expect(formattedDate).toBe('01/02/2025')
+      expect(formattedDate).toBe('2025-02-01')
     })
   })
 
   BddTest().when('providing different months', () => {
     BddTest().then('it should format each month correctly', () => {
-      expect(formatYearMonthToDate('2025-01')).toBe('01/01/2025')
-      expect(formatYearMonthToDate('2025-06')).toBe('01/06/2025')
-      expect(formatYearMonthToDate('2025-12')).toBe('01/12/2025')
+      expect(formatYearMonthToDate('2025-01')).toBe('2025-01-01')
+      expect(formatYearMonthToDate('2025-06')).toBe('2025-06-01')
+      expect(formatYearMonthToDate('2025-12')).toBe('2025-12-01')
     })
   })
 
   BddTest().when('providing different years', () => {
     BddTest().then('it should format each year correctly', () => {
-      expect(formatYearMonthToDate('2020-03')).toBe('01/03/2020')
-      expect(formatYearMonthToDate('2030-09')).toBe('01/09/2030')
+      expect(formatYearMonthToDate('2020-03')).toBe('2020-03-01')
+      expect(formatYearMonthToDate('2030-09')).toBe('2030-09-01')
     })
   })
 })

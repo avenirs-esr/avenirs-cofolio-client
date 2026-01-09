@@ -108,9 +108,9 @@ export function formatTimeLocalized (date: string, localeCode: AvLocale): string
 /**
  * Formats a year-month string to date format with day
  * @param date yyyy-MM (e.g., "2025-02")
- * @returns Formatted date string (e.g., "01/02/2025")
+ * @returns Formatted date string (e.g., "2025-02-01")
  */
 export function formatYearMonthToDate (date: string): string {
   const parsedDate = parse(date, 'yyyy-MM', new Date())
-  return format(parsedDate, 'dd/MM/yyyy')
+  return format(parsedDate, 'yyyy-MM-dd')
 }
