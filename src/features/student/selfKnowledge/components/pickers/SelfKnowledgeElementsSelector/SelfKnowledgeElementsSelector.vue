@@ -38,21 +38,24 @@ function onSelectElement (elementId: string) {
         :valorized="false"
         :icon-name="getSelfKnowledgeCategoryIcon(categoryType)"
       />
-      <div
+      <a
         v-if="!readonly"
-        class="self-knowledge-element-compact-card__overlay"
-        :class="{ 'self-knowledge-element-compact-card__overlay--selected': selectedElementIds.includes(element.id) }"
         role="button"
         tabindex="0"
         :aria-label="t(`student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.ariaLabel`, { title: element.title })"
+        :aria-pressed="selectedElementIds.includes(element.id)"
+        class="self-knowledge-element-compact-card__overlay"
+        :class="{ 'self-knowledge-element-compact-card__overlay--selected': selectedElementIds.includes(element.id) }"
         @click="() => onSelectElement(element.id)"
+        @keydown.enter="() => onSelectElement(element.id)"
+        @keydown.space="() => onSelectElement(element.id)"
       >
         <AvIcon
           :name="selectedElementIds.includes(element.id) ? MDI_ICONS.CHECKBOX_MARKED : MDI_ICONS.CHECKBOX_BLANK_OUTLINE"
           color="var(--other-background-base)"
           :size="2"
         />
-      </div>
+      </a>
     </div>
   </div>
 </template>

@@ -56,7 +56,7 @@ BddTest().given('a self knowledge element selector', () => {
 
       BddTest().and('the element is clicked', () => {
         beforeEach(async () => {
-          await wrapper.find('div[role="button"]').trigger('click')
+          await wrapper.find('a[role="button"]').trigger('click')
         })
 
         BddTest().then('it should update the model with the element id', () => {
@@ -66,7 +66,7 @@ BddTest().given('a self knowledge element selector', () => {
 
         BddTest().and('the element is clicked again', () => {
           beforeEach(async () => {
-            await wrapper.find('div[role="button"]').trigger('click')
+            await wrapper.find('a[role="button"]').trigger('click')
           })
 
           BddTest().then('it should update the model to remove the element id', () => {
@@ -127,7 +127,7 @@ BddTest().given('a self knowledge element selector', () => {
       })
 
       BddTest().then('it should not render the overlay', () => {
-        expect(wrapper.find('div[role="button"]').exists()).toBe(false)
+        expect(wrapper.find('a[role="button"]').exists()).toBe(false)
       })
     })
   })

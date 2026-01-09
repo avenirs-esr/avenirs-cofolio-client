@@ -33,6 +33,10 @@ BddTest().given('a skills view other tab component', () => {
       props: ['label'],
       template: '<span>{{ label }}</span>'
     },
+    AddAdditionalSkillDrawer: {
+      name: 'AddAdditionalSkillDrawer',
+      template: '<div class="add-additional-skill-drawer-stub"></div>'
+    },
     Pagination: PaginationStub,
     RouterLink: RouterLinkStub,
   }

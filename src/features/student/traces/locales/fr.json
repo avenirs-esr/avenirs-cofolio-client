@@ -178,6 +178,7 @@
           "title": "Ma bibliothèque de traces",
           "traceFilter": {
             "labels": {
+              "filter": "Filtrer les traces",
               "fromDate": "Date de début",
               "reset": "Réinitialiser les filtres",
               "search": {

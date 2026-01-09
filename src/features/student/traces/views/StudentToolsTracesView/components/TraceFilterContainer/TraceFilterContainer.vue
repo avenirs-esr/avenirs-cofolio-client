@@ -133,7 +133,7 @@ watch([
 <template>
   <AvButton
     v-if="isMobile"
-    label="Filtrer mes traces"
+    :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.filter')"
     variant="OUTLINED"
     :icon="MDI_ICONS.FILTER_OUTLINE"
     small

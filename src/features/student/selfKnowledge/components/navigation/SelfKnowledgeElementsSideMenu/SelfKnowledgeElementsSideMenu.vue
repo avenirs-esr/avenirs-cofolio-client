@@ -78,10 +78,11 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
             icon-only
             @click="$emit('selectElement', element.id)"
           />
-          <div
+          <a
             v-else
             role="button"
             tabindex="0"
+            :aria-pressed="element.id === selectedElementId"
             :class="{ 'self-knowledge-elements-side-menu__element--selected': element.id === selectedElementId }"
             @keydown.enter="$emit('selectElement', element.id)"
             @keydown.space="$emit('selectElement', element.id)"
@@ -92,7 +93,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
               :valorized="false"
               :icon-name="iconName"
             />
-          </div>
+          </a>
         </div>
       </div>
     </div>
@@ -111,10 +112,6 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
     gap: var(--spacing-sm);
     max-height: 40rem;
     overflow-y: auto;
-
-    & div[role="button"] {
-      cursor: pointer;
-    }
   }
 
   &__element--selected {
