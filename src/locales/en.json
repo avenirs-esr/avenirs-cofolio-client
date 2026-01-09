@@ -16,6 +16,10 @@
       "activeText": "On",
       "inactiveText": "Off"
     },
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "expandButtonLabel": "View breadcrumb"
+    },
     "buttons": {
       "add": "Add",
       "cancel": "Cancel",
