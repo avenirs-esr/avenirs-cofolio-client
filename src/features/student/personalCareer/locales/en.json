@@ -1,14 +1,9 @@
 {
   "student": {
     "personalCareer": {
-      "cards": {
-        "DeclaredProgramCard": {
-          "status": {
-            "completed": "Completed",
-            "inProgress": "In Progress",
-            "notStarted": "Not Started"
-          }
-        }
+      "declaredExperienceType": {
+        "PERSONAL": "Personal experience",
+        "PROFESSIONAL": "Professional experience"
       },
       "declaredProgramStatus": {
         "COMPLETED": "Completed",
