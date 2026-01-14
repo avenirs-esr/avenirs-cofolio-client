@@ -78,7 +78,10 @@ const emptySlotTextContent = computed<string>(() => {
 </script>
 
 <template>
-  <div class="search-skill-field">
+  <div
+    class="av-col av-gap-sm"
+    data-testid="search-skill-field"
+  >
     <FormField name="selectedSkills">
       <template #default="{ field }">
         <AvAutocomplete
@@ -124,9 +127,13 @@ const emptySlotTextContent = computed<string>(() => {
             >
               <div
                 v-memo="[option, isSelected]"
-                class="skill-item"
+                class="skill-item av-row av-align-center av-justify-between av-gap-md"
+                data-testid="skill-item"
               >
-                <div class="skill-item__content">
+                <div
+                  class="av-col av-flex-fill"
+                  data-testid="skill-item__content"
+                >
                   <div
                     class="b1-bold"
                     v-html="highlightTitleText(option.title, searchQuery)"
@@ -155,27 +162,6 @@ const emptySlotTextContent = computed<string>(() => {
 </template>
 
 <style scoped lang="scss">
-.search-skill-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-:deep(.skill-item) {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-  border-radius: var(--radius-md);
-}
-
-.skill-item__content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
 .caption-light {
   .skill-item__path-segment {
     &:not(:last-child)::after {
@@ -183,11 +169,5 @@ const emptySlotTextContent = computed<string>(() => {
       margin: 0 var(--spacing-xxxs);
     }
   }
-}
-</style>
-
-<style lang="scss">
-.highlight {
-  color: var(--light-foreground-primary1) !important;
 }
 </style>

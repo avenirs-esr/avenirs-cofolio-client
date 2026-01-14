@@ -64,5 +64,3 @@ const label = computed(() => getBadgeLabel(level))
     :small="small"
   />
 </template>
-
-<style lang="scss" scoped></style>

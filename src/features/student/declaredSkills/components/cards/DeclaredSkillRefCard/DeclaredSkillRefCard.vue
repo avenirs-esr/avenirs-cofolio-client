@@ -17,11 +17,20 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="ref--container">
+  <div
+    class="av-col av-gap-xxs"
+    data-testid="ref__container"
+  >
     <span class="caption-regular">{{ t('student.declaredSkills.cards.DeclaredSkillRefCard.refTitle') }}</span>
     <AvCard>
-      <div class="ref--content">
-        <div class="ref--type">
+      <div
+        class="av-col av-gap-xs"
+        data-testid="ref__content"
+      >
+        <div
+          class="av-row av-gap-xxs av-align-center"
+          data-testid="ref__type"
+        >
           <AvIcon
             :name="MDI_ICONS.CIRCLE"
             color="var(--dark-background-primary1)"
@@ -39,8 +48,9 @@ const { t } = useI18n()
         <div
           v-for="(segment, index) in pathSegments"
           :key="index"
-          class="ref--item"
+          class="ref__item"
           :style="{ paddingLeft: `calc(${index + 1} * var(--spacing-sm))` }"
+          data-testid="ref__item"
         >
           <AvIconText
             v-if="index < pathSegments.length - 1"
@@ -52,7 +62,8 @@ const { t } = useI18n()
           />
           <div
             v-else
-            class="ref--last-segment"
+            class="av-row av-gap-xxs av-align-start"
+            data-testid="ref__last-segment"
           >
             <AvIcon
               :name="MDI_ICONS.ARROW_RIGHT_BOTTOM"
@@ -74,29 +85,6 @@ const { t } = useI18n()
 
 <style scoped lang="scss">
 .ref {
-  &--container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-  }
-
-  &--content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-  }
-
-  &--type, &--last-segment {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-xxs);
-    align-items: center;
-  }
-
-  &--last-segment {
-    align-items: start;
-  }
-
   &--item {
     :deep(.icon-text--container) {
       align-items: start;

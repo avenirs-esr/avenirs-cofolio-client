@@ -46,7 +46,8 @@ function handleUpdateModelValue (value: unknown) {
 <template>
   <div
     v-if="skillConfig"
-    class="skill-level-field"
+    class="av-col av-gap-sm av-mt-sm"
+    data-testid="skill-level-field"
   >
     <AvRadioButtonSet
       :model-value="modelValue"
@@ -61,10 +62,11 @@ function handleUpdateModelValue (value: unknown) {
         :key="level"
       >
         <AvRadioButton :value="level">
-          <div class="level-option">
-            <div class="level-option__header">
-              <DeclaredSkillLevelBadge :level="level" />
-            </div>
+          <div
+            class="av-col av-gap-xxs"
+            data-testid="level-option"
+          >
+            <DeclaredSkillLevelBadge :level="level" />
             <span class="b2-regular">
               {{ getDescription(level) }}
             </span>
@@ -74,23 +76,3 @@ function handleUpdateModelValue (value: unknown) {
     </AvRadioButtonSet>
   </div>
 </template>
-
-<style scoped lang="scss">
-.skill-level-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-sm);
-}
-
-.level-option {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.level-option__header {
-  display: flex;
-  align-items: center;
-}
-</style>

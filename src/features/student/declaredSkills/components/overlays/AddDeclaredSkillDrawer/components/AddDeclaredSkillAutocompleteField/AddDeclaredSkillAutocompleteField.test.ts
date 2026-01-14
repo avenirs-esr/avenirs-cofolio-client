@@ -94,7 +94,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the autocomplete field container', () => {
-      const container = wrapper.find('.search-skill-field')
+      const container = wrapper.find('[data-testid="search-skill-field"]')
       expect(container.exists()).toBe(true)
     })
 
@@ -127,7 +127,7 @@ BddTest().given('an autocomplete skill field component', () => {
       const listItem = wrapper.findComponent({ name: 'AvListItem' })
       expect(listItem.exists()).toBe(true)
 
-      const skillItem = wrapper.find('.skill-item')
+      const skillItem = wrapper.find('[data-testid="skill-item"]')
       expect(skillItem.exists()).toBe(true)
 
       const skillTitle = wrapper.find('.b1-bold')
@@ -271,7 +271,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('integrating with form field', () => {
     BddTest().then('it should integrate with TanStack Form Field component', () => {
-      const container = wrapper.find('.search-skill-field')
+      const container = wrapper.find('[data-testid="search-skill-field"]')
       expect(container.exists()).toBe(true)
     })
 

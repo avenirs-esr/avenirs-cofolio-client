@@ -106,7 +106,7 @@ BddTest().given('a student declared skill view component', () => {
 
     BddTest().then('it should render the skill title from query data', async () => {
       await vi.waitFor(() => {
-        const title = wrapper.find('.student-declared-skill-view__title .n4')
+        const title = wrapper.find('[data-testid="student-declared-skill-view__title"] .n4')
         expect(title.exists()).toBe(true)
         expect(title.text()).toBe('Conduire un projet de bout en bout')
       })
