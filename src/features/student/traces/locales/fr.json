@@ -192,7 +192,7 @@
                 "associatedEvaluated": "Associée à un niveau de compétence évalué",
                 "associatedInEvaluation": "Associée à un niveau de compétence soumis pour évaluation",
                 "associatedNotEvaluated": "Associée à un niveau de compétence non évalué",
-                "associatedWithAdditionalSkill": "Associée à un niveau de compétence supplémentaire"
+                "associatedWithDeclaredSkill": "Associée à un niveau de compétence supplémentaire"
               },
               "toDate": "Date de fin",
               "types": "Type",

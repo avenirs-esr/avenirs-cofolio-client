@@ -1,7 +1,7 @@
 import {
   type AttachmentUploadDTO,
-  EAdditionalSkillLevel,
   EAmsStatus,
+  EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
   ESkillLevelStatus,
@@ -200,25 +200,25 @@ export const mockedTraceAssociations: TraceAssociationsDTO = {
       }
     }
   ],
-  additionalSkillAssociations: [
+  declaredSkillAssociations: [
     {
-      id: 'additional-1',
+      id: 'declared-1',
       title: 'Gestion de projet agile',
-      level: EAdditionalSkillLevel.ADVANCED,
+      level: EDeclaredSkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
       type: EExternalSkillType.ROME4
     },
     {
-      id: 'additional-2',
+      id: 'declared-2',
       title: 'Communication interpersonnelle',
-      level: EAdditionalSkillLevel.COMPETENT,
+      level: EDeclaredSkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
       type: EExternalSkillType.ROME4
     },
     {
-      id: 'additional-3',
+      id: 'declared-3',
       title: 'Analyse de données',
-      level: EAdditionalSkillLevel.EXPERT,
+      level: EDeclaredSkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
       type: EExternalSkillType.ROME4
     }

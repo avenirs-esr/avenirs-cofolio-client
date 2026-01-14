@@ -1,6 +1,6 @@
 import { ROUTES } from '@/common/constants'
-import { studentAdditionalSkillRoute, studentUpdateAdditionalSkillRoute } from '@/features/student/additionalSkills/routes'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
+import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { personalCareerRoute } from '@/features/student/personalCareer'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
@@ -19,7 +19,7 @@ export default [
         ...ROUTES.STUDENT.ACCESSIBILITY,
         component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
       },
-      studentAdditionalSkillRoute,
+      studentDeclaredSkillRoute,
       studentAmsRoute,
       {
         ...ROUTES.STUDENT.COOKIES,
@@ -62,7 +62,7 @@ export default [
         component: () => import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
       },
       studentTraceRoute,
-      studentUpdateAdditionalSkillRoute,
+      studentUpdateDeclaredSkillRoute,
       {
         ...ROUTES.STUDENT.ABOUT,
         component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),

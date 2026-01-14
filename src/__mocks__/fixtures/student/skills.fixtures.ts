@@ -1,15 +1,15 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type AdditionalSkillDTO,
-  type AdditionalSkillProgressDetailsDTO,
-  type AdditionalSkillProgressDTO,
-  EAdditionalSkillLevel,
+  type DeclaredSkillDTO,
+  type DeclaredSkillProgressDetailsDTO,
+  type DeclaredSkillProgressDTO,
+  EDeclaredSkillLevel,
   EExternalSkillCategoryType,
   EExternalSkillType,
   ESkillLevelStatus,
   ETraceAssociationType,
-  type PagedResponseAdditionalSkillDTO,
-  type PagedResponseAdditionalSkillProgressDTO,
+  type PagedResponseDeclaredSkillDTO,
+  type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseSkillDTO,
   type PagedResponseTraceAssociationSearchResult,
   type SkillDTO,
@@ -65,12 +65,12 @@ export function createMockedPagedResponseSkillsDTO (pageSize: number, totalEleme
   }
 }
 
-export function createMockedPagedResponseAdditionalSkillProgressDTO (pageSize: number, totalElements: number, page: number): PagedResponseAdditionalSkillProgressDTO {
-  const mockedSkills: AdditionalSkillProgressDTO[] = []
-  const levels = Object.values(EAdditionalSkillLevel)
+export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: number, totalElements: number, page: number): PagedResponseDeclaredSkillProgressDTO {
+  const mockedSkills: DeclaredSkillProgressDTO[] = []
+  const levels = Object.values(EDeclaredSkillLevel)
 
   for (let i = 1; i <= totalElements; i++) {
-    const skill: AdditionalSkillProgressDTO = {
+    const skill: DeclaredSkillProgressDTO = {
       id: crypto.randomUUID(),
       title: `Ma super compétence complémentaire ${i}`,
       pathSegments: ['Catégorie', `Sous-catégorie ${i}`],
@@ -92,7 +92,7 @@ export function createMockedPagedResponseAdditionalSkillProgressDTO (pageSize: n
   }
 }
 
-export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseAdditionalSkillDTO {
+export function createMockedSearchDeclaredSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseDeclaredSkillDTO {
   const allSkills = [
     'Accueillir des enfants',
     'Animation pédagogique',
@@ -133,7 +133,7 @@ export function createMockedSearchAdditionalSkillsDTO (pageSize: number, totalEl
     'Comptabilité publique'
   ]
 
-  const filteredSkills: AdditionalSkillDTO[] = allSkills
+  const filteredSkills: DeclaredSkillDTO[] = allSkills
     .filter(title => title.toLowerCase().includes(keyword.toLowerCase()))
     .map(title => ({
       id: `search-${crypto.randomUUID()}`,
@@ -242,7 +242,7 @@ export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
   return mockedAllSkills
 }
 
-export function createMockedAdditionalSkillProgressDetailsDTO (skillId: string): AdditionalSkillProgressDetailsDTO {
+export function createMockedDeclaredSkillProgressDetailsDTO (skillId: string): DeclaredSkillProgressDetailsDTO {
   return {
     id: skillId,
     title: 'Conduire un projet de bout en bout',
@@ -264,7 +264,7 @@ export function createMockedAdditionalSkillProgressDetailsDTO (skillId: string):
 Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
 Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`,
     type: EExternalSkillType.ROME4,
-    level: EAdditionalSkillLevel.ADVANCED,
+    level: EDeclaredSkillLevel.ADVANCED,
     traceAssociations: mockedTraceOverview,
     createdAt: '2023-10-10T10:00:00Z',
     updatedAt: '2023-10-15T12:00:00Z'

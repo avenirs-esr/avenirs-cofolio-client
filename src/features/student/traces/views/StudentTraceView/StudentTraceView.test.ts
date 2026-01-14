@@ -55,7 +55,7 @@ BddTest().given('a student trace view', () => {
     },
     StudentTraceAssociations: {
       name: 'StudentTraceAssociations',
-      props: ['skillLevelAssociations', 'additionalSkillAssociations'],
+      props: ['skillLevelAssociations', 'declaredSkillAssociations'],
       template: '<div class="student-trace-associations" />'
     }
   }

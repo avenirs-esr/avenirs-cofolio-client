@@ -76,11 +76,11 @@ BddTest().given('a terms step', () => {
       expect(wrapper.find('.alert-message').text()).toEqual('Attention, message d\'information')
     })
 
-    BddTest().then('it should render all skill-level and additional-skill items', () => {
+    BddTest().then('it should render all skill-level and declared-skill items', () => {
       const items = wrapper.findAll('.av-list-item-stub')
       const expectedCount
         = mockedTraceAssociations.skillLevelAssociations.length
-          + mockedTraceAssociations.additionalSkillAssociations.length
+          + mockedTraceAssociations.declaredSkillAssociations.length
       expect(items.length).toBe(expectedCount)
     })
 
@@ -88,7 +88,7 @@ BddTest().given('a terms step', () => {
       const items = wrapper.findAll('.av-list-item-stub').map(n => n.get('.title').text())
       const expectedTitles = [
         ...mockedTraceAssociations.skillLevelAssociations.map(s => s.skillTitle),
-        ...mockedTraceAssociations.additionalSkillAssociations.map(a => a.title)
+        ...mockedTraceAssociations.declaredSkillAssociations.map(a => a.title)
       ]
       expect(items).toEqual(expectedTitles)
     })
@@ -121,13 +121,13 @@ BddTest().given('a terms step', () => {
       expect(badges.length).toBe(3)
     })
 
-    BddTest().then('it should render additional skills with the expected icon and color', () => {
+    BddTest().then('it should render declared skills with the expected icon and color', () => {
       const offset = mockedTraceAssociations.skillLevelAssociations.length
-      const additionalItems = wrapper.findAll('.av-list-item-stub').slice(offset)
+      const declaredItems = wrapper.findAll('.av-list-item-stub').slice(offset)
 
-      for (const additionalItem of additionalItems) {
-        expect(additionalItem.attributes('data-icon')).toBe(MDI_ICONS.RECORD_CIRCLE_OUTLINE)
-        expect(additionalItem.attributes('data-icon-color')).toBe('var(--dark-background-primary1)')
+      for (const declaredItem of declaredItems) {
+        expect(declaredItem.attributes('data-icon')).toBe(MDI_ICONS.RECORD_CIRCLE_OUTLINE)
+        expect(declaredItem.attributes('data-icon-color')).toBe('var(--dark-background-primary1)')
       }
     })
   })

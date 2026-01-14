@@ -95,7 +95,7 @@ function backToElementDetails () {
     >
       <template #title>
         <AvBadge
-          :label="t('student.additionalSkills.views.StudentUpdateAdditionalSkillView.wipBadge')"
+          :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.wipBadge')"
           background-color="var(--dark-background-primary1)"
           color="var(--dark-foreground)"
           :icon="ICONS_DATA_URL.MDI_PENCIL_OUTLINE"

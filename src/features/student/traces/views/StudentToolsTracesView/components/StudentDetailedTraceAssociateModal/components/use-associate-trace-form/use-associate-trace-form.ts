@@ -60,7 +60,7 @@ export function useAssociateTraceForm (opts: UseAssociateTraceFormOptions) {
       const associateTraceDTO = {
         amsIds: [],
         skillLevelIds: selected.map(s => s.id),
-        additionalSkillProgressIds: [],
+        declaredSkillProgressIds: [],
       }
 
       mutate(

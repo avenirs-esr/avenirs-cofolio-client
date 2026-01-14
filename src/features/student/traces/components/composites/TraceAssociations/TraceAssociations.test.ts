@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { type AdditionalSkillAssociationDTO, EAdditionalSkillLevel, EAmsStatus, EExternalSkillType, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
+import { type DeclaredSkillAssociationDTO, EAmsStatus, EDeclaredSkillLevel, EExternalSkillType, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -24,11 +24,11 @@ const stubs = {
       levelColor: String
     }
   },
-  StudentTraceAdditionalSkillAssociationCard: {
-    name: 'StudentTraceAdditionalSkillAssociationCard',
-    template: '<div class="student-trace-additional-skill-association-card" />',
+  StudentTraceDeclaredSkillAssociationCard: {
+    name: 'StudentTraceDeclaredSkillAssociationCard',
+    template: '<div class="student-trace-declared-skill-association-card" />',
     props: {
-      additionalSkill: Object
+      declaredSkill: Object
     }
   }
 }
@@ -38,7 +38,7 @@ BddTest().given('a student trace associations component', () => {
 
   BddTest().when('the component is mounted with empty associations', () => {
     beforeEach(() => {
-      const associationsProps = { skillLevelAssociations: [], additionalSkillAssociations: [] }
+      const associationsProps = { skillLevelAssociations: [], declaredSkillAssociations: [] }
       wrapper = mountComponent(TraceAssociations, {
         props: {
           associations: associationsProps
@@ -58,10 +58,10 @@ BddTest().given('a student trace associations component', () => {
 
     BddTest().then('it should not render any association cards', () => {
       const skillCards = wrapper.findAllComponents({ name: 'StudentTraceSkillLevelAssociationCard' })
-      const additionalSkillCards = wrapper.findAllComponents({ name: 'StudentTraceAdditionalSkillAssociationCard' })
+      const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
       expect(skillCards).toHaveLength(0)
-      expect(additionalSkillCards).toHaveLength(0)
+      expect(declaredSkillCards).toHaveLength(0)
     })
   })
 
@@ -86,7 +86,7 @@ BddTest().given('a student trace associations component', () => {
       }
     ]
 
-    const associationsProps = { skillLevelAssociations, additionalSkillAssociations: [] }
+    const associationsProps = { skillLevelAssociations, declaredSkillAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -126,25 +126,25 @@ BddTest().given('a student trace associations component', () => {
       expect(skillCards[1].props('levelColor')).toBe('var(--skill2)')
     })
 
-    BddTest().then('it should not render additional skill cards', () => {
-      const additionalSkillCards = wrapper.findAllComponents({ name: 'StudentTraceAdditionalSkillAssociationCard' })
+    BddTest().then('it should not render declared skill cards', () => {
+      const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
-      expect(additionalSkillCards).toHaveLength(0)
+      expect(declaredSkillCards).toHaveLength(0)
     })
   })
 
-  BddTest().when('the component is mounted with only additional skill associations', () => {
-    const additionalSkillAssociations: AdditionalSkillAssociationDTO[] = [
+  BddTest().when('the component is mounted with only declared skill associations', () => {
+    const declaredSkillAssociations: DeclaredSkillAssociationDTO[] = [
       {
-        id: 'additional-1',
-        title: 'Compétence additionnelle 1',
-        level: EAdditionalSkillLevel.BEGINNER,
+        id: 'declared-1',
+        title: 'Compétence complémentaire 1',
+        level: EDeclaredSkillLevel.BEGINNER,
         pathSegments: [],
         type: EExternalSkillType.ROME4
       }
     ]
 
-    const associationsProps = { skillLevelAssociations: [], additionalSkillAssociations }
+    const associationsProps = { skillLevelAssociations: [], declaredSkillAssociations }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -164,16 +164,16 @@ BddTest().given('a student trace associations component', () => {
       expect(iconText.props('text')).toContain('(1)')
     })
 
-    BddTest().then('it should render 1 additional skill association card', () => {
-      const additionalSkillCards = wrapper.findAllComponents({ name: 'StudentTraceAdditionalSkillAssociationCard' })
+    BddTest().then('it should render 1 declared skill association card', () => {
+      const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
-      expect(additionalSkillCards).toHaveLength(1)
+      expect(declaredSkillCards).toHaveLength(1)
     })
 
-    BddTest().then('it should pass correct props to additional skill card', () => {
-      const additionalSkillCards = wrapper.findAllComponents({ name: 'StudentTraceAdditionalSkillAssociationCard' })
+    BddTest().then('it should pass correct props to declared skill card', () => {
+      const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
-      expect(additionalSkillCards[0].props('additionalSkill')).toEqual(additionalSkillAssociations[0])
+      expect(declaredSkillCards[0].props('declaredSkill')).toEqual(declaredSkillAssociations[0])
     })
 
     BddTest().then('it should not render skill level cards', () => {
@@ -205,17 +205,17 @@ BddTest().given('a student trace associations component', () => {
       }
     ]
 
-    const additionalSkillAssociations: AdditionalSkillAssociationDTO[] = [
+    const declaredSkillAssociations: DeclaredSkillAssociationDTO[] = [
       {
-        id: 'additional-1',
-        title: 'Compétence additionnelle 1',
-        level: EAdditionalSkillLevel.EXPERT,
+        id: 'declared-1',
+        title: 'Compétence complémentaire 1',
+        level: EDeclaredSkillLevel.EXPERT,
         pathSegments: [],
         type: EExternalSkillType.ROME4
       }
     ]
 
-    const associationsProps = { skillLevelAssociations, additionalSkillAssociations }
+    const associationsProps = { skillLevelAssociations, declaredSkillAssociations }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -241,10 +241,10 @@ BddTest().given('a student trace associations component', () => {
       expect(skillCards).toHaveLength(3)
     })
 
-    BddTest().then('it should render 1 additional skill association card', () => {
-      const additionalSkillCards = wrapper.findAllComponents({ name: 'StudentTraceAdditionalSkillAssociationCard' })
+    BddTest().then('it should render 1 declared skill association card', () => {
+      const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
-      expect(additionalSkillCards).toHaveLength(1)
+      expect(declaredSkillCards).toHaveLength(1)
     })
   })
 
@@ -256,7 +256,7 @@ BddTest().given('a student trace associations component', () => {
       status: ESkillLevelStatus.VALIDATED
     }))
 
-    const associationsProps = { skillLevelAssociations, additionalSkillAssociations: [] }
+    const associationsProps = { skillLevelAssociations, declaredSkillAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {

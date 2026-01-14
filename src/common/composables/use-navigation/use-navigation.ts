@@ -4,8 +4,8 @@ import { type NavigationFailure, useRouter } from 'vue-router'
 export function useNavigation () {
   const router = useRouter()
 
-  const navigateToStudentAdditionalSkill = () => {
-    return router.push(ROUTES.STUDENT.ADDITIONAL_SKILL)
+  const navigateToStudentDeclaredSkill = () => {
+    return router.push(ROUTES.STUDENT.DECLARED_SKILL)
   }
 
   const navigateToStudentDeliverables = () => {
@@ -63,8 +63,8 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.TOOLS_TRACES)
   }
 
-  const navigateToStudentUpdateAdditionalSkill = () => {
-    return router.push(ROUTES.STUDENT.UPDATE_ADDITIONAL_SKILL)
+  const navigateToStudentUpdateDeclaredSkill = () => {
+    return router.push(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
   }
 
   const navigateToTeacherHome = (
@@ -73,7 +73,7 @@ export function useNavigation () {
   }
 
   return {
-    navigateToStudentAdditionalSkill,
+    navigateToStudentDeclaredSkill,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,
@@ -85,7 +85,7 @@ export function useNavigation () {
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentSkills,
     navigateToStudentTraces,
-    navigateToStudentUpdateAdditionalSkill,
+    navigateToStudentUpdateDeclaredSkill,
     navigateToTeacherHome,
   }
 }

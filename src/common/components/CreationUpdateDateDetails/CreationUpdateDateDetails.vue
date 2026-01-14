@@ -3,13 +3,13 @@ import { useDateUtils } from '@/common/composables'
 import { AvIconText, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface AdditionalSkillDateDetailsProps {
+export interface DeclaredSkillDateDetailsProps {
   createdAt?: string
   updatedAt?: string
   createdAtPrefix?: string
 }
 
-const { createdAt, updatedAt, createdAtPrefix } = defineProps<AdditionalSkillDateDetailsProps>()
+const { createdAt, updatedAt, createdAtPrefix } = defineProps<DeclaredSkillDateDetailsProps>()
 
 const { t } = useI18n()
 const { formatTranslatedDateTime } = useDateUtils()

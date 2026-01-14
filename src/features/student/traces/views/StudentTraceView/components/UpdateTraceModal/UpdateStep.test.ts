@@ -39,7 +39,7 @@ BddTest().given('an update step', () => {
     },
     traceAssociations: {
       skillLevelAssociations: [],
-      additionalSkillAssociations: []
+      declaredSkillAssociations: []
     }
   }
 

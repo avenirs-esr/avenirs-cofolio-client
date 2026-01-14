@@ -112,7 +112,7 @@ BddTest().given('the useAssociateTraceForm composable', () => {
         expect(associateSpy).toHaveBeenCalledWith('trace-001', {
           amsIds: [],
           skillLevelIds: ['lvl-999'],
-          additionalSkillProgressIds: [],
+          declaredSkillProgressIds: [],
         })
       })
     })

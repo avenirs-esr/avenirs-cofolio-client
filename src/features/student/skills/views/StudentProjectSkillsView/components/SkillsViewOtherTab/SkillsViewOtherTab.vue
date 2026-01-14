@@ -1,26 +1,26 @@
 <script setup lang="ts">
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { AddAdditionalSkillDrawer, useAdditionalSkillsStore, useAdditionalSkillsViewQuery } from '@/features/student/additionalSkills'
-import StudentDetailedAdditionalSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedAdditionalSkillCard/StudentDetailedAdditionalSkillCard.vue'
+import { AddDeclaredSkillDrawer, useDeclaredSkillsStore, useDeclaredSkillsViewQuery } from '@/features/student/declaredSkills'
+import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const additionalSkillsStore = useAdditionalSkillsStore()
+const declaredSkillsStore = useDeclaredSkillsStore()
 const {
   currentPage,
   pageSizeSelected,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePagination(toRef(additionalSkillsStore, 'currentPage'), toRef(additionalSkillsStore, 'pageSizeSelected'))
+} = usePagination(toRef(declaredSkillsStore, 'currentPage'), toRef(declaredSkillsStore, 'pageSizeSelected'))
 
-const { skills, pageInfo, error } = useAdditionalSkillsViewQuery(currentPage, pageSizeSelected)
+const { skills, pageInfo, error } = useDeclaredSkillsViewQuery(currentPage, pageSizeSelected)
 useBaseApiExceptionToast(error)
 
 function handleAddSkill (): void {
-  additionalSkillsStore.displayCreateAdditionalSkillDrawer()
+  declaredSkillsStore.displayCreateDeclaredSkillDrawer()
 }
 </script>
 
@@ -43,16 +43,16 @@ function handleAddSkill (): void {
         :on-update-page-size="onUpdatePageSize"
       >
         <div class="skills-container">
-          <StudentDetailedAdditionalSkillCard
+          <StudentDetailedDeclaredSkillCard
             v-for="skill in skills"
             :key="skill.id"
-            :additional-skill="skill"
+            :declared-skill="skill"
           />
         </div>
       </Pagination>
     </div>
 
-    <AddAdditionalSkillDrawer />
+    <AddDeclaredSkillDrawer />
   </div>
 </template>
 
