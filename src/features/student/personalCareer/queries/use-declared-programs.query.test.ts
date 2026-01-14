@@ -1,4 +1,4 @@
-import type { AddDeclaredProgramDTO } from '@/api/avenir-esr'
+import type { DeclaredProgramRequestDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createDeclaredProgramErrorHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
@@ -152,7 +152,7 @@ BddTest().given('a create declared program mutation', () => {
   let mockOnSuccess: ReturnType<typeof vi.fn>
   let mockOnError: ReturnType<typeof vi.fn>
 
-  const addDeclaredProgramDTO: AddDeclaredProgramDTO = {
+  const declaredProgramRequestDTO: DeclaredProgramRequestDTO = {
     title: 'Master en Informatique',
     description: 'Formation approfondie en développement logiciel et intelligence artificielle',
     organization: 'Université Paris-Saclay',
@@ -228,7 +228,7 @@ BddTest().given('a create declared program mutation', () => {
     })
 
     BddTest().then('it should successfully create the declared program', async () => {
-      composableResult.mutate(addDeclaredProgramDTO)
+      composableResult.mutate(declaredProgramRequestDTO)
 
       await vi.waitFor(() => {
         expect(composableResult.isSuccess.value).toBe(true)
@@ -239,7 +239,7 @@ BddTest().given('a create declared program mutation', () => {
     })
 
     BddTest().then('it should call onSuccess callback with correct data', async () => {
-      composableResult.mutate(addDeclaredProgramDTO)
+      composableResult.mutate(declaredProgramRequestDTO)
 
       await vi.waitFor(() => {
         expect(mockOnSuccess).toHaveBeenCalledTimes(1)
@@ -247,13 +247,13 @@ BddTest().given('a create declared program mutation', () => {
 
       expect(mockOnSuccess).toHaveBeenCalledWith(
         declaredProgramViewDTOFixture,
-        addDeclaredProgramDTO
+        declaredProgramRequestDTO
       )
     })
 
     BddTest().and('resetting the mutation after success', () => {
       BddTest().then('it should clear mutation state', async () => {
-        composableResult.mutate(addDeclaredProgramDTO)
+        composableResult.mutate(declaredProgramRequestDTO)
 
         await vi.waitFor(() => {
           expect(composableResult.isSuccess.value).toBe(true)
@@ -285,14 +285,14 @@ BddTest().given('a create declared program mutation', () => {
     })
 
     BddTest().then('it should return the declared program view DTO', async () => {
-      const program = await composableResult.mutateAsync(addDeclaredProgramDTO)
+      const program = await composableResult.mutateAsync(declaredProgramRequestDTO)
 
       expect(program).toEqual(declaredProgramViewDTOFixture)
       expect(composableResult.isSuccess.value).toBe(true)
     })
 
     BddTest().then('it should call onSuccess callback', async () => {
-      await composableResult.mutateAsync(addDeclaredProgramDTO)
+      await composableResult.mutateAsync(declaredProgramRequestDTO)
 
       await vi.waitFor(() => {
         expect(mockOnSuccess).toHaveBeenCalledTimes(1)
@@ -300,7 +300,7 @@ BddTest().given('a create declared program mutation', () => {
 
       expect(mockOnSuccess).toHaveBeenCalledWith(
         declaredProgramViewDTOFixture,
-        addDeclaredProgramDTO
+        declaredProgramRequestDTO
       )
     })
   })
@@ -324,7 +324,7 @@ BddTest().given('a create declared program mutation', () => {
 
     BddTest().and('using mutate', () => {
       BddTest().then('it should set error state', async () => {
-        composableResult.mutate(addDeclaredProgramDTO)
+        composableResult.mutate(declaredProgramRequestDTO)
 
         await vi.waitFor(() => {
           expect(composableResult.isError.value).toBe(true)
@@ -335,7 +335,7 @@ BddTest().given('a create declared program mutation', () => {
       })
 
       BddTest().then('it should call onError callback', async () => {
-        composableResult.mutate(addDeclaredProgramDTO)
+        composableResult.mutate(declaredProgramRequestDTO)
 
         await vi.waitFor(() => {
           expect(mockOnError).toHaveBeenCalledTimes(1)
@@ -346,14 +346,14 @@ BddTest().given('a create declared program mutation', () => {
           status: 500,
           message: 'Internal Server Error'
         })
-        expect(errorCall[1]).toEqual(addDeclaredProgramDTO)
+        expect(errorCall[1]).toEqual(declaredProgramRequestDTO)
       })
     })
 
     BddTest().and('using mutateAsync', () => {
       BddTest().then('it should throw an error', async () => {
         await expect(
-          composableResult.mutateAsync(addDeclaredProgramDTO)
+          composableResult.mutateAsync(declaredProgramRequestDTO)
         ).rejects.toThrow()
 
         expect(composableResult.isError.value).toBe(true)
@@ -361,7 +361,7 @@ BddTest().given('a create declared program mutation', () => {
 
       BddTest().then('it should call onError callback', async () => {
         try {
-          await composableResult.mutateAsync(addDeclaredProgramDTO)
+          await composableResult.mutateAsync(declaredProgramRequestDTO)
         }
         catch {
         }
