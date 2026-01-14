@@ -744,7 +744,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddDeclaredProgramDTO"
+                "$ref": "#/components/schemas/DeclaredProgramRequestDTO"
               }
             }
           },
@@ -2745,7 +2745,7 @@
           "skillIds"
         ]
       },
-      "AddDeclaredProgramDTO": {
+      "DeclaredProgramRequestDTO": {
         "type": "object",
         "properties": {
           "title": {

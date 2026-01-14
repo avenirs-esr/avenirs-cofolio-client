@@ -1,8 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
-  type AddDeclaredProgramDTO,
   createDeclaredProgram,
+  type DeclaredProgramRequestDTO,
   type DeclaredProgramViewDTO,
   getDeclaredPrograms,
   type PagedResponseDeclaredProgramViewDTO,
@@ -64,9 +64,9 @@ export function useDeclaredProgramsViewQuery ({
 export function useCreateDeclaredProgramMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateDeclaredProgramsViewQuery = useInvalidateQuery([...declaredProgramsViewQueryKey])
 
-  return useMutation<DeclaredProgramViewDTO, BaseApiException, AddDeclaredProgramDTO>({
-    mutationFn: async (addDeclaredProgramViewDTO: AddDeclaredProgramDTO): Promise<DeclaredProgramViewDTO> => {
-      return await createDeclaredProgram(addDeclaredProgramViewDTO)
+  return useMutation<DeclaredProgramViewDTO, BaseApiException, DeclaredProgramRequestDTO>({
+    mutationFn: async (declaredProgramRequestDTO: DeclaredProgramRequestDTO): Promise<DeclaredProgramViewDTO> => {
+      return await createDeclaredProgram(declaredProgramRequestDTO)
     },
     onSuccess: async (data, variables) => {
       await invalidateDeclaredProgramsViewQuery()
