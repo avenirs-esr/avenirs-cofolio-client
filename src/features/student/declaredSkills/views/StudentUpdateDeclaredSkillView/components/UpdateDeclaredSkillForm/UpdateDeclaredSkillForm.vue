@@ -35,9 +35,11 @@ function handleCancel () {
   props.onCancel?.()
 }
 
+const state = form.useStore(state => state)
+
 watch(
-  () => form.state.isDirty,
-  dirty => emit('dirtyChange', dirty),
+  state,
+  newState => emit('dirtyChange', newState.isDirty),
   { immediate: true }
 )
 
@@ -45,10 +47,16 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
-  <AvCard class="update-declared-skill-form">
+  <AvCard data-testid="update-declared-skill-form">
     <form @submit.prevent="handleSubmit">
-      <div class="update-declared-skill-form__content">
-        <div class="update-declared-skill-form__main">
+      <div
+        class="av-col av-row--md av-justify-between av-gap-xl"
+        data-testid="update-declared-skill-form__content"
+      >
+        <div
+          class="av-col av-gap-md av-flex-fill"
+          data-testid="update-declared-skill-form__main"
+        >
           <AvInput
             :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
             label-class="caption-regular"
@@ -62,7 +70,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
             :path-segments="declaredSkillProgressDetails.pathSegments"
           />
 
-          <div class="update-declared-skill-form__field">
+          <div data-testid="update-declared-skill-form__field">
             <DeclaredSkillLevelRadioButtonSetFormField :form="form" />
           </div>
 
@@ -73,8 +81,14 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
           />
         </div>
 
-        <div class="update-declared-skill-form__side">
-          <div class="update-declared-skill-form__field">
+        <div
+          class="update-declared-skill-form__side av-col av-gap-xl av-flex-fill"
+          data-testid="update-declared-skill-form__side"
+        >
+          <div
+            class="av-col av-gap-sm"
+            data-testid="update-declared-skill-form__field"
+          >
             <DeclaredSkillCommentFormField :form="form" />
           </div>
         </div>
@@ -82,7 +96,10 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
     </form>
 
     <template #footer>
-      <div class="update-declared-skill-form__actions">
+      <div
+        class="av-row av-justify-end"
+        data-testid="update-declared-skill-form__actions"
+      >
         <AvCancelConfirmButtons
           :cancel-label="t('global.buttons.cancel')"
           :confirm-label="t('global.buttons.save')"
@@ -101,44 +118,11 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 
 <style scoped lang="scss">
 .update-declared-skill-form {
-  &__content {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: var(--spacing-xl);
-    flex-wrap: wrap;
-  }
-
-  &__main {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 300px;
-    min-width: 300px;
-    gap: var(--spacing-md);
-  }
-
   &__side {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 300px;
-    min-width: 300px;
-    gap: var(--spacing-xl);
-
     :deep(textarea) {
       height: 75vh !important;
       resize: none;
     }
-  }
-
-  &__field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
   }
 }
 </style>

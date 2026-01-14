@@ -47,23 +47,39 @@ async function handleRemoveAssociations () {
 </script>
 
 <template>
-  <div class="update-declared-skill-associations">
-    <div class="update-declared-skill-associations__header">
+  <div
+    class="av-col av-gap-md"
+    data-testid="update-declared-skill-associations"
+  >
+    <div
+      class="update-declared-skill-associations__header av-row av-justify-between av-align-center"
+      data-testid="update-declared-skill-associations__header"
+    >
       <span class="b2-regular">
         {{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     </div>
-    <AvCard class="demo-display-none update-declared-skill-associations__container">
+    <AvCard
+      class="demo-display-none av-col"
+      data-testid="update-declared-skill-associations__container"
+    >
       <template #body>
-        <div class="update-declared-skill-associations__card-actions">
+        <div
+          class="update-declared-skill-associations__card-actions av-row av-justify-end"
+          data-testid="update-declared-skill-associations__card-actions"
+        >
           <AvButton
             :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateAssociations.removeButton')"
             :disabled="isPending || selectedTraceIds.length === 0"
             variant="OUTLINED"
             small
+            data-testid="delete-trace-button"
             @click="handleRemoveAssociations"
           />
         </div>
-        <div class="update-declared-skill-associations__traces-list">
+        <div
+          class="av-row av-wrap av-gap-md"
+          data-testid="update-declared-skill-associations__traces-list"
+        >
           <TracesSelector
             v-if="traceAssociations.length > 0"
             v-model="selectedTraceIds"
@@ -71,13 +87,14 @@ async function handleRemoveAssociations () {
           />
           <AvCard
             border-color="var(--surface-background)"
-            class="update-declared-skill-associations__add-card"
+            class="update-declared-skill-associations__add-card av-row av-justify-center av-align-center av-my-md"
           >
             <template #body>
               <AvButton
                 :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateAssociations.addTraceButton')"
                 :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
                 :disabled="isPending"
+                data-testid="add-trace-button"
               />
             </template>
           </AvCard>
@@ -89,25 +106,13 @@ async function handleRemoveAssociations () {
 
 <style scoped lang="scss">
 .update-declared-skill-associations {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-
   &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     color: var(--text2);
   }
 
   &__container,
   &__add-card {
     background-color: var(--surface-background) !important; // Override AvCard inline style
-  }
-
-  &__container {
-    display: flex;
-    flex-direction: column;
   }
 
   &__card-actions,
@@ -120,27 +125,11 @@ async function handleRemoveAssociations () {
     }
   }
 
-  &__card-actions {
-    display: flex;
-    justify-content: flex-end;
-  }
-
   &__add-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 17.125rem;
     height: 14rem;
     border-radius: 1.5rem;
-    margin: var(--spacing-md) 0;
     border-color: var(--other-border-skill-card) !important; // Override AvCard inline style
-  }
-
-  &__traces-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
   }
 }
 </style>

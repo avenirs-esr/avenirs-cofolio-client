@@ -63,10 +63,10 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
     })
 
     BddTest().then('it should render the container and card blocks', () => {
-      expect(wrapper.find('.ref--container').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="ref__container"]').exists()).toBe(true)
       expect(wrapper.find('.av-card').exists()).toBe(true)
-      expect(wrapper.find('.ref--content').exists()).toBe(true)
-      expect(wrapper.find('.ref--type').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="ref__content"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="ref__type"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render a circle icon and a type badge', () => {
@@ -80,11 +80,11 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
     })
 
     BddTest().then('it should render one AvIconText for the first segment and a final badge for the last segment', () => {
-      const iconTexts = wrapper.findAll('.ref--item .av-icon-text')
+      const iconTexts = wrapper.findAll('[data-testid^="ref__item"] .av-icon-text')
       expect(iconTexts.length).toBe(1)
       expect(iconTexts[0].find('.text').text()).toContain('Langues')
 
-      const lastSegment = wrapper.find('.ref--last-segment')
+      const lastSegment = wrapper.find('[data-testid="ref__last-segment"]')
       expect(lastSegment.exists()).toBe(true)
 
       const lastBadge = lastSegment.findComponent(AvBadgeStub)
@@ -109,10 +109,10 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
     })
 
     BddTest().then('it should render only the last-segment block (no AvIconText)', () => {
-      const iconTexts = wrapper.findAll('.ref--item .av-icon-text')
+      const iconTexts = wrapper.findAll('[data-testid^="ref__item-"] .av-icon-text')
       expect(iconTexts.length).toBe(0)
 
-      const lastSegment = wrapper.find('.ref--last-segment')
+      const lastSegment = wrapper.find('[data-testid="ref__last-segment"]')
       expect(lastSegment.exists()).toBe(true)
 
       const lastBadge = lastSegment.findComponent(AvBadgeStub)
@@ -127,8 +127,8 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
     })
 
     BddTest().then('it should render only the type line without any path items', () => {
-      expect(wrapper.findAll('.ref--item').length).toBe(0)
-      expect(wrapper.find('.ref--type').exists()).toBe(true)
+      expect(wrapper.findAll('[data-testid^="ref__item-"]').length).toBe(0)
+      expect(wrapper.find('[data-testid="ref__type"]').exists()).toBe(true)
 
       const typeBadge = wrapper.findComponent(AvBadgeStub)
       expect(typeBadge.exists()).toBe(true)

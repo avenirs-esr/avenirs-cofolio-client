@@ -54,14 +54,12 @@ BddTest().given('an add declared skill drawer component', () => {
     })
 
     BddTest().then('it should render the header with title and icon', () => {
-      const header = wrapper.find('.add-declared-skill-drawer__header')
-      const title = wrapper.find('.add-declared-skill-drawer__title')
-      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      const header = wrapper.find('[data-testid="add-declared-skill-drawer__header"]')
+      const title = wrapper.findComponent({ name: 'AvIconText' })
 
       expect(header.exists()).toBe(true)
       expect(title.exists()).toBe(true)
       expect(title.text()).toBe('Ajouter une compétence complémentaire')
-      expect(icon.exists()).toBe(true)
     })
 
     BddTest().then('it should render footer buttons', () => {
@@ -160,22 +158,22 @@ BddTest().given('an add declared skill drawer component', () => {
 
   BddTest().when('the drawer layout is checked', () => {
     BddTest().then('it should render the main content container', () => {
-      const mainContainer = wrapper.find('.add-declared-skill-drawer')
+      const mainContainer = wrapper.find('[data-testid="add-declared-skill-drawer"]')
       expect(mainContainer.exists()).toBe(true)
     })
 
     BddTest().then('it should render the header section', () => {
-      const header = wrapper.find('.add-declared-skill-drawer__header')
+      const header = wrapper.find('[data-testid="add-declared-skill-drawer__header"]')
       expect(header.exists()).toBe(true)
     })
 
     BddTest().then('it should render the content section', () => {
-      const content = wrapper.find('.add-declared-skill-drawer__content')
+      const content = wrapper.find('[data-testid="add-declared-skill-drawer__content"]')
       expect(content.exists()).toBe(true)
     })
 
     BddTest().then('it should render the footer section in drawer footer slot', () => {
-      const footer = wrapper.find('.add-declared-skill-drawer__footer')
+      const footer = wrapper.find('[data-testid="add-declared-skill-drawer__footer"]')
       expect(footer.exists()).toBe(true)
     })
   })

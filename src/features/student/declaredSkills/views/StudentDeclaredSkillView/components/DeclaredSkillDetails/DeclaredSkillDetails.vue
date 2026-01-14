@@ -23,12 +23,16 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 
 <template>
   <div
-    class="layout-declared-skill-details"
+    class="av-row av-wrap av-nowrap--md av-justify-center av-justify-between--md av-gap-xl"
     :class="{
       'layout-declared-skill-details--mobile': isMobile,
     }"
+    data-testid="layout-declared-skill-details"
   >
-    <div class="layout-declared-skill-details__main">
+    <div
+      class="layout-declared-skill-details__main av-col av-gap-md"
+      data-testid="layout-declared-skill-details__main"
+    >
       <AvInput
         :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
         label-class="caption-regular"
@@ -44,7 +48,10 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         class="level-card"
         border-color="transparent"
       >
-        <div class="level-card--content">
+        <div
+          class="av-row av-align-center av-w-full av-gap-sm"
+          data-testid="level-card__content"
+        >
           <span class="b2-regular">{{ t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.levelTitle') }}</span>
           <DeclaredSkillLevelBadge :level="level" />
         </div>
@@ -55,7 +62,10 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         :updated-at="updatedAt"
       />
     </div>
-    <div class="layout-declared-skill-details__side">
+    <div
+      class="layout-declared-skill-details__side av-col av-gap-xl"
+      data-testid="layout-declared-skill-details__side"
+    >
       <DeclaredSkillCommentInput
         :model-value="description"
         disabled
@@ -66,25 +76,14 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 
 <style lang="scss" scoped>
 .layout-declared-skill-details {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: var(--spacing-xl);
-
   &__main {
-    display: flex;
-    flex-direction: column;
     flex: 1 1 300px;
     min-width: 300px;
-    gap: var(--spacing-md);
   }
 
   &__side {
-    display: flex;
-    flex-direction: column;
     flex: 1 1 300px;
     min-width: 300px;
-    gap: var(--spacing-xl);
 
     :deep(textarea) {
       min-height: 35vh !important;
@@ -93,31 +92,12 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
   }
 
   &--mobile {
-    flex-wrap: wrap;
-    justify-content: center;
-
     &__side,
     &__main {
       flex: 1 1 100%;
       max-width: 100%;
     }
   }
-}
-
-.level-card {
-  &--content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    gap: var(--spacing-sm);
-  }
-}
-
-.date-details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
 }
 
 :deep() {

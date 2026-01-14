@@ -38,12 +38,6 @@ BddTest().given('a declared skill type badge component', () => {
       expect(badge.props('borderColor')).toBe('var(--dark-background-primary1)')
       expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary1)')
     })
-
-    BddTest().then('it should apply declared-skill-type-badge class', () => {
-      const badge = wrapper.findComponent({ name: 'AvBadge' })
-
-      expect(badge.classes()).toContain('declared-skill-type-badge')
-    })
   })
 
   BddTest().when('different props are provided', () => {

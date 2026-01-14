@@ -52,13 +52,13 @@ BddTest().given('a skill level field component', () => {
     })
 
     await vi.waitFor(() => {
-      expect(wrapper.find('.skill-level-field').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="skill-level-field"]').exists()).toBe(true)
     })
   })
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the skill level field container', () => {
-      const container = wrapper.find('.skill-level-field')
+      const container = wrapper.find('[data-testid="skill-level-field"]')
       expect(container.exists()).toBe(true)
     })
 
@@ -72,13 +72,13 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should render all skill level radio buttons', () => {
-      const levelOptions = wrapper.findAll('.level-option')
+      const levelOptions = wrapper.findAll('[data-testid="level-option"]')
 
       expect(levelOptions).toHaveLength(5)
     })
 
     BddTest().then('it should render level options with badges and descriptions', () => {
-      const levelOptions = wrapper.findAll('.level-option')
+      const levelOptions = wrapper.findAll('[data-testid="level-option"]')
       expect(levelOptions).toHaveLength(5)
 
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
@@ -239,9 +239,6 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('level options structure is rendered', () => {
     BddTest().then('it should render level option headers with badges', () => {
-      const levelHeaders = wrapper.findAll('.level-option__header')
-      expect(levelHeaders.length).toBeGreaterThan(0)
-
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges.length).toBeGreaterThan(0)
     })

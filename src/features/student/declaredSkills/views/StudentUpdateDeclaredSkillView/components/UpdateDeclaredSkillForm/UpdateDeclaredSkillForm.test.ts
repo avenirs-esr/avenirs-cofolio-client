@@ -73,10 +73,10 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the main layout parts', () => {
-      expect(wrapper.find('.update-declared-skill-form').exists()).toBe(true)
-      expect(wrapper.find('.update-declared-skill-form__content').exists()).toBe(true)
-      expect(wrapper.find('.update-declared-skill-form__main').exists()).toBe(true)
-      expect(wrapper.find('.update-declared-skill-form__side').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="update-declared-skill-form"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="update-declared-skill-form__content"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="update-declared-skill-form__main"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="update-declared-skill-form__side"]').exists()).toBe(true)
     })
 
     BddTest().then('it should display the title input as disabled with the correct value', () => {
@@ -87,7 +87,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
 
     BddTest().then('it should render level and comment fields', () => {
       expect(wrapper.find('[data-testid="declared-skill-level-form-field"]').exists()).toBe(true)
-      expect(wrapper.find('.comment-field-stub').exists()).toBe(true)
+      expect(wrapper.findComponent(DeclaredSkillCommentFormFieldStub).exists()).toBe(true)
     })
   })
 
@@ -97,12 +97,13 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
       expect(badges.length).toBeGreaterThan(0)
 
       const segments = mockedDeclaredSkillProgressDetails.pathSegments
-      const iconTexts = wrapper.findAll('.ref--item .av-icon-text')
+      const iconTexts = wrapper.findAll('[data-testid="ref__item"] .av-icon-text')
       expect(iconTexts.length).toBe(Math.max(segments.length - 1, 0))
 
-      const lastSegment = wrapper.findComponent({ name: 'AvBadge', className: 'ref--last-segment' })
+      const lastSegment = wrapper.find('[data-testid="ref__last-segment"]')
       if (segments.length > 0) {
         expect(lastSegment.exists()).toBe(true)
+        expect(lastSegment.findComponent({ name: 'AvBadge' }).exists()).toBe(true)
       }
     })
   })

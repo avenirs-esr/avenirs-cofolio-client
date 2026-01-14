@@ -46,13 +46,17 @@ function backToStudentDeclaredSkillViewTabs () {
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
-  <div class="update-declared-skill-view__title">
+  <div
+    class="update-declared-skill-view__title av-row av-py-md"
+    data-testid="update-declared-skill-view__title"
+  >
     <span class="n4">{{ declaredSkillDetailed?.title ?? '' }}</span>
   </div>
 
   <div
     v-if="updateInProgress"
-    class="update-declared-skill-view__uip"
+    class="av-row av-justify-end av-py-md"
+    data-testid="update-declared-skill-view__uip"
   >
     <AvBadge
       :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.wipBadge')"
@@ -91,25 +95,9 @@ function backToStudentDeclaredSkillViewTabs () {
 <style lang="scss" scoped>
 .update-declared-skill-view {
   &__title {
-    padding: var(--spacing-md) var(--spacing-none);
-    display: flex;
-    flex-direction: row;
-
     .n4 {
       color: var(--text2);
     }
-  }
-
-  &__uip {
-    display: flex;
-    justify-content: flex-end;
-    padding: var(--spacing-md) var(--spacing-none);
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding:  var(--spacing-md) 0;
   }
 }
 </style>

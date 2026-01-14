@@ -8,7 +8,7 @@ import {
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { useToasterStore } from '@/store'
-import { AvCancelConfirmButtons, AvDrawer, AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -55,21 +55,24 @@ function confirmCancel () {
     width="40rem"
     @escape-pressed="handleCancel"
   >
-    <div class="add-declared-skill-drawer">
-      <div class="add-declared-skill-drawer__header">
-        <div class="add-declared-skill-drawer__icon">
-          <AvIcon
-            :name="MDI_ICONS.PENCIL_OUTLINE"
-            :size="1.5"
-            color="var(--text2)"
-          />
-        </div>
-        <h2 class="add-declared-skill-drawer__title">
-          {{ t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.title') }}
-        </h2>
+    <div
+      class="av-col av-h-full av-gap-lg"
+      data-testid="add-declared-skill-drawer"
+    >
+      <div data-testid="add-declared-skill-drawer__header">
+        <AvIconText
+          :icon="MDI_ICONS.PENCIL_OUTLINE"
+          icon-color="var(--text2)"
+          :text="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.title')"
+          text-color="var(--text1)"
+          typography-class="n6"
+        />
       </div>
 
-      <div class="add-declared-skill-drawer__content">
+      <div
+        class="av-col av-gap-lg av-flex-fill"
+        data-testid="add-declared-skill-drawer__content"
+      >
         <form
           novalidate
           @submit.prevent.stop="form.handleSubmit"
@@ -83,7 +86,8 @@ function confirmCancel () {
     <template #footer>
       <div
         v-memo="[isFormValid, isSubmitting]"
-        class="add-declared-skill-drawer__footer"
+        class="av-row av-justify-end av-p-md"
+        data-testid="add-declared-skill-drawer__footer"
       >
         <AvCancelConfirmButtons
           :cancel-label="t('global.buttons.cancel')"
@@ -107,47 +111,6 @@ function confirmCancel () {
     @confirm="confirmCancel"
   />
 </template>
-
-<style scoped lang="scss">
-.add-declared-skill-drawer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: var(--spacing-lg);
-}
-
-.add-declared-skill-drawer__header {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.add-declared-skill-drawer__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.add-declared-skill-drawer__title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text1);
-  margin: 0;
-}
-
-.add-declared-skill-drawer__content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.add-declared-skill-drawer__footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: var(--spacing-md);
-}
-</style>
 
 <style lang="scss">
 .highlight {

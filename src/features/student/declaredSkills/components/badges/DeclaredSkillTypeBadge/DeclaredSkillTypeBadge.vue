@@ -17,12 +17,11 @@ const {
     :color="color"
     :border-color="backgroundColor"
     :background-color="backgroundColor"
-    class="declared-skill-type-badge"
   />
 </template>
 
-<style lang="scss">
-.av-badge.declared-skill-type-badge {
+<style lang="scss" scoped>
+:deep(.av-badge) {
   border-radius: var(--radius-xl);
   padding: var(--spacing-xs);
   height: var(--dimension-md);

@@ -52,7 +52,10 @@ function handleUpdateSelected () {
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
-  <div class="student-declared-skill-view__title av-row--lg av-align-baseline--lg av-justify-between--lg">
+  <div
+    class="student-declared-skill-view__title av-gap-sm av-pb-md av-row--lg av-align-baseline--lg av-justify-between--lg"
+    data-testid="student-declared-skill-view__title"
+  >
     <span class="n4">{{ skillTitle }}</span>
     <DeclaredSkillSettingDropdown @update-selected="handleUpdateSelected" />
   </div>
@@ -82,17 +85,9 @@ function handleUpdateSelected () {
 <style lang="scss" scoped>
 .student-declared-skill-view {
   &__title {
-    gap: var(--spacing-sm);
-    padding: 0 0 var(--spacing-md) 0;
-
     .n4 {
       color: var(--text2);
     }
-  }
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding:  var(--spacing-md) 0;
   }
 }
 </style>

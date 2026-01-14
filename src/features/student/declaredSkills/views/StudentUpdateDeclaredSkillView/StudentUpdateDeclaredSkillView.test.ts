@@ -102,7 +102,7 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should render the skill title', async () => {
       await vi.waitFor(() => {
-        const title = wrapper.find('.update-declared-skill-view__title .n4')
+        const title = wrapper.find('[data-testid="update-declared-skill-view__title"] .n4')
         expect(title.exists()).toBe(true)
         expect(title.text()).toBe('Conduire un projet de bout en bout')
       })
@@ -126,7 +126,7 @@ BddTest().given('a student update declared skill view component', () => {
     })
 
     BddTest().then('it should not show the update in progress badge initially', () => {
-      const badge = wrapper.find('.update-declared-skill-view__uip')
+      const badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
       expect(badge.exists()).toBe(false)
     })
 
@@ -161,7 +161,7 @@ BddTest().given('a student update declared skill view component', () => {
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
-      const badge = wrapper.find('.update-declared-skill-view__uip')
+      const badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
       expect(badge.exists()).toBe(true)
     })
 
@@ -174,13 +174,13 @@ BddTest().given('a student update declared skill view component', () => {
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
-      let badge = wrapper.find('.update-declared-skill-view__uip')
+      let badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
       expect(badge.exists()).toBe(true)
 
       await form.vm.$emit('dirty-change', false)
       await wrapper.vm.$nextTick()
 
-      badge = wrapper.find('.update-declared-skill-view__uip')
+      badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
       expect(badge.exists()).toBe(false)
     })
   })

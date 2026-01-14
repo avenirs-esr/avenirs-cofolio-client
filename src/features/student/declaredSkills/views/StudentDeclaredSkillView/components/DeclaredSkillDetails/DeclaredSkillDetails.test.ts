@@ -101,7 +101,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     })
 
     BddTest().then('it should render the declared skill path segments', () => {
-      const pathSegments = wrapper.findAll('.ref--item')
+      const pathSegments = wrapper.findAll('.ref__item')
       mockedDeclaredSkillProgressDetails.pathSegments.forEach((_segment, index) => {
         const avIconText = pathSegments[index].findComponent({ name: 'AvIconText' })
         const avBadge = pathSegments[index].findComponent({ name: 'AvBadge' })

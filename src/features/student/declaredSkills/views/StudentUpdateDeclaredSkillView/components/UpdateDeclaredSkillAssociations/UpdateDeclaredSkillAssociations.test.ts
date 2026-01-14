@@ -61,7 +61,7 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should display the localized associated traces count', () => {
-      const header = wrapper.find('.update-declared-skill-associations__header')
+      const header = wrapper.find('[data-testid="update-declared-skill-associations__header"]')
       expect(header.exists()).toBe(true)
       expect(header.text()).toBe('Mes traces associées (3)')
     })
@@ -78,14 +78,14 @@ BddTest().given('an update declared skill associations component', () => {
 
     BddTest().then('it should render the remove button', () => {
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
+      const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       expect(removeButton).toBeDefined()
       expect(removeButton?.props('variant')).toBe('OUTLINED')
     })
 
     BddTest().then('it should render the add trace button', () => {
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const addButton = buttons.find(btn => btn.props('label') === 'Ajouter une trace')
+      const addButton = buttons.find(btn => btn.attributes('data-testid') === 'add-trace-button')
       expect(addButton).toBeDefined()
     })
   })
@@ -104,7 +104,7 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should display a count of 0', () => {
-      const header = wrapper.find('.update-declared-skill-associations__header')
+      const header = wrapper.find('[data-testid="update-declared-skill-associations__header"]')
       expect(header.exists()).toBe(true)
       expect(header.text()).toBe('Mes traces associées (0)')
     })
@@ -130,7 +130,7 @@ BddTest().given('an update declared skill associations component', () => {
 
     BddTest().then('it should be disabled when no traces are selected', () => {
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
+      const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       expect(removeButton?.props('disabled')).toBe(true)
     })
   })
@@ -152,7 +152,7 @@ BddTest().given('an update declared skill associations component', () => {
       await wrapper.vm.$nextTick()
 
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
+      const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       await removeButton?.trigger('click')
     })
 
@@ -164,7 +164,7 @@ BddTest().given('an update declared skill associations component', () => {
 
     BddTest().then('it should enable the remove button when traces are selected', async () => {
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
+      const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
 
       await vi.waitFor(() => {
         expect(removeButton?.props('disabled')).toBe(true)
@@ -185,7 +185,7 @@ BddTest().given('an update declared skill associations component', () => {
       })
 
       const buttons = wrapper.findAllComponents({ name: 'AvButton' })
-      const removeButton = buttons.find(btn => btn.props('label') === 'Supprimer')
+      const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       await removeButton?.trigger('click')
     })
 
