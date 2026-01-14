@@ -1,5 +1,5 @@
-import { createMockedPagedResponseAdditionalSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { createAdditionalSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -28,14 +28,14 @@ BddTest().given('a skills view other tab component', () => {
       template: '<button v-bind="$attrs" @click="$emit(\'click\')"><slot /></button>',
       emits: ['click']
     },
-    AdditionalSkillTypeBadge: {
-      name: 'AdditionalSkillTypeBadge',
+    DeclaredSkillTypeBadge: {
+      name: 'DeclaredSkillTypeBadge',
       props: ['label'],
       template: '<span>{{ label }}</span>'
     },
-    AddAdditionalSkillDrawer: {
-      name: 'AddAdditionalSkillDrawer',
-      template: '<div class="add-additional-skill-drawer-stub"></div>'
+    AddDeclaredSkillDrawer: {
+      name: 'AddDeclaredSkillDrawer',
+      template: '<div class="add-declared-skill-drawer-stub"></div>'
     },
     Pagination: PaginationStub,
     RouterLink: RouterLinkStub,
@@ -45,7 +45,7 @@ BddTest().given('a skills view other tab component', () => {
     vi.clearAllMocks()
     queryClient = new QueryClient()
 
-    const handler = createAdditionalSkillsProgressViewHandler(createMockedPagedResponseAdditionalSkillProgressDTO(PageSizes.FOUR, 20, 0))
+    const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseDeclaredSkillProgressDTO(PageSizes.FOUR, 20, 0))
     server.use(handler)
 
     paginationMock = createUsePaginationMock()
@@ -92,7 +92,7 @@ BddTest().given('a skills view other tab component', () => {
     BddTest().then('it should render skill cards when skills are loaded', async () => {
       const { flushPromises } = await import('@vue/test-utils')
       await flushPromises()
-      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
       expect(skillCards.length).toBe(4)
     })
 
@@ -119,16 +119,16 @@ BddTest().given('a skills view other tab component', () => {
     BddTest().then('it should render skill cards for each skill', async () => {
       const { flushPromises } = await import('@vue/test-utils')
       await flushPromises()
-      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
       expect(skillCards.length).toBeGreaterThanOrEqual(0)
     })
 
-    BddTest().then('each StudentDetailedAdditionalSkillCard should receive correct props', async () => {
+    BddTest().then('each StudentDetailedDeclaredSkillCard should receive correct props', async () => {
       const { flushPromises } = await import('@vue/test-utils')
       await flushPromises()
-      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
       skillCards.forEach((card) => {
-        expect(card.props('additionalSkill')).toBeDefined()
+        expect(card.props('declaredSkill')).toBeDefined()
       })
     })
   })
@@ -174,9 +174,9 @@ BddTest().given('a skills view other tab component', () => {
     })
   })
 
-  BddTest().when('integrating with AddAdditionalSkillDrawer', () => {
-    BddTest().then('it should render AddAdditionalSkillDrawer component', () => {
-      const drawer = wrapper.findComponent({ name: 'AddAdditionalSkillDrawer' })
+  BddTest().when('integrating with AddDeclaredSkillDrawer', () => {
+    BddTest().then('it should render AddDeclaredSkillDrawer component', () => {
+      const drawer = wrapper.findComponent({ name: 'AddDeclaredSkillDrawer' })
       expect(drawer.exists()).toBe(true)
     })
 
@@ -189,12 +189,12 @@ BddTest().given('a skills view other tab component', () => {
   })
 
   BddTest().when('integrating with skills store', () => {
-    BddTest().then('it should use additionalCurrentPage and additionalPageSizeSelected from skills store', () => {
+    BddTest().then('it should use declaredCurrentPage and declaredPageSizeSelected from skills store', () => {
       expect(paginationMock.currentPage.value).toBeDefined()
       expect(paginationMock.pageSizeSelected.value).toBeDefined()
     })
 
-    BddTest().then('it should call useAdditionalSkillsViewQuery with pagination parameters', async () => {
+    BddTest().then('it should call useDeclaredSkillsViewQuery with pagination parameters', async () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.exists()).toBe(true)
     })
@@ -206,7 +206,7 @@ BddTest().given('a skills view other tab component', () => {
     })
   })
 
-  BddTest().when('no additional skills are available', () => {
+  BddTest().when('no declared skills are available', () => {
     BddTest().then('it should render empty skills container gracefully', async () => {
       const skillsContainer = wrapper.find('.skills-container')
       expect(skillsContainer.exists()).toBe(true)
@@ -247,9 +247,9 @@ BddTest().given('a skills view other tab component', () => {
       const { flushPromises } = await import('@vue/test-utils')
       await flushPromises()
 
-      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedAdditionalSkillCard' })
+      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
       skillCards.forEach((card) => {
-        expect(card.props('additionalSkill')).toBeTypeOf('object')
+        expect(card.props('declaredSkill')).toBeTypeOf('object')
       })
     })
   })

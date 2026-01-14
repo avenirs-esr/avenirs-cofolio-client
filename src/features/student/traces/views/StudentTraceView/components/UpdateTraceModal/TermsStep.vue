@@ -8,7 +8,7 @@ const { trace } = defineProps<{ trace: TraceDetailDTO }>()
 const { t } = useI18n()
 const isActiveStatus = [ESkillLevelStatus.NOT_STARTED, ESkillLevelStatus.TO_BE_EVALUATED, ESkillLevelStatus.UNDER_ACQUISITION]
 const skillLevelAssociations = computed(() => trace.traceAssociations && trace.traceAssociations.skillLevelAssociations ? trace.traceAssociations.skillLevelAssociations : [])
-const additionalSkillAssociations = computed(() => trace.traceAssociations && trace.traceAssociations.additionalSkillAssociations ? trace.traceAssociations.additionalSkillAssociations : [])
+const declaredSkillAssociations = computed(() => trace.traceAssociations && trace.traceAssociations.declaredSkillAssociations ? trace.traceAssociations.declaredSkillAssociations : [])
 
 function getListIcon (skillStatus: ESkillLevelStatus) {
   return isActiveStatus.includes(skillStatus)
@@ -54,9 +54,9 @@ function shouldDisplayStatusBadge (skillStatus: ESkillLevelStatus) {
         />
       </AvListItem>
       <AvListItem
-        v-for="additionalSkill in additionalSkillAssociations"
-        :key="additionalSkill.id"
-        :title="additionalSkill.title"
+        v-for="declaredSkill in declaredSkillAssociations"
+        :key="declaredSkill.id"
+        :title="declaredSkill.title"
         :icon="MDI_ICONS.RECORD_CIRCLE_OUTLINE"
         icon-color="var(--dark-background-primary1)"
       />

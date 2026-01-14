@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TraceAssociationsDTO } from '@/api/avenir-esr'
-import StudentTraceAdditionalSkillAssociationCard from '@/features/student/traces/components/cards/StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
+import StudentTraceDeclaredSkillAssociationCard from '@/features/student/traces/components/cards/StudentTraceDeclaredSkillAssociationCard/StudentTraceDeclaredSkillAssociationCard.vue'
 import StudentTraceSkillLevelAssociationCard from '@/features/student/traces/components/cards/StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
@@ -11,8 +11,8 @@ export interface TraceAssociationsProps {
 const { associations } = defineProps<TraceAssociationsProps>()
 
 const skillLevelAssociations = computed(() => associations && associations.skillLevelAssociations ? associations.skillLevelAssociations : [])
-const additionalSkillAssociations = computed(() => associations && associations.additionalSkillAssociations ? associations.additionalSkillAssociations : [])
-const totalAssociations = computed(() => skillLevelAssociations.value.length + additionalSkillAssociations.value.length)
+const declaredSkillAssociations = computed(() => associations && associations.declaredSkillAssociations ? associations.declaredSkillAssociations : [])
+const totalAssociations = computed(() => skillLevelAssociations.value.length + declaredSkillAssociations.value.length)
 
 function getSkillColor (index: number): string {
   return `var(--skill${(index % 12) + 1})`
@@ -36,10 +36,10 @@ function getSkillColor (index: number): string {
         :skill="skill"
         :level-color="getSkillColor(index)"
       />
-      <StudentTraceAdditionalSkillAssociationCard
-        v-for="additionalSkill in additionalSkillAssociations"
-        :key="additionalSkill.id"
-        :additional-skill="additionalSkill"
+      <StudentTraceDeclaredSkillAssociationCard
+        v-for="declaredSkill in declaredSkillAssociations"
+        :key="declaredSkill.id"
+        :declared-skill="declaredSkill"
       />
     </div>
   </div>

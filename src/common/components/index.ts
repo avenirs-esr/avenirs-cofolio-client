@@ -1,7 +1,7 @@
 export { ConfirmationModalStub } from './ConfirmationModal/ConfirmationModal.stub'
 export { default as ConfirmationModal, type ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal.vue'
 export { CreationUpdateDateDetailsStub } from './CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
-export { type AdditionalSkillDateDetailsProps, default as CreationUpdateDateDetails } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
+export { default as CreationUpdateDateDetails, type DeclaredSkillDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
 export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './Loader/Loader.vue'

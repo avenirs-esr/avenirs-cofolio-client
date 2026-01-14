@@ -65,8 +65,8 @@ const statusesOptions: AvMultiselectOption[] = [
     label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedNotEvaluated'),
   },
   {
-    value: TraceFilterStatusesItem.ASSOCIATED_WITH_ADDITIONAL_SKILL,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedWithAdditionalSkill'),
+    value: TraceFilterStatusesItem.ASSOCIATED_WITH_DECLARED_SKILL,
+    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedWithDeclaredSkill'),
   },
 ]
 const statusesSelected = ref<AvMultiselectOption[]>([])

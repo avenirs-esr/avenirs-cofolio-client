@@ -193,7 +193,7 @@
                 "associatedEvaluated": "Associated with an evaluated skill level",
                 "associatedInEvaluation": "Associated with a skill level submitted for evaluation",
                 "associatedNotEvaluated": "Associated with a non-evaluated skill level",
-                "associatedWithAdditionalSkill": "Associated with an additional skill level"
+                "associatedWithDeclaredSkill": "Associated with an additional skill level"
               },
               "toDate": "End date",
               "types": "Type",

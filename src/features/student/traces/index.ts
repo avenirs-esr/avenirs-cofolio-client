@@ -2,9 +2,9 @@ export { default as StudentTraceAssociationContentBadge } from '@/features/stude
 
 export { default as StudentCountTracesIconText } from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
 
-export { default as StudentTraceAdditionalSkillAssociationCard } from '@/features/student/traces/components/cards/StudentTraceAdditionalSkillAssociationCard/StudentTraceAdditionalSkillAssociationCard.vue'
-
 export { default as StudentTraceAssociationCard } from '@/features/student/traces/components/cards/StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
+
+export { default as StudentTraceDeclaredSkillAssociationCard } from '@/features/student/traces/components/cards/StudentTraceDeclaredSkillAssociationCard/StudentTraceDeclaredSkillAssociationCard.vue'
 
 export { default as StudentTraceSkillLevelAssociationCard } from '@/features/student/traces/components/cards/StudentTraceSkillLevelAssociationCard/StudentTraceSkillLevelAssociationCard.vue'
 

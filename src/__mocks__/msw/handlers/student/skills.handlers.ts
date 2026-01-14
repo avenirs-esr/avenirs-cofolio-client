@@ -1,28 +1,28 @@
 import {
-  createMockedAdditionalSkillProgressDetailsDTO,
   createMockedAllSkillListItemDTO,
-  createMockedPagedResponseAdditionalSkillProgressDTO,
+  createMockedDeclaredSkillProgressDetailsDTO,
+  createMockedPagedResponseDeclaredSkillProgressDTO,
   createMockedPagedResponseSkillsDTO,
-  createMockedSearchAdditionalSkillsDTO,
+  createMockedSearchDeclaredSkillsDTO,
   mockedSkillDetailed
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
-  type AddAdditionalSkillDTO,
+  type AddDeclaredSkillDTO,
   type AdditionalSkillConfigurationDTO,
-  type AdditionalSkillProgressDetailsDTO,
-  type AdditionalSkillProgressDTO,
-  EAdditionalSkillLevel,
+  type DeclaredSkillProgressDetailsDTO,
+  type DeclaredSkillProgressDTO,
+  EDeclaredSkillLevel,
   EExternalSkillType,
-  getCreateAdditionalSkillProgressUrl,
+  getCreateDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
-  getGetAdditionalSkillProgressDetailsUrl,
-  getGetAdditionalSkillsProgressesUrl,
   getGetAllSkillsUrl,
+  getGetDeclaredSkillProgressDetailsUrl,
+  getGetDeclaredSkillsProgressesUrl,
   getGetSkillLevelProgressesUrl,
   getUnassociateTracesUrl,
-  getUpdateAdditionalSkillProgressUrl,
-  type PagedResponseAdditionalSkillDTO,
-  type PagedResponseAdditionalSkillProgressDTO,
+  getUpdateDeclaredSkillProgressUrl,
+  type PagedResponseDeclaredSkillDTO,
+  type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseSkillDTO,
   type SkillDetailedDTO,
   type SkillListItemDTO
@@ -30,9 +30,9 @@ import {
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
-export function createAdditionalSkillsProgressViewHandler (payload: PagedResponseAdditionalSkillProgressDTO) {
-  return http.get(`*${getGetAdditionalSkillsProgressesUrl()}`, () => {
-    return HttpResponse.json<PagedResponseAdditionalSkillProgressDTO>(payload, {
+export function createDeclaredSkillsProgressViewHandler (payload: PagedResponseDeclaredSkillProgressDTO) {
+  return http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, () => {
+    return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -99,15 +99,15 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseAdditionalSkillProgressDTO>(`*${getGetAdditionalSkillsProgressesUrl()}`, ({ request }) => {
+  http.get<PathParams, PagedResponseDeclaredSkillProgressDTO>(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedPagedResponseAdditionalSkillProgressDTO(pageSize, 20, page)
+    const response = createMockedPagedResponseDeclaredSkillProgressDTO(pageSize, 20, page)
 
-    return HttpResponse.json<PagedResponseAdditionalSkillProgressDTO>(response, {
+    return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -115,16 +115,16 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseAdditionalSkillDTO>(`*/additional-skills/search`, ({ request }) => {
+  http.get<PathParams, PagedResponseDeclaredSkillDTO>(`*/declared-skills/search`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const keyword = searchParams.get('keyword') ?? ''
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedSearchAdditionalSkillsDTO(pageSize, 20, page, keyword)
+    const response = createMockedSearchDeclaredSkillsDTO(pageSize, 20, page, keyword)
 
-    return HttpResponse.json<PagedResponseAdditionalSkillDTO>(response, {
+    return HttpResponse.json<PagedResponseDeclaredSkillDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -134,23 +134,23 @@ export const skillsHandlers = [
 
   http.get<PathParams, AdditionalSkillConfigurationDTO>(`*${getGetAdditionalSkillConfigUrl()}`, () => {
     const mockConfig: AdditionalSkillConfigurationDTO = {
-      [EAdditionalSkillLevel.BEGINNER]: {
+      [EDeclaredSkillLevel.BEGINNER]: {
         label: 'Débutant',
         description: 'Je découvre cette compétence'
       },
-      [EAdditionalSkillLevel.INTERMEDIATE]: {
+      [EDeclaredSkillLevel.INTERMEDIATE]: {
         label: 'Intermédiaire',
         description: 'Je commence à maîtriser cette compétence'
       },
-      [EAdditionalSkillLevel.COMPETENT]: {
+      [EDeclaredSkillLevel.COMPETENT]: {
         label: 'Compétent',
         description: 'Je maîtrise cette compétence'
       },
-      [EAdditionalSkillLevel.ADVANCED]: {
+      [EDeclaredSkillLevel.ADVANCED]: {
         label: 'Avancé',
         description: 'Je maîtrise bien cette compétence'
       },
-      [EAdditionalSkillLevel.EXPERT]: {
+      [EDeclaredSkillLevel.EXPERT]: {
         label: 'Expert',
         description: 'Je maîtrise parfaitement cette compétence'
       }
@@ -158,16 +158,6 @@ export const skillsHandlers = [
 
     return HttpResponse.json<AdditionalSkillConfigurationDTO>(mockConfig, {
       status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
-  http.post(`*/me/additional-skills`, async () => {
-    await delay(100)
-    return HttpResponse.json(null, {
-      status: 201,
       headers: {
         'Content-Type': 'application/json',
       }
@@ -194,9 +184,9 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<{ id: string }, AdditionalSkillProgressDetailsDTO>(`*${getGetAdditionalSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
+  http.get<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
     const { id } = params
-    const response = createMockedAdditionalSkillProgressDetailsDTO(id)
+    const response = createMockedDeclaredSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
       headers: {
@@ -205,9 +195,9 @@ export const skillsHandlers = [
     })
   }),
 
-  http.put<{ id: string }, AdditionalSkillProgressDetailsDTO>(`*${getUpdateAdditionalSkillProgressUrl(':id')}`, async ({ params }) => {
+  http.put<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getUpdateDeclaredSkillProgressUrl(':id')}`, async ({ params }) => {
     const { id } = params
-    const response = createMockedAdditionalSkillProgressDetailsDTO(id)
+    const response = createMockedDeclaredSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
       headers: {
@@ -216,16 +206,16 @@ export const skillsHandlers = [
     })
   }),
 
-  http.post<PathParams, AddAdditionalSkillDTO>(`*${getCreateAdditionalSkillProgressUrl()}`, async ({ request }) => {
+  http.post<PathParams, AddDeclaredSkillDTO>(`*${getCreateDeclaredSkillProgressUrl()}`, async ({ request }) => {
     const body = await request.json()
     await delay(100)
 
-    const response: AdditionalSkillProgressDTO = {
+    const response: DeclaredSkillProgressDTO = {
       id: body.id ?? crypto.randomUUID(),
       title: `Mocked Skill ${body.id}`,
       pathSegments: ['Category', 'Subcategory'],
       type: body.type ?? EExternalSkillType.ROME4,
-      level: body.level ?? EAdditionalSkillLevel.INTERMEDIATE,
+      level: body.level ?? EDeclaredSkillLevel.INTERMEDIATE,
       description: body.description ?? 'Mocked skill description'
     }
 
@@ -237,7 +227,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.post(`*${getUnassociateTracesUrl(':additionalSkillProgressId')}`, () => {
+  http.post(`*${getUnassociateTracesUrl(':declaredSkillProgressId')}`, () => {
     return HttpResponse.json<string>('success', {
       status: 200,
       headers: {
