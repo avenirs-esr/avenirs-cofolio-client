@@ -1,11 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ROUTES } from '@/common/constants'
+import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredSkill = vi.fn()
+const navigateToStudentProjectSkills = vi.fn()
 
 vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables/use-navigation/use-navigation')>()
@@ -13,6 +15,7 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
     ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredSkill,
+      navigateToStudentProjectSkills
     }),
   }
 })
@@ -59,7 +62,8 @@ const stubs = {
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
-  StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub
+  StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
+  DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub
 }
 
 BddTest().given('a student declared skill view component', () => {
@@ -168,9 +172,53 @@ BddTest().given('a student declared skill view component', () => {
   })
 
   BddTest().when('the delete selected event is emitted', () => {
-    BddTest().then('it should handle the event', async () => {
+    beforeEach(async () => {
       const settingPopover = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
       await settingPopover.vm.$emit('deleteSelected')
+    })
+
+    BddTest().then('it should show the delete confirmation modal', async () => {
+      await vi.waitFor(() => {
+        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        expect(deleteModal.exists()).toBe(true)
+        expect(deleteModal.props('show')).toBe(true)
+      })
+    })
+
+    BddTest().and('the modal emits the close event', () => {
+      beforeEach(async () => {
+        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        await deleteModal.vm.$emit('close')
+      })
+
+      BddTest().then('it should hide the delete confirmation modal', async () => {
+        await vi.waitFor(() => {
+          const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+          expect(deleteModal.exists()).toBe(true)
+          expect(deleteModal.props('show')).toBe(false)
+        })
+      })
+    })
+
+    BddTest().and('the modal emits the skill deleted event', () => {
+      beforeEach(async () => {
+        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        await deleteModal.vm.$emit('skillDeleted')
+      })
+
+      BddTest().then('it should hide the delete confirmation modal', async () => {
+        await vi.waitFor(() => {
+          const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+          expect(deleteModal.exists()).toBe(true)
+          expect(deleteModal.props('show')).toBe(false)
+        })
+      })
+
+      BddTest().then('it should navigate to skills page', async () => {
+        await vi.waitFor(() => {
+          expect(navigateToStudentProjectSkills).toHaveBeenCalled()
+        })
+      })
     })
   })
 })

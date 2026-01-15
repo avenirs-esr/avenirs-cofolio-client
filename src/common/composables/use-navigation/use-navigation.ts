@@ -59,6 +59,13 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.EDUCATION_SKILLS)
   }
 
+  const navigateToStudentProjectSkills = ({ replace }: { replace?: boolean }) => {
+    if (replace) {
+      return router.replace(ROUTES.STUDENT.PROJECT_SKILLS)
+    }
+    return router.push(ROUTES.STUDENT.PROJECT_SKILLS)
+  }
+
   const navigateToStudentTraces = () => {
     return router.push(ROUTES.STUDENT.TOOLS_TRACES)
   }
@@ -84,6 +91,7 @@ export function useNavigation () {
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentSkills,
+    navigateToStudentProjectSkills,
     navigateToStudentTraces,
     navigateToStudentUpdateDeclaredSkill,
     navigateToTeacherHome,

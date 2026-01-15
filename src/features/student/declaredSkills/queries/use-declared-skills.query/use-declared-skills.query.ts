@@ -7,6 +7,7 @@ import {
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   type DeclaredSkillProgressRequest,
+  deleteDeclaredSkillProgress,
   getDeclaredSkillProgressDetails,
   getDeclaredSkillsProgresses,
   type PagedResponseDeclaredSkillDTO,
@@ -117,6 +118,25 @@ export function useCreateDeclaredSkillMutation ({ onError, onSuccess }: Mutation
   return useMutation<void, BaseApiException, AddDeclaredSkillDTO>({
     mutationFn: async (addDeclaredSkillDTO: AddDeclaredSkillDTO): Promise<void> => {
       await createDeclaredSkillProgress(addDeclaredSkillDTO)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredSkillsViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface DeleteDeclaredSkillVariables {
+  declaredSkillProgressId: string
+}
+
+export function useDeleteDeclaredSkillMutation ({ onError, onSuccess }: MutationArgs<string, DeleteDeclaredSkillVariables> = {}) {
+  const invalidateDeclaredSkillsViewQuery = useInvalidateQuery([...declaredSkillCommonQueryKey])
+
+  return useMutation<string, BaseApiException, DeleteDeclaredSkillVariables>({
+    mutationFn: async ({ declaredSkillProgressId }: DeleteDeclaredSkillVariables): Promise<string> => {
+      return await deleteDeclaredSkillProgress(declaredSkillProgressId)
     },
     onSuccess: async (data, variables) => {
       await invalidateDeclaredSkillsViewQuery()

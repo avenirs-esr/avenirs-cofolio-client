@@ -59,6 +59,12 @@
             "levelTitle": "Self-positioning",
             "skillTitle": "Title:"
           },
+          "deleteModal": {
+            "description": "This action is final. It will delete the information regarding the skill as well as removing any association links it had.",
+            "error": "An error occurred while deleting the skill {skill}",
+            "title": "Do you confirm the deletion of the skill {skill}?",
+            "success": "Skill {skill} deleted successfully"
+          },
           "settingDropdown": {
             "ariaLabel": "Declared skill settings",
             "delete": "Delete my skill",

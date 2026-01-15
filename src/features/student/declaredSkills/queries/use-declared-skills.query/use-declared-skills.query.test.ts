@@ -11,8 +11,10 @@ import {
   type PageInfoDTO
 } from '@/api/avenir-esr'
 import {
+  type DeleteDeclaredSkillVariables,
   useDeclaredSkillDetailedQuery,
   useDeclaredSkillsViewQuery,
+  useDeleteDeclaredSkillMutation,
   useSearchDeclaredSkillsQuery,
   useUnassociateTracesFromDeclaredSkillMutation,
   type UseUnassociateTracesFromDeclaredSkillMutationVariables
@@ -364,6 +366,66 @@ BddTest().given('the useUnassociateTracesFromDeclaredSkillMutation composable', 
       expect(composableResult.isError.value).toBe(false)
       expect(composableResult.isSuccess.value).toBe(false)
       expect(composableResult.data.value).toBeUndefined()
+    })
+  })
+})
+
+BddTest().given('the useDeleteDeclaredSkillMutation composable', () => {
+  let composableResult: UseMutationReturnType<string, BaseApiException, DeleteDeclaredSkillVariables, unknown>
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    const result = mountComposable(() => useDeleteDeclaredSkillMutation({ onSuccess: mockOnSuccess, onError: mockOnError }), {
+      useI18n: true,
+      useTanstack: true,
+      usePinia: true
+    })
+    composableResult = result.result
+  })
+
+  BddTest().when('checking the mutation initial state', () => {
+    BddTest().then('it should have correct initial values', () => {
+      expect(composableResult.isPending.value).toBe(false)
+      expect(composableResult.isError.value).toBe(false)
+      expect(composableResult.isSuccess.value).toBe(false)
+      expect(composableResult.data.value).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the mutation is called with valid data', () => {
+    BddTest().then('it should successfully delete the declared skill', async () => {
+      const variables: DeleteDeclaredSkillVariables = {
+        declaredSkillProgressId: 'skill-to-delete-123'
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      expect(composableResult.data.value).toBe(`Skill progress with id ${variables.declaredSkillProgressId} deleted successfully`)
+    })
+  })
+
+  BddTest().when('the mutation is called with an invalid id', () => {
+    BddTest().then('it should handle the error correctly', async () => {
+      const variables: DeleteDeclaredSkillVariables = {
+        declaredSkillProgressId: 'INVALID_SKILL_ID'
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isError.value).toBe(true)
+      })
+
+      expect(mockOnError).toHaveBeenCalledTimes(1)
+      expect(composableResult.error.value).toBeDefined()
     })
   })
 })
