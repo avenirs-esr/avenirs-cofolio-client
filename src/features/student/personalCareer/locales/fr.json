@@ -65,6 +65,12 @@
           },
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
+        },
+        "DeleteDeclaredProgramConfirmModal": {
+          "description": "Cette action entrainera la suppression des éventuelles associations.",
+          "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?",
+          "success": "Formation supprimée avec succès. | Formations supprimées avec succès."
         }
       },
       "views": {
@@ -114,6 +120,11 @@
             "DeclaredProgramsTab": {
               "emptyState": "Aucune formation déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première formation !",
               "title": "Mes formations déclarées"
+            },
+            "DeleteDeclaredProgramsModal": {
+              "confirm": "Supprimer la formation sélectionnée | Supprimer les formations sélectionnées ({count})",
+              "noDeclaredPrograms": "Aucune formation à supprimer.",
+              "title": "Quelle(s) formation(s) souhaitez-vous supprimer ?"
             },
             "title": "Mes formations",
             "VerifiedProgramsTab": {

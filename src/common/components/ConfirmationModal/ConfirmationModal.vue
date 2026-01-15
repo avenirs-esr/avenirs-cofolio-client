@@ -25,7 +25,7 @@ const { t } = useI18n()
     id="confirmation-modal"
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('global.buttons.confirm')"
+    :confirm-button-label="confirmButtonLabel ?? t('global.buttons.confirm')"
     v-bind="$attrs"
   >
     <template
@@ -35,18 +35,13 @@ const { t } = useI18n()
       <slot name="header" />
     </template>
     <slot>
-      <div class="content-container">
+      <div
+        class="av-col av-gap-sm"
+        data-testid="content-container"
+      >
         <span class="n5">{{ title ?? t('global.modals.confirmation.title') }}</span>
         <span class="b2-light">{{ description ?? t('global.modals.confirmation.description') }}</span>
       </div>
     </slot>
   </AvModal>
 </template>
-
-<style lang="scss" scoped>
-.content-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-</style>

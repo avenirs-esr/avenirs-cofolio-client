@@ -5,6 +5,7 @@ import {
 import {
   type DeclaredProgramDetailedDTO,
   getCreateDeclaredProgramUrl,
+  getDeleteDeclaredProgramUrl,
   getGetDeclaredProgramsUrl,
   getGetDeclaredProgramUrl,
   type PagedResponseDeclaredProgramViewDTO
@@ -55,7 +56,7 @@ export const declaredProgramsQueryHandler = http.get(`*${getGetDeclaredProgramsU
   const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
 
   await delay('real')
-  const mockData = createMockedDeclaredProgramsPagedResponse(pageSize, 5, page)
+  const mockData = createMockedDeclaredProgramsPagedResponse(pageSize, 60, page)
 
   return HttpResponse.json<PagedResponseDeclaredProgramViewDTO>(mockData, {
     status: 200,
@@ -89,5 +90,24 @@ export const declaredProgramsHandlers = [
       return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
     }
   ),
-  declaredProgramDetailedHandler
+  declaredProgramDetailedHandler,
+  http.delete(`*${getDeleteDeclaredProgramUrl()}`, async ({ request }) => {
+    const declaredProgramIds = await request.json() as string[]
+
+    if (declaredProgramIds.includes('INVALID_PROGRAM_ID')) {
+      return HttpResponse.json({ error: 'Invalid program ID' }, { status: 400 })
+    }
+
+    if (declaredProgramIds.length === 0) {
+      return HttpResponse.json({ error: 'No program IDs provided' }, { status: 400 })
+    }
+
+    const response = `${declaredProgramIds.length} program${declaredProgramIds.length > 1 ? 's' : ''} deleted successfully`
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
 ]

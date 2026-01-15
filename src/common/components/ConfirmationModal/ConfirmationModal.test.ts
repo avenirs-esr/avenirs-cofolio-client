@@ -43,7 +43,7 @@ BddTest().given('a confirmation modal', () => {
     })
 
     BddTest().then('it should render the default content', () => {
-      const contentContainer = wrapper.find('.content-container')
+      const contentContainer = wrapper.find('[data-testid="content-container"]')
 
       expect(contentContainer.exists()).toBe(true)
 
@@ -168,7 +168,7 @@ BddTest().given('a confirmation modal', () => {
     })
 
     BddTest().then('it should render the custom title and description', () => {
-      const contentContainer = wrapper.find('.content-container')
+      const contentContainer = wrapper.find('[data-testid="content-container"]')
 
       expect(contentContainer.exists()).toBe(true)
 

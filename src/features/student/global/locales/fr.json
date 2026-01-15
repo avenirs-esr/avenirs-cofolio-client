@@ -12,6 +12,14 @@
       },
       "myAssociatedTracesWithCount": "Ma trace associée ({count}) | Mes traces associées ({count})",
       "myAssociationsWithCount": "Mes associations ({count})",
+      "interaction": {
+        "SelectorOverlay": {
+          "ariaLabel": {
+            "selected": "Désélectionner {item}",
+            "unselected": "Sélectionner {item}"
+          }
+        }
+      },
       "navigation": {
         "tabs": {
           "apcUnavailable": {

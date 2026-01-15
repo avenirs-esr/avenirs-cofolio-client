@@ -16,7 +16,7 @@ const {
   size = 'md',
 } = defineProps<LoaderProps>()
 
-const slots = defineSlots<{
+defineSlots<{
   default?: Slot
 }>()
 
@@ -46,7 +46,7 @@ const loaderSize = computed(() => sizeMap[size])
 
 <template>
   <div
-    v-if="isLoading || !slots.default"
+    v-if="isLoading"
     v-bind="$attrs"
     class="loader av-row av-justify-center av-p-xs"
   >
@@ -57,5 +57,7 @@ const loaderSize = computed(() => sizeMap[size])
       :color="loaderColor"
     />
   </div>
-  <slot v-else />
+  <slot v-else>
+    <div data-testid="loader-slot-alt" />
+  </slot>
 </template>

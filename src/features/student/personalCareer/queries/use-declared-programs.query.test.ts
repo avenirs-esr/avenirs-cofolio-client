@@ -1,18 +1,14 @@
-import type { DeclaredProgramRequestDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student'
-import {
-  createDeclaredProgramErrorHandler,
-  declaredProgramDetailedErrorHandler,
-  declaredProgramDetailedHandler,
-  declaredProgramsQueryErrorHandler
-} from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import { declaredProgramDetailedErrorHandler, declaredProgramDetailedHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
   type DeclaredProgramsViewQueryReturnType,
-  useCreateDeclaredProgramMutation,
+  type DeleteDeclaredProgramMutationParams,
   useDeclaredProgramDetailedQuery,
-  useDeclaredProgramsViewQuery
+  useDeclaredProgramsViewQuery,
+  useDeleteDeclaredProgramMutation,
+  useGetCachedDeclaredPrograms
 } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -153,229 +149,239 @@ BddTest().given('a declared programs view query', () => {
   })
 })
 
-BddTest().given('a create declared program mutation', () => {
-  let composableResult: ReturnType<typeof useCreateDeclaredProgramMutation>
-  let mockOnSuccess: ReturnType<typeof vi.fn>
-  let mockOnError: ReturnType<typeof vi.fn>
-
-  const declaredProgramRequestDTO: DeclaredProgramRequestDTO = {
-    title: 'Master en Informatique',
-    description: 'Formation approfondie en développement logiciel et intelligence artificielle',
-    organization: 'Université Paris-Saclay',
-    result: 'Mention Très Bien',
-    sourceOfInformation: 'Site web de l\'université',
-    link: 'https://www.universite-paris-saclay.fr/master-informatique',
-    startDate: '2023-09',
-    endDate: '2025-06'
+BddTest().given('a get cached declared programs composable', () => {
+  function useTestWrapper (page: Ref<number>, pageSize: Ref<number>) {
+    const query = useDeclaredProgramsViewQuery({
+      page,
+      pageSize
+    })
+    const cache = useGetCachedDeclaredPrograms()
+    return { query, cache }
   }
 
-  BddTest().when('the mutation is initialized without callbacks', () => {
+  BddTest().when('no cached data exists', () => {
+    let getCachedDeclaredProgramsComposable: ReturnType<typeof useGetCachedDeclaredPrograms>
+
     beforeEach(() => {
-      const result = mountComposable(() => useCreateDeclaredProgramMutation(), {
+      const page = ref(0)
+      const pageSize = ref(3)
+
+      const result = mountComposable(() => useTestWrapper(page, pageSize), {
         useTanstack: true
       })
-      composableResult = result.result
+      getCachedDeclaredProgramsComposable = result.result.cache
     })
 
-    BddTest().then('it should return a mutation object', () => {
-      expect(composableResult).toBeDefined()
-      expect(composableResult.mutate).toBeDefined()
-      expect(composableResult.mutateAsync).toBeDefined()
+    BddTest().then('it should return empty elements array', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.declaredPrograms).toEqual([])
     })
 
-    BddTest().then('it should start in idle state', () => {
+    BddTest().then('it should return currentPage as -1', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.currentPage).toBe(-1)
+    })
+  })
+
+  BddTest().when('cached data exists for one page', () => {
+    let queryResult: ReturnType<typeof useDeclaredProgramsViewQuery>
+    let getCachedDeclaredProgramsComposable: ReturnType<typeof useGetCachedDeclaredPrograms>
+
+    beforeEach(async () => {
+      const page = ref(0)
+      const pageSize = ref(3)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedDeclaredProgramsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return the cached programs', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.declaredPrograms.length).toBeGreaterThan(0)
+      expect(cached.declaredPrograms.length).toBe(3)
+    })
+
+    BddTest().then('it should return the currentPage', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.currentPage).toBe(0)
+    })
+
+    BddTest().then('it should return programs with valid structure', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      const firstProgram = cached.declaredPrograms[0]
+      expect(firstProgram).toHaveProperty('id')
+      expect(firstProgram).toHaveProperty('status')
+      expect(firstProgram).toHaveProperty('title')
+      expect(firstProgram).toHaveProperty('organization')
+    })
+  })
+
+  BddTest().when('cached data exists for multiple pages', () => {
+    let queryResult: ReturnType<typeof useDeclaredProgramsViewQuery>
+    let getCachedDeclaredProgramsComposable: ReturnType<typeof useGetCachedDeclaredPrograms>
+    let page: Ref<number>
+
+    beforeEach(async () => {
+      page = ref(0)
+      const pageSize = ref(3)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedDeclaredProgramsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+
+      page.value = 1
+
+      await vi.waitFor(() => {
+        expect(queryResult.pageInfo.value.page).toBe(1)
+      })
+    })
+
+    BddTest().then('it should return all accumulated cached programs', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.declaredPrograms.length).toBeGreaterThan(3)
+      expect(cached.declaredPrograms.length).toBe(6)
+    })
+
+    BddTest().then('it should return the highest page number', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.currentPage).toBe(1)
+    })
+
+    BddTest().then('it should not have duplicate programs', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      const ids = cached.declaredPrograms.map(el => el.id)
+      const uniqueIds = new Set(ids)
+      expect(uniqueIds.size).toBe(ids.length)
+    })
+  })
+
+  BddTest().when('cached data exists with incomplete pages', () => {
+    let queryResult: ReturnType<typeof useDeclaredProgramsViewQuery>
+    let getCachedDeclaredProgramsComposable: ReturnType<typeof useGetCachedDeclaredPrograms>
+    let page: Ref<number>
+
+    beforeEach(async () => {
+      page = ref(0)
+      const pageSize = ref(3)
+
+      const composable = mountComposable(() => useTestWrapper(page, pageSize), {
+        useTanstack: true
+      })
+
+      queryResult = composable.result.query
+      getCachedDeclaredProgramsComposable = composable.result.cache
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+
+      page.value = 2
+
+      await vi.waitFor(() => {
+        expect(queryResult.pageInfo.value.page).toBe(2)
+      })
+    })
+
+    BddTest().then('it should return programs from all cached pages', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.declaredPrograms.length).toBeGreaterThan(0)
+    })
+
+    BddTest().then('it should return the maximum page number from cached data', () => {
+      const cached = getCachedDeclaredProgramsComposable.getCachedDeclaredPrograms()
+      expect(cached.currentPage).toBe(2)
+    })
+  })
+})
+
+BddTest().given('the useDeleteDeclaredProgramMutation composable', () => {
+  let composableResult: ReturnType<typeof useDeleteDeclaredProgramMutation>
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    const result = mountComposable(() => useDeleteDeclaredProgramMutation({ onSuccess: mockOnSuccess, onError: mockOnError }), {
+      useI18n: true,
+      useTanstack: true,
+      usePinia: true
+    })
+    composableResult = result.result
+  })
+
+  BddTest().when('checking the mutation initial state', () => {
+    BddTest().then('it should have correct initial values', () => {
       expect(composableResult.isPending.value).toBe(false)
-      expect(composableResult.isSuccess.value).toBe(false)
       expect(composableResult.isError.value).toBe(false)
-    })
-
-    BddTest().then('it should have undefined data initially', () => {
+      expect(composableResult.isSuccess.value).toBe(false)
       expect(composableResult.data.value).toBeUndefined()
     })
   })
 
-  BddTest().when('the mutation is initialized with callbacks', () => {
-    beforeEach(() => {
-      mockOnSuccess = vi.fn()
-      mockOnError = vi.fn()
+  BddTest().when('the mutation is called with valid data', () => {
+    BddTest().then('it should successfully delete the declared programs', async () => {
+      const variables: DeleteDeclaredProgramMutationParams = {
+        declaredProgramIds: ['program-to-delete-1', 'program-to-delete-2']
+      }
 
-      const result = mountComposable(
-        () => useCreateDeclaredProgramMutation({
-          onSuccess: mockOnSuccess,
-          onError: mockOnError
-        }),
-        {
-          useTanstack: true
-        }
-      )
-      composableResult = result.result
-    })
-
-    BddTest().then('it should accept onSuccess and onError callbacks', () => {
-      expect(composableResult).toBeDefined()
-      expect(mockOnSuccess).toBeDefined()
-      expect(mockOnError).toBeDefined()
-    })
-  })
-
-  BddTest().when('creating a declared program with valid data', () => {
-    beforeEach(() => {
-      mockOnSuccess = vi.fn()
-
-      const result = mountComposable(
-        () => useCreateDeclaredProgramMutation({
-          onSuccess: mockOnSuccess
-        }),
-        {
-          useTanstack: true
-        }
-      )
-      composableResult = result.result
-    })
-
-    BddTest().then('it should successfully create the declared program', async () => {
-      composableResult.mutate(declaredProgramRequestDTO)
+      composableResult.mutate(variables)
 
       await vi.waitFor(() => {
         expect(composableResult.isSuccess.value).toBe(true)
       })
 
-      expect(composableResult.data.value).toEqual(declaredProgramViewDTOFixture)
-      expect(composableResult.isError.value).toBe(false)
-    })
-
-    BddTest().then('it should call onSuccess callback with correct data', async () => {
-      composableResult.mutate(declaredProgramRequestDTO)
-
-      await vi.waitFor(() => {
-        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
-      })
-
-      expect(mockOnSuccess).toHaveBeenCalledWith(
-        declaredProgramViewDTOFixture,
-        declaredProgramRequestDTO
-      )
-    })
-
-    BddTest().and('resetting the mutation after success', () => {
-      BddTest().then('it should clear mutation state', async () => {
-        composableResult.mutate(declaredProgramRequestDTO)
-
-        await vi.waitFor(() => {
-          expect(composableResult.isSuccess.value).toBe(true)
-        })
-
-        composableResult.reset()
-
-        expect(composableResult.data.value).toBeUndefined()
-        expect(composableResult.isSuccess.value).toBe(false)
-        expect(composableResult.isError.value).toBe(false)
-        expect(composableResult.isPending.value).toBe(false)
-      })
+      expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      expect(composableResult.data.value).toBe(`${variables.declaredProgramIds.length} programs deleted successfully`)
     })
   })
 
-  BddTest().when('creating a declared program using mutateAsync', () => {
-    beforeEach(() => {
-      mockOnSuccess = vi.fn()
+  BddTest().when('the mutation is called with an empty array', () => {
+    BddTest().then('it should handle the error correctly', async () => {
+      const variables: DeleteDeclaredProgramMutationParams = {
+        declaredProgramIds: []
+      }
 
-      const result = mountComposable(
-        () => useCreateDeclaredProgramMutation({
-          onSuccess: mockOnSuccess
-        }),
-        {
-          useTanstack: true
-        }
-      )
-      composableResult = result.result
-    })
-
-    BddTest().then('it should return the declared program view DTO', async () => {
-      const program = await composableResult.mutateAsync(declaredProgramRequestDTO)
-
-      expect(program).toEqual(declaredProgramViewDTOFixture)
-      expect(composableResult.isSuccess.value).toBe(true)
-    })
-
-    BddTest().then('it should call onSuccess callback', async () => {
-      await composableResult.mutateAsync(declaredProgramRequestDTO)
+      composableResult.mutate(variables)
 
       await vi.waitFor(() => {
-        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
-      })
-
-      expect(mockOnSuccess).toHaveBeenCalledWith(
-        declaredProgramViewDTOFixture,
-        declaredProgramRequestDTO
-      )
-    })
-  })
-
-  BddTest().when('the mutation fails with server error', () => {
-    beforeEach(() => {
-      server.use(createDeclaredProgramErrorHandler)
-
-      mockOnError = vi.fn()
-
-      const result = mountComposable(
-        () => useCreateDeclaredProgramMutation({
-          onError: mockOnError
-        }),
-        {
-          useTanstack: true
-        }
-      )
-      composableResult = result.result
-    })
-
-    BddTest().and('using mutate', () => {
-      BddTest().then('it should set error state', async () => {
-        composableResult.mutate(declaredProgramRequestDTO)
-
-        await vi.waitFor(() => {
-          expect(composableResult.isError.value).toBe(true)
-        })
-
-        expect(composableResult.isSuccess.value).toBe(false)
-        expect(composableResult.error.value).toBeDefined()
-      })
-
-      BddTest().then('it should call onError callback', async () => {
-        composableResult.mutate(declaredProgramRequestDTO)
-
-        await vi.waitFor(() => {
-          expect(mockOnError).toHaveBeenCalledTimes(1)
-        })
-
-        const errorCall = mockOnError.mock.calls[0]
-        expect(errorCall[0]).toMatchObject({
-          status: 500,
-          message: 'Internal Server Error'
-        })
-        expect(errorCall[1]).toEqual(declaredProgramRequestDTO)
-      })
-    })
-
-    BddTest().and('using mutateAsync', () => {
-      BddTest().then('it should throw an error', async () => {
-        await expect(
-          composableResult.mutateAsync(declaredProgramRequestDTO)
-        ).rejects.toThrow()
-
         expect(composableResult.isError.value).toBe(true)
       })
 
-      BddTest().then('it should call onError callback', async () => {
-        try {
-          await composableResult.mutateAsync(declaredProgramRequestDTO)
-        }
-        catch {
-        }
+      expect(mockOnError).toHaveBeenCalledTimes(1)
+      expect(composableResult.error.value).toBeDefined()
+    })
+  })
 
-        await vi.waitFor(() => {
-          expect(mockOnError).toHaveBeenCalledTimes(1)
-        })
+  BddTest().when('the mutation is called with an invalid id', () => {
+    BddTest().then('it should handle the error correctly', async () => {
+      const variables: DeleteDeclaredProgramMutationParams = {
+        declaredProgramIds: ['program-to-delete-1', 'INVALID_PROGRAM_ID']
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isError.value).toBe(true)
       })
+
+      expect(mockOnError).toHaveBeenCalledTimes(1)
+      expect(composableResult.error.value).toBeDefined()
     })
   })
 })

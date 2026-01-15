@@ -207,7 +207,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.delete<{ declaredSkillProgressId: string }, DeclaredSkillProgressDetailsDTO>(`*${getDeleteDeclaredSkillProgressUrl(':declaredSkillProgressId')}`, async ({ params }) => {
+  http.delete<{ declaredSkillProgressId: string }>(`*${getDeleteDeclaredSkillProgressUrl(':declaredSkillProgressId')}`, async ({ params }) => {
     const { declaredSkillProgressId } = params
 
     if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
