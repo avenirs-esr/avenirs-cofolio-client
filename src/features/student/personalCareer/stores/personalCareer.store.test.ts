@@ -1,9 +1,10 @@
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('a declared programs store', () => {
+BddTest().given('a personal career store', () => {
   let store: ReturnType<typeof usePersonalCareerStore>
 
   beforeEach(() => {
@@ -20,6 +21,26 @@ BddTest().given('a declared programs store', () => {
 
     BddTest().then('it should have drawer initially hidden', () => {
       expect(store.showAddDeclaredProgramDrawer).toBe(false)
+    })
+
+    BddTest().then('it should provide declared programs pagination state', () => {
+      expect(store.declaredProgramsCurrentPage).toBeDefined()
+      expect(store.declaredProgramsPageSizeSelected).toBeDefined()
+    })
+
+    BddTest().then('it should have default declared programs pagination values', () => {
+      expect(store.declaredProgramsCurrentPage).toBe(0)
+      expect(store.declaredProgramsPageSizeSelected).toBe(PageSizes.FOUR)
+    })
+
+    BddTest().then('it should provide declared experiences pagination state', () => {
+      expect(store.declaredExperiencesCurrentPage).toBeDefined()
+      expect(store.declaredExperiencesPageSizeSelected).toBeDefined()
+    })
+
+    BddTest().then('it should have default declared experiences pagination values', () => {
+      expect(store.declaredExperiencesCurrentPage).toBe(0)
+      expect(store.declaredExperiencesPageSizeSelected).toBe(PageSizes.FOUR)
     })
 
     BddTest().and('displaying the add declared program drawer', () => {
@@ -55,6 +76,30 @@ BddTest().given('a declared programs store', () => {
 
         store.displayAddDeclaredProgramDrawer()
         expect(store.showAddDeclaredProgramDrawer).toBe(true)
+      })
+    })
+
+    BddTest().and('updating declared programs pagination', () => {
+      BddTest().then('it should allow updating current page', () => {
+        store.declaredProgramsCurrentPage = 2
+        expect(store.declaredProgramsCurrentPage).toBe(2)
+      })
+
+      BddTest().then('it should allow updating page size', () => {
+        store.declaredProgramsPageSizeSelected = PageSizes.EIGHT
+        expect(store.declaredProgramsPageSizeSelected).toBe(PageSizes.EIGHT)
+      })
+    })
+
+    BddTest().and('updating declared experiences pagination', () => {
+      BddTest().then('it should allow updating current page', () => {
+        store.declaredExperiencesCurrentPage = 3
+        expect(store.declaredExperiencesCurrentPage).toBe(3)
+      })
+
+      BddTest().then('it should allow updating page size', () => {
+        store.declaredExperiencesPageSizeSelected = PageSizes.TWELVE
+        expect(store.declaredExperiencesPageSizeSelected).toBe(PageSizes.TWELVE)
       })
     })
   })

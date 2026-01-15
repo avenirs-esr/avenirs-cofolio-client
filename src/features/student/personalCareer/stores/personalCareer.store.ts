@@ -14,18 +14,25 @@ export const usePersonalCareerStore = defineStore('personalCareer', () => {
   const declaredProgramsPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const declaredProgramsCurrentPage = ref(0)
 
+  const declaredExperiencesPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+  const declaredExperiencesCurrentPage = ref(0)
+
   return {
     showAddDeclaredProgramDrawer,
     displayAddDeclaredProgramDrawer,
     hideAddDeclaredProgramDrawer,
     declaredProgramsCurrentPage,
-    declaredProgramsPageSizeSelected
+    declaredProgramsPageSizeSelected,
+    declaredExperiencesCurrentPage,
+    declaredExperiencesPageSizeSelected
   }
 }, {
   persist: {
     pick: [
       'declaredProgramsCurrentPage',
-      'declaredProgramsPageSizeSelected'
+      'declaredProgramsPageSizeSelected',
+      'declaredExperiencesCurrentPage',
+      'declaredExperiencesPageSizeSelected'
     ]
   }
 })

@@ -53,7 +53,7 @@ useBaseApiExceptionToast(error)
       v-if="shouldShowEmptyState"
       class="av-row av-justify-center av-my-md"
     >
-      <span class="s1-regular">
+      <span class="s2-regular">
         {{ t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsTab.emptyState') }}
       </span>
     </div>
