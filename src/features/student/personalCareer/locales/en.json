@@ -73,7 +73,16 @@
             "title": "My activities"
           },
           "ExperiencesSection": {
-            "title": "My experiences"
+            "AmsTab": {
+              "title": "My AMS"
+            },
+            "DeclaredExperiencesTab": {
+              "title": "My declared experiences"
+            },
+            "title": "My experiences",
+            "VerifiedExperiencesTab": {
+              "title": "My verified experiences"
+            }
           },
           "MyCareerSection": {
             "title": "My career"
