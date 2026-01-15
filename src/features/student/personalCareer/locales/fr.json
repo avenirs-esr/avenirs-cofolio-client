@@ -73,7 +73,16 @@
             "title": "Mes activités"
           },
           "ExperiencesSection": {
-            "title": "Mes expériences"
+            "AmsTab": {
+              "title": "Mes AMS"
+            },
+            "DeclaredExperiencesTab": {
+              "title": "Mes expériences déclarées"
+            },
+            "title": "Mes expériences",
+            "VerifiedExperiencesTab": {
+              "title": "Mes expériences vérifiées"
+            }
           },
           "MyCareerSection": {
             "title": "Mon parcours"
