@@ -128,6 +128,22 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student project skills', () => {
+    BddTest().then('it should navigate to student project skills', () => {
+      const { navigateToStudentProjectSkills } = navigation
+      navigateToStudentProjectSkills({})
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PROJECT_SKILLS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student project skills with replace', () => {
+    BddTest().then('it should navigate to student project skills with replace', () => {
+      const { navigateToStudentProjectSkills } = navigation
+      navigateToStudentProjectSkills({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PROJECT_SKILLS)
+    })
+  })
+
   BddTest().when('trying to navigate to student traces', () => {
     BddTest().then('it should navigate to student traces', () => {
       const { navigateToStudentTraces } = navigation

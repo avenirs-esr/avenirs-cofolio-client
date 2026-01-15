@@ -59,6 +59,12 @@
             "levelTitle": "Auto-positionnement",
             "skillTitle": "Intitulé :"
           },
+          "deleteModal": {
+            "description": "Cette action est définitive. Elle entraine la suppression des informations concernant la compétence ainsi que la suppression des liens d'association qu'elle comportait.",
+            "error": "Une erreur est survenue lors de la suppression de la compétence {skill}",
+            "title": "Confirmez-vous la suppression de la compétence {skill} ?",
+            "success": "Compétence {skill} supprimée avec succès"
+          },
           "settingDropdown": {
             "ariaLabel": "Paramètres de la compétence déclarée",
             "delete": "Supprimer ma compétence",

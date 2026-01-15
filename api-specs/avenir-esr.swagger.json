@@ -247,7 +247,7 @@
         }
       }
     },
-    "/me/declared-skill-progress/{declaredSkillProgressId}": {
+    "/me/declared/skill-progress/{declaredSkillProgressId}": {
       "get": {
         "tags": [
           "declared-skill-progress-controller"
@@ -310,6 +310,35 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "deleteDeclaredSkillProgress",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -794,7 +823,7 @@
         }
       }
     },
-    "/me/declared-skill-progress": {
+    "/me/declared/skill-progress": {
       "get": {
         "tags": [
           "declared-skill-progress-controller"
@@ -862,7 +891,7 @@
         }
       }
     },
-    "/me/declared-skill-progress/{declaredSkillProgressId}/unassociate/traces": {
+    "/me/declared/skill-progress/{declaredSkillProgressId}/unassociate/traces": {
       "post": {
         "tags": [
           "declared-skill-progress-controller"

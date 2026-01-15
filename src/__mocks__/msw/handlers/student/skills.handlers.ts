@@ -14,6 +14,7 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillType,
   getCreateDeclaredSkillProgressUrl,
+  getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAllSkillsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
@@ -198,6 +199,22 @@ export const skillsHandlers = [
   http.put<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getUpdateDeclaredSkillProgressUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedDeclaredSkillProgressDetailsDTO(id)
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.delete<{ declaredSkillProgressId: string }, DeclaredSkillProgressDetailsDTO>(`*${getDeleteDeclaredSkillProgressUrl(':declaredSkillProgressId')}`, async ({ params }) => {
+    const { declaredSkillProgressId } = params
+
+    if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
+      return HttpResponse.json({ error: 'Invalid skill ID' }, { status: 400 })
+    }
+
+    const response = `Skill progress with id ${declaredSkillProgressId} deleted successfully`
     return HttpResponse.json(response, {
       status: 200,
       headers: {

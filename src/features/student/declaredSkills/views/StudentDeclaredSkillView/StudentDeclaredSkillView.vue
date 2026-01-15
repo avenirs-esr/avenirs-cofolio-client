@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { useDeclaredSkillDetailedQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.vue'
+import DeleteDeclaredSkillConfirmModal from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -24,9 +25,9 @@ enum StudentDeclaredSkillViewTabs {
 }
 
 const { t } = useI18n()
-const { navigateToStudentUpdateDeclaredSkill } = useNavigation()
-
+const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
 const { declaredSkillDetailed } = useDeclaredSkillDetailedQuery(skillId)
+const { showModal, displayModal, hideModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
@@ -43,6 +44,11 @@ const breadcrumbLinks = computed(() => [
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredSkill()
 }
+
+function handleSkillDeleted () {
+  hideModal()
+  navigateToStudentProjectSkills({ replace: true })
+}
 </script>
 
 <template>
@@ -57,7 +63,10 @@ function handleUpdateSelected () {
     data-testid="student-declared-skill-view__title"
   >
     <span class="n4">{{ skillTitle }}</span>
-    <DeclaredSkillSettingDropdown @update-selected="handleUpdateSelected" />
+    <DeclaredSkillSettingDropdown
+      @delete-selected="displayModal"
+      @update-selected="handleUpdateSelected"
+    />
   </div>
 
   <AvTabs v-model="activeTab">
@@ -80,6 +89,14 @@ function handleUpdateSelected () {
       />
     </AvTab>
   </AvTabs>
+
+  <DeleteDeclaredSkillConfirmModal
+    :show="showModal"
+    :skill-id="skillId"
+    :skill-title="skillTitle"
+    @skill-deleted="handleSkillDeleted"
+    @close="hideModal"
+  />
 </template>
 
 <style lang="scss" scoped>
