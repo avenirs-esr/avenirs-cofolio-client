@@ -88,6 +88,7 @@
               "title": "My AMS"
             },
             "DeclaredExperiencesTab": {
+              "emptyState": "No declared experiences yet. Click on the \"Add\" button in the More Actions menu to declare your first experience!",
               "title": "My declared experiences"
             },
             "title": "My experiences",

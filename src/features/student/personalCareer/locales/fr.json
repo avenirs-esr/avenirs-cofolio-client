@@ -88,6 +88,7 @@
               "title": "Mes AMS"
             },
             "DeclaredExperiencesTab": {
+              "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience !",
               "title": "Mes expériences déclarées"
             },
             "title": "Mes expériences",
