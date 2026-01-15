@@ -12,6 +12,7 @@ export interface IconOptions {
 
 export interface FloatingIconCardProps {
   title: string
+  titleColor?: string
   iconOptions: IconOptions
   borderColor?: string
   borderColorOnHover?: string
@@ -30,6 +31,7 @@ const {
   customTitleHeight,
   headerRows = 3,
   height = '16.875rem',
+  titleColor = 'var(--card2)',
 } = defineProps<FloatingIconCardProps>()
 
 defineSlots<{
@@ -118,7 +120,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     display: block;
     width: 100%;
     height: 100%;
-    color: var(--card2);
+    color: v-bind('titleColor');
   }
 
   &__title {

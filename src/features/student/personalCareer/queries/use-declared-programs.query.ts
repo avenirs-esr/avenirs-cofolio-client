@@ -5,6 +5,7 @@ import {
   type DeclaredProgramDetailedDTO,
   type DeclaredProgramRequestDTO,
   type DeclaredProgramViewDTO,
+  deleteDeclaredProgram,
   getDeclaredProgram,
   getDeclaredPrograms,
   type PagedResponseDeclaredProgramViewDTO,
@@ -12,7 +13,7 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredProgramsCommonQueryKey = [...commonQueryKeys, 'declared-programs']
@@ -60,6 +61,42 @@ export function useDeclaredProgramsViewQuery ({
   }
 }
 
+export interface GetCachedDeclaredProgramsResult {
+  declaredPrograms: DeclaredProgramViewDTO[]
+  currentPage: number
+}
+
+export function useGetCachedDeclaredPrograms () {
+  const queryClient = useQueryClient()
+
+  function getCachedDeclaredPrograms (): GetCachedDeclaredProgramsResult {
+    const allDeclaredPrograms: DeclaredProgramViewDTO[] = []
+    let maxPage = -1
+
+    const queries = queryClient.getQueriesData<PagedResponseDeclaredProgramViewDTO>({
+      queryKey: [...declaredProgramsViewQueryKey]
+    })
+
+    queries.forEach(([, data]) => {
+      if (data?.data) {
+        allDeclaredPrograms.push(...data.data)
+        if (data.page && data.page.page > maxPage) {
+          maxPage = data.page.page
+        }
+      }
+    })
+
+    return {
+      declaredPrograms: allDeclaredPrograms,
+      currentPage: maxPage
+    }
+  }
+
+  return {
+    getCachedDeclaredPrograms
+  }
+}
+
 export function useCreateDeclaredProgramMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateDeclaredProgramsViewQuery = useInvalidateQuery([...declaredProgramsViewQueryKey])
 
@@ -99,4 +136,22 @@ export function useDeclaredProgramDetailedQuery (declaredProgramId: MaybeRef<str
     ...query,
     declaredProgramDetailed,
   }
+}
+export interface DeleteDeclaredProgramMutationParams {
+  declaredProgramIds: string[]
+}
+
+export function useDeleteDeclaredProgramMutation ({ onError, onSuccess }: MutationArgs<string> = {}) {
+  const invalidateDeclaredProgramsViewQuery = useInvalidateQuery([...declaredProgramsViewQueryKey])
+
+  return useMutation<string, BaseApiException, DeleteDeclaredProgramMutationParams>({
+    mutationFn: async (params: DeleteDeclaredProgramMutationParams): Promise<string> => {
+      return await deleteDeclaredProgram(params.declaredProgramIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredProgramsViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
 }

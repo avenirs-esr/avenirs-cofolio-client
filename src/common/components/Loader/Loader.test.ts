@@ -55,7 +55,7 @@ BddTest().given('a loader component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with isLoading false', () => {
+  BddTest().when('the component is mounted with isLoading false and a default slot', () => {
     beforeEach(() => {
       wrapper = mount(Loader, {
         props: {
@@ -84,7 +84,32 @@ BddTest().given('a loader component', () => {
     })
   })
 
-  BddTest().when('the component is mounted without isLoading prop', () => {
+  BddTest().when('the component is mounted with isLoading false and no default slot', () => {
+    beforeEach(() => {
+      wrapper = mount(Loader, {
+        props: {
+          isLoading: false
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the loader container', () => {
+      expect(wrapper.find('.loader').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the AvIcon component', () => {
+      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      expect(icon.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render an empty div from the default slot', () => {
+      const slotDiv = wrapper.find('[data-testid="loader-slot-alt"]')
+      expect(slotDiv.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted without isLoading prop and a default slot', () => {
     beforeEach(() => {
       wrapper = mount(Loader, {
         slots: {
@@ -97,6 +122,23 @@ BddTest().given('a loader component', () => {
     BddTest().then('it should render the slot content by default', () => {
       const slotContent = wrapper.find('.default-slot')
       expect(slotContent.exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the loader', () => {
+      expect(wrapper.find('.loader').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted without isLoading prop and no default slot', () => {
+    beforeEach(() => {
+      wrapper = mount(Loader, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render an empty div from the default slot', () => {
+      const slotDiv = wrapper.find('[data-testid="loader-slot-alt"]')
+      expect(slotDiv.exists()).toBe(true)
     })
 
     BddTest().then('it should not render the loader', () => {

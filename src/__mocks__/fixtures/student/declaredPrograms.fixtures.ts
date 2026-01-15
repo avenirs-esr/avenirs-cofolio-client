@@ -19,41 +19,24 @@ export const declaredProgramViewDTOFixture: DeclaredProgramDetailedDTO = {
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z'
 }
-export const mockedDeclaredPrograms: DeclaredProgramViewDTO[] = [
-  {
-    id: 'declared-program-1',
-    title: 'Master en Informatique',
-    result: 'Mention Très Bien',
-    organization: 'Université de Paris',
-    status: 'COMPLETED' as EProgramStatus
-  },
-  {
-    id: 'declared-program-2',
-    title: 'Licence Professionnelle Développement Web',
-    organization: 'IUT de Lyon',
-    status: 'IN_PROGRESS' as EProgramStatus
-  },
-  {
-    id: 'declared-program-3',
-    title: 'BTS Services Informatiques aux Organisations',
-    result: 'Bien',
-    organization: 'Lycée Technique de Marseille',
-    status: 'COMPLETED' as EProgramStatus
-  },
-  {
-    id: 'declared-program-4',
-    title: 'DUT Informatique',
-    organization: 'IUT de Toulouse',
-    status: 'NOT_STARTED' as EProgramStatus
-  },
-  {
-    id: 'declared-program-5',
-    title: 'Formation Continue JavaScript Avancé',
-    result: 'Certificat obtenu',
-    organization: 'École en ligne Tech Academy',
-    status: 'COMPLETED' as EProgramStatus
+
+function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] {
+  const programs: DeclaredProgramViewDTO[] = []
+
+  for (let i = 1; i <= count; i++) {
+    programs.push({
+      id: `declared-program-${i}`,
+      title: `Formation déclarée ${i}`,
+      organization: `Établissement ${i}`,
+      status: i % 3 === 0 ? EProgramStatus.COMPLETED : i % 3 === 1 ? EProgramStatus.IN_PROGRESS : EProgramStatus.NOT_STARTED,
+      result: i % 2 === 0 ? `Résultat ${i}` : undefined
+    })
   }
-]
+
+  return programs
+}
+
+export const mockedDeclaredPrograms: DeclaredProgramViewDTO[] = createMockedDeclaredPrograms(60)
 
 export function createMockedDeclaredProgramsPagedResponse (
   pageSize: number,
