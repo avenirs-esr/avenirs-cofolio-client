@@ -68,6 +68,17 @@
         }
       },
       "views": {
+        "DeclaredProgramDetailedView": {
+          "declaredProgramDetailed": {
+            "description": "Description de ma formation déclarée",
+            "organization": "Établissement / Organisme",
+            "period": "Période",
+            "program": "Formation",
+            "result": "Résultat obtenu",
+            "sourceOfInformation": "Provenance de l'information",
+            "title": "Intitulé de ma formation déclarée"
+          }
+        },
         "PersonalCareerView": {
           "ActivitiesSection": {
             "title": "Mes activités"
