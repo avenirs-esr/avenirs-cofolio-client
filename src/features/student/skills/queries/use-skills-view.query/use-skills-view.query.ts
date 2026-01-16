@@ -17,8 +17,6 @@ import { type Ref, toValue } from 'vue'
 
 const skillsCommonQueryKeys = [...commonQueryKeys, 'skills']
 
-const TWO_MINUTES = 2 * 60 * 1000
-
 export function useSkillsViewQuery (
   sort: Ref<string | undefined>,
   page: Ref<number>,
@@ -44,7 +42,6 @@ export function useSkillsViewQuery (
   const query = useQuery<PagedResponseSkillDTO, BaseApiException, PagedResponseSkillDTO, readonly unknown[]>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 
@@ -68,7 +65,6 @@ export function useSkillDetailedQuery (skillId: Ref<string>) {
   const query = useQuery<SkillDetailedDTO, BaseApiException, SkillDetailedDTO, readonly unknown[]>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     enabled: computed(() => skillId.value.trim().length > 0),
   })
 
@@ -90,7 +86,6 @@ export function useAllSkillsQuery () {
   const query = useQuery<SkillListItemDTO[], BaseApiException, SkillListItemDTO[], readonly unknown[]>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
   })
 
   const allSkills = computed(() => query.data.value)

@@ -16,8 +16,6 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 const declaredProgramsCommonQueryKey = [...commonQueryKeys, 'declared-programs']
 const declaredProgramsViewQueryKey = [...declaredProgramsCommonQueryKey, 'view']
 
-const TWO_MINUTES = 2 * 60 * 1000
-
 export interface DeclaredProgramsViewQueryParams {
   page: MaybeRef<number>
   pageSize: MaybeRef<number>
@@ -47,7 +45,6 @@ export function useDeclaredProgramsViewQuery ({
   const query = useQuery<PagedResponseDeclaredProgramViewDTO, BaseApiException>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 

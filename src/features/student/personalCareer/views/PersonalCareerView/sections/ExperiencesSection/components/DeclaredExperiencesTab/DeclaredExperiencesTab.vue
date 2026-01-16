@@ -54,19 +54,17 @@ useBaseApiExceptionToast(error)
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >
-      <div>
-        <Loader
-          :is-loading="isFetching && !isError"
-          size="2xl"
-        >
-          <DeclaredExperienceCard
-            v-for="experience in declaredExperiences"
-            :key="experience.id"
-            class="av-col av-gap-lg av-py-md"
-            :declared-experience="experience"
-          />
-        </Loader>
-      </div>
+      <Loader
+        :is-loading="isFetching && !isError"
+        size="2xl"
+      >
+        <DeclaredExperienceCard
+          v-for="experience in declaredExperiences"
+          :key="experience.id"
+          class="av-col av-gap-lg av-py-md"
+          :declared-experience="experience"
+        />
+      </Loader>
     </Pagination>
   </div>
 </template>

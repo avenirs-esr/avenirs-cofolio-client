@@ -29,7 +29,6 @@ const selfKnowledgeElementsViewQueryKey = [...selfKnowledgeElementsQueryKey, 'vi
 const selfKnowledgeElementDetailsQueryKey = [...selfKnowledgeCommonQueryKey, 'element-details']
 const selfKnowledgeCategoriesAvailableQueryKey = [...selfKnowledgeCommonQueryKey, 'available']
 
-const TWO_MINUTES = 2 * 60 * 1000
 const CATEGORY_ELEMENTS_PAGE_SIZE = 3
 
 export function useSelfKnowledgeCategoriesQuery (): UseQueryReturnType<SelfKnowledgeCategoryDTO[], BaseApiException> & {
@@ -44,7 +43,6 @@ export function useSelfKnowledgeCategoriesQuery (): UseQueryReturnType<SelfKnowl
   const query = useQuery<SelfKnowledgeCategoryDTO[], BaseApiException >({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES
   })
 
   const categories = computed(() => query.data.value ?? [])
@@ -73,7 +71,6 @@ export function useSelfKnowledgeElementDetailsQuery ({
   const query = useQuery<SelfKnowledgeElementDetailsDTO, BaseApiException >({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES
   })
 
   const element = computed(() => query.data.value)
@@ -116,7 +113,6 @@ export function useSelfKnowledgeCategoryElementsViewQuery ({
   const query = useQuery<PagedResponseSelfKnowledgeElementViewDTO, BaseApiException>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData,
     enabled: computed(() => {
       const id = toValue(selfKnowledgeCategoryId)
@@ -151,7 +147,6 @@ export function useSelfKnowledgeCategoriesAvailableQuery (): UseQueryReturnType<
   const query = useQuery<SelfKnowledgeCategoryDTO[], BaseApiException >({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES
   })
 
   const categoriesAvailable = computed(() => query.data.value ?? [])

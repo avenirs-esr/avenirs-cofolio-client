@@ -25,8 +25,6 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 const declaredSkillCommonQueryKey = ['user', 'student', 'declared-skills']
 const declaredSkillDetailsQueryKey = [...declaredSkillCommonQueryKey, 'details']
 
-const TWO_MINUTES = 2 * 60 * 1000
-
 export function useDeclaredSkillsViewQuery (
   page: Ref<number>,
   pageSize: Ref<number>
@@ -54,7 +52,6 @@ export function useDeclaredSkillsViewQuery (
   >({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 
@@ -96,7 +93,6 @@ export function useSearchExternalSkillsQuery (
     queryKey,
     queryFn,
     enabled: computed(() => keyword.value.trim().length >= 3),
-    staleTime: TWO_MINUTES,
     initialPageParam: 0,
     getNextPageParam: (lastPage: PagedResponseExternalSkillDTO) => {
       const { page, totalPages } = lastPage.page
@@ -157,7 +153,6 @@ export function useDeclaredSkillDetailedQuery (skillId: MaybeRef<string>) {
   const query = useQuery<DeclaredSkillProgressDetailsDTO, BaseApiException, DeclaredSkillProgressDetailsDTO, readonly unknown[]>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     enabled: computed(() => toValue(skillId).trim().length > 0),
   })
 

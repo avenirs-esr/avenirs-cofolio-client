@@ -7,8 +7,6 @@ import { type Ref, toValue } from 'vue'
 
 const amsCommonQueryKeys = [...commonQueryKeys, 'ams']
 
-const TWO_MINUTES = 2 * 60 * 1000
-
 export function useAmsViewQuery (
   programProgramId: Ref<string | undefined>,
   page: Ref<number>,
@@ -37,7 +35,6 @@ export function useAmsViewQuery (
     queryKey,
     queryFn,
     enabled: computed(() => !isNil(programProgramId.value)),
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 
