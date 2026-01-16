@@ -20,7 +20,7 @@ const DeclaredProgramDescriptionTextareaStub = defineComponent({
         @input="$emit('update:modelValue', $event.target.value)"
         @blur="$emit('blur')"
       />
-      <slot name="customCaptions" />
+      <slot name="maxLengthCaption" />
     </div>
   `
 })

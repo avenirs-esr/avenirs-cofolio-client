@@ -28,7 +28,7 @@ const AvInputStub = {
         :required="required"
         @input="$emit('update:modelValue', $event.target.value)"
       />
-      <slot name="customCaptions" :current-value="modelValue" :maxlength="maxlength" />
+      <slot name="maxLengthCaption" :current-value="modelValue" :maxlength="maxlength" />
     </div>
   `
 }

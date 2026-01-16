@@ -21,7 +21,7 @@ const AvInputStub = {
   template: `<div class="av-input">
     <span class="label">{{ label }}</span>
     <span class="value">{{ modelValue }}</span>
-    <slot name="customCaptions" />
+    <slot name="maxLengthCaption" />
   </div>`,
 }
 
