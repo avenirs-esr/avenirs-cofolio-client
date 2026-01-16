@@ -213,7 +213,7 @@ BddTest().given('the CategoryElementDescriptionTextarea component', () => {
     })
   })
 
-  BddTest().when('the customCaptions slot is rendered', () => {
+  BddTest().when('the maxLengthCaption slot is rendered', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementDescriptionTextarea, {
         props: {

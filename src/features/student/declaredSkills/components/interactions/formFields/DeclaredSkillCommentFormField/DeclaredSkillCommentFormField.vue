@@ -31,7 +31,7 @@ const { t } = useI18n()
         @blur="field.handleBlur"
         @update:model-value="onUpdateComment"
       >
-        <template #customCaptions>
+        <template #maxLengthCaption>
           <span class="caption-regular">
             {{ t('global.inputs.textarea.limit', { count: (field.state.value?.length ?? 0), maxlength: DECLARED_SKILL_COMMENT_MAX_LENGTH }) }}
           </span>

@@ -69,7 +69,7 @@
       },
       "views": {
         "DeclaredProgramDetailedView": {
-          "declaredProgramDetailed": {
+          "DeclaredProgramDetailed": {
             "description": "Description de ma formation déclarée",
             "organization": "Établissement / Organisme",
             "period": "Période",

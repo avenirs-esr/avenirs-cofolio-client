@@ -36,7 +36,7 @@ const AvInputStub = defineComponent({
     row: [String, Number],
   },
   emits: ['update:modelValue', 'mousedown', 'touchstart', 'wheel'],
-  template: '<input @input="$emit(\'update:modelValue\', $event.target.value)" data-testid="av-input-stub" :value="modelValue" :placeholder="placeholder" :disabled="disabled" :required="required" :maxlength="maxlength" /><slot name="customCaptions" :current-value="modelValue" />'
+  template: '<input @input="$emit(\'update:modelValue\', $event.target.value)" data-testid="av-input-stub" :value="modelValue" :placeholder="placeholder" :disabled="disabled" :required="required" :maxlength="maxlength" /><slot name="maxLengthCaption" :current-value="modelValue" />'
 })
 
 BddTest().given('a TextInputNode component', () => {

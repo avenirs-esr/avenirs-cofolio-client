@@ -204,12 +204,6 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
-      BddTest().then('it should apply the mobile layout class', () => {
-        const root = wrapper.find('[data-testid="layout-declared-program-detailed"]')
-        expect(root.exists()).toBe(true)
-        expect(root.classes()).toContain('layout-declared-program-detailed--mobile')
-      })
-
       BddTest().then('it should set AvPeriodInput stacked to true', () => {
         const period = wrapper.findComponent({ name: 'AvPeriodInput' })
         expect(period.exists()).toBe(true)

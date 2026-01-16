@@ -44,8 +44,8 @@ const avInputProps = computed(() => ({
       v-model="modelValue"
     >
       <template
-        v-if="!$slots.customCaptions"
-        #customCaptions="{ currentValue }"
+        v-if="!$slots.maxLengthCaption"
+        #maxLengthCaption="{ currentValue }"
       >
         <span class="caption-light">
           {{ t('global.inputs.textarea.limit', {
