@@ -39,7 +39,6 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
 const tracesViewQueryKey = [...tracesCommonQueryKeys, 'view']
-const TWO_MINUTES = 2 * 60 * 1000
 
 export interface UseTracesViewQueryParams {
   params: Ref<TracesViewParams>
@@ -65,7 +64,6 @@ export function useTracesViewQuery ({ params, traceFilter }: UseTracesViewQueryP
       const cleanParams = computed(() => removeEmpty(params.value))
       return await tracesView(cleanFilter.value, cleanParams.value)
     },
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 
@@ -87,7 +85,6 @@ export function useTracesSummaryQuery (): UseQueryReturnType<TracesSummaryDTO, B
     queryFn: async (): Promise<TracesSummaryDTO> => {
       return await getTracesSummary()
     },
-    staleTime: TWO_MINUTES,
   })
 }
 
@@ -116,7 +113,6 @@ export function useTracesConfigurationQuery (): UseQueryReturnType<TraceConfigur
     queryFn: async (): Promise<TraceConfigurationDTO> => {
       return await getTraceConfig()
     },
-    staleTime: TWO_MINUTES,
   })
 }
 
@@ -165,7 +161,6 @@ export function useTraceDetailedQuery (traceId: MaybeRef<string>) {
   const query = useQuery<TraceDetailDTO, BaseApiException, TraceDetailDTO, readonly unknown[]>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     enabled: computed(() => toValue(traceId).trim().length > 0),
   })
 
@@ -222,7 +217,6 @@ export function useTracesAssociationQuery (
     queryKey,
     queryFn,
     enabled: computed(() => keyword.value.trim().length >= 3),
-    staleTime: TWO_MINUTES,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       const { page, totalPages } = lastPage.page

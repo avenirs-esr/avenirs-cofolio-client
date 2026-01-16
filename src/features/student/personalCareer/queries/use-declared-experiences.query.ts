@@ -12,8 +12,6 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 const declaredExperiencesCommonQueryKey = [...commonQueryKeys, 'declared-experiences']
 const declaredExperiencesViewQueryKey = [...declaredExperiencesCommonQueryKey, 'view']
 
-const TWO_MINUTES = 2 * 60 * 1000
-
 export interface DeclaredExperiencesViewQueryParams {
   page: MaybeRef<number>
   pageSize: MaybeRef<number>
@@ -43,7 +41,6 @@ export function useDeclaredExperiencesViewQuery ({
   const query = useQuery<PagedResponseDeclaredExperienceViewDTO, BaseApiException>({
     queryKey,
     queryFn,
-    staleTime: TWO_MINUTES,
     placeholderData: keepPreviousData
   })
 

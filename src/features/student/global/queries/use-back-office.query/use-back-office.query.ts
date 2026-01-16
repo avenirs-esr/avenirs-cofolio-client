@@ -3,7 +3,6 @@ import { type BuildLifeProjectConfigDTO, getBuildLifeProjectConfig } from '@/api
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const commonQueryKeys = ['back-office', 'config']
-const TWO_MINUTES = 2 * 60 * 1000
 
 export function useBackOfficeBuildLifeProjectConfigQuery (): UseQueryReturnType<BuildLifeProjectConfigDTO, BaseApiException> {
   const queryKey = [...commonQueryKeys, 'website-content', 'build-life-project']
@@ -11,6 +10,5 @@ export function useBackOfficeBuildLifeProjectConfigQuery (): UseQueryReturnType<
   return useQuery<BuildLifeProjectConfigDTO, BaseApiException>({
     queryKey,
     queryFn: getBuildLifeProjectConfig,
-    staleTime: TWO_MINUTES
   })
 }

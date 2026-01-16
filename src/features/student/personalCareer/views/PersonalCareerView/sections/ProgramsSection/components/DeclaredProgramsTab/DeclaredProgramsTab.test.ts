@@ -143,7 +143,7 @@ BddTest().given('a declared programs tab', () => {
     BddTest().then('it should display the empty state message', () => {
       const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
       expect(emptyState.exists()).toBe(true)
-      expect(emptyState.find('.s1-regular').exists()).toBe(true)
+      expect(emptyState.find('.s2-regular').exists()).toBe(true)
     })
 
     BddTest().then('it should not render declared program cards', () => {
