@@ -68,6 +68,17 @@
         }
       },
       "views": {
+        "DeclaredProgramDetailedView": {
+          "declaredProgramDetailed": {
+            "description": "Description of my declared education",
+            "organization": "Institution / Organization",
+            "period": "Period",
+            "program": "Program",
+            "result": "Result obtained",
+            "sourceOfInformation": "Source of information",
+            "title": "Title of my declared program"
+          }
+        },
         "PersonalCareerView": {
           "ActivitiesSection": {
             "title": "My activities"
