@@ -7,7 +7,7 @@ import type {
 } from '@/features/student/declaredSkills/types/forms.types'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
-import { useSearchDeclaredSkillsQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
+import { useSearchExternalSkillsQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
@@ -28,7 +28,7 @@ const PAGE_SIZE = 10
 const searchQuery = ref('')
 const pageSize = ref(PAGE_SIZE)
 
-const { skills: apiSkills, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } = useSearchDeclaredSkillsQuery(
+const { skills: apiSkills, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } = useSearchExternalSkillsQuery(
   searchQuery,
   pageSize
 )

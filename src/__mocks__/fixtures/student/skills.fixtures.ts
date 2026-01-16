@@ -1,6 +1,5 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   EDeclaredSkillLevel,
@@ -8,8 +7,9 @@ import {
   EExternalSkillType,
   ESkillLevelStatus,
   ETraceAssociationType,
-  type PagedResponseDeclaredSkillDTO,
+  type ExternalSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
+  type PagedResponseExternalSkillDTO,
   type PagedResponseSkillDTO,
   type PagedResponseTraceAssociationSearchResult,
   type SkillDTO,
@@ -92,7 +92,7 @@ export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: num
   }
 }
 
-export function createMockedSearchDeclaredSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseDeclaredSkillDTO {
+export function createMockedSearchExternalSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseExternalSkillDTO {
   const allSkills = [
     'Accueillir des enfants',
     'Animation pédagogique',
@@ -133,7 +133,7 @@ export function createMockedSearchDeclaredSkillsDTO (pageSize: number, totalElem
     'Comptabilité publique'
   ]
 
-  const filteredSkills: DeclaredSkillDTO[] = allSkills
+  const filteredSkills: ExternalSkillDTO[] = allSkills
     .filter(title => title.toLowerCase().includes(keyword.toLowerCase()))
     .map(title => ({
       id: `search-${crypto.randomUUID()}`,

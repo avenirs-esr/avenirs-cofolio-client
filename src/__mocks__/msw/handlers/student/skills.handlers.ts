@@ -3,7 +3,7 @@ import {
   createMockedDeclaredSkillProgressDetailsDTO,
   createMockedPagedResponseDeclaredSkillProgressDTO,
   createMockedPagedResponseSkillsDTO,
-  createMockedSearchDeclaredSkillsDTO,
+  createMockedSearchExternalSkillsDTO,
   mockedSkillDetailed
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
@@ -22,8 +22,8 @@ import {
   getGetSkillLevelProgressesUrl,
   getUnassociateTracesUrl,
   getUpdateDeclaredSkillProgressUrl,
-  type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
+  type PagedResponseExternalSkillDTO,
   type PagedResponseSkillDTO,
   type SkillDetailedDTO,
   type SkillListItemDTO
@@ -116,16 +116,16 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, PagedResponseDeclaredSkillDTO>(`*/declared-skills/search`, ({ request }) => {
+  http.get<PathParams, PagedResponseExternalSkillDTO>(`*/interoperability/external-skills/search`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
     const keyword = searchParams.get('keyword') ?? ''
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedSearchDeclaredSkillsDTO(pageSize, 20, page, keyword)
+    const response = createMockedSearchExternalSkillsDTO(pageSize, 20, page, keyword)
 
-    return HttpResponse.json<PagedResponseDeclaredSkillDTO>(response, {
+    return HttpResponse.json<PagedResponseExternalSkillDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

@@ -44,7 +44,7 @@ function handleSelectChange (val: AvTagPickerOption): void {
 <template>
   <div class="av-row av-wrap av-align-center av-justify-between av-gap-md">
     <AvPageSizePicker
-      v-if="!isMobile"
+      v-if="!isMobile && totalPages > 0"
       :label="t('global.pageSizePicker.label')"
       :page-size-selected="pageSizeSelected"
       :handle-select-change="handleSelectChange"

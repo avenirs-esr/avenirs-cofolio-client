@@ -15,7 +15,7 @@ import {
   useDeclaredSkillDetailedQuery,
   useDeclaredSkillsViewQuery,
   useDeleteDeclaredSkillMutation,
-  useSearchDeclaredSkillsQuery,
+  useSearchExternalSkillsQuery,
   useUnassociateTracesFromDeclaredSkillMutation,
   type UseUnassociateTracesFromDeclaredSkillMutationVariables
 } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
@@ -146,7 +146,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
   })
 })
 
-BddTest().given('an useSearchDeclaredSkillsQuery composable', () => {
+BddTest().given('an useSearchExternalSkillsQuery composable', () => {
   const uiidRegex = /^search-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
   BddTest().and('valid search parameters', () => {
@@ -154,10 +154,10 @@ BddTest().given('an useSearchDeclaredSkillsQuery composable', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     BddTest().when('the query is executed with keyword >= 3 characters', () => {
-      let queryResult: ReturnType<typeof useSearchDeclaredSkillsQuery>
+      let queryResult: ReturnType<typeof useSearchExternalSkillsQuery>
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsQuery(keyword, pageSize))
+        queryResult = mountQueryComposable(() => useSearchExternalSkillsQuery(keyword, pageSize))
         await flushPromises()
       })
 
@@ -182,10 +182,10 @@ BddTest().given('an useSearchDeclaredSkillsQuery composable', () => {
 
     BddTest().when('keyword is less than 3 characters', () => {
       const shortKeyword = ref('co')
-      let queryResult: ReturnType<typeof useSearchDeclaredSkillsQuery>
+      let queryResult: ReturnType<typeof useSearchExternalSkillsQuery>
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsQuery(shortKeyword, pageSize))
+        queryResult = mountQueryComposable(() => useSearchExternalSkillsQuery(shortKeyword, pageSize))
         await flushPromises()
       })
 
@@ -196,10 +196,10 @@ BddTest().given('an useSearchDeclaredSkillsQuery composable', () => {
 
     BddTest().when('keyword is empty', () => {
       const emptyKeyword = ref('')
-      let queryResult: ReturnType<typeof useSearchDeclaredSkillsQuery>
+      let queryResult: ReturnType<typeof useSearchExternalSkillsQuery>
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsQuery(emptyKeyword, pageSize))
+        queryResult = mountQueryComposable(() => useSearchExternalSkillsQuery(emptyKeyword, pageSize))
         await flushPromises()
       })
 
@@ -210,10 +210,10 @@ BddTest().given('an useSearchDeclaredSkillsQuery composable', () => {
 
     BddTest().when('keyword changes from valid to invalid', () => {
       const dynamicKeyword = ref('communication')
-      let queryResult: ReturnType<typeof useSearchDeclaredSkillsQuery>
+      let queryResult: ReturnType<typeof useSearchExternalSkillsQuery>
 
       beforeEach(async () => {
-        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsQuery(dynamicKeyword, pageSize))
+        queryResult = mountQueryComposable(() => useSearchExternalSkillsQuery(dynamicKeyword, pageSize))
         await flushPromises()
       })
 

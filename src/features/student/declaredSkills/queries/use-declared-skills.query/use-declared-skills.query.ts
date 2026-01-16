@@ -12,8 +12,9 @@ import {
   getDeclaredSkillsProgresses,
   type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
+  type PagedResponseExternalSkillDTO,
   type PageInfoDTO,
-  searchDeclaredSkills,
+  searchExternalSkills,
   unassociateTraces,
   updateDeclaredSkillProgress
 } from '@/api/avenir-esr'
@@ -67,7 +68,7 @@ export function useDeclaredSkillsViewQuery (
   }
 }
 
-export function useSearchDeclaredSkillsQuery (
+export function useSearchExternalSkillsQuery (
   keyword: Ref<string>,
   pageSize: Ref<number>
 ) {
@@ -76,8 +77,8 @@ export function useSearchDeclaredSkillsQuery (
     pageSize: pageSize.value
   }])
 
-  const queryFn = computed(() => async ({ pageParam = 0 }): Promise<PagedResponseDeclaredSkillDTO> => {
-    return await searchDeclaredSkills({
+  const queryFn = computed(() => async ({ pageParam = 0 }): Promise<PagedResponseExternalSkillDTO> => {
+    return await searchExternalSkills({
       keyword: toValue(keyword),
       page: pageParam,
       pageSize: toValue(pageSize)
@@ -86,7 +87,7 @@ export function useSearchDeclaredSkillsQuery (
   )
 
   const query = useInfiniteQuery<
-    PagedResponseDeclaredSkillDTO,
+    PagedResponseExternalSkillDTO,
     BaseApiException,
     DeclaredSkillDTO[],
     Readonly<UnwrapRef<typeof queryKey>>,
@@ -97,7 +98,7 @@ export function useSearchDeclaredSkillsQuery (
     enabled: computed(() => keyword.value.trim().length >= 3),
     staleTime: TWO_MINUTES,
     initialPageParam: 0,
-    getNextPageParam: (lastPage: PagedResponseDeclaredSkillDTO) => {
+    getNextPageParam: (lastPage: PagedResponseExternalSkillDTO) => {
       const { page, totalPages } = lastPage.page
       return page + 1 < totalPages ? page + 1 : undefined
     },
