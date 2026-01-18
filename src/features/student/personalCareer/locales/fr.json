@@ -25,6 +25,41 @@
           }
         },
         "inputs": {
+          "DeclaredExperienceActivitySectorInput": {
+            "hint": "Pour une classification reconnue, consultez le référentiel NAF (Nomenclature d'Activités Française)",
+            "label": "Secteur d'activité",
+            "placeholder": "Secteur d'activité"
+          },
+          "DeclaredExperienceDescriptionTextarea": {
+            "label": "Description de mon expérience"
+          },
+          "DeclaredExperienceLinkInput": {
+            "label": "Ajouter un lien",
+            "placeholder": "https://exemple.com"
+          },
+          "DeclaredExperienceLocationInput": {
+            "label": "Lieu",
+            "placeholder": "Ville/Pays"
+          },
+          "DeclaredExperienceOrganizationInput": {
+            "label": "Entreprise / Organisme",
+            "placeholder": "Nom"
+          },
+          "DeclaredExperienceReviewTextarea": {
+            "label": "Bilan / Prise de recul"
+          },
+          "DeclaredExperienceSourceOfInformationInput": {
+            "label": "Provenance de l'information",
+            "placeholder": "Provenance"
+          },
+          "DeclaredExperienceTitleInput": {
+            "label": "Intitulé du poste",
+            "placeholder": "titre-de-mon-expérience-01"
+          },
+          "DeclaredExperienceTypeSelect": {
+            "label": "Type d'expérience",
+            "placeholder": "Sélectionnez un type"
+          },
           "DeclaredProgramDescriptionTextarea": {
             "label": "Description de ma formation"
           },

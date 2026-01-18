@@ -25,6 +25,41 @@
           }
         },
         "inputs": {
+          "DeclaredExperienceActivitySectorInput": {
+            "hint": "For a recognized classification, consult the NAF (French Classification of Activities) reference",
+            "label": "Activity sector",
+            "placeholder": "Activity sector"
+          },
+          "DeclaredExperienceDescriptionTextarea": {
+            "label": "Description of my experience"
+          },
+          "DeclaredExperienceLinkInput": {
+            "label": "Add a link",
+            "placeholder": "https://example.com"
+          },
+          "DeclaredExperienceLocationInput": {
+            "label": "Location",
+            "placeholder": "City/Country"
+          },
+          "DeclaredExperienceOrganizationInput": {
+            "label": "Company / Organization",
+            "placeholder": "Name"
+          },
+          "DeclaredExperienceReviewTextarea": {
+            "label": "Review / Reflection"
+          },
+          "DeclaredExperienceSourceOfInformationInput": {
+            "label": "Source of information",
+            "placeholder": "Source"
+          },
+          "DeclaredExperienceTitleInput": {
+            "label": "Job title",
+            "placeholder": "my-experience-title-01"
+          },
+          "DeclaredExperienceTypeSelect": {
+            "label": "Experience type",
+            "placeholder": "Select a type"
+          },
           "DeclaredProgramDescriptionTextarea": {
             "label": "Program description"
           },
