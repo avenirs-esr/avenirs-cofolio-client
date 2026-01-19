@@ -77,7 +77,13 @@
             "result": "Résultat obtenu",
             "sourceOfInformation": "Provenance de l'information",
             "title": "Intitulé de ma formation déclarée"
-          }
+          },
+          "tabs": {
+            "details": {
+              "title": "Ma formation déclarée"
+            }
+          },
+          "title": "Détail {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

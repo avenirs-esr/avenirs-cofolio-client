@@ -77,7 +77,13 @@
             "result": "Result obtained",
             "sourceOfInformation": "Source of information",
             "title": "Title of my declared program"
-          }
+          },
+          "tabs": {
+            "details": {
+              "title": "My declared program"
+            }
+          },
+          "title": "Detail {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

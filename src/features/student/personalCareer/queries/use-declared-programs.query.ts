@@ -2,8 +2,10 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
   createDeclaredProgram,
+  type DeclaredProgramDetailedDTO,
   type DeclaredProgramRequestDTO,
   type DeclaredProgramViewDTO,
+  getDeclaredProgram,
   getDeclaredPrograms,
   type PagedResponseDeclaredProgramViewDTO,
   type PageInfoDTO
@@ -71,4 +73,30 @@ export function useCreateDeclaredProgramMutation ({ onError, onSuccess }: Mutati
     },
     onError
   })
+}
+
+export function useDeclaredProgramDetailedQuery (declaredProgramId: MaybeRef<string>) {
+  const queryKey = computed(() => [...declaredProgramsCommonQueryKey, toValue(declaredProgramId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredProgramDetailedDTO> => {
+    return await getDeclaredProgram(toValue(declaredProgramId))
+  })
+
+  const query = useQuery<
+    DeclaredProgramDetailedDTO,
+    BaseApiException,
+    DeclaredProgramDetailedDTO,
+    readonly unknown[]
+  >({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(declaredProgramId).trim().length > 0),
+  })
+
+  const declaredProgramDetailed = computed(() => query.data.value)
+
+  return {
+    ...query,
+    declaredProgramDetailed,
+  }
 }

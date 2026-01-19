@@ -1,6 +1,7 @@
+import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 
-export const personalCareerRoute = {
+export const personalCareerRoute: AvRoute = {
   ...ROUTES.STUDENT.PERSONAL_CAREER,
   component: () => import('@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'),
   redirect: { name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name },
@@ -22,4 +23,13 @@ export const personalCareerRoute = {
       component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'),
     }
   ]
+}
+
+export const declaredProgramRoute: AvRoute = {
+  ...ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED,
+  props: route => ({
+    declaredProgramId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'),
 }

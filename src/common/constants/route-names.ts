@@ -9,6 +9,7 @@ export const ROUTES = {
     EVENTS: { name: 'student-events', path: 'events' },
     PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'projects/personal-career', },
     PERSONAL_CAREER_MY_CAREER: { name: 'personal-career-my-career', path: 'my-career' },
+    PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: { name: 'personal-career-declared-program-detailed', path: 'projects/personal-career/declared-programs/:id' },
     PERSONAL_CAREER_DECLARED_PROGRAMS: { name: 'personal-career-declared-programs', path: 'declared-programs' },
     PERSONAL_CAREER_ACTIVITIES: { name: 'personal-career-activities', path: 'activities' },
     PERSONAL_CAREER_EXPERIENCES: { name: 'personal-career-experiences', path: 'experiences' },

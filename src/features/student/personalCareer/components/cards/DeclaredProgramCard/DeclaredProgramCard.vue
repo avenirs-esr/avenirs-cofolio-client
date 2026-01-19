@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { AvBadge, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -47,45 +48,49 @@ const statusBadgeProps = computed(() => {
 </script>
 
 <template>
-  <FloatingIconCard
-    :title="declaredProgram.title"
-    :icon-options="iconOptions"
-    color="var(--surface-background)"
-    border-color="var(--other-border-skill-card)"
-    border-color-on-hover="var(--dark-background-primary1)"
-    :header-rows="1"
-    title-typography-classes="n6"
-    height="12.8rem"
+  <RouterLink
+    :to="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: declaredProgram.id } }"
   >
-    <template #body>
-      <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
-        <div class="av-col av-row--md av-align-end av-justify-end--md av-gap-sm">
-          <AvBadge
-            v-if="declaredProgram.status"
-            v-bind="statusBadgeProps"
-          />
-          <AvBadge
-            v-if="declaredProgram.result"
-            class="av-hidden av-unhidden--md"
-            :label="declaredProgram.result"
-            :icon="RI_ICONS.LAYOUT_6_LINE"
-            color="var(--card2)"
-            background-color="var(--dark-background-primary1)"
-            ellipsis
-          />
+    <FloatingIconCard
+      :title="declaredProgram.title"
+      :icon-options="iconOptions"
+      color="var(--surface-background)"
+      border-color="var(--other-border-skill-card)"
+      border-color-on-hover="var(--dark-background-primary1)"
+      :header-rows="1"
+      title-typography-classes="n6"
+      height="12.8rem"
+    >
+      <template #body>
+        <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
+          <div class="av-col av-row--md av-align-end av-justify-end--md av-gap-sm">
+            <AvBadge
+              v-if="declaredProgram.status"
+              v-bind="statusBadgeProps"
+            />
+            <AvBadge
+              v-if="declaredProgram.result"
+              class="av-hidden av-unhidden--md"
+              :label="declaredProgram.result"
+              :icon="RI_ICONS.LAYOUT_6_LINE"
+              color="var(--card2)"
+              background-color="var(--dark-background-primary1)"
+              ellipsis
+            />
 
-          <AvBadge
-            v-if="declaredProgram.organization"
-            :label="declaredProgram.organization"
-            :icon="MDI_ICONS.BUILDING"
-            color="var(--text1)"
-            background-color="transparent"
-            ellipsis
-          />
+            <AvBadge
+              v-if="declaredProgram.organization"
+              :label="declaredProgram.organization"
+              :icon="MDI_ICONS.BUILDING"
+              color="var(--text1)"
+              background-color="transparent"
+              ellipsis
+            />
+          </div>
         </div>
-      </div>
-    </template>
-  </FloatingIconCard>
+      </template>
+    </FloatingIconCard>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>
