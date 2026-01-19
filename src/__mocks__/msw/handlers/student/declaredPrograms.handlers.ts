@@ -2,7 +2,13 @@ import {
   createMockedDeclaredProgramsPagedResponse,
   declaredProgramViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
-import { getCreateDeclaredProgramUrl, getGetDeclaredProgramsUrl, type PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
+import {
+  type DeclaredProgramDetailedDTO,
+  getCreateDeclaredProgramUrl,
+  getGetDeclaredProgramsUrl,
+  getGetDeclaredProgramUrl,
+  type PagedResponseDeclaredProgramViewDTO
+} from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
@@ -57,6 +63,24 @@ export const declaredProgramsQueryHandler = http.get(`*${getGetDeclaredProgramsU
   })
 })
 
+export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
+  return HttpResponse.json<DeclaredProgramDetailedDTO>(declaredProgramViewDTOFixture, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
+export const declaredProgramDetailedErrorHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
+  return HttpResponse.json(
+    {
+      status: 500,
+      message: 'Internal Server Error',
+      error: 'Failed to fetch declared program details'
+    },
+    { status: 500 }
+  )
+})
+
 export const declaredProgramsHandlers = [
   declaredProgramsQueryHandler,
   http.post(
@@ -64,5 +88,6 @@ export const declaredProgramsHandlers = [
     () => {
       return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
     }
-  )
+  ),
+  declaredProgramDetailedHandler
 ]

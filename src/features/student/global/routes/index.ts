@@ -1,7 +1,7 @@
 import { ROUTES } from '@/common/constants'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
-import { personalCareerRoute } from '@/features/student/personalCareer'
+import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
@@ -44,6 +44,7 @@ export default [
         component: () => import('@/common/views/PersonnalDataView/PersonnalDataView.vue'),
       },
       studentProjectSkillsRoute,
+      declaredProgramRoute,
       personalCareerRoute,
       {
         ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,

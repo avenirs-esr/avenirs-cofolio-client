@@ -1,11 +1,17 @@
 import type { DeclaredProgramRequestDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student'
-import { createDeclaredProgramErrorHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import {
+  createDeclaredProgramErrorHandler,
+  declaredProgramDetailedErrorHandler,
+  declaredProgramDetailedHandler,
+  declaredProgramsQueryErrorHandler
+} from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
   type DeclaredProgramsViewQueryReturnType,
   useCreateDeclaredProgramMutation,
+  useDeclaredProgramDetailedQuery,
   useDeclaredProgramsViewQuery
 } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -370,6 +376,92 @@ BddTest().given('a create declared program mutation', () => {
           expect(mockOnError).toHaveBeenCalledTimes(1)
         })
       })
+    })
+  })
+})
+
+BddTest().given('a declared program detailed query', () => {
+  let declaredProgramId: Ref<string>
+  let queryResult: ReturnType<typeof useDeclaredProgramDetailedQuery>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    declaredProgramId = ref('declared-program-123-456-789')
+  })
+
+  BddTest().when('the query is executed with a valid declaredProgramId', () => {
+    beforeEach(async () => {
+      server.use(declaredProgramDetailedHandler)
+      queryResult = mountQueryComposable(() => useDeclaredProgramDetailedQuery(declaredProgramId))
+
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return declared program detailed data', () => {
+      expect(queryResult.data.value).toBeDefined()
+      expect(queryResult.data.value).toEqual(declaredProgramViewDTOFixture)
+    })
+
+    BddTest().then('it should compute declaredProgramDetailed', () => {
+      expect(queryResult.declaredProgramDetailed.value).toEqual(declaredProgramViewDTOFixture)
+    })
+
+    BddTest().then('it should have success state', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+
+    BddTest().and('the declaredProgramId changes', () => {
+      beforeEach(async () => {
+        declaredProgramId.value = 'another-declared-program-id'
+
+        await vi.waitFor(() => {
+          expect(queryResult.isFetching.value || queryResult.isPending.value || queryResult.isSuccess.value).toBe(true)
+        })
+      })
+
+      BddTest().then('it should keep a stable computed declaredProgramDetailed ref', () => {
+        expect(queryResult.declaredProgramDetailed).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().when('the query is executed with an empty declaredProgramId', () => {
+    beforeEach(async () => {
+      declaredProgramId.value = '   '
+      queryResult = mountQueryComposable(() => useDeclaredProgramDetailedQuery(declaredProgramId))
+      await flushPromises()
+    })
+
+    BddTest().then('it should not fetch and should have no data', () => {
+      expect(queryResult.data.value).toBeUndefined()
+      expect(queryResult.declaredProgramDetailed.value).toBeUndefined()
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.isError.value).toBe(false)
+      expect(queryResult.isFetching.value).toBe(false)
+    })
+  })
+
+  BddTest().when('the query fails with server error', () => {
+    beforeEach(async () => {
+      server.use(declaredProgramDetailedErrorHandler)
+      queryResult = mountQueryComposable(() => useDeclaredProgramDetailedQuery(declaredProgramId))
+      await flushPromises()
+    })
+
+    BddTest().then('it should set error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should have undefined declaredProgramDetailed', () => {
+      expect(queryResult.declaredProgramDetailed.value).toBeUndefined()
     })
   })
 })
