@@ -167,4 +167,15 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith(ROUTES.TEACHER.HOME)
     })
   })
+
+  BddTest().when('trying to navigate to student declared experience', () => {
+    BddTest().then('it should navigate to student declared experience', () => {
+      const { navigateToStudentDeclaredExperience } = navigation
+      navigateToStudentDeclaredExperience({ id: 'exp-123' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        params: { id: 'exp-123' }
+      })
+    })
+  })
 })

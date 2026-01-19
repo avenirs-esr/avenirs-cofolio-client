@@ -74,6 +74,12 @@
         }
       },
       "views": {
+        "DeclaredExperienceView": {
+          "DeclaredExperienceDetailsDropdown": {
+            "dropdown": "Manage my experience",
+            "title": "Details of my declared experience"
+          }
+        },
         "DeclaredProgramDetailedView": {
           "DeclaredProgramDetailed": {
             "description": "Description of my declared education",

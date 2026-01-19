@@ -8,6 +8,13 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.DECLARED_SKILL)
   }
 
+  const navigateToStudentDeclaredExperience = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+      params: { id }
+    })
+  }
+
   const navigateToStudentDeliverables = () => {
     return router.push(ROUTES.STUDENT.DELIVERABLES)
   }
@@ -81,6 +88,7 @@ export function useNavigation () {
 
   return {
     navigateToStudentDeclaredSkill,
+    navigateToStudentDeclaredExperience,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,

@@ -33,3 +33,12 @@ export const declaredProgramRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'),
 }
+
+export const declaredExperienceRoute: AvRoute = {
+  ...ROUTES.STUDENT.DECLARED_EXPERIENCE,
+  props: route => ({
+    experienceId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'),
+}

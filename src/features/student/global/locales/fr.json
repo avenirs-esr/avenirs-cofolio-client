@@ -36,6 +36,7 @@
           "project": {
             "header": "Construire mon projet de vie",
             "items": {
+              "declaredExperience": "Toutes mes expériences déclarées",
               "declaredSkills": "Mes autres compétences et certifications déclarées",
               "experiences": "Mon parcours",
               "selfKnowledge": "Me connaître",

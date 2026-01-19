@@ -28,6 +28,7 @@
           "project": {
             "header": "Building my life project",
             "items": {
+              "declaredExperience": "All my declared experiences",
               "declaredSkills": "My other declared skills and certifications",
               "experiences": "My career",
               "selfKnowledge": "About me",
