@@ -3,12 +3,13 @@ import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectorOverlayProps {
-  selectableElements: { label: string, value: string }[]
+  selectableElements: { label: string, value: string, baseElement?: unknown }[]
   selectedAriaLabel?: string
   unselectedAriaLabel?: string
   checkboxColor?: string
   overlayColor?: string
   overlayOpacity?: number
+  readonly?: boolean
 }
 
 const {
@@ -18,6 +19,7 @@ const {
   checkboxColor = 'var(--dark-background-primary1)',
   overlayColor = 'var(--dark-background-primary1)',
   overlayOpacity = 0.1,
+  readonly = false
 } = defineProps<SelectorOverlayProps>()
 
 const { t } = useI18n()
@@ -53,8 +55,10 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       name="default"
       :label="element.label"
       :value="element.value"
+      :base-element="element.baseElement"
     />
     <a
+      v-if="!readonly"
       role="button"
       tabindex="0"
       :aria-label="getAriaLabel(element.value, element.label)"

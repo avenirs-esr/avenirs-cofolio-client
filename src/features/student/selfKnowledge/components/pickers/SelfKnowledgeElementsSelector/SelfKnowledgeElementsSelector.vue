@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementsSelectorProps {
   elements: SelfKnowledgeElementViewDTO[]
@@ -11,52 +10,36 @@ export interface SelfKnowledgeElementsSelectorProps {
   readonly?: boolean
 }
 
-defineProps<SelfKnowledgeElementsSelectorProps>()
-const { t } = useI18n()
+const { elements } = defineProps<SelfKnowledgeElementsSelectorProps>()
 
 const selectedElementIds = defineModel<string[]>({ default: [] })
 
-function onSelectElement (elementId: string) {
-  if (selectedElementIds.value.includes(elementId)) {
-    selectedElementIds.value = selectedElementIds.value.filter(id => id !== elementId)
-  }
-  else {
-    selectedElementIds.value = [...selectedElementIds.value, elementId]
-  }
-}
+const selectableElements = computed(() => {
+  return elements.map(element => ({
+    value: element.id,
+    label: element.title
+  }))
+})
 </script>
 
 <template>
   <div class="elements-selector__container av-row av-justify-center av-gap-sm">
-    <div
-      v-for="element in elements"
-      :key="element.id"
-      class="self-knowledge-element-compact-card__wrapper"
+    <SelectorOverlay
+      v-model:selected-elements="selectedElementIds"
+      :selectable-elements="selectableElements"
+      checkbox-color="var(--other-background-base)"
+      overlay-color="var(--base)"
+      :overlay-opacity="0.25"
+      :readonly="readonly"
     >
-      <SelfKnowledgeElementCompactCard
-        :title="element.title"
-        :valorized="false"
-        :icon-name="getSelfKnowledgeCategoryIcon(categoryType)"
-      />
-      <a
-        v-if="!readonly"
-        role="button"
-        tabindex="0"
-        :aria-label="t(`student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.ariaLabel`, { title: element.title })"
-        :aria-pressed="selectedElementIds.includes(element.id)"
-        class="self-knowledge-element-compact-card__overlay"
-        :class="{ 'self-knowledge-element-compact-card__overlay--selected': selectedElementIds.includes(element.id) }"
-        @click="() => onSelectElement(element.id)"
-        @keydown.enter="() => onSelectElement(element.id)"
-        @keydown.space="() => onSelectElement(element.id)"
-      >
-        <AvIcon
-          :name="selectedElementIds.includes(element.id) ? MDI_ICONS.CHECKBOX_MARKED : MDI_ICONS.CHECKBOX_BLANK_OUTLINE"
-          color="var(--other-background-base)"
-          :size="2"
+      <template #default="{ label }">
+        <SelfKnowledgeElementCompactCard
+          :title="label"
+          :valorized="false"
+          :icon-name="getSelfKnowledgeCategoryIcon(categoryType)"
         />
-      </a>
-    </div>
+      </template>
+    </SelectorOverlay>
   </div>
 </template>
 

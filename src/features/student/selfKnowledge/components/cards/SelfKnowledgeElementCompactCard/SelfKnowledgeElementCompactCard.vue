@@ -74,10 +74,7 @@ const { t } = useI18n()
   }
 
   .av-icon {
-    &__icon {
-      width: 75% !important;
-      height: 75% !important;
-    }
+    scale: 0.75 !important;
   }
 }
 </style>
