@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
+import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
-import { AvCheckbox } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface TracesSelectorProps {
   traces: TraceOverviewDTO[]
@@ -10,35 +9,29 @@ export interface TracesSelectorProps {
 }
 
 const { traces, readonly = false } = defineProps<TracesSelectorProps>()
-const { t } = useI18n()
 
 const selectedTraceIds = defineModel<string[]>({ default: [] })
+
+const selectableTraces = computed(() =>
+  traces.map(trace => ({
+    label: trace.title,
+    value: trace.traceId,
+    baseElement: trace
+  }))
+)
 </script>
 
 <template>
-  <div class="traces-selector__container">
-    <div
-      v-for="trace in traces"
-      :key="trace.traceId"
-      class="student-trace-card-wrapper"
+  <div class="traces-selector__container av-row av-wrap av-gap-md av-p-md">
+    <SelectorOverlay
+      v-model:selected-elements="selectedTraceIds"
+      :selectable-elements="selectableTraces"
+      :readonly="readonly"
     >
-      <StudentTraceCard :trace="trace" />
-      <div
-        v-if="!readonly"
-        class="student-trace-card-overlay"
-        :class="{ 'student-trace-card-overlay--selected': selectedTraceIds.includes(trace.traceId) }"
-      >
-        <AvCheckbox
-          :id="`trace-checkbox-${trace.traceId}`"
-          v-model="selectedTraceIds"
-          :name="`trace-${trace.traceId}`"
-          :value="trace.traceId"
-          :aria-label="t('student.traces.interactions.pickers.TracesSelector.ariaLabel', { title: trace.title })"
-          class="student-trace-card-checkbox"
-          label=""
-        />
-      </div>
-    </div>
+      <template #default="{ baseElement }">
+        <StudentTraceCard :trace="baseElement as TraceOverviewDTO" />
+      </template>
+    </SelectorOverlay>
   </div>
 </template>
 
@@ -46,41 +39,11 @@ const selectedTraceIds = defineModel<string[]>({ default: [] })
 .traces-selector {
 
   &__container {
-    padding: var(--spacing-md);
     border-radius: var(--radius-xl);
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: var(--spacing-md);
 
     .student-trace-card-wrapper {
       position: relative;
       cursor: pointer;
-    }
-
-    .student-trace-card-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--light-background-overlay);
-      border-radius: var(--radius-xl);
-      display: flex;
-      transition: opacity 0.2s ease-in-out;
-
-      :deep(.av-label) {
-        justify-content: flex-end;
-        padding:  var(--spacing-xs) 0;
-
-        .label {
-          display: none;
-        }
-      }
-
-      &--selected {
-        background-color: transparent;
-      }
     }
   }
 }

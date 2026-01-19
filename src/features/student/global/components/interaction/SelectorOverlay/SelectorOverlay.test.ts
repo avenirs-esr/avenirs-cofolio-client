@@ -67,4 +67,34 @@ BddTest().given('a SelectorOverlay component', () => {
       })
     })
   })
+
+  BddTest().when('the selector overlay is mounted in readonly mode', () => {
+    beforeEach(() => {
+      wrapper = mount(SelectorOverlay, {
+        props: {
+          selectableElements: [
+            { label: 'Option 1', value: 'option1' },
+            { label: 'Option 2', value: 'option2' },
+          ],
+          selectedElements: ['option1'],
+          readonly: true,
+        },
+        slots: {
+          default: '<div class="custom-element">{{ label }}</div>',
+        },
+      })
+    })
+
+    BddTest().then('it should render the elements', () => {
+      const elements = wrapper.findAll('.selector-overlay__element')
+      expect(elements).toHaveLength(2)
+      expect(elements[0].text()).toBe('Option 1')
+      expect(elements[1].text()).toBe('Option 2')
+    })
+
+    BddTest().then('it should not render selectable anchors', () => {
+      const anchors = wrapper.findAll('a[role="button"]')
+      expect(anchors).toHaveLength(0)
+    })
+  })
 })

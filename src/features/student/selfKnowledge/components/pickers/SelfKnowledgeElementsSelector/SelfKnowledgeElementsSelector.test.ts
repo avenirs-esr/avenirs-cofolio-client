@@ -1,4 +1,5 @@
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
 import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
 import SelfKnowledgeElementsSelector, { type SelfKnowledgeElementsSelectorProps } from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -9,8 +10,9 @@ BddTest().given('a self knowledge element selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementsSelector>>
 
   const stubs = {
+    AvIcon: AvIconStub,
     SelfKnowledgeElementCompactCard: SelfKnowledgeElementCompactCardStub,
-    AvIcon: AvIconStub
+    SelectorOverlay: SelectorOverlayStub
   }
 
   BddTest().and('no elements are given', () => {
