@@ -84,12 +84,16 @@
             "sourceOfInformation": "Source of information",
             "title": "Title of my declared program"
           },
+          "sideMenu": {
+            "title": "All of my declared programs"
+          },
           "tabs": {
             "details": {
               "title": "My declared program"
             }
           },
-          "title": "Detail {programTitle}"
+          "title": "Detail {programTitle}",
+          "valorized": "Valorized in my resume"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

@@ -1,6 +1,7 @@
 import {
   createMockedDeclaredProgramsPagedResponse,
-  declaredProgramViewDTOFixture
+  declaredProgramViewDTOFixture,
+  searchDeclaredProgramsById
 } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import {
   type DeclaredProgramDetailedDTO,
@@ -64,8 +65,10 @@ export const declaredProgramsQueryHandler = http.get(`*${getGetDeclaredProgramsU
   })
 })
 
-export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
-  return HttpResponse.json<DeclaredProgramDetailedDTO>(declaredProgramViewDTOFixture, {
+export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, ({ params }) => {
+  const { id } = params as { id: string }
+  const program = searchDeclaredProgramsById(id)
+  return HttpResponse.json<DeclaredProgramDetailedDTO>(program, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })

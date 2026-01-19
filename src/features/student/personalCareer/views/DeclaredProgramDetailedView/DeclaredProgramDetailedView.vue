@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
-import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
+import DeclaredProgramSideMenu
+  from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
+import {
+  useDeclaredProgramsPaginated
+} from '@/features/student/personalCareer/composables/use-declared-programs-paginated/use-declared-programs-paginated'
+import {
+  useDeclaredProgramDetailedQuery
+} from '@/features/student/personalCareer/queries/use-declared-programs.query'
+
 import DeclaredProgramDetailed
   from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import { useI18n } from 'vue-i18n'
 
-interface DeclaredProgramDetailedViewProps {
-  declaredProgramId: string
-}
-const { declaredProgramId } = defineProps<DeclaredProgramDetailedViewProps>()
-
 const { t } = useI18n()
-const { declaredProgramDetailed } = useDeclaredProgramDetailedQuery(declaredProgramId)
+const route = useRoute()
+const router = useRouter()
+const selectedProgramId = computed(() => String(route.params.id ?? ''))
+
+const { programs, pageInfo, loadMorePrograms } = useDeclaredProgramsPaginated({ pageSize: 3 })
+const { declaredProgramDetailed } = useDeclaredProgramDetailedQuery(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title)
 const breadcrumbLinks = computed(() => [
@@ -20,6 +28,10 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.experiences') }
 ])
+
+function onSelectProgram (programId: string) {
+  router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: programId } })
+}
 </script>
 
 <template>
@@ -28,12 +40,20 @@ const breadcrumbLinks = computed(() => [
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
-  <DeclaredProgramDetailed
-    v-if="declaredProgramDetailed"
-    :declared-program-detailed="declaredProgramDetailed"
-  />
+  <div class="av-row av-gap-sm">
+    <DeclaredProgramSideMenu
+      :selected-program-id="selectedProgramId"
+      :programs="programs"
+      :count-programs="pageInfo.totalElements"
+      @select-program="onSelectProgram"
+      @load-more-programs="loadMorePrograms"
+    />
+    <DeclaredProgramDetailed
+      v-if="declaredProgramDetailed"
+      :declared-program-detailed="declaredProgramDetailed"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
-
 </style>

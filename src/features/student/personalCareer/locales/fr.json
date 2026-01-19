@@ -84,12 +84,16 @@
             "sourceOfInformation": "Provenance de l'information",
             "title": "Intitulé de ma formation déclarée"
           },
+          "sideMenu": {
+            "title": "Toutes mes formations déclarées"
+          },
           "tabs": {
             "details": {
               "title": "Ma formation déclarée"
             }
           },
-          "title": "Détail {programTitle}"
+          "title": "Détail {programTitle}",
+          "valorized": "Valoriser dans mon CV"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {
