@@ -140,6 +140,13 @@
           },
           "title": "Detail {programTitle}"
         },
+        "DeclaredProgramUpdateView": {
+          "confirmationModal": {
+            "description": "Any unsaved changes will be lost."
+          },
+          "title": "Update {programTitle}",
+          "wipBadge": "Update in progress"
+        },
         "PersonalCareerView": {
           "ActivitiesSection": {
             "title": "My activities"
