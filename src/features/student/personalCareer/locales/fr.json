@@ -92,8 +92,7 @@
               "title": "Ma formation déclarée"
             }
           },
-          "title": "Détail {programTitle}",
-          "valorized": "Valoriser dans mon CV"
+          "title": "Détail {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

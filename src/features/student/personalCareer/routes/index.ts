@@ -27,9 +27,6 @@ export const personalCareerRoute: AvRoute = {
 
 export const declaredProgramRoute: AvRoute = {
   ...ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED,
-  props: route => ({
-    declaredProgramId: route.params.id,
-  }),
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'),
 }

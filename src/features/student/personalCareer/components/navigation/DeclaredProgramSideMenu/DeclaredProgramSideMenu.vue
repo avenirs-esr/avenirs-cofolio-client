@@ -2,7 +2,7 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import DeclaredProgramCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
-import { AvButton, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
@@ -77,6 +77,7 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
             v-else
             role="button"
             tabindex="0"
+            class="declared-program-side-menu__program av-row av-align-center"
             :aria-pressed="program.id === selectedProgramId"
             :class="{ 'declared-program-side-menu__program--selected': program.id === selectedProgramId }"
             @keydown.enter="$emit('selectProgram', program.id)"
@@ -103,13 +104,6 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
   }
 
   &__program {
-    display: flex;
-    align-items: center;
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--radius-lg);
-    background: var(--other-background-base);
-    border: 1px solid var(--divider);
-    cursor: pointer;
 
     &:hover {
       border-color: var(--dark-background-primary1);

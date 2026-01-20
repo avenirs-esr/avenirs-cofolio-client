@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface DeclaredProgramCompactCardProps {
   title: string
@@ -17,8 +16,6 @@ const iconOptions = computed(() => ({
   borderColor: 'var(--other-border-skill-card)',
   bottom: '-1.25rem',
 }))
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -34,16 +31,7 @@ const { t } = useI18n()
     title-typography-classes="caption-regular"
   >
     <template #body>
-      <AvBadge
-        v-if="valorized"
-        :label="t('student.personalCareer.views.DeclaredProgramDetailedView.valorized')"
-        :icon="MDI_ICONS.STAR"
-        color="var(--light-foreground-accent)"
-        background-color="var(--light-background-accent)"
-        border-color="transparent"
-        ellipsis
-        small
-      />
+      <ValorizedBadge v-if="valorized" />
     </template>
   </FloatingIconCard>
 </template>
@@ -71,13 +59,6 @@ const { t } = useI18n()
     &__title {
       padding-top: var(--spacing-xs);
       padding-bottom: var(--spacing-xs);
-    }
-  }
-
-  .av-icon {
-    &__icon {
-      width: 75% !important;
-      height: 75% !important;
     }
   }
 }

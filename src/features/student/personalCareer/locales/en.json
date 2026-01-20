@@ -92,8 +92,7 @@
               "title": "My declared program"
             }
           },
-          "title": "Detail {programTitle}",
-          "valorized": "Valorized in my resume"
+          "title": "Detail {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

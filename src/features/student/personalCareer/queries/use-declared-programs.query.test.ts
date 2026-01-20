@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
-import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { declaredProgramDetailedErrorHandler, declaredProgramDetailedHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { type DeclaredProgramDetailedDTO, EProgramStatus } from '@/api/avenir-esr'
 import {
   type DeclaredProgramsViewQueryReturnType,
   type DeleteDeclaredProgramMutationParams,
@@ -390,9 +390,24 @@ BddTest().given('a declared program detailed query', () => {
   let declaredProgramId: Ref<string>
   let queryResult: ReturnType<typeof useDeclaredProgramDetailedQuery>
 
+  const declaredProgramViewDTOFixtureMock: DeclaredProgramDetailedDTO = {
+    id: 'declared-program-1',
+    status: EProgramStatus.IN_PROGRESS,
+    title: 'Formation déclarée 1',
+    description: 'Formation approfondie en développement logiciel et intelligence artificielle',
+    organization: 'Établissement 1',
+    result: '',
+    sourceOfInformation: 'Site web de l\'université',
+    link: 'https://www.universite-paris-saclay.fr/master-informatique',
+    startDate: '2023-09',
+    endDate: '2025-06',
+    createdAt: '2024-01-15T10:30:00Z',
+    updatedAt: '2024-01-15T10:30:00Z'
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
-    declaredProgramId = ref('declared-program-123-456-789')
+    declaredProgramId = ref('declared-program-1')
   })
 
   BddTest().when('the query is executed with a valid declaredProgramId', () => {
@@ -407,11 +422,11 @@ BddTest().given('a declared program detailed query', () => {
 
     BddTest().then('it should return declared program detailed data', () => {
       expect(queryResult.data.value).toBeDefined()
-      expect(queryResult.data.value).toEqual(declaredProgramViewDTOFixture)
+      expect(queryResult.data.value).toEqual(declaredProgramViewDTOFixtureMock)
     })
 
     BddTest().then('it should compute declaredProgramDetailed', () => {
-      expect(queryResult.declaredProgramDetailed.value).toEqual(declaredProgramViewDTOFixture)
+      expect(queryResult.declaredProgramDetailed.value).toEqual(declaredProgramViewDTOFixtureMock)
     })
 
     BddTest().then('it should have success state', () => {

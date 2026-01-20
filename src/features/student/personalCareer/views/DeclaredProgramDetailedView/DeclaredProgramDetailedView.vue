@@ -4,8 +4,8 @@ import { ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
 import {
-  useDeclaredProgramsPaginated
-} from '@/features/student/personalCareer/composables/use-declared-programs-paginated/use-declared-programs-paginated'
+  usePaginatedDeclaredPrograms
+} from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import {
   useDeclaredProgramDetailedQuery
 } from '@/features/student/personalCareer/queries/use-declared-programs.query'
@@ -19,7 +19,7 @@ const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
-const { programs, pageInfo, loadMorePrograms } = useDeclaredProgramsPaginated({ pageSize: 3 })
+const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
 const { declaredProgramDetailed } = useDeclaredProgramDetailedQuery(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title)
@@ -43,17 +43,15 @@ function onSelectProgram (programId: string) {
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu
       :selected-program-id="selectedProgramId"
-      :programs="programs"
+      :programs="declaredPrograms"
       :count-programs="pageInfo.totalElements"
       @select-program="onSelectProgram"
-      @load-more-programs="loadMorePrograms"
+      @load-more-programs="loadMoreDeclaredPrograms"
     />
     <DeclaredProgramDetailed
       v-if="declaredProgramDetailed"
+      :key="declaredProgramDetailed.id"
       :declared-program-detailed="declaredProgramDetailed"
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-</style>

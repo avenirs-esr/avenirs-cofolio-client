@@ -79,9 +79,6 @@
             }
           }
         },
-        "elementsDetails": {
-          "valorized": "Valorize in my resumes"
-        },
         "modals": {
           "addSelfKnowledgeCategories": {
             "success": "{count} category added successfully | {count} categories added successfully",

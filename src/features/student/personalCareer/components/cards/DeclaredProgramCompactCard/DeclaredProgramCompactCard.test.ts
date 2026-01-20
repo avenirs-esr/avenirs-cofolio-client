@@ -1,16 +1,17 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ValorizedBadgeStub } from '@/common/components/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import DeclaredProgramCompactCard
 , {
   type DeclaredProgramCompactCardProps
 } from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
 BddTest().given('a declared program compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramCompactCard>>
 
-  const stubs = { FloatingIconCard: FloatingIconCardStub, AvBadge: AvBadgeStub }
+  const stubs = { FloatingIconCard: FloatingIconCardStub, ValorizedBadge: ValorizedBadgeStub }
 
   BddTest().and('valorized is true', async () => {
     const props: DeclaredProgramCompactCardProps = {
@@ -25,10 +26,8 @@ BddTest().given('a declared program compact card', () => {
       })
 
       BddTest().then('it should render the valorized badge', () => {
-        const badge = wrapper.findComponent(AvBadgeStub)
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
         expect(badge.exists()).toBe(true)
-
-        expect(badge.text()).toBe('Valoriser dans mon CV')
       })
     })
   })
@@ -46,7 +45,7 @@ BddTest().given('a declared program compact card', () => {
       })
 
       BddTest().then('it should not render the valorized badge', () => {
-        const badge = wrapper.findComponent(AvBadgeStub)
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
         expect(badge.exists()).toBe(false)
       })
     })

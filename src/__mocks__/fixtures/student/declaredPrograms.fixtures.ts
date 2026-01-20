@@ -38,21 +38,18 @@ function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] 
 
 export const mockedDeclaredPrograms: DeclaredProgramViewDTO[] = createMockedDeclaredPrograms(60)
 
-export function searchDeclaredProgramsById (id: string): DeclaredProgramDetailedDTO | undefined {
-  const program = mockedDeclaredPrograms.find(program => program.id === id)
+export function searchDeclaredProgramsById (
+  id: string
+): DeclaredProgramDetailedDTO | undefined {
+  const program = mockedDeclaredPrograms.find(p => p.id === id)
+
   return {
+    ...declaredProgramViewDTOFixture,
     id,
-    status: program ? program.status : EProgramStatus.NOT_STARTED,
-    title: program ? program.title : '',
-    description: declaredProgramViewDTOFixture.description,
-    organization: program ? program.organization : '',
-    result: program && program.result ? program.result : '',
-    sourceOfInformation: declaredProgramViewDTOFixture.sourceOfInformation,
-    link: declaredProgramViewDTOFixture.link,
-    startDate: declaredProgramViewDTOFixture.startDate,
-    endDate: declaredProgramViewDTOFixture.endDate,
-    createdAt: declaredProgramViewDTOFixture.createdAt,
-    updatedAt: declaredProgramViewDTOFixture.updatedAt
+    status: program?.status ?? EProgramStatus.NOT_STARTED,
+    title: program?.title ?? '',
+    organization: program?.organization ?? '',
+    result: program?.result ?? '',
   }
 }
 
