@@ -8,7 +8,7 @@ import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, Vu
 import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
-import { describe, expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
+import { expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
 import { type Component, createApp, type Plugin } from 'vue'
 
 /**
@@ -105,7 +105,7 @@ export function testUseBaseApiExceptionToast<T> ({
 }
 
 export function testRoute (route: AvRoute, expectedConfig: Partial<typeof route>, expectedComponent: unknown) {
-  describe(`given the route ${route.name}`, () => {
+  BddTest().given(`the route ${route.name}`, () => {
     BddTest().when('the route is built', () => {
       BddTest().then('it should have correct route config', () => {
         expect(route).toMatchObject({ ...expectedConfig, component: expect.any(Function) })
@@ -178,7 +178,7 @@ export function testUseMutation<
     skipInvalidateCheck = false,
   } = options
 
-  describe(`given ${mutationName}`, () => {
+  BddTest().given(`the mutation ${mutationName}`, () => {
     let apiSpy: MockInstance
     let mutationResult: ReturnType<typeof mutation>
 
@@ -203,7 +203,7 @@ export function testUseMutation<
       vi.restoreAllMocks()
     })
 
-    describe(`when ${mutationName} is called with valid input`, () => {
+    BddTest().when(`the mutation ${mutationName} is called with valid input`, () => {
       beforeEach(async () => {
         mutationResult = mountQueryComposable(() => mutation(mutationArgs))
         await mutationResult.mutateAsync(validVariables)
@@ -230,7 +230,7 @@ export function testUseMutation<
       })
     })
 
-    describe(`when ${mutationName} is called with valid input`, () => {
+    BddTest().when(`the mutation ${mutationName} is called with valid input`, () => {
       beforeEach(async () => {
         mutationResult = mountQueryComposable(() => mutation(mutationArgs))
         await mutationResult.mutateAsync(invalidVariables).catch(() => {})

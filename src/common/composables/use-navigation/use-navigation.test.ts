@@ -152,11 +152,35 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student declared programs', () => {
+    BddTest().then('it should navigate to student declared programs', () => {
+      const { navigateToStudentDeclaredPrograms } = navigation
+      navigateToStudentDeclaredPrograms({})
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student declared programs with replace', () => {
+    BddTest().then('it should navigate to student declared programs with replace', () => {
+      const { navigateToStudentDeclaredPrograms } = navigation
+      navigateToStudentDeclaredPrograms({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
+    })
+  })
+
   BddTest().when('trying to navigate to student update declared skill', () => {
     BddTest().then('it should navigate to student update declared skill', () => {
       const { navigateToStudentUpdateDeclaredSkill } = navigation
       navigateToStudentUpdateDeclaredSkill()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
+    })
+  })
+
+  BddTest().when('trying to navigate to student update declared program', () => {
+    BddTest().then('it should navigate to student update declared program', () => {
+      const { navigateToStudentUpdateDeclaredProgram } = navigation
+      navigateToStudentUpdateDeclaredProgram()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
     })
   })
 

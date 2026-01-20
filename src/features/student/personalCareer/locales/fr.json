@@ -130,6 +130,9 @@
             "sourceOfInformation": "Provenance de l'information",
             "title": "Intitulé de ma formation déclarée"
           },
+          "ManageDeclaredProgramDropdown": {
+            "trigger": "Gérer ma formation"
+          },
           "tabs": {
             "details": {
               "title": "Ma formation déclarée"

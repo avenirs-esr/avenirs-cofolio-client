@@ -74,6 +74,16 @@ export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgram
   })
 })
 
+export const declaredProgramDetailedLoadingHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, async ({ params }) => {
+  await delay('infinite')
+  const { id } = params as { id: string }
+  const program = searchDeclaredProgramsById(id)
+  return HttpResponse.json<DeclaredProgramDetailedDTO>(program, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
 export const declaredProgramDetailedErrorHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
   return HttpResponse.json(
     {
