@@ -137,6 +137,13 @@
           },
           "title": "Détail {programTitle}"
         },
+        "DeclaredProgramUpdateView": {
+          "confirmationModal": {
+            "description": "Les modifications non enregistrées seront perdues."
+          },
+          "title": "Modifier {programTitle}",
+          "wipBadge": "Modification en cours"
+        },
         "PersonalCareerView": {
           "ActivitiesSection": {
             "title": "Mes activités"

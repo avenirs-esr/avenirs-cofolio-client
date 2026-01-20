@@ -2,7 +2,7 @@ import { ROUTES } from '@/common/constants'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
-import { declaredExperienceRoute } from '@/features/student/personalCareer/routes'
+import { declaredExperienceRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
@@ -46,6 +46,7 @@ export default [
       },
       studentProjectSkillsRoute,
       declaredProgramRoute,
+      declaredProgramUpdateRoute,
       personalCareerRoute,
       declaredExperienceRoute,
       {
