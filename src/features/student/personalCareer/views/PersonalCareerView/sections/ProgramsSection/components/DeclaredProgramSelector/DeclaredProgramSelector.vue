@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import DeclaredProgramCompactCard
+  from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
 
 export interface DeclaredProgramSelectorProps {
   declaredPrograms: { label: string, value: string }[]
@@ -10,14 +10,6 @@ export interface DeclaredProgramSelectorProps {
 const { declaredPrograms } = defineProps<DeclaredProgramSelectorProps>()
 
 const selectedProgramIds = defineModel<string[]>({ default: [] })
-
-const iconOptions = {
-  name: MDI_ICONS.SCHOOL_OUTLINE,
-  color: 'var(--icon)',
-  bottom: 'calc(-1 * var(--spacing-xl))',
-  right: 'var(--spacing-none)',
-  borderColor: 'var(--other-border-skill-card)',
-}
 </script>
 
 <template>
@@ -27,15 +19,9 @@ const iconOptions = {
       :selectable-elements="declaredPrograms"
     >
       <template #default="{ label }">
-        <FloatingIconCard
+        <DeclaredProgramCompactCard
           :title="label"
-          :icon-options="iconOptions"
-          :header-rows="2"
-          height="5.625rem"
-          border-color="var(--other-border-skill-card)"
-          color="var(--surface-background)"
-          title-color="var(--text1)"
-          class="av-flex-fill"
+          :valorized="false"
         />
       </template>
     </SelectorOverlay>

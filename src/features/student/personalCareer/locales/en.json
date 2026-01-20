@@ -50,6 +50,11 @@
           }
         }
       },
+      "navigation": {
+        "DeclaredProgramSideMenu": {
+          "title": "All of my declared programs"
+        }
+      },
       "overlays": {
         "AddDeclaredProgramDrawer": {
           "confirmationModal": {
@@ -83,9 +88,6 @@
             "result": "Result obtained",
             "sourceOfInformation": "Source of information",
             "title": "Title of my declared program"
-          },
-          "sideMenu": {
-            "title": "All of my declared programs"
           },
           "tabs": {
             "details": {

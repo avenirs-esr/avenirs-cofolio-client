@@ -1,21 +1,21 @@
 <script lang="ts" setup>
 import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface DeclaredProgramCompactCardProps {
   title: string
   valorized: boolean
-  iconName: string
 }
+const { title, valorized } = defineProps<DeclaredProgramCompactCardProps>()
 
-const { iconName } = defineProps<DeclaredProgramCompactCardProps>()
-
-const iconOptions = computed(() => ({
-  name: iconName,
-  color: 'var(--text1)',
+const iconOptions = {
+  name: MDI_ICONS.SCHOOL_OUTLINE,
+  color: 'var(--icon)',
+  bottom: 'calc(-1 * var(--spacing-xl))',
+  right: 'var(--spacing-none)',
   borderColor: 'var(--other-border-skill-card)',
-  bottom: '-1.25rem',
-}))
+}
 </script>
 
 <template>
@@ -23,17 +23,15 @@ const iconOptions = computed(() => ({
     :title="title"
     :icon-options="iconOptions"
     :header-rows="2"
-    height="5.75rem"
-    custom-title-height="3.5rem"
-    color="var(--surface-background)"
+    height="5.625rem"
     border-color="var(--other-border-skill-card)"
-    border-color-on-hover="var(--dark-background-primary1)"
-    title-typography-classes="caption-regular"
+    color="var(--surface-background)"
+    title-color="var(--text1)"
   >
     <template #body>
       <ValorizedBadge v-if="valorized" />
     </template>
-  </FloatingIconCard>
+  </floatingiconcard>
 </template>
 
 <style lang="scss" scoped>
@@ -47,11 +45,6 @@ const iconOptions = computed(() => ({
     &__title {
       color: var(--text1);
       text-align: left;
-    }
-
-    &__icon {
-      height: var(--dimension-lg);
-      width: var(--dimension-lg);
     }
   }
 

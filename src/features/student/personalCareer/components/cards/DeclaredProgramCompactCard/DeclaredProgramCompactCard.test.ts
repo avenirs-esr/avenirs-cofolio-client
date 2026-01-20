@@ -10,14 +10,12 @@ import { mountComponent } from 'tests/utils'
 
 BddTest().given('a declared program compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramCompactCard>>
-
   const stubs = { FloatingIconCard: FloatingIconCardStub, ValorizedBadge: ValorizedBadgeStub }
 
   BddTest().and('valorized is true', async () => {
     const props: DeclaredProgramCompactCardProps = {
       title: 'Program Title',
-      valorized: true,
-      iconName: 'mdi-school'
+      valorized: true
     }
 
     BddTest().when('the component is mounted', () => {
@@ -35,8 +33,7 @@ BddTest().given('a declared program compact card', () => {
   BddTest().and('valorized is false', async () => {
     const props: DeclaredProgramCompactCardProps = {
       title: 'Program Title',
-      valorized: false,
-      iconName: 'mdi-school'
+      valorized: false
     }
 
     BddTest().when('the component is mounted', () => {

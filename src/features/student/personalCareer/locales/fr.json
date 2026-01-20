@@ -50,6 +50,11 @@
           }
         }
       },
+      "navigation": {
+        "DeclaredProgramSideMenu": {
+          "title": "Toutes mes formations déclarées"
+        }
+      },
       "overlays": {
         "AddDeclaredProgramDrawer": {
           "confirmationModal": {
@@ -83,9 +88,6 @@
             "result": "Résultat obtenu",
             "sourceOfInformation": "Provenance de l'information",
             "title": "Intitulé de ma formation déclarée"
-          },
-          "sideMenu": {
-            "title": "Toutes mes formations déclarées"
           },
           "tabs": {
             "details": {

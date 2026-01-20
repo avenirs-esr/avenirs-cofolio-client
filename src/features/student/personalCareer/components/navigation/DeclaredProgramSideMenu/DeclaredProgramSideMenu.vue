@@ -43,7 +43,7 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
         :class="{ 'av-sr-only': isCollapsed }"
       >
         <span class="s2-regular">
-          {{ t('student.personalCareer.views.DeclaredProgramDetailedView.sideMenu.title') }}
+          {{ t('student.personalCareer.navigation.DeclaredProgramSideMenu.title') }}
         </span>
         ({{ countPrograms }})
       </span>
@@ -87,7 +87,6 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
             <DeclaredProgramCompactCard
               :title="program.title"
               :valorized="false"
-              :icon-name="icon"
             />
           </a>
         </div>
