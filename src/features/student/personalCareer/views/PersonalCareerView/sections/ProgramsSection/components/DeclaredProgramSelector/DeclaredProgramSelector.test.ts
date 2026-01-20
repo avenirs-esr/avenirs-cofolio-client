@@ -1,5 +1,5 @@
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
+import { DeclaredProgramCompactCardStub } from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.stub'
 import DeclaredProgramSelector, { type DeclaredProgramSelectorProps } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramSelector/DeclaredProgramSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -10,7 +10,7 @@ BddTest().given('a declared program selector', () => {
 
   const stubs = {
     AvIcon: AvIconStub,
-    FloatingIconCard: FloatingIconCardStub,
+    DeclaredProgramCompactCard: DeclaredProgramCompactCardStub,
     SelectorOverlay: SelectorOverlayStub
   }
 
@@ -24,7 +24,7 @@ BddTest().given('a declared program selector', () => {
     })
 
     BddTest().then('it should render no programs', () => {
-      const programCards = wrapper.findAllComponents(FloatingIconCardStub)
+      const programCards = wrapper.findAllComponents(DeclaredProgramCompactCardStub)
       expect(programCards).toHaveLength(0)
     })
   })
@@ -42,7 +42,7 @@ BddTest().given('a declared program selector', () => {
     })
 
     BddTest().then('it should render the declared programs', () => {
-      const programCards = wrapper.findAllComponents(FloatingIconCardStub)
+      const programCards = wrapper.findAllComponents({ name: 'DeclaredProgramCompactCard' })
       expect(programCards).toHaveLength(2)
       expect(programCards[0].props('title')).toBe('Program 1')
       expect(programCards[1].props('title')).toBe('Program 2')
