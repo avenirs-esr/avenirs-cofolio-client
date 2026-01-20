@@ -78,9 +78,6 @@
             }
           }
         },
-        "elementsDetails": {
-          "valorized": "Valoriser dans mes CV"
-        },
         "modals": {
           "addSelfKnowledgeCategories": {
             "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementCompactCardProps {
   title: string
@@ -16,8 +15,6 @@ const iconOptions = computed(() => ({
   color: 'var(--card)',
   bottom: '-1.25rem',
 }))
-
-const { t } = useI18n()
 </script>
 
 <template>
@@ -33,16 +30,7 @@ const { t } = useI18n()
     title-typography-classes="caption-regular"
   >
     <template #body>
-      <AvBadge
-        v-if="valorized"
-        :label="t('student.selfKnowledge.SelfKnowledgeMainSection.elementsDetails.valorized')"
-        :icon="MDI_ICONS.STAR"
-        color="var(--light-foreground-accent)"
-        background-color="var(--light-background-accent)"
-        border-color="transparent"
-        ellipsis
-        small
-      />
+      <ValorizedBadge v-if="valorized" />
     </template>
   </FloatingIconCard>
 </template>

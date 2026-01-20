@@ -89,7 +89,7 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should build the title using the selected program title', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-        expect(String(pageTitle.props('title'))).toContain('Master en Informatique')
+        expect(String(pageTitle.props('title'))).toContain('Formation déclarée 1')
       })
     })
 
@@ -99,12 +99,12 @@ BddTest().given('a declared program detailed view component', () => {
 
       expect(sideMenu.exists()).toBe(true)
       expect(sideMenu.props('selectedProgramId')).toBe('declared-program-1')
-      expect(sideMenu.props('countPrograms')).toBe(5)
+      expect(sideMenu.props('countPrograms')).toBe(60)
 
       expect(programs).toHaveLength(3)
-      expect(programs[0].title).toBe('Master en Informatique')
-      expect(programs[1].title).toBe('Licence Professionnelle Développement Web')
-      expect(programs[2].title).toBe('BTS Services Informatiques aux Organisations')
+      expect(programs[0].title).toBe('Formation déclarée 1')
+      expect(programs[1].title).toBe('Formation déclarée 2')
+      expect(programs[2].title).toBe('Formation déclarée 3')
     })
 
     BddTest().then('it should render program details when a program is selected', async () => {
@@ -112,7 +112,7 @@ BddTest().given('a declared program detailed view component', () => {
         const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
         expect(details.exists()).toBe(true)
         expect(details.props('declaredProgramDetailed')).toBeDefined()
-        expect(details.props('declaredProgramDetailed').title).toBe('Master en Informatique')
+        expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 1')
       })
     })
 
@@ -151,7 +151,7 @@ BddTest().given('a declared program detailed view component', () => {
         BddTest().then('it should update the PageTitle title with the new program title', async () => {
           await vi.waitFor(() => {
             const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-            expect(String(pageTitle.props('title'))).toContain('Détail Licence Professionnelle Développement Web')
+            expect(String(pageTitle.props('title'))).toContain('Détail Formation déclarée 2')
           })
         })
 
@@ -159,7 +159,7 @@ BddTest().given('a declared program detailed view component', () => {
           await vi.waitFor(() => {
             const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
             expect(details.exists()).toBe(true)
-            expect(details.props('declaredProgramDetailed').title).toBe('Licence Professionnelle Développement Web')
+            expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
           })
         })
       })
@@ -179,15 +179,15 @@ BddTest().given('a declared program detailed view component', () => {
         })
 
         const programs = getSideMenuPrograms()
-        expect(programs).toHaveLength(5)
-        expect(programs[3].title).toBe('DUT Informatique')
-        expect(programs[4].title).toBe('Formation Continue JavaScript Avancé')
+        expect(programs).toHaveLength(6)
+        expect(programs[3].title).toBe('Formation déclarée 4')
+        expect(programs[4].title).toBe('Formation déclarée 5')
       })
 
       BddTest().then('it should accumulate programs without duplicates', async () => {
         await vi.waitFor(() => {
           const programs = getSideMenuPrograms()
-          expect(programs.length).toBe(5)
+          expect(programs.length).toBe(6)
         })
 
         const programs = getSideMenuPrograms()
@@ -211,13 +211,13 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should render title and details for that program', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-        expect(String(pageTitle.props('title'))).toContain('Détail Licence Professionnelle Développement Web')
+        expect(String(pageTitle.props('title'))).toContain('Détail Formation déclarée 2')
       })
 
       await vi.waitFor(() => {
         const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
         expect(details.exists()).toBe(true)
-        expect(details.props('declaredProgramDetailed').title).toBe('Licence Professionnelle Développement Web')
+        expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
       })
     })
   })
