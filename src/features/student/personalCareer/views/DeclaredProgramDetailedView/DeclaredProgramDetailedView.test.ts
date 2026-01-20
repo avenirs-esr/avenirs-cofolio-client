@@ -1,7 +1,12 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { declaredProgramDetailedHandler, declaredProgramDetailedLoadingHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
+import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
+import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -11,6 +16,11 @@ import { nextTick } from 'vue'
 
 const routerPush = vi.fn()
 const mockRouteId = ref<string>('')
+const mockShowModal = ref(false)
+const mockDisplayModal = vi.fn()
+const mockHideModal = vi.fn()
+const navigateToStudentUpdateDeclaredProgram = vi.fn()
+const navigateToStudentDeclaredPrograms = vi.fn()
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -30,6 +40,22 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useModal: () => ({
+      showModal: mockShowModal,
+      displayModal: mockDisplayModal,
+      hideModal: mockHideModal
+    }),
+    useNavigation: () => ({
+      navigateToStudentUpdateDeclaredProgram,
+      navigateToStudentDeclaredPrograms
+    }),
+  }
+})
+
 const DeclaredProgramDetailedStub = defineComponent({
   name: 'DeclaredProgramDetailed',
   props: ['declaredProgramDetailed'],
@@ -39,13 +65,18 @@ const DeclaredProgramDetailedStub = defineComponent({
 const stubs = {
   PageTitle: PageTitleStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
-  DeclaredProgramDetailed: DeclaredProgramDetailedStub
+  DeclaredProgramDetailed: DeclaredProgramDetailedStub,
+  Loader: LoaderStub,
+  ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
+  DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub
 }
 
 BddTest().given('a declared program detailed view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDetailedView>>
 
   const mountComponentWithDefaults = async () => {
+    server.use(declaredProgramDetailedHandler)
+
     wrapper = mountComponent(DeclaredProgramDetailedView, {
       global: { stubs }
     })
@@ -113,6 +144,57 @@ BddTest().given('a declared program detailed view component', () => {
         expect(details.exists()).toBe(true)
         expect(details.props('declaredProgramDetailed')).toBeDefined()
         expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 1')
+      })
+    })
+
+    BddTest().then('it should render the manage declared program dropdown', () => {
+      const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().and('the user selects the update option from the manage dropdown', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+        dropdown.vm.$emit('updateSelected')
+      })
+
+      BddTest().then('it should navigate to the update declared program route', () => {
+        expect(navigateToStudentUpdateDeclaredProgram).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the user selects the delete option from the manage dropdown', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+        dropdown.vm.$emit('deleteSelected')
+      })
+
+      BddTest().then('it should display the delete declared program confirmation modal', () => {
+        expect(mockDisplayModal).toHaveBeenCalled()
+      })
+
+      BddTest().and('the users closes the delete confirmation modal', () => {
+        beforeEach(() => {
+          wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub).vm.$emit('close')
+        })
+
+        BddTest().then('it should hide the delete declared program confirmation modal', () => {
+          expect(mockHideModal).toHaveBeenCalled()
+        })
+      })
+
+      BddTest().and('the user confirms deletion in the delete confirmation modal', () => {
+        beforeEach(() => {
+          wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub).vm.$emit('confirm')
+        })
+
+        BddTest().then('it should navigate to the declared programs list route', () => {
+          expect(navigateToStudentDeclaredPrograms).toHaveBeenCalled()
+        })
+
+        BddTest().then('it should hide the delete declared program confirmation modal', () => {
+          expect(mockHideModal).toHaveBeenCalled()
+        })
       })
     })
 
@@ -219,6 +301,42 @@ BddTest().given('a declared program detailed view component', () => {
         expect(details.exists()).toBe(true)
         expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
       })
+    })
+  })
+
+  BddTest().when('the component is mounted and data is loading', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      server.use(declaredProgramDetailedLoadingHandler)
+
+      wrapper = mountComponent(DeclaredProgramDetailedView, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should show the loader', async () => {
+      await vi.waitFor(() => {
+        const loader = wrapper.find('[data-testid="loader-stub"]')
+        expect(loader.exists()).toBe(true)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted and an error occurs during data fetching', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      server.use(declaredProgramsQueryErrorHandler)
+
+      wrapper = mountComponent(DeclaredProgramDetailedView, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the detailed view', () => {
+      const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
+      expect(details.exists()).toBe(false)
     })
   })
 })
