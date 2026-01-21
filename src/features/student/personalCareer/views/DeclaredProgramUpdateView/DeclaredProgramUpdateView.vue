@@ -4,13 +4,13 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
+import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import DeclaredProgramSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
 import {
   usePaginatedDeclaredPrograms
 } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
-import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -57,18 +57,7 @@ async function onSelectProgram (programId: string) {
     :breadcrumb-links="breadcrumbLinks"
     :back="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } }"
   />
-  <div
-    v-if="isDirty"
-    class="av-row av-justify-end av-py-md"
-    data-testid="update-declared-program-view__uip"
-  >
-    <AvBadge
-      :label="t('student.personalCareer.views.DeclaredProgramUpdateView.wipBadge')"
-      background-color="var(--dark-background-primary1)"
-      color="var(--dark-foreground)"
-      :icon="ICONS_DATA_URL.MDI_PENCIL_OUTLINE"
-    />
-  </div>
+  <UpdateInProgressBadge :show="isDirty" />
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu
       :selected-program-id="selectedProgramId"

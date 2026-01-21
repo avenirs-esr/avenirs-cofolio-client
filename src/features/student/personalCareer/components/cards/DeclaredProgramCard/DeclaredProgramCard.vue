@@ -50,6 +50,7 @@ const statusBadgeProps = computed(() => {
 <template>
   <RouterLink
     :to="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: declaredProgram.id } }"
+    class="declared-program-card"
   >
     <FloatingIconCard
       :title="declaredProgram.title"
@@ -94,6 +95,10 @@ const statusBadgeProps = computed(() => {
 </template>
 
 <style lang="scss" scoped>
+.declared-program-card {
+  border-radius: 1.5rem;
+}
+
 :deep(.n5) {
   color: var(--text1);
 }

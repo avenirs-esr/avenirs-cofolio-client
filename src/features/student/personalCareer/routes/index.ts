@@ -45,3 +45,9 @@ export const declaredExperienceRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'),
 }
+
+export const declaredExperienceUpdateRoute: AvRoute = {
+  ...ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE,
+  component: () =>
+    import('@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'),
+}

@@ -74,12 +74,16 @@ useBaseApiExceptionToast(error)
           :is-loading="isFetching && !isError"
           size="2xl"
         >
-          <DeclaredProgramCard
-            v-for="program in declaredPrograms"
-            :key="program.id"
-            class="av-col av-gap-lg av-py-md"
-            :declared-program="program"
-          />
+          <div
+            class="av-col av-gap-lg"
+            data-testid="cards-layout"
+          >
+            <DeclaredProgramCard
+              v-for="program in declaredPrograms"
+              :key="program.id"
+              :declared-program="program"
+            />
+          </div>
         </Loader>
       </div>
     </Pagination>

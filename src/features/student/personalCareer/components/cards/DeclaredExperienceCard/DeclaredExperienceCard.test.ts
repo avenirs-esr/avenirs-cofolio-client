@@ -3,7 +3,7 @@ import { FloatingIconCardStub } from '@/features/student/global/components/cards
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience card', () => {
@@ -11,7 +11,8 @@ BddTest().given('a declared experience card', () => {
 
   const stubs = {
     FloatingIconCard: FloatingIconCardStub,
-    AvBadge: AvBadgeStub
+    AvBadge: AvBadgeStub,
+    RouterLink: RouterLinkStub
   }
 
   const baseDeclaredExperience: DeclaredExperienceViewDTO = {

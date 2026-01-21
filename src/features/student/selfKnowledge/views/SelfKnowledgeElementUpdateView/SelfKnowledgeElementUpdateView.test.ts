@@ -4,6 +4,7 @@ import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import SelfKnowledgeElementUpdateView
@@ -59,17 +60,6 @@ const SelfKnowledgeElementUpdateFormStub = defineComponent({
   template: '<div class="self-knowledge-element-update-form-stub" />'
 })
 
-const AvBadgeStub = defineComponent({
-  name: 'AvBadge',
-  props: {
-    label: String,
-    backgroundColor: String,
-    color: String,
-    icon: String
-  },
-  template: '<div class="av-badge-stub" />'
-})
-
 BddTest().given('a self knowledge element update view', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementUpdateView>>
 
@@ -79,7 +69,7 @@ BddTest().given('a self knowledge element update view', () => {
     SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
     SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
     SelfKnowledgeElementUpdateForm: SelfKnowledgeElementUpdateFormStub,
-    AvBadge: AvBadgeStub
+    UpdateInProgressBadge: UpdateInProgressBadgeStub
   }
 
   const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
@@ -157,10 +147,8 @@ BddTest().given('a self knowledge element update view', () => {
 
     BddTest().then('it should render the badge in the title slot', async () => {
       await vi.waitFor(() => {
-        const badge = wrapper.findComponent(AvBadgeStub)
+        const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
         expect(badge.exists()).toBe(true)
-        expect(badge.props('label')).toBeDefined()
-        expect(badge.props('icon')).toBeDefined()
       })
     })
 

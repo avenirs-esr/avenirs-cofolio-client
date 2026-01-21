@@ -110,7 +110,8 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(period.props('startModelValue')).toBe(mockedDeclaredProgramDetailed.startDate)
         expect(period.props('endModelValue')).toBe(mockedDeclaredProgramDetailed.endDate)
 
-        expect(period.props('disabled')).toBe(true)
+        expect(period.props('startDateDisabled')).toBe(true)
+        expect(period.props('endDateDisabled')).toBe(true)
         expect(period.props('stacked')).toBe(false)
         expect(period.props('separatorSpacing')).toBe('var(--spacing-sm)')
       })

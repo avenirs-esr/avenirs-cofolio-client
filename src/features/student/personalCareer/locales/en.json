@@ -120,6 +120,13 @@
             "title": "Details of my declared experience"
           }
         },
+        "DeclaredExperienceUpdateView": {
+          "tabs": {
+            "experience": {
+              "title": "My declared experience"
+            }
+          }
+        },
         "DeclaredProgramDetailedView": {
           "DeclaredProgramDetailed": {
             "description": "Description of my declared education",
@@ -144,8 +151,7 @@
           "confirmationModal": {
             "description": "Any unsaved changes will be lost."
           },
-          "title": "Update {programTitle}",
-          "wipBadge": "Update in progress"
+          "title": "Update {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {
@@ -155,6 +161,7 @@
             "AmsTab": {
               "title": "My AMS"
             },
+            "breadcrumb": "My experiences",
             "DeclaredExperiencesTab": {
               "emptyState": "No declared experiences yet. Click on the \"Add\" button in the More Actions menu to declare your first experience!",
               "title": "My declared experiences"

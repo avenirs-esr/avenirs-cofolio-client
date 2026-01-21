@@ -46,6 +46,7 @@
       "dateTimeAt": "{date} à {time}",
       "updatedAt": "Modifié le {date}"
     },
+    "detail": "Détail",
     "error": {
       "file": {
         "acceptType": "Le fichier ne respecte pas le format attendu.",

@@ -202,4 +202,39 @@ BddTest().given('a useNavigation composable', () => {
       })
     })
   })
+
+  BddTest().when('trying to navigate to student declared experience with replace', () => {
+    BddTest().then('it should navigate to student declared experience with replace', () => {
+      const { navigateToStudentDeclaredExperience } = navigation
+      navigateToStudentDeclaredExperience({ id: 'exp-123', replace: true })
+      expect(replaceMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        params: { id: 'exp-123' }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to student update declared experience', () => {
+    BddTest().then('it should navigate to student update declared experience', () => {
+      const { navigateToStudentUpdateDeclaredExperience } = navigation
+      navigateToStudentUpdateDeclaredExperience({})
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
+    })
+  })
+
+  BddTest().when('trying to navigate to student update declared experience with replace', () => {
+    BddTest().then('it should navigate to student update declared experience with replace', () => {
+      const { navigateToStudentUpdateDeclaredExperience } = navigation
+      navigateToStudentUpdateDeclaredExperience({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
+    })
+  })
+
+  BddTest().when('trying to navigate to student declared skill', () => {
+    BddTest().then('it should navigate to student declared skill', () => {
+      const { navigateToStudentDeclaredSkill } = navigation
+      navigateToStudentDeclaredSkill()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.DECLARED_SKILL)
+    })
+  })
 })

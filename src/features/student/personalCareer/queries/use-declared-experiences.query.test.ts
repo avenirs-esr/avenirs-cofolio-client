@@ -1,11 +1,14 @@
 import type { Ref } from 'vue'
 import {
+  declaredExperienceDetailedQueryErrorHandler,
   declaredExperiencesQueryEmptyHandler,
   declaredExperiencesQueryErrorHandler
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
+  type DeclaredExperienceDetailedViewQueryReturnType,
   type DeclaredExperiencesViewQueryReturnType,
+  useDeclaredExperienceDetailedViewQuery,
   useDeclaredExperiencesViewQuery
 } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -147,6 +150,62 @@ BddTest().given('a declared experiences view query', () => {
         totalElements: 0,
         totalPages: 0
       })
+    })
+  })
+})
+
+BddTest().given('a declared experience detailed view query', () => {
+  let queryResult: DeclaredExperienceDetailedViewQueryReturnType
+  const experienceId = ref('exp123')
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  BddTest().when('the query is executed with initial parameters', () => {
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useDeclaredExperienceDetailedViewQuery({ experienceId }))
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return data with expected structure', () => {
+      expect(queryResult.data.value).toBeDefined()
+      expect(queryResult.data.value).toMatchObject({
+        id: expect.any(String),
+        title: expect.any(String),
+        organization: expect.any(String),
+        startDate: expect.any(String),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String)
+      })
+    })
+
+    BddTest().then('it should have success state', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+  })
+
+  BddTest().when('the query fails with server error', () => {
+    beforeEach(async () => {
+      server.use(declaredExperienceDetailedQueryErrorHandler)
+      queryResult = mountQueryComposable(() => useDeclaredExperienceDetailedViewQuery({ experienceId }))
+      await flushPromises()
+    })
+
+    BddTest().then('it should set error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should return undefined', () => {
+      expect(queryResult.data.value).toBeUndefined()
     })
   })
 })

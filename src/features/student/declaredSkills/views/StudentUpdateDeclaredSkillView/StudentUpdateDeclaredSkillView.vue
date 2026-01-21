@@ -7,7 +7,8 @@ import UpdateDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
 import UpdateDeclaredSkillForm
   from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
-import { AvBadge, AvTab, AvTabs, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface StudentUpdateDeclaredSkillViewProps {
@@ -53,18 +54,7 @@ function backToStudentDeclaredSkillViewTabs () {
     <span class="n4">{{ declaredSkillDetailed?.title ?? '' }}</span>
   </div>
 
-  <div
-    v-if="updateInProgress"
-    class="av-row av-justify-end av-py-md"
-    data-testid="update-declared-skill-view__uip"
-  >
-    <AvBadge
-      :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.wipBadge')"
-      background-color="var(--dark-background-primary1)"
-      color="var(--dark-foreground)"
-      :icon="ICONS_DATA_URL.AMS_SAE"
-    />
-  </div>
+  <UpdateInProgressBadge :show="updateInProgress" />
 
   <AvTabs v-model="activeTab">
     <AvTab

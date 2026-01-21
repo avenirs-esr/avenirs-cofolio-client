@@ -1,9 +1,11 @@
 import type { AvRoute } from '@/common/types'
 import {
   declaredExperienceRoute,
+  declaredExperienceUpdateRoute,
   declaredProgramRoute,
   personalCareerRoute,
 } from '@/features/student/personalCareer/routes'
+import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 import DeclaredExperienceView
   from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import DeclaredProgramDetailedView
@@ -84,4 +86,13 @@ testRoute(
     name: 'student-declared-experience',
   },
   DeclaredExperienceView
+)
+
+testRoute(
+  declaredExperienceUpdateRoute,
+  {
+    path: 'update-declared-experience/:id',
+    name: 'student-update-declared-experience',
+  },
+  DeclaredExperienceUpdateView
 )

@@ -120,6 +120,13 @@
             "title": "Détail de mon expérience déclarée"
           }
         },
+        "DeclaredExperienceUpdateView": {
+          "tabs": {
+            "experience": {
+              "title": "Mon expérience déclarée"
+            }
+          }
+        },
         "DeclaredProgramDetailedView": {
           "DeclaredProgramDetailed": {
             "description": "Description de ma formation déclarée",
@@ -144,8 +151,7 @@
           "confirmationModal": {
             "description": "Les modifications non enregistrées seront perdues."
           },
-          "title": "Modifier {programTitle}",
-          "wipBadge": "Modification en cours"
+          "title": "Modifier {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {
@@ -155,6 +161,7 @@
             "AmsTab": {
               "title": "Mes AMS"
             },
+            "breadcrumb": "Mes expériences",
             "DeclaredExperiencesTab": {
               "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience !",
               "title": "Mes expériences déclarées"

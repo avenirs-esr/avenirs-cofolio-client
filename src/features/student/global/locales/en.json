@@ -1,6 +1,9 @@
 {
   "student": {
     "global": {
+      "badges": {
+        "UpdateInProgress": "Modification en cours"
+      },
       "layout": {
         "header": {
           "quicklinks": {
