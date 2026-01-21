@@ -18,7 +18,6 @@ const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const isDirty = computed(() => true)
-let newSelectedProgramId = selectedProgramId.value
 
 const { showModal, displayModal, hideModal } = useModal()
 
@@ -32,54 +31,23 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.experiences') }
 ])
 
-const pendingConfirmResolve = ref<((value: boolean) => void) | null>(null)
-const confirmationContext = ref<'leave' | 'switch-program'>('switch-program')
-
-function awaitConfirmation () {
-  confirmationContext.value = 'leave'
-  displayModal()
-
-  return new Promise<boolean>((resolve) => {
-    pendingConfirmResolve.value = resolve
-  })
-}
-
-useUnsavedChangesGuard({
+const {
+  canLeave,
+  confirm,
+  cancel
+} = useUnsavedChangesGuard({
   isDirty,
-  confirmLeave: awaitConfirmation
+  openModal: displayModal,
+  closeModal: hideModal
 })
 
-function onSelectProgram (programId: string) {
-  newSelectedProgramId = programId
-  confirmationContext.value = 'switch-program'
-  displayModal()
-}
-
-function cancelLeave () {
-  if (confirmationContext.value === 'leave') {
-    pendingConfirmResolve.value?.(false)
-    pendingConfirmResolve.value = null
-    hideModal()
-    return
+async function onSelectProgram (programId: string) {
+  if (await canLeave()) {
+    router.push({
+      name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
+      params: { id: programId }
+    })
   }
-
-  newSelectedProgramId = selectedProgramId.value
-  hideModal()
-}
-
-function confirmLeave () {
-  if (confirmationContext.value === 'leave') {
-    pendingConfirmResolve.value?.(true)
-    pendingConfirmResolve.value = null
-    hideModal()
-    return
-  }
-
-  router.push({
-    name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-    params: { id: newSelectedProgramId }
-  })
-  hideModal()
 }
 </script>
 
@@ -90,6 +58,7 @@ function confirmLeave () {
     :back="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } }"
   />
   <div
+    v-if="isDirty"
     class="av-row av-justify-end av-py-md"
     data-testid="update-declared-program-view__uip"
   >
@@ -112,7 +81,7 @@ function confirmLeave () {
   <ConfirmationModal
     :show="showModal"
     :description="t('student.personalCareer.views.DeclaredProgramUpdateView.confirmationModal.description')"
-    @close="cancelLeave"
-    @confirm="confirmLeave"
+    @close="cancel"
+    @confirm="confirm"
   />
 </template>
