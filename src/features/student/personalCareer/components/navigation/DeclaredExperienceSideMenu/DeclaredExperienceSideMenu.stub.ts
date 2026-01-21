@@ -1,4 +1,5 @@
 export const DeclaredExperienceSideMenuStub = defineComponent({
   name: 'DeclaredExperienceSideMenu',
-  template: '<div class="declared-experience-side-menu-stub" />'
+  props: ['selectedExperienceId', 'experiences', 'experienceCount'],
+  template: '<div data-testid="declared-experience-side-menu-stub"></div>',
 })

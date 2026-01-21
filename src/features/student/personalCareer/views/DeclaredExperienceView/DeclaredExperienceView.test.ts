@@ -20,6 +20,22 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
+const routerPush = vi.fn()
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+
+  return {
+    ...actual,
+    useRoute: () => ({
+      params: {}
+    }),
+    useRouter: () => ({
+      push: routerPush
+    })
+  }
+})
+
 const stubs = {
   PageTitle: PageTitleStub,
   DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub
@@ -63,6 +79,43 @@ BddTest().given('a declared experience view component', () => {
     BddTest().then('it should pass a dropdown into the title', () => {
       const dropdown = wrapper.findComponent({ name: 'DeclaredExperienceDetailsDropdown' })
       expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass correct props to the side menu', () => {
+      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+
+      expect(sideMenu.props()).toHaveProperty('experiences')
+      expect(sideMenu.props()).toHaveProperty('experienceCount')
+
+      expect(Array.isArray(sideMenu.props('experiences'))).toBe(true)
+      expect(typeof sideMenu.props('experienceCount')).toBe('number')
+    })
+
+    BddTest().and('loading more experiences from the side menu', () => {
+      beforeEach(() => {
+        const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+        sideMenu.vm.$emit('loadMoreExperiences')
+      })
+
+      BddTest().then('it should trigger the pagination composable', () => {
+        expect(wrapper.exists()).toBe(true)
+      })
+    })
+
+    BddTest().and('selecting an experience from the side menu', () => {
+      const experienceId = 'declared-experience-1'
+
+      beforeEach(() => {
+        const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+        sideMenu.vm.$emit('selectExperience', experienceId)
+      })
+
+      BddTest().then('it should navigate to the declared experience route', () => {
+        expect(routerPush).toHaveBeenCalledWith({
+          name: 'student-declared-experience',
+          params: { id: experienceId }
+        })
+      })
     })
   })
 

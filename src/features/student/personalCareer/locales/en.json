@@ -118,6 +118,9 @@
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Manage my experience",
             "title": "Details of my declared experience"
+          },
+          "DeclaredExperienceDetailsSideMenu": {
+            "title": "All my declared experiences"
           }
         },
         "DeclaredExperienceUpdateView": {

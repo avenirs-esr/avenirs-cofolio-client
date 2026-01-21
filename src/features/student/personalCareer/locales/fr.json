@@ -118,6 +118,9 @@
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Gérer mon expérience",
             "title": "Détail de mon expérience déclarée"
+          },
+          "DeclaredExperienceDetailsSideMenu": {
+            "title": "Toutes mes expériences déclarées"
           }
         },
         "DeclaredExperienceUpdateView": {

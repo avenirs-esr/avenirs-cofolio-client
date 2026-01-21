@@ -4,6 +4,9 @@ import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
+import {
+  usePaginatedDeclaredExperiences
+} from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import { useDeclaredExperienceDetailedViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import DeclaredExperienceDetailsDropdown
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
@@ -16,6 +19,8 @@ export interface DeclaredExperienceViewProps {
 const { experienceId } = defineProps<DeclaredExperienceViewProps>()
 
 const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 const { declaredExperience } = useDeclaredExperienceDetailedViewQuery({ experienceId })
 const { navigateToStudentUpdateDeclaredExperience } = useNavigation()
 
@@ -25,6 +30,18 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'), to: ROUTES.STUDENT.PERSONAL_CAREER },
   { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb') }
 ])
+
+const {
+  declaredExperiences,
+  pageInfo,
+  loadMoreDeclaredExperiences
+} = usePaginatedDeclaredExperiences()
+
+const selectedExperienceId = computed(() => String(route.params.id ?? ''))
+
+function onSelectExperience (experienceId: string) {
+  router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
+}
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredExperience({ replace: true })
@@ -44,7 +61,13 @@ function handleUpdateSelected () {
     </template>
   </PageTitle>
   <div class="declared-experience-update-view av-row av-gap-sm">
-    <DeclaredExperienceSideMenu />
+    <DeclaredExperienceSideMenu
+      :experience-count="pageInfo.totalElements"
+      :experiences="declaredExperiences"
+      :selected-experience-id="selectedExperienceId"
+      @select-experience="onSelectExperience"
+      @load-more-experiences="loadMoreDeclaredExperiences"
+    />
     <div class="av-col av-flex-fill av-gap-md">
       <div class="declared-experience-details-container__title av-row--lg av-align-start--lg av-justify-between--lg">
         <span class="n4">title</span>
