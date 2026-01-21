@@ -12,12 +12,25 @@ import { nextTick } from 'vue'
 
 const routerPush = vi.fn()
 const mockRouteId = ref<string>('')
+
 const showConfirmationModal = ref(false)
 const displayConfirmationModal = vi.fn(() => {
   showConfirmationModal.value = true
 })
 const hideConfirmationModal = vi.fn(() => {
   showConfirmationModal.value = false
+})
+
+let capturedConfirmLeave: (() => boolean | Promise<boolean>) | null = null
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')>()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: vi.fn(({ confirmLeave }) => {
+      capturedConfirmLeave = confirmLeave
+    })
+  }
 })
 
 vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
@@ -84,6 +97,8 @@ BddTest().given('a declared program update view component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
+    showConfirmationModal.value = false
+    capturedConfirmLeave = null
   })
 
   BddTest().when('the component is mounted', () => {
@@ -234,6 +249,66 @@ BddTest().given('a declared program update view component', () => {
         expect(uniqueIds.size).toBe(programs.length)
       })
     })
+
+    BddTest().and('the unsaved changes guard requests confirmation to leave', () => {
+      let confirmPromise: Promise<boolean>
+
+      beforeEach(async () => {
+        expect(capturedConfirmLeave).toBeTypeOf('function')
+        confirmPromise = Promise.resolve(capturedConfirmLeave!())
+        await nextTick()
+        await flushPromises()
+      })
+
+      BddTest().then('it should open the confirmation modal', () => {
+        const modal = getConfirmationModal()
+        expect(displayConfirmationModal).toHaveBeenCalled()
+        expect(modal.props('show')).toBe(true)
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const modal = getConfirmationModal()
+          modal.vm.$emit('close')
+          await nextTick()
+          await flushPromises()
+        })
+
+        BddTest().then('it should resolve false and hide the modal', async () => {
+          await expect(confirmPromise).resolves.toBe(false)
+
+          const modal = getConfirmationModal()
+          expect(hideConfirmationModal).toHaveBeenCalled()
+          expect(modal.props('show')).toBe(false)
+          expect(routerPush).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    BddTest().and('the unsaved changes guard is confirmed', () => {
+      let confirmPromise: Promise<boolean>
+
+      beforeEach(async () => {
+        expect(capturedConfirmLeave).toBeTypeOf('function')
+        confirmPromise = Promise.resolve(capturedConfirmLeave!())
+        await nextTick()
+        await flushPromises()
+
+        const modal = getConfirmationModal()
+        modal.vm.$emit('confirm')
+        await nextTick()
+        await flushPromises()
+      })
+
+      BddTest().then('it should resolve true and hide the modal without navigating', async () => {
+        await expect(confirmPromise).resolves.toBe(true)
+
+        const modal = getConfirmationModal()
+        expect(hideConfirmationModal).toHaveBeenCalled()
+        expect(modal.props('show')).toBe(false)
+        expect(routerPush).not.toHaveBeenCalled()
+      })
+    })
   })
 
   BddTest().when('the component is mounted with an id param', () => {
@@ -251,6 +326,15 @@ BddTest().given('a declared program update view component', () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
         expect(String(pageTitle.props('title'))).toContain('Modifier Formation déclarée 2')
+      })
+    })
+
+    BddTest().then('it should render PageTitle back props with the route param id', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+      expect(pageTitle.props('back')).toStrictEqual({
+        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+        params: { id: 'declared-program-2' }
       })
     })
   })
