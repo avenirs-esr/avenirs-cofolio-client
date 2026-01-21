@@ -95,7 +95,10 @@ BddTest().given('a declared program update view component', () => {
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.PROJECT_SKILLS)
+      expect(pageTitle.props('back')).toStrictEqual({
+        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+        params: { id: 'declared-program-1' }
+      })
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
       expect(breadcrumbLinks).toHaveLength(3)
