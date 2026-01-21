@@ -2,6 +2,7 @@
 import { ConfirmationModal } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
@@ -16,7 +17,7 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
-
+const isDirty = computed(() => true)
 let newSelectedProgramId = selectedProgramId.value
 
 const { showModal, displayModal, hideModal } = useModal()
@@ -31,18 +32,53 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.experiences') }
 ])
 
+const pendingConfirmResolve = ref<((value: boolean) => void) | null>(null)
+const confirmationContext = ref<'leave' | 'switch-program'>('switch-program')
+
+function awaitConfirmation () {
+  confirmationContext.value = 'leave'
+  displayModal()
+
+  return new Promise<boolean>((resolve) => {
+    pendingConfirmResolve.value = resolve
+  })
+}
+
+useUnsavedChangesGuard({
+  isDirty,
+  confirmLeave: awaitConfirmation
+})
+
 function onSelectProgram (programId: string) {
   newSelectedProgramId = programId
+  confirmationContext.value = 'switch-program'
   displayModal()
 }
 
-function cancelChangingProgram () {
+function cancelLeave () {
+  if (confirmationContext.value === 'leave') {
+    pendingConfirmResolve.value?.(false)
+    pendingConfirmResolve.value = null
+    hideModal()
+    return
+  }
+
   newSelectedProgramId = selectedProgramId.value
   hideModal()
 }
 
-function confirmChangingProgram () {
-  router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name, params: { id: newSelectedProgramId } })
+function confirmLeave () {
+  if (confirmationContext.value === 'leave') {
+    pendingConfirmResolve.value?.(true)
+    pendingConfirmResolve.value = null
+    hideModal()
+    return
+  }
+
+  router.push({
+    name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
+    params: { id: newSelectedProgramId }
+  })
   hideModal()
 }
 </script>
@@ -76,7 +112,7 @@ function confirmChangingProgram () {
   <ConfirmationModal
     :show="showModal"
     :description="t('student.personalCareer.views.DeclaredProgramUpdateView.confirmationModal.description')"
-    @close="cancelChangingProgram"
-    @confirm="confirmChangingProgram"
+    @close="cancelLeave"
+    @confirm="confirmLeave"
   />
 </template>
