@@ -2,7 +2,7 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import DeclaredExperienceCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
-import { AvButton, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'

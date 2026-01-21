@@ -34,7 +34,7 @@ export function usePaginatedDeclaredExperiences (): UsePaginatedDeclaredExperien
 
       declaredExperiences.value = merged
     }
-  })
+  }, { immediate: true })
 
   function loadMoreDeclaredExperiences () {
     if (isFetching.value) {
