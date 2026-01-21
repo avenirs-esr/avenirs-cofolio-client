@@ -26,7 +26,8 @@ import StudentToolsPagesView
 import StudentToolsResumesView
   from '@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
-import { declaredExperienceRoute } from '@/features/student/personalCareer/routes'
+import { declaredExperienceRoute, declaredExperienceUpdateRoute } from '@/features/student/personalCareer/routes'
+import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
@@ -87,6 +88,7 @@ testRoute(
 testRoute(personalCareerRoute, ROUTES.STUDENT.PERSONAL_CAREER, PersonalCareerView)
 testRoute(declaredProgramRoute, ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED, DeclaredProgramDetailedView)
 testRoute(declaredExperienceRoute, ROUTES.STUDENT.DECLARED_EXPERIENCE, DeclaredExperienceView)
+testRoute(declaredExperienceUpdateRoute, ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE, DeclaredExperienceUpdateView)
 
 testRoute(
   children.find(r => r.name === ROUTES.STUDENT.PROJECT_TRAJECTORIES.name)!,

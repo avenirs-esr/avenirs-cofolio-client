@@ -2,6 +2,7 @@
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
+import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer
   from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
@@ -18,7 +19,6 @@ import {
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import SelfKnowledgeElementUpdateForm
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
-import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateViewProps {
@@ -94,12 +94,7 @@ function backToElementDetails () {
       :element-title="element.title"
     >
       <template #title>
-        <AvBadge
-          :label="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.wipBadge')"
-          background-color="var(--dark-background-primary1)"
-          color="var(--dark-foreground)"
-          :icon="ICONS_DATA_URL.MDI_PENCIL_OUTLINE"
-        />
+        <UpdateInProgressBadge :show="true" />
       </template>
 
       <SelfKnowledgeElementTabs

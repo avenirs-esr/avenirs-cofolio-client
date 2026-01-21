@@ -25,6 +25,7 @@ export const ROUTES = {
     APC_UNAVAILABLE: { name: 'student-apc-unavailable', path: 'apc-unavailable' },
     DECLARED_SKILL: { name: 'student-declared-skill', path: 'declared-skill/:id' },
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
+    UPDATE_DECLARED_EXPERIENCE: { name: 'student-update-declared-experience', path: 'update-declared-experience/:id' },
     UPDATE_DECLARED_SKILL: { name: 'student-update-declared-skill', path: 'update-declared-skill/:id' },
     ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
     EDUCATION_ACTIVITIES: { name: 'student-education-activities', path: 'education/activities' },

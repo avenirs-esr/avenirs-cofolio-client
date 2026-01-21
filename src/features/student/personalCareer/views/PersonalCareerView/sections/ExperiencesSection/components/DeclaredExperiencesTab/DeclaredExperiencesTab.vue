@@ -58,12 +58,16 @@ useBaseApiExceptionToast(error)
         :is-loading="isFetching && !isError"
         size="2xl"
       >
-        <DeclaredExperienceCard
-          v-for="experience in declaredExperiences"
-          :key="experience.id"
-          class="av-col av-gap-lg av-py-md"
-          :declared-experience="experience"
-        />
+        <div
+          class="av-col av-gap-lg"
+          data-testid="cards-layout"
+        >
+          <DeclaredExperienceCard
+            v-for="experience in declaredExperiences"
+            :key="experience.id"
+            :declared-experience="experience"
+          />
+        </div>
       </Loader>
     </Pagination>
   </div>

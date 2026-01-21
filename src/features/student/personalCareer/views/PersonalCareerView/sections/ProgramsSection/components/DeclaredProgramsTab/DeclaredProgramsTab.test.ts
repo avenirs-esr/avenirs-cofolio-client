@@ -115,11 +115,9 @@ BddTest().given('a declared programs tab', () => {
     })
 
     BddTest().then('it should render cards with layout and spacing classes', () => {
-      const cards = wrapper.findAllComponents({ name: 'DeclaredProgramCard' })
-      const firstCard = cards[0]
-      expect(firstCard.classes()).toContain('av-col')
-      expect(firstCard.classes()).toContain('av-gap-lg')
-      expect(firstCard.classes()).toContain('av-py-md')
+      const cardsLayout = wrapper.find('[data-testid="cards-layout"]')
+      expect(cardsLayout.classes()).toContain('av-col')
+      expect(cardsLayout.classes()).toContain('av-gap-lg')
     })
 
     BddTest().then('it should not display the loader', () => {

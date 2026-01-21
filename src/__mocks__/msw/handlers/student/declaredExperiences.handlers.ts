@@ -3,7 +3,9 @@ import {
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import {
+  type DeclaredExperienceViewDTO,
   getCreateDeclaredExperienceUrl,
+  getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
@@ -33,6 +35,16 @@ export const declaredExperiencesQueryEmptyHandler = http.get(`*${getGetDeclaredE
   })
 })
 
+export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDeclaredExperienceUrl(':experienceId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
+
 export const declaredExperiencesHandlers = [
   http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
     const url = new URL(request.url)
@@ -52,5 +64,14 @@ export const declaredExperiencesHandlers = [
     () => {
       return HttpResponse.json(declaredExperienceViewDTOFixture, { status: 200 })
     }
-  )
+  ),
+  http.get(`*${getGetDeclaredExperienceUrl(':experienceId')}`, async () => {
+    await delay('real')
+    const mockData = declaredExperienceViewDTOFixture
+
+    return HttpResponse.json<DeclaredExperienceViewDTO>(mockData, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }),
 ]

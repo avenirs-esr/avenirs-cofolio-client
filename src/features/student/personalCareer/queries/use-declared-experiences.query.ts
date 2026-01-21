@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import {
   type DeclaredExperienceViewDTO,
+  getDeclaredExperience,
   getDeclaredExperienceView,
   type PagedResponseDeclaredExperienceViewDTO,
   type PageInfoDTO
@@ -11,6 +12,9 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredExperiencesCommonQueryKey = [...commonQueryKeys, 'declared-experiences']
 const declaredExperiencesViewQueryKey = [...declaredExperiencesCommonQueryKey, 'view']
+
+const declaredExperienceDetailedCommonQueryKey = [...commonQueryKeys, 'declared-experience-detailed']
+const declaredExperienceDetailedViewQueryKey = [...declaredExperienceDetailedCommonQueryKey, 'view']
 
 export interface DeclaredExperiencesViewQueryParams {
   page: MaybeRef<number>
@@ -51,5 +55,34 @@ export function useDeclaredExperiencesViewQuery ({
     ...query,
     declaredExperiences,
     pageInfo
+  }
+}
+
+export interface DeclaredExperienceDetailedViewQueryProps {
+  experienceId: MaybeRef<string>
+}
+
+export type DeclaredExperienceDetailedViewQueryReturnType = UseQueryReturnType<DeclaredExperienceViewDTO, BaseApiException> & {
+  declaredExperience: Ref<DeclaredExperienceViewDTO | undefined>
+}
+
+export function useDeclaredExperienceDetailedViewQuery ({ experienceId }: DeclaredExperienceDetailedViewQueryProps): DeclaredExperienceDetailedViewQueryReturnType {
+  const queryKey = computed(() => [...declaredExperienceDetailedViewQueryKey, toValue(experienceId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredExperienceViewDTO> => {
+    return await getDeclaredExperience(toValue(experienceId))
+  })
+
+  const query = useQuery<DeclaredExperienceViewDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    placeholderData: keepPreviousData
+  })
+
+  const declaredExperience = computed(() => query.data.value ?? undefined)
+
+  return {
+    ...query,
+    declaredExperience,
   }
 }

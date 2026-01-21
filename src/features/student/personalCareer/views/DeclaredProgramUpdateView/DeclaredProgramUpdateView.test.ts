@@ -2,9 +2,10 @@ import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -56,7 +57,7 @@ const stubs = {
   PageTitle: PageTitleStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   ConfirmationModal: ConfirmationModalStub,
-  AvBadge: AvBadgeStub
+  UpdateInProgressBadge: UpdateInProgressBadgeStub
 }
 
 BddTest().given('a declared program update view component', () => {
@@ -117,11 +118,10 @@ BddTest().given('a declared program update view component', () => {
       })
     })
 
-    BddTest().then('it should render the wip badge', () => {
-      const badge = wrapper.findComponent({ name: 'AvBadge' })
+    BddTest().then('it should render the update in progress badge', () => {
+      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe('Modification en cours')
     })
 
     BddTest().then('it should render the side menu with correct props', () => {

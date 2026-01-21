@@ -15,8 +15,8 @@
     "preview": "vite preview",
     "preview:development": "vite preview -m development",
     "test": "npm run test:unit",
-    "test:coverage": "vitest run --coverage",
-    "test:unit": "vitest run",
+    "test:coverage": "vitest run --pool.threads.maxThreads=6 --coverage",
+    "test:unit": "vitest run --pool.threads.maxThreads=6",
     "test:a11y": "run-s -c test:a11y:run test:a11y:cleanup",
     "test:a11y:run": "playwright test --config=a11y/playwright.a11y.config.ts",
     "test:a11y:cleanup": "rimraf a11y/.output",
@@ -32,7 +32,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.125",
+    "@avenirs-esr/avenirs-dsav": "^0.1.127",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "@vue-flow/core": "^1.48.0",

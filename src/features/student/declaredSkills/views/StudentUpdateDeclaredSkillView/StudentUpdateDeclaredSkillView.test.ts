@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ROUTES } from '@/common/constants'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -55,7 +56,7 @@ const stubs = {
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
   UpdateDeclaredSkillAssociations: UpdateDeclaredSkillAssociationsStub,
-  AvBadge: AvBadgeStub
+  UpdateInProgressBadge: UpdateInProgressBadgeStub
 }
 
 BddTest().given('a student update declared skill view component', () => {
@@ -126,7 +127,7 @@ BddTest().given('a student update declared skill view component', () => {
     })
 
     BddTest().then('it should not show the update in progress badge initially', () => {
-      const badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
+      const badge = wrapper.find('[data-testid="update-in-progress-badge"]')
       expect(badge.exists()).toBe(false)
     })
 
@@ -161,7 +162,7 @@ BddTest().given('a student update declared skill view component', () => {
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
-      const badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
+      const badge = wrapper.find('[data-testid="update-in-progress-badge"]')
       expect(badge.exists()).toBe(true)
     })
 
@@ -174,13 +175,13 @@ BddTest().given('a student update declared skill view component', () => {
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
-      let badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
+      let badge = wrapper.find('[data-testid="update-in-progress-badge"]')
       expect(badge.exists()).toBe(true)
 
       await form.vm.$emit('dirty-change', false)
       await wrapper.vm.$nextTick()
 
-      badge = wrapper.find('[data-testid="update-declared-skill-view__uip"]')
+      badge = wrapper.find('[data-testid="update-in-progress-badge"]')
       expect(badge.exists()).toBe(false)
     })
   })

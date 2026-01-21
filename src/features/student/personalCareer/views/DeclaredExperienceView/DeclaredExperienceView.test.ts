@@ -3,10 +3,22 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import DeclaredExperienceView
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
+, { type DeclaredExperienceViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const navigateToStudentUpdateDeclaredExperience = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentUpdateDeclaredExperience,
+    }),
+  }
+})
 
 const stubs = {
   PageTitle: PageTitleStub,
@@ -15,9 +27,13 @@ const stubs = {
 
 BddTest().given('a declared experience view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceView>>
+  const props: DeclaredExperienceViewProps = {
+    experienceId: 'exp-123'
+  }
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceView, {
+      props,
       global: { stubs }
     })
   }
@@ -32,7 +48,8 @@ BddTest().given('a declared experience view component', () => {
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
       expect(pageTitle.exists()).toBe(true)
 
-      expect(pageTitle.props('title')).toBe('Détail de mon expérience déclarée')
+      expect(pageTitle.props('title')).toBe('')
+      expect(pageTitle.text()).toContain('Détail')
 
       const breadcrumbs = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbs).toHaveLength(4)
@@ -46,6 +63,17 @@ BddTest().given('a declared experience view component', () => {
     BddTest().then('it should pass a dropdown into the title', () => {
       const dropdown = wrapper.findComponent({ name: 'DeclaredExperienceDetailsDropdown' })
       expect(dropdown.exists()).toBe(true)
+    })
+  })
+
+  BddTest().and('the user selects to update the declared experience', () => {
+    beforeEach(async () => {
+      const dropdown = wrapper.findComponent({ name: 'DeclaredExperienceDetailsDropdown' })
+      await dropdown.vm.$emit('updateSelected')
+    })
+
+    BddTest().then('it should navigate to the update declared experience view', () => {
+      expect(navigateToStudentUpdateDeclaredExperience).toHaveBeenCalledWith({ replace: true })
     })
   })
 })

@@ -8,11 +8,22 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.DECLARED_SKILL)
   }
 
-  const navigateToStudentDeclaredExperience = ({ id }: { id: string }) => {
-    return router.push({
+  const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
+    const to = {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
       params: { id }
-    })
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
+  }
+
+  const navigateToStudentUpdateDeclaredExperience = ({ replace }: { replace?: boolean }) => {
+    if (replace) {
+      return router.replace(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
+    }
+    return router.push(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
   }
 
   const navigateToStudentDeliverables = () => {
@@ -100,6 +111,7 @@ export function useNavigation () {
   return {
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
+    navigateToStudentUpdateDeclaredExperience,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,

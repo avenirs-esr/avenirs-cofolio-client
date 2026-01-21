@@ -73,7 +73,8 @@ const createdAtPrefix = computed(() =>
         end-label="End date"
         :start-model-value="startDate ?? ''"
         :end-model-value="endDate ?? ''"
-        :disabled="true"
+        :start-date-disabled="true"
+        :end-date-disabled="true"
         :stacked="isMobile"
         separator-spacing="var(--spacing-sm)"
       />

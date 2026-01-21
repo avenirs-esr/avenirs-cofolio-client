@@ -101,8 +101,7 @@
               "commentTooLong": "The description must not exceed {count} characters",
               "levelRequired": "Self-positioning is required"
             }
-          },
-          "wipBadge": "Update in progress"
+          }
         }
       }
     }
