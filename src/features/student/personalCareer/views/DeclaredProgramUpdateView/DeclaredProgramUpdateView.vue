@@ -16,6 +16,7 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
+
 let newSelectedProgramId = selectedProgramId.value
 
 const { showModal, displayModal, hideModal } = useModal()
@@ -50,11 +51,11 @@ function confirmChangingProgram () {
   <PageTitle
     :title="t('student.personalCareer.views.DeclaredProgramUpdateView.title', { programTitle })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.PROJECT_SKILLS"
+    :back="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } }"
   />
   <div
     class="av-row av-justify-end av-py-md"
-    data-testid="update-declared-skill-view__uip"
+    data-testid="update-declared-program-view__uip"
   >
     <AvBadge
       :label="t('student.personalCareer.views.DeclaredProgramUpdateView.wipBadge')"
