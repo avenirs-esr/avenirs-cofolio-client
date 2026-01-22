@@ -39,7 +39,7 @@ const {
   declaredExperiences,
   pageInfo,
   loadMoreDeclaredExperiences
-} = usePaginatedDeclaredExperiences()
+} = usePaginatedDeclaredExperiences({})
 
 function onSelectExperience (experienceId: string) {
   router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })

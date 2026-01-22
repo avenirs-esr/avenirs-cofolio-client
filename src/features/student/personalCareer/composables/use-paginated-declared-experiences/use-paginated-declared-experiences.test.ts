@@ -15,7 +15,7 @@ BddTest().given('the usePaginatedDeclaredExperiences composable', () => {
   const mountComposableWithPageSize = () => {
     vi.mocked(usePersonalCareerStore).mockReturnValue({ declaredExperiencesPageSizeSelected: 4 } as any)
 
-    const { result } = mountComposable(() => usePaginatedDeclaredExperiences(), { useTanstack: true })
+    const { result } = mountComposable(() => usePaginatedDeclaredExperiences({}), { useTanstack: true })
     composableResult = result
   }
 
@@ -90,7 +90,7 @@ BddTest().given('the usePaginatedDeclaredExperiences composable', () => {
     BddTest().then('it should accumulate declaredExperiences from multiple pages', () => {
       const experiences = composableResult.declaredExperiences.value
 
-      expect(experiences.length).toBe(5)
+      expect(experiences.length).toBe(8)
 
       const uniqueIds = new Set(experiences.map(experience => experience.id))
       expect(uniqueIds.size).toBe(experiences.length)
@@ -108,14 +108,14 @@ BddTest().given('the usePaginatedDeclaredExperiences composable', () => {
       composableResult.loadMoreDeclaredExperiences()
       await vi.waitFor(() => {
         expect(composableResult.page.value).toBe(1)
-        expect(composableResult.declaredExperiences.value.length).toBe(5)
+        expect(composableResult.declaredExperiences.value.length).toBe(8)
       })
     })
 
     BddTest().then('it should continue accumulating experiences across pages', () => {
       const experiences = composableResult.declaredExperiences.value
 
-      expect(experiences.length).toBe(5)
+      expect(experiences.length).toBe(8)
 
       const uniqueIds = new Set(experiences.map(experience => experience.id))
       expect(uniqueIds.size).toBe(experiences.length)
