@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
-
 import { AvCheckbox, AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'

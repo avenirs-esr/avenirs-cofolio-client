@@ -1,12 +1,10 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
-
 import type { MaybeRef } from '@vueuse/core'
 import { useUpdateSelfKnowledgeElementMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
-
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 

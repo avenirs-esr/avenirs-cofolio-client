@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { DeclaredSkillDTO, DeclaredSkillProgressDTO } from '@/api/avenir-esr'
-
 import { ROUTES } from '@/common/constants'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, type AvBadgeProps, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

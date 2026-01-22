@@ -3,7 +3,6 @@ import { ROUTES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
-
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

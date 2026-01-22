@@ -1,5 +1,4 @@
 import type { BaseApiException } from '@/common/exceptions'
-
 import type { MutationArgs } from '@/types'
 import {
   associate,

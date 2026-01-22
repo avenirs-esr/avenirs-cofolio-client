@@ -8,7 +8,6 @@ import { usePersonalCareerStore } from '@/features/student/personalCareer/stores
 import DeclaredProgramsMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.vue'
 import DeleteDeclaredProgramsModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeleteDeclaredProgramsModal/DeleteDeclaredProgramsModal.vue'
-
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

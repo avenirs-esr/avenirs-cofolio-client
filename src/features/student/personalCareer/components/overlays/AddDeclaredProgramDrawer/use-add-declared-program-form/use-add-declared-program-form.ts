@@ -1,7 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { formatYearMonthToDate } from '@/common/utils'
-
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import { useCreateDeclaredProgramMutation } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { useToasterStore } from '@/store'

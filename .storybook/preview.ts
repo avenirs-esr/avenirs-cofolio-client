@@ -1,5 +1,4 @@
 import { type Preview, setup } from '@storybook/vue3-vite'
-
 import '@avenirs-esr/avenirs-dsav/style.css'
 import '@/assets/main.css'
 import './preview.scss'

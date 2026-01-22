@@ -4,10 +4,8 @@ import i18nAvPlugin, { initializeI18n } from '@/plugins/vue-i18n/vue-i18n'
 import router from '@/router'
 import store from '@/store'
 import { createApp } from 'vue'
-
 import '@avenirs-esr/avenirs-dsav/style.css'
 import '@/assets/main.css'
-
 // === Vue Flow mandatory styles ===
 import '@vue-flow/core/dist/style.css'
 import '@vue-flow/core/dist/theme-default.css'

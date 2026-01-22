@@ -6,13 +6,8 @@ import { ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
-import {
-  usePaginatedDeclaredPrograms
-} from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
-import {
-  useDeclaredProgramDetailedQuery
-} from '@/features/student/personalCareer/queries/use-declared-programs.query'
-
+import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
+import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import DeclaredProgramDetailed
   from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'

@@ -1,5 +1,4 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
-
 import DeclaredProgramDetailed, { type DeclaredProgramDetailedProps } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import { AvInputStub, AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

@@ -2,7 +2,6 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import { EDurationUnit, type TrainingPathDTO } from '@/api/avenir-esr'
-
 import { useAmsStore } from '@/features/student/ams/stores/ams.store'
 import ProgramProgressSelector from '@/features/student/ams/views/StudentEducationAmsView/components/ProgramProgressSelector/ProgramProgressSelector.vue'
 import { useAllMyProgramProgressQuery } from '@/features/student/skills'

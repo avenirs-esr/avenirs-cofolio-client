@@ -7,7 +7,6 @@ import LegalView
   from '@/common/views/LegalView/LegalView.vue'
 import PersonnalDataView
   from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
-
 import routes from '@/features/student/global/routes'
 import StudentAboutView
   from '@/features/student/global/views/StudentAboutView/StudentAboutView.vue'

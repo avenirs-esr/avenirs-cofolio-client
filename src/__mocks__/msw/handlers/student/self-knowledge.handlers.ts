@@ -4,7 +4,6 @@ import {
   mockedSelfKnowledgeCategoriesAvailable,
   mockedSelfKnowledgeElementDetails
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
-
 import {
   EErrorCode,
   getAddSelfKnowledgeCategoriesUrl,

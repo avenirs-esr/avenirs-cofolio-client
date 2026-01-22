@@ -3,7 +3,6 @@ import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { useModal } from '@/common/composables'
-
 import { BIOGRAPHY_MAX_LENGTH } from '@/features/student/user/components/overlays/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile-form'
 import { useDeletePhotoMutation } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'

@@ -54,8 +54,10 @@ export default antfu({
       { blankLine: 'always', prev: 'function', next: 'function' },
       { blankLine: 'always', prev: 'class', next: 'class' },
       { blankLine: 'always', prev: 'return', next: 'return' },
+      { blankLine: 'never', prev: 'import', next: 'import' },
     ],
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
+    'import/newline-after-import': ['error', { count: 1 }],
 
   },
 })
