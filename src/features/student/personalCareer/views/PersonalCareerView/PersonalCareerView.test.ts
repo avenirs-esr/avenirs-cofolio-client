@@ -1,9 +1,6 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
-
-import {
-  PersonalCareerLayoutStub
-} from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.stub'
+import { PersonalCareerLayoutStub } from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.stub'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

@@ -1,6 +1,5 @@
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
-
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

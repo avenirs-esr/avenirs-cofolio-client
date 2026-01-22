@@ -3,7 +3,6 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
 import StudentProjectTrajectoriesContainer
   from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesContainer/StudentProjectTrajectoriesContainer.vue'
-
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

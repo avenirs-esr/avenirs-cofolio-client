@@ -10,7 +10,6 @@ import StudentSkillLevelDetailedSection
 import StudentSkillProgressSection
   from '@/features/student/skills/views/StudentSkillView/components/StudentSkillProgressSection/StudentSkillProgressSection.vue'
 import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-
 import { useI18n } from 'vue-i18n'
 
 const { skillDetailed } = defineProps<{ skillDetailed: SkillDetailedDTO | undefined }>()

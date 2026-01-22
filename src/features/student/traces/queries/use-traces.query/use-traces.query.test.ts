@@ -2,7 +2,6 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
-
 import {
   ELanguage,
   type PagedResponseTraceViewDTO,

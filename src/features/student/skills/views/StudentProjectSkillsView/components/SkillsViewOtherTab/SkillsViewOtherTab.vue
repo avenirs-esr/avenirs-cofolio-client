@@ -4,7 +4,6 @@ import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { AddDeclaredSkillDrawer, useDeclaredSkillsStore, useDeclaredSkillsViewQuery } from '@/features/student/declaredSkills'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
