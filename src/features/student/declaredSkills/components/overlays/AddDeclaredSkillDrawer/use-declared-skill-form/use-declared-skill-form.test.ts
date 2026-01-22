@@ -246,7 +246,7 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     BddTest().then('it should have proper default values', () => {
       const state = composableResult.form.useStore(state => state)
       expect(state.value.values.selectedSkills).toEqual([])
-      expect(state.value.values.level).toBeUndefined()
+      expect(state.value.values.level).toEqual(EDeclaredSkillLevel.BEGINNER)
     })
 
     BddTest().then('it should track form validation state', () => {

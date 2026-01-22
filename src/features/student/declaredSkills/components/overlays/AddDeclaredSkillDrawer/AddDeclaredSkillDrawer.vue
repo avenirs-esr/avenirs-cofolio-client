@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
+import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 import {
   useDeclaredSkillForm
@@ -85,7 +85,7 @@ function confirmCancel () {
 
     <template #footer>
       <div
-        v-memo="[isFormValid, isSubmitting]"
+        v-memo="[isFormValid, isDirty, isSubmitting]"
         class="av-row av-justify-end av-p-md"
         data-testid="add-declared-skill-drawer__footer"
       >
@@ -95,7 +95,7 @@ function confirmCancel () {
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :cancel-disabled="isSubmitting"
-          :confirm-disabled="!isFormValid || isSubmitting"
+          :confirm-disabled="!isFormValid || !isDirty || isSubmitting"
           :confirm-is-loading="isSubmitting"
           @cancel="handleCancel"
           @confirm="form.handleSubmit"

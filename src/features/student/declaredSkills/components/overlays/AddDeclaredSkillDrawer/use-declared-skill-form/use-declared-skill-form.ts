@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
+import { EDeclaredSkillLevel } from '@/api/avenir-esr'
 import { useCreateDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -21,7 +22,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const form = useForm({
     defaultValues: {
       selectedSkills: [],
-      level: undefined
+      level: EDeclaredSkillLevel.BEGINNER
     } as unknown as DeclaredSkillFormData,
     validators: {
       onSubmit ({ value }: { value: DeclaredSkillFormData }) {
