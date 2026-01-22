@@ -4,6 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { DeclaredExperienceCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.stub'
+import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
 import DeclaredExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesTab/DeclaredExperiencesTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -26,10 +27,13 @@ vi.mock('@/common/composables/use-base-api-exception-toast/use-base-api-exceptio
   useBaseApiExceptionToast: vi.fn()
 }))
 
+const mockDisplayAddDeclaredExperienceDrawer = vi.fn()
+
 vi.mock('@/features/student/personalCareer/stores/personalCareer.store', () => ({
   usePersonalCareerStore: vi.fn(() => ({
     declaredExperiencesCurrentPage: ref(0),
-    declaredExperiencesPageSizeSelected: ref(PageSizes.FOUR)
+    declaredExperiencesPageSizeSelected: ref(PageSizes.FOUR),
+    displayAddDeclaredExperienceDrawer: mockDisplayAddDeclaredExperienceDrawer
   }))
 }))
 
@@ -40,6 +44,11 @@ BddTest().given('a declared experiences tab', () => {
     DeclaredExperienceCard: DeclaredExperienceCardStub,
     Pagination: PaginationStub,
     Loader: LoaderStub,
+    AddDeclaredExperienceDrawer: defineComponent({
+      name: 'AddDeclaredExperienceDrawer',
+      template: '<div data-testid="add-declared-experience-drawer-stub"></div>'
+    }),
+    DeclaredExperiencesMoreActionsDropdown: DeclaredExperiencesMoreActionsDropdownStub,
     AvIconText: AvIconTextStub
   }
 
@@ -72,6 +81,11 @@ BddTest().given('a declared experiences tab', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
       expect(pagination.exists()).toBe(true)
     })
+
+    BddTest().then('it should render the more actions dropdown', () => {
+      const dropdown = wrapper.findComponent({ name: 'DeclaredExperiencesMoreActionsDropdown' })
+      expect(dropdown.exists()).toBe(true)
+    })
   })
 
   BddTest().when('declared experiences data is loaded', () => {
@@ -96,6 +110,17 @@ BddTest().given('a declared experiences tab', () => {
     BddTest().then('it should not display the loader', () => {
       const loaderSpinner = wrapper.find('[data-testid="loader-stub"]')
       expect(loaderSpinner.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the add action is triggered', () => {
+    beforeEach(async () => {
+      const dropdown = wrapper.findComponent({ name: 'DeclaredExperiencesMoreActionsDropdown' })
+      await dropdown.find('[data-testid="add"]').trigger('click')
+    })
+
+    BddTest().then('it should call the displayAddDeclaredExperienceDrawer action', () => {
+      expect(mockDisplayAddDeclaredExperienceDrawer).toHaveBeenCalledTimes(1)
     })
   })
 

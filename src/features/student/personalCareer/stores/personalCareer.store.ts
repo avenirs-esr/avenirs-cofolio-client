@@ -11,6 +11,12 @@ export const usePersonalCareerStore = defineStore('personalCareer', () => {
     hideDrawer: hideAddDeclaredProgramDrawer
   } = useDrawer()
 
+  const {
+    showDrawer: showAddDeclaredExperienceDrawer,
+    displayDrawer: displayAddDeclaredExperienceDrawer,
+    hideDrawer: hideAddDeclaredExperienceDrawer
+  } = useDrawer()
+
   const declaredProgramsPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const declaredProgramsCurrentPage = ref(0)
 
@@ -21,6 +27,9 @@ export const usePersonalCareerStore = defineStore('personalCareer', () => {
     showAddDeclaredProgramDrawer,
     displayAddDeclaredProgramDrawer,
     hideAddDeclaredProgramDrawer,
+    showAddDeclaredExperienceDrawer,
+    displayAddDeclaredExperienceDrawer,
+    hideAddDeclaredExperienceDrawer,
     declaredProgramsCurrentPage,
     declaredProgramsPageSizeSelected,
     declaredExperiencesCurrentPage,

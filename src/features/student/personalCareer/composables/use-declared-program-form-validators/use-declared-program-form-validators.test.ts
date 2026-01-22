@@ -274,14 +274,14 @@ BddTest().given('a declared program form validator composable', () => {
   BddTest().when('validating end date', () => {
     BddTest().and('the end date is empty and not required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('', '')
+        const error = composableResult.validateEndDate('', '2025/02')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is undefined and not required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate(undefined as unknown as string, '')
+        const error = composableResult.validateEndDate('', '2025/02')
         expect(error).toBeUndefined()
       })
     })

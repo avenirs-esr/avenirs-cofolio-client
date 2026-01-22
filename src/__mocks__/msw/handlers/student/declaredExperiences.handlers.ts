@@ -36,6 +36,16 @@ export const declaredExperiencesQueryErrorHandler = http.get(`*${getGetDeclaredE
   )
 })
 
+export const createDeclaredExperienceErrorHandler = http.post(`*${getCreateDeclaredExperienceUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
+
 export const declaredExperiencesQueryEmptyHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)
   const page = Number.parseInt(url.searchParams.get('page') ?? '0')

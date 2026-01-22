@@ -12,12 +12,12 @@
       },
       "interactions": {
         "formFields": {
+          "DeclaredExperiencePeriodFormField": {
+            "ongoing": "Ongoing"
+          },
           "DeclaredProgramPeriodFormField": {
             "endDate": "End date",
             "endDatePlaceholder": "MM/YYYY",
-            "errors": {
-              "endDateBeforeStartDate": "End date must be after start date"
-            },
             "label": "Period",
             "ongoing": "Ongoing",
             "startDate": "Start date",
@@ -44,6 +44,11 @@
           "DeclaredExperienceOrganizationInput": {
             "label": "Company / Organization",
             "placeholder": "Name"
+          },
+          "DeclaredExperiencePeriodInput": {
+            "endLabel": "End date",
+            "label": "Period",
+            "startLabel": "Start date"
           },
           "DeclaredExperienceReviewTextarea": {
             "label": "Review / Reflection"
@@ -91,6 +96,21 @@
         }
       },
       "overlays": {
+        "AddDeclaredExperienceDrawer": {
+          "confirmationModal": {
+            "description": "Are you sure you want to cancel adding your experience?"
+          },
+          "errors": {
+            "createDeclaredExperience": "Error creating declared experience"
+          },
+          "sections": {
+            "addExperience": "Add my experience",
+            "associateExperience": "Associate my experience",
+            "specifyExperience": "Specify my experience"
+          },
+          "success": "Declared experience added successfully",
+          "title": "Add a declared experience"
+        },
         "AddDeclaredProgramDrawer": {
           "confirmationModal": {
             "description": "Are you sure you want to cancel? Unsaved changes will be lost."
@@ -115,8 +135,8 @@
         "DeleteDeclaredProgramConfirmModal": {
           "description": "This action will result in the deletion of any associated links.",
           "error": "An error occurred while deleting the program. | An error occurred while deleting the programs.",
-          "title": "Are you sure you want to delete this program? | Are you sure you want to delete these programs?",
-          "success": "Program deleted successfully. | Programs deleted successfully."
+          "success": "Program deleted successfully. | Programs deleted successfully.",
+          "title": "Are you sure you want to delete this program? | Are you sure you want to delete these programs?"
         }
       },
       "views": {

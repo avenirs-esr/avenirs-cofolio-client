@@ -1,20 +1,31 @@
+import type { DeclaredExperienceRequest } from '@/api/avenir-esr'
+import type { MutationArgs } from '@/types'
 import type { Ref } from 'vue'
 import {
+  createDeclaredExperienceErrorHandler,
   declaredExperienceDetailedQueryErrorHandler,
   declaredExperiencesQueryEmptyHandler,
   declaredExperiencesQueryErrorHandler
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { useInvalidateQuery } from '@/common/composables'
 import {
   type DeclaredExperienceDetailedViewQueryReturnType,
   type DeclaredExperiencesViewQueryReturnType,
+  useCreateDeclaredExperienceMutation,
   useDeclaredExperienceDetailedViewQuery,
   useDeclaredExperiencesViewQuery
 } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, type MockedFunction, type MockInstance, vi } from 'vitest'
+
+vi.mock('@/common/composables', async () => {
+  return {
+    useInvalidateQuery: vi.fn()
+  }
+})
 
 BddTest().given('a declared experiences view query', () => {
   let queryResult: DeclaredExperiencesViewQueryReturnType
@@ -206,6 +217,217 @@ BddTest().given('a declared experience detailed view query', () => {
 
     BddTest().then('it should return undefined', () => {
       expect(queryResult.data.value).toBeUndefined()
+    })
+  })
+})
+
+BddTest().given('a useCreateDeclaredExperienceMutation composable', async () => {
+  let createDeclaredExperienceSpy: MockInstance<(declaredExperienceRequest: DeclaredExperienceRequest, options?: RequestInit | undefined) => Promise<any>>
+  let mutationResult: ReturnType<typeof useCreateDeclaredExperienceMutation>
+
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs: MutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    createDeclaredExperienceSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'createDeclaredExperience'>(
+      await import('@/api/avenir-esr'),
+    'createDeclaredExperience'
+    )
+
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid experience request and success callback', () => {
+    const experienceRequest: DeclaredExperienceRequest = {
+      title: 'New Experience',
+      organization: 'Test Organization',
+      startDate: '2024-01-01',
+      endDate: '2024-12-31',
+      description: 'Test description'
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useCreateDeclaredExperienceMutation(mutationArgs))
+        await mutationResult.mutateAsync(experienceRequest)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the createDeclaredExperience API with correct parameters', () => {
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledWith(experienceRequest)
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+        expect(mutationResult.data.value).toMatchObject({
+          id: expect.any(String),
+          title: expect.any(String),
+          organization: expect.any(String)
+        })
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(
+          expect.objectContaining({
+            id: expect.any(String),
+            title: expect.any(String)
+          }),
+          experienceRequest
+        )
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useCreateDeclaredExperienceMutation(mutationArgs))
+        mutationResult.mutate(experienceRequest)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the createDeclaredExperience API with correct parameters', () => {
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledWith(experienceRequest)
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const experienceRequest: DeclaredExperienceRequest = {
+      title: 'New Experience',
+      organization: 'Test Organization',
+      startDate: '2024-01-01'
+    }
+    const mutationArgs: MutationArgs = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useCreateDeclaredExperienceMutation(mutationArgs))
+        await mutationResult.mutateAsync(experienceRequest)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the createDeclaredExperience API with correct parameters', () => {
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledWith(experienceRequest)
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid request with error callback', () => {
+    const experienceRequest: DeclaredExperienceRequest = {
+      title: '',
+      organization: '',
+      startDate: 'invalid-date'
+    }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        server.use(createDeclaredExperienceErrorHandler)
+        mutationResult = mountQueryComposable(() => useCreateDeclaredExperienceMutation(mutationArgs))
+        await mutationResult.mutateAsync(experienceRequest).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the createDeclaredExperience API with the invalid request', () => {
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledWith(experienceRequest)
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      beforeEach(async () => {
+        server.use(createDeclaredExperienceErrorHandler)
+        mutationResult = mountQueryComposable(() => useCreateDeclaredExperienceMutation(mutationArgs))
+        mutationResult.mutate(experienceRequest)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the createDeclaredExperience API with the invalid request', () => {
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledWith(experienceRequest)
+        expect(createDeclaredExperienceSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
     })
   })
 })

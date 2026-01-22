@@ -15,27 +15,23 @@ enum ExperiencesMoreActionsDropdownEvents {
   SHARE = 'share',
 }
 
-const menuItems = computed<AvDropdownItem[]>(() => {
-  const items = [
-    {
-      name: ExperiencesMoreActionsDropdownEvents.ADD,
-      icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add')
-    },
-    {
-      name: ExperiencesMoreActionsDropdownEvents.SHARE,
-      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
-    },
-    {
-      name: ExperiencesMoreActionsDropdownEvents.DELETE,
-      icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete')
-    },
-  ]
-
-  return items
-})
+const menuItems = computed<AvDropdownItem[]>(() => [
+  {
+    name: ExperiencesMoreActionsDropdownEvents.ADD,
+    icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
+    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add')
+  },
+  {
+    name: ExperiencesMoreActionsDropdownEvents.SHARE,
+    icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
+    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
+  },
+  {
+    name: ExperiencesMoreActionsDropdownEvents.DELETE,
+    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
+    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete')
+  },
+])
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
