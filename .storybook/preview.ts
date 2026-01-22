@@ -1,6 +1,7 @@
 import { type Preview, setup } from '@storybook/vue3-vite'
 import '@avenirs-esr/avenirs-dsav/style.css'
 import '@/assets/main.css'
+// eslint-disable-next-line no-restricted-imports
 import './preview.scss'
 
 function toggleDarkTheme (story, context) {

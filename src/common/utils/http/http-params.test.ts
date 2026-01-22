@@ -1,7 +1,7 @@
 import { SortDirection } from '@/common/types'
+import { formatSortParam } from '@/common/utils/http/http-params'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
-import { formatSortParam } from './http-params'
 
 BddTest().given('a sort param formatter with a field and direction', () => {
   BddTest().when('formatSortParam is called with string field and ASC direction', () => {

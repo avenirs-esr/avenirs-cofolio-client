@@ -1,10 +1,10 @@
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { StudentProgressViewSortableFields } from '@/features/student/skills'
+import SkillsSortContainer from '@/features/student/skills/views/StudentEducationSkillsView/components/SkillsSortContainer/SkillsSortContainer.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import SkillsSortContainer from './SkillsSortContainer.vue'
 
 BddTest().given('a student education skills filters container', () => {
   let wrapper: VueWrapper<InstanceType<typeof SkillsSortContainer>>

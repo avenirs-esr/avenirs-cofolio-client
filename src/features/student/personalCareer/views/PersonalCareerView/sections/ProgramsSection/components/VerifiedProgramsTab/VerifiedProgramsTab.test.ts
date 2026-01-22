@@ -1,7 +1,7 @@
+import VerifiedProgramsTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/VerifiedProgramsTab/VerifiedProgramsTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import VerifiedProgramsTab from './VerifiedProgramsTab.vue'
 
 BddTest().given('a verified programs tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof VerifiedProgramsTab>>

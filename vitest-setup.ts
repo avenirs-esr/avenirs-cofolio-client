@@ -1,5 +1,6 @@
 import { config } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll, vi } from 'vitest'
+// eslint-disable-next-line no-restricted-imports
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 

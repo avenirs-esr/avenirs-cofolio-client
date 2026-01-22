@@ -1,9 +1,8 @@
+import DeclaredProgramsMoreActionsDropdown from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import DeclaredProgramsMoreActionsDropdown
-  from './DeclaredProgramsMoreActionsDropdown.vue'
 
 BddTest().given('a declared programs more actions dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramsMoreActionsDropdown>>

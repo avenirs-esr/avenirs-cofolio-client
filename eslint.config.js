@@ -47,6 +47,9 @@ export default antfu({
         group: ['vue'],
         importNames: autoImportConfig.vue,
         message: 'This Vue API is auto-imported by unplugin-auto-import. Remove the explicit import.'
+      }, {
+        group: ['./*', '../*'],
+        message: 'Relative imports are not allowed. Use absolute imports instead (e.g., @/...).'
       }]
     }],
     'padding-line-between-statements': [
@@ -58,6 +61,14 @@ export default antfu({
     ],
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
     'import/newline-after-import': ['error', { count: 1 }],
+    'import/no-relative-packages': 'error',
+    'import/no-relative-parent-imports': 'error',
 
+  },
+}, {
+  files: ['**/index.ts', '**/index.js'],
+  rules: {
+    'no-restricted-imports': 'off',
+    'import/no-relative-parent-imports': 'off',
   },
 })
