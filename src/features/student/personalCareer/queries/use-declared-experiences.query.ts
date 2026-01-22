@@ -1,13 +1,16 @@
 import type { BaseApiException } from '@/common/exceptions'
+import type { MutationArgs } from '@/types'
 import {
   type DeclaredExperienceViewDTO,
+  deleteDeclaredExperiences,
   getDeclaredExperience,
   getDeclaredExperienceView,
   type PagedResponseDeclaredExperienceViewDTO,
   type PageInfoDTO
 } from '@/api/avenir-esr'
+import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, useQueryClient, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredExperiencesCommonQueryKey = [...commonQueryKeys, 'declared-experiences']
@@ -85,4 +88,58 @@ export function useDeclaredExperienceDetailedViewQuery ({ experienceId }: Declar
     ...query,
     declaredExperience,
   }
+}
+export interface GetCachedDeclaredExperiencesResult {
+  declaredExperiences: DeclaredExperienceViewDTO[]
+  currentPage: number
+}
+
+export function useGetCachedDeclaredExperiences () {
+  const queryClient = useQueryClient()
+
+  function getCachedDeclaredExperiences (): GetCachedDeclaredExperiencesResult {
+    const allDeclaredExperiences: DeclaredExperienceViewDTO[] = []
+    let maxPage = -1
+
+    const queries = queryClient.getQueriesData<PagedResponseDeclaredExperienceViewDTO>({
+      queryKey: [...declaredExperiencesViewQueryKey]
+    })
+
+    queries.forEach(([, data]) => {
+      if (data?.data) {
+        allDeclaredExperiences.push(...data.data)
+        if (data.page && data.page.page > maxPage) {
+          maxPage = data.page.page
+        }
+      }
+    })
+
+    return {
+      declaredExperiences: allDeclaredExperiences,
+      currentPage: maxPage
+    }
+  }
+
+  return {
+    getCachedDeclaredExperiences
+  }
+}
+
+export interface DeleteDeclaredExperienceMutationParams {
+  declaredExperienceIds: string[]
+}
+
+export function useDeleteDeclaredExperienceMutation ({ onError, onSuccess }: MutationArgs<string> = {}) {
+  const invalidateDeclaredExperiencesViewQuery = useInvalidateQuery([...declaredExperiencesViewQueryKey])
+
+  return useMutation<string, BaseApiException, DeleteDeclaredExperienceMutationParams>({
+    mutationFn: async (params: DeleteDeclaredExperienceMutationParams): Promise<string> => {
+      return await deleteDeclaredExperiences(params.declaredExperienceIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredExperiencesViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
 }

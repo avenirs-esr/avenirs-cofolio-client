@@ -50,11 +50,13 @@ function handleItemSelected (itemName: string) {
 </script>
 
 <template>
-  <AvDropdown
-    :items="menuItems"
-    :trigger-aria-label="t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsDropdown.dropdown')"
-    :trigger-label="t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsDropdown.dropdown')"
-    width="max-content"
-    @item-selected="handleItemSelected"
-  />
+  <div class="av-row av-justify-end">
+    <AvDropdown
+      :items="menuItems"
+      :trigger-aria-label="t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsDropdown.dropdown')"
+      :trigger-label="t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsDropdown.dropdown')"
+      width="max-content"
+      @item-selected="handleItemSelected"
+    />
+  </div>
 </template>

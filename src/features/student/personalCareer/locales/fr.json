@@ -111,6 +111,12 @@
           "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
           "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?",
           "success": "Formation supprimée avec succès. | Formations supprimées avec succès."
+        },
+        "DeleteDeclaredExperienceConfirmModal": {
+          "description": "Cette action entrainera la suppression des éventuelles associations.",
+          "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette expérience ? | Êtes-vous certain(e) de vouloir supprimer ces expériences ?",
+          "success": "Expérience supprimée avec succès. | Expériences supprimées avec succès."
         }
       },
       "views": {
@@ -165,9 +171,19 @@
               "title": "Mes AMS"
             },
             "breadcrumb": "Mes expériences",
+            "DeclaredExperiencesMoreActionsDropdown": {
+              "add": "Ajouter une expérience",
+              "delete": "Supprimer une expérience",
+              "share": "Partager une expérience"
+            },
             "DeclaredExperiencesTab": {
               "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience !",
               "title": "Mes expériences déclarées"
+            },
+            "DeleteDeclaredExperiencesModal": {
+              "confirm": "Supprimer l'expérience sélectionnée | Supprimer les expériences sélectionnées ({count})",
+              "noDeclaredPrograms": "Aucune expérience à supprimer.",
+              "title": "Quelle(s) expérience(s) souhaitez-vous supprimer ?"
             },
             "title": "Mes expériences",
             "VerifiedExperiencesTab": {

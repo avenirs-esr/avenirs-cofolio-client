@@ -11,6 +11,20 @@ import {
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
 
+export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
+  const url = new URL(request.url)
+  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+
+  await delay('real')
+  const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 60, page)
+
+  return HttpResponse.json<PagedResponseDeclaredExperienceViewDTO>(mockData, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
 export const declaredExperiencesQueryErrorHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
@@ -46,19 +60,7 @@ export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDe
 })
 
 export const declaredExperiencesHandlers = [
-  http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
-    const url = new URL(request.url)
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
-
-    await delay('real')
-    const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 5, page)
-
-    return HttpResponse.json<PagedResponseDeclaredExperienceViewDTO>(mockData, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
+  declaredExperiencesQueryHandler,
   http.post(
     `*${getCreateDeclaredExperienceUrl()}`,
     () => {
