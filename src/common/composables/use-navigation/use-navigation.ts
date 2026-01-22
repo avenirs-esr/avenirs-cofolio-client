@@ -95,6 +95,13 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
   }
 
+  const navigateToStudentDeclaredExperiences = ({ replace }: { replace?: boolean }) => {
+    if (replace) {
+      return router.replace(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES)
+    }
+    return router.push(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES)
+  }
+
   const navigateToStudentUpdateDeclaredSkill = () => {
     return router.push(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
   }
@@ -124,6 +131,7 @@ export function useNavigation () {
     navigateToStudentSkills,
     navigateToStudentProjectSkills,
     navigateToStudentTraces,
+    navigateToStudentDeclaredExperiences,
     navigateToStudentDeclaredPrograms,
     navigateToStudentUpdateDeclaredSkill,
     navigateToStudentUpdateDeclaredProgram,

@@ -21,65 +21,34 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
   updatedAt: '2024-01-15T10:30:00Z'
 }
 
-export const mockedDeclaredExperiences: DeclaredExperienceViewDTO[] = [
-  {
-    id: 'declared-experience-1',
-    title: 'Développeur Web Full Stack',
-    experienceType: EExperienceType.PROFESSIONAL,
-    organization: 'Tech Startup Paris',
-    activitySector: 'Technologie',
-    location: 'La Poste',
-    startDate: '2023-01',
-    endDate: '2024-06',
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'declared-experience-2',
-    title: 'Stage en Marketing Digital',
-    experienceType: EExperienceType.PROFESSIONAL,
-    organization: 'Agence Marketing Lyon',
-    activitySector: 'Marketing',
-    location: 'Les Subsistances, Lyon',
-    startDate: '2022-06',
-    endDate: '2022-12',
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'declared-experience-3',
-    title: 'Bénévolat Association Sportive',
-    experienceType: EExperienceType.PERSONAL,
-    organization: 'Club de Football Local',
-    location: 'La Poste',
-    startDate: '2021-09',
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'declared-experience-4',
-    title: 'Projet Personnel Open Source',
-    experienceType: EExperienceType.PERSONAL,
-    organization: 'GitHub',
-    location: 'Les Subsistances, Lyon',
-    description: 'Contribution à des projets open source',
-    startDate: '2020-01',
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
-  },
-  {
-    id: 'declared-experience-5',
-    title: 'Assistant Commercial',
-    experienceType: EExperienceType.PROFESSIONAL,
-    organization: 'Grande Distribution SA',
-    activitySector: 'Commerce',
-    location: 'Marseille, France',
-    startDate: '2019-07',
-    endDate: '2020-08',
-    createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
+function createMockedDeclaredExperiences (count: number): DeclaredExperienceViewDTO[] {
+  const experiencesExample = [
+    { title: 'Développeur Web', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste' },
+    { title: 'Stage Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon' },
+    { title: 'Bénévolat Association', experienceType: EExperienceType.PERSONAL, location: 'La Poste' },
+    { title: 'Projet Open Source', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon' },
+    { title: 'Assistant Commercial', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France' }
+  ]
+  const experiences: DeclaredExperienceViewDTO[] = []
+
+  for (let i = 1; i <= count; i++) {
+    const experience = experiencesExample[i % 5]
+    experiences.push({
+      id: `declared-experience-${i}`,
+      title: `${experience.title} - ${i}`,
+      experienceType: experience.experienceType,
+      organization: `Organization ${i}`,
+      location: experience.location,
+      startDate: '2023-01',
+      createdAt: '2024-01-15T10:30:00Z',
+      updatedAt: '2024-01-15T10:30:00Z'
+    })
   }
-]
+
+  return experiences
+}
+
+export const mockedDeclaredExperiences: DeclaredExperienceViewDTO[] = createMockedDeclaredExperiences(60)
 
 export function createMockedDeclaredExperiencesPagedResponse (
   pageSize: number,

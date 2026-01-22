@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
+import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import {
   usePaginatedDeclaredExperiences
 } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
@@ -22,7 +23,10 @@ const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const { declaredExperience } = useDeclaredExperienceDetailedViewQuery({ experienceId })
-const { navigateToStudentUpdateDeclaredExperience } = useNavigation()
+const selectedExperienceId = computed(() => String(route.params.id ?? ''))
+
+const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
+const { showModal, displayModal, hideModal } = useModal()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -37,14 +41,17 @@ const {
   loadMoreDeclaredExperiences
 } = usePaginatedDeclaredExperiences()
 
-const selectedExperienceId = computed(() => String(route.params.id ?? ''))
-
 function onSelectExperience (experienceId: string) {
   router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
 }
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredExperience({ replace: true })
+}
+
+function handleConfirmDelete () {
+  hideModal()
+  navigateToStudentDeclaredExperiences({ replace: true })
 }
 </script>
 
@@ -71,7 +78,10 @@ function handleUpdateSelected () {
     <div class="av-col av-flex-fill av-gap-md">
       <div class="declared-experience-details-container__title av-row--lg av-align-start--lg av-justify-between--lg">
         <span class="n4">title</span>
-        <DeclaredExperienceDetailsDropdown @update-selected="handleUpdateSelected" />
+        <DeclaredExperienceDetailsDropdown
+          @delete-selected="displayModal"
+          @update-selected="handleUpdateSelected"
+        />
       </div>
       <div class="av-col av-flex-fill av-gap-md av-row--md av-gap-2xl--md ">
         <div class="av-row av-flex-fill">
@@ -87,6 +97,12 @@ function handleUpdateSelected () {
       </div>
     </div>
   </div>
+  <DeleteDeclaredExperienceConfirmModal
+    :show="showModal"
+    :declared-experience-ids="[selectedExperienceId]"
+    @close="hideModal"
+    @confirm="handleConfirmDelete"
+  />
 </template>
 
 <style lang="scss" scoped>
