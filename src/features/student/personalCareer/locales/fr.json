@@ -12,12 +12,12 @@
       },
       "interactions": {
         "formFields": {
+          "DeclaredExperiencePeriodFormField": {
+            "ongoing": "En cours"
+          },
           "DeclaredProgramPeriodFormField": {
             "endDate": "Date de fin",
             "endDatePlaceholder": "MM/AAAA",
-            "errors": {
-              "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début"
-            },
             "label": "Période",
             "ongoing": "En cours",
             "startDate": "Date de début",
@@ -44,6 +44,11 @@
           "DeclaredExperienceOrganizationInput": {
             "label": "Entreprise / Organisme",
             "placeholder": "Nom"
+          },
+          "DeclaredExperiencePeriodInput": {
+            "endLabel": "Date de fin",
+            "label": "Période",
+            "startLabel": "Date de début"
           },
           "DeclaredExperienceReviewTextarea": {
             "label": "Bilan / Prise de recul"
@@ -91,6 +96,21 @@
         }
       },
       "overlays": {
+        "AddDeclaredExperienceDrawer": {
+          "confirmationModal": {
+            "description": "Souhaitez-vous abandonner l’ajout de votre expérience ?"
+          },
+          "errors": {
+            "createDeclaredExperience": "Erreur lors de la création de l'expérience déclarée"
+          },
+          "sections": {
+            "addExperience": "Ajouter mon expérience",
+            "associateExperience": "Associer mon expérience",
+            "specifyExperience": "Préciser mon expérience"
+          },
+          "success": "Expérience déclarée ajoutée avec succès",
+          "title": "Ajouter une expérience déclarée"
+        },
         "AddDeclaredProgramDrawer": {
           "confirmationModal": {
             "description": "Êtes-vous sûr de vouloir annuler ? Les modifications non enregistrées seront perdues."
@@ -115,8 +135,8 @@
         "DeleteDeclaredProgramConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
-          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?",
-          "success": "Formation supprimée avec succès. | Formations supprimées avec succès."
+          "success": "Formation supprimée avec succès. | Formations supprimées avec succès.",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?"
         }
       },
       "views": {
@@ -175,6 +195,11 @@
           "ExperiencesSection": {
             "AmsTab": {
               "title": "Mes AMS"
+            },
+            "DeclaredExperiencesMoreActionsDropdown": {
+              "add": "Ajouter une expérience",
+              "delete": "Supprimer une expérience",
+              "share": "Partager une expérience"
             },
             "breadcrumb": "Mes expériences",
             "DeclaredExperiencesMoreActionsDropdown": {

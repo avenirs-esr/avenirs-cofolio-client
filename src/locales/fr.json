@@ -44,7 +44,8 @@
       "createdAt": "Créé le {date}",
       "createdAtWithPrefix": "{prefix} créé le {date}",
       "dateTimeAt": "{date} à {time}",
-      "updatedAt": "Modifié le {date}"
+      "updatedAt": "Modifié le {date}",
+      "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début"
     },
     "detail": "Détail",
     "error": {

@@ -17,10 +17,14 @@ BddTest().given('a personal career store', () => {
       expect(store.showAddDeclaredProgramDrawer).toBeDefined()
       expect(store.displayAddDeclaredProgramDrawer).toBeDefined()
       expect(store.hideAddDeclaredProgramDrawer).toBeDefined()
+      expect(store.showAddDeclaredExperienceDrawer).toBeDefined()
+      expect(store.displayAddDeclaredExperienceDrawer).toBeDefined()
+      expect(store.hideAddDeclaredExperienceDrawer).toBeDefined()
     })
 
     BddTest().then('it should have drawer initially hidden', () => {
       expect(store.showAddDeclaredProgramDrawer).toBe(false)
+      expect(store.showAddDeclaredExperienceDrawer).toBe(false)
     })
 
     BddTest().then('it should provide declared programs pagination state', () => {
@@ -76,6 +80,42 @@ BddTest().given('a personal career store', () => {
 
         store.displayAddDeclaredProgramDrawer()
         expect(store.showAddDeclaredProgramDrawer).toBe(true)
+      })
+    })
+
+    BddTest().and('displaying the add declared experience drawer', () => {
+      beforeEach(() => {
+        store.displayAddDeclaredExperienceDrawer()
+      })
+
+      BddTest().then('it should set showAddDeclaredExperienceDrawer to true', () => {
+        expect(store.showAddDeclaredExperienceDrawer).toBe(true)
+      })
+    })
+
+    BddTest().and('hiding the add declared experience drawer', () => {
+      beforeEach(() => {
+        store.displayAddDeclaredExperienceDrawer()
+        store.hideAddDeclaredExperienceDrawer()
+      })
+
+      BddTest().then('it should set showAddDeclaredExperienceDrawer to false', () => {
+        expect(store.showAddDeclaredExperienceDrawer).toBe(false)
+      })
+    })
+
+    BddTest().and('toggling experience drawer visibility multiple times', () => {
+      BddTest().then('it should correctly update the state', () => {
+        expect(store.showAddDeclaredExperienceDrawer).toBe(false)
+
+        store.displayAddDeclaredExperienceDrawer()
+        expect(store.showAddDeclaredExperienceDrawer).toBe(true)
+
+        store.hideAddDeclaredExperienceDrawer()
+        expect(store.showAddDeclaredExperienceDrawer).toBe(false)
+
+        store.displayAddDeclaredExperienceDrawer()
+        expect(store.showAddDeclaredExperienceDrawer).toBe(true)
       })
     })
 

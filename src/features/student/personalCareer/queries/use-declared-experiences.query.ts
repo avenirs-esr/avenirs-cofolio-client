@@ -1,6 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
+  createDeclaredExperience,
+  type DeclaredExperienceRequest,
   type DeclaredExperienceViewDTO,
   deleteDeclaredExperiences,
   getDeclaredExperience,
@@ -59,6 +61,20 @@ export function useDeclaredExperiencesViewQuery ({
     declaredExperiences,
     pageInfo
   }
+}
+
+export function useCreateDeclaredExperienceMutation ({ onError, onSuccess }: MutationArgs = {}) {
+  const invalidateDeclaredExperiencesViewQuery = useInvalidateQuery([...declaredExperiencesViewQueryKey])
+  return useMutation<DeclaredExperienceViewDTO, BaseApiException, DeclaredExperienceRequest>({
+    mutationFn: async (declaredExperienceRequest: DeclaredExperienceRequest): Promise<DeclaredExperienceViewDTO> => {
+      return await createDeclaredExperience(declaredExperienceRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredExperiencesViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
 }
 
 export interface DeclaredExperienceDetailedViewQueryProps {
