@@ -4,33 +4,15 @@ import DeclaredExperienceLinkFormField
 import { DeclaredExperienceLinkInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLinkInput/DeclaredExperienceLinkInput.stub'
 import { DECLARED_EXPERIENCE_LINK_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceLinkFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        link: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit () {
-          return { fields: { link: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceLinkFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'link'>({
+  formFieldComponent: DeclaredExperienceLinkFormField,
+  fieldName: 'link',
+  defaultValue: '',
+  useValidator: () => () => undefined
 })
 
 BddTest().given('a declared experience link form field', () => {

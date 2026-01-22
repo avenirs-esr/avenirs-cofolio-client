@@ -3,41 +3,19 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceTypeFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        type: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit ({ value }) {
-          if (!value.type || value.type.trim() === '') {
-            return {
-              fields: {
-                type: 'Le type est requis'
-              }
-            }
-          }
-          return { fields: { type: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceTypeFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'type'>({
+  formFieldComponent: DeclaredExperienceTypeFormField,
+  fieldName: 'type',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateType
 })
 
 BddTest().given('a declared experience type form field', () => {
@@ -95,7 +73,7 @@ BddTest().given('a declared experience type form field', () => {
 
         await vi.waitFor(() => {
           const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-          expect(select.props('errorMessage')).toBe('Le type est requis')
+          expect(select.props('errorMessage')).toBe('Ce champ est requis.')
         })
       })
     })

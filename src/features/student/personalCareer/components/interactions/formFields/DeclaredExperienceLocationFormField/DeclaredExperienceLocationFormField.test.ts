@@ -7,34 +7,15 @@ import {
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceLocationFormField
-  },
-  setup () {
-    const { validateLocation } = useDeclaredExperienceFormValidators()
-    const form = useForm({
-      defaultValues: {
-        location: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit ({ value }: { value: DeclaredExperienceFormData }) {
-          return { fields: { location: validateLocation(value.location) } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceLocationFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'location'>({
+  formFieldComponent: DeclaredExperienceLocationFormField,
+  fieldName: 'location',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateLocation
 })
 
 BddTest().given('a declared experience location form field', () => {

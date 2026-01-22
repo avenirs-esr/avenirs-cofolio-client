@@ -2,35 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceActivitySectorFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import { DeclaredExperienceActivitySectorInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceActivitySectorFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        activitySector: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit () {
-          return { fields: { activitySector: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceActivitySectorFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'activitySector'>({
+  formFieldComponent: DeclaredExperienceActivitySectorFormField,
+  fieldName: 'activitySector',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateActivitySector
 })
 
 BddTest().given('a declared experience activity sector form field', () => {

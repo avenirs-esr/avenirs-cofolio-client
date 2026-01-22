@@ -2,35 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceSourceOfInformationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.vue'
 import { DeclaredExperienceSourceOfInformationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceSourceOfInformationFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        sourceOfInformation: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit () {
-          return { fields: { sourceOfInformation: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceSourceOfInformationFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'sourceOfInformation'>({
+  formFieldComponent: DeclaredExperienceSourceOfInformationFormField,
+  fieldName: 'sourceOfInformation',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateSourceOfInformation
 })
 
 BddTest().given('a declared experience source of information form field', () => {

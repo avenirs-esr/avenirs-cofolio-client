@@ -9,7 +9,7 @@ const emit = defineEmits<{
 }>()
 const { t } = useI18n()
 
-enum ExperiencesMoreActionsDropdownEvents {
+enum DeclaredExperiencesMoreActionsDropdownEvents {
   ADD = 'add',
   DELETE = 'delete',
   SHARE = 'share',
@@ -17,17 +17,17 @@ enum ExperiencesMoreActionsDropdownEvents {
 
 const menuItems = computed<AvDropdownItem[]>(() => [
   {
-    name: ExperiencesMoreActionsDropdownEvents.ADD,
+    name: DeclaredExperiencesMoreActionsDropdownEvents.ADD,
     icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
     label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add')
   },
   {
-    name: ExperiencesMoreActionsDropdownEvents.SHARE,
+    name: DeclaredExperiencesMoreActionsDropdownEvents.SHARE,
     icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
     label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
   },
   {
-    name: ExperiencesMoreActionsDropdownEvents.DELETE,
+    name: DeclaredExperiencesMoreActionsDropdownEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete')
   },
@@ -35,13 +35,13 @@ const menuItems = computed<AvDropdownItem[]>(() => [
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
-    case ExperiencesMoreActionsDropdownEvents.ADD:
+    case DeclaredExperiencesMoreActionsDropdownEvents.ADD:
       emit('addSelected')
       break
-    case ExperiencesMoreActionsDropdownEvents.DELETE:
+    case DeclaredExperiencesMoreActionsDropdownEvents.DELETE:
       emit('deleteSelected')
       break
-    case ExperiencesMoreActionsDropdownEvents.SHARE:
+    case DeclaredExperiencesMoreActionsDropdownEvents.SHARE:
       emit('shareSelected')
       break
   }

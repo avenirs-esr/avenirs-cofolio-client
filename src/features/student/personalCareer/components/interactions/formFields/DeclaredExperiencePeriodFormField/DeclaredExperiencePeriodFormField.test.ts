@@ -2,6 +2,9 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperiencePeriodFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.vue'
 import { DeclaredExperiencePeriodInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -12,6 +15,8 @@ const TestWrapper = defineComponent({
     DeclaredExperiencePeriodFormField
   },
   setup () {
+    const { validateStartDate, validateEndDate } = useDeclaredExperienceFormValidators()
+
     const form = useForm({
       defaultValues: {
         startDate: '',
@@ -20,21 +25,12 @@ const TestWrapper = defineComponent({
       } as DeclaredExperienceFormData,
       validators: {
         onSubmit ({ value }) {
-          const errors: Record<string, string | undefined> = {
-            startDate: undefined,
-            endDate: undefined,
-            isOngoing: undefined
+          return {
+            fields: {
+              startDate: validateStartDate(value.startDate),
+              endDate: validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing })
+            }
           }
-
-          if (!value.startDate || value.startDate.trim() === '') {
-            errors.startDate = 'La date de début est requise'
-          }
-
-          if (!value.isOngoing && (!value.endDate || value.endDate.trim() === '')) {
-            errors.endDate = 'La date de fin est requise'
-          }
-
-          return { fields: errors }
         }
       }
     }) as unknown as AddDeclaredExperienceForm
@@ -163,8 +159,8 @@ BddTest().given('a declared experience period form field', () => {
 
         await vi.waitFor(() => {
           const periodInput = wrapper.findComponent({ name: 'DeclaredExperiencePeriodInput' })
-          expect(periodInput.props('startErrorMessage')).toBe('La date de début est requise')
-          expect(periodInput.props('endErrorMessage')).toBe('La date de fin est requise')
+          expect(periodInput.props('startErrorMessage')).toBe('Ce champ est requis.')
+          expect(periodInput.props('endErrorMessage')).toBe('Ce champ est requis.')
         })
       })
     })

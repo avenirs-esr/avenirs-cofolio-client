@@ -105,16 +105,12 @@ const activeAccordion = ref(0)
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.specifyExperience')"
               :icon="RI_ICONS.HONOUR_LINE"
-            >
-              <div class="av-col av-gap-md" />
-            </AvAccordion>
+            />
 
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associateExperience')"
               :icon="MDI_ICONS.LINK"
-            >
-              <div class="av-col av-gap-md" />
-            </AvAccordion>
+            />
           </AvAccordionsGroup>
         </form>
       </div>

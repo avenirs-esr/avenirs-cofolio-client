@@ -1,10 +1,10 @@
-import type {
-  useAddDeclaredExperienceForm
-} from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { createDeclaredExperienceErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EExperienceType } from '@/api/avenir-esr'
+import {
+  useAddDeclaredExperienceForm
+} from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
@@ -46,21 +46,6 @@ BddTest().given('an add declared experience form', () => {
     description: 'Description of the experience',
     review: 'A positive review',
     link: 'https://example.com'
-  }
-
-  const invalidData: DeclaredExperienceFormData = {
-    title: '',
-    type: '',
-    organization: '',
-    activitySector: '',
-    location: '',
-    startDate: '',
-    endDate: '',
-    isOngoing: false,
-    sourceOfInformation: '',
-    description: '',
-    review: '',
-    link: ''
   }
 
   const mountForm = (onExperienceAdded?: () => void) => {
@@ -143,6 +128,21 @@ BddTest().given('an add declared experience form', () => {
   BddTest().when('validating form fields', () => {
     BddTest().and('all required fields are empty', () => {
       BddTest().then('it should return validation errors for required fields', () => {
+        const invalidData: DeclaredExperienceFormData = {
+          title: '',
+          type: '',
+          organization: '',
+          activitySector: '',
+          location: '',
+          startDate: '',
+          endDate: '',
+          isOngoing: false,
+          sourceOfInformation: '',
+          description: '',
+          review: '',
+          link: ''
+        }
+
         const requiredFields = ['title', 'type', 'organization', 'startDate', 'endDate'] as const
         const validator = getOnSubmitValidator()
         const result = validator({ value: invalidData })
