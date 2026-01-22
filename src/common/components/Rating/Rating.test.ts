@@ -20,7 +20,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should display the rating value as "3/5"', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.text()).toBe('3/5')
     })
 
@@ -29,7 +29,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should have the rating__value class with b2-bold', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.exists()).toBe(true)
       expect(ratingValue.classes()).toContain('b2-bold')
     })
@@ -53,7 +53,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should display the rating value as "5/10"', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.text()).toBe('5/10')
     })
   })
@@ -75,7 +75,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should display the rating value as "0/5"', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.text()).toBe('0/5')
     })
   })
@@ -92,7 +92,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should use 5 as the default maxRating', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.text()).toBe('4/5')
     })
   })
@@ -119,7 +119,7 @@ BddTest().given('a rating component', () => {
         const stars = wrapper.findAll('span').filter(span => span.text() === '⭐')
         expect(stars).toHaveLength(expectedStars)
 
-        const ratingValue = wrapper.find('.rating__value')
+        const ratingValue = wrapper.find('[data-testid="rating__value"]')
         expect(ratingValue.text()).toBe(expectedText)
       })
     })
@@ -176,7 +176,7 @@ BddTest().given('a rating component', () => {
     })
 
     BddTest().then('it should still display the rating value as "3/5"', () => {
-      const ratingValue = wrapper.find('.rating__value')
+      const ratingValue = wrapper.find('[data-testid="rating__value"]')
       expect(ratingValue.text()).toBe('3/5')
     })
   })

@@ -17,7 +17,7 @@ const activeTab = ref(0)
 </script>
 
 <template>
-  <div class="main-contaier">
+  <div class="av-col">
     <AvTabs
       v-model="activeTab"
       compact
@@ -45,11 +45,3 @@ const activeTab = ref(0)
     </AvTabs>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-</style>

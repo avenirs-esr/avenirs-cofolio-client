@@ -12,6 +12,8 @@ const { t } = useI18n()
 
 const displayWidget = computed(() => courses.value.length > 0)
 const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
+
+// TODO DRY: create HomeSideWidget and HomeMainWidget #998
 </script>
 
 <template>
@@ -21,19 +23,20 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <div class="skills-widget-container__title">
+      <div class="av-pl-sm">
         <AvIconText
           :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
           :text="t('student.skills.cards.StudentSkillsWidget.title')"
           :title="t('student.skills.cards.StudentSkillsWidget.title')"
           icon-color="var(--icon)"
-          text-color="var(--text1)"
+          text-color="var(--title)"
           typography-class="n5"
+          gap="var(--spacing-xs)"
         />
       </div>
     </template>
     <template #body>
-      <div class="skills-widget-container__body">
+      <div class="av-col av-gap-md">
         <StudentSkillsWidgetContainer
           v-for="course in courses"
           :key="course.id"
@@ -43,7 +46,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
       </div>
     </template>
     <template #footer>
-      <div class="skills-widget-container__footer">
+      <div class="av-row av-justify-end av-pt-sm">
         <AvButton
           :label="t('student.skills.cards.StudentSkillsWidget.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -54,21 +57,3 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
     </template>
   </AvCard>
 </template>
-
-<style lang="scss" scoped>
-.skills-widget-container__title {
-  padding-left: 0.75rem;
-}
-
-.skills-widget-container__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.skills-widget-container__footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-top: 1.25rem;
-}
-</style>

@@ -74,7 +74,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-skill-card"
+    class="student-skill-card av-row av-w-full"
     :to="{ name: studentSkillRouteName, params: { id: skill.id } }"
   >
     <FloatingIconCard
@@ -84,14 +84,8 @@ const iconOptions = {
       title-typography-classes="student-skill-card__title b1-bold"
     >
       <template #body>
-        <StudentCountTracesIconText
-          :count-traces="currentSkillLevel.traceCount"
-          gap="0.75rem"
-        />
-        <StudentCountAmsIconText
-          :count-ams="currentSkillLevel.activityCount"
-          gap="0.75rem"
-        />
+        <StudentCountTracesIconText :count-traces="currentSkillLevel.traceCount" />
+        <StudentCountAmsIconText :count-ams="currentSkillLevel.activityCount" />
       </template>
       <template #footer>
         <div class="student-skill-card__footer">
@@ -110,8 +104,6 @@ const iconOptions = {
 @use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
 
 .student-skill-card {
-  display: flex;
-  width: 100%;
   border-radius: 1.5rem;
 
   @include dsav.min-width(md) {

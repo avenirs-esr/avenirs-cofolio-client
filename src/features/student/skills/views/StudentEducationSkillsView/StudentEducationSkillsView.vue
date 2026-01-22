@@ -40,7 +40,7 @@ const breadcrumbLinks = computed(() => [
     :back="ROUTES.STUDENT.HOME"
   />
   <SkillsSortContainer v-model:sort="selectedSortOption" />
-  <div class="courses-container">
+  <div class="av-col av-gap-4xl">
     <StudentEducationSkillsViewContainer
       v-for="course in courses"
       :key="course.id"
@@ -48,11 +48,3 @@ const breadcrumbLinks = computed(() => [
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.courses-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-4xl);
-}
-</style>

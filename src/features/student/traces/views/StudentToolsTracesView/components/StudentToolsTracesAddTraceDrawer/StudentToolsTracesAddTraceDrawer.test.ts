@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub, ToggleStub } from '@/common/components'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -37,6 +37,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       template: '<div class="av-accordion-stub"><slot /></div>'
     },
     AvButton: AvButtonStub,
+    AvIconText: AvIconTextStub,
     Toggle: ToggleStub,
     ConfirmationModal: ConfirmationModalStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub
@@ -118,10 +119,10 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const title = wrapper.find('.student-tools-traces-add-trace-drawer__title')
-
+      const title = wrapper.findComponent(AvIconTextStub)
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Ajouter une trace')
+      expect(title.attributes('data-testid')).toBe('student-tools-traces-add-trace-drawer__title')
+      expect(title.props('text')).toBe('Ajouter une trace')
     })
 
     BddTest().then('it should render accordion group with three accordions', () => {
@@ -138,7 +139,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
 
     BddTest().then('it should render the create trace form declaration items in second accordion', () => {
-      const declarationItems = wrapper.find('.declaration-items')
+      const declarationItems = wrapper.find('.create-trace-form-declaration-items')
       expect(declarationItems.exists()).toBe(true)
     })
 

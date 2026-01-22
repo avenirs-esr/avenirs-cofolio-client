@@ -20,11 +20,11 @@ const handles = [
 </script>
 
 <template>
-  <div class="vue-flow__node-default">
+  <div class="vue-flow__node-default av-p-none av-radius-xl">
     <img
       :src="profilePictureUrl"
       :alt="t('student.buildProject.mindMap.user.profilePictureAlt')"
-      class="user-picture"
+      class="user-picture av-w-full av-h-full"
     >
 
     <Handle
@@ -41,14 +41,10 @@ const handles = [
 .vue-flow__node-default {
   width: v-bind('data.width');
   height: v-bind('data.height');
-  border-radius: var(--radius-xl);
   border: none;
-  padding: var(--spacing-none);
   overflow: hidden;
 
   .user-picture {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
   }
 }

@@ -43,7 +43,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
     v-model:collapsed="isCollapsed"
     collapsed-width="fit-content"
   >
-    <div class="self-knowledge-elements-side-menu">
+    <div class="av-col av-gap-md">
       <span
         class="s2-bold"
         :class="{
@@ -64,7 +64,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
       />
       <div
         ref="elementsContainer"
-        class="self-knowledge-elements-side-menu__elements"
+        class="self-knowledge-elements-side-menu__elements av-col av-gap-sm"
       >
         <div
           v-for="element in elements"
@@ -102,14 +102,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
 
 <style lang="scss" scoped>
 .self-knowledge-elements-side-menu {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-
   &__elements {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
     max-height: 40rem;
     overflow-y: auto;
   }

@@ -117,7 +117,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
     course,
     maxSkillsDisplayed: 3,
   } as const
-  const longerTitle = 'Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel'
 
   BddTest().when('the component is mounted with given props', async () => {
     beforeEach(async () => {
@@ -134,27 +133,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
 
       expect(wrapper.text()).toContain(baseProps.course.programTitle)
       expect(skillsCards).toHaveLength(baseProps.maxSkillsDisplayed)
-    })
-  })
-
-  BddTest().when('the component is mounted with longer titles', async () => {
-    beforeEach(async () => {
-      wrapper = await mountWithRouter(StudentSkillsWidgetContainer, {
-        props: {
-          course: {
-            ...baseProps.course,
-            programTitle: longerTitle
-          },
-          maxSkillsDisplayed: baseProps.maxSkillsDisplayed
-        },
-        global: {
-          stubs
-        }
-      })
-    })
-
-    BddTest().then('it should render truncated program tite', async () => {
-      expect(wrapper.text()).toContain(`${longerTitle.slice(0, 60)}...`)
     })
   })
 })

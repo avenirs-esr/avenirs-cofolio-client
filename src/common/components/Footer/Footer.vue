@@ -2,7 +2,7 @@
 import type { RouteLocationRaw } from 'vue-router'
 import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
 import { ROUTES } from '@/common/constants'
-import { EsupLogo, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { EsupLogo } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface FooterProps {
@@ -28,7 +28,6 @@ const props = defineProps<FooterProps>()
 
 const { t } = useI18n()
 const route = useRoute()
-const { isMobile, isTablet } = useAvBreakpoints()
 
 const isStudentRoute = computed(() => route.path.startsWith('/student'))
 
@@ -78,19 +77,14 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
     role="contentinfo"
   >
     <div class="separator" />
-    <div class="line-container anr">
-      <div
-        class="support-logo-container"
-        :class="{
-          'support-logo-container--mobile': isMobile,
-        }"
-      >
+    <div class="anr av-row av-align-center av-gap-md av-py-xs av-px-sm av-justify-center">
+      <div class="av-row av-wrap av-nowrap--md av-gap-md av-justify-start">
         <a
           href="https://anr.fr/ProjetIA-21-DMAV-0001"
           :title="t('global.footer.links.anr')"
         >
           <img
-            class="long-img"
+            class="long-img av-row"
             src="/assets/images/anr-logo.jpg"
             alt="Logo ANR"
           >
@@ -100,46 +94,35 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
           :title="t('global.footer.links.france2030')"
         >
           <img
-            class="square-img"
+            class="square-img av-row"
             src="/assets/images/france2030-logo.png"
             alt="Logo France 2030"
           >
         </a>
       </div>
 
-      <span class="caption-regular anr-desc">
+      <span class="caption-regular av-text-text1 anr-desc">
         {{ t('global.footer.anr') }}
       </span>
     </div>
 
-    <div
-      class="main-container"
-      :class="{
-        'main-container--mobile': isMobile,
-      }"
-    >
-      <div class="cofolio-container">
+    <div class="av-row av-wrap av-nowrap--md av-justify-start av-justify-between--md av-gap-md av-py-xl av-px-5xl">
+      <div class="cofolio-container av-col av-gap-sm av-align-start">
         <CofolioLogoSvg
           role="img"
           aria-label="Logo Cofolio"
         />
-        <span class="caption-regular">
+        <span class="caption-regular av-text-text1">
           {{ t('global.footer.instituteInfo') }}
         </span>
       </div>
 
-      <div
-        class="links-container"
-        :class="{
-          'links-container--mobile': isMobile,
-          'links-container--tablet': isTablet,
-        }"
-      >
-        <div class="links-column">
+      <div class="av-row av-wrap av-nowrap--md av-justify-start av-justify-end--md av-gap-5xl av-pt-md av-flex-fill">
+        <div class="av-col av-gap-sm av-justify-start">
           <span class="b2-bold">
             {{ "Informations" }}
           </span>
-          <ul class="links-list">
+          <ul class="av-col av-gap-sm av-justify-start av-list-reset">
             <li
               v-for="(link, index) in mandatoryLinks"
               :key="index"
@@ -150,24 +133,24 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
                 :title="link.label"
                 class="mandatory-router-link"
               >
-                <span class="caption-regular">{{ link.label }}</span>
+                <span class="caption-regular av-text-text1">{{ link.label }}</span>
               </RouterLink>
             </li>
           </ul>
         </div>
 
-        <div class="links-column">
+        <div class="av-col av-gap-sm av-justify-start">
           <span class="b2-bold">
             {{ "Autres sites" }}
           </span>
-          <ul class="links-list">
+          <ul class="av-col av-gap-sm av-justify-start av-list-reset">
             <li
               v-for="({ href, label, title, ...attrs }, index) in ecosystemLinks"
               :key="index"
               class="av-footer__content-item"
             >
               <a
-                class="av-footer__content-link caption-regular"
+                class="av-footer__content-link caption-regular av-text-text1"
                 :href="href"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -181,11 +164,11 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
           </ul>
         </div>
 
-        <div class="links-column">
+        <div class="av-col av-gap-sm av-justify-start">
           <span class="b2-bold">
             {{ "Partenaires" }}
           </span>
-          <div class="partners">
+          <div class="av-row av-wrap av-gap-lg av-align-center">
             <a
               href="https://avenirs-esr.fr/"
               :aria-label="t('global.footer.links.avenirs')"
@@ -209,9 +192,9 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
       </div>
     </div>
 
-    <div class="copyright-container">
+    <div class="copyright-container av-col av-align-center av-pt-xs av-px-5xl av-pb-md">
       <a
-        class="caption-regular copyright"
+        class="caption-regular av-text-text1 copyright"
         href="https://www.esup-portail.org/"
         :aria-label="t('global.footer.links.copyrightAria')"
       >
@@ -231,99 +214,19 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
   background: var(--dark-background-primary1);
 }
 
-.main-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: var(--spacing-xl) var(--spacing-5xl) var(--spacing-xl) var(--spacing-5xl);
-  gap: var(--spacing-md);
-
-  &--mobile {
-    flex-wrap: wrap;
-    justify-content: start;
-  }
-}
-
 .copyright-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: var(--spacing-xs) var(--spacing-5xl) var(--spacing-md) var(--spacing-5xl);
   border-top: 1px solid var(--stroke);
 }
 
 .cofolio-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  align-items: flex-start;
   width: var(--dimension-7xl);
-}
-
-.links-container {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  justify-content: flex-end;
-  gap: var(--spacing-5xl);
-  padding-top: var(--spacing-md);
-
-  &--tablet, &--mobile {
-    flex-wrap: wrap;
-    justify-content: start;
-  }
-}
-
-.links-column, .links-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  justify-content: flex-start;
-}
-
-.partners {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: var(--spacing-lg);
-  align-items: center;
-}
-
-.caption-regular, a {
-  color: var(--text1);
 }
 
 .no-content-after {
   --link-blank-content: '';
 }
 
-.ov-icon {
-  margin-bottom: 0;
-}
-
-.line-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-sm);
-  border-bottom: 1px solid var(--stroke);
-  justify-content: center;
-}
-
-.support-logo-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-md);
-
-  &--mobile {
-    flex-wrap: wrap;
-    justify-content: start;
-  }
-}
-
 .anr {
-  padding: var(--spacing-xs) var(--spacing-sm);
   border-bottom: 1px solid var(--stroke);
 }
 
@@ -339,26 +242,6 @@ img {
 .square-img {
   height: var(--dimension-xl);
   width: auto;
-}
-
-.institute {
-  justify-content: space-between;
-}
-
-.institute-logo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.institute-info {
-  display: flex;
-  flex-direction: column;
-}
-
-a img {
-  display: flex;
 }
 
 a:focus {

@@ -43,7 +43,7 @@ function createWrapper (props = {}, slots = {}) {
           name: 'AvPagination',
           props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact', 'truncLimit'],
           emits: ['update:current-page'],
-          template: `<button class="pagination" @click="$emit('update:current-page', 2)">Page 2</button>`
+          template: `<button class="av-pagination" @click="$emit('update:current-page', 2)">Page 2</button>`
         }
       }
     },
@@ -79,7 +79,7 @@ BddTest().given('a pagination', () => {
 
     BddTest().when('AvPagination emits update:current-page', () => {
       BddTest().then('it should call onUpdateCurrentPage with correct value', async () => {
-        await wrapper.find('.pagination').trigger('click')
+        await wrapper.find('.av-pagination').trigger('click')
         expect(wrapper.props('onUpdateCurrentPage')).toHaveBeenCalledWith(2)
       })
     })

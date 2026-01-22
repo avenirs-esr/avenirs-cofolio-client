@@ -65,12 +65,12 @@ BddTest().given('a skills view education tab component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the main container', () => {
-      const container = wrapper.find('.main-container')
+      const container = wrapper.find('.skills-view-education-tab')
       expect(container.exists()).toBe(true)
     })
 
     BddTest().then('it should render the title container and the title', () => {
-      const container = wrapper.find('.title-container')
+      const container = wrapper.find('[data-testid="title-container"]')
       expect(container.exists()).toBe(true)
       const title = container.find('.n5')
       expect(title.exists()).toBe(true)
@@ -81,7 +81,7 @@ BddTest().given('a skills view education tab component', () => {
     })
 
     BddTest().then('it should render the skills container', () => {
-      const container = wrapper.find('.skills-container')
+      const container = wrapper.find('[data-testid="skills-container"]')
       expect(container.exists()).toBe(true)
     })
 
@@ -105,21 +105,15 @@ BddTest().given('a skills view education tab component', () => {
     })
 
     BddTest().then('it should have proper CSS classes applied', () => {
-      const mainContainer = wrapper.find('.main-container')
-      expect(mainContainer.classes()).toContain('main-container')
-
-      const titleContainer = wrapper.find('.title-container')
-      expect(titleContainer.classes()).toContain('title-container')
-
-      const skillsContainer = wrapper.find('.skills-container')
-      expect(skillsContainer.classes()).toContain('skills-container')
+      const mainContainer = wrapper.find('.skills-view-education-tab')
+      expect(mainContainer.classes()).toContain('skills-view-education-tab')
     })
   })
 
   BddTest().when('skills query is loading', () => {
     BddTest().then('it should handle loading state gracefully', () => {
       expect(wrapper.exists()).toBe(true)
-      expect(wrapper.find('.main-container').exists()).toBe(true)
+      expect(wrapper.find('.skills-view-education-tab').exists()).toBe(true)
     })
   })
 
@@ -238,7 +232,7 @@ BddTest().given('a skills view education tab component', () => {
   BddTest().when('no skills are available', () => {
     BddTest().then('it should render container even with empty skills array', async () => {
       await wrapper.vm.$nextTick()
-      const skillsContainer = wrapper.find('.skills-container')
+      const skillsContainer = wrapper.find('[data-testid="skills-container"]')
       expect(skillsContainer.exists()).toBe(true)
     })
 

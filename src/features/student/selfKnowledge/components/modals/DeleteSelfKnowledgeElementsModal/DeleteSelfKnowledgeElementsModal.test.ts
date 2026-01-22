@@ -65,7 +65,7 @@ BddTest().given('a delete self knowledge element modal', () => {
       })
 
       BddTest().then('it should display the correct title for zero elements', () => {
-        const header = wrapper.find('.header')
+        const header = wrapper.find('[data-testid="header"]')
         expect(header.text()).toBe('Aucun élément à supprimer')
       })
     })
@@ -86,7 +86,7 @@ BddTest().given('a delete self knowledge element modal', () => {
       })
 
       BddTest().then('it should display the correct title', () => {
-        const header = wrapper.find('.header')
+        const header = wrapper.find('[data-testid="header"]')
         expect(header.text()).toBe('Quel élément souhaitez-vous supprimer ?')
       })
 
@@ -196,7 +196,7 @@ BddTest().given('a delete self knowledge element modal', () => {
       })
 
       BddTest().then('it should display the correct title with element count', () => {
-        const header = wrapper.find('.header')
+        const header = wrapper.find('[data-testid="header"]')
         expect(header.text()).toBe('Quels éléments souhaitez-vous supprimer ?')
       })
 

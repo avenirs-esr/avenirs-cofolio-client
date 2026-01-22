@@ -8,7 +8,7 @@ const tracesStore = useTracesStore()
 </script>
 
 <template>
-  <div class="student-tools-trace-action-buttons">
+  <div class="av-row av-justify-end av-gap-sm">
     <AvButton
       :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesActionButtons.addTrace')"
       variant="OUTLINED"
@@ -18,13 +18,3 @@ const tracesStore = useTracesStore()
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-.student-tools-trace-action-buttons {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  padding: 0 var(--spacing-sm);
-  gap: var(--spacing-sm);
-}
-</style>

@@ -93,7 +93,7 @@ watch(() => show, (newVal) => {
     :show="show"
     @escape-pressed="onClose()"
   >
-    <div class="main-container">
+    <div class="av-col av-gap-xl">
       <AvIconText
         :icon="MDI_ICONS.PENCIL_OUTLINE"
         icon-color="var(--icon)"
@@ -111,7 +111,7 @@ watch(() => show, (newVal) => {
             :title="t('student.user.overlays.UpdateProfileDrawer.identity.title')"
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
           >
-            <div class="form">
+            <div class="av-col av-gap-md">
               <FormField name="lastname">
                 <template #default="{ field }">
                   <AvInput
@@ -188,7 +188,7 @@ watch(() => show, (newVal) => {
       </form>
     </div>
     <template #footer>
-      <div class="footer">
+      <div class="av-row av-justify-end">
         <AvCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
           :confirm-label="t('global.buttons.save')"
@@ -214,41 +214,3 @@ watch(() => show, (newVal) => {
     @close="hideModal"
   />
 </template>
-
-<style lang="scss" scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--spacing-xl);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.footer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.caption-light, .caption-bold {
-  color: var(--text2);
-}
-
-.b2-bold {
-  color: var(--text1);
-}
-
-img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-</style>

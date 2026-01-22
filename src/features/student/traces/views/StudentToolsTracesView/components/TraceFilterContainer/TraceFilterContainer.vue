@@ -147,7 +147,7 @@ watch([
     } : {}"
     @close="hideModal"
   >
-    <div class="main-container">
+    <div class="av-row av-wrap av-gap-xs av-align-end av-px-xs">
       <AvInput
         :model-value="keyword"
         :label="isAssociated ? t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.associated') : t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.unassociated')"
@@ -219,15 +219,6 @@ watch([
 </template>
 
 <style scoped lang="scss">
-.main-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: var(--spacing-xs);
-  align-items: end;
-  padding: var(--spacing-none) var(--spacing-xs);
-}
-
 :deep(input) {
   line-height: unset !important;
   height: var(--dimension-xl);

@@ -69,12 +69,18 @@ async function onSave () {
     width="50rem"
     @escape-pressed="handleCancel"
   >
-    <div class="student-tools-traces-add-trace-drawer">
-      <h2 class="student-tools-traces-add-trace-drawer__title">
-        {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.title') }}
-      </h2>
+    <div class="av-col av-h-full av-gap-md">
+      <AvIconText
+        :icon="MDI_ICONS.PENCIL_OUTLINE"
+        icon-color="var(--icon)"
+        :text="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.title')"
+        text-color="var(--title)"
+        typography-class="n6"
+        gap="var(--spacing-xs)"
+        data-testid="student-tools-traces-add-trace-drawer__title"
+      />
 
-      <div class="student-tools-traces-add-trace-drawer__content">
+      <div class="av-col av-flex-fill">
         <form
           novalidate
           @submit.prevent.stop="form.handleSubmit"
@@ -95,7 +101,7 @@ async function onSave () {
             </AvAccordion>
 
             <AvAccordion :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')">
-              <div class="placeholder-content">
+              <div class="placeholder-content av-text-text2 av-p-md">
                 <p>{{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace') }} - Contenu à implémenter</p>
               </div>
             </AvAccordion>
@@ -105,7 +111,7 @@ async function onSave () {
     </div>
 
     <template #footer>
-      <div class="student-tools-traces-add-trace-drawer__footer">
+      <div class="av-row av-justify-end av-gap-sm av-p-md">
         <FormCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
           :is-submitting="isSubmitting"
@@ -119,34 +125,7 @@ async function onSave () {
 </template>
 
 <style scoped lang="scss">
-.student-tools-traces-add-trace-drawer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  gap: var(--spacing-md);
-}
-
-.student-tools-traces-add-trace-drawer__title {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text1);
-  margin: 0;
-}
-
-.student-tools-traces-add-trace-drawer__content {
-  flex: 1;
-}
-
 .placeholder-content {
-  padding: var(--spacing-md);
-  color: var(--text2);
   font-style: italic;
-}
-
-.student-tools-traces-add-trace-drawer__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-md);
 }
 </style>

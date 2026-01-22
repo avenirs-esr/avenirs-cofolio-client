@@ -50,9 +50,10 @@ const avFileUploadProps = computed<AvFileUploadProps>(() => ({
   <div class="trace-file-upload">
     <div
       v-if="label"
-      class="trace-file-upload__label"
+      class="av-pb-xxs"
+      data-testid="trace-file-upload__label"
     >
-      <span class="b2-light">
+      <span class="b2-light av-text-text1">
         {{ label }}
       </span>
     </div>
@@ -72,16 +73,3 @@ const avFileUploadProps = computed<AvFileUploadProps>(() => ({
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.trace-file-upload {
-
-  &__label {
-    padding-bottom: var(--spacing-xxs);
-  }
-
-  .b2-light {
-    color: var(--text1);
-  }
-}
-</style>

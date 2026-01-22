@@ -51,17 +51,19 @@ defineExpose({ searchQuery })
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>
-      <ul class="av-row av-wrap av-gap-sm av-align-stretch av-px-sm av-py-xxs">
-        <li class="demo-display-none">
-          <StudentMailboxPopover :messages-count="messagesCount" />
-        </li>
-        <li class="demo-display-none">
-          <StudentNotificationsPopover :notifications-count="notificationsCount" />
-        </li>
-        <li>
-          <StudentProfilePopover :username="name" />
-        </li>
-      </ul>
+      <div class="av-px-sm av-pt-xxs av-pb-sm">
+        <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
+          <li class="demo-display-none">
+            <StudentMailboxPopover :messages-count="messagesCount" />
+          </li>
+          <li class="demo-display-none">
+            <StudentNotificationsPopover :notifications-count="notificationsCount" />
+          </li>
+          <li>
+            <StudentProfilePopover :username="name" />
+          </li>
+        </ul>
+      </div>
     </template>
     <template #mainnav>
       <StudentNavigation />

@@ -21,7 +21,7 @@ BddTest().given('a student education skills filters container', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render a filter container', () => {
-      const container = wrapper.find('.filter-and-sort-container')
+      const container = wrapper.find('.skills-sort-container')
       expect(container.exists()).toBe(true)
     })
 

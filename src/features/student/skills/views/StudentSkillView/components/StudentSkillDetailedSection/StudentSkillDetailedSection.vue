@@ -8,7 +8,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="student-skill-detailed-section">
+  <div class="student-skill-detailed-section av-pb-md">
     <AvCard
       border-color="var(--other-border-skill-card)"
       title-background="var(--surface-background)"
@@ -18,7 +18,7 @@ const { t } = useI18n()
         <h3>{{ t('student.skills.views.StudentSkillView.detailed.title') }}</h3>
       </template>
       <template #body>
-        <h3 class="student-skill-detailed-name">
+        <h3 class="student-skill-detailed-name av-pt-sm">
           {{ skillName }}
         </h3>
       </template>
@@ -27,11 +27,7 @@ const { t } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-.student-skill-detailed-section {
-  padding-bottom: 1.5rem;
-}
 .student-skill-detailed-name {
-  padding-top: 1rem;
   color: var(--dark-background-primary1);
 }
 </style>

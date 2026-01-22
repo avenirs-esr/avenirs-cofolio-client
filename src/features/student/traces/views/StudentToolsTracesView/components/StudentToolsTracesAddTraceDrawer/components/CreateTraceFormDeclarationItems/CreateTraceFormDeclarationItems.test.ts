@@ -68,14 +68,13 @@ BddTest().given('a create trace form declaration items component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the form fields container', () => {
-      const container = wrapper.find('.declaration-items__content')
+      const container = wrapper.find('[data-testid="declaration-items__content"]')
       expect(container.exists()).toBe(true)
     })
 
     BddTest().then('it should render production nature section title', () => {
-      const sectionTitle = wrapper.find('.declaration-items__section-title')
-      expect(sectionTitle.exists()).toBe(true)
-      expect(sectionTitle.text()).toBe('Déclarer la nature de ma production')
+      const natureSection = wrapper.find('[data-testid="nature-section"]')
+      expect(natureSection.exists()).toBe(true)
     })
 
     BddTest().then('it should render production authenticity toggle', () => {
@@ -101,12 +100,11 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should render IA usage section title', () => {
-      const sectionTitles = wrapper.findAll('.declaration-items__section-title')
-      const iaSectionTitle = sectionTitles.find(title =>
-        title.text() === 'Déclarer si c\'est une production réalisée avec l\'Intelligence Artificielle (IA)'
-      )
+      const iaUsageSection = wrapper.find('[data-testid="ia-usage-section"]')
+      expect(iaUsageSection.exists()).toBe(true)
 
-      expect(iaSectionTitle).toBeDefined()
+      const iaUsageSectionTitle = iaUsageSection.find('.caption-regular')
+      expect(iaUsageSectionTitle.text()).toBe('Déclarer si c\'est une production réalisée avec l\'Intelligence Artificielle (IA)')
     })
 
     BddTest().then('it should render IA usage toggle', () => {
@@ -233,7 +231,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await wrapper.find('form').trigger('submit')
 
       await vi.waitFor(() => {
-        const errorElement = wrapper.find('.trace-form__authentic-error')
+        const errorElement = wrapper.find('[data-testid="trace-form__authentic-error"]')
         expect(errorElement.exists()).toBe(true)
         expect(errorElement.text()).toBe('Required field')
       })

@@ -165,7 +165,7 @@ BddTest().given('a student detailed AMS card', () => {
       })
 
       BddTest().then('it should not render activity count badge', () => {
-        expect(wrapper.findComponent('.student-detailed-ams-card__ams-badge').exists()).toBe(false)
+        expect(wrapper.findComponent('[data-testid="student-detailed-ams-card__ams-badge"]').exists()).toBe(false)
       })
     })
 

@@ -64,7 +64,7 @@ const breadcrumbLinks = computed(() => [
     v-if="!!traceDetailed"
     class="main-container"
   >
-    <div class="header">
+    <div class="av-row av-justify-between av-align-center av-pb-md">
       <h5 class="n5">
         {{ t('student.traces.views.StudentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed?.title }}</span>
       </h5>
@@ -119,16 +119,7 @@ const breadcrumbLinks = computed(() => [
 </template>
 
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: var(--spacing-md);
-}
-
 .trace-tabs {
-  flex: 1;
   overflow-y: auto;
   height: auto;
 }

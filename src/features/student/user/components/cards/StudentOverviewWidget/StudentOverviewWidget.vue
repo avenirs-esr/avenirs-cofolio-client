@@ -37,28 +37,28 @@ defineExpose({ fullName })
         <img
           :src="studentSummary.coverPicture.url"
           :alt="t('student.user.cards.StudentOverviewWidget.bannerAlt')"
-          class="student-overview-widget__banner"
+          class="student-overview-widget__banner av-w-full av-radius-md"
         >
         <div
-          class="student-overview-widget__icon"
+          class="student-overview-widget__icon av-row av-justify-center av-align-center av-radius-md"
         >
           <img
             :src="studentSummary.profilePicture.url"
             :alt="t('student.user.cards.StudentOverviewWidget.pictureAlt')"
-            class="student-overview-widget__picture"
+            class="student-overview-widget__picture av-w-full av-h-full"
           >
         </div>
       </div>
     </template>
     <template #body>
-      <div class="student-overview-widget__body">
+      <div class="av-col av-gap-xs">
         <span class="n4">{{ fullName }}</span>
         <span class="b2-light student-overview-bio">{{ studentSummary.bio }}</span>
       </div>
     </template>
     <template #footer>
-      <div class="student-overview-widget__footer">
-        <ul class="student-overview-widget__actions">
+      <div class="av-pt-sm">
+        <ul class="av-col av-gap-sm av-list-reset">
           <li>
             <AvRichButton
               class="av-rich-button--edit-profile"
@@ -119,32 +119,18 @@ defineExpose({ fullName })
   position: absolute;
   width: var(--dimension-5xl);
   height: var(--dimension-5xl);
-  border-radius: var(--radius-md);
   border: 4px solid var(--dark-foreground);
   right: var(--spacing-sm);
   top: var(--spacing-sm);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .student-overview-widget__banner {
-  width: 100%;
   height: auto;
   max-height: 4.2rem;
-  border-radius: var(--radius-md);
 }
 
 .student-overview-widget__picture {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-}
-
-.student-overview-widget__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
 }
 
 .student-overview-bio {
@@ -153,37 +139,6 @@ defineExpose({ fullName })
   overflow: hidden;
   line-clamp: 5;
   -webkit-line-clamp: 5;
-}
-
-.student-overview-widget__footer {
-  padding-top: var(--spacing-sm);
-}
-
-.student-overview-widget__actions {
-  list-style-type:none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
-  gap: var(--spacing-sm);
-}
-
-.student-overview-widget__action-avCard {
-  width: 100%;
-  border-radius: var(--radius-lg);
-}
-
-.student-overview-widget__action-avCard-line {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-}
-
-li {
-  padding: 0;
-  margin: 0;
 }
 
 :deep(.av-card__title) {

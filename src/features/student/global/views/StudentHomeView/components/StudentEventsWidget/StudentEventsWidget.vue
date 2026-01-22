@@ -26,6 +26,8 @@ function getEventInfo (event: EventOverviewDTO) {
   const parsedEndDate = parseDateISO(event.endDate)
   return `${format(parsedStartDate, 'HH:mm')} - ${format(parsedEndDate, 'HH:mm')} • ${event.location}`
 }
+
+// TODO DRY: create HomeSideWidget and HomeMainWidget #998
 </script>
 
 <template>
@@ -34,7 +36,7 @@ function getEventInfo (event: EventOverviewDTO) {
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <div class="events-widget-container__title">
+      <div class="av-pl-xs">
         <AvIconText
           :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
           :text="t('student.global.widgets.events.title')"
@@ -46,42 +48,40 @@ function getEventInfo (event: EventOverviewDTO) {
       </div>
     </template>
     <template #body>
-      <div class="events-widget-container__body">
-        <ul class="events-widget__actions">
-          <li
-            v-for="event in renderedEvents"
-            :key="event.id"
+      <ul class="events-widget__actions av-col av-gap-sm av-list-reset">
+        <li
+          v-for="event in renderedEvents"
+          :key="event.id"
+        >
+          <AvRichButton
+            :label="event.name"
+            :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
+            custom-padding="var(--spacing-xs)"
           >
-            <AvRichButton
-              :label="event.name"
-              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
-              custom-padding="var(--spacing-xs)"
-            >
-              <div class="events-widget-action__body">
-                <div class="events-widget-action__calendar">
-                  <span class="calendar-date s1-bold">
-                    {{ getCalendarDate(event.startDate) }}
-                  </span>
-                  <span class="calendar-month caption-light">
-                    {{ getLocalizedAbbrMonth(event.startDate, locale as AvLocale).toUpperCase() }}
-                  </span>
-                </div>
-                <div class="events-widget-action__description ellipsis-container">
-                  <span class="ellipsis b1-regular">
-                    {{ event.name }}
-                  </span>
-                  <span class="ellipsis caption-light">
-                    {{ getEventInfo(event) }}
-                  </span>
-                </div>
+            <div class="av-row av-gap-xs">
+              <div class="events-widget-action__calendar av-col av-justify-center av-align-center av-radius-md">
+                <span class="calendar-date s1-bold">
+                  {{ getCalendarDate(event.startDate) }}
+                </span>
+                <span class="calendar-month av-text-text1 caption-light">
+                  {{ getLocalizedAbbrMonth(event.startDate, locale as AvLocale).toUpperCase() }}
+                </span>
               </div>
-            </AvRichButton>
-          </li>
-        </ul>
-      </div>
+              <div class="av-col av-align-start ellipsis-container">
+                <span class="ellipsis b1-regular">
+                  {{ event.name }}
+                </span>
+                <span class="ellipsis caption-light">
+                  {{ getEventInfo(event) }}
+                </span>
+              </div>
+            </div>
+          </AvRichButton>
+        </li>
+      </ul>
     </template>
     <template #footer>
-      <div class="events-widget-container__footer">
+      <div class="av-row av-justify-end av-pt-sm">
         <AvButton
           :label="t('student.global.widgets.events.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -94,53 +94,11 @@ function getEventInfo (event: EventOverviewDTO) {
 </template>
 
 <style lang="scss" scoped>
-.events-widget-container__title {
-  padding-left: 0.75rem;
-}
-
-.events-widget-container__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.events-widget__actions {
-  list-style-type:none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
-  gap: var(--spacing-sm);
-}
-
 .events-widget-action__calendar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: var(--dimension-xl);
   height: var(--dimension-xl);
-  border-radius: var(--radius-md);
   background-color: var(--other-background-event-date);
   flex-shrink: 0;
-}
-
-.events-widget-action__description {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.events-widget-action__body {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-xs);
-}
-
-.events-widget-container__footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-top: 1.25rem;
 }
 
 .calendar-date {
@@ -149,7 +107,6 @@ function getEventInfo (event: EventOverviewDTO) {
 }
 
 .calendar-month {
-  color: var(--text1);
   font-size: var(--font-size-xxs);
   line-height: var(--font-size-xxs);
 }

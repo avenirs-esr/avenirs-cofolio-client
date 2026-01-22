@@ -25,10 +25,11 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-detailed-ams-card"
+    class="student-detailed-ams-card av-w-full"
     :to="{ name: ROUTES.STUDENT.ACTIVITY.name, params: { id } }"
   >
     <FloatingIconCard
+      class="student-detailed-ams-card"
       :title="title"
       :icon-options="iconOptions"
       color="var(--dark-background-primary1)"
@@ -39,18 +40,18 @@ const iconOptions = {
       height="14rem"
     >
       <template #body>
-        <div class="student-detailed-ams-card__body">
-          <div class="av-row av-justify-between av-align-center student-detailed-ams-card__firstLine">
+        <div class="av-col av-gap-md">
+          <div class="av-row av-justify-between av-align-center av-pr-4xl">
             <div class="av-row av-align-center av-gap-sm">
               <AvBadge
                 v-if="totalActivities > 0"
-                class="student-detailed-ams-card__ams-badge"
                 :label="t('student.ams.views.StudentEducationAmsView.studentDetailedAmsCard.activityCount', { startedActivities, totalActivities, count: totalActivities })"
                 color="var(--text1)"
                 background-color="var(--surface-background)"
                 :icon="ICONS_DATA_URL.MDI_TEXT_BOX_CHECK_OUTLINE"
                 small
                 ellipsis
+                data-testid="student-detailed-ams-card__ams-badge"
               />
               <StudentCountSkillsIconText
                 :count-skills="countSkills"
@@ -81,30 +82,13 @@ const iconOptions = {
   width: 100%;
 }
 
-.av-card:hover {
-  border: 1px solid var(--dark-background-primary1) !important;
-  box-shadow: 0 0 0 2px var(--dark-background-primary1);
-}
-
 .student-detailed-ams-card {
-  width: 100%;
-
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-  }
-
-  &__firstLine {
-    padding-right: 3.5rem;
-  }
-
   :deep(.n5) {
     color: var(--card2);
   }
-}
 
-.student-detailed-ams-card__delivarable-placeholder {
-  height: var(--dimension-md);
+  &__delivarable-placeholder {
+    height: var(--dimension-md);
+  }
 }
 </style>

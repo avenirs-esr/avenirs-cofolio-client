@@ -21,6 +21,8 @@ const renderedDeliverables = computed(() => {
     .sort((a, b) => compareAsc(parseDateISO(a.deliverableUntil), parseDateISO(b.deliverableUntil)))
     .slice(0, 3)
 })
+
+// TODO DRY: create HomeSideWidget and HomeMainWidget #998
 </script>
 
 <template>
@@ -29,7 +31,7 @@ const renderedDeliverables = computed(() => {
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <div class="deliverables-widget-container__title">
+      <div class="av-row av-gap-sm av-align-center av-pl-sm">
         <AvIcon
           :name="MDI_ICONS.WARNING_OUTLINE"
           color="var(--icon)"
@@ -41,43 +43,41 @@ const renderedDeliverables = computed(() => {
       </div>
     </template>
     <template #body>
-      <div class="deliverables-widget-container__body">
-        <ul class="deliverables-widget__actions">
-          <li
-            v-for="deliverable in renderedDeliverables"
-            :key="deliverable.id"
+      <ul class="av-col av-gap-sm av-list-reset">
+        <li
+          v-for="deliverable in renderedDeliverables"
+          :key="deliverable.id"
+        >
+          <AvRichButton
+            :label="deliverable.id"
+            :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
+            custom-padding="var(--spacing-xs)"
+            @click="navigateToStudentDeliverables"
           >
-            <AvRichButton
-              :label="deliverable.id"
-              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
-              custom-padding="var(--spacing-xs)"
-              @click="navigateToStudentDeliverables"
-            >
-              <div class="deliverables-widget-action__body">
-                <div class="deliverables-widget-action__calendar">
-                  <span class="calendar-date s1-bold">
-                    {{ getCalendarDate(deliverable.deliverableUntil) }}
-                  </span>
-                  <span class="calendar-month caption-light">
-                    {{ getLocalizedAbbrMonth(deliverable.deliverableUntil, locale as AvLocale).toUpperCase() }}
-                  </span>
-                </div>
-                <div class="deliverables-widget-action__description ellipsis-container">
-                  <span class="ellipsis b1-regular">
-                    {{ t('student.global.widgets.deliverables.skill', { skill: deliverable.skill }) }}
-                  </span>
-                  <span class="ellipsis caption-light">
-                    {{ t('student.global.widgets.deliverables.ams', { ams: deliverable.activity }) }}
-                  </span>
-                </div>
+            <div class="av-row av-gap-xs">
+              <div class="deliverables-widget-action__calendar av-col av-justify-center av-align-center av-radius-md">
+                <span class="calendar-date s1-bold">
+                  {{ getCalendarDate(deliverable.deliverableUntil) }}
+                </span>
+                <span class="calendar-month caption-light av-text-text1">
+                  {{ getLocalizedAbbrMonth(deliverable.deliverableUntil, locale as AvLocale).toUpperCase() }}
+                </span>
               </div>
-            </AvRichButton>
-          </li>
-        </ul>
-      </div>
+              <div class="av-col av-align-start ellipsis-container">
+                <span class="ellipsis b1-regular">
+                  {{ t('student.global.widgets.deliverables.skill', { skill: deliverable.skill }) }}
+                </span>
+                <span class="ellipsis caption-light">
+                  {{ t('student.global.widgets.deliverables.ams', { ams: deliverable.activity }) }}
+                </span>
+              </div>
+            </div>
+          </AvRichButton>
+        </li>
+      </ul>
     </template>
     <template #footer>
-      <div class="deliverables-widget-container__footer">
+      <div class="av-row av-justify-end av-pt-sm">
         <AvButton
           :label="t('student.global.widgets.deliverables.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -90,57 +90,11 @@ const renderedDeliverables = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-.deliverables-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
-  padding-left: 0.75rem;
-}
-
-.deliverables-widget-container__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.deliverables-widget__actions {
-  list-style-type:none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
-  gap: var(--spacing-sm);
-}
-
 .deliverables-widget-action__calendar {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: var(--dimension-xl);
   height: var(--dimension-xl);
-  border-radius: var(--radius-md);
   background-color: var(--other-background-event-date);
   flex-shrink: 0;
-}
-
-.deliverables-widget-action__description {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.deliverables-widget-action__body {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-xs);
-}
-
-.deliverables-widget-container__footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-top: 1.25rem;
 }
 
 .calendar-date {
@@ -149,7 +103,6 @@ const renderedDeliverables = computed(() => {
 }
 
 .calendar-month {
-  color: var(--text1);
   font-size: var(--font-size-xxs);
   line-height: var(--font-size-xxs);
 }

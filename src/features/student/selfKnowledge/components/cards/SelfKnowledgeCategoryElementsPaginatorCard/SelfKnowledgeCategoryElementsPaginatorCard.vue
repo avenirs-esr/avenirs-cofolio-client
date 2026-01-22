@@ -69,7 +69,7 @@ function onElementDeleted () {
     collapsible
   >
     <template #title>
-      <div class="category-elements-paginator__title">
+      <div class="av-row av-align-center av-justify-between av-w-full av-gap-md av-px-md">
         <AvIconText
           typography-class="n5"
           :icon="categoryIcon"
@@ -78,7 +78,7 @@ function onElementDeleted () {
           text-color="var(--title)"
           gap="var(--spacing-sm)"
         />
-        <div class="category-elements-paginator__title-actions">
+        <div class="av-row av-align-center av-gap-sm">
           <SelfKnowledgeElementsDropdown
             :category-type="categoryType"
             @delete-selected="displayDeleteElementModal"
@@ -89,12 +89,12 @@ function onElementDeleted () {
       </div>
     </template>
 
-    <div class="category-elements-paginator__body">
-      <span class="s2-regular category-elements-paginator__description">{{ category.description }}</span>
+    <div class="av-col av-gap-sm">
+      <span class="s2-regular av-text-text2">{{ category.description }}</span>
 
       <div
         v-if="!isLoading && elements.length > 0"
-        class="category-elements-paginator__content"
+        class="av-col av-justify-end av-gap-md"
       >
         <AvPagination
           class="category-elements-paginator__pagination"
@@ -110,7 +110,7 @@ function onElementDeleted () {
           @update:current-page="(page) => currentPage = page"
         />
 
-        <div class="av-row av-justify-start category-elements-paginator__cards">
+        <div class="av-row av-justify-start av-gap-md av-wrap av-px-sm category-elements-paginator__cards">
           <SelfKnowledgeElementCard
             v-for="element in elements"
             :key="element.id"
@@ -122,9 +122,9 @@ function onElementDeleted () {
 
       <div
         v-else-if="!isLoading && elements.length === 0"
-        class="category-elements-paginator__empty"
+        class="av-row av-justify-center av-p-xl"
       >
-        <span class="b2-regular">
+        <span class="b2-regular av-text-text2">
           {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.emptyState') }}
         </span>
       </div>
@@ -151,53 +151,18 @@ function onElementDeleted () {
 
 <style lang="scss" scoped>
 .category-elements-paginator {
-  &__title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: var(--spacing-md);
-    padding:  0 var(--spacing-md);
-  }
-  &__title-actions {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-  &__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-  &__description {
-    color: var(--text2);
-  }
-  &__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-  }
   &__pagination {
     :deep(.av-pagination__list) {
       justify-content: flex-end !important;
     }
   }
+
   &__cards {
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
-    padding: 0 var(--spacing-sm);
     > * {
       flex: 1 1 calc((100% - 2 * var(--spacing-md)) / 3);
       min-width: 20rem;
       max-width: calc((100% - 2 * var(--spacing-md)) / 3);
     }
-  }
-  &__empty {
-    display: flex;
-    justify-content: center;
-    padding: var(--spacing-xl);
-    color: var(--text2);
   }
 }
 </style>

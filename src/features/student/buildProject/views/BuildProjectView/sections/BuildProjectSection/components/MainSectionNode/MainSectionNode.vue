@@ -14,13 +14,7 @@ defineProps<MindMapNodeTemplateProps>()
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <span class="s1-bold">{{ data.label }}</span>
+      <span class="s1-bold av-text-text2">{{ data.label }}</span>
     </template>
   </NodeTemplate>
 </template>
-
-<style lang="scss" scoped>
-.s1-bold {
-  color: var(--text2);
-}
-</style>

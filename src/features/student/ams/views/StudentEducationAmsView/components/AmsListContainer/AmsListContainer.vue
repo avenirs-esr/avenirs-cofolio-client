@@ -23,7 +23,7 @@ useBaseApiExceptionToast(error)
 </script>
 
 <template>
-  <div class="ams-list-container">
+  <div class="ams-list-container av-col av-gap-lg av-w-full">
     <ProgramProgressSelector
       v-model="selectedProgramProgressId"
     />
@@ -33,7 +33,7 @@ useBaseApiExceptionToast(error)
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >
-      <div class="detailed-cards-container">
+      <div class="av-col av-w-full av-gap-sm">
         <StudentDetailedAmsCard
           v-for="ams in amss"
           :key="ams.id"
@@ -43,19 +43,3 @@ useBaseApiExceptionToast(error)
     </Pagination>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.ams-list-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--spacing-lg);
-}
-
-.detailed-cards-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 1.25rem;
-}
-</style>

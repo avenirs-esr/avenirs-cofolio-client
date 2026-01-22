@@ -6,11 +6,10 @@ import StudentResumesWidget from '@/features/student/global/views/StudentHomeVie
 import { StudentSkillsWidget } from '@/features/student/skills'
 import { StudentTracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
-import { useAvBreakpoints, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 useGlobalBackgroundColor('var(--surface-background)')
-const { isMobile } = useAvBreakpoints()
 const { t } = useI18n()
 </script>
 
@@ -18,19 +17,14 @@ const { t } = useI18n()
   <h1 class="av-sr-only">
     {{ t('student.global.views.studentHomeView.title') }}
   </h1>
-  <div
-    class="layout-home"
-    :class="{
-      'layout-home--mobile': isMobile,
-    }"
-  >
-    <div class="layout-home__sidebar">
+  <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
+    <div class="layout-home__sidebar av-col av-gap-xl">
       <StudentOverviewWidget />
       <StudentEventsWidget class="demo-display-none" />
       <StudentResumesWidget class="demo-display-none" />
       <StudentPagesWidget class="demo-display-none" />
     </div>
-    <div class="layout-home__main">
+    <div class="layout-home__main av-col av-gap-xl">
       <StudentSkillsWidget />
       <StudentDeliverablesWidget class="demo-display-none" />
       <StudentTracesWidget />
@@ -39,35 +33,23 @@ const { t } = useI18n()
 </template>
 
 <style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .layout-home {
-  display: flex;
-  gap: var(--spacing-xl);
-  align-items: flex-start;
-
-  &__sidebar {
-    display: flex;
-    flex-direction: column;
-    flex: 0 1 400px;
-    min-width: 300px;
-    gap: var(--spacing-xl);
+  &__sidebar, &__main {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 
-  &__main {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 300px;
-    min-width: 300px;
-    gap: var(--spacing-xl);
-  }
+  @include dsav.min-width(md) {
+    &__sidebar {
+      flex: 0 1 400px;
+      min-width: 300px;
+    }
 
-  &--mobile {
-    flex-wrap: wrap;
-    justify-content: center;
-
-    &__sidebar,
     &__main {
-      flex: 1 1 100%;
-      max-width: 100%;
+      flex: 1 1 300px;
+      min-width: 300px;
     }
   }
 }

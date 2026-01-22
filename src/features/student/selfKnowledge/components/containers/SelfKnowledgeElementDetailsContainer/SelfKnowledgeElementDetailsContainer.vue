@@ -15,24 +15,11 @@ defineSlots<{
 
 <template>
   <div class="av-col av-flex-fill av-gap-md">
-    <div class="self-knowledge-element-details-container__title av-row--lg av-align-start--lg av-justify-between--lg">
-      <span class="n4">{{ elementTitle }}</span>
+    <div class="av-row--lg av-align-start--lg av-justify-between--lg av-gap-sm av-pb-md">
+      <span class="n4 av-text-text2">{{ elementTitle }}</span>
       <slot name="title" />
     </div>
 
     <slot />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.self-knowledge-element-details-container {
-  &__title {
-    gap: var(--spacing-sm);
-    padding: 0 0 var(--spacing-md) 0;
-  }
-}
-
-.n4 {
-  color: var(--text2);
-}
-</style>

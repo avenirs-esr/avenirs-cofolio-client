@@ -23,7 +23,7 @@ const selectableElements = computed(() => {
 </script>
 
 <template>
-  <div class="elements-selector__container av-row av-justify-center av-gap-sm">
+  <div class="av-row av-justify-center av-gap-sm av-p-md av-radius-md">
     <SelectorOverlay
       v-model:selected-elements="selectedElementIds"
       :selectable-elements="selectableElements"
@@ -42,37 +42,3 @@ const selectableElements = computed(() => {
     </SelectorOverlay>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.elements-selector {
-  &__container {
-    padding: var(--spacing-md);
-    border-radius: var(--radius-xl);
-
-    .self-knowledge-element-compact-card {
-      &__wrapper {
-        position: relative;
-        cursor: pointer;
-      }
-
-      &__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: var(--light-background-overlay);
-        border-radius: var(--radius-xl);
-        display: flex;
-        justify-content: flex-end;
-        transition: opacity 0.2s ease-in-out;
-        padding:  var(--spacing-xxs) var(--spacing-xs);
-
-        &--selected {
-          background-color: transparent;
-        }
-      }
-    }
-  }
-}
-</style>

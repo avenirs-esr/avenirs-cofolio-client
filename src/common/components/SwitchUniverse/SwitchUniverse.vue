@@ -42,7 +42,7 @@ function onTeacherButtonClick () {
         gap="var(--spacing-sm)"
       />
     </template>
-    <div class="modal-content">
+    <div class="av-col av-gap-lg">
       <AvButton
         :label="t('global.header.switchUniverse.teacher')"
         theme="SECONDARY"
@@ -58,11 +58,3 @@ function onTeacherButtonClick () {
     </div>
   </AvModal>
 </template>
-
-<style lang="scss" scoped>
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-</style>

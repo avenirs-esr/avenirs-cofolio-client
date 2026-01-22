@@ -19,7 +19,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
 
 <template>
   <div class="self-knowledge-element-details av-col av-row--md av-gap-lg">
-    <div class="self-knowledge-element-details__left-column av-col av-gap-md">
+    <div class="self-knowledge-element-details__left-column av-col av-flex-fill av-gap-md">
       <CategoryElementTitleInput
         :model-value="element.title"
         disabled
@@ -33,7 +33,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
         />
       </div>
     </div>
-    <div class="self-knowledge-element-details__right-column av-col av-gap-md">
+    <div class="self-knowledge-element-details__right-column av-col av-flex-fill av-gap-md">
       <CategoryElementDescriptionTextarea
         :model-value="element.description"
         disabled
@@ -53,8 +53,6 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
 .self-knowledge-element-details {
   &__left-column,
   &__right-column {
-    flex: 1;
-
     :deep(.av-input__wrapper textarea){
       min-height: 14rem;
     }

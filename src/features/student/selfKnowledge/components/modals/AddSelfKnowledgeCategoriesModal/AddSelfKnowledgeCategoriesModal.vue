@@ -57,7 +57,7 @@ function resetSelected () {
     @confirm="onConfirm"
   >
     <template #header>
-      <div class="add-self-knowledge-categories-modal__header">
+      <div class="av-row av-justify-center av-flex-fill">
         <span :class="categoriesAvailable.length > 0 ? 'b2-regular' : 'b2-bold'">
           {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.title', { count: categoriesAvailable.length }) }}
         </span>
@@ -78,10 +78,10 @@ function resetSelected () {
           :name="category.id"
         >
           <template #label>
-            <span class="b2-regular">
+            <span class="b2-regular av-text-text1">
               {{ t('global.colon', { before: category.title }) }}
 
-              <span class="caption-regular">
+              <span class="caption-regular av-text-text1">
                 {{ category.description }}
               </span>
             </span>
@@ -91,20 +91,3 @@ function resetSelected () {
     </div>
   </AvModal>
 </template>
-
-<style lang="scss" scoped>
-.add-self-knowledge-categories-modal {
-  &__header {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-  }
-
-  &__body {
-    .b2-bold,
-    .b2-regular {
-      color: var(--text1);
-    }
-  }
-}
-</style>

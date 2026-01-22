@@ -45,8 +45,8 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
       expect(getCancelConfirmButtons().props('confirmIcon')).toBe(MDI_ICONS.CONTENT_SAVE_OUTLINE)
     })
 
-    BddTest().then('it should not disable cancel button', () => {
-      expect(getCancelConfirmButtons().props('cancelDisabled')).toBe(false)
+    BddTest().then('it should not show cancel loading', () => {
+      expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(false)
     })
 
     BddTest().then('it should not disable confirm button', () => {
@@ -117,8 +117,8 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
       expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
     })
 
-    BddTest().then('it should disable cancel button', () => {
-      expect(getCancelConfirmButtons().props('cancelDisabled')).toBe(true)
+    BddTest().then('it should show cancel loading', () => {
+      expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(true)
     })
 
     BddTest().then('it should show confirm loading', () => {
@@ -137,8 +137,8 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
       })
     })
 
-    BddTest().then('it should disable cancel button', () => {
-      expect(getCancelConfirmButtons().props('cancelDisabled')).toBe(true)
+    BddTest().then('it should show cancel loading', () => {
+      expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(true)
     })
 
     BddTest().then('it should show confirm loading', () => {
@@ -159,6 +159,10 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
 
     BddTest().then('it should not disable cancel button', () => {
       expect(getCancelConfirmButtons().props('cancelDisabled')).toBe(false)
+    })
+
+    BddTest().then('it should not show cancel loading', () => {
+      expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(false)
     })
 
     BddTest().then('it should disable confirm button', () => {

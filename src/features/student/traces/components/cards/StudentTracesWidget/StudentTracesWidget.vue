@@ -9,6 +9,8 @@ const { data: traces, error } = useStudentTracesSummaryQuery()
 useBaseApiExceptionToast(error)
 const { navigateToStudentTraces } = useNavigation()
 const { t } = useI18n()
+
+// TODO DRY: create HomeSideWidget and HomeMainWidget #998
 </script>
 
 <template>
@@ -17,19 +19,19 @@ const { t } = useI18n()
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <div class="traces-widget-container__title">
+      <div class="av-pl-sm">
         <AvIconText
           :icon="MDI_ICONS.ATTACH_FILE"
           :text="t('student.traces.cards.StudentTracesWidget.title')"
           icon-color="var(--icon)"
           text-color="var(--title)"
           typography-class="n5"
-          gap="0.75rem"
+          gap="var(--spacing-xs)"
         />
       </div>
     </template>
     <template #body>
-      <div class="traces-widget-container__body">
+      <div class="av-row av-wrap av-gap-md">
         <StudentTraceCard
           v-for="trace in traces"
           :key="trace.traceId"
@@ -38,7 +40,7 @@ const { t } = useI18n()
       </div>
     </template>
     <template #footer>
-      <div class="traces-widget-container__footer">
+      <div class="av-row av-justify-end av-pt-sm">
         <AvButton
           :label="t('student.traces.cards.StudentTracesWidget.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -49,26 +51,3 @@ const { t } = useI18n()
     </template>
   </AvCard>
 </template>
-
-<style lang="scss" scoped>
-.traces-widget-container__title {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
-  padding-left: 0.75rem;
-}
-
-.traces-widget-container__body {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-}
-
-.traces-widget-container__footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-top: 1.25rem;
-}
-</style>

@@ -25,7 +25,7 @@ const { t } = useI18n()
     @confirm="$emit('confirm')"
   >
     <template #header>
-      <span class="b2-bold">
+      <span class="b2-bold av-text-text1">
         {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.confirmDeleteElements.title',
              { count: elements.length }) }}
       </span>
@@ -36,18 +36,8 @@ const { t } = useI18n()
         v-for="element in elements"
         :key="element.id"
       >
-        <span class="b2-light">{{ element.title }}</span>
+        <span class="b2-light av-text-text2">{{ element.title }}</span>
       </li>
     </ul>
   </ConfirmationModal>
 </template>
-
-<style lang="scss" scoped>
-.b2-regular {
-  color: var(--text1);
-}
-
-.b2-light {
-  color: var(--text2);
-}
-</style>

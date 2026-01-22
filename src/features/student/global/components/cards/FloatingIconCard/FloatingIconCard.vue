@@ -54,23 +54,23 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
 </script>
 
 <template>
-  <div class="floating-icon-card">
+  <div class="floating-icon-card av-row">
     <AvCard
       :border-color="borderColor"
       :title-background="color"
       :title-height="titleHeight"
     >
       <template #title>
-        <div class="floating-icon-card__title-container">
+        <div class="floating-icon-card__title-container av-w-full av-h-full">
           <span
-            class="floating-icon-card__title"
+            class="floating-icon-card__title av-mr-4xl"
             :class="titleTypographyClasses"
             :title="title"
           >
             {{ title }}
           </span>
           <div
-            class="floating-icon-card__icon"
+            class="floating-icon-card__icon av-row av-align-center av-justify-center av-radius-lg av-border-width-sm av-border-style-solid"
             :style="{ background: color }"
           >
             <AvIcon
@@ -110,16 +110,12 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
 }
 
 .floating-icon-card {
-  display: flex;
   min-width: 17.25rem;
   border-radius: 1.5rem;
-  background-image: none;
 
   &__title-container {
     position: relative;
     display: block;
-    width: 100%;
-    height: 100%;
     color: v-bind('titleColor');
   }
 
@@ -129,20 +125,15 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     overflow: hidden;
     line-clamp: v-bind('headerRows');
     -webkit-line-clamp: v-bind('headerRows');
-    margin-right: 3.125rem;
   }
 
   &__icon {
     position: absolute;
     width: 3.125rem;
     height: 3.125rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid v-bind('iconBorderColor');
+    border-color: v-bind('iconBorderColor');
     right: v-bind('iconRight');
     bottom: v-bind('iconBottom');
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 }
 </style>

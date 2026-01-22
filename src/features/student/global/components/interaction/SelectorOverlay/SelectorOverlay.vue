@@ -49,7 +49,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
   <div
     v-for="element in selectableElements"
     :key="element.value"
-    class="selector-overlay__element"
+    class="selector-overlay__element av-col"
   >
     <slot
       name="default"
@@ -64,7 +64,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       :aria-label="getAriaLabel(element.value, element.label)"
       :title="getAriaLabel(element.value, element.label)"
       :aria-pressed="selectedElements.includes(element.value)"
-      class="selector-overlay__checkbox av-px-xs av-py-xs"
+      class="selector-overlay__checkbox av-row av-px-xs av-py-xs av-justify-end"
       :class="{ 'selector-overlay__checkbox--selected': selectedElements.includes(element.value) }"
       @click="() => onSelectElement(element.value)"
       @keydown.enter="() => onSelectElement(element.value)"
@@ -93,8 +93,6 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
     right: 0;
     bottom: 0;
     border-radius: 1.5rem;
-    display: flex;
-    justify-content: flex-end;
 
     &::before {
       content: '';

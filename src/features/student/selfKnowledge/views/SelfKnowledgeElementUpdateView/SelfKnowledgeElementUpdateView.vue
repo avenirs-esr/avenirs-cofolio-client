@@ -114,11 +114,3 @@ function backToElementDetails () {
     </SelfKnowledgeElementDetailsContainer>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.self-knowledge-element-update-view {
-  &__element-title {
-    color: var(--text2);
-  }
-}
-</style>

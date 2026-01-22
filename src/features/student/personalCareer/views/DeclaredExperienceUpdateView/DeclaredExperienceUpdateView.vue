@@ -38,7 +38,7 @@ function handleCancel () {
     :breadcrumb-links="breadcrumbLinks"
   >
     <template #title>
-      <span class="n2">
+      <span class="n2 av-text-title">
         {{ t('global.buttons.update') }}
         <span class="n4">{{ declaredExperience?.title }}</span>
       </span>
@@ -79,10 +79,6 @@ function handleCancel () {
 </template>
 
 <style lang="scss" scoped>
-.n2 {
-  color: var(--title)
-}
-
 .n4 {
   color: var(--dark-background-neutral)
 }

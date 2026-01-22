@@ -90,7 +90,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         @click="() => doScreenshot('mind-map')"
       />
     </div>
-    <div class="mind-map-container">
+    <div class="mind-map-container av-border-width-sm av-border-style-solid">
       <VueFlow
         :nodes="nodes"
         :edges="edges"
@@ -148,7 +148,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
 
 <style lang="scss" scoped>
 .mind-map-container {
-  border: 1px solid var(--stroke);
+  border-color: var(--stroke);
   height: 80vh;
   width: 100%;
 }

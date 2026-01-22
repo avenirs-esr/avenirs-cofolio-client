@@ -29,7 +29,8 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
     </FormField>
     <div
       v-if="authenticErrors.length > 0"
-      class="trace-form__authentic-error"
+      class="av-pb-sm"
+      data-testid="trace-form__authentic-error"
     >
       <span class="caption-regular trace-form__authentic-error-message">
         {{ authenticErrors.join(', ') }}
@@ -39,11 +40,7 @@ const authenticErrors = computed(() => isAuthenticField.state.value.meta.errors)
 </template>
 
 <style scoped lang="scss">
-.trace-form__authentic-error {
-  padding-bottom: var(--spacing-sm);
-
-  .trace-form__authentic-error-message {
-    color: var(--dark-background-error);
-  }
+.trace-form__authentic-error-message {
+  color: var(--dark-background-error);
 }
 </style>

@@ -71,7 +71,7 @@ BddTest().given('a create trace form trace definition items component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the form fields container', () => {
-      const container = wrapper.find('.create-trace-form-trace-definition-items__fields')
+      const container = wrapper.find('[data-testid="form-fields-container"]')
       expect(container.exists()).toBe(true)
     })
 

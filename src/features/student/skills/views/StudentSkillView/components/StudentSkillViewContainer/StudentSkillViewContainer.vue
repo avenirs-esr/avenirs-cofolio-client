@@ -85,13 +85,16 @@ const sectionProps = computed<Record<string, string | undefined>>(() => {
 </script>
 
 <template>
-  <div class="student-skill-view-container">
+  <div class="student-skill-view-container av-row av-w-full">
     <AvSideNavigation
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       v-model:selected-item="selectedItem"
       :items="items"
     />
-    <div class="student-skill-view-container__content">
+    <div
+      class="av-flex-fill av-p-lg"
+      data-testid="student-skill-view-container__content"
+    >
       <component
         :is="displayedSection"
         v-bind="sectionProps"
@@ -102,15 +105,9 @@ const sectionProps = computed<Record<string, string | undefined>>(() => {
 
 <style lang="scss" scoped>
 .student-skill-view-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
   min-height: calc(100vh - 28.15rem);
 
   &__content {
-    flex: 1;
-    padding: var(--spacing-lg);
-
     h3 {
       margin-bottom: var(--spacing-md);
     }

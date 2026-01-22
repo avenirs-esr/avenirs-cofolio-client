@@ -117,7 +117,7 @@ BddTest().given('a trace authentic declaration toggle form field component', () 
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
-        const errorElement = wrapper.find('.trace-form__authentic-error')
+        const errorElement = wrapper.find('[data-testid="trace-form__authentic-error"]')
         expect(errorElement.exists()).toBe(true)
         expect(errorElement.text()).toBe('Required field')
       })
@@ -136,7 +136,7 @@ BddTest().given('a trace authentic declaration toggle form field component', () 
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
-        const errorElement = wrapper.find('.trace-form__authentic-error')
+        const errorElement = wrapper.find('[data-testid="trace-form__authentic-error"]')
         expect(errorElement.exists()).toBe(false)
       })
     })

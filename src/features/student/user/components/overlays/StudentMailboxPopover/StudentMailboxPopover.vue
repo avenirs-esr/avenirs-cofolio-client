@@ -22,7 +22,7 @@ const { t } = useI18n()
       />
     </template>
     <template #popover="{ close }">
-      <div class="container">
+      <div class="av-col av-gap-md">
         <AvIconText
           data-testid="mailbox-popover-title"
           :text="t('student.user.overlays.StudentMailboxPopover.title', { count: messagesCount })"
@@ -38,7 +38,7 @@ const { t } = useI18n()
         <div v-else>
           Messages...
         </div>
-        <div class="footer">
+        <div class="av-row av-justify-end">
           <AvCancelConfirmButtons
             :cancel-label="t('global.buttons.exit')"
             :confirm-label="messagesCount === 0 ? t('student.user.overlays.StudentMailboxPopover.buttons.navigate') : t('student.user.overlays.StudentMailboxPopover.buttons.seeAll')"
@@ -52,16 +52,3 @@ const { t } = useI18n()
     </template>
   </AvPopover>
 </template>
-
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.footer {
-  display: flex;
-  justify-content: flex-end;
-}
-</style>

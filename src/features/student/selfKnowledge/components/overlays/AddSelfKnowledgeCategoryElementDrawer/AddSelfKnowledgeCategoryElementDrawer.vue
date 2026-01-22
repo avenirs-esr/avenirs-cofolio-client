@@ -89,7 +89,7 @@ const drawerTitle = computed(() => {
         {{ drawerTitle }}
       </h2>
 
-      <div class="add-self-knowledge-category-element-drawer__content">
+      <div class="av-col av-flex-fill">
         <form
           novalidate
           @submit.prevent.stop="form.handleSubmit"
@@ -140,11 +140,3 @@ const drawerTitle = computed(() => {
     </template>
   </AvDrawer>
 </template>
-
-<style scoped lang="scss">
-.add-self-knowledge-category-element-drawer {
-  &__content {
-    flex: 1;
-  }
-}
-</style>

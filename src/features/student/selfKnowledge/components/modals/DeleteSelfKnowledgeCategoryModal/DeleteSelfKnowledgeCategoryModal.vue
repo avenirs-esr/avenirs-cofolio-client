@@ -46,32 +46,23 @@ function onConfirm () {
     @confirm="onConfirm"
   >
     <template #header>
-      <div class="delete-self-knowledge-category-modal__header">
-        <span class="b2-bold">
+      <div
+        class="av-row av-flex-fill"
+        data-testid="delete-self-knowledge-category-modal__header"
+      >
+        <span class="b2-bold av-text-text1">
           {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.title', { category: categoryTitle }) }}
         </span>
       </div>
     </template>
 
-    <div
-      v-if="elementsCount > 0"
-      class="delete-self-knowledge-category-modal__body"
-    >
-      {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.description', { count: elementsCount }) }}
+    <div v-if="elementsCount > 0">
+      <span
+        class="b2-regular av-text-text1"
+        data-testid="delete-self-knowledge-category-modal__body"
+      >
+        {{ t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.description', { count: elementsCount }) }}
+      </span>
     </div>
   </AvModal>
 </template>
-
-<style lang="scss" scoped>
-.delete-self-knowledge-category-modal {
-  &__header {
-    display: flex;
-    flex: 1;
-  }
-}
-
-.b2-bold,
-.b2-regular {
-  color: var(--text1);
-}
-</style>

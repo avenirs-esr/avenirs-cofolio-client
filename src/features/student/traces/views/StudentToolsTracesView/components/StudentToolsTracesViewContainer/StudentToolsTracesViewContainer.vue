@@ -8,19 +8,10 @@ import StudentToolsTracesViewTabs
 </script>
 
 <template>
-  <div class="student-tools-traces-view-container">
+  <div class="av-col av-w-full av-gap-lg">
     <StudentToolsTracesActionButtons />
     <StudentToolsTracesViewTabs />
 
     <StudentToolsTracesAddTraceDrawer />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.student-tools-traces-view-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--spacing-lg);
-}
-</style>

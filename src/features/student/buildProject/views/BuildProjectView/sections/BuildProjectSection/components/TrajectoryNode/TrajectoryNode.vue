@@ -16,8 +16,8 @@ defineProps<MindMapNodeTemplateProps>()
   >
     <template #title>
       <div class="av-row av-row--middle">
-        <div class="av-row av-flex-row-xxs av-row--middle left-container">
-          <div class="icon-container">
+        <div class="av-row av-flex-row-xxs av-row--middle av-px-xs av-gap-sm">
+          <div class="icon-container av-p-xxs av-radius-full">
             <AvIcon
               :name="MDI_ICONS.ARROW_DECISION"
               color="var(--other-background-base)"
@@ -29,7 +29,7 @@ defineProps<MindMapNodeTemplateProps>()
             <span class="caption-bold">{{ data.subtitle }}</span>
           </div>
         </div>
-        <div class="right-container">
+        <div class="av-row av-align-center av-px-xs">
           <span class="caption-regular">{{ data.description }}</span>
         </div>
       </div>
@@ -40,22 +40,12 @@ defineProps<MindMapNodeTemplateProps>()
 <style lang="scss" scoped>
 .icon-container {
   background-color: var(--dark-background-primary1);
-  border-radius: var(--radius-full);
-  padding: var(--spacing-xxs)
 }
 
 .left-container {
-  padding: var(--spacing-none) var(--spacing-xs);
   background-color: var(--surface-background);
-  gap: var(--spacing-sm);
   height: var(--dimension-5xl);
   width: 11rem;
-}
-
-.right-container {
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-none) var(--spacing-xs);
 }
 
 :deep(.av-card__title) {

@@ -39,14 +39,14 @@ function navigateToSelectedItem (routeName: string) {
 </script>
 
 <template>
-  <div class="student-project-personal-career-container">
+  <div class="student-project-personal-career-container av-row av-w-full">
     <AvSideNavigation
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       :selected-item="selectedItem"
       :items="items"
       @update:selected-item="navigateToSelectedItem"
     />
-    <div class="student-project-personal-career-container__content">
+    <div class="student-project-personal-career-container__content av-col av-flex-fill av-p-lg">
       <RouterView />
     </div>
   </div>
@@ -54,26 +54,12 @@ function navigateToSelectedItem (routeName: string) {
 
 <style lang="scss" scoped>
 .student-project-personal-career-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
   min-height: calc(100vh - 28.15rem);
 
   &__content {
-    flex: 1;
-    padding: var(--spacing-lg);
-
     h2 {
       margin-bottom: var(--spacing-md);
     }
-  }
-
-  &__placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-style: italic;
   }
 }
 </style>

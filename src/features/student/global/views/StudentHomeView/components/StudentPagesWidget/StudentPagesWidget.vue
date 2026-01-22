@@ -12,6 +12,8 @@ const { navigateToStudentPages } = useNavigation()
 const { locale, t } = useI18n()
 
 const renderedPages = computed(() => pages.value.slice(0, 3))
+
+// TODO DRY: create HomeSideWidget and HomeMainWidget #998
 </script>
 
 <template>
@@ -20,7 +22,7 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
     title-background="var(--other-background-base)"
   >
     <template #title>
-      <div class="pages-widget-container__title">
+      <div class="av-pl-xs">
         <AvIconText
           :icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
           :text="t('student.global.widgets.pages.title')"
@@ -32,39 +34,37 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
       </div>
     </template>
     <template #body>
-      <div class="pages-widget-container__body">
-        <ul class="pages-widget__actions">
-          <li
-            v-for="page in renderedPages"
-            :key="page.id"
+      <ul class="av-col av-gap-sm av-list-reset">
+        <li
+          v-for="page in renderedPages"
+          :key="page.id"
+        >
+          <AvRichButton
+            :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
+            :label="page.name"
+            custom-padding="var(--spacing-xs)"
           >
-            <AvRichButton
-              :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
-              :label="page.name"
-              custom-padding="var(--spacing-xs)"
-            >
-              <div class="pages-widget-action__body">
-                <div class="pages-widget-action__leftIcon">
-                  <AvIcon
-                    :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
-                    color="var(--other-background-base)"
-                    :size="1.5"
-                  />
-                </div>
-                <div class="pages-widget-action__description ellipsis-container">
-                  <span class="ellipsis b1-regular">{{ page.name }}</span>
-                  <span class="ellipsis caption-light">
-                    {{ t('student.global.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
-                  </span>
-                </div>
+            <div class="av-row av-gap-xs">
+              <div class="pages-widget-action__leftIcon av-row av-align-center av-justify-center av-radius-md">
+                <AvIcon
+                  :name="MDI_ICONS.FILE_ACCOUNT_OUTLINE"
+                  color="var(--other-background-base)"
+                  :size="1.5"
+                />
               </div>
-            </AvRichButton>
-          </li>
-        </ul>
-      </div>
+              <div class="av-col av-align-start ellipsis-container">
+                <span class="ellipsis b1-regular">{{ page.name }}</span>
+                <span class="ellipsis caption-light">
+                  {{ t('student.global.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
+                </span>
+              </div>
+            </div>
+          </AvRichButton>
+        </li>
+      </ul>
     </template>
     <template #footer>
-      <div class="pages-widget-container__footer">
+      <div class="av-row av-justify-end av-pt-sm">
         <AvButton
           :label="t('student.global.widgets.pages.buttons.seeAll')"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -77,51 +77,10 @@ const renderedPages = computed(() => pages.value.slice(0, 3))
 </template>
 
 <style lang="scss" scoped>
-.pages-widget-container__title {
-  padding-left: 0.75rem;
-}
-
-.pages-widget-container__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.pages-widget__actions {
-  list-style-type:none;
-  display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
-  gap: var(--spacing-sm);
-}
-
 .pages-widget-action__leftIcon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   width: var(--dimension-xl);
   height: var(--dimension-xl);
-  border-radius: var(--radius-md);
   background-color: var(--dark-background-primary1);
   flex-shrink: 0;
-}
-
-.pages-widget-action__description {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.pages-widget-action__body {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-xs);
-}
-
-.pages-widget-container__footer {
-  display: flex;
-  flex-direction: row-reverse;
-  padding-top: 1.25rem;
 }
 </style>

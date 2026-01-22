@@ -20,7 +20,7 @@ function getSkillColor (index: number): string {
 </script>
 
 <template>
-  <div class="student-trace-associations">
+  <div class="av-col av-gap-sm">
     <slot name="caption">
       <AvIconText
         :text="$t('student.traces.composites.TraceAssociations.caption', { count: totalAssociations })"
@@ -29,7 +29,7 @@ function getSkillColor (index: number): string {
         typography-class="caption-light"
       />
     </slot>
-    <div class="associations-container">
+    <div class="av-col av-gap-sm">
       <StudentTraceSkillLevelAssociationCard
         v-for="(skill, index) in skillLevelAssociations"
         :key="skill.id"
@@ -44,17 +44,3 @@ function getSkillColor (index: number): string {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.student-trace-associations {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.associations-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-</style>

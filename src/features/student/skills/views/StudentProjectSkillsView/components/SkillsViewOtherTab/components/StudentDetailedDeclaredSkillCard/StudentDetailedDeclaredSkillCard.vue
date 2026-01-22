@@ -58,14 +58,6 @@ const pathBadge = computed<AvBadgeProps>(() => ({
 </template>
 
 <style lang="scss" scoped>
-.n6 {
-  color: var(--text1);
-}
-
-.n5 {
-  color: var(--other-background-base);
-}
-
 :deep(.av-card){
   justify-content: flex-start;
 }

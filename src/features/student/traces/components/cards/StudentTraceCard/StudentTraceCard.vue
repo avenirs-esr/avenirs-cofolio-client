@@ -30,8 +30,8 @@ const typeInfo = computed(() => isGroup
 const iconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
   color: 'var(--text1)',
-  bottom: 'calc(-1 * var(--spacing-lg))',
-  right: '0.75rem',
+  bottom: 'calc(-1 * var(--spacing-xl))',
+  right: 'var(--spacing-xs)',
   borderColor: 'var(--other-border-skill-card)'
 }
 </script>
@@ -52,8 +52,8 @@ const iconOptions = {
       title-typography-classes="b1-bold"
     >
       <template #body>
-        <div class="student-trace-card__body">
-          <div class="student-trace-card__line student-trace-card__skills">
+        <div class="av-col av-gap-xs">
+          <div class="av-row av-align-center av-gap-xs">
             <div
               v-for="n in Math.min(skillCount, 3)"
               :key="n"
@@ -83,7 +83,7 @@ const iconOptions = {
               gap="0.75rem"
             />
           </div>
-          <div class="student-trace-card__line student-trace-card__type">
+          <div class="av-row av-align-center student-trace-card__type">
             <AvTag
               :label="typeInfo.label"
               :icon="typeInfo.icon"
@@ -104,48 +104,5 @@ const iconOptions = {
   @include dsav.min-width(md) {
     width: 17.25rem;
   }
-
-  :deep(.av-card:hover) {
-    border: 1px solid var(--dark-background-primary1) !important;
-    box-shadow: 0 0 0 2px var(--dark-background-primary1);
-  }
-  :deep(.floating-icon-card__icon) {
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-}
-
-.student-trace-card__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.student-trace-card__line {
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.student-trace-card__line.student-trace-card__skills {
-  gap: var(--spacing-xs);
-}
-
-.student-trace-card__categoryText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  white-space: nowrap;
-}
-
-.fr-tag {
-  color: var(--text2);
-  background-color: var(--light-background-neutral);
-  align-items: center;
-  padding: var(--spacing-none) var(--spacing-xs) var(--spacing-none) var(--spacing-xs);
-  min-height: unset;
-  width: unset;
-  border-radius: var(--radius-sm);
 }
 </style>

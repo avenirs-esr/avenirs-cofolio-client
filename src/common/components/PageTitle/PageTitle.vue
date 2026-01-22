@@ -33,44 +33,28 @@ function goBack () {
 </script>
 
 <template>
-  <h1 class="av-sr-only">
-    {{ title }}
-  </h1>
-  <div class="page-title-container">
-    <AvBreadcrumb
-      :navigation-label="t('global.breadcrumb.ariaLabel')"
-      :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
-      :links="breadcrumbLinks"
-    />
-    <div class="page-title">
-      <AvButton
-        :label="t('global.buttons.goBack')"
-        :icon-only="true"
-        variant="OUTLINED"
-        :icon="MDI_ICONS.ARROW_LEFT_THIN"
-        @click="goBack"
+  <div class="page-title">
+    <h1 class="av-sr-only">
+      {{ title }}
+    </h1>
+    <div class="av-pb-xl">
+      <AvBreadcrumb
+        :navigation-label="t('global.breadcrumb.ariaLabel')"
+        :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
+        :links="breadcrumbLinks"
       />
-      <slot name="title">
-        <span class="n2">{{ title }}</span>
-      </slot>
+      <div class="av-row av-gap-sm av-align-center">
+        <AvButton
+          :label="t('global.buttons.goBack')"
+          :icon-only="true"
+          variant="OUTLINED"
+          :icon="MDI_ICONS.ARROW_LEFT_THIN"
+          @click="goBack"
+        />
+        <slot name="title">
+          <span class="n2">{{ title }}</span>
+        </slot>
+      </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.page-title-container {
-  padding-bottom: var(--spacing-xl);
-}
-
-.page-title {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-.av-button {
-  width: var(--dimension-xl);
-  height: var(--dimension-xl);
-}
-</style>

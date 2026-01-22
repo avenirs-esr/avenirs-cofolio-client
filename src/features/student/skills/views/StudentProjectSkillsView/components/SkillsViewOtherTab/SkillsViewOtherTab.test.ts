@@ -67,13 +67,8 @@ BddTest().given('a skills view other tab component', () => {
     })
 
     BddTest().then('it should render the button container with correct class', () => {
-      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+      const buttonContainer = wrapper.find('[data-testid="skills-view-other-tab__button-container"]')
       expect(buttonContainer.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the content placeholder', () => {
-      const contentPlaceholder = wrapper.find('.skills-view-other-tab__content-placeholder')
-      expect(contentPlaceholder.exists()).toBe(true)
     })
 
     BddTest().then('it should render the Pagination component', () => {
@@ -99,12 +94,6 @@ BddTest().given('a skills view other tab component', () => {
     BddTest().then('it should have proper CSS classes applied', () => {
       const mainContainer = wrapper.find('.skills-view-other-tab')
       expect(mainContainer.classes()).toContain('skills-view-other-tab')
-
-      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
-      expect(buttonContainer.classes()).toContain('skills-view-other-tab__button-container')
-
-      const skillsContainer = wrapper.find('.skills-container')
-      expect(skillsContainer.classes()).toContain('skills-container')
     })
   })
 
@@ -208,7 +197,7 @@ BddTest().given('a skills view other tab component', () => {
 
   BddTest().when('no declared skills are available', () => {
     BddTest().then('it should render empty skills container gracefully', async () => {
-      const skillsContainer = wrapper.find('.skills-container')
+      const skillsContainer = wrapper.find('[data-testid="skills-container"]')
       expect(skillsContainer.exists()).toBe(true)
     })
 
@@ -231,14 +220,12 @@ BddTest().given('a skills view other tab component', () => {
     })
 
     BddTest().then('it should position button container at flex-end', () => {
-      const buttonContainer = wrapper.find('.skills-view-other-tab__button-container')
+      const buttonContainer = wrapper.find('[data-testid="skills-view-other-tab__button-container"]')
       expect(buttonContainer.exists()).toBe(true)
     })
 
     BddTest().then('it should apply correct CSS class structure', () => {
       expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
-      expect(wrapper.find('.skills-view-other-tab__content-placeholder').exists()).toBe(true)
-      expect(wrapper.find('.skills-view-other-tab__button-container').exists()).toBe(true)
     })
   })
 
