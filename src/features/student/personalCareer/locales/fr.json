@@ -106,17 +106,17 @@
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
         },
-        "DeleteDeclaredProgramConfirmModal": {
-          "description": "Cette action entrainera la suppression des éventuelles associations.",
-          "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
-          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?",
-          "success": "Formation supprimée avec succès. | Formations supprimées avec succès."
-        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",
           "title": "Êtes-vous certain(e) de vouloir supprimer cette expérience ? | Êtes-vous certain(e) de vouloir supprimer ces expériences ?",
           "success": "Expérience supprimée avec succès. | Expériences supprimées avec succès."
+        },
+        "DeleteDeclaredProgramConfirmModal": {
+          "description": "Cette action entrainera la suppression des éventuelles associations.",
+          "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?",
+          "success": "Formation supprimée avec succès. | Formations supprimées avec succès."
         }
       },
       "views": {

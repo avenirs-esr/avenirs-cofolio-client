@@ -1,10 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ValorizedBadgeStub } from '@/common/components/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import DeclaredExperienceCompactCard
-, {
-  type DeclaredExperienceCompactCardProps
-} from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
+import DeclaredExperienceCompactCard, { type DeclaredExperienceCompactCardProps } from
+  '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

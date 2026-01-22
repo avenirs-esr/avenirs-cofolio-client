@@ -39,11 +39,9 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <div class="av-row av-justify-end">
-      <DeclaredExperiencesMoreActionsDropdown
-        @delete-selected="displayModal"
-      />
-    </div>
+    <DeclaredExperiencesMoreActionsDropdown
+      @delete-selected="displayModal"
+    />
     <AvIconText
       icon-color="var(--text2)"
       typography-class="n6"
