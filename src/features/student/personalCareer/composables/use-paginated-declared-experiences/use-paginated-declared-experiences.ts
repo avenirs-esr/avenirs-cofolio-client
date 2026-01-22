@@ -12,11 +12,11 @@ export interface UsePaginatedDeclaredExperiencesResult {
   resetPagination: () => void
 }
 
-export function usePaginatedDeclaredExperiences (): UsePaginatedDeclaredExperiencesResult {
+export function usePaginatedDeclaredExperiences ({ pageSize }: { pageSize?: Ref<number> }): UsePaginatedDeclaredExperiencesResult {
   const { declaredExperiencesPageSizeSelected } = usePersonalCareerStore()
   const page = ref(0)
   const declaredExperiences = ref<DeclaredExperienceViewDTO[]>([])
-  const { pageInfo, declaredExperiences: fetchedDeclaredExperiences, isFetching } = useDeclaredExperiencesViewQuery({ page, pageSize: declaredExperiencesPageSizeSelected })
+  const { pageInfo, declaredExperiences: fetchedDeclaredExperiences, isFetching } = useDeclaredExperiencesViewQuery({ page, pageSize: pageSize ?? declaredExperiencesPageSizeSelected })
 
   watch(fetchedDeclaredExperiences, (newDeclaredExperiences) => {
     if (pageInfo.value.page === 0) {

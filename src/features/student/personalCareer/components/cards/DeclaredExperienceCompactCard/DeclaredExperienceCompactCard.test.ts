@@ -14,7 +14,6 @@ BddTest().given('a declared experience compact card', () => {
     const props: DeclaredExperienceCompactCardProps = {
       title: 'Experience Title',
       valorized: true,
-      iconName: 'mdi-briefcase',
     }
 
     BddTest().when('the component is mounted', () => {
@@ -33,7 +32,6 @@ BddTest().given('a declared experience compact card', () => {
     const props: DeclaredExperienceCompactCardProps = {
       title: 'Experience Title',
       valorized: false,
-      iconName: 'mdi-briefcase',
     }
 
     BddTest().when('the component is mounted', () => {

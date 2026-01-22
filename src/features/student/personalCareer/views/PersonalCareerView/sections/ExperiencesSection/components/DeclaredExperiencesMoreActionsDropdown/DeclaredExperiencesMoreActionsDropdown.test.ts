@@ -1,9 +1,9 @@
+import DeclaredExperiencesMoreActionsDropdown
+  from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import DeclaredExperiencesMoreActionsDropdown
-  from './DeclaredExperiencesMoreActionsDropdown.vue'
 
 BddTest().given('a declared experiences more actions dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperiencesMoreActionsDropdown>>

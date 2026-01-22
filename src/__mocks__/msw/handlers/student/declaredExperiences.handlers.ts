@@ -5,6 +5,7 @@ import {
 import {
   type DeclaredExperienceViewDTO,
   getCreateDeclaredExperienceUrl,
+  getDeleteDeclaredExperiencesUrl,
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
   type PagedResponseDeclaredExperienceViewDTO
@@ -76,4 +77,23 @@ export const declaredExperiencesHandlers = [
       headers: { 'Content-Type': 'application/json' }
     })
   }),
+  http.delete(`*${getDeleteDeclaredExperiencesUrl()}`, async ({ request }) => {
+    const declaredProgramIds = await request.json() as string[]
+
+    if (declaredProgramIds.includes('INVALID_PROGRAM_ID')) {
+      return HttpResponse.json({ error: 'Invalid program ID' }, { status: 400 })
+    }
+
+    if (declaredProgramIds.length === 0) {
+      return HttpResponse.json({ error: 'No program IDs provided' }, { status: 400 })
+    }
+
+    const response = `${declaredProgramIds.length} program${declaredProgramIds.length > 1 ? 's' : ''} deleted successfully`
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
 ]

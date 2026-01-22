@@ -23,11 +23,11 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
 
 function createMockedDeclaredExperiences (count: number): DeclaredExperienceViewDTO[] {
   const experiencesExample = [
-    { title: 'Développeur Web', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste' },
-    { title: 'Stage Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon' },
-    { title: 'Bénévolat Association', experienceType: EExperienceType.PERSONAL, location: 'La Poste' },
-    { title: 'Projet Open Source', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon' },
-    { title: 'Assistant Commercial', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France' }
+    { title: 'Développeur Junior', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste' },
+    { title: 'Assistant Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon' },
+    { title: 'Bénévole Associatif', experienceType: EExperienceType.PERSONAL, location: 'La Poste' },
+    { title: 'Contributeur Github', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon' },
+    { title: 'Conseiller Vendeur', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France' }
   ]
   const experiences: DeclaredExperienceViewDTO[] = []
 
