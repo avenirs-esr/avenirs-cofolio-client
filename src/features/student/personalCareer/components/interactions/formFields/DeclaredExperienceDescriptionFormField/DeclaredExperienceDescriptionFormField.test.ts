@@ -2,35 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import { DeclaredExperienceDescriptionTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceDescriptionFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        description: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit () {
-          return { fields: { description: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceDescriptionFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'description'>({
+  formFieldComponent: DeclaredExperienceDescriptionFormField,
+  fieldName: 'description',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateDescription
 })
 
 BddTest().given('a declared experience description form field', () => {

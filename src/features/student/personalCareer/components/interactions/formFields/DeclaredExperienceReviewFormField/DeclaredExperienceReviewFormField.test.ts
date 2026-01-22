@@ -2,35 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceReviewFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceReviewFormField/DeclaredExperienceReviewFormField.vue'
 import { DeclaredExperienceReviewTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceReviewTextarea/DeclaredExperienceReviewTextarea.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceReviewFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        review: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit () {
-          return { fields: { review: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceReviewFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'review'>({
+  formFieldComponent: DeclaredExperienceReviewFormField,
+  fieldName: 'review',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateReview
 })
 
 BddTest().given('a declared experience review form field', () => {

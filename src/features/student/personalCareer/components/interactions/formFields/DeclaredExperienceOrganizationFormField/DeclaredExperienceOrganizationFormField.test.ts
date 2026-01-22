@@ -2,42 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceOrganizationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.vue'
 import { DeclaredExperienceOrganizationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceOrganizationFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        organization: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit ({ value }) {
-          if (!value.organization || value.organization.trim() === '') {
-            return {
-              fields: {
-                organization: 'L\'organisation est requise'
-              }
-            }
-          }
-          return { fields: { organization: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceOrganizationFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'organization'>({
+  formFieldComponent: DeclaredExperienceOrganizationFormField,
+  fieldName: 'organization',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateOrganization
 })
 
 BddTest().given('a declared experience organization form field', () => {
@@ -111,7 +89,7 @@ BddTest().given('a declared experience organization form field', () => {
 
         await vi.waitFor(() => {
           const input = wrapper.findComponent({ name: 'DeclaredExperienceOrganizationInput' })
-          expect(input.props('errorMessage')).toBe('L\'organisation est requise')
+          expect(input.props('errorMessage')).toBe('Ce champ est requis.')
         })
       })
     })

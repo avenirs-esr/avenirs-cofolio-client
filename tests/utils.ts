@@ -4,12 +4,13 @@ import { useInvalidateQuery } from '@/common/composables/use-invalidate-query/us
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
 import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
-import { type Component, createApp, type Plugin } from 'vue'
+import { type Component, createApp, h, type Plugin } from 'vue'
 
 /**
  * Options to configure the mounting of a component under test.
@@ -381,4 +382,77 @@ export async function mountWithRouter<T> (component: Component, options?: Compon
 
   await wrapper.vm.$nextTick()
   return wrapper
+}
+
+export interface CreateFormFieldTestWrapperOptions<TFormData, TFieldName extends keyof TFormData> {
+  formFieldComponent: Component
+  fieldName: TFieldName
+  defaultValue: TFormData[TFieldName]
+  useValidator: () => (value: TFormData[TFieldName]) => string | undefined
+}
+
+/**
+ * Creates a test wrapper component for form field testing with TanStack Form.
+ *
+ * @template TForm - The form type (e.g., AddDeclaredExperienceForm)
+ * @template TFormData - The form data type (e.g., DeclaredExperienceFormData)
+ * @template TFieldName - The field name key from TFormData
+ * @param {CreateFormFieldTestWrapperOptions} options - Configuration options for the wrapper
+ * @param {Component} options.formFieldComponent - The form field component to test
+ * @param {TFieldName} options.fieldName - The name of the field in the form
+ * @param {TFormData[TFieldName]} options.defaultValue - The default value for the field
+ * @param {() => (value: TFormData[TFieldName]) => string | undefined} options.useValidator - A factory function that returns the validator (called inside setup to support composables using useI18n)
+ * @returns {Component} A test wrapper component with form handling
+ *
+ * @example
+ * const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'location'>({
+ *   formFieldComponent: DeclaredExperienceLocationFormField,
+ *   fieldName: 'location',
+ *   defaultValue: '',
+ *   useValidator: () => useDeclaredExperienceFormValidators().validateLocation
+ * })
+ *
+ * // Then in tests:
+ * const wrapper = mount(TestWrapper, { global: { stubs } })
+ * await wrapper.find('form').trigger('submit')
+ */
+export function createFormFieldTestWrapper<
+  TForm,
+  TFormData,
+  TFieldName extends keyof TFormData
+> ({
+  formFieldComponent,
+  fieldName,
+  defaultValue,
+  useValidator
+}: CreateFormFieldTestWrapperOptions<TFormData, TFieldName>) {
+  return defineComponent({
+    components: {
+      FormFieldComponent: formFieldComponent
+    },
+    setup () {
+      const validate = useValidator()
+      const form = useForm({
+        defaultValues: {
+          [fieldName]: defaultValue
+        } as TFormData,
+        validators: {
+          onSubmit ({ value }: { value: TFormData }) {
+            return { fields: { [fieldName]: validate(value[fieldName]) } }
+          }
+        }
+      }) as unknown as TForm
+
+      return { form }
+    },
+    render () {
+      const handleSubmit = (e: Event) => {
+        e.preventDefault()
+        ;(this.form as { handleSubmit: () => void }).handleSubmit()
+      }
+      return h('form', { onSubmit: handleSubmit }, [
+        h(formFieldComponent, { form: this.form })
+      ])
+    }
+  })
 }

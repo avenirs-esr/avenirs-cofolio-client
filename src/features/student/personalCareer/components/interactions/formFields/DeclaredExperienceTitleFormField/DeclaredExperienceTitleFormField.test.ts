@@ -2,42 +2,20 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceTitleFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.vue'
 import { DeclaredExperienceTitleInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.stub'
+import {
+  useDeclaredExperienceFormValidators
+} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: {
-    DeclaredExperienceTitleFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        title: ''
-      } as DeclaredExperienceFormData,
-      validators: {
-        onSubmit ({ value }) {
-          if (!value.title || value.title.trim() === '') {
-            return {
-              fields: {
-                title: 'Le titre est requis'
-              }
-            }
-          }
-          return { fields: { title: undefined } }
-        }
-      }
-    }) as unknown as AddDeclaredExperienceForm
-
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <DeclaredExperienceTitleFormField :form="form" />
-    </form>
-  `
+const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'title'>({
+  formFieldComponent: DeclaredExperienceTitleFormField,
+  fieldName: 'title',
+  defaultValue: '',
+  useValidator: () => useDeclaredExperienceFormValidators().validateTitle
 })
 
 BddTest().given('a declared experience title form field', () => {
@@ -111,7 +89,7 @@ BddTest().given('a declared experience title form field', () => {
 
         await vi.waitFor(() => {
           const input = wrapper.findComponent({ name: 'DeclaredExperienceTitleInput' })
-          expect(input.props('errorMessage')).toBe('Le titre est requis')
+          expect(input.props('errorMessage')).toBe('Ce champ est requis.')
         })
       })
     })
