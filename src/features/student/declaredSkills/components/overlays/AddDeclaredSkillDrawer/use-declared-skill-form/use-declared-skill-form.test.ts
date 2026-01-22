@@ -1,10 +1,10 @@
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { type AddDeclaredSkillDTO, type DeclaredSkillProgressDTO, EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { type MockInstance, vi } from 'vitest'
-import { useDeclaredSkillForm } from './use-declared-skill-form'
 
 BddTest().given('the useDeclaredSkillForm composable', () => {
   let composableResult: ReturnType<typeof useDeclaredSkillForm>

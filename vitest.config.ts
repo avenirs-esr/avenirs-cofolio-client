@@ -1,5 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { configDefaults, coverageConfigDefaults, defineConfig, mergeConfig } from 'vitest/config'
+// eslint-disable-next-line no-restricted-imports
 import viteConfig from './vite.config'
 
 export default ({ mode }: { mode: string }) => {

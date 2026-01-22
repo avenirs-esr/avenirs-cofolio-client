@@ -1,7 +1,7 @@
+import StudentCountSkillsIconText from '@/features/student/ams/views/StudentEducationAmsView/components/StudentDetailedAmsCard/components/StudentCountSkillsIconText/StudentCountSkillsIconText.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
-import StudentCountSkillsIconText from './StudentCountSkillsIconText.vue'
 
 BddTest().given('a student count skills icon text', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentCountSkillsIconText>>

@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import svgLoader from 'vite-svg-loader'
+// eslint-disable-next-line no-restricted-imports
 import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 
 // https://vitejs.dev/config/

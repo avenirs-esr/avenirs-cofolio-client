@@ -1,8 +1,8 @@
+import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useQueryClient } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
-import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from './use-invalidate-query'
 
 BddTest().given('an useInvalidateQuery composable', () => {
   let mockInvalidateQueries: ReturnType<typeof vi.fn>
