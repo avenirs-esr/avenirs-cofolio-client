@@ -88,16 +88,17 @@ const modelValue = defineModel<File | null>()
       <img
         :src="defaultImageUrl ?? imageUpload.previewUrl.value!"
         :alt="imageAlt"
+        class="av-w-full av-h-full"
       >
     </template>
   </AvFileUpload>
-  <span class="caption-light">
+  <span class="caption-light av-text-text2">
     {{ t('global.information.fileUpload.filesIndication') }}
-    <span class="caption-bold">
+    <span class="caption-bold av-text-text2">
       {{ t('global.information.fileUpload.filesTypes') }}
     </span>
     {{ t('global.information.fileUpload.sizeIndication') }}
-    <span class="caption-bold">
+    <span class="caption-bold av-text-text2">
       {{ t('global.information.fileUpload.size') }}
     </span>
   </span>
@@ -112,40 +113,7 @@ const modelValue = defineModel<File | null>()
 </template>
 
 <style lang="scss" scoped>
-.caption-light, .caption-bold {
-  color: var(--text2);
-}
-
-.b2-bold {
-  color: var(--text1);
-}
-
 img {
-  height: 100%;
-  width: 100%;
   object-fit: cover;
-}
-
-.file-upload-container {
-  border: 1px solid var(--divider);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-xs);
-}
-
-.left-content-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--dimension-4xl);
-  width: var(--dimension-4xl);
-  overflow: hidden;
-  border-radius: var(--radius-md);
-}
-
-.file-upload-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-xs);
 }
 </style>

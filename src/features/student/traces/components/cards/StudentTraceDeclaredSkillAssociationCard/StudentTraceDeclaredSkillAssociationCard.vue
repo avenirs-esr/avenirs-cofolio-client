@@ -21,7 +21,7 @@ const { t } = useI18n()
     :icon="MDI_ICONS.STARS"
   >
     <template #title-prepend>
-      <div class="badges-container">
+      <div class="av-row av-align-center av-gap-md">
         <DeclaredSkillTypeBadge
           :label="t(`student.declaredSkills.declaredSkillTypes.${declaredSkill.type}`)"
         />
@@ -36,11 +36,3 @@ const { t } = useI18n()
     </template>
   </StudentTraceAssociationCard>
 </template>
-
-<style lang="scss" scoped>
-.badges-container {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-</style>

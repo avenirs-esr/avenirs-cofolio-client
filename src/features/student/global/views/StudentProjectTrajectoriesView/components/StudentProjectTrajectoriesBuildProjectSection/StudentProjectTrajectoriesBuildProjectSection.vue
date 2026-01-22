@@ -12,8 +12,8 @@ const { showModal, displayModal, hideModal } = useModal()
 </script>
 
 <template>
-  <div class="student-project-trajectories-build-project-header">
-    <div class="student-project-trajectories-build-project-header__title b1-bold">
+  <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center av-mb-sm">
+    <div class=" b1-bold">
       {{ t('student.global.views.studentProjectTrajectoriesView.buildProject.title') }}
     </div>
     <AvButton
@@ -32,16 +32,3 @@ const { showModal, displayModal, hideModal } = useModal()
     :on-close="hideModal"
   />
 </template>
-
-<style lang="scss" scoped>
-.student-project-trajectories-build-project-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.student-project-trajectories-build-project-header__title {
-  flex: 1;
-}
-</style>

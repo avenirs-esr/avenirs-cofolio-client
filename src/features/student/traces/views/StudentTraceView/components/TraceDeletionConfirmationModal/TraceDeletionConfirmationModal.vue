@@ -58,21 +58,9 @@ function useDeleteTrace () {
         typography-class="n6"
       />
     </template>
-    <div class="content-container">
-      <span class="b2-bold">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}</span>
-      <span class="b2-light">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>
+    <div class="av-col av-gap-sm">
+      <span class="b2-bold av-text-text2">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}</span>
+      <span class="b2-light av-text-text2">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>
     </div>
   </ConfirmationModal>
 </template>
-
-<style lang="scss" scoped>
-.content-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.b2-bold, .b2-light {
-  color: var(--text2);
-}
-</style>

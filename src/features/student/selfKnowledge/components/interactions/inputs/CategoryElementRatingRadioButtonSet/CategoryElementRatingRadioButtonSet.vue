@@ -59,7 +59,7 @@ function handleUpdateModelValue (value: string | number | boolean) {
                 :max-rating="5"
               />
             </div>
-            <span class="b2-regular rating-option__description">
+            <span class="b2-regular av-text-text2">
               {{ t(level.description) }}
             </span>
           </div>
@@ -73,12 +73,6 @@ function handleUpdateModelValue (value: string | number | boolean) {
 .self-knowledge-category-element-rating-input {
   :deep(.av-radio-group) {
     align-items: flex-start;
-  }
-
-  .rating-option {
-    &__description {
-      color: var(--text2);
-    }
   }
 }
 </style>

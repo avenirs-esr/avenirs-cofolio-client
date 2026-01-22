@@ -24,8 +24,11 @@ function handleAddSkill (): void {
 </script>
 
 <template>
-  <div class="skills-view-other-tab">
-    <div class="skills-view-other-tab__button-container">
+  <div class="skills-view-other-tab av-col av-gap-xl">
+    <div
+      class="av-row av-justify-end"
+      data-testid="skills-view-other-tab__button-container"
+    >
       <AvButton
         variant="OUTLINED"
         :label="t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addSkillButton')"
@@ -34,43 +37,24 @@ function handleAddSkill (): void {
         @click="handleAddSkill"
       />
     </div>
-    <div class="skills-view-other-tab__content-placeholder">
-      <Pagination
-        :page-info="pageInfo"
-        :page-size-selected="pageSizeSelected"
-        :on-update-current-page="onUpdateCurrentPage"
-        :on-update-page-size="onUpdatePageSize"
+    <Pagination
+      :page-info="pageInfo"
+      :page-size-selected="pageSizeSelected"
+      :on-update-current-page="onUpdateCurrentPage"
+      :on-update-page-size="onUpdatePageSize"
+    >
+      <div
+        class="av-col av-gap-md av-py-lg"
+        data-testid="skills-container"
       >
-        <div class="skills-container">
-          <StudentDetailedDeclaredSkillCard
-            v-for="skill in skills"
-            :key="skill.id"
-            :declared-skill="skill"
-          />
-        </div>
-      </Pagination>
-    </div>
+        <StudentDetailedDeclaredSkillCard
+          v-for="skill in skills"
+          :key="skill.id"
+          :declared-skill="skill"
+        />
+      </div>
+    </Pagination>
 
     <AddDeclaredSkillDrawer />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.skills-view-other-tab {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-}
-
-.skills-view-other-tab__button-container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.skills-container {
-  padding: var(--spacing-lg) var(--spacing-none);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-</style>

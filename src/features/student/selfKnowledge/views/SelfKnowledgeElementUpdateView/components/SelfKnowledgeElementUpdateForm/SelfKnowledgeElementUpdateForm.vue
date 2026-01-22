@@ -68,10 +68,10 @@ function confirmCancel () {
       </div>
     </div>
 
-    <div class="self-knowledge-element-update-form__right-column av-col av-gap-md">
+    <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md">
       <CategoryElementDescriptionTextareaFormField :form="form" />
 
-      <div class="self-knowledge-element-update-form__dates av-col av-gap-xs">
+      <div class="self-knowledge-element-update-form__dates av-col av-flex-fill av-gap-xs">
         <CreationUpdateDateDetails
           :updated-at="element.updatedAt"
           :created-at="element.createdAt"
@@ -103,8 +103,6 @@ function confirmCancel () {
 .self-knowledge-element-update-form {
   &__left-column,
   &__right-column {
-    flex: 1;
-
     :deep(.av-input__wrapper textarea) {
       min-height: 14rem;
     }

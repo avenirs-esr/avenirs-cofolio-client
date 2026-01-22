@@ -52,7 +52,7 @@ function onOptionSelected (selected: AvTagPickerOption): void {
 </script>
 
 <template>
-  <div class="program-progress-selector">
+  <div class="program-progress-selector av-row av-align-start">
     <AvTagPicker
       :label="t('student.ams.views.StudentEducationAmsView.programProgressSelector.label')"
       :options="options"
@@ -64,8 +64,6 @@ function onOptionSelected (selected: AvTagPickerOption): void {
 
 <style scoped>
 .program-progress-selector {
-  display: flex;
-  align-items: flex-start;
   align-self: stretch;
 }
 </style>

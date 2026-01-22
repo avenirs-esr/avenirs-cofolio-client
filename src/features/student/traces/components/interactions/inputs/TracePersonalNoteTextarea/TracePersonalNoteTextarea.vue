@@ -38,7 +38,7 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <div class="trace-personal-note-textarea">
+  <div class="av-col av-flex-fill">
     <AvInput
       v-bind="avInputProps"
       v-model="modelValue"
@@ -57,22 +57,3 @@ const avInputProps = computed(() => ({
     </AvInput>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.trace-personal-note-textarea {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-
-  :deep(.av-input),
-  :deep(.av-input__wrapper) {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  :deep(.av-input__wrapper textarea) {
-    height: 100%;
-  }
-}
-</style>

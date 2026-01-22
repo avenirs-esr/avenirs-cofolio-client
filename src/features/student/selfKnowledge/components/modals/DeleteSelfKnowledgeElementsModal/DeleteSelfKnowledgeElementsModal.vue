@@ -75,8 +75,11 @@ function onConfirmDelete () {
     @confirm="displayConfirmModal"
   >
     <template #header>
-      <div class="header av-row av-justify-center">
-        <span class="b2-regular">
+      <div
+        class="av-row av-justify-center"
+        data-testid="header"
+      >
+        <span class="b2-regular av-text-text1">
           {{ t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.title',
                { count: elements.length }) }}
         </span>
@@ -98,11 +101,3 @@ function onConfirmDelete () {
     @confirm="onConfirmDelete"
   />
 </template>
-
-<style lang="scss" scoped>
-.header {
-  .b2-regular {
-    color: var(--text1);
-  }
-}
-</style>

@@ -83,7 +83,7 @@ BddTest().given('a student tools traces view notice component', () => {
       })
 
       BddTest().then('it should render the notice container structure', () => {
-        const container = wrapper.find('.traces-notice-container')
+        const container = wrapper.find('.student-tools-traces-view-notice')
         expect(container.exists()).toBe(true)
       })
     })
@@ -143,7 +143,7 @@ BddTest().given('a student tools traces view notice component', () => {
       })
 
       BddTest().then('it should not render the notice container', () => {
-        const container = wrapper.find('.traces-notice-container')
+        const container = wrapper.find('.student-tools-traces-view-notice')
         expect(container.exists()).toBe(false)
       })
     })

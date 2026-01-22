@@ -74,13 +74,13 @@ watch(selectedItem, (newSelectedItem) => {
 </script>
 
 <template>
-  <div class="student-project-trajectories-container">
+  <div class="student-project-trajectories-container av-row av-w-full">
     <AvSideNavigation
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       v-model:selected-item="selectedItem"
       :items="items"
     />
-    <div class="student-project-trajectories-container__content">
+    <div class="student-project-trajectories-container__content av-col av-flex-fill av-p-lg">
       <component :is="displayedSection" />
     </div>
   </div>
@@ -88,26 +88,12 @@ watch(selectedItem, (newSelectedItem) => {
 
 <style lang="scss" scoped>
 .student-project-trajectories-container {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
   min-height: calc(100vh - 28.15rem);
 
   &__content {
-    flex: 1;
-    padding: var(--spacing-lg);
-
     h2 {
       margin-bottom: var(--spacing-md);
     }
-  }
-
-  &__placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-style: italic;
   }
 }
 </style>

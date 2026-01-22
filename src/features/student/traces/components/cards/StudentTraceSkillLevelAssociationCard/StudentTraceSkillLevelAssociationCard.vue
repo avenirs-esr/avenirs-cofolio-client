@@ -17,7 +17,7 @@ const { skill, levelColor = 'var(--skill3)' } = defineProps<StudentTraceSkillAss
 <template>
   <StudentTraceAssociationCard :title="skill.skillTitle">
     <template #title-prepend>
-      <div class="badges-container">
+      <div class="av-row av-align-center av-gap-md">
         <AvBadge
           :label="skill.level"
           color="var(--card)"
@@ -32,7 +32,7 @@ const { skill, levelColor = 'var(--skill3)' } = defineProps<StudentTraceSkillAss
     <template #body>
       <div
         v-if="skill.ams"
-        class="ams-container"
+        class="av-row av-align-center av-justify-between av-gap-sm av-pt-xs"
       >
         <StudentTraceAssociationContentBadge
           :label="skill.ams.title"
@@ -42,24 +42,3 @@ const { skill, levelColor = 'var(--skill3)' } = defineProps<StudentTraceSkillAss
     </template>
   </StudentTraceAssociationCard>
 </template>
-
-<style lang="scss" scoped>
-.badges-container {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.av-badge.skill-level-badge:before {
-  display: none;
-}
-
-.ams-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--spacing-sm);
-  justify-content: space-between;
-  padding-top: var(--spacing-xs)
-}
-</style>

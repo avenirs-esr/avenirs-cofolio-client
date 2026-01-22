@@ -38,7 +38,7 @@ const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxRemainingDays
 <template>
   <div
     v-if="tracesSummary && tracesSummary.unassociated > 0"
-    class="traces-notice-container"
+    class="student-tools-traces-view-notice av-pb-sm"
   >
     <AvNotice
       :text="createAlertMessage(tracesSummary.unassociated, tracesSummary.totalCriticals, criticalDays, maxDayBeforeDeletion)"
@@ -46,9 +46,3 @@ const maxDayBeforeDeletion = computed(() => tracesConfig.value?.maxRemainingDays
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.traces-notice-container {
-  padding-bottom: 1.25rem;
-}
-</style>

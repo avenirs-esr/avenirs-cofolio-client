@@ -48,10 +48,10 @@ function backToStudentDeclaredSkillViewTabs () {
   />
 
   <div
-    class="update-declared-skill-view__title av-row av-py-md"
+    class="av-row av-py-md"
     data-testid="update-declared-skill-view__title"
   >
-    <span class="n4">{{ declaredSkillDetailed?.title ?? '' }}</span>
+    <span class="n4 av-text-text2">{{ declaredSkillDetailed?.title ?? '' }}</span>
   </div>
 
   <UpdateInProgressBadge :show="updateInProgress" />
@@ -81,13 +81,3 @@ function backToStudentDeclaredSkillViewTabs () {
     </AvTab>
   </AvTabs>
 </template>
-
-<style lang="scss" scoped>
-.update-declared-skill-view {
-  &__title {
-    .n4 {
-      color: var(--text2);
-    }
-  }
-}
-</style>

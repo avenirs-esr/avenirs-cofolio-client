@@ -95,7 +95,7 @@ const emptySlotTextContent = computed<string>(() => {
 </script>
 
 <template>
-  <div class="search-trace-association-field">
+  <div class="search-trace-association-field av-col av-gap-sm">
     <component
       :is="form.Field"
       v-slot="slot"
@@ -146,9 +146,9 @@ const emptySlotTextContent = computed<string>(() => {
           >
             <div
               v-memo="[option, isSelected]"
-              class="trace-item"
+              class="trace-item av-row av-align-center av-justify-between av-gap-md av-radius-md"
             >
-              <div class="trace-item__content">
+              <div class="av-col av-flex-fill">
                 <div
                   class="b1-bold"
                   v-html="highlightTitleText(option.title, searchQuery)"
@@ -181,27 +181,6 @@ const emptySlotTextContent = computed<string>(() => {
   left: 0;
   right: 0;
   z-index: 10000;
-}
-
-.search-trace-association-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-:deep(.trace-item) {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-md);
-  border-radius: var(--radius-md);
-}
-
-.trace-item__content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 
 .caption-light {

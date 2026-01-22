@@ -53,7 +53,7 @@ const isDisabled = computed(() => {
       <h3>{{ t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
       <span class="n5">{{ trace.title }}</span>
     </template>
-    <div class="content-container">
+    <div class="content-container av-col av-gap-sm">
       <AssociateSkillAutocompleteField
         :form="form"
         :association-type="ETraceAssociationType.SKILL_LEVEL"
@@ -64,9 +64,6 @@ const isDisabled = computed(() => {
 
 <style lang="scss" scoped>
 .content-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   // TODO: Padding bottom to avoid a display bug while adding content (remove when fixed)
   padding-bottom: 20vh;
 }

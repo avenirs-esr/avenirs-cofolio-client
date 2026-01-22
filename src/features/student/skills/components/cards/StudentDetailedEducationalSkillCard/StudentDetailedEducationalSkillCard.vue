@@ -36,16 +36,16 @@ const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = comp
     :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
     color="var(--card2)"
   >
-    <div class="body-container">
-      <div class="firstline-container">
-        <div class="line-container">
-          <span class="n6">{{ skill.currentSkillLevel.name }}</span>
+    <div class="av-col av-gap-xxs av--mt-xs">
+      <div class="av-row av-justify-between av-align-center av-pr-4xl">
+        <div class="av-row av-gap-sm av-align-center">
+          <span class="n6 av-text-text1">{{ skill.currentSkillLevel.name }}</span>
           <StudentSkillLevelStatusBadge
             v-if="showLevelBadge"
             :status="currentSkillLevel.status"
           />
         </div>
-        <div class="line-container">
+        <div class="av-row av-gap-sm av-align-center">
           <AvBadge
             :label="`${levelCount} niveaux`"
             color="var(--foreground-text)"
@@ -60,55 +60,19 @@ const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = comp
           />
         </div>
       </div>
-      <div class="line-container">
+      <div class="av-row av-gap-sm av-align-center">
         <span class="s2-regular">{{ skill.currentSkillLevel.shortDescription }}</span>
       </div>
-      <div class="line-container">
+      <div class="av-row av-gap-sm av-align-center">
         <StudentCountTracesIconText
           :count-traces="traceCount"
-          gap="0.75rem"
           inline
         />
         <StudentCountAmsIconText
           :count-ams="activityCount"
-          gap="0.75rem"
           inline
         />
       </div>
     </div>
   </StudentDetailedSkillCard>
 </template>
-
-<style lang="scss" scoped>
-.student-detailed-skill-card {
-  display: flex;
-  width: 100%;
-  border-radius: 1.5rem;
-}
-
-.body-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
-  margin-top: calc(-1 * var(--spacing-xs));
-}
-
-.firstline-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 3.5rem;
-}
-
-.line-container {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-sm);
-    align-items: center;
-}
-
-.n6 {
-  color: var(--text1);
-}
-</style>

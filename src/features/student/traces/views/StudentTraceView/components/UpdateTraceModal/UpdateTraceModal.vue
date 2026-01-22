@@ -83,15 +83,13 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
     @confirm="handleConfirm"
   >
     <template #header>
-      <div class="header">
-        <h5 class="n5">
-          {{ t('student.traces.views.StudentTraceView.updateTraceModal.title') }} <span class="s1-regular">{{ trace.title }}</span>
-        </h5>
-      </div>
+      <h5 class="n5">
+        {{ t('student.traces.views.StudentTraceView.updateTraceModal.title') }} <span class="s1-regular">{{ trace.title }}</span>
+      </h5>
     </template>
 
-    <div class="main-container">
-      <div class="stepper-container">
+    <div class="av-col av-justify-center">
+      <div class="av-row av-justify-center">
         <AvStepper
           :steps="steps"
           :current-step="currentStep"
@@ -112,23 +110,3 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
     @confirm="closeModal"
   />
 </template>
-
-<style lang="scss" scoped>
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.stepper-container {
-  display: flex;
-  justify-content: center;
-}
-</style>

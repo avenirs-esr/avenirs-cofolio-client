@@ -41,7 +41,7 @@ function useSortEducationSkills () {
 </script>
 
 <template>
-  <div class="filter-and-sort-container">
+  <div class="skills-sort-container av-row av-gap-sm av-pb-md">
     <AvSelect
       v-model="sort"
       :label="t('global.sort.label')"
@@ -53,19 +53,3 @@ function useSortEducationSkills () {
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-.filter-and-sort-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-sm);
-  margin: 0 0 var(--spacing-md) 0;
-}
-
-:deep(.av-select-group) {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  max-width: 14rem;
-}
-</style>

@@ -64,7 +64,7 @@ function handleConfirmDelete () {
     :breadcrumb-links="breadcrumbLinks"
   >
     <template #title>
-      <span class="n2">
+      <span class="n2 av-text-title">
         {{ t('global.detail') }}
         <span class="n4">{{ declaredExperienceDetailed?.title }}</span>
       </span>

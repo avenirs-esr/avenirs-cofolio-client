@@ -19,7 +19,7 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
 </script>
 
 <template>
-  <div class="self-knowledge-main-section">
+  <div class="av-col av-gap-xl">
     <AvIconText
       typography-class="n4"
       :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
@@ -28,7 +28,7 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
       text-color="var(--title)"
       gap="0.75rem"
     />
-    <div class="self-knowledge-main-section__add-category">
+    <div class="av-row av-justify-end">
       <AvButton
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.addCategory')"
@@ -37,7 +37,7 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
         @click="displayAddCategoryModal"
       />
     </div>
-    <div class="self-knowledge-main-section__categories">
+    <div class="av-col av-gap-xl">
       <SelfKnowledgeCategoryElementsPaginatorCard
         v-for="category in categories"
         :key="category.id"
@@ -53,22 +53,3 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
   />
   <AddSelfKnowledgeCategoryElementDrawer />
 </template>
-
-<style lang="scss" scoped>
-.self-knowledge-main-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xl);
-
-  &__add-category {
-    display: flex;
-    align-self: flex-end;
-  }
-
-  &__categories {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xl);
-  }
-}
-</style>

@@ -34,7 +34,7 @@ function shouldDisplayStatusBadge (skillStatus: ESkillLevelStatus) {
 </script>
 
 <template>
-  <div class="terms-step-container">
+  <div class="av-col av-gap-md av-p-md">
     <span class="caption-regular">{{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.impactMessage') }}</span>
     <AvList
       size="small"
@@ -66,19 +66,6 @@ function shouldDisplayStatusBadge (skillStatus: ESkillLevelStatus) {
 </template>
 
 <style lang="scss" scoped>
-.terms-step-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
-  font-size: var(--font-size-m);
-  color: var(--color-on-surface-variant);
-}
-
-.skill-not-validated {
-  color: var(--text2) !important;
-}
-
 .alert-message {
   color: var(--light-foreground-error);
 }

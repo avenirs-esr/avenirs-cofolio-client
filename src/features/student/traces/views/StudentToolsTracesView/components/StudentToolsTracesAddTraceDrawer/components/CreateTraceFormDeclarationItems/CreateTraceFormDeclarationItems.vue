@@ -27,14 +27,20 @@ function onChangeAiUsageToggle (value: boolean) {
 </script>
 
 <template>
-  <div class="declaration-items">
-    <div class="declaration-items__content">
-      <div class="declaration-items__section">
-        <p class="declaration-items__section-title">
+  <div class="create-trace-form-declaration-items av-col av-p-md">
+    <div
+      class="av-col av-gap-lg"
+      data-testid="declaration-items__content"
+    >
+      <div
+        class="av-col av-gap-xs"
+        data-testid="nature-section"
+      >
+        <span class="caption-regular">
           {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title') }}
-        </p>
+        </span>
 
-        <div class="declaration-items__inline-toggles">
+        <div class="av-row av-gap-md av-wrap av-align-start">
           <TraceAuthenticDeclarationToggleFormField
             :form="form"
           />
@@ -45,12 +51,15 @@ function onChangeAiUsageToggle (value: boolean) {
         </div>
       </div>
 
-      <div class="declaration-items__section">
-        <p class="declaration-items__section-title">
+      <div
+        class="av-col av-gap-xs"
+        data-testid="ia-usage-section"
+      >
+        <span class="caption-regular">
           {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.iaUsage.title') }}
-        </p>
+        </span>
 
-        <div class="declaration-items__field">
+        <div class="av-col av-gap-xxs">
           <TraceAiUsageToggleFormField
             :form="form"
             @change="onChangeAiUsageToggle"
@@ -65,42 +74,3 @@ function onChangeAiUsageToggle (value: boolean) {
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.declaration-items {
-  padding: var(--spacing-md);
-}
-
-.declaration-items__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.declaration-items__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
-}
-
-.declaration-items__section-title {
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  margin: 0;
-  font-weight: 400;
-}
-
-.declaration-items__inline-toggles {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-
-.declaration-items__field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
-}
-</style>

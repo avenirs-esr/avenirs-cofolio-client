@@ -24,8 +24,8 @@ const stars = computed(() => {
 
 <template>
   <div
-    class="rating"
-    :class="{ 'rating--with-background': withBackground }"
+    class="rating av-row av-gap-xxs av-align-baseline"
+    :class="{ 'rating--with-background av-py-xxxs av-px-xxs av-radius-sm': withBackground }"
   >
     <template v-if="starsFirst">
       <span
@@ -34,7 +34,10 @@ const stars = computed(() => {
       >⭐</span>
     </template>
 
-    <span class="rating__value b2-bold">{{ rating }}/{{ maxRating }}</span>
+    <span
+      class="b2-bold av-text-text1 av-ml-xxs"
+      data-testid="rating__value"
+    >{{ rating }}/{{ maxRating }}</span>
 
     <template v-if="!starsFirst">
       <span
@@ -47,19 +50,8 @@ const stars = computed(() => {
 
 <style lang="scss" scoped>
 .rating {
-  display: flex;
-  align-items: baseline;
-  gap: var(--spacing-xxs);
-
   &--with-background {
     background-color: var(--light-background-neutral);
-    padding: var(--spacing-xxxs) var(--spacing-xxs);
-    border-radius: var(--radius-sm);
-  }
-
-  &__value {
-    margin-left: var(--spacing-xxs);
-    color: var(--text1);
   }
 }
 </style>

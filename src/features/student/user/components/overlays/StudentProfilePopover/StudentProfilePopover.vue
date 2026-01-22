@@ -19,7 +19,7 @@ const { t } = useI18n()
       />
     </template>
     <template #popover>
-      <ul>
+      <ul class="av-list-reset">
         <li>
           <AvButton
             :label="t('student.user.overlays.StudentProfilePopover.buttons.manageProfile')"
@@ -76,12 +76,6 @@ const { t } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-ul {
-  list-style-type:none;
-  padding: 0;
-  margin: 0;
-}
-
 li > .av-button {
   width: 100% !important;
 }

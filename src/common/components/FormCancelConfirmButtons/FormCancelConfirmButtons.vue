@@ -22,7 +22,7 @@ const avCancelConfirmButtonsProps = computed(() => ({
   confirmLabel: props.confirmLabel ?? t('global.buttons.save'),
   cancelIcon: props.cancelIcon ?? MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
   confirmIcon: props.confirmIcon ?? MDI_ICONS.CONTENT_SAVE_OUTLINE,
-  cancelDisabled: props.isSubmitting,
+  cancelIsLoading: props.isSubmitting,
   confirmDisabled: !props.isFormValid,
   confirmIsLoading: props.isSubmitting
 }))

@@ -24,9 +24,9 @@ const { t } = useI18n()
     :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
     color="var(--text1)"
   >
-    <div class="body-container">
-      <div class="firstline-container">
-        <div class="line-container">
+    <div class="av-col av-gap-xxs av--mt-xs">
+      <div class="av-row av-justify-between av-align-center av-pr-4xl">
+        <div class="av-row av-gap-sm av-align-center">
           <AvBadge
             color="var(--foreground-text)"
             background-color="var(--surface-background)"
@@ -36,7 +36,7 @@ const { t } = useI18n()
             ellipsis
           />
         </div>
-        <div class="line-container">
+        <div class="av-row av-gap-sm av-align-center">
           <AvBadge
             :label="`${levelCount} niveaux`"
             color="var(--foreground-text)"
@@ -54,30 +54,3 @@ const { t } = useI18n()
     </div>
   </StudentDetailedSkillCard>
 </template>
-
-<style lang="scss" scoped>
-.body-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xxs);
-  margin-top: calc(-1 * var(--spacing-xs));
-}
-
-.line-container {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-.firstline-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-right: 3.5rem;
-}
-:deep(.av-card){
-  justify-content: flex-start;
-}
-</style>

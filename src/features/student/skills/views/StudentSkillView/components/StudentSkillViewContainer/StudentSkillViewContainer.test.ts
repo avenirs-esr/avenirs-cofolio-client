@@ -93,7 +93,7 @@ BddTest().given('a student skill view container component', () => {
     })
 
     BddTest().then('it should render the content area', () => {
-      const contentArea = wrapper.find('.student-skill-view-container__content')
+      const contentArea = wrapper.find('[data-testid="student-skill-view-container__content"]')
       expect(contentArea.exists()).toBe(true)
     })
 

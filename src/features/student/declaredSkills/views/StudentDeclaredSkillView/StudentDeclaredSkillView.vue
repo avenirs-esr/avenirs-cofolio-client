@@ -59,10 +59,10 @@ function handleSkillDeleted () {
   />
 
   <div
-    class="student-declared-skill-view__title av-gap-sm av-pb-md av-row--lg av-align-baseline--lg av-justify-between--lg"
+    class="av-gap-sm av-pb-md av-row--lg av-align-baseline--lg av-justify-between--lg"
     data-testid="student-declared-skill-view__title"
   >
-    <span class="n4">{{ skillTitle }}</span>
+    <span class="n4 av-text-text2">{{ skillTitle }}</span>
     <DeclaredSkillSettingDropdown
       @delete-selected="displayModal"
       @update-selected="handleUpdateSelected"
@@ -98,13 +98,3 @@ function handleSkillDeleted () {
     @close="hideModal"
   />
 </template>
-
-<style lang="scss" scoped>
-.student-declared-skill-view {
-  &__title {
-    .n4 {
-      color: var(--text2);
-    }
-  }
-}
-</style>

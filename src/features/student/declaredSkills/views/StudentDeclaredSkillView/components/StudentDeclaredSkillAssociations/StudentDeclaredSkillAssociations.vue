@@ -9,16 +9,13 @@ const { t } = useI18n()
 
 <template>
   <div class="student-declared-skill-associations-container">
-    <span class="b2-regular associated-trace-count">{{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
+    <span
+      class="b2-regular av-text-text2"
+      data-testid="associated-trace-count"
+    >{{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     <TracesSelector
       :traces="traceAssociations"
       readonly
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-.associated-trace-count {
-  color: var(--text2);
-}
-</style>

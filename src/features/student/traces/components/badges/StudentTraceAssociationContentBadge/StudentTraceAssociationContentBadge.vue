@@ -20,14 +20,12 @@ const {
     :icon="icon"
     small
     ellipsis
-    class="student-trace-association-content-badge caption-regular"
+    class="student-trace-association-content-badge caption-regular av-radius-sm av-flex-fill av-border-width-sm av-border-style-solid"
   />
 </template>
 
 <style lang="scss" scoped>
 .student-trace-association-content-badge {
-  border: 0.06rem solid var(--stroke);
-  border-radius: var(--radius-sm);
-  flex: 1;
+  border-color: var(--stroke);
 }
 </style>

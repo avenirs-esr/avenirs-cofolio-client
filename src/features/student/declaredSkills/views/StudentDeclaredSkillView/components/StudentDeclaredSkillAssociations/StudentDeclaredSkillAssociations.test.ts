@@ -34,7 +34,7 @@ BddTest().given('a student declared skill associations component', () => {
     })
 
     BddTest().then('it should display the localized associated traces count', () => {
-      const label = wrapper.find('.associated-trace-count')
+      const label = wrapper.find('[data-testid="associated-trace-count"]')
       expect(label.exists()).toBe(true)
       expect(label.text()).toBe('Mes traces associées (3)')
     })
@@ -67,7 +67,7 @@ BddTest().given('a student declared skill associations component', () => {
     })
 
     BddTest().then('it should display a count of 0', () => {
-      const label = wrapper.find('.associated-trace-count')
+      const label = wrapper.find('[data-testid="associated-trace-count"]')
       expect(label.exists()).toBe(true)
       expect(label.text()).toBe('Mes traces associées (0)')
     })

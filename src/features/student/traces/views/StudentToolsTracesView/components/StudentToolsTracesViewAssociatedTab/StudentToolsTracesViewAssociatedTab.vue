@@ -39,7 +39,7 @@ watch([
 </script>
 
 <template>
-  <div class="student-tools-traces-view-tabs-container">
+  <div class="av-col av-w-full av-gap-lg">
     <TraceFilterContainer
       :is-associated="true"
       @update:filters="onUpdateFilters"
@@ -51,7 +51,7 @@ watch([
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >
-      <div class="detailed-cards-container">
+      <div class="av-row av-align-center av-justify-between av-w-full av-gap-sm av-wrap">
         <StudentDetailedTraceCard
           v-for="trace in traces"
           :key="trace.id"
@@ -61,7 +61,7 @@ watch([
     </Pagination>
     <div
       v-else
-      class="no-result-container"
+      class="av-pb-5xl"
     >
       <span class="b2-regular">
         {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesViewTabs.noTraceFound') }}
@@ -69,26 +69,3 @@ watch([
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.student-tools-traces-view-tabs-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--spacing-lg);
-}
-
-.detailed-cards-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.no-result-container {
-  padding-bottom: var(--dimension-7xl);
-}
-</style>

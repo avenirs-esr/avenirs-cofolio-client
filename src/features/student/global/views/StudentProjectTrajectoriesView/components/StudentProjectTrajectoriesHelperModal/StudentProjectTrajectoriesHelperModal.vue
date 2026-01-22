@@ -21,16 +21,8 @@ const { data: config } = useBackOfficeBuildLifeProjectConfigQuery()
   >
     <div
       v-if="config"
-      class="student-project-trajectories-helper-modal__container"
+      class="av-col av-nowrap"
       v-html="formatTextToHtml(config.html)"
     />
   </AvModal>
 </template>
-
-<style lang="scss" scoped>
-.student-project-trajectories-helper-modal__container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-}
-</style>

@@ -106,7 +106,7 @@ BddTest().given('a trace file upload component', () => {
         }
       })
 
-      const label = wrapper.find('.trace-file-upload__label')
+      const label = wrapper.find('[data-testid="trace-file-upload__label"]')
       expect(label.text()).toContain('Choose your file')
     })
   })

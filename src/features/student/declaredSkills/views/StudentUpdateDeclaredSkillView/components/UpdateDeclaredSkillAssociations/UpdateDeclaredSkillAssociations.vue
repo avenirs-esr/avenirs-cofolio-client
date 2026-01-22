@@ -52,10 +52,10 @@ async function handleRemoveAssociations () {
     data-testid="update-declared-skill-associations"
   >
     <div
-      class="update-declared-skill-associations__header av-row av-justify-between av-align-center"
+      class="av-row av-justify-between av-align-center"
       data-testid="update-declared-skill-associations__header"
     >
-      <span class="b2-regular">
+      <span class="b2-regular av-text-text2">
         {{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     </div>
     <AvCard
@@ -106,10 +106,6 @@ async function handleRemoveAssociations () {
 
 <style scoped lang="scss">
 .update-declared-skill-associations {
-  &__header {
-    color: var(--text2);
-  }
-
   &__container,
   &__add-card {
     background-color: var(--surface-background) !important; // Override AvCard inline style

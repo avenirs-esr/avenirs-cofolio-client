@@ -12,21 +12,24 @@ const { form } = defineProps<CreateTraceFormTraceDefinitionItemsProps>()
 </script>
 
 <template>
-  <div class="create-trace-form-trace-definition-items">
-    <div class="create-trace-form-trace-definition-items__fields">
-      <div class="create-trace-form-trace-definition-items__field">
+  <div class="create-trace-form-trace-definition-items av-col av-p-md">
+    <div
+      class="av-col av-gap-lg"
+      data-testid="form-fields-container"
+    >
+      <div class="av-col">
         <TraceFileUploadFormField
           :form="form"
         />
       </div>
 
-      <div class="create-trace-form-trace-definition-items__field">
+      <div class="av-col">
         <TraceNameInputFormField
           :form="form"
         />
       </div>
 
-      <div class="create-trace-form-trace-definition-items__field">
+      <div class="av-col">
         <TracePersonalNoteTextareaFormField
           :form="form"
         />
@@ -34,20 +37,3 @@ const { form } = defineProps<CreateTraceFormTraceDefinitionItemsProps>()
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.create-trace-form-trace-definition-items {
-  padding: var(--spacing-md);
-}
-
-.create-trace-form-trace-definition-items__fields {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.create-trace-form-trace-definition-items__field {
-  display: flex;
-  flex-direction: column;
-}
-</style>

@@ -6,11 +6,11 @@ const { course } = defineProps<{ course: StudentProgressViewDTO }>()
 </script>
 
 <template>
-  <div class="education-skills-view-container">
-    <span class="n5">
+  <div class="av-col av-gap-md">
+    <span class="n5 av-text-text1">
       {{ course.name }}
     </span>
-    <div class="skills-container">
+    <div class="av-col av-gap-lg">
       <StudentDetailedEducationalSkillCard
         v-for="(skill, index) in course.skills"
         :key="skill.id"
@@ -20,23 +20,3 @@ const { course } = defineProps<{ course: StudentProgressViewDTO }>()
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.education-skills-view-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.875rem;
-  width: 100%;
-}
-
-.skills-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: var(--spacing-lg);
-}
-
-.n5 {
-  color: var(--text1)
-}
-</style>

@@ -22,7 +22,7 @@ const { t } = useI18n()
       />
     </template>
     <template #popover="{ close }">
-      <div class="container">
+      <div class="av-col av-gap-md">
         <AvIconText
           data-testid="notifications-popover-title"
           :text="t('student.user.overlays.StudentNotificationsPopover.title', { count: notificationsCount })"
@@ -34,7 +34,7 @@ const { t } = useI18n()
         />
         <div v-if="notificationsCount === 0">
           <span class="b2-light">{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.header') }}</span>
-          <ul class="b2-regular">
+          <ul class="b2-regular av-pl-lg">
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.teacherMessage') }}</span></li>
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.assessedSkill') }}</span></li>
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.validatedTrace') }}</span></li>
@@ -44,7 +44,7 @@ const { t } = useI18n()
         <div v-else>
           Notifications...
         </div>
-        <div class="footer">
+        <div class="av-row av-justify-end av-gap-sm">
           <AvCancelConfirmButtons
             :cancel-label="t('global.buttons.exit')"
             :confirm-label="notificationsCount > 0 ? t('student.user.overlays.StudentNotificationsPopover.buttons.seeAll') : undefined"
@@ -58,22 +58,3 @@ const { t } = useI18n()
     </template>
   </AvPopover>
 </template>
-
-<style lang="scss" scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-ul {
-  padding-left: var(--spacing-lg);
-}
-
-.footer {
-  display: flex;
-  flex: 1;
-  justify-content: right;
-  gap: var(--spacing-sm);
-}
-</style>

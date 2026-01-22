@@ -23,11 +23,14 @@ useBaseApiExceptionToast(error)
 </script>
 
 <template>
-  <div class="main-container">
-    <div class="title-container">
-      <span class="n5">
+  <div class="skills-view-education-tab av-col">
+    <div
+      class="av-pb-sm"
+      data-testid="title-container"
+    >
+      <span class="n5 av-text-text1">
         {{ t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.title') }}
-        <span class="b1-regular">
+        <span class="b1-regular av-text-text1">
           {{ t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewEducationTab.subtitle') }}
         </span>
       </span>
@@ -38,7 +41,10 @@ useBaseApiExceptionToast(error)
       :on-update-current-page="onUpdateCurrentPage"
       :on-update-page-size="onUpdatePageSize"
     >
-      <div class="skills-container">
+      <div
+        class="av-col av-gap-lg av-py-lg"
+        data-testid="skills-container"
+      >
         <template
           v-for="(skill, index) in skills"
           :key="skill.id"
@@ -57,25 +63,3 @@ useBaseApiExceptionToast(error)
     </Pagination>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.main-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.title-container {
-  padding-bottom: var(--spacing-sm);
-}
-
-.skills-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg) var(--spacing-none);
-}
-
-.n5, .b1-regular {
-  color: var(--text1);
-}
-</style>
