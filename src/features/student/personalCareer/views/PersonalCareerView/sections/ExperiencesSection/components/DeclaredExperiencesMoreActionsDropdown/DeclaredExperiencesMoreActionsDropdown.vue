@@ -53,15 +53,13 @@ function handleItemSelected (itemName: string) {
 </script>
 
 <template>
-  <AvDropdown
-    :items="menuItems"
-    :trigger-aria-label="t('global.buttons.moreActions')"
-    :trigger-label="t('global.buttons.moreActions')"
-    width="max-content"
-    @item-selected="handleItemSelected"
-  />
+  <div class="av-row av-justify-end">
+    <AvDropdown
+      :items="menuItems"
+      :trigger-aria-label="t('global.buttons.moreActions')"
+      :trigger-label="t('global.buttons.moreActions')"
+      width="max-content"
+      @item-selected="handleItemSelected"
+    />
+  </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>
