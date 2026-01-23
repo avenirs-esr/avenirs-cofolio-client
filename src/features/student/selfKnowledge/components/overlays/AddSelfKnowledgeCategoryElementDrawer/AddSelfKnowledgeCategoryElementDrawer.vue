@@ -133,8 +133,8 @@ const drawerTitle = computed(() => {
           :cancel-label="t('global.buttons.exit')"
           :is-submitting="isSubmitting"
           :is-form-valid="isFormValid"
-          @handle-cancel="handleCancel"
-          @handle-submit="onSave"
+          @cancel="handleCancel"
+          @submit="onSave"
         />
       </div>
     </template>

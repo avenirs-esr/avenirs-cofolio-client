@@ -113,8 +113,8 @@ const createdAtPrefix = computed(() =>
         <FormCancelConfirmButtons
           :is-submitting="isSubmitting"
           :is-form-valid="isFormValid"
-          @handle-cancel="handleCancel"
-          @handle-submit="handleSubmit"
+          @cancel="handleCancel"
+          @submit="handleSubmit"
         />
       </div>
     </template>

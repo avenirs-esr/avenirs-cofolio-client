@@ -103,8 +103,8 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         <FormCancelConfirmButtons
           :is-submitting="isSubmitting"
           :is-form-valid="isFormValid"
-          @handle-cancel="handleCancel"
-          @handle-submit="handleSubmit"
+          @cancel="handleCancel"
+          @submit="handleSubmit"
         />
       </div>
     </template>

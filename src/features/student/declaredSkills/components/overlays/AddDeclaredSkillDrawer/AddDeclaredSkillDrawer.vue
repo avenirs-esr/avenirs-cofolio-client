@@ -92,8 +92,8 @@ function confirmCancel () {
         <FormCancelConfirmButtons
           :is-submitting="isSubmitting"
           :is-form-valid="isFormValid && isDirty"
-          @handle-cancel="handleCancel"
-          @handle-submit="form.handleSubmit"
+          @cancel="handleCancel"
+          @submit="form.handleSubmit"
         />
       </div>
     </template>
