@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
@@ -9,6 +10,8 @@ import {
   usePaginatedDeclaredExperiences
 } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import { useDeclaredExperienceDetailedViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
+import DeclaredExperienceDetails
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
 import { useI18n } from 'vue-i18n'
@@ -22,7 +25,7 @@ const { experienceId } = defineProps<DeclaredExperienceViewProps>()
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const { declaredExperience } = useDeclaredExperienceDetailedViewQuery({ experienceId })
+const { declaredExperience: declaredExperienceDetailed, isLoading, isError } = useDeclaredExperienceDetailedViewQuery({ experienceId })
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 
 const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
@@ -63,7 +66,7 @@ function handleConfirmDelete () {
     <template #title>
       <span class="n2">
         {{ t('global.detail') }}
-        <span class="n4">{{ declaredExperience?.title }}</span>
+        <span class="n4">{{ declaredExperienceDetailed?.title }}</span>
       </span>
     </template>
   </PageTitle>
@@ -75,27 +78,24 @@ function handleConfirmDelete () {
       @select-experience="onSelectExperience"
       @load-more-experiences="loadMoreDeclaredExperiences"
     />
-    <div class="av-col av-flex-fill av-gap-md">
-      <div class="declared-experience-details-container__title av-row--lg av-align-start--lg av-justify-between--lg">
-        <span class="n4">title</span>
+    <Loader
+      :is-loading="isLoading && !isError"
+      size="2xl"
+    >
+      <div
+        v-if="declaredExperienceDetailed"
+        class="av-col av-gap-md av-flex-fill"
+      >
         <DeclaredExperienceDetailsDropdown
           @delete-selected="displayModal"
           @update-selected="handleUpdateSelected"
         />
+        <DeclaredExperienceDetails
+          :key="declaredExperienceDetailed.id"
+          :declared-experience-details="declaredExperienceDetailed"
+        />
       </div>
-      <div class="av-col av-flex-fill av-gap-md av-row--md av-gap-2xl--md ">
-        <div class="av-row av-flex-fill">
-          <span>declared experience detailed left col placeholder with a very long text to see how it looks with the two cols.
-            You can keep this layout for next devs, just remove this placeholder text
-          </span>
-        </div>
-        <div class="av-row av-flex-fill">
-          <span>declared experience detailed right col placeholder with a very long text to see how it looks with the two cols.
-            You can keep this layout for next devs, just remove this placeholder text
-          </span>
-        </div>
-      </div>
-    </div>
+    </Loader>
   </div>
   <DeleteDeclaredExperienceConfirmModal
     :show="showModal"
@@ -106,10 +106,6 @@ function handleConfirmDelete () {
 </template>
 
 <style lang="scss" scoped>
-.n2 {
-  color: var(--title)
-}
-
 .n4 {
   color: var(--dark-background-neutral)
 }

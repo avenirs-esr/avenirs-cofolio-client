@@ -69,3 +69,9 @@ export function createMockedDeclaredExperiencesPagedResponse (
     }
   }
 }
+
+export function searchDeclaredExperienceById (
+  id: string
+): DeclaredExperienceViewDTO | undefined {
+  return mockedDeclaredExperiences.find(p => p.id === id)
+}

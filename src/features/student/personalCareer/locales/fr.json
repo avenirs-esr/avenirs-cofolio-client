@@ -35,6 +35,7 @@
           },
           "DeclaredExperienceLinkInput": {
             "label": "Ajouter un lien",
+            "labelDetails": "Lien",
             "placeholder": "https://exemple.com"
           },
           "DeclaredExperienceLocationInput": {
@@ -139,6 +140,9 @@
       },
       "views": {
         "DeclaredExperienceView": {
+          "DeclaredExperienceDetails": {
+            "experience": "Expérience"
+          },
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Gérer mon expérience",
             "title": "Détail de mon expérience déclarée"

@@ -1,3 +1,4 @@
+import { searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
 import {
   createMockedDeclaredExperiencesPagedResponse,
   declaredExperienceViewDTOFixture
@@ -107,3 +108,13 @@ export const declaredExperiencesHandlers = [
     })
   })
 ]
+
+export const declaredExperienceDetailedLoadingHandler = http.get(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
+  await delay('infinite')
+  const { id } = params as { id: string }
+  const experience = searchDeclaredExperienceById(id)
+  return HttpResponse.json<DeclaredExperienceViewDTO>(experience, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})

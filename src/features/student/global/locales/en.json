@@ -15,6 +15,13 @@
       },
       "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
       "myAssociationsWithCount": "My associations ({count})",
+      "interaction": {
+        "inputs": {
+          "period": {
+            "label": "Period"
+          }
+        }
+      },
       "navigation": {
         "tabs": {
           "apcUnavailable": {

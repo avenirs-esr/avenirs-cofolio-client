@@ -16,6 +16,11 @@
       "myAssociatedTracesWithCount": "Ma trace associée ({count}) | Mes traces associées ({count})",
       "myAssociationsWithCount": "Mes associations ({count})",
       "interaction": {
+        "inputs": {
+          "period": {
+            "label": "Période"
+          }
+        },
         "SelectorOverlay": {
           "ariaLabel": {
             "selected": "Désélectionner {item}",
