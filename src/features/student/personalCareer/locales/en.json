@@ -160,7 +160,14 @@
           "confirmationModal": {
             "description": "Any unsaved changes will be lost."
           },
-          "title": "Update {programTitle}"
+          "updateForm": {
+            "errors": {
+              "updateDeclaredProgram": "An error occurred while updating the declared program"
+            },
+            "success": "Declared program updated successfully"
+          },
+          "title": "Update {programTitle}",
+          "wipBadge": "Update in progress"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

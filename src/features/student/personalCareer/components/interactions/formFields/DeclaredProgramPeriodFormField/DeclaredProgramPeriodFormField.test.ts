@@ -1,6 +1,6 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramPeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
-import { AvCheckboxStub, AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvCheckboxStub, AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -51,8 +51,11 @@ BddTest().given('a declared program period form field', () => {
 
   const stubs = {
     AvCheckbox: AvCheckboxStub,
-    AvInput: AvInputStub
+    AvPeriodInput: AvPeriodInputStub
   }
+
+  const getCheckbox = () => wrapper.findComponent({ name: 'AvCheckbox' })
+  const getPeriodInput = () => wrapper.findComponent({ name: 'AvPeriodInput' })
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -62,94 +65,98 @@ BddTest().given('a declared program period form field', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the checkbox and date inputs', () => {
-      const checkbox = wrapper.findAllComponents({ name: 'AvCheckbox' })
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      expect(checkbox.length).toBe(1)
-      expect(inputs.length).toBe(2)
+    BddTest().then('it should render the checkbox and the period input', () => {
+      expect(getCheckbox().exists()).toBe(true)
+      expect(getPeriodInput().exists()).toBe(true)
     })
 
     BddTest().then('it should have empty initial values', () => {
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      expect(inputs[0].props('modelValue')).toBe('')
-      expect(inputs[1].props('modelValue')).toBe('')
+      const period = getPeriodInput()
+      expect(period.props('startModelValue')).toBe('')
+      expect(period.props('endModelValue')).toBe('')
     })
 
     BddTest().then('it should have isOngoing unchecked', () => {
-      const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
+      const checkbox = getCheckbox()
       expect(checkbox.props('modelValue')).toEqual([])
     })
 
     BddTest().then('it should enable end date input', () => {
-      const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-      expect(inputs[1].props('disabled')).toBe(false)
+      const period = getPeriodInput()
+      expect(period.props('endDateDisabled')).toBe(false)
     })
 
     BddTest().and('the user enters a start date', () => {
       BddTest().then('it should update the start date value', async () => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await inputs[0].vm.$emit('update:modelValue', '2024-01')
+        const period = getPeriodInput()
+        await period.vm.$emit('update:startModelValue', '2024-01')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(updatedInputs[0].props('modelValue')).toBe('2024-01')
+          const updated = getPeriodInput()
+          expect(updated.props('startModelValue')).toBe('2024-01')
         })
       })
     })
 
     BddTest().and('the user enters an end date', () => {
       BddTest().then('it should update the end date value', async () => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await inputs[1].vm.$emit('update:modelValue', '2024-12')
+        const period = getPeriodInput()
+        await period.vm.$emit('update:endModelValue', '2024-12')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(updatedInputs[1].props('modelValue')).toBe('2024-12')
+          const updated = getPeriodInput()
+          expect(updated.props('endModelValue')).toBe('2024-12')
         })
       })
     })
 
     BddTest().and('the user checks isOngoing checkbox', () => {
-      BddTest().then('it should check the checkbox and disable end date input', async () => {
-        const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
+      BddTest().then('it should check the checkbox and disable end date input and clear end date', async () => {
+        // set an end date first, so we can ensure it gets cleared
+        const period = getPeriodInput()
+        await period.vm.$emit('update:endModelValue', '2024-12')
+        await wrapper.vm.$nextTick()
+
+        const checkbox = getCheckbox()
         await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedCheckbox = wrapper.findComponent({ name: 'AvCheckbox' })
+          const updatedCheckbox = getCheckbox()
           expect(updatedCheckbox.props('modelValue')).toEqual(['isOngoing'])
         })
 
         await vi.waitFor(() => {
-          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(inputs[1].props('disabled')).toBe(true)
+          const updatedPeriod = getPeriodInput()
+          expect(updatedPeriod.props('endDateDisabled')).toBe(true)
         })
 
         await vi.waitFor(() => {
-          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(inputs[1].props('modelValue')).toBe('')
+          const updatedPeriod = getPeriodInput()
+          expect(updatedPeriod.props('endModelValue')).toBe('')
         })
       })
     })
 
     BddTest().and('the user unchecks isOngoing checkbox', () => {
       BddTest().then('it should uncheck the checkbox and enable end date input', async () => {
-        const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
+        const checkbox = getCheckbox()
         await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
         await wrapper.vm.$nextTick()
+
         await checkbox.vm.$emit('update:modelValue', [])
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedCheckbox = wrapper.findComponent({ name: 'AvCheckbox' })
+          const updatedCheckbox = getCheckbox()
           expect(updatedCheckbox.props('modelValue')).toEqual([])
         })
 
         await vi.waitFor(() => {
-          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(inputs[1].props('disabled')).toBe(false)
+          const updatedPeriod = getPeriodInput()
+          expect(updatedPeriod.props('endDateDisabled')).toBe(false)
         })
       })
     })
@@ -160,44 +167,49 @@ BddTest().given('a declared program period form field', () => {
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(inputs[0].props('errorMessage')).toBe('La date de début est requise')
-          expect(inputs[1].props('errorMessage')).toBe('La date de fin est requise')
+          const period = getPeriodInput()
+          expect(period.props('startErrorMessage')).toBe('La date de début est requise')
+          expect(period.props('endErrorMessage')).toBe('La date de fin est requise')
         })
       })
     })
 
     BddTest().and('the form is submitted with valid dates', () => {
       BddTest().then('it should not show validation errors', async () => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        await inputs[0].vm.$emit('update:modelValue', '2024-01')
-        await inputs[1].vm.$emit('update:modelValue', '2024-12')
+        const period = getPeriodInput()
+        await period.vm.$emit('update:startModelValue', '2024-01')
+        await period.vm.$emit('update:endModelValue', '2024-12')
         await wrapper.vm.$nextTick()
+
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(updatedInputs[0].props('errorMessage')).toBeFalsy()
-          expect(updatedInputs[1].props('errorMessage')).toBeFalsy()
+          const updated = getPeriodInput()
+          expect(updated.props('startErrorMessage')).toBeFalsy()
+          expect(updated.props('endErrorMessage')).toBeFalsy()
         })
       })
     })
 
     BddTest().and('the form is submitted with isOngoing checked and start date', () => {
       BddTest().then('it should not show validation errors', async () => {
-        const inputs = wrapper.findAllComponents({ name: 'AvInput' })
-        const checkbox = wrapper.findComponent({ name: 'AvCheckbox' })
-        await inputs[0].vm.$emit('update:modelValue', '2024-01')
+        const period = getPeriodInput()
+        const checkbox = getCheckbox()
+
+        await period.vm.$emit('update:startModelValue', '2024-01')
+        await wrapper.vm.$nextTick()
+
         await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
         await wrapper.vm.$nextTick()
+
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updatedInputs = wrapper.findAllComponents({ name: 'AvInput' })
-          expect(updatedInputs[0].props('errorMessage')).toBeFalsy()
-          expect(updatedInputs[1].props('errorMessage')).toBeFalsy()
+          const updated = getPeriodInput()
+          expect(updated.props('startErrorMessage')).toBeFalsy()
+          expect(updated.props('endErrorMessage')).toBeFalsy()
         })
       })
     })

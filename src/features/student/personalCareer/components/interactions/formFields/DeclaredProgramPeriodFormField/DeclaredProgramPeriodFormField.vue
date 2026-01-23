@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
-import { AvCheckbox, AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCheckbox, AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -8,34 +8,34 @@ interface DeclaredProgramPeriodFormFieldProps {
   form: AddDeclaredProgramForm
 }
 
-defineOptions({
-  inheritAttrs: false
-})
+defineOptions({ inheritAttrs: false })
 
 const { form } = defineProps<DeclaredProgramPeriodFormFieldProps>()
 const { t } = useI18n()
 
 const IS_ONGOING = 'isOngoing'
-
 const FormField = markRaw(form.Field)
 const startDateField = form.useField({ name: 'startDate' })
 const endDateField = form.useField({ name: 'endDate' })
 const isOngoingField = form.useField({ name: IS_ONGOING })
 
-const isOngoing = computed(() => isOngoingField.state.value.value)
+const isOngoing = computed(() => Boolean(isOngoingField.state.value.value))
 
-function onUpdateStartDate (value: string | number | null) {
-  startDateField.api.handleChange(String(value ?? ''))
+function setStartDate (value: string) {
+  startDateField.api.handleChange(value)
 }
 
-function onUpdateEndDate (value: string | number | null) {
-  endDateField.api.handleChange(String(value ?? ''))
+function setEndDate (value: string) {
+  endDateField.api.handleChange(value)
 }
 
 function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
   const [value] = values
-  isOngoingField.api.handleChange(value === IS_ONGOING)
-  if (value) {
+  const checked = value === IS_ONGOING
+
+  isOngoingField.api.handleChange(checked)
+
+  if (checked) {
     endDateField.api.handleChange('')
   }
 }
@@ -61,38 +61,20 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
         </template>
       </FormField>
 
-      <div class="av-row--md">
-        <FormField name="startDate">
-          <template #default="{ field }">
-            <AvInput
-              :model-value="field.state.value"
-              :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
-              :label-visible="false"
-              :placeholder="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDatePlaceholder')"
-              :error-message="field.state.meta.errors?.join(', ')"
-              :prefix-icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
-              type="month"
-              @update:model-value="onUpdateStartDate"
-            />
-          </template>
-        </FormField>
-
-        <FormField name="endDate">
-          <template #default="{ field }">
-            <AvInput
-              :model-value="field.state.value"
-              :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
-              :placeholder="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDatePlaceholder')"
-              :error-message="field.state.meta.errors?.join(', ')"
-              :prefix-icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
-              type="month"
-              :disabled="isOngoing"
-              :label-visible="false"
-              @update:model-value="onUpdateEndDate"
-            />
-          </template>
-        </FormField>
-      </div>
+      <AvPeriodInput
+        type="month"
+        :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
+        label-class="av-hidden"
+        :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
+        :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
+        :start-model-value="String(startDateField.state.value.value ?? '')"
+        :end-model-value="String(endDateField.state.value.value ?? '')"
+        :end-date-disabled="isOngoing"
+        :start-error-message="startDateField.state.value.meta.errors?.join(', ')"
+        :end-error-message="endDateField.state.value.meta.errors?.join(', ')"
+        @update:start-model-value="setStartDate"
+        @update:end-model-value="setEndDate"
+      />
     </div>
   </div>
 </template>

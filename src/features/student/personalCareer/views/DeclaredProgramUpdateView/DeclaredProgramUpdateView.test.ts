@@ -34,6 +34,24 @@ vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
   }
 })
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
 
@@ -53,9 +71,17 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
+const DeclaredProgramUpdateFormStub = {
+  name: 'DeclaredProgramUpdateForm',
+  props: ['declaredProgramDetailed'],
+  emits: ['dirtyChange', 'programUpdated', 'cancel'],
+  template: `<div data-testid="declared-program-update-form-stub"></div>`
+}
+
 const stubs = {
   PageTitle: PageTitleStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
+  DeclaredProgramUpdateForm: DeclaredProgramUpdateFormStub,
   ConfirmationModal: ConfirmationModalStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub
 }
@@ -83,11 +109,15 @@ BddTest().given('a declared program update view component', () => {
   }
 
   const getConfirmationModal = () => wrapper.findComponent({ name: 'ConfirmationModal' })
+  const getForm = () => wrapper.findComponent({ name: 'DeclaredProgramUpdateForm' })
 
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
+
     showConfirmationModal.value = false
+
+    mockCanLeave.mockResolvedValue(true)
   })
 
   BddTest().when('the component is mounted', () => {
@@ -118,10 +148,28 @@ BddTest().given('a declared program update view component', () => {
       })
     })
 
-    BddTest().then('it should render the update in progress badge', () => {
+    BddTest().then('it should not render the wip badge by default', () => {
       const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
-
       expect(badge.exists()).toBe(true)
+      expect(badge.props('show')).toBe(false)
+    })
+
+    BddTest().and('when the form becomes dirty', () => {
+      beforeEach(async () => {
+        const form = getForm()
+        expect(form.exists()).toBe(true)
+
+        form.vm.$emit('dirtyChange', true)
+        await nextTick()
+        await flushPromises()
+      })
+
+      BddTest().then('it should render the wip badge', () => {
+        const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
+
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('show')).toBe(true)
+      })
     })
 
     BddTest().then('it should render the side menu with correct props', () => {
@@ -146,10 +194,12 @@ BddTest().given('a declared program update view component', () => {
       expect(modal.props('description')).toBe('Les modifications non enregistrées seront perdues.')
     })
 
-    BddTest().and('selecting a program from the side menu', () => {
+    BddTest().and('selecting a program from the side menu when canLeave is true', () => {
       let secondProgramId: string
 
       beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(true)
+
         const sideMenu = getSideMenu()
         const programs = getSideMenuPrograms()
         secondProgramId = programs[1].id
@@ -159,7 +209,34 @@ BddTest().given('a declared program update view component', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should open the confirmation modal and not navigate yet', () => {
+      BddTest().then('it should navigate immediately and not open the modal', () => {
+        expect(routerPush).toHaveBeenCalledWith({
+          name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
+          params: { id: secondProgramId }
+        })
+        expect(displayConfirmationModal).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('selecting a program from the side menu when canLeave is false', () => {
+      let secondProgramId: string
+
+      beforeEach(async () => {
+        mockCanLeave.mockImplementation(async () => {
+          displayConfirmationModal()
+          return false
+        })
+
+        const sideMenu = getSideMenu()
+        const programs = getSideMenuPrograms()
+        secondProgramId = programs[1].id
+
+        sideMenu.vm.$emit('selectProgram', secondProgramId)
+        await nextTick()
+        await flushPromises()
+      })
+
+      BddTest().then('it should open the confirmation modal and not navigate', () => {
         const modal = getConfirmationModal()
 
         expect(displayConfirmationModal).toHaveBeenCalledTimes(1)
@@ -175,11 +252,11 @@ BddTest().given('a declared program update view component', () => {
           await flushPromises()
         })
 
-        BddTest().then('it should hide the modal and not navigate', () => {
+        BddTest().then('it should call guard cancel and not navigate', () => {
           const modal = getConfirmationModal()
 
-          expect(hideConfirmationModal).toHaveBeenCalledTimes(1)
-          expect(modal.props('show')).toBe(false)
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+          expect(modal.props('show')).toBe(true)
           expect(routerPush).not.toHaveBeenCalled()
         })
       })
@@ -192,17 +269,8 @@ BddTest().given('a declared program update view component', () => {
           await flushPromises()
         })
 
-        BddTest().then('it should navigate to update route with the selected id', () => {
-          expect(routerPush).toHaveBeenCalledWith({
-            name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-            params: { id: secondProgramId }
-          })
-        })
-
-        BddTest().then('it should hide the modal', () => {
-          const modal = getConfirmationModal()
-          expect(hideConfirmationModal).toHaveBeenCalled()
-          expect(modal.props('show')).toBe(false)
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
         })
       })
     })
