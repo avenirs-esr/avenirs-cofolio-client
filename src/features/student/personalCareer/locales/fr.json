@@ -160,8 +160,7 @@
             },
             "success": "Formation déclarée mise à jour avec succès"
           },
-          "title": "Modifier {programTitle}",
-          "wipBadge": "Modification en cours"
+          "title": "Modifier {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

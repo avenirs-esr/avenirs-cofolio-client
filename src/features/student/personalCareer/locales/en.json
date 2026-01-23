@@ -160,8 +160,7 @@
             },
             "success": "Declared program updated successfully"
           },
-          "title": "Update {programTitle}",
-          "wipBadge": "Update in progress"
+          "title": "Update {programTitle}"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {
