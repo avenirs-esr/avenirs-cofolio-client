@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const DeclaredExperienceDescriptionTextareaStub: Component = {
+export const DeclaredExperienceDescriptionTextareaStub = defineComponent({
   name: 'DeclaredExperienceDescriptionTextarea',
   props: ['modelValue', 'errorMessage'],
   emits: ['update:modelValue', 'blur'],
@@ -13,4 +11,4 @@ export const DeclaredExperienceDescriptionTextareaStub: Component = {
       />
     </div>
   `
-}
+})

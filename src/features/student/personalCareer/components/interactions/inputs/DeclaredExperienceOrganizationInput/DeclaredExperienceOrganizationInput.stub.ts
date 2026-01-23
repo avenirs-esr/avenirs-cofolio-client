@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const DeclaredExperienceOrganizationInputStub: Component = {
+export const DeclaredExperienceOrganizationInputStub = defineComponent({
   name: 'DeclaredExperienceOrganizationInput',
   props: ['modelValue', 'errorMessage'],
   emits: ['update:modelValue', 'blur'],
@@ -13,4 +11,4 @@ export const DeclaredExperienceOrganizationInputStub: Component = {
       />
     </div>
   `
-}
+})

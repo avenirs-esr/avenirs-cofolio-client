@@ -9,14 +9,11 @@ import { usePersonalCareerStore } from '@/features/student/personalCareer/stores
 import DeclaredExperiencesMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import DeleteDeclaredExperiencesModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeleteDeclaredExperiencesModal/DeleteDeclaredExperiencesModal.vue'
-import DeclaredExperiencesMoreActionsDropdown
-  from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const personalCareerStore = usePersonalCareerStore()
-const { displayAddDeclaredExperienceDrawer } = personalCareerStore
 
 const {
   currentPage,
@@ -46,6 +43,7 @@ useBaseApiExceptionToast(error)
   <div class="av-col av-gap-md">
     <DeclaredExperiencesMoreActionsDropdown
       @delete-selected="displayModal"
+      @add-selected="personalCareerStore.displayAddDeclaredExperienceDrawer"
     />
     <AvIconText
       icon-color="var(--text2)"

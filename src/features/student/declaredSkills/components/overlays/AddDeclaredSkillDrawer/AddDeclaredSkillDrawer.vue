@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfirmationModal } from '@/common/components'
+import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
@@ -8,7 +8,7 @@ import {
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { useToasterStore } from '@/store'
-import { AvCancelConfirmButtons, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -89,16 +89,11 @@ function confirmCancel () {
         class="av-row av-justify-end av-p-md"
         data-testid="add-declared-skill-drawer__footer"
       >
-        <AvCancelConfirmButtons
-          :cancel-label="t('global.buttons.cancel')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-disabled="isSubmitting"
-          :confirm-disabled="!isFormValid || !isDirty || isSubmitting"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="form.handleSubmit"
+        <FormCancelConfirmButtons
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid && isDirty"
+          @handle-cancel="handleCancel"
+          @handle-submit="form.handleSubmit"
         />
       </div>
     </template>

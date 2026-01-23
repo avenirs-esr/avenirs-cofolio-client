@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
-import { ConfirmationModal, CreationUpdateDateDetails } from '@/common/components'
+import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
@@ -12,7 +12,6 @@ import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
 import { useToasterStore } from '@/store'
-import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -83,15 +82,13 @@ function confirmCancel () {
   </form>
 
   <div class="av-row av-justify-end av-p-md">
-    <AvCancelConfirmButtons
+    <FormCancelConfirmButtons
       :cancel-label="t('global.buttons.cancel')"
       :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
-      :confirm-disabled="!isFormValid"
-      :confirm-is-loading="isSubmitting"
-      :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-      :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-      @cancel="displayConfirmationModal"
-      @confirm="onSubmit"
+      :is-submitting="isSubmitting"
+      :is-form-valid="isFormValid"
+      @handle-cancel="displayConfirmationModal"
+      @handle-submit="onSubmit"
     />
   </div>
   <ConfirmationModal

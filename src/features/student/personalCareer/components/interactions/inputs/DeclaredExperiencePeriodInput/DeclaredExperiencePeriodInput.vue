@@ -28,7 +28,5 @@ const avPeriodInputProps = computed<AvPeriodInputProps>(() => ({
 </script>
 
 <template>
-  <AvPeriodInput
-    v-bind="avPeriodInputProps"
-  />
+  <AvPeriodInput v-bind="avPeriodInputProps" />
 </template>

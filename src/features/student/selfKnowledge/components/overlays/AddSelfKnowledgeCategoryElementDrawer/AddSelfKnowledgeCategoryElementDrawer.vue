@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfirmationModal } from '@/common/components'
+import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
@@ -8,7 +8,7 @@ import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfK
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -129,15 +129,12 @@ const drawerTitle = computed(() => {
 
     <template #footer>
       <div class="av-row av-justify-end av-p-md">
-        <AvCancelConfirmButtons
+        <FormCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :confirm-disabled="!isFormValid"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="onSave"
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid"
+          @handle-cancel="handleCancel"
+          @handle-submit="onSave"
         />
       </div>
     </template>

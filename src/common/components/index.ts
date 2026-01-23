@@ -3,6 +3,7 @@ export { default as ConfirmationModal, type ConfirmationModalProps } from './Con
 export { CreationUpdateDateDetailsStub } from './CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 export { default as CreationUpdateDateDetails, type DeclaredSkillDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 export { default as Footer } from './Footer/Footer.vue'
+export { default as FormCancelConfirmButtons, type FormCancelConfirmButtonsProps } from './FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
 export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './Loader/Loader.vue'
 export { default as PageTitle } from './PageTitle/PageTitle.vue'

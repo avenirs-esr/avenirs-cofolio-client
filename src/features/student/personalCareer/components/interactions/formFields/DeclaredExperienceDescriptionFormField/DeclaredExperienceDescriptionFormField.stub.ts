@@ -1,7 +1,5 @@
-import type { Component } from 'vue'
-
-export const DeclaredExperienceDescriptionFormFieldStub: Component = {
+export const DeclaredExperienceDescriptionFormFieldStub = defineComponent({
   name: 'DeclaredExperienceDescriptionFormField',
   props: ['form'],
   template: '<div data-testid="experience-description-form-field" />'
-}
+})

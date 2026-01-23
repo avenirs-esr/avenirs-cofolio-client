@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const DeclaredExperienceTypeSelectStub: Component = {
+export const DeclaredExperienceTypeSelectStub = defineComponent({
   name: 'DeclaredExperienceTypeSelect',
   props: ['modelValue', 'errorMessage'],
   emits: ['update:modelValue', 'blur'],
@@ -17,4 +15,4 @@ export const DeclaredExperienceTypeSelectStub: Component = {
       </select>
     </div>
   `
-}
+})

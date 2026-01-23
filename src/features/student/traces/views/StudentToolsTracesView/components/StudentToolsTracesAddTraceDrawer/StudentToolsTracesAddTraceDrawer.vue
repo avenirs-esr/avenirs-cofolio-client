@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfirmationModal } from '@/common/components'
+import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
@@ -8,7 +8,7 @@ import {
   useCreateTraceForm
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -106,15 +106,12 @@ async function onSave () {
 
     <template #footer>
       <div class="student-tools-traces-add-trace-drawer__footer">
-        <AvCancelConfirmButtons
+        <FormCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :confirm-disabled="!isFormValid"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="onSave"
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid"
+          @handle-cancel="handleCancel"
+          @handle-submit="onSave"
         />
       </div>
     </template>

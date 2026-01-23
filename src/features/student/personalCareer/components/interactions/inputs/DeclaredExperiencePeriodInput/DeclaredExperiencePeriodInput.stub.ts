@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const DeclaredExperiencePeriodInputStub: Component = {
+export const DeclaredExperiencePeriodInputStub = defineComponent({
   name: 'DeclaredExperiencePeriodInput',
   props: ['labelVisible', 'startModelValue', 'endModelValue', 'startErrorMessage', 'endErrorMessage', 'endDateDisabled'],
   emits: ['update:startModelValue', 'update:endModelValue'],
@@ -19,4 +17,4 @@ export const DeclaredExperiencePeriodInputStub: Component = {
       />
     </div>
   `
-}
+})

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfirmationModal } from '@/common/components'
+import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import DeclaredProgramDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
 import DeclaredProgramLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.vue'
@@ -11,7 +11,7 @@ import DeclaredProgramTitleFormField from '@/features/student/personalCareer/com
 import { useAddDeclaredProgramForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -109,16 +109,11 @@ const activeAccordion = ref(0)
         v-memo="[isFormValid, isSubmitting]"
         class="av-row av-justify-end av-p-md"
       >
-        <AvCancelConfirmButtons
-          :cancel-label="t('global.buttons.cancel')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-disabled="isSubmitting"
-          :confirm-disabled="!isFormValid || isSubmitting"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="form.handleSubmit"
+        <FormCancelConfirmButtons
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid"
+          @handle-cancel="handleCancel"
+          @handle-submit="form.handleSubmit"
         />
       </div>
     </template>

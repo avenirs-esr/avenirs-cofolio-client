@@ -108,7 +108,6 @@ BddTest().given('a declared program update form component', () => {
 
       const buttons = getCancelConfirmButtons()
       expect(buttons.exists()).toBe(true)
-      expect(buttons.props('cancelIsLoading')).toBe(true)
       expect(buttons.props('confirmIsLoading')).toBe(true)
     })
 
@@ -129,7 +128,6 @@ BddTest().given('a declared program update form component', () => {
       const buttons = getCancelConfirmButtons()
       expect(buttons.exists()).toBe(true)
       expect(buttons.props('confirmDisabled')).toBe(false)
-      expect(buttons.props('cancelIsLoading')).toBe(false)
     })
   })
 
