@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, type AvCancelConfirmButtonsProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface FormCancelConfirmButtonsProps {
+export interface FormCancelConfirmButtonsProps extends AvCancelConfirmButtonsProps {
   isSubmitting: boolean
   isFormValid: boolean
-  cancelLabel?: string
-  confirmLabel?: string
 }
 
-const {
-  isSubmitting,
-  isFormValid,
-} = defineProps<FormCancelConfirmButtonsProps>()
+const props = defineProps<FormCancelConfirmButtonsProps>()
 
 const emit = defineEmits<{
-  (e: 'handleCancel'): void
-  (e: 'handleSubmit'): void
+  (e: 'cancel'): void
+  (e: 'submit'): void
 }>()
 
 const { t } = useI18n()
+
+const avCancelConfirmButtonsProps = computed(() => ({
+  ...props,
+  cancelLabel: props.cancelLabel ?? t('global.buttons.cancel'),
+  confirmLabel: props.confirmLabel ?? t('global.buttons.save'),
+  cancelIcon: props.cancelIcon ?? MDI_ICONS.CLOSE_CIRCLE_OUTLINE,
+  confirmIcon: props.confirmIcon ?? MDI_ICONS.CONTENT_SAVE_OUTLINE,
+  cancelDisabled: props.isSubmitting,
+  confirmDisabled: !props.isFormValid,
+  confirmIsLoading: props.isSubmitting
+}))
 </script>
 
 <template>
   <AvCancelConfirmButtons
-    :cancel-label="cancelLabel ?? t('global.buttons.cancel')"
-    :confirm-label="confirmLabel ?? t('global.buttons.save')"
-    :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-    :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-    :cancel-disabled="isSubmitting"
-    :confirm-disabled="!isFormValid || isSubmitting"
-    :confirm-is-loading="isSubmitting"
-    @cancel="emit('handleCancel')"
-    @confirm="emit('handleSubmit')"
+    v-bind="avCancelConfirmButtonsProps"
+    @cancel="emit('cancel')"
+    @confirm="emit('submit')"
   />
 </template>

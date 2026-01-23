@@ -114,8 +114,8 @@ const activeAccordion = ref(0)
         <FormCancelConfirmButtons
           :is-submitting="isSubmitting"
           :is-form-valid="isFormValid"
-          @handle-cancel="handleCancel"
-          @handle-submit="form.handleSubmit"
+          @cancel="handleCancel"
+          @submit="form.handleSubmit"
         />
       </div>
     </template>

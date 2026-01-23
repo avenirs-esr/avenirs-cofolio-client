@@ -87,8 +87,8 @@ function confirmCancel () {
       :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
       :is-submitting="isSubmitting"
       :is-form-valid="isFormValid"
-      @handle-cancel="displayConfirmationModal"
-      @handle-submit="onSubmit"
+      @cancel="displayConfirmationModal"
+      @submit="onSubmit"
     />
   </div>
   <ConfirmationModal
