@@ -1450,6 +1450,45 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "declared-program-controller"
+        ],
+        "operationId": "updateDeclaredProgram",
+        "parameters": [
+          {
+            "name": "declaredProgramId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclaredProgramRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredProgramDetailedDTO"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/me/declared/experiences/{experienceId}": {

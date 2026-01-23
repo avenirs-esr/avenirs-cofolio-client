@@ -154,7 +154,14 @@
           "confirmationModal": {
             "description": "Les modifications non enregistrées seront perdues."
           },
-          "title": "Modifier {programTitle}"
+          "updateForm": {
+            "errors": {
+              "updateDeclaredProgram": "Une erreur est survenue lors de la mise à jour de la formation déclarée"
+            },
+            "success": "Formation déclarée mise à jour avec succès"
+          },
+          "title": "Modifier {programTitle}",
+          "wipBadge": "Modification en cours"
         },
         "PersonalCareerView": {
           "ActivitiesSection": {

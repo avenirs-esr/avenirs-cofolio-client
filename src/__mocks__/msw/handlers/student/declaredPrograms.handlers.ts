@@ -9,6 +9,7 @@ import {
   getDeleteDeclaredProgramUrl,
   getGetDeclaredProgramsUrl,
   getGetDeclaredProgramUrl,
+  getUpdateDeclaredProgramUrl,
   type PagedResponseDeclaredProgramViewDTO
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
@@ -99,6 +100,12 @@ export const declaredProgramsHandlers = [
   declaredProgramsQueryHandler,
   http.post(
     `*${getCreateDeclaredProgramUrl()}`,
+    () => {
+      return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
+    }
+  ),
+  http.put(
+    `*${getUpdateDeclaredProgramUrl(':id')}`,
     () => {
       return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
     }

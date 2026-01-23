@@ -11,13 +11,15 @@ import {
   usePaginatedDeclaredPrograms
 } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
+import DeclaredProgramUpdateForm
+  from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
-const isDirty = computed(() => true)
+const isDirty = ref(false)
 
 const { showModal, displayModal, hideModal } = useModal()
 
@@ -49,6 +51,15 @@ async function onSelectProgram (programId: string) {
     })
   }
 }
+
+function onDirtyChange (value: boolean) {
+  isDirty.value = value
+}
+
+function onProgramUpdated () {
+  isDirty.value = false
+  router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId.value } })
+}
 </script>
 
 <template>
@@ -57,7 +68,6 @@ async function onSelectProgram (programId: string) {
     :breadcrumb-links="breadcrumbLinks"
     :back="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } }"
   />
-  <UpdateInProgressBadge :show="isDirty" />
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu
       :selected-program-id="selectedProgramId"
@@ -66,6 +76,17 @@ async function onSelectProgram (programId: string) {
       @select-program="onSelectProgram"
       @load-more-programs="loadMoreDeclaredPrograms"
     />
+    <div class="av-col av-gap-sm av-justify-start av-flex-fill">
+      <UpdateInProgressBadge :show="isDirty" />
+      <DeclaredProgramUpdateForm
+        v-if="declaredProgramDetailed"
+        :key="declaredProgramDetailed.id"
+        :declared-program-detailed="declaredProgramDetailed"
+        @dirty-change="onDirtyChange"
+        @program-updated="onProgramUpdated"
+        @cancel="router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } })"
+      />
+    </div>
   </div>
   <ConfirmationModal
     :show="showModal"

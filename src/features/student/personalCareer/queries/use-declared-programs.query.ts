@@ -9,7 +9,8 @@ import {
   getDeclaredProgram,
   getDeclaredPrograms,
   type PagedResponseDeclaredProgramViewDTO,
-  type PageInfoDTO
+  type PageInfoDTO,
+  updateDeclaredProgram
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
@@ -150,6 +151,30 @@ export function useDeleteDeclaredProgramMutation ({ onError, onSuccess }: Mutati
     },
     onSuccess: async (data, variables) => {
       await invalidateDeclaredProgramsViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UpdateDeclaredProgramMutationParams {
+  declaredProgramId: string
+  declaredProgramRequestDTO: DeclaredProgramRequestDTO
+}
+
+export function useUpdateDeclaredProgramMutation (
+  { onError, onSuccess }: MutationArgs<DeclaredProgramDetailedDTO, UpdateDeclaredProgramMutationParams> = {}
+) {
+  const invalidateDeclaredProgramsViewQuery = useInvalidateQuery([...declaredProgramsViewQueryKey])
+  const invalidateDeclaredProgramDetailedQuery = useInvalidateQuery([...declaredProgramsCommonQueryKey])
+
+  return useMutation<DeclaredProgramDetailedDTO, BaseApiException, UpdateDeclaredProgramMutationParams>({
+    mutationFn: async ({ declaredProgramId, declaredProgramRequestDTO }: UpdateDeclaredProgramMutationParams) => {
+      return await updateDeclaredProgram(declaredProgramId, declaredProgramRequestDTO)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredProgramsViewQuery()
+      await invalidateDeclaredProgramDetailedQuery()
       onSuccess?.(data, variables)
     },
     onError
