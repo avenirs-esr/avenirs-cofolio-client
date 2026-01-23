@@ -72,29 +72,17 @@ const createdAtPrefix = computed(() =>
           class="av-col av-gap-md av-flex-fill"
           data-testid="update-declared-program-form__main"
         >
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramTitleFormField :form="form" />
-          </div>
+          <DeclaredProgramTitleFormField :form="form" />
 
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramOrganizationFormField :form="form" />
-          </div>
+          <DeclaredProgramOrganizationFormField :form="form" />
 
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramPeriodFormField :form="form" />
-          </div>
+          <DeclaredProgramPeriodFormField :form="form" />
 
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramResultFormField :form="form" />
-          </div>
+          <DeclaredProgramResultFormField :form="form" />
 
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramSourceOfInformationFormField :form="form" />
-          </div>
+          <DeclaredProgramSourceOfInformationFormField :form="form" />
 
-          <div data-testid="update-declared-program-form__field">
-            <DeclaredProgramLinkFormField :form="form" />
-          </div>
+          <DeclaredProgramLinkFormField :form="form" />
 
           <CreationUpdateDateDetails
             :created-at="declaredProgramDetailed.createdAt"
@@ -127,8 +115,8 @@ const createdAtPrefix = computed(() =>
           :confirm-label="t('global.buttons.save')"
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-disabled="isSubmitting"
-          :confirm-disabled="!isFormValid || isSubmitting"
+          :cancel-is-loading="isSubmitting"
+          :confirm-disabled="!isFormValid"
           :confirm-is-loading="isSubmitting"
           @cancel="handleCancel"
           @confirm="handleSubmit"

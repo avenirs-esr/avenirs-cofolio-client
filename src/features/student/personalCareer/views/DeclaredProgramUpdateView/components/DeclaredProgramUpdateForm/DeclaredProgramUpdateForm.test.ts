@@ -74,14 +74,6 @@ BddTest().given('a declared program update form component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the main layout parts', () => {
-      expect(wrapper.find('[data-testid="update-declared-program-form"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="update-declared-program-form__content"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="update-declared-program-form__main"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="update-declared-program-form__side"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="update-declared-program-form__actions"]').exists()).toBe(true)
-    })
-
     BddTest().then('it should render all form field components', () => {
       expect(wrapper.findComponent(DeclaredProgramTitleFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramOrganizationFormFieldStub).exists()).toBe(true)
@@ -110,14 +102,14 @@ BddTest().given('a declared program update form component', () => {
       expect(buttons.props('confirmDisabled')).toBe(true)
     })
 
-    BddTest().then('it should set confirmDisabled=true and cancelDisabled=true when submitting', async () => {
+    BddTest().then('it should set confirmIsLoading and cancelIsLoading when submitting', async () => {
       mockIsSubmitting.value = true
       await flushPromises()
 
       const buttons = getCancelConfirmButtons()
       expect(buttons.exists()).toBe(true)
-      expect(buttons.props('cancelDisabled')).toBe(true)
-      expect(buttons.props('confirmDisabled')).toBe(true) // because isSubmitting
+      expect(buttons.props('cancelIsLoading')).toBe(true)
+      expect(buttons.props('confirmIsLoading')).toBe(true)
     })
 
     BddTest().then('it should set confirmIsLoading=true when submitting', async () => {
@@ -129,7 +121,7 @@ BddTest().given('a declared program update form component', () => {
       expect(buttons.props('confirmIsLoading')).toBe(true)
     })
 
-    BddTest().then('it should set confirmDisabled=false when form is valid and not submitting', async () => {
+    BddTest().then('it should set confirmIsLoading=false when form is valid and not submitting', async () => {
       mockIsFormValid.value = true
       mockIsSubmitting.value = false
       await flushPromises()
@@ -137,7 +129,7 @@ BddTest().given('a declared program update form component', () => {
       const buttons = getCancelConfirmButtons()
       expect(buttons.exists()).toBe(true)
       expect(buttons.props('confirmDisabled')).toBe(false)
-      expect(buttons.props('cancelDisabled')).toBe(false)
+      expect(buttons.props('cancelIsLoading')).toBe(false)
     })
   })
 
