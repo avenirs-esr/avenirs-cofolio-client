@@ -61,14 +61,9 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
     wrapper = mountComponent<typeof AddDeclaredExperienceDrawer>(
       AddDeclaredExperienceDrawer,
-      {
-        global: {
-          stubs
-        }
+      { global: { stubs }
       },
-      {
-        usePinia: false
-      }
+      { usePinia: false }
     )
 
     await wrapper.vm.$nextTick()
@@ -95,7 +90,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
 
       expect(accordionsGroup.exists()).toBe(true)
-      expect(accordions).toHaveLength(3)
+      expect(accordions).toHaveLength(1)
     })
 
     BddTest().then('it should render all form field components in first accordion', () => {
@@ -136,20 +131,6 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
       expect(addExperienceAccordion.props('title')).toBe('Ajouter mon expérience')
       expect(addExperienceAccordion.props('icon')).toBeDefined()
-    })
-
-    BddTest().then('it should render specify experience accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-      const specifyAccordion = accordions[1]
-
-      expect(specifyAccordion.props('title')).toBe('Préciser mon expérience')
-    })
-
-    BddTest().then('it should render associate experience accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-      const associateAccordion = accordions[2]
-
-      expect(associateAccordion.props('title')).toBe('Associer mon expérience')
     })
 
     BddTest().then('it should have confirmation modal rendered', () => {

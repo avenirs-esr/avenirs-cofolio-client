@@ -104,9 +104,7 @@
             "createDeclaredExperience": "Error creating declared experience"
           },
           "sections": {
-            "addExperience": "Add my experience",
-            "associateExperience": "Associate my experience",
-            "specifyExperience": "Specify my experience"
+            "addExperience": "Add my experience"
           },
           "success": "Declared experience added successfully",
           "title": "Add a declared experience"

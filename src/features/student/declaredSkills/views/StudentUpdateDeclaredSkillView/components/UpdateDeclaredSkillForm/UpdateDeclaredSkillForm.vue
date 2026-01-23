@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
-import { CreationUpdateDateDetails } from '@/common/components'
+import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillCommentFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillCommentFormField/DeclaredSkillCommentFormField.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
-import { AvCancelConfirmButtons, AvCard, AvInput, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -100,16 +100,11 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         class="av-row av-justify-end"
         data-testid="update-declared-skill-form__actions"
       >
-        <AvCancelConfirmButtons
-          :cancel-label="t('global.buttons.cancel')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-disabled="isSubmitting"
-          :confirm-disabled="!isFormValid || isSubmitting"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="handleSubmit"
+        <FormCancelConfirmButtons
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid"
+          @handle-cancel="handleCancel"
+          @handle-submit="handleSubmit"
         />
       </div>
     </template>

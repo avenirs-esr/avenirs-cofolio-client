@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
-import { CreationUpdateDateDetails } from '@/common/components'
+import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import DeclaredProgramDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
 import DeclaredProgramLinkFormField
@@ -16,7 +16,7 @@ import DeclaredProgramSourceOfInformationFormField
 import DeclaredProgramTitleFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
 import { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
-import { AvCancelConfirmButtons, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -110,16 +110,11 @@ const createdAtPrefix = computed(() =>
         class="av-row av-justify-end"
         data-testid="update-declared-program-form__actions"
       >
-        <AvCancelConfirmButtons
-          :cancel-label="t('global.buttons.cancel')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-is-loading="isSubmitting"
-          :confirm-disabled="!isFormValid"
-          :confirm-is-loading="isSubmitting"
-          @cancel="handleCancel"
-          @confirm="handleSubmit"
+        <FormCancelConfirmButtons
+          :is-submitting="isSubmitting"
+          :is-form-valid="isFormValid"
+          @handle-cancel="handleCancel"
+          @handle-submit="handleSubmit"
         />
       </div>
     </template>
