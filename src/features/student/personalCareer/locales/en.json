@@ -222,6 +222,7 @@
             "title": "My career"
           },
           "ProgramsSection": {
+            "breadcrumb": "My programs",
             "DeclaredProgramsMoreActionsDropdown": {
               "add": "Add a program",
               "delete": "Delete a program",

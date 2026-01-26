@@ -27,7 +27,8 @@ const programTitle = computed(() => declaredProgramDetailed.value?.title)
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.experiences') }
+  { text: t('student.global.navigation.tabs.project.items.experiences'), to: ROUTES.STUDENT.PERSONAL_CAREER },
+  { text: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS }
 ])
 
 function onSelectProgram (programId: string) {

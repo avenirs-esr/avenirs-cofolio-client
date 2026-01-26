@@ -222,6 +222,7 @@
             "title": "Mon parcours"
           },
           "ProgramsSection": {
+            "breadcrumb": "Mes formations",
             "DeclaredProgramsMoreActionsDropdown": {
               "add": "Ajouter une formation",
               "delete": "Supprimer une formation",

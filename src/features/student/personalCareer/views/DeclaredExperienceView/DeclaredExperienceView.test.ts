@@ -6,6 +6,7 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTES } from '@/common/constants'
 import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import {
@@ -87,6 +88,18 @@ BddTest().given('a declared experience view component', () => {
 
       const breadcrumbs = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbs).toHaveLength(4)
+    })
+
+    BddTest().then('it should render PageTitle with correct breadcrumb links', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      expect(pageTitle.exists()).toBe(true)
+
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+      expect(breadcrumbLinks).toHaveLength(4)
+      expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
+      expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
+      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours', to: ROUTES.STUDENT.PERSONAL_CAREER })
+      expect(breadcrumbLinks[3]).toEqual({ text: 'Mes expériences', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES })
     })
 
     BddTest().then('it should render the side menu', () => {
