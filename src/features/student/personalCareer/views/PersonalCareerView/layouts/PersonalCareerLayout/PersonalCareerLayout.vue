@@ -26,7 +26,7 @@ const items = computed<AvSideNavigationItem[]>(() => {
     {
       id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
       label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
-      icon: MDI_ICONS.VECTOR_POLYGON_VARIANT,
+      icon: MDI_ICONS.HUB_OUTLINE,
       demo: true
     },
     {

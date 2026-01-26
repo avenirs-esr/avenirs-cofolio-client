@@ -10,7 +10,7 @@ export interface DeclaredExperienceCompactCardProps {
 const { title, valorized } = defineProps<DeclaredExperienceCompactCardProps>()
 
 const iconOptions = {
-  name: MDI_ICONS.SCHOOL_OUTLINE,
+  name: MDI_ICONS.HUB_OUTLINE,
   color: 'var(--icon)',
   bottom: 'calc(-1 * var(--spacing-xl))',
   right: 'var(--spacing-none)',
