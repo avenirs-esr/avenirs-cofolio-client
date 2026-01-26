@@ -133,10 +133,11 @@ BddTest().given('a declared program detailed view component', () => {
       expect(sideMenu.props('selectedProgramId')).toBe('declared-program-1')
       expect(sideMenu.props('countPrograms')).toBe(60)
 
-      expect(programs).toHaveLength(3)
+      expect(programs).toHaveLength(4)
       expect(programs[0].title).toBe('Formation déclarée 1')
       expect(programs[1].title).toBe('Formation déclarée 2')
       expect(programs[2].title).toBe('Formation déclarée 3')
+      expect(programs[3].title).toBe('Formation déclarée 4')
     })
 
     BddTest().then('it should render program details when a program is selected', async () => {
@@ -258,19 +259,19 @@ BddTest().given('a declared program detailed view component', () => {
       BddTest().then('it should fetch the next page of programs', async () => {
         await vi.waitFor(() => {
           const programs = getSideMenuPrograms()
-          expect(programs.length).toBeGreaterThan(3)
+          expect(programs.length).toBeGreaterThan(4)
         })
 
         const programs = getSideMenuPrograms()
-        expect(programs).toHaveLength(6)
-        expect(programs[3].title).toBe('Formation déclarée 4')
+        expect(programs).toHaveLength(8)
         expect(programs[4].title).toBe('Formation déclarée 5')
+        expect(programs[5].title).toBe('Formation déclarée 6')
       })
 
       BddTest().then('it should accumulate programs without duplicates', async () => {
         await vi.waitFor(() => {
           const programs = getSideMenuPrograms()
-          expect(programs.length).toBe(6)
+          expect(programs.length).toBe(8)
         })
 
         const programs = getSideMenuPrograms()

@@ -29,7 +29,7 @@ const selfKnowledgeElementsViewQueryKey = [...selfKnowledgeElementsQueryKey, 'vi
 const selfKnowledgeElementDetailsQueryKey = [...selfKnowledgeCommonQueryKey, 'element-details']
 const selfKnowledgeCategoriesAvailableQueryKey = [...selfKnowledgeCommonQueryKey, 'available']
 
-const CATEGORY_ELEMENTS_PAGE_SIZE = 3
+export const CATEGORY_ELEMENTS_PAGE_SIZE = 3
 
 export function useSelfKnowledgeCategoriesQuery (): UseQueryReturnType<SelfKnowledgeCategoryDTO[], BaseApiException> & {
   categories: Ref<SelfKnowledgeCategoryDTO[]>

@@ -18,7 +18,7 @@ const route = useRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
-const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
+const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
 const { declaredProgramDetailed, isLoading, isError } = useDeclaredProgramDetailedQuery(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()

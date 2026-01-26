@@ -1,7 +1,8 @@
 import type { DeclaredExperienceViewDTO, PageInfoDTO } from '@/api/avenir-esr'
-import type { Ref } from 'vue'
+import { useInfiniteScrollPagination } from '@/common/composables'
 import { useDeclaredExperiencesViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredExperiencesResult {
   declaredExperiences: Ref<DeclaredExperienceViewDTO[]>
@@ -12,42 +13,26 @@ export interface UsePaginatedDeclaredExperiencesResult {
   resetPagination: () => void
 }
 
-export function usePaginatedDeclaredExperiences ({ pageSize }: { pageSize?: Ref<number> }): UsePaginatedDeclaredExperiencesResult {
+export function usePaginatedDeclaredExperiences ({ pageSize }: { pageSize?: Ref<number> } = {}): UsePaginatedDeclaredExperiencesResult {
   const { declaredExperiencesPageSizeSelected } = usePersonalCareerStore()
   const page = ref(0)
-  const declaredExperiences = ref<DeclaredExperienceViewDTO[]>([])
-  const { pageInfo, declaredExperiences: fetchedDeclaredExperiences, isFetching } = useDeclaredExperiencesViewQuery({ page, pageSize: pageSize ?? declaredExperiencesPageSizeSelected })
 
-  watch(fetchedDeclaredExperiences, (newDeclaredExperiences) => {
-    if (pageInfo.value.page === 0) {
-      declaredExperiences.value = newDeclaredExperiences
-    }
-    else {
-      const existingIds = new Set(declaredExperiences.value.map(experience => experience.id))
-      const merged: DeclaredExperienceViewDTO[] = [...declaredExperiences.value]
+  const { pageInfo, declaredExperiences: fetchedDeclaredExperiences, isFetching } = useDeclaredExperiencesViewQuery({
+    page,
+    pageSize: computed(() => toValue(pageSize) ?? declaredExperiencesPageSizeSelected)
+  })
 
-      newDeclaredExperiences.forEach((experience) => {
-        if (!existingIds.has(experience.id)) {
-          merged.push(experience)
-        }
-      })
-
-      declaredExperiences.value = merged
-    }
-  }, { immediate: true })
-
-  function loadMoreDeclaredExperiences () {
-    if (isFetching.value) {
-      return
-    }
-    if (page.value < pageInfo.value.totalPages - 1) {
-      page.value += 1
-    }
-  }
-
-  function resetPagination () {
-    page.value = 0
-  }
+  const {
+    items: declaredExperiences,
+    loadMore: loadMoreDeclaredExperiences,
+    resetPagination
+  } = useInfiniteScrollPagination({
+    fetchedItems: fetchedDeclaredExperiences,
+    pageInfo,
+    isFetching,
+    page,
+    getItemId: (experience: DeclaredExperienceViewDTO) => experience.id
+  })
 
   return {
     declaredExperiences,
