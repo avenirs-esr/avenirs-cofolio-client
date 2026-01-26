@@ -1,5 +1,9 @@
 import type { PageInfoDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useInfiniteScrollPagination } from '@/common/composables'
+import {
+  CATEGORY_ELEMENTS_PAGE_SIZE,
+  useSelfKnowledgeCategoryElementsViewQuery
+} from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
@@ -16,21 +20,13 @@ export interface UseSelfKnowledgePaginatedElementsResult {
   resetPagination: () => void
 }
 
-const DEFAULT_PAGE_SIZE = 3
-
 export function useSelfKnowledgePaginatedElements ({
   selfKnowledgeCategoryId,
   pageSize
 }: UseSelfKnowledgePaginatedElementsParams): UseSelfKnowledgePaginatedElementsResult {
   const categoryId = computed(() => toValue(selfKnowledgeCategoryId))
+  const size = computed(() => toValue(pageSize) ?? CATEGORY_ELEMENTS_PAGE_SIZE)
   const page = ref(0)
-  const elements = ref<SelfKnowledgeElementViewDTO[]>([])
-  const size = computed(() => toValue(pageSize) ?? DEFAULT_PAGE_SIZE)
-
-  watch(categoryId, () => {
-    page.value = 0
-    elements.value = []
-  })
 
   const {
     pageInfo,
@@ -42,41 +38,21 @@ export function useSelfKnowledgePaginatedElements ({
     pageSize: size
   })
 
-  watch(fetchedElements, (newElements) => {
-    if (!categoryId.value) {
-      elements.value = []
-      return
-    }
+  const {
+    items: elements,
+    loadMore: loadMoreElements,
+    resetPagination
+  } = useInfiniteScrollPagination({
+    fetchedItems: fetchedElements,
+    pageInfo,
+    isFetching,
+    page,
+    getItemId: (el: SelfKnowledgeElementViewDTO) => el.id
+  })
 
-    if (pageInfo.value.page === 0) {
-      elements.value = newElements
-    }
-    else {
-      const existingIds = new Set(elements.value.map(el => el.id))
-      const merged: SelfKnowledgeElementViewDTO[] = [...elements.value]
-
-      newElements.forEach((el) => {
-        if (!existingIds.has(el.id)) {
-          merged.push(el)
-        }
-      })
-
-      elements.value = merged
-    }
-  }, { immediate: true })
-
-  function loadMoreElements () {
-    if (isFetching.value) {
-      return
-    }
-    if (page.value < pageInfo.value.totalPages - 1) {
-      page.value += 1
-    }
-  }
-
-  function resetPagination () {
-    page.value = 0
-  }
+  watch(categoryId, () => {
+    resetPagination()
+  })
 
   return {
     elements,

@@ -52,8 +52,7 @@ const {
   pageInfo,
   loadMoreElements
 } = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategoryId: props.categoryId,
-  pageSize: 3
+  selfKnowledgeCategoryId: props.categoryId
 })
 
 const { element: selectedElementDetails }

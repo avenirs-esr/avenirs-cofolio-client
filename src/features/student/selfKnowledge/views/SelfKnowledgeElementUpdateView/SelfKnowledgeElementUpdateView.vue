@@ -49,7 +49,6 @@ const {
   loadMoreElements
 } = useSelfKnowledgePaginatedElements({
   selfKnowledgeCategoryId: computed(() => props.categoryId),
-  pageSize: 3
 })
 
 const breadcrumbLinks = computed(() => [

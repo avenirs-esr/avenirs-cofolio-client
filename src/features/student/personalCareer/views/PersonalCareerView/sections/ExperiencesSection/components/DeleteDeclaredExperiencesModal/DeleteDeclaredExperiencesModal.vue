@@ -22,10 +22,9 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
 
-const pageSize = ref(9)
 const declaredExperiencesContainer = ref<HTMLElement | null>(null)
 
-const { declaredExperiences: apiDeclaredExperiences, loadMoreDeclaredExperiences, isFetching } = usePaginatedDeclaredExperiences({ pageSize })
+const { declaredExperiences: apiDeclaredExperiences, loadMoreDeclaredExperiences, isFetching } = usePaginatedDeclaredExperiences()
 
 const selectedExperienceIds = ref<string[]>([])
 

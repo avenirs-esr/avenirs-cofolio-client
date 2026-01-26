@@ -142,9 +142,9 @@ BddTest().given('the usePaginatedDeclaredExperiences composable', () => {
       })
     })
 
-    BddTest().then('it should reset page to 0 while keeping a valid elements list', () => {
+    BddTest().then('it should reset page to 0 and clear elements', () => {
       expect(composableResult.page.value).toBe(0)
-      expect(composableResult.declaredExperiences.value.length).toBeGreaterThan(0)
+      expect(composableResult.declaredExperiences.value.length).toBe(0)
     })
   })
 })

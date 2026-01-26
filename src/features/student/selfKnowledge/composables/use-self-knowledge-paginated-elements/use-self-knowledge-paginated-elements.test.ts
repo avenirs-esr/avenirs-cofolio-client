@@ -183,9 +183,9 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
       })
     })
 
-    BddTest().then('it should reset page to 0 while keeping a valid elements list', () => {
+    BddTest().then('it should reset page to 0 and clear elements', () => {
       expect(composableResult.page.value).toBe(0)
-      expect(composableResult.elements.value.length).toBeGreaterThan(0)
+      expect(composableResult.elements.value.length).toBe(0)
     })
   })
 })
