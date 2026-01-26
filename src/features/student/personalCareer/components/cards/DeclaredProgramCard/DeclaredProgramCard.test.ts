@@ -70,7 +70,7 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should have book open variant icon', () => {
       const iconOptions = floatingCard.props('iconOptions')
-      expect(iconOptions.name).toBe(MDI_ICONS.BOOK_OPEN_VARIANT)
+      expect(iconOptions.name).toBe(MDI_ICONS.SCHOOL_OUTLINE)
     })
 
     BddTest().then('it should have correct icon colors', () => {

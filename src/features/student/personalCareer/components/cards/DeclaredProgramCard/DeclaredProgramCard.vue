@@ -10,7 +10,7 @@ const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDT
 const { t } = useI18n()
 
 const iconOptions = {
-  name: MDI_ICONS.BOOK_OPEN_VARIANT,
+  name: MDI_ICONS.SCHOOL_OUTLINE,
   color: 'var(--text1)',
   right: '0.75rem',
   bottom: 'calc(-1 * 3.3rem)',
