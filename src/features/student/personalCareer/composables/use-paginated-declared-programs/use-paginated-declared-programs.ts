@@ -1,5 +1,6 @@
 import type { DeclaredProgramViewDTO, PageInfoDTO } from '@/api/avenir-esr'
-import { useDeclaredProgramsViewQuery, useGetCachedDeclaredPrograms } from '@/features/student/personalCareer/queries/use-declared-programs.query'
+import { useDeclaredProgramsViewQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredProgramsParams {
@@ -17,17 +18,11 @@ export interface UsePaginatedDeclaredProgramsResult {
 
 export function usePaginatedDeclaredPrograms ({
   pageSize
-}: UsePaginatedDeclaredProgramsParams): UsePaginatedDeclaredProgramsResult {
-  const { getCachedDeclaredPrograms } = useGetCachedDeclaredPrograms()
+}: UsePaginatedDeclaredProgramsParams = {}): UsePaginatedDeclaredProgramsResult {
+  const { declaredProgramsPageSizeSelected } = usePersonalCareerStore()
   const page = ref(0)
-  const size = computed(() => toValue(pageSize) ?? 3)
   const declaredPrograms = ref<DeclaredProgramViewDTO[]>([])
-
-  const cached = getCachedDeclaredPrograms()
-  declaredPrograms.value = cached.declaredPrograms
-  if (cached.currentPage >= 0) {
-    page.value = cached.currentPage
-  }
+  const size = computed(() => toValue(pageSize) ?? toValue(declaredProgramsPageSizeSelected))
 
   const {
     pageInfo,
@@ -39,7 +34,7 @@ export function usePaginatedDeclaredPrograms ({
   })
 
   watch(fetchedDeclaredPrograms, (newDeclaredPrograms) => {
-    if (page.value === 0) {
+    if (pageInfo.value.page === 0) {
       declaredPrograms.value = newDeclaredPrograms
     }
     else {
@@ -54,7 +49,7 @@ export function usePaginatedDeclaredPrograms ({
 
       declaredPrograms.value = merged
     }
-  })
+  }, { immediate: true })
 
   function loadMoreDeclaredPrograms () {
     if (isFetching.value) {

@@ -40,7 +40,7 @@ const declaredExperiences = computed(() => {
   }))
 })
 
-function onconfirm () {
+function onConfirm () {
   emit('confirm')
   hideModal()
 }
@@ -86,6 +86,6 @@ function onconfirm () {
     :show="showModal"
     :declared-experience-ids="selectedExperienceIds"
     @close="hideModal"
-    @confirm="onconfirm"
+    @confirm="onConfirm"
   />
 </template>

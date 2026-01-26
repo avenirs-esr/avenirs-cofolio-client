@@ -20,6 +20,12 @@
           "period": {
             "label": "Period"
           }
+        },
+        "SelectorOverlay": {
+          "ariaLabel": {
+            "selected": "select {item}",
+            "unselected": "unselect {item}"
+          }
         }
       },
       "navigation": {
