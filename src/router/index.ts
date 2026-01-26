@@ -14,6 +14,15 @@ const routes = [
       name: ROUTES.STUDENT.HOME.name
     },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/common/views/NotFoundView/NotFoundView.vue'),
+    props: {
+      title: 'global.views.notFoundView.pageNotFound.title',
+      description: 'global.views.notFoundView.pageNotFound.description'
+    },
+  },
 ]
 
 const router = createRouter({

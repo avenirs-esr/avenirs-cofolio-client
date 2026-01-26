@@ -1,3 +1,4 @@
+import type { BaseApiErrorCode } from '@/common/exceptions'
 import type { Message } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
 
@@ -6,6 +7,16 @@ const DEFAULT_TIMEOUT = 5000
 export const useToasterStore = defineStore('toaster', () => {
   const messages = reactive<Message[]>([])
   const timeouts: Record<string, number> = {}
+
+  const errorCode = ref<BaseApiErrorCode | null>(null)
+
+  function clearErrorCode () {
+    errorCode.value = null
+  }
+
+  function setErrorCode (code: BaseApiErrorCode) {
+    errorCode.value = code
+  }
 
   function removeMessage (id: string) {
     const index = messages.findIndex(message => message.id === id)
@@ -50,5 +61,9 @@ export const useToasterStore = defineStore('toaster', () => {
     removeMessage,
     addSuccessMessage,
     addErrorMessage,
+
+    errorCode,
+    setErrorCode,
+    clearErrorCode,
   }
 })

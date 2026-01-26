@@ -17,6 +17,13 @@ vi.mock('@/api/fetch', () => ({
   })),
 }))
 
+const mockSetErrorCode = vi.fn()
+vi.mock('@/store', () => ({
+  useToasterStore: () => ({
+    setErrorCode: mockSetErrorCode,
+  }),
+}))
+
 BddTest().given('avenir-esr customFetch', () => {
   const mockFetcher = vi.fn()
   const mockFetch: MockedFunction<typeof fetch> = vi.fn()
