@@ -1,8 +1,5 @@
 import type { PageInfoDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import {
-  useGetCachedSelfKnowledgeElements,
-  useSelfKnowledgeCategoryElementsViewQuery
-} from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
@@ -19,38 +16,21 @@ export interface UseSelfKnowledgePaginatedElementsResult {
   resetPagination: () => void
 }
 
+const DEFAULT_PAGE_SIZE = 3
+
 export function useSelfKnowledgePaginatedElements ({
   selfKnowledgeCategoryId,
   pageSize
 }: UseSelfKnowledgePaginatedElementsParams): UseSelfKnowledgePaginatedElementsResult {
-  const { getCachedElements } = useGetCachedSelfKnowledgeElements()
-
   const categoryId = computed(() => toValue(selfKnowledgeCategoryId))
   const page = ref(0)
-  const size = computed(() => toValue(pageSize) ?? 3)
   const elements = ref<SelfKnowledgeElementViewDTO[]>([])
+  const size = computed(() => toValue(pageSize) ?? DEFAULT_PAGE_SIZE)
 
-  watch(
-    categoryId,
-    (newCategoryId) => {
-      if (!newCategoryId) {
-        elements.value = []
-        page.value = 0
-        return
-      }
-
-      const cached = getCachedElements(newCategoryId)
-      elements.value = cached.elements
-
-      if (cached.currentPage >= 0) {
-        page.value = cached.currentPage
-      }
-      else {
-        page.value = 0
-      }
-    },
-    { immediate: true }
-  )
+  watch(categoryId, () => {
+    page.value = 0
+    elements.value = []
+  })
 
   const {
     pageInfo,
@@ -68,7 +48,7 @@ export function useSelfKnowledgePaginatedElements ({
       return
     }
 
-    if (page.value === 0) {
+    if (pageInfo.value.page === 0) {
       elements.value = newElements
     }
     else {
@@ -83,7 +63,7 @@ export function useSelfKnowledgePaginatedElements ({
 
       elements.value = merged
     }
-  })
+  }, { immediate: true })
 
   function loadMoreElements () {
     if (isFetching.value) {

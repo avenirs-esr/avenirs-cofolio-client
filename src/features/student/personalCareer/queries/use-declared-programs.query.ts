@@ -14,7 +14,7 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useMutation, useQuery, useQueryClient, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredProgramsCommonQueryKey = [...commonQueryKeys, 'declared-programs']
@@ -59,42 +59,6 @@ export function useDeclaredProgramsViewQuery ({
     ...query,
     declaredPrograms,
     pageInfo
-  }
-}
-
-export interface GetCachedDeclaredProgramsResult {
-  declaredPrograms: DeclaredProgramViewDTO[]
-  currentPage: number
-}
-
-export function useGetCachedDeclaredPrograms () {
-  const queryClient = useQueryClient()
-
-  function getCachedDeclaredPrograms (): GetCachedDeclaredProgramsResult {
-    const allDeclaredPrograms: DeclaredProgramViewDTO[] = []
-    let maxPage = -1
-
-    const queries = queryClient.getQueriesData<PagedResponseDeclaredProgramViewDTO>({
-      queryKey: [...declaredProgramsViewQueryKey]
-    })
-
-    queries.forEach(([, data]) => {
-      if (data?.data) {
-        allDeclaredPrograms.push(...data.data)
-        if (data.page && data.page.page > maxPage) {
-          maxPage = data.page.page
-        }
-      }
-    })
-
-    return {
-      declaredPrograms: allDeclaredPrograms,
-      currentPage: maxPage
-    }
-  }
-
-  return {
-    getCachedDeclaredPrograms
   }
 }
 
