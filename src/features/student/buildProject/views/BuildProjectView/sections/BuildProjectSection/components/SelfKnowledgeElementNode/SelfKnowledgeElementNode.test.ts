@@ -14,6 +14,7 @@ import { beforeEach, expect, vi } from 'vitest'
 const mockUpdateNodeId = vi.fn()
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
+const mockSetErrorCode = vi.fn()
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -21,7 +22,8 @@ vi.mock('@/store', async (importOriginal) => {
     ...actual,
     useToasterStore: () => ({
       addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage
+      addErrorMessage: mockAddErrorMessage,
+      setErrorCode: mockSetErrorCode
     }),
   }
 })
