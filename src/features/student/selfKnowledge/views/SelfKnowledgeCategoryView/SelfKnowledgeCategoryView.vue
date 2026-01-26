@@ -76,16 +76,17 @@ function onUpdateSelected () {
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-category-elements-view av-row av-gap-sm">
-    <SelfKnowledgeElementsSideMenu
-      :elements="elements"
-      :category-type="categoryType"
-      :selected-element-id="selectedElementId"
-      :count-elements="pageInfo.totalElements"
-      @select-element="onSelectElement"
-      @load-more-elements="loadMoreElements"
-    />
-
-    <SelfKnowledgeElementDetailsContainer :element-title="selectedElementDetails?.title ?? ''">
+    <div class="av-col">
+      <SelfKnowledgeElementsSideMenu
+        :elements="elements"
+        :category-type="categoryType"
+        :selected-element-id="selectedElementId"
+        :count-elements="pageInfo.totalElements"
+        @select-element="onSelectElement"
+        @load-more-elements="loadMoreElements"
+      />
+    </div>
+    <SelfKnowledgeElementDetailsContainer>
       <template #title>
         <SelfKnowledgeElementDetailsDropdown
           @update-selected="onUpdateSelected"

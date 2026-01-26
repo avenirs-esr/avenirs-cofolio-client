@@ -147,32 +147,6 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
         const sideMenu = wrapper.findComponent(AvSideMenuStub)
         expect(sideMenu.props('collapsed')).toBe(true)
       })
-
-      BddTest().then('it should render the AvIconText', () => {
-        const iconText = wrapper.findComponent(AvIconTextStub)
-        expect(iconText.exists()).toBe(true)
-      })
-
-      BddTest().then('it should highlight the selected experience with AvButton variant OUTLINED', () => {
-        const selectedItem
-            = wrapper.findAllComponents(AvButtonStub).find(item =>
-              item.props('label') === 'Alternance full-stack'
-            )
-
-        expect(selectedItem?.props('variant')).toBe('OUTLINED')
-      })
-
-      BddTest().and('an experience is clicked', () => {
-        beforeEach(async () => {
-          const buttons = wrapper.findAllComponents(AvButtonStub)
-          await buttons[0].trigger('click')
-        })
-
-        BddTest().then('it should emit selectExperience event', () => {
-          expect(wrapper.emitted('selectExperience')).toBeTruthy()
-          expect(wrapper.emitted('selectExperience')?.[0]).toEqual(['declared-experience-1'])
-        })
-      })
     })
   })
 })

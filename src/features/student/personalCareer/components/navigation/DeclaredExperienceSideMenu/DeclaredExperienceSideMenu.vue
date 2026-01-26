@@ -3,7 +3,7 @@ import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeclaredExperienceCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
-import { AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -43,40 +43,22 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
     collapsed-width="fit-content"
   >
     <div class="declared-experience-side-menu">
-      <span
-        class="s2-bold"
-        :class="{ 'av-sr-only': isCollapsed }"
-      >
-        <span class="s2-regular">
-          {{ capitalize(t(`student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsSideMenu.title`)) }}
-        </span>
-        ({{ experienceCount }})
-      </span>
-      <AvIconText
-        v-if="isCollapsed"
-        :icon="icon"
-        :text="experiences.length.toString()"
-        typography-class="s2-bold"
-        gap="var(--spacing-sm)"
-      />
       <div
+        v-if="!isCollapsed"
         ref="experiencesContainer"
-        class="declared-experience-side-menu__experiences av-col av-gap-sm av-mt-sm"
+        class="declared-experience-side-menu__experiences av-col av-gap-sm"
       >
+        <span class="s2-bold">
+          <span class="s2-regular">
+            {{ capitalize(t(`student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsSideMenu.title`)) }}
+          </span>
+          ({{ experienceCount }})
+        </span>
         <div
           v-for="experience in experiences"
           :key="experience.id"
         >
-          <AvButton
-            v-if="isCollapsed"
-            :label="experience.title"
-            :icon="icon"
-            :variant="experience.id === selectedExperienceId ? 'OUTLINED' : 'DEFAULT'"
-            icon-only
-            @click="$emit('selectExperience', experience.id)"
-          />
           <a
-            v-else
             role="button"
             tabindex="0"
             :aria-pressed="experience.id === selectedExperienceId"
@@ -100,6 +82,7 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
 <style lang="scss" scoped>
 .declared-experience-side-menu {
   &__experiences {
+    padding: 0.2rem;
     max-height: 40rem;
     overflow-y: auto;
   }

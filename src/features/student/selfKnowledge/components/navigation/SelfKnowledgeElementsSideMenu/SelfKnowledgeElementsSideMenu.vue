@@ -3,7 +3,7 @@ import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { AvButton, AvIconText, AvSideMenu } from '@avenirs-esr/avenirs-dsav'
+import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -45,42 +45,22 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
     collapsed-width="fit-content"
   >
     <div class="av-col av-gap-md">
-      <span
-        class="s2-bold"
-        :class="{
-          'av-sr-only': isCollapsed,
-        }"
-      >
-        <span class="s2-regular">
-          {{ capitalize(t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.selfKnowledge.SelfKnowledgeMainSection.navigation.elementsSideMenu') }}
-        </span>
-        ({{ countElements }})
-      </span>
-      <AvIconText
-        v-if="isCollapsed"
-        :icon="iconName"
-        :text="elements.length.toString()"
-        typography-class="s2-bold"
-        gap="var(--spacing-sm)"
-      />
       <div
+        v-if="!isCollapsed"
         ref="elementsContainer"
         class="self-knowledge-elements-side-menu__elements av-col av-gap-sm"
       >
+        <span class="s2-bold">
+          <span class="s2-regular">
+            {{ capitalize(t(`student.selfKnowledge.categoryType.${categoryType}`, { count: 2 })) }} - {{ t('student.selfKnowledge.SelfKnowledgeMainSection.navigation.elementsSideMenu') }}
+          </span>
+          ({{ countElements }})
+        </span>
         <div
           v-for="element in elements"
           :key="element.id"
         >
-          <AvButton
-            v-if="isCollapsed"
-            :label="element.title"
-            :icon="iconName"
-            :variant="element.id === selectedElementId ? 'OUTLINED' : 'DEFAULT'"
-            icon-only
-            @click="$emit('selectElement', element.id)"
-          />
           <a
-            v-else
             role="button"
             tabindex="0"
             :aria-pressed="element.id === selectedElementId"
@@ -104,6 +84,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
 <style lang="scss" scoped>
 .self-knowledge-elements-side-menu {
   &__elements {
+    padding: 0.2rem;
     max-height: 40rem;
     overflow-y: auto;
   }

@@ -130,30 +130,6 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
         const sideMenu = wrapper.findComponent(AvSideMenuStub)
         expect(sideMenu.props('collapsed')).toBe(true)
       })
-
-      BddTest().then('it should render the AvIconText', () => {
-        const iconText = wrapper.findComponent(AvIconTextStub)
-        expect(iconText.exists()).toBe(true)
-      })
-
-      BddTest().then('it should highlight the selected program with AvButton variant OUTLINED', () => {
-        const selectedItem = wrapper.findAllComponents(AvButtonStub).find(item =>
-          item.props('label') === 'Licence Pro Développement Web'
-        )
-        expect(selectedItem?.props('variant')).toBe('OUTLINED')
-      })
-
-      BddTest().and('a program is clicked', () => {
-        beforeEach(async () => {
-          const programItems = wrapper.findAllComponents(AvButtonStub)
-          await programItems[0].trigger('click')
-        })
-
-        BddTest().then('it should emit selectProgram event', () => {
-          expect(wrapper.emitted('selectProgram')).toBeTruthy()
-          expect(wrapper.emitted('selectProgram')?.[0]).toEqual(['declared-program-1'])
-        })
-      })
     })
   })
 })

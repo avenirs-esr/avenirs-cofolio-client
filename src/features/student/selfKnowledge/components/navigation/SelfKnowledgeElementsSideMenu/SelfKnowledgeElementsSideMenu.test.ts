@@ -2,7 +2,7 @@ import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
 import SelfKnowledgeElementsSideMenu, { type SelfKnowledgeElementsSideMenuProps } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import { AvBadgeStub, AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -121,30 +121,6 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
       BddTest().then('it should update the collapsed state', () => {
         const sideMenu = wrapper.findComponent(AvSideMenuStub)
         expect(sideMenu.props('collapsed')).toBe(true)
-      })
-
-      BddTest().then('it should render the AvIconText', () => {
-        const iconText = wrapper.findComponent(AvIconTextStub)
-        expect(iconText.exists()).toBe(true)
-      })
-
-      BddTest().then('it should highlight the selected element', () => {
-        const selectedItem = wrapper.findAllComponents(AvButtonStub).find(item =>
-          item.props('label') === 'Force de communication'
-        )
-        expect(selectedItem?.props('variant')).toBe('OUTLINED')
-      })
-
-      BddTest().and('an element is clicked', () => {
-        beforeEach(async () => {
-          const elementItems = wrapper.findAllComponents(AvButtonStub)
-          await elementItems[0].trigger('click')
-        })
-
-        BddTest().then('it should emit selectElement event', async () => {
-          expect(wrapper.emitted('selectElement')).toBeTruthy()
-          expect(wrapper.emitted('selectElement')?.[0]).toEqual(['1'])
-        })
       })
     })
   })

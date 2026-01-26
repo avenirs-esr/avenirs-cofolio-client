@@ -48,13 +48,15 @@ function handleConfirmDelete () {
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
   <div class="av-row av-gap-2xl">
-    <DeclaredProgramSideMenu
-      :selected-program-id="selectedProgramId"
-      :programs="declaredPrograms"
-      :count-programs="pageInfo.totalElements"
-      @select-program="onSelectProgram"
-      @load-more-programs="loadMoreDeclaredPrograms"
-    />
+    <div class="av-col">
+      <DeclaredProgramSideMenu
+        :selected-program-id="selectedProgramId"
+        :programs="declaredPrograms"
+        :count-programs="pageInfo.totalElements"
+        @select-program="onSelectProgram"
+        @load-more-programs="loadMoreDeclaredPrograms"
+      />
+    </div>
     <Loader
       :is-loading="isLoading && !isError"
       size="2xl"

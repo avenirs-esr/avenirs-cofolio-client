@@ -71,13 +71,15 @@ function handleConfirmDelete () {
     </template>
   </PageTitle>
   <div class="declared-experience-update-view av-row av-gap-sm">
-    <DeclaredExperienceSideMenu
-      :experience-count="pageInfo.totalElements"
-      :experiences="declaredExperiences"
-      :selected-experience-id="selectedExperienceId"
-      @select-experience="onSelectExperience"
-      @load-more-experiences="loadMoreDeclaredExperiences"
-    />
+    <div class="av-col">
+      <DeclaredExperienceSideMenu
+        :experience-count="pageInfo.totalElements"
+        :experiences="declaredExperiences"
+        :selected-experience-id="selectedExperienceId"
+        @select-experience="onSelectExperience"
+        @load-more-experiences="loadMoreDeclaredExperiences"
+      />
+    </div>
     <Loader
       :is-loading="isLoading && !isError"
       size="2xl"
