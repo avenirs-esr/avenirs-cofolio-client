@@ -142,10 +142,6 @@
         "pageNotFound": {
           "description": "La page que vous recherchez n'existe pas ou plus.",
           "title": "404 - Page introuvable"
-        },
-        "resourceNotFound": {
-          "description": "La ressource que vous recherchez n'existe pas ou a été supprimée.",
-          "title": "404 - Ressource introuvable"
         }
       },
       "personnalDataView": {

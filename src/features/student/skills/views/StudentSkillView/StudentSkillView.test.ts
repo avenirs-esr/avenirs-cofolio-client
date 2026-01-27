@@ -1,19 +1,21 @@
 import { mockedSkillDetailed } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { createSkillDetailedHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { createDetailedSkillHandler, detailedSkillNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ErrorMessageStub } from '@/common/components/ErrorMessage/ErrorMessage.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import StudentSkillView from '@/features/student/skills/views/StudentSkillView/StudentSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentSkillView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
+    ErrorMessage: ErrorMessageStub,
     StudentSkillViewContainer: {
       name: 'StudentSkillViewContainer',
       props: ['skillDetailed'],
@@ -23,41 +25,70 @@ BddTest().given('a student skill view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    setActivePinia(createPinia())
-    const handler = createSkillDetailedHandler(mockedSkillDetailed)
-    server.use(handler)
-    wrapper = mountComponent(StudentSkillView, {
-      props: { skillId: 'skill-1-1' },
-      global: { stubs },
-      useTanstack: true,
-      usePinia: true
-    })
   })
 
-  const title = `Compétence ${mockedSkillDetailed.name}`
-  const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
-  const skillsBreadcrumbLink = { text: 'Mes compétences', to: ROUTES.STUDENT.EDUCATION_SKILLS }
-  const currentBreadcrumbLink = { text: mockedSkillDetailed.name }
+  BddTest().when('the query succeeds', () => {
+    beforeEach(() => {
+      server.use(createDetailedSkillHandler(mockedSkillDetailed))
 
-  BddTest().when('the view is mounted', () => {
+      wrapper = mountComponent(StudentSkillView, {
+        props: { skillId: '1' },
+        global: { stubs },
+        useI18n: true,
+      })
+    })
+
     BddTest().then('it should render PageTitle with correct props', async () => {
       await flushPromises()
+
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
-      expect(pageTitle.props('title')).toBe(title)
+      expect(pageTitle.props('title')).toBe('Compétence Réaliser un cahier des charges fonctionnels')
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        homeBreadcrumbLink,
-        skillsBreadcrumbLink,
-        currentBreadcrumbLink
+        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
+        { text: 'Mes compétences', to: ROUTES.STUDENT.EDUCATION_SKILLS },
+        { text: 'Réaliser un cahier des charges fonctionnels' },
       ])
     })
 
-    BddTest().then('it should render StudentSkillViewContainer with correct props', async () => {
+    BddTest().then('it should render StudentSkillViewContainer and not ErrorMessage', async () => {
       await flushPromises()
-      const skillViewContainer = wrapper.findComponent({ name: 'StudentSkillViewContainer' })
 
-      expect(skillViewContainer.exists()).toBe(true)
-      expect(skillViewContainer.props('skillDetailed')).toStrictEqual(mockedSkillDetailed)
+      expect(wrapper.find('.student-skill-view-container-stub').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
+
+      const container = wrapper.findComponent({ name: 'StudentSkillViewContainer' })
+      expect(container.props('skillDetailed')).toStrictEqual(mockedSkillDetailed)
+    })
+  })
+
+  BddTest().when('the query fails with SKILL_NOT_FOUND', () => {
+    beforeEach(() => {
+      server.use(detailedSkillNotFoundErrorHandler)
+
+      wrapper = mountComponent(StudentSkillView, {
+        props: { skillId: 'skill-404' },
+        global: { stubs },
+        useI18n: true,
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage and not StudentSkillViewContainer', async () => {
+      await flushPromises()
+
+      expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+      expect(wrapper.find('.student-skill-view-container-stub').exists()).toBe(false)
+
+      const notFound = wrapper.findComponent({ name: 'ErrorMessage' })
+      expect(notFound.props('title')).toBe('Compétence introuvable')
+      expect(notFound.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
+    })
+
+    BddTest().then('it should render PageTitle with empty title', async () => {
+      await flushPromises()
+
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      expect(pageTitle.props('title')).toBe('')
     })
   })
 })

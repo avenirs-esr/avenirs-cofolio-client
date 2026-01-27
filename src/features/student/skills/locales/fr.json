@@ -80,6 +80,12 @@
           "detailed": {
             "title": "Compétence"
           },
+          "errors": {
+            "notFound": {
+              "description": "La compétence que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Compétence introuvable"
+            }
+          },
           "evaluation": {
             "title": "Mon évaluation"
           },

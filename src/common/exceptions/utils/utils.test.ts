@@ -1,6 +1,6 @@
 import type { BaseApiErrorBody } from '@/common/exceptions/types'
+import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
 import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
 import {
   createBasApiExceptionFromResponseBody,
   createBaseApiExceptionFromUnknownError
