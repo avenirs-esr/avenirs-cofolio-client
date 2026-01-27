@@ -45,6 +45,7 @@ function handleItemSelected (itemName: string) {
       :items="menuItems"
       :trigger-aria-label="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.trigger')"
       :trigger-label="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.trigger')"
+      width="max-content"
       @item-selected="handleItemSelected"
     />
   </div>
