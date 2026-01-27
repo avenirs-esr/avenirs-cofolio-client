@@ -51,7 +51,7 @@ defineExpose({ searchQuery })
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>
-      <div class="av-px-sm av-pt-xxs av-pb-sm">
+      <div class="av-px-sm av-pt-sm av-pb-sm">
         <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
           <li class="demo-display-none">
             <StudentMailboxPopover :messages-count="messagesCount" />
