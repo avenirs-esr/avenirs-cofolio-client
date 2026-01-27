@@ -54,6 +54,7 @@ function handleItemSelected (itemName: string) {
     :items="menuItems"
     :trigger-aria-label="t('global.buttons.moreActions')"
     :trigger-label="t('global.buttons.moreActions')"
+    width="max-content"
     @item-selected="handleItemSelected"
   />
 </template>
