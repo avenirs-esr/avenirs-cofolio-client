@@ -4,7 +4,7 @@ import {
   CATEGORY_ELEMENTS_PAGE_SIZE,
   useSelfKnowledgeCategoryElementsViewQuery
 } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import { type MaybeRef, type Ref, toValue } from 'vue'
+import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
   selfKnowledgeCategoryId: MaybeRef<string>
@@ -18,6 +18,7 @@ export interface UseSelfKnowledgePaginatedElementsResult {
   isFetching: Ref<boolean>
   loadMoreElements: () => void
   resetPagination: () => void
+  hasMoreElements: ComputedRef<boolean>
 }
 
 export function useSelfKnowledgePaginatedElements ({
@@ -40,6 +41,7 @@ export function useSelfKnowledgePaginatedElements ({
 
   const {
     items: elements,
+    hasMoreItems: hasMoreElements,
     loadMore: loadMoreElements,
     resetPagination
   } = useInfiniteScrollPagination({
@@ -59,6 +61,7 @@ export function useSelfKnowledgePaginatedElements ({
     pageInfo,
     page,
     isFetching,
+    hasMoreElements,
     loadMoreElements,
     resetPagination
   }

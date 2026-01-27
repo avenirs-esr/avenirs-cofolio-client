@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeclaredExperienceCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
 import { AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -29,7 +30,7 @@ useInfiniteScroll(
   () => {
     emit('loadMoreExperiences')
   },
-  { distance: 10 }
+  { distance: INFINITE_SCROLL_BOTTOM_DISTANCE }
 )
 
 const isCollapsed = ref(false)

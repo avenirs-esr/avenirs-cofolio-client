@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal } from '@/common/composables'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramSelector/DeclaredProgramSelector.vue'
@@ -31,7 +32,7 @@ const selectedProgramIds = ref<string[]>([])
 
 useInfiniteScroll(declaredProgramsContainer, () => {
   loadMoreDeclaredPrograms()
-}, { distance: 10 })
+}, { distance: INFINITE_SCROLL_BOTTOM_DISTANCE })
 
 const declaredPrograms = computed(() => {
   return apiDeclaredPrograms.value.map(program => ({

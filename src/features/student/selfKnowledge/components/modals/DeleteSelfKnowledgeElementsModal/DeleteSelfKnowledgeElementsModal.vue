@@ -1,20 +1,26 @@
 <script lang="ts" setup>
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import SelfKnowledgeElementsSelector from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
+import {
+  useSelfKnowledgeCategory
+} from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
+import {
+  useSelfKnowledgePaginatedElements
+} from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import { useDeleteSelfKnowledgeElementsMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeElementsModalProps {
   show: boolean
-  categoryType: ESelfKnowledgeCategoryType
-  elements: SelfKnowledgeElementViewDTO[]
+  categoryId: string
 }
 
-defineProps<DeleteSelfKnowledgeElementsModalProps>()
+const { categoryId } = defineProps<DeleteSelfKnowledgeElementsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -27,7 +33,19 @@ const {
   displayModal: displayConfirmModal,
   hideModal: hideConfirmModal
 } = useModal()
+
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+
+const { categoryType } = useSelfKnowledgeCategory(categoryId)
+
+const {
+  elements,
+  isFetching,
+  hasMoreElements,
+  loadMoreElements,
+} = useSelfKnowledgePaginatedElements({
+  selfKnowledgeCategoryId: computed(() => categoryId),
+})
 
 function onDeleteSuccess (deletedCount: number) {
   addSuccessMessage(
@@ -61,6 +79,17 @@ function onCancel () {
 function onConfirmDelete () {
   deleteSelfKnowledgeElements({ selfKnowledgeElementIds: selectedElementIds.value })
 }
+
+const elementsContainer = ref<HTMLElement | null>(null)
+
+useInfiniteScroll(
+  elementsContainer,
+  loadMoreElements,
+  {
+    distance: INFINITE_SCROLL_BOTTOM_DISTANCE,
+    canLoadMore: () => !isFetching.value && hasMoreElements.value
+  }
+)
 </script>
 
 <template>
@@ -86,12 +115,17 @@ function onConfirmDelete () {
       </div>
     </template>
 
-    <SelfKnowledgeElementsSelector
-      v-if="elements.length > 0"
-      v-model="selectedElementIds"
-      :elements="elements"
-      :category-type="categoryType"
-    />
+    <div
+      ref="elementsContainer"
+      class="av-col av-gam-sm"
+    >
+      <SelfKnowledgeElementsSelector
+        v-if="elements.length > 0"
+        v-model="selectedElementIds"
+        :elements="elements"
+        :category-type="categoryType"
+      />
+    </div>
   </AvModal>
 
   <ConfirmDeleteSelfKnowledgeElementsModal

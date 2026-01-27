@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeclaredProgramCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
 import { AvButton, AvIconText, AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -26,7 +27,7 @@ useInfiniteScroll(
   () => {
     emit('loadMorePrograms')
   },
-  { distance: 10 }
+  { distance: INFINITE_SCROLL_BOTTOM_DISTANCE }
 )
 const isCollapsed = ref(false)
 const icon = MDI_ICONS.SCHOOL_OUTLINE

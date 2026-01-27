@@ -58,8 +58,7 @@ const DeleteSelfKnowledgeElementModalStub = defineComponent({
   name: 'DeleteSelfKnowledgeElementModal',
   props: {
     show: Boolean,
-    categoryType: String,
-    elements: Array,
+    categoryId: String,
   },
   emits: ['cancel', 'confirm'],
   template: '<div data-testid="delete-self-knowledge-element-modal" />'
@@ -218,10 +217,8 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
             expect(deleteModal.exists()).toBe(true)
             expect(deleteModal.props('show')).toBe(true)
-            expect(deleteModal.props('categoryType')).toBeDefined()
-            expect(deleteModal.props('elements')).toBeDefined()
-            expect(Array.isArray(deleteModal.props('elements'))).toBe(true)
-            expect(deleteModal.props('elements')!.length).toBeGreaterThan(0)
+            expect(deleteModal.props('categoryId')).toBeDefined()
+            expect(deleteModal.props('categoryId')).toBe(category.id)
           })
         })
       })

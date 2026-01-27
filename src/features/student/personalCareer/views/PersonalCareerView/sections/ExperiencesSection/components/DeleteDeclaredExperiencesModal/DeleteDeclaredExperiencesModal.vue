@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal } from '@/common/composables'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import DeclaredExperienceSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'
@@ -30,7 +31,7 @@ const selectedExperienceIds = ref<string[]>([])
 
 useInfiniteScroll(declaredExperiencesContainer, () => {
   loadMoreDeclaredExperiences()
-}, { distance: 10 })
+}, { distance: INFINITE_SCROLL_BOTTOM_DISTANCE })
 
 const declaredExperiences = computed(() => {
   return apiDeclaredExperiences.value.map(experience => ({
