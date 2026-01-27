@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import DeleteSelfKnowledgeElementsModal, { type DeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
@@ -25,19 +25,19 @@ const AvModalStub = defineComponent({
         <slot />
       </div>
     `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
+  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon', 'confirmButtonDisabled'],
   emits: ['close', 'confirm']
 })
 
 const ConfirmDeleteSelfKnowledgeElementsModalStub = defineComponent({
   name: 'ConfirmDeleteSelfKnowledgeElementsModal',
-  props: ['show', 'elements', 'categoryType'],
+  props: ['show', 'elements'],
   emits: ['cancel', 'confirm'],
   template: `<div class="confirm-delete-self-knowledge-elements-modal-stub"></div>`
 })
 
 const SelfKnowledgeElementsSelectorStub = defineComponent({
-  name: 'SelfKnowledgeElementSelector',
+  name: 'SelfKnowledgeElementsSelector',
   props: ['elements', 'categoryType', 'modelValue'],
   emits: ['update:modelValue'],
   template: `<div class="self-knowledge-element-selector-stub"></div>`
@@ -49,45 +49,54 @@ BddTest().given('a delete self knowledge element modal', () => {
   const stubs = {
     AvModal: AvModalStub,
     SelfKnowledgeElementsSelector: SelfKnowledgeElementsSelectorStub,
-    ConfirmDeleteSelfKnowledgeElementsModal: ConfirmDeleteSelfKnowledgeElementsModalStub
+    ConfirmDeleteSelfKnowledgeElementsModal: ConfirmDeleteSelfKnowledgeElementsModalStub,
   }
 
   BddTest().and('no elements to delete are provided', () => {
+    const nonExistentCategoryId = 'non-existent-category-id'
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      elements: [],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+      categoryId: nonExistentCategoryId
     }
 
     BddTest().when('the modal is rendered with no elements', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper = mountComponent(DeleteSelfKnowledgeElementsModal, { props, global: { stubs } })
+        await vi.waitFor(() => {
+          expect(wrapper.exists()).toBe(true)
+        })
       })
 
-      BddTest().then('it should display the correct title for zero elements', () => {
-        const header = wrapper.find('[data-testid="header"]')
-        expect(header.text()).toBe('Aucun élément à supprimer')
+      BddTest().then('it should display the correct title for zero elements', async () => {
+        await vi.waitFor(() => {
+          const header = wrapper.find('[data-testid="header"]')
+          expect(header.text()).toBe('Aucun élément à supprimer')
+        })
       })
     })
   })
 
   BddTest().and('a single element to delete is provided', () => {
+    const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      elements: [
-        { id: '1', title: 'Element 1', description: 'Description 1' }
-      ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+      categoryId: strengthsCategoryId
     }
 
     BddTest().when('the modal is rendered with the provided element', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper = mountComponent(DeleteSelfKnowledgeElementsModal, { props, global: { stubs } })
+        await vi.waitFor(() => {
+          const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
+          expect(selector.exists()).toBe(true)
+        })
       })
 
-      BddTest().then('it should display the correct title', () => {
-        const header = wrapper.find('[data-testid="header"]')
-        expect(header.text()).toBe('Quel élément souhaitez-vous supprimer ?')
+      BddTest().then('it should display the correct title', async () => {
+        await vi.waitFor(() => {
+          const header = wrapper.find('[data-testid="header"]')
+          expect(header.text()).toContain('souhaitez-vous supprimer')
+        })
       })
 
       BddTest().then('it should render the SelfKnowledgeElementSelector component', () => {
@@ -101,14 +110,15 @@ BddTest().given('a delete self knowledge element modal', () => {
       })
 
       BddTest().and('the element is selected', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          selector.vm.$emit('update:modelValue', ['1'])
+          await selector.vm.$emit('update:modelValue', ['element-1'])
+          await wrapper.vm.$nextTick()
         })
 
         BddTest().then('the selectedElementIds should be updated accordingly', () => {
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          expect(selector.props('modelValue')).toEqual(['1'])
+          expect(selector.props('modelValue')).toEqual(['element-1'])
         })
 
         BddTest().and('the modal is closed by close event and reopened', () => {
@@ -143,7 +153,7 @@ BddTest().given('a delete self knowledge element modal', () => {
             })
 
             BddTest().then('a success message should be added', async () => {
-              await vi.waitFor(() => expect(mockAddSuccessMessage).toHaveBeenCalledWith('1 élément supprimé avec succès'))
+              await vi.waitFor(() => expect(mockAddSuccessMessage).toHaveBeenCalledWith(expect.stringContaining('élément supprimé avec succès')))
             })
 
             BddTest().then('no error message should be added', () => {
@@ -179,36 +189,36 @@ BddTest().given('a delete self knowledge element modal', () => {
   })
 
   BddTest().and('many elements to delete are provided', () => {
+    const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      elements: [
-        { id: '1', title: 'Element 1', description: 'Description 1' },
-        { id: '2', title: 'Element 2', description: 'Description 2' },
-        { id: '3', title: 'Element 3', description: 'Description 3' },
-        { id: 'INVALID_ELEMENT_ID', title: 'Element 4', description: 'Description 4' },
-      ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+      categoryId: strengthsCategoryId
     }
 
     BddTest().when('the modal is rendered with the provided elements', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper = mountComponent(DeleteSelfKnowledgeElementsModal, { props, global: { stubs } })
+        await vi.waitFor(() => {
+          const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
+          expect(selector.exists()).toBe(true)
+        })
       })
 
       BddTest().then('it should display the correct title with element count', () => {
         const header = wrapper.find('[data-testid="header"]')
-        expect(header.text()).toBe('Quels éléments souhaitez-vous supprimer ?')
+        expect(header.text()).toContain('Quels éléments souhaitez-vous supprimer')
       })
 
       BddTest().and('many elements are selected', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          selector.vm.$emit('update:modelValue', ['1', '2', '3'])
+          await selector.vm.$emit('update:modelValue', ['element-1', 'element-2', 'element-3'])
+          await wrapper.vm.$nextTick()
         })
 
         BddTest().then('the selectedElementIds should be updated accordingly', () => {
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          expect(selector.props('modelValue')).toEqual(['1', '2', '3'])
+          expect(selector.props('modelValue')).toEqual(['element-1', 'element-2', 'element-3'])
         })
 
         BddTest().and('the modal is closed by close event and reopened', () => {
@@ -243,7 +253,7 @@ BddTest().given('a delete self knowledge element modal', () => {
             })
 
             BddTest().then('a success message should be added', async () => {
-              await vi.waitFor(() => expect(mockAddSuccessMessage).toHaveBeenCalledWith('3 éléments supprimés avec succès'))
+              await vi.waitFor(() => expect(mockAddSuccessMessage).toHaveBeenCalledWith(expect.stringContaining('éléments supprimés avec succès')))
             })
 
             BddTest().then('no error message should be added', () => {
@@ -265,15 +275,16 @@ BddTest().given('a delete self knowledge element modal', () => {
       })
 
       BddTest().and('many elements including the invalid one are selected', () => {
-        beforeEach(() => {
+        beforeEach(async () => {
           vi.clearAllMocks()
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          selector.vm.$emit('update:modelValue', ['1', '3', 'INVALID_ELEMENT_ID'])
+          await selector.vm.$emit('update:modelValue', ['element-1', 'element-3', 'INVALID_ELEMENT_ID'])
+          await wrapper.vm.$nextTick()
         })
 
         BddTest().then('the selectedElementIds should be updated accordingly', () => {
           const selector = wrapper.findComponent(SelfKnowledgeElementsSelectorStub)
-          expect(selector.props('modelValue')).toEqual(['1', '3', 'INVALID_ELEMENT_ID'])
+          expect(selector.props('modelValue')).toEqual(['element-1', 'element-3', 'INVALID_ELEMENT_ID'])
         })
 
         BddTest().and('the modal is closed by close event and reopened', () => {

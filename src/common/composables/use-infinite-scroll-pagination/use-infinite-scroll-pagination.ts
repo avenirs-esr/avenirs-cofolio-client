@@ -1,5 +1,5 @@
 import type { PageInfoDTO } from '@/api/avenir-esr'
-import type { Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 
 /**
  * useInfiniteScrollPagination input parameters.
@@ -27,6 +27,8 @@ export interface UseInfiniteScrollPaginationResult<T> {
   loadMore: () => void
   /** Method that resets pagination and clears all items */
   resetPagination: () => void
+  /** Indicates if there are more elements to load */
+  hasMoreItems: ComputedRef<boolean>
 }
 
 /**
@@ -47,7 +49,8 @@ export interface UseInfiniteScrollPaginationResult<T> {
  * @returns {UseInfiniteScrollPaginationResult<T>} Object containing :
  *  - `items` (Ref<T[]>) : accumulated items from all loaded pages,
  *  - `loadMore` (function) : method that loads the next page,
- *  - `resetPagination` (function) : method that resets pagination state.
+ *  - `resetPagination` (function) : method that resets pagination state
+ *  - `hasMoreItems` (ComputedRef<boolean>) : indicates if more items can be loaded
  */
 export function useInfiniteScrollPagination<T> ({
   fetchedItems,
@@ -76,11 +79,13 @@ export function useInfiniteScrollPagination<T> ({
     }
   }, { immediate: true })
 
+  const hasMoreItems = computed(() => page.value < pageInfo.value.totalPages - 1)
+
   function loadMore () {
     if (isFetching.value) {
       return
     }
-    if (page.value < pageInfo.value.totalPages - 1) {
+    if (hasMoreItems.value) {
       page.value += 1
     }
   }
@@ -92,6 +97,7 @@ export function useInfiniteScrollPagination<T> ({
 
   return {
     items,
+    hasMoreItems,
     loadMore,
     resetPagination
   }

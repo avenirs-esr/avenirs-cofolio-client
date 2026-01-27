@@ -23,7 +23,7 @@ const selectableElements = computed(() => {
 </script>
 
 <template>
-  <div class="av-row av-justify-center av-gap-sm av-p-md av-radius-md">
+  <div class="av-row av-justify-center av-gap-sm av-radius-md av-wrap">
     <SelectorOverlay
       v-model:selected-elements="selectedElementIds"
       :selectable-elements="selectableElements"

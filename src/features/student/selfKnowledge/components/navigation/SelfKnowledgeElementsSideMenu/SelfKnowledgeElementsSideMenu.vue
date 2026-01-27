@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvButton, AvIconText, AvSideMenu } from '@avenirs-esr/avenirs-dsav'
@@ -30,7 +31,7 @@ useInfiniteScroll(
   () => {
     emit('loadMoreElements')
   },
-  { distance: 10 }
+  { distance: INFINITE_SCROLL_BOTTOM_DISTANCE }
 )
 
 const isCollapsed = ref(false)

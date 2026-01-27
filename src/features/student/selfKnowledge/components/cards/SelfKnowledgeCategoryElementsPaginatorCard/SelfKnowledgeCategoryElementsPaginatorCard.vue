@@ -110,7 +110,7 @@ function onElementDeleted () {
           @update:current-page="(page) => currentPage = page"
         />
 
-        <div class="av-row av-justify-start av-gap-md av-wrap av-px-sm category-elements-paginator__cards">
+        <div class="av-row av-justify-start av-gap-md av-wrap category-elements-paginator__cards">
           <SelfKnowledgeElementCard
             v-for="element in elements"
             :key="element.id"
@@ -142,8 +142,7 @@ function onElementDeleted () {
 
   <DeleteSelfKnowledgeElementModal
     :show="showDeleteElementModal"
-    :category-type="categoryType"
-    :elements="elements"
+    :category-id="category.id"
     @cancel="hideDeleteElementModal"
     @confirm="onElementDeleted"
   />
