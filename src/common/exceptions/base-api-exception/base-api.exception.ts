@@ -1,5 +1,5 @@
 import type { ErrorDetails } from '@/common/exceptions/types'
-import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
+import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
 
 export class BaseApiException extends Error {
   public readonly status: number

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import ErrorMessage from '@/common/components/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBaseApiExceptionToast } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import { useSkillDetailedQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import StudentSkillViewContainer
   from '@/features/student/skills/views/StudentSkillView/components/StudentSkillViewContainer/StudentSkillViewContainer.vue'
@@ -16,7 +17,8 @@ const { skillId } = toRefs(props)
 const { t } = useI18n()
 
 const { skillDetailed, error } = useSkillDetailedQuery(skillId)
-useBaseApiExceptionToast(error)
+
+const { isNotFound } = useApiErrors(error, ErrorCodes.SKILL_NOT_FOUND)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -27,11 +29,17 @@ const breadcrumbLinks = computed(() => [
 
 <template>
   <PageTitle
-    :title="t('student.skills.views.StudentSkillView.title', { skill: skillDetailed?.name ?? '' })"
+    :title="skillDetailed ? t('student.skills.views.StudentSkillView.title', { skill: skillDetailed?.name ?? '' }) : ''"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.HOME"
   />
+  <ErrorMessage
+    v-if="error"
+    :title="isNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.title') : t('global.error.generic')"
+    :description="isNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.description') : error.message"
+  />
   <StudentSkillViewContainer
+    v-else
     :key="skillDetailed?.id"
     :skill-detailed="skillDetailed"
   />

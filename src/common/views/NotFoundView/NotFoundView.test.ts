@@ -58,8 +58,8 @@ BddTest().given('a not found view', () => {
     beforeEach(() => {
       wrapper = mount(NotFoundView, {
         props: {
-          titleKey: 'global.views.notFoundView.resourceNotFound.title',
-          descriptionKey: 'global.views.notFoundView.resourceNotFound.description',
+          titleKey: 'titre test',
+          descriptionKey: 'description test',
         },
         global: {
           stubs: {
@@ -70,8 +70,8 @@ BddTest().given('a not found view', () => {
     })
 
     BddTest().then('it should render the title/description from the given keys', () => {
-      expect(wrapper.find('h3').text()).toBe('404 - Ressource introuvable')
-      expect(wrapper.find('p').text()).toBe('La ressource que vous recherchez n\'existe pas ou a été supprimée.')
+      expect(wrapper.find('h3').text()).toBe('titre test')
+      expect(wrapper.find('p').text()).toBe('description test')
     })
   })
 })

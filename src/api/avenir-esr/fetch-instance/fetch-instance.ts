@@ -1,7 +1,5 @@
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
-import { BaseApiErrorCode } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n'
-import { useToasterStore } from '@/store'
 import { AvIsoLocaleMap } from '@/types'
 
 const interceptorManager = new FetchInterceptorManager()
@@ -23,11 +21,6 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
 const fetcher = createCustomFetch({
   baseUrl: `${__BASE_URL__}`,
   defaultHeaders: { 'Content-Type': 'application/json' },
-  onException: (e) => {
-    if (e.code.includes('NOT_FOUND')) {
-      useToasterStore().setErrorCode(BaseApiErrorCode.NOT_FOUND)
-    }
-  },
 }, interceptorManager)
 
 export async function customFetch<T> (url: string, options: RequestInit): Promise<T> {

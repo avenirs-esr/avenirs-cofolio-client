@@ -1,0 +1,35 @@
+import type { VueWrapper } from '@vue/test-utils'
+import ErrorMessage from '@/common/components/ErrorMessage/ErrorMessage.vue'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+
+BddTest().given('an ErrorMessage component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ErrorMessage>>
+
+  const props = {
+    title: '404 - Page introuvable',
+    description: 'La page que vous recherchez n’existe pas.',
+  }
+
+  BddTest().when('the component is mounted', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ErrorMessage, {
+        props,
+        global: {
+          stubs: {
+            AvIcon: AvIconStub,
+          },
+        },
+      })
+    })
+
+    BddTest().then('it should render the title and description', () => {
+      expect(wrapper.find('.av-error-message__title').text()).toBe(props.title)
+      expect(wrapper.find('.av-error-message__description').text()).toBe(props.description)
+    })
+
+    BddTest().then('it should render the icon', () => {
+      expect(wrapper.findComponent(AvIconStub).exists()).toBe(true)
+    })
+  })
+})

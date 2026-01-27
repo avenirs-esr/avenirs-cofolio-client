@@ -8,16 +8,13 @@ export interface NotFoundViewProps {
   descriptionKey?: string
 }
 
-const props = withDefaults(defineProps<NotFoundViewProps>(), {
-  titleKey: 'global.views.notFoundView.pageNotFound.title',
-  descriptionKey: 'global.views.notFoundView.pageNotFound.description',
-})
+const { titleKey = 'global.views.notFoundView.pageNotFound.title', descriptionKey = 'global.views.notFoundView.pageNotFound.description' } = defineProps<NotFoundViewProps>()
 
 const router = useRouter()
 const { t } = useI18n()
 
-const title = computed(() => t(props.titleKey))
-const description = computed(() => t(props.descriptionKey))
+const title = computed(() => t(titleKey))
+const description = computed(() => t(descriptionKey))
 function backToHome () {
   router.push({ name: ROUTES.STUDENT.HOME.name })
 }

@@ -19,6 +19,7 @@ import {
   getGetAllSkillsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
+  getGetDetailedSkillUrl,
   getGetSkillLevelProgressesUrl,
   getUnassociateTracesUrl,
   getUpdateDeclaredSkillProgressUrl,
@@ -79,6 +80,24 @@ export const skillsViewErrorHandler = http.get(`*${getGetSkillLevelProgressesUrl
   return HttpResponse.json(
     { message: 'Internal server error' },
     { status: 500 }
+  )
+})
+
+export function createDetailedSkillHandler (payload: SkillDetailedDTO) {
+  return http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
+    return HttpResponse.json<SkillDetailedDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const detailedSkillNotFoundErrorHandler = http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
+  return HttpResponse.json(
+    { code: 'SKILL_NOT_FOUND', message: 'Internal server error' },
+    { status: 404 }
   )
 })
 

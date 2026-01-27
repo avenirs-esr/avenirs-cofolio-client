@@ -1,5 +1,5 @@
+import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
 import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { BaseApiErrorCode } from '@/common/exceptions/error-codes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
 
