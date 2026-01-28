@@ -35,8 +35,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
       isOngoing: false,
       sourceOfInformation: '',
       description: '',
-      review: '',
-      link: ''
+      summary: '',
+      externalLink: ''
     } as DeclaredExperienceFormData,
     validators: {
       onSubmit ({ value }: { value: DeclaredExperienceFormData }) {
@@ -51,7 +51,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
             endDate: validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }),
             sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
             description: validators.validateDescription(value.description),
-            review: validators.validateReview(value.review)
+            summary: validators.validateSummary(value.summary)
           }
         }
       }
@@ -65,8 +65,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         location: value.location || undefined,
         description: value.description || undefined,
         sourceOfInformation: value.sourceOfInformation || undefined,
-        summary: value.review || undefined,
-        externalLink: value.link || undefined,
+        summary: value.summary || undefined,
+        externalLink: value.externalLink || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
       }, {

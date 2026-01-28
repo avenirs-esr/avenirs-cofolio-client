@@ -1552,6 +1552,45 @@
             }
           }
         }
+      },
+      "put": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "updateDeclaredExperience",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclaredExperienceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredExperienceViewDTO"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/me/declared/experiences/view": {

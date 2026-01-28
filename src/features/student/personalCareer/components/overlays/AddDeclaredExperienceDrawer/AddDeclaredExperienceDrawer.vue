@@ -3,12 +3,12 @@ import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components
 import { useModal } from '@/common/composables'
 import DeclaredExperienceActivitySectorFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
-import DeclaredExperienceLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLinkFormField/DeclaredExperienceLinkFormField.vue'
+import DeclaredExperienceExternalLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.vue'
 import DeclaredExperienceLocationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.vue'
 import DeclaredExperienceOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.vue'
 import DeclaredExperiencePeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.vue'
-import DeclaredExperienceReviewFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceReviewFormField/DeclaredExperienceReviewFormField.vue'
 import DeclaredExperienceSourceOfInformationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.vue'
+import DeclaredExperienceSummaryFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSummaryFormField/DeclaredExperienceSummaryFormField.vue'
 import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.vue'
 import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
@@ -97,8 +97,8 @@ const activeAccordion = ref(0)
                 <DeclaredExperiencePeriodFormField :form="form" />
                 <DeclaredExperienceSourceOfInformationFormField :form="form" />
                 <DeclaredExperienceDescriptionFormField :form="form" />
-                <DeclaredExperienceReviewFormField :form="form" />
-                <DeclaredExperienceLinkFormField :form="form" />
+                <DeclaredExperienceSummaryFormField :form="form" />
+                <DeclaredExperienceExternalLinkFormField :form="form" />
               </div>
             </AvAccordion>
           </AvAccordionsGroup>

@@ -1,6 +1,7 @@
 import { searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
 import {
   createMockedDeclaredExperiencesPagedResponse,
+  createMockedDeclaredExperienceViewDTO,
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import {
@@ -73,8 +74,24 @@ export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDe
 
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
+  http.get<{ id: string }, DeclaredExperienceViewDTO>(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
+    const { id } = params
+    const response = createMockedDeclaredExperienceViewDTO(id)
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
   http.post(
     `*${getCreateDeclaredExperienceUrl()}`,
+    () => {
+      return HttpResponse.json(declaredExperienceViewDTOFixture, { status: 200 })
+    }
+  ),
+  http.put(
+    `*${getGetDeclaredExperienceUrl(':experienceId')}`,
     () => {
       return HttpResponse.json(declaredExperienceViewDTOFixture, { status: 200 })
     }

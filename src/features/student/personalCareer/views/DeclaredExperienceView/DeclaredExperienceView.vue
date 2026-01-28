@@ -49,7 +49,7 @@ function onSelectExperience (experienceId: string) {
 }
 
 function handleUpdateSelected () {
-  navigateToStudentUpdateDeclaredExperience({ replace: true })
+  navigateToStudentUpdateDeclaredExperience({})
 }
 
 function handleConfirmDelete () {

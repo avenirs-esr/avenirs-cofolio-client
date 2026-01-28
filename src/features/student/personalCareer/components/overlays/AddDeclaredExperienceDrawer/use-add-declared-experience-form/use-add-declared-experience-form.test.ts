@@ -10,8 +10,8 @@ import {
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
   DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH,
   DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH,
-  DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH,
   DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH,
+  DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -44,8 +44,8 @@ BddTest().given('an add declared experience form', () => {
     isOngoing: false,
     sourceOfInformation: 'LinkedIn',
     description: 'Description of the experience',
-    review: 'A positive review',
-    link: 'https://example.com'
+    summary: 'A positive summary',
+    externalLink: 'https://example.com'
   }
 
   const mountForm = (onExperienceAdded?: () => void) => {
@@ -95,8 +95,8 @@ BddTest().given('an add declared experience form', () => {
         isOngoing: false,
         sourceOfInformation: '',
         description: '',
-        review: '',
-        link: ''
+        summary: '',
+        externalLink: ''
       }
 
       Object.entries(expectedDefaults).forEach(([key, expectedValue]) => {
@@ -139,8 +139,8 @@ BddTest().given('an add declared experience form', () => {
           isOngoing: false,
           sourceOfInformation: '',
           description: '',
-          review: '',
-          link: ''
+          summary: '',
+          externalLink: ''
         }
 
         const requiredFields = ['title', 'type', 'organization', 'startDate', 'endDate'] as const
@@ -162,7 +162,7 @@ BddTest().given('an add declared experience form', () => {
           location: DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH,
           sourceOfInformation: DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH,
           description: DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
-          review: DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH
+          summary: DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH
         } as const
 
         const dataExceedingMaxLength = Object.entries(maxLengthFields).reduce(
@@ -230,7 +230,7 @@ BddTest().given('an add declared experience form', () => {
         expect(result?.fields?.endDate).toBeUndefined()
         expect(result?.fields?.sourceOfInformation).toBeUndefined()
         expect(result?.fields?.description).toBeUndefined()
-        expect(result?.fields?.review).toBeUndefined()
+        expect(result?.fields?.summary).toBeUndefined()
       })
     })
   })

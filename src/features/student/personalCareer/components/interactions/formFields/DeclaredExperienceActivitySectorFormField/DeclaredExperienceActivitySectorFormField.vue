@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { AddDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
+import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceActivitySectorInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
 import { DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredExperienceActivitySectorFormFieldProps {
-  form: AddDeclaredExperienceForm
+  form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm
 }
 
 defineOptions({

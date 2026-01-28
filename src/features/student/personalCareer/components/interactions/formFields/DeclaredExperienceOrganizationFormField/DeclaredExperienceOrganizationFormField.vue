@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { AddDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
+import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
 import { DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredExperienceOrganizationFormFieldProps {
-  form: AddDeclaredExperienceForm
+  form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm
 }
 
 defineOptions({

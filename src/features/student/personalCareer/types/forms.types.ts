@@ -4,9 +4,11 @@ import type {
 import type {
   useAddDeclaredProgramForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
+import type { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
 
 export type AddDeclaredProgramForm = ReturnType<typeof useAddDeclaredProgramForm>['form']
 export type AddDeclaredExperienceForm = ReturnType<typeof useAddDeclaredExperienceForm>['form']
+export type UpdateDeclaredExperienceForm = ReturnType<typeof useUpdateDeclaredExperienceForm>['form']
 
 export interface DeclaredProgramFormData {
   title: string
@@ -31,6 +33,6 @@ export interface DeclaredExperienceFormData {
   isOngoing: boolean
   sourceOfInformation: string
   description: string
-  review: string
-  link: string
+  summary: string
+  externalLink: string
 }

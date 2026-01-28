@@ -48,6 +48,9 @@ export const declaredExperienceRoute: AvRoute = {
 
 export const declaredExperienceUpdateRoute: AvRoute = {
   ...ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE,
+  props: route => ({
+    experienceId: route.params.id,
+  }),
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'),
 }

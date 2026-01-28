@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { AddDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
+import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
 import { DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredExperienceDescriptionFormFieldProps {
-  form: AddDeclaredExperienceForm
+  form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm
 }
 
 defineOptions({

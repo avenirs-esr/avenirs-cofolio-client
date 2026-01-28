@@ -197,7 +197,7 @@ BddTest().given('a declared experience view component', () => {
       })
 
       BddTest().then('it should navigate to the update declared experience view', () => {
-        expect(navigateToStudentUpdateDeclaredExperience).toHaveBeenCalledWith({ replace: true })
+        expect(navigateToStudentUpdateDeclaredExperience).toHaveBeenCalledWith({})
       })
     })
   })

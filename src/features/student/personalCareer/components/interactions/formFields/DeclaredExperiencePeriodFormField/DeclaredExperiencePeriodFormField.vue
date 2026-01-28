@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { AddDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
+import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperiencePeriodInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
 import { AvCheckbox } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface DeclaredExperiencePeriodFormFieldProps {
-  form: AddDeclaredExperienceForm
+  form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm
 }
 
 defineOptions({

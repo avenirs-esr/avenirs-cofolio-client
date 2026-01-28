@@ -1,5 +1,5 @@
-export const DeclaredExperienceLinkInputStub = defineComponent({
-  name: 'DeclaredExperienceLinkInput',
+export const DeclaredExperienceExternalLinkInputStub = defineComponent({
+  name: 'DeclaredExperienceExternalLinkInput',
   props: ['modelValue', 'errorMessage'],
   emits: ['update:modelValue', 'blur'],
   template: `

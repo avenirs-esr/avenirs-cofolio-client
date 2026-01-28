@@ -10,6 +10,8 @@
         "IN_PROGRESS": "En cours",
         "NOT_STARTED": "Non démarrée"
       },
+      "element": "élément | éléments",
+      "experience": "expérience | expériences",
       "interactions": {
         "formFields": {
           "DeclaredExperiencePeriodFormField": {
@@ -33,7 +35,7 @@
           "DeclaredExperienceDescriptionTextarea": {
             "label": "Description de mon expérience"
           },
-          "DeclaredExperienceLinkInput": {
+          "DeclaredExperienceExternalLinkInput": {
             "label": "Ajouter un lien",
             "labelDetails": "Lien",
             "placeholder": "https://exemple.com"
@@ -51,12 +53,12 @@
             "label": "Période",
             "startLabel": "Date de début"
           },
-          "DeclaredExperienceReviewTextarea": {
-            "label": "Bilan / Prise de recul"
-          },
           "DeclaredExperienceSourceOfInformationInput": {
             "label": "Provenance de l'information",
             "placeholder": "Provenance"
+          },
+          "DeclaredExperienceSummaryTextarea": {
+            "label": "Bilan / Prise de recul"
           },
           "DeclaredExperienceTitleInput": {
             "label": "Intitulé du poste",
@@ -152,6 +154,15 @@
           }
         },
         "DeclaredExperienceUpdateView": {
+          "confirmationModal": {
+            "description": "Les modifications non enregistrées seront perdues."
+          },
+          "updateForm": {
+            "errors": {
+              "updateDeclaredExperience": "Une erreur est survenue lors de la mise à jour de l'expérience déclarée"
+            },
+            "success": "Expérience déclarée mise à jour avec succès"
+          },
           "tabs": {
             "experience": {
               "title": "Mon expérience déclarée"

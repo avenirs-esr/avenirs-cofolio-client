@@ -90,7 +90,7 @@ export function useUpdateDeclaredProgramForm (
 
   const isFormValid = computed(() => {
     const state = form.useStore(s => s)
-    return state.value.isValid && !state.value.isValidating && state.value.isDirty
+    return state.value.isDirty && state.value.isValid && !state.value.isValidating
   })
 
   return {

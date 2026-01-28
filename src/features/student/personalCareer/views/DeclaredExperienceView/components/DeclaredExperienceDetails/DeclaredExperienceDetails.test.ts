@@ -175,12 +175,12 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       })
 
       BddTest().then('it should render the external link', () => {
-        const linkInput = findAvInputs()[5]
-        expect(linkInput.exists()).toBe(true)
-        expect(linkInput.props('modelValue')).toBe(
+        const externalLinkInput = findAvInputs()[5]
+        expect(externalLinkInput.exists()).toBe(true)
+        expect(externalLinkInput.props('modelValue')).toBe(
           mockedDeclaredExperienceDetails.externalLink
         )
-        expect(linkInput.props('disabled')).toBe(true)
+        expect(externalLinkInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description textarea', () => {
@@ -193,14 +193,14 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
         expect(descriptionInput.props('disabled')).toBe(true)
       })
 
-      BddTest().then('it should render the review textarea', () => {
-        const reviewInput = findAvInputs()[7]
-        expect(reviewInput.exists()).toBe(true)
-        expect(reviewInput.props('modelValue')).toBe(
+      BddTest().then('it should render the summary textarea', () => {
+        const summaryInput = findAvInputs()[7]
+        expect(summaryInput.exists()).toBe(true)
+        expect(summaryInput.props('modelValue')).toBe(
           mockedDeclaredExperienceDetails.summary
         )
-        expect(reviewInput.props('isTextarea')).toBe(true)
-        expect(reviewInput.props('disabled')).toBe(true)
+        expect(summaryInput.props('isTextarea')).toBe(true)
+        expect(summaryInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {

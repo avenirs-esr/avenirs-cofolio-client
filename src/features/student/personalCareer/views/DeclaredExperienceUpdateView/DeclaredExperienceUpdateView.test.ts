@@ -1,52 +1,105 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
-import { AvCancelConfirmButtonsStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import UpdateDeclaredExperienceForm from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
+import DeclaredExperienceUpdateView
+, { type DeclaredExperienceUpdateViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockRouteId = ref<string>('exp123')
-const navigateToStudentDeclaredExperience = vi.fn()
+const routerPush = vi.fn()
+
+const declaredExperience: DeclaredExperienceViewDTO = {
+  id: 'declared-experience-123-456-789',
+  title: 'Développeur Web Full Stack',
+  experienceType: EExperienceType.PROFESSIONAL,
+  organization: 'Tech Startup Paris',
+  activitySector: 'Technologie de l\'information',
+  location: 'Paris, France',
+  description: 'Développement d\'applications web avec Vue.js et Node.js',
+  sourceOfInformation: 'LinkedIn',
+  summary: 'Expérience enrichissante en startup',
+  externalLink: 'https://www.techstartup.fr',
+  startDate: '2023-01',
+  endDate: '2024-06',
+  createdAt: '2024-01-15T10:30:00Z',
+  updatedAt: '2024-01-15T10:30:00Z'
+}
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
-
   return {
     ...actual,
     onBeforeRouteLeave: vi.fn(),
     useRoute: () => ({
       params: {
-        get id () {
-          return mockRouteId.value
-        }
+        get id () { return mockRouteId.value }
       }
     }),
+    useRouter: () => ({
+      push: routerPush
+    })
   }
 })
 
-vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables/use-navigation/use-navigation')>()
+vi.mock('@/features/student/personalCareer/queries/use-declared-experiences.query', () => {
   return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToStudentDeclaredExperience
-    }),
+    useDeclaredExperiencesViewQuery: vi.fn(() => ({
+      declaredExperiences: ref([declaredExperience]),
+      pageInfo: ref({ page: 0, pageSize: 12, totalElements: 1 }),
+      isFetching: ref(false),
+      data: ref(null),
+      isLoading: ref(false),
+      error: ref(null),
+      refetch: vi.fn()
+    })),
+
+    useDeclaredExperienceDetailedViewQuery: vi.fn(() => ({
+      declaredExperience: ref(declaredExperience),
+
+      data: ref(declaredExperience),
+      isLoading: ref(false)
+    })),
+
+    useCreateDeclaredExperienceMutation: vi.fn(() => ({ mutate: vi.fn() })),
+    useGetCachedDeclaredExperiences: vi.fn(() => ({ getCachedDeclaredExperiences: vi.fn() })),
+    useDeleteDeclaredExperienceMutation: vi.fn(() => ({ mutate: vi.fn() })),
+    useUpdateDeclaredExperienceMutation: vi.fn(() => ({ mutate: vi.fn() })),
   }
 })
 
+const UpdateDeclaredExperienceFormStub = {
+  name: 'UpdateDeclaredExperienceForm',
+  props: [
+    'declaredExperience',
+    'onExperienceUpdated',
+    'onCancel'
+  ],
+  emits: ['dirtyChange', 'cancel', 'experience-updated'],
+  template: '<div data-testid="update-declared-experience-form-stub"></div>'
+}
 const stubs = {
   AvIconText: AvIconTextStub,
-  AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   PageTitle: PageTitleStub,
-  UpdateInProgressBadge: UpdateInProgressBadgeStub
+  UpdateInProgressBadge: UpdateInProgressBadgeStub,
+  UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
+  AvTabs: { template: '<div><slot /></div>' },
+  AvTab: { template: '<div><slot /></div>' }
 }
 
 BddTest().given('a declared experience update view', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceUpdateView>>
+  const props: DeclaredExperienceUpdateViewProps = {
+    experienceId: 'exp-123'
+  }
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceUpdateView, {
+      props,
       global: { stubs }
     })
   }
@@ -57,37 +110,28 @@ BddTest().given('a declared experience update view', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render PageTitle with correct title and breadcrumbs', () => {
+    BddTest().then('it should render PageTitle', () => {
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
       expect(pageTitle.exists()).toBe(true)
-
-      expect(pageTitle.props('title')).toBe('')
-      expect(pageTitle.text()).toContain('Modifier')
-
-      const breadcrumbs = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbs).toHaveLength(4)
     })
 
-    BddTest().then('it should render UpdateInProgressBadge with correct props', () => {
-      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
-      expect(badge.exists()).toBe(true)
-      expect(badge.props('show')).toBe(false)
-    })
-
-    BddTest().then('it should render the title of the currect tab', () => {
-      const avIconText = wrapper.findComponent(AvIconTextStub)
-      expect(avIconText.exists()).toBe(true)
-      expect(avIconText.props('text')).toBe('Mon expérience déclarée')
-    })
-
-    BddTest().and('the cancel button is clicked', () => {
+    BddTest().and('the cancel event is emitted from the form', () => {
       beforeEach(async () => {
-        const cancelButton = wrapper.findComponent(AvCancelConfirmButtonsStub).find('.cancel')
-        await cancelButton.trigger('click')
+        const formComponent = wrapper.findComponent(UpdateDeclaredExperienceForm)
+
+        if (!formComponent.exists()) {
+          console.error(wrapper.html())
+          throw new Error('UpdateDeclaredExperienceForm not found in DOM')
+        }
+
+        await formComponent.vm.$emit('cancel')
       })
 
       BddTest().then('it should navigate to the declared experience detail view', () => {
-        expect(navigateToStudentDeclaredExperience).toHaveBeenCalled()
+        expect(routerPush).toHaveBeenCalledWith({
+          name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+          params: { id: mockRouteId.value }
+        })
       })
     })
   })

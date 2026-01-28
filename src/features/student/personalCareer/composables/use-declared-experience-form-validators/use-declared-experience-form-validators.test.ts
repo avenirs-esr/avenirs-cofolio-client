@@ -6,8 +6,8 @@ import {
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
   DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH,
   DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH,
-  DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH,
   DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH,
+  DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -34,7 +34,7 @@ BddTest().given('a declared experience form validators composable', () => {
       expect(composableResult.validateLocation).toBeDefined()
       expect(composableResult.validateSourceOfInformation).toBeDefined()
       expect(composableResult.validateDescription).toBeDefined()
-      expect(composableResult.validateReview).toBeDefined()
+      expect(composableResult.validateSummary).toBeDefined()
       expect(composableResult.validateStartDate).toBeDefined()
       expect(composableResult.validateEndDate).toBeDefined()
     })
@@ -200,25 +200,25 @@ BddTest().given('a declared experience form validators composable', () => {
     })
   })
 
-  BddTest().when('validating review', () => {
-    BddTest().and('the review is empty', () => {
+  BddTest().when('validating summary', () => {
+    BddTest().and('the summary is empty', () => {
       BddTest().then('it should return undefined because it is optional', () => {
-        const error = composableResult.validateReview('')
+        const error = composableResult.validateSummary('')
         expect(error).toBeUndefined()
       })
     })
 
-    BddTest().and('the review exceeds max length', () => {
+    BddTest().and('the summary exceeds max length', () => {
       BddTest().then('it should return max length error', () => {
-        const longReview = 'a'.repeat(DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH + 1)
-        const error = composableResult.validateReview(longReview)
-        expect(error).toBe(`Veuillez limiter votre saisie à ${DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH} caractères`)
+        const longSummary = 'a'.repeat(DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH + 1)
+        const error = composableResult.validateSummary(longSummary)
+        expect(error).toBe(`Veuillez limiter votre saisie à ${DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH} caractères`)
       })
     })
 
-    BddTest().and('the review is valid', () => {
+    BddTest().and('the summary is valid', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateReview('A positive review')
+        const error = composableResult.validateSummary('A positive summary')
         expect(error).toBeUndefined()
       })
     })

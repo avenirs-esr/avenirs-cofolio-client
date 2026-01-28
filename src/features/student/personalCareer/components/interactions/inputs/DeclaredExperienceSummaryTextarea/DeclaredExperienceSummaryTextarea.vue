@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH } from '@/features/student/personalCareer/config'
+import { DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-type DeclaredExperienceReviewTextareaProps = Omit<AvInputProps, 'maxlength' | 'isTextarea'>
+type DeclaredExperienceSummaryTextareaProps = Omit<AvInputProps, 'maxlength' | 'isTextarea'>
 
 const {
   label,
   ...restProps
-} = defineProps<DeclaredExperienceReviewTextareaProps>()
+} = defineProps<DeclaredExperienceSummaryTextareaProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
@@ -18,13 +18,13 @@ const avInputProps = computed(() => ({
   isTextarea: true,
   labelVisible: true,
   textareaMinHeight: '6.5rem',
-  maxlength: DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH,
-  label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceReviewTextarea.label')
+  maxlength: DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
+  label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceSummaryTextarea.label')
 }))
 </script>
 
 <template>
-  <div class="declared-experience-review-textarea">
+  <div class="declared-experience-summary-textarea">
     <AvInput
       v-bind="avInputProps"
       v-model="modelValue"
