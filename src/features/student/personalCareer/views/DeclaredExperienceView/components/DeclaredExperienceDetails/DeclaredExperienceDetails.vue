@@ -71,6 +71,7 @@ const createdAtPrefixed = computed(() =>
         />
 
         <DeclaredExperienceTypeSelect
+          class="av-flex-fill av-max-width-select"
           :model-value="experienceType"
           disabled
         />
@@ -144,5 +145,9 @@ const createdAtPrefixed = computed(() =>
       resize: none;
     }
   }
+}
+
+.av-max-width-select {
+  max-width: 16rem;
 }
 </style>
