@@ -1,12 +1,12 @@
-import DeclaredExperienceLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLinkInput/DeclaredExperienceLinkInput.vue'
-import { DECLARED_EXPERIENCE_LINK_MAX_LENGTH } from '@/features/student/personalCareer/config'
+import DeclaredExperienceExternalLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
+import { DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience link input component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceLinkInput>>
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceExternalLinkInput>>
 
   const stubs = {
     AvInput: AvInputStub
@@ -15,7 +15,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           modelValue: ''
         },
@@ -39,7 +39,7 @@ BddTest().given('a declared experience link input component', () => {
 
     BddTest().then('it should have maxlength prop set to config value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('maxlength')).toBe(DECLARED_EXPERIENCE_LINK_MAX_LENGTH)
+      expect(input.props('maxlength')).toBe(DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH)
     })
 
     BddTest().then('it should display the correct French label', () => {
@@ -66,7 +66,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted with custom label', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           label: 'Custom Label',
           modelValue: ''
@@ -84,7 +84,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted with custom placeholder', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           placeholder: 'Custom Placeholder',
           modelValue: ''
@@ -102,7 +102,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted with custom prefix icon', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           prefixIcon: MDI_ICONS.ATTACH_FILE,
           modelValue: ''
@@ -120,7 +120,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           errorMessage: 'Ce champ est requis',
           modelValue: ''
@@ -138,7 +138,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the user types in the input', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           modelValue: ''
         },
@@ -158,7 +158,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component is mounted with initial value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           modelValue: 'https://initial.com'
         },
@@ -175,7 +175,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the component receives additional props via restProps', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           disabled: true,
           required: true,
@@ -195,7 +195,7 @@ BddTest().given('a declared experience link input component', () => {
   BddTest().when('the user clears the input', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceLinkInput, {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           modelValue: 'https://some-link.com'
         },

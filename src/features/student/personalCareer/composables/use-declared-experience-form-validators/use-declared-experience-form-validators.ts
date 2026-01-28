@@ -3,10 +3,11 @@ import { useFormValidators, type ValidationOptions } from '@/common/composables/
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
+  DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH,
   DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH,
   DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH,
-  DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH,
   DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH,
+  DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
 
@@ -41,8 +42,12 @@ export function useDeclaredExperienceFormValidators () {
     return validateMaxLength(description, DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH)
   }
 
-  function validateReview (review: DeclaredExperienceFormData['review']) {
-    return validateMaxLength(review, DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH)
+  function validateSummary (summary: DeclaredExperienceFormData['summary']) {
+    return validateMaxLength(summary, DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH)
+  }
+
+  function validateExternalLink (externalLink: DeclaredExperienceFormData['externalLink']) {
+    return validateMaxLength(externalLink, DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH)
   }
 
   function validateStartDate (startDate: DeclaredExperienceFormData['startDate']) {
@@ -66,9 +71,10 @@ export function useDeclaredExperienceFormValidators () {
     validateActivitySector,
     validateDescription,
     validateEndDate,
+    validateExternalLink,
     validateLocation,
     validateOrganization,
-    validateReview,
+    validateSummary,
     validateSourceOfInformation,
     validateStartDate,
     validateTitle,

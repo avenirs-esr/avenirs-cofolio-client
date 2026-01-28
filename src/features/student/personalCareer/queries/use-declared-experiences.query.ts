@@ -8,7 +8,8 @@ import {
   getDeclaredExperience,
   getDeclaredExperienceView,
   type PagedResponseDeclaredExperienceViewDTO,
-  type PageInfoDTO
+  type PageInfoDTO,
+  updateDeclaredExperience
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
@@ -151,6 +152,28 @@ export function useDeleteDeclaredExperienceMutation ({ onError, onSuccess }: Mut
   return useMutation<string, BaseApiException, DeleteDeclaredExperienceMutationParams>({
     mutationFn: async (params: DeleteDeclaredExperienceMutationParams): Promise<string> => {
       return await deleteDeclaredExperiences(params.declaredExperienceIds)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateDeclaredExperiencesViewQuery()
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UpdateDeclaredExperienceMutationParams {
+  declaredExperienceId: string
+  declaredExperienceRequestDTO: DeclaredExperienceRequest
+}
+
+export function useUpdateDeclaredExperienceMutation (
+  { onError, onSuccess }: MutationArgs<DeclaredExperienceViewDTO, UpdateDeclaredExperienceMutationParams> = {}
+) {
+  const invalidateDeclaredExperiencesViewQuery = useInvalidateQuery([...declaredExperiencesViewQueryKey])
+
+  return useMutation<DeclaredExperienceViewDTO, BaseApiException, UpdateDeclaredExperienceMutationParams>({
+    mutationFn: async ({ declaredExperienceId, declaredExperienceRequestDTO }: UpdateDeclaredExperienceMutationParams) => {
+      return await updateDeclaredExperience(declaredExperienceId, declaredExperienceRequestDTO)
     },
     onSuccess: async (data, variables) => {
       await invalidateDeclaredExperiencesViewQuery()

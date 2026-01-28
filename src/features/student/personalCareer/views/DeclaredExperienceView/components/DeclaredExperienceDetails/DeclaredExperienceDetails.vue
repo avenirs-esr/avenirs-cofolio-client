@@ -5,18 +5,18 @@ import DeclaredExperienceActivitySectorInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
 import DeclaredExperienceDescriptionTextarea
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
-import DeclaredExperienceLinkInput
-  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLinkInput/DeclaredExperienceLinkInput.vue'
+import DeclaredExperienceExternalLinkInput
+  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
 import DeclaredExperienceLocationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
 import DeclaredExperienceOrganizationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
 import DeclaredExperiencePeriodInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
-import DeclaredExperienceReviewTextarea
-  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceReviewTextarea/DeclaredExperienceReviewTextarea.vue'
 import DeclaredExperienceSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
+import DeclaredExperienceSummaryTextarea
+  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
 import DeclaredExperienceTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import DeclaredExperienceTypeSelect
@@ -107,8 +107,8 @@ const createdAtPrefixed = computed(() =>
         disabled
       />
 
-      <DeclaredExperienceLinkInput
-        :label="t('student.personalCareer.interactions.inputs.DeclaredExperienceLinkInput.labelDetails')"
+      <DeclaredExperienceExternalLinkInput
+        :label="t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.labelDetails')"
         :model-value="externalLink"
         disabled
       />
@@ -123,7 +123,7 @@ const createdAtPrefixed = computed(() =>
         disabled
       />
 
-      <DeclaredExperienceReviewTextarea
+      <DeclaredExperienceSummaryTextarea
         :model-value="summary ?? ''"
         disabled
       />

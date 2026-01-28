@@ -70,6 +70,25 @@ export function createMockedDeclaredExperiencesPagedResponse (
   }
 }
 
+export function createMockedDeclaredExperienceViewDTO (experienceId: string): DeclaredExperienceViewDTO {
+  return {
+    id: experienceId,
+    title: 'Développeur Web Full Stack',
+    experienceType: EExperienceType.PROFESSIONAL,
+    organization: 'Tech Startup Paris',
+    activitySector: 'Technologie',
+    location: 'La Poste',
+    description: 'Développeur Fullstack au sein d\'une équipe agile, j\'ai piloté la conception d\'applications web robustes. Mon rôle consistait à bâtir des API performantes avec Java (Spring Boot) et à concevoir des interfaces utilisateur réactives et intuitives avec React.js. J\'ai assuré l\'intégration continue, la gestion de bases de données SQL et la maintenance corrective du parc applicatif.',
+    sourceOfInformation: 'Eleve',
+    summary: 'Cette mission a renforcé ma maîtrise de l\'écosystème Java/React, notamment sur la gestion d\'états complexes et la sécurisation des échanges (JWT). J\'ai livré 3 modules majeurs en respectant des délais serrés, tout en améliorant la performance frontend de 20%. Mon autonomie technique et ma capacité à vulgariser des enjeux complexes ont été des atouts clés pour la réussite du projet.',
+    externalLink: 'https://spring.io/projects/spring-boot',
+    startDate: '2023-01',
+    endDate: '2024-06',
+    createdAt: '2024-01-15T10:30:00Z',
+    updatedAt: '2024-01-15T10:30:00Z'
+  }
+}
+
 export function searchDeclaredExperienceById (
   id: string
 ): DeclaredExperienceViewDTO | undefined {

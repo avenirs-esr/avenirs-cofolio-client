@@ -1,11 +1,11 @@
-import DeclaredExperienceReviewTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceReviewTextarea/DeclaredExperienceReviewTextarea.vue'
-import { DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH } from '@/features/student/personalCareer/config'
+import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
+import { DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-BddTest().given('a declared experience review textarea component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceReviewTextarea>>
+BddTest().given('a declared experience summary textarea component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceSummaryTextarea>>
 
   const stubs = {
     AvInput: AvInputStub
@@ -14,7 +14,7 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the component is mounted with model value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           modelValue: '',
           labelVisible: true
@@ -39,7 +39,7 @@ BddTest().given('a declared experience review textarea component', () => {
 
     BddTest().then('it should have maxlength prop set to config value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('maxlength')).toBe(DECLARED_EXPERIENCE_REVIEW_MAX_LENGTH)
+      expect(input.props('maxlength')).toBe(DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH)
     })
 
     BddTest().then('it should display the correct French label', () => {
@@ -65,7 +65,7 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the component is mounted with custom label prop', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           label: 'Custom Label',
           modelValue: ''
@@ -83,7 +83,7 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           errorMessage: 'Ce champ est requis',
           modelValue: ''
@@ -101,29 +101,29 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the user types in the textarea', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           modelValue: ''
         },
         global: { stubs }
       })
       const input = wrapper.findComponent({ name: 'AvInput' })
-      await input.vm.$emit('update:modelValue', 'New review text')
+      await input.vm.$emit('update:modelValue', 'New summary text')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the model value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('modelValue')).toBe('New review text')
+      expect(input.props('modelValue')).toBe('New summary text')
     })
   })
 
   BddTest().when('the component is mounted with initial model value', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
-          modelValue: 'Initial review'
+          modelValue: 'Initial summary'
         },
         global: { stubs }
       })
@@ -131,14 +131,14 @@ BddTest().given('a declared experience review textarea component', () => {
 
     BddTest().then('it should display the initial value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('modelValue')).toBe('Initial review')
+      expect(input.props('modelValue')).toBe('Initial summary')
     })
   })
 
   BddTest().when('the component uses default custom captions template', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           modelValue: 'Test'
         },
@@ -155,7 +155,7 @@ BddTest().given('a declared experience review textarea component', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       const longText = 'a'.repeat(50)
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           modelValue: longText
         },
@@ -172,7 +172,7 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the component receives additional props via restProps', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           disabled: true,
           required: true,
@@ -192,7 +192,7 @@ BddTest().given('a declared experience review textarea component', () => {
   BddTest().when('the user clears the textarea content', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceReviewTextarea, {
+      wrapper = mount(DeclaredExperienceSummaryTextarea, {
         props: {
           modelValue: 'Some text'
         },

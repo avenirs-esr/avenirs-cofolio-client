@@ -1,12 +1,12 @@
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DeclaredExperienceActivitySectorFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.stub'
 import { DeclaredExperienceDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.stub'
-import { DeclaredExperienceLinkFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLinkFormField/DeclaredExperienceLinkFormField.stub'
+import { DeclaredExperienceExternalLinkFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.stub'
 import { DeclaredExperienceLocationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.stub'
 import { DeclaredExperienceOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.stub'
 import { DeclaredExperiencePeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.stub'
-import { DeclaredExperienceReviewFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceReviewFormField/DeclaredExperienceReviewFormField.stub'
 import { DeclaredExperienceSourceOfInformationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.stub'
+import { DeclaredExperienceSummaryFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSummaryFormField/DeclaredExperienceSummaryFormField.stub'
 import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.stub'
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
@@ -46,8 +46,8 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     DeclaredExperiencePeriodFormField: DeclaredExperiencePeriodFormFieldStub,
     DeclaredExperienceSourceOfInformationFormField: DeclaredExperienceSourceOfInformationFormFieldStub,
     DeclaredExperienceDescriptionFormField: DeclaredExperienceDescriptionFormFieldStub,
-    DeclaredExperienceReviewFormField: DeclaredExperienceReviewFormFieldStub,
-    DeclaredExperienceLinkFormField: DeclaredExperienceLinkFormFieldStub
+    DeclaredExperienceSummaryFormField: DeclaredExperienceSummaryFormFieldStub,
+    DeclaredExperienceExternalLinkFormField: DeclaredExperienceExternalLinkFormFieldStub
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -102,8 +102,8 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       expect(wrapper.find('[data-testid="experience-period-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="experience-source-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="experience-description-form-field"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="experience-review-form-field"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="experience-link-form-field"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="experience-summary-form-field"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="experience-external-link-form-field"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render footer buttons', () => {

@@ -33,7 +33,7 @@
           "DeclaredExperienceDescriptionTextarea": {
             "label": "Description of my experience"
           },
-          "DeclaredExperienceLinkInput": {
+          "DeclaredExperienceExternalLinkInput": {
             "label": "Add a link",
             "labelDetails": "Link",
             "placeholder": "https://example.com"
@@ -51,12 +51,12 @@
             "label": "Period",
             "startLabel": "Start date"
           },
-          "DeclaredExperienceReviewTextarea": {
-            "label": "Review / Reflection"
-          },
           "DeclaredExperienceSourceOfInformationInput": {
             "label": "Source of information",
             "placeholder": "Source"
+          },
+          "DeclaredExperienceSummaryTextarea": {
+            "label": "Review / Reflection"
           },
           "DeclaredExperienceTitleInput": {
             "label": "Job title",
@@ -152,6 +152,15 @@
           }
         },
         "DeclaredExperienceUpdateView": {
+          "confirmationModal": {
+            "description": "Any unsaved changes will be lost."
+          },
+          "updateForm": {
+            "errors": {
+              "updateDeclaredExperience": "An error occurred while updating the declared experience"
+            },
+            "success": "Declared experience updated successfully"
+          },
           "tabs": {
             "experience": {
               "title": "My declared experience"
