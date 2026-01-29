@@ -125,7 +125,7 @@ const buildLifeProjectMenu = computed(() => ({
       icon: MDI_ICONS.STARS,
     },
     {
-      to: ROUTES.STUDENT.PERSONAL_CAREER,
+      to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : ROUTES.STUDENT.PERSONAL_CAREER,
       text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
     },
@@ -136,31 +136,6 @@ const buildLifeProjectMenu = computed(() => ({
     },
   ],
 }))
-
-const demoModeBuildLifeProjectMenu
-  = computed(() => (
-    {
-      title: t('student.global.navigation.tabs.project.header').toUpperCase(),
-      get active () {
-        return isRouteActive([
-          ROUTES.STUDENT.PROJECT_SKILLS,
-          ROUTES.STUDENT.PROJECT_TRAJECTORIES
-        ])
-      },
-      links: [
-        {
-          to: ROUTES.STUDENT.PROJECT_SKILLS,
-          text: t('student.global.navigation.tabs.project.items.skills'),
-          icon: MDI_ICONS.STARS,
-        },
-        {
-          to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-          text: t('student.global.navigation.tabs.project.items.trajectories'),
-          icon: MDI_ICONS.ARROW_DECISION
-        },
-      ],
-    }
-  ))
 
 const homeItemId = useId()
 const navItems = computed(() => [
@@ -175,11 +150,7 @@ const navItems = computed(() => [
       ? [educationMenu.value]
       : []
   ),
-  ...(
-    __DEMO_MODE__
-      ? [demoModeBuildLifeProjectMenu.value]
-      : [buildLifeProjectMenu.value]
-  ),
+  buildLifeProjectMenu.value,
   ...(
     __DEMO_MODE__
       ? [demoModeToolsMenu.value]
