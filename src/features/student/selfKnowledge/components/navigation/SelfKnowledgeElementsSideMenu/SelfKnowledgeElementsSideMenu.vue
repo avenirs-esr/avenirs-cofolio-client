@@ -48,7 +48,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
       <div
         v-if="!isCollapsed"
         ref="elementsContainer"
-        class="self-knowledge-elements-side-menu__elements av-col av-gap-sm"
+        class="self-knowledge-elements-side-menu__elements av-p-xxxs av-col av-gap-sm"
       >
         <span class="s2-bold">
           <span class="s2-regular">
@@ -84,7 +84,6 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
 <style lang="scss" scoped>
 .self-knowledge-elements-side-menu {
   &__elements {
-    padding: 0.2rem;
     max-height: 40rem;
     overflow-y: auto;
   }

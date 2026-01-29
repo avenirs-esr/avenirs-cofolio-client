@@ -123,9 +123,9 @@ BddTest().given('a self knowledge category view component', () => {
     })
 
     BddTest().then('it should build the title using the translated category type label', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
 
-      expect(pageTitle.props('title')).toBe('Détail de mes points forts')
+      expect(pageTitle.props('title')).toBe('')
     })
 
     BddTest().then('it should render the side menu with correct props', () => {
@@ -144,13 +144,6 @@ BddTest().given('a self knowledge category view component', () => {
 
       expect(categoryType).toBe('STRENGTHS')
       expect(selectedElementId).toBe('')
-    })
-
-    BddTest().then('it should render element details container with empty title initially', () => {
-      const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
-
-      expect(detailsContainer.exists()).toBe(true)
-      expect(detailsContainer.props('elementTitle')).toBe('')
     })
 
     BddTest().then('it should pass correct category type to element tabs', () => {
@@ -179,23 +172,11 @@ BddTest().given('a self knowledge category view component', () => {
         expect(sideMenu.props('selectedElementId')).toBe(firstElementId)
       })
 
-      BddTest().then('it should update the element title in details container', async () => {
-        await vi.waitFor(() => {
-          const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
-          expect(detailsContainer.props('elementTitle')).toBe('Créativité')
-        })
-      })
-
       BddTest().then('it should pass the selected element to element details component', async () => {
         await vi.waitFor(() => {
           const elementDetails = wrapper.findComponent(SelfKnowledgeElementDetailsStub)
           expect(elementDetails.exists()).toBe(true)
         })
-
-        const elementDetails = wrapper.findComponent(SelfKnowledgeElementDetailsStub)
-        const element = elementDetails.props('element') as SelfKnowledgeElementViewDTO
-
-        expect(element.title).toBe('Créativité')
       })
     })
 

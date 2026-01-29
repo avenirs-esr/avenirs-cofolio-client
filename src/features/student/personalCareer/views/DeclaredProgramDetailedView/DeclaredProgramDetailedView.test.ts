@@ -105,8 +105,8 @@ BddTest().given('a declared program detailed view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render DetailedPageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.PROJECT_SKILLS)
 
@@ -120,7 +120,7 @@ BddTest().given('a declared program detailed view component', () => {
 
     BddTest().then('it should build the title using the selected program title', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
         expect(String(pageTitle.props('title'))).toContain('Formation déclarée 1')
       })
     })
@@ -234,8 +234,8 @@ BddTest().given('a declared program detailed view component', () => {
 
         BddTest().then('it should update the PageTitle title with the new program title', async () => {
           await vi.waitFor(() => {
-            const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-            expect(String(pageTitle.props('title'))).toContain('Détail Formation déclarée 2')
+            const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+            expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
           })
         })
 
@@ -294,8 +294,8 @@ BddTest().given('a declared program detailed view component', () => {
 
     BddTest().then('it should render title and details for that program', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-        expect(String(pageTitle.props('title'))).toContain('Détail Formation déclarée 2')
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
       })
 
       await vi.waitFor(() => {

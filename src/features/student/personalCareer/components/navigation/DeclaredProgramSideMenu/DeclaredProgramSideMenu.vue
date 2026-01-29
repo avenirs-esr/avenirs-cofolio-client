@@ -41,7 +41,7 @@ const isCollapsed = ref(false)
       <div
         v-if="!isCollapsed"
         ref="programsContainer"
-        class="declared-program-side-menu__programs av-col av-gap-sm"
+        class="declared-program-side-menu__programs av-p-xxxs av-col av-gap-sm"
       >
         <span class="s2-bold">
           <span class="s2-regular">
@@ -77,7 +77,6 @@ const isCollapsed = ref(false)
 <style scoped lang="scss">
 .declared-program-side-menu {
   &__programs {
-    padding: 0.2rem;
     max-height: 40rem;
     overflow-y: auto;
   }

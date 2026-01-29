@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer
@@ -33,10 +33,7 @@ const props = defineProps<SelfKnowledgeCategoryViewProps>()
 const { t } = useI18n()
 const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
 
-const {
-  categoryType,
-  categoryTypeLabel
-} = useSelfKnowledgeCategory(computed(() => props.categoryId))
+const { categoryType } = useSelfKnowledgeCategory(computed(() => props.categoryId))
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -71,8 +68,8 @@ function onUpdateSelected () {
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.title', { type: categoryTypeLabel })"
+  <DetailedPageTitle
+    :title="selectedElementDetails?.title ?? ''"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-category-elements-view av-row av-gap-sm">

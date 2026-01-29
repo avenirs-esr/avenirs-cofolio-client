@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import PageTitle, { type PageTitleProps } from '@/common/components/PageTitle/PageTitle.vue'
+import { useI18n } from 'vue-i18n'
+
+defineProps<PageTitleProps>()
+
+const { t } = useI18n()
+</script>
+
+<template>
+  <PageTitle v-bind="$props">
+    <template #title>
+      <span class="n2 av-text-title">
+        {{ t('global.detail') }}
+        <span class="n4">{{ title }}</span>
+      </span>
+    </template>
+  </PageTitle>
+</template>
+
+<style lang="scss" scoped>
+.n4 {
+  color: var(--dark-background-neutral)
+}
+</style>

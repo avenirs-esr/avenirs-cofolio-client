@@ -46,7 +46,7 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
       <div
         v-if="!isCollapsed"
         ref="experiencesContainer"
-        class="declared-experience-side-menu__experiences av-col av-gap-sm"
+        class="declared-experience-side-menu__experiences av-p-xxxs av-col av-gap-sm"
       >
         <span class="s2-bold">
           <span class="s2-regular">
@@ -82,7 +82,6 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
 <style lang="scss" scoped>
 .declared-experience-side-menu {
   &__experiences {
-    padding: 0.2rem;
     max-height: 40rem;
     overflow-y: auto;
   }

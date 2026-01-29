@@ -5,15 +5,17 @@ import { ROUTES } from '@/common/constants'
 import { AvBreadcrumb, type AvBreadcrumbProps, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface PageTitleProps {
+  breadcrumbLinks: AvBreadcrumbProps['links']
+  title: string
+  back?: RouteLocationRaw
+}
+
 const {
   breadcrumbLinks,
   title,
   back = ROUTES.STUDENT.HOME
-} = defineProps<{
-  breadcrumbLinks: AvBreadcrumbProps['links']
-  title: string
-  back?: RouteLocationRaw
-}>()
+} = defineProps<PageTitleProps>()
 
 defineSlots<{
   title: Slot

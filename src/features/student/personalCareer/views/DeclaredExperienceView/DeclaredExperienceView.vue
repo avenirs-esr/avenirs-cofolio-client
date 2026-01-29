@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import DeclaredExperienceSideMenu
@@ -16,16 +16,13 @@ import DeclaredExperienceDetailsDropdown
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
-export interface DeclaredExperienceViewProps {
-  experienceId: string
-}
-
-const { experienceId } = defineProps<DeclaredExperienceViewProps>()
-
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const experienceId = computed(() => String(route.params.id ?? ''))
+
 const { declaredExperience: declaredExperienceDetailed, isLoading, isError } = useDeclaredExperienceDetailedViewQuery({ experienceId })
+const experienceTitle = computed(() => declaredExperienceDetailed.value?.title ?? '')
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 
 const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
@@ -59,17 +56,10 @@ function handleConfirmDelete () {
 </script>
 
 <template>
-  <PageTitle
-    title=""
+  <DetailedPageTitle
+    :title="experienceTitle"
     :breadcrumb-links="breadcrumbLinks"
-  >
-    <template #title>
-      <span class="n2 av-text-title">
-        {{ t('global.detail') }}
-        <span class="n4">{{ declaredExperienceDetailed?.title }}</span>
-      </span>
-    </template>
-  </PageTitle>
+  />
   <div class="declared-experience-update-view av-row av-gap-sm">
     <div class="av-col">
       <DeclaredExperienceSideMenu
@@ -106,9 +96,3 @@ function handleConfirmDelete () {
     @confirm="handleConfirmDelete"
   />
 </template>
-
-<style lang="scss" scoped>
-.n4 {
-  color: var(--dark-background-neutral)
-}
-</style>

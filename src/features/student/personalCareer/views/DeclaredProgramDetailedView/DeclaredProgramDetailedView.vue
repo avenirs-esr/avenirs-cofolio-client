@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu
@@ -23,7 +23,7 @@ const { declaredProgramDetailed, isLoading, isError } = useDeclaredProgramDetail
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 
-const programTitle = computed(() => declaredProgramDetailed.value?.title)
+const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
@@ -42,8 +42,8 @@ function handleConfirmDelete () {
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.personalCareer.views.DeclaredProgramDetailedView.title', { programTitle })"
+  <DetailedPageTitle
+    :title="programTitle"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />

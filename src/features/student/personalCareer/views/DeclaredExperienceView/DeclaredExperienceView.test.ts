@@ -12,8 +12,7 @@ import { DeclaredExperienceSideMenuStub }
 import {
   DeclaredExperienceDetailsDropdownStub
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
-import DeclaredExperienceView
-, { type DeclaredExperienceViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
+import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -31,6 +30,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 const routerPush = vi.fn()
+const mockRouteId = ref<string>('exp-123')
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -38,7 +38,11 @@ vi.mock('vue-router', async (importOriginal) => {
   return {
     ...actual,
     useRoute: () => ({
-      params: {}
+      params: {
+        get id () {
+          return mockRouteId.value
+        }
+      }
     }),
     useRouter: () => ({
       push: routerPush
@@ -62,13 +66,9 @@ const stubs = {
 
 BddTest().given('a declared experience view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceView>>
-  const props: DeclaredExperienceViewProps = {
-    experienceId: 'exp-123'
-  }
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceView, {
-      props,
       global: { stubs }
     })
   }

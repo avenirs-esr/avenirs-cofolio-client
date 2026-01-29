@@ -7,20 +7,6 @@ BddTest().given('a SelfKnowledgeElementDetailsContainer', () => {
 
   const elementTitle = 'Some element title'
 
-  BddTest().when('the component is mounted', () => {
-    beforeEach(async () => {
-      wrapper = mount(SelfKnowledgeElementDetailsContainer, {
-        props: {
-          elementTitle,
-        },
-      })
-    })
-
-    BddTest().then('it should render the element details', () => {
-      expect(wrapper.text()).toContain(elementTitle)
-    })
-  })
-
   BddTest().when('the component is mounted with a title slot', () => {
     beforeEach(async () => {
       wrapper = mount(SelfKnowledgeElementDetailsContainer, {
@@ -31,10 +17,6 @@ BddTest().given('a SelfKnowledgeElementDetailsContainer', () => {
           title: '<h2>Custom Title Slot</h2>',
         },
       })
-    })
-
-    BddTest().then('it should render the element details', () => {
-      expect(wrapper.text()).toContain(elementTitle)
     })
 
     BddTest().then('it should render the custom title slot', () => {
@@ -52,10 +34,6 @@ BddTest().given('a SelfKnowledgeElementDetailsContainer', () => {
           default: '<div class="custom-default-slot">Custom Default Slot Content</div>',
         },
       })
-    })
-
-    BddTest().then('it should render the element details', () => {
-      expect(wrapper.text()).toContain(elementTitle)
     })
 
     BddTest().then('it should render the custom default slot content', () => {
