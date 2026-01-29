@@ -8,30 +8,35 @@ const isSideMenuCollapsed = ref<boolean>(false)
 const route = useRoute()
 const router = useRouter()
 
+const isDemoMode = __DEMO_MODE__
 const selectedItem = computed<string>(() => route.name as string)
-
-const items = computed<AvSideNavigationItem[]>(() => [
-  {
-    id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
-    label: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'),
-    icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
-  },
-  {
-    id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
-    label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
-    icon: MDI_ICONS.SCHOOL_OUTLINE
-  },
-  {
-    id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
-    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
-    icon: MDI_ICONS.VECTOR_POLYGON_VARIANT
-  },
-  {
-    id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
-    label: t('student.personalCareer.views.PersonalCareerView.ActivitiesSection.title'),
-    icon: MDI_ICONS.TARGET_ARROW
-  }
-])
+const items = computed<AvSideNavigationItem[]>(() => {
+  const allItems = [
+    {
+      id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
+      label: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'),
+      icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+    },
+    {
+      id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
+      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
+      icon: MDI_ICONS.SCHOOL_OUTLINE,
+      demo: true
+    },
+    {
+      id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
+      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
+      icon: MDI_ICONS.VECTOR_POLYGON_VARIANT,
+      demo: true
+    },
+    {
+      id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
+      label: t('student.personalCareer.views.PersonalCareerView.ActivitiesSection.title'),
+      icon: MDI_ICONS.TARGET_ARROW
+    }
+  ]
+  return isDemoMode ? allItems.filter(item => item.demo) : allItems
+})
 
 function navigateToSelectedItem (routeName: string) {
   router.push({ name: routeName })

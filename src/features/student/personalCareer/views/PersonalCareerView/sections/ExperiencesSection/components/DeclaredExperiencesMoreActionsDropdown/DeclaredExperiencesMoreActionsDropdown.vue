@@ -9,29 +9,36 @@ const emit = defineEmits<{
 }>()
 const { t } = useI18n()
 
+const isDemoMode = __DEMO_MODE__
+
 enum DeclaredExperiencesMoreActionsDropdownEvents {
   ADD = 'add',
   DELETE = 'delete',
   SHARE = 'share',
 }
 
-const menuItems = computed<AvDropdownItem[]>(() => [
-  {
-    name: DeclaredExperiencesMoreActionsDropdownEvents.ADD,
-    icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add')
-  },
-  {
-    name: DeclaredExperiencesMoreActionsDropdownEvents.SHARE,
-    icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
-  },
-  {
-    name: DeclaredExperiencesMoreActionsDropdownEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete')
-  },
-])
+const menuItems = computed<AvDropdownItem[]>(() => {
+  const allItems = [
+    {
+      name: DeclaredExperiencesMoreActionsDropdownEvents.ADD,
+      icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
+      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add'),
+      demo: true
+    },
+    {
+      name: DeclaredExperiencesMoreActionsDropdownEvents.SHARE,
+      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
+      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
+    },
+    {
+      name: DeclaredExperiencesMoreActionsDropdownEvents.DELETE,
+      icon: MDI_ICONS.TRASH_CAN_OUTLINE,
+      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete'),
+      demo: true
+    },
+  ]
+  return isDemoMode ? allItems.filter(item => item.demo) : allItems
+})
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {

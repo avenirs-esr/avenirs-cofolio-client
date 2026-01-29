@@ -73,12 +73,14 @@ BddTest().given('a student academic career layout component', () => {
         {
           id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
           label: expect.any(String),
-          icon: expect.any(String)
+          icon: expect.any(String),
+          demo: true
         },
         {
           id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
           label: expect.any(String),
-          icon: expect.any(String)
+          icon: expect.any(String),
+          demo: true
         },
         {
           id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,

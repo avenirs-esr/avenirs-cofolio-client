@@ -15,12 +15,15 @@ enum ProgramsMoreActionsDropdownEvents {
   SHARE = 'share',
 }
 
+const isDemoMode = __DEMO_MODE__
+
 const menuItems = computed<AvDropdownItem[]>(() => {
-  const items = [
+  const allItems = [
     {
       name: ProgramsMoreActionsDropdownEvents.ADD,
       icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsMoreActionsDropdown.add')
+      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsMoreActionsDropdown.add'),
+      demo: true
     },
     {
       name: ProgramsMoreActionsDropdownEvents.SHARE,
@@ -30,11 +33,11 @@ const menuItems = computed<AvDropdownItem[]>(() => {
     {
       name: ProgramsMoreActionsDropdownEvents.DELETE,
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsMoreActionsDropdown.delete')
+      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsMoreActionsDropdown.delete'),
+      demo: true
     },
   ]
-
-  return items
+  return isDemoMode ? allItems.filter(item => item.demo) : allItems
 })
 
 function handleItemSelected (itemName: string) {
