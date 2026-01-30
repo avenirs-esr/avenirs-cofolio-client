@@ -129,16 +129,15 @@ export interface UpdateDeclaredProgramMutationParams {
 export function useUpdateDeclaredProgramMutation (
   { onError, onSuccess }: MutationArgs<DeclaredProgramDetailedDTO, UpdateDeclaredProgramMutationParams> = {}
 ) {
-  const invalidateDeclaredProgramsViewQuery = useInvalidateQuery([...declaredProgramsViewQueryKey])
-  const invalidateDeclaredProgramDetailedQuery = useInvalidateQuery([...declaredProgramsCommonQueryKey])
+  const invalidateQuery = useInvalidateQuery()
 
   return useMutation<DeclaredProgramDetailedDTO, BaseApiException, UpdateDeclaredProgramMutationParams>({
     mutationFn: async ({ declaredProgramId, declaredProgramRequestDTO }: UpdateDeclaredProgramMutationParams) => {
       return await updateDeclaredProgram(declaredProgramId, declaredProgramRequestDTO)
     },
     onSuccess: async (data, variables) => {
-      await invalidateDeclaredProgramsViewQuery()
-      await invalidateDeclaredProgramDetailedQuery()
+      await invalidateQuery(declaredProgramsViewQueryKey)
+      await invalidateQuery([...declaredProgramsCommonQueryKey, variables.declaredProgramId])
       onSuccess?.(data, variables)
     },
     onError

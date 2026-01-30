@@ -51,7 +51,7 @@ const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
 const createdAtPrefixed = computed(() =>
-  capitalize(t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetails.experience'))
+  capitalize(t('student.personalCareer.global.experience'))
 )
 </script>
 
@@ -95,6 +95,7 @@ const createdAtPrefixed = computed(() =>
       />
 
       <DeclaredExperiencePeriodInput
+        label-visible
         :start-model-value="startDate ?? ''"
         :end-model-value="endDate ?? ''"
         :start-date-disabled="true"

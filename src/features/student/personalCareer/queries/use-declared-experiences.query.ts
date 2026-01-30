@@ -13,14 +13,13 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useMutation, useQuery, useQueryClient, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredExperiencesCommonQueryKey = [...commonQueryKeys, 'declared-experiences']
 const declaredExperiencesViewQueryKey = [...declaredExperiencesCommonQueryKey, 'view']
 
-const declaredExperienceDetailedCommonQueryKey = [...commonQueryKeys, 'declared-experience-detailed']
-const declaredExperienceDetailedViewQueryKey = [...declaredExperienceDetailedCommonQueryKey, 'view']
+const declaredExperienceDetailsQueryKey = [...declaredExperiencesCommonQueryKey, 'details']
 
 export interface DeclaredExperiencesViewQueryParams {
   page: MaybeRef<number>
@@ -87,7 +86,7 @@ export type DeclaredExperienceDetailedViewQueryReturnType = UseQueryReturnType<D
 }
 
 export function useDeclaredExperienceDetailedViewQuery ({ experienceId }: DeclaredExperienceDetailedViewQueryProps): DeclaredExperienceDetailedViewQueryReturnType {
-  const queryKey = computed(() => [...declaredExperienceDetailedViewQueryKey, toValue(experienceId)])
+  const queryKey = computed(() => [...declaredExperienceDetailsQueryKey, toValue(experienceId)])
 
   const queryFn = computed(() => async (): Promise<DeclaredExperienceViewDTO> => {
     return await getDeclaredExperience(toValue(experienceId))
@@ -104,41 +103,6 @@ export function useDeclaredExperienceDetailedViewQuery ({ experienceId }: Declar
   return {
     ...query,
     declaredExperience,
-  }
-}
-export interface GetCachedDeclaredExperiencesResult {
-  declaredExperiences: DeclaredExperienceViewDTO[]
-  currentPage: number
-}
-
-export function useGetCachedDeclaredExperiences () {
-  const queryClient = useQueryClient()
-
-  function getCachedDeclaredExperiences (): GetCachedDeclaredExperiencesResult {
-    const allDeclaredExperiences: DeclaredExperienceViewDTO[] = []
-    let maxPage = -1
-
-    const queries = queryClient.getQueriesData<PagedResponseDeclaredExperienceViewDTO>({
-      queryKey: [...declaredExperiencesViewQueryKey]
-    })
-
-    queries.forEach(([, data]) => {
-      if (data?.data) {
-        allDeclaredExperiences.push(...data.data)
-        if (data.page && data.page.page > maxPage) {
-          maxPage = data.page.page
-        }
-      }
-    })
-
-    return {
-      declaredExperiences: allDeclaredExperiences,
-      currentPage: maxPage
-    }
-  }
-
-  return {
-    getCachedDeclaredExperiences
   }
 }
 
@@ -169,14 +133,15 @@ export interface UpdateDeclaredExperienceMutationParams {
 export function useUpdateDeclaredExperienceMutation (
   { onError, onSuccess }: MutationArgs<DeclaredExperienceViewDTO, UpdateDeclaredExperienceMutationParams> = {}
 ) {
-  const invalidateDeclaredExperiencesViewQuery = useInvalidateQuery([...declaredExperiencesViewQueryKey])
+  const invalidateQuery = useInvalidateQuery()
 
   return useMutation<DeclaredExperienceViewDTO, BaseApiException, UpdateDeclaredExperienceMutationParams>({
     mutationFn: async ({ declaredExperienceId, declaredExperienceRequestDTO }: UpdateDeclaredExperienceMutationParams) => {
       return await updateDeclaredExperience(declaredExperienceId, declaredExperienceRequestDTO)
     },
     onSuccess: async (data, variables) => {
-      await invalidateDeclaredExperiencesViewQuery()
+      await invalidateQuery(declaredExperiencesViewQueryKey)
+      await invalidateQuery([...declaredExperienceDetailsQueryKey, variables.declaredExperienceId])
       onSuccess?.(data, variables)
     },
     onError

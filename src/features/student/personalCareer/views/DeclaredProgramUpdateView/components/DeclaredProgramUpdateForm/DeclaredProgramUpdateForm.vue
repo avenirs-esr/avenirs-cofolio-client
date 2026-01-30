@@ -55,7 +55,7 @@ watch(
 )
 
 const createdAtPrefix = computed(() =>
-  capitalize(t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.program'))
+  capitalize(t('student.personalCareer.global.program'))
 )
 </script>
 

@@ -10,6 +10,10 @@
         "IN_PROGRESS": "In Progress",
         "NOT_STARTED": "Not Started"
       },
+      "global": {
+        "experience": "experience | experiences",
+        "program": "program | programs"
+      },
       "interactions": {
         "formFields": {
           "DeclaredExperiencePeriodFormField": {
@@ -140,9 +144,6 @@
       },
       "views": {
         "DeclaredExperienceView": {
-          "DeclaredExperienceDetails": {
-            "experience": "Experience"
-          },
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Manage my experience",
             "title": "Details of my declared experience"
@@ -170,11 +171,7 @@
         "DeclaredProgramDetailedView": {
           "DeclaredProgramDetailed": {
             "description": "Description of my declared education",
-            "organization": "Institution / Organization",
-            "period": "Period",
-            "program": "Program",
             "result": "Result obtained",
-            "sourceOfInformation": "Source of information",
             "title": "Title of my declared program"
           },
           "ManageDeclaredProgramDropdown": {

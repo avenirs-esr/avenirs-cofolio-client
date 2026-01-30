@@ -1,6 +1,6 @@
 import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
 import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -49,7 +49,7 @@ BddTest().given('a declared program title input component', () => {
 
     BddTest().then('it should display the correct prefix icon', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
+      expect(input.props('prefixIcon')).toBe(RI_ICONS.LOADER_LINE)
     })
 
     BddTest().then('it should display the correct placeholder', () => {
