@@ -9,6 +9,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const isDemoMode = __DEMO_MODE__
 
 enum DeclaredExperienceDetailsDropdownEvents {
   UPDATE = 'update',
@@ -16,23 +17,28 @@ enum DeclaredExperienceDetailsDropdownEvents {
   SHARE = 'share',
 }
 
-const menuItems = computed<AvDropdownItem[]>(() => [
-  {
-    name: DeclaredExperienceDetailsDropdownEvents.UPDATE,
-    icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('global.buttons.update')
-  },
-  {
-    name: DeclaredExperienceDetailsDropdownEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('global.buttons.delete')
-  },
-  {
-    name: DeclaredExperienceDetailsDropdownEvents.SHARE,
-    icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-    label: t('global.buttons.share')
-  }
-])
+const menuItems = computed<AvDropdownItem[]>(() => {
+  const allItems = [
+    {
+      name: DeclaredExperienceDetailsDropdownEvents.UPDATE,
+      icon: MDI_ICONS.PENCIL_OUTLINE,
+      label: t('global.buttons.update'),
+      demo: true
+    },
+    {
+      name: DeclaredExperienceDetailsDropdownEvents.DELETE,
+      icon: MDI_ICONS.TRASH_CAN_OUTLINE,
+      label: t('global.buttons.delete'),
+      demo: true
+    },
+    {
+      name: DeclaredExperienceDetailsDropdownEvents.SHARE,
+      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
+      label: t('global.buttons.share')
+    }
+  ]
+  return isDemoMode ? allItems.filter(item => item.demo) : allItems
+})
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
