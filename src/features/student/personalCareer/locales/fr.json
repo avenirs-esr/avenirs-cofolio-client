@@ -10,8 +10,10 @@
         "IN_PROGRESS": "En cours",
         "NOT_STARTED": "Non démarrée"
       },
-      "element": "élément | éléments",
-      "experience": "expérience | expériences",
+      "global": {
+        "experience": "expérience | expériences",
+        "program": "formation | formations"
+      },
       "interactions": {
         "formFields": {
           "DeclaredExperiencePeriodFormField": {
@@ -142,9 +144,6 @@
       },
       "views": {
         "DeclaredExperienceView": {
-          "DeclaredExperienceDetails": {
-            "experience": "Expérience"
-          },
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Gérer mon expérience",
             "title": "Détail de mon expérience déclarée"
@@ -172,11 +171,7 @@
         "DeclaredProgramDetailedView": {
           "DeclaredProgramDetailed": {
             "description": "Description de ma formation déclarée",
-            "organization": "Établissement / Organisme",
-            "period": "Période",
-            "program": "Formation",
             "result": "Résultat obtenu",
-            "sourceOfInformation": "Provenance de l'information",
             "title": "Intitulé de ma formation déclarée"
           },
           "ManageDeclaredProgramDropdown": {

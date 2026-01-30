@@ -94,8 +94,8 @@ BddTest().given('an update declared program form', () => {
       expect(v.sourceOfInformation).toBe(declaredProgramDetailed.sourceOfInformation ?? '')
       expect(v.link).toBe(declaredProgramDetailed.link ?? '')
 
-      expect(v.startDate).toBe('2024-01-01')
-      expect(v.endDate).toBe('2025-12-01')
+      expect(v.startDate).toBe('2024-01')
+      expect(v.endDate).toBe('2025-12')
       expect(v.isOngoing).toBe(false)
     })
 

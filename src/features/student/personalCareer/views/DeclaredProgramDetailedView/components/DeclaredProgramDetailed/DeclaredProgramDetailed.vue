@@ -11,7 +11,7 @@ import DeclaredProgramSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-import { AvPeriodInput, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvPeriodInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -37,7 +37,7 @@ const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
 const createdAtPrefix = computed(() =>
-  capitalize(t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.program'))
+  capitalize(t('student.personalCareer.global.program'))
 )
 </script>
 
@@ -53,21 +53,18 @@ const createdAtPrefix = computed(() =>
       <DeclaredProgramTitleInput
         :label="t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.title')"
         label-class="caption-regular"
-        :prefix-icon="RI_ICONS.LOADER_LINE"
         :model-value="title"
         disabled
       />
 
       <DeclaredProgramOrganizationInput
-        :label="t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.organization')"
         label-class="caption-regular"
-        :prefix-icon="MDI_ICONS.BUILDING"
         :model-value="organization"
         disabled
       />
 
       <AvPeriodInput
-        :label="t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.period')"
+        :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
         label-class="caption-regular"
         start-label="Start date"
         end-label="End date"
@@ -82,15 +79,12 @@ const createdAtPrefix = computed(() =>
       <DeclaredProgramResultInput
         :label="t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.result')"
         label-class="caption-regular"
-        :prefix-icon="RI_ICONS.LAYOUT_6_LINE"
         :model-value="result ?? ''"
         disabled
       />
 
       <DeclaredProgramSourceOfInformationInput
-        :label="t('student.personalCareer.views.DeclaredProgramDetailedView.DeclaredProgramDetailed.sourceOfInformation')"
         label-class="caption-regular"
-        :prefix-icon="MDI_ICONS.NEWSPAPER_VARIANT"
         :model-value="sourceOfInformation ?? ''"
         disabled
       />

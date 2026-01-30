@@ -1,6 +1,7 @@
 import {
   formatDateLocalized,
   formatDateToLocaleString,
+  formatDateToYearMonth,
   formatTimeLocalized,
   formatYearMonthToDate,
   getCalendarDate,
@@ -38,7 +39,6 @@ BddTest().given('a dateISO parser', () => {
     BddTest().then('it should use fallback Date constructor', () => {
       const date = 'May 23, 2025 15:34:05 GMT+0200'
       const parsedDate = parseDateISO(date)
-      expect(parsedDate instanceof Date).toBe(true)
       expect(parsedDate.getTime()).toBe(new Date(date).getTime())
     })
   })
@@ -205,6 +205,13 @@ BddTest().given('a year-month to date formatter', () => {
     BddTest().then('it should format each year correctly', () => {
       expect(formatYearMonthToDate('2020-03')).toBe('2020-03-01')
       expect(formatYearMonthToDate('2030-09')).toBe('2030-09-01')
+    })
+  })
+
+  BddTest().when('providing invalid year-month string', () => {
+    BddTest().then('it should throw an error', () => {
+      const date = 'invalid-date'
+      expect(() => formatDateToYearMonth(date)).toThrow(`Invalid ISO date: ${date}`)
     })
   })
 })

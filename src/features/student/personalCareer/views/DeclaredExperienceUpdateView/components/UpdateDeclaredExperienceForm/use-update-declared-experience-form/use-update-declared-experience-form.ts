@@ -1,7 +1,7 @@
 import type { DeclaredExperienceRequest, DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { formatYearMonthToDate } from '@/common/utils'
+import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useUpdateDeclaredExperienceMutation } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { useToasterStore } from '@/store'
@@ -10,18 +10,18 @@ import { useI18n } from 'vue-i18n'
 
 function toFormData (dto: DeclaredExperienceViewDTO): DeclaredExperienceFormData {
   return {
-    title: dto.title ?? '',
-    type: (dto.experienceType ?? ''),
-    organization: (dto.organization ?? '').slice(0, 50),
-    activitySector: (dto.activitySector ?? '').slice(0, 50),
-    location: (dto.location ?? '').slice(0, 50),
-    startDate: dto.startDate ?? '',
-    endDate: dto.endDate ?? '',
+    title: dto.title,
+    type: dto.experienceType ?? '',
+    organization: dto.organization,
+    activitySector: dto.activitySector ?? '',
+    location: dto.location ?? '',
+    startDate: formatDateToYearMonth(dto.startDate) ?? '',
+    endDate: dto.endDate ? formatDateToYearMonth(dto.endDate) : '',
     isOngoing: !dto.endDate,
-    sourceOfInformation: (dto.sourceOfInformation ?? '').slice(0, 200),
-    description: (dto.description ?? '').slice(0, 400),
-    summary: (dto.summary ?? '').slice(0, 400),
-    externalLink: (dto.externalLink ?? '').slice(0, 2000)
+    sourceOfInformation: dto.sourceOfInformation ?? '',
+    description: dto.description ?? '',
+    summary: dto.summary ?? '',
+    externalLink: dto.externalLink ?? ''
   }
 }
 

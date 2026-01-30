@@ -99,8 +99,8 @@ BddTest().given('an update declared experience form', () => {
       expect(v.externalLink).toBe(declaredExperience.externalLink ?? '')
       expect(v.location).toBe(declaredExperience.location ?? '')
 
-      expect(v.startDate).toBe('2024-01-01')
-      expect(v.endDate).toBe('2025-12-01')
+      expect(v.startDate).toBe('2024-01')
+      expect(v.endDate).toBe('2025-12')
       expect(v.isOngoing).toBe(false)
     })
 

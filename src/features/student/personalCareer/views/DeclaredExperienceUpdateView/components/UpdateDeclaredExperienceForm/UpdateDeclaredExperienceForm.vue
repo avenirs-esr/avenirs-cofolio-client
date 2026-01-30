@@ -60,7 +60,7 @@ watch(
   { immediate: true }
 )
 
-const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.element')))
+const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.global.experience')))
 </script>
 
 <template>

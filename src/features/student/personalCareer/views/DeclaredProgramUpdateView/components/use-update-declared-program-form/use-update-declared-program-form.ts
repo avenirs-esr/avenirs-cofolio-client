@@ -1,24 +1,23 @@
 import type { DeclaredProgramDetailedDTO, DeclaredProgramRequestDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
-import { formatYearMonthToDate } from '@/common/utils'
+import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import { useUpdateDeclaredProgramMutation } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
-import { isValid, parse } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
 function toFormData (dto: DeclaredProgramDetailedDTO): DeclaredProgramFormData {
   return {
     title: dto.title ?? '',
-    description: (dto.description ?? '').slice(0, 400),
+    description: dto.description ?? '',
     organization: dto.organization ?? '',
-    result: (dto.result ?? '').slice(0, 50),
-    sourceOfInformation: (dto.sourceOfInformation ?? '').slice(0, 200),
+    result: dto.result ?? '',
+    sourceOfInformation: (dto.sourceOfInformation ?? ''),
     link: dto.link ?? '',
-    startDate: dto.startDate ?? '',
-    endDate: dto.endDate ?? '',
+    startDate: formatDateToYearMonth(dto.startDate) ?? '',
+    endDate: dto.endDate ? formatDateToYearMonth(dto.endDate) : '',
     isOngoing: !dto.endDate
   }
 }
@@ -31,8 +30,8 @@ function toRequestDTO (value: DeclaredProgramFormData): DeclaredProgramRequestDT
     result: value.result || undefined,
     sourceOfInformation: value.sourceOfInformation || undefined,
     link: value.link || undefined,
-    startDate: isValid(parse(value.startDate, 'yyyy-MM-dd', new Date())) ? value.startDate : formatYearMonthToDate(value.startDate),
-    endDate: value.isOngoing ? undefined : (isValid(parse(value.endDate, 'yyyy-MM-dd', new Date())) ? value.endDate : formatYearMonthToDate(value.endDate) || undefined)
+    startDate: formatYearMonthToDate(value.startDate),
+    endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate)
   }
 }
 
@@ -99,5 +98,3 @@ export function useUpdateDeclaredProgramForm (
     isSubmitting: isPending
   }
 }
-
-export type UpdateDeclaredProgramForm = ReturnType<typeof useUpdateDeclaredProgramForm>['form']
