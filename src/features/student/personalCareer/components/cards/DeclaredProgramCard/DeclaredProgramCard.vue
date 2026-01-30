@@ -11,7 +11,7 @@ const { t } = useI18n()
 
 const iconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
-  color: 'var(--text1)',
+  color: 'var(--icon)',
   right: '0.75rem',
   bottom: 'calc(-1 * 3.3rem)',
   borderColor: 'var(--other-border-skill-card)'

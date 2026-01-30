@@ -1,6 +1,6 @@
 import StudentProjectTrajectoriesContainer from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesContainer/StudentProjectTrajectoriesContainer.vue'
 import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -77,7 +77,7 @@ BddTest().given('a project trajectories container component', () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
       const items = sideNavigation.props('items')
       expect(items).toEqual([
-        { id: ProjectTrajectoryItems.BUILD_PROJECT, label: 'Bâtir mon projet', icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE },
+        { id: ProjectTrajectoryItems.BUILD_PROJECT, label: 'Bâtir mon projet', icon: RI_ICONS.DRAW_LINE },
         { id: ProjectTrajectoryItems.SELF_KNOWLEDGE, label: 'Me connaître', icon: MDI_ICONS.FAMILY },
         { id: ProjectTrajectoryItems.EXPLORE_FUTURES, label: 'Explorer mes futurs', icon: MDI_ICONS.IMAGE_FILTER_CENTER_FOCUS_WEAK },
         { id: ProjectTrajectoryItems.TRAJECTORIES, label: 'Mes Trajectoires', icon: MDI_ICONS.ARROW_DECISION },

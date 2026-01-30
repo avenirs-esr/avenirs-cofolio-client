@@ -75,7 +75,7 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should have correct icon colors', () => {
       const iconOptions = floatingCard.props('iconOptions')
-      expect(iconOptions.color).toBe('var(--text1)')
+      expect(iconOptions.color).toBe('var(--icon)')
       expect(iconOptions.borderColor).toBe('var(--other-border-skill-card)')
     })
 

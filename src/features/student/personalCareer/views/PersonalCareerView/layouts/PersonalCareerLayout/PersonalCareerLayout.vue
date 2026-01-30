@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ROUTES } from '@/common/constants'
-import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvSideNavigation, type AvSideNavigationItem, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -15,7 +15,7 @@ const items = computed<AvSideNavigationItem[]>(() => {
     {
       id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
       label: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'),
-      icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+      icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },
     {
       id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,

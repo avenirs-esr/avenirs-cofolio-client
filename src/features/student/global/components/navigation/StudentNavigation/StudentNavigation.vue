@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ROUTES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
-import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -127,12 +127,12 @@ const buildLifeProjectMenu = computed(() => ({
     {
       to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : ROUTES.STUDENT.PERSONAL_CAREER,
       text: t('student.global.navigation.tabs.project.items.experiences'),
-      icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+      icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },
     {
       to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
       text: t('student.global.navigation.tabs.project.items.trajectories'),
-      icon: MDI_ICONS.ARROW_DECISION
+      icon: RI_ICONS.DRAW_LINE
     },
   ],
 }))

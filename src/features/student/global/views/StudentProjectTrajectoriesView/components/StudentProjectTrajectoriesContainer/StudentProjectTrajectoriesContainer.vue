@@ -7,7 +7,7 @@ import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/
 import StudentProjectTrajectoriesTrajectoriesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
 import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
 import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
-import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -27,7 +27,7 @@ const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
   {
     id: ProjectTrajectoryItems.BUILD_PROJECT,
     label: t('student.global.views.studentProjectTrajectoriesView.buildProject.title'),
-    icon: MDI_ICONS.BRIEFCASE_VARIANT_OUTLINE,
+    icon: RI_ICONS.DRAW_LINE,
   },
   {
     id: ProjectTrajectoryItems.SELF_KNOWLEDGE,
