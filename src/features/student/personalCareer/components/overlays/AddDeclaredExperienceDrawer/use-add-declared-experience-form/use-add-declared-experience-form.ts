@@ -43,7 +43,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         return {
           fields: {
             title: validators.validateTitle(value.title),
-            type: validators.validateType(value.type),
             organization: validators.validateOrganization(value.organization),
             activitySector: validators.validateActivitySector(value.activitySector),
             location: validators.validateLocation(value.location),
@@ -59,7 +58,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
     onSubmit: ({ value }: { value: DeclaredExperienceFormData }) => {
       createDeclaredExperience({
         title: value.title,
-        experienceType: value.type as EExperienceType,
+        experienceType: value.type as EExperienceType || undefined,
         organization: value.organization,
         activitySector: value.activitySector || undefined,
         location: value.location || undefined,

@@ -143,7 +143,7 @@ BddTest().given('an add declared experience form', () => {
           externalLink: ''
         }
 
-        const requiredFields = ['title', 'type', 'organization', 'startDate', 'endDate'] as const
+        const requiredFields = ['title', 'organization', 'startDate', 'endDate'] as const
         const validator = getOnSubmitValidator()
         const result = validator({ value: invalidData })
 
@@ -209,7 +209,6 @@ BddTest().given('an add declared experience form', () => {
         const result = validator({ value: ongoingExperience })
 
         expect(result?.fields?.title).toBeUndefined()
-        expect(result?.fields?.type).toBeUndefined()
         expect(result?.fields?.organization).toBeUndefined()
         expect(result?.fields?.startDate).toBeUndefined()
         expect(result?.fields?.endDate).toBeUndefined()
@@ -222,7 +221,6 @@ BddTest().given('an add declared experience form', () => {
         const result = validator({ value: validData })
 
         expect(result?.fields?.title).toBeUndefined()
-        expect(result?.fields?.type).toBeUndefined()
         expect(result?.fields?.organization).toBeUndefined()
         expect(result?.fields?.activitySector).toBeUndefined()
         expect(result?.fields?.location).toBeUndefined()
