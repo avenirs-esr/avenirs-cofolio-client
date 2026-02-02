@@ -1,3 +1,4 @@
+import type { RouteLocationNormalized } from 'vue-router'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
@@ -12,17 +13,17 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
-BddTest().given('a student deliverables view', () => {
-  let wrapper: VueWrapper
+BddTest().given('an accessibility view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AccessibilityView>>
 
   const stubs = { PageTitle: PageTitleStub }
 
-  BddTest().and('we are in a student route', () => {
+  BddTest().when('the view is mounted in a student route', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       vi.mocked(useRoute).mockReturnValue({
         path: '/student/home'
-      } as any)
+      } as unknown as RouteLocationNormalized)
 
       wrapper = mount(AccessibilityView, { global: { stubs } })
     })
@@ -31,16 +32,41 @@ BddTest().given('a student deliverables view', () => {
     const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
     const currentBreadcrumbLink = { text: title }
 
-    BddTest().when('the view is mounted', () => {
-      BddTest().then('it should render PageTitle with correct props', () => {
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render PageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
-        expect(pageTitle.props('title')).toBe(title)
-        expect(pageTitle.props('breadcrumbLinks')).toEqual([
-          homeBreadcrumbLink,
-          currentBreadcrumbLink
-        ])
-      })
+      expect(pageTitle.props('title')).toBe(title)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        homeBreadcrumbLink,
+        currentBreadcrumbLink
+      ])
+      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.HOME)
+    })
+  })
+
+  BddTest().when('the view is mounted in a teacher route', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      vi.mocked(useRoute).mockReturnValue({
+        path: '/teacher/home'
+      } as unknown as RouteLocationNormalized)
+
+      wrapper = mount(AccessibilityView, { global: { stubs } })
+    })
+
+    const title = 'Accessibilité'
+    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.TEACHER.HOME }
+    const currentBreadcrumbLink = { text: title }
+
+    BddTest().then('it should render PageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+      expect(pageTitle.props('title')).toBe(title)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        homeBreadcrumbLink,
+        currentBreadcrumbLink
+      ])
+      expect(pageTitle.props('back')).toBe(ROUTES.TEACHER.HOME)
     })
   })
 })

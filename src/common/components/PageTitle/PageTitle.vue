@@ -39,7 +39,7 @@ function goBack () {
     <h1 class="av-sr-only">
       {{ title }}
     </h1>
-    <div class="av-pb-xl">
+    <div class="av-col av-gap-sm av-pb-xl">
       <AvBreadcrumb
         :navigation-label="t('global.breadcrumb.ariaLabel')"
         :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"

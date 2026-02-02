@@ -20,13 +20,13 @@ const { t } = useI18n()
   <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
     <div class="layout-home__sidebar av-col av-gap-xl">
       <StudentOverviewWidget />
-      <StudentEventsWidget class="demo-display-none" />
-      <StudentResumesWidget class="demo-display-none" />
-      <StudentPagesWidget class="demo-display-none" />
+      <StudentEventsWidget />
+      <StudentResumesWidget />
+      <StudentPagesWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       <StudentSkillsWidget />
-      <StudentDeliverablesWidget class="demo-display-none" />
+      <StudentDeliverablesWidget />
       <StudentTracesWidget />
     </div>
   </div>

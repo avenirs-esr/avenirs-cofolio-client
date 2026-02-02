@@ -28,7 +28,7 @@ export function useImageUpload () {
    * Update the ImageUpload current file
    * @param files
    */
-  async function update (files: FileList) {
+  async function update (files: FileList | File[]) {
     const file = files[0]
     if (!file) {
       clear()

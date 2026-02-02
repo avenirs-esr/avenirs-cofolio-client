@@ -98,6 +98,7 @@ BddTest().given('a declared program detailed view component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
+    mockShowModal.value = false
   })
 
   BddTest().when('the component is mounted', () => {

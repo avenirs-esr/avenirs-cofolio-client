@@ -12,7 +12,7 @@ import {
   type StudentProgressOverviewDTO
 } from '@/api/avenir-esr'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type Ref, toValue } from 'vue'
 
 const skillsCommonQueryKeys = [...commonQueryKeys, 'skills']
@@ -96,11 +96,10 @@ export function useAllSkillsQuery () {
   }
 }
 
-export function useStudentCoursesSummaryQuery (): UseQueryDefinedReturnType<StudentProgressOverviewDTO[], BaseApiException> {
+export function useStudentCoursesSummaryQuery (): UseQueryReturnType<StudentProgressOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...skillsCommonQueryKeys, 'summary'])
-  return useQuery<StudentProgressOverviewDTO[], BaseApiException>({
+  return useQuery<StudentProgressOverviewDTO[], BaseApiException, StudentProgressOverviewDTO[], readonly unknown[]>({
     queryKey,
-    initialData: [],
     queryFn: async (): Promise<StudentProgressOverviewDTO[]> => {
       return getStudentProgressOverview()
     }

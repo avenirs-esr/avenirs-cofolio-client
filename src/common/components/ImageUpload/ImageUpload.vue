@@ -56,7 +56,7 @@ const describedBy = computed(() => {
  * We only keep the first file if a list is provided
  * @param files
  */
-async function onUpdateImage (files: FileList) {
+async function onUpdateImage (files: FileList | File[]) {
   await imageUpload.update(files)
   if (imageUpload.valid.value) {
     onUpdate(files[0])

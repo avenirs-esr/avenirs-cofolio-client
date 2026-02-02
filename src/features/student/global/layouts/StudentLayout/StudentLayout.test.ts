@@ -1,12 +1,11 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { StudentHeaderSummaryDTO } from '@/types'
 import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
-import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/user'
+import { useStudentSummaryQuery } from '@/features/student/user'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mountWithRouter } from 'tests/utils'
@@ -16,23 +15,11 @@ vi.mock(import('@/features/student/user'), async (importOriginal) => {
   const actual = await importOriginal()
   return {
     ...actual,
-    useStudentHeaderSummaryQuery: vi.fn(),
     useStudentSummaryQuery: vi.fn()
   }
 })
 
 const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
-const mockedUseStudentHeaderSummaryQuery = vi.mocked(useStudentHeaderSummaryQuery)
-
-function mockUseStudentHeaderSummaryQuery (payload: StudentHeaderSummaryDTO) {
-  const mockData: Ref<StudentHeaderSummaryDTO> = ref(payload)
-  const mockError: Ref<null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError
-  } as unknown as UseQueryDefinedReturnType<StudentHeaderSummaryDTO, BaseApiException>
-  mockedUseStudentHeaderSummaryQuery.mockReturnValue(queryMockedData)
-}
 
 function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
   const mockData: Ref<ProfileOverviewDTO> = ref(payload)
@@ -42,16 +29,6 @@ function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
     error: mockError
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
   mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
-}
-
-function mockUseStudentHeaderSummaryQueryUndefined () {
-  const mockData: Ref<StudentHeaderSummaryDTO | undefined> = ref(undefined)
-  const mockError: Ref<null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError
-  } as unknown as UseQueryDefinedReturnType<StudentHeaderSummaryDTO, BaseApiException>
-  mockedUseStudentHeaderSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 function mockUseStudentSummaryQueryUndefined () {
@@ -105,13 +82,6 @@ BddTest().given('a student layout', () => {
     }
   }
 
-  const headerSummary: StudentHeaderSummaryDTO = {
-    id: '123456789',
-    name: 'J. Moulin',
-    messagesCount: 2,
-    notificationsCount: 3
-  }
-
   const studentSummary = {
     firstname: 'Jeanne',
     lastname: 'Moulin',
@@ -129,11 +99,10 @@ BddTest().given('a student layout', () => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
     queryClient = new QueryClient()
-    mockUseStudentHeaderSummaryQuery(headerSummary)
     mockUseStudentSummaryQuery(studentSummary)
   })
 
-  BddTest().and('a valid header summary', () => {
+  BddTest().and('a valid summary', () => {
     BddTest().when('the layout is rendered', () => {
       beforeEach(async () => {
         wrapper = await mountWithRouter<typeof StudentLayout>(StudentLayout, {
@@ -147,16 +116,6 @@ BddTest().given('a student layout', () => {
         expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="notifications-popover"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="profile-popover"]').exists()).toBe(true)
-      })
-
-      BddTest().then('it should pass correct props to mailbox popover', async () => {
-        const mailboxPopover = wrapper.findComponent({ name: 'StudentMailboxPopover' })
-        expect(mailboxPopover.props('messagesCount')).toBe(2)
-      })
-
-      BddTest().then('it should pass correct props to notifications popover', async () => {
-        const notificationsPopover = wrapper.findComponent({ name: 'StudentNotificationsPopover' })
-        expect(notificationsPopover.props('notificationsCount')).toBe(3)
       })
 
       BddTest().then('it should pass correct props to profile popover', async () => {
@@ -186,9 +145,8 @@ BddTest().given('a student layout', () => {
     })
   })
 
-  BddTest().and('an undefined header summary', () => {
+  BddTest().and('an undefined summary', () => {
     beforeEach(() => {
-      mockUseStudentHeaderSummaryQueryUndefined()
       mockUseStudentSummaryQueryUndefined()
     })
 
@@ -200,8 +158,6 @@ BddTest().given('a student layout', () => {
       })
 
       BddTest().then('it should fallback to default values', async () => {
-        expect(wrapper.findComponent({ name: 'StudentMailboxPopover' }).props('messagesCount')).toBe(0)
-        expect(wrapper.findComponent({ name: 'StudentNotificationsPopover' }).props('notificationsCount')).toBe(0)
         expect(wrapper.findComponent({ name: 'StudentProfilePopover' }).props('username')).toBe('')
       })
     })

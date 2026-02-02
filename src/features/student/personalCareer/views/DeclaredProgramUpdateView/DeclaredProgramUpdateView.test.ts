@@ -1,4 +1,6 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
@@ -90,6 +92,8 @@ BddTest().given('a declared program update view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramUpdateView>>
 
   const mountComponentWithDefaults = async () => {
+    server.use(declaredProgramDetailedHandler)
+
     wrapper = mountComponent(DeclaredProgramUpdateView, {
       global: { stubs }
     })

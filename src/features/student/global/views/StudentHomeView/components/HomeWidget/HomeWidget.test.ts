@@ -1,0 +1,118 @@
+import HomeWidget, { type HomeWidgetProps } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
+
+const AvIconTextStub = defineComponent({
+  name: 'AvIconText',
+  template: `<div class="av-icon-text" />`,
+  props: ['icon', 'text', 'iconColor', 'textColor', 'typographyClass']
+})
+
+BddTest().given('a home widget', () => {
+  let wrapper: VueWrapper<InstanceType<typeof HomeWidget>>
+
+  const stubs = {
+    AvCard: AvCardStub,
+    AvIconText: AvIconTextStub,
+    AvButton: AvButtonStub
+  }
+
+  BddTest().when('the component is mounted with displayWidget as true', () => {
+    const props: HomeWidgetProps = {
+      title: 'Test Widget',
+      titleIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+      seeAllLabel: 'See All',
+      displayWidget: true,
+      type: 'main'
+    }
+
+    beforeEach(() => {
+      wrapper = mount(HomeWidget, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the component', () => {
+      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvIconTextStub).props('icon')).toBe(MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE)
+      expect(wrapper.findComponent(AvIconTextStub).props('text')).toBe('Test Widget')
+      expect(wrapper.findComponent(AvButtonStub).props('label')).toBe('See All')
+    })
+
+    BddTest().and('the see all button is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(AvButtonStub).trigger('click')
+      })
+
+      BddTest().then('it should emit the seeAllClick event', () => {
+        expect(wrapper.emitted()).toHaveProperty('seeAllClick')
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with displayWidget as false', () => {
+    const props: HomeWidgetProps = {
+      title: 'Test Widget',
+      titleIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+      seeAllLabel: 'See All',
+      displayWidget: false,
+      type: 'main'
+    }
+
+    beforeEach(() => {
+      wrapper = mount(HomeWidget, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should not render the component', () => {
+      expect(wrapper.findComponent(AvCardStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with main type', () => {
+    const props: HomeWidgetProps = {
+      title: 'Main Widget',
+      titleIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+      seeAllLabel: 'See All Main',
+      displayWidget: true,
+      type: 'main'
+    }
+
+    beforeEach(() => {
+      wrapper = mount(HomeWidget, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should have the correct class for main type', () => {
+      expect(wrapper.classes()).toContain('home-main-widget')
+    })
+
+    BddTest().then('it should render the correct AvIconText', () => {
+      const iconText = wrapper.findComponent(AvIconTextStub)
+      expect(iconText.props('textColor')).toBe('var(--title)')
+      expect(iconText.props('typographyClass')).toBe('n5')
+    })
+  })
+
+  BddTest().when('the component is mounted with side type', () => {
+    const props: HomeWidgetProps = {
+      title: 'Side Widget',
+      titleIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+      seeAllLabel: 'See All Side',
+      displayWidget: true,
+      type: 'side'
+    }
+
+    beforeEach(() => {
+      wrapper = mount(HomeWidget, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should have the correct class for side type', () => {
+      expect(wrapper.classes()).toContain('home-side-widget')
+    })
+
+    BddTest().then('it should render the correct AvIconText', () => {
+      const iconText = wrapper.findComponent(AvIconTextStub)
+      expect(iconText.props('textColor')).toBe('var(--text1)')
+      expect(iconText.props('typographyClass')).toBe('s1-bold')
+    })
+  })
+})

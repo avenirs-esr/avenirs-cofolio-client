@@ -881,8 +881,10 @@ BddTest().given('a student traces summary query with no parameters', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should return an array of trace overviews', () => {
-      expect(Array.isArray(queryResult.data.value)).toBe(true)
+    BddTest().then('it should return an array of trace overviews', async () => {
+      await vi.waitFor(() => {
+        expect(Array.isArray(queryResult.data.value)).toBe(true)
+      })
     })
   })
 })

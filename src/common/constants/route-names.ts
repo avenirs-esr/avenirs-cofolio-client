@@ -4,7 +4,7 @@ export const ROUTES = {
     ACCESSIBILITY: { name: 'student-accessibility', path: 'accessibility' },
     COOKIES: { name: 'student-cookies', path: 'cookies' },
     LEGAL: { name: 'student-legal', path: 'legal' },
-    PERSONNAL_DATA: { name: 'student-personnal-data', path: 'personnal-data' },
+    PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
     DELIVERABLES: { name: 'student-deliverables', path: 'deliverables' },
     EVENTS: { name: 'student-events', path: 'events' },
     PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'projects/personal-career', },
@@ -40,6 +40,6 @@ export const ROUTES = {
     ACCESSIBILITY: { name: 'teacher-accessibility', path: 'accessibility' },
     COOKIES: { name: 'teacher-cookies', path: 'cookies' },
     LEGAL: { name: 'teacher-legal', path: 'legal' },
-    PERSONNAL_DATA: { name: 'teacher-personnal-data', path: 'personnal-data' },
+    PERSONAL_DATA: { name: 'teacher-personal-data', path: 'personal-data' },
   },
 } as const

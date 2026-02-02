@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized } from 'vue-router'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
+import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -13,8 +13,8 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
-BddTest().given('a cookies view', () => {
-  let wrapper: VueWrapper<InstanceType<typeof CookiesView>>
+BddTest().given('a personal data view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof PersonalDataView>>
 
   const stubs = { PageTitle: PageTitleStub }
 
@@ -25,10 +25,10 @@ BddTest().given('a cookies view', () => {
         path: '/student/home'
       } as unknown as RouteLocationNormalized)
 
-      wrapper = mount(CookiesView, { global: { stubs } })
+      wrapper = mount(PersonalDataView, { global: { stubs } })
     })
 
-    const title = 'Gestion des cookies'
+    const title = 'Données personnelles'
     const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
     const currentBreadcrumbLink = { text: title }
 
@@ -51,10 +51,10 @@ BddTest().given('a cookies view', () => {
         path: '/teacher/home'
       } as unknown as RouteLocationNormalized)
 
-      wrapper = mount(CookiesView, { global: { stubs } })
+      wrapper = mount(PersonalDataView, { global: { stubs } })
     })
 
-    const title = 'Gestion des cookies'
+    const title = 'Données personnelles'
     const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.TEACHER.HOME }
     const currentBreadcrumbLink = { text: title }
 

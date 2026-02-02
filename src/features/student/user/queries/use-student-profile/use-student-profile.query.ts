@@ -1,6 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { MutationArgs, StudentHeaderSummaryDTO } from '@/types'
-import { mockedHeaderOverview } from '@/__mocks__/fixtures/student'
+import type { MutationArgs } from '@/types'
 import {
   deleteUserPhoto,
   EUserCategory,
@@ -25,17 +24,6 @@ export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO
     queryKey,
     queryFn: async (): Promise<ProfileOverviewDTO> => {
       return getProfile(EUserCategory.STUDENT)
-    }
-  })
-}
-
-export function useStudentHeaderSummaryQuery (): UseQueryReturnType<StudentHeaderSummaryDTO, BaseApiException> {
-  const queryKey = computed(() => headerSummaryQueryKeys)
-  return useQuery<StudentHeaderSummaryDTO, BaseApiException>({
-    queryKey,
-    // TODO: call /me/header/overview when the endpoint and client are ready
-    queryFn: async (): Promise<StudentHeaderSummaryDTO> => {
-      return mockedHeaderOverview
     }
   })
 }

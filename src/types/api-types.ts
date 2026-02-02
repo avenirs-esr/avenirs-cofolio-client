@@ -24,10 +24,3 @@ export interface ResumeOverviewDTO {
   name: string
   updatedAt: string
 }
-
-export interface StudentHeaderSummaryDTO {
-  id: string
-  name: string
-  messagesCount: number
-  notificationsCount: number
-}

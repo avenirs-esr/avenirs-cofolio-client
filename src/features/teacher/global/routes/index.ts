@@ -26,9 +26,9 @@ export default [
           import('@/common/views/LegalView/LegalView.vue'),
       },
       {
-        ...ROUTES.TEACHER.PERSONNAL_DATA,
+        ...ROUTES.TEACHER.PERSONAL_DATA,
         component: () =>
-          import('@/common/views/PersonnalDataView/PersonnalDataView.vue'),
+          import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
     ]
   }

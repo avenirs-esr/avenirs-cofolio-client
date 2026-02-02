@@ -30,6 +30,17 @@ export const programProgressViewErrorHandler = http.get(`*${getGetStudentProgres
   )
 })
 
+export function createStudentProgressOverviewHandler (payload: StudentProgressOverviewDTO[]) {
+  return http.get(`*${getGetStudentProgressOverviewUrl()}`, () => {
+    return HttpResponse.json<StudentProgressOverviewDTO[]>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
 export const programProgressHandlers = [
   http.get(`*${getGetAllStudentProgressUrl()}`, () => {
     return HttpResponse.json<StudentProgressDTO[]>(mockedStudentProgress, {

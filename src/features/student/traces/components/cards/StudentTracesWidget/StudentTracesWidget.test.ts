@@ -1,15 +1,17 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { HomeWidgetStub } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.stub'
 import {
   StudentTraceCardStub
 } from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.stub'
 import StudentTracesWidget from '@/features/student/traces/components/cards/StudentTracesWidget/StudentTracesWidget.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mockAddErrorMessage } from 'tests/mocks'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
+
+const mockAddErrorMessage = vi.fn()
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
@@ -37,7 +39,7 @@ BddTest().given('a student traces widget', async () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvButton: AvButtonStub,
+    HomeWidget: HomeWidgetStub,
     StudentTraceCard: StudentTraceCardStub
   }
 
@@ -59,22 +61,26 @@ BddTest().given('a student traces widget', async () => {
         }]],
       },
     })
+
+    await vi.waitFor(() => {
+      expect(wrapper.find('.home-main-widget').exists()).toBe(true)
+    })
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should display up to 3 traces', async () => {
-      await vi.waitFor(() => {
-        const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-        expect(studentTraceCards).toHaveLength(3)
-      })
+    BddTest().then('it should display up to 3 traces', () => {
+      const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+      expect(studentTraceCards).toHaveLength(3)
     })
   })
 
   BddTest().when('clicking the navigation button', () => {
-    BddTest().then('it should call navigation', async () => {
-      const btn = wrapper.findComponent({ name: 'AvButton' })
+    beforeEach(async () => {
+      const btn = wrapper.find('.see-all-button')
       await btn.trigger('click')
+    })
 
+    BddTest().then('it should call navigation', () => {
       expect(navigateToStudentTraces).toHaveBeenCalled()
     })
   })

@@ -1,8 +1,8 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { mockedHeaderOverview, mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { useStudentHeaderSummaryQuery, useStudentSummaryQuery } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
+import { useStudentSummaryQuery } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
@@ -29,20 +29,6 @@ BddTest().given('a student summary query with no parameters', () => {
 
     BddTest().then('it should return a profile object with required properties', () => {
       expect(queryResult.data.value).toEqual(mockedProfileOverview)
-    })
-  })
-})
-
-BddTest().given('a student header summary query with no parameters', () => {
-  BddTest().when('the query is executed', () => {
-    const query = mountQueryComposable(() => useStudentHeaderSummaryQuery())
-
-    beforeEach(async () => {
-      await flushPromises()
-    })
-
-    BddTest().then('it should return the mocked header overview', () => {
-      expect(query.data.value).toEqual(mockedHeaderOverview)
     })
   })
 })
