@@ -48,9 +48,12 @@ const endErrorMessage = computed(() => endDateField.state.value.meta.errors?.joi
 <template>
   <div class="declared-experience-period-form-field">
     <div class="av-col av-gap-xs">
-      <span class="av-label b2-light">
-        {{ t('student.personalCareer.interactions.inputs.DeclaredExperiencePeriodInput.label') }}
-      </span>
+      <label
+        class="av-label b2-light"
+        for="declared-experience-period-input"
+      >
+        {{ t('student.personalCareer.interactions.inputs.DeclaredExperiencePeriodInput.label') }} *
+      </label>
       <FormField :name="IS_ONGOING">
         <template #default="{ field }">
           <AvCheckbox
@@ -65,6 +68,7 @@ const endErrorMessage = computed(() => endDateField.state.value.meta.errors?.joi
       </FormField>
 
       <DeclaredExperiencePeriodInput
+        id="declared-experience-period-input"
         :label-visible="false"
         :start-model-value="startDateField.state.value.value"
         :end-model-value="endDateField.state.value.value"

@@ -28,6 +28,7 @@ function onUpdateOrganization (value: string | undefined) {
         v-bind="$attrs"
         :model-value="(field.state.value ?? '').slice(0, DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH)"
         :error-message="field.state.meta.errors?.join(', ')"
+        required
         @blur="field.handleBlur"
         @update:model-value="onUpdateOrganization"
       />
