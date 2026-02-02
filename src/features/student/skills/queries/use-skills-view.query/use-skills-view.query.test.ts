@@ -241,15 +241,19 @@ BddTest().given('an useAllSkillsQuery composable', async () => {
 })
 
 BddTest().given('a student courses summary query with no parameters', () => {
-  BddTest().when('the query is executed', () => {
-    const query = mountQueryComposable(() => useStudentCoursesSummaryQuery())
+  let query: ReturnType<typeof useStudentCoursesSummaryQuery>
 
+  BddTest().when('the query is executed', () => {
     beforeEach(async () => {
+      query = mountQueryComposable(() => useStudentCoursesSummaryQuery())
       await flushPromises()
     })
 
-    BddTest().then('it should return an array of student progress summaries', () => {
-      expect(Array.isArray(query.data.value)).toBe(true)
+    BddTest().then('it should return an array of student progress summaries', async () => {
+      await vi.waitFor(() => {
+        expect(query.isSuccess.value).toBe(true)
+        expect(Array.isArray(query.data.value)).toBe(true)
+      })
     })
   })
 })

@@ -41,8 +41,8 @@ export default [
         component: () => import('@/common/views/LegalView/LegalView.vue'),
       },
       {
-        ...ROUTES.STUDENT.PERSONNAL_DATA,
-        component: () => import('@/common/views/PersonnalDataView/PersonnalDataView.vue'),
+        ...ROUTES.STUDENT.PERSONAL_DATA,
+        component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
       studentProjectSkillsRoute,
       declaredProgramRoute,

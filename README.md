@@ -135,7 +135,7 @@ npm run dev
 **To Unlink:**
 ```bash
 npm unlink @avenirs-esr/avenirs-dsav
-npm install
+npm install @avenirs-esr/avenirs-dsav
 ```
 
 ## Features

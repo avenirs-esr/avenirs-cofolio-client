@@ -8,7 +8,6 @@ import {
   StudentMailboxPopover,
   StudentNotificationsPopover,
   StudentProfilePopover,
-  useStudentHeaderSummaryQuery,
   useStudentSummaryQuery,
   useStudentUserStore
 } from '@/features/student/user'
@@ -21,9 +20,7 @@ useInvalidateAllQueriesAfterLocaleChange()
 const { t } = useI18n()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
-const { data: headerSummary, error: studentHeaderSummaryError } = useStudentHeaderSummaryQuery()
 const { data: studentSummary, error: studentSummaryError } = useStudentSummaryQuery()
-useBaseApiExceptionToast(studentHeaderSummaryError)
 useBaseApiExceptionToast(studentSummaryError)
 
 const name = computed(() => {
@@ -33,8 +30,8 @@ const name = computed(() => {
   const { firstname, lastname } = studentSummary.value
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
-const messagesCount = computed(() => headerSummary.value?.messagesCount ?? 0)
-const notificationsCount = computed(() => headerSummary.value?.notificationsCount ?? 0)
+const messagesCount = 0 // TODO: waiting for mailbox implementation
+const notificationsCount = 0 // TODO: waiting for notifications implementation
 
 const searchQuery = ref('')
 

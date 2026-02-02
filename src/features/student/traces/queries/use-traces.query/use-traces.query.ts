@@ -32,7 +32,7 @@ import {
 import { useInvalidateQuery } from '@/common/composables'
 import { removeEmpty } from '@/common/utils'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryDefinedReturnType, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
@@ -274,11 +274,10 @@ export function useUpdateTraceMutation ({ onError, onSuccess }: MutationArgs<Tra
   })
 }
 
-export function useStudentTracesSummaryQuery (): UseQueryDefinedReturnType<TraceOverviewDTO[], BaseApiException> {
+export function useStudentTracesSummaryQuery (): UseQueryReturnType<TraceOverviewDTO[], BaseApiException> {
   const queryKey = computed(() => [...tracesCommonQueryKeys, 'summary'])
-  return useQuery<TraceOverviewDTO[], BaseApiException>({
+  return useQuery<TraceOverviewDTO[], BaseApiException, TraceOverviewDTO[], readonly unknown[]>({
     queryKey,
-    initialData: [],
     queryFn: async (): Promise<TraceOverviewDTO[]> => {
       return getTraceOverview()
     }

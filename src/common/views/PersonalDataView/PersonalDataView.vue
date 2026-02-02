@@ -14,13 +14,13 @@ const homeRoute = computed(() => isStudentRoute.value
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: homeRoute.value },
-  { text: t('global.views.personnalDataView.title') },
+  { text: t('global.views.personalDataView.title') },
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('global.views.personnalDataView.title')"
+    :title="t('global.views.personalDataView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="homeRoute"
   />

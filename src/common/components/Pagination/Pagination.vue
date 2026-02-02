@@ -65,7 +65,9 @@ function handleSelectChange (val: AvTagPickerOption): void {
         @update:current-page="onUpdateCurrentPage"
       />
     </div>
-    <slot />
+    <div class="av-py-md">
+      <slot />
+    </div>
     <div class="av-row av-w-full av-justify-center av-pb-lg">
       <AvPagination
         id="bottom-pagination"

@@ -52,7 +52,7 @@ const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   },
   {
     label: t('global.footer.links.data'),
-    to: isStudentRoute.value ? ROUTES.STUDENT.PERSONNAL_DATA : ROUTES.TEACHER.PERSONNAL_DATA
+    to: isStudentRoute.value ? ROUTES.STUDENT.PERSONAL_DATA : ROUTES.TEACHER.PERSONAL_DATA
   },
   {
     label: t('global.footer.links.cookies'),

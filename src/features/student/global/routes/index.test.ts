@@ -5,8 +5,8 @@ import CookiesView
   from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView
   from '@/common/views/LegalView/LegalView.vue'
-import PersonnalDataView
-  from '@/common/views/PersonnalDataView/PersonnalDataView.vue'
+import PersonalDataView
+  from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import routes from '@/features/student/global/routes'
 import StudentAboutView
   from '@/features/student/global/views/StudentAboutView/StudentAboutView.vue'
@@ -79,9 +79,9 @@ testRoute(
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.PERSONNAL_DATA.name)!,
-  ROUTES.STUDENT.PERSONNAL_DATA,
-  PersonnalDataView
+  children.find(r => r.name === ROUTES.STUDENT.PERSONAL_DATA.name)!,
+  ROUTES.STUDENT.PERSONAL_DATA,
+  PersonalDataView
 )
 
 testRoute(personalCareerRoute, ROUTES.STUDENT.PERSONAL_CAREER, PersonalCareerView)

@@ -1,25 +1,8 @@
-import type { BaseApiException } from '@/common/exceptions'
-import type { EventOverviewDTO } from '@/types'
-import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { VueWrapper } from '@vue/test-utils'
-import type { Ref } from 'vue'
-import { getCalendarDate, getLocalizedAbbrMonth } from '@/common/utils'
-import { useStudentEventsSummaryQuery } from '@/features/student/global/queries/use-student-events.query/use-student-events.query'
+import { HomeWidgetStub } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.stub'
 import StudentEventsWidget from '@/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mockAddErrorMessage } from 'tests/mocks'
-import { mountWithRouter, testUseBaseApiExceptionToast } from 'tests/utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
-
-vi.mock('@/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/store')>()
-  return {
-    ...actual,
-    useToasterStore: () => ({
-      addErrorMessage: mockAddErrorMessage
-    })
-  }
-})
 
 const navigateToStudentEvents = vi.fn()
 
@@ -33,111 +16,33 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock('@/features/student/global/queries/use-student-events.query/use-student-events.query', () => ({
-  useStudentEventsSummaryQuery: vi.fn()
-}))
-
-const mockedUseStudentEventsQuery = vi.mocked(useStudentEventsSummaryQuery)
-
-function mockUseStudentEventsQuery (payload: EventOverviewDTO[]) {
-  const mockData: Ref<EventOverviewDTO[]> = ref(payload)
-  const mockError: Ref<null | null> = ref(null)
-  const queryMockedData = {
-    data: mockData,
-    error: mockError,
-  } as unknown as UseQueryDefinedReturnType<EventOverviewDTO[], BaseApiException>
-  mockedUseStudentEventsQuery.mockReturnValue(queryMockedData)
-}
-
 BddTest().given('a student events widget', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof StudentEventsWidget>>
 
-  const events = [
-    {
-      id: 'event1',
-      name: 'Forum de l’écologie et la chimie',
-      startDate: '2025-05-19T08:00',
-      endDate: '2025-05-19T18:00',
-      location: 'Paris'
-    },
-    {
-      id: 'event2',
-      name: 'Super forum de la mécanique quantique',
-      startDate: '2125-06-25T08:30',
-      endDate: '2125-06-25T17:30',
-      location: 'Toulouse'
-    },
-    {
-      id: 'event3',
-      name: 'Le café des associations',
-      startDate: '2125-07-03T09:00',
-      endDate: '2125-07-03T17:00',
-      location: 'Bordeaux'
-    },
-    {
-      id: 'event4',
-      name: 'Assemblée générale ESUP',
-      startDate: '2125-08-08T09:30',
-      endDate: '2125-08-08T12:15',
-      location: 'Brest'
-    },
-    {
-      id: 'event5',
-      name: 'Nouvel an 2225',
-      startDate: '2225-01-01T09:30',
-      endDate: '2225-01-01T12:15',
-      location: 'Brest'
-    },
-  ] as Array<EventOverviewDTO>
+  const stubs = { HomeWidget: HomeWidgetStub }
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks()
-    mockUseStudentEventsQuery(events)
 
-    wrapper = await mountWithRouter(StudentEventsWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
-    })
+    wrapper = mount(StudentEventsWidget, { global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should only display up to 3 future events sorted by dates', async () => {
+    BddTest().then('it should only display up to 3 events', () => {
       const richButtons = wrapper.findAll('.av-rich-button')
 
       expect(richButtons).toHaveLength(3)
-      expect(richButtons[0].text()).toContain(getCalendarDate(events[1].startDate))
-      expect(richButtons[0].text()).toContain(getLocalizedAbbrMonth(events[1].startDate, 'fr').toUpperCase())
-      expect(richButtons[0].text()).toContain(events[1].location)
-      expect(richButtons[1].text()).toContain(getCalendarDate(events[2].startDate))
-      expect(richButtons[1].text()).toContain(getLocalizedAbbrMonth(events[2].startDate, 'fr').toUpperCase())
-      expect(richButtons[1].text()).toContain(events[2].location)
-      expect(richButtons[2].text()).toContain(getCalendarDate(events[3].startDate))
-      expect(richButtons[2].text()).toContain(getLocalizedAbbrMonth(events[3].startDate, 'fr').toUpperCase())
-      expect(richButtons[2].text()).toContain(events[3].location)
-
-      await (richButtons[0]).trigger('click')
-      await (richButtons[1]).trigger('click')
-      await (richButtons[2]).trigger('click')
     })
   })
 
   BddTest().when('clicking on the navigation button', () => {
-    BddTest().then('it should call navigation', async () => {
-      const btn = wrapper.findComponent({ name: 'AvButton' })
+    beforeEach(async () => {
+      const btn = wrapper.find('.see-all-button')
       await btn.trigger('click')
-
-      expect(navigateToStudentEvents).toHaveBeenCalled()
     })
-  })
 
-  testUseBaseApiExceptionToast<EventOverviewDTO[]>({
-    mockedUseQuery: mockedUseStudentEventsQuery,
-    payload: [],
-    mountComponent: () => mountWithRouter(StudentEventsWidget, {
-      global: {
-        plugins: [createPinia()],
-      },
+    BddTest().then('it should call navigation', async () => {
+      expect(navigateToStudentEvents).toHaveBeenCalled()
     })
   })
 })

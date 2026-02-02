@@ -144,8 +144,8 @@
           "title": "404 - Page not found"
         }
       },
-      "personnalDataView": {
-        "title": "Personnal data"
+      "personalDataView": {
+        "title": "Personal data"
       }
     },
     "vueFlow": {
