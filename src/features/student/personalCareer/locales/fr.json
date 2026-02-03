@@ -48,7 +48,7 @@
           },
           "DeclaredExperienceOrganizationInput": {
             "label": "Entreprise / Organisme",
-            "placeholder": "Nom"
+            "placeholder": "Nom de l'entreprise"
           },
           "DeclaredExperiencePeriodInput": {
             "endLabel": "Date de fin",
@@ -64,7 +64,7 @@
           },
           "DeclaredExperienceTitleInput": {
             "label": "Intitulé du poste",
-            "placeholder": "titre-de-mon-expérience-01"
+            "placeholder": "Titre de mon expérience"
           },
           "DeclaredExperienceTypeSelect": {
             "label": "Type d'expérience",
@@ -83,7 +83,7 @@
           },
           "DeclaredProgramResultInput": {
             "label": "Résultat obtenu",
-            "placeholder": "résultat"
+            "placeholder": "Résultat"
           },
           "DeclaredProgramSourceOfInformationInput": {
             "label": "Provenance de l'information",
@@ -91,7 +91,7 @@
           },
           "DeclaredProgramTitleInput": {
             "label": "Intitulé de ma formation",
-            "placeholder": "Nom de ma formation 1"
+            "placeholder": "Nom de ma formation"
           }
         }
       },

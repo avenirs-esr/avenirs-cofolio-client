@@ -1,6 +1,11 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import DeclaredProgramDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
+import DeclaredProgramOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
+import DeclaredProgramResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramResultInput/DeclaredProgramResultInput.vue'
+import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
+import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
 import DeclaredProgramDetailed, { type DeclaredProgramDetailedProps } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
-import { AvInputStub, AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
@@ -49,13 +54,8 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDetailed>>
 
   const stubs = {
-    AvInput: AvInputStub,
     AvPeriodInput: AvPeriodInputStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
-  }
-
-  function findAvInputs () {
-    return wrapper.findAllComponents({ name: 'AvInput' })
   }
 
   function findPeriodInput () {
@@ -81,7 +81,7 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
       })
 
       BddTest().then('it should render the title', () => {
-        const titleInput = findAvInputs()[0]
+        const titleInput = wrapper.findComponent(DeclaredProgramTitleInput)
         expect(titleInput.exists()).toBe(true)
         expect(titleInput.props('label')).toBe('Intitulé de ma formation déclarée')
         expect(titleInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.title)
@@ -89,9 +89,8 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
       })
 
       BddTest().then('it should render the organization', () => {
-        const organizationInput = findAvInputs()[1]
+        const organizationInput = wrapper.findComponent(DeclaredProgramOrganizationInput)
         expect(organizationInput.exists()).toBe(true)
-        expect(organizationInput.props('label')).toBe('Établissement / Organisme')
         expect(organizationInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.organization)
         expect(organizationInput.props('disabled')).toBe(true)
       })
@@ -116,7 +115,7 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
       })
 
       BddTest().then('it should render the result', () => {
-        const resultInput = findAvInputs()[2]
+        const resultInput = wrapper.findComponent(DeclaredProgramResultInput)
         expect(resultInput.exists()).toBe(true)
         expect(resultInput.props('label')).toBe('Résultat obtenu')
         expect(resultInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.result)
@@ -124,19 +123,17 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
       })
 
       BddTest().then('it should render the source of information', () => {
-        const sourceInput = findAvInputs()[3]
+        const sourceInput = wrapper.findComponent(DeclaredProgramSourceOfInformationInput)
         expect(sourceInput.exists()).toBe(true)
-        expect(sourceInput.props('label')).toBe('Provenance de l\'information')
         expect(sourceInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.sourceOfInformation)
         expect(sourceInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description in a textarea', () => {
-        const descriptionInput = findAvInputs()[4]
+        const descriptionInput = wrapper.findComponent(DeclaredProgramDescriptionTextarea)
         expect(descriptionInput.exists()).toBe(true)
         expect(descriptionInput.props('label')).toBe('Description de ma formation déclarée')
         expect(descriptionInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.description)
-        expect(descriptionInput.props('isTextarea')).toBe(true)
         expect(descriptionInput.props('disabled')).toBe(true)
       })
 
@@ -165,22 +162,10 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
-      BddTest().then('it should render an empty description value', () => {
-        const descriptionInput = findAvInputs()[4]
-        expect(descriptionInput.exists()).toBe(true)
-        expect(descriptionInput.props('modelValue')).toBe('')
-      })
-
-      BddTest().then('it should render an empty result value', () => {
-        const resultInput = findAvInputs()[2]
-        expect(resultInput.exists()).toBe(true)
-        expect(resultInput.props('modelValue')).toBe('')
-      })
-
-      BddTest().then('it should render an empty sourceOfInformation value', () => {
-        const sourceInput = findAvInputs()[3]
-        expect(sourceInput.exists()).toBe(true)
-        expect(sourceInput.props('modelValue')).toBe('')
+      BddTest().then('it should render empty optional values', () => {
+        expect(wrapper.findComponent(DeclaredProgramDescriptionTextarea).props('modelValue')).toBe('')
+        expect(wrapper.findComponent(DeclaredProgramResultInput).props('modelValue')).toBe('')
+        expect(wrapper.findComponent(DeclaredProgramSourceOfInformationInput).props('modelValue')).toBe('')
       })
 
       BddTest().then('it should pass an empty endModelValue to AvPeriodInput when endDate is undefined', () => {

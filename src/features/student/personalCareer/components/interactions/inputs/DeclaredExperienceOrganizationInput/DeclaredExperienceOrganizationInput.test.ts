@@ -54,7 +54,7 @@ BddTest().given('a declared experience organization input component', () => {
 
     BddTest().then('it should display the correct placeholder', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('placeholder')).toBe('Nom')
+      expect(input.props('placeholder')).toBe('Nom de l\'entreprise')
     })
 
     BddTest().then('it should have empty initial value', () => {

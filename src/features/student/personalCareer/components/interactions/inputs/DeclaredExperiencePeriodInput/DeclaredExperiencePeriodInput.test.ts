@@ -3,12 +3,14 @@ import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockIsMobile = ref(false)
+
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const original = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
   return {
     ...original,
     useAvBreakpoints: () => ({
-      isMobile: ref(false)
+      isMobile: mockIsMobile
     })
   }
 })
@@ -23,6 +25,7 @@ BddTest().given('a declared experience period input component', () => {
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+      mockIsMobile.value = false
       wrapper = mount(DeclaredExperiencePeriodInput, {
         global: { stubs }
       })
@@ -42,18 +45,10 @@ BddTest().given('a declared experience period input component', () => {
       expect(input.props('type')).toBe('month')
     })
 
-    BddTest().then('it should display the correct French label', () => {
+    BddTest().then('it should display the correct labels', () => {
       const input = wrapper.findComponent({ name: 'AvPeriodInput' })
       expect(input.props('label')).toBe('Période')
-    })
-
-    BddTest().then('it should display the correct French start label', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
       expect(input.props('startLabel')).toBe('Date de début')
-    })
-
-    BddTest().then('it should display the correct French end label', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
       expect(input.props('endLabel')).toBe('Date de fin')
     })
 
@@ -68,91 +63,73 @@ BddTest().given('a declared experience period input component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with custom props', () => {
+  BddTest().when('the component is mounted on mobile', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+      mockIsMobile.value = true
       wrapper = mount(DeclaredExperiencePeriodInput, {
-        props: {
-          startModelValue: '2024-01',
-          endModelValue: '2024-12',
-          endDateDisabled: true
-        },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should pass start model value to AvPeriodInput', () => {
+    BddTest().then('it should be stacked', () => {
       const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      expect(input.props('startModelValue')).toBe('2024-01')
-    })
-
-    BddTest().then('it should pass end model value to AvPeriodInput', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      expect(input.props('endModelValue')).toBe('2024-12')
-    })
-
-    BddTest().then('it should pass endDateDisabled to AvPeriodInput', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      expect(input.props('endDateDisabled')).toBe(true)
+      expect(input.props('stacked')).toBe(true)
     })
   })
 
-  BddTest().when('the component is mounted with label visibility disabled', () => {
+  BddTest().when('the component is mounted with custom props', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
+      mockIsMobile.value = false
       wrapper = mount(DeclaredExperiencePeriodInput, {
         props: {
+          startModelValue: '2024-01',
+          endModelValue: '2024-12',
+          endDateDisabled: true,
           labelVisible: false
         },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should pass labelVisible false to AvPeriodInput', () => {
+    BddTest().then('it should pass props to AvPeriodInput', () => {
       const input = wrapper.findComponent({ name: 'AvPeriodInput' })
+      expect(input.props('startModelValue')).toBe('2024-01')
+      expect(input.props('endModelValue')).toBe('2024-12')
+      expect(input.props('endDateDisabled')).toBe(true)
       expect(input.props('labelVisible')).toBe(false)
     })
   })
 
-  BddTest().when('the user enters a start date', () => {
+  BddTest().when('the user enters dates', () => {
+    const onUpdateStart = vi.fn()
+    const onUpdateEnd = vi.fn()
+
     beforeEach(async () => {
       vi.clearAllMocks()
+      mockIsMobile.value = false
       wrapper = mount(DeclaredExperiencePeriodInput, {
+        attrs: {
+          'onUpdate:startModelValue': onUpdateStart,
+          'onUpdate:endModelValue': onUpdateEnd
+        },
         global: { stubs }
       })
+
       const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      await input.vm.$emit('update:startModelValue', '2024-01')
-      await wrapper.vm.$nextTick()
+
+      await input.vm.$emit('update:startModelValue', '2024-05')
+      await input.vm.$emit('update:endModelValue', '2024-06')
     })
 
-    BddTest().then('it should emit update:startModelValue event', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      expect(input.emitted('update:startModelValue')).toBeTruthy()
-      expect(input.emitted('update:startModelValue')?.[0]).toEqual(['2024-01'])
-    })
-  })
-
-  BddTest().when('the user enters an end date', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredExperiencePeriodInput, {
-        global: { stubs }
-      })
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      await input.vm.$emit('update:endModelValue', '2024-12')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should emit update:endModelValue event', () => {
-      const input = wrapper.findComponent({ name: 'AvPeriodInput' })
-      expect(input.emitted('update:endModelValue')).toBeTruthy()
-      expect(input.emitted('update:endModelValue')?.[0]).toEqual(['2024-12'])
+    BddTest().then('it should propagate the update events', () => {
+      expect(onUpdateStart).toHaveBeenCalledWith('2024-05')
+      expect(onUpdateEnd).toHaveBeenCalledWith('2024-06')
     })
   })
 
   BddTest().when('the component is mounted with attributes', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
       wrapper = mount(DeclaredExperiencePeriodInput, {
         attrs: {
           'data-testid': 'custom-period-input'
@@ -169,7 +146,6 @@ BddTest().given('a declared experience period input component', () => {
 
   BddTest().when('the component is mounted with custom label class', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
       wrapper = mount(DeclaredExperiencePeriodInput, {
         props: {
           labelClass: 'custom-class'

@@ -57,11 +57,6 @@ BddTest().given('a declared experience activity sector input component', () => {
       expect(input.props('placeholder')).toBe('Secteur d\'activité')
     })
 
-    BddTest().then('it should display the correct hint', () => {
-      const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('hint')).toBe('Pour une classification reconnue, consultez le référentiel NAF (Nomenclature d\'Activités Française)')
-    })
-
     BddTest().then('it should have empty initial value', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
       expect(input.props('modelValue')).toBe('')

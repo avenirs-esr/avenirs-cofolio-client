@@ -69,37 +69,53 @@ const createdAtPrefix = computed(() =>
         data-testid="update-declared-program-form__content"
       >
         <div
-          class="av-col av-gap-md av-flex-fill"
+          class="av-col av-gap-md column-equal"
           data-testid="update-declared-program-form__main"
         >
-          <DeclaredProgramTitleFormField :form="form" />
+          <DeclaredProgramTitleFormField
+            class="full-width-input"
+            :form="form"
+          />
 
-          <DeclaredProgramOrganizationFormField :form="form" />
+          <DeclaredProgramOrganizationFormField
+            class="full-width-input"
+            :form="form"
+          />
 
           <DeclaredProgramPeriodFormField :form="form" />
 
-          <DeclaredProgramResultFormField :form="form" />
+          <DeclaredProgramResultFormField
+            class="full-width-input"
+            :form="form"
+          />
 
-          <DeclaredProgramSourceOfInformationFormField :form="form" />
+          <DeclaredProgramSourceOfInformationFormField
+            class="full-width-input"
+            :form="form"
+          />
 
-          <DeclaredProgramLinkFormField :form="form" />
-
-          <CreationUpdateDateDetails
-            :created-at="declaredProgramDetailed.createdAt"
-            :updated-at="declaredProgramDetailed.updatedAt"
-            :created-at-prefix="createdAtPrefix"
+          <DeclaredProgramLinkFormField
+            class="full-width-input"
+            :form="form"
           />
         </div>
 
         <div
-          class="update-declared-program-form__side av-col av-gap-xl av-flex-fill"
+          class="update-declared-program-form__side av-col av-gap-xl column-equal"
           data-testid="update-declared-program-form__side"
         >
           <div
-            class="av-col av-gap-sm"
+            class="av-col av-gap-sm full-height-container"
             data-testid="update-declared-program-form__field"
           >
             <DeclaredProgramDescriptionFormField :form="form" />
+
+            <CreationUpdateDateDetails
+              class="push-to-bottom"
+              :created-at="declaredProgramDetailed.createdAt"
+              :updated-at="declaredProgramDetailed.updatedAt"
+              :created-at-prefix="createdAtPrefix"
+            />
           </div>
         </div>
       </div>
@@ -125,10 +141,37 @@ const createdAtPrefix = computed(() =>
 .update-declared-program-form {
   border: none !important;
   &__side {
+    display: flex;
+    flex-direction: column;
+
     :deep(textarea) {
       height: 50vh !important;
       resize: none;
+      width: 100%;
     }
+  }
+}
+
+.column-equal {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
+
+.full-height-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.push-to-bottom {
+  margin-top: auto;
+}
+
+.full-width-input {
+  width: 100%;
+  :deep(.fr-input-group), :deep(.fr-input), :deep(input) {
+    width: 100% !important; max-width: 100% !important;
   }
 }
 </style>
