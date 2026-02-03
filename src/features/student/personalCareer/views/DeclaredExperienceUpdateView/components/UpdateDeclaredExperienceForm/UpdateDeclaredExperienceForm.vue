@@ -64,52 +64,83 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 </script>
 
 <template>
-  <AvCard
-    data-testid="update-declared-experience-form"
-  >
+  <AvCard data-testid="update-declared-experience-form">
     <form @submit.prevent="handleSubmit">
       <div
         class="av-col av-row--md av-justify-between av-gap-xl"
         data-testid="update-declared-experience-form__content"
       >
         <div
-          class="av-col av-gap-md av-flex-fill"
+          class="av-col av-gap-md column-equal"
           data-testid="update-declared-experience-form__main"
         >
-          <div class="av-row av-gap-md">
-            <DeclaredExperienceTitleFormField :form="form" />
-
-            <DeclaredExperienceTypeFormField :form="form" />
+          <div
+            class="av-row av-gap-md"
+            style="align-items: baseline;"
+          >
+            <div class="half-width">
+              <DeclaredExperienceTitleFormField
+                class="full-width-input"
+                :form="form"
+              />
+            </div>
+            <div class="half-width">
+              <DeclaredExperienceTypeFormField
+                class="full-width-input"
+                :form="form"
+              />
+            </div>
           </div>
 
-          <div class="av-row av-gap-md">
-            <DeclaredExperienceOrganizationFormField :form="form" />
+          <DeclaredExperienceOrganizationFormField
+            class="full-width-input"
+            :form="form"
+          />
 
-            <DeclaredExperienceLocationFormField :form="form" />
+          <div
+            class="av-row av-gap-md"
+            style="align-items: baseline;"
+          >
+            <div class="half-width">
+              <DeclaredExperienceActivitySectorFormField
+                class="full-width-input"
+                :form="form"
+              />
+            </div>
+            <div class="half-width">
+              <DeclaredExperienceLocationFormField
+                class="full-width-input"
+                :form="form"
+              />
+            </div>
           </div>
-
-          <DeclaredExperienceActivitySectorFormField :form="form" />
 
           <DeclaredExperiencePeriodFormField :form="form" />
 
-          <DeclaredExperienceSourceOfInformationFormField :form="form" />
+          <DeclaredExperienceSourceOfInformationFormField
+            class="full-width-input"
+            :form="form"
+          />
 
-          <DeclaredExperienceExternalLinkFormField :form="form" />
+          <DeclaredExperienceExternalLinkFormField
+            class="full-width-input"
+            :form="form"
+          />
         </div>
 
         <div
-          class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill"
+          class="update-declared-experience-form__side av-col av-gap-xl column-equal"
           data-testid="update-declared-experience-form__side"
         >
           <div
-            class="layout-declared-experience-detailed__side av-col av-gap-md"
+            class="layout-declared-experience-detailed__side av-col av-gap-md full-height-container"
             data-testid="update-declared-experience-form__field"
           >
             <DeclaredExperienceDescriptionFormField :form="form" />
-
             <DeclaredExperienceSummaryFormField :form="form" />
 
             <CreationUpdateDateDetails
+              class="push-to-bottom"
               :created-at="declaredExperience.createdAt"
               :created-at-prefix="createdAtPrefixed"
               :updated-at="declaredExperience.updatedAt"
@@ -138,10 +169,50 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 .update-declared-experience-form {
   border: none !important;
   &__side {
+    display: flex;
+    flex-direction: column;
+
     :deep(textarea) {
       height: 25vh !important;
       resize: none;
+      width: 100%;
     }
+  }
+}
+
+.full-height-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.push-to-bottom {
+  margin-top: auto;
+}
+
+.column-equal {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
+
+.half-width {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
+
+.full-width-input {
+  width: 100%;
+  :deep(.fr-input-group),
+  :deep(.fr-input),
+  :deep(.fr-select),
+  :deep(input),
+  :deep(select),
+  :deep([role="combobox"]) {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
   }
 }
 </style>

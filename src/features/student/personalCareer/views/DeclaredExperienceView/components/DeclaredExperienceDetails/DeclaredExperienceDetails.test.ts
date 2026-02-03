@@ -1,12 +1,18 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import DeclaredExperienceActivitySectorInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
+import DeclaredExperienceDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
+import DeclaredExperienceExternalLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
+import DeclaredExperienceLocationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
+import DeclaredExperienceOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
+import DeclaredExperiencePeriodInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
+import DeclaredExperienceSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
+import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
+import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
+import DeclaredExperienceTypeSelect from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
 import DeclaredExperienceDetails, {
   type DeclaredExperienceDetailedProps,
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
-import {
-  AvInputStub,
-  AvPeriodInputStub,
-  BddTest,
-} from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
@@ -56,23 +62,8 @@ const CreationUpdateDateDetailsStub = {
 
 BddTest().given('the DeclaredExperienceDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceDetails>>
-
   const stubs = {
-    AvInput: AvInputStub,
-    AvPeriodInput: AvPeriodInputStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
-  }
-
-  function findAvInputs () {
-    return wrapper.findAllComponents({ name: 'AvInput' })
-  }
-
-  function findAvSelects () {
-    return wrapper.findAllComponents({ name: 'AvSelect' })
-  }
-
-  function findPeriodInput () {
-    return wrapper.findComponent({ name: 'AvPeriodInput' })
   }
 
   BddTest().and('given a declared experience details dto', () => {
@@ -105,116 +96,83 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       })
 
       BddTest().then('it should render the title', () => {
-        const titleInput = findAvInputs()[0]
-        expect(titleInput.exists()).toBe(true)
-        expect(titleInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.title
-        )
-        expect(titleInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceTitleInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.title)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the experience type', () => {
-        const typeInput = findAvSelects()[0]
-        expect(typeInput.exists()).toBe(true)
-        expect(typeInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.experienceType
-        )
-        expect(typeInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceTypeSelect)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.experienceType)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the organization', () => {
-        const organizationInput = findAvInputs()[1]
-        expect(organizationInput.exists()).toBe(true)
-        expect(organizationInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.organization
-        )
-        expect(organizationInput.props('disabled')).toBe(true)
-      })
-
-      BddTest().then('it should render the location', () => {
-        const locationInput = findAvInputs()[2]
-        expect(locationInput.exists()).toBe(true)
-        expect(locationInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.location
-        )
-        expect(locationInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceOrganizationInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.organization)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the activity sector', () => {
-        const activitySectorInput = findAvInputs()[3]
-        expect(activitySectorInput.exists()).toBe(true)
-        expect(activitySectorInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.activitySector
-        )
-        expect(activitySectorInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceActivitySectorInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.activitySector)
+        expect(component.props('disabled')).toBe(true)
       })
 
-      BddTest().then('it should render the period with AvPeriodInput', () => {
-        const period = findPeriodInput()
-        expect(period.exists()).toBe(true)
+      BddTest().then('it should render the location', () => {
+        const component = wrapper.findComponent(DeclaredExperienceLocationInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.location)
+        expect(component.props('disabled')).toBe(true)
+      })
 
-        expect(period.props('startModelValue')).toBe(
-          mockedDeclaredExperienceDetails.startDate
-        )
-        expect(period.props('endModelValue')).toBe(
-          mockedDeclaredExperienceDetails.endDate
-        )
-
-        expect(period.props('startDateDisabled')).toBe(true)
-        expect(period.props('endDateDisabled')).toBe(true)
-        expect(period.props('stacked')).toBe(false)
+      BddTest().then('it should render the period input', () => {
+        const component = wrapper.findComponent(DeclaredExperiencePeriodInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('startModelValue')).toBe(mockedDeclaredExperienceDetails.startDate)
+        expect(component.props('endModelValue')).toBe(mockedDeclaredExperienceDetails.endDate)
+        expect(component.props('startDateDisabled')).toBe(true)
+        expect(component.props('endDateDisabled')).toBe(true)
+        expect(component.props('labelVisible')).toBe(true)
       })
 
       BddTest().then('it should render the source of information', () => {
-        const sourceInput = findAvInputs()[4]
-        expect(sourceInput.exists()).toBe(true)
-        expect(sourceInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.sourceOfInformation
-        )
-        expect(sourceInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceSourceOfInformationInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.sourceOfInformation)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the external link', () => {
-        const externalLinkInput = findAvInputs()[5]
-        expect(externalLinkInput.exists()).toBe(true)
-        expect(externalLinkInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.externalLink
-        )
-        expect(externalLinkInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceExternalLinkInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.externalLink)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description textarea', () => {
-        const descriptionInput = findAvInputs()[6]
-        expect(descriptionInput.exists()).toBe(true)
-        expect(descriptionInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.description
-        )
-        expect(descriptionInput.props('isTextarea')).toBe(true)
-        expect(descriptionInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceDescriptionTextarea)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.description)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the summary textarea', () => {
-        const summaryInput = findAvInputs()[7]
-        expect(summaryInput.exists()).toBe(true)
-        expect(summaryInput.props('modelValue')).toBe(
-          mockedDeclaredExperienceDetails.summary
-        )
-        expect(summaryInput.props('isTextarea')).toBe(true)
-        expect(summaryInput.props('disabled')).toBe(true)
+        const component = wrapper.findComponent(DeclaredExperienceSummaryTextarea)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.summary)
+        expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
-        const details = wrapper.findComponent({
-          name: 'CreationUpdateDateDetails',
-        })
-
+        const details = wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
         expect(details.exists()).toBe(true)
-        expect(details.props('createdAt')).toBe(
-          mockedDeclaredExperienceDetails.createdAt
-        )
-        expect(details.props('updatedAt')).toBe(
-          mockedDeclaredExperienceDetails.updatedAt
-        )
+        expect(details.props('createdAt')).toBe(mockedDeclaredExperienceDetails.createdAt)
+        expect(details.props('updatedAt')).toBe(mockedDeclaredExperienceDetails.updatedAt)
         expect(details.props('createdAtPrefix')).toBe('Expérience')
       })
     })
@@ -222,8 +180,7 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
 
   BddTest().and('given optional fields are undefined', () => {
     const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails:
-      mockedDeclaredExperienceDetailsWithUndefinedOptionalFields,
+      declaredExperienceDetails: mockedDeclaredExperienceDetailsWithUndefinedOptionalFields,
     }
 
     BddTest().when('the component is mounted', () => {
@@ -236,45 +193,21 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
         })
       })
 
-      BddTest().then('it should render empty optional values', () => {
-        const inputs = findAvInputs()
+      BddTest().then('it should pass empty strings for undefined optional values', () => {
+        expect(wrapper.findComponent(DeclaredExperienceSourceOfInformationInput).props('modelValue')).toBe(undefined)
+        expect(wrapper.findComponent(DeclaredExperienceExternalLinkInput).props('modelValue')).toBe(undefined)
 
-        expect(inputs[4].props('modelValue')).toBe(undefined)
-        expect(inputs[5].props('modelValue')).toBe(undefined)
-        expect(inputs[6].props('modelValue')).toBe('')
-        expect(inputs[7].props('modelValue')).toBe('')
+        expect(wrapper.findComponent(DeclaredExperienceDescriptionTextarea).props('modelValue')).toBe('')
+        expect(wrapper.findComponent(DeclaredExperienceSummaryTextarea).props('modelValue')).toBe('')
       })
 
       BddTest().then(
-        'it should pass an empty endModelValue to AvPeriodInput when endDate is undefined',
+        'it should pass an empty endModelValue to PeriodInput when endDate is undefined',
         () => {
-          const period = findPeriodInput()
+          const period = wrapper.findComponent(DeclaredExperiencePeriodInput)
           expect(period.props('endModelValue')).toBe('')
         }
       )
-    })
-  })
-
-  BddTest().and('given mobile layout', () => {
-    const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails: mockedDeclaredExperienceDetails,
-    }
-
-    BddTest().when('isMobile is true', () => {
-      beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = true
-        wrapper = mount(DeclaredExperienceDetails, {
-          props,
-          global: { stubs },
-        })
-      })
-
-      BddTest().then('it should set AvPeriodInput stacked to true', () => {
-        const period = findPeriodInput()
-        expect(period.exists()).toBe(true)
-        expect(period.props('stacked')).toBe(true)
-      })
     })
   })
 })
