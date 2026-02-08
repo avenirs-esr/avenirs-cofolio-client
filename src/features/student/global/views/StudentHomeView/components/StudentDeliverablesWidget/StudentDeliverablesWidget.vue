@@ -17,7 +17,7 @@ const isDemo = __DEMO_MODE__
 
 <template>
   <HomeWidget
-    :title="t('student.skills.cards.StudentSkillsWidget.title')"
+    :title="t('student.global.widgets.deliverables.title')"
     :title-icon="MDI_ICONS.WARNING_OUTLINE"
     :see-all-label="t('student.global.widgets.deliverables.buttons.seeAll')"
     :display-widget="deliverables.length > 0 && !isDemo"
@@ -29,6 +29,7 @@ const isDemo = __DEMO_MODE__
       <li
         v-for="deliverable in deliverables"
         :key="deliverable.id"
+        data-testid="deliverable-item"
       >
         <AvRichButton
           :label="deliverable.id"

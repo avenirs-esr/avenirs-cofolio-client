@@ -1,0 +1,15 @@
+name: PR E2E Tests (develop)
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  pr-e2e-with-msw:
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@main
+    with:
+      run_local_preview: true
+      enable_msw: true
+      chrome_only: true
+      deploy_to_gh_pages: true
+      review_mode: false

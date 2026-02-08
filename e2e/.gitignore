@@ -1,0 +1,5 @@
+playwright-report
+test-results
+blob-report
+.features-gen
+cucumber-report

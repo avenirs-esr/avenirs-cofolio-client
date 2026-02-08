@@ -37,6 +37,7 @@ const isDemo = __DEMO_MODE__
       <li
         v-for="event in events"
         :key="event.id"
+        data-testid="event-item"
       >
         <AvRichButton
           :label="event.name"

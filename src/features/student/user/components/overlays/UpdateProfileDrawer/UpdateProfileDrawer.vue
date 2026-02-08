@@ -91,6 +91,7 @@ watch(() => show, (newVal) => {
 <template>
   <AvDrawer
     :show="show"
+    data-testid="update-profile-drawer"
     @escape-pressed="onClose()"
   >
     <div class="av-col av-gap-xl">
@@ -100,6 +101,7 @@ watch(() => show, (newVal) => {
         :text="t('student.user.overlays.UpdateProfileDrawer.title')"
         text-color="var(--title)"
         typography-class="n6"
+        data-testid="drawer-title"
       />
       <form
         id="profile-form"

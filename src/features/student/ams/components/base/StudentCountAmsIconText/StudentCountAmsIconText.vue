@@ -9,6 +9,7 @@ const { t } = useI18n()
 
 <template>
   <AvIconText
+    data-testid="count-ams-icon-text"
     :icon="MDI_ICONS.TEST_TUBE_EMPTY"
     :text="t('student.ams.base.StudentCountAmsIconText.text', { count: countAms })"
     icon-color="var(--text1)"

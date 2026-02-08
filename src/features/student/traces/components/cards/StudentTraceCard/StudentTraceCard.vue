@@ -40,6 +40,7 @@ const iconOptions = {
   <RouterLink
     class="student-trace-card"
     :to="to"
+    data-testid="trace-card"
   >
     <FloatingIconCard
       :title="title"
@@ -65,7 +66,10 @@ const iconOptions = {
                 color="var(--other-background-base)"
               />
             </div>
-            <span class="b2-regular">{{ t('student.traces.cards.StudentTraceCard.skillCount', { count: skillCount }) }}</span>
+            <span
+              class="b2-regular"
+              data-testid="trace-card-skill-count"
+            >{{ t('student.traces.cards.StudentTraceCard.skillCount', { count: skillCount }) }}</span>
           </div>
           <div class="student-trace-card__activities">
             <StudentCountAmsIconText
@@ -85,6 +89,7 @@ const iconOptions = {
           </div>
           <div class="av-row av-align-center student-trace-card__type">
             <AvTag
+              data-testid="trace-card-type-tag"
               :label="typeInfo.label"
               :icon="typeInfo.icon"
             />

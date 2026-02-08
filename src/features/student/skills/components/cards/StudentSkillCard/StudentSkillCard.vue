@@ -18,7 +18,6 @@ const name = computed(() => skill.name)
 const currentSkillLevel = computed(() => skill.currentSkillLevel)
 
 const { t } = useI18n()
-
 function levelStatusToBadge (status: ESkillLevelStatus): Pick<AvBadgeProps, 'color' | 'backgroundColor' | 'icon'> & { status: string } {
   switch (status) {
     // TODO: return correct values for UNDER_ACQUISITION status when starting #312
@@ -76,6 +75,7 @@ const iconOptions = {
   <RouterLink
     class="student-skill-card av-row av-w-full"
     :to="{ name: studentSkillRouteName, params: { id: skill.id } }"
+    data-testid="skill-card"
   >
     <FloatingIconCard
       :title="name"
@@ -90,6 +90,7 @@ const iconOptions = {
       <template #footer>
         <div class="student-skill-card__footer">
           <AvBadge
+            data-testid="skill-level-badge"
             v-bind="levelStatusBadge"
             small
             ellipsis

@@ -1,0 +1,10 @@
+name: PR E2E Cleanup
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [develop]
+
+jobs:
+  cleanup:
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-cleanup-workflow.yaml@main

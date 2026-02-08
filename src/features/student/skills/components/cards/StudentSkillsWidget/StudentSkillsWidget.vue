@@ -29,6 +29,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
       <StudentSkillsWidgetContainer
         v-for="course in courses"
         :key="course.id"
+        data-testid="student-skills-peer-course"
         :course="course"
         :max-skills-displayed="maxSkillsDisplayed"
       />
