@@ -8,7 +8,8 @@ export default antfu({
     '**/README.md',
     '.vscode/',
     'eslint.config.js',
-    'public/**/*'
+    'public/**/*',
+    'e2e/.features-gen/**/*'
   ],
 }, {
   rules: {

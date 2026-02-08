@@ -164,7 +164,10 @@ const navItems = computed(() => [
 </script>
 
 <template>
-  <AvNavigation :nav-items="navItems" />
+  <AvNavigation
+    :nav-items="navItems"
+    data-testid="main-navigation"
+  />
 </template>
 
 <style lang="scss" scoped>

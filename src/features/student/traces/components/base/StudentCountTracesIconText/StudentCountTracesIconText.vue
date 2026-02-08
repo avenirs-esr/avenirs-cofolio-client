@@ -9,6 +9,7 @@ const { t } = useI18n()
 
 <template>
   <AvIconText
+    data-testid="count-traces-icon-text"
     :icon="MDI_ICONS.ATTACH_FILE"
     :text="t('student.traces.base.StudentCountTracesIconText.text', { count: countTraces })"
     gap="var(--spacing-xs)"

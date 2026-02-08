@@ -29,6 +29,7 @@ const isDemo = __DEMO_MODE__
       <li
         v-for="page in pages"
         :key="page.id"
+        data-testid="page-item"
       >
         <AvRichButton
           :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -45,7 +46,10 @@ const isDemo = __DEMO_MODE__
             </div>
             <div class="av-col av-align-start ellipsis-container">
               <span class="ellipsis b1-regular">{{ page.name }}</span>
-              <span class="ellipsis caption-light">
+              <span
+                class="ellipsis caption-light"
+                data-testid="page-item-updated-at"
+              >
                 {{ t('student.global.widgets.pages.updatedAt', { date: formatDateToLocaleString(page.updatedAt, locale as AvLocale) }) }}
               </span>
             </div>

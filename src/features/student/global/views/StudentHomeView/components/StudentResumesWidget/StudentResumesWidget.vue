@@ -30,6 +30,7 @@ const isDemo = __DEMO_MODE__
         <li
           v-for="resume in resumes"
           :key="resume.id"
+          data-testid="resume-item"
         >
           <AvRichButton
             :icon-right="MDI_ICONS.ARROW_RIGHT_THIN"
@@ -46,7 +47,10 @@ const isDemo = __DEMO_MODE__
               </div>
               <div class="av-col av-align-start ellipsis-container">
                 <span class="ellipsis b1-regular">{{ resume.name }}</span>
-                <span class="ellipsis caption-light">
+                <span
+                  class="ellipsis caption-light"
+                  data-testid="resume-item-updated-at"
+                >
                   {{ t('student.global.widgets.resumes.updatedAt', { date: formatDateToLocaleString(resume.updatedAt, locale as AvLocale) }) }}
                 </span>
               </div>
