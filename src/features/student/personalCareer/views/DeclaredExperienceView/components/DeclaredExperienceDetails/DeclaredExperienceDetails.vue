@@ -61,23 +61,18 @@ const createdAtPrefixed = computed(() =>
     data-testid="layout-declared-experience-detailed"
   >
     <div
-      class="layout-declared-experience-detailed__main av-col av-gap-md column-equal"
+      class="layout-declared-experience-detailed__main av-col av-gap-md av-flex-fill av-justify-between"
       data-testid="layout-declared-experience-detailed__main"
     >
-      <div
-        class="av-row av-gap-md"
-        style="align-items: baseline;"
-      >
-        <div class="half-width">
+      <div class="av-row av-gap-md av-align-baseline">
+        <div class="av-flex-fill">
           <DeclaredExperienceTitleInput
-            class="full-width-input"
             :model-value="title"
             disabled
           />
         </div>
-        <div class="half-width">
+        <div class="av-flex-fill">
           <DeclaredExperienceTypeSelect
-            class="full-width-input"
             :model-value="experienceType"
             disabled
           />
@@ -85,25 +80,19 @@ const createdAtPrefixed = computed(() =>
       </div>
 
       <DeclaredExperienceOrganizationInput
-        class="full-width-input"
         :model-value="organization"
         disabled
       />
 
-      <div
-        class="av-row av-gap-md"
-        style="align-items: baseline;"
-      >
-        <div class="half-width">
+      <div class="av-row av-gap-md av-align-baseline">
+        <div class="av-flex-fill">
           <DeclaredExperienceActivitySectorInput
-            class="full-width-input"
             :model-value="activitySector"
             disabled
           />
         </div>
-        <div class="half-width">
+        <div class="av-flex-fill">
           <DeclaredExperienceLocationInput
-            class="full-width-input"
             :model-value="location"
             disabled
           />
@@ -111,7 +100,6 @@ const createdAtPrefixed = computed(() =>
       </div>
 
       <DeclaredExperiencePeriodInput
-        class="full-width-period"
         label-visible
         :start-model-value="startDate ?? ''"
         :end-model-value="endDate ?? ''"
@@ -121,13 +109,11 @@ const createdAtPrefixed = computed(() =>
       />
 
       <DeclaredExperienceSourceOfInformationInput
-        class="full-width-input"
         :model-value="sourceOfInformation"
         disabled
       />
 
       <DeclaredExperienceExternalLinkInput
-        class="full-width-input"
         :label="t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.labelDetails')"
         :model-value="externalLink"
         disabled
@@ -135,23 +121,22 @@ const createdAtPrefixed = computed(() =>
     </div>
 
     <div
-      class="layout-declared-experience-detailed__side av-col av-gap-xl column-equal"
+      class="layout-declared-experience-detailed__side av-col av-gap-xl av-flex-fill"
       data-testid="layout-declared-experience-detailed__side"
     >
-      <DeclaredExperienceDescriptionTextarea
-        class="expand-fill"
-        :model-value="description ?? ''"
-        disabled
-      />
+      <div class="av-col av-gap-sm av-h-full">
+        <DeclaredExperienceDescriptionTextarea
+          :model-value="description ?? ''"
+          disabled
+        />
 
-      <DeclaredExperienceSummaryTextarea
-        class="expand-fill"
-        :model-value="summary ?? ''"
-        disabled
-      />
+        <DeclaredExperienceSummaryTextarea
+          :model-value="summary ?? ''"
+          disabled
+        />
+      </div>
 
       <CreationUpdateDateDetails
-        class="push-to-bottom"
         :created-at="createdAt"
         :created-at-prefix="createdAtPrefixed"
         :updated-at="updatedAt"
@@ -161,63 +146,12 @@ const createdAtPrefixed = computed(() =>
 </template>
 
 <style scoped lang="scss">
-.column-equal {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.push-to-bottom {
-  margin-top: auto;
-}
-
 .layout-declared-experience-detailed__side {
-  .expand-fill {
+  :deep(textarea) {
+    height: 100% !important;
+    min-height: 10rem;
     flex: 1;
-    display: flex;
-    flex-direction: column;
-
-    :deep(textarea) {
-      height: 100% !important;
-      min-height: 10rem;
-      flex: 1;
-    }
-
-    :deep(.fr-input-group) {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
-
-.half-width {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-}
-
-.full-width-input {
-  width: 100%;
-  :deep(.fr-input-group),
-  :deep(.fr-input),
-  :deep(.fr-select),
-  :deep(input),
-  :deep(select) {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-.full-width-period {
-  width: 100%;
-  :deep(> div), :deep(.av-period-input) {
-    width: 100%; display: flex; gap: var(--spacing-sm, 1rem);
-  }
-  :deep(.fr-input-group), :deep(input[type="month"]) {
-    flex: 1; width: 100%; min-width: 0;
+    resize: none;
   }
 }
 </style>

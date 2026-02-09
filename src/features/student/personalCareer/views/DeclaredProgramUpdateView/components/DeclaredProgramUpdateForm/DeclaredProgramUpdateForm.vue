@@ -16,7 +16,6 @@ import DeclaredProgramSourceOfInformationFormField
 import DeclaredProgramTitleFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
 import { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -60,118 +59,70 @@ const createdAtPrefix = computed(() =>
 </script>
 
 <template>
-  <AvCard
-    data-testid="update-declared-program-form"
+  <form @submit.prevent="handleSubmit">
+    <div
+      class="av-col av-row--md av-justify-between av-gap-xl"
+      data-testid="update-declared-program-form__content"
+    >
+      <div
+        class="av-col av-gap-md av-flex-fill"
+        data-testid="update-declared-program-form__main"
+      >
+        <DeclaredProgramTitleFormField :form="form" />
+
+        <DeclaredProgramOrganizationFormField :form="form" />
+
+        <DeclaredProgramPeriodFormField :form="form" />
+
+        <DeclaredProgramResultFormField :form="form" />
+
+        <DeclaredProgramSourceOfInformationFormField :form="form" />
+
+        <DeclaredProgramLinkFormField :form="form" />
+      </div>
+
+      <div
+        class="update-declared-program-form__side av-col av-gap-xl av-flex-fill"
+        data-testid="update-declared-program-form__side"
+      >
+        <div
+          class="av-col av-gap-sm av-justify-between"
+          data-testid="update-declared-program-form__field"
+        >
+          <DeclaredProgramDescriptionFormField :form="form" />
+
+          <CreationUpdateDateDetails
+            :created-at="declaredProgramDetailed.createdAt"
+            :updated-at="declaredProgramDetailed.updatedAt"
+            :created-at-prefix="createdAtPrefix"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div
+    class="av-row av-justify-end"
+    data-testid="update-declared-program-form__actions"
   >
-    <form @submit.prevent="handleSubmit">
-      <div
-        class="av-col av-row--md av-justify-between av-gap-xl"
-        data-testid="update-declared-program-form__content"
-      >
-        <div
-          class="av-col av-gap-md column-equal"
-          data-testid="update-declared-program-form__main"
-        >
-          <DeclaredProgramTitleFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <DeclaredProgramOrganizationFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <DeclaredProgramPeriodFormField :form="form" />
-
-          <DeclaredProgramResultFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <DeclaredProgramSourceOfInformationFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <DeclaredProgramLinkFormField
-            class="full-width-input"
-            :form="form"
-          />
-        </div>
-
-        <div
-          class="update-declared-program-form__side av-col av-gap-xl column-equal"
-          data-testid="update-declared-program-form__side"
-        >
-          <div
-            class="av-col av-gap-sm full-height-container"
-            data-testid="update-declared-program-form__field"
-          >
-            <DeclaredProgramDescriptionFormField :form="form" />
-
-            <CreationUpdateDateDetails
-              class="push-to-bottom"
-              :created-at="declaredProgramDetailed.createdAt"
-              :updated-at="declaredProgramDetailed.updatedAt"
-              :created-at-prefix="createdAtPrefix"
-            />
-          </div>
-        </div>
-      </div>
-    </form>
-
-    <template #footer>
-      <div
-        class="av-row av-justify-end"
-        data-testid="update-declared-program-form__actions"
-      >
-        <FormCancelConfirmButtons
-          :is-submitting="isSubmitting"
-          :is-form-valid="isFormValid"
-          @cancel="handleCancel"
-          @submit="handleSubmit"
-        />
-      </div>
-    </template>
-  </AvCard>
+    <FormCancelConfirmButtons
+      :is-submitting="isSubmitting"
+      :is-form-valid="isFormValid"
+      @cancel="handleCancel"
+      @submit="handleSubmit"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
 .update-declared-program-form {
-  border: none !important;
   &__side {
-    display: flex;
-    flex-direction: column;
-
     :deep(textarea) {
-      height: 50vh !important;
+      height: 100% !important;
+      min-height: 10rem;
+      flex: 1;
       resize: none;
-      width: 100%;
     }
-  }
-}
-
-.column-equal {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-}
-
-.full-height-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.push-to-bottom {
-  margin-top: auto;
-}
-
-.full-width-input {
-  width: 100%;
-  :deep(.fr-input-group), :deep(.fr-input), :deep(input) {
-    width: 100% !important; max-width: 100% !important;
   }
 }
 </style>

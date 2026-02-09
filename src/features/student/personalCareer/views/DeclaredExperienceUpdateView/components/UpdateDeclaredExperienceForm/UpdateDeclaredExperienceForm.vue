@@ -22,7 +22,6 @@ import DeclaredExperienceTitleFormField
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -64,155 +63,80 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 </script>
 
 <template>
-  <AvCard data-testid="update-declared-experience-form">
-    <form @submit.prevent="handleSubmit">
+  <form @submit.prevent="handleSubmit">
+    <div
+      class="av-col av-row--md av-justify-between av-gap-xl"
+      data-testid="update-declared-experience-form__content"
+    >
       <div
-        class="av-col av-row--md av-justify-between av-gap-xl"
-        data-testid="update-declared-experience-form__content"
+        class="av-col av-gap-md av-flex-fill"
+        data-testid="update-declared-experience-form__main"
       >
-        <div
-          class="av-col av-gap-md column-equal"
-          data-testid="update-declared-experience-form__main"
-        >
-          <div
-            class="av-row av-gap-md"
-            style="align-items: baseline;"
-          >
-            <div class="half-width">
-              <DeclaredExperienceTitleFormField
-                class="full-width-input"
-                :form="form"
-              />
-            </div>
-            <div class="half-width">
-              <DeclaredExperienceTypeFormField
-                class="full-width-input"
-                :form="form"
-              />
-            </div>
+        <div class="av-row av-gap-md av-align-baseline">
+          <div class="av-flex-fill">
+            <DeclaredExperienceTitleFormField :form="form" />
           </div>
-
-          <DeclaredExperienceOrganizationFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <div
-            class="av-row av-gap-md"
-            style="align-items: baseline;"
-          >
-            <div class="half-width">
-              <DeclaredExperienceActivitySectorFormField
-                class="full-width-input"
-                :form="form"
-              />
-            </div>
-            <div class="half-width">
-              <DeclaredExperienceLocationFormField
-                class="full-width-input"
-                :form="form"
-              />
-            </div>
+          <div class="av-flex-fill">
+            <DeclaredExperienceTypeFormField :form="form" />
           </div>
-
-          <DeclaredExperiencePeriodFormField :form="form" />
-
-          <DeclaredExperienceSourceOfInformationFormField
-            class="full-width-input"
-            :form="form"
-          />
-
-          <DeclaredExperienceExternalLinkFormField
-            class="full-width-input"
-            :form="form"
-          />
         </div>
 
-        <div
-          class="update-declared-experience-form__side av-col av-gap-xl column-equal"
-          data-testid="update-declared-experience-form__side"
-        >
-          <div
-            class="layout-declared-experience-detailed__side av-col av-gap-md full-height-container"
-            data-testid="update-declared-experience-form__field"
-          >
-            <DeclaredExperienceDescriptionFormField :form="form" />
-            <DeclaredExperienceSummaryFormField :form="form" />
+        <DeclaredExperienceOrganizationFormField :form="form" />
 
-            <CreationUpdateDateDetails
-              class="push-to-bottom"
-              :created-at="declaredExperience.createdAt"
-              :created-at-prefix="createdAtPrefixed"
-              :updated-at="declaredExperience.updatedAt"
-            />
+        <div class="av-row av-gap-md av-align-baseline">
+          <div class="av-flex-fill">
+            <DeclaredExperienceActivitySectorFormField :form="form" />
+          </div>
+          <div class="av-flex-fill">
+            <DeclaredExperienceLocationFormField :form="form" />
           </div>
         </div>
+
+        <DeclaredExperiencePeriodFormField :form="form" />
+
+        <DeclaredExperienceSourceOfInformationFormField :form="form" />
+
+        <DeclaredExperienceExternalLinkFormField :form="form" />
       </div>
-    </form>
-    <template #footer>
+
       <div
-        class="av-row av-justify-end"
-        data-testid="update-declared-experience-form__actions"
+        class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill"
+        data-testid="update-declared-experience-form__side"
       >
-        <FormCancelConfirmButtons
-          :is-submitting="isSubmitting"
-          :is-form-valid="isFormValid"
-          @cancel="handleCancel"
-          @submit="handleSubmit"
-        />
+        <div class="av-col av-gap-sm av-justify-between">
+          <DeclaredExperienceDescriptionFormField :form="form" />
+
+          <DeclaredExperienceSummaryFormField :form="form" />
+
+          <CreationUpdateDateDetails
+            :created-at="declaredExperience.createdAt"
+            :created-at-prefix="createdAtPrefixed"
+            :updated-at="declaredExperience.updatedAt"
+          />
+        </div>
       </div>
-    </template>
-  </AvCard>
+    </div>
+  </form>
+  <div
+    class="av-row av-justify-end"
+    data-testid="update-declared-experience-form__actions"
+  >
+    <FormCancelConfirmButtons
+      :is-submitting="isSubmitting"
+      :is-form-valid="isFormValid"
+      @cancel="handleCancel"
+      @submit="handleSubmit"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
-.update-declared-experience-form {
-  border: none !important;
-  &__side {
-    display: flex;
-    flex-direction: column;
-
-    :deep(textarea) {
-      height: 25vh !important;
-      resize: none;
-      width: 100%;
-    }
-  }
-}
-
-.full-height-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.push-to-bottom {
-  margin-top: auto;
-}
-
-.column-equal {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-}
-
-.half-width {
-  flex: 1;
-  width: 0;
-  min-width: 0;
-}
-
-.full-width-input {
-  width: 100%;
-  :deep(.fr-input-group),
-  :deep(.fr-input),
-  :deep(.fr-select),
-  :deep(input),
-  :deep(select),
-  :deep([role="combobox"]) {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box;
+.update-declared-experience-form__side {
+  :deep(textarea) {
+    height: 100% !important;
+    min-height: 10rem;
+    flex: 1;
+    resize: none;
   }
 }
 </style>

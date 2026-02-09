@@ -20,7 +20,8 @@ const avInputProps = computed(() => ({
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceActivitySectorInput.label'),
   maxlength: DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   prefixIcon: MDI_ICONS.BUILDING,
-  placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceActivitySectorInput.placeholder')
+  placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceActivitySectorInput.placeholder'),
+  hint: restProps.disabled ? t('student.personalCareer.interactions.inputs.DeclaredExperienceActivitySectorInput.hint') : undefined
 }))
 </script>
 

@@ -63,6 +63,29 @@ BddTest().given('a declared experience activity sector input component', () => {
     })
   })
 
+  BddTest().then('it should NOT display the hint by default', () => {
+    const input = wrapper.findComponent({ name: 'AvInput' })
+    expect(input.props('hint')).toBeUndefined()
+  })
+
+  BddTest().when('the component is mounted in disabled state', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(DeclaredExperienceActivitySectorInput, {
+        props: {
+          modelValue: '',
+          disabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should display the classification hint', () => {
+      const input = wrapper.findComponent({ name: 'AvInput' })
+      expect(input.props('hint')).toBe('Pour une classification reconnue, consultez le référentiel NAF (Nomenclature d\'Activités Française)')
+    })
+  })
+
   BddTest().when('the component is mounted with custom label', () => {
     beforeEach(() => {
       vi.clearAllMocks()

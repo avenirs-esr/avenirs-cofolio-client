@@ -102,8 +102,8 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(period.props('label')).toBe('Période')
         expect(period.props('labelClass')).toBe('caption-regular')
 
-        expect(period.props('startLabel')).toBe('Start date')
-        expect(period.props('endLabel')).toBe('End date')
+        expect(period.props('startLabel')).toBe('Date de début')
+        expect(period.props('endLabel')).toBe('Date de fin')
 
         expect(period.props('startModelValue')).toBe(mockedDeclaredProgramDetailed.startDate)
         expect(period.props('endModelValue')).toBe(mockedDeclaredProgramDetailed.endDate)

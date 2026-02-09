@@ -61,58 +61,21 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
         </template>
       </FormField>
 
-      <div class="period-input-wrapper">
-        <AvPeriodInput
-          class="compact-period-input"
-          type="month"
-          :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
-          label-class="av-hidden"
-          :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
-          :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
-          :start-model-value="String(startDateField.state.value.value ?? '')"
-          :end-model-value="String(endDateField.state.value.value ?? '')"
-          :end-date-disabled="isOngoing"
-          :start-error-message="startDateField.state.value.meta.errors?.join(', ')"
-          :end-error-message="endDateField.state.value.meta.errors?.join(', ')"
-          @update:start-model-value="setStartDate"
-          @update:end-model-value="setEndDate"
-        />
-      </div>
+      <AvPeriodInput
+        width="10rem"
+        type="month"
+        :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
+        label-class="av-hidden"
+        :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
+        :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
+        :start-model-value="String(startDateField.state.value.value ?? '')"
+        :end-model-value="String(endDateField.state.value.value ?? '')"
+        :end-date-disabled="isOngoing"
+        :start-error-message="startDateField.state.value.meta.errors?.join(', ')"
+        :end-error-message="endDateField.state.value.meta.errors?.join(', ')"
+        @update:start-model-value="setStartDate"
+        @update:end-model-value="setEndDate"
+      />
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-.declared-program-period-form-field {
-  :deep(.av-fieldset__element) {
-    padding-left: 0;
-  }
-}
-
-.period-input-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  width: auto;
-}
-
-.compact-period-input {
-  width: auto !important;
-
-  :deep(> div) {
-     justify-content: flex-start !important;
-  }
-
-  :deep(.fr-input-group) {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-  }
-
-  :deep(input),
-  :deep(.fr-input) {
-    width: 10rem !important;
-    min-width: 10rem !important;
-    flex: 0 0 auto !important;
-  }
-}
-</style>
