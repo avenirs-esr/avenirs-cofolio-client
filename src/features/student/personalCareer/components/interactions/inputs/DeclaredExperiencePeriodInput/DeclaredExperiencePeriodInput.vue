@@ -19,45 +19,11 @@ const avPeriodInputProps = computed<AvPeriodInputProps>(() => ({
   startLabel: t('student.personalCareer.interactions.inputs.DeclaredExperiencePeriodInput.startLabel'),
   endLabel: t('student.personalCareer.interactions.inputs.DeclaredExperiencePeriodInput.endLabel'),
   stacked: isMobile.value,
-  separatorSpacing: 'var(--spacing-sm)'
+  separatorSpacing: 'var(--spacing-sm)',
+  width: '10rem'
 }))
 </script>
 
 <template>
-  <div class="period-input-wrapper">
-    <AvPeriodInput
-      class="compact-period-input"
-      v-bind="avPeriodInputProps"
-    />
-  </div>
+  <AvPeriodInput v-bind="avPeriodInputProps" />
 </template>
-
-<style scoped lang="scss">
-.period-input-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  width: auto;
-}
-
-.compact-period-input {
-  width: auto !important;
-  max-width: none !important;
-
-  :deep(> div) {
-     justify-content: flex-start !important;
-  }
-
-  :deep(.fr-input-group) {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    min-width: 0 !important;
-  }
-
-  :deep(input),
-  :deep(.fr-input) {
-    width: 10rem !important;
-    min-width: 10rem !important;
-    flex: 0 0 auto !important;
-  }
-}
-</style>
