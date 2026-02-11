@@ -38,7 +38,7 @@
     "@vue-flow/core": "^1.48.0",
     "@vueuse/core": "^13.7.0",
     "@vueuse/router": "^14.1.0",
-    "axios": "^1.9.0",
+    "axios": "^1.13.5",
     "date-fns": "^4.1.0",
     "focus-trap": "^7.5.4",
     "focus-trap-vue": "^4.0.3",
