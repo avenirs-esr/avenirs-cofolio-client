@@ -44,6 +44,7 @@
           "project": {
             "header": "Building my life project",
             "items": {
+              "activities": "My activities",
               "declaredExperience": "All my declared experiences",
               "declaredSkills": "My other declared skills and certifications",
               "experiences": "My career",
@@ -63,6 +64,9 @@
         }
       },
       "views": {
+        "projectActivitiesView": {
+          "title": "My activities"
+        },
         "studentDeliverablesView": {
           "title": "(placeholder) All my deliverables"
         },

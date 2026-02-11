@@ -51,6 +51,10 @@ export default [
       declaredExperienceRoute,
       declaredExperienceUpdateRoute,
       {
+        ...ROUTES.STUDENT.PROJECT_ACTIVITIES,
+        component: () => import('@/features/student/global/views/ProjectActivitiesView/ProjectActivitiesView.vue'),
+      },
+      {
         ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
         component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
       },

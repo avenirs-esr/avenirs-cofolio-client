@@ -14,11 +14,11 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.apcUnavailable.title') }
 ])
 
-watchEffect(() => {
-  if (!showApcGenericInfoPage.value) {
+watch(showApcGenericInfoPage, (value) => {
+  if (!value) {
     router.replace(ROUTES.STUDENT.HOME)
   }
-})
+}, { immediate: true })
 </script>
 
 <template>
