@@ -14,6 +14,7 @@ export const ROUTES = {
     PERSONAL_CAREER_DECLARED_PROGRAMS: { name: 'personal-career-declared-programs', path: 'declared-programs' },
     PERSONAL_CAREER_ACTIVITIES: { name: 'personal-career-activities', path: 'activities' },
     PERSONAL_CAREER_EXPERIENCES: { name: 'personal-career-experiences', path: 'experiences' },
+    PROJECT_ACTIVITIES: { name: 'student-project-activities', path: 'projects/activities' },
     PROJECT_TRAJECTORIES: { name: 'student-project-trajectories', path: 'projects/trajectories' },
     SELFKNOWLEDGE_CATEGORY: { name: 'student-self-knowledge-category', path: 'projects/trajectories/self-knowledge/:id' },
     SELFKNOWLEDGE_ELEMENT_UPDATE: { name: 'student-self-knowledge-element-update', path: 'projects/trajectories/self-knowledge/:categoryId/:elementId/update' },

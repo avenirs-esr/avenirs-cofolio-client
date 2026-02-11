@@ -22,10 +22,27 @@ export function getBrowserLocale (): AvLocale {
   return AvAvailableLocales.includes(browserLocale) ? browserLocale : 'fr'
 }
 
+function getPersistedLocale (): AvLocale | undefined {
+  try {
+    const persistedStore = localStorage.getItem('studentUser')
+
+    if (!persistedStore) {
+      return
+    }
+
+    const parsedStore = JSON.parse(persistedStore)
+    const currentLanguage = parsedStore?.languageSelector?.currentLanguage
+    if (currentLanguage && AvAvailableLocales.includes(currentLanguage)) {
+      return currentLanguage as AvLocale
+    }
+  }
+  catch {}
+}
+
 const globalMessages = import.meta.glob<{ default: any }>('@/locales/*.json', { eager: true })
 const messages = parseLocaleModules(globalMessages)
 
-const locale = getBrowserLocale()
+const locale = getPersistedLocale() ?? getBrowserLocale()
 const fallbackLocale: AvLocale = 'en'
 
 const i18n = createI18n({

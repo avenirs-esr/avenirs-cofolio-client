@@ -44,6 +44,7 @@
           "project": {
             "header": "Construire mon projet de vie",
             "items": {
+              "activities": "Mes activités",
               "declaredExperience": "Toutes mes expériences déclarées",
               "declaredSkills": "Mes autres compétences et certifications déclarées",
               "experiences": "Mon parcours",
@@ -63,6 +64,9 @@
         }
       },
       "views": {
+        "projectActivitiesView": {
+          "title": "Mes activités"
+        },
         "studentDeliverablesView": {
           "title": "(placeholder) Tous mes rendus"
         },

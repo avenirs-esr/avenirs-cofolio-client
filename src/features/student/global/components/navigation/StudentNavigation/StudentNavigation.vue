@@ -119,6 +119,7 @@ const buildLifeProjectMenu = computed(() => ({
       ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER,
       ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
       ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
+      ROUTES.STUDENT.PROJECT_ACTIVITIES,
       ROUTES.STUDENT.PROJECT_TRAJECTORIES
     ])
   },
@@ -137,6 +138,11 @@ const buildLifeProjectMenu = computed(() => ({
       to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
       text: t('student.global.navigation.tabs.project.items.trajectories'),
       icon: RI_ICONS.DRAW_LINE
+    },
+    {
+      to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
+      text: t('student.global.navigation.tabs.project.items.activities'),
+      icon: MDI_ICONS.TARGET_ARROW,
     },
   ],
 }))
