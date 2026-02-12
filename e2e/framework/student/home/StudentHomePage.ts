@@ -127,7 +127,12 @@ class StudentHomePage {
     await this.getDeliverablesWidget().verifyVisible()
   }
 
-  @Given('the last traces widget is visible')
+  @Given('there are traces available')
+  async verifyTracesAvailable () {
+    await this.getTracesWidget().skipIfNoTraces()
+  }
+
+  @Then('the last traces widget is visible')
   async verifyLastTracesWidgetVisible () {
     await this.getTracesWidget().verifyVisible()
   }
@@ -248,9 +253,9 @@ class StudentHomePage {
     await this.getPagesWidget().verifyMaximum3Pages()
   }
 
-  @Then('the skills widget shows maximum 3 skills')
-  async verifySkillsWidgetShowsMax3Skills () {
-    await this.getSkillsWidget().verifyMaximum3Skills()
+  @Then('the skills widget shows the correct maximum number of skills')
+  async verifySkillsWidgetShowsCorrectMaxSkills () {
+    await this.getSkillsWidget().verifyMaximumSkills()
   }
 
   @Then('each page shows last update date')

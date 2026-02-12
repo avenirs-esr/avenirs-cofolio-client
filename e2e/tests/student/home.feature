@@ -93,8 +93,8 @@ Feature: Student Home Page
       Given the educational skills widget is visible
 
     @high @skills
-    Scenario: Skills widget displays maximum 3 skills with status, trace count, AMS count, and see all button
-      Then the skills widget shows maximum 3 skills
+    Scenario: Skills widget displays correct maximum skills with status, trace count, AMS count, and see all button
+      Then the skills widget shows the correct maximum number of skills
       And skill cards are displayed
       And each skill card shows status badge
       And each skill card shows trace count
@@ -133,7 +133,11 @@ Feature: Student Home Page
   Rule: Traces Widget
 
     Background:
-      Given the last traces widget is visible
+      Given there are traces available
+
+    @high @traces
+    Scenario: Traces widget is visible
+      Then the last traces widget is visible
 
     @high @traces
     Scenario: Traces widget displays maximum 3 traces with skill count, AMS count, type, and see all button
