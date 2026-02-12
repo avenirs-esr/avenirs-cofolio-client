@@ -12,6 +12,10 @@ export class SkillsWidget extends BaseObject {
     return this.root.getByTestId('home-widget-title')
   }
 
+  getCourseCount () {
+    return this.root.getByTestId('student-skills-peer-course').count()
+  }
+
   getCards () {
     return this.root.getByTestId('student-skills-peer-course').first().getByTestId('skill-card')
   }
@@ -33,10 +37,14 @@ export class SkillsWidget extends BaseObject {
     await expect(this.getTitle()).toHaveText(t('student.skills.cards.StudentSkillsWidget.title'))
   }
 
-  async verifyMaximum3Skills () {
-    const count = await this.countCards()
-    expect(count).toBeGreaterThan(0)
-    expect(count).toBeLessThanOrEqual(3)
+  async verifyMaximumSkills () {
+    const courseCount = await this.getCourseCount()
+    const skillCount = await this.countCards()
+
+    expect(skillCount).toBeGreaterThan(0)
+
+    const maxSkills = courseCount === 1 ? 6 : 3
+    expect(skillCount).toBeLessThanOrEqual(maxSkills)
   }
 
   async verifyCardsDisplayed () {

@@ -1,7 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { TraceCard } from '@e2e/framework/student/traces/componentObjects/TraceCard'
-import { expect, type Page } from '@playwright/test'
+import { expect, type Page, test } from '@playwright/test'
 
 export class TracesWidget extends BaseObject {
   constructor (protected page: Page) {
@@ -26,6 +26,11 @@ export class TracesWidget extends BaseObject {
 
   async countCards () {
     return await this.getCards().count()
+  }
+
+  async skipIfNoTraces () {
+    const count = await this.countCards()
+    test.skip(count === 0, 'No traces available from backend')
   }
 
   async verifyVisible () {
