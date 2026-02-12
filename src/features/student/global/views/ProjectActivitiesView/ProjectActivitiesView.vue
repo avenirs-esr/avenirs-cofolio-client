@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
+import AllActivitiesTab from '@/features/student/global/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -18,4 +19,7 @@ const breadcrumbLinks = computed(() => [
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.HOME"
   />
+  <div class="av-col av-gap-xl">
+    <AllActivitiesTab />
+  </div>
 </template>

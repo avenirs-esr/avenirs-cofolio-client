@@ -28,11 +28,6 @@ const items = computed<AvSideNavigationItem[]>(() => {
       label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
       icon: MDI_ICONS.HUB_OUTLINE,
       demo: true
-    },
-    {
-      id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
-      label: t('student.personalCareer.views.PersonalCareerView.ActivitiesSection.title'),
-      icon: MDI_ICONS.TARGET_ARROW
     }
   ]
   return isDemoMode ? allItems.filter(item => item.demo) : allItems

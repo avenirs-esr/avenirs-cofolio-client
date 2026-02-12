@@ -65,6 +65,12 @@
       },
       "views": {
         "projectActivitiesView": {
+          "allActivities": {
+            "header": {
+              "description": "Activities offered by your SUIO and your institution. For any requests for additional activities, please contact your guidance counselor.",
+              "seeAll": "See all activities"
+            }
+          },
           "title": "My activities"
         },
         "studentDeliverablesView": {
@@ -77,9 +83,6 @@
           "title": "Cofolio Student Home"
         },
         "studentProjectTrajectoriesView": {
-          "activities": {
-            "title": "My activities"
-          },
           "buildProject": {
             "consultHelpButtonLabel": "How to build my project?",
             "projectTrajectoriesHelperModal": {

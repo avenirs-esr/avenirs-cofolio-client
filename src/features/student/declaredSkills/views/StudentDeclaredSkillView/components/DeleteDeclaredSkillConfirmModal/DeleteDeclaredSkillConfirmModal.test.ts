@@ -1,4 +1,4 @@
-import type { VueWrapper } from '@vue/test-utils/dist'
+import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components'
 import DeleteDeclaredSkillConfirmModal, { type DeleteDeclaredSkillConfirmModalProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

@@ -5,6 +5,9 @@ export const STUDENT_ROUTES = {
   EDUCATION: {
     SKILLS: '/cofolio/student/education/skills',
   },
+  PROJECT: {
+    ACTIVITIES: '/cofolio/student/project/activities',
+  },
   SKILL_DETAIL: '/cofolio/student/skill/',
   TOOLS: {
     RESUMES: '/cofolio/student/tools/resumes',

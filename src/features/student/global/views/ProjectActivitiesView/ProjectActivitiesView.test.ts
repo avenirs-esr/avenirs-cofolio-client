@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { AllActivitiesTabStub } from '@/features/student/global/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.stub'
 import ProjectActivitiesView from '@/features/student/global/views/ProjectActivitiesView/ProjectActivitiesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -10,7 +11,8 @@ BddTest().given('a project activities view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivitiesView>>
 
   const stubs = {
-    PageTitle: PageTitleStub
+    PageTitle: PageTitleStub,
+    AllActivitiesTab: AllActivitiesTabStub
   }
 
   beforeEach(() => {
@@ -51,6 +53,10 @@ BddTest().given('a project activities view', () => {
       expect(breadcrumbLinks[2]).toEqual({
         text: 'Mes activités'
       })
+    })
+
+    BddTest().then('it should render the all activities tab', () => {
+      expect(wrapper.findComponent(AllActivitiesTabStub).exists()).toBe(true)
     })
   })
 })

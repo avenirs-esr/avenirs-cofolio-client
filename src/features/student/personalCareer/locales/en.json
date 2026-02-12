@@ -197,9 +197,6 @@
           "title": "Update {programTitle}"
         },
         "PersonalCareerView": {
-          "ActivitiesSection": {
-            "title": "My activities"
-          },
           "ExperiencesSection": {
             "AmsTab": {
               "title": "My AMS"

@@ -16,7 +16,7 @@ testRoute(
 testRoute(
   studentProjectSkillsRoute,
   {
-    path: 'projects/skills',
+    path: 'project/skills',
     name: 'student-project-skills',
   },
   StudentProjectSkillsView

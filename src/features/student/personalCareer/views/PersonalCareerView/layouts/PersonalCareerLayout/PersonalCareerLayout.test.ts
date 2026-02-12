@@ -56,9 +56,9 @@ BddTest().given('a student academic career layout component', () => {
       expect(sideNavigation.props('selectedItem')).toBe(ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name)
     })
 
-    BddTest().then('it should have 4 navigation items', () => {
+    BddTest().then('it should have 3 navigation items', () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      expect(sideNavigation.props('items')).toHaveLength(4)
+      expect(sideNavigation.props('items')).toHaveLength(3)
     })
 
     BddTest().then('it should have navigation items with correct structure', () => {
@@ -81,11 +81,6 @@ BddTest().given('a student academic career layout component', () => {
           label: expect.any(String),
           icon: expect.any(String),
           demo: true
-        },
-        {
-          id: ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES.name,
-          label: expect.any(String),
-          icon: expect.any(String)
         }
       ])
     })
@@ -96,7 +91,6 @@ BddTest().given('a student academic career layout component', () => {
       expect(items[0].label).toContain('Mon parcours')
       expect(items[1].label).toContain('Mes formations')
       expect(items[2].label).toContain('Mes expériences')
-      expect(items[3].label).toContain('Mes activités')
     })
 
     BddTest().then('it should render the content area', () => {

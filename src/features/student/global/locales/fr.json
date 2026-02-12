@@ -65,6 +65,12 @@
       },
       "views": {
         "projectActivitiesView": {
+          "allActivities": {
+            "header": {
+              "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d’activités complémentaires, veuillez-vous rapprocher de votre conseiller d’orientation.",
+              "seeAll": "Voir toutes les activités"
+            }
+          },
           "title": "Mes activités"
         },
         "studentDeliverablesView": {
@@ -77,9 +83,6 @@
           "title": "Accueil Cofolio Étudiant"
         },
         "studentProjectTrajectoriesView": {
-          "activities": {
-            "title": "Mes activités"
-          },
           "buildProject": {
             "consultHelpButtonLabel": "Comment construire mon projet ?",
             "projectTrajectoriesHelperModal": {
