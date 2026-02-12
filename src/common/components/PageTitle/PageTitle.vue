@@ -35,7 +35,10 @@ function goBack () {
 </script>
 
 <template>
-  <div class="page-title">
+  <div
+    class="page-title"
+    data-testid="page-title"
+  >
     <h1 class="av-sr-only">
       {{ title }}
     </h1>

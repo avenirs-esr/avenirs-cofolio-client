@@ -48,10 +48,6 @@ BddTest().given('a project trajectories container component', () => {
       name: 'StudentProjectTrajectoriesExploreFuturesSection',
       template: '<div class="explore-futures-section-stub">Explore Futures Section</div>'
     },
-    StudentProjectTrajectoriesActivitiesSection: {
-      name: 'StudentProjectTrajectoriesActivitiesSection',
-      template: '<div class="activities-section-stub">Activities Section</div>'
-    }
   }
 
   beforeEach(() => {
@@ -70,7 +66,7 @@ BddTest().given('a project trajectories container component', () => {
       expect(sideNavigation.exists()).toBe(true)
       expect(sideNavigation.props('isSideMenuCollapsed')).toBe(false)
       expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
-      expect(sideNavigation.props('items')).toHaveLength(5)
+      expect(sideNavigation.props('items')).toHaveLength(4)
     })
 
     BddTest().then('it should have navigation items with correct properties', () => {
@@ -81,7 +77,6 @@ BddTest().given('a project trajectories container component', () => {
         { id: ProjectTrajectoryItems.SELF_KNOWLEDGE, label: 'Me connaître', icon: MDI_ICONS.FAMILY },
         { id: ProjectTrajectoryItems.EXPLORE_FUTURES, label: 'Explorer mes futurs', icon: MDI_ICONS.IMAGE_FILTER_CENTER_FOCUS_WEAK },
         { id: ProjectTrajectoryItems.TRAJECTORIES, label: 'Mes Trajectoires', icon: MDI_ICONS.ARROW_DECISION },
-        { id: ProjectTrajectoryItems.ACTIVITIES, label: 'Mes activités', icon: MDI_ICONS.TARGET_ARROW }
       ])
     })
 
@@ -131,14 +126,6 @@ BddTest().given('a project trajectories container component', () => {
 
       const exploreFuturesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesExploreFuturesSection' })
       expect(exploreFuturesSection.exists()).toBe(true)
-    })
-
-    BddTest().then('it should display activities section when ACTIVITIES is selected', async () => {
-      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.ACTIVITIES)
-
-      const activitiesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesActivitiesSection' })
-      expect(activitiesSection.exists()).toBe(true)
     })
 
     BddTest().then('it should display build project section when BUILD_PROJECT is selected', async () => {

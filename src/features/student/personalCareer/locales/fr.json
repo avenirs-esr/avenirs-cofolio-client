@@ -197,9 +197,6 @@
           "title": "Modifier {programTitle}"
         },
         "PersonalCareerView": {
-          "ActivitiesSection": {
-            "title": "Mes activités"
-          },
           "ExperiencesSection": {
             "AmsTab": {
               "title": "Mes AMS"

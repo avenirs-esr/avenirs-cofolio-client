@@ -15,10 +15,6 @@ export const personalCareerRoute: AvRoute = {
       component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/ProgramsSection.vue'),
     },
     {
-      ...ROUTES.STUDENT.PERSONAL_CAREER_ACTIVITIES,
-      component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ActivitiesSection/ActivitiesSection.vue'),
-    },
-    {
       ...ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
       component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'),
     }

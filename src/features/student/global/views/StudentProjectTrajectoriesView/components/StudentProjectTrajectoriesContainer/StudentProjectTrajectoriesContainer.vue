@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { useQueryParam, useWatchQueryParam } from '@/common/composables'
-import StudentProjectTrajectoriesActivitiesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesActivitiesSection/StudentProjectTrajectoriesActivitiesSection.vue'
 import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
 import StudentProjectTrajectoriesTrajectoriesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
@@ -20,7 +19,6 @@ const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
   [ProjectTrajectoryItems.TRAJECTORIES]: StudentProjectTrajectoriesTrajectoriesSection,
   [ProjectTrajectoryItems.SELF_KNOWLEDGE]: SelfKnowledgeMainSection,
   [ProjectTrajectoryItems.EXPLORE_FUTURES]: StudentProjectTrajectoriesExploreFuturesSection,
-  [ProjectTrajectoryItems.ACTIVITIES]: StudentProjectTrajectoriesActivitiesSection
 }
 
 const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
@@ -44,11 +42,6 @@ const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
     label: t('student.global.views.studentProjectTrajectoriesView.trajectories.title'),
     icon: MDI_ICONS.ARROW_DECISION
   },
-  {
-    id: ProjectTrajectoryItems.ACTIVITIES,
-    label: t('student.global.views.studentProjectTrajectoriesView.activities.title'),
-    icon: MDI_ICONS.TARGET_ARROW
-  }
 ])
 
 const items = computed<AvSideNavigationItem[]>(() => {

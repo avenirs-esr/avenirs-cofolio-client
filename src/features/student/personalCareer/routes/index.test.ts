@@ -12,8 +12,6 @@ import DeclaredProgramDetailedView
   from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import PersonalCareerView
   from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
-import ActivitiesSection
-  from '@/features/student/personalCareer/views/PersonalCareerView/sections/ActivitiesSection/ActivitiesSection.vue'
 import ExperiencesSection
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'
 import MyCareerSection
@@ -25,7 +23,7 @@ import { testRoute } from 'tests/utils'
 testRoute(
   personalCareerRoute,
   {
-    path: 'projects/personal-career',
+    path: 'project/personal-career',
     name: 'student-project-personal-career',
     redirect: { name: 'personal-career-my-career' },
   },
@@ -55,15 +53,6 @@ testRoute(
 testRoute(
   children[2],
   {
-    path: 'activities',
-    name: 'personal-career-activities',
-  },
-  ActivitiesSection
-)
-
-testRoute(
-  children[3],
-  {
     path: 'experiences',
     name: 'personal-career-experiences',
   },
@@ -73,7 +62,7 @@ testRoute(
 testRoute(
   declaredProgramRoute,
   {
-    path: 'projects/personal-career/declared-programs/:id',
+    path: 'project/personal-career/declared-programs/:id',
     name: 'personal-career-declared-program-detailed',
   },
   DeclaredProgramDetailedView
