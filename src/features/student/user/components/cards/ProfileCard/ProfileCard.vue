@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import type { Slot } from 'vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -11,9 +10,7 @@ export interface ProfileCardProps {
 
 const { studentSummary } = defineProps<ProfileCardProps>()
 
-defineSlots<{
-  footer?: Slot
-}>()
+defineSlots()
 
 const { t } = useI18n()
 
@@ -51,15 +48,21 @@ const fullName = computed(() => {
     </template>
     <template #body>
       <div class="av-col av-gap-xs">
-        <span class="n4">{{ fullName }}</span>
-        <span class="b2-light profile-card__bio">{{ studentSummary.bio }}</span>
+        <span
+          class="n4"
+          data-testid="profile-full-name"
+        >{{ fullName }}</span>
+        <span
+          class="b2-light profile-card__bio"
+          data-testid="profile-bio"
+        >{{ studentSummary.bio }}</span>
       </div>
     </template>
     <template
-      v-if="$slots.footer"
+      v-if="$slots.default"
       #footer
     >
-      <slot name="footer" />
+      <slot />
     </template>
   </AvCard>
 </template>

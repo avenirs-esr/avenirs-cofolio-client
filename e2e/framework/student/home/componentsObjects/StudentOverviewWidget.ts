@@ -1,5 +1,6 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
+import { ProfileCard } from '@e2e/framework/student/user/componentObjects/ProfileCard'
 import { expect, type Page } from '@playwright/test'
 
 export class StudentOverviewWidget extends BaseObject {
@@ -7,20 +8,24 @@ export class StudentOverviewWidget extends BaseObject {
     super(page.getByTestId('student-overview-widget'))
   }
 
+  getProfileCard () {
+    return new ProfileCard(this.root.getByTestId('profile-card'))
+  }
+
   getProfileBanner () {
-    return this.page.getByTestId('profile-banner')
+    return this.getProfileCard().getProfileBanner()
   }
 
   getProfilePicture () {
-    return this.page.getByTestId('profile-picture')
+    return this.getProfileCard().getProfilePicture()
   }
 
   getStudentName () {
-    return this.root.locator('span.n4')
+    return this.getProfileCard().getStudentName()
   }
 
   getStudentBio () {
-    return this.root.locator('span.student-overview-bio')
+    return this.getProfileCard().getStudentBio()
   }
 
   getEditProfileButton () {
@@ -43,28 +48,20 @@ export class StudentOverviewWidget extends BaseObject {
     return this.page.getByTestId('update-profile-drawer').locator('.av-drawer')
   }
 
-  async verifyVisible () {
-    await this.isVisible()
-    await expect(this.getProfileBanner()).toBeVisible()
-    await expect(this.getProfilePicture()).toBeVisible()
-    await expect(this.getStudentName()).toBeVisible()
-    await expect(this.getStudentBio()).toBeVisible()
-  }
-
   async verifyProfileBanner () {
-    await expect(this.getProfileBanner()).toBeVisible()
+    await this.getProfileCard().verifyProfileBanner()
   }
 
   async verifyProfilePicture () {
-    await expect(this.getProfilePicture()).toBeVisible()
+    await this.getProfileCard().verifyProfilePicture()
   }
 
   async verifyStudentName () {
-    await expect(this.getStudentName()).toBeVisible()
+    await this.getProfileCard().verifyStudentName()
   }
 
   async verifyStudentBio () {
-    await expect(this.getStudentBio()).toBeVisible()
+    await this.getProfileCard().verifyStudentBio()
   }
 
   async verifyActionButtons () {
