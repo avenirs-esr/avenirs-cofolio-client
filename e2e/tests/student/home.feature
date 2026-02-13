@@ -169,6 +169,13 @@ Feature: Student Home Page
       And the BUILDING MY LIFE PROJECT menu is visible
       And the MY TOOLS menu is visible
 
+    @high @navigation @desktop
+    Scenario: User can navigate to project my activities page
+      When the user clicks on the BUILDING MY LIFE PROJECT menu
+      Then the PROJECT MY ACTIVITIES link is visible
+      When the user click on the PROJECT MY ACTIVITIES link
+      Then the page navigates to project my activities page
+
     @medium @navigation @desktop
     Scenario: Header actions are visible on desktop
       Then the mailbox button is visible

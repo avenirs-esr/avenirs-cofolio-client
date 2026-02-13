@@ -66,6 +66,12 @@ class StudentHomePage {
     return this.getMainNavigation().getByRole('button').nth(1)
   }
 
+  getProjectActivitiesLink () {
+    return this.getMainNavigation().getByRole('link', {
+      name: t('student.global.navigation.tabs.project.items.activities'),
+    })
+  }
+
   getMyToolsButton () {
     return this.getMainNavigation().getByRole('button').nth(2)
   }
@@ -410,6 +416,26 @@ class StudentHomePage {
   async verifyBuildingMyLifeProjectMenu () {
     await expect(this.getBuildingLifeProjectButton()).toBeVisible()
     await expect(this.getBuildingLifeProjectButton()).toContainText(t('student.global.navigation.tabs.project.header').toUpperCase())
+  }
+
+  @When('the user clicks on the BUILDING MY LIFE PROJECT menu')
+  async openBuildingLifeProjectSubmenu () {
+    await this.getBuildingLifeProjectButton().click()
+  }
+
+  @Then('the PROJECT MY ACTIVITIES link is visible')
+  async verifyProjectActivitiesLinkVisible () {
+    await expect(this.getProjectActivitiesLink()).toBeVisible()
+  }
+
+  @When('the user click on the PROJECT MY ACTIVITIES link')
+  async clickMyActivitiesLink () {
+    await this.getProjectActivitiesLink().click()
+  }
+
+  @Then('the page navigates to project my activities page')
+  async verifyNavigationToProjectActivitiesPage () {
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
   }
 
   @Then('the MY TOOLS menu is visible')

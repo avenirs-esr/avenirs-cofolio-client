@@ -62,7 +62,7 @@
         },
         "projectActivitiesView": {
           "allActivitiesTab": {
-            "allActivitiesPaginatorCard": {
+            "allActivitiesSection": {
               "title": "All activities ({count})"
             },
             "header": {

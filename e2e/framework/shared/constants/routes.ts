@@ -1,9 +1,13 @@
 export const STUDENT_ROUTES = {
-  HOME: '/cofolio/student',
-  EVENTS: '/cofolio/student/events',
   DELIVERABLES: '/cofolio/student/deliverables',
   EDUCATION: {
     SKILLS: '/cofolio/student/education/skills',
+  },
+  EVENTS: '/cofolio/student/events',
+  HOME: '/cofolio/student',
+  PROJECT: {
+    ACTIVITIES: '/cofolio/student/project/activities',
+    ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:theme/:id',
   },
   SKILL_DETAIL: '/cofolio/student/skill/',
   TOOLS: {

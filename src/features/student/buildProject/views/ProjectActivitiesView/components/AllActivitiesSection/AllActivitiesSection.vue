@@ -29,7 +29,7 @@ const pageInfo = ref<PageInfoDTO>({
     <AvIconText
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
       icon-color="var(--icon)"
-      :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesPaginatorCard.title', { count: pageInfo.totalElements })"
+      :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: pageInfo.totalElements })"
       text-color="var(--text1)"
       typography-class="n5"
     />
