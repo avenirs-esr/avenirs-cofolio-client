@@ -57,6 +57,9 @@
         }
       },
       "views": {
+        "ProjectActivitiesCatalogView": {
+          "title": "All available activities"
+        },
         "projectActivitiesView": {
           "allActivities": {
             "header": {

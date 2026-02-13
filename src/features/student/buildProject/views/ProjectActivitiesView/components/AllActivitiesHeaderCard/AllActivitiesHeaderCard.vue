@@ -3,7 +3,7 @@ import { AvButton, AvCard, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 defineEmits<{
-  (e: 'seeAllEvents'): void
+  (e: 'seeAllActivities'): void
 }>()
 
 const { t } = useI18n()
@@ -30,7 +30,7 @@ const { t } = useI18n()
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
             small
             data-testid="all-activities-header-see-all-button"
-            @click="$emit('seeAllEvents')"
+            @click="$emit('seeAllActivities')"
           />
         </div>
       </div>

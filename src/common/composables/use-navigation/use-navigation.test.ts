@@ -1,5 +1,6 @@
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
+import { ProjectActivitiesCatalogThemes } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -140,6 +141,20 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentProjectSkills } = navigation
       navigateToStudentProjectSkills({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PROJECT_SKILLS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student project activities catalog', () => {
+    BddTest().then('it should navigate to student project activities catalog', () => {
+      const { navigateToStudentProjectActivitiesCatalog } = navigation
+      navigateToStudentProjectActivitiesCatalog()
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+        params: {
+          id: '0',
+          theme: ProjectActivitiesCatalogThemes.NEW
+        }
+      })
     })
   })
 

@@ -1,4 +1,5 @@
 import { ROUTES } from '@/common/constants'
+import { ProjectActivitiesCatalogThemes } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/types'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
 export function useNavigation () {
@@ -84,6 +85,14 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PROJECT_SKILLS)
   }
 
+  const navigateToStudentProjectActivitiesCatalog = ({ theme, id }: { theme?: ProjectActivitiesCatalogThemes, id?: string } =
+  { theme: ProjectActivitiesCatalogThemes.NEW, id: '0' }) => {
+    return router.push({
+      name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+      params: { theme, id },
+    })
+  }
+
   const navigateToStudentTraces = () => {
     return router.push(ROUTES.STUDENT.TOOLS_TRACES)
   }
@@ -130,6 +139,7 @@ export function useNavigation () {
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentSkills,
     navigateToStudentProjectSkills,
+    navigateToStudentProjectActivitiesCatalog,
     navigateToStudentTraces,
     navigateToStudentDeclaredExperiences,
     navigateToStudentDeclaredPrograms,
