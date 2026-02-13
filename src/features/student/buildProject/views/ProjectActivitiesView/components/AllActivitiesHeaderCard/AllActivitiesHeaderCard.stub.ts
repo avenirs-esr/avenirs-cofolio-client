@@ -1,5 +1,5 @@
 export const AllActivitiesHeaderCardStub = defineComponent({
   name: 'AllActivitiesHeaderCard',
-  emits: ['seeAllEvents'],
-  template: '<button @click="$emit(\'seeAllEvents\')">Voir toutes les activités</button>'
+  emits: ['seeAllActivities'],
+  template: '<button data-testid="see-all-activities-button" @click="$emit(\'seeAllActivities\')">Voir toutes les activités</button>'
 })

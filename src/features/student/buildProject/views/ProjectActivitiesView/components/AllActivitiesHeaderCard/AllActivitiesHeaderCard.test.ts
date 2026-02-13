@@ -29,8 +29,8 @@ BddTest().given('an all activities header card', () => {
         button.trigger('click')
       })
 
-      BddTest().then('it should emit the seeAllEvents event', () => {
-        expect(wrapper.emitted('seeAllEvents')).toBeTruthy()
+      BddTest().then('it should emit the seeAllActivities event', () => {
+        expect(wrapper.emitted('seeAllActivities')).toBeTruthy()
       })
     })
   })
