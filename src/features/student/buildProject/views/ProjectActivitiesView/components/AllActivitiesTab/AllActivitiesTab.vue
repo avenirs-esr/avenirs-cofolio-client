@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AllActivitiesHeaderCard from '@/features/student/global/views/ProjectActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.vue'
+import AllActivitiesHeaderCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.vue'
 </script>
 
 <template>

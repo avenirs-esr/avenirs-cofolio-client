@@ -1,5 +1,5 @@
-import { AllActivitiesHeaderCardStub } from '@/features/student/global/views/ProjectActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.stub'
-import AllActivitiesTab from '@/features/student/global/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
+import { AllActivitiesHeaderCardStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.stub'
+import AllActivitiesTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'

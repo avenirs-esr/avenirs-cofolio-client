@@ -22,13 +22,13 @@ export class AllActivitiesTabs extends BaseObject {
   }
 
   async verifyHeaderDescription () {
-    const expectedText = t('student.global.views.projectActivitiesView.allActivities.header.description')
+    const expectedText = t('student.buildProject.views.projectActivitiesView.allActivities.header.description')
     await expect(this.getHeaderDescription()).toBeVisible()
     await expect(this.getHeaderDescription()).toHaveText(expectedText)
   }
 
   async verifySeeAllButton () {
-    const expectedText = t('student.global.views.projectActivitiesView.allActivities.header.seeAll')
+    const expectedText = t('student.buildProject.views.projectActivitiesView.allActivities.header.seeAll')
     await expect(this.getHeaderSeeAllButton()).toBeVisible()
     await expect(this.getHeaderSeeAllButton()).toHaveText(expectedText)
   }

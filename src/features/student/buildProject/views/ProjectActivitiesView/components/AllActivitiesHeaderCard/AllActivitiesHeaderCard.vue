@@ -21,11 +21,11 @@ const { t } = useI18n()
           class="s1-regular"
           data-testid="all-activities-header-description"
         >
-          {{ t('student.global.views.projectActivitiesView.allActivities.header.description') }}
+          {{ t('student.buildProject.views.projectActivitiesView.allActivities.header.description') }}
         </span>
         <div class="av-row av-justify-end">
           <AvButton
-            :label="t('student.global.views.projectActivitiesView.allActivities.header.seeAll')"
+            :label="t('student.buildProject.views.projectActivitiesView.allActivities.header.seeAll')"
             variant="OUTLINED"
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
             small

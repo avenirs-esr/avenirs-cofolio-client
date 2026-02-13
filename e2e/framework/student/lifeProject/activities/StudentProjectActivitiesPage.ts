@@ -39,7 +39,7 @@ class StudentProjectActivitiesPage {
 
   @Then('the page title is correct')
   async verifyPageTitleCorrect () {
-    await this.getPageTitle().verifyTitle(t('student.global.views.projectActivitiesView.title'))
+    await this.getPageTitle().verifyTitle(t('student.buildProject.views.projectActivitiesView.title'))
   }
 
   @Then('the show breadcrumb button is hidden')
