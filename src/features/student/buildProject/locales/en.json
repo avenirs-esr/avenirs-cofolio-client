@@ -55,6 +55,17 @@
         "user": {
           "profilePictureAlt": "Profile picture"
         }
+      },
+      "views": {
+        "projectActivitiesView": {
+          "allActivities": {
+            "header": {
+              "description": "Activities offered by your SUIO and your institution. For any requests for additional activities, please contact your guidance counselor.",
+              "seeAll": "See all activities"
+            }
+          },
+          "title": "My activities"
+        }
       }
     }
   }

@@ -55,6 +55,17 @@
         "user": {
           "profilePictureAlt": "Photo de profil"
         }
+      },
+      "views": {
+        "projectActivitiesView": {
+          "allActivities": {
+            "header": {
+              "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d’activités complémentaires, veuillez-vous rapprocher de votre conseiller d’orientation.",
+              "seeAll": "Voir toutes les activités"
+            }
+          },
+          "title": "Mes activités"
+        }
       }
     }
   }
