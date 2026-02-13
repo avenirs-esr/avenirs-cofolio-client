@@ -29,7 +29,7 @@ const pages = computed(() => getPaginationPages(totalPages))
       <AvIconText
         :icon="IX_ICONS.LIBRARY_NEW"
         icon-color="var(--text2)"
-        :text="t('student.buildProject.views.projectActivitiesView.allActivities.newActivitiesPaginatorCard.title', { count: pageInfo.totalElements })"
+        :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count: pageInfo.totalElements })"
         text-color="var(--text1)"
         typography-class="n5"
       />
@@ -38,6 +38,7 @@ const pages = computed(() => getPaginationPages(totalPages))
     <div class="av-col av-gap-sm">
       <div class="av-row av-justify-end">
         <AvPagination
+          :aria-label="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.pagination.ariaLabel')"
           :current-page="pageInfo.page"
           :pages="pages"
           compact
