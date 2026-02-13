@@ -16,7 +16,6 @@ import { commonQueryKeys } from '@/features/student/global'
 import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 
 const studentSummaryQueryKeys = [...commonQueryKeys, 'summary']
-const headerSummaryQueryKeys = [...commonQueryKeys, 'header']
 
 export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
   const queryKey = computed(() => studentSummaryQueryKeys)
@@ -35,14 +34,12 @@ export interface UpdateProfileVariables {
 
 export function useUpdateProfileMutation ({ onError, onSuccess }: MutationArgs<string> = {}) {
   const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
-  const invalidateHeaderSummaryQuery = useInvalidateQuery(headerSummaryQueryKeys)
   return useMutation<string, BaseApiException, UpdateProfileVariables>({
     mutationFn: async ({ profile, profileUpdateRequest }: UpdateProfileVariables): Promise<string> => {
       return await updateProfile(profile, profileUpdateRequest)
     },
     onSuccess: async (data, variables) => {
       await invalidateStudentSummaryQuery()
-      await invalidateHeaderSummaryQuery()
       onSuccess?.(data, variables)
     },
     onError
@@ -55,12 +52,16 @@ export interface UpdateProfileCoverVariables {
 }
 
 export function useUpdateProfileCoverMutation ({ onError, onSuccess }: MutationArgs<string>) {
+  const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
   return useMutation<string, BaseApiException, UpdateProfileCoverVariables>({
     mutationFn: async ({ profile, updateProfileCoverBody }: UpdateProfileCoverVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.COVER, updateProfileCoverBody)
       return uploadedPhoto.id
     },
-    onSuccess,
+    onSuccess: async (data, variables) => {
+      await invalidateStudentSummaryQuery()
+      onSuccess?.(data, variables)
+    },
     onError
   })
 }
@@ -71,12 +72,16 @@ export interface UpdateProfilePhotoVariables {
 }
 
 export function useUpdateProfilePhotoMutation ({ onError, onSuccess }: MutationArgs<string, UpdateProfilePhotoVariables>) {
+  const invalidateStudentSummaryQuery = useInvalidateQuery(studentSummaryQueryKeys)
   return useMutation<string, BaseApiException, UpdateProfilePhotoVariables>({
     mutationFn: async ({ profile, updateProfilePhotoBody }: UpdateProfilePhotoVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.PROFILE, updateProfilePhotoBody)
       return uploadedPhoto.id
     },
-    onSuccess,
+    onSuccess: async (data, variables) => {
+      await invalidateStudentSummaryQuery()
+      onSuccess?.(data, variables)
+    },
     onError
   })
 }
