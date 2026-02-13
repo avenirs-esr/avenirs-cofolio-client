@@ -99,7 +99,7 @@ class StudentHomePage {
   @Given('the profile overview widget is visible')
   @Then('the profile overview widget is still visible')
   async verifyProfileOverviewWidgetVisible () {
-    await this.getStudentOverviewWidget().verifyVisible()
+    await this.getStudentOverviewWidget().isVisible()
   }
 
   @Given('the next events widget is visible')

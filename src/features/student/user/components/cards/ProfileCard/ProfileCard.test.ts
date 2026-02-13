@@ -105,26 +105,26 @@ BddTest().given('a profile card', () => {
     })
   })
 
-  BddTest().when('the component receives footer slot content', () => {
+  BddTest().when('the component receives default slot content', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
         props: { studentSummary },
         slots: {
-          footer: '<div class="custom-footer">Footer Content</div>'
+          default: '<div class="custom-content">Custom Content</div>'
         },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should render the footer slot', () => {
-      const footer = wrapper.find('.custom-footer')
-      expect(footer.exists()).toBe(true)
-      expect(footer.text()).toBe('Footer Content')
+    BddTest().then('it should render the slot', () => {
+      const slotContent = wrapper.find('.custom-content')
+      expect(slotContent.exists()).toBe(true)
+      expect(slotContent.text()).toBe('Custom Content')
     })
   })
 
-  BddTest().when('the component is mounted without footer slot', () => {
+  BddTest().when('the component is mounted without slot', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
@@ -133,10 +133,10 @@ BddTest().given('a profile card', () => {
       })
     })
 
-    BddTest().then('it should not render footer section', () => {
+    BddTest().then('it should not render slot section', () => {
       const avCard = wrapper.findComponent({ name: 'AvCard' }) as VueWrapper<InstanceType<typeof AvCardStub>>
-      const footerSlot = avCard.vm.$slots.footer
-      expect(footerSlot).toBeUndefined()
+      const defaultSlot = avCard.vm.$slots.default
+      expect(defaultSlot).toBeUndefined()
     })
   })
 
