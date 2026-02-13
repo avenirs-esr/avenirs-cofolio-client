@@ -31,6 +31,8 @@
       "expand": "Développer",
       "goBack": "Retour",
       "moreActions": "Plus d'actions",
+      "next": "Suivant",
+      "previous": "Précédent",
       "redo": "Rétablir",
       "reset": "Réinitialiser",
       "restore": "Restaurer",

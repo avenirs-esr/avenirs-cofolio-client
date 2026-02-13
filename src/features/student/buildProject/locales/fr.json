@@ -62,9 +62,15 @@
         },
         "projectActivitiesView": {
           "allActivities": {
+            "allActivitiesPaginatorCard": {
+              "title": "Toutes les activités ({count})"
+            },
             "header": {
               "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d’activités complémentaires, veuillez-vous rapprocher de votre conseiller d’orientation.",
               "seeAll": "Voir toutes les activités"
+            },
+            "newActivitiesPaginatorCard": {
+              "title": "Les nouveautés ({count})"
             }
           },
           "title": "Mes activités"

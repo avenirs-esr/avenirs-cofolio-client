@@ -62,9 +62,15 @@
         },
         "projectActivitiesView": {
           "allActivities": {
+            "allActivitiesPaginatorCard": {
+              "title": "All activities ({count})"
+            },
             "header": {
               "description": "Activities offered by your SUIO and your institution. For any requests for additional activities, please contact your guidance counselor.",
               "seeAll": "See all activities"
+            },
+            "newActivitiesPaginatorCard": {
+              "title": "New activities ({count})"
             }
           },
           "title": "My activities"
