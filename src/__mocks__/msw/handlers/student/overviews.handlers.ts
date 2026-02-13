@@ -62,6 +62,13 @@ export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/storage/users/:p
   )
 })
 
+export const getProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
+  return HttpResponse.json(
+    { message: 'Student summary not found' },
+    { status: 404 }
+  )
+})
+
 export const overviewsHandlers = [
   http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
     return HttpResponse.json<ProfileOverviewDTO>(mockedProfileOverview, {

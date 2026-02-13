@@ -2,15 +2,17 @@
   "student": {
     "user": {
       "cards": {
-        "StudentOverviewWidget": {
+        "ProfileCard": {
           "bannerAlt": "Bannière du profil",
+          "pictureAlt": "Photo de profil"
+        },
+        "StudentOverviewWidget": {
           "buttons": {
             "editProfile": "Modifier mon profil",
             "establishments": "Mon/Mes établissement(s)",
             "shareCofolio": "Partager mon Cofolio",
             "shareResume": "Partager mon CV"
-          },
-          "pictureAlt": "Photo de profil"
+          }
         }
       },
       "overlays": {
