@@ -61,7 +61,7 @@
           "title": "All available activities"
         },
         "projectActivitiesView": {
-          "allActivities": {
+          "allActivitiesTab": {
             "allActivitiesPaginatorCard": {
               "title": "All activities ({count})"
             },
@@ -70,6 +70,9 @@
               "seeAll": "See all activities"
             },
             "newActivitiesPaginatorCard": {
+              "pagination": {
+                "ariaLabel": "Pagination of new activities"
+              },
               "title": "New activities ({count})"
             }
           },

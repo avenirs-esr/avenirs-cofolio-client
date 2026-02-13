@@ -1,6 +1,6 @@
 import NewActivitiesPaginatorCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/NewActivitiesPaginatorCard/NewActivitiesPaginatorCard.vue'
 import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils/dist'
+import { mount, type VueWrapper } from '@vue/test-utils'
 
 const AvPaginationStub = defineComponent({
   name: 'AvPagination',
