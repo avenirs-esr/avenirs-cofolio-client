@@ -24,6 +24,7 @@ const pages = computed(() => getPaginationPages(totalPages))
     background-color="var(--card)"
     title-background="var(--card)"
     collapsible
+    data-testid="new-activities-paginator-card"
   >
     <template #title>
       <AvIconText
