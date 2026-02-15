@@ -1,7 +1,12 @@
-import type { Component } from 'vue'
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 
-export const ProfileCardStub: Component = defineComponent({
+export const ProfileCardStub = defineComponent({
   name: 'ProfileCard',
-  template: '<div data-testid="profile-card-stub"><slot/></div>',
-  props: ['studentSummary']
+  props: {
+    studentSummary: {
+      type: Object as () => ProfileOverviewDTO,
+      required: true
+    }
+  },
+  template: '<div data-testid="profile-card-stub"><slot/></div>'
 })
