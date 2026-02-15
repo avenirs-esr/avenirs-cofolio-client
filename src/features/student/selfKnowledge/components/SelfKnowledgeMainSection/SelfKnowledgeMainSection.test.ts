@@ -1,8 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
+import { ProfileCardStub } from '@/features/student/user'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -26,6 +29,7 @@ BddTest().given('a self knowledge section component', () => {
     AvButton: AvButtonStub,
     AvIconText: AvIconTextStub,
     AddSelfKnowledgeCategoriesModal: AddSelfKnowledgeCategoriesModalStub,
+    ProfileCard: ProfileCardStub,
     SelfKnowledgeCategoryElementsPaginatorCard: SelfKnowledgeCategoryElementsPaginatorCardStub
   }
 
@@ -72,6 +76,25 @@ BddTest().given('a self knowledge section component', () => {
       expect(avIconText.exists()).toBe(true)
       expect(avIconText.props('text')).toBe('Qui je suis ?')
       expect(avIconText.props('icon')).toBe('mdi:account-circle-outline')
+    })
+
+    BddTest().then('it should not render the profile card initially', () => {
+      const profileCard = wrapper.findComponent(ProfileCardStub)
+      expect(profileCard.exists()).toBe(false)
+    })
+
+    BddTest().and('the profile card is loaded', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const profileCard = wrapper.findComponent(ProfileCardStub)
+          expect(profileCard.exists()).toBe(true)
+        })
+      })
+
+      BddTest().then('it should pass correct student summary props', () => {
+        const profileCard = wrapper.findComponent(ProfileCardStub)
+        expect(profileCard.props('studentSummary')).toEqual(mockedProfileOverview)
+      })
     })
 
     BddTest().then('it should render the add self knowledge categories button', () => {
@@ -131,9 +154,7 @@ BddTest().given('a self knowledge section component', () => {
     })
 
     BddTest().then('it should not render any category cards', async () => {
-      await vi.waitFor(() => {
-        expect(true).toBe(true)
-      }, { timeout: 100 })
+      await wrapper.vm.$nextTick()
 
       const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
       expect(categoryCards).toHaveLength(0)
@@ -145,6 +166,31 @@ BddTest().given('a self knowledge section component', () => {
 
       const addButton = getAddButton()
       expect(addButton).toBeDefined()
+    })
+  })
+
+  BddTest().when('the student summary query fails', () => {
+    beforeEach(() => {
+      server.use(getProfileErrorHandler)
+
+      wrapper = mountComponent(SelfKnowledgeMainSection, { global: { stubs } })
+    })
+
+    BddTest().then('it should not render the profile card', async () => {
+      await wrapper.vm.$nextTick()
+
+      const profileCard = wrapper.findComponent(ProfileCardStub)
+      expect(profileCard.exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render the title and category cards', async () => {
+      const avIconText = wrapper.findComponent(AvIconTextStub)
+      expect(avIconText.exists()).toBe(true)
+
+      await vi.waitFor(() => {
+        const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+        expect(categoryCards.length).toBe(mockedSelfKnowledgeCategories.length)
+      })
     })
   })
 })

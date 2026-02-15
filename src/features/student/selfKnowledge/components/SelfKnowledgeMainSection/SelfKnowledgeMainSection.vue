@@ -5,6 +5,7 @@ import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/co
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { ProfileCard, useStudentSummaryQuery } from '@/features/student/user'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -16,6 +17,7 @@ const {
 } = useModal()
 
 const { categories } = useSelfKnowledgeCategoriesQuery()
+const { data: studentSummary } = useStudentSummaryQuery()
 </script>
 
 <template>
@@ -28,6 +30,13 @@ const { categories } = useSelfKnowledgeCategoriesQuery()
       text-color="var(--title)"
       gap="0.75rem"
     />
+
+    <ProfileCard
+      v-if="studentSummary"
+      class="av-row av-justify-between"
+      :student-summary
+    />
+
     <div class="av-row av-justify-end">
       <AvButton
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"

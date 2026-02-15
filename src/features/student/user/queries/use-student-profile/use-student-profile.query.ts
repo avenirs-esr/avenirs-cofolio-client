@@ -18,9 +18,8 @@ import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-qu
 const studentSummaryQueryKeys = [...commonQueryKeys, 'summary']
 
 export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
-  const queryKey = computed(() => studentSummaryQueryKeys)
   return useQuery<ProfileOverviewDTO, BaseApiException>({
-    queryKey,
+    queryKey: studentSummaryQueryKeys,
     queryFn: async (): Promise<ProfileOverviewDTO> => {
       return getProfile(EUserCategory.STUDENT)
     }
