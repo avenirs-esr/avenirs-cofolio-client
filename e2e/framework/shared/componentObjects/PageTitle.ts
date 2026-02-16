@@ -15,10 +15,6 @@ export class PageTitle extends BaseObject {
     return this.getBreadcrumb().getByRole('listitem')
   }
 
-  getBreadcrumbLinks () {
-    return this.getBreadcrumb().getByRole('link')
-  }
-
   getBreadcrumbItemByIndex (index: number) {
     return this.getBreadcrumbItems().nth(index)
   }
@@ -76,10 +72,6 @@ export class PageTitle extends BaseObject {
 
   async clickBreadcrumbLink (index: number) {
     await this.getBreadcrumbLinkByIndex(index).click()
-  }
-
-  async clickBreadcrumbLinkByText (text: string) {
-    await this.getBreadcrumbLinkByText(text).click()
   }
 
   async verifyBackButtonVisible () {

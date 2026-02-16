@@ -17,7 +17,7 @@ export class SkillsWidget extends BaseObject {
   }
 
   getCards () {
-    return this.root.getByTestId('student-skills-peer-course').first().getByTestId('skill-card')
+    return this.root.getByTestId('skill-card')
   }
 
   getCard (index: number) {
@@ -37,14 +37,14 @@ export class SkillsWidget extends BaseObject {
     await expect(this.getTitle()).toHaveText(t('student.skills.cards.StudentSkillsWidget.title'))
   }
 
-  async verifyMaximumSkills () {
-    const courseCount = await this.getCourseCount()
-    const skillCount = await this.countCards()
+  async verifyRenderedSkillsCount (expectedSkills: number) {
+    const count = await this.countCards()
+    expect(count).toEqual(expectedSkills)
+  }
 
-    expect(skillCount).toBeGreaterThan(0)
-
-    const maxSkills = courseCount === 1 ? 6 : 3
-    expect(skillCount).toBeLessThanOrEqual(maxSkills)
+  async verifyRenderedCoursesCount (expectedCourses: number) {
+    const count = await this.getCourseCount()
+    expect(count).toEqual(expectedCourses)
   }
 
   async verifyCardsDisplayed () {

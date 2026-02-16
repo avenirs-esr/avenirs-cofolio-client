@@ -42,12 +42,12 @@ Feature: Student Home Page
     Background:
       Given the next events widget is visible
 
-    @high @events @skip-review
-    Scenario: Next events widget displays when events exist
-      Then the events widget shows maximum 3 events
+    @high @events @skip-review @dataset-full
+    Scenario: Next events widget displays 3 events
+      Then the events widget shows 3 events
       And the see all events button is visible
 
-    @medium @events @skip-review
+    @medium @events @skip-review @dataset-full
     Scenario: See all events button navigates to events page
       When the student clicks see all events button
       Then the page navigates to events page
@@ -58,13 +58,13 @@ Feature: Student Home Page
     Background:
       Given the resumes widget is visible
 
-    @high @resumes @skip-review
+    @high @resumes @skip-review @dataset-full
     Scenario: Resumes widget displays when resumes exist
-      Then the resumes widget shows maximum 3 resumes
+      Then the resumes widget shows 3 resumes
       And each resume shows last update date
       And the see all resumes button is visible
 
-    @medium @resumes @skip-review
+    @medium @resumes @skip-review @dataset-full
     Scenario: See all resumes button navigates to resumes page
       When the student clicks see all resumes button
       Then the page navigates to resumes page
@@ -75,13 +75,13 @@ Feature: Student Home Page
     Background:
       Given the free pages widget is visible
 
-    @high @pages @skip-review
-    Scenario: Free pages widget displays maximum 3 pages with last update date and see all button
-      Then the pages widget shows maximum 3 pages
+    @high @pages @skip-review @dataset-full
+    Scenario: Free pages widget displays 3 pages with last update date and see all button
+      Then the pages widget shows 3 pages
       And each page shows last update date
       And the see all pages button is visible
 
-    @medium @pages @skip-review
+    @medium @pages @skip-review @dataset-full
     Scenario: See all pages button navigates to pages page
       When the student clicks see all pages button
       Then the page navigates to pages page
@@ -92,23 +92,23 @@ Feature: Student Home Page
     Background:
       Given the educational skills widget is visible
 
-    @high @skills
-    Scenario: Skills widget displays correct maximum skills with status, trace count, AMS count, and see all button
-      Then the skills widget shows the correct maximum number of skills
-      And skill cards are displayed
+    @high @skills @dataset-full
+    Scenario: Skills widget displays 6 skills with 2 courses and see all button
+      Then the skills widget shows 2 courses
+      And the skills widget shows 6 skills
       And each skill card shows status badge
       And each skill card shows trace count
       And each skill card shows AMS count
       And the see all skills button is visible
 
-    @high @skills
+    @high @skills @dataset-full
     Scenario: Skill cards are clickable and navigate to skill detail
       And skill cards are displayed
       When the student clicks a skill card
       Then the page navigates to skill detail page
       And the URL contains "/cofolio/student/skill/"
 
-    @medium @skills
+    @medium @skills @dataset-full
     Scenario: See all skills button navigates to skills page
       When the student clicks see all skills button
       Then the page navigates to skills page
@@ -119,12 +119,12 @@ Feature: Student Home Page
     Background:
       Given the next deliverables widget is visible
 
-    @medium @deliverables @skip-review
-    Scenario: Deliverables widget displays maximum 3 future deliverables with see all button
-      Then the deliverables widget shows maximum 3 deliverables
+    @medium @deliverables @skip-review @dataset-full
+    Scenario: Deliverables widget displays 3 future deliverables with see all button
+      Then the deliverables widget shows 3 deliverables
       And the see all deliverables button is visible
 
-    @medium @deliverables @skip-review
+    @medium @deliverables @skip-review @dataset-full
     Scenario: See all deliverables button navigates to deliverables page
       When the student clicks see all deliverables button
       Then the page navigates to deliverables page
@@ -135,25 +135,25 @@ Feature: Student Home Page
     Background:
       Given there are traces available
 
-    @high @traces
+    @high @traces @dataset-full
     Scenario: Traces widget is visible
       Then the last traces widget is visible
 
-    @high @traces
-    Scenario: Traces widget displays maximum 3 traces with skill count, AMS count, type, and see all button
-      Then maximum 3 trace cards are displayed
+    @high @traces @dataset-full
+    Scenario: Traces widget displays 3 traces with skill count, AMS count, type, and see all button
+      Then 3 trace cards are displayed
       And each trace card shows skill count
       And each trace card shows AMS count
       And each trace card shows type (solo/group)
       And the see all traces button is visible
 
-    @high @traces
+    @high @traces @dataset-full
     Scenario: Trace cards are clickable and navigate to traces page
       When the student clicks a trace card
       Then the page navigates to traces page
       And the URL contains "/cofolio/student/tools/traces"
 
-    @medium @traces
+    @medium @traces @dataset-full
     Scenario: See all traces button navigates to traces page
       When the student clicks see all traces button
       Then the page navigates to traces page

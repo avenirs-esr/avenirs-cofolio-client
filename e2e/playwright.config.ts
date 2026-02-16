@@ -11,7 +11,7 @@ const REVIEW_MODE = process.env.REVIEW_MODE === 'true'
 
 const testDir = defineBddConfig({
   features: 'tests/**/*.feature',
-  steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts']
+  steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts', 'framework/shared/hooks/dataset.hook.ts']
 })
 
 const reporter: Parameters<typeof defineConfig>[0]['reporter'] = [

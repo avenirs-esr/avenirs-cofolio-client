@@ -37,4 +37,11 @@ export class ProfileCard extends BaseObject {
   async verifyStudentBio () {
     await expect(this.getStudentBio()).toBeVisible()
   }
+
+  async verifyCardContent () {
+    await this.verifyProfileBanner()
+    await this.verifyProfilePicture()
+    await this.verifyStudentName()
+    await this.verifyStudentBio()
+  }
 }

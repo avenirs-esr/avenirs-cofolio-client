@@ -72,6 +72,7 @@ watch(selectedItem, (newSelectedItem) => {
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       v-model:selected-item="selectedItem"
       :items="items"
+      data-testid="project-trajectories-side-navigation"
     />
     <div class="student-project-trajectories-container__content av-col av-flex-fill av-p-lg">
       <component :is="displayedSection" />
