@@ -1,4 +1,4 @@
-import { ToggleStub } from '@/common/components'
+import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import TraceAuthenticDeclarationToggle from '@/features/student/traces/components/interactions/toggles/TraceAuthenticDeclarationToggle/TraceAuthenticDeclarationToggle.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

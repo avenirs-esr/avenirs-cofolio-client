@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ConfirmationModalStub } from '@/common/components'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { AddDeclaredSkillDrawer } from '@/features/student/declaredSkills'
 import {
   DeclaredSkillLevelRadioButtonSetFormFieldStub,

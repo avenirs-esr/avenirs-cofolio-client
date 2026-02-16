@@ -3,9 +3,9 @@ import { StudentEventsWidgetStub } from '@/features/student/global/views/Student
 import { StudentPagesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentPagesWidget/StudentPagesWidget.stub'
 import { StudentResumesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/StudentResumesWidget/StudentResumesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
-import { StudentSkillsWidgetStub } from '@/features/student/skills'
-import { StudentTracesWidgetStub } from '@/features/student/traces'
-import { StudentOverviewWidgetStub } from '@/features/student/user'
+import { StudentSkillsWidgetStub } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.stub'
+import { StudentTracesWidgetStub } from '@/features/student/traces/components/cards/StudentTracesWidget/StudentTracesWidget.stub'
+import { StudentOverviewWidgetStub } from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 

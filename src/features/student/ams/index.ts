@@ -1,4 +1,3 @@
-export { StudentAmsStatusBadgeStub } from '@/features/student/ams/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.stub'
 export { default as StudentAmsStatusBadge } from '@/features/student/ams/components/badges/StudentAmsStatusBadge/StudentAmsStatusBadge.vue'
 export { default as StudentCountAmsIconText } from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
 

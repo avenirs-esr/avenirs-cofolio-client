@@ -1,5 +1,5 @@
 import type { TraceFormData } from '@/features/student/traces'
-import { ToggleStub } from '@/common/components'
+import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'

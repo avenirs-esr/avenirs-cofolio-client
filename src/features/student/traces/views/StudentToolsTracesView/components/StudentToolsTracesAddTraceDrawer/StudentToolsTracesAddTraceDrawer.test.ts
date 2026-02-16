@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ConfirmationModalStub, ToggleStub } from '@/common/components'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

@@ -5,7 +5,7 @@ import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overvie
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
-import { ProfileCardStub } from '@/features/student/user'
+import { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
