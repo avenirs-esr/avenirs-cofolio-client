@@ -1,22 +1,22 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
-import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
-import { t } from '@e2e/framework/shared/utils/i18n'
+import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { DeliverablesWidget } from '@e2e/framework/student/home/componentsObjects/DeliverablesWidget'
-import { EventsWidget } from '@e2e/framework/student/home/componentsObjects/EventsWidget'
-import { PagesWidget } from '@e2e/framework/student/home/componentsObjects/PagesWidget'
-import { ResumesWidget } from '@e2e/framework/student/home/componentsObjects/ResumesWidget'
-import { SkillsWidget } from '@e2e/framework/student/home/componentsObjects/SkillsWidget'
-import { StudentOverviewWidget } from '@e2e/framework/student/home/componentsObjects/StudentOverviewWidget'
-import { TracesWidget } from '@e2e/framework/student/home/componentsObjects/TracesWidget'
+import { DeliverablesWidget } from '@e2e/framework/student/home/componentObjects/DeliverablesWidget'
+import { EventsWidget } from '@e2e/framework/student/home/componentObjects/EventsWidget'
+import { PagesWidget } from '@e2e/framework/student/home/componentObjects/PagesWidget'
+import { ResumesWidget } from '@e2e/framework/student/home/componentObjects/ResumesWidget'
+import { SkillsWidget } from '@e2e/framework/student/home/componentObjects/SkillsWidget'
+import { StudentOverviewWidget } from '@e2e/framework/student/home/componentObjects/StudentOverviewWidget'
+import { TracesWidget } from '@e2e/framework/student/home/componentObjects/TracesWidget'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
 @Fixture<typeof test>('studentHomePage')
-class StudentHomePage {
-  constructor (public page: Page) {}
+class StudentHomePage extends BasePage {
+  constructor (public page: Page) {
+    super(page)
+  }
 
   getSkillsWidget () {
     return new SkillsWidget(this.page)
@@ -50,56 +50,8 @@ class StudentHomePage {
     return this.page.getByRole('heading', { level: 1 })
   }
 
-  getMainNavigation () {
-    return this.page.getByTestId('main-navigation').locator('nav')
-  }
-
-  getHomeNavLink () {
-    return this.getMainNavigation().getByRole('link').first()
-  }
-
-  getSuccessfulEducationButton () {
-    return this.getMainNavigation().getByRole('button').nth(0)
-  }
-
-  getBuildingLifeProjectButton () {
-    return this.getMainNavigation().getByRole('button').nth(1)
-  }
-
-  getProjectActivitiesLink () {
-    return this.getMainNavigation().getByRole('link', {
-      name: t('student.global.navigation.tabs.project.items.activities'),
-    })
-  }
-
-  getMyToolsButton () {
-    return this.getMainNavigation().getByRole('button').nth(2)
-  }
-
-  getMailboxButton () {
-    return this.page.locator('header').getByRole('button').nth(0)
-  }
-
-  getNotificationsButton () {
-    return this.page.locator('header').getByRole('button').nth(1)
-  }
-
-  getProfileButton () {
-    return this.page.locator('header list button, header ul button').nth(2)
-  }
-
-  getLanguageSwitcher () {
-    return this.page.locator('header').getByRole('button').last()
-  }
-
   getMobileMenuButton () {
     return this.page.getByTestId('open-menu-btn')
-  }
-
-  @Given('the student opens the home page')
-  async goto () {
-    await this.page.goto(STUDENT_ROUTES.HOME)
-    await waitForPageLoad(this.page)
   }
 
   @Given('the profile overview widget is visible')
@@ -141,20 +93,6 @@ class StudentHomePage {
   @Then('the last traces widget is visible')
   async verifyLastTracesWidgetVisible () {
     await this.getTracesWidget().verifyVisible()
-  }
-
-  @Then('the student home page is displayed')
-  async verifyPageLoaded () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.HOME)
-    await expect(this.page).toHaveTitle('Cofolio')
-    expect(this.getPageHeading()).toBeDefined()
-  }
-
-  @Then('the page title is {string}')
-  async verifyPageTitle (title: string) {
-    if (title === 'Cofolio') {
-      await expect(this.page).toHaveTitle('Cofolio')
-    }
   }
 
   @Then('the profile banner is visible')
@@ -202,9 +140,9 @@ class StudentHomePage {
     await this.getStudentOverviewWidget().verifyDrawerClosed()
   }
 
-  @Then('the events widget shows maximum 3 events')
-  async verifyEventsWidgetShowsMax3Events () {
-    await this.getEventsWidget().verifyMaximum3Events()
+  @Then('the events widget shows {int} events')
+  async verifyEventsWidgetShowsEvents (expectedEvents: number) {
+    await this.getEventsWidget().verifyRenderedEventsCount(expectedEvents)
   }
 
   @Then('the see all events button is visible')
@@ -218,19 +156,9 @@ class StudentHomePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to events page')
-  async verifyNavigationToEventsPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.EVENTS)
-  }
-
-  @Then('the URL contains {string}')
-  verifyUrlContains (url: string) {
-    expect(this.page.url()).toContain(url)
-  }
-
-  @Then('the resumes widget shows maximum 3 resumes')
-  async verifyResumesWidgetShowsMax3Resumes () {
-    await this.getResumesWidget().verifyMaximum3Resumes()
+  @Then('the resumes widget shows {int} resumes')
+  async verifyResumesWidgetShowsMax3Resumes (expectedResumes: number) {
+    await this.getResumesWidget().verifyRenderedResumesCount(expectedResumes)
   }
 
   @Then('each resume shows last update date')
@@ -249,19 +177,19 @@ class StudentHomePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to resumes page')
-  async verifyNavigationToResumesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.RESUMES)
+  @Then('the pages widget shows {int} pages')
+  async verifyPagesWidgetShowsPages (expectedPages: number) {
+    await this.getPagesWidget().verifyRenderedPagesCount(expectedPages)
   }
 
-  @Then('the pages widget shows maximum 3 pages')
-  async verifyPagesWidgetShowsMax3Pages () {
-    await this.getPagesWidget().verifyMaximum3Pages()
+  @Then('the skills widget shows {int} courses')
+  async verifySkillsWidgetShowsCourses (expectedCourses: number) {
+    await this.getSkillsWidget().verifyRenderedCoursesCount(expectedCourses)
   }
 
-  @Then('the skills widget shows the correct maximum number of skills')
-  async verifySkillsWidgetShowsCorrectMaxSkills () {
-    await this.getSkillsWidget().verifyMaximumSkills()
+  @Then('the skills widget shows {int} skills')
+  async verifySkillsWidgetShowsSkills (expectedSkills: number) {
+    await this.getSkillsWidget().verifyRenderedSkillsCount(expectedSkills)
   }
 
   @Then('each page shows last update date')
@@ -278,11 +206,6 @@ class StudentHomePage {
   async clickSeeAllFreePagesButton () {
     await this.getPagesWidget().clickSeeAllButton()
     await waitForPageLoad(this.page)
-  }
-
-  @Then('the page navigates to pages page')
-  async verifyNavigationToPagesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.PAGES)
   }
 
   @Then('skill cards are displayed')
@@ -316,25 +239,15 @@ class StudentHomePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to skill detail page')
-  async verifyNavigationToSkillDetailPage () {
-    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.SKILL_DETAIL}.+`))
-  }
-
   @When('the student clicks see all skills button')
   async clickSeeAllSkillsButton () {
     await this.getSkillsWidget().clickSeeAllButton()
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to skills page')
-  async verifyNavigationToSkillsPage () {
-    await expect(this.page).toHaveURL(/\/cofolio\/student\/education\/skills/)
-  }
-
-  @Then('the deliverables widget shows maximum 3 deliverables')
-  async verifyDeliverablesWidgetShowsMax3Deliverables () {
-    await this.getDeliverablesWidget().verifyMaximum3Deliverables()
+  @Then('the deliverables widget shows {int} deliverables')
+  async verifyDeliverablesWidgetShowsDeliverables (expectedDeliverables: number) {
+    await this.getDeliverablesWidget().verifyRenderedDeliverablesCount(expectedDeliverables)
   }
 
   @Then('the see all deliverables button is visible')
@@ -348,14 +261,9 @@ class StudentHomePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to deliverables page')
-  async verifyNavigationToDeliverablesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.DELIVERABLES)
-  }
-
-  @Then('maximum 3 trace cards are displayed')
-  async verifyMax3TraceCards () {
-    await this.getTracesWidget().verifyMaximum3Traces()
+  @Then('{int} trace cards are displayed')
+  async verifyTraceCards (expectedTraces: number) {
+    await this.getTracesWidget().verifyRenderedTracesCount(expectedTraces)
   }
 
   @Then('each trace card shows skill count')
@@ -390,135 +298,9 @@ class StudentHomePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to traces page')
-  async verifyNavigationToTracesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
-  }
-
-  @Then('the main navigation menu is visible')
-  async verifyMainNavigationMenu () {
-    await expect(this.getMainNavigation()).toBeVisible()
-  }
-
-  @Then('the HOME link is visible')
-  async verifyHomeLink () {
-    await expect(this.getHomeNavLink()).toBeVisible()
-    await expect(this.getHomeNavLink()).toHaveText(t('student.global.navigation.tabs.home').toUpperCase())
-  }
-
-  @Then('the SUCCESSFUL EDUCATION menu is visible')
-  async verifySuccessfulEducationMenu () {
-    await expect(this.getSuccessfulEducationButton()).toBeVisible()
-    await expect(this.getSuccessfulEducationButton()).toContainText(t('student.global.navigation.tabs.education.header').toUpperCase())
-  }
-
-  @Then('the BUILDING MY LIFE PROJECT menu is visible')
-  async verifyBuildingMyLifeProjectMenu () {
-    await expect(this.getBuildingLifeProjectButton()).toBeVisible()
-    await expect(this.getBuildingLifeProjectButton()).toContainText(t('student.global.navigation.tabs.project.header').toUpperCase())
-  }
-
-  @When('the user clicks on the BUILDING MY LIFE PROJECT menu')
-  async openBuildingLifeProjectSubmenu () {
-    await this.getBuildingLifeProjectButton().click()
-  }
-
-  @Then('the PROJECT MY ACTIVITIES link is visible')
-  async verifyProjectActivitiesLinkVisible () {
-    await expect(this.getProjectActivitiesLink()).toBeVisible()
-  }
-
-  @When('the user click on the PROJECT MY ACTIVITIES link')
-  async clickMyActivitiesLink () {
-    await this.getProjectActivitiesLink().click()
-  }
-
-  @Then('the page navigates to project my activities page')
-  async verifyNavigationToProjectActivitiesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
-  }
-
-  @Then('the MY TOOLS menu is visible')
-  async verifyMyToolsMenu () {
-    await expect(this.getMyToolsButton()).toBeVisible()
-    await expect(this.getMyToolsButton()).toContainText(t('student.global.navigation.tabs.tools.header').toUpperCase())
-  }
-
-  @Then('the mailbox button is visible')
-  async verifyMailboxButton () {
-    await expect(this.getMailboxButton()).toBeVisible()
-  }
-
-  @Then('the notifications button is visible')
-  async verifyNotificationsButton () {
-    await expect(this.getNotificationsButton()).toBeVisible()
-  }
-
-  @Then('the profile button is visible')
-  async verifyProfileButton () {
-    await expect(this.getProfileButton()).toBeVisible()
-  }
-
-  @Then('the language switcher is visible')
-  async verifyLanguageSwitcher () {
-    await expect(this.getLanguageSwitcher()).toBeVisible()
-  }
-
-  @Given('the mobile menu button is visible')
-  async verifyMobileMenuButton () {
-    await expect(this.getMobileMenuButton()).toBeVisible()
-  }
-
-  @When('the student clicks mobile menu button')
-  async clickMobileMenuButton () {
-    await expect(this.getMobileMenuButton()).toBeVisible()
-    await this.getMobileMenuButton().click({ force: true })
-    await this.page.waitForTimeout(500)
-  }
-
-  @Then('the navigation drawer opens')
-  async verifyNavigationDrawer () {
-    const drawer = this.page.getByRole('dialog', { name: 'Menu' })
-    await expect(drawer).toBeVisible()
-  }
-
-  @Then('all navigation items are visible in drawer')
-  async verifyAllNavigationItemsInDrawer () {
-    const drawer = this.page.locator('.av-drawer, [role="dialog"]')
-    await expect(drawer.getByRole('link').first()).toBeVisible()
-  }
-
-  @Given('the page is displayed on mobile viewport')
-  async verifyMobileViewport () {
-    const viewport = this.page.viewportSize()
-    expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
-  }
-
   @Then('all visible widgets span full width')
   async verifyAllWidgetsSpanFullWidth () {
-    const viewport = this.page.viewportSize()
-    expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
-  }
-
-  @Then('widgets are stacked vertically')
-  async verifyWidgetsStackedVertically () {
-    const viewport = this.page.viewportSize()
-    expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
-  }
-
-  @Then('no horizontal scrolling is required')
-  async verifyNoHorizontalScrolling () {
-    const scrollWidth = await this.page.evaluate(() => document.documentElement.scrollWidth)
-    const clientWidth = await this.page.evaluate(() => document.documentElement.clientWidth)
-    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 5)
-  }
-
-  @When('the student scrolls down through the page')
-  async scrollDown () {
-    await this.page.evaluate(() => {
-      window.scrollTo(0, document.body.scrollHeight / 2)
-    })
-    await this.page.waitForTimeout(500)
+    await this.verifyLocatorIsFullWidth(this.getStudentOverviewWidget().getRoot())
   }
 
   @Then('all widgets load and display correctly')

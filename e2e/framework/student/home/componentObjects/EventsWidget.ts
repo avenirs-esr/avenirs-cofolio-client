@@ -2,9 +2,9 @@ import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { expect, type Page } from '@playwright/test'
 
-export class DeliverablesWidget extends BaseObject {
+export class EventsWidget extends BaseObject {
   constructor (protected page: Page) {
-    super(page.getByTestId('student-deliverables-widget'), page)
+    super(page.getByTestId('student-events-widget'), page)
   }
 
   getTitle () {
@@ -12,7 +12,7 @@ export class DeliverablesWidget extends BaseObject {
   }
 
   getItems () {
-    return this.page.getByTestId('deliverable-item')
+    return this.page.getByTestId('event-item')
   }
 
   getSeeAllButton () {
@@ -26,18 +26,17 @@ export class DeliverablesWidget extends BaseObject {
   async verifyVisible () {
     await this.isVisible()
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(t('student.global.widgets.deliverables.title'))
+    await expect(this.getTitle()).toHaveText(t('student.global.widgets.events.title'))
   }
 
-  async verifyMaximum3Deliverables () {
+  async verifyRenderedEventsCount (expectedEvents: number) {
     const count = await this.countItems()
-    expect(count).toBeLessThanOrEqual(3)
+    expect(count).toEqual(expectedEvents)
   }
 
   async verifySeeAllButton () {
-    const expectedText = t('student.global.widgets.deliverables.buttons.seeAll')
     await expect(this.getSeeAllButton()).toBeVisible()
-    await expect(this.getSeeAllButton()).toHaveText(expectedText)
+    await expect(this.getSeeAllButton()).toHaveText(t('student.global.widgets.events.buttons.seeAll'))
   }
 
   async clickSeeAllButton () {

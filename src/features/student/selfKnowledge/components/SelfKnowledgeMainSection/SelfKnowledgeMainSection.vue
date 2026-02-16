@@ -22,8 +22,12 @@ const { data: studentSummary } = useStudentSummaryQuery()
 </script>
 
 <template>
-  <div class="av-col av-gap-xl">
+  <div
+    class="av-col av-gap-xl"
+    data-testid="self-knowledge-section"
+  >
     <AvIconText
+      data-testid="self-knowledge-section-title"
       typography-class="n4"
       :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
       icon-color="var(--icon)"

@@ -6,776 +6,580 @@ This document describes the patterns and conventions used for End-to-End testing
 
 ```
 e2e/
-├── tests/                              # Gherkin feature files
-│   └── student/
-│       ├── home.feature                # Desktop feature file
-│       └── home.mobile.feature         # Mobile-specific feature file
-├── framework/                          # Page Objects, Component Objects & Step definitions
-│   ├── shared/
+├── tests/                                    # Gherkin feature files
+│   └── {role}/                               # e.g. student/
+│       └── {featureName}/                    # e.g. home/, lifeProject/
+│           ├── {featureName}.feature         # Desktop scenarios
+│           └── {featureName}.mobile.feature  # Mobile-specific scenarios
+├── framework/                                # Framework layer
+│   ├── shared/                               # Role-agnostic shared layer
+│   │   ├── base/
+│   │   │   ├── BaseObject.ts                 # Base class for all ComponentObjects
+│   │   │   └── BasePage.ts                   # Base class for PageObjects (with shared steps)
+│   │   ├── componentObjects/                 # Shared UI component objects
+│   │   ├── constants/
+│   │   │   └── routes.ts                     # Route path constants
 │   │   ├── fixtures/
-│   │   │   └── fixtures.ts             # Playwright fixtures registration
-│   │   ├── utils/
-│   │   │   ├── dimension.ts            # Viewport and breakpoint constants
-│   │   │   ├── i18n.ts                 # Internationalization helper
-│   │   │   └── waits.ts                # Wait utilities
-│   │   └── base/
-│   │       └── BaseObject.ts           # Base class for Page/Component Objects
-│   └── student/
-│       ├── home/
-│       │   ├── StudentHomePage.ts      # PageObject with @Fixture decorator + step definitions
-│       │   └── componentsObjects/      # Component Objects for the page
-│       │       ├── SkillsWidget.ts
-│       │       ├── TracesWidget.ts
-│       │       ├── EventsWidget.ts
-│       │       └── ...
-│       ├── skills/
-│       │   └── componentObjects/
-│       │       └── SkillCard.ts        # Reusable component object
-│       ├── traces/
-│       │   └── componentObjects/
-│       │       └── TraceCard.ts        # Reusable component object
-│       └── ams/
-│           └── componentObjects/
-│               └── AmsCountIconText.ts # Shared component object
-├── .features-gen/                      # Auto-generated spec files (DO NOT EDIT)
-│   └── tests/
-│       └── student/
-│           ├── home.feature.spec.js
-│           └── home.mobile.feature.spec.js
-├── playwright.config.ts                # Playwright + BDD configuration
-├── global-setup.ts                     # Global setup (environment loading)
-├── global-teardown.ts                  # Global teardown
-├── package.json                        # E2E dependencies and scripts
-├── tsconfig.json                       # TypeScript configuration
-└── .env                                # Environment variables
+│   │   │   └── fixtures.ts                   # Playwright fixture registry (only)
+│   │   ├── hooks/
+│   │   │   └── dataset.hook.ts               # Dataset tag hooks
+│   │   ├── steps/                            # Shared BDD step fixtures
+│   │   ├── test-data/
+│   │   │   └── users.ts                      # User dataset definitions
+│   │   └── utils/                            # Shared utilities (i18n, waits, dimensions)
+│   └── {role}/                               # e.g. student/
+│       ├── shared/                           # Shared across all pages of that role
+│       │   ├── componentObjects/             # Role-shared component objects
+│       │   └── steps/                        # Role-shared BDD step fixtures
+│       └── {featureName}/                    # e.g. home/, lifeProject/trajectories/
+│           ├── {Role}{Page}Page.ts           # PageObject
+│           ├── types.ts                      # (optional) feature-specific types
+│           └── componentObjects/             # Page-specific component objects
+├── .features-gen/                            # Auto-generated spec files (DO NOT EDIT)
+├── playwright.config.ts
+├── global-setup.ts
+├── global-teardown.ts
+├── package.json
+├── tsconfig.json
+└── .env
 ```
 
-## Playwright-BDD Architecture
+---
 
-### Key Concepts
+## Architecture
 
-1. **PageObject with Decorators**: Each page has a class decorated with `@Fixture` that contains both locators and step definitions (`@Given`, `@When`, `@Then`).
+The framework is organized in **4 layers**, each with strict responsibilities:
 
-2. **ComponentObject**: Reusable UI components are encapsulated in separate classes without decorators. They are instantiated by PageObjects.
+```
+┌─────────────────────────────────────────────────────┐
+│  Feature files (.feature)                           │  Gherkin scenarios
+├─────────────────────────────────────────────────────┤
+│  PageObjects / Steps fixtures                       │  @Fixture + @Given/@When/@Then
+│  (StudentHomePage, StudentLayoutSteps, ...)         │
+├─────────────────────────────────────────────────────┤
+│  ComponentObjects                                   │  Locators + actions, NO decorators
+│  (StudentLayout, SkillsWidget, PageTitle, ...)      │
+├─────────────────────────────────────────────────────┤
+│  Base classes                                       │
+│  (BaseObject, BasePage)                             │
+└─────────────────────────────────────────────────────┘
+```
 
-3. **Fixtures**: PageObjects are registered as Playwright fixtures in `fixtures.ts` and automatically injected into tests.
+### Layer 1 — Base Classes
 
-4. **Generated Specs**: The `bddgen` command generates spec files from feature files. These are stored in `.features-gen/` and should NOT be edited manually.
+**`BaseObject`** — base for all ComponentObjects:
+```typescript
+export abstract class BaseObject {
+  protected constructor (protected readonly root: Locator, protected page?: Page) {}
 
-### PageObject Pattern (with Decorators)
+  getRoot () { return this.root }
+  async click () { await this.root.click() }
+  async isVisible () { await expect(this.root).toBeVisible() }
+}
+```
+
+**`BasePage`** — base for PageObjects, provides shared page-level steps:
+```typescript
+export abstract class BasePage {
+  protected constructor (public page: Page) {}
+
+  @Given('the page is displayed on mobile viewport')
+  async verifyMobileViewport () { ... }
+
+  @When('the user scrolls down through the page')
+  async scrollDown () { ... }
+
+  @Then('no horizontal scrolling is required')
+  async verifyNoHorizontalScroll () { ... }
+}
+```
+
+---
+
+### Layer 2 — ComponentObjects
+
+ComponentObjects encapsulate locators and actions for a **specific UI component**. They:
+- **Extend `BaseObject`**
+- Receive the component root element (or `Page`) in the constructor
+- Expose `get*()` locator methods and `verify*()` / action methods
+- **NEVER** use `@Given`, `@When`, `@Then` decorators
+- **NEVER** use `@Fixture` decorator
+
+**Pattern — component scoped by root `Locator`** (received from parent):
+```typescript
+// e2e/framework/student/user/componentObjects/ProfileCard.ts
+export class ProfileCard extends BaseObject {
+  constructor (root: Locator) {
+    super(root)
+  }
+
+  getProfileBanner () { return this.root.getByTestId('profile-banner') }
+  getProfilePicture () { return this.root.getByTestId('profile-picture') }
+  getStudentName () { return this.root.getByTestId('student-name') }
+
+  async verifyProfileBanner () {
+    await expect(this.getProfileBanner()).toBeVisible()
+  }
+}
+```
+
+**Pattern — component scoped by `Page`** (when component has a known `data-testid`):
+```typescript
+// e2e/framework/student/home/componentObjects/SkillsWidget.ts
+export class SkillsWidget extends BaseObject {
+  constructor (protected page: Page) {
+    super(page.getByTestId('student-skills-widget'), page)
+  }
+
+  getCards () { return this.root.getByTestId('skill-card') }
+  getCard (index: number) { return new SkillCard(this.getCards().nth(index)) }
+
+  async verifyVisible () { await this.isVisible() }
+}
+```
+
+**Pattern — layout component scoped by semantic element**:
+```typescript
+// e2e/framework/student/shared/componentObjects/StudentLayout.ts
+export class StudentLayout extends BaseObject {
+  constructor (protected page: Page) {
+    super(page.locator('header'), page)
+  }
+
+  getMainNavigation () { return this.root.getByTestId('main-navigation').locator('nav') }
+  getMailboxButton () { return this.root.getByTestId('mailbox-button').getByRole('button') }
+}
+```
+
+---
+
+### Layer 3 — Steps Fixtures and PageObjects
+
+Both use `@Fixture` and step decorators. The distinction is **scope**:
+
+| Type | Scope | Location |
+|------|-------|----------|
+| **Steps fixture** | Shared across pages (global layout, page title component) | `shared/steps/` or `{role}/shared/steps/` |
+| **PageObject** | Single page | `{role}/{feature}/` |
+
+#### Steps Fixture
+
+For UI components that appear **identically on multiple pages** (same locators, same behavior). Steps are written once and reused everywhere the component appears.
 
 ```typescript
-import { test } from '@e2e/framework/shared/fixtures/fixtures'
-import { expect, type Page } from '@playwright/test'
-import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
-
+// e2e/framework/shared/steps/PageTitleSteps.ts
 export
-@Fixture<typeof test>('studentHomePage')
-class StudentHomePage {
+@Fixture<typeof test>('pageTitleSteps')
+class PageTitleSteps {
   constructor (public page: Page) {}
 
-  getSkillsWidget () {
-    return new SkillsWidget(this.page)
+  getPageTitle () {
+    return new PageTitle(this.page.getByTestId('page-title'))
   }
 
-  // Step definitions with decorators
-  @Given('the student opens the home page')
-  async goto () {
-    await this.page.goto('/cofolio/student')
+  private getCurrentPageConfig () {
+    const url = this.page.url()
+    const configs = {
+      [STUDENT_ROUTES.PROJECT.ACTIVITIES]: {
+        title: t('student.buildProject.views.projectActivitiesView.title'),
+        breadcrumbItems: [ ... ]
+      },
+      [STUDENT_ROUTES.PROJECT.TRAJECTORIES]: {
+        title: t('student.global.views.studentProjectTrajectoriesView.title'),
+        breadcrumbItems: [ ... ]
+      }
+    }
+    const entry = Object.entries(configs).find(([route]) => url.includes(route))
+    if (!entry) throw new Error(`No config for URL: ${url}`)
+    return entry[1]
   }
 
-  @Then('the student home page is displayed')
-  async verifyPageLoaded () {
-    await expect(this.page).toHaveURL(/\/cofolio\/student/)
+  @Given('the page title is visible')
+  async verifyPageTitleVisible () { await this.getPageTitle().verifyVisible() }
+
+  @Then('the page title is correct')
+  async verifyPageTitleCorrect () {
+    await this.getPageTitle().verifyTitle(this.getCurrentPageConfig().title)
   }
 
-  @When('the student clicks see all skills button')
-  async clickSeeAllSkillsButton () {
-    await this.getSkillsWidget().clickSeeAllButton()
-  }
-}
-```
-
-### ComponentObject Pattern (without Decorators)
-
-```typescript
-import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Locator } from '@playwright/test'
-
-export class SkillsWidget {
-  constructor (private page: Page) {}
-
-  getContainer () {
-    return this.page.getByTestId('skills-widget')
-  }
-
-  getSeeAllButton () {
-    return this.getContainer().getByTestId('see-all-skills-btn')
-  }
-
-  async verifyVisible () {
-    await expect(this.getContainer()).toBeVisible()
-  }
-
-  async clickSeeAllButton () {
-    await this.getSeeAllButton().click()
+  @Then('the breadcrumb is correct')
+  async verifyBreadcrumbCorrect () {
+    await this.getPageTitle().verifyBreadcrumbItems(this.getCurrentPageConfig().breadcrumbItems)
   }
 }
 ```
 
-### Shared/Reusable ComponentObjects
-
-For components used across multiple pages (e.g., AmsCountIconText):
-
+Steps fixtures backed by a ComponentObject delegate all locator logic to it:
 ```typescript
-// e2e/framework/student/ams/componentObjects/AmsCountIconText.ts
-import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Locator } from '@playwright/test'
-
-export class AmsCountIconText {
-  private element: Locator
-
-  constructor (parent: Locator) {
-    this.element = parent.getByTestId('count-ams-icon-text')
-  }
-
-  async verify () {
-    await expect(this.element).toBeVisible()
-    const text = await this.element.textContent()
-    // Validate using i18n
-  }
-}
-```
-
-Usage in other ComponentObjects:
-```typescript
-import { AmsCountIconText } from '@e2e/framework/student/ams/componentObjects/AmsCountIconText'
-
-export class SkillCard {
-  constructor (private root: Locator) {}
-
-  getAmsCountIconText () {
-    return new AmsCountIconText(this.root)
-  }
-
-  async verifyAmsCount () {
-    await this.getAmsCountIconText().verify()
-  }
-}
-```
-
-## Fixture Patterns
-
-### When to Create a Fixture
-
-Use this decision tree to determine if a component should be a fixture:
-
-```
-Is the component a business workflow or stateful action?
-(login, form submission, data setup)
-│
-├─► YES → Does it have a UNIQUE locator across all pages?
-│         │
-│         ├─► YES → Create as STANDALONE FIXTURE
-│         │         (e.g., UpdateProfileDrawer with same test-id everywhere)
-│         │
-│         └─► NO  → Use INHERITANCE PATTERN
-│                   (e.g., SkillForm used in AddSkillDrawer and EditSkillPage)
-│
-└─► NO (simple visual component like badge, counter, card)
-    │
-    └─► Create as COMPONENT OBJECT (no fixture)
-        Use composition pattern
-```
-
-### Pattern 1: Standalone Fixture (Unique Locator)
-
-When a component has the **same `data-testid`** on all pages, create it as a standalone fixture.
-
-**Example: UpdateProfileDrawer**
-
-The drawer has the same locator `data-testid="update-profile-drawer"` whether opened from HomePage or ProfilePage.
-
-```typescript
-// e2e/framework/student/profile/componentObjects/UpdateProfileDrawer.ts
-import { Fixture, When, Then } from 'playwright-bdd/decorators'
-import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-import type { Page } from '@playwright/test'
-import { expect } from '@playwright/test'
-
+// e2e/framework/student/shared/steps/StudentLayoutSteps.ts
 export
-@Fixture<typeof test>('updateProfileDrawer')
-class UpdateProfileDrawer {
-  readonly root
+@Fixture<typeof test>('studentLayoutSteps')
+class StudentLayoutSteps {
+  private layout: StudentLayout
 
-  constructor(public page: Page) {
-    this.root = page.getByTestId('update-profile-drawer')
+  constructor (public page: Page) {
+    this.layout = new StudentLayout(page)
   }
 
-  getNameInput() {
-    return this.root.getByTestId('profile-name-input')
+  @Then('the main navigation menu is visible')
+  async verifyMainNavigationMenu () {
+    await expect(this.layout.getMainNavigation()).toBeVisible()
   }
 
-  getSubmitButton() {
-    return this.root.getByTestId('profile-submit-btn')
-  }
-
-  @When('the student fills the profile name with {string}')
-  async fillName(name: string) {
-    await this.getNameInput().fill(name)
-  }
-
-  @When('the student submits the profile form')
-  async submit() {
-    await this.getSubmitButton().click()
-  }
-
-  @Then('the update profile drawer is visible')
-  async isVisible() {
-    await expect(this.root).toBeVisible()
-  }
-
-  @Then('the update profile drawer is closed')
-  async isClosed() {
-    await expect(this.root).not.toBeVisible()
+  @When('the user clicks on the BUILDING MY LIFE PROJECT menu')
+  async openBuildingLifeProjectSubmenu () {
+    await this.layout.getBuildingLifeProjectButton().click()
   }
 }
 ```
 
-Register in fixtures:
-```typescript
-// e2e/framework/shared/fixtures/fixtures.ts
-import { UpdateProfileDrawer } from '@e2e/framework/student/profile/componentObjects/UpdateProfileDrawer'
+#### PageObject
 
-interface Fixtures {
-  studentHomePage: StudentHomePage
-  updateProfileDrawer: UpdateProfileDrawer
-}
-
-export const test = base.extend<Fixtures>({
-  studentHomePage: async ({ page }, use) => {
-    await setLocaleFromPage(page)
-    await use(new StudentHomePage(page))
-  },
-
-  updateProfileDrawer: async ({ page }, use) => {
-    await setLocaleFromPage(page)
-    await use(new UpdateProfileDrawer(page))
-  }
-})
-```
-
-Feature file uses steps from both fixtures:
-```gherkin
-Feature: Update Profile
-
-  Scenario: Student updates profile from home
-    Given the student opens the home page
-    When the student clicks the edit profile button
-    Then the update profile drawer is visible
-    When the student fills the profile name with "John"
-    And the student submits the profile form
-    Then the update profile drawer is closed
-    And the profile is successfully updated
-```
-
-### Pattern 2: Inheritance (Shared Logic, Different Locators)
-
-When the **same form/logic** is used across pages but with **different locators**, use inheritance.
-
-**Example: SkillForm in AddSkillDrawer and EditSkillPage**
-
-- `AddSkillDrawer`: Form is inside a drawer with locator `data-testid="add-skill-drawer"`
-- `EditSkillPage`: Same form fields but on a page with locator `data-testid="edit-skill-form"`
+For steps **specific to a single page**. Composes ComponentObjects for locator access:
 
 ```typescript
-// e2e/framework/shared/base/BasePageWithSkillForm.ts
-import { When, Then } from 'playwright-bdd/decorators'
-import type { Locator, Page } from '@playwright/test'
-import { expect } from '@playwright/test'
-
-export abstract class BasePageWithSkillForm {
-  constructor(public page: Page) {}
-
-  abstract getSkillFormRoot(): Locator
-
-  getSkillNameInput() {
-    return this.getSkillFormRoot().getByTestId('skill-name-input')
-  }
-
-  getSkillDescriptionInput() {
-    return this.getSkillFormRoot().getByTestId('skill-description-input')
-  }
-
-  getSkillLevelSelect() {
-    return this.getSkillFormRoot().getByTestId('skill-level-select')
-  }
-
-  getSubmitButton() {
-    return this.getSkillFormRoot().getByTestId('skill-submit-btn')
-  }
-
-  @When('the student fills the skill name with {string}')
-  async fillSkillName(name: string) {
-    await this.getSkillNameInput().fill(name)
-  }
-
-  @When('the student fills the skill description with {string}')
-  async fillSkillDescription(description: string) {
-    await this.getSkillDescriptionInput().fill(description)
-  }
-
-  @When('the student selects skill level {string}')
-  async selectSkillLevel(level: string) {
-    await this.getSkillLevelSelect().selectOption(level)
-  }
-
-  @When('the student submits the skill form')
-  async submitSkillForm() {
-    await this.getSubmitButton().click()
-  }
-
-  @Then('the skill form shows validation error {string}')
-  async verifyValidationError(errorMessage: string) {
-    await expect(this.getSkillFormRoot().getByText(errorMessage)).toBeVisible()
-  }
-}
-```
-
-Pages extend the base class and provide their specific locator:
-
-```typescript
-// e2e/framework/student/skills/StudentAddSkillPage.ts
-import { Fixture, Given, Then } from 'playwright-bdd/decorators'
-import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-import type { Locator, Page } from '@playwright/test'
-import { expect } from '@playwright/test'
-import { BasePageWithSkillForm } from '@e2e/framework/shared/base/BasePageWithSkillForm'
-
+// e2e/framework/student/home/StudentHomePage.ts
 export
-@Fixture<typeof test>('studentAddSkillPage')
-class StudentAddSkillPage extends BasePageWithSkillForm {
-  constructor(page: Page) {
+@Fixture<typeof test>('studentHomePage')
+class StudentHomePage extends BasePage {
+  constructor (public page: Page) {
     super(page)
   }
 
-  getSkillFormRoot(): Locator {
-    return this.page.getByTestId('add-skill-drawer')
+  getSkillsWidget () { return new SkillsWidget(this.page) }
+
+  @Then('the educational skills widget is visible')
+  async verifyEducationalSkillsWidgetVisible () {
+    await this.getSkillsWidget().verifyVisible()
   }
 
-  getAddSkillButton() {
-    return this.page.getByTestId('add-skill-btn')
-  }
-
-  @Given('the student opens the add skill drawer')
-  async openAddSkillDrawer() {
-    await this.getAddSkillButton().click()
-  }
-
-  @Then('the add skill drawer is visible')
-  async verifyDrawerVisible() {
-    await expect(this.getSkillFormRoot()).toBeVisible()
-  }
-
-  // Inherited from BasePageWithSkillForm:
-  // - fillSkillName, fillSkillDescription, selectSkillLevel
-  // - submitSkillForm, verifyValidationError
-}
-```
-
-```typescript
-// e2e/framework/student/skills/StudentEditSkillPage.ts
-import { Fixture, Given, Then } from 'playwright-bdd/decorators'
-import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-import type { Locator, Page } from '@playwright/test'
-import { expect } from '@playwright/test'
-import { BasePageWithSkillForm } from '@e2e/framework/shared/base/BasePageWithSkillForm'
-
-export
-@Fixture<typeof test>('studentEditSkillPage')
-class StudentEditSkillPage extends BasePageWithSkillForm {
-  constructor(page: Page) {
-    super(page)
-  }
-
-  getSkillFormRoot(): Locator {
-    return this.page.getByTestId('edit-skill-form')
-  }
-
-  @Given('the student opens the edit skill page for skill {string}')
-  async openEditSkillPage(skillId: string) {
-    await this.page.goto(`/cofolio/student/skills/${skillId}/edit`)
-  }
-
-  @Then('the edit skill page is displayed')
-  async verifyPageDisplayed() {
-    await expect(this.getSkillFormRoot()).toBeVisible()
-  }
-
-  // Inherited from BasePageWithSkillForm:
-  // - fillSkillName, fillSkillDescription, selectSkillLevel
-  // - submitSkillForm, verifyValidationError
-}
-```
-
-Feature files - same steps, different pages:
-```gherkin
-# add-skill.feature
-Feature: Add Skill
-
-  Scenario: Student adds a new skill
-    Given the student opens the home page
-    When the student opens the add skill drawer
-    Then the add skill drawer is visible
-    When the student fills the skill name with "TypeScript"
-    And the student fills the skill description with "Programming language"
-    And the student selects skill level "Intermediate"
-    And the student submits the skill form
-    Then the skill is successfully added
-
-# edit-skill.feature
-Feature: Edit Skill
-
-  Scenario: Student edits an existing skill
-    Given the student opens the edit skill page for skill "123"
-    Then the edit skill page is displayed
-    When the student fills the skill name with "TypeScript Advanced"
-    And the student fills the skill description with "Updated description"
-    And the student submits the skill form
-    Then the skill is successfully updated
-```
-
-### Pattern 3: Composition (Simple Components)
-
-For simple visual components without business logic, use composition without fixtures.
-
-**Example: AmsCountIconText, SkillCard, StatusBadge**
-
-These components:
-- Are simple UI elements
-- Have no business workflow
-- Could exist in Storybook without backend
-- Take a parent locator in constructor
-
-```typescript
-// ComponentObject - NOT a fixture
-export class AmsCountIconText {
-  constructor(private root: Locator) {}
-
-  async verify() {
-    await expect(this.root).toBeVisible()
-  }
-}
-
-// Used via composition in PageObject or other ComponentObject
-export class SkillCard {
-  constructor(private root: Locator) {}
-
-  getAmsCountIconText() {
-    return new AmsCountIconText(this.root.getByTestId('count-ams-icon-text'))
-  }
-
-  async verifyAmsCount() {
-    await this.getAmsCountIconText().verify()
+  @Then('skill cards are displayed')
+  async verifySkillCards () {
+    await this.getSkillsWidget().verifyCardsDisplayed()
   }
 }
 ```
 
-### Summary Table
+---
 
-| Pattern | When to Use | Example |
-|---------|-------------|---------|
-| **Standalone Fixture** | Same locator everywhere, business workflow | `UpdateProfileDrawer`, `LoginPage`, `ConfirmationModal` |
-| **Inheritance** | Same form/logic, different locators per page | `SkillForm` in drawer vs page, `TraceForm` add vs edit |
-| **Composition** | Simple visual component, no business logic | `AmsCountIconText`, `SkillCard`, `StatusBadge` |
+### Layer 4 — Fixture Registry (`fixtures.ts`)
 
-### Fixtures Registration
-
-All PageObjects must be registered in `fixtures.ts`:
+**`fixtures.ts` is the only file that wires everything together.** It only imports and registers; it contains no step definitions or locators.
 
 ```typescript
 // e2e/framework/shared/fixtures/fixtures.ts
-import { setLocaleFromPage } from '@e2e/framework/shared/utils/i18n'
+import { PageTitleSteps } from '@e2e/framework/shared/steps/PageTitleSteps'
+import { StudentLayoutSteps } from '@e2e/framework/student/shared/steps/StudentLayoutSteps'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
-import { test as base } from 'playwright-bdd'
 
 interface Fixtures {
+  pageTitleSteps: PageTitleSteps
+  studentLayoutSteps: StudentLayoutSteps
   studentHomePage: StudentHomePage
 }
 
 export const test = base.extend<Fixtures>({
+  pageTitleSteps: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new PageTitleSteps(page))
+  },
+  studentLayoutSteps: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentLayoutSteps(page))
+  },
   studentHomePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentHomePage(page))
   }
 })
 ```
+
+---
+
+## Decision Guide
+
+### Does this ComponentObject need a Steps fixture?
+
+Not every ComponentObject needs its own Steps fixture. The question is whether the component has **behavior that Gherkin scenarios need to verify directly**.
+
+**`ProfileCard` — ComponentObject only, no Steps fixture**
+
+`ProfileCard` is a pure display card: it shows data (banner, picture, name, bio) with no user interaction and no functional rules to verify beyond visibility. Its `verify*()` methods are called directly by the PageObject that owns it.
+
+```typescript
+// StudentProjectTrajectoriesPage.ts — PageObject uses ProfileCard directly
+getProfileCard () { return new ProfileCard(this.page.getByTestId('profile-card')) }
+
+@Then('the profile card is visible')
+async verifyProfileCardVisible () {
+  await this.getProfileCard().verifyCardContent()
+}
+```
+
+There is no `ProfileCardSteps` fixture because: it appears in one place, has no clicks or interactions, and carries no functional rules of its own.
+
+**`PageTitle` — ComponentObject + Steps fixture (`PageTitleSteps`)**
+
+`PageTitle` is interactive (back button, expandable breadcrumb) and appears on every content page with page-specific title and breadcrumb items. These rules need to be verified in Gherkin, and they are the same steps regardless of which page they run on.
+
+```typescript
+// PageTitleSteps.ts — wraps PageTitle, resolves page-specific data at runtime
+@Given('the page title is visible')
+async verifyPageTitleVisible () { await this.getPageTitle().verifyVisible() }
+
+@Then('the page title is correct')
+async verifyPageTitleCorrect () {
+  await this.getPageTitle().verifyTitle(this.getCurrentPageConfig().title)
+}
+
+@Then('the breadcrumb is correct')
+async verifyBreadcrumbCorrect () {
+  await this.getPageTitle().verifyBreadcrumbItems(this.getCurrentPageConfig().breadcrumbItems)
+}
+
+@When('the user clicks the back button')
+async clickBackButton () { await this.getPageTitle().clickBackButton() }
+```
+
+A Steps fixture is needed when: the component appears on multiple pages, has user interactions (`click*`), or carries functional rules (correct title, correct breadcrumb structure) that belong in Gherkin scenarios.
+
+**Decision summary:**
+
+```
+Does the component have interactions (clicks) or functional rules
+that need to appear as Gherkin steps?
+│
+├─► YES → Create a Steps fixture wrapping the ComponentObject
+│         Examples: PageTitleSteps, StudentLayoutSteps
+│
+└─► NO  → Use the ComponentObject directly from the PageObject
+          Examples: ProfileCard, SkillCard, TraceCard
+```
+
+---
+
+### Should this be a Steps fixture or a PageObject?
+
+```
+Is this component visible across multiple pages with the same locators?
+│
+├─► YES → Steps fixture in shared/steps/ or {role}/shared/steps/
+│         Examples: PageTitleSteps (PageTitle component)
+│                   StudentLayoutSteps (StudentLayout header)
+│
+└─► NO  → PageObject (specific to one page)
+          Examples: StudentHomePage, StudentProjectActivitiesPage
+```
+
+### Should this be a ComponentObject or inline in a Steps/PageObject?
+
+```
+Does this UI element have its own locators and verification logic?
+│
+├─► YES → ComponentObject (extends BaseObject, no decorators)
+│         Examples: SkillsWidget, ProfileCard, StudentLayout, PageTitle
+│
+└─► NO  → Inline locator in the Steps/PageObject that uses it
+```
+
+### Where does the ComponentObject go?
+
+```
+Is it used by a single page only?
+│
+├─► YES → {role}/{feature}/componentObjects/
+│         Example: SideNavigation in student/lifeProject/trajectories/componentObjects/
+│
+└─► NO  → Is it student-specific?
+           │
+           ├─► YES → student/shared/componentObjects/
+           │         Example: StudentLayout
+           │
+           └─► NO  → shared/componentObjects/
+                      Example: PageTitle
+```
+
+---
 
 ## Feature Files (Gherkin)
 
-### Desktop Feature File
+### Structure
 
 ```gherkin
-@home
-Feature: Student Home Page
+@feature-tag
+Feature: Page Name
 
   Background:
     Given the student opens the home page
 
-  Rule: Page Load and Basic Display
+  Rule: Section Name
 
-    @high
-    Scenario: Student can load home page successfully
-      Then the student home page is displayed
-      And the page URL contains "/cofolio/student"
-      And the page title is "Cofolio"
+    Background:
+      Given some shared precondition for this rule
 
-  Rule: Skills Widget
-
-    @high @skills
-    Scenario: Skills widget displays when courses with skills exist
-      Given the educational skills widget is visible
-      Then skill cards are displayed
-      And each skill card shows status badge
+    @high @tag
+    Scenario: Description
+      When the user does something
+      Then the expected outcome is visible
 ```
 
-### Mobile Feature File
+### Desktop vs Mobile
 
-Mobile-specific tests go in a separate `.mobile.feature` file:
+- Desktop tests: `{featureName}.feature`
+- Mobile tests: `{featureName}.mobile.feature` with `@mobile` tag
+
+Mobile feature files add the `@mobile` tag and use `Given the page is displayed on mobile viewport` (from `BasePage`):
 
 ```gherkin
-@home @mobile
-Feature: Student Home Page (Mobile)
+@feature-tag @mobile
+Feature: Page Name
 
   Background:
     Given the student opens the home page
-    And the page is displayed on mobile viewport
 
-  Rule: Navigation
+  Rule: Responsive Behavior
 
-    @high @navigation
-    Scenario: Mobile menu is accessible
+    Background:
+      Given the page is displayed on mobile viewport
+
+    @medium @responsive
+    Scenario: Mobile layout is correct
       Then the mobile menu button is visible
-      When the student clicks mobile menu button
-      Then the navigation drawer opens
 ```
-
-### Naming Conventions
-
-- Desktop: `{featureName}.feature`
-- Mobile: `{featureName}.mobile.feature`
-
-## Gherkin Syntax Rules
-
-### Keywords Order and Combinations
-
-Understanding the proper order and usage of Gherkin keywords is essential for writing clear and maintainable feature files.
-
-#### The Four Keywords
-
-| Keyword | Purpose | Type |
-|---------|---------|------|
-| `Given` | Setup/preconditions - describes the initial context | Primary |
-| `When` | Action/event - describes what the user does | Primary |
-| `Then` | Expected outcome - describes what should happen | Primary |
-| `And` | Continuation - inherits the type of the previous primary keyword | Secondary |
-
-#### Valid Keyword Sequences
-
-Primary Keywords can appear in any order, but follow these patterns:
-
-```gherkin
-# Pattern 1: Full Given-When-Then (most common)
-Given [context/setup]
-When [action]
-Then [expected outcome]
-
-# Pattern 2: Given-Then (state verification without action)
-Given [context/setup]
-Then [expected outcome]
-
-# Pattern 3: When-Then (action without specific setup)
-When [action]
-Then [expected outcome]
-
-# Pattern 4: Just Then (verification after Background)
-Then [expected outcome]
-```
-
-#### `And` Inheritance Rules
-
-`And` always inherits the type of the last primary keyword (`Given`, `When`, or `Then`):
-
-```gherkin
-# And inherits from Given
-Given the student is logged in
-And the student has a profile        # Acts as Given
-And the student has skills           # Acts as Given
-
-# And inherits from When
-When the student clicks the button
-And the student fills the form       # Acts as When
-And the student submits              # Acts as When
-
-# And inherits from Then
-Then the page is displayed
-And the title is visible             # Acts as Then
-And the URL contains "/home"         # Acts as Then
-
-# Mixing: And changes meaning based on last primary keyword
-Given the student is on the home page
-And the page is loaded               # Acts as Given
-When the student clicks edit
-And the student fills the name       # Acts as When (inherited from When)
-Then the drawer is visible
-And the form is displayed            # Acts as Then (inherited from Then)
-```
-
-#### Valid Transitions
-
-| From | Can be followed by | Example |
-|------|-------------------|---------|
-| `Given` | `And`, `When`, `Then` | `Given user logged in` → `And has profile` |
-| `When` | `And`, `Then` | `When user clicks` → `And fills form` |
-| `Then` | `And`, `When` | `Then page visible` → `When user clicks` |
-| `And` | `And`, `When`, `Then` | `And profile exists` → `When user clicks` |
-
-#### Common Patterns and Use Cases
-
-**1. Background + Scenario starting with Then**
-```gherkin
-Background:
-  Given the student opens the home page
-  And the page is fully loaded
-
-Scenario: Page displays correctly
-  Then the student home page is displayed
-  And the page title is "Cofolio"
-```
-**Why valid:** The `Background` already contains the setup/action (navigation). The scenario just verifies the result.
 
 ---
 
-**2. Multiple Givens (setup)**
-```gherkin
-Scenario: Student with complete profile
-  Given the student is logged in
-  And the student has a profile picture
-  And the student has a bio
-  When the student opens the home page
-  Then the profile section is complete
-```
-**Use case:** Building complex initial state with multiple preconditions.
+## Gherkin Keywords
+
+| Keyword | Purpose |
+|---------|---------|
+| `Given` | Setup/preconditions |
+| `When` | User action |
+| `Then` | Expected outcome |
+| `And` | Continuation (inherits previous keyword type) |
+
+`And` always inherits the meaning of the last primary keyword (`Given`, `When`, or `Then`).
 
 ---
 
-**3. Multiple Whens (sequential actions)**
-```gherkin
-Scenario: Student fills a form
-  Given the add skill drawer is open
-  When the student fills the skill name with "TypeScript"
-  And the student fills the description with "Programming"
-  And the student selects level "Advanced"
-  And the student submits the form
-  Then the skill is created
-```
-**Use case:** Multi-step user workflow or form filling.
+## Naming Conventions
+
+### Files
+
+| Type | Naming | Example |
+|------|--------|---------|
+| PageObject | `{Role}{Page}Page.ts` | `StudentHomePage.ts` |
+| Steps fixture | `{Component}Steps.ts` | `StudentLayoutSteps.ts`, `PageTitleSteps.ts` |
+| ComponentObject | `{ComponentName}.ts` | `SkillsWidget.ts`, `ProfileCard.ts` |
+| Feature (desktop) | `{feature}.feature` | `trajectories.feature` |
+| Feature (mobile) | `{feature}.mobile.feature` | `trajectories.mobile.feature` |
+
+### Methods
+
+| Type | Prefix | Returns | Example |
+|------|--------|---------|---------|
+| Element getter | `get` | `Locator` | `getTitle()`, `getMailboxButton()` |
+| ComponentObject getter | `get` | ComponentObject instance | `getSkillsWidget()`, `getProfileCard()` |
+| Verification | `verify` | `Promise<void>` | `verifyVisible()`, `verifyBreadcrumb()` |
+| Action | `click`, `fill`, `select` | `Promise<void>` | `clickSeeAllButton()` |
 
 ---
 
-**4. Multiple Thens (multiple verifications)**
-```gherkin
-Scenario: Widget displays all elements
-  Given the skills widget is visible
-  Then the widget title is displayed
-  And the skill cards are visible
-  And each card shows a status badge
-  And the see all button is present
-```
-**Use case:** Verifying multiple aspects of the result.
+## Tags
+
+| Tag | Purpose |
+|-----|---------|
+| `@high` | Critical functionality |
+| `@medium` | Important but not critical |
+| `@mobile` | Mobile-specific scenarios |
+| `@responsive` | Responsive behavior tests |
+| `@page-title` | Page title component tests |
+| `@skip-review` | Skipped when `REVIEW_MODE=true` |
+| `@dataset-full` | Requires a fully populated account — see [Datasets](#datasets) |
+| `@dataset-nominal` | Requires a nominal account — see [Datasets](#datasets) |
+| `@dataset-empty` | Requires an empty account — see [Datasets](#datasets) |
+| `@{feature-name}` | Feature categorization (e.g., `@self-knowledge`) |
 
 ---
 
-**5. Then-When-Then (verification, action, verification)**
-```gherkin
-Scenario: Mobile menu interaction
-  Given the student opens the home page on mobile
-  Then the mobile menu button is visible
-  When the student clicks the mobile menu button
-  Then the navigation drawer opens
-  And the menu items are displayed
-```
-**Use case:** Verify initial state before action, then verify result after action.
+## Datasets
 
-#### Invalid Patterns
+Some scenarios require specific backend data to be present. The dataset mechanism controls **which user token is injected** per scenario, pointing the test at a backend account that has the right data.
 
-**Don't mix verification (Then) before action (When) in the same logical flow:**
-```gherkin
-# WRONG - Then before When in same flow creates confusion
-Scenario: Bad order
-  Given the student opens the drawer
-  Then the drawer is visible          # Verification
-  When the student fills the name     # Action after verification - confusing
-  Then the form is submitted
-```
+### How it works
 
-**Better - separate or use Given for state:**
-```gherkin
-# BETTER - Clear flow
-Scenario: Good order
-  Given the student opens the drawer
-  And the drawer is visible           # Use And (acts as Given) for state verification
-  When the student fills the name
-  And the student submits the form
-  Then the skill is created
-```
-
-#### Summary of Best Practices
-
-1. **Use `Given` for context/setup** - things that exist before the test action
-2. **Use `When` for user actions** - clicks, typing, navigation
-3. **Use `Then` for expected outcomes** - verifications after actions
-4. **Use `And` to continue** - it inherits the meaning of the previous primary keyword
-5. **Background can contain any keywords** - typically `Given` and `And` for common setup
-6. **Scenarios can start with any primary keyword** - `Given`, `When`, or `Then` depending on what the Background provides
-7. **Maintain logical flow** - Setup → Action → Verification is the clearest pattern
-
-## Project Configuration
-
-### Playwright Configuration
+A `BeforeScenario` hook in `dataset.hook.ts` intercepts all requests to `**/apim/**` before the scenario runs and replaces the `Authorization` header with the token associated with the dataset tag:
 
 ```typescript
-// playwright.config.ts
-const testDir = defineBddConfig({
-  features: 'tests/**/*.feature',
-  steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts']
+// e2e/framework/shared/hooks/dataset.hook.ts
+BeforeScenario({ tags: DatasetType.NOMINAL }, async ({ page }) => {
+  await page.route('**/apim/**', async (route) => {
+    const headers = { ...route.request().headers(), Authorization: `Bearer ${token}` }
+    await route.continue({ headers })
+  })
 })
 ```
 
-**Browser Projects:**
-- `chromium`, `firefox`, `webkit` - Desktop (ignores `*.mobile.feature.spec.js`)
-- `mobile-chrome`, `mobile-safari` - Mobile (only runs `*.mobile.feature.spec.js`)
+The hook only intercepts when `shouldIntercept: true` — `@dataset-full` does **not** intercept because it uses the default token from the application configuration.
 
-**Key Settings:**
-- Base URL: `http://localhost:4173/cofolio/`
-- Locale: `fr-FR`
-- Timezone: `Europe/Paris`
-- Desktop viewport: 1920x1080
-- Trace/Screenshots: Retained on failure only
+### Dataset tags
 
-### Environment Variables
+| Tag | Description | Token source | Intercepts |
+|-----|-------------|--------------|------------|
+| `@dataset-full` | Account with all data populated (skills, traces, events, …) | App default (`VITE_AVENIR_ESR_ACCESS_TOKEN`) | No |
+| `@dataset-nominal` | Account with a representative but not exhaustive dataset | `NOMINAL_DATASET_ACCESS_TOKEN` env var | Yes |
+| `@dataset-empty` | Account with empty datasets — used to test empty states | `EMPTY_DATASET_ACCESS_TOKEN` env var | Yes |
 
-```env
-VITE_API_URL=http://localhost:4173/cofolio/
-REVIEW_MODE=false
+### Configuration
+
+Add the token values in `e2e/.env` (copy from `e2e/.env.example`):
+
+```bash
+NOMINAL_DATASET_ACCESS_TOKEN=<token-for-nominal-account>
+EMPTY_DATASET_ACCESS_TOKEN=<token-for-empty-account>
 ```
+
+`@dataset-full` does not require a dedicated token — the application default token is used.
+
+### Usage in feature files
+
+Tag the scenario (not the feature) with the appropriate dataset tag:
+
+```gherkin
+@high @skills @dataset-full
+Scenario: Skills widget displays 6 skills
+  Then the skills widget shows 6 skills
+
+@high @traces @dataset-full
+Scenario: Traces widget displays 3 traces
+  Then 3 trace cards are displayed
+```
+
+Scenarios without a dataset tag run with whatever token the application is configured with. Only tag a scenario when it **requires a specific data state** to be meaningful.
+
+---
+
+## Internationalization (i18n)
+
+Always use `t()` for text assertions — never hardcode strings:
+
+```typescript
+import { t } from '@e2e/framework/shared/utils/i18n'
+
+await expect(this.getTitle()).toHaveText(t('student.global.widgets.skills.title'))
+```
+
+The locale is initialized per fixture via `setLocaleFromPage(page)` in `fixtures.ts`.
+
+---
 
 ## Running Tests
 
-### Generate and Run
-
 ```bash
-# Generate spec files from feature files
+# Must be run from the e2e/ directory
+cd e2e
+
+# Generate spec files from feature files (required after any .feature change)
 npx bddgen
 
 # Run all tests
@@ -787,168 +591,67 @@ npm run e2e -- --project=chromium
 # Run mobile tests only
 npm run e2e -- --project=mobile-chrome
 
-# Run specific tag
-npm run e2e -- --grep "@skills"
+# Run by tag
+npm run e2e -- --grep "@self-knowledge"
 
-# Run in UI mode
+# UI mode
 npm run e2e:ui
 
 # Show report
 npm run e2e:report
 ```
 
-### npm Scripts
+> **Important**: `npx bddgen` must be run from the `e2e/` directory, not the project root.
 
-```json
-{
-  "e2e": "npx bddgen && playwright test",
-  "e2e:ui": "npx bddgen && playwright test --ui",
-  "e2e:report": "playwright show-report"
-}
-```
+---
 
-## Internationalization (i18n)
-
-### i18n Utility
+## Playwright Configuration
 
 ```typescript
-import { setLocaleFromPage, t } from '@e2e/framework/shared/utils/i18n'
-
-// In fixture setup
-await setLocaleFromPage(page)
-
-// In step definitions
-async verifyWidgetTitle () {
-  await expect(this.widgetTitle).toHaveText(t('student.global.widgets.skills.title'))
-}
+// playwright.config.ts
+const testDir = defineBddConfig({
+  features: 'tests/**/*.feature',
+  steps: [
+    'framework/**/*Page.ts',
+    'framework/**/*Steps.ts',
+    'framework/shared/fixtures/fixtures.ts'
+  ]
+})
 ```
 
-### Pluralization Validation
+**Browser projects:**
+- `chromium`, `firefox`, `webkit` — Desktop (skips `*.mobile.feature.spec.js`)
+- `mobile-chrome`, `mobile-safari` — Mobile (only runs `*.mobile.feature.spec.js`)
 
-```typescript
-async verifySkillCount () {
-  const text = await this.skillCount.textContent()
-  const match = text?.trim().match(/^(\d+)\s+/)
-  const count = Number.parseInt(match![1])
-  const expectedText = t('student.skills.count', { count })
-  expect(text?.trim()).toEqual(expectedText)
-}
-```
+**Key settings:**
+- Base URL: `http://localhost:4173/cofolio/`
+- Locale: `fr-FR`
+- Timezone: `Europe/Paris`
+- Desktop viewport: 1920×1080
 
-## Viewports and Breakpoints
-
-```typescript
-// e2e/framework/shared/utils/dimension.ts
-export const AV_BREAKPOINTS = {
-  sm: 576,
-  md: 768,
-  lg: 1024,
-  xl: 1440
-} as const
-
-export const MOBILE_VIEWPORT = { width: 576, height: 851 }
-export const DESKTOP_VIEWPORT = { width: 1920, height: 900 }
-```
-
-## Tags
-
-| Tag | Purpose |
-|-----|---------|
-| `@high` | Critical functionality |
-| `@medium` | Important but not critical |
-| `@low` | Nice-to-have tests |
-| `@mobile` | Mobile-specific scenarios |
-| `@skip-review` | Skipped when `REVIEW_MODE=true` |
-| `@feature-name` | Feature categorization |
-
-## Best Practices
-
-1. **One PageObject per page**: Each page gets a class with `@Fixture` decorator
-2. **Reusable ComponentObjects**: Shared UI components go in feature-specific `componentObjects/` folders
-3. **Step definitions**: Decorators (`@Given`, `@When`, `@Then`) are on PageObject methods or a Fixture.
-4**Use i18n for text validation**: Never hardcode text strings
-5**Separate mobile features**: Mobile-specific tests go in `.mobile.feature` files
-6**Don't edit generated files**: `.features-gen/` is auto-generated by `bddgen`
-
-## Naming Conventions
-
-### Method Naming
-
-| Method Type | Prefix | Example |
-|-------------|--------|---------|
-| **Element getter** | `get` | `getTitle()`, `getSeeAllButton()`, `getCards()` |
-| **ComponentObject getter** | `get` | `getSkillsWidget()`, `getAmsCountIconText()` |
-| **Verification** | `verify` | `verifyVisible()`, `verifyStatusBadge()` |
-| **Action** | `click`, `fill`, `select` | `clickSeeAllButton()`, `fillName()` |
-| **Count** | `count` | `countCards()`, `countItems()` |
-
-### Examples
-
-```typescript
-// Element getters - return Locator
-getTitle () {
-  return this.root.getByTestId('home-widget-title')
-}
-
-getSeeAllButton () {
-  return this.root.getByTestId('see-all-button')
-}
-
-getCards () {
-  return this.root.getByTestId('skill-card')
-}
-
-// ComponentObject getter - return ComponentObject instance
-getCard (index: number) {
-  return new SkillCard(this.getCards().nth(index))
-}
-
-getAmsCountIconText () {
-  return new AmsCountIconText(this.root.getByTestId('count-ams-icon-text'))
-}
-
-// Verification methods
-async verifyVisible () {
-  await expect(this.getTitle()).toBeVisible()
-}
-
-// Action methods
-async clickSeeAllButton () {
-  await this.getSeeAllButton().click()
-}
-
-// Count methods
-async countCards () {
-  return await this.getCards().count()
-}
-```
+---
 
 ## Workflow
 
-1. **Create Feature File**: Write Gherkin scenarios in `tests/` directory
-2. **Create PageObject**: Create class with `@Fixture` decorator and step methods
-3. **Create ComponentObjects**: Extract reusable UI logic into ComponentObject classes, if this component is used across multiple pages, with same step definitions, it should be created as a fixture and registered in `fixtures.ts`
-4. **Register Fixture**: Add PageObject to `fixtures.ts`
-5. **Generate Specs**: Run `npx bddgen` to generate spec files
-6. **Run Tests**: Run `npm run e2e` to execute tests
+1. **Write feature file** — Gherkin scenarios in `tests/`
+2. **Create ComponentObjects** — extract locators into ComponentObject classes
+3. **Create PageObject or Steps fixture** — add step definitions with decorators
+4. **Register fixture** — add to `fixtures.ts`
+5. **Generate specs** — `npx bddgen` (from `e2e/` directory)
+6. **Run tests** — `npm run e2e`
+
+---
 
 ## Troubleshooting
 
-### "Cannot read properties of undefined"
+### "No BDD configs found" when running bddgen
+Run `npx bddgen` from the `e2e/` directory, not the project root.
 
-Ensure the PageObject is properly registered in `fixtures.ts` and uses value import (not type-only):
-```typescript
-// Correct
-import { test } from '@e2e/framework/shared/fixtures/fixtures'
+### Duplicate step definitions error
+Each step pattern must be unique across all registered fixtures. If two fixtures define the same step text, extract it to a shared Steps fixture.
 
-// Wrong (type-only import)
-import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-```
+### Step not found / unresolved step
+Ensure the fixture is registered in `fixtures.ts` and the steps glob in `playwright.config.ts` matches the file path.
 
-### Duplicate step definitions
-
-Each step pattern must be unique. If the same step text is used with different decorators (`@Given` and `@Then`), use only one decorator.
-
-### Tests not found
-
-Run `npx bddgen` to regenerate spec files after modifying feature files.
+### Tests not found after editing a feature file
+Run `npx bddgen` to regenerate spec files.
