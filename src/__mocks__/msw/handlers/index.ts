@@ -1,3 +1,4 @@
+import { activitiesHandlers } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { amsHandlers } from '@/__mocks__/msw/handlers/student/ams.handlers'
 import { backOfficeHandlers } from '@/__mocks__/msw/handlers/student/back-office.handlers'
 import { declaredExperiencesHandlers } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
@@ -9,6 +10,7 @@ import { skillsHandlers } from '@/__mocks__/msw/handlers/student/skills.handlers
 import { tracesHandlers } from '@/__mocks__/msw/handlers/student/traces.handlers'
 
 export const handlers = [
+  ...activitiesHandlers,
   ...amsHandlers,
   ...backOfficeHandlers,
   ...declaredExperiencesHandlers,

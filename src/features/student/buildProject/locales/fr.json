@@ -1,6 +1,17 @@
 {
   "student": {
     "buildProject": {
+      "activities": {
+        "thematics": {
+          "PROGRAMS": "Mes formations",
+          "EXPERIENCES": "Mes expériences",
+          "FUTURE_PLANS": "Explorer mes futures",
+          "RESUMES": "CV",
+          "SELF_KNOWLEDGE": "Me connaître",
+          "TRAJECTORIES": "Mes trajectoires",
+          "TRANSVERSAL": "Transverse"
+        }
+      },
       "mindMap": {
         "actions": {
           "addFreeText": "Ajouter un texte libre",
@@ -58,6 +69,8 @@
       },
       "views": {
         "ProjectActivitiesCatalogView": {
+          "periodTitle": "Période de réalisation",
+          "previewTitle": "Extrait de l'activité",
           "title": "Toutes les activités disponibles"
         },
         "projectActivitiesView": {
