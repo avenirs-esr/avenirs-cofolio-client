@@ -25,13 +25,17 @@ const pageInfo = ref<PageInfoDTO>({
 </script>
 
 <template>
-  <div class="av-col av-gap-xl">
+  <div
+    class="av-col av-gap-xl"
+    data-testid="all-activities-section"
+  >
     <AvIconText
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
       icon-color="var(--icon)"
       :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: pageInfo.totalElements })"
       text-color="var(--text1)"
       typography-class="n5"
+      data-testid="all-activities-section-title"
     />
     <Pagination
       :page-info="pageInfo"

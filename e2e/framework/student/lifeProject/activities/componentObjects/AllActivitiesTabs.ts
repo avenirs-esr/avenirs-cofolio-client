@@ -19,8 +19,16 @@ export class AllActivitiesTabs extends BaseObject {
     return this.root.getByTestId('new-activities-paginator-card')
   }
 
+  getNewActivitiesPaginatorCardTitle () {
+    return this.root.getByTestId('new-activities-paginator-card-title')
+  }
+
   getAllActivitiesSection () {
     return this.root.getByTestId('all-activities-section')
+  }
+
+  getAllActivitiesSectionTitle () {
+    return this.root.getByTestId('all-activities-section-title')
   }
 
   async verifyVisible () {
@@ -28,7 +36,9 @@ export class AllActivitiesTabs extends BaseObject {
     await expect(this.getHeaderDescription()).toBeVisible()
     await expect(this.getHeaderSeeAllButton()).toBeVisible()
     await expect(this.getNewActivitiesPaginatorCard()).toBeVisible()
+    await expect(this.getNewActivitiesPaginatorCardTitle()).toBeVisible()
     await expect(this.getAllActivitiesSection()).toBeVisible()
+    await expect(this.getAllActivitiesSectionTitle()).toBeVisible()
   }
 
   async verifyHeaderDescription () {
@@ -46,13 +56,15 @@ export class AllActivitiesTabs extends BaseObject {
   async verifyNewActivitiesPaginatorCard () {
     const expectedText = t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count: 8 }) // TODO US#959
     await expect(this.getNewActivitiesPaginatorCard()).toBeVisible()
-    await expect(this.getNewActivitiesPaginatorCard()).toHaveText(expectedText)
+    await expect(this.getNewActivitiesPaginatorCardTitle()).toBeVisible()
+    await expect(this.getNewActivitiesPaginatorCardTitle()).toHaveText(expectedText)
   }
 
   async verifyAllActivitiesSection () {
     const expectedText = t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: 8 }) // TODO US#959
     await expect(this.getAllActivitiesSection()).toBeVisible()
-    await expect(this.getAllActivitiesSection()).toHaveText(expectedText)
+    await expect(this.getAllActivitiesSectionTitle()).toBeVisible()
+    await expect(this.getAllActivitiesSectionTitle()).toHaveText(expectedText)
   }
 
   async clickHeaderSeeAllButton () {
