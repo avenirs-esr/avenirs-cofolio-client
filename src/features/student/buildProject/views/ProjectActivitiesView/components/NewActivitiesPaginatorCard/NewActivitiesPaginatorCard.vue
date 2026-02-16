@@ -33,6 +33,7 @@ const pages = computed(() => getPaginationPages(totalPages))
         :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count: pageInfo.totalElements })"
         text-color="var(--text1)"
         typography-class="n5"
+        data-testid="new-activities-paginator-card-title"
       />
     </template>
 
