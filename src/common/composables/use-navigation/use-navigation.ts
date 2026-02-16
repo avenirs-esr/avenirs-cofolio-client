@@ -1,6 +1,6 @@
-import { ROUTES } from '@/common/constants'
-import { ProjectActivitiesCatalogThemes } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/types'
 import { type NavigationFailure, useRouter } from 'vue-router'
+import { EActivityThematic } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
 
 export function useNavigation () {
   const router = useRouter()
@@ -85,8 +85,8 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PROJECT_SKILLS)
   }
 
-  const navigateToStudentProjectActivitiesCatalog = ({ theme, id }: { theme?: ProjectActivitiesCatalogThemes, id?: string } =
-  { theme: ProjectActivitiesCatalogThemes.NEW, id: '0' }) => {
+  const navigateToStudentProjectActivitiesCatalog = ({ theme, id }: { theme?: EActivityThematic, id?: string } =
+  { theme: EActivityThematic.SELF_KNOWLEDGE, id: '0' }) => {
     return router.push({
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
       params: { theme, id },

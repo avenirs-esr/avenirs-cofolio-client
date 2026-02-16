@@ -1,9 +1,9 @@
-import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
-import { ROUTES } from '@/common/constants'
-import { ProjectActivitiesCatalogThemes } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EActivityThematic } from '@/api/avenir-esr'
+import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
+import { ROUTES } from '@/common/constants'
 
 const pushMock = vi.fn()
 const replaceMock = vi.fn()
@@ -152,7 +152,7 @@ BddTest().given('a useNavigation composable', () => {
         name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
         params: {
           id: '0',
-          theme: ProjectActivitiesCatalogThemes.NEW
+          theme: EActivityThematic.SELF_KNOWLEDGE
         }
       })
     })
