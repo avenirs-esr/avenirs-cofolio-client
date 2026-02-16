@@ -1,6 +1,7 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
-import { CreationUpdateDateDetailsStub, RatingStub } from '@/common/components'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
+import { RatingStub } from '@/common/components/Rating/Rating.stub'
 import { CategoryElementDescriptionTextareaStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.stub'
 import { CategoryElementTitleInputStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.stub'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'

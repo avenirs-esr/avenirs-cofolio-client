@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
-import { ConfirmationModalStub } from '@/common/components'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import UpdateTraceModal from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

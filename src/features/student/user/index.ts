@@ -1,6 +1,4 @@
-export { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
 export { default as ProfileCard } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.vue'
-export { StudentOverviewWidgetStub } from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.stub'
 export { default as StudentOverviewWidget } from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
 export { default as StudentMailboxPopover } from '@/features/student/user/components/overlays/StudentMailboxPopover/StudentMailboxPopover.vue'
 export { default as StudentNotificationsPopover } from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'

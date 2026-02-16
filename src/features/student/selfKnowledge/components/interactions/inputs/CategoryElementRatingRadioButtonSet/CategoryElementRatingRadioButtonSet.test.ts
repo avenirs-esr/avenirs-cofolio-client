@@ -1,4 +1,4 @@
-import { RatingStub } from '@/common/components'
+import { RatingStub } from '@/common/components/Rating/Rating.stub'
 import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

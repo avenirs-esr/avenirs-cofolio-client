@@ -160,6 +160,34 @@ npm install @avenirs-esr/avenirs-dsav
 
 ## Contributing
 
+### Stub Files and Barrel Exports
+
+**IMPORTANT**: Stub files (`.stub.ts`) should **NEVER** be exported from feature barrel files (`index.ts`).
+
+#### Why?
+
+- Stub files are development/testing artifacts only
+- Including them in barrel exports causes Vite to bundle them in production builds
+- This increases bundle size unnecessarily with test-only code
+- Stubs should only be imported directly in test files
+
+#### Correct Pattern
+
+**❌ DON'T** export stubs from barrel files:
+```typescript
+// ❌ src/features/student/featureName/index.ts
+export { ComponentStub } from './components/Component/Component.stub'
+```
+
+**✅ DO** import stubs directly in test files:
+```typescript
+// ✅ src/features/student/featureName/components/Component/Component.test.ts
+import { ComponentStub } from './Component.stub'
+
+// OR from relative path
+import { ComponentStub } from '../Component/Component.stub'
+```
+
 ### Commit conventions
 
 This repository uses [Commitlint](https://commitlint.js.org/) to enforce consistent and conventional commit messages.

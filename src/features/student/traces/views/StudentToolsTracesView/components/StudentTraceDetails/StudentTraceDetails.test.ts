@@ -1,5 +1,5 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
-import { ToggleStub } from '@/common/components'
+import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import StudentTraceDetails
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

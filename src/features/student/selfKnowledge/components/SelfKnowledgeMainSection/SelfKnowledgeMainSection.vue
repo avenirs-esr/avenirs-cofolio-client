@@ -33,7 +33,6 @@ const { data: studentSummary } = useStudentSummaryQuery()
 
     <ProfileCard
       v-if="studentSummary"
-      class="av-row av-justify-between"
       :student-summary
     />
 
