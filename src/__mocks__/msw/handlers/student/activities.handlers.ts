@@ -62,4 +62,13 @@ export const activitiesHandlers = [
     })
   }),
   unsubscribeActivityProgressesHandler,
+  
+  http.get<PathParams, ActivitiesNavigationMap>(`*/me/activities/navigation`, () => {
+    return HttpResponse.json<ActivitiesNavigationMap>(activitiesNavigationMock, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        }
+    })
+  }),
 ]
