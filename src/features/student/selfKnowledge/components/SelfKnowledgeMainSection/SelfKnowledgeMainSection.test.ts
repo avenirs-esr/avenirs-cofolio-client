@@ -6,6 +6,7 @@ import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/st
 import { server } from '@/__mocks__/msw/server'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
+import { UpdateProfileDrawerStub } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -30,7 +31,8 @@ BddTest().given('a self knowledge section component', () => {
     AvIconText: AvIconTextStub,
     AddSelfKnowledgeCategoriesModal: AddSelfKnowledgeCategoriesModalStub,
     ProfileCard: ProfileCardStub,
-    SelfKnowledgeCategoryElementsPaginatorCard: SelfKnowledgeCategoryElementsPaginatorCardStub
+    SelfKnowledgeCategoryElementsPaginatorCard: SelfKnowledgeCategoryElementsPaginatorCardStub,
+    UpdateProfileDrawer: UpdateProfileDrawerStub
   }
 
   const getAddButton = () => {
@@ -83,7 +85,12 @@ BddTest().given('a self knowledge section component', () => {
       expect(profileCard.exists()).toBe(false)
     })
 
-    BddTest().and('the profile card is loaded', () => {
+    BddTest().then('it should not render the display update profile drawer button initially', () => {
+      const button = wrapper.find('[data-testid="display-update-profile-drawer-button"]')
+      expect(button.exists()).toBe(false)
+    })
+
+    BddTest().and('the student summary is loaded', () => {
       beforeEach(async () => {
         await vi.waitFor(() => {
           const profileCard = wrapper.findComponent(ProfileCardStub)
@@ -91,9 +98,32 @@ BddTest().given('a self knowledge section component', () => {
         })
       })
 
+      BddTest().then('it should render the profile card', () => {
+        const profileCard = wrapper.findComponent(ProfileCardStub)
+        expect(profileCard.exists()).toBe(true)
+      })
+
       BddTest().then('it should pass correct student summary props', () => {
         const profileCard = wrapper.findComponent(ProfileCardStub)
         expect(profileCard.props('studentSummary')).toEqual(mockedProfileOverview)
+      })
+
+      BddTest().then('it should render the display update profile drawer button', () => {
+        const button = wrapper.find('[data-testid="display-update-profile-drawer-button"]')
+        expect(button.exists()).toBe(true)
+      })
+
+      BddTest().and('the display update profile drawer button is clicked', () => {
+        beforeEach(async () => {
+          const button = wrapper.find('[data-testid="display-update-profile-drawer-button"]')
+          await button.trigger('click')
+        })
+
+        BddTest().then('it should display the update profile drawer', () => {
+          const drawer = wrapper.findComponent(UpdateProfileDrawerStub)
+          expect(drawer.exists()).toBe(true)
+          expect(drawer.props('show')).toBe(true)
+        })
       })
     })
 

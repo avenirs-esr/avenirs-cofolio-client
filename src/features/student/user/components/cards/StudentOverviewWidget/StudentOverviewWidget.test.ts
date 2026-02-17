@@ -4,6 +4,7 @@ import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overvie
 import { server } from '@/__mocks__/msw/server'
 import { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
 import StudentOverviewWidget from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
+import { UpdateProfileDrawerStub } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -13,11 +14,7 @@ BddTest().given('a student overview widget', () => {
 
   const stubs = {
     ProfileCard: ProfileCardStub,
-    UpdateProfileDrawer: {
-      name: 'UpdateProfileDrawer',
-      props: ['show'],
-      template: '<div class="update-profile-drawer" />'
-    }
+    UpdateProfileDrawer: UpdateProfileDrawerStub
   }
 
   BddTest().when('the component is mounted', () => {
