@@ -49,3 +49,30 @@ export function useUnsubscribeActivitiesMutation ({ onError, onSuccess }: Mutati
     onError
   })
 }
+
+export function useActivitiesNavigationQuery (): UseQueryReturnType<ActivitiesNavigationMap, BaseApiException> & {
+  activities: Ref<ActivitiesNavigationMap | undefined>
+} {
+  const queryKey = computed(() => [...activitiesCommonQueryKey, 'navigation'])
+
+  const queryFn = computed(() => async (): Promise<ActivitiesNavigationMap> => {
+    return await getActivityNavigation()
+  })
+
+  const query = useQuery<
+    ActivitiesNavigationMap,
+    BaseApiException,
+    ActivitiesNavigationMap,
+    readonly unknown[]
+  >({
+    queryKey,
+    queryFn,
+  })
+
+  const activities = computed(() => query.data.value)
+
+  return {
+    ...query,
+    activities,
+  }
+}

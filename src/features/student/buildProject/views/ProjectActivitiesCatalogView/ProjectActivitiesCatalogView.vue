@@ -5,6 +5,8 @@ import { ROUTES } from '@/common/constants'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivityPreview from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
+import ActivitiesSideNavigation
+  from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivitiesCatalogViewProps {
