@@ -1,6 +1,6 @@
+import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 
 BddTest().given('a fetch interceptor manager', () => {
   const dummyConfig = { baseUrl: 'https://avenir.esr.example.com', defaultHeaders: {} }

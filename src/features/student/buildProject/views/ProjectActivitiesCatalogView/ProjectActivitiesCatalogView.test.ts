@@ -1,13 +1,15 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ActivityPreviewStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.stub'
 import ProjectActivitiesCatalogView, { type ProjectActivitiesCatalogViewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a project activities catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivitiesCatalogView>>
@@ -86,6 +88,46 @@ BddTest().given('a project activities catalog view', () => {
     BddTest().then('it should not render the activity preview component', () => {
       const activityPreview = wrapper.findComponent(ActivityPreviewStub)
       expect(activityPreview.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render an activity not found error message', async () => {
+      await vi.waitFor(() => {
+        const errorMessage = wrapper.find('[data-testid="error-message"]')
+        expect(errorMessage.exists()).toBe(true)
+        expect(errorMessage.text()).toContain('Activité introuvable')
+        expect(errorMessage.text()).toContain('L\'activité que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted and the API returns an error', () => {
+    const props: ProjectActivitiesCatalogViewProps = {
+      theme: EActivityThematic.SELF_KNOWLEDGE,
+      id: '0'
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      server.use(activityDetailsErrorHandler)
+
+      wrapper = mountComponent(ProjectActivitiesCatalogView, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the activity preview component', () => {
+      const activityPreview = wrapper.findComponent(ActivityPreviewStub)
+      expect(activityPreview.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render a generic error message', async () => {
+      await vi.waitFor(() => {
+        const errorMessage = wrapper.find('[data-testid="error-message"]')
+        expect(errorMessage.exists()).toBe(true)
+        expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
+        expect(errorMessage.text()).toContain('Internal Server Error')
+      })
     })
   })
 })

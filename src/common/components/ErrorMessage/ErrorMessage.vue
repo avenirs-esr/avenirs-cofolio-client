@@ -10,7 +10,10 @@ const { title, description } = defineProps<AvNotFoundMessageProps>()
 </script>
 
 <template>
-  <div class="av-error-message av-col av-align-center av-justify-center av-gap-sm">
+  <div
+    class="av-error-message av-col av-align-center av-justify-center av-gap-sm"
+    data-testid="error-message"
+  >
     <AvIcon
       :name="MDI_ICONS.ALERT_OUTLINE"
       :size="2.5"

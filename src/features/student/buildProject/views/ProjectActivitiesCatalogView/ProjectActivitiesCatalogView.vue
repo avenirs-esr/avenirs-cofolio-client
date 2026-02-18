@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
+import ErrorMessage from '@/common/components/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { ROUTES } from '@/common/constants'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query'
 import ActivityPreview from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
+import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivitiesCatalogViewProps {
   theme: string
@@ -15,7 +17,9 @@ const { id } = defineProps<ProjectActivitiesCatalogViewProps>()
 
 const { t } = useI18n()
 
-const { activityDetail, isLoading, isError } = useActivityDetailQuery(id)
+const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(id)
+
+const { isNotFound } = useApiErrors(error, ErrorCodes.ACTIVITY_NOT_FOUND)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -39,4 +43,10 @@ const breadcrumbLinks = computed(() => [
       :activity="activityDetail"
     />
   </Loader>
+
+  <ErrorMessage
+    v-if="error"
+    :title="isNotFound ? t('student.buildProject.views.ProjectActivitiesCatalogView.errors.notFound.title') : t('global.error.generic')"
+    :description="isNotFound ? t('student.buildProject.views.ProjectActivitiesCatalogView.errors.notFound.description') : error.message"
+  />
 </template>

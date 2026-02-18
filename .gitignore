@@ -358,3 +358,5 @@ src/api/**/generated/
 !src/api/index.ts
 
 storybook-static/
+
+.github/agents/
