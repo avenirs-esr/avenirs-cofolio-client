@@ -1,9 +1,9 @@
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
 import { ActivityThemacticBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThematicBadge.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
+import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an activity preview', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPreview>>

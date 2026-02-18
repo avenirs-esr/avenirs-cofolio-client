@@ -69,6 +69,12 @@
       },
       "views": {
         "ProjectActivitiesCatalogView": {
+          "errors": {
+            "notFound": {
+              "description": "L'activité que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Activité introuvable"
+            }
+          },
           "periodTitle": "Période de réalisation",
           "previewTitle": "Extrait de l'activité",
           "title": "Toutes les activités disponibles"

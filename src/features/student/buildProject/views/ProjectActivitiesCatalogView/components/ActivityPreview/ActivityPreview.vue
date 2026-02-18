@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { ActivityDetailDTO } from '@/api/avenir-esr'
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 import ActivityThemacticBadge from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThemacticBadge.vue'
 import { ICONS } from '@/features/student/global/icons'
+import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 export interface ActivityPreviewProps {
   activity: ActivityDetailDTO

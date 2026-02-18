@@ -36,9 +36,6 @@ vi.mock('@/common/composables', async () => {
 })
 
 BddTest().given('a useTracesViewQuery composable', async () => {
-  beforeEach(() => {
-
-  })
   let useTracesViewQueryReturn: ReturnType<typeof useTracesViewQuery>
   let tracesViewSpy: MockInstance<(traceFilter: TraceFilter, params?: TracesViewParams | undefined, options?: RequestInit | undefined) => Promise<PagedResponseTraceViewDTO>>
 

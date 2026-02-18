@@ -23,7 +23,7 @@ export const activitiesHandlers = [
 
     if (activityId === 'INVALID_ACTIVITY_ID') {
       return HttpResponse.json(
-        { message: 'Activity not found' },
+        { code: 'ACTIVITY_NOT_FOUND', message: 'Activity not found' },
         {
           status: 404,
           headers: {

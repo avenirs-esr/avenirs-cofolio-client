@@ -1,10 +1,11 @@
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { type ActivityDetailDTO, getActivityDetail } from '@/api/avenir-esr'
+import { commonQueryKeys } from '@/features/student/global'
 import { useQuery } from '@tanstack/vue-query'
 import { type MaybeRef, toValue } from 'vue'
 
-const activityCommonQueryKey = ['user', 'student', 'activity']
-const activityDetailsQueryKey = [...activityCommonQueryKey, 'details']
+const activitiesCommonQueryKey = [...commonQueryKeys, 'activities']
+const activityDetailsQueryKey = [...activitiesCommonQueryKey, 'details']
 
 export function useActivityDetailQuery (activityId: MaybeRef<string>) {
   const queryKey = computed(() => [...activityDetailsQueryKey, toValue(activityId)])
