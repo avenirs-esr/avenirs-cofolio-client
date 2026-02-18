@@ -8,6 +8,9 @@ export const STUDENT_ROUTES = {
   PROJECT: {
     ACTIVITIES: '/cofolio/student/project/activities',
     ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:theme/:id',
+    TRAJECTORIES: {
+      SELF_KNOWLEDGE: '/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE',
+    },
   },
   SKILL_DETAIL: '/cofolio/student/skill/',
   TOOLS: {
