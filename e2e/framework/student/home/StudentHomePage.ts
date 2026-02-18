@@ -224,8 +224,8 @@ class StudentHomePage {
   }
 
   @Then('the URL contains {string}')
-  async verifyUrlContains (url: string) {
-    await expect(this.page).toHaveURL(new RegExp(url))
+  verifyUrlContains (url: string) {
+    expect(this.page.url()).toContain(url)
   }
 
   @Then('the resumes widget shows maximum 3 resumes')
