@@ -29,6 +29,9 @@
         }
       },
       "navigation": {
+        "selects": {
+          "label": "Access to"
+        },
         "tabs": {
           "apcUnavailable": {
             "title": "APC not available"

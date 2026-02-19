@@ -1,7 +1,10 @@
+import { activitiesNavigationMock } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
 import {
   type ActivityDetailDTO,
+  type ActivityNavigationDTO,
   getGetActivityDetailUrl,
+  getGetActivityNavigationUrl,
   getUnsubscribeActivityProgressesUrl,
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
@@ -16,6 +19,25 @@ export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(
       }
     }
   )
+})
+
+export const activityNavigationQueryError = http.get(`*${getGetActivityNavigationUrl()}`, async () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
+
+export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl()}`, async () => {
+  return HttpResponse.json<ActivityNavigationDTO[]>(activitiesNavigationMock, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
 })
 
 const unsubscribeActivityProgressesHandler = http.post(`*${getUnsubscribeActivityProgressesUrl()}`, async ({ request }) => {
@@ -39,6 +61,7 @@ const unsubscribeActivityProgressesHandler = http.post(`*${getUnsubscribeActivit
 })
 
 export const activitiesHandlers = [
+  activityNavigationQuery,
   http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
     const { activityId } = params
 
@@ -62,13 +85,4 @@ export const activitiesHandlers = [
     })
   }),
   unsubscribeActivityProgressesHandler,
-  
-  http.get<PathParams, ActivitiesNavigationMap>(`*/me/activities/navigation`, () => {
-    return HttpResponse.json<ActivitiesNavigationMap>(activitiesNavigationMock, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        }
-    })
-  }),
 ]
