@@ -2,6 +2,16 @@
   "student": {
     "buildProject": {
       "activities": {
+        "badges": {
+          "activityNewBadge": {
+            "label": "Nouveau"
+          }
+        },
+        "declaredActivityStatus": {
+          "COMPLETED": "Terminée",
+          "IN_PROGRESS": "En cours",
+          "SUBSCRIBED": "Inscrit(e)"
+        },
         "thematics": {
           "PROGRAMS": "Mes formations",
           "EXPERIENCES": "Mes expériences",

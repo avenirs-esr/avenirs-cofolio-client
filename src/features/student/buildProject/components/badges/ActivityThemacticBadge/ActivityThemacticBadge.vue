@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface ActivityThematicBadgeProps {
   thematic: EActivityThematic
+  small?: boolean
 }
 
 const { thematic } = defineProps<ActivityThematicBadgeProps>()
@@ -37,6 +38,7 @@ const icon = computed(() => {
 
 <template>
   <AvBadge
+    v-bind="$props"
     :label="label"
     :icon="icon"
     color="var(--light-foreground-accent)"
