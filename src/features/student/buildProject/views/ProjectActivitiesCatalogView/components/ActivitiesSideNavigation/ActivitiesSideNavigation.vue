@@ -1,110 +1,104 @@
 <script setup lang="ts">
-import type { ActivitiesNavigationMap } from '@/features/student/buildProject/types/activities.types'
-import {
-  type ActivityItemNavigationDTO,
-  EActivityThematic,
-} from '@/api/avenir-esr'
+import { EActivityThematic } from '@/api/avenir-esr'
+import Loader from '@/common/components/Loader/Loader.vue'
+import { useNavigation } from '@/common/composables'
 import { useActivitiesNavigationQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
-import { AvSideNavigation, type AvSideNavigationMenuItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@/features/student/global/icons'
+import {
+  AvSideNavigation,
+  type AvSideNavigationMenuItem,
+  type AvSideNavigationSelectedItem,
+  MDI_ICONS,
+} from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
+const route = useRoute()
+const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const isSideMenuCollapsed = ref(false)
-const selectedItem = ref('')
-
-const { activities: activitiesRef } = useActivitiesNavigationQuery()
+const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigationQuery()
 
 const DEFAULT_PARENT_ICON = MDI_ICONS.BOOK_OPEN_VARIANT
 const CHILD_ICON = MDI_ICONS.TARGET_ARROW
-
-const THEMATIC_META = computed<Record<EActivityThematic, { label: string, icon: string }>>(() => ({
-  [EActivityThematic.ABOUT_ME]: {
-    label: t('student.buildProject.activities.thematics.aboutMe'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.FUTURE_PLANS]: {
-    label: t('student.buildProject.activities.thematics.futurePlans'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.PROGRAMS]: {
-    label: t('student.buildProject.activities.thematics.programs'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.EXPERIENCES]: {
-    label: t('student.buildProject.activities.thematics.experiences'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.TRAJECTORIES]: {
-    label: t('student.buildProject.activities.thematics.trajectories'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.CV]: {
-    label: t('student.buildProject.activities.thematics.cv'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-  [EActivityThematic.TRANSVERSAL]: {
-    label: t('student.buildProject.activities.thematics.transversal'),
-    icon: DEFAULT_PARENT_ICON,
-  },
-}))
 
 function isEActivityThematic (value: string): value is EActivityThematic {
   return Object.values(EActivityThematic).includes(value as EActivityThematic)
 }
 
-function mapActivitiesToSideNavItems (
-  activities?: ActivitiesNavigationMap
-): AvSideNavigationMenuItem[] {
-  if (!activities) {
-    return []
-  }
-
-  return Object.entries(activities)
-    .filter(([, list]) => Array.isArray(list) && list.length > 0)
-    .map(([key, list], index) => {
-      const thematic = isEActivityThematic(key) ? key : null
-
-      const children = (list ?? []).map((a: ActivityItemNavigationDTO) => ({
-        id: a.id,
-        label: a.title,
-        icon: CHILD_ICON,
-      }))
-
-      return {
-        id: key,
-        label: thematic ? THEMATIC_META.value[thematic].label : key,
-        icon: thematic ? THEMATIC_META.value[thematic].icon : DEFAULT_PARENT_ICON,
-        expanded: index === 0,
-        children,
-      } satisfies AvSideNavigationMenuItem
-    })
+function getThematicLabel (title: string) {
+  return isEActivityThematic(title) ? t(`student.buildProject.activities.thematics.${title}`) : title
 }
 
-const items = computed<AvSideNavigationMenuItem[]>(() =>
-  mapActivitiesToSideNavItems(activitiesRef.value)
-)
+function getThematicIcon (title: string) {
+  return ICONS[title as keyof typeof ICONS] ?? DEFAULT_PARENT_ICON
+}
 
-watchEffect(() => {
-  if (selectedItem.value) {
-    return
-  }
-  const firstChild = items.value[0]?.children?.[0]
-  if (firstChild) {
-    selectedItem.value = firstChild.id
-  }
+const items = computed<AvSideNavigationMenuItem[]>(() => {
+  const activities = activitiesRef.value ?? []
+
+  return activities
+    .map((activity) => {
+      const thematicTitle = activity.title
+
+      return {
+        id: thematicTitle,
+        label: getThematicLabel(thematicTitle),
+        icon: getThematicIcon(thematicTitle),
+        children: (activity.items ?? []).map(item => ({
+          id: item.id,
+          label: item.title,
+          icon: CHILD_ICON,
+        })),
+      } satisfies AvSideNavigationMenuItem
+    })
 })
 
-function navigateToSelectedItem (itemId: string) {
-  selectedItem.value = itemId
+const routeId = computed(() =>
+  typeof route.params.id === 'string'
+    ? route.params.id
+    : Array.isArray(route.params.id)
+      ? route.params.id[0]
+      : undefined
+)
+
+const routeThematic = computed(() =>
+  typeof route.params.thematic === 'string'
+    ? route.params.thematic
+    : Array.isArray(route.params.thematic)
+      ? route.params.thematic[0]
+      : undefined
+)
+
+const selectedSideNavItem = ref<AvSideNavigationSelectedItem>({
+  itemId: routeId.value ?? items.value?.[0]?.children?.[0]?.id ?? '',
+  parentId: routeThematic.value ?? items.value?.[0]?.id ?? undefined,
+})
+
+function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
+  selectedSideNavItem.value = value
+
+  const id = value.itemId
+  const theme = value.parentId
+
+  if (!theme || !id || !isEActivityThematic(theme)) {
+    return
+  }
+
+  navigateToStudentProjectActivitiesCatalog({ theme, id })
 }
 </script>
 
 <template>
-  <AvSideNavigation
-    v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-    v-model:selected-item="selectedItem"
-    :items="items"
-    @update:selected-item="navigateToSelectedItem"
-  />
+  <Loader
+    :is-loading="isLoading && !isError"
+    size="2xl"
+  >
+    <AvSideNavigation
+      v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+      :selected-item="selectedSideNavItem"
+      :items="items"
+      @update:selected-item="navigateToSelectedItem"
+    />
+  </Loader>
 </template>

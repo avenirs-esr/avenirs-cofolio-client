@@ -1897,12 +1897,9 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/ActivityItemNavigationDTO"
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityNavigationDTO"
                   }
                 }
               }
@@ -4431,6 +4428,24 @@
           "title"
         ]
       },
+      "ActivityNavigationDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityItemNavigationDTO"
+            }
+          }
+        },
+        "required": [
+          "items",
+          "title"
+        ]
+      },
       "ActivityDetailDTO": {
         "type": "object",
         "properties": {
@@ -4718,19 +4733,6 @@
           "TRIMESTER",
           "MONTH",
           "WEEK"
-        ]
-      },
-      "EActivityThematic": {
-        "type": "string",
-        "description": "Enum for activities thematics",
-        "enum": [
-          "ABOUT_ME",
-          "FUTURE_PLANS",
-          "PROGRAMS",
-          "EXPERIENCES",
-          "TRAJECTORIES",
-          "CV",
-          "TRANSVERSAL"
         ]
       },
       "EPortfolioType": {
