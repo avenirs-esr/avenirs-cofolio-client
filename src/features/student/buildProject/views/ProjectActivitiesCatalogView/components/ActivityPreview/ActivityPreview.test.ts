@@ -1,7 +1,8 @@
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
 import { ActivityThemacticBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThematicBadge.stub'
+import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -14,9 +15,11 @@ BddTest().given('an activity preview', () => {
   }
 
   const stubs = {
+    AvButton: AvButtonStub,
     AvCard: AvCardStub,
     AvIconText: AvIconTextStub,
-    ActivityThemacticBadge: ActivityThemacticBadgeStub
+    ActivityThemacticBadge: ActivityThemacticBadgeStub,
+    UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -53,6 +56,55 @@ BddTest().given('an activity preview', () => {
       const executionPeriodInfo = wrapper.find('[data-testid="activity-execution-period-info"]')
       expect(executionPeriodInfo.exists()).toBe(true)
       expect(executionPeriodInfo.text()).toBe(mockedActivityDetail.executionPeriodInfo)
+    })
+
+    BddTest().then('it should render the unsubscribe button', () => {
+      const unsubscribeButton = wrapper.findComponent(AvButtonStub).find('[data-testid="unsubscribe-button"]')
+      expect(unsubscribeButton.exists()).toBe(true)
+      expect(unsubscribeButton.text()).toBe('Se désinscrire')
+    })
+
+    BddTest().then('it should render the unsubscribe confirmation modal', () => {
+      const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('activities')).toEqual([{ id: mockedActivityDetail.id, title: mockedActivityDetail.title }])
+    })
+
+    BddTest().and('the user clicks the unsubscribe button', () => {
+      beforeEach(() => {
+        const unsubscribeButton = wrapper.findComponent(AvButtonStub).find('[data-testid="unsubscribe-button"]')
+        unsubscribeButton.trigger('click')
+      })
+
+      BddTest().then('it should display the confirmation modal', () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        expect(modal.props('show')).toBe(true)
+      })
+
+      BddTest().and('the user cancels the unsubscribe action', () => {
+        beforeEach(() => {
+          const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+          modal.vm.$emit('cancel')
+        })
+
+        BddTest().then('it should hide the confirmation modal', () => {
+          const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+          expect(modal.props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user confirms the unsubscribe action', () => {
+        beforeEach(() => {
+          const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+          modal.vm.$emit('unsubscribed')
+        })
+
+        BddTest().then('it should hide the confirmation modal', () => {
+          const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+          expect(modal.props('show')).toBe(false)
+        })
+      })
     })
   })
 

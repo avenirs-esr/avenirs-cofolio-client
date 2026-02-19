@@ -4,7 +4,7 @@ import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
-import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query'
+import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivityPreview from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { useI18n } from 'vue-i18n'
 
