@@ -12,6 +12,14 @@
           "IN_PROGRESS": "En cours",
           "SUBSCRIBED": "Inscrit(e)"
         },
+        "overlays": {
+          "UnsubscribeActivitiesConfirmModal": {
+            "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
+            "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
+            "success": "Désinscription de l'activité réussie. | Désinscription des activités réussie.",
+            "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité ? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités ?"
+          }
+        },
         "thematics": {
           "PROGRAMS": "Mes formations",
           "EXPERIENCES": "Mes expériences",
@@ -87,7 +95,8 @@
           },
           "periodTitle": "Période de réalisation",
           "previewTitle": "Extrait de l'activité",
-          "title": "Toutes les activités disponibles"
+          "title": "Toutes les activités disponibles",
+          "unsubscribe": "Se désinscrire"
         },
         "projectActivitiesView": {
           "allActivitiesTab": {

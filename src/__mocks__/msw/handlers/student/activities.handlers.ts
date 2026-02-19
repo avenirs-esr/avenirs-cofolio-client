@@ -2,6 +2,7 @@ import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activ
 import {
   type ActivityDetailDTO,
   getGetActivityDetailUrl,
+  getUnsubscribeActivityProgressesUrl,
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
@@ -15,6 +16,26 @@ export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(
       }
     }
   )
+})
+
+const unsubscribeActivityProgressesHandler = http.post(`*${getUnsubscribeActivityProgressesUrl()}`, async ({ request }) => {
+  const activitiesIds = await request.json() as string[]
+
+  if (activitiesIds.length === 0) {
+    return HttpResponse.json({ error: 'No activity IDs provided' }, { status: 400 })
+  }
+
+  if (activitiesIds.find(id => id === 'INVALID_ACTIVITY_ID')) {
+    return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
+  }
+
+  const response = 'Activities successfully unsubscribed from user'
+  return HttpResponse.json<string>(response, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
 })
 
 export const activitiesHandlers = [
@@ -40,4 +61,5 @@ export const activitiesHandlers = [
       }
     })
   }),
+  unsubscribeActivityProgressesHandler,
 ]

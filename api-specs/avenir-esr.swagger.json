@@ -1819,6 +1819,41 @@
         }
       }
     },
+
+    "/me/activity-progresses/unsubscribe": {
+      "post": {
+        "tags": [
+          "activity-progresses-controller"
+        ],
+        "operationId": "unsubscribeActivityProgresses",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/{activityId}": {
       "get": {
         "tags": [
