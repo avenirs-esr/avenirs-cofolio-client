@@ -8,6 +8,15 @@ export const projectActivitiesRoute: AvRoute = {
   component: () => import('@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'),
 }
 
+export const projectActivitiesDetailedRoute: AvRoute = {
+  ...ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED,
+  props: route => ({
+    id: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
+}
+
 export const projectActivitiesCatalogRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG,
   props: route => ({

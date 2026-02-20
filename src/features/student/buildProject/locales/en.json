@@ -12,6 +12,12 @@
           "IN_PROGRESS": "In progress",
           "SUBSCRIBED": "Registered"
         },
+        "errors": {
+          "notFound": {
+            "description": "The activity you are looking for does not exist or is not accessible.",
+            "title": "Activity not found"
+          }
+        },
         "overlays": {
           "UnsubscribeActivitiesConfirmModal": {
             "description": "This action will result in the permanent loss of all associated data and actions.",
@@ -87,12 +93,6 @@
       },
       "views": {
         "ProjectActivitiesCatalogView": {
-          "errors": {
-            "notFound": {
-              "description": "The activity you are looking for does not exist or is not accessible.",
-              "title": "Activity not found"
-            }
-          },
           "periodTitle": "Execution period",
           "previewTitle": "Activity preview",
           "title": "All available activities",

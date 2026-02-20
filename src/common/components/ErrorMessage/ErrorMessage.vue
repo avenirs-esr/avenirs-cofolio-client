@@ -11,6 +11,7 @@ const { title, description } = defineProps<AvNotFoundMessageProps>()
 
 <template>
   <div
+    role="alert"
     class="av-error-message av-col av-align-center av-justify-center av-gap-sm"
     data-testid="error-message"
   >

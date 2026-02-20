@@ -1,21 +1,18 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
-import ActivityPreview from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { useI18n } from 'vue-i18n'
 
-export interface ProjectActivitiesCatalogViewProps {
-  theme: string
+export interface ProjectActivityDetailedViewProps {
   id: string
 }
 
-const { id } = defineProps<ProjectActivitiesCatalogViewProps>()
+const { id } = defineProps<ProjectActivityDetailedViewProps>()
 
 const { t } = useI18n()
-
 const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(id)
 
 const breadcrumbLinks = computed(() => [
@@ -26,19 +23,27 @@ const breadcrumbLinks = computed(() => [
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.buildProject.views.ProjectActivitiesCatalogView.title')"
-    :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
-  />
   <Loader
     :is-loading="isLoading && !isError"
     size="2xl"
   >
-    <ActivityPreview
-      v-if="activityDetail"
-      :activity="activityDetail"
-    />
+    <template v-if="activityDetail">
+      <PageTitle
+        :title="t('global.detail')"
+        :breadcrumb-links="breadcrumbLinks"
+        :back="ROUTES.STUDENT.HOME"
+      >
+        <template #title>
+          <span
+            class="n2 av-text-title"
+            data-testid="activity-detail-title"
+          >
+            {{ t('global.detail') }}
+            <span class="n4 av-text-text2">{{ activityDetail?.title }}</span>
+          </span>
+        </template>
+      </PageTitle>
+    </template>
   </Loader>
 
   <ActivityErrorMessage :error="error" />

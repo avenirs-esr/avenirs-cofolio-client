@@ -1,6 +1,6 @@
 import { ROUTES } from '@/common/constants'
 import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
-import { projectActivitiesCatalogRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
+import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
 import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
@@ -53,6 +53,7 @@ export default [
       declaredExperienceUpdateRoute,
       projectActivitiesRoute,
       projectActivitiesCatalogRoute,
+      projectActivitiesDetailedRoute,
       {
         ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
         component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),

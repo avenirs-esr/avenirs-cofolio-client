@@ -12,6 +12,12 @@
           "IN_PROGRESS": "En cours",
           "SUBSCRIBED": "Inscrit(e)"
         },
+        "errors": {
+          "notFound": {
+            "description": "L'activité que vous recherchez n'existe pas ou n'est pas accessible.",
+            "title": "Activité introuvable"
+          }
+        },
         "overlays": {
           "UnsubscribeActivitiesConfirmModal": {
             "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
@@ -87,12 +93,6 @@
       },
       "views": {
         "ProjectActivitiesCatalogView": {
-          "errors": {
-            "notFound": {
-              "description": "L'activité que vous recherchez n'existe pas ou n'est pas accessible.",
-              "title": "Activité introuvable"
-            }
-          },
           "periodTitle": "Période de réalisation",
           "previewTitle": "Extrait de l'activité",
           "title": "Toutes les activités disponibles",
