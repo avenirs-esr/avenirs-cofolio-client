@@ -99,6 +99,9 @@
           "unsubscribe": "Unsubscribe"
         },
         "projectActivitiesView": {
+          "ActivityLibraryCard": {
+            "period": "Personal achievement period"
+          },
           "allActivitiesTab": {
             "allActivitiesSection": {
               "title": "All activities ({count})"

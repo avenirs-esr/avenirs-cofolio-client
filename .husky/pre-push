@@ -1,1 +1,0 @@
-cd e2e && npm run e2e:chrome:dev

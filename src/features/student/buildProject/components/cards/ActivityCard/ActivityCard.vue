@@ -3,7 +3,7 @@ import type { ActivityOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ActivityNewBadge from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
-import ActivityThemacticBadge from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThemacticBadge.vue'
+import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
@@ -36,7 +36,7 @@ const iconOptions = {
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md body av-h-full">
           <div class="av-col av-row--md av-align-start av-justify-start--md av-gap-sm">
-            <ActivityThemacticBadge
+            <ActivityThematicBadge
               small
               :thematic="activity.thematic"
             />

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActivityDetailDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
-import ActivityThemacticBadge from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThemacticBadge.vue'
+import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -42,7 +42,7 @@ const { showModal, displayModal, hideModal } = useModal()
       inline
     />
     <div class="av-row av-wrap av-gap-xs av-pl-5xl">
-      <ActivityThemacticBadge :thematic="activity.thematic" />
+      <ActivityThematicBadge :thematic="activity.thematic" />
     </div>
     <AvCard
       background-color="var(--card2)"

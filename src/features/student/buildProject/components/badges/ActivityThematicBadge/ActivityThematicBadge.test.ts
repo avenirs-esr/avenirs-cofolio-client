@@ -1,11 +1,11 @@
 import { EActivityThematic } from '@/api/avenir-esr'
-import ActivityThemacticBadge, { type ActivityThematicBadgeProps } from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThemacticBadge.vue'
+import ActivityThematicBadge, { type ActivityThematicBadgeProps } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('an activity thematic badge', () => {
-  let wrapper: VueWrapper<InstanceType<typeof ActivityThemacticBadge>>
+  let wrapper: VueWrapper<InstanceType<typeof ActivityThematicBadge>>
 
   const stubs = { AvBadge: AvBadgeStub }
 
@@ -22,7 +22,7 @@ BddTest().given('an activity thematic badge', () => {
   scenario.forEach(({ props, label, icon }) => {
     BddTest().when(`the badge is rendered with thematic ${props.thematic}`, () => {
       beforeEach(() => {
-        wrapper = mount(ActivityThemacticBadge, { props, global: { stubs } })
+        wrapper = mount(ActivityThematicBadge, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the badge', () => {

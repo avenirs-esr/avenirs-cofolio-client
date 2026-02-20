@@ -1,5 +1,5 @@
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
-import { ActivityThemacticBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThematicBadge.stub'
+import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { AvButtonStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -18,8 +18,8 @@ BddTest().given('an activity preview', () => {
     AvButton: AvButtonStub,
     AvCard: AvCardStub,
     AvIconText: AvIconTextStub,
-    ActivityThemacticBadge: ActivityThemacticBadgeStub,
-    UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub
+    UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
+    ActivityThematicBadge: ActivityThematicBadgeStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -41,7 +41,7 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render the activity thematic badge', () => {
-      const badge = wrapper.findComponent(ActivityThemacticBadgeStub)
+      const badge = wrapper.findComponent(ActivityThematicBadgeStub)
       expect(badge.exists()).toBe(true)
       expect(badge.text()).toBe(mockedActivityDetail.thematic)
     })
