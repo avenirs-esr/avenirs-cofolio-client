@@ -53,7 +53,7 @@ BddTest().given('a student academic career layout component', () => {
 
     BddTest().then('it should set selected item based on current route', () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      expect(sideNavigation.props('selectedItem')).toBe(ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name)
+      expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name })
     })
 
     BddTest().then('it should have 3 navigation items', () => {
@@ -119,7 +119,7 @@ BddTest().given('a student academic career layout component', () => {
     BddTest().and('a navigation item is selected', () => {
       beforeEach(async () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        await sideNavigation.vm.$emit('update:selectedItem', ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name)
+        await sideNavigation.vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
         await flushPromises()
       })
 

@@ -12,7 +12,7 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const isSideMenuCollapsed = ref<boolean>(false)
 const { setQueryParamValue } = useQueryParam()
-const selectedItem = ref<ProjectTrajectoryItems>(ProjectTrajectoryItems.BUILD_PROJECT)
+const selectedItem = ref<{ itemId: ProjectTrajectoryItems }>({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
 
 const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
   [ProjectTrajectoryItems.BUILD_PROJECT]: StudentProjectTrajectoriesBuildProjectSection,
@@ -52,17 +52,17 @@ const items = computed<AvSideNavigationItem[]>(() => {
 })
 
 const displayedSection = computed<Component>(() => {
-  return sectionsMap[selectedItem.value]
+  return sectionsMap[selectedItem.value.itemId]
 })
 
 useWatchQueryParam('section', (newSection) => {
   if (newSection && Object.values(ProjectTrajectoryItems).includes(newSection as ProjectTrajectoryItems)) {
-    selectedItem.value = newSection as ProjectTrajectoryItems
+    selectedItem.value = { itemId: newSection as ProjectTrajectoryItems }
   }
 })
 
 watch(selectedItem, (newSelectedItem) => {
-  setQueryParamValue('section', newSelectedItem)
+  setQueryParamValue('section', newSelectedItem.itemId)
 }, { immediate: true })
 </script>
 

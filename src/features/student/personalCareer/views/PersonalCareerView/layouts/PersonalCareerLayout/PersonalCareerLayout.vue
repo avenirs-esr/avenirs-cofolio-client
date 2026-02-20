@@ -9,7 +9,7 @@ const route = useRoute()
 const router = useRouter()
 
 const isDemoMode = __DEMO_MODE__
-const selectedItem = computed<string>(() => route.name as string)
+const selectedItem = computed<{ itemId: string }>(() => ({ itemId: route.name as string }))
 const items = computed<AvSideNavigationItem[]>(() => {
   const allItems = [
     {
@@ -33,8 +33,8 @@ const items = computed<AvSideNavigationItem[]>(() => {
   return isDemoMode ? allItems.filter(item => item.demo) : allItems
 })
 
-function navigateToSelectedItem (routeName: string) {
-  router.push({ name: routeName })
+function navigateToSelectedItem (item: { itemId: string }) {
+  router.push({ name: item.itemId })
 }
 </script>
 
