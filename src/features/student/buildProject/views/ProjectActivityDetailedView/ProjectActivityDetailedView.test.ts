@@ -1,0 +1,131 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
+import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { ROUTES } from '@/common/constants'
+import ProjectActivityDetailedView, { type ProjectActivityDetailedViewProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+
+BddTest().given('a project activity detailed view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedView>>
+
+  const stubs = {
+    PageTitle: PageTitleStub,
+    Loader: LoaderStub
+  }
+
+  BddTest().when('the view is mounted with a valid activity', () => {
+    const props: ProjectActivityDetailedViewProps = {
+      id: '0'
+    }
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(ProjectActivityDetailedView, {
+        props,
+        global: { stubs }
+      })
+
+      await vi.waitFor(() => expect(wrapper.find('[data-testid="activity-detail-title"]').exists()).toBe(true))
+    })
+
+    BddTest().then('it should render the page title component', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      expect(pageTitle.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass an empty title', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      expect(pageTitle.props('title')).toBe('Détail')
+    })
+
+    BddTest().then('it should pass the correct title in PageTitle slot', () => {
+      const title = wrapper.find('[data-testid="activity-detail-title"]')
+      expect(title.exists()).toBe(true)
+      expect(title.text()).toContain('Détail')
+      expect(title.text()).toContain(mockedActivityDetail.title)
+    })
+
+    BddTest().then('it should pass the correct back route', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.HOME)
+    })
+
+    BddTest().then('it should pass the correct breadcrumb links', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
+
+      expect(breadcrumbLinks).toHaveLength(3)
+      expect(breadcrumbLinks[0]).toEqual({
+        text: 'Accueil',
+        to: ROUTES.STUDENT.HOME
+      })
+      expect(breadcrumbLinks[1]).toEqual({
+        text: 'Construire mon projet de vie'
+      })
+      expect(breadcrumbLinks[2]).toEqual({
+        text: 'Mes activités'
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted with an invalid activity', () => {
+    const props: ProjectActivityDetailedViewProps = {
+      id: 'INVALID_ACTIVITY_ID'
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(ProjectActivityDetailedView, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the page title', () => {
+      expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should render an activity not found error message', async () => {
+      await vi.waitFor(() => {
+        const errorMessage = wrapper.find('[data-testid="error-message"]')
+        expect(errorMessage.exists()).toBe(true)
+        expect(errorMessage.text()).toContain('Activité introuvable')
+        expect(errorMessage.text()).toContain('L\'activité que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted and the API returns an error', () => {
+    const props: ProjectActivityDetailedViewProps = {
+      id: '0'
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      server.use(activityDetailsErrorHandler)
+
+      wrapper = mountComponent(ProjectActivityDetailedView, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the page title', () => {
+      expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should render a generic error message', async () => {
+      await vi.waitFor(() => {
+        const errorMessage = wrapper.find('[data-testid="error-message"]')
+        expect(errorMessage.exists()).toBe(true)
+        expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
+        expect(errorMessage.text()).toContain('Internal Server Error')
+      })
+    })
+  })
+})
