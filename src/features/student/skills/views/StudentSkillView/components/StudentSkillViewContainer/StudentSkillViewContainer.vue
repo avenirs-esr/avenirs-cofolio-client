@@ -24,7 +24,7 @@ const isSideMenuCollapsed = ref<boolean>(false)
 
 type LevelItemId = `level:${string}`
 type SelectedId = SkillItems | LevelItemId
-const selectedItem = ref<SelectedId>(SkillItems.SKILL_DETAILED)
+const selectedItem = ref<{ itemId: SelectedId }>({ itemId: SkillItems.SKILL_DETAILED })
 
 function isLevelId (id: SelectedId): id is LevelItemId {
   return typeof id === 'string' && id.startsWith('level:')
@@ -65,10 +65,10 @@ const items = computed<AvSideNavigationItem[]>(() => {
 })
 
 const displayedSection = computed<Component>(() => {
-  if (isLevelId(selectedItem.value)) {
+  if (isLevelId(selectedItem.value.itemId)) {
     return StudentSkillLevelDetailedSection
   }
-  switch (selectedItem.value) {
+  switch (selectedItem.value.itemId) {
     case SkillItems.SKILL_DETAILED: return StudentSkillDetailedSection
     case SkillItems.SKILL_PROGRESS: return StudentSkillProgressSection
     case SkillItems.SKILL_EVALUATE: return StudentSkillEvaluateSection
@@ -77,7 +77,7 @@ const displayedSection = computed<Component>(() => {
 })
 
 const sectionProps = computed<Record<string, string | undefined>>(() => {
-  if (selectedItem.value === SkillItems.SKILL_DETAILED) {
+  if (selectedItem.value.itemId === SkillItems.SKILL_DETAILED) {
     return { skillName: skillDetailed?.name ?? '' }
   }
   return {}

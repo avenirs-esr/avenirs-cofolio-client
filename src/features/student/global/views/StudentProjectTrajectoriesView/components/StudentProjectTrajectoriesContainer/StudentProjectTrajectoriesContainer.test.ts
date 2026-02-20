@@ -25,7 +25,10 @@ BddTest().given('a project trajectories container component', () => {
       name: 'AvSideNavigation',
       props: {
         items: Array,
-        selectedItem: String,
+        selectedItem: {
+          type: Object as () => { itemId: string, parentId?: string },
+          required: true
+        },
         isSideMenuCollapsed: Boolean,
         collapsedWidth: String
       },
@@ -65,7 +68,7 @@ BddTest().given('a project trajectories container component', () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
       expect(sideNavigation.exists()).toBe(true)
       expect(sideNavigation.props('isSideMenuCollapsed')).toBe(false)
-      expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+      expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
       expect(sideNavigation.props('items')).toHaveLength(4)
     })
 
@@ -106,7 +109,7 @@ BddTest().given('a project trajectories container component', () => {
   BddTest().when('different menu items are selected', () => {
     BddTest().then('it should display trajectories section when TRAJECTORIES is selected', async () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.TRAJECTORIES)
+      await sideNavigation.vm.$emit('update:selectedItem', { itemId: ProjectTrajectoryItems.TRAJECTORIES })
 
       const trajectoriesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesTrajectoriesSection' })
       expect(trajectoriesSection.exists()).toBe(true)
@@ -114,7 +117,7 @@ BddTest().given('a project trajectories container component', () => {
 
     BddTest().then('it should display self knowledge section when SELF_KNOWLEDGE is selected', async () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.SELF_KNOWLEDGE)
+      await sideNavigation.vm.$emit('update:selectedItem', { itemId: ProjectTrajectoryItems.SELF_KNOWLEDGE })
 
       const selfKnowledgeSection = wrapper.findComponent({ name: 'SelfKnowledgeMainSection' })
       expect(selfKnowledgeSection.exists()).toBe(true)
@@ -122,7 +125,7 @@ BddTest().given('a project trajectories container component', () => {
 
     BddTest().then('it should display explore futures section when EXPLORE_FUTURES is selected', async () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.EXPLORE_FUTURES)
+      await sideNavigation.vm.$emit('update:selectedItem', { itemId: ProjectTrajectoryItems.EXPLORE_FUTURES })
 
       const exploreFuturesSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesExploreFuturesSection' })
       expect(exploreFuturesSection.exists()).toBe(true)
@@ -130,7 +133,7 @@ BddTest().given('a project trajectories container component', () => {
 
     BddTest().then('it should display build project section when BUILD_PROJECT is selected', async () => {
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.BUILD_PROJECT)
+      await sideNavigation.vm.$emit('update:selectedItem', { itemId: ProjectTrajectoryItems.BUILD_PROJECT })
 
       const buildProjectSection = wrapper.findComponent({ name: 'StudentProjectTrajectoriesBuildProjectSection' })
       expect(buildProjectSection.exists()).toBe(true)
@@ -143,7 +146,7 @@ BddTest().given('a project trajectories container component', () => {
       expect(wrapper.findComponent({ name: 'StudentProjectTrajectoriesTrajectoriesSection' }).exists()).toBe(false)
 
       const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-      await sideNavigation.vm.$emit('update:selectedItem', ProjectTrajectoryItems.TRAJECTORIES)
+      await sideNavigation.vm.$emit('update:selectedItem', { itemId: ProjectTrajectoryItems.TRAJECTORIES })
 
       expect(wrapper.findComponent({ name: 'StudentProjectTrajectoriesBuildProjectSection' }).exists()).toBe(false)
       expect(wrapper.findComponent({ name: 'StudentProjectTrajectoriesTrajectoriesSection' }).exists()).toBe(true)
@@ -171,7 +174,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should set selectedItem to SELF_KNOWLEDGE', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.SELF_KNOWLEDGE)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.SELF_KNOWLEDGE })
       })
     })
 
@@ -191,7 +194,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should set selectedItem to TRAJECTORIES', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.TRAJECTORIES)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.TRAJECTORIES })
       })
     })
 
@@ -211,7 +214,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should set selectedItem to EXPLORE_FUTURES', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.EXPLORE_FUTURES)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.EXPLORE_FUTURES })
       })
     })
 
@@ -231,7 +234,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should keep selectedItem as BUILD_PROJECT', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
       })
     })
 
@@ -246,7 +249,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should keep selectedItem as BUILD_PROJECT', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
       })
     })
   })
@@ -274,7 +277,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should update selectedItem', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.SELF_KNOWLEDGE)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.SELF_KNOWLEDGE })
       })
     })
 
@@ -286,7 +289,7 @@ BddTest().given('a project trajectories container component', () => {
 
       BddTest().then('it should not change selectedItem', () => {
         const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
-        expect(sideNavigation.props('selectedItem')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+        expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
       })
     })
   })
