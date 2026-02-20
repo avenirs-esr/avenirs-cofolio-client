@@ -6,7 +6,7 @@ import {
 } from '@/api/avenir-esr'
 import { ActivityNewBadgeStub } from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.stub'
 import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
-import { ActivityThemacticBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThemacticBadge/ActivityThematicBadge.stub'
+import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -20,7 +20,7 @@ BddTest().given('an activity card', () => {
   const stubs = {
     FloatingIconCard: FloatingIconCardStub,
     AvBadge: AvBadgeStub,
-    ActivityThemacticBadge: ActivityThemacticBadgeStub,
+    ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityNewBadge: ActivityNewBadgeStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     RouterLink: RouterLinkStub
@@ -73,7 +73,7 @@ BddTest().given('an activity card', () => {
     })
 
     BddTest().then('it should render the activity thematic badge', () => {
-      const badge = wrapper.findComponent(ActivityThemacticBadgeStub)
+      const badge = wrapper.findComponent(ActivityThematicBadgeStub)
       expect(badge.exists()).toBe(true)
       expect(badge.text()).toBe(mockedActivityDetail.thematic)
     })

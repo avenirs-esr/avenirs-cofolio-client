@@ -1,5 +1,5 @@
-export const ActivityThemacticBadgeStub = defineComponent({
-  name: 'ActivityThemacticBadge',
+export const ActivityThematicBadgeStub = defineComponent({
+  name: 'ActivityThematicBadge',
   props: {
     thematic: {
       type: String,

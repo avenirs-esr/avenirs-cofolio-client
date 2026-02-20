@@ -4947,6 +4947,76 @@
           "data",
           "page"
         ]
+      },
+      "DeclaredActivityViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "summary",
+          "thematic",
+          "title"
+        ]
+      },
+      "PagedResponseDeclaredActivityViewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityViewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
       }
     }
   }

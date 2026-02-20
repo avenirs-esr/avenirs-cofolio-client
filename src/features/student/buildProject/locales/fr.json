@@ -99,6 +99,9 @@
           "unsubscribe": "Se désinscrire"
         },
         "projectActivitiesView": {
+          "ActivityLibraryCard": {
+            "period": "Période de réalisation personnelle"
+          },
           "allActivitiesTab": {
             "allActivitiesSection": {
               "title": "Toutes les activités ({count})"
