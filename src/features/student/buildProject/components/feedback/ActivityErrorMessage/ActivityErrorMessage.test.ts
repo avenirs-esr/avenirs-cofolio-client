@@ -13,7 +13,7 @@ BddTest().given('an activity error message component', () => {
         name: 'ActivityNotFoundError',
         message: 'Activity not found',
         status: 404,
-        code: ErrorCodes.ACTIVITY_NOT_FOUND as unknown as BaseApiErrorCode
+        code: ErrorCodes.ACTIVITY_NOT_FOUND
       }
     }
 
@@ -35,7 +35,7 @@ BddTest().given('an activity error message component', () => {
         name: 'InternalServerError',
         message: 'Internal Server Error',
         status: 500,
-        code: BaseApiErrorCode.UNKNOWN
+        code: ErrorCodes.UNKNOWN
       }
     }
 

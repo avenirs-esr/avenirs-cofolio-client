@@ -1,9 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { ActivityLibraryTabStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.stub'
 import { AllActivitiesTabStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.stub'
 import ProjectActivitiesView from '@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -12,7 +13,10 @@ BddTest().given('a project activities view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
-    AllActivitiesTab: AllActivitiesTabStub
+    AllActivitiesTab: AllActivitiesTabStub,
+    ActivityLibraryTab: ActivityLibraryTabStub,
+    AvTabs: AvTabsStub,
+    AvTab: AvTabStub
   }
 
   beforeEach(() => {
@@ -55,8 +59,19 @@ BddTest().given('a project activities view', () => {
       })
     })
 
-    BddTest().then('it should render the all activities tab', () => {
+    BddTest().then('it should render the all activities tab by default', () => {
       expect(wrapper.findComponent(AllActivitiesTabStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the library tab is selected', () => {
+    beforeEach(async () => {
+      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', 1)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should render the activity library tab', () => {
+      expect(wrapper.findComponent(ActivityLibraryTabStub).exists()).toBe(true)
     })
   })
 })

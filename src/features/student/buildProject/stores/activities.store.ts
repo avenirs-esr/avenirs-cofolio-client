@@ -7,9 +7,14 @@ export const useProjectActivitiesStore = defineStore('projectActivities', () => 
   const pageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
   const currentPage = ref(0)
 
+  const libraryCurrentPage = ref(0)
+  const libraryPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+
   return {
     currentPage,
-    pageSizeSelected
+    libraryCurrentPage,
+    libraryPageSizeSelected,
+    pageSizeSelected,
   }
 }, {
   persist: true

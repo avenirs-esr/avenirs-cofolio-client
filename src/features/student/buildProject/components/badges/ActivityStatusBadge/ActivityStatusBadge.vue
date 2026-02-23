@@ -23,7 +23,7 @@ const statusConfig = computed(() => {
       return {
         label: t('student.buildProject.activities.declaredActivityStatus.SUBSCRIBED'),
         icon: PH_ICONS.NOTE_PENCIL,
-        color: 'var(--light-background-primary3',
+        color: 'var(--card)',
         backgroundColor: 'var(--dark-background-primary3)',
       }
 

@@ -1,11 +1,17 @@
-import { activitiesNavigationMock } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
+import {
+  activitiesNavigationMock,
+  createMockedPagedResponseDeclaredActivityViewDTO,
+  mockedActivityDetail
+} from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  EErrorCode,
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
+  getGetDeclaredActivitiesViewUrl,
   getUnsubscribeActivityProgressesUrl,
+  type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 
@@ -60,14 +66,41 @@ const unsubscribeActivityProgressesHandler = http.delete(`*${getUnsubscribeActiv
   })
 })
 
+export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+})
+
 export const activitiesHandlers = [
+  http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+    const totalElements = 6
+
+    const mockData = createMockedPagedResponseDeclaredActivityViewDTO(pageSize, totalElements, page)
+
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }),
   activityNavigationQuery,
   http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
     const { activityId } = params
 
     if (activityId === 'INVALID_ACTIVITY_ID') {
       return HttpResponse.json(
-        { code: 'ACTIVITY_NOT_FOUND', message: 'Activity not found' },
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
         {
           status: 404,
           headers: {

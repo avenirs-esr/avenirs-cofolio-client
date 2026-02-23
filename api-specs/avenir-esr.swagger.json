@@ -1819,7 +1819,46 @@
         }
       }
     },
-
+    "/me/activity-progress": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getDeclaredActivitiesView",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseDeclaredActivityViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progresses/unsubscribe": {
       "delete": {
         "tags": [

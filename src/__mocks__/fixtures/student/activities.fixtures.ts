@@ -1,4 +1,11 @@
-import type { ActivityNavigationDTO } from '@/api/avenir-esr'
+import {
+  type ActivityDetailDTO,
+  type ActivityNavigationDTO,
+  type DeclaredActivityViewDTO,
+  EActivityThematic,
+  EDeclaredActivityStatus,
+  type PagedResponseDeclaredActivityViewDTO
+} from '@/api/avenir-esr'
 
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   {
@@ -149,3 +156,90 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
     ]
   }
 ]
+
+// TODO: changes this to activities returned by seeder in dev
+export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
+  id: 'declared-activity-1',
+  title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+  thematic: EActivityThematic.SELF_KNOWLEDGE,
+  status: EDeclaredActivityStatus.IN_PROGRESS,
+  summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes.',
+  startDate: '2024-01-01T00:00:00Z',
+  endDate: '2024-06-30T00:00:00Z',
+}
+
+const allDeclaredActivities: DeclaredActivityViewDTO[] = [
+  mockedDeclaredActivityViewDTO,
+  {
+    id: 'declared-activity-2',
+    title: 'Activité "CV" : Construire son parcours',
+    thematic: EActivityThematic.RESUMES,
+    status: EDeclaredActivityStatus.SUBSCRIBED,
+    summary: 'Activité permettant à l\'étudiant.e de construire et de valoriser son parcours académique et professionnel.',
+  },
+  {
+    id: 'declared-activity-3',
+    title: 'Activité "Trajectoires" : Explorer ses voies',
+    thematic: EActivityThematic.TRAJECTORIES,
+    status: EDeclaredActivityStatus.COMPLETED,
+    summary: 'Activité au cours de laquelle l\'étudiant.e explore différentes voies professionnelles et académiques.',
+    startDate: '2023-09-01T00:00:00Z',
+    endDate: '2024-01-31T00:00:00Z',
+  },
+  {
+    id: 'declared-activity-4',
+    title: 'Activité "Expériences" : Valoriser ses expériences',
+    thematic: EActivityThematic.EXPERIENCES,
+    status: EDeclaredActivityStatus.IN_PROGRESS,
+    summary: 'Activité permettant à l\'étudiant.e de valoriser ses expériences personnelles et professionnelles.',
+    startDate: '2024-02-01T00:00:00Z',
+  },
+  {
+    id: 'declared-activity-5',
+    title: 'Activité "Trajectoires" : Construire son projet professionnel',
+    thematic: EActivityThematic.TRAJECTORIES,
+    status: EDeclaredActivityStatus.SUBSCRIBED,
+    summary: 'Activité guidant l\'étudiant.e dans la construction d\'un projet professionnel cohérent avec ses aspirations.',
+  },
+  {
+    id: 'declared-activity-6',
+    title: 'Activité "Connaissance de soi" : Identifier ses compétences',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    status: EDeclaredActivityStatus.COMPLETED,
+    summary: 'Activité permettant à l\'étudiant.e d\'identifier et de nommer ses compétences acquises.',
+    startDate: '2023-11-01T00:00:00Z',
+    endDate: '2024-03-31T00:00:00Z',
+  },
+]
+
+export function createMockedPagedResponseDeclaredActivityViewDTO (
+  pageSize: number,
+  totalElements: number,
+  page: number
+): PagedResponseDeclaredActivityViewDTO {
+  const actualTotalElements = Math.min(totalElements, allDeclaredActivities.length)
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedActivities = allDeclaredActivities.slice(start, end)
+  const totalPages = Math.ceil(actualTotalElements / pageSize)
+
+  return {
+    data: paginatedActivities,
+    page: { pageSize, totalElements: actualTotalElements, totalPages, page }
+  }
+}
+
+export const mockedActivityDetail: ActivityDetailDTO = {
+  id: 'activity-1',
+  title: 'Activité “Connaissance de soi” : Définir ses valeurs',
+  banner: {
+    fileId: 'activity-1-banner',
+    url: 'https://cdn.welcometothejungle.co/uploads/article/social_image/3009/159196/large_jaredd-craig-HH4WBGNyltc-unsplash.jpg',
+    fileName: 'Image de l’activité Connaissance de soi - Définir ses valeurs'
+  },
+  thematic: EActivityThematic.SELF_KNOWLEDGE,
+  summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+  executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
+  createdAt: '2024-01-01T00:00:00Z',
+  updatedAt: '2024-01-01T00:00:00Z'
+}

@@ -17,15 +17,28 @@ BddTest().given('an activities store', () => {
       expect(store.currentPage).toBe(0)
       expect(store.pageSizeSelected).toBe(PageSizes.FOUR)
     })
+
+    BddTest().then('it should have the default library props', () => {
+      expect(store.libraryCurrentPage).toBe(0)
+      expect(store.libraryPageSizeSelected).toBe(PageSizes.FOUR)
+    })
   })
 
   BddTest().when('the props are updated', () => {
     BddTest().then('it should have the updated props', () => {
-      const newCurrentPage = 1
-      store.currentPage = newCurrentPage
+      store.currentPage = 1
       const newPageSizeSelected = PageSizes.TWELVE
       store.pageSizeSelected = newPageSizeSelected
       expect(store.pageSizeSelected).toBe(newPageSizeSelected)
+    })
+  })
+
+  BddTest().when('the library props are updated', () => {
+    BddTest().then('it should have the updated library props', () => {
+      store.libraryCurrentPage = 2
+      store.libraryPageSizeSelected = PageSizes.TWELVE
+      expect(store.libraryCurrentPage).toBe(2)
+      expect(store.libraryPageSizeSelected).toBe(PageSizes.TWELVE)
     })
   })
 })

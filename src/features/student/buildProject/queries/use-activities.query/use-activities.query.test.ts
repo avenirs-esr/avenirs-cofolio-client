@@ -1,32 +1,27 @@
-import type { ActivityDetailDTO } from '@/api/avenir-esr/generated/types/activityDetailDTO'
+import type { useInvalidateQuery } from '@/common/composables'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { activitiesNavigationMock } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
+import { activitiesNavigationMock, mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   activityNavigationQuery,
   activityNavigationQueryError,
+  libraryActivitiesErrorHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { type ActivityNavigationDTO, EActivityThematic } from '@/api/avenir-esr'
-import { useInvalidateQuery } from '@/common/composables'
+import { type ActivityDetailDTO, type ActivityNavigationDTO, EActivityThematic, type getDeclaredActivitiesView } from '@/api/avenir-esr'
 import {
   type UnsubscribeActivitiesVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
+  useCountLibraryActivities,
+  useLibraryActivitiesQuery,
   useUnsubscribeActivitiesMutation,
 } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'
-import { afterEach, beforeEach, expect, type MockedFunction, type MockInstance, vi } from 'vitest'
-
-vi.mock('@/common/composables', async () => {
-  return {
-    useInvalidateQuery: vi.fn(),
-  }
-})
+import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
 
 BddTest().given('the useActivitiesNavigationQuery composable', () => {
   BddTest().when('the query is executed', () => {
@@ -154,9 +149,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
   let unsubscribeActivityProgressesSpy: MockInstance<
     (activityIds: string[], options?: RequestInit | undefined) => Promise<string>
   >
+  let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
   let mutationResult: ReturnType<typeof useUnsubscribeActivitiesMutation>
 
-  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
   const mockInvalidateFunction = vi.fn()
 
   const mockOnSuccess = vi.fn()
@@ -175,7 +170,10 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
     'unsubscribeActivityProgresses',
     )
 
-    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+    useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
   })
 
   afterEach(() => {
@@ -209,7 +207,7 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
       })
 
       BddTest().then('it should call the invalidation function', () => {
-        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
+        expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
         expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length)
       })
 
@@ -401,6 +399,203 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
 
       BddTest().then('it should call the custom onError callback', () => {
         expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a useLibraryActivitiesQuery composable', () => {
+  let queryResult: ReturnType<typeof useLibraryActivitiesQuery>
+  let getDeclaredActivitiesViewSpy: MockInstance<typeof getDeclaredActivitiesView>
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    getDeclaredActivitiesViewSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getDeclaredActivitiesView'>(
+      await import('@/api/avenir-esr'),
+    'getDeclaredActivitiesView'
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().when('the query is executed without params', () => {
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useLibraryActivitiesQuery())
+      await flushPromises()
+    })
+
+    BddTest().then('it should call getDeclaredActivitiesView with undefined params', () => {
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledWith(undefined)
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledTimes(1)
+    })
+
+    BddTest().then('it should return a successful response', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+
+    BddTest().then('it should return libraryActivities', () => {
+      expect(queryResult.libraryActivities.value.length).toBeGreaterThan(0)
+    })
+
+    BddTest().then('it should return pageInfo', () => {
+      expect(queryResult.pageInfo.value).toBeDefined()
+      expect(queryResult.pageInfo.value?.page).toBe(0)
+    })
+
+    BddTest().then('it should return totalElements', () => {
+      expect(queryResult.totalElements.value).toBeGreaterThan(0)
+    })
+  })
+
+  BddTest().when('the query is executed with pagination params', () => {
+    const params = ref({ page: 0, pageSize: 2 })
+
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useLibraryActivitiesQuery(params))
+      await flushPromises()
+    })
+
+    BddTest().then('it should call getDeclaredActivitiesView with pagination params', () => {
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledWith({ page: 0, pageSize: 2 })
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledTimes(1)
+    })
+
+    BddTest().then('it should return paginated data matching pageSize', () => {
+      expect(queryResult.libraryActivities.value).toHaveLength(2)
+      expect(queryResult.pageInfo.value?.pageSize).toBe(2)
+      expect(queryResult.pageInfo.value?.page).toBe(0)
+    })
+
+    BddTest().and('the page param changes', () => {
+      beforeEach(async () => {
+        params.value = { page: 1, pageSize: 2 }
+        await flushPromises()
+      })
+
+      BddTest().then('it should call getDeclaredActivitiesView with updated page params', () => {
+        expect(getDeclaredActivitiesViewSpy).toHaveBeenLastCalledWith({ page: 1, pageSize: 2 })
+      })
+
+      BddTest().then('it should fetch the next page', () => {
+        expect(queryResult.pageInfo.value?.page).toBe(1)
+      })
+    })
+  })
+
+  BddTest().when('the query fails with a server error', () => {
+    beforeEach(async () => {
+      server.use(libraryActivitiesErrorHandler)
+      queryResult = mountQueryComposable(() => useLibraryActivitiesQuery())
+      await flushPromises()
+    })
+
+    BddTest().then('it should have called getDeclaredActivitiesView', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledWith(undefined)
+    })
+
+    BddTest().then('it should set the error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should return an empty libraryActivities array', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+      expect(queryResult.libraryActivities.value).toHaveLength(0)
+    })
+
+    BddTest().then('it should return undefined pageInfo', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+      expect(queryResult.pageInfo.value).toBeUndefined()
+    })
+
+    BddTest().then('it should return 0 totalElements', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+      expect(queryResult.totalElements.value).toBe(0)
+    })
+  })
+})
+
+BddTest().given('a useCountLibraryActivities composable', () => {
+  let queryResult: ReturnType<typeof useCountLibraryActivities>
+  let getDeclaredActivitiesViewSpy: MockInstance<typeof getDeclaredActivitiesView>
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    getDeclaredActivitiesViewSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getDeclaredActivitiesView'>(
+      await import('@/api/avenir-esr'),
+    'getDeclaredActivitiesView'
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().when('the query is executed without params', () => {
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useCountLibraryActivities())
+      await flushPromises()
+    })
+
+    BddTest().then('it should call getDeclaredActivitiesView with undefined params', () => {
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledWith(undefined)
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledTimes(1)
+    })
+
+    BddTest().then('it should return the total elements count', () => {
+      expect(queryResult.data.value).toBe(6)
+    })
+
+    BddTest().then('it should return a successful response', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+  })
+
+  BddTest().when('the query is executed with pagination params', () => {
+    const params = ref({ page: 0, pageSize: 2 })
+
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useCountLibraryActivities(params))
+      await flushPromises()
+    })
+
+    BddTest().then('it should call getDeclaredActivitiesView with pagination params', () => {
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledWith({ page: 0, pageSize: 2 })
+      expect(getDeclaredActivitiesViewSpy).toHaveBeenCalledTimes(1)
+    })
+
+    BddTest().then('it should return the total elements count', () => {
+      expect(queryResult.data.value).toBe(6)
+    })
+
+    BddTest().and('the page param changes', () => {
+      beforeEach(async () => {
+        params.value = { page: 1, pageSize: 2 }
+        await flushPromises()
+      })
+
+      BddTest().then('it should call getDeclaredActivitiesView with updated page params', () => {
+        expect(getDeclaredActivitiesViewSpy).toHaveBeenLastCalledWith({ page: 1, pageSize: 2 })
+      })
+
+      BddTest().then('it should still return the total elements count', () => {
+        expect(queryResult.data.value).toBe(6)
       })
     })
   })

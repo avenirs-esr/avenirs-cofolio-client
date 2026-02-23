@@ -112,6 +112,12 @@
           "ActivityLibraryCard": {
             "period": "Personal achievement period"
           },
+          "ActivityLibraryTab": {
+            "pagination": {
+              "ariaLabel": "Pagination of library activities"
+            },
+            "tabTitle": "My activity library ({count})"
+          },
           "allActivitiesTab": {
             "allActivitiesSection": {
               "title": "All activities ({count})"
@@ -125,7 +131,8 @@
                 "ariaLabel": "Pagination of new activities"
               },
               "title": "New activities ({count})"
-            }
+            },
+            "tabTitle": "All available activities ({count})"
           },
           "title": "My activities"
         }

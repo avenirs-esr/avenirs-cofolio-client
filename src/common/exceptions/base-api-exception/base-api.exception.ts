@@ -1,16 +1,16 @@
 import type { ErrorDetails } from '@/common/exceptions/types'
-import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
+import { type ErrorCode, ErrorCodes } from '@/common/constants'
 
 export class BaseApiException extends Error {
   public readonly status: number
-  public readonly code: BaseApiErrorCode
+  public readonly code: ErrorCode
   public readonly method?: string
   public readonly details?: ErrorDetails
 
   constructor (
     message: string,
     status: number = 500,
-    code: BaseApiErrorCode = BaseApiErrorCode.UNKNOWN,
+    code: ErrorCode = ErrorCodes.UNKNOWN,
     method?: string,
     details?: ErrorDetails,
   ) {
