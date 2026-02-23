@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
+import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import ActivityDetailedDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailedViewProps {
@@ -14,6 +17,7 @@ const { id } = defineProps<ProjectActivityDetailedViewProps>()
 
 const { t } = useI18n()
 const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(id)
+const { showModal, displayModal, hideModal } = useModal()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -43,6 +47,17 @@ const breadcrumbLinks = computed(() => [
           </span>
         </template>
       </PageTitle>
+
+      <div class="av-row av-justify-end">
+        <ActivityDetailedDropdown @unsubscribe-selected="displayModal" />
+      </div>
+
+      <UnsubscribeActivitiesConfirmModal
+        :show="showModal"
+        :activities="[{ id: activityDetail.id, title: activityDetail.title }]"
+        @cancel="hideModal"
+        @unsubscribed="hideModal"
+      />
     </template>
   </Loader>
 

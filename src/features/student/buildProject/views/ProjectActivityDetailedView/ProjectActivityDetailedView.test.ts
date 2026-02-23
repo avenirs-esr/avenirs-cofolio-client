@@ -5,6 +5,8 @@ import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
+import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
 import ProjectActivityDetailedView, { type ProjectActivityDetailedViewProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -15,7 +17,9 @@ BddTest().given('a project activity detailed view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
-    Loader: LoaderStub
+    Loader: LoaderStub,
+    UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
+    ActivityDetailedDropdown: ActivityDetailedDropdownStub
   }
 
   BddTest().when('the view is mounted with a valid activity', () => {
@@ -69,6 +73,45 @@ BddTest().given('a project activity detailed view', () => {
       })
       expect(breadcrumbLinks[2]).toEqual({
         text: 'Mes activités'
+      })
+    })
+
+    BddTest().and('the user clicks the unsubscribe button in the activity detailed dropdown', () => {
+      beforeEach(async () => {
+        const unsubscribeButton = wrapper.findComponent(ActivityDetailedDropdownStub)
+        unsubscribeButton.vm.$emit('unsubscribeSelected')
+      })
+
+      BddTest().then('it should show the UnsubscribeActivitiesConfirmModal', () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('show')).toBe(true)
+      })
+    })
+
+    BddTest().and('the user confirms the unsubscription in the UnsubscribeActivitiesConfirmModal', () => {
+      beforeEach(async () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        modal.vm.$emit('unsubscribed')
+      })
+
+      BddTest().then('it should hide the UnsubscribeActivitiesConfirmModal', () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('show')).toBe(false)
+      })
+    })
+
+    BddTest().and('the user cancels the unsubscription in the UnsubscribeActivitiesConfirmModal', () => {
+      beforeEach(async () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        modal.vm.$emit('cancel')
+      })
+
+      BddTest().then('it should hide the UnsubscribeActivitiesConfirmModal', () => {
+        const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('show')).toBe(false)
       })
     })
   })

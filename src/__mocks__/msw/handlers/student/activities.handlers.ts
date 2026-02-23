@@ -40,7 +40,7 @@ export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl(
   })
 })
 
-const unsubscribeActivityProgressesHandler = http.post(`*${getUnsubscribeActivityProgressesUrl()}`, async ({ request }) => {
+const unsubscribeActivityProgressesHandler = http.delete(`*${getUnsubscribeActivityProgressesUrl()}`, async ({ request }) => {
   const activitiesIds = await request.json() as string[]
 
   if (activitiesIds.length === 0) {

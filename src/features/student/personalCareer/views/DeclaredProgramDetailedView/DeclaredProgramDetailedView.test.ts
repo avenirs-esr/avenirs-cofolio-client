@@ -1,5 +1,9 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import { declaredProgramDetailedHandler, declaredProgramDetailedLoadingHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import {
+  declaredProgramDetailedHandler,
+  declaredProgramDetailedLoadingHandler,
+  declaredProgramsQueryErrorHandler,
+} from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
@@ -11,7 +15,7 @@ import DeclaredProgramDetailedView from '@/features/student/personalCareer/views
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const routerPush = vi.fn()
@@ -99,6 +103,10 @@ BddTest().given('a declared program detailed view component', () => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
     mockShowModal.value = false
+  })
+
+  afterEach(() => {
+    wrapper?.unmount()
   })
 
   BddTest().when('the component is mounted', () => {

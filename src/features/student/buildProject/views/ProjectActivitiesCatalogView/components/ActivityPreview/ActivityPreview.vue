@@ -73,7 +73,7 @@ const { showModal, displayModal, hideModal } = useModal()
           <AvButton
             variant="OUTLINED"
             theme="PRIMARY"
-            :label="t('student.buildProject.views.ProjectActivitiesCatalogView.unsubscribe')"
+            :label="t('student.buildProject.activities.buttons.unsubscribe')"
             :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
             data-testid="unsubscribe-button"
             @click="displayModal"

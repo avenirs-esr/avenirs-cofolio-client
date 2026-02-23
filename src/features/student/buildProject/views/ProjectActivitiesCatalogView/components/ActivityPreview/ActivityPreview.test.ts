@@ -61,7 +61,7 @@ BddTest().given('an activity preview', () => {
     BddTest().then('it should render the unsubscribe button', () => {
       const unsubscribeButton = wrapper.findComponent(AvButtonStub).find('[data-testid="unsubscribe-button"]')
       expect(unsubscribeButton.exists()).toBe(true)
-      expect(unsubscribeButton.text()).toBe('Se désinscrire')
+      expect(unsubscribeButton.text()).toBe('Me désinscrire')
     })
 
     BddTest().then('it should render the unsubscribe confirmation modal', () => {
