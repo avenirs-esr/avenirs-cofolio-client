@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
 import DeclaredExperienceActivitySectorInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
@@ -73,7 +73,7 @@ const createdAtPrefixed = computed(() =>
         </div>
         <div class="av-flex-fill">
           <DeclaredExperienceTypeSelect
-            :model-value="experienceType"
+            :model-value="{ itemId: experienceType as EExperienceType }"
             disabled
           />
         </div>

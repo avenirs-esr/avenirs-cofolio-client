@@ -16,8 +16,8 @@ const { form } = defineProps<DeclaredExperienceTypeFormFieldProps>()
 const FormField = markRaw(form.Field)
 const typeField = form.useField({ name: 'type' })
 
-function onUpdateType (value: EExperienceType | undefined) {
-  typeField.api.handleChange(value ?? '')
+function onUpdateType (value: { itemId: EExperienceType } | undefined) {
+  typeField.api.handleChange(value?.itemId ?? '')
 }
 </script>
 
@@ -26,7 +26,7 @@ function onUpdateType (value: EExperienceType | undefined) {
     <template #default="{ field }">
       <DeclaredExperienceTypeSelect
         v-bind="$attrs"
-        :model-value="field.state.value as EExperienceType"
+        :model-value="{ itemId: field.state.value as EExperienceType }"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
         @update:model-value="onUpdateType"

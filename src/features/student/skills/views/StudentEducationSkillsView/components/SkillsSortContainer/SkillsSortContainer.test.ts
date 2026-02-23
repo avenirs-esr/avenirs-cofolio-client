@@ -67,7 +67,7 @@ BddTest().given('a student education skills filters container', () => {
     BddTest().then('it should update the selected option', async () => {
       const newSortValue = formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.DESC)
 
-      await wrapper.setProps({ sort: newSortValue })
+      await wrapper.setProps({ sort: { itemId: newSortValue } })
 
       const select = wrapper.find('select')
       expect(select.element.value).toBe(newSortValue)

@@ -7,9 +7,9 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const sort = defineModel<string>('sort', {
-  default: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC),
-  type: String,
+const sort = defineModel<{ itemId: string }>('sort', {
+  default: { itemId: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC) },
+  type: Object as () => { itemId: string },
 })
 
 const { sortOptions } = useSortEducationSkills()
@@ -17,20 +17,20 @@ const { sortOptions } = useSortEducationSkills()
 function useSortEducationSkills () {
   const sortOptions = computed(() => [
     {
-      value: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC),
-      text: t('global.sort.nameAsc')
+      id: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC),
+      label: t('global.sort.nameAsc')
     },
     {
-      value: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.DESC),
-      text: t('global.sort.nameDesc')
+      id: formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.DESC),
+      label: t('global.sort.nameDesc')
     },
     {
-      value: formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.DESC),
-      text: t('global.sort.dateDesc')
+      id: formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.DESC),
+      label: t('global.sort.dateDesc')
     },
     {
-      value: formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.ASC),
-      text: t('global.sort.dateAsc')
+      id: formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.ASC),
+      label: t('global.sort.dateAsc')
     },
   ])
 
@@ -43,7 +43,7 @@ function useSortEducationSkills () {
 <template>
   <div class="skills-sort-container av-row av-gap-sm av-pb-md">
     <AvSelect
-      v-model="sort"
+      v-model:selected-item="sort"
       :label="t('global.sort.label')"
       select-id="education-skills-sort"
       placeholder=""

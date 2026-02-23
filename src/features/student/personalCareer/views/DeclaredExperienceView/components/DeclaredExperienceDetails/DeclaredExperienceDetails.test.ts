@@ -105,7 +105,7 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       BddTest().then('it should render the experience type', () => {
         const component = wrapper.findComponent(DeclaredExperienceTypeSelect)
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.experienceType)
+        expect(component.props('modelValue')).toEqual({ itemId: mockedDeclaredExperienceDetails.experienceType })
         expect(component.props('disabled')).toBe(true)
       })
 

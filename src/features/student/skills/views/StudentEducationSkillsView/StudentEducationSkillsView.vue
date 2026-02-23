@@ -17,10 +17,10 @@ const { t } = useI18n()
 
 const defaultSortOption = formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC)
 
-const selectedSortOption = ref(defaultSortOption)
+const selectedSortOption = ref({ itemId: defaultSortOption })
 
 const params = computed((): GetStudentProgressViewParams => ({
-  sort: selectedSortOption.value,
+  sort: selectedSortOption.value.itemId,
 }))
 
 const { data: courses, error } = useProgramProgressViewQuery(params)
