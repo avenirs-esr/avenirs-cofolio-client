@@ -10,17 +10,17 @@ const {
   ...restProps
 } = defineProps<DeclaredExperienceTypeSelectProps>()
 
-const modelValue = defineModel<EExperienceType>()
+const selectedItem = defineModel<{ itemId: EExperienceType }>()
 const { t } = useI18n()
 
 const options = computed(() => [
   {
-    value: EExperienceType.PROFESSIONAL,
-    text: t('student.personalCareer.declaredExperienceType.PROFESSIONAL')
+    id: EExperienceType.PROFESSIONAL,
+    label: t('student.personalCareer.declaredExperienceType.PROFESSIONAL')
   },
   {
-    value: EExperienceType.PERSONAL,
-    text: t('student.personalCareer.declaredExperienceType.PERSONAL')
+    id: EExperienceType.PERSONAL,
+    label: t('student.personalCareer.declaredExperienceType.PERSONAL')
   }
 ])
 
@@ -36,6 +36,6 @@ const avSelectProps = computed<AvSelectProps>(() => ({
 <template>
   <AvSelect
     v-bind="avSelectProps"
-    v-model="modelValue"
+    v-model:selected-item="selectedItem"
   />
 </template>

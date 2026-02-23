@@ -145,12 +145,12 @@ BddTest().given('a student education skills view', () => {
       const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
 
       const defaultSort = formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC)
-      expect(filtersContainer.props('sort')).toBe(defaultSort)
+      expect(filtersContainer.props('sort')).toEqual({ itemId: defaultSort })
 
       const newSort = formatSortParam(StudentProgressViewSortableFields.DATE, SortDirection.DESC)
-      await filtersContainer.vm.$emit('update:sort', newSort)
+      await filtersContainer.vm.$emit('update:sort', { itemId: newSort })
 
-      expect(filtersContainer.props('sort')).toBe(newSort)
+      expect(filtersContainer.props('sort')).toEqual({ itemId: newSort })
     })
   })
 

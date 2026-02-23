@@ -40,18 +40,18 @@ BddTest().given('a declared experience type form field', () => {
 
     BddTest().then('it should have empty initial value', () => {
       const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-      expect(select.props('modelValue')).toBe('')
+      expect(select.props('modelValue')).toEqual({ itemId: '' })
     })
 
     BddTest().and('the user selects a type', () => {
       BddTest().then('it should update the form field value', async () => {
         const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-        await select.vm.$emit('update:modelValue', 'PROFESSIONAL' as EExperienceType)
+        await select.vm.$emit('update:modelValue', { itemId: 'PROFESSIONAL' as EExperienceType })
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-          expect(updated.props('modelValue')).toBe('PROFESSIONAL')
+          expect(updated.props('modelValue')).toEqual({ itemId: 'PROFESSIONAL' })
         })
       })
     })
