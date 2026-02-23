@@ -30,7 +30,7 @@ const titleClasses = computed(() => isMobile.value
 </script>
 
 <template>
-  <div class="library-activity-card">
+  <div class="activity-library-card">
     <FloatingIconCard
       :title="activity.title"
       :icon-options="iconOptions"
@@ -60,7 +60,7 @@ const titleClasses = computed(() => isMobile.value
           </div>
 
           <p class="av-hidden av-unhidden--md av-px-xs">
-            <span class="library-activity-card__summary s2-regular av-text-text2">
+            <span class="activity-library-card__summary s2-regular av-text-text2">
               {{ activity.summary }}
             </span>
           </p>
@@ -71,7 +71,7 @@ const titleClasses = computed(() => isMobile.value
 </template>
 
 <style lang="scss" scoped>
-.library-activity-card {
+.activity-library-card {
 
   &__summary {
     display: -webkit-box;

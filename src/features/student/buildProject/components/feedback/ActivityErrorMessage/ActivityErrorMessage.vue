@@ -10,15 +10,23 @@ export interface ActivityErrorMessageProps {
 }
 
 const props = defineProps<ActivityErrorMessageProps>()
-const error = toRef(() => props.error)
-
+const { error } = toRefs(props)
 const { t } = useI18n()
-const { isNotFound } = useApiErrors(error, ErrorCodes.ACTIVITY_NOT_FOUND)
+const { isMatchingErrorCode, isNotFound } = useApiErrors(error)
+
+const title = computed(() => {
+  if (isMatchingErrorCode(ErrorCodes.ACTIVITY_NOT_FOUND) || isNotFound.value) {
+    return t('student.buildProject.activities.errors.notFound.title')
+  }
+
+  return t('global.error.generic')
+})
 
 const description = computed(() => {
-  if (isNotFound.value) {
+  if (isMatchingErrorCode(ErrorCodes.ACTIVITY_NOT_FOUND)) {
     return t('student.buildProject.activities.errors.notFound.description')
   }
+
   return error.value?.message ?? ''
 })
 </script>
@@ -26,7 +34,7 @@ const description = computed(() => {
 <template>
   <ErrorMessage
     v-if="error"
-    :title="isNotFound ? t('student.buildProject.activities.errors.notFound.title') : t('global.error.generic')"
-    :description="description"
+    :title
+    :description
   />
 </template>

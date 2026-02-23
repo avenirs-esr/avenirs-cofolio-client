@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
-export interface AvNotFoundMessageProps {
-  title: string
-  description: string
+export interface ErrorMessageProps {
+  title?: string
+  description?: string
 }
 
-const { title, description } = defineProps<AvNotFoundMessageProps>()
+const { title, description } = defineProps<ErrorMessageProps>()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -22,9 +24,12 @@ const { title, description } = defineProps<AvNotFoundMessageProps>()
     />
     <div class="av-col av-align-center av-gap-sm av-text-center">
       <h3 class="av-error-message__title">
-        {{ title }}
+        {{ title ?? t('global.error.generic') }}
       </h3>
-      <p class="av-error-message__description">
+      <p
+        v-if="description"
+        class="av-error-message__description"
+      >
         {{ description }}
       </p>
     </div>

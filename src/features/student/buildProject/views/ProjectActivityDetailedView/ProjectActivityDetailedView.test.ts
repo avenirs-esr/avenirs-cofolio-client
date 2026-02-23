@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'

@@ -18,7 +18,8 @@ const { t } = useI18n()
 
 const { skillDetailed, error } = useSkillDetailedQuery(skillId)
 
-const { isNotFound } = useApiErrors(error, ErrorCodes.SKILL_NOT_FOUND)
+const { originalErrorCode, isNotFound } = useApiErrors(error)
+const isSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.SKILL_NOT_FOUND || isNotFound.value)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -35,8 +36,8 @@ const breadcrumbLinks = computed(() => [
   />
   <ErrorMessage
     v-if="error"
-    :title="isNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.title') : t('global.error.generic')"
-    :description="isNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.description') : error.message"
+    :title="isSkillNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.title') : t('global.error.generic')"
+    :description="isSkillNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.description') : error.message"
   />
   <StudentSkillViewContainer
     v-else

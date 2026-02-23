@@ -111,6 +111,12 @@
           "ActivityLibraryCard": {
             "period": "Période de réalisation personnelle"
           },
+          "ActivityLibraryTab": {
+            "pagination": {
+              "ariaLabel": "Pagination des activités de la bibliothèque"
+            },
+            "tabTitle": "Ma bibliothèque d’activités ({count})"
+          },
           "allActivitiesTab": {
             "allActivitiesSection": {
               "title": "Toutes les activités ({count})"
@@ -124,7 +130,8 @@
                 "ariaLabel": "Pagination des nouvelles activités"
               },
               "title": "Les nouveautés ({count})"
-            }
+            },
+            "tabTitle": "Toutes les activités disponibles ({count})"
           },
           "title": "Mes activités"
         }

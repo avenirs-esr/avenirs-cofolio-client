@@ -7,70 +7,56 @@ import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a useApiErrors composable', () => {
   let errorRef: Ref<BaseApiException | null>
+  let result: ReturnType<typeof useApiErrors>
 
   beforeEach(() => {
     errorRef = ref(null)
+    const { result: res } = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: false })
+    result = res
   })
 
   BddTest().when('error is null', () => {
-    let isNotFound: Ref<boolean>
-
-    beforeEach(() => {
-      const result = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: false })
-      isNotFound = result.result.isNotFound as unknown as Ref<boolean>
+    BddTest().then('isNotFound should return false', () => {
+      expect(result.isNotFound.value).toBe(false)
     })
 
-    BddTest().then('it should return false', () => {
-      expect(isNotFound.value).toBe(false)
+    BddTest().then('originalErrorCode should be undefined', () => {
+      expect(result.originalErrorCode.value).toBeUndefined()
+    })
+
+    BddTest().then('isMatchingErrorCode should return false for any code', () => {
+      expect(result.isMatchingErrorCode(BaseApiErrorCode.NOT_FOUND)).toBe(false)
     })
   })
 
-  BddTest().when('error status is 404', () => {
-    let isNotFound: Ref<boolean>
-
+  BddTest().when('error code is NOT_FOUND', () => {
     beforeEach(() => {
       errorRef.value = {
         message: 'Not Found',
         name: 'Error',
-        status: 404,
-        code: BaseApiErrorCode.UNKNOWN,
-      }
-
-      const result = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: false })
-      isNotFound = result.result.isNotFound as unknown as Ref<boolean>
-    })
-
-    BddTest().then('it should return true', () => {
-      expect(isNotFound.value).toBe(true)
-    })
-  })
-
-  BddTest().when('error code matches the provided code', () => {
-    let isNotFound: Ref<boolean>
-
-    beforeEach(() => {
-      errorRef.value = {
-        message: 'Skill not found',
-        name: 'Error',
         status: 400,
         code: BaseApiErrorCode.NOT_FOUND,
       }
-
-      const result = mountComposable(
-        () => useApiErrors(errorRef, BaseApiErrorCode.NOT_FOUND),
-        { usePinia: false, useI18n: false }
-      )
-      isNotFound = result.result.isNotFound as unknown as Ref<boolean>
     })
 
-    BddTest().then('it should return true', () => {
-      expect(isNotFound.value).toBe(true)
+    BddTest().then('isNotFound should return true', () => {
+      expect(result.isNotFound.value).toBe(true)
+    })
+
+    BddTest().then('originalErrorCode should return NOT_FOUND', () => {
+      expect(result.originalErrorCode.value).toBe(BaseApiErrorCode.NOT_FOUND)
+    })
+
+    BddTest().then('isMatchingErrorCode should return true for NOT_FOUND', () => {
+      expect(result.isMatchingErrorCode(BaseApiErrorCode.NOT_FOUND)).toBe(true)
+    })
+
+    BddTest().then('isMatchingErrorCode should return false for other codes', () => {
+      expect(result.isMatchingErrorCode(BaseApiErrorCode.FORBIDDEN)).toBe(false)
     })
   })
 
-  BddTest().when('error exists but neither status is 404 nor code matches', () => {
-    let isNotFound: Ref<boolean>
-
+  BddTest().when('error code is not NOT_FOUND', () => {
     beforeEach(() => {
       errorRef.value = {
         message: 'Forbidden',
@@ -78,45 +64,54 @@ BddTest().given('a useApiErrors composable', () => {
         status: 403,
         code: BaseApiErrorCode.FORBIDDEN,
       }
-
-      const result = mountComposable(
-        () => useApiErrors(errorRef, BaseApiErrorCode.NOT_FOUND),
-        { usePinia: false, useI18n: false }
-      )
-      isNotFound = result.result.isNotFound as unknown as Ref<boolean>
     })
 
-    BddTest().then('it should return false', () => {
-      expect(isNotFound.value).toBe(false)
+    BddTest().then('isNotFound should return false', () => {
+      expect(result.isNotFound.value).toBe(false)
+    })
+
+    BddTest().then('originalErrorCode should return FORBIDDEN', () => {
+      expect(result.originalErrorCode.value).toBe(BaseApiErrorCode.FORBIDDEN)
+    })
+
+    BddTest().then('isMatchingErrorCode should return true for FORBIDDEN', () => {
+      expect(result.isMatchingErrorCode(BaseApiErrorCode.FORBIDDEN)).toBe(true)
     })
   })
 
   BddTest().when('the errorRef value changes over time', () => {
-    let isNotFound: Ref<boolean>
-
-    beforeEach(() => {
-      const result = mountComposable(
-        () => useApiErrors(errorRef, BaseApiErrorCode.NOT_FOUND),
-        { usePinia: false, useI18n: false }
-      )
-      isNotFound = result.result.isNotFound as unknown as Ref<boolean>
-    })
-
-    BddTest().then('it should reactively update', async () => {
-      expect(isNotFound.value).toBe(false)
+    BddTest().then('isNotFound should reactively update', async () => {
+      expect(result.isNotFound.value).toBe(false)
 
       errorRef.value = {
         message: 'Not Found',
         name: 'Error',
-        status: 404,
-        code: BaseApiErrorCode.UNKNOWN,
+        status: 400,
+        code: BaseApiErrorCode.NOT_FOUND,
       }
       await Promise.resolve()
-      expect(isNotFound.value).toBe(true)
+      expect(result.isNotFound.value).toBe(true)
 
       errorRef.value = null
       await Promise.resolve()
-      expect(isNotFound.value).toBe(false)
+      expect(result.isNotFound.value).toBe(false)
+    })
+
+    BddTest().then('originalErrorCode should reactively update', async () => {
+      expect(result.originalErrorCode.value).toBeUndefined()
+
+      errorRef.value = {
+        message: 'Forbidden',
+        name: 'Error',
+        status: 403,
+        code: BaseApiErrorCode.FORBIDDEN,
+      }
+      await Promise.resolve()
+      expect(result.originalErrorCode.value).toBe(BaseApiErrorCode.FORBIDDEN)
+
+      errorRef.value = null
+      await Promise.resolve()
+      expect(result.originalErrorCode.value).toBeUndefined()
     })
   })
 })

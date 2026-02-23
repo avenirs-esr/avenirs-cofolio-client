@@ -1,4 +1,4 @@
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/project-activities.fixtures'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   type ActivityOverviewDTO,
   EActivityThematic,
