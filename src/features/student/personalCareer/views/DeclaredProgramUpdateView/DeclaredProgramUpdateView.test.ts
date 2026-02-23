@@ -10,7 +10,7 @@ import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/D
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const routerPush = vi.fn()
@@ -122,6 +122,10 @@ BddTest().given('a declared program update view component', () => {
     showConfirmationModal.value = false
 
     mockCanLeave.mockResolvedValue(true)
+  })
+
+  afterEach(() => {
+    wrapper?.unmount()
   })
 
   BddTest().when('the component is mounted', () => {

@@ -1821,7 +1821,7 @@
     },
 
     "/me/activity-progresses/unsubscribe": {
-      "post": {
+      "delete": {
         "tags": [
           "activity-progresses-controller"
         ],

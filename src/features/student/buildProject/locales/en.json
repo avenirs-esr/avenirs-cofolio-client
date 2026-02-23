@@ -7,6 +7,9 @@
             "label": "New"
           }
         },
+        "buttons": {
+          "unsubscribe": "Unsubscribe"
+        },
         "declaredActivityStatus": {
           "COMPLETED": "Completed",
           "IN_PROGRESS": "In progress",
@@ -34,6 +37,13 @@
           "SELF_KNOWLEDGE": "Self-knowledge",
           "TRAJECTORIES": "My trajectories",
           "TRANSVERSAL": "Transversal"
+        },
+        "views": {
+          "ProjectActivityDetailedView": {
+            "ActivityDetailedDropdown": {
+              "triggerLabel": "Manage my activity"
+            }
+          }
         }
       },
       "mindMap": {

@@ -7,6 +7,9 @@
             "label": "Nouveau"
           }
         },
+        "buttons": {
+          "unsubscribe": "Me désinscrire"
+        },
         "declaredActivityStatus": {
           "COMPLETED": "Terminée",
           "IN_PROGRESS": "En cours",
@@ -34,6 +37,13 @@
           "SELF_KNOWLEDGE": "Me connaître",
           "TRAJECTORIES": "Mes trajectoires",
           "TRANSVERSAL": "Transverse"
+        },
+        "views": {
+          "ProjectActivityDetailedView": {
+            "ActivityDetailedDropdown": {
+              "triggerLabel": "Gérer mon activité"
+            }
+          }
         }
       },
       "mindMap": {
@@ -95,8 +105,7 @@
         "ProjectActivitiesCatalogView": {
           "periodTitle": "Période de réalisation",
           "previewTitle": "Extrait de l'activité",
-          "title": "Toutes les activités disponibles",
-          "unsubscribe": "Se désinscrire"
+          "title": "Toutes les activités disponibles"
         },
         "projectActivitiesView": {
           "ActivityLibraryCard": {
