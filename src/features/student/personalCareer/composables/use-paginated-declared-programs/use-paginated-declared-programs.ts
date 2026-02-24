@@ -41,7 +41,6 @@ export function usePaginatedDeclaredPrograms ({
     pageInfo,
     isFetching,
     page,
-    getItemId: (program: DeclaredProgramViewDTO) => program.id
   })
 
   return {

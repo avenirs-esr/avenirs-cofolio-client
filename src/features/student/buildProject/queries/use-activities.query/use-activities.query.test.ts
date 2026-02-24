@@ -146,7 +146,7 @@ BddTest().given('the useActivityDetailQuery composable', () => {
 })
 
 BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
-  let unsubscribeActivityProgressesSpy: MockInstance<
+  let unsubscribeActivityProgressSpy: MockInstance<
     (activityIds: string[], options?: RequestInit | undefined) => Promise<string>
   >
   let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
@@ -165,9 +165,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
     vi.clearAllMocks()
     vi.restoreAllMocks()
 
-    unsubscribeActivityProgressesSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'unsubscribeActivityProgresses'>(
+    unsubscribeActivityProgressSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'unsubscribe'>(
       await import('@/api/avenir-esr'),
-    'unsubscribeActivityProgresses',
+    'unsubscribe',
     )
 
     useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
@@ -191,9 +191,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with correct parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with correct parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should return the expected success response', () => {
@@ -228,9 +228,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with correct parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with correct parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -255,9 +255,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with correct parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with correct parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should still call the invalidation function', () => {
@@ -286,9 +286,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with the invalid parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with the invalid parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should mark the mutation as error', () => {
@@ -323,9 +323,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with the invalid parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with the invalid parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {
@@ -350,9 +350,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with the invalid parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with the invalid parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should mark the mutation as error', () => {
@@ -387,9 +387,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should call the unsubscribeActivityProgresses API with the invalid parameters', () => {
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledWith(elementsIds)
-        expect(unsubscribeActivityProgressesSpy).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call the unsubscribeActivityProgress API with the invalid parameters', () => {
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledWith(elementsIds)
+        expect(unsubscribeActivityProgressSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {

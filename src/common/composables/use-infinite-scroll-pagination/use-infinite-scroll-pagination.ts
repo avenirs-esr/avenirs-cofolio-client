@@ -13,8 +13,6 @@ export interface UseInfiniteScrollPaginationParams<T> {
   isFetching: Ref<boolean>
   /** Current page number (0-based) */
   page: Ref<number>
-  /** Function to extract unique identifier from an item */
-  getItemId: (item: T) => string
 }
 
 /**
@@ -45,7 +43,6 @@ export interface UseInfiniteScrollPaginationResult<T> {
  *  - `pageInfo` (Ref<PageInfoDTO>) : pagination metadata,
  *  - `isFetching` (Ref<boolean>) : loading state indicator,
  *  - `page` (Ref<number>) : current page number,
- *  - `getItemId` (function) : function to extract unique item identifier.
  * @returns {UseInfiniteScrollPaginationResult<T>} Object containing :
  *  - `items` (Ref<T[]>) : accumulated items from all loaded pages,
  *  - `loadMore` (function) : method that loads the next page,
@@ -56,8 +53,7 @@ export function useInfiniteScrollPagination<T> ({
   fetchedItems,
   pageInfo,
   isFetching,
-  page,
-  getItemId
+  page
 }: UseInfiniteScrollPaginationParams<T>): UseInfiniteScrollPaginationResult<T> {
   const items = ref<T[]>([]) as Ref<T[]>
 
@@ -66,13 +62,10 @@ export function useInfiniteScrollPagination<T> ({
       items.value = newItems
     }
     else {
-      const existingIds = new Set(items.value.map(item => getItemId(item)))
       const merged = [...items.value]
 
       newItems.forEach((item) => {
-        if (!existingIds.has(getItemId(item))) {
-          merged.push(item)
-        }
+        merged.push(item)
       })
 
       items.value = merged

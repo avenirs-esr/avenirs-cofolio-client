@@ -31,7 +31,6 @@ export function usePaginatedDeclaredExperiences ({ pageSize }: { pageSize?: Ref<
     pageInfo,
     isFetching,
     page,
-    getItemId: (experience: DeclaredExperienceViewDTO) => experience.id
   })
 
   return {

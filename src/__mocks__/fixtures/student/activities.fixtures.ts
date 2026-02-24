@@ -229,6 +229,30 @@ export function createMockedPagedResponseDeclaredActivityViewDTO (
   }
 }
 
+const allDeclaredActivitiesLarge: DeclaredActivityViewDTO[] = []
+for (let i = 0; i < 10; i++) {
+  allDeclaredActivitiesLarge.push(...allDeclaredActivities.map(activity => ({
+    ...activity,
+    id: `${activity.id}-${i + 1}`,
+    title: `${activity.title} (${i + 1})`
+  })))
+}
+
+export function createLargeMockedPagedResponseDeclaredActivityViewDTO (
+  pageSize: number,
+  page: number
+): PagedResponseDeclaredActivityViewDTO {
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedActivities = allDeclaredActivitiesLarge.slice(start, end)
+  const totalPages = Math.ceil(allDeclaredActivitiesLarge.length / pageSize)
+
+  return {
+    data: paginatedActivities,
+    page: { pageSize, totalElements: allDeclaredActivitiesLarge.length, totalPages, page }
+  }
+}
+
 export const mockedActivityDetail: ActivityDetailDTO = {
   id: 'activity-1',
   title: 'Activité “Connaissance de soi” : Définir ses valeurs',

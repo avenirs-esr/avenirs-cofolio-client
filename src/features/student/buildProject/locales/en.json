@@ -134,7 +134,14 @@
             },
             "tabTitle": "All available activities ({count})"
           },
-          "title": "My activities"
+          "title": "My activities",
+          "UnsubscribeActivitiesModal": {
+            "confirm": "Unsubscribe from the selected activity ({count}) | Unsubscribe from the selected activities ({count})",
+            "description": "You cannot unsubscribe from mandatory activities.",
+            "error": "An error occurred while unsubscribing from the activity. Please try again later. | An error occurred while unsubscribing from the {count} activities. Please try again later.",
+            "success": "Successfully unsubscribed from the activity. | Successfully unsubscribed from the {count} activities.",
+            "title": "No activity to unsubscribe from | Which activity would you like to unsubscribe from? | Which activities would you like to unsubscribe from?"
+          }
         }
       }
     }

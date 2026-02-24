@@ -1859,12 +1859,12 @@
         }
       }
     },
-    "/me/activity-progresses/unsubscribe": {
+    "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
-          "activity-progresses-controller"
+          "declared-activity-controller"
         ],
-        "operationId": "unsubscribeActivityProgresses",
+        "operationId": "unsubscribe",
         "requestBody": {
           "content": {
             "application/json": {

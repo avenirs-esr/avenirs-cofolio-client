@@ -39,7 +39,7 @@ const breadcrumbLinks = computed(() => [
   />
   <div
     data-testid="activities-layout"
-    class="av-justify-center av-my-md"
+    class="av-justify-center av-my-md av-gap-sm"
     :class="[isMobile ? 'av-column' : 'av-row']"
   >
     <ActivitiesSelectNavigation v-if="isMobile" />

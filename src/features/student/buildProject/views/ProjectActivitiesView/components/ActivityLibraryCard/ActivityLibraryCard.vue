@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { FloatingIconCard } from '@/features/student/global'
@@ -30,7 +31,10 @@ const titleClasses = computed(() => isMobile.value
 </script>
 
 <template>
-  <div class="activity-library-card">
+  <RouterLink
+    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: activity.id, theme: activity.thematic } }"
+    class="activity-library-card"
+  >
     <FloatingIconCard
       :title="activity.title"
       :icon-options="iconOptions"
@@ -67,7 +71,7 @@ const titleClasses = computed(() => isMobile.value
         </div>
       </template>
     </FloatingIconCard>
-  </div>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>
