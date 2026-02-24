@@ -1,5 +1,6 @@
 import {
   activitiesNavigationMock,
+  createLargeMockedPagedResponseDeclaredActivityViewDTO,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail
 } from '@/__mocks__/fixtures/student/activities.fixtures'
@@ -10,7 +11,7 @@ import {
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
-  getUnsubscribeActivityProgressesUrl,
+  getUnsubscribeUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
@@ -46,7 +47,7 @@ export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl(
   })
 })
 
-const unsubscribeActivityProgressesHandler = http.delete(`*${getUnsubscribeActivityProgressesUrl()}`, async ({ request }) => {
+const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeUrl()}`, async ({ request }) => {
   const activitiesIds = await request.json() as string[]
 
   if (activitiesIds.length === 0) {
@@ -76,6 +77,21 @@ export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActiviti
       }
     }
   )
+})
+
+export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
+  const url = new URL(request.url)
+  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+
+  const mockData = createLargeMockedPagedResponseDeclaredActivityViewDTO(pageSize, page)
+
+  return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 })
 
 export const activitiesHandlers = [
@@ -117,5 +133,5 @@ export const activitiesHandlers = [
       }
     })
   }),
-  unsubscribeActivityProgressesHandler,
+  unsubscribeActivityProgressHandler,
 ]

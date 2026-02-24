@@ -26,8 +26,6 @@ function createTestItems (count: number, startId = 1): TestItem[] {
   }))
 }
 
-const getItemId = (item: TestItem) => item.id
-
 BddTest().given('useInfiniteScrollPagination composable', () => {
   BddTest().when('initialized with empty items', () => {
     const fetchedItems = ref<TestItem[]>([])
@@ -40,7 +38,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
       pageInfo,
       isFetching,
       page,
-      getItemId
     })
 
     BddTest().then('items should be empty', () => {
@@ -70,7 +67,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       items = result.items
 
@@ -102,7 +98,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       items = result.items
       loadMore = result.loadMore
@@ -147,7 +142,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       items = result.items
       loadMore = result.loadMore
@@ -160,12 +154,13 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
       ]
     })
 
-    BddTest().then('duplicates should be filtered out', () => {
-      expect(items.value).toHaveLength(4)
+    BddTest().then('duplicates should not be filtered out', () => {
+      expect(items.value).toHaveLength(5)
       expect(items.value.map(i => i.id)).toEqual([
         'item-1',
         'item-2',
         'item-3',
+        'item-2',
         'item-4'
       ])
     })
@@ -186,7 +181,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       loadMore = result.loadMore
 
@@ -213,7 +207,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       loadMore = result.loadMore
 
@@ -241,7 +234,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId
       })
       items = result.items
       resetPagination = result.resetPagination
@@ -283,7 +275,6 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
         pageInfo,
         isFetching,
         page,
-        getItemId: (item: CustomItem) => item.uuid
       })
       items = result.items
       loadMore = result.loadMore
@@ -296,9 +287,9 @@ BddTest().given('useInfiniteScrollPagination composable', () => {
       ]
     })
 
-    BddTest().then('should deduplicate using custom id extractor', () => {
-      expect(items.value).toHaveLength(3)
-      expect(items.value.map(i => i.uuid)).toEqual(['uuid-1', 'uuid-2', 'uuid-3'])
+    BddTest().then('it should keep duplicates', () => {
+      expect(items.value).toHaveLength(4)
+      expect(items.value.map(i => i.uuid)).toEqual(['uuid-1', 'uuid-2', 'uuid-2', 'uuid-3'])
     })
   })
 })

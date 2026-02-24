@@ -8,7 +8,7 @@ import {
 import ActivityLibraryCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsMobile = ref(false)
@@ -30,7 +30,8 @@ BddTest().given('an ActivityLibraryCard', () => {
     FloatingIconCard: FloatingIconCardStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
-    AvBadge: AvBadgeStub
+    AvBadge: AvBadgeStub,
+    RouterLink: RouterLinkStub
   }
 
   const baseActivity = {

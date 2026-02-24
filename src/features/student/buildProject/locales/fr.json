@@ -133,7 +133,14 @@
             },
             "tabTitle": "Toutes les activités disponibles ({count})"
           },
-          "title": "Mes activités"
+          "title": "Mes activités",
+          "UnsubscribeActivitiesModal": {
+            "confirm": "Me désinscrire de l'activité sélectionnée ({count}) | Me désinscrire des activités sélectionnées ({count})",
+            "description": "Vous ne pouvez pas vous désinscrire des activités obligatoires.",
+            "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des {count} activités. Veuillez réessayer plus tard.",
+            "success": "Désinscription de l'activité réussie. | Désinscription des {count} activités réussie.",
+            "title": "Aucune activité à laquelle se désinscrire | De quelle activité souhaitez-vous vous désinscrire ? | De quelles activités souhaitez-vous vous désinscrire ?"
+          }
         }
       }
     }

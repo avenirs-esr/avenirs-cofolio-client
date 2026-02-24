@@ -15,11 +15,12 @@ import { useI18n } from 'vue-i18n'
 export interface PaginationProps {
   pageInfo: PageInfoDTO
   pageSizeSelected: PageSizes
+  withoutPageSizePicker?: boolean
   onUpdateCurrentPage: (page: number) => void
   onUpdatePageSize: (pageSize: PageSizes) => void
 }
 
-const { pageInfo, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = defineProps<PaginationProps>()
+const { pageInfo, pageSizeSelected, withoutPageSizePicker = false, onUpdateCurrentPage, onUpdatePageSize } = defineProps<PaginationProps>()
 
 defineSlots<{
   default?: Slot
@@ -43,9 +44,15 @@ function handleSelectChange (val: AvTagPickerOption): void {
 
 <template>
   <div class="pagination">
-    <div class="av-row av-wrap av-align-center av-justify-between av-gap-md">
+    <div
+      class="av-row av-wrap av-align-center av-gap-md"
+      :class="{
+        'av-justify-end': withoutPageSizePicker,
+        'av-justify-between': !withoutPageSizePicker,
+      }"
+    >
       <AvPageSizePicker
-        v-if="!isMobile && totalPages > 0"
+        v-if="!isMobile && totalPages > 0 && !withoutPageSizePicker"
         :label="t('global.pageSizePicker.label')"
         :page-size-selected="pageSizeSelected"
         :handle-select-change="handleSelectChange"

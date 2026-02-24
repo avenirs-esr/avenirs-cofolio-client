@@ -66,6 +66,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       :aria-pressed="selectedElements.includes(element.value)"
       class="selector-overlay__checkbox av-row av-px-xs av-py-xs av-justify-end"
       :class="{ 'selector-overlay__checkbox--selected': selectedElements.includes(element.value) }"
+      data-testid="selector-overlay"
       @click="() => onSelectElement(element.value)"
       @keydown.enter="() => onSelectElement(element.value)"
       @keydown.space="() => onSelectElement(element.value)"

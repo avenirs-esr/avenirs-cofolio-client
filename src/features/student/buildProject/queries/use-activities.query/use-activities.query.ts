@@ -1,6 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { MutationArgs } from '@/types'
-import { type ActivityDetailDTO, type ActivityNavigationDTO, getActivityDetail, getActivityNavigation, getDeclaredActivitiesView, type GetDeclaredActivitiesViewParams, type PagedResponseDeclaredActivityViewDTO, unsubscribeActivityProgresses } from '@/api/avenir-esr'
+import {
+  type ActivityDetailDTO,
+  type ActivityNavigationDTO,
+  getActivityDetail,
+  getActivityNavigation,
+  getDeclaredActivitiesView,
+  type GetDeclaredActivitiesViewParams,
+  type PagedResponseDeclaredActivityViewDTO,
+  unsubscribe
+} from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
 import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
@@ -53,7 +62,7 @@ export function useUnsubscribeActivitiesMutation ({ onError, onSuccess }: Mutati
   const invalidateQueryKey = useInvalidateQuery()
   return useMutation<string, BaseApiException, UnsubscribeActivitiesVariables>({
     mutationFn: async ({ activitiesIds }: UnsubscribeActivitiesVariables): Promise<string> => {
-      return await unsubscribeActivityProgresses(activitiesIds)
+      return await unsubscribe(activitiesIds)
     },
     onSuccess: async (data, variables) => {
       await Promise.all(

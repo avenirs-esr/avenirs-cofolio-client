@@ -20,7 +20,7 @@ const isSideMenuCollapsed = ref(false)
 const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigationQuery()
 
 const DEFAULT_PARENT_ICON = MDI_ICONS.BOOK_OPEN_VARIANT
-const CHILD_ICON = MDI_ICONS.TARGET_ARROW
+const CHILD_ICON = ICONS.ACTIVITY
 
 function isEActivityThematic (value: string): value is EActivityThematic {
   return Object.values(EActivityThematic).includes(value as EActivityThematic)

@@ -28,6 +28,7 @@ export const SelectorOverlayStub = defineComponent({
             role="button"
             class="selector-overlay-stub__element"
             :class="{ 'selector-overlay-stub__element--selected': selectedElements.includes(element.value) }"
+            data-testid="selector-overlay"
             @click="$emit('update:selectedElements', toggleSelection(element.value))"
             @keydown.enter="$emit('update:selectedElements', toggleSelection(element.value))"
             @keydown.space="$emit('update:selectedElements', toggleSelection(element.value))"

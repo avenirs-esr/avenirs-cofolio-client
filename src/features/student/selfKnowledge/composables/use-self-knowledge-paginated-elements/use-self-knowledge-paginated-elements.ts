@@ -49,7 +49,6 @@ export function useSelfKnowledgePaginatedElements ({
     pageInfo,
     isFetching,
     page,
-    getItemId: (el: SelfKnowledgeElementViewDTO) => el.id
   })
 
   watch(categoryId, () => {
