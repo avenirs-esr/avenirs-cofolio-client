@@ -9,6 +9,8 @@ dotenv.config({ path: '.env' })
 const CI = process.env.CI === 'true'
 const REVIEW_MODE = process.env.REVIEW_MODE === 'true'
 
+const reviewModeIgnore = REVIEW_MODE ? ['**/*.deferred.feature.spec.js'] : []
+
 const testDir = defineBddConfig({
   features: 'tests/**/*.feature',
   steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts', 'framework/shared/hooks/dataset.hook.ts']
@@ -22,6 +24,7 @@ if (CI) {
   reporter.push(['github'])
 }
 
+console.log(testDir)
 export default defineConfig({
   testDir,
   preserveOutput: 'never',
@@ -34,7 +37,7 @@ export default defineConfig({
   retries: CI ? 2 : 0,
   workers: CI ? 2 : 5,
   reporter,
-  grepInvert: REVIEW_MODE ? /@skip-review/ : undefined,
+  testIgnore: reviewModeIgnore,
   use: {
     baseURL: process.env.VITE_API_URL || 'http://localhost:4173/cofolio/',
     locale: 'fr-FR',
@@ -50,7 +53,7 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         viewport: DESKTOP_VIEWPORT
       },
-      testIgnore: '**/*.mobile.feature.spec.js'
+      testIgnore: ['**/*.mobile.feature.spec.js', ...reviewModeIgnore]
     },
     {
       name: 'firefox',
@@ -58,7 +61,7 @@ export default defineConfig({
         ...devices['Desktop Firefox'],
         viewport: DESKTOP_VIEWPORT
       },
-      testIgnore: '**/*.mobile.feature.spec.js'
+      testIgnore: ['**/*.mobile.feature.spec.js', ...reviewModeIgnore]
     },
     {
       name: 'webkit',
@@ -66,7 +69,7 @@ export default defineConfig({
         ...devices['Desktop Safari'],
         viewport: DESKTOP_VIEWPORT
       },
-      testIgnore: '**/*.mobile.feature.spec.js'
+      testIgnore: ['**/*.mobile.feature.spec.js', ...reviewModeIgnore]
     },
     {
       name: 'mobile-chrome',

@@ -10,6 +10,7 @@ e2e/
 │   └── {role}/                               # e.g. student/
 │       └── {featureName}/                    # e.g. home/, lifeProject/
 │           ├── {featureName}.feature         # Desktop scenarios
+│           ├── {featureName}.deferred.feature # Deferred scenarios (excluded in REVIEW_MODE)
 │           └── {featureName}.mobile.feature  # Mobile-specific scenarios
 ├── framework/                                # Framework layer
 │   ├── shared/                               # Role-agnostic shared layer
@@ -423,10 +424,11 @@ Feature: Page Name
       Then the expected outcome is visible
 ```
 
-### Desktop vs Mobile
+### Desktop vs Mobile vs Deferred
 
 - Desktop tests: `{featureName}.feature`
 - Mobile tests: `{featureName}.mobile.feature` with `@mobile` tag
+- Deferred tests: `{featureName}.deferred.feature` — excluded when `REVIEW_MODE=true`
 
 Mobile feature files add the `@mobile` tag and use `Given the page is displayed on mobile viewport` (from `BasePage`):
 
@@ -446,6 +448,31 @@ Feature: Page Name
     Scenario: Mobile layout is correct
       Then the mobile menu button is visible
 ```
+
+### Deferred Feature Files
+
+When an entire Rule (Background + all scenarios) should be excluded in review/demo mode, move it to a **deferred feature file** (`{featureName}.deferred.feature`). These files are automatically ignored when `REVIEW_MODE=true` via `testIgnore` in the Playwright config.
+
+```gherkin
+@feature-tag
+Feature: Page Name - Deferred
+
+  Background:
+    Given the student opens the home page
+
+  Rule: Widget requiring full dataset
+
+    Background:
+      Given the widget is visible
+
+    @high @dataset-full
+    Scenario: Widget displays data
+      Then the widget shows 3 items
+```
+
+**When to use deferred files vs separate scenarios:**
+- Use `{featureName}.deferred.feature` when **all scenarios in a Rule** are excluded — this prevents Background steps from running and failing
+- Keep scenarios in the main feature file when only **some scenarios in a Rule** need to run in review mode
 
 ---
 
@@ -472,6 +499,7 @@ Feature: Page Name
 | Steps fixture | `{Component}Steps.ts` | `StudentLayoutSteps.ts`, `PageTitleSteps.ts` |
 | ComponentObject | `{ComponentName}.ts` | `SkillsWidget.ts`, `ProfileCard.ts` |
 | Feature (desktop) | `{feature}.feature` | `trajectories.feature` |
+| Feature (deferred) | `{feature}.deferred.feature` | `home.deferred.feature` |
 | Feature (mobile) | `{feature}.mobile.feature` | `trajectories.mobile.feature` |
 
 ### Methods
@@ -494,7 +522,6 @@ Feature: Page Name
 | `@mobile` | Mobile-specific scenarios |
 | `@responsive` | Responsive behavior tests |
 | `@page-title` | Page title component tests |
-| `@skip-review` | Skipped when `REVIEW_MODE=true` |
 | `@dataset-full` | Requires a fully populated account — see [Datasets](#datasets) |
 | `@dataset-nominal` | Requires a nominal account — see [Datasets](#datasets) |
 | `@dataset-empty` | Requires an empty account — see [Datasets](#datasets) |
@@ -620,7 +647,7 @@ const testDir = defineBddConfig({
 ```
 
 **Browser projects:**
-- `chromium`, `firefox`, `webkit` — Desktop (skips `*.mobile.feature.spec.js`)
+- `chromium`, `firefox`, `webkit` — Desktop (skips `*.mobile.feature.spec.js` and `*.deferred.feature.spec.js` when `REVIEW_MODE=true`)
 - `mobile-chrome`, `mobile-safari` — Mobile (only runs `*.mobile.feature.spec.js`)
 
 **Key settings:**

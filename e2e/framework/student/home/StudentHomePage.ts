@@ -120,6 +120,11 @@ class StudentHomePage extends BasePage {
     await this.getStudentOverviewWidget().verifyActionButtons()
   }
 
+  @Then('edit profile button is displayed')
+  async verifyEditProfileButton () {
+    await expect(this.getStudentOverviewWidget().getEditProfileButton()).toBeVisible()
+  }
+
   @When('the student clicks the edit profile button')
   async clickEditProfileButton () {
     await this.getStudentOverviewWidget().clickEditProfileButton()

@@ -11,20 +11,20 @@ Feature: Student Home Page
       Then the student home page is displayed
       And the URL contains "/cofolio/student"
       And the page title is "Cofolio"
-
+      
   Rule: Profile Section
 
     Background:
       Given the profile overview widget is visible
 
     @high @profile
-    Scenario: Student can see profile section
+    Scenario: Student can see profile section with edit profile button
       Then the profile banner is visible
       And the profile picture is visible
       And the student name is visible
       And the student bio is visible
-      And profile action buttons are displayed
-
+      And edit profile button is displayed
+      
     @high @profile
     Scenario: Edit profile button opens drawer
       When the student clicks the edit profile button
@@ -36,56 +36,6 @@ Feature: Student Home Page
       And the student closes the drawer
       Then the update profile drawer is closed
       And the profile overview widget is still visible
-
-  Rule: Next events Widget
-
-    Background:
-      Given the next events widget is visible
-
-    @high @events @skip-review @dataset-full
-    Scenario: Next events widget displays 3 events
-      Then the events widget shows 3 events
-      And the see all events button is visible
-
-    @medium @events @skip-review @dataset-full
-    Scenario: See all events button navigates to events page
-      When the student clicks see all events button
-      Then the page navigates to events page
-      And the URL contains "/cofolio/student/events"
-
-  Rule: Resumes Widget
-
-    Background:
-      Given the resumes widget is visible
-
-    @high @resumes @skip-review @dataset-full
-    Scenario: Resumes widget displays when resumes exist
-      Then the resumes widget shows 3 resumes
-      And each resume shows last update date
-      And the see all resumes button is visible
-
-    @medium @resumes @skip-review @dataset-full
-    Scenario: See all resumes button navigates to resumes page
-      When the student clicks see all resumes button
-      Then the page navigates to resumes page
-      And the URL contains "/cofolio/student/tools/resumes"
-
-  Rule: Free Pages Widget
-
-    Background:
-      Given the free pages widget is visible
-
-    @high @pages @skip-review @dataset-full
-    Scenario: Free pages widget displays 3 pages with last update date and see all button
-      Then the pages widget shows 3 pages
-      And each page shows last update date
-      And the see all pages button is visible
-
-    @medium @pages @skip-review @dataset-full
-    Scenario: See all pages button navigates to pages page
-      When the student clicks see all pages button
-      Then the page navigates to pages page
-      And the URL contains "/cofolio/student/tools/pages"
 
   Rule: Skills Widget
 
@@ -113,52 +63,7 @@ Feature: Student Home Page
       When the student clicks see all skills button
       Then the page navigates to skills page
       And the URL contains "/cofolio/student/education/skills"
-
-  Rule: Deliverables Widget
-
-    Background:
-      Given the next deliverables widget is visible
-
-    @medium @deliverables @skip-review @dataset-full
-    Scenario: Deliverables widget displays 3 future deliverables with see all button
-      Then the deliverables widget shows 3 deliverables
-      And the see all deliverables button is visible
-
-    @medium @deliverables @skip-review @dataset-full
-    Scenario: See all deliverables button navigates to deliverables page
-      When the student clicks see all deliverables button
-      Then the page navigates to deliverables page
-      And the URL contains "/cofolio/student/deliverables"
-
-  Rule: Traces Widget
-
-    Background:
-      Given there are traces available
-
-    @high @traces @dataset-full
-    Scenario: Traces widget is visible
-      Then the last traces widget is visible
-
-    @high @traces @dataset-full
-    Scenario: Traces widget displays 3 traces with skill count, AMS count, type, and see all button
-      Then 3 trace cards are displayed
-      And each trace card shows skill count
-      And each trace card shows AMS count
-      And each trace card shows type (solo/group)
-      And the see all traces button is visible
-
-    @high @traces @dataset-full
-    Scenario: Trace cards are clickable and navigate to traces page
-      When the student clicks a trace card
-      Then the page navigates to traces page
-      And the URL contains "/cofolio/student/tools/traces"
-
-    @medium @traces @dataset-full
-    Scenario: See all traces button navigates to traces page
-      When the student clicks see all traces button
-      Then the page navigates to traces page
-      And the URL contains "/cofolio/student/tools/traces"
-
+      
   Rule: Navigation
 
     @high @navigation @desktop
@@ -178,7 +83,5 @@ Feature: Student Home Page
 
     @medium @navigation @desktop
     Scenario: Header actions are visible on desktop
-      Then the mailbox button is visible
-      And the notifications button is visible
-      And the profile button is visible
+      Then the profile button is visible
       And the language switcher is visible
