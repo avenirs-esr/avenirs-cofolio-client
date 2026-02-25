@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import EmptyState from '@/common/components/feedback/EmptyState/EmptyState.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { useModal, usePagination } from '@/common/composables'
@@ -29,6 +30,8 @@ const params = computed(() => ({
 
 const { libraryActivities, pageInfo, isLoading, isError, error } = useLibraryActivitiesQuery(params)
 const { showModal, displayModal, hideModal } = useModal()
+
+const shouldShowEmptyState = computed(() => !isLoading.value && libraryActivities.value?.length === 0 && !isError.value)
 </script>
 
 <template>
@@ -56,15 +59,24 @@ const { showModal, displayModal, hideModal } = useModal()
           data-testid="activity-library-tab-title"
         />
 
+        <EmptyState
+          v-if="shouldShowEmptyState"
+          :title="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.emptyState')"
+          data-testid="activity-library-empty-state"
+        />
+
         <Pagination
-          v-if="pageInfo"
+          v-else-if="pageInfo && !shouldShowEmptyState"
           :page-info="pageInfo"
           :page-size-selected="pageSizeSelected"
           without-page-size-picker
           :on-update-current-page="onUpdateCurrentPage"
           :on-update-page-size="onUpdatePageSize"
         >
-          <div class="av-col av-gap-md">
+          <div
+            class="av-col av-gap-md"
+            data-testid="activity-library-card-list"
+          >
             <ActivityLibraryCard
               v-for="activity in libraryActivities"
               :key="activity.id"

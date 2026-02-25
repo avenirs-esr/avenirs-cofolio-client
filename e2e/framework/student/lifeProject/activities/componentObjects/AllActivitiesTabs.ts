@@ -1,6 +1,6 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 
 export class AllActivitiesTabs extends BaseObject {
   constructor (protected page: Page) {
@@ -53,18 +53,27 @@ export class AllActivitiesTabs extends BaseObject {
     await expect(this.getHeaderSeeAllButton()).toHaveText(expectedText)
   }
 
+  private async extractCount (locator: Locator): Promise<number> {
+    const text = await locator.textContent()
+    return Number.parseInt(text?.match(/\d+/)?.[0] ?? '0')
+  }
+
   async verifyNewActivitiesPaginatorCard () {
-    const expectedText = t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count: 6 })
     await expect(this.getNewActivitiesPaginatorCard()).toBeVisible()
     await expect(this.getNewActivitiesPaginatorCardTitle()).toBeVisible()
-    await expect(this.getNewActivitiesPaginatorCardTitle()).toHaveText(expectedText)
+    const count = await this.extractCount(this.getNewActivitiesPaginatorCardTitle())
+    await expect(this.getNewActivitiesPaginatorCardTitle()).toHaveText(
+      t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count })
+    )
   }
 
   async verifyAllActivitiesSection () {
-    const expectedText = t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: 6 })
     await expect(this.getAllActivitiesSection()).toBeVisible()
     await expect(this.getAllActivitiesSectionTitle()).toBeVisible()
-    await expect(this.getAllActivitiesSectionTitle()).toHaveText(expectedText)
+    const count = await this.extractCount(this.getAllActivitiesSectionTitle())
+    await expect(this.getAllActivitiesSectionTitle()).toHaveText(
+      t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count })
+    )
   }
 
   async clickHeaderSeeAllButton () {

@@ -32,6 +32,7 @@ const titleClasses = computed(() => isMobile.value
   <RouterLink
     :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: activity.id, thematic: activity.thematic } }"
     class="activity-library-card"
+    data-testid="activity-library-card"
   >
     <FloatingIconCard
       :title="activity.title"
@@ -52,13 +53,22 @@ const titleClasses = computed(() => isMobile.value
                 v-if="activity.executionPeriodInfoSummary"
                 :summary="activity.executionPeriodInfoSummary"
               />
-              <ActivityStatusBadge :status="activity.status" />
+              <ActivityStatusBadge
+                data-testid="activity-library-card-status-badge"
+                :status="activity.status"
+              />
             </div>
-            <ActivityThematicBadge :thematic="activity.thematic" />
+            <ActivityThematicBadge
+              data-testid="activity-library-card-thematic-badge"
+              :thematic="activity.thematic"
+            />
           </div>
 
           <p class="av-hidden av-unhidden--md av-px-xs">
-            <span class="activity-library-card__summary s2-regular av-text-text2">
+            <span
+              data-testid="activity-library-card-summary"
+              class="activity-library-card__summary s2-regular av-text-text2"
+            >
               {{ activity.summary }}
             </span>
           </p>

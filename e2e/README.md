@@ -535,19 +535,83 @@ Some scenarios require specific backend data to be present. The dataset mechanis
 
 ### How it works
 
-A `BeforeScenario` hook in `dataset.hook.ts` intercepts all requests to `**/apim/**` before the scenario runs and replaces the `Authorization` header with the token associated with the dataset tag:
+A `BeforeScenario` hook in `dataset.hook.ts` injects extra HTTP headers before the scenario runs using `page.setExtraHTTPHeaders()`:
 
 ```typescript
 // e2e/framework/shared/hooks/dataset.hook.ts
-BeforeScenario({ tags: DatasetType.NOMINAL }, async ({ page }) => {
-  await page.route('**/apim/**', async (route) => {
-    const headers = { ...route.request().headers(), Authorization: `Bearer ${token}` }
-    await route.continue({ headers })
+BeforeScenario({ tags: DatasetType.EMPTY }, async ({ page }) => {
+  await page.setExtraHTTPHeaders({
+    'x-dataset-empty': 'true',
+    Authorization: `Bearer ${token}`,
   })
 })
 ```
 
-The hook only intercepts when `shouldIntercept: true` — `@dataset-full` does **not** intercept because it uses the default token from the application configuration.
+`page.setExtraHTTPHeaders()` injects headers at the browser level — before any Service Worker sees the request — which makes it work identically in both **MSW mode** and **pure API mode**.
+
+The hook only runs when `shouldIntercept: true` — `@dataset-full` does **not** intercept because the default application token already points to a fully-populated account.
+
+### Mocking architecture
+
+The app supports two runtime modes controlled by `VITE_ENABLE_MSW`. The dataset hook is the same in both; only what handles the request differs.
+
+#### MSW mode (`VITE_ENABLE_MSW=true`)
+
+The app is served with a registered Service Worker (MSW) that intercepts all API requests in the browser. MSW handlers read the injected dataset header and return the appropriate mock response — the real backend is **never called**.
+
+```
+  Playwright Test          BeforeScenario Hook       Browser Page        MSW Service Worker      MSW Handler
+        │                          │                       │                      │                    │
+        │  scenario @dataset-empty │                       │                      │                    │
+        │─────────────────────────>│                       │                      │                    │
+        │                          │  setExtraHTTPHeaders( │                      │                    │
+        │                          │  x-dataset-empty:true,│                      │                    │
+        │                          │  Authorization: token)│                      │                    │
+        │                          │──────────────────────>│                      │                    │
+        │◄─────────────────────────│                       │                      │                    │
+        │                          │                       │                      │                    │
+        │        navigate + interact                        │                      │                    │
+        │──────────────────────────────────────────────────>│                    │                    │
+        │                          │                       │ fetch() + headers    │                    │
+        │                          │                       │─────────────────────>│                   │
+        │                          │                       │    ╔══════════════════╧══════╗            │
+        │                          │                       │    ║ SW intercepts BEFORE    ║            │
+        │                          │                       │    ║ network layer            ║            │
+        │                          │                       │    ╚══════════════════╤══════╝            │
+        │                          │                       │                       │  x-dataset-empty? │
+        │                          │                       │                       │──────────────────>│
+        │                          │                       │                       │                   │ createEmptyPaginatedDatasetResponse()
+        │                          │                       │                       │                   │──────┐
+        │                          │                       │                       │                   │◄─────┘
+        │                          │                       │                       │ { data:[], ... }  │
+        │                          │                       │◄──────────────────────│◄──────────────────│
+        │                          │                       │  HTTP 200 (no real network call)
+```
+
+#### Pure API mode (`VITE_ENABLE_MSW=false`)
+
+No Service Worker is registered. Requests go directly to the real backend. The injected token identifies which dataset user to use on the backend side.
+
+```
+  Playwright Test          BeforeScenario Hook       Browser Page         Real Backend (APIM)
+        │                          │                       │                        │
+        │  scenario @dataset-empty │                       │                        │
+        │─────────────────────────>│                       │                        │
+        │                          │  setExtraHTTPHeaders( │                        │
+        │                          │  x-dataset-empty:true,│                        │
+        │                          │  Authorization: token)│                        │
+        │                          │──────────────────────>│                        │
+        │◄─────────────────────────│                       │                        │
+        │                          │                       │                        │
+        │        navigate + interact                        │                        │
+        │──────────────────────────────────────────────────>│                       │
+        │                          │                       │ fetch() + headers       │
+        │                          │                       │────────────────────────>│
+        │                          │                       │                         │ token → identifies
+        │                          │                       │                         │ empty-dataset user
+        │                          │                       │◄────────────────────────│
+        │                          │                       │  HTTP 200 { data: [] }  │
+```
 
 ### Dataset tags
 

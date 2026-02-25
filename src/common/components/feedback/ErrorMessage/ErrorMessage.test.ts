@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ErrorMessage from '@/common/components/ErrorMessage/ErrorMessage.vue'
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

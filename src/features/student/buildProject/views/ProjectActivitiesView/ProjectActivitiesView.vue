@@ -38,7 +38,10 @@ const breadcrumbLinks = computed(() => [
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.HOME"
   />
-  <AvTabs v-model="activeTab">
+  <AvTabs
+    v-model="activeTab"
+    data-testid="project-activities-tabs"
+  >
     <AvTab
       :title="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.tabTitle', { count: activityTotalElements })"
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"

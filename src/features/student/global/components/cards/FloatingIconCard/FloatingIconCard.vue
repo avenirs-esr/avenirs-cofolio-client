@@ -66,6 +66,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
             class="floating-icon-card__title av-mr-4xl"
             :class="titleTypographyClasses"
             :title="title"
+            data-testid="floating-icon-card-title"
           >
             {{ title }}
           </span>
