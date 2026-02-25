@@ -6,7 +6,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@e2e/*": ["./*"]
+      "@e2e/*": ["./*"],
+      "@cofolio/*": ["../src/*"]
     },
     "resolveJsonModule": true,
     "types": ["node", "@playwright/test"],
