@@ -10,6 +10,7 @@ import {
   type ActivityNavigationDTO,
   type DeclaredActivity,
   EErrorCode,
+  getGetActivitiesViewUrl,
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
@@ -144,6 +145,43 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
   })
 })
 
+export const activitiesViewHandler = http.get(
+  `*${getGetActivitiesViewUrl()}`,
+  async ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '4')
+    const totalElements = 6
+    await delay('real')
+
+    const mockData = createMockedPagedResponseDeclaredActivityViewDTO(
+      pageSize,
+      totalElements,
+      page
+    )
+
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const activitiesViewErrorHandler = http.get(
+  `*${getGetActivitiesViewUrl()}`,
+  async () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+)
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
@@ -161,6 +199,7 @@ export const activitiesHandlers = [
     })
   }),
   activityNavigationQuery,
+  activitiesViewHandler,
   activityDetailHandler,
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,

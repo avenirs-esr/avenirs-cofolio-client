@@ -2,6 +2,12 @@
   "student": {
     "buildProject": {
       "activities": {
+        "AllActivitiesSection": {
+          "buttons": {
+            "all": "Toutes les activtés"
+          },
+          "noActivitiesFound": "Cette thématique ne contient pas encore d'activité"
+        },
         "badges": {
           "activityNewBadge": {
             "label": "Nouveau"

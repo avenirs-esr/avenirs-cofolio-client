@@ -3,25 +3,93 @@ import type { MutationArgs } from '@/types'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  type ActivityOverviewDTO,
   type DeclaredActivity,
+  type EActivityThematic,
+  getActivitiesView,
+  type GetActivitiesViewParams,
   getActivityDetail,
   getActivityNavigation,
   getDeclaredActivitiesView,
   type GetDeclaredActivitiesViewParams,
+  type PagedResponseActivityOverviewDTO,
   type PagedResponseDeclaredActivityViewDTO,
   subscribe,
   unsubscribe
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
-import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const activitiesCommonQueryKey = [...commonQueryKeys, 'activities']
 const activityDetailsQueryKey = [...activitiesCommonQueryKey, 'details']
 const libraryActivitiesQueryKey = [...activitiesCommonQueryKey, 'library']
 const activityNavigationQueryKey = [...activitiesCommonQueryKey, 'navigation']
+const activitiesViewQueryKey = [...activitiesCommonQueryKey, 'view']
 
+export interface ActivitiesViewQueryParams {
+  thematic?: MaybeRef<EActivityThematic | undefined>
+  page: MaybeRef<number>
+  pageSize: MaybeRef<number>
+}
+
+export type ActivitiesViewQueryReturnType = UseQueryReturnType<PagedResponseActivityOverviewDTO, BaseApiException> & {
+  activities: Ref<ActivityOverviewDTO[]>
+  pageInfo: Ref<{
+    page: number
+    pageSize: number
+    totalElements: number
+    totalPages: number
+  }>
+}
+
+export function useActivitiesViewQuery ({
+  thematic,
+  page,
+  pageSize
+}: ActivitiesViewQueryParams): ActivitiesViewQueryReturnType {
+  useInvalidateQuery([...activitiesViewQueryKey])
+  const queryKey = computed(() => [
+    ...activitiesViewQueryKey,
+    {
+      thematic: toValue(thematic),
+      page: toValue(page),
+      pageSize: toValue(pageSize)
+    }
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseActivityOverviewDTO> => {
+    return await getActivitiesView({
+      thematic: toValue(thematic),
+      page: toValue(page),
+      pageSize: toValue(pageSize)
+    } as GetActivitiesViewParams)
+  })
+
+  const query = useQuery<PagedResponseActivityOverviewDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    placeholderData: keepPreviousData
+  })
+
+  const activities = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    activities,
+    pageInfo
+  }
+}
 function useLibraryActivitiesCommonQueryOptions (params?: MaybeRef<GetDeclaredActivitiesViewParams>) {
   return {
     queryKey: computed(() => [...libraryActivitiesQueryKey, toValue(params)]),
