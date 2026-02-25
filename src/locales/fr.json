@@ -50,6 +50,9 @@
       "updatedAt": "Modifié le {date}"
     },
     "detail": "Détail",
+    "emptyState": {
+      "defaultTitle": "Aucun élément à afficher"
+    },
     "error": {
       "file": {
         "acceptType": "Le fichier ne respecte pas le format attendu.",

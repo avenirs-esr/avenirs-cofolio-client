@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ErrorMessage from '@/common/components/ErrorMessage/ErrorMessage.vue'
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'

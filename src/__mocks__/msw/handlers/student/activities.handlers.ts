@@ -6,6 +6,7 @@ import {
   mockedDeclaredActivity,
   mockedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
@@ -242,6 +243,10 @@ export const latestActivitiesErrorHandler = http.get(
 
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
+    if (isEmptyDataSetRequest(request)) {
+      return createEmptyPaginatedDatasetResponse<PagedResponseDeclaredActivityViewDTO>()
+    }
+
     const url = new URL(request.url)
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')

@@ -1,7 +1,7 @@
 import { mockedSkillDetailed } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDetailedSkillHandler, detailedSkillNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ErrorMessageStub } from '@/common/components/ErrorMessage/ErrorMessage.stub'
+import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import StudentSkillView from '@/features/student/skills/views/StudentSkillView/StudentSkillView.vue'

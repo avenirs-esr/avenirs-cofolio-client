@@ -132,6 +132,7 @@
             "period": "Période de réalisation personnelle"
           },
           "ActivityLibraryTab": {
+            "emptyState": "Aucune inscription en cours ou terminée, allez explorer toutes les activités disponibles",
             "pagination": {
               "ariaLabel": "Pagination des activités de la bibliothèque"
             },

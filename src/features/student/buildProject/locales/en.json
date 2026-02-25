@@ -133,6 +133,7 @@
             "period": "Personal achievement period"
           },
           "ActivityLibraryTab": {
+            "emptyState": "No ongoing or completed registration, go explore all available activities",
             "pagination": {
               "ariaLabel": "Pagination of library activities"
             },

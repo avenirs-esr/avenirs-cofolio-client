@@ -23,7 +23,7 @@ import {
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue } from 'vue'
+import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 const activitiesCommonQueryKey = [...commonQueryKeys, 'activities']
 const activityDetailsQueryKey = [...activitiesCommonQueryKey, 'details']
@@ -146,9 +146,10 @@ function useLibraryActivitiesCommonQueryOptions (params?: MaybeRef<GetDeclaredAc
   }
 }
 
-export function useLibraryActivitiesQuery (params?: MaybeRef<GetDeclaredActivitiesViewParams>) {
+export function useLibraryActivitiesQuery (params?: MaybeRef<GetDeclaredActivitiesViewParams>, enabled?: ComputedRef<boolean>) {
   const query = useQuery<PagedResponseDeclaredActivityViewDTO, BaseApiException>({
     ...useLibraryActivitiesCommonQueryOptions(params),
+    enabled: enabled || true
   })
 
   const libraryActivities = computed(() => query.data.value?.data ?? [])

@@ -48,6 +48,9 @@
       "updatedAt": "Updated on {date}"
     },
     "detail": "Detail",
+    "emptyState": {
+      "defaultTitle": "No elements to display"
+    },
     "error": {
       "file": {
         "acceptType": "The file does not meet the expected format.",

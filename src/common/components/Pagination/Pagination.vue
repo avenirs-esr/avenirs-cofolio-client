@@ -43,7 +43,10 @@ function handleSelectChange (val: AvTagPickerOption): void {
 </script>
 
 <template>
-  <div class="pagination">
+  <div
+    class="pagination"
+    data-testid="pagination"
+  >
     <div
       class="av-row av-wrap av-align-center av-gap-md"
       :class="{

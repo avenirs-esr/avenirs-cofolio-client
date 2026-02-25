@@ -12,7 +12,7 @@ export interface UnsubscribeActivitiesModalProps {
   show: boolean
 }
 
-defineProps<UnsubscribeActivitiesModalProps>()
+const { show } = defineProps<UnsubscribeActivitiesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -31,7 +31,7 @@ const {
   isFetching,
   hasMoreActivities,
   loadMoreActivities,
-} = usePaginatedLibraryActivities()
+} = usePaginatedLibraryActivities(computed(() => show))
 
 function onUnsubscribeSuccess () {
   hideConfirmModal()
