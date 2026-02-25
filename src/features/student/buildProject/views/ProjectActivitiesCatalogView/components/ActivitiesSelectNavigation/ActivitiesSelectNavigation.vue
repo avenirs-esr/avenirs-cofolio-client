@@ -6,6 +6,10 @@ import { useActivitiesNavigationQuery } from '@/features/student/buildProject/qu
 import { AvSelect, type AvSelectOption, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
@@ -74,6 +78,8 @@ function onSelectChange (value: AvSelectSelectedOption) {
     size="2xl"
   >
     <AvSelect
+      v-bind="$attrs"
+      data-testid="activities-select-navigation"
       :selected-item="selectedItem"
       :options="selectOptions"
       :placeholder="t('student.buildProject.views.projectActivitiesView.title')"

@@ -12,6 +12,10 @@ import {
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const { t } = useI18n()
 const route = useRoute()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
@@ -95,7 +99,9 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
     size="2xl"
   >
     <AvSideNavigation
+      v-bind="$attrs"
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+      data-testid="activities-side-navigation"
       :selected-item="selectedSideNavItem"
       :items="items"
       @update:selected-item="navigateToSelectedItem"

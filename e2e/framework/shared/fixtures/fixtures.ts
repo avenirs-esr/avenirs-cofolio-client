@@ -2,6 +2,7 @@ import { PageTitleSteps } from '@e2e/framework/shared/steps/PageTitleSteps'
 import { setLocaleFromPage } from '@e2e/framework/shared/utils/i18n'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
 import { StudentProjectActivitiesPage } from '@e2e/framework/student/lifeProject/activities/StudentProjectActivitiesPage'
+import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
 import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentTrajectoriesSelfKnowledgePage'
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
 import { test as base, createBdd } from 'playwright-bdd'
@@ -12,6 +13,7 @@ interface Fixtures {
   studentHomePage: StudentHomePage
   studentProjectActivitiesPage: StudentProjectActivitiesPage
   studentTrajectoriesSelfKnowledgePage: StudentTrajectoriesSelfKnowledgePage
+  studentProjectActivitiesCatalogPage: StudentProjectActivitiesCatalogPage
 }
 
 export const test = base.extend<Fixtures>({
@@ -33,7 +35,11 @@ export const test = base.extend<Fixtures>({
   studentTrajectoriesSelfKnowledgePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentTrajectoriesSelfKnowledgePage(page))
-  }
+  },
+  studentProjectActivitiesCatalogPage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentProjectActivitiesCatalogPage(page))
+  },
 })
 
 export const { BeforeScenario } = createBdd(test)
