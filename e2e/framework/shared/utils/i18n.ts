@@ -68,7 +68,6 @@ function loadLocaleMessages () {
   }
 
   const srcDir = path.resolve(__dirname, '../../../../src')
-
   const globalLocalesDir = path.join(srcDir, 'locales')
   for (const locale of AvAvailableLocales as readonly AvLocale[]) {
     const globalFile = path.join(globalLocalesDir, `${locale}.json`)
@@ -80,9 +79,8 @@ function loadLocaleMessages () {
 
   const featuresDir = path.join(srcDir, 'features')
   const localeFiles = findLocaleFiles(featuresDir)
-
   for (const filePath of localeFiles) {
-    const langMatch = filePath.match(/\/([a-z]{2})\.json$/)
+    const langMatch = filePath.match(/([a-z]{2})\.json$/)
     const lang = langMatch?.[1]
 
     if (lang && (AvAvailableLocales as readonly string[]).includes(lang)) {
