@@ -9,13 +9,15 @@ import {
   libraryActivitiesErrorHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { type ActivityDetailDTO, type ActivityNavigationDTO, EActivityThematic, type getDeclaredActivitiesView } from '@/api/avenir-esr'
+import { type ActivityDetailDTO, type ActivityNavigationDTO, type DeclaredActivity, EActivityThematic, type getDeclaredActivitiesView } from '@/api/avenir-esr'
 import {
+  type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
   useCountLibraryActivities,
   useLibraryActivitiesQuery,
+  useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
 } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -140,6 +142,201 @@ BddTest().given('the useActivityDetailQuery composable', () => {
 
       BddTest().then('it should not fetch data', () => {
         expect(queryResult.data.value).toBeUndefined()
+      })
+    })
+  })
+})
+
+BddTest().given('the useSubscribeActivityMutation composable', () => {
+  let subscribeActivitySpy: MockInstance<
+    (activityId: string, options?: RequestInit | undefined) => Promise<DeclaredActivity>
+  >
+  let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
+  let mutationResult: ReturnType<typeof useSubscribeActivityMutation>
+
+  const mockInvalidateFunction = vi.fn()
+
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError,
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    subscribeActivitySpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'subscribe'>(
+      await import('@/api/avenir-esr'),
+    'subscribe',
+    )
+
+    useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('valid activity ID and success callback', () => {
+    const activityId = 'activity-1-id'
+    const variables: SubscribeActivityVariables = { activityId }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(mutationResult.data.value, variables)
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const activityId = 'activity-1-id'
+    const variables: SubscribeActivityVariables = { activityId }
+    const mutationArgs = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid activity id with error callback', () => {
+    const activityId = 'INVALID_ACTIVITY_ID'
+    const variables: SubscribeActivityVariables = { activityId }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with the invalid parameters', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      let mutationResult: ReturnType<typeof useSubscribeActivityMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with the invalid parameters', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
       })
     })
   })

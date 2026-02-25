@@ -1,6 +1,9 @@
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  ActivityThematic,
+  type DeclaredActivity,
+  DeclaredActivityStatus,
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
@@ -157,6 +160,24 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   }
 ]
 
+export const mockedDeclaredActivity: DeclaredActivity = {
+  id: 'declared-activity-1',
+  createdAt: '2024-01-01T00:00:00Z',
+  updatedAt: '2024-01-01T00:00:00Z',
+  activity: {
+    id: 'activity-1',
+    title: 'Activité “Connaissance de soi” : Définir ses valeurs',
+    thematic: ActivityThematic.TRAJECTORIES,
+    summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+    executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
+  },
+  hasStarted: true,
+  reflection: 'Je me rends compte que mes valeurs sont l\'autonomie, la créativité et l\'impact social. Je vois que je les incarnent dans mon engagement associatif, mes projets personnels et mon choix de stage l\'été dernier.',
+  startDate: '2024-01-01T00:00:00Z',
+  endDate: '2024-06-30T00:00:00Z',
+  status: DeclaredActivityStatus.IN_PROGRESS
+}
+
 // TODO: changes this to activities returned by seeder in dev
 export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
   id: 'declared-activity-1',
@@ -267,3 +288,5 @@ export const mockedActivityDetail: ActivityDetailDTO = {
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
+
+export const mockedSubscribedActivityDetail: ActivityDetailDTO = { ...mockedActivityDetail, isSubscribed: true }

@@ -8,6 +8,7 @@
           }
         },
         "buttons": {
+          "subscribe": "Subscribe to the activity",
           "unsubscribe": "Unsubscribe"
         },
         "declaredActivityStatus": {
@@ -39,6 +40,22 @@
           "TRANSVERSAL": "Transversal"
         },
         "views": {
+          "ProjectActivitiesCatalogView": {
+            "overlays": {
+              "ActivitySubscribeModal": {
+                "error": "An error occurred while subscribing to the activity. Please try again later.",
+                "success": "You have successfully subscribed. Find this activity in your activity library.",
+                "title": "Subscribe to the activity {title}"
+              },
+              "CancelSubscribeActivityModal": {
+                "title": "Are you sure you want to cancel your subscription to the activity?"
+              }
+            },
+            "periodTitle": "Execution period",
+            "previewTitle": "Activity preview",
+            "title": "All available activities",
+            "unsubscribe": "Unsubscribe"
+          },
           "ProjectActivityDetailedView": {
             "ActivityDetailedDropdown": {
               "triggerLabel": "Manage my activity"
@@ -102,12 +119,6 @@
         }
       },
       "views": {
-        "ProjectActivitiesCatalogView": {
-          "periodTitle": "Execution period",
-          "previewTitle": "Activity preview",
-          "title": "All available activities",
-          "unsubscribe": "Unsubscribe"
-        },
         "projectActivitiesView": {
           "ActivityLibraryCard": {
             "period": "Personal achievement period"
