@@ -1,4 +1,5 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import { EActivityThematic } from '@cofolio/api/avenir-esr/generated/types/eActivityThematic'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
 import { ActivitiesSelectNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesSelectNavigation'
@@ -11,6 +12,9 @@ export
 class StudentProjectActivitiesCatalogPage {
   private selectedThematic?: string
   private selectedActivityId?: string
+
+  private static readonly DEFAULT_THEME = EActivityThematic.SELF_KNOWLEDGE
+  private static readonly DEFAULT_ACTIVITY_ID = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
   constructor (public page: Page) {}
 
@@ -37,8 +41,8 @@ class StudentProjectActivitiesCatalogPage {
   @Given('the student opens the project activities catalog page')
   async openCatalogPage () {
     const url = this.buildCatalogUrl(
-      'SELF_KNOWLEDGE',
-      '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+      StudentProjectActivitiesCatalogPage.DEFAULT_THEME,
+      StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)
   }
@@ -51,10 +55,22 @@ class StudentProjectActivitiesCatalogPage {
     expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
 
     const url = this.buildCatalogUrl(
-      'SELF_KNOWLEDGE',
-      '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+      StudentProjectActivitiesCatalogPage.DEFAULT_THEME,
+      StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)
+  }
+
+  @Then('the URL contains the selected activity and {string} thematic')
+  async verifyUrlContainsSelectedActivityAndThematic (thematic: string) {
+    expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
+    expect(this.selectedActivityId, 'Expected a selected activity id to be captured from the URL').toBeTruthy()
+
+    const url = this.page.url()
+
+    expect(url).toContain(this.selectedActivityId!)
+    expect(url).toContain(thematic)
+    expect(this.selectedThematic).toBe(thematic)
   }
 
   @Then('the activities side navigation is visible')
@@ -62,19 +78,49 @@ class StudentProjectActivitiesCatalogPage {
     await this.sideNav().verifyVisible()
   }
 
+  @Then('the activities select navigation is hidden')
+  async verifySelectNavigationHidden () {
+    await this.selectNav().verifyHidden()
+  }
+
   @Then('activities side navigation has thematics')
   async verifySideNavigationHasThematics () {
     await this.sideNav().verifyHasThematics()
   }
 
-  @When('the user selects the second activity of the first thematic from side navigation')
-  async selectSecondActivityOfFirstThematicFromSideNav () {
+  @Then('all expected thematics are displayed in side navigation')
+  async verifyAllExpectedThematicsInSideNav () {
+    await this.sideNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+  }
+
+  @When('the user selects the second activity of the {string} thematic from side navigation')
+  async selectSecondActivityOfFirstThematicFromSideNav (thematic: string) {
     const beforeUrl = this.page.url()
 
-    await this.sideNav().selectSecondChildOfFirstParent()
+    await this.sideNav().selectSecondChildOfThematic(thematic)
 
     await this.expectUrlToChange(beforeUrl)
     this.captureSelectedParamsFromUrl()
+  }
+
+  @Then('the first thematic in side navigation is {string}')
+  async verifyFirstThematicInSideNav (thematic: string) {
+    await this.sideNav().verifyFirstThematicIs(thematic)
+  }
+
+  @Then('the first thematic in side navigation has at least 1 activity')
+  async verifyFirstThematicHasActivityInSideNav () {
+    await this.sideNav().verifyFirstThematicHasAtLeastOneActivity()
+  }
+
+  @Then('the first thematic in side navigation first activity is {string}')
+  async verifyFirstThematicFirstActivityInSideNav (title: string) {
+    await this.sideNav().verifyFirstActivityTitleOfFirstThematic(title)
+  }
+
+  @Then('the first thematic in side navigation last activity is {string}')
+  async verifyFirstThematicLastActivityInSideNav (title: string) {
+    await this.sideNav().verifyLastActivityTitleOfFirstThematic(title)
   }
 
   @Then('the activities select navigation is visible')
@@ -82,28 +128,48 @@ class StudentProjectActivitiesCatalogPage {
     await this.selectNav().verifyVisible()
   }
 
+  @Then('the activities side navigation is hidden')
+  async verifySideNavigationHidden () {
+    await this.sideNav().verifyHidden()
+  }
+
   @Then('activities select navigation has thematics')
   async verifySelectNavigationHasThematics () {
     await this.selectNav().verifyHasThematics()
   }
 
-  @When('the user selects the second activity from select navigation')
-  async selectSecondActivityFromSelectNavigation () {
+  @Then('all expected thematics are displayed in select navigation')
+  async verifyAllExpectedThematicsInSelectNav () {
+    await this.selectNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+  }
+
+  @When('the user selects the second activity of the {string} thematic from select navigation')
+  async selectSecondActivityFromSelectNavigation (thematic: string) {
     const beforeUrl = this.page.url()
 
-    await this.selectNav().selectDifferentOptionPreferSecond()
+    await this.selectNav().selectSecondActivityOfThematic(thematic)
 
     await this.expectUrlToChange(beforeUrl)
     this.captureSelectedParamsFromUrl()
   }
 
-  @Then('the URL contains the selected activity and thematic')
-  async verifyUrlContainsSelectedActivityAndThematic () {
-    expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
-    expect(this.selectedActivityId, 'Expected a selected activity id to be captured from the URL').toBeTruthy()
+  @Then('the first thematic in select navigation is {string}')
+  async verifyFirstThematicInSelectNav (thematic: string) {
+    await this.selectNav().verifyFirstThematicIs(thematic)
+  }
 
-    const url = this.page.url()
-    expect(url).toContain(this.selectedThematic!)
-    expect(url).toContain(this.selectedActivityId!)
+  @Then('the first thematic in select navigation has at least 1 activity')
+  async verifyFirstThematicHasActivityInSelectNav () {
+    await this.selectNav().verifyFirstThematicHasAtLeastOneActivity()
+  }
+
+  @Then('the first thematic in select navigation first activity is {string}')
+  async verifyFirstThematicFirstActivityInSelectNav (title: string) {
+    await this.selectNav().verifyFirstActivityTitleOfFirstThematic(title)
+  }
+
+  @Then('the first thematic in select navigation last activity is {string}')
+  async verifyFirstThematicLastActivityInSelectNav (title: string) {
+    await this.selectNav().verifyLastActivityTitleOfFirstThematic(title)
   }
 }
