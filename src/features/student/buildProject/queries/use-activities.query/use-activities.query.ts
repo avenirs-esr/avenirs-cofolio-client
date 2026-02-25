@@ -3,11 +3,13 @@ import type { MutationArgs } from '@/types'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  type DeclaredActivity,
   getActivityDetail,
   getActivityNavigation,
   getDeclaredActivitiesView,
   type GetDeclaredActivitiesViewParams,
   type PagedResponseDeclaredActivityViewDTO,
+  subscribe,
   unsubscribe
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -51,6 +53,24 @@ export function useCountLibraryActivities (params?: MaybeRef<GetDeclaredActiviti
   return useQuery<PagedResponseDeclaredActivityViewDTO, BaseApiException, number>({
     ...useLibraryActivitiesCommonQueryOptions(params),
     select: data => data.page.totalElements,
+  })
+}
+
+export interface SubscribeActivityVariables {
+  activityId: string
+}
+
+export function useSubscribeActivityMutation ({ onError, onSuccess }: MutationArgs<DeclaredActivity, SubscribeActivityVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+  return useMutation<DeclaredActivity, BaseApiException, SubscribeActivityVariables>({
+    mutationFn: async ({ activityId }: SubscribeActivityVariables): Promise<DeclaredActivity> => {
+      return await subscribe(activityId)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activityDetailsQueryKey, variables.activityId])
+      onSuccess?.(data, variables)
+    },
+    onError
   })
 }
 

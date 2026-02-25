@@ -2,15 +2,18 @@ import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
   createMockedPagedResponseDeclaredActivityViewDTO,
-  mockedActivityDetail
+  mockedActivityDetail,
+  mockedDeclaredActivity
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  type DeclaredActivity,
   EErrorCode,
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
+  getSubscribeUrl,
   getUnsubscribeUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
@@ -40,6 +43,21 @@ export const activityNavigationQueryError = http.get(`*${getGetActivityNavigatio
 
 export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl()}`, async () => {
   return HttpResponse.json<ActivityNavigationDTO[]>(activitiesNavigationMock, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+})
+
+const subscribeActivityProgressHandler = http.post(`*${getSubscribeUrl(':activityId')}`, async ({ params }) => {
+  const { activityId } = params
+
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
+  }
+
+  return HttpResponse.json<DeclaredActivity>(mockedDeclaredActivity, {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
@@ -94,6 +112,38 @@ export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActiviti
   })
 })
 
+export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
+  const { activityId } = params
+
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+
+  if (activityId === 'SUBSCRIBED_ACTIVITY_ID') {
+    return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, isSubscribed: true }, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+
+  return HttpResponse.json<ActivityDetailDTO>(mockedActivityDetail, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+})
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
@@ -111,27 +161,7 @@ export const activitiesHandlers = [
     })
   }),
   activityNavigationQuery,
-  http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
-    const { activityId } = params
-
-    if (activityId === 'INVALID_ACTIVITY_ID') {
-      return HttpResponse.json(
-        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-    }
-
-    return HttpResponse.json<ActivityDetailDTO>(mockedActivityDetail, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }),
+  activityDetailHandler,
+  subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
 ]

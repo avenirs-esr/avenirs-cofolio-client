@@ -4517,6 +4517,9 @@
           "executionPeriodInfo": {
             "type": "string"
           },
+          "isSubscribed": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"

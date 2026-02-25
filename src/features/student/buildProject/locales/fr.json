@@ -8,6 +8,7 @@
           }
         },
         "buttons": {
+          "subscribe": "M'inscrire à l'activité",
           "unsubscribe": "Me désinscrire"
         },
         "declaredActivityStatus": {
@@ -39,6 +40,21 @@
           "TRANSVERSAL": "Transverse"
         },
         "views": {
+          "ProjectActivitiesCatalogView": {
+            "overlays": {
+              "ActivitySubscribeModal": {
+                "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
+                "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d’activités.",
+                "title": "Inscription à l’activité {title}"
+              },
+              "CancelSubscribeActivityModal": {
+                "title": "Êtes-vous certain(e) de vouloir abandonner l’inscription à l’activité ?"
+              }
+            },
+            "periodTitle": "Période de réalisation",
+            "previewTitle": "Extrait de l'activité",
+            "title": "Toutes les activités disponibles"
+          },
           "ProjectActivityDetailedView": {
             "ActivityDetailedDropdown": {
               "triggerLabel": "Gérer mon activité"
@@ -102,11 +118,6 @@
         }
       },
       "views": {
-        "ProjectActivitiesCatalogView": {
-          "periodTitle": "Période de réalisation",
-          "previewTitle": "Extrait de l'activité",
-          "title": "Toutes les activités disponibles"
-        },
         "projectActivitiesView": {
           "ActivityLibraryCard": {
             "period": "Période de réalisation personnelle"

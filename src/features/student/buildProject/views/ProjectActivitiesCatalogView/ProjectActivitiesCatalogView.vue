@@ -33,26 +33,33 @@ const breadcrumbLinks = computed(() => [
 
 <template>
   <PageTitle
-    :title="t('student.buildProject.views.ProjectActivitiesCatalogView.title')"
+    :title="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.title')"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.HOME"
   />
   <div
     data-testid="activities-layout"
-    class="av-justify-center av-my-md av-gap-sm"
+    class="av-my-md av-gap-sm"
     :class="[isMobile ? 'av-column' : 'av-row']"
   >
-    <ActivitiesSelectNavigation v-if="isMobile" />
-    <ActivitiesSideNavigation v-else />
-    <Loader
-      :is-loading="isLoading && !isError"
-      size="2xl"
+    <div
+      v-if="isMobile"
+      class="av-row av-flex-fill av-justify-center"
     >
-      <ActivityPreview
-        v-if="activityDetail"
-        :activity="activityDetail"
-      />
-    </Loader>
+      <ActivitiesSelectNavigation />
+    </div>
+    <ActivitiesSideNavigation v-else />
+    <div class="av-row av-flex-fill av-justify-center">
+      <Loader
+        :is-loading="isLoading && !isError"
+        size="2xl"
+      >
+        <ActivityPreview
+          v-if="activityDetail"
+          :activity="activityDetail"
+        />
+      </Loader>
+    </div>
   </div>
   <ActivityErrorMessage :error="error" />
 </template>
