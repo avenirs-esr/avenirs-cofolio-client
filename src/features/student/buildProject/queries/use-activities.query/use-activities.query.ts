@@ -12,6 +12,7 @@ import {
   getActivityNavigation,
   getDeclaredActivitiesView,
   type GetDeclaredActivitiesViewParams,
+  getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
   type PagedResponseDeclaredActivityViewDTO,
   subscribe,
@@ -90,6 +91,52 @@ export function useActivitiesViewQuery ({
     pageInfo
   }
 }
+
+export interface ActivitiesLatestViewQueryParams {
+  page: MaybeRef<number>
+  pageSize: number
+}
+
+export function useActivitiesLastestViewQuery ({ page, pageSize }: ActivitiesLatestViewQueryParams): ActivitiesViewQueryReturnType {
+  const queryKey = computed(() => [
+    ...activitiesViewQueryKey,
+    {
+      page: toValue(page),
+      pageSize
+    }
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseActivityOverviewDTO> => {
+    return await getLatestActivitiesView({
+      page: toValue(page),
+      pageSize: toValue(3)
+    })
+  })
+
+  const query = useQuery<PagedResponseActivityOverviewDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    placeholderData: keepPreviousData
+  })
+
+  const activities = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    activities,
+    pageInfo
+  }
+}
+
 function useLibraryActivitiesCommonQueryOptions (params?: MaybeRef<GetDeclaredActivitiesViewParams>) {
   return {
     queryKey: computed(() => [...libraryActivitiesQueryKey, toValue(params)]),

@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import type { PageInfoDTO } from '@/api/avenir-esr'
-import { AvCard, AvIconText, AvPagination, getPaginationPages, IX_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { Loader } from '@/common/components'
+import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
+import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
+import {
+  useActivitiesLastestViewQuery
+} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { AvCard, AvIconText, AvPagination, getPaginationPages, IX_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const currentPage = ref(0)
 
-const pageInfo = ref<PageInfoDTO>({
-  page: currentPage.value,
-  pageSize: PageSizes.FOUR,
-  totalElements: 8,
-  totalPages: 2
-}) // TODO US #959 - get paginated data from back
+const { activities, pageInfo, error, isFetching, isError } = useActivitiesLastestViewQuery({ page: currentPage, pageSize: 3 })
 
 const totalPages = computed(() => pageInfo.value.totalPages)
 const pages = computed(() => getPaginationPages(totalPages))
@@ -53,6 +53,23 @@ const pages = computed(() => getPaginationPages(totalPages))
           @update:current-page="(page) => currentPage = page"
         />
       </div>
+      <ActivityErrorMessage :error />
+      <Loader
+        :is-loading="isFetching && !isError"
+        size="2xl"
+      >
+        <div
+          class="av-row av-align-center av-gap-sm av-wrap"
+          data-testid="cards-layout"
+        >
+          <ActivityCard
+            v-for="activity in activities"
+            :key="activity.id"
+            :activity="activity"
+            hide-new-label
+          />
+        </div>
+      </Loader>
     </div>
   </AvCard>
 </template>

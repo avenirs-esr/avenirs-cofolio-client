@@ -9,7 +9,7 @@ import ActivityThematicBadge from '@/features/student/buildProject/components/ba
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
-defineProps<{ activity: ActivityOverviewDTO }>()
+defineProps<{ activity: ActivityOverviewDTO, hideNewLabel?: boolean }>()
 
 const iconOptions = {
   name: MDI_ICONS.TARGET_ARROW,
@@ -42,7 +42,7 @@ const iconOptions = {
               small
               :thematic="activity.thematic"
             />
-            <ActivityNewBadge v-if="activity.isNew" />
+            <ActivityNewBadge v-if="activity.isNew && !hideNewLabel" />
             <ActivityStatusBadge
               v-if="activity.status"
               :status="activity.status"

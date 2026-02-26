@@ -14,11 +14,12 @@ import {
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
+  getGetLatestActivitiesViewUrl,
   getSubscribeUrl,
   getUnsubscribeUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
-import { http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse } from 'msw'
 
 export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, () => {
   return HttpResponse.json(
@@ -182,6 +183,43 @@ export const activitiesViewErrorHandler = http.get(
   }
 )
 
+export const latestActivitiesHandler = http.get(
+  `*${getGetLatestActivitiesViewUrl()}`,
+  async ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
+    const totalElements = 6
+    await delay('real')
+
+    const mockData = createMockedPagedResponseDeclaredActivityViewDTO(
+      pageSize,
+      totalElements,
+      page
+    )
+
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const latestActivitiesErrorHandler = http.get(
+  `*${getGetLatestActivitiesViewUrl()}`,
+  async () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+)
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     const url = new URL(request.url)
@@ -200,6 +238,7 @@ export const activitiesHandlers = [
   }),
   activityNavigationQuery,
   activitiesViewHandler,
+  latestActivitiesHandler,
   activityDetailHandler,
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
