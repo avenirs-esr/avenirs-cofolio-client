@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
 import ActivityCompactCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/cards/ActivityCompactCard/ActivityCompactCard.vue'
 import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 
 export interface ActivitiesSelectorProps {
-  activities: ActivityItemNavigationDTO[]
+  activities: { id: string, title: string }[]
   readonly?: boolean
 }
 

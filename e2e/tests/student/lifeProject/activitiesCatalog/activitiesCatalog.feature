@@ -27,3 +27,50 @@ Feature: Student Project Activities Catalog Page
       And the first thematic in side navigation has at least 1 activity
       And the first thematic in side navigation first activity is "Définir ses valeurs"
       And the first thematic in side navigation last activity is "Identifier ses centres d’intérêt"
+
+  Rule: Activity preview - Desktop
+
+    @high @preview
+    Scenario: Student can see the activity preview
+      Then the activity preview is visible
+      And the activity preview is correctly displayed
+      And the activity preview subscribe button is visible
+
+  Rule: Activity subscription - Desktop
+
+    Background:
+      When the user clicks on the activity preview subscribe button
+
+      @high @subsribe
+      Scenario: Student can see the subscribe activity modal
+        Then the subscribe activity modal is displayed
+
+      @medium @subscribe
+      Scenario: Student can see the cancel subscribe modal
+        When the user clicks on the activity preview subscribe modal cancel button
+        Then the cancel subscribe activity confirm modal is displayed
+
+      @low @subscribe
+      Scenario: Student can confirm the cancel subscribe modal
+        When the user clicks on the activity preview subscribe modal cancel button and confirms
+        Then the cancel subscribe activity confirm modal is hidden
+        And the subscribe activity modal is hidden
+
+      @low @subscribe
+      Scenario: Student can cancel the cancel subscribe modal
+        When the user clicks on the activity preview subscribe modal cancel button and cancels
+        Then the cancel subscribe activity confirm modal is hidden
+        And the subscribe activity modal is displayed
+
+      @high @subscribe
+      Scenario: Student can subscribe to the activity and unsubscribe from it right after
+        When the user clicks on the activity preview subscribe modal confirm button
+        Then the subscribe activity modal is hidden
+        And the activity preview unsubscribe button is visible
+        And the activity preview subscribe button is hidden
+        When the user clicks on the activity preview unsubscribe button
+        Then the unsubscribe activities confirm modal is displayed
+        When the user clicks on the activity preview unsubscribe activities confirm modal confirm button
+        Then the activity preview unsubscribe activities confirm modal is hidden
+        And the activity preview subscribe button is visible
+        And the activity preview unsubscribe button is hidden

@@ -20,7 +20,10 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
 </script>
 
 <template>
-  <div class="av-col av-gap-lg">
+  <div
+    class="av-col av-gap-lg"
+    data-testid="activity-preview"
+  >
     <AvCard
       v-if="activity.banner"
       background-color="var(--card2)"
@@ -42,9 +45,13 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
       typography-class="n2"
       gap="var(--spacing-md)"
       inline
+      data-testid="activity-title"
     />
     <div class="av-row av-wrap av-gap-xs av-pl-5xl">
-      <ActivityThematicBadge :thematic="activity.thematic" />
+      <ActivityThematicBadge
+        :thematic="activity.thematic"
+        data-testid="activity-thematic-badge"
+      />
     </div>
     <AvCard
       background-color="var(--card2)"
@@ -98,7 +105,6 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
   </div>
 
   <UnsubscribeActivitiesConfirmModal
-    v-if="activity.isSubscribed"
     :show="showUnsubscribeModal"
     :activities="[{ id: activity.id, title: activity.title }]"
     @cancel="hideUnsubscribeModal"
@@ -106,7 +112,6 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
   />
 
   <SubscribeActivityModal
-    v-else
     :show="showSubscribeModal"
     :activity="{ id: activity.id, title: activity.title }"
     @cancel="hideSubscribeModal"

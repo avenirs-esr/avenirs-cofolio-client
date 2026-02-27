@@ -18,8 +18,8 @@ import {
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
-  getSubscribeUrl,
-  getUnsubscribeUrl,
+  getSubscribeActivityUrl,
+  getUnsubscribeActivitiesProgressesUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
@@ -55,7 +55,7 @@ export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl(
   })
 })
 
-const subscribeActivityProgressHandler = http.post(`*${getSubscribeUrl(':activityId')}`, async ({ params }) => {
+const subscribeActivityProgressHandler = http.post(`*${getSubscribeActivityUrl(':activityId')}`, async ({ params }) => {
   const { activityId } = params
 
   if (activityId === 'INVALID_ACTIVITY_ID') {
@@ -70,7 +70,7 @@ const subscribeActivityProgressHandler = http.post(`*${getSubscribeUrl(':activit
   })
 })
 
-const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeUrl()}`, async ({ request }) => {
+const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivitiesProgressesUrl()}`, async ({ request }) => {
   const activitiesIds = await request.json() as string[]
 
   if (activitiesIds.length === 0) {
