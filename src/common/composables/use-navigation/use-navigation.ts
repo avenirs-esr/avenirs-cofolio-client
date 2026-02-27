@@ -1,4 +1,4 @@
-import { EActivityThematic } from '@/api/avenir-esr'
+import type { EActivityThematic } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { type NavigationFailure, useRouter } from 'vue-router'
 
@@ -85,12 +85,16 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PROJECT_SKILLS)
   }
 
-  const navigateToStudentProjectActivitiesCatalog = ({ theme, id }: { theme?: EActivityThematic, id?: string } =
-  { theme: EActivityThematic.SELF_KNOWLEDGE, id: '0' }) => {
-    return router.push({
+  const navigateToStudentProjectActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
+  { thematic: undefined, id: undefined, replace: false }) => {
+    const to = {
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
-      params: { theme, id },
-    })
+      params: { thematic, id },
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
   }
 
   const navigateToStudentTraces = () => {

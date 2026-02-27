@@ -149,7 +149,7 @@ BddTest().given('a build project activities side navigation component', () => {
 
     BddTest().and('a navigation child item is selected', () => {
       const selected = {
-        itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+        itemId: 'some-id',
         parentId: EActivityThematic.SELF_KNOWLEDGE,
       }
 
@@ -165,12 +165,31 @@ BddTest().given('a build project activities side navigation component', () => {
         expect(sideNavigation.props('selectedItem')).toEqual(selected)
       })
 
-      BddTest().then('it should navigate to the catalog with theme and id', () => {
+      BddTest().then('it should navigate to the catalog with thematic and id', () => {
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(1)
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledWith({
-          theme: EActivityThematic.SELF_KNOWLEDGE,
-          id: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+          thematic: EActivityThematic.SELF_KNOWLEDGE,
+          id: 'some-id',
+          replace: false,
         })
+      })
+    })
+
+    BddTest().and('the currently selected item is reselected', () => {
+      const selected = {
+        itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+        parentId: EActivityThematic.SELF_KNOWLEDGE,
+      }
+
+      beforeEach(async () => {
+        await flushPromises()
+        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        await sideNavigation.vm.$emit('update:selectedItem', selected)
+        await flushPromises()
+      })
+
+      BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })
 

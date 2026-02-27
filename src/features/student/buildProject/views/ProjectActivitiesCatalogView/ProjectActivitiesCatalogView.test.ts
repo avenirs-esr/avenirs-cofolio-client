@@ -19,6 +19,16 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentProjectActivitiesCatalog: vi.fn(),
+    }),
+  }
+})
+
 const isMobileRef = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
@@ -42,7 +52,7 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted with a valid activity (desktop)', () => {
     const props: ProjectActivitiesCatalogViewProps = {
-      theme: EActivityThematic.SELF_KNOWLEDGE,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
       id: '0'
     }
 
@@ -108,7 +118,7 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted with a valid activity (mobile)', () => {
     const props: ProjectActivitiesCatalogViewProps = {
-      theme: EActivityThematic.SELF_KNOWLEDGE,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
       id: '0'
     }
 
@@ -138,7 +148,7 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted with an invalid activity', () => {
     const props: ProjectActivitiesCatalogViewProps = {
-      theme: EActivityThematic.SELF_KNOWLEDGE,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
       id: 'INVALID_ACTIVITY_ID'
     }
 
@@ -169,7 +179,7 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted and the API returns an error', () => {
     const props: ProjectActivitiesCatalogViewProps = {
-      theme: EActivityThematic.SELF_KNOWLEDGE,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
       id: '0'
     }
 

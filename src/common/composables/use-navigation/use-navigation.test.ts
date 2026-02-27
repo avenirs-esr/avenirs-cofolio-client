@@ -144,15 +144,43 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student project activities catalog', () => {
+  BddTest().when('trying to navigate to student project activities catalog without parameters', () => {
     BddTest().then('it should navigate to student project activities catalog', () => {
       const { navigateToStudentProjectActivitiesCatalog } = navigation
       navigateToStudentProjectActivitiesCatalog()
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
         params: {
-          id: '0',
-          theme: EActivityThematic.SELF_KNOWLEDGE
+          id: undefined,
+          thematic: undefined
+        }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to student project activities catalog with thematic and id', () => {
+    BddTest().then('it should navigate to student project activities catalog with thematic and id', () => {
+      const { navigateToStudentProjectActivitiesCatalog } = navigation
+      navigateToStudentProjectActivitiesCatalog({ thematic: EActivityThematic.RESUMES, id: 'some-id' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+        params: {
+          id: 'some-id',
+          thematic: EActivityThematic.RESUMES
+        }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to student project activities catalog with replace', () => {
+    BddTest().then('it should navigate to student project activities catalog with replace', () => {
+      const { navigateToStudentProjectActivitiesCatalog } = navigation
+      navigateToStudentProjectActivitiesCatalog({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+        params: {
+          id: undefined,
+          thematic: undefined
         }
       })
     })

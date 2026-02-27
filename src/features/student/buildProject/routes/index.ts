@@ -20,8 +20,8 @@ export const projectActivitiesDetailedRoute: AvRoute = {
 export const projectActivitiesCatalogRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG,
   props: route => ({
-    theme: route.params.theme,
-    id: route.params.id
+    thematic: route.params.thematic as string | undefined,
+    id: route.params.id as string | undefined,
   }),
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),

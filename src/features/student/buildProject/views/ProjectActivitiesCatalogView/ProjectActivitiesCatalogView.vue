@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import { EActivityThematic } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
+import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { useActivitiesNavigationQuery, useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivitiesSelectNavigation
   from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.vue'
 import ActivitiesSideNavigation
@@ -13,16 +16,50 @@ import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivitiesCatalogViewProps {
-  theme: string
-  id: string
+  thematic?: string
+  id?: string
 }
 
-const { id } = defineProps<ProjectActivitiesCatalogViewProps>()
+const props = defineProps<ProjectActivitiesCatalogViewProps>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
+const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
-const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(id)
+const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(computed(() => props.id ?? ''))
+const { activities, isLoading: isNavigationLoading, isError: isNavigationError } = useActivitiesNavigationQuery()
+
+const firstCatalogEntry = computed(() => {
+  const firstThematic = activities.value?.[0]?.title
+  const firstItemId = activities.value?.[0]?.items?.[0]?.id
+
+  if (!firstThematic || !firstItemId || !isEnumMember(EActivityThematic, firstThematic)) {
+    return undefined
+  }
+
+  return {
+    thematic: firstThematic,
+    id: firstItemId,
+  }
+})
+
+watchEffect(() => {
+  const thematic = props.thematic
+  const id = props.id
+  const loading = isNavigationLoading.value
+  const hasError = isNavigationError.value
+  const firstEntry = firstCatalogEntry.value
+
+  if ((thematic && id) || loading || hasError || !firstEntry) {
+    return
+  }
+
+  void navigateToStudentProjectActivitiesCatalog({
+    thematic: firstEntry.thematic,
+    id: firstEntry.id,
+    replace: true,
+  })
+})
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },

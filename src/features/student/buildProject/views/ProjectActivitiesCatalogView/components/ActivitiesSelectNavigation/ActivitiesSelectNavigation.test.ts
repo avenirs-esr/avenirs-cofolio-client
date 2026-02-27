@@ -99,12 +99,29 @@ BddTest().given('a build project activities select navigation component', () => 
         await flushPromises()
       })
 
-      BddTest().then('it should navigate to the catalog with theme and id', () => {
+      BddTest().then('it should navigate to the catalog with thematic and id', () => {
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(1)
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledWith({
-          theme: EActivityThematic.RESUMES,
+          thematic: EActivityThematic.RESUMES,
           id: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
+          replace: false,
         })
+      })
+    })
+
+    BddTest().and('the user selects the already selected option', () => {
+      beforeEach(async () => {
+        await flushPromises()
+        const select = wrapper.findComponent({ name: 'AvSelect' })
+        await select.vm.$emit('update:selectedItem', {
+          itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+          parentId: EActivityThematic.SELF_KNOWLEDGE,
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })
   })
