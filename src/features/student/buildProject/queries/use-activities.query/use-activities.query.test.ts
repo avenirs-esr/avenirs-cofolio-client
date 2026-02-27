@@ -9,13 +9,21 @@ import {
   libraryActivitiesErrorHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { type ActivityDetailDTO, type ActivityNavigationDTO, type DeclaredActivity, EActivityThematic, type getDeclaredActivitiesView } from '@/api/avenir-esr'
+import {
+  type ActivityDetailDTO,
+  type ActivityNavigationDTO,
+  type DeclaredActivity,
+  type DeclaredActivityDetailsDTO,
+  EActivityThematic,
+  type getDeclaredActivitiesView
+} from '@/api/avenir-esr'
 import {
   type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
   useCountLibraryActivities,
+  useDeclaredActivitiesDetailedQuery,
   useLibraryActivitiesQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
@@ -793,6 +801,102 @@ BddTest().given('a useCountLibraryActivities composable', () => {
 
       BddTest().then('it should still return the total elements count', () => {
         expect(queryResult.data.value).toBe(6)
+      })
+    })
+  })
+})
+
+BddTest().given('the useDeclaredActivitiesDetailedQuery composable', () => {
+  let getDeclaredActivityDetailsSpy: MockInstance<
+    (declaredActivityId: string, options?: RequestInit | undefined) => Promise<DeclaredActivityDetailsDTO>
+  >
+
+  const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
+    id: 'declared-activity-1',
+    activity: mockedActivityDetail as any, // adapte si ActivityDetailDTO != shape de activity dans DeclaredActivityDetailsDTO
+  } as DeclaredActivityDetailsDTO
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    getDeclaredActivityDetailsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getDeclaredActivityDetails'>(
+      await import('@/api/avenir-esr'),
+    'getDeclaredActivityDetails',
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id', () => {
+    const declaredActivityId = ref('declared-activity-1')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useDeclaredActivitiesDetailedQuery>
+
+      beforeEach(async () => {
+        // on force un retour stable sans dépendre des handlers MSW
+        getDeclaredActivityDetailsSpy.mockResolvedValueOnce(mockedDeclaredActivityDetails)
+
+        queryResult = mountQueryComposable(() => useDeclaredActivitiesDetailedQuery(declaredActivityId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should have been called with declared activity id', () => {
+        expect(getDeclaredActivityDetailsSpy).toHaveBeenCalledWith(declaredActivityId.value)
+      })
+
+      BddTest().then('it should expose declaredActivityDetail computed from query.data', () => {
+        expect(queryResult.data.value).toBeDefined()
+        expect(queryResult.declaredActivityDetail.value).toBeDefined()
+        expect(queryResult.declaredActivityDetail.value).toMatchObject(mockedDeclaredActivityDetails)
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared activity id', () => {
+    const declaredActivityId = ref('INVALID_DECLARED_ACTIVITY_ID')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useDeclaredActivitiesDetailedQuery>
+
+      beforeEach(async () => {
+        // on simule une erreur API
+        getDeclaredActivityDetailsSpy.mockRejectedValueOnce(new Error('Not Found'))
+
+        queryResult = mountQueryComposable(() => useDeclaredActivitiesDetailedQuery(declaredActivityId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should have been called with invalid declared activity id', () => {
+        expect(getDeclaredActivityDetailsSpy).toHaveBeenCalledWith(declaredActivityId.value)
+      })
+
+      BddTest().then('it should not fetch data and should be in error state', async () => {
+        await vi.waitFor(() => {
+          expect(queryResult.isError.value).toBe(true)
+        })
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.declaredActivityDetail.value).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().and('an empty declared activity id', () => {
+    const declaredActivityId = ref('')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useDeclaredActivitiesDetailedQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useDeclaredActivitiesDetailedQuery(declaredActivityId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the API because query is disabled', () => {
+        expect(getDeclaredActivityDetailsSpy).not.toHaveBeenCalled()
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.declaredActivityDetail.value).toBeUndefined()
       })
     })
   })

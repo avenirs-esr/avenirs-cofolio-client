@@ -1,12 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { mockedActivityDetail, mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
+import { ProjectActivityDetailsStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.stub'
 import ProjectActivityDetailedView, { type ProjectActivityDetailedViewProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -19,7 +20,8 @@ BddTest().given('a project activity detailed view', () => {
     PageTitle: PageTitleStub,
     Loader: LoaderStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
-    ActivityDetailedDropdown: ActivityDetailedDropdownStub
+    ActivityDetailedDropdown: ActivityDetailedDropdownStub,
+    ProjectActivityDetails: ProjectActivityDetailsStub
   }
 
   BddTest().when('the view is mounted with a valid activity', () => {
@@ -76,6 +78,12 @@ BddTest().given('a project activity detailed view', () => {
       })
     })
 
+    BddTest().then('it should render the ProjectActivityDetails component', () => {
+      const details = wrapper.findComponent(ProjectActivityDetailsStub)
+      expect(details.exists()).toBe(true)
+      expect(details.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+    })
+
     BddTest().and('the user clicks the unsubscribe button in the activity detailed dropdown', () => {
       beforeEach(async () => {
         const unsubscribeButton = wrapper.findComponent(ActivityDetailedDropdownStub)
@@ -118,7 +126,7 @@ BddTest().given('a project activity detailed view', () => {
 
   BddTest().when('the view is mounted with an invalid activity', () => {
     const props: ProjectActivityDetailedViewProps = {
-      id: 'INVALID_ACTIVITY_ID'
+      id: 'INVALID_DECLARED_ACTIVITY_ID'
     }
 
     beforeEach(() => {
@@ -150,7 +158,7 @@ BddTest().given('a project activity detailed view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
-      server.use(activityDetailsErrorHandler)
+      server.use(declaredActivityDetailsErrorHandler)
 
       wrapper = mountComponent(ProjectActivityDetailedView, {
         props,

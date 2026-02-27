@@ -3,17 +3,20 @@ import {
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
-  mockedDeclaredActivity
+  mockedDeclaredActivity,
+  mockedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
   type DeclaredActivity,
+  type DeclaredActivityDetailsDTO,
   EErrorCode,
   getGetActivitiesViewUrl,
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
+  getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
   getSubscribeUrl,
   getUnsubscribeUrl,
@@ -146,6 +149,41 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
   })
 })
 
+export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, async ({ params }) => {
+  const { declaredActivityId } = params
+
+  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+
+  return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedDeclaredActivityDetails, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+})
+
+export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+})
+
 export const activitiesViewHandler = http.get(
   `*${getGetActivitiesViewUrl()}`,
   async ({ request }) => {
@@ -240,6 +278,7 @@ export const activitiesHandlers = [
   activitiesViewHandler,
   latestActivitiesHandler,
   activityDetailHandler,
+  declaredActivityDetailsHandler,
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
 ]

@@ -64,6 +64,9 @@
           "ProjectActivityDetailedView": {
             "ActivityDetailedDropdown": {
               "triggerLabel": "Gérer mon activité"
+            },
+            "ProjectActivityDetails": {
+              "executionPeriodTitle": "Période de réalisation"
             }
           }
         }
