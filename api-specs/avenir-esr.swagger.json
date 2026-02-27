@@ -1899,6 +1899,37 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getDeclaredActivityDetails",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
@@ -4424,6 +4455,105 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "ActivityDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "executionPeriodInfo": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "executionPeriodInfo",
+          "id",
+          "summary",
+          "thematic",
+          "title",
+          "updatedAt"
+        ]
+      },
+      "DeclaredActivityDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/ActivityDTO"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "reflection": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "activity",
+          "createdAt",
+          "id",
+          "status",
+          "updatedAt"
         ]
       },
       "ActivityOverviewDTO": {

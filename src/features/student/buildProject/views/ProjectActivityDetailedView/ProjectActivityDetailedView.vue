@@ -5,8 +5,12 @@ import { useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
-import { useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import {
+  useDeclaredActivitiesDetailedQuery
+} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivityDetailedDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
+import ProjectActivityDetails
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailedViewProps {
@@ -16,7 +20,7 @@ export interface ProjectActivityDetailedViewProps {
 const { id } = defineProps<ProjectActivityDetailedViewProps>()
 
 const { t } = useI18n()
-const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(id)
+const { declaredActivityDetail, isLoading, isError, error } = useDeclaredActivitiesDetailedQuery(id)
 const { showModal, displayModal, hideModal } = useModal()
 
 const breadcrumbLinks = computed(() => [
@@ -31,7 +35,7 @@ const breadcrumbLinks = computed(() => [
     :is-loading="isLoading && !isError"
     size="2xl"
   >
-    <template v-if="activityDetail">
+    <template v-if="declaredActivityDetail">
       <PageTitle
         :title="t('global.detail')"
         :breadcrumb-links="breadcrumbLinks"
@@ -43,7 +47,7 @@ const breadcrumbLinks = computed(() => [
             data-testid="activity-detail-title"
           >
             {{ t('global.detail') }}
-            <span class="n4 av-text-text2">{{ activityDetail?.title }}</span>
+            <span class="n4 av-text-text2">{{ declaredActivityDetail?.activity.title }}</span>
           </span>
         </template>
       </PageTitle>
@@ -52,9 +56,11 @@ const breadcrumbLinks = computed(() => [
         <ActivityDetailedDropdown @unsubscribe-selected="displayModal" />
       </div>
 
+      <ProjectActivityDetails :declared-activity-details="declaredActivityDetail" />
+
       <UnsubscribeActivitiesConfirmModal
         :show="showModal"
-        :activities="[{ id: activityDetail.id, title: activityDetail.title }]"
+        :activities="[{ id: declaredActivityDetail.id, title: declaredActivityDetail.activity.title }]"
         @cancel="hideModal"
         @unsubscribed="hideModal"
       />

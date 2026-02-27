@@ -1,0 +1,26 @@
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+
+export const ProjectActivityDetailsStub = defineComponent({
+  name: 'ProjectActivityDetailsStub',
+  props: {
+    declaredActivityDetails: {
+      type: Object as () => DeclaredActivityDetailsDTO,
+      required: true
+    }
+  },
+  template: `
+    <div data-testid="project-activity-details">
+      <span data-testid="activity-title">
+        {{ declaredActivityDetails.activity.title }}
+      </span>
+
+      <span data-testid="activity-summary">
+        {{ declaredActivityDetails.activity.summary }}
+      </span>
+
+      <span data-testid="activity-execution-period-info">
+        {{ declaredActivityDetails.activity.executionPeriodInfo }}
+      </span>
+    </div>
+  `
+})

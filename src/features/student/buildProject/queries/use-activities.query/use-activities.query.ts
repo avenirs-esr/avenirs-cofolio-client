@@ -5,6 +5,7 @@ import {
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   type DeclaredActivity,
+  type DeclaredActivityDetailsDTO,
   type EActivityThematic,
   getActivitiesView,
   type GetActivitiesViewParams,
@@ -12,6 +13,7 @@ import {
   getActivityNavigation,
   getDeclaredActivitiesView,
   type GetDeclaredActivitiesViewParams,
+  getDeclaredActivityDetails,
   getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
   type PagedResponseDeclaredActivityViewDTO,
@@ -246,5 +248,26 @@ export function useActivitiesNavigationQuery (): UseQueryReturnType<ActivityNavi
   return {
     ...query,
     activities,
+  }
+}
+
+export function useDeclaredActivitiesDetailedQuery (declaredActivityId: MaybeRef<string>) {
+  const queryKey = computed(() => [...activityDetailsQueryKey, toValue(declaredActivityId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredActivityDetailsDTO> => {
+    return await getDeclaredActivityDetails(toValue(declaredActivityId))
+  })
+
+  const query = useQuery<DeclaredActivityDetailsDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(declaredActivityId).trim().length > 0),
+  })
+
+  const declaredActivityDetail = computed(() => query.data.value)
+
+  return {
+    ...query,
+    declaredActivityDetail,
   }
 }
