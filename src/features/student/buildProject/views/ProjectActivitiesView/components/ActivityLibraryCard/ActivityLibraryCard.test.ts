@@ -1,5 +1,8 @@
 import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import {
+  ActivityPeriodSummaryBadgeStub
+} from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.stub'
+import {
   ActivityStatusBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import {
@@ -7,7 +10,7 @@ import {
 } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivityLibraryCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -30,7 +33,7 @@ BddTest().given('an ActivityLibraryCard', () => {
     FloatingIconCard: FloatingIconCardStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
-    AvBadge: AvBadgeStub,
+    ActivityPeriodSummaryBadge: ActivityPeriodSummaryBadgeStub,
     RouterLink: RouterLinkStub
   }
 
@@ -40,6 +43,7 @@ BddTest().given('an ActivityLibraryCard', () => {
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Une activité de connaissance de soi.',
+    executionPeriodInfoSummary: 'À faire cette année',
     startDate: '2025-09-01T00:00:00.000Z',
     endDate: '2026-06-30T00:00:00.000Z'
   }
@@ -93,13 +97,13 @@ BddTest().given('an ActivityLibraryCard', () => {
     })
 
     BddTest().then('it should render the period badge', () => {
-      const periodBadge = wrapper.findComponent({ name: 'AvBadge' })
+      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
       expect(periodBadge.exists()).toBe(true)
     })
 
     BddTest().then('it should render the period badge with the correct label', () => {
-      const periodBadge = wrapper.findComponent({ name: 'AvBadge' })
-      expect(periodBadge.props('label')).toBe('Période de réalisation personnelle')
+      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
+      expect(periodBadge.props('summary')).toBe(baseActivity.executionPeriodInfoSummary)
     })
 
     BddTest().then('it should display the summary text', () => {
@@ -111,30 +115,14 @@ BddTest().given('an ActivityLibraryCard', () => {
     beforeEach(() => {
       wrapper = mount(ActivityLibraryCard, {
         props: {
-          activity: { ...baseActivity, startDate: undefined }
+          activity: { ...baseActivity, executionPeriodInfoSummary: undefined }
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should not render the period badge', () => {
-      const periodBadge = wrapper.findComponent({ name: 'AvBadge' })
-      expect(periodBadge.exists()).toBe(false)
-    })
-  })
-
-  BddTest().when('the component is mounted without endDate', () => {
-    beforeEach(() => {
-      wrapper = mount(ActivityLibraryCard, {
-        props: {
-          activity: { ...baseActivity, endDate: undefined }
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should not render the period badge', () => {
-      const periodBadge = wrapper.findComponent({ name: 'AvBadge' })
+      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
       expect(periodBadge.exists()).toBe(false)
     })
   })

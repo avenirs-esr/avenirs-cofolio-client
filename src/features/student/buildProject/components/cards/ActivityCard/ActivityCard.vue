@@ -2,6 +2,8 @@
 import type { ActivityOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ActivityNewBadge from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
+import ActivityPeriodSummaryBadge
+  from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.vue'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
@@ -50,6 +52,11 @@ const iconOptions = {
       </template>
       <template #footer>
         <div class="av-col caption-light text-clamp av-hidden av-unhidden--md">
+          <ActivityPeriodSummaryBadge
+            v-if="activity.executionPeriodInfoSummary"
+            :summary="activity.executionPeriodInfoSummary"
+            small
+          />
           {{ activity.summary }}
         </div>
       </template>

@@ -4421,6 +4421,9 @@
           "summary": {
             "type": "string"
           },
+          "executionPeriodInfoSummary": {
+            "type": "string"
+          },
           "isNew": {
             "type": "boolean"
           }
@@ -5080,6 +5083,9 @@
             ]
           },
           "summary": {
+            "type": "string"
+          },
+          "executionPeriodInfoSummary": {
             "type": "string"
           },
           "startDate": {

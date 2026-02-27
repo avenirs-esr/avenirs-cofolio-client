@@ -5,6 +5,9 @@ import {
   EDeclaredActivityStatus
 } from '@/api/avenir-esr'
 import { ActivityNewBadgeStub } from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.stub'
+import {
+  ActivityPeriodSummaryBadgeStub
+} from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.stub'
 import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
@@ -23,6 +26,7 @@ BddTest().given('an activity card', () => {
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityNewBadge: ActivityNewBadgeStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
+    ActivityPeriodSummaryBadge: ActivityPeriodSummaryBadgeStub,
     RouterLink: RouterLinkStub
   }
 
@@ -30,6 +34,7 @@ BddTest().given('an activity card', () => {
     id: '1',
     title: 'Atelier CV',
     summary: 'Résumé de l’activité',
+    executionPeriodInfoSummary: 'À faire cette année',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     isNew: false
   }
@@ -87,6 +92,11 @@ BddTest().given('an activity card', () => {
       const statusBadge = wrapper.findAllComponents(ActivityStatusBadgeStub)
       expect(statusBadge).toBeDefined()
     })
+
+    BddTest().then('the in period summary badge is rendered', () => {
+      const badges = wrapper.findAllComponents(ActivityPeriodSummaryBadgeStub)
+      expect(badges).toBeDefined()
+    })
   })
 
   BddTest().when('the component is mounted with SUBSCRIBED status', () => {
@@ -126,6 +136,25 @@ BddTest().given('an activity card', () => {
       const completedBadge = wrapper.findAllComponents(ActivityStatusBadgeStub)
 
       expect(completedBadge).toBeDefined()
+    })
+  })
+
+  BddTest().when('the component is mounted period summary badge is not rendered', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityCard, {
+        props: {
+          activity: {
+            ...baseActivity,
+            executionPeriodInfoSummary: undefined
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('the in period summary badge is rendered', () => {
+      const badge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
+      expect(badge.exists()).toBe(false)
     })
   })
 })

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
+import ActivityPeriodSummaryBadge
+  from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.vue'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { FloatingIconCard } from '@/features/student/global'
 import { ICONS } from '@/features/student/global/icons'
-import { AvBadge, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 
 interface DeclaredActivityCardProps {
   activity: DeclaredActivityViewDTO
@@ -14,7 +15,6 @@ interface DeclaredActivityCardProps {
 
 const { activity } = defineProps<DeclaredActivityCardProps>()
 
-const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
 const iconOptions = {
@@ -22,8 +22,6 @@ const iconOptions = {
   color: 'var(--icon)',
   borderColor: 'var(--other-border-skill-card)'
 }
-
-const hasPeriod = computed(() => !!activity.startDate && !!activity.endDate)
 
 const titleClasses = computed(() => isMobile.value
   ? 'caption-regular av-text-text1'
@@ -50,13 +48,9 @@ const titleClasses = computed(() => isMobile.value
         <div class="av-col av-pr-4xl--md av-pl-none av-pl-md--md">
           <div class="av-col av-row--md av-gap-sm av-justify-start av-justify-between--md av-px-xs">
             <div class="av-row av-row-wrap av-align-center av-gap-sm av-hidden av-unhidden--md">
-              <AvBadge
-                v-if="hasPeriod"
-                :label="t('student.buildProject.views.projectActivitiesView.ActivityLibraryCard.period')"
-                :icon="RI_ICONS.TIMER_LINE"
-                color="var(--text1)"
-                background-color="var(--surface-background)"
-                border-color="var(--stroke)"
+              <ActivityPeriodSummaryBadge
+                v-if="activity.executionPeriodInfoSummary"
+                :summary="activity.executionPeriodInfoSummary"
               />
               <ActivityStatusBadge :status="activity.status" />
             </div>
