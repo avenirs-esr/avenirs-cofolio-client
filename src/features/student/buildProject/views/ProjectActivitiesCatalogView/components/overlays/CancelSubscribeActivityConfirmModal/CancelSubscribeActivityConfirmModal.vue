@@ -19,6 +19,7 @@ const { t } = useI18n()
 <template>
   <ConfirmationModal
     :show="show"
+    data-testid="cancel-subscribe-activity-confirm-modal"
     @close="$emit('cancel')"
     @confirm="$emit('confirm')"
   >
@@ -27,7 +28,10 @@ const { t } = useI18n()
         class="av-row av-flex-fill"
         data-testid="cancel-subscribe-activity-confirm-modal__header"
       >
-        <span class="b2-bold av-text-text1">
+        <span
+          class="b2-bold av-text-text1"
+          data-testid="cancel-subscribe-activity-confirm-modal__title"
+        >
           {{ t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.CancelSubscribeActivityModal.title') }}
         </span>
       </div>

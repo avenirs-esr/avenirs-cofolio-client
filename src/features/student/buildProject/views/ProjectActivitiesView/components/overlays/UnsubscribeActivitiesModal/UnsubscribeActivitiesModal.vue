@@ -98,14 +98,14 @@ useInfiniteScroll(
       <ActivitiesSelector
         v-if="activities.length > 0"
         v-model="selectedActivityIds"
-        :activities="activities"
+        :activities="activities.map(activity => ({ id: activity.activityId, title: activity.title }))"
       />
     </div>
   </AvModal>
 
   <UnsubscribeActivitiesConfirmModal
     :show="showConfirmModal"
-    :activities="activities.filter(activity => selectedActivityIds.includes(activity.id))"
+    :activities="activities.filter(activity => selectedActivityIds.includes(activity.activityId))"
     @cancel="hideConfirmModal"
     @unsubscribed="onUnsubscribeSuccess"
   />

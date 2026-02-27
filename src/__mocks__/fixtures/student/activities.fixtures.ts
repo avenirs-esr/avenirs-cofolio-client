@@ -182,6 +182,7 @@ export const mockedDeclaredActivity: DeclaredActivity = {
 // TODO: changes this to activities returned by seeder in dev
 export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
   id: 'declared-activity-1',
+  activityId: 'declared-activity-1',
   title: 'Activité "Connaissance de soi" : Définir ses valeurs',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   status: EDeclaredActivityStatus.IN_PROGRESS,
@@ -194,6 +195,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   mockedDeclaredActivityViewDTO,
   {
     id: 'declared-activity-2',
+    activityId: 'declared-activity-2',
     title: 'Activité "CV" : Construire son parcours',
     thematic: EActivityThematic.RESUMES,
     status: EDeclaredActivityStatus.SUBSCRIBED,
@@ -201,6 +203,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   },
   {
     id: 'declared-activity-3',
+    activityId: 'declared-activity-3',
     title: 'Activité "Trajectoires" : Explorer ses voies',
     thematic: EActivityThematic.TRAJECTORIES,
     status: EDeclaredActivityStatus.COMPLETED,
@@ -210,6 +213,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   },
   {
     id: 'declared-activity-4',
+    activityId: 'declared-activity-4',
     title: 'Activité "Expériences" : Valoriser ses expériences',
     thematic: EActivityThematic.EXPERIENCES,
     status: EDeclaredActivityStatus.IN_PROGRESS,
@@ -218,6 +222,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   },
   {
     id: 'declared-activity-5',
+    activityId: 'declared-activity-5',
     title: 'Activité "Trajectoires" : Construire son projet professionnel',
     thematic: EActivityThematic.TRAJECTORIES,
     status: EDeclaredActivityStatus.SUBSCRIBED,
@@ -225,6 +230,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   },
   {
     id: 'declared-activity-6',
+    activityId: 'declared-activity-6',
     title: 'Activité "Connaissance de soi" : Identifier ses compétences',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.COMPLETED,
@@ -256,6 +262,7 @@ for (let i = 0; i < 10; i++) {
   allDeclaredActivitiesLarge.push(...allDeclaredActivities.map(activity => ({
     ...activity,
     id: `${activity.id}-${i + 1}`,
+    activityId: `${activity.activityId}-${i + 1}`,
     title: `${activity.title} (${i + 1})`
   })))
 }

@@ -1005,7 +1005,7 @@
         "tags": [
           "declared-activity-controller"
         ],
-        "operationId": "subscribe",
+        "operationId": "subscribeActivity",
         "parameters": [
           {
             "name": "activityId",
@@ -1017,6 +1017,15 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeDeclaredActivityRequestDTO"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -1935,7 +1944,7 @@
         "tags": [
           "declared-activity-controller"
         ],
-        "operationId": "unsubscribe",
+        "operationId": "unsubscribeActivitiesProgresses",
         "requestBody": {
           "content": {
             "application/json": {
@@ -3524,6 +3533,23 @@
             "minLength": 0
           }
         }
+      },
+      "SubscribeDeclaredActivityRequestDTO": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "endDate",
+          "startDate"
+        ]
       },
       "PictureDTO": {
         "type": "object",
@@ -5227,6 +5253,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "activityId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "title": {
             "type": "string"
           },
@@ -5269,6 +5299,7 @@
         },
         "required": [
           "id",
+          "activityId",
           "status",
           "summary",
           "thematic",
