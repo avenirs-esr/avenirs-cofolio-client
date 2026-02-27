@@ -2,6 +2,7 @@
 import { EActivityThematic } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
+import { isEnumMember } from '@/common/utils'
 import { useActivitiesNavigationQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { ICONS } from '@/features/student/global/icons'
 import {
@@ -22,12 +23,8 @@ const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigatio
 const DEFAULT_PARENT_ICON = MDI_ICONS.BOOK_OPEN_VARIANT
 const CHILD_ICON = ICONS.ACTIVITY
 
-function isEActivityThematic (value: string): value is EActivityThematic {
-  return Object.values(EActivityThematic).includes(value as EActivityThematic)
-}
-
 function getThematicLabel (title: string) {
-  return isEActivityThematic(title) ? t(`student.buildProject.activities.thematics.${title}`) : title
+  return isEnumMember(EActivityThematic, title) ? t(`student.buildProject.activities.thematics.${title}`) : title
 }
 
 function getThematicIcon (title: string) {
@@ -54,20 +51,10 @@ const items = computed<AvSideNavigationMenuItem[]>(() => {
     })
 })
 
-const routeId = computed(() =>
-  typeof route.params.id === 'string'
-    ? route.params.id
-    : Array.isArray(route.params.id)
-      ? route.params.id[0]
-      : undefined
+const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined
 )
 
-const routeThematic = computed(() =>
-  typeof route.params.thematic === 'string'
-    ? route.params.thematic
-    : Array.isArray(route.params.thematic)
-      ? route.params.thematic[0]
-      : undefined
+const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined
 )
 
 const selectedSideNavItem = ref<AvSideNavigationSelectedItem>({
@@ -75,17 +62,32 @@ const selectedSideNavItem = ref<AvSideNavigationSelectedItem>({
   parentId: routeThematic.value ?? items.value?.[0]?.id ?? undefined,
 })
 
+watch([routeId, routeThematic, items], ([id, thematic, sideNavItems]) => {
+  selectedSideNavItem.value = {
+    itemId: id ?? sideNavItems?.[0]?.children?.[0]?.id ?? '',
+    parentId: thematic ?? sideNavItems?.[0]?.id ?? undefined,
+  }
+}, { immediate: true })
+
 function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
   selectedSideNavItem.value = value
 
   const id = value.itemId
-  const theme = value.parentId
+  const thematic = value.parentId
 
-  if (!theme || !id || !isEActivityThematic(theme)) {
+  if (!thematic || !id || !isEnumMember(EActivityThematic, thematic)) {
     return
   }
 
-  navigateToStudentProjectActivitiesCatalog({ theme, id })
+  if (routeThematic.value === thematic && routeId.value === id) {
+    return
+  }
+
+  navigateToStudentProjectActivitiesCatalog({
+    thematic,
+    id,
+    replace: !routeThematic.value || !routeId.value,
+  })
 }
 </script>
 

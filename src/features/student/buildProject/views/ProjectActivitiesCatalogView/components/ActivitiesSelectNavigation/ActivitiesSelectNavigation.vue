@@ -2,6 +2,7 @@
 import { EActivityThematic } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
+import { isEnumMember } from '@/common/utils'
 import { useActivitiesNavigationQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { AvSelect, type AvSelectOption, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -12,12 +13,8 @@ const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigationQuery()
 
-function isEActivityThematic (value: string): value is EActivityThematic {
-  return Object.values(EActivityThematic).includes(value as EActivityThematic)
-}
-
 function getThematicLabel (title: string) {
-  return isEActivityThematic(title) ? t(`student.buildProject.activities.thematics.${title}`) : title
+  return isEnumMember(EActivityThematic, title) ? t(`student.buildProject.activities.thematics.${title}`) : title
 }
 
 const selectOptions = computed<AvSelectOption[]>(() => {
@@ -34,20 +31,10 @@ const selectOptions = computed<AvSelectOption[]>(() => {
     }))
 })
 
-const routeId = computed(() =>
-  typeof route.params.id === 'string'
-    ? route.params.id
-    : Array.isArray(route.params.id)
-      ? route.params.id[0]
-      : undefined
+const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined
 )
 
-const routeThematic = computed(() =>
-  typeof route.params.thematic === 'string'
-    ? route.params.thematic
-    : Array.isArray(route.params.thematic)
-      ? route.params.thematic[0]
-      : undefined
+const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined
 )
 
 const selectedItem = ref<AvSelectSelectedOption>({
@@ -55,16 +42,31 @@ const selectedItem = ref<AvSelectSelectedOption>({
   parentId: routeThematic.value ?? selectOptions.value?.[0]?.id ?? undefined,
 })
 
+watch([routeId, routeThematic, selectOptions], ([id, thematic, options]) => {
+  selectedItem.value = {
+    itemId: id ?? options?.[0]?.children?.[0]?.id ?? '',
+    parentId: thematic ?? options?.[0]?.id ?? undefined,
+  }
+}, { immediate: true })
+
 function onSelectChange (value: AvSelectSelectedOption) {
   selectedItem.value = value
 
   const { parentId, itemId } = value
 
-  if (!parentId || !itemId || !isEActivityThematic(parentId)) {
+  if (!parentId || !itemId || !isEnumMember(EActivityThematic, parentId)) {
     return
   }
 
-  navigateToStudentProjectActivitiesCatalog({ theme: parentId, id: itemId })
+  if (routeThematic.value === parentId && routeId.value === itemId) {
+    return
+  }
+
+  navigateToStudentProjectActivitiesCatalog({
+    thematic: parentId,
+    id: itemId,
+    replace: !routeThematic.value || !routeId.value,
+  })
 }
 </script>
 
