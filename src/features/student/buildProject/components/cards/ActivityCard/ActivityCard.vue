@@ -52,11 +52,13 @@ const iconOptions = {
       </template>
       <template #footer>
         <div class="av-col caption-light text-clamp av-hidden av-unhidden--md">
-          <ActivityPeriodSummaryBadge
-            v-if="activity.executionPeriodInfoSummary"
-            :summary="activity.executionPeriodInfoSummary"
-            small
-          />
+          <div class="av-mb-xs">
+            <ActivityPeriodSummaryBadge
+              v-if="activity.executionPeriodInfoSummary"
+              :summary="activity.executionPeriodInfoSummary"
+              small
+            />
+          </div>
           {{ activity.summary }}
         </div>
       </template>
