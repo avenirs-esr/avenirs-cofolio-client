@@ -41,12 +41,14 @@ const breadcrumbLinks = computed(() => [
     <AvTab
       :title="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.tabTitle', { count: 0 })"
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
+      data-testid="all-activities-tab-item"
     >
       <AllActivitiesTab />
     </AvTab>
     <AvTab
       :title="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.tabTitle', { count: libraryTotalElements })"
       :icon="RI_ICONS.BOOK_SHELF_LINE"
+      data-testid="activity-library-tab-item"
     >
       <ActivityLibraryTab />
     </AvTab>

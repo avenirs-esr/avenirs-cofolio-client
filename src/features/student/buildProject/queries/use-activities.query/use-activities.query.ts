@@ -149,7 +149,7 @@ function useLibraryActivitiesCommonQueryOptions (params?: MaybeRef<GetDeclaredAc
 export function useLibraryActivitiesQuery (params?: MaybeRef<GetDeclaredActivitiesViewParams>, enabled?: ComputedRef<boolean>) {
   const query = useQuery<PagedResponseDeclaredActivityViewDTO, BaseApiException>({
     ...useLibraryActivitiesCommonQueryOptions(params),
-    enabled: enabled || true
+    enabled
   })
 
   const libraryActivities = computed(() => query.data.value?.data ?? [])

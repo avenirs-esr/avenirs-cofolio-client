@@ -1,6 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Locator, type Page } from '@playwright/test'
+import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
+import { expect, type Page } from '@playwright/test'
 
 export class AllActivitiesTabs extends BaseObject {
   constructor (protected page: Page) {
@@ -53,30 +54,17 @@ export class AllActivitiesTabs extends BaseObject {
     await expect(this.getHeaderSeeAllButton()).toHaveText(expectedText)
   }
 
-  private async extractCount (locator: Locator): Promise<number> {
-    const text = await locator.textContent()
-    return Number.parseInt(text?.match(/\d+/)?.[0] ?? '0')
-  }
-
   async verifyNewActivitiesPaginatorCard () {
     await expect(this.getNewActivitiesPaginatorCard()).toBeVisible()
     await expect(this.getNewActivitiesPaginatorCardTitle()).toBeVisible()
-    const count = await this.extractCount(this.getNewActivitiesPaginatorCardTitle())
-    await expect(this.getNewActivitiesPaginatorCardTitle()).toHaveText(
-      t('student.buildProject.views.projectActivitiesView.allActivitiesTab.newActivitiesPaginatorCard.title', { count })
-    )
+    const count = await extractNumberFromText(this.getNewActivitiesPaginatorCardTitle())
+    expect(count).toBeGreaterThan(0)
   }
 
   async verifyAllActivitiesSection () {
     await expect(this.getAllActivitiesSection()).toBeVisible()
     await expect(this.getAllActivitiesSectionTitle()).toBeVisible()
-    const count = await this.extractCount(this.getAllActivitiesSectionTitle())
-    await expect(this.getAllActivitiesSectionTitle()).toHaveText(
-      t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count })
-    )
-  }
-
-  async clickHeaderSeeAllButton () {
-    await this.getHeaderSeeAllButton().click()
+    const count = await extractNumberFromText(this.getAllActivitiesSectionTitle())
+    expect(count).toBeGreaterThan(0)
   }
 }

@@ -25,7 +25,7 @@ const iconOptions = {
 
 const titleClasses = computed(() => isMobile.value
   ? 'caption-regular av-text-text1'
-  : 'n5 av-text-text1')
+  : 'n6 av-text-text1')
 </script>
 
 <template>
