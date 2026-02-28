@@ -69,7 +69,6 @@ const shouldShowEmptyState = computed(() => !isLoading.value && libraryActivitie
           v-else-if="pageInfo && !shouldShowEmptyState"
           :page-info="pageInfo"
           :page-size-selected="pageSizeSelected"
-          without-page-size-picker
           :on-update-current-page="onUpdateCurrentPage"
           :on-update-page-size="onUpdatePageSize"
         >

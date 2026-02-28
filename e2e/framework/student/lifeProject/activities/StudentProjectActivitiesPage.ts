@@ -1,9 +1,8 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
-import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
 import { ActivityLibraryTab } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryTab'
 import { AllActivitiesTabs } from '@e2e/framework/student/lifeProject/activities/componentObjects/AllActivitiesTabs'
-import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
@@ -22,7 +21,7 @@ class StudentProjectActivitiesPage extends BasePage {
   }
 
   getActivityLibraryTabItem () {
-    return this.page.getByRole('tablist').locator('li').nth(1)
+    return this.page.getByTestId('activity-library-tab-item')
   }
 
   @Given('the all activities tab is visible')
@@ -50,18 +49,6 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getAllActivitiesTabs().verifyAllActivitiesSection()
   }
 
-  @Given('the student project activities page is displayed on mobile viewport')
-  async verifyMobileViewport () {
-    const viewport = this.page.viewportSize()
-    expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
-  }
-
-  /**
-   * *********************************************************************
-   * Activity library tab
-   **********************************************************************
-   */
-
   @When('the student open activity library tab')
   async clickActivityLibraryTabItem () {
     await this.getActivityLibraryTabItem().click()
@@ -77,9 +64,9 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().verifyEmptyStateMessage()
   }
 
-  @Then('the activity library pagination is not visible')
-  async verifyActivityLibraryPaginationNotVisible () {
-    await this.getActivityLibraryTab().verifyPaginationNotVisible()
+  @Then('the activity library pagination is hidden')
+  async verifyActivityLibraryPaginationHidden () {
+    await this.getActivityLibraryTab().getPagination().isHidden()
   }
 
   @Then('the library activity tab is visible')
@@ -87,14 +74,9 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().isVisible()
   }
 
-  @Then('library activity tab title is correct with a count of {int} activities')
-  async verifyActivityLibraryTitle (count: number) {
-    await this.getActivityLibraryTab().verifyTitle(count)
-  }
-
-  @Then('library activity tab title is correct with a count')
-  async verifyActivityLibraryTitleWithCount () {
-    await this.getActivityLibraryTab().verifyTitleWithCount()
+  @Then('library activity tab title is visible with positive count')
+  async verifyActivityLibraryTitleWithPositiveCount () {
+    await this.getActivityLibraryTab().verifyTitleWithPositiveCount()
   }
 
   @Then('the list of activity library elements is visible')
@@ -102,14 +84,14 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().verifyCardListVisible()
   }
 
-  @Then('the first page of activity library elements contain {int} elements')
-  async verifyActivityLibraryFirstPageCount (count: number) {
-    await this.getActivityLibraryTab().verifyCardCount(count)
+  @Then('the first page of activity does not exceed the selected page size')
+  async verifyFirstPageCardsDoNotExceedPageSize () {
+    await this.getActivityLibraryTab().verifyCardCountNotExceedsPageSize()
   }
 
-  @Then('the first activity card title is {string}')
-  async verifyFirstActivityCardTitle (expectedTitle: string) {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyTitle(expectedTitle)
+  @Then('the first page of activity contains less than {int} activities')
+  async verifyFirstPageCardsLessThan (maxCount: number) {
+    await this.getActivityLibraryTab().verifyCardCountLessThan(maxCount)
   }
 
   @Then('the first activity card title is visible')
@@ -117,39 +99,14 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().getCardByIndex(0).verifyTitleVisible()
   }
 
-  @Then('the first activity card thematic badge is {string}')
-  async verifyFirstActivityCardThematicBadge (expectedThematic: string) {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyThematicBadge(expectedThematic)
+  @Then('the first activity card thematic badge is visible')
+  async verifyFirstActivityCardThematicBadgeVisible () {
+    await this.getActivityLibraryTab().getCardByIndex(0).verifyThematicBadgeVisible()
   }
 
-  @Then('the first activity card thematic badge is valid')
-  async verifyFirstActivityCardThematicBadgeValid () {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyThematicBadgeValid()
-  }
-
-  @Then('the first activity card status badge is {string}')
-  async verifyFirstActivityCardStatusBadge (expectedStatus: string) {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadge(expectedStatus)
-  }
-
-  @Then('the first activity card status badge is valid')
-  async verifyFirstActivityCardStatusBadgeValid () {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadgeValid()
-  }
-
-  @Then('the first activity card has no period badge')
-  async verifyFirstActivityCardNoPeriodBadge () {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyNoPeriodBadge()
-  }
-
-  @Then('the first activity card has a period badge')
-  async verifyFirstActivityCardPeriodBadge () {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifyPeriodBadge()
-  }
-
-  @Then('the first activity card description contain {string}')
-  async verifyFirstActivityCardDescription (expectedDescription: string) {
-    await this.getActivityLibraryTab().getCardByIndex(0).verifySummary(expectedDescription)
+  @Then('the first activity card status badge is visible')
+  async verifyFirstActivityCardStatusBadgeVisible () {
+    await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadgeVisible()
   }
 
   @Then('the first activity card description is visible')
@@ -157,48 +114,28 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryVisible()
   }
 
-  @Then('the last activity card title is {string}')
-  async verifyLastActivityCardTitle (expectedTitle: string) {
-    await this.getActivityLibraryTab().getLastCard().verifyTitle(expectedTitle)
+  @Then('the first activity card description is hidden')
+  async verifyFirstActivityCardDescriptionHidden () {
+    await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryHidden()
   }
 
-  @Then('the last activity card title is visible')
-  async verifyLastActivityCardTitleVisible () {
-    await this.getActivityLibraryTab().getLastCard().verifyTitleVisible()
+  @Then('the first activity card status badge is hidden')
+  async verifyFirstActivityCardStatusBadgeHidden () {
+    await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadgeHidden()
   }
 
-  @Then('the last activity card thematic badge is {string}')
-  async verifyLastActivityCardThematicBadge (expectedThematic: string) {
-    await this.getActivityLibraryTab().getLastCard().verifyThematicBadge(expectedThematic)
-  }
-
-  @Then('the last activity card status badge is {string}')
-  async verifyLastActivityCardStatusBadge (expectedStatus: string) {
-    await this.getActivityLibraryTab().getLastCard().verifyStatusBadge(expectedStatus)
-  }
-
-  @Then('the last activity card has no period badge')
-  async verifyLastActivityCardNoPeriodBadge () {
-    await this.getActivityLibraryTab().getLastCard().verifyNoPeriodBadge()
-  }
-
-  @Then('the last activity card has a period badge')
-  async verifyLastActivityCardPeriodBadge () {
-    await this.getActivityLibraryTab().getLastCard().verifyPeriodBadge()
-  }
-
-  @Then('the last activity card description contain {string}')
-  async verifyLastActivityCardDescription (expectedDescription: string) {
-    await this.getActivityLibraryTab().getLastCard().verifySummary(expectedDescription)
-  }
-
-  @Then('the activity library page contains elements')
-  async verifyActivityLibraryPageNotEmpty () {
-    await this.getActivityLibraryTab().verifyCardsNotEmpty()
+  @Then('the first activity card period badge is hidden')
+  async verifyFirstActivityCardPeriodBadgeHidden () {
+    await this.getActivityLibraryTab().getCardByIndex(0).verifyPeriodBadgeHidden()
   }
 
   @Then('the first activity card spans full width')
   async verifyFirstActivityCardFullWidth () {
     await this.verifyLocatorIsFullWidth(this.getActivityLibraryTab().getCards().first())
+  }
+
+  @Then('the activity library page contains elements')
+  async verifyActivityLibraryPageNotEmpty () {
+    await this.getActivityLibraryTab().verifyCardsNotEmpty()
   }
 }

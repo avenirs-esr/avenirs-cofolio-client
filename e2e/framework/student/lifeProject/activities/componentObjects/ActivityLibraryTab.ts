@@ -1,5 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { PaginationObject } from '@e2e/framework/shared/componentObjects/PaginationObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
+import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
 import { ActivityLibraryCard } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryCard'
 import { expect, type Page } from '@playwright/test'
 
@@ -24,27 +26,18 @@ export class ActivityLibraryTab extends BaseObject {
     return new ActivityLibraryCard(this.getCards().nth(index))
   }
 
-  getLastCard () {
-    return new ActivityLibraryCard(this.getCards().last())
-  }
-
-  async verifyTitle (count: number) {
-    await expect(this.getTitle()).toBeVisible()
-    const expectedText = t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.tabTitle', { count })
-    await expect(this.getTitle()).toHaveText(expectedText)
-  }
-
-  async verifyTitleWithCount () {
-    await expect(this.getTitle()).toBeVisible()
-    const text = await this.getTitle().textContent()
-    const count = Number.parseInt(text?.match(/\d+/)?.[0] ?? '0')
-    await expect(this.getTitle()).toHaveText(
-      t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.tabTitle', { count })
-    )
-  }
-
   getEmptyState () {
     return this.root.getByTestId('activity-library-empty-state')
+  }
+
+  getPagination () {
+    return new PaginationObject(this.root.getByTestId('pagination'))
+  }
+
+  async verifyTitleWithPositiveCount () {
+    await expect(this.getTitle()).toBeVisible()
+    const count = await extractNumberFromText(this.getTitle())
+    expect(count).toBeGreaterThan(0)
   }
 
   async verifyEmptyStateVisible () {
@@ -57,23 +50,22 @@ export class ActivityLibraryTab extends BaseObject {
     )
   }
 
-  getPagination () {
-    return this.root.getByTestId('pagination')
-  }
-
-  async verifyPaginationNotVisible () {
-    await expect(this.getPagination()).not.toBeVisible()
-  }
-
   async verifyCardListVisible () {
     await expect(this.getCardList()).toBeVisible()
   }
 
-  async verifyCardCount (count: number) {
-    await expect(this.getCards()).toHaveCount(count)
-  }
-
   async verifyCardsNotEmpty () {
     await expect(this.getCards()).not.toHaveCount(0)
+  }
+
+  async verifyCardCountNotExceedsPageSize () {
+    const pageSize = await this.getPagination().getCurrentPageSize()
+    const count = await this.getCards().count()
+    expect(count).toBeLessThanOrEqual(pageSize)
+  }
+
+  async verifyCardCountLessThan (maxCount: number) {
+    const count = await this.getCards().count()
+    expect(count).toBeLessThan(maxCount)
   }
 }

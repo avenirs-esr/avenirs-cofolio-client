@@ -7,7 +7,7 @@ export interface EmptyStateProps {
   icon?: string
 }
 
-const { title } = defineProps<EmptyStateProps>()
+defineProps<EmptyStateProps>()
 
 const { t } = useI18n()
 </script>

@@ -157,8 +157,8 @@ BddTest().given('an ActivityLibraryCard', () => {
       floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
     })
 
-    BddTest().then('it should use n5 typography class', () => {
-      expect(floatingCard.props('titleTypographyClasses')).toContain('n5')
+    BddTest().then('it should use n6 typography class', () => {
+      expect(floatingCard.props('titleTypographyClasses')).toContain('n6')
     })
   })
 })

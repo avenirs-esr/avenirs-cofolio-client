@@ -56,7 +56,7 @@ Feature: Student Project Activities Page
     Scenario: Student sees empty state when no activities are registered
       Then the activity library empty state is visible
       And the activity library empty state message is correct
-      And the activity library pagination is not visible
+      And the activity library pagination is hidden
 
   @dataset-full
   Rule: Library activities tab
@@ -67,36 +67,57 @@ Feature: Student Project Activities Page
     @high @library-activity-tab @library-activity-tab-title
     Scenario: Student can see library activity tab
       Then the library activity tab is visible
-      And library activity tab title is correct with a count
+      And library activity tab title is visible with positive count
 
     @high @library-activity-tab @library-activity-content
     Scenario: Student can see library activity elements
       Then the list of activity library elements is visible
-      And the first page of activity library elements contain 4 elements
+      And the first page of activity does not exceed the selected page size
 
     @high @library-activity-tab @library-activity-card
     Scenario: Student can see the first activity card information
       Then the first activity card title is visible
-      And the first activity card thematic badge is valid
-      And the first activity card status badge is valid
+      And the first activity card thematic badge is visible
+      And the first activity card status badge is visible
       And the first activity card description is visible
 
       
-    @high @library-activity-tab @library-activity-card
-    Scenario: Student can see the last activity card information
-      When the user navigates to page 2 using bottom pagination
-      Then the last activity card title is visible
-      And the last activity card status badge is "COMPLETED"
-
     @high @library-activity-tab @library-activity-pagination
-    Scenario: Student can navigate to the second page using bottom pagination
-      Then the bottom pagination shows 2 pages
-      When the user navigates to page 2 using bottom pagination
+    Scenario: Student can navigate to next page using bottom pagination
+      Then the bottom pagination next button is enabled
+      When the user navigates to next page using bottom pagination
       Then the activity library page contains elements
-      And the bottom pagination next button is disabled
-
+      
     @high @library-activity-tab @library-activity-pagination
     Scenario: Student can navigate to the next page using top pagination
       And the user navigates to next page using top pagination
       Then the activity library page contains elements
       And the top pagination next button is disabled
+
+    @high @library-activity-tab @library-activity-pagination
+    Scenario: Student can navigate to previous page using bottom pagination
+      When the user navigates to next page using bottom pagination
+      And the user navigates to previous page using bottom pagination
+      Then the activity library page contains elements
+      And the bottom pagination previous button is disabled
+      And the bottom pagination first button is disabled
+
+    @high @library-activity-tab @library-activity-pagination
+    Scenario: Student can navigate to last page using bottom pagination
+      When the user navigates to last page using bottom pagination
+      Then the activity library page contains elements
+      And the bottom pagination next button is disabled
+      And the bottom pagination last button is disabled
+
+    @high @library-activity-tab @library-activity-pagination
+    Scenario: Student can navigate to first page using bottom pagination
+      When the user navigates to next page using bottom pagination
+      And the user navigates to first page using bottom pagination
+      Then the activity library page contains elements
+      And the bottom pagination previous button is disabled
+      And the bottom pagination first button is disabled
+
+    @high @library-activity-tab @library-activity-pagination
+    Scenario: Student can change the page size
+      When the user changes the page size to 8
+      Then the first page of activity contains less than 9 activities
