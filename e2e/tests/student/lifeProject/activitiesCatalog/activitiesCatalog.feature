@@ -16,6 +16,18 @@ Feature: Student Project Activities Catalog Page
     Scenario: Student sees all expected thematics in side navigation
       Then all expected thematics are displayed in side navigation
 
+    @high @navigation @dataset-full
+    Scenario: Student can navigate to the previous activity
+      When the user selects the first activity of the "SELF_KNOWLEDGE" thematic from side navigation
+      And the user clicks on the previous activity button
+      Then the URL does not contain the "SELF_KNOWLEDGE" thematic
+
+    @high @navigation @dataset-full
+    Scenario: Student can navigate to the next activity
+      When the user selects the last activity of the "SELF_KNOWLEDGE" thematic from side navigation
+      And the user clicks on the next activity button
+      Then the URL does not contain the "SELF_KNOWLEDGE" thematic
+
     @high @navigation
     Scenario: Student can navigate by selecting an activity from side navigation
       When the user selects the second activity of the "SELF_KNOWLEDGE" thematic from side navigation

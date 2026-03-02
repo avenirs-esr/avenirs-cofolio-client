@@ -2,6 +2,7 @@ import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { EActivityThematic } from '@cofolio/api/avenir-esr/generated/types/eActivityThematic'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
+import { ActivitiesPreviousNextNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesPreviousNextNavigation'
 import { ActivitiesSelectNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesSelectNavigation'
 import { ActivitiesSideNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesSideNavigation'
 import { ActivityPreview } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivityPreview'
@@ -21,6 +22,7 @@ class StudentProjectActivitiesCatalogPage {
 
   private sideNav () { return new ActivitiesSideNavigation(this.page) }
   private selectNav () { return new ActivitiesSelectNavigation(this.page) }
+  private previousNextNav () { return new ActivitiesPreviousNextNavigation(this.page) }
   private activityPreview () { return new ActivityPreview(this.page) }
 
   private buildCatalogUrl (thematic: string, id: string) {
@@ -63,6 +65,12 @@ class StudentProjectActivitiesCatalogPage {
     await this.page.goto(url)
   }
 
+  @Then('the URL does not contain the {string} thematic')
+  async verifyUrlDoesNotContainThematic (thematic: string) {
+    const url = this.page.url()
+    expect(url).not.toContain(thematic)
+  }
+
   @Then('the URL contains the selected activity and {string} thematic')
   async verifyUrlContainsSelectedActivityAndThematic (thematic: string) {
     expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
@@ -85,6 +93,16 @@ class StudentProjectActivitiesCatalogPage {
     await this.selectNav().verifyHidden()
   }
 
+  @Then('the activities previous next navigation is visible')
+  async verifyPreviousNextNavigationVisible () {
+    await this.previousNextNav().verifyVisible()
+  }
+
+  @Then('the activities previous next navigation is hidden')
+  async verifyPreviousNextNavigationHidden () {
+    await this.previousNextNav().verifyHidden()
+  }
+
   @Then('activities side navigation has thematics')
   async verifySideNavigationHasThematics () {
     await this.sideNav().verifyHasThematics()
@@ -93,6 +111,26 @@ class StudentProjectActivitiesCatalogPage {
   @Then('all expected thematics are displayed in side navigation')
   async verifyAllExpectedThematicsInSideNav () {
     await this.sideNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+  }
+
+  @When('the user selects the first activity of the {string} thematic from side navigation')
+  async selectFirstActivityOfFirstThematicFromSideNav (thematic: string) {
+    const beforeUrl = this.page.url()
+
+    await this.sideNav().selectFirstChildOfThematic(thematic)
+
+    await this.expectUrlToChange(beforeUrl)
+    this.captureSelectedParamsFromUrl()
+  }
+
+  @When('the user selects the last activity of the {string} thematic from side navigation')
+  async selectLastActivityOfFirstThematicFromSideNav (thematic: string) {
+    const beforeUrl = this.page.url()
+
+    await this.sideNav().selectLastChildOfThematic(thematic)
+
+    await this.expectUrlToChange(beforeUrl)
+    this.captureSelectedParamsFromUrl()
   }
 
   @When('the user selects the second activity of the {string} thematic from side navigation')
@@ -143,6 +181,26 @@ class StudentProjectActivitiesCatalogPage {
   @Then('all expected thematics are displayed in select navigation')
   async verifyAllExpectedThematicsInSelectNav () {
     await this.selectNav().verifyAllExpectedThematics(Object.values(EActivityThematic))
+  }
+
+  @When('the user clicks on the previous activity button')
+  async clickPreviousActivityButton () {
+    const beforeUrl = this.page.url()
+
+    await this.previousNextNav().previousButtonClick()
+
+    await this.expectUrlToChange(beforeUrl)
+    this.captureSelectedParamsFromUrl()
+  }
+
+  @When('the user clicks on the next activity button')
+  async clickNextActivityButton () {
+    const beforeUrl = this.page.url()
+
+    await this.previousNextNav().nextButtonClick()
+
+    await this.expectUrlToChange(beforeUrl)
+    this.captureSelectedParamsFromUrl()
   }
 
   @When('the user selects the second activity of the {string} thematic from select navigation')
