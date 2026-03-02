@@ -22,7 +22,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name, params: { id: activity.id, theme: activity.thematic } }"
+    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name, params: { id: activity.id, thematic: activity.thematic } }"
     class="activity-card"
   >
     <FloatingIconCard
