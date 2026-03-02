@@ -14,7 +14,7 @@ class StudentProjectActivitiesCatalogPage {
   private selectedThematic?: string
   private selectedActivityId?: string
 
-  private static readonly DEFAULT_THEME = EActivityThematic.SELF_KNOWLEDGE
+  private static readonly DEFAULT_THEMATIC = EActivityThematic.SELF_KNOWLEDGE
   private static readonly DEFAULT_ACTIVITY_ID = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
   constructor (public page: Page) {}
@@ -23,9 +23,9 @@ class StudentProjectActivitiesCatalogPage {
   private selectNav () { return new ActivitiesSelectNavigation(this.page) }
   private activityPreview () { return new ActivityPreview(this.page) }
 
-  private buildCatalogUrl (theme: string, id: string) {
+  private buildCatalogUrl (thematic: string, id: string) {
     return STUDENT_ROUTES.PROJECT.ACTIVITIES_CATALOG
-      .replace(':theme', theme)
+      .replace(':thematic', thematic)
       .replace(':id', id)
   }
 
@@ -43,7 +43,7 @@ class StudentProjectActivitiesCatalogPage {
   @Given('the student opens the project activities catalog page')
   async openCatalogPage () {
     const url = this.buildCatalogUrl(
-      StudentProjectActivitiesCatalogPage.DEFAULT_THEME,
+      StudentProjectActivitiesCatalogPage.DEFAULT_THEMATIC,
       StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)
@@ -57,7 +57,7 @@ class StudentProjectActivitiesCatalogPage {
     expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
 
     const url = this.buildCatalogUrl(
-      StudentProjectActivitiesCatalogPage.DEFAULT_THEME,
+      StudentProjectActivitiesCatalogPage.DEFAULT_THEMATIC,
       StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)

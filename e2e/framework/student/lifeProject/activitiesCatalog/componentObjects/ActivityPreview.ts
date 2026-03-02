@@ -57,7 +57,6 @@ export class ActivityPreview extends BaseObject {
 
   async verifyBanner () {
     await expect(this.getBanner()).toBeVisible()
-    // await expect(this.getBanner()).toHaveAttribute('src', 'http://localhost:5173/apim/storage/activities/bb831c0a-e7ef-489a-9537-a376f612e7e5')
     await expect(this.getBanner()).toHaveAttribute('alt', 'definir-ses-valeurs-banner.png')
   }
 
