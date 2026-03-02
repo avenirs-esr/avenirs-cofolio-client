@@ -22,19 +22,19 @@ const executionPeriodList = computed(() => {
   return raw
     .split('\n')
     .map(line => line.trim())
-    .filter(line => line.startsWith('-'))
     .map(line => line.replace(/^-+\s*/, ''))
 })
 </script>
 
 <template>
-  <div
-    class="av-row--md av-justify-between--md av-gap-xl"
+  <AvCard
+    background-color="var(--card2)"
+    border-color="transparent"
     data-testid="project-activity-details"
   >
-    <AvCard
-      background-color="var(--card2)"
-      border-color="transparent"
+    <div
+      class="av-row--md av-justify-between--md av-gap-xl"
+      data-testid="project-activity-details"
     >
       <div class="av-col av-gap-sm">
         <AvIconText
@@ -53,11 +53,6 @@ const executionPeriodList = computed(() => {
           {{ declaredActivityDetails.activity.summary }}
         </span>
       </div>
-    </AvCard>
-    <AvCard
-      background-color="var(--card2)"
-      border-color="transparent"
-    >
       <div class="av-col av-gap-sm">
         <span class="n4">{{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.executionPeriodTitle') }}</span>
         <ul
@@ -72,8 +67,8 @@ const executionPeriodList = computed(() => {
           </li>
         </ul>
       </div>
-    </AvCard>
-  </div>
+    </div>
+  </AvCard>
 </template>
 
 <style scoped lang="scss">

@@ -75,28 +75,4 @@ BddTest().given('a project activity details component', () => {
       expect(items.length).toBe(0)
     })
   })
-
-  BddTest().when('the component is mounted with executionPeriodInfo without "-" bullets', () => {
-    const props: ProjectActivityDetailsProps = {
-      declaredActivityDetails: {
-        ...mockedDeclaredActivityDetails,
-        activity: {
-          ...mockedDeclaredActivityDetails.activity,
-          executionPeriodInfo: 'Texte simple\nEncore une ligne',
-        },
-      },
-    }
-
-    beforeEach(() => {
-      wrapper = mount(ProjectActivityDetails, { props, global: { stubs } })
-    })
-
-    BddTest().then('it should render an empty list (no "-" lines found)', () => {
-      const list = wrapper.find('[data-testid="activity-execution-period"]')
-      expect(list.exists()).toBe(true)
-
-      const items = list.findAll('li')
-      expect(items.length).toBe(0)
-    })
-  })
 })
