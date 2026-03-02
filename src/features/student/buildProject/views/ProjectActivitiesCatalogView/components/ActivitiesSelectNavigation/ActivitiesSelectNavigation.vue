@@ -31,11 +31,9 @@ const selectOptions = computed<AvSelectOption[]>(() => {
     }))
 })
 
-const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined
-)
+const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined)
 
-const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined
-)
+const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined)
 
 const selectedItem = ref<AvSelectSelectedOption>({
   itemId: routeId.value ?? selectOptions.value?.[0]?.children?.[0]?.id ?? '',
