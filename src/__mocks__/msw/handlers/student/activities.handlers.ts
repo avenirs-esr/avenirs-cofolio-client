@@ -24,6 +24,8 @@ import {
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
 
+const subscribedActivities = new Set<string>()
+
 export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
@@ -57,36 +59,31 @@ export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl(
 
 const subscribeActivityProgressHandler = http.post(`*${getSubscribeActivityUrl(':activityId')}`, async ({ params }) => {
   const { activityId } = params
-
   if (activityId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
   }
-
+  subscribedActivities.add(activityId as string)
   return HttpResponse.json<DeclaredActivity>(mockedDeclaredActivity, {
     status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    }
+    headers: { 'Content-Type': 'application/json' }
   })
 })
 
 const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivitiesProgressesUrl()}`, async ({ request }) => {
   const activitiesIds = await request.json() as string[]
-
   if (activitiesIds.length === 0) {
     return HttpResponse.json({ error: 'No activity IDs provided' }, { status: 400 })
   }
-
   if (activitiesIds.find(id => id === 'INVALID_ACTIVITY_ID')) {
     return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
   }
 
+  activitiesIds.forEach(id => subscribedActivities.delete(id))
+
   const response = 'Activities successfully unsubscribed from user'
   return HttpResponse.json<string>(response, {
     status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    }
+    headers: { 'Content-Type': 'application/json' }
   })
 })
 
@@ -119,33 +116,18 @@ export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActiviti
 
 export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
   const { activityId } = params
-
   if (activityId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
       { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
-      {
-        status: 404,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
     )
   }
 
-  if (activityId === 'SUBSCRIBED_ACTIVITY_ID') {
-    return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, isSubscribed: true }, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
+  const isSubscribed = subscribedActivities.has(activityId as string)
 
-  return HttpResponse.json<ActivityDetailDTO>(mockedActivityDetail, {
+  return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, id: activityId as string, isSubscribed }, {
     status: 200,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: { 'Content-Type': 'application/json' }
   })
 })
 

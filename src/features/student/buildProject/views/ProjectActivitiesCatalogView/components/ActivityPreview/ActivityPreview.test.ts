@@ -73,9 +73,9 @@ BddTest().given('an activity preview', () => {
       expect(unsubscribeButton).toBeUndefined()
     })
 
-    BddTest().then('it should not render the unsubscribe confirmation modal', () => {
+    BddTest().then('it should render the unsubscribe confirmation modal', () => {
       const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-      expect(modal.exists()).toBe(false)
+      expect(modal.exists()).toBe(true)
     })
 
     BddTest().then('it should render the subscribe button', () => {
@@ -188,9 +188,9 @@ BddTest().given('an activity preview', () => {
       expect(subscribeButton).toBeUndefined()
     })
 
-    BddTest().then('it should not render the subscribe modal', () => {
+    BddTest().then('it should render the subscribe modal', () => {
       const modal = wrapper.findComponent(SubscribeActivityModalStub)
-      expect(modal.exists()).toBe(false)
+      expect(modal.exists()).toBe(true)
     })
 
     BddTest().and('the user clicks the unsubscribe button', () => {

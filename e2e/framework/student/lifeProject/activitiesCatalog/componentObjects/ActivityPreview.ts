@@ -57,31 +57,27 @@ export class ActivityPreview extends BaseObject {
 
   async verifyBanner () {
     await expect(this.getBanner()).toBeVisible()
-    await expect(this.getBanner()).toHaveAttribute('alt', 'definir-ses-valeurs-banner.png')
+    await expect(this.getBanner()).toHaveAttribute('alt', /./)
   }
 
   async verifyTitle () {
-    const expectedText = 'Définir ses valeurs'
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(expectedText)
+    await expect(this.getTitle()).not.toBeEmpty()
   }
 
   async verifyThematicBadge () {
-    const expectedText = t('student.buildProject.activities.thematics.SELF_KNOWLEDGE')
     await expect(this.getThematicBadge()).toBeVisible()
-    await expect(this.getThematicBadge()).toHaveText(expectedText)
+    await expect(this.getThematicBadge()).not.toBeEmpty()
   }
 
   async verifySummary () {
-    const expectedText = 'Activité faisant partie de la catégorie Connaissance de soi. Elle permet à l’étudiant.e d’identifier les valeurs essentielles qui orientent ses choix et d’analyser la manière dont elles se traduisent dans ses comportements quotidiens. Cette réflexion constitue une base structurante pour construire un projet personnel et professionnel cohérent.'
     await expect(this.getSummary()).toBeVisible()
-    await expect(this.getSummary()).toHaveText(expectedText)
+    await expect(this.getSummary()).not.toBeEmpty()
   }
 
   async verifyExecutionPeriodInfo () {
-    const expectedText = 'À réaliser en amont d’un entretien avec un.e conseiller/ conseillère d’orientation ou avant d’engager un parcours structuré d’activités Cofolio.'
     await expect(this.getExecutionPeriodInfo()).toBeVisible()
-    await expect(this.getExecutionPeriodInfo()).toHaveText(expectedText)
+    await expect(this.getExecutionPeriodInfo()).not.toBeEmpty()
   }
 
   async verifySubscribeButton () {

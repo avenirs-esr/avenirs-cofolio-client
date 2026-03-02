@@ -179,6 +179,7 @@ export interface SubscribeActivityVariables {
 
 export function useSubscribeActivityMutation ({ onError, onSuccess }: MutationArgs<DeclaredActivity, SubscribeActivityVariables> = {}) {
   const invalidateQueryKey = useInvalidateQuery()
+
   return useMutation<DeclaredActivity, BaseApiException, SubscribeActivityVariables>({
     mutationFn: async ({ activityId }: SubscribeActivityVariables): Promise<DeclaredActivity> => {
       // TODO: startDate and endDate US#???
