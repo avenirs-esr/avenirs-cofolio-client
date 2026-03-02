@@ -48,6 +48,7 @@ export class ActivityPreview extends BaseObject {
 
   async verifyVisible () {
     await this.isVisible()
+    await this.isVisible()
     await expect(this.getBanner()).toBeVisible()
     await expect(this.getTitle()).toBeVisible()
     await expect(this.getSummary()).toBeVisible()
