@@ -30,7 +30,7 @@ const titleClasses = computed(() => isMobile.value
 
 <template>
   <RouterLink
-    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: activity.id, thematic: activity.thematic } }"
+    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: activity.id, theme: activity.thematic } }"
     class="activity-library-card"
   >
     <FloatingIconCard
