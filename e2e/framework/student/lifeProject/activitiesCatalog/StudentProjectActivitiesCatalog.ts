@@ -4,7 +4,6 @@ import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
 import { ActivitiesSelectNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesSelectNavigation'
 import { ActivitiesSideNavigation } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivitiesSideNavigation'
-import { ActivityPreview } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/ActivityPreview'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
@@ -21,7 +20,6 @@ class StudentProjectActivitiesCatalogPage {
 
   private sideNav () { return new ActivitiesSideNavigation(this.page) }
   private selectNav () { return new ActivitiesSelectNavigation(this.page) }
-  private activityPreview () { return new ActivityPreview(this.page) }
 
   private buildCatalogUrl (theme: string, id: string) {
     return STUDENT_ROUTES.PROJECT.ACTIVITIES_CATALOG
@@ -173,101 +171,5 @@ class StudentProjectActivitiesCatalogPage {
   @Then('the first thematic in select navigation last activity is {string}')
   async verifyFirstThematicLastActivityInSelectNav (title: string) {
     await this.selectNav().verifyLastActivityTitleOfFirstThematic(title)
-  }
-
-  @Then('the activity preview is visible')
-  async verifyActivityPreviewVisible () {
-    await this.activityPreview().verifyVisible()
-  }
-
-  @Then('the activity preview is correctly displayed')
-  async verifyActivityPreviewCorrectlyDisplayed () {
-    await this.activityPreview().verify()
-  }
-
-  @Then('the activity preview subscribe button is visible')
-  async verifyActivityPreviewSubscribeButtonVisible () {
-    await this.activityPreview().verifySubscribeButton()
-  }
-
-  @When('the user clicks on the activity preview subscribe button')
-  async clickActivityPreviewSubscribeButton () {
-    await this.activityPreview().clickSubscribeButton()
-  }
-
-  @Then('the subscribe activity modal is displayed')
-  async verifySubscribeActivityModal () {
-    await this.activityPreview().verifySubscribeActivityModal()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal confirm button')
-  async clickSubscribeModalConfirmButton () {
-    await this.activityPreview().clickSubscribeModalConfirmButton()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal cancel button')
-  async clickSubscribeModalCancelButton () {
-    await this.activityPreview().clickSubscribeModalCancelButton()
-  }
-
-  @Then('the cancel subscribe activity confirm modal is displayed')
-  async verifyCancelSubscribeActivityConfirmModal () {
-    await this.activityPreview().verifyCancelSubscribeActivityConfirmModal()
-  }
-
-  @Then('the cancel subscribe activity confirm modal is hidden')
-  async verifyCancelSubscribeActivityConfirmModalHidden () {
-    await this.activityPreview().verifyCancelSubscribeActivityConfirmModalHidden()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal cancel button and confirms')
-  async clickSubscribeModalCancelButtonAndConfirm () {
-    await this.activityPreview().clickSubscribeModalCancelButtonAndConfirm()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal cancel button and cancels')
-  async clickSubscribeModalCancelButtonAndCancel () {
-    await this.activityPreview().clickSubscribeModalCancelButtonAndCancel()
-  }
-
-  @Then('the subscribe activity modal is hidden')
-  async verifySubscribeActivityModalHidden () {
-    await this.activityPreview().verifySubscribeActivityModalHidden()
-  }
-
-  @Then('the activity preview subscribe button is hidden')
-  async verifyActivityPreviewSubscribeButtonHidden () {
-    await this.activityPreview().verifySubscribeButtonHidden()
-  }
-
-  @Then('the activity preview unsubscribe button is visible')
-  async verifyActivityPreviewUnsubscribeButtonVisible () {
-    await this.activityPreview().verifyUnsubscribeButton()
-  }
-
-  @When('the user clicks on the activity preview unsubscribe button')
-  async clickActivityPreviewUnsubscribeButton () {
-    await this.activityPreview().clickUnsubscribeButton()
-  }
-
-  @Then('the unsubscribe activities confirm modal is displayed')
-  async verifyUnsubscribeActivitiesConfirmModal () {
-    await this.activityPreview().verifyUnsubscribeActivitiesConfirmModal()
-  }
-
-  @When('the user clicks on the activity preview unsubscribe activities confirm modal confirm button')
-  async clickUnsubscribeActivitiesConfirmModalConfirmButton () {
-    await this.activityPreview().clickUnsubscribeActivitiesConfirmModalConfirmButton()
-  }
-
-  @Then('the activity preview unsubscribe activities confirm modal is hidden')
-  async verifyUnsubscribeActivitiesConfirmModalHidden () {
-    const unsubscribeActivitiesConfirmModal = this.activityPreview().getUnsubscribeActivitiesConfirmModal()
-    await unsubscribeActivitiesConfirmModal.verifyHidden()
-  }
-
-  @Then('the activity preview unsubscribe button is hidden')
-  async verifyActivityPreviewUnsubscribeButtonHidden () {
-    await this.activityPreview().verifyUnsubscribeButtonHidden()
   }
 }

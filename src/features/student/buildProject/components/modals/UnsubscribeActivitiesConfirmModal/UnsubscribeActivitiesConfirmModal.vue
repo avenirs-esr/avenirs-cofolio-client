@@ -42,7 +42,6 @@ function onConfirm () {
 <template>
   <ConfirmationModal
     :show="show"
-    data-testid="unsubscribe-activities-confirm-modal"
     @close="$emit('cancel')"
     @confirm="onConfirm"
   >

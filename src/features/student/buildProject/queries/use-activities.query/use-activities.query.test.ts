@@ -15,8 +15,7 @@ import {
   type DeclaredActivity,
   type DeclaredActivityDetailsDTO,
   EActivityThematic,
-  type getDeclaredActivitiesView,
-  type SubscribeDeclaredActivityRequestDTO
+  type getDeclaredActivitiesView
 } from '@/api/avenir-esr'
 import {
   type SubscribeActivityVariables,
@@ -158,7 +157,7 @@ BddTest().given('the useActivityDetailQuery composable', () => {
 
 BddTest().given('the useSubscribeActivityMutation composable', () => {
   let subscribeActivitySpy: MockInstance<
-    (activityId: string, params: SubscribeDeclaredActivityRequestDTO, options?: RequestInit | undefined) => Promise<DeclaredActivity>
+    (activityId: string, options?: RequestInit | undefined) => Promise<DeclaredActivity>
   >
   let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
   let mutationResult: ReturnType<typeof useSubscribeActivityMutation>
@@ -176,9 +175,9 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
     vi.clearAllMocks()
     vi.restoreAllMocks()
 
-    subscribeActivitySpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'subscribeActivity'>(
+    subscribeActivitySpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'subscribe'>(
       await import('@/api/avenir-esr'),
-    'subscribeActivity',
+    'subscribe',
     )
 
     useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
@@ -203,7 +202,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
-        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, expect.anything())
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
         expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
       })
 
@@ -240,7 +239,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
-        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, expect.anything())
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
         expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
       })
 
@@ -267,7 +266,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the subscribeActivity API with correct parameters', () => {
-        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, expect.anything())
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
         expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
       })
 
@@ -298,7 +297,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the subscribeActivity API with the invalid parameters', () => {
-        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, expect.anything())
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
         expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
       })
 
@@ -335,7 +334,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the subscribeActivity API with the invalid parameters', () => {
-        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, expect.anything())
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId)
         expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
       })
 
@@ -371,9 +370,9 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
     vi.clearAllMocks()
     vi.restoreAllMocks()
 
-    unsubscribeActivityProgressSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'unsubscribeActivitiesProgresses'>(
+    unsubscribeActivityProgressSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'unsubscribe'>(
       await import('@/api/avenir-esr'),
-    'unsubscribeActivitiesProgresses',
+    'unsubscribe',
     )
 
     useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(

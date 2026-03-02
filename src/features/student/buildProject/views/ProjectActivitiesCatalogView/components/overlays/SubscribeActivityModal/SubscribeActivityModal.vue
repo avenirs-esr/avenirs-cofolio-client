@@ -54,7 +54,6 @@ function onConfirmCancelSubscribe () {
 <template>
   <ConfirmationModal
     :show="show"
-    data-testid="subscribe-activity-modal"
     @close="displayCancelSubscribeConfirmModal"
     @confirm="subscribe({ activityId: activity.id })"
   >
@@ -63,10 +62,7 @@ function onConfirmCancelSubscribe () {
         class="av-row av-flex-fill"
         data-testid="subscribe-activity-modal__header"
       >
-        <span
-          class="b2-bold av-text-text1"
-          data-testid="subscribe-activity-modal__title"
-        >
+        <span class="b2-bold av-text-text1">
           {{ t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.title', { title: activity.title }) }}
         </span>
       </div>

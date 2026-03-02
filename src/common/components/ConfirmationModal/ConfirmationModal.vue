@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { Slot } from 'vue'
 import { AvModal, type AvModalProps } from '@avenirs-esr/avenirs-dsav'
-import { type Slot, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonLabel'> {
@@ -10,10 +10,6 @@ export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonL
   closeButtonLabel?: string
 }
 
-defineOptions({
-  inheritAttrs: false
-})
-
 defineProps<ConfirmationModalProps>()
 
 defineSlots<{
@@ -22,7 +18,6 @@ defineSlots<{
 }>()
 
 const { t } = useI18n()
-const attrs = useAttrs()
 </script>
 
 <template>
@@ -31,7 +26,7 @@ const attrs = useAttrs()
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="confirmButtonLabel ?? t('global.buttons.confirm')"
-    v-bind="attrs"
+    v-bind="$attrs"
   >
     <template
       v-if="$slots.header"

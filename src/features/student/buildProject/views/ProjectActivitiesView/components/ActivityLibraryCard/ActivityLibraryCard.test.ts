@@ -39,7 +39,6 @@ BddTest().given('an ActivityLibraryCard', () => {
 
   const baseActivity = {
     id: '1',
-    activityId: '1',
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.SUBSCRIBED,

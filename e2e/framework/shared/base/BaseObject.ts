@@ -14,8 +14,4 @@ export abstract class BaseObject {
   async isVisible () {
     await expect(this.root).toBeVisible()
   }
-
-  async isHidden () {
-    await expect(this.root).toBeHidden()
-  }
 }
