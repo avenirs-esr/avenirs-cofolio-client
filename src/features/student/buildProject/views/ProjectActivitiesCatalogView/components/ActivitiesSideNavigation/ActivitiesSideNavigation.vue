@@ -51,11 +51,9 @@ const items = computed<AvSideNavigationMenuItem[]>(() => {
     })
 })
 
-const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined
-)
+const routeId = computed(() => typeof route.params.id === 'string' ? route.params.id : undefined)
 
-const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined
-)
+const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined)
 
 const selectedSideNavItem = ref<AvSideNavigationSelectedItem>({
   itemId: routeId.value ?? items.value?.[0]?.children?.[0]?.id ?? '',

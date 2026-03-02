@@ -5,6 +5,7 @@ import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { ActivitiesPreviousNextNavigationStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.stub'
 import {
   ActivitiesSelectNavigationStub
 } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.stub'
@@ -46,6 +47,7 @@ BddTest().given('a project activities catalog view', () => {
     PageTitle: PageTitleStub,
     ActivitiesSelectNavigation: ActivitiesSelectNavigationStub,
     ActivitiesSideNavigation: ActivitiesSideNavigationStub,
+    ActivitiesPreviousNextNavigation: ActivitiesPreviousNextNavigationStub,
     ActivityPreview: ActivityPreviewStub,
     Loader: LoaderStub
   }
@@ -99,10 +101,10 @@ BddTest().given('a project activities catalog view', () => {
     })
 
     BddTest().then('it should use row layout on desktop', () => {
-      const layout = wrapper.find('div.av-my-md')
+      const layout = wrapper.find('[data-testid="activities-layout"]')
       expect(layout.exists()).toBe(true)
       expect(layout.classes()).toContain('av-row')
-      expect(layout.classes()).not.toContain('av-column')
+      expect(layout.classes()).not.toContain('av-col')
     })
 
     BddTest().then('it should render the activity preview component', async () => {
@@ -112,6 +114,12 @@ BddTest().given('a project activities catalog view', () => {
     BddTest().then('it should render the side navigation', async () => {
       await vi.waitFor(() =>
         expect(wrapper.findComponent(ActivitiesSideNavigationStub).exists()).toBe(true),
+      )
+    })
+
+    BddTest().then('it should render the previous/next navigation', async () => {
+      await vi.waitFor(() =>
+        expect(wrapper.findComponent(ActivitiesPreviousNextNavigationStub).exists()).toBe(true),
       )
     })
   })
@@ -133,15 +141,21 @@ BddTest().given('a project activities catalog view', () => {
     })
 
     BddTest().then('it should use column layout on mobile', () => {
-      const layout = wrapper.find('div.av-my-md')
+      const layout = wrapper.find('[data-testid="activities-layout"]')
       expect(layout.exists()).toBe(true)
-      expect(layout.classes()).toContain('av-column')
+      expect(layout.classes()).toContain('av-col')
       expect(layout.classes()).not.toContain('av-row')
     })
 
     BddTest().then('it should render the select navigation', async () => {
       await vi.waitFor(() =>
         expect(wrapper.findComponent(ActivitiesSelectNavigationStub).exists()).toBe(true),
+      )
+    })
+
+    BddTest().then('it should render the previous/next navigation', async () => {
+      await vi.waitFor(() =>
+        expect(wrapper.findComponent(ActivitiesPreviousNextNavigationStub).exists()).toBe(true),
       )
     })
   })

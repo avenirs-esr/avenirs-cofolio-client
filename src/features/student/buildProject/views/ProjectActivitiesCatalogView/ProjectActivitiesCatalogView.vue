@@ -7,6 +7,7 @@ import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesNavigationQuery, useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import ActivitiesPreviousNextNavigation from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.vue'
 import ActivitiesSelectNavigation
   from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.vue'
 import ActivitiesSideNavigation
@@ -75,9 +76,9 @@ const breadcrumbLinks = computed(() => [
     :back="ROUTES.STUDENT.HOME"
   />
   <div
+    class="av-py-md av-gap-sm"
+    :class="[isMobile ? 'av-col' : 'av-row']"
     data-testid="activities-layout"
-    class="av-my-md av-gap-sm"
-    :class="[isMobile ? 'av-column' : 'av-row']"
   >
     <div
       v-if="isMobile"
@@ -86,16 +87,20 @@ const breadcrumbLinks = computed(() => [
       <ActivitiesSelectNavigation />
     </div>
     <ActivitiesSideNavigation v-else />
-    <div class="av-row av-flex-fill av-justify-center">
-      <Loader
-        :is-loading="isLoading && !isError"
-        size="2xl"
-      >
-        <ActivityPreview
-          v-if="activityDetail"
-          :activity="activityDetail"
-        />
-      </Loader>
+
+    <div class="av-col av-gap-sm">
+      <ActivitiesPreviousNextNavigation />
+      <div class="av-row av-flex-fill av-justify-center">
+        <Loader
+          :is-loading="isLoading && !isError"
+          size="2xl"
+        >
+          <ActivityPreview
+            v-if="activityDetail"
+            :activity="activityDetail"
+          />
+        </Loader>
+      </div>
     </div>
   </div>
   <ActivityErrorMessage :error="error" />
