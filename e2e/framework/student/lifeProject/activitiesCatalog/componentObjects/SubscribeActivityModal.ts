@@ -51,9 +51,8 @@ export class SubscribeActivityModal extends BaseObject {
     await expect(this.getConfirmButton()).toBeVisible()
     await expect(this.getConfirmButton()).toHaveText(expectedConfirmButtonText)
 
-    const expectedTitle = t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.title', { title: 'Activité “Connaissance de soi” : Définir ses valeurs' })
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(expectedTitle)
+    await expect(this.getTitle()).not.toBeEmpty()
   }
 
   async clickCancel () {

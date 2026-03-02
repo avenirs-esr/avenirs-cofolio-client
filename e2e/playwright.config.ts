@@ -24,7 +24,6 @@ if (CI) {
   reporter.push(['github'])
 }
 
-console.log(testDir)
 export default defineConfig({
   testDir,
   preserveOutput: 'never',

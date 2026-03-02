@@ -123,6 +123,22 @@ export class ActivitiesSideNavigation extends BaseObject {
     return thematic
   }
 
+  async selectFirstChildOfThematic (thematic: string) {
+    const parentId = await this.ensureThematicExpanded(thematic)
+
+    const first = this.menuItems(parentId).first()
+    await expect(first).toBeVisible()
+    await first.click()
+  }
+
+  async selectLastChildOfThematic (thematic: string) {
+    const parentId = await this.ensureThematicExpanded(thematic)
+
+    const last = this.menuItems(parentId).last()
+    await expect(last).toBeVisible()
+    await last.click()
+  }
+
   async selectSecondChildOfThematic (thematic: string) {
     const parentId = await this.ensureThematicExpanded(thematic)
 
