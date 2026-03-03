@@ -82,7 +82,7 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         v-if="previousActivity"
         :label="t('global.buttons.previous')"
         :icon="MDI_ICONS.ARROW_LEFT_THIN"
-        variant="OUTLINED"
+        variant="DEFAULT"
         small
         data-testid="previous-activity-button"
         @click="navigateToStudentProjectActivitiesCatalog({ thematic: previousActivity.parentId as EActivityThematic, id: previousActivity.itemId })"
@@ -92,7 +92,7 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         v-if="nextActivity"
         :label="t('global.buttons.next')"
         :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-        variant="OUTLINED"
+        variant="DEFAULT"
         small
         data-testid="next-activity-button"
         @click="navigateToStudentProjectActivitiesCatalog({ thematic: nextActivity.parentId as EActivityThematic, id: nextActivity.itemId })"
