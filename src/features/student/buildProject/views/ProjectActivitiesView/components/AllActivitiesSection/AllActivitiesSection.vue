@@ -23,6 +23,9 @@ const {
 const selectedThematic = ref<EActivityThematic | undefined>(undefined)
 
 function onSelectThematic (thematic: AvTagPickerOption) {
+  if (selectedThematic.value !== thematic.value) {
+    currentPage.value = 0
+  }
   selectedThematic.value = thematic.value === 'all' ? undefined : thematic.value as EActivityThematic
 }
 
