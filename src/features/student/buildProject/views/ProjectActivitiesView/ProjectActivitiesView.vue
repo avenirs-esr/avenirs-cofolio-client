@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
-import { useCountLibraryActivities } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import {
+  useCountActivitiesQuery,
+  useCountLibraryActivities
+} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
 import AllActivitiesTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
@@ -20,6 +23,7 @@ const params = computed(() => ({
 }))
 
 const { data: libraryTotalElements } = useCountLibraryActivities(params)
+const { data: activityTotalElements } = useCountActivitiesQuery()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -36,7 +40,7 @@ const breadcrumbLinks = computed(() => [
   />
   <AvTabs v-model="activeTab">
     <AvTab
-      :title="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.tabTitle', { count: 0 })"
+      :title="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.tabTitle', { count: activityTotalElements })"
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
     >
       <AllActivitiesTab />

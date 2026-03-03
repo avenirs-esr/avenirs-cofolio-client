@@ -94,6 +94,23 @@ export function useActivitiesViewQuery ({
   }
 }
 
+export function useCountActivitiesQuery () {
+  const queryKey = computed(() => [...activitiesViewQueryKey, 'count'])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseActivityOverviewDTO> => {
+    return await getActivitiesView({
+      page: 0,
+      pageSize: 1
+    } as GetActivitiesViewParams)
+  })
+
+  return useQuery<PagedResponseActivityOverviewDTO, BaseApiException, number>({
+    queryKey,
+    queryFn,
+    select: data => data.page.totalElements,
+  })
+}
+
 export interface ActivitiesLatestViewQueryParams {
   page: MaybeRef<number>
   pageSize: number
