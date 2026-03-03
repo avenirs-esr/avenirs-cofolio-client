@@ -13,7 +13,7 @@ export default antfu({
   ],
 }, {
   rules: {
-    'no-duplicate-imports': 'error',
+    'import/no-duplicates': ['error', { 'prefer-inline': false }],
     'no-irregular-whitespace': 'warn',
     'vue/no-irregular-whitespace': 'warn',
     'style/space-before-function-paren': ['error', 'always'],
