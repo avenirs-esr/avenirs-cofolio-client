@@ -4,7 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ActivitiesSelectorStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.stub'
 import UnsubscribeActivitiesModal, { type UnsubscribeActivitiesModalProps } from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -18,18 +18,6 @@ vi.mock('@/store', async (importOriginal) => {
       addErrorMessage: mockAddErrorMessage
     })
   }
-})
-
-const AvModalStub = defineComponent({
-  name: 'AvModal',
-  template: `
-      <div class="av-modal-stub">
-        <slot name="header" />
-        <slot />
-      </div>
-    `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon', 'confirmButtonDisabled'],
-  emits: ['close', 'confirm']
 })
 
 BddTest().given('an unsubscribe activities modal', () => {

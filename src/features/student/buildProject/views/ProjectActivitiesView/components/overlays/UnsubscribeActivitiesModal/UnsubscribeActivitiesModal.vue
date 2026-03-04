@@ -27,11 +27,13 @@ const {
 } = useModal()
 
 const {
-  activities,
+  activities: activityLibrary,
   isFetching,
   hasMoreActivities,
   loadMoreActivities,
 } = usePaginatedLibraryActivities(computed(() => show))
+
+const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title })))
 
 function onUnsubscribeSuccess () {
   hideConfirmModal()
@@ -98,14 +100,14 @@ useInfiniteScroll(
       <ActivitiesSelector
         v-if="activities.length > 0"
         v-model="selectedActivityIds"
-        :activities="activities.map(activity => ({ id: activity.activityId, title: activity.title }))"
+        :activities="activities"
       />
     </div>
   </AvModal>
 
   <UnsubscribeActivitiesConfirmModal
     :show="showConfirmModal"
-    :activities="activities.filter(activity => selectedActivityIds.includes(activity.activityId))"
+    :activities="activities.filter(({ id }) => selectedActivityIds.includes(id))"
     @cancel="hideConfirmModal"
     @unsubscribed="onUnsubscribeSuccess"
   />

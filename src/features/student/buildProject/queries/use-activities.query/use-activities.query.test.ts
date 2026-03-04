@@ -414,7 +414,7 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
 
       BddTest().then('it should call the invalidation function', () => {
         expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length + 1)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -444,7 +444,7 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
       })
 
       BddTest().then('it should call the invalidation function', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length + 1)
       })
     })
   })
@@ -467,7 +467,7 @@ BddTest().given('the useUnsubscribeActivitiesMutation composable', () => {
       })
 
       BddTest().then('it should still call the invalidation function', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(elementsIds.length + 1)
       })
 
       BddTest().then('it should mark the mutation as successful', () => {
