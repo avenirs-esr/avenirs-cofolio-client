@@ -1,16 +1,13 @@
 import type { App } from 'vue'
 import { VueQueryPlugin, type VueQueryPluginOptions } from '@tanstack/vue-query'
 
-const DEFAULT_STALE_TIME = 2 * 60 * 1000
-
 export default {
   install (app: App) {
     const queryOptions: VueQueryPluginOptions = {
       queryClientConfig: {
         defaultOptions: {
           queries: {
-            retry: 3,
-            staleTime: DEFAULT_STALE_TIME,
+            retry: 2,
           },
           mutations: {
             retry: 1,

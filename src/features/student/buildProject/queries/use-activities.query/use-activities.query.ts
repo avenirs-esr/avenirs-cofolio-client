@@ -101,7 +101,7 @@ export function useCountActivitiesQuery () {
     return await getActivitiesView({
       page: 0,
       pageSize: 1
-    } as GetActivitiesViewParams)
+    })
   })
 
   return useQuery<PagedResponseActivityOverviewDTO, BaseApiException, number>({
@@ -225,6 +225,7 @@ export function useUnsubscribeActivitiesMutation ({ onError, onSuccess }: Mutati
       await Promise.all(
         variables.activitiesIds.map(activityId => invalidateQueryKey([...activityDetailsQueryKey, activityId])),
       )
+      await invalidateQueryKey(libraryActivitiesQueryKey)
       onSuccess?.(data, variables)
     },
     onError

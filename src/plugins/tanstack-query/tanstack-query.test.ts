@@ -16,8 +16,7 @@ BddTest().given('a tanstack query plugin', () => {
         queryClientConfig: {
           defaultOptions: {
             queries: {
-              retry: 3,
-              staleTime: 120000
+              retry: 2,
             },
             mutations: {
               retry: 1,
