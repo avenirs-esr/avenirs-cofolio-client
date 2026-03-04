@@ -33,6 +33,8 @@ const titleClasses = computed(() => isMobile.value
     :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: activity.id, thematic: activity.thematic } }"
     class="activity-library-card"
     data-testid="activity-library-card"
+    :data-activity-id="activity.activityId"
+    :data-activity-thematic="activity.thematic"
   >
     <FloatingIconCard
       :title="activity.title"

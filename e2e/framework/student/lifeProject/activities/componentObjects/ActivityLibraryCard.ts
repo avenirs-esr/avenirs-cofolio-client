@@ -26,6 +26,14 @@ export class ActivityLibraryCard extends BaseObject {
     return this.root.getByTestId('activity-library-card-summary')
   }
 
+  async getActivityId (): Promise<string> {
+    return await this.root.getAttribute('data-activity-id') ?? ''
+  }
+
+  async getActivityThematic (): Promise<string> {
+    return await this.root.getAttribute('data-activity-thematic') ?? ''
+  }
+
   async verifyTitleVisible () {
     await expect(this.getTitle()).toBeVisible()
   }

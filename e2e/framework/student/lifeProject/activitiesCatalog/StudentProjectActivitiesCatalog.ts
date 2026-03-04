@@ -42,6 +42,14 @@ class StudentProjectActivitiesCatalogPage {
     await expect.poll(() => this.page.url()).not.toBe(beforeUrl)
   }
 
+  async subscribeActivityById (thematic: string, id: string) {
+    const url = this.buildCatalogUrl(thematic, id)
+    await this.page.goto(url)
+    await this.activityPreview().verifySubscribeButton()
+    await this.activityPreview().getSubscribeButton().click()
+    await this.activityPreview().clickSubscribeModalConfirmButton()
+  }
+
   @Given('the student opens the project activities catalog page')
   async openCatalogPage () {
     const url = this.buildCatalogUrl(

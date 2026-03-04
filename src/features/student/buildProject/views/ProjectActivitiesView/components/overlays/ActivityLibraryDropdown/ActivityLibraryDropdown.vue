@@ -31,6 +31,7 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <AvDropdown
+    data-testid="activity-library-dropdown"
     :items="menuItems"
     :trigger-aria-label="t('global.buttons.moreActions')"
     :trigger-label="t('global.buttons.moreActions')"

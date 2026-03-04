@@ -13,7 +13,7 @@ const reviewModeIgnore = REVIEW_MODE ? ['**/*.deferred.feature.spec.js'] : []
 
 const testDir = defineBddConfig({
   features: 'tests/**/*.feature',
-  steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts', 'framework/shared/hooks/dataset.hook.ts']
+  steps: ['framework/**/*Page.ts', 'framework/shared/fixtures/fixtures.ts', 'framework/**/*.hook.ts']
 })
 
 const reporter: Parameters<typeof defineConfig>[0]['reporter'] = [

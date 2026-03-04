@@ -121,3 +121,11 @@ Feature: Student Project Activities Page
     Scenario: Student can change the page size
       When the user changes the page size to 8
       Then the first page of activity contains less than 9 activities
+
+    @high @library-activity-tab @library-activity-unsubscribe @unsubscribe-activity
+    Scenario: Student can unsubscribe from a library activity using the more actions menu
+      When the user opens the unsubscribe activities modal
+      And the user selects the first activity in the unsubscribe modal
+      And the user confirms the unsubscription
+      And the user confirms the final unsubscription
+      Then unsubscription success message is visible

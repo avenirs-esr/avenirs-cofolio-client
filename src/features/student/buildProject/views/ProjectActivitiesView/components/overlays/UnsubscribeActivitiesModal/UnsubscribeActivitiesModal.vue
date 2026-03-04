@@ -67,6 +67,7 @@ useInfiniteScroll(
 <template>
   <AvModal
     :opened="show"
+    data-testid="unsubscribe-activities-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.buildProject.views.projectActivitiesView.UnsubscribeActivitiesModal.confirm', { count: selectedActivityIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"

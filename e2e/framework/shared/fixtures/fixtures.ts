@@ -48,4 +48,4 @@ export const test = base.extend<Fixtures>({
   },
 })
 
-export const { BeforeScenario } = createBdd(test)
+export const { BeforeScenario, AfterScenario } = createBdd(test)
