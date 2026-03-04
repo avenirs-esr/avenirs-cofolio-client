@@ -31,6 +31,8 @@
       "expand": "Expand",
       "goBack": "Go back",
       "moreActions": "More actions",
+      "next": "Next",
+      "previous": "Previous",
       "redo": "Redo",
       "reset": "Reset",
       "restore": "Restore",
