@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import type { ActivityDetailDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { AvButton, AvCard, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 export interface ActivityPreviewProps {
   activity: ActivityDetailDTO
@@ -15,8 +17,17 @@ export interface ActivityPreviewProps {
 defineProps<ActivityPreviewProps>()
 
 const { t } = useI18n()
+const router = useRouter()
 const { showModal: showUnsubscribeModal, displayModal: displayUnsubscribeModal, hideModal: hideUnsubscribeModal } = useModal()
 const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hideModal: hideSubscribeModal } = useModal()
+
+function navigateToActivityDetailed ({ id, thematic }: { id?: string, thematic?: string }) {
+  const to = {
+    name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+    params: { id, thematic }
+  }
+  return router.push(to)
+}
 </script>
 
 <template>
@@ -79,6 +90,16 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
           </div>
         </div>
         <div class="av-row av-justify-end av-gap-md">
+          <AvButton
+            v-if="activity.isSubscribed"
+            theme="PRIMARY"
+            variant="FLAT"
+            :label="t('student.buildProject.activities.buttons.access')"
+            :icon="ICONS.ACTIVITY"
+            small
+            data-testid="access-button"
+            @click="navigateToActivityDetailed({ id: activity.id, thematic: activity.thematic })"
+          />
           <AvButton
             v-if="activity.isSubscribed"
             variant="OUTLINED"

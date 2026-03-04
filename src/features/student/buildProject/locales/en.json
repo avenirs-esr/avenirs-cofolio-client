@@ -14,6 +14,7 @@
           }
         },
         "buttons": {
+          "access": "Access my activity",
           "subscribe": "Subscribe to the activity",
           "unsubscribe": "Unsubscribe"
         },
