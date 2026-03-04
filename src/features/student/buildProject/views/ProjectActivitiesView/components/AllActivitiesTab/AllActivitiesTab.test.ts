@@ -4,22 +4,12 @@ import AllActivitiesTab from '@/features/student/buildProject/views/ProjectActiv
 import { NewActivitiesPaginatorCardStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/NewActivitiesPaginatorCard/NewActivitiesPaginatorCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
-
-const navigateToStudentProjectActivitiesCatalog = vi.fn()
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToStudentProjectActivitiesCatalog,
-    }),
-  }
-})
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 BddTest().given('the all activities tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AllActivitiesTab>>
+  let scrollIntoViewSpy: ReturnType<typeof vi.spyOn>
 
   const stubs = {
     AllActivitiesHeaderCard: AllActivitiesHeaderCardStub,
@@ -46,13 +36,34 @@ BddTest().given('the all activities tab', () => {
   })
 
   BddTest().when('the user clicks on the see all activities button', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
+      if (!('scrollIntoView' in HTMLElement.prototype)) {
+        Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+          value: vi.fn(),
+          writable: true,
+        })
+      }
+
+      scrollIntoViewSpy = vi.spyOn(HTMLElement.prototype, 'scrollIntoView').mockImplementation(() => {})
+
+      wrapper = mount(AllActivitiesTab, { global: { stubs } })
+      await nextTick()
+
       const seeAllActivitiesButton = wrapper.find('[data-testid="see-all-activities-button"]')
-      seeAllActivitiesButton.trigger('click')
+      await seeAllActivitiesButton.trigger('click')
     })
 
-    BddTest().then('it should navigate to the project activities catalog', () => {
-      expect(navigateToStudentProjectActivitiesCatalog).toHaveBeenCalled()
+    afterEach(() => {
+      scrollIntoViewSpy?.mockRestore()
+    })
+
+    BddTest().then('it should scroll to the all activities section', () => {
+      expect(scrollIntoViewSpy).toHaveBeenCalledTimes(1)
+
+      expect(scrollIntoViewSpy).toHaveBeenCalledWith({
+        behavior: 'smooth',
+        block: 'start',
+      })
     })
   })
 })
