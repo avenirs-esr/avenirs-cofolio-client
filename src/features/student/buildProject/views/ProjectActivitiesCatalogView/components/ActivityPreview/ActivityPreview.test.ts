@@ -1,11 +1,20 @@
 import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { ROUTES } from '@/common/constants'
 import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { SubscribeActivityModalStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.stub'
 import { AvButtonStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+
+const routerPush = vi.fn()
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({
+    push: routerPush,
+  }),
+}))
 
 BddTest().given('an activity preview', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPreview>>
@@ -27,6 +36,14 @@ BddTest().given('an activity preview', () => {
   function getSubscribeButton () {
     return wrapper.findAllComponents(AvButtonStub).find(btn => btn.attributes('data-testid') === 'subscribe-button')
   }
+
+  function getAccessButton () {
+    return wrapper.findAllComponents(AvButtonStub).find(btn => btn.attributes('data-testid') === 'access-button')
+  }
+
+  afterEach(() => {
+    routerPush.mockClear()
+  })
 
   BddTest().when('the component is mounted with an unsubscribed activity', () => {
     const props: ActivityPreviewProps = {
@@ -66,6 +83,11 @@ BddTest().given('an activity preview', () => {
       const executionPeriodInfo = wrapper.find('[data-testid="activity-execution-period-info"]')
       expect(executionPeriodInfo.exists()).toBe(true)
       expect(executionPeriodInfo.text()).toBe(mockedSubscribedActivityDetail.executionPeriodInfo)
+    })
+
+    BddTest().then('it should not render the access button', () => {
+      const accessButton = getAccessButton()
+      expect(accessButton).toBeUndefined()
     })
 
     BddTest().then('it should not render the unsubscribe button', () => {
@@ -167,6 +189,27 @@ BddTest().given('an activity preview', () => {
       const executionPeriodInfo = wrapper.find('[data-testid="activity-execution-period-info"]')
       expect(executionPeriodInfo.exists()).toBe(true)
       expect(executionPeriodInfo.text()).toBe(mockedActivityDetail.executionPeriodInfo)
+    })
+
+    BddTest().then('it should render the access button', () => {
+      const accessButton = getAccessButton()
+      expect(accessButton).toBeDefined()
+      expect(accessButton!.exists()).toBe(true)
+      expect(accessButton!.props('label')).toBe('Accéder à mon activité')
+    })
+
+    BddTest().and('the user clicks the access button', () => {
+      beforeEach(() => {
+        const accessButton = getAccessButton()
+        accessButton!.trigger('click')
+      })
+
+      BddTest().then('it should navigate to the activity detailed view', () => {
+        expect(routerPush).toHaveBeenCalledWith({
+          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+          params: { id: mockedSubscribedActivityDetail.id, thematic: mockedSubscribedActivityDetail.thematic },
+        })
+      })
     })
 
     BddTest().then('it should render the unsubscribe button', () => {
