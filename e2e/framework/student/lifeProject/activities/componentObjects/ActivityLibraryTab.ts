@@ -3,6 +3,8 @@ import { PaginationObject } from '@e2e/framework/shared/componentObjects/Paginat
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
 import { ActivityLibraryCard } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryCard'
+import { ActivityLibraryDropdown } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryDropdown'
+import { UnsubscribeActivitiesModal } from '@e2e/framework/student/lifeProject/activities/componentObjects/UnsubscribeActivitiesModal'
 import { expect, type Page } from '@playwright/test'
 
 export class ActivityLibraryTab extends BaseObject {
@@ -32,6 +34,14 @@ export class ActivityLibraryTab extends BaseObject {
 
   getPagination () {
     return new PaginationObject(this.root.getByTestId('pagination'))
+  }
+
+  getDropdown () {
+    return new ActivityLibraryDropdown(this.root.getByTestId('activity-library-dropdown'), this.page!)
+  }
+
+  getUnsubscribeModal () {
+    return new UnsubscribeActivitiesModal(this.page!.getByTestId('unsubscribe-activities-modal'), this.page!)
   }
 
   async verifyTitleWithPositiveCount () {

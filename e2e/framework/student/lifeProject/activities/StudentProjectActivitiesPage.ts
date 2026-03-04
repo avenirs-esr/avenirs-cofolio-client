@@ -1,13 +1,19 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { ActivityLibraryTab } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryTab'
 import { AllActivitiesTabs } from '@e2e/framework/student/lifeProject/activities/componentObjects/AllActivitiesTabs'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
 @Fixture<typeof test>('studentProjectActivitiesPage')
 class StudentProjectActivitiesPage extends BasePage {
+  private unsubscribedActivityId?: string = undefined
+  private unsubscribedActivityThematic?: string = undefined
+
   constructor (public page: Page) {
     super(page)
   }
@@ -22,6 +28,13 @@ class StudentProjectActivitiesPage extends BasePage {
 
   getActivityLibraryTabItem () {
     return this.page.getByTestId('activity-library-tab-item')
+  }
+
+  async restoreActivitySubscription (catalogPage: StudentProjectActivitiesCatalogPage) {
+    if (!this.unsubscribedActivityId || !this.unsubscribedActivityThematic) {
+      return
+    }
+    await catalogPage.subscribeActivityById(this.unsubscribedActivityThematic, this.unsubscribedActivityId)
   }
 
   @Given('the all activities tab is visible')
@@ -137,5 +150,32 @@ class StudentProjectActivitiesPage extends BasePage {
   @Then('the activity library page contains elements')
   async verifyActivityLibraryPageNotEmpty () {
     await this.getActivityLibraryTab().verifyCardsNotEmpty()
+  }
+
+  @When('the user opens the unsubscribe activities modal')
+  async openUnsubscribeActivitiesModal () {
+    this.unsubscribedActivityId = await this.getActivityLibraryTab().getCardByIndex(0).getActivityId()
+    this.unsubscribedActivityThematic = await this.getActivityLibraryTab().getCardByIndex(0).getActivityThematic()
+    await this.getActivityLibraryTab().getDropdown().clickUnsubscribe()
+  }
+
+  @When('the user selects the first activity in the unsubscribe modal')
+  async selectFirstActivityInUnsubscribeModal () {
+    await this.getActivityLibraryTab().getUnsubscribeModal().selectActivityByIndex(0)
+  }
+
+  @When('the user confirms the unsubscription')
+  async confirmUnsubscription () {
+    await this.getActivityLibraryTab().getUnsubscribeModal().clickConfirm()
+  }
+
+  @When('the user confirms the final unsubscription')
+  async confirmFinalUnsubscription () {
+    await this.getActivityLibraryTab().getUnsubscribeModal().getConfirmModal().clickConfirm()
+  }
+
+  @Then('unsubscription success message is visible')
+  async verifyUnsubscribeSuccessMessageVisible () {
+    await expect(this.page.getByText(t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.success', { count: 1 }))).toBeVisible()
   }
 }
