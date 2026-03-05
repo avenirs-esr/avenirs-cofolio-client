@@ -49,6 +49,7 @@ class StudentProjectActivitiesCatalogPage {
       StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)
+    this.captureSelectedParamsFromUrl()
   }
 
   @Given('the student project activities catalog page is displayed on mobile viewport')
@@ -63,6 +64,7 @@ class StudentProjectActivitiesCatalogPage {
       StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
     )
     await this.page.goto(url)
+    this.captureSelectedParamsFromUrl()
   }
 
   @Then('the URL does not contain the {string} thematic')
@@ -327,5 +329,34 @@ class StudentProjectActivitiesCatalogPage {
   @Then('the activity preview unsubscribe button is hidden')
   async verifyActivityPreviewUnsubscribeButtonHidden () {
     await this.activityPreview().verifyUnsubscribeButtonHidden()
+  }
+
+  @Then('the activity preview access button is hidden')
+  async verifyActivityPreviewAccessButtonHidden () {
+    await this.activityPreview().verifyAccessButtonHidden()
+  }
+
+  @Then('the activity preview access button is visible')
+  async verifyActivityPreviewAccessButtonVisible () {
+    await this.activityPreview().verifyAccessButtonVisible()
+  }
+
+  @When('the user clicks on the activity preview access button')
+  async clickActivityPreviewAccessButton () {
+    await this.activityPreview().clickAccessButton()
+  }
+
+  @Then('the student is redirected to the activity detailed page')
+  async verifyRedirectedToActivityDetailedPage () {
+    expect(this.selectedActivityId, 'Expected a selected activity id to be captured from the URL').toBeTruthy()
+    expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
+
+    const url = this.page.url()
+
+    expect(url).toContain(this.selectedActivityId!)
+    expect(url).toContain(this.selectedThematic!)
+
+    const catalogPathPrefix = STUDENT_ROUTES.PROJECT.ACTIVITIES_CATALOG.split('/:thematic/:id')[0]
+    expect(url).not.toContain(catalogPathPrefix)
   }
 }
