@@ -128,6 +128,14 @@ export function useNavigation () {
     return router.push(ROUTES.TEACHER.HOME)
   }
 
+  const navigateToActivityDetailed = ({ id, thematic }: { id?: string, thematic?: string }) => {
+    const to = {
+      name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+      params: { id, thematic }
+    }
+    return router.push(to)
+  }
+
   return {
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
@@ -150,5 +158,6 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredSkill,
     navigateToStudentUpdateDeclaredProgram,
     navigateToTeacherHome,
+    navigateToActivityDetailed,
   }
 }

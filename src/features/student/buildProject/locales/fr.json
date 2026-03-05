@@ -14,7 +14,6 @@
           }
         },
         "buttons": {
-          "access": "Accéder à mon activité",
           "subscribe": "M'inscrire à l'activité",
           "unsubscribe": "Me désinscrire"
         },
@@ -48,6 +47,9 @@
         },
         "views": {
           "ProjectActivitiesCatalogView": {
+            "buttons": {
+              "access": "Accéder à mon activité"
+            },
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",

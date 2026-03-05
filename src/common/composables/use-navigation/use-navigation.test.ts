@@ -279,4 +279,28 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.DECLARED_SKILL)
     })
   })
+
+  BddTest().when('trying to navigate to activity detailed', () => {
+    BddTest().then('it should navigate to activity detailed with id and thematic', () => {
+      const { navigateToActivityDetailed } = navigation
+      navigateToActivityDetailed({ id: 'act-123', thematic: 'SELF_KNOWLEDGE' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+        params: { id: 'act-123', thematic: 'SELF_KNOWLEDGE' },
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to activity detailed without parameters', () => {
+    BddTest().then('it should navigate to activity detailed with undefined params', () => {
+      const { navigateToActivityDetailed } = navigation
+      navigateToActivityDetailed({})
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+        params: { id: undefined, thematic: undefined },
+      })
+    })
+  })
 })
