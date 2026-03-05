@@ -122,7 +122,7 @@ Feature: Student Project Activities Page
       When the user changes the page size to 8
       Then the first page of activity contains less than 9 activities
 
-    @high @library-activity-tab @library-activity-unsubscribe @unsubscribe-activity
+    @high @library-activity-tab @unsubscribe-activity-from-library
     Scenario: Student can unsubscribe from a library activity using the more actions menu
       When the user opens the unsubscribe activities modal
       And the user selects the first activity in the unsubscribe modal

@@ -63,7 +63,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
       BddTest().then('it should add a success message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Désinscription de l\'activité réussie.')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous avez été désinscrit.e avec succès.')
         })
       })
 
@@ -134,7 +134,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
       BddTest().then('it should add a success message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Désinscription des activités réussie.')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous avez été désinscrit.e avec succès.')
         })
       })
 
