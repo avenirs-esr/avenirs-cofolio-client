@@ -1,5 +1,4 @@
 import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { ROUTES } from '@/common/constants'
 import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
@@ -8,13 +7,17 @@ import { AvButtonStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
-const routerPush = vi.fn()
+const navigateToActivityDetailed = vi.fn()
 
-vi.mock('vue-router', () => ({
-  useRouter: () => ({
-    push: routerPush,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToActivityDetailed,
+    }),
+  }
+})
 
 BddTest().given('an activity preview', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPreview>>
@@ -42,7 +45,7 @@ BddTest().given('an activity preview', () => {
   }
 
   afterEach(() => {
-    routerPush.mockClear()
+    navigateToActivityDetailed.mockClear()
   })
 
   BddTest().when('the component is mounted with an unsubscribed activity', () => {
@@ -204,10 +207,10 @@ BddTest().given('an activity preview', () => {
         accessButton!.trigger('click')
       })
 
-      BddTest().then('it should navigate to the activity detailed view', () => {
-        expect(routerPush).toHaveBeenCalledWith({
-          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
-          params: { id: mockedSubscribedActivityDetail.id, thematic: mockedSubscribedActivityDetail.thematic },
+      BddTest().then('it should call navigateToActivityDetailed with activity id and thematic', () => {
+        expect(navigateToActivityDetailed).toHaveBeenCalledWith({
+          id: mockedSubscribedActivityDetail.id,
+          thematic: mockedSubscribedActivityDetail.thematic,
         })
       })
     })

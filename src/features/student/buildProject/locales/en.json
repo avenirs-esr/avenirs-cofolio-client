@@ -14,7 +14,6 @@
           }
         },
         "buttons": {
-          "access": "Access my activity",
           "subscribe": "Subscribe to the activity",
           "unsubscribe": "Unsubscribe"
         },
@@ -48,6 +47,9 @@
         },
         "views": {
           "ProjectActivitiesCatalogView": {
+            "buttons": {
+              "access": "Access my activity"
+            },
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "An error occurred while subscribing to the activity. Please try again later.",
