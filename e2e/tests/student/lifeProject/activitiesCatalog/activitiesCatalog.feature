@@ -88,7 +88,7 @@ Feature: Student Project Activities Catalog Page
         And the activity preview unsubscribe button is hidden
         And the activity preview access button is hidden
 
-      @high @subscribe
+      @high @subscribe @unsubscribe-activity-from-catalog
       Scenario: Student can access the activity detailed page when subscribed
         When the user clicks on the activity preview subscribe modal confirm button
         Then the activity preview access button is visible
