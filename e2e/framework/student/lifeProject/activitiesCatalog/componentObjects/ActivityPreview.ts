@@ -38,6 +38,10 @@ export class ActivityPreview extends BaseObject {
     return this.root.getByTestId('subscribe-button')
   }
 
+  getAccessButton () {
+    return this.root.getByTestId('access-button')
+  }
+
   getUnsubscribeActivitiesConfirmModal () {
     return new UnsubscribeActivitiesConfirmModal(this.page)
   }
@@ -98,6 +102,22 @@ export class ActivityPreview extends BaseObject {
 
   async verifyUnsubscribeButtonHidden () {
     await expect(this.getUnsubscribeButton()).toBeHidden()
+  }
+
+  async verifyAccessButtonVisible () {
+    const expectedText = t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')
+    await expect(this.getAccessButton()).toBeVisible()
+    await expect(this.getAccessButton()).toHaveText(expectedText)
+  }
+
+  async verifyAccessButtonHidden () {
+    await expect(this.getAccessButton()).toBeHidden()
+  }
+
+  async clickAccessButton () {
+    await expect(this.getAccessButton()).toBeVisible()
+    await this.getAccessButton().click()
+    await waitForPageLoad(this.page)
   }
 
   async verify () {
