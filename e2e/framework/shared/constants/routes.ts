@@ -7,7 +7,8 @@ export const STUDENT_ROUTES = {
   HOME: '/cofolio/student',
   PROJECT: {
     ACTIVITIES: '/cofolio/student/project/activities',
-    ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:theme/:id',
+    ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:thematic/:id',
+    ACTIVITY_DETAIL: '/cofolio/student/project/activities/:id',
     TRAJECTORIES: {
       SELF_KNOWLEDGE: '/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE',
     },

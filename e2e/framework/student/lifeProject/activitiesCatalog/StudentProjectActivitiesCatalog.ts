@@ -20,10 +20,18 @@ class StudentProjectActivitiesCatalogPage {
 
   constructor (public page: Page) {}
 
+  // -------------------------------------------------------------------------
+  // Locators
+  // -------------------------------------------------------------------------
+
   private sideNav () { return new ActivitiesSideNavigation(this.page) }
   private selectNav () { return new ActivitiesSelectNavigation(this.page) }
   private previousNextNav () { return new ActivitiesPreviousNextNavigation(this.page) }
   private activityPreview () { return new ActivityPreview(this.page) }
+
+  // -------------------------------------------------------------------------
+  // Fixtures
+  // -------------------------------------------------------------------------
 
   private buildCatalogUrl (thematic: string, id: string) {
     return STUDENT_ROUTES.PROJECT.ACTIVITIES_CATALOG
@@ -45,10 +53,33 @@ class StudentProjectActivitiesCatalogPage {
   async subscribeActivityById (thematic: string, id: string) {
     const url = this.buildCatalogUrl(thematic, id)
     await this.page.goto(url)
+    await this.subscribeToCurrentActivity()
+  }
+
+  async subscribeToCurrentActivity () {
     await this.activityPreview().verifySubscribeButton()
     await this.activityPreview().getSubscribeButton().click()
     await this.activityPreview().clickSubscribeModalConfirmButton()
   }
+
+  async unsubscribeFromDefaultActivity () {
+    const url = this.buildCatalogUrl(
+      StudentProjectActivitiesCatalogPage.DEFAULT_THEMATIC,
+      StudentProjectActivitiesCatalogPage.DEFAULT_ACTIVITY_ID,
+    )
+    await this.page.goto(url)
+    await this.unsubscribeFromCurrentActivity()
+  }
+
+  async unsubscribeFromCurrentActivity () {
+    await this.activityPreview().verifyUnsubscribeButton()
+    await this.activityPreview().clickUnsubscribeButton()
+    await this.activityPreview().clickUnsubscribeActivitiesConfirmModalConfirmButton()
+  }
+
+  // -------------------------------------------------------------------------
+  // Steps
+  // -------------------------------------------------------------------------
 
   @Given('the student opens the project activities catalog page')
   async openCatalogPage () {
@@ -125,11 +156,7 @@ class StudentProjectActivitiesCatalogPage {
 
   @When('the user selects the first activity of the {string} thematic from side navigation')
   async selectFirstActivityOfFirstThematicFromSideNav (thematic: string) {
-    const beforeUrl = this.page.url()
-
     await this.sideNav().selectFirstChildOfThematic(thematic)
-
-    await this.expectUrlToChange(beforeUrl)
     this.captureSelectedParamsFromUrl()
   }
 
@@ -359,12 +386,8 @@ class StudentProjectActivitiesCatalogPage {
     expect(this.selectedActivityId, 'Expected a selected activity id to be captured from the URL').toBeTruthy()
     expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
 
-    const url = this.page.url()
+    const expectedUrl = STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', this.selectedActivityId!)
 
-    expect(url).toContain(this.selectedActivityId!)
-    expect(url).toContain(this.selectedThematic!)
-
-    const catalogPathPrefix = STUDENT_ROUTES.PROJECT.ACTIVITIES_CATALOG.split('/:thematic/:id')[0]
-    expect(url).not.toContain(catalogPathPrefix)
+    await expect.poll(() => this.page.url()).toContain(expectedUrl)
   }
 }

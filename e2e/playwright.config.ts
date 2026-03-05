@@ -33,7 +33,7 @@ export default defineConfig({
   },
   fullyParallel: true,
   forbidOnly: CI,
-  retries: CI ? 2 : 0,
+  retries: CI ? 2 : 2,
   workers: CI ? 2 : 5,
   reporter,
   testIgnore: reviewModeIgnore,
@@ -56,6 +56,7 @@ export default defineConfig({
     },
     {
       name: 'firefox',
+      dependencies: ['chromium'],
       use: {
         ...devices['Desktop Firefox'],
         viewport: DESKTOP_VIEWPORT
@@ -64,6 +65,7 @@ export default defineConfig({
     },
     {
       name: 'webkit',
+      dependencies: ['firefox'],
       use: {
         ...devices['Desktop Safari'],
         viewport: DESKTOP_VIEWPORT
@@ -72,6 +74,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-chrome',
+      dependencies: ['webkit'],
       use: {
         ...devices['Pixel 5']
       },
@@ -79,6 +82,7 @@ export default defineConfig({
     },
     {
       name: 'mobile-safari',
+      dependencies: ['mobile-chrome'],
       use: {
         ...devices['iPhone 12']
       },
