@@ -2,6 +2,7 @@ import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import type { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { ActivityLibraryTab } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryTab'
 import { AllActivitiesTabs } from '@e2e/framework/student/lifeProject/activities/componentObjects/AllActivitiesTabs'
@@ -177,5 +178,11 @@ class StudentProjectActivitiesPage extends BasePage {
   @Then('unsubscription success message is visible')
   async verifyUnsubscribeSuccessMessageVisible () {
     await expect(this.page.getByText(t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.success', { count: 1 }))).toBeVisible()
+  }
+
+  @When('the student clicks the first library activity card')
+  async clickFirstLibraryActivityCard () {
+    await this.getActivityLibraryTab().clickFirstCard()
+    await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
   }
 }

@@ -55,8 +55,13 @@ const breadcrumbLinks = computed(() => [
         </template>
       </PageTitle>
 
-      <div class="av-row av-justify-end">
-        <ActivityDetailedDropdown @unsubscribe-selected="displayModal" />
+      <div
+        class="av-row av-justify-end"
+      >
+        <ActivityDetailedDropdown
+          data-testid="activity-detailed-dropdown"
+          @unsubscribe-selected="displayModal"
+        />
       </div>
 
       <ProjectActivityDetails :declared-activity-details="declaredActivityDetail" />

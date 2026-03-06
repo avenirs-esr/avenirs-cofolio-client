@@ -78,4 +78,8 @@ export class ActivityLibraryTab extends BaseObject {
     const count = await this.getCards().count()
     expect(count).toBeLessThan(maxCount)
   }
+
+  async clickFirstCard () {
+    await this.getCardByIndex(0).click()
+  }
 }
