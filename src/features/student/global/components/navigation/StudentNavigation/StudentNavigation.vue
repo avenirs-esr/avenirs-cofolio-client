@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ROUTES } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
+import { ICONS } from '@/features/student/global/icons'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -144,7 +145,7 @@ const buildLifeProjectMenu = computed(() => ({
     {
       to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
       text: t('student.global.navigation.tabs.project.items.activities'),
-      icon: MDI_ICONS.TARGET_ARROW,
+      icon: ICONS.ACTIVITY,
     },
   ],
 }))
