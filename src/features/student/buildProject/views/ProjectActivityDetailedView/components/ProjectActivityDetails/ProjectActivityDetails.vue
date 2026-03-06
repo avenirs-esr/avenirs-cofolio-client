@@ -29,9 +29,13 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
 </script>
 
 <template>
-  <div class="av-col av-gap-xxs">
+  <div
+    class="av-col av-gap-xxs"
+    data-testid="project-activity-details"
+  >
     <AvPeriodInput
       v-if="hasPeriodInfo"
+      data-testid="activity-period-input"
       label=""
       :start-model-value="declaredActivityDetails.startDate"
       :end-model-value="declaredActivityDetails.endDate"
@@ -44,14 +48,11 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
     <AvCard
       background-color="var(--card2)"
       border-color="transparent"
-      data-testid="project-activity-details"
     >
-      <div
-        class="av-row--md av-justify-between--md av-gap-xl"
-        data-testid="project-activity-details"
-      >
+      <div class="av-row--md av-justify-between--md av-gap-xl">
         <div class="av-col av-gap-sm">
           <AvIconText
+            data-testid="activity-title"
             :icon="ICONS.ACTIVITY"
             icon-color="var(--icon)"
             :text="declaredActivityDetails.activity.title"
