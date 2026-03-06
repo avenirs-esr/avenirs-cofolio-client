@@ -31,7 +31,7 @@ export default defineConfig({
   expect: {
     timeout: CI ? 10000 : 5000
   },
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: CI,
   retries: CI ? 2 : 2,
   workers: CI ? 2 : 5,

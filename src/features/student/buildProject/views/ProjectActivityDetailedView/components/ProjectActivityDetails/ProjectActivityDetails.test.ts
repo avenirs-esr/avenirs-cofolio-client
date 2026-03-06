@@ -1,6 +1,6 @@
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import ProjectActivityDetails, { type ProjectActivityDetailsProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvCardStub, AvIconTextStub, AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -10,9 +10,10 @@ BddTest().given('a project activity details component', () => {
   const stubs = {
     AvCard: AvCardStub,
     AvIconText: AvIconTextStub,
+    AvPeriodInput: AvPeriodInputStub,
   }
 
-  BddTest().when('the component is mounted with executionPeriodInfo containing "-" lines', () => {
+  BddTest().when('the component is mounted with executionPeriodInfo containing "-" lines and startDate and endDate', () => {
     const props: ProjectActivityDetailsProps = {
       declaredActivityDetails: mockedDeclaredActivityDetails,
     }
@@ -24,6 +25,13 @@ BddTest().given('a project activity details component', () => {
     BddTest().then('it should render the main container', () => {
       const container = wrapper.find('[data-testid="project-activity-details"]')
       expect(container.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render AvPeriodInput with the correct dates', () => {
+      const periodInput = wrapper.findComponent(AvPeriodInputStub)
+      expect(periodInput.exists()).toBe(true)
+      expect(periodInput.props('startModelValue')).toBe(mockedDeclaredActivityDetails.startDate)
+      expect(periodInput.props('endModelValue')).toBe(mockedDeclaredActivityDetails.endDate)
     })
 
     BddTest().then('it should render the activity title in AvIconText', () => {
@@ -73,6 +81,25 @@ BddTest().given('a project activity details component', () => {
 
       const items = list.findAll('li')
       expect(items.length).toBe(0)
+    })
+  })
+
+  BddTest().when('the component is mounted without startDate and endDate', () => {
+    const props: ProjectActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        startDate: undefined,
+        endDate: undefined,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mount(ProjectActivityDetails, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should not render AvPeriodInput', () => {
+      const periodInput = wrapper.findComponent(AvPeriodInputStub)
+      expect(periodInput.exists()).toBe(false)
     })
   })
 })

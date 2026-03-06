@@ -16,6 +16,7 @@
       "activeText": "Oui",
       "inactiveText": "Non"
     },
+    "beginning": "Début",
     "breadcrumb": {
       "ariaLabel": "Fil d'Ariane",
       "expandButtonLabel": "Voir le fil d'Ariane"
@@ -53,6 +54,7 @@
     "emptyState": {
       "defaultTitle": "Aucun élément à afficher"
     },
+    "end": "Fin",
     "error": {
       "file": {
         "acceptType": "Le fichier ne respecte pas le format attendu.",

@@ -35,7 +35,10 @@ const breadcrumbLinks = computed(() => [
     :is-loading="isLoading && !isError"
     size="2xl"
   >
-    <template v-if="declaredActivityDetail">
+    <div
+      v-if="declaredActivityDetail"
+      class="av-col av-gap-sm"
+    >
       <PageTitle
         :title="t('global.detail')"
         :breadcrumb-links="breadcrumbLinks"
@@ -64,7 +67,7 @@ const breadcrumbLinks = computed(() => [
         @cancel="hideModal"
         @unsubscribed="hideModal"
       />
-    </template>
+    </div>
   </Loader>
 
   <ActivityErrorMessage :error="error" />
