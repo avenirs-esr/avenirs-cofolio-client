@@ -45,7 +45,19 @@ Feature: Student Project Activities Page
     Scenario: Student can see the header card
       Then the all activities tab header description is correct
       And the all activities tab see all button is correct
-      
+
+    @high @new-activities-tab @new-activity-card
+    Scenario: Student can see the first activity card information of new activities
+      Then the first new activity card title is visible
+      And the first new activity card thematic badge is visible
+      And the first new activity card description is visible
+
+    @high @all-activities-tab @all-activity-card
+    Scenario: Student can see the first activity card information of all activities
+      Then the first all activity card title is visible
+      And the first all activity card thematic badge is visible
+      And the first all activity card description is visible
+
   @dataset-empty
   Rule: Library activities tab - user has no library activities
 

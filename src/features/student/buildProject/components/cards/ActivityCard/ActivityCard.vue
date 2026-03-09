@@ -24,6 +24,7 @@ const iconOptions = {
   <RouterLink
     :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name, params: { id: activity.id, thematic: activity.thematic } }"
     class="activity-card"
+    data-testid="activity-card"
   >
     <FloatingIconCard
       :title="activity.title"
@@ -39,6 +40,7 @@ const iconOptions = {
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md body av-h-full">
           <div class="av-col av-row--md av-align-start av-justify-start--md av-gap-sm">
             <ActivityThematicBadge
+              data-testid="activity-card-thematic-badge"
               small
               :thematic="activity.thematic"
             />
@@ -59,7 +61,12 @@ const iconOptions = {
               small
             />
           </div>
-          {{ activity.summary }}
+          <span
+            data-testid="activity-card-summary"
+            class="s2-regular av-text-text2"
+          >
+            {{ activity.summary }}
+          </span>
         </div>
       </template>
     </FloatingIconCard>
