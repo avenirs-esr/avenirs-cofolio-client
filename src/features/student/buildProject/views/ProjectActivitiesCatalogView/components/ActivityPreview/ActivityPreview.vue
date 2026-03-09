@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { ActivityDetailDTO } from '@/api/avenir-esr'
+import { type ActivityDetailDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { useModal, useNavigation } from '@/common/composables'
+import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
@@ -52,6 +53,10 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
       <ActivityThematicBadge
         :thematic="activity.thematic"
         data-testid="activity-thematic-badge"
+      />
+      <ActivityStatusBadge
+        v-if="activity.isSubscribed"
+        :status="EDeclaredActivityStatus.SUBSCRIBED"
       />
     </div>
     <AvCard

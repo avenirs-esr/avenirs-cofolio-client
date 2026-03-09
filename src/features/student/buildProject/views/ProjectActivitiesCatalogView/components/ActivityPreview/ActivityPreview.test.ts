@@ -1,4 +1,6 @@
 import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
@@ -29,7 +31,8 @@ BddTest().given('an activity preview', () => {
     AvIconText: AvIconTextStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     SubscribeActivityModal: SubscribeActivityModalStub,
-    ActivityThematicBadge: ActivityThematicBadgeStub
+    ActivityThematicBadge: ActivityThematicBadgeStub,
+    ActivityStatusBadge: ActivityStatusBadgeStub
   }
 
   function getUnsubscribeButton () {
@@ -273,6 +276,13 @@ BddTest().given('an activity preview', () => {
           expect(modal.props('show')).toBe(false)
         })
       })
+    })
+
+    BddTest().then('it should render the subscribed badge', () => {
+      const badge = wrapper.findComponent(ActivityStatusBadgeStub)
+      expect(badge).toBeDefined()
+      expect(badge!.exists()).toBe(true)
+      expect(badge!.props('status')).toBe(EDeclaredActivityStatus.SUBSCRIBED)
     })
   })
 
