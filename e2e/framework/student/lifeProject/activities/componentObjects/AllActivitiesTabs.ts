@@ -1,6 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
+import { ActivityCard } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityCard'
 import { expect, type Page } from '@playwright/test'
 
 export class AllActivitiesTabs extends BaseObject {
@@ -30,6 +31,30 @@ export class AllActivitiesTabs extends BaseObject {
 
   getAllActivitiesSectionTitle () {
     return this.root.getByTestId('all-activities-section-title')
+  }
+
+  getNewCardLayout () {
+    return this.getNewActivitiesPaginatorCard().getByTestId('cards-layout')
+  }
+
+  getAllCardLayout () {
+    return this.getAllActivitiesSection().getByTestId('cards-layout')
+  }
+
+  getNewCards () {
+    return this.getNewCardLayout().getByTestId('activity-card')
+  }
+
+  getAllCards () {
+    return this.getAllCardLayout().getByTestId('activity-card')
+  }
+
+  getNewCardByIndex (index: number) {
+    return new ActivityCard(this.getNewCards().nth(index))
+  }
+
+  getAllCardByIndex (index: number) {
+    return new ActivityCard(this.getAllCards().nth(index))
   }
 
   async verifyVisible () {

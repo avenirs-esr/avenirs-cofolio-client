@@ -185,4 +185,34 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().clickFirstCard()
     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
   }
+
+  @Then('the first new activity card title is visible')
+  async verifyFirstNewActivityCardTitleVisible () {
+    await this.getAllActivitiesTabs().getNewCardByIndex(0).verifyTitleVisible()
+  }
+
+  @Then('the first new activity card thematic badge is visible')
+  async verifyFirstNewActivityCardThematicBadgeVisible () {
+    await this.getAllActivitiesTabs().getNewCardByIndex(0).verifyThematicBadgeVisible()
+  }
+
+  @Then('the first new activity card description is visible')
+  async verifyFirstNewActivityCardDescriptionVisible () {
+    await this.getAllActivitiesTabs().getNewCardByIndex(0).verifySummaryVisible()
+  }
+
+  @Then('the first all activity card title is visible')
+  async verifyFirstAllActivityCardTitleVisible () {
+    await this.getAllActivitiesTabs().getAllCardByIndex(0).verifyTitleVisible()
+  }
+
+  @Then('the first all activity card thematic badge is visible')
+  async verifyFirstAllActivityCardThematicBadgeVisible () {
+    await this.getAllActivitiesTabs().getAllCardByIndex(0).verifyThematicBadgeVisible()
+  }
+
+  @Then('the first all activity card description is visible')
+  async verifyFirstAllActivityCardDescriptionVisible () {
+    await this.getAllActivitiesTabs().getAllCardByIndex(0).verifySummaryVisible()
+  }
 }
