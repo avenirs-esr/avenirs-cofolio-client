@@ -1,14 +1,18 @@
 import type { VueWrapper } from '@vue/test-utils'
 import {
   declaredExperienceDetailedLoadingHandler,
+  declaredExperienceDetailedNotFoundHandler,
   declaredExperiencesHandlers
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
+import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
+import { DeleteDeclaredExperienceConfirmModalStub }
+  from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
 import {
   DeclaredExperienceDetailsDropdownStub
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
@@ -18,6 +22,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredExperience = vi.fn()
+const navigateToStudentDeclaredExperiences = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -25,6 +30,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredExperience,
+      navigateToStudentDeclaredExperiences,
     }),
   }
 })
@@ -57,11 +63,13 @@ const DeclaredExperienceDetailedStub = defineComponent({
 })
 
 const stubs = {
-  PageTitle: PageTitleStub,
+  DetailedPageTitle: DetailedPageTitleStub,
+  ErrorMessage: ErrorMessageStub,
   DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailedStub,
   Loader: LoaderStub,
-  DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub
+  DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub,
+  DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
 }
 
 BddTest().given('a declared experience view component', () => {
@@ -79,27 +87,29 @@ BddTest().given('a declared experience view component', () => {
       vi.clearAllMocks()
     })
 
-    BddTest().then('it should render PageTitle with correct title and breadcrumbs', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-      expect(pageTitle.exists()).toBe(true)
+    BddTest().then('it should render DetailedPageTitle with correct title and breadcrumbs', async () => {
+      await vi.waitFor(() => {
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(pageTitle.exists()).toBe(true)
 
-      expect(pageTitle.props('title')).toBe('')
-      expect(pageTitle.text()).toContain('Détail')
-
-      const breadcrumbs = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbs).toHaveLength(4)
+        expect(pageTitle.props('title')).toBe('Développeur Web Full Stack')
+        const breadcrumbs = pageTitle.props('breadcrumbLinks')
+        expect(breadcrumbs).toHaveLength(4)
+      })
     })
 
-    BddTest().then('it should render PageTitle with correct breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-      expect(pageTitle.exists()).toBe(true)
+    BddTest().then('it should render DetailedPageTitle with correct breadcrumb links', async () => {
+      await vi.waitFor(() => {
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(pageTitle.exists()).toBe(true)
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
-      expect(breadcrumbLinks).toHaveLength(4)
-      expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
-      expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
-      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours', to: ROUTES.STUDENT.PERSONAL_CAREER })
-      expect(breadcrumbLinks[3]).toEqual({ text: 'Mes expériences', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES })
+        const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+        expect(breadcrumbLinks).toHaveLength(4)
+        expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
+        expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
+        expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours', to: ROUTES.STUDENT.PERSONAL_CAREER })
+        expect(breadcrumbLinks[3]).toEqual({ text: 'Mes expériences', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES })
+      })
     })
 
     BddTest().then('it should render the side menu', () => {
@@ -112,9 +122,17 @@ BddTest().given('a declared experience view component', () => {
 
       expect(sideMenu.props()).toHaveProperty('experiences')
       expect(sideMenu.props()).toHaveProperty('experienceCount')
+      expect(sideMenu.props()).toHaveProperty('selectedExperienceId')
 
       expect(Array.isArray(sideMenu.props('experiences'))).toBe(true)
       expect(typeof sideMenu.props('experienceCount')).toBe('number')
+      expect(sideMenu.props('selectedExperienceId')).toBe('exp-123')
+    })
+
+    BddTest().then('it should not render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
+      })
     })
 
     BddTest().and('loading more experiences from the side menu', () => {
@@ -198,6 +216,98 @@ BddTest().given('a declared experience view component', () => {
 
       BddTest().then('it should navigate to the update declared experience view', () => {
         expect(navigateToStudentUpdateDeclaredExperience).toHaveBeenCalledWith({})
+      })
+    })
+
+    BddTest().and('the user selects to delete the declared experience', () => {
+      beforeEach(async () => {
+        await vi.waitFor(async () => {
+          const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
+          await dropdown.vm.$emit('deleteSelected')
+        })
+      })
+
+      BddTest().then('it should show the delete confirmation modal', async () => {
+        await vi.waitFor(() => {
+          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          expect(modal.exists()).toBe(true)
+          expect(modal.props('show')).toBe(true)
+          expect(modal.props('declaredExperienceIds')).toEqual(['exp-123'])
+        })
+      })
+
+      BddTest().and('the modal emits close', () => {
+        beforeEach(async () => {
+          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          await modal.vm.$emit('close')
+        })
+
+        BddTest().then('it should hide the delete confirmation modal', async () => {
+          await vi.waitFor(() => {
+            const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+            expect(modal.exists()).toBe(true)
+            expect(modal.props('show')).toBe(false)
+          })
+        })
+      })
+
+      BddTest().and('the modal emits confirm', () => {
+        beforeEach(async () => {
+          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          await modal.vm.$emit('confirm')
+        })
+
+        BddTest().then('it should hide the delete confirmation modal', async () => {
+          await vi.waitFor(() => {
+            const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+            expect(modal.exists()).toBe(true)
+            expect(modal.props('show')).toBe(false)
+          })
+        })
+
+        BddTest().then('it should navigate to declared experiences page', async () => {
+          await vi.waitFor(() => {
+            expect(navigateToStudentDeclaredExperiences).toHaveBeenCalledWith({ replace: true })
+          })
+        })
+      })
+    })
+  })
+
+  BddTest().when('the query fails with DECLARED_EXPERIENCE_NOT_FOUND', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      server.use(declaredExperienceDetailedNotFoundHandler)
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+
+        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        expect(errorMessage.props('title')).toBe('Expérience déclarée introuvable')
+        expect(errorMessage.props('description')).toBe('L\'expérience déclarée que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+
+    BddTest().then('it should not render DeclaredExperienceDetails component', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="declared-experience-detailed"]').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render DeclaredExperienceDetailsDropdown', async () => {
+      await vi.waitFor(() => {
+        const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
+        expect(dropdown.exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should render an empty title in DetailedPageTitle', async () => {
+      await vi.waitFor(() => {
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(pageTitle.exists()).toBe(false)
       })
     })
   })

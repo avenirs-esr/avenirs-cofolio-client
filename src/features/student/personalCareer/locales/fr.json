@@ -150,6 +150,12 @@
           },
           "DeclaredExperienceDetailsSideMenu": {
             "title": "Toutes mes expériences déclarées"
+          },
+          "errors": {
+            "notFound": {
+              "description": "L'expérience déclarée que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Expérience déclarée introuvable"
+            }
           }
         },
         "DeclaredExperienceUpdateView": {
@@ -173,6 +179,12 @@
             "description": "Description de ma formation déclarée",
             "result": "Résultat obtenu",
             "title": "Intitulé de ma formation déclarée"
+          },
+          "errors": {
+            "notFound": {
+              "description": "Le programme déclaré que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Programme déclaré introuvable"
+            }
           },
           "ManageDeclaredProgramDropdown": {
             "trigger": "Gérer ma formation"

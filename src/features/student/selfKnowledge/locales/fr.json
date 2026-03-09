@@ -125,6 +125,12 @@
             }
           },
           "dropdown": "Gérer mon élément",
+          "errors": {
+            "notFound": {
+              "description": "La connaissance que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Connaissance introuvable"
+            }
+          },
           "selfKnowledgeElementDetails": {
             "ratingLabel": "Degré d'importance"
           },

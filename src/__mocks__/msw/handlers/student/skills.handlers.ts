@@ -101,6 +101,13 @@ export const detailedSkillNotFoundErrorHandler = http.get(`*${getGetDetailedSkil
   )
 })
 
+export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, () => {
+  return HttpResponse.json(
+    { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
+    { status: 404 }
+  )
+})
+
 export const skillsHandlers = [
   http.get<PathParams, PagedResponseSkillDTO>(`*${getGetSkillLevelProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)

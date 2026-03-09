@@ -47,6 +47,13 @@ export const selfKnowledgeElementDetailsErrorHandler = http.get(`*${getGetSelfKn
   )
 })
 
+export const selfKnowledgeElementDetailsNotFoundHandler = http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
+  return HttpResponse.json(
+    { code: 'SELF_KNOWLEDGE_ELEMENT_NOT_FOUND', message: 'Internal server error' },
+    { status: 404 }
+  )
+})
+
 export const selfKnowledgeCategoryElementsErrorHandler = http.get(`*${getGetSelfKnowledgeElementsUrl(':selfKnowledgeCategoryId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },

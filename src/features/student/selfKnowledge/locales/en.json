@@ -126,6 +126,12 @@
             }
           },
           "dropdown": "Manage my element",
+          "errors": {
+            "notFound": {
+              "description": "The self-knowledge element you are looking for does not exist or is not accessible.",
+              "title": "Self-knowledge element not found"
+            }
+          },
           "selfKnowledgeElementDetails": {
             "ratingLabel": "Level of importance"
           },

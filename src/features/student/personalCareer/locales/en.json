@@ -150,6 +150,12 @@
           },
           "DeclaredExperienceDetailsSideMenu": {
             "title": "All my declared experiences"
+          },
+          "errors": {
+            "notFound": {
+              "description": "The experience you are looking for does not exist or is not accessible.",
+              "title": "Declared experience not found"
+            }
           }
         },
         "DeclaredExperienceUpdateView": {
@@ -173,6 +179,12 @@
             "description": "Description of my declared education",
             "result": "Result obtained",
             "title": "Title of my declared program"
+          },
+          "errors": {
+            "notFound": {
+              "description": "The declared program you are looking for does not exist or is not accessible.",
+              "title": "Declared program not found"
+            }
           },
           "ManageDeclaredProgramDropdown": {
             "trigger": "Manage my program"

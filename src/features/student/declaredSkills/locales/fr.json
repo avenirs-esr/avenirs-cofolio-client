@@ -65,6 +65,12 @@
             "title": "Confirmez-vous la suppression de la compétence {skill} ?",
             "success": "Compétence {skill} supprimée avec succès"
           },
+          "errors": {
+            "notFound": {
+              "description": "La compétence que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Compétence déclarée introuvable"
+            }
+          },
           "settingDropdown": {
             "ariaLabel": "Paramètres de la compétence déclarée",
             "delete": "Supprimer ma compétence",

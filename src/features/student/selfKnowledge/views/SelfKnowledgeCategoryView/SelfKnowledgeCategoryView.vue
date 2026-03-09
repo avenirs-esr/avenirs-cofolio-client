@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import { useNavigation } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer
   from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu
@@ -52,8 +54,11 @@ const {
   selfKnowledgeCategoryId: props.categoryId
 })
 
-const { element: selectedElementDetails }
+const { element: selectedElementDetails, error }
   = useSelfKnowledgeElementDetailsQuery({ selfKnowledgeElementId: selectedElementId })
+
+const { originalErrorCode, isNotFound } = useApiErrors(error)
+const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
@@ -69,10 +74,19 @@ function onUpdateSelected () {
 
 <template>
   <DetailedPageTitle
+    v-if="selectedElementDetails"
     :title="selectedElementDetails?.title ?? ''"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <div class="self-knowledge-category-elements-view av-row av-gap-sm">
+  <ErrorMessage
+    v-if="error"
+    :title="isSelfKnowledgeNotFound ? t('student.selfKnowledge.views.SelfKnowledgeCategoryView.errors.notFound.title') : t('global.error.generic')"
+    :description="isSelfKnowledgeNotFound ? t('student.selfKnowledge.views.SelfKnowledgeCategoryView.errors.notFound.description') : error.message"
+  />
+  <div
+    v-if="selectedElementDetails"
+    class="self-knowledge-category-elements-view av-row av-gap-sm"
+  >
     <div class="av-col">
       <SelfKnowledgeElementsSideMenu
         :elements="elements"
