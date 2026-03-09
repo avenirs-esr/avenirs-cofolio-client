@@ -18,8 +18,17 @@ export class StudentProjectActivityDetails extends BasePage {
     return this.page.getByTestId('activity-detail-title')
   }
 
+  getStatus () {
+    return this.page.getByTestId('activity-status-badge')
+  }
+
   getDropdown () {
     return this.page.getByTestId('activity-detailed-dropdown')
+  }
+
+  @Then('the project activity details are loaded')
+  async verifyProjectActivityDetailsVisible () {
+    await this.getProjectActivityDetails().isVisible()
   }
 
   @Then('the activity detail title is visible')
@@ -55,5 +64,10 @@ export class StudentProjectActivityDetails extends BasePage {
   @Then('the activity execution period list is visible')
   async verifyExecutionPeriodListVisible () {
     await this.getProjectActivityDetails().verifyExecutionPeriodListVisible()
+  }
+
+  @Then('the activity status is visible')
+  async verifyActivityStatusVisible () {
+    await expect(this.getStatus()).toBeVisible()
   }
 }

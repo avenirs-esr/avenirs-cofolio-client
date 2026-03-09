@@ -3,6 +3,7 @@ import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
+import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import {
@@ -58,10 +59,16 @@ const breadcrumbLinks = computed(() => [
       <div
         class="av-row av-justify-end"
       >
-        <ActivityDetailedDropdown
-          data-testid="activity-detailed-dropdown"
-          @unsubscribe-selected="displayModal"
-        />
+        <div class="av-col av-gap-xs av-align-end">
+          <ActivityStatusBadge
+            data-testid="activity-status-badge"
+            :status="declaredActivityDetail.status"
+          />
+          <ActivityDetailedDropdown
+            data-testid="activity-detailed-dropdown"
+            @unsubscribe-selected="displayModal"
+          />
+        </div>
       </div>
 
       <ProjectActivityDetails :declared-activity-details="declaredActivityDetail" />

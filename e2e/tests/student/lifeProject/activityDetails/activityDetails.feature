@@ -14,6 +14,9 @@ Feature: Student Project Activity Detail Page
 
   Rule: Activity Detail
 
+    Background:
+      And the project activity details are loaded
+
     @high @activity-details @activity-title
     Scenario: Student can see the activity detail title
       Then the activity detail title is visible
@@ -35,3 +38,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @activity-execution-period
     Scenario: Student can see the activity execution period list
       Then the activity execution period list is visible
+
+    @high @activity-details @activity-status
+    Scenario: Student can see the activity status
+      Then the activity status is visible
