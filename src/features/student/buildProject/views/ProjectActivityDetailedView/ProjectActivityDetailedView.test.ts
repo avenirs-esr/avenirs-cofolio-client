@@ -2,9 +2,11 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityDetail, mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
 import { ProjectActivityDetailsStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.stub'
@@ -19,6 +21,7 @@ BddTest().given('a project activity detailed view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     Loader: LoaderStub,
+    ActivityStatusBadge: ActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
     ProjectActivityDetails: ProjectActivityDetailsStub
@@ -82,6 +85,12 @@ BddTest().given('a project activity detailed view', () => {
       const details = wrapper.findComponent(ProjectActivityDetailsStub)
       expect(details.exists()).toBe(true)
       expect(details.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+    })
+
+    BddTest().then('it should render the ActivityStatusBadge with the correct status', () => {
+      const badge = wrapper.findComponent(ActivityStatusBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
 
     BddTest().and('the user clicks the unsubscribe button in the activity detailed dropdown', () => {
