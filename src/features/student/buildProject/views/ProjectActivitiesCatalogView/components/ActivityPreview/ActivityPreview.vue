@@ -86,17 +86,17 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
         </div>
         <div class="av-row av-justify-end av-gap-md">
           <AvButton
-            v-if="activity.isSubscribed"
+            v-if="activity.subscribedDeclaredActivity"
             theme="PRIMARY"
             variant="FLAT"
             :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')"
             :icon="ICONS.ACTIVITY"
             small
             data-testid="access-button"
-            @click="navigateToActivityDetailed({ id: activity.id, thematic: activity.thematic })"
+            @click="navigateToActivityDetailed({ id: activity.subscribedDeclaredActivity, thematic: activity.thematic })"
           />
           <AvButton
-            v-if="activity.isSubscribed"
+            v-if="activity.subscribedDeclaredActivity"
             variant="OUTLINED"
             theme="PRIMARY"
             :label="t('student.buildProject.activities.buttons.unsubscribe')"

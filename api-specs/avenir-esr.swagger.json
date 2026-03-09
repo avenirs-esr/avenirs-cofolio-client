@@ -4710,14 +4710,15 @@
               "TRANSVERSAL"
             ]
           },
+          "subscribedDeclaredActivity": {
+            "type": "string",
+            "format": "uuid"
+          },
           "summary": {
             "type": "string"
           },
           "executionPeriodInfo": {
             "type": "string"
-          },
-          "isSubscribed": {
-            "type": "boolean"
           },
           "createdAt": {
             "type": "string",

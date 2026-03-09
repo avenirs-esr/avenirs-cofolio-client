@@ -212,7 +212,7 @@ BddTest().given('an activity preview', () => {
 
       BddTest().then('it should call navigateToActivityDetailed with activity id and thematic', () => {
         expect(navigateToActivityDetailed).toHaveBeenCalledWith({
-          id: mockedSubscribedActivityDetail.id,
+          id: mockedSubscribedActivityDetail.subscribedDeclaredActivity,
           thematic: mockedSubscribedActivityDetail.thematic,
         })
       })

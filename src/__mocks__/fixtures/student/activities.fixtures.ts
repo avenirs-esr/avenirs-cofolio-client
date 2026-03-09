@@ -297,7 +297,7 @@ export const mockedActivityDetail: ActivityDetailDTO = {
   updatedAt: '2024-01-01T00:00:00Z'
 }
 
-export const mockedSubscribedActivityDetail: ActivityDetailDTO = { ...mockedActivityDetail, isSubscribed: true }
+export const mockedSubscribedActivityDetail: ActivityDetailDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
 
 export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   id: 'declared-activity-1',
