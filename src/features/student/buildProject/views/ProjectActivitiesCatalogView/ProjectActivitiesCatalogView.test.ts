@@ -96,7 +96,8 @@ BddTest().given('a project activities catalog view', () => {
         text: 'Construire mon projet de vie'
       })
       expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes activités'
+        text: 'Mes activités',
+        to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
       })
     })
 

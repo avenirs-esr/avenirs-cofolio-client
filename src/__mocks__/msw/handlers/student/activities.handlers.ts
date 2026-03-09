@@ -124,9 +124,7 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
     )
   }
 
-  const isSubscribed = subscribedActivities.has(activityId as string)
-
-  return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, id: activityId as string, isSubscribed }, {
+  return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, id: activityId as string }, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })

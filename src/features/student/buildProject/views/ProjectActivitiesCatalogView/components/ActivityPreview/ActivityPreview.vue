@@ -55,7 +55,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
         data-testid="activity-thematic-badge"
       />
       <ActivityStatusBadge
-        v-if="activity.isSubscribed"
+        v-if="activity.subscribedDeclaredActivity"
         :status="EDeclaredActivityStatus.SUBSCRIBED"
       />
     </div>

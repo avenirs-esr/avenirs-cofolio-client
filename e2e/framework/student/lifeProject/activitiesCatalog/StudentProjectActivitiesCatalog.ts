@@ -14,9 +14,11 @@ export
 class StudentProjectActivitiesCatalogPage {
   private selectedThematic?: string
   private selectedActivityId?: string
+  private subscribedDeclaredActivity?: string
 
   private static readonly DEFAULT_THEMATIC = EActivityThematic.SELF_KNOWLEDGE
   private static readonly DEFAULT_ACTIVITY_ID = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
+  private static readonly DEFAULT_DECLARED_ACTIVITY_ID = 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7'
 
   constructor (public page: Page) {}
 
@@ -383,10 +385,10 @@ class StudentProjectActivitiesCatalogPage {
 
   @Then('the student is redirected to the activity detailed page')
   async verifyRedirectedToActivityDetailedPage () {
-    expect(this.selectedActivityId, 'Expected a selected activity id to be captured from the URL').toBeTruthy()
+    expect(this.subscribedDeclaredActivity, 'Expected a declared activity id to be captured').toBeTruthy()
     expect(this.selectedThematic, 'Expected a selected thematic to be captured from the URL').toBeTruthy()
 
-    const expectedUrl = STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', this.selectedActivityId!)
+    const expectedUrl = STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', this.subscribedDeclaredActivity!)
 
     await expect.poll(() => this.page.url()).toContain(expectedUrl)
   }

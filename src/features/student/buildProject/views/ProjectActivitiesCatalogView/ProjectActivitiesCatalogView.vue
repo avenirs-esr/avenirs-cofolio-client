@@ -65,7 +65,7 @@ watchEffect(() => {
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.activities') }
+  { text: t('student.global.navigation.tabs.project.items.activities'), to: ROUTES.STUDENT.PROJECT_ACTIVITIES },
 ])
 </script>
 
