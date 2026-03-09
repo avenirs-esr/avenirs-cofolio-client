@@ -1,7 +1,10 @@
 <script lang="ts" setup>
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal, useNavigation } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
@@ -21,7 +24,10 @@ const route = useRoute()
 const router = useRouter()
 const experienceId = computed(() => String(route.params.id ?? ''))
 
-const { declaredExperience: declaredExperienceDetailed, isLoading, isError } = useDeclaredExperienceDetailedViewQuery({ experienceId })
+const { declaredExperience: declaredExperienceDetailed, isLoading, isError, error } = useDeclaredExperienceDetailedViewQuery({ experienceId })
+
+const { originalErrorCode, isNotFound } = useApiErrors(error)
+const isDeclaredExperienceNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND || isNotFound.value)
 const experienceTitle = computed(() => declaredExperienceDetailed.value?.title ?? '')
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 
@@ -57,6 +63,7 @@ function handleConfirmDelete () {
 
 <template>
   <DetailedPageTitle
+    v-if="declaredExperienceDetailed"
     :title="experienceTitle"
     :breadcrumb-links="breadcrumbLinks"
   />
@@ -74,6 +81,16 @@ function handleConfirmDelete () {
       :is-loading="isLoading && !isError"
       size="2xl"
     >
+      <div
+        v-if="error"
+        class="av-col av-gap-md av-flex-fill"
+      >
+        <ErrorMessage
+          v-if="error"
+          :title="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.title') : t('global.error.generic')"
+          :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : error.message"
+        />
+      </div>
       <div
         v-if="declaredExperienceDetailed"
         class="av-col av-gap-md av-flex-fill"

@@ -2,11 +2,13 @@ import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
+  declaredProgramDetailedNotFoundHandler,
   declaredProgramsQueryErrorHandler,
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
+import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
@@ -21,8 +23,12 @@ import { nextTick } from 'vue'
 const routerPush = vi.fn()
 const mockRouteId = ref<string>('')
 const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockDisplayModal = vi.fn(() => {
+  mockShowModal.value = true
+})
+const mockHideModal = vi.fn(() => {
+  mockShowModal.value = false
+})
 const navigateToStudentUpdateDeclaredProgram = vi.fn()
 const navigateToStudentDeclaredPrograms = vi.fn()
 
@@ -67,7 +73,8 @@ const DeclaredProgramDetailedStub = defineComponent({
 })
 
 const stubs = {
-  PageTitle: PageTitleStub,
+  DetailedPageTitle: DetailedPageTitleStub,
+  ErrorMessage: ErrorMessageStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   DeclaredProgramDetailed: DeclaredProgramDetailedStub,
   Loader: LoaderStub,
@@ -134,6 +141,12 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
+    BddTest().then('it should not render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
+      })
+    })
+
     BddTest().then('it should render the side menu with correct props', () => {
       const sideMenu = getSideMenu()
       const programs = getSideMenuPrograms()
@@ -158,15 +171,22 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
-    BddTest().then('it should render the manage declared program dropdown', () => {
-      const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
-      expect(dropdown.exists()).toBe(true)
+    BddTest().then('it should render the manage declared program dropdown', async () => {
+      await vi.waitFor(() => {
+        const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+        expect(dropdown.exists()).toBe(true)
+      })
     })
 
     BddTest().and('the user selects the update option from the manage dropdown', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+          expect(dropdown.exists()).toBe(true)
+        })
+
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
-        dropdown.vm.$emit('updateSelected')
+        await dropdown.vm.$emit('updateSelected')
       })
 
       BddTest().then('it should navigate to the update declared program route', () => {
@@ -175,9 +195,14 @@ BddTest().given('a declared program detailed view component', () => {
     })
 
     BddTest().and('the user selects the delete option from the manage dropdown', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+          expect(dropdown.exists()).toBe(true)
+        })
+
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
-        dropdown.vm.$emit('deleteSelected')
+        await dropdown.vm.$emit('deleteSelected')
       })
 
       BddTest().then('it should display the delete declared program confirmation modal', () => {
@@ -185,8 +210,9 @@ BddTest().given('a declared program detailed view component', () => {
       })
 
       BddTest().and('the users closes the delete confirmation modal', () => {
-        beforeEach(() => {
-          wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub).vm.$emit('close')
+        beforeEach(async () => {
+          const modal = wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub)
+          await modal.vm.$emit('close')
         })
 
         BddTest().then('it should hide the delete declared program confirmation modal', () => {
@@ -195,8 +221,9 @@ BddTest().given('a declared program detailed view component', () => {
       })
 
       BddTest().and('the user confirms deletion in the delete confirmation modal', () => {
-        beforeEach(() => {
-          wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub).vm.$emit('confirm')
+        beforeEach(async () => {
+          const modal = wrapper.findComponent(DeleteDeclaredProgramConfirmModalStub)
+          await modal.vm.$emit('confirm')
         })
 
         BddTest().then('it should navigate to the declared programs list route', () => {
@@ -348,6 +375,50 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should not render the detailed view', () => {
       const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
       expect(details.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the query fails with DECLARED_PROGRAM_NOT_FOUND', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      server.use(declaredProgramDetailedNotFoundHandler)
+
+      wrapper = mountComponent(DeclaredProgramDetailedView, {
+        global: { stubs }
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+
+        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        expect(errorMessage.props('title')).toBe('Programme déclaré introuvable')
+        expect(errorMessage.props('description')).toBe('Le programme déclaré que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+
+    BddTest().then('it should not render DetailedPageTitle', async () => {
+      await vi.waitFor(() => {
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(pageTitle.exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render DeclaredProgramDetailed component', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="declared-program-detailed"]').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render ManageDeclaredProgramDropdown', async () => {
+      await vi.waitFor(() => {
+        const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
+        expect(dropdown.exists()).toBe(false)
+      })
     })
   })
 })

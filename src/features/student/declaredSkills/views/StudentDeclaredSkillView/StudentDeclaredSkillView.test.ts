@@ -1,4 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
@@ -58,6 +61,7 @@ const StudentDeclaredSkillAssociationsStub = {
 
 const stubs = {
   PageTitle: PageTitleStubWithBack,
+  ErrorMessage: ErrorMessageStub,
   DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
@@ -151,7 +155,13 @@ BddTest().given('a student declared skill view component', () => {
       await vi.waitFor(() => {
         const tabComponents = wrapper.findAllComponents({ name: 'AvTab' })
         const associationsTab = tabComponents[1]
-        expect(associationsTab.props('title')).toContain('0')
+        expect(associationsTab.props('title')).toContain('3')
+      })
+    })
+
+    BddTest().then('it should not render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
       })
     })
   })
@@ -218,6 +228,50 @@ BddTest().given('a student declared skill view component', () => {
         await vi.waitFor(() => {
           expect(navigateToStudentProjectSkills).toHaveBeenCalled()
         })
+      })
+    })
+  })
+
+  BddTest().when('the query fails with DECLARED_SKILL_PROGRESS_NOT_FOUND', () => {
+    beforeEach(() => {
+      server.use(detailedSkillProgressNotFoundErrorHandler)
+      wrapper = mountComponent(StudentDeclaredSkillView, {
+        props: {
+          skillId: 'skill-404'
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+
+        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        expect(errorMessage.props('title')).toBe('Compétence déclarée introuvable')
+        expect(errorMessage.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+
+    BddTest().then('it should not render DeclaredSkillDetails component', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('.declared-skill-details-stub').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render StudentDeclaredSkillAssociations component', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('.student-declared-skill-associations-stub').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should render an empty skill title', async () => {
+      await vi.waitFor(() => {
+        const title = wrapper.find('[data-testid="student-declared-skill-view__title"] .n4')
+        expect(title.exists()).toBe(true)
+        expect(title.text()).toBe('')
       })
     })
   })

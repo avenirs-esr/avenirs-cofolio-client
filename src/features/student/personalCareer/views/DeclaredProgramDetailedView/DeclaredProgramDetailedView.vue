@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal, useNavigation } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
@@ -19,9 +21,12 @@ const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
-const { declaredProgramDetailed, isLoading, isError } = useDeclaredProgramDetailedQuery(selectedProgramId)
+const { declaredProgramDetailed, isLoading, isError, error } = useDeclaredProgramDetailedQuery(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
+
+const { originalErrorCode, isNotFound } = useApiErrors(error)
+const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const breadcrumbLinks = computed(() => [
@@ -43,6 +48,7 @@ function handleConfirmDelete () {
 
 <template>
   <DetailedPageTitle
+    v-if="declaredProgramDetailed"
     :title="programTitle"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.PROJECT_SKILLS"
@@ -61,6 +67,16 @@ function handleConfirmDelete () {
       :is-loading="isLoading && !isError"
       size="2xl"
     >
+      <div
+        v-if="error"
+        class="av-col av-gap-md av-flex-fill"
+      >
+        <ErrorMessage
+          v-if="error"
+          :title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
+          :description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : error.message"
+        />
+      </div>
       <div
         v-if="declaredProgramDetailed"
         class="av-col av-gap-md av-flex-fill"

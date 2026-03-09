@@ -1,5 +1,10 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import {
+  selfKnowledgeElementDetailsNotFoundHandler
+} from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
+import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
@@ -52,7 +57,8 @@ const SelfKnowledgeElementTabsStub = defineComponent({
 })
 
 const stubs = {
-  PageTitle: PageTitleStub,
+  DetailedPageTitle: DetailedPageTitleStub,
+  ErrorMessage: ErrorMessageStub,
   SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
   SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
   SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub,
@@ -89,7 +95,7 @@ BddTest().given('a self knowledge category view component', () => {
   }
 
   beforeEach(() => {
-    mockSelectedElementId.value = ''
+    mockSelectedElementId.value = 'element-123'
     vi.clearAllMocks()
   })
 
@@ -98,8 +104,8 @@ BddTest().given('a self knowledge category view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render DetailedPageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
 
       expect(pageTitle.exists()).toBe(true)
 
@@ -122,10 +128,16 @@ BddTest().given('a self knowledge category view component', () => {
       })
     })
 
-    BddTest().then('it should build the title using the translated category type label', () => {
+    BddTest().then('it should build the title using the selected element title', () => {
       const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
 
-      expect(pageTitle.props('title')).toBe('')
+      expect(pageTitle.props('title')).toBe('Créativité')
+    })
+
+    BddTest().then('it should not render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
+      })
     })
 
     BddTest().then('it should render the side menu with correct props', () => {
@@ -143,7 +155,7 @@ BddTest().given('a self knowledge category view component', () => {
       expect(elements[2].title).toBe('Leadership')
 
       expect(categoryType).toBe('STRENGTHS')
-      expect(selectedElementId).toBe('')
+      expect(selectedElementId).toBe('element-123')
     })
 
     BddTest().then('it should pass correct category type to element tabs', () => {
@@ -190,9 +202,11 @@ BddTest().given('a self knowledge category view component', () => {
 
         sideMenu.vm.$emit('selectElement', firstElementId)
         await nextTick()
+        await flushPromises()
 
         const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
-        dropdown.vm.$emit('updateSelected')
+        expect(dropdown.exists()).toBe(true)
+        await dropdown.vm.$emit('updateSelected')
       })
 
       BddTest().then('it should navigate to the self knowledge element update view with correct params', () => {
@@ -307,6 +321,60 @@ BddTest().given('a self knowledge category view component', () => {
       const countElements = sideMenu.props('countElements') as number
 
       expect(countElements).toBe(10)
+    })
+  })
+
+  BddTest().when('the query fails with SELF_KNOWLEDGE_ELEMENT_NOT_FOUND', () => {
+    beforeEach(async () => {
+      mockSelectedElementId.value = 'missing-element-id'
+      server.use(selfKnowledgeElementDetailsNotFoundHandler)
+
+      wrapper = mountComponent(SelfKnowledgeCategoryView, {
+        props: {
+          categoryId,
+        },
+        global: {
+          stubs
+        }
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should render ErrorMessage', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+
+        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        expect(errorMessage.props('title')).toBe('Connaissance introuvable')
+        expect(errorMessage.props('description')).toBe('La connaissance que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+
+    BddTest().then('it should not render DetailedPageTitle', async () => {
+      await vi.waitFor(() => {
+        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        expect(pageTitle.exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render SelfKnowledgeElementDetails component', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="self-knowledge-element-details"]').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render SelfKnowledgeElementDetailsDropdown', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.find('[data-testid="self-knowledge-element-details-dropdown"]').exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render the details container', async () => {
+      await vi.waitFor(() => {
+        const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
+        expect(detailsContainer.exists()).toBe(false)
+      })
     })
   })
 })

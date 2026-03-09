@@ -96,6 +96,13 @@ export const declaredProgramDetailedErrorHandler = http.get(`*${getGetDeclaredPr
   )
 })
 
+export const declaredProgramDetailedNotFoundHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
+  return HttpResponse.json(
+    { code: 'DECLARED_PROGRAM_NOT_FOUND', message: 'Internal server error' },
+    { status: 404 }
+  )
+})
+
 export const declaredProgramsHandlers = [
   declaredProgramsQueryHandler,
   http.post(

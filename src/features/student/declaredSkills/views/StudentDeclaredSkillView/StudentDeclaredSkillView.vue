@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import { useDeclaredSkillDetailedQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
@@ -26,11 +28,13 @@ enum StudentDeclaredSkillViewTabs {
 
 const { t } = useI18n()
 const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
-const { declaredSkillDetailed } = useDeclaredSkillDetailedQuery(skillId)
+const { declaredSkillDetailed, error } = useDeclaredSkillDetailedQuery(skillId)
 const { showModal, displayModal, hideModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
+const { originalErrorCode, isNotFound } = useApiErrors(error)
+const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() => declaredSkillDetailed.value?.traceAssociations?.length ?? 0)
 
@@ -89,6 +93,12 @@ function handleSkillDeleted () {
       />
     </AvTab>
   </AvTabs>
+
+  <ErrorMessage
+    v-if="error"
+    :title="isDeclaredSkillNotFound ? t('student.declaredSkills.views.StudentDeclaredSkillView.errors.notFound.title') : t('global.error.generic')"
+    :description="isDeclaredSkillNotFound ? t('student.declaredSkills.views.StudentDeclaredSkillView.errors.notFound.description') : error.message"
+  />
 
   <DeleteDeclaredSkillConfirmModal
     :show="showModal"

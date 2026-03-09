@@ -65,6 +65,12 @@
             "title": "Do you confirm the deletion of the skill {skill}?",
             "success": "Skill {skill} deleted successfully"
           },
+          "errors": {
+            "notFound": {
+              "description": "The skill you are looking for does not exist or is not accessible.",
+              "title": "Declared skill not found"
+            }
+          },
           "settingDropdown": {
             "ariaLabel": "Declared skill settings",
             "delete": "Delete my skill",

@@ -72,6 +72,13 @@ export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDe
   )
 })
 
+export const declaredExperienceDetailedNotFoundHandler = http.get(`*${getGetDeclaredExperienceUrl(':experienceId')}`, () => {
+  return HttpResponse.json(
+    { code: 'DECLARED_EXPERIENCE_NOT_FOUND', message: 'Internal server error' },
+    { status: 404 }
+  )
+})
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get<{ id: string }, DeclaredExperienceViewDTO>(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
