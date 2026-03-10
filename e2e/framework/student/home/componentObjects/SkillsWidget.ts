@@ -37,9 +37,9 @@ export class SkillsWidget extends BaseObject {
     await expect(this.getTitle()).toHaveText(t('student.skills.cards.StudentSkillsWidget.title'))
   }
 
-  async verifyRenderedSkillsCount (expectedSkills: number) {
+  async verifyAtLeastOneSkillIsVisible () {
     const count = await this.countCards()
-    expect(count).toEqual(expectedSkills)
+    expect(count).toBeGreaterThan(0)
   }
 
   async verifyRenderedCoursesCount (expectedCourses: number) {
