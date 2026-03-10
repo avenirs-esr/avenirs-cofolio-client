@@ -85,10 +85,9 @@ BddTest().given('an ActivityLibraryCard', () => {
       expect(floatingCard.props('customTitleHeight')).toBe('auto')
     })
 
-    BddTest().then('it should render ActivityStatusBadge with correct status', () => {
+    BddTest().then('it should not render ActivityStatusBadge when status is SUBSCRIBED', () => {
       const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
-      expect(statusBadge.exists()).toBe(true)
-      expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.SUBSCRIBED)
+      expect(statusBadge.exists()).toBe(false)
     })
 
     BddTest().then('it should render ActivityThematicBadge with correct thematic', () => {
@@ -109,6 +108,44 @@ BddTest().given('an ActivityLibraryCard', () => {
 
     BddTest().then('it should display the summary text', () => {
       expect(wrapper.text()).toContain(baseActivity.summary)
+    })
+  })
+
+  BddTest().when('the component is mounted with IN_PROGRESS status', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityLibraryCard, {
+        props: { activity: { ...baseActivity, status: EDeclaredActivityStatus.IN_PROGRESS } },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+      expect(statusBadge.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the correct status to ActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+      expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
+    })
+  })
+
+  BddTest().when('the component is mounted with COMPLETED status', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityLibraryCard, {
+        props: { activity: { ...baseActivity, status: EDeclaredActivityStatus.COMPLETED } },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+      expect(statusBadge.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the correct status to ActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+      expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.COMPLETED)
     })
   })
 
