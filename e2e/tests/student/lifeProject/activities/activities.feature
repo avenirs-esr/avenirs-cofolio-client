@@ -90,7 +90,6 @@ Feature: Student Project Activities Page
     Scenario: Student can see the first activity card information
       Then the first activity card title is visible
       And the first activity card thematic badge is visible
-      And the first activity card status badge is visible
       And the first activity card description is visible
 
       

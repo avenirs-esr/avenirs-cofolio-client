@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { type DeclaredActivityViewDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ActivityPeriodSummaryBadge
   from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.vue'
@@ -26,6 +26,8 @@ const iconOptions = {
 const titleClasses = computed(() => isMobile.value
   ? 'caption-regular av-text-text1'
   : 'n6 av-text-text1')
+
+const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStatus.SUBSCRIBED)
 </script>
 
 <template>
@@ -56,6 +58,7 @@ const titleClasses = computed(() => isMobile.value
                 :summary="activity.executionPeriodInfoSummary"
               />
               <ActivityStatusBadge
+                v-if="isNotSubscribed"
                 data-testid="activity-library-card-status-badge"
                 :status="activity.status"
               />
