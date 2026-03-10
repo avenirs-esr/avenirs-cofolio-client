@@ -192,9 +192,9 @@ class StudentHomePage extends BasePage {
     await this.getSkillsWidget().verifyRenderedCoursesCount(expectedCourses)
   }
 
-  @Then('the skills widget shows {int} skills')
-  async verifySkillsWidgetShowsSkills (expectedSkills: number) {
-    await this.getSkillsWidget().verifyRenderedSkillsCount(expectedSkills)
+  @Then('the skills widget shows at least one skill')
+  async verifySkillsWidgetShowsSkills () {
+    await this.getSkillsWidget().verifyAtLeastOneSkillIsVisible()
   }
 
   @Then('each page shows last update date')

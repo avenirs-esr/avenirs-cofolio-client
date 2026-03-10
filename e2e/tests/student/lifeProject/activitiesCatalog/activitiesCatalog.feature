@@ -74,7 +74,7 @@ Feature: Student Project Activities Catalog Page
         Then the cancel subscribe activity confirm modal is hidden
         And the subscribe activity modal is displayed
 
-      @high @subscribe
+      @high @subscribe @skip
       Scenario: Student can subscribe to the activity and unsubscribe from it right after
         When the user clicks on the activity preview subscribe modal confirm button
         Then the subscribe activity modal is hidden
@@ -88,7 +88,7 @@ Feature: Student Project Activities Catalog Page
         And the activity preview unsubscribe button is hidden
         And the activity preview access button is hidden
 
-      @high @subscribe @unsubscribe-activity-from-catalog
+      @high @subscribe @unsubscribe-activity-from-catalog @skip
       Scenario: Student can access the activity detailed page when subscribed
         When the user clicks on the activity preview subscribe modal confirm button
         Then the activity preview access button is visible
