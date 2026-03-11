@@ -145,6 +145,11 @@ export class ActivityPreview extends BaseObject {
     await subscribeActivityModal.clickConfirm()
   }
 
+  async fillSubscribeModalPeriodStartDate (date: string) {
+    const subscribeActivityModal = this.getSubscribeActivityModal()
+    await subscribeActivityModal.fillStartDate(date)
+  }
+
   async clickSubscribeModalCancelButton () {
     const subscribeActivityModal = this.getSubscribeActivityModal()
     await subscribeActivityModal.clickCancel()
