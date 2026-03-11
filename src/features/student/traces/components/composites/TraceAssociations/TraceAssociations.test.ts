@@ -2,20 +2,14 @@ import type { VueWrapper } from '@vue/test-utils'
 import { type DeclaredSkillAssociationDTO, EAmsStatus, EDeclaredSkillLevel, EExternalSkillType, ESkillLevelStatus, type SkillLevelAssociationDTO } from '@/api/avenir-esr'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
+import { DeleteTraceAssociatedElementsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.stub'
+import { DeleteTraceAssociatedActivitiesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.stub'
+import { DeleteTraceAssociatedSkillsModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const stubs = {
-  AvIconText: {
-    name: 'AvIconText',
-    template: '<div class="av-icon-text"><slot /></div>',
-    props: {
-      text: String,
-      icon: String,
-      typographyClass: String
-    }
-  },
   StudentTraceSkillLevelAssociationCard: {
     name: 'StudentTraceSkillLevelAssociationCard',
     template: '<div class="student-trace-skill-level-association-card" />',
@@ -30,7 +24,11 @@ const stubs = {
     props: {
       declaredSkill: Object
     }
-  }
+  },
+  DeleteTraceAssociatedElementsDropdown: DeleteTraceAssociatedElementsDropdownStub,
+  DeleteTraceAssociatedSkillsModal: DeleteTraceAssociatedSkillsModalStub,
+  DeleteTraceAssociatedActivitiesModal: DeleteTraceAssociatedActivitiesModalStub,
+
 }
 
 BddTest().given('a student trace associations component', () => {
@@ -49,19 +47,52 @@ BddTest().given('a student trace associations component', () => {
       })
     })
 
-    BddTest().then('it should render the title with count 0', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' })
-
-      expect(iconText.exists()).toBe(true)
-      expect(iconText.props('text')).toContain('(0)')
-    })
-
     BddTest().then('it should not render any association cards', () => {
       const skillCards = wrapper.findAllComponents({ name: 'StudentTraceSkillLevelAssociationCard' })
       const declaredSkillCards = wrapper.findAllComponents({ name: 'StudentTraceDeclaredSkillAssociationCard' })
 
       expect(skillCards).toHaveLength(0)
       expect(declaredSkillCards).toHaveLength(0)
+    })
+
+    BddTest().then('it should render the delete trace associated elements dropdown', () => {
+      const dropdown = wrapper.findComponent(DeleteTraceAssociatedElementsDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+      // TODO: #1155 - test that dropdown has correct props for disabled state once implemented
+    })
+
+    BddTest().then('it should render the delete trace associated skills modal', () => {
+      const skillsModal = wrapper.findComponent(DeleteTraceAssociatedSkillsModalStub)
+      expect(skillsModal.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the delete trace associated activities modal', () => {
+      const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
+      expect(activitiesModal.exists()).toBe(true)
+    })
+
+    BddTest().and('the delete trace associated elements dropdown emits skillsSelected', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(DeleteTraceAssociatedElementsDropdownStub)
+        dropdown.vm.$emit('skillsSelected')
+      })
+
+      BddTest().then('the delete trace associated skills modal should be shown', () => {
+        const skillsModal = wrapper.findComponent(DeleteTraceAssociatedSkillsModalStub)
+        expect(skillsModal.props('show')).toBe(true)
+      })
+    })
+
+    BddTest().and('the delete trace associated elements dropdown emits activitiesSelected', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(DeleteTraceAssociatedElementsDropdownStub)
+        dropdown.vm.$emit('activitiesSelected')
+      })
+
+      BddTest().then('the delete trace associated activities modal should be shown', () => {
+        const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
+        expect(activitiesModal.props('show')).toBe(true)
+      })
     })
   })
 
@@ -97,13 +128,6 @@ BddTest().given('a student trace associations component', () => {
           stubs
         }
       })
-    })
-
-    BddTest().then('it should render the title with count 2', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' })
-
-      expect(iconText.exists()).toBe(true)
-      expect(iconText.props('text')).toContain('(2)')
     })
 
     BddTest().then('it should render 2 skill level association cards', () => {
@@ -155,13 +179,6 @@ BddTest().given('a student trace associations component', () => {
           stubs
         }
       })
-    })
-
-    BddTest().then('it should render the title with count 1', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' })
-
-      expect(iconText.exists()).toBe(true)
-      expect(iconText.props('text')).toContain('(1)')
     })
 
     BddTest().then('it should render 1 declared skill association card', () => {
@@ -226,13 +243,6 @@ BddTest().given('a student trace associations component', () => {
           stubs
         }
       })
-    })
-
-    BddTest().then('it should render the title with total count 4', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' })
-
-      expect(iconText.exists()).toBe(true)
-      expect(iconText.props('text')).toContain('(4)')
     })
 
     BddTest().then('it should render 3 skill level association cards', () => {

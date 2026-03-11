@@ -1,11 +1,11 @@
-import DeleteAssociatedTracesModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteAssociatedTracesModal/DeleteAssociatedTracesModal.vue'
+import DeleteActivityAssociatedTracesModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
 
-BddTest().given('a delete associated traces modal', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeleteAssociatedTracesModal>>
+BddTest().given('a delete activity associated traces modal', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedTracesModal>>
 
   const stubs = {
     DeleteAssociationsModal: DeleteAssociationsModalStub,
@@ -13,7 +13,7 @@ BddTest().given('a delete associated traces modal', () => {
 
   BddTest().when('the modal is shown', () => {
     beforeEach(() => {
-      wrapper = mount(DeleteAssociatedTracesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mount(DeleteActivityAssociatedTracesModal, { props: { show: true }, global: { stubs } })
     })
 
     BddTest().then('it should render the delete associations modal', () => {
@@ -27,7 +27,7 @@ BddTest().given('a delete associated traces modal', () => {
         confirmModal.vm.$emit('cancel')
       })
 
-      BddTest().then('the delete associated skills modal should emit cancel', () => {
+      BddTest().then('the delete activity associated traces modal should emit cancel', () => {
         expect(wrapper.emitted('cancel')).toBeTruthy()
       })
     })
@@ -38,7 +38,7 @@ BddTest().given('a delete associated traces modal', () => {
         confirmModal.vm.$emit('confirmDelete')
       })
 
-      BddTest().then('the delete associated skills modal should emit deleted', () => {
+      BddTest().then('the delete activity associated traces modal should emit deleted', () => {
         expect(wrapper.emitted('deleted')).toBeTruthy()
       })
     })

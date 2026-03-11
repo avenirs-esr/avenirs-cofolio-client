@@ -72,7 +72,7 @@
             "DeleteActivityAssociationsModal": {
               "title": "Which association(s) do you want to delete?"
             },
-            "DeleteAssociatedElementsDropdown": {
+            "DeleteActivityAssociatedElementsDropdown": {
               "skills": "one/many associated skill(s)",
               "traces": "one/many associated trace(s)"
             },

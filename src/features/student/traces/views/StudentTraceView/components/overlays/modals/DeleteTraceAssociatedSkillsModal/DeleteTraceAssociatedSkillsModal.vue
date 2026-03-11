@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 
-export interface DeleteAssociatedSkillsModalProps {
+export interface DeleteTraceAssociatedSkillsModalProps {
   show: boolean
 }
 
-defineProps<DeleteAssociatedSkillsModalProps>()
+defineProps<DeleteTraceAssociatedSkillsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -21,7 +21,7 @@ const dummyAssociations = [
 const dummySelectedAssociationIds = ['1', '2']
 
 function onConfirmDelete () {
-  // TODO: #1227
+  // TODO: #1243
   emit('deleted')
 }
 </script>

@@ -1,10 +1,10 @@
-import DeleteAssociatedElementsDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteAssociatedElementsDropdown/DeleteAssociatedElementsDropdown.vue'
+import DeleteActivityAssociatedElementsDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('a delete associated elements dropdown', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeleteAssociatedElementsDropdown>>
+BddTest().given('a delete activity associated elements dropdown', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedElementsDropdown>>
 
   const stubs = {
     AvDropdown: AvDropdownStub
@@ -12,7 +12,7 @@ BddTest().given('a delete associated elements dropdown', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(DeleteAssociatedElementsDropdown, { global: { stubs } })
+      wrapper = mount(DeleteActivityAssociatedElementsDropdown, { global: { stubs } })
     })
 
     BddTest().then('it should render the dropdown with two menu items', () => {
