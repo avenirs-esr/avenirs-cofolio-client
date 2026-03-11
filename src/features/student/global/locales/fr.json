@@ -66,6 +66,19 @@
           }
         }
       },
+      "overlays": {
+        "modals": {
+          "DeleteAssociationsConfirmModal": {
+            "title": "Êtes-vous certain(e) de vouloir supprimer cette association ? | Êtes-vous certain(e) de vouloir supprimer ces associations ?"
+          },
+          "DeleteAssociationsModal": {
+            "confirmButton": "Supprimer les associations sélectionnées (0) | Supprimer l'association sélectionnée (1) | Supprimer les associations sélectionnées ({count})",
+            "error": "Une erreur est survenue lors de la suppression de l'association. | Une erreur est survenue lors de la suppression des associations.",
+            "success": "L'association sélectionnée a été supprimée avec succès | Les associations sélectionnées ont été supprimées avec succès",
+            "title": "Aucune association à supprimer | Quelle association souhaitez-vous supprimer ? | Quelles associations souhaitez-vous supprimer ?"
+          }
+        }
+      },
       "views": {
         "studentDeliverablesView": {
           "title": "(placeholder) Tous mes rendus"
