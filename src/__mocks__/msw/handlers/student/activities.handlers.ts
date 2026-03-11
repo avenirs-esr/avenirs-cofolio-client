@@ -4,7 +4,8 @@ import {
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
   mockedDeclaredActivity,
-  mockedDeclaredActivityDetails
+  mockedDeclaredActivityDetails,
+  mockedFinishedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
@@ -13,6 +14,7 @@ import {
   type DeclaredActivity,
   type DeclaredActivityDetailsDTO,
   EErrorCode,
+  getFinishUrl,
   getGetActivitiesViewUrl,
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
@@ -239,6 +241,41 @@ export const latestActivitiesErrorHandler = http.get(
   }
 )
 
+export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, async ({ params }) => {
+  const { declaredActivityId } = params
+
+  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+
+  return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedFinishedDeclaredActivityDetails, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+})
+
+export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  )
+})
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -266,4 +303,5 @@ export const activitiesHandlers = [
   declaredActivityDetailsHandler,
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
+  finishDeclaredActivityHandler,
 ]

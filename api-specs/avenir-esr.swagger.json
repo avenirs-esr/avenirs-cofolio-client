@@ -1633,6 +1633,37 @@
         }
       }
     },
+    "/me/activity-progress/finish/{declaredActivityId}": {
+      "put": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "finish",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/experiences/view": {
       "get": {
         "tags": [

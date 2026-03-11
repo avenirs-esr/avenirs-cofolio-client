@@ -76,6 +76,17 @@
               "skills": "one/many associated skill(s)",
               "traces": "one/many associated trace(s)"
             },
+            "FinishDeclaredActivity": {
+              "finishedAt": "Finished at {date}",
+              "finishButton": "Finish the activity",
+              "finishLabel": "Finished"
+            },
+            "FinishDeclaredActivityConfirmModal": {
+              "description": "Are you sure you want to complete this activity? You will no longer be able to modify it.",
+              "error": "An error occurred while completing the activity. Please try again later.",
+              "success": "Your activity is complete.",
+              "title": "Confirm completion of the activity"
+            },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {
                 "title": "My associated elements ({count})"

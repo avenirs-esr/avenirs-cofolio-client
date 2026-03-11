@@ -19,12 +19,14 @@ import {
   type SubscribeDeclaredActivityRequestDTO
 } from '@/api/avenir-esr'
 import {
+  type FinishDeclaredActivityVariables,
   type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
   useCountLibraryActivities,
   useDeclaredActivitiesDetailedQuery,
+  useFinishDeclaredActivityMutation,
   useLibraryActivitiesQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
@@ -898,6 +900,201 @@ BddTest().given('the useDeclaredActivitiesDetailedQuery composable', () => {
         expect(getDeclaredActivityDetailsSpy).not.toHaveBeenCalled()
         expect(queryResult.data.value).toBeUndefined()
         expect(queryResult.declaredActivityDetail.value).toBeUndefined()
+      })
+    })
+  })
+})
+
+BddTest().given('the useFinishDeclaredActivityMutation composable', () => {
+  let finishSpy: MockInstance<
+    (declaredActivityId: string, options?: RequestInit | undefined) => Promise<DeclaredActivityDetailsDTO>
+  >
+  let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
+  let mutationResult: ReturnType<typeof useFinishDeclaredActivityMutation>
+
+  const mockInvalidateFunction = vi.fn()
+
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError,
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    finishSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'finish'>(
+      await import('@/api/avenir-esr'),
+    'finish',
+    )
+
+    useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id with success callback', () => {
+    const declaredActivityId = 'declared-activity-1-id'
+    const variables: FinishDeclaredActivityVariables = { declaredActivityId }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useFinishDeclaredActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the finish API with correct parameters', () => {
+        expect(finishSpy).toHaveBeenCalledWith(declaredActivityId)
+        expect(finishSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function twice', () => {
+        expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(mutationResult.data.value, variables)
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useFinishDeclaredActivityMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the finish API with correct parameters', () => {
+        expect(finishSpy).toHaveBeenCalledWith(declaredActivityId)
+        expect(finishSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function twice', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const declaredActivityId = 'declared-activity-1-id'
+    const variables: FinishDeclaredActivityVariables = { declaredActivityId }
+    const mutationArgs = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useFinishDeclaredActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the finish API with correct parameters', () => {
+        expect(finishSpy).toHaveBeenCalledWith(declaredActivityId)
+        expect(finishSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function twice', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared activity id with error callback', () => {
+    const declaredActivityId = 'INVALID_DECLARED_ACTIVITY_ID'
+    const variables: FinishDeclaredActivityVariables = { declaredActivityId }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useFinishDeclaredActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the finish API with the invalid parameters', () => {
+        expect(finishSpy).toHaveBeenCalledWith(declaredActivityId)
+        expect(finishSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      let mutationResult: ReturnType<typeof useFinishDeclaredActivityMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useFinishDeclaredActivityMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the finish API with the invalid parameters', () => {
+        expect(finishSpy).toHaveBeenCalledWith(declaredActivityId)
+        expect(finishSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
       })
     })
   })

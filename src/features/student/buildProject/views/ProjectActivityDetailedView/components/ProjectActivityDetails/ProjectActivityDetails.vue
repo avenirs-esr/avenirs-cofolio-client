@@ -2,15 +2,22 @@
 import type {
   DeclaredActivityDetailsDTO
 } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
+import { useFinishDeclaredActivityMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import FinishDeclaredActivity
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
 import { ICONS } from '@/features/student/global/icons'
+import { useToasterStore } from '@/store'
 import { AvCard, AvIconText, AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailsProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
 }
+
 const { declaredActivityDetails } = defineProps<ProjectActivityDetailsProps>()
 const { t } = useI18n()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const executionPeriodList = computed(() => {
   const raw = declaredActivityDetails.activity.executionPeriodInfo
@@ -26,6 +33,27 @@ const executionPeriodList = computed(() => {
 })
 
 const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
+
+const { mutate: finishDeclaredActivity, isPending } = useFinishDeclaredActivityMutation({
+  onError: (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.error'),
+      description: error.message
+    })
+  },
+  onSuccess: () => {
+    addSuccessMessage({
+      timeout: 2000,
+      description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success')
+    })
+  }
+})
+
+function onDeclaredActivityFinished () {
+  finishDeclaredActivity({
+    declaredActivityId: declaredActivityDetails.id
+  })
+}
 </script>
 
 <template>
@@ -84,6 +112,12 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
         </div>
       </div>
     </AvCard>
+    <FinishDeclaredActivity
+      :finished-at="declaredActivityDetails.finishedAt"
+      :status="declaredActivityDetails.status"
+      :disabled="isPending"
+      @finished="onDeclaredActivityFinished"
+    />
   </div>
 </template>
 
