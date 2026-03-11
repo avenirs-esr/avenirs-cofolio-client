@@ -8,7 +8,7 @@ const emit = defineEmits<{
   (e: 'tracesSelected'): void
 }>()
 
-enum DeleteAssociatedElementsDropdownEvents {
+enum DeleteActivityAssociatedElementsDropdownEvents {
   SKILLS = 'skills',
   TRACES = 'traces',
 }
@@ -17,23 +17,23 @@ const { t } = useI18n()
 
 const menuItems = computed(() => [
   {
-    name: DeleteAssociatedElementsDropdownEvents.SKILLS,
+    name: DeleteActivityAssociatedElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteAssociatedElementsDropdown.skills')
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.skills')
   },
   {
-    name: DeleteAssociatedElementsDropdownEvents.TRACES,
+    name: DeleteActivityAssociatedElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteAssociatedElementsDropdown.traces')
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.traces')
   }
 ])
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
-    case DeleteAssociatedElementsDropdownEvents.SKILLS:
+    case DeleteActivityAssociatedElementsDropdownEvents.SKILLS:
       emit('skillsSelected')
       break
-    case DeleteAssociatedElementsDropdownEvents.TRACES:
+    case DeleteActivityAssociatedElementsDropdownEvents.TRACES:
       emit('tracesSelected')
       break
   }

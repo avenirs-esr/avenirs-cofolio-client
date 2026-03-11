@@ -222,10 +222,9 @@
           }
         },
         "StudentTraceView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Trace {trace}"
-            }
+          "DeleteTraceAssociatedElementsDropdown": {
+            "activities": "one/many associated activity(ies)",
+            "skills": "one/many associated skill(s)"
           },
           "errors": {
             "delete": "An error occurred while deleting the trace"

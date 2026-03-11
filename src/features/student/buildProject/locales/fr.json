@@ -71,7 +71,7 @@
             "DeleteActivityAssociationsModal": {
               "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
             },
-            "DeleteAssociatedElementsDropdown": {
+            "DeleteActivityAssociatedElementsDropdown": {
               "skills": "une/des compétence(s) associée(s)",
               "traces": "une/des trace(s) associée(s)"
             },
