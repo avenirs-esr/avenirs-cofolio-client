@@ -968,7 +968,7 @@ BddTest().given('the useFinishDeclaredActivityMutation composable', () => {
 
       BddTest().then('it should call the invalidation function twice', () => {
         expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -998,7 +998,7 @@ BddTest().given('the useFinishDeclaredActivityMutation composable', () => {
       })
 
       BddTest().then('it should call the invalidation function twice', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
       })
     })
   })
@@ -1021,7 +1021,7 @@ BddTest().given('the useFinishDeclaredActivityMutation composable', () => {
       })
 
       BddTest().then('it should still call the invalidation function twice', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should mark the mutation as successful', () => {

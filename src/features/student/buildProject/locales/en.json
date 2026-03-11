@@ -82,10 +82,10 @@
               "finishLabel": "Finished"
             },
             "FinishDeclaredActivityConfirmModal": {
-              "description": "Are you sure you want to complete this activity? You will no longer be able to modify it.",
-              "error": "An error occurred while completing the activity. Please try again later.",
-              "success": "Your activity is complete.",
-              "title": "Confirm completion of the activity"
+              "description": "Are you sure you want to finish this activity? You will no longer be able to modify it.",
+              "error": "An error occurred while finishing the activity. Please try again later.",
+              "success": "Your activity is finished.",
+              "title": "Confirm finition of the activity"
             },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {

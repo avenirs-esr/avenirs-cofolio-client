@@ -310,7 +310,6 @@ export function useFinishDeclaredActivityMutation ({
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activityDetailsQueryKey, variables.declaredActivityId])
-      await invalidateQueryKey(libraryActivitiesQueryKey)
       onSuccess?.(data, variables)
     },
     onError
