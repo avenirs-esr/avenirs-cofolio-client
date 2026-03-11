@@ -26,6 +26,7 @@ function handleConfirm () {
 }
 
 const isCompleted = computed(() => status === EDeclaredActivityStatus.COMPLETED)
+const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRESS)
 const finishedAtFormatted = computed(() => {
   if (!finishedAt) {
     return ''
@@ -41,7 +42,7 @@ const finishedAtFormatted = computed(() => {
     data-testid="finish-declared-activity"
   >
     <AvButton
-      v-if="!isCompleted"
+      v-if="isInProgress"
       data-testid="finish-declared-activity-button"
       :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishButton')"
       variant="FLAT"

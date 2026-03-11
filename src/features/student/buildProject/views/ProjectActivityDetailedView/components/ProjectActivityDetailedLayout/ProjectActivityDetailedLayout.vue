@@ -55,7 +55,6 @@ const displayedSection = computed<Component>(() => {
 const sectionProps = computed<Record<string, unknown>>(() => {
   switch (selectedSection.value) {
     case ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE:
-      return {}
     case ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED:
     default:
       return {

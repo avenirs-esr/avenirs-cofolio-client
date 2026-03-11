@@ -42,3 +42,30 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @activity-status
     Scenario: Student can see the activity status
       Then the activity status is visible
+
+  Rule: Finish declared activity
+
+    Background:
+      And the project activity details are loaded
+
+    @high @activity-details @finish-activity
+    Scenario: Student cannot finish an activity that is not in progress
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with not in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the finish activity button is hidden
+
+    @high @activity-details @finish-activity
+    Scenario: Student can finish an in progress activity
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the finish activity button is visible
+      When the student clicks the finish activity button
+      Then the finish activity confirmation modal is visible

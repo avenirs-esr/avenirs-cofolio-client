@@ -61,4 +61,18 @@ export class ActivityLibraryCard extends BaseObject {
   async verifyPeriodBadgeHidden () {
     await expect(this.getPeriodBadge()).toBeHidden()
   }
+
+  async hasInProgressStatus () {
+    const badge = this.getStatusBadge()
+
+    if (await badge.count() === 0) {
+      return false
+    }
+
+    return (await badge.getAttribute('data-status')) === 'IN_PROGRESS'
+  }
+
+  async hasNotInProgressStatus () {
+    return !await this.hasInProgressStatus()
+  }
 }

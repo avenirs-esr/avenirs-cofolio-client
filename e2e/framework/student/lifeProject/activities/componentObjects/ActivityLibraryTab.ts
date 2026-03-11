@@ -82,4 +82,34 @@ export class ActivityLibraryTab extends BaseObject {
   async clickFirstCard () {
     await this.getCardByIndex(0).click()
   }
+
+  async clickCardWithInProgressStatus () {
+    const count = await this.getCards().count()
+
+    for (let i = 0; i < count; i++) {
+      const card = this.getCardByIndex(i)
+
+      if (await card.hasInProgressStatus()) {
+        await card.click()
+        return
+      }
+    }
+
+    throw new Error('No activity card with IN_PROGRESS status found in activity library tab')
+  }
+
+  async clickCardWithNotInProgressStatus () {
+    const count = await this.getCards().count()
+
+    for (let i = 0; i < count; i++) {
+      const card = this.getCardByIndex(i)
+
+      if (await card.hasNotInProgressStatus()) {
+        await card.click()
+        return
+      }
+    }
+
+    throw new Error('No activity card with not in progress status found in activity library tab')
+  }
 }

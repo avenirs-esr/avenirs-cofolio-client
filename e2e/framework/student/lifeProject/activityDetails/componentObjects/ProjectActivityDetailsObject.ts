@@ -22,6 +22,10 @@ export class ProjectActivityDetailsObject extends BaseObject {
     return this.root.getByTestId('activity-execution-period')
   }
 
+  async verifyVisible () {
+    await expect(this.root).toBeVisible()
+  }
+
   async verifyPeriodInputVisible () {
     await expect(this.getPeriodInput()).toBeVisible()
   }
