@@ -16,7 +16,7 @@ import {
   type DeclaredActivityDetailsDTO,
   EActivityThematic,
   type getDeclaredActivitiesView,
-  type SubscribeDeclaredActivityRequestDTO
+  type SubscribeDeclaredActivityRequest
 } from '@/api/avenir-esr'
 import {
   type FinishDeclaredActivityVariables,
@@ -160,7 +160,7 @@ BddTest().given('the useActivityDetailQuery composable', () => {
 
 BddTest().given('the useSubscribeActivityMutation composable', () => {
   let subscribeActivitySpy: MockInstance<
-    (activityId: string, params: SubscribeDeclaredActivityRequestDTO, options?: RequestInit | undefined) => Promise<DeclaredActivity>
+    (activityId: string, params: SubscribeDeclaredActivityRequest, options?: RequestInit | undefined) => Promise<DeclaredActivity>
   >
   let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
   let mutationResult: ReturnType<typeof useSubscribeActivityMutation>
@@ -195,7 +195,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
 
   BddTest().and('valid activity ID and success callback', () => {
     const activityId = 'activity-1-id'
-    const variables: SubscribeActivityVariables = { activityId }
+    const variables: SubscribeActivityVariables = { activityId, subscribeDeclaredActivityRequest: {} }
 
     BddTest().when('the mutation is called with mutateAsync', () => {
       beforeEach(async () => {
@@ -256,9 +256,40 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
     })
   })
 
+  BddTest().and('valid activity ID with a period (startDate and endDate)', () => {
+    const activityId = 'activity-1-id'
+    const period = { startDate: '2026-03-11', endDate: '2026-03-20' }
+    const variables: SubscribeActivityVariables = {
+      activityId,
+      subscribeDeclaredActivityRequest: { period }
+    }
+
+    BddTest().when('the mutation is called with period variables', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useSubscribeActivityMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the subscribeActivity API with the period data', () => {
+        expect(subscribeActivitySpy).toHaveBeenCalledWith(activityId, { period })
+        expect(subscribeActivitySpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
   BddTest().and('no success or error callbacks', () => {
     const activityId = 'activity-1-id'
-    const variables: SubscribeActivityVariables = { activityId }
+    const variables: SubscribeActivityVariables = { activityId, subscribeDeclaredActivityRequest: {} }
     const mutationArgs = {}
 
     BddTest().when('the mutation is called without callbacks', () => {
@@ -290,7 +321,7 @@ BddTest().given('the useSubscribeActivityMutation composable', () => {
 
   BddTest().and('an invalid activity id with error callback', () => {
     const activityId = 'INVALID_ACTIVITY_ID'
-    const variables: SubscribeActivityVariables = { activityId }
+    const variables: SubscribeActivityVariables = { activityId, subscribeDeclaredActivityRequest: {} }
 
     BddTest().when('the mutation encounters an error', () => {
       beforeEach(async () => {

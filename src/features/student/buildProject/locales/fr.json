@@ -53,6 +53,9 @@
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
+                "period": {
+                  "label": "Ajouter une période de réalisation personnelle"
+                },
                 "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d’activités.",
                 "title": "Inscription à l’activité {title}"
               },

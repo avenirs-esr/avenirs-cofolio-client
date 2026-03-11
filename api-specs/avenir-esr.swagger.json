@@ -1021,7 +1021,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SubscribeDeclaredActivityRequestDTO"
+                "$ref": "#/components/schemas/SubscribeDeclaredActivityRequest"
               }
             }
           }
@@ -3565,7 +3565,7 @@
           }
         }
       },
-      "SubscribeDeclaredActivityRequestDTO": {
+      "DeclaredActivityPeriodDTO": {
         "type": "object",
         "properties": {
           "startDate": {
@@ -3581,6 +3581,14 @@
           "endDate",
           "startDate"
         ]
+      },
+      "SubscribeDeclaredActivityRequest": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
+          }
+        }
       },
       "PictureDTO": {
         "type": "object",
