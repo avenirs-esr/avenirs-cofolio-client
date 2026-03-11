@@ -7,6 +7,7 @@ import {
   type DeclaredActivity,
   type DeclaredActivityDetailsDTO,
   type EActivityThematic,
+  finish,
   getActivitiesView,
   type GetActivitiesViewParams,
   getActivityDetail,
@@ -291,4 +292,27 @@ export function useDeclaredActivitiesDetailedQuery (declaredActivityId: MaybeRef
     ...query,
     declaredActivityDetail,
   }
+}
+
+export interface FinishDeclaredActivityVariables {
+  declaredActivityId: string
+}
+
+export function useFinishDeclaredActivityMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<DeclaredActivityDetailsDTO, FinishDeclaredActivityVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<DeclaredActivityDetailsDTO, BaseApiException, FinishDeclaredActivityVariables>({
+    mutationFn: async ({ declaredActivityId }: FinishDeclaredActivityVariables): Promise<DeclaredActivityDetailsDTO> => {
+      return await finish(declaredActivityId)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activityDetailsQueryKey, variables.declaredActivityId])
+      await invalidateQueryKey(libraryActivitiesQueryKey)
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
 }

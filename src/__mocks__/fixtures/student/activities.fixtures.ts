@@ -318,3 +318,23 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
+
+export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
+  id: 'declared-activity-1',
+  activity: {
+    id: 'activity-1',
+    title: 'Activité “Connaissance de soi” : Définir ses valeurs',
+    thematic: EActivityThematic.TRAJECTORIES,
+    summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+    executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z'
+  },
+  status: EDeclaredActivityStatus.COMPLETED,
+  reflection: 'Je me rends compte que mes valeurs sont l\'autonomie, la créativité et l\'impact social. Je vois que je les incarnent dans mon engagement associatif, mes projets personnels et mon choix de stage l\'été dernier.',
+  startDate: '2024-01-01',
+  endDate: '2024-06-30',
+  finishedAt: '2026-01-01T00:00:00Z',
+  createdAt: '2024-01-01T00:00:00Z',
+  updatedAt: '2024-01-01T00:00:00Z'
+}

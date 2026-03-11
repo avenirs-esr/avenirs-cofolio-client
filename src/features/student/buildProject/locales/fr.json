@@ -75,6 +75,17 @@
               "skills": "une/des compétence(s) associée(s)",
               "traces": "une/des trace(s) associée(s)"
             },
+            "FinishDeclaredActivity": {
+              "finishedAt": "Terminée le {date}",
+              "finishButton": "Terminer l'activité",
+              "finishLabel": "Terminée"
+            },
+            "FinishDeclaredActivityConfirmModal": {
+              "description": "Êtes-vous certain(e) de vouloir terminer cette activité ? Vous ne pourrez plus la modifier",
+              "error": "Une erreur est survenue lors de la finalisation de l'activité. Veuillez réessayer plus tard.",
+              "success": "Votre activitée est terminée",
+              "title": "Confirmer la finalisation de l'activité"
+            },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {
                 "title": "Mes éléments associés ({count})"
