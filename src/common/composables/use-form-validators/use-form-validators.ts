@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 export interface validateDateIntervalArgs {
   startDate: string | undefined | null
   endDate: string | undefined | null
-  format: string
+  format?: string
   isOnGoing?: boolean
 }
 
@@ -52,7 +52,7 @@ export function useFormValidators (): UseFormValidatorsReturn {
     }
   }
 
-  function validateDateInterval ({ startDate, endDate, format, isOnGoing = false }: validateDateIntervalArgs): string | undefined {
+  function validateDateInterval ({ startDate, endDate, format = 'yyyy-MM-dd', isOnGoing = false }: validateDateIntervalArgs): string | undefined {
     const startRequiredError = validateRequired(startDate)
     if (startRequiredError) {
       return startRequiredError

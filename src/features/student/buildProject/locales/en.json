@@ -53,6 +53,9 @@
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "An error occurred while subscribing to the activity. Please try again later.",
+                "period": {
+                  "label": "Add a personal achievement period"
+                },
                 "success": "You have successfully subscribed. Find this activity in your activity library.",
                 "title": "Subscribe to the activity {title}"
               },

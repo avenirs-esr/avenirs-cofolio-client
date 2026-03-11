@@ -19,6 +19,7 @@ import {
   type PagedResponseActivityOverviewDTO,
   type PagedResponseDeclaredActivityViewDTO,
   subscribeActivity,
+  type SubscribeDeclaredActivityRequest,
   unsubscribeActivitiesProgresses
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
@@ -194,15 +195,15 @@ export function useCountLibraryActivities (params?: MaybeRef<GetDeclaredActiviti
 
 export interface SubscribeActivityVariables {
   activityId: string
+  subscribeDeclaredActivityRequest: SubscribeDeclaredActivityRequest
 }
 
 export function useSubscribeActivityMutation ({ onError, onSuccess }: MutationArgs<DeclaredActivity, SubscribeActivityVariables> = {}) {
   const invalidateQueryKey = useInvalidateQuery()
 
   return useMutation<DeclaredActivity, BaseApiException, SubscribeActivityVariables>({
-    mutationFn: async ({ activityId }: SubscribeActivityVariables): Promise<DeclaredActivity> => {
-      // TODO: startDate and endDate US#???
-      return await subscribeActivity(activityId, { startDate: new Date().toISOString(), endDate: new Date().toISOString() })
+    mutationFn: async ({ activityId, subscribeDeclaredActivityRequest }: SubscribeActivityVariables): Promise<DeclaredActivity> => {
+      return await subscribeActivity(activityId, subscribeDeclaredActivityRequest)
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activityDetailsQueryKey, variables.activityId])
