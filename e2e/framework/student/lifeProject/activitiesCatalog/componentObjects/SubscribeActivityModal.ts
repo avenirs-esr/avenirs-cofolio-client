@@ -25,6 +25,10 @@ export class SubscribeActivityModal extends BaseObject {
     return this.getModalRoot().getByTestId('subscribe-activity-modal__title')
   }
 
+  private getPeriodStartDateInput () {
+    return this.getModalRoot().getByTestId('subscribe-activity-modal__period-input').getByTestId('start-date-input').nth(0)
+  }
+
   getCancelSubscribeActivityConfirmModal () {
     return new CancelSubscribeActivityConfirmModal(this.page)
   }
@@ -53,6 +57,10 @@ export class SubscribeActivityModal extends BaseObject {
 
     await expect(this.getTitle()).toBeVisible()
     await expect(this.getTitle()).not.toBeEmpty()
+  }
+
+  async fillStartDate (date: string) {
+    await this.getPeriodStartDateInput().fill(date)
   }
 
   async clickCancel () {

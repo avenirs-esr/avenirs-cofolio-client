@@ -59,18 +59,21 @@ Feature: Student Project Activities Catalog Page
 
       @medium @subscribe
       Scenario: Student can see the cancel subscribe modal
-        When the user clicks on the activity preview subscribe modal cancel button
+        When the user fills in the subscribe activity modal period start date
+        And the user clicks on the activity preview subscribe modal cancel button
         Then the cancel subscribe activity confirm modal is displayed
 
       @low @subscribe
       Scenario: Student can confirm the cancel subscribe modal
-        When the user clicks on the activity preview subscribe modal cancel button and confirms
+        When the user fills in the subscribe activity modal period start date
+        And the user clicks on the activity preview subscribe modal cancel button and confirms
         Then the cancel subscribe activity confirm modal is hidden
         And the subscribe activity modal is hidden
 
       @low @subscribe
       Scenario: Student can cancel the cancel subscribe modal
-        When the user clicks on the activity preview subscribe modal cancel button and cancels
+        When the user fills in the subscribe activity modal period start date
+        And the user clicks on the activity preview subscribe modal cancel button and cancels
         Then the cancel subscribe activity confirm modal is hidden
         And the subscribe activity modal is displayed
 

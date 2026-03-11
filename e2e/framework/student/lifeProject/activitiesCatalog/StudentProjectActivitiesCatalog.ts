@@ -302,6 +302,11 @@ class StudentProjectActivitiesCatalogPage {
     await this.activityPreview().clickSubscribeModalConfirmButton()
   }
 
+  @When('the user fills in the subscribe activity modal period start date')
+  async fillSubscribeModalPeriodStartDate () {
+    await this.activityPreview().fillSubscribeModalPeriodStartDate('2027-01-15')
+  }
+
   @When('the user clicks on the activity preview subscribe modal cancel button')
   async clickSubscribeModalCancelButton () {
     await this.activityPreview().clickSubscribeModalCancelButton()
