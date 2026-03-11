@@ -1,10 +1,10 @@
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
   mockedDeclaredActivity,
-  mockedDeclaredActivityDetails,
   mockedFinishedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
@@ -29,6 +29,7 @@ import {
 import { delay, http, HttpResponse } from 'msw'
 
 const subscribedActivities = new Set<string>()
+const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()
 
 export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, () => {
   return HttpResponse.json(
@@ -134,9 +135,11 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
 })
 
 export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, async ({ params }) => {
-  const { declaredActivityId } = params
+  const declaredActivityId = Array.isArray(params.declaredActivityId)
+    ? params.declaredActivityId[0]
+    : params.declaredActivityId
 
-  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+  if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
     return HttpResponse.json(
       { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
       {
@@ -148,12 +151,21 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
     )
   }
 
-  return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedDeclaredActivityDetails, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json'
+  const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId)
+  const overrides = declaredActivityDetailsOverrides.get(declaredActivityId)
+
+  return HttpResponse.json<DeclaredActivityDetailsDTO>(
+    {
+      ...baseDetails,
+      ...overrides,
+    },
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
     }
-  })
+  )
 })
 
 export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, () => {
@@ -243,9 +255,11 @@ export const latestActivitiesErrorHandler = http.get(
 )
 
 export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, async ({ params }) => {
-  const { declaredActivityId } = params
+  const declaredActivityId = Array.isArray(params.declaredActivityId)
+    ? params.declaredActivityId[0]
+    : params.declaredActivityId
 
-  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+  if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
     return HttpResponse.json(
       { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
       {
@@ -257,7 +271,25 @@ export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declare
     )
   }
 
-  return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedFinishedDeclaredActivityDetails, {
+  const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId)
+
+  const updatedDetails: DeclaredActivityDetailsDTO = {
+    ...baseDetails,
+    ...mockedFinishedDeclaredActivityDetails,
+    id: declaredActivityId,
+    activity: baseDetails.activity,
+    status: baseDetails.status === 'COMPLETED'
+      ? baseDetails.status
+      : mockedFinishedDeclaredActivityDetails.status,
+  }
+
+  declaredActivityDetailsOverrides.set(declaredActivityId, {
+    status: updatedDetails.status,
+    finishedAt: updatedDetails.finishedAt,
+    updatedAt: updatedDetails.updatedAt,
+  })
+
+  return HttpResponse.json<DeclaredActivityDetailsDTO>(updatedDetails, {
     status: 200,
     headers: {
       'Content-Type': 'application/json'

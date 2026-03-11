@@ -174,8 +174,8 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the finish button', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+    BddTest().then('it should not render the finish button', () => {
+      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(false)
     })
 
     BddTest().then('it should not render the completed badge', () => {

@@ -1,8 +1,9 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { MyPerspectiveSectionObject } from '@e2e/framework/student/lifeProject/activityDetails/componentObjects/MyPerspectiveSectionObject'
 import { ProjectActivityDetailsObject } from '@e2e/framework/student/lifeProject/activityDetails/componentObjects/ProjectActivityDetailsObject'
 import { expect, type Page } from '@playwright/test'
-import { Fixture, Then } from 'playwright-bdd/decorators'
+import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('studentProjectActivityDetails')
 export class StudentProjectActivityDetails extends BasePage {
@@ -12,6 +13,10 @@ export class StudentProjectActivityDetails extends BasePage {
 
   getProjectActivityDetails () {
     return new ProjectActivityDetailsObject(this.page.getByTestId('project-activity-details'))
+  }
+
+  getMyPerspectiveSection () {
+    return new MyPerspectiveSectionObject(this.page.getByTestId('my-perspective-tab'))
   }
 
   getDetailTitle () {
@@ -26,9 +31,13 @@ export class StudentProjectActivityDetails extends BasePage {
     return this.page.getByTestId('activity-detailed-dropdown')
   }
 
+  getActivityDetailedSideNavigation () {
+    return this.page.getByTestId('activity-detailed-side-navigation')
+  }
+
   @Then('the project activity details are loaded')
   async verifyProjectActivityDetailsVisible () {
-    await this.getProjectActivityDetails().isVisible()
+    await this.getProjectActivityDetails().verifyVisible()
   }
 
   @Then('the activity detail title is visible')
@@ -69,5 +78,35 @@ export class StudentProjectActivityDetails extends BasePage {
   @Then('the activity status is visible')
   async verifyActivityStatusVisible () {
     await expect(this.getStatus()).toBeVisible()
+  }
+
+  @When('the student clicks the my perspective item in the activity side menu')
+  async clickMyPerspectiveItemInSideMenu () {
+    await this.getActivityDetailedSideNavigation().getByText('Ma prise de recul').click()
+  }
+
+  @Then('the my perspective section is visible')
+  async verifyMyPerspectiveSectionVisible () {
+    await this.getMyPerspectiveSection().verifyVisible()
+  }
+
+  @Then('the finish activity button is hidden')
+  async verifyFinishActivityButtonHidden () {
+    await this.getMyPerspectiveSection().verifyFinishButtonHidden()
+  }
+
+  @Then('the finish activity button is visible')
+  async verifyFinishActivityButtonVisible () {
+    await this.getMyPerspectiveSection().verifyFinishButtonVisible()
+  }
+
+  @When('the student clicks the finish activity button')
+  async clickFinishActivityButton () {
+    await this.getMyPerspectiveSection().clickFinishButton()
+  }
+
+  @Then('the finish activity confirmation modal is visible')
+  async verifyFinishActivityConfirmationModalVisible () {
+    await this.getMyPerspectiveSection().verifyFinishConfirmationModalVisible()
   }
 }

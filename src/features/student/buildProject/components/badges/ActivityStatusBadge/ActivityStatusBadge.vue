@@ -44,6 +44,8 @@ const statusConfig = computed(() => {
 <template>
   <AvBadge
     v-if="statusConfig"
+    data-testid="activity-status-badge"
+    :data-status="status"
     :label="statusConfig.label"
     :icon="statusConfig.icon"
     :color="statusConfig.color"

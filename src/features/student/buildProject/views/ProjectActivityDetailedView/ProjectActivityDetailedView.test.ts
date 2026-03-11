@@ -1,5 +1,4 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityDetail, mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
@@ -31,7 +30,7 @@ BddTest().given('a project activity detailed view', () => {
 
   BddTest().when('the view is mounted with a valid activity', () => {
     const props: ProjectActivityDetailedViewProps = {
-      id: '0'
+      id: 'declared-activity-1'
     }
 
     beforeEach(async () => {
@@ -58,7 +57,7 @@ BddTest().given('a project activity detailed view', () => {
       const title = wrapper.find('[data-testid="activity-detail-title"]')
       expect(title.exists()).toBe(true)
       expect(title.text()).toContain('Détail')
-      expect(title.text()).toContain(mockedActivityDetail.title)
+      expect(title.text()).toContain('Détail Activité "Connaissance de soi" : Définir ses valeurs')
     })
 
     BddTest().then('it should pass the correct back route', () => {
@@ -90,7 +89,13 @@ BddTest().given('a project activity detailed view', () => {
 
     BddTest().then('it should pass the declared activity detail to the layout', () => {
       const layout = wrapper.findComponent(ProjectActivityDetailedLayoutStub)
-      expect(layout.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+      const declaredActivityDetails = layout.props('declaredActivityDetails')
+
+      expect(declaredActivityDetails).toBeDefined()
+      expect(declaredActivityDetails.id).toBe('declared-activity-1')
+      expect(declaredActivityDetails.status).toBe(EDeclaredActivityStatus.IN_PROGRESS)
+      expect(declaredActivityDetails.activity.title).toContain('Définir ses valeurs')
+      expect(declaredActivityDetails.activity.summary).toContain('Activité faisant partie de la catégorie Connaissance de soi')
     })
 
     BddTest().then('it should render the ActivityStatusBadge with the correct status', () => {

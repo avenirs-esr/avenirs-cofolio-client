@@ -215,4 +215,16 @@ class StudentProjectActivitiesPage extends BasePage {
   async verifyFirstAllActivityCardDescriptionVisible () {
     await this.getAllActivitiesTabs().getAllCardByIndex(0).verifySummaryVisible()
   }
+
+  @When('the student clicks a library activity card with not in progress status')
+  async clickLibraryActivityCardWithNotInProgressStatus () {
+    await this.getActivityLibraryTab().clickCardWithNotInProgressStatus()
+    await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
+  }
+
+  @When('the student clicks a library activity card with in progress status')
+  async clickLibraryActivityCardWithInProgressStatus () {
+    await this.getActivityLibraryTab().clickCardWithInProgressStatus()
+    await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
+  }
 }

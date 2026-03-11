@@ -19,6 +19,7 @@ const { t } = useI18n()
 <template>
   <ConfirmationModal
     :show="show"
+    data-testid="finish-declared-activity-confirm-modal"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.title')"
     :description="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.description')"
     @close="emit('close')"

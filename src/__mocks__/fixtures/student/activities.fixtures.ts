@@ -240,6 +240,38 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   },
 ]
 
+export function createMockedDeclaredActivity (id: string): DeclaredActivity {
+  const selectedActivity = allDeclaredActivities.find(activity => activity.id === id)
+
+  if (!selectedActivity) {
+    return {
+      ...mockedDeclaredActivity,
+      id,
+    }
+  }
+
+  const statusMap: Record<EDeclaredActivityStatus, DeclaredActivityStatus> = {
+    [EDeclaredActivityStatus.SUBSCRIBED]: DeclaredActivityStatus.SUBSCRIBED,
+    [EDeclaredActivityStatus.IN_PROGRESS]: DeclaredActivityStatus.IN_PROGRESS,
+    [EDeclaredActivityStatus.COMPLETED]: DeclaredActivityStatus.COMPLETED,
+  }
+
+  return {
+    ...mockedDeclaredActivity,
+    id: selectedActivity.id,
+    activity: {
+      ...mockedDeclaredActivity.activity,
+      id: selectedActivity.activityId,
+      title: selectedActivity.title,
+      summary: selectedActivity.summary,
+    },
+    startDate: selectedActivity.startDate ?? mockedDeclaredActivity.startDate,
+    endDate: selectedActivity.endDate ?? mockedDeclaredActivity.endDate,
+    status: statusMap[selectedActivity.status],
+    hasStarted: selectedActivity.status !== EDeclaredActivityStatus.SUBSCRIBED,
+  }
+}
+
 export function createMockedPagedResponseDeclaredActivityViewDTO (
   pageSize: number,
   totalElements: number,
@@ -323,4 +355,40 @@ export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO =
   ...mockedDeclaredActivityDetails,
   status: EDeclaredActivityStatus.COMPLETED,
   finishedAt: '2026-01-01T00:00:00Z',
+}
+
+export function createMockedDeclaredActivityDetails (id: string): DeclaredActivityDetailsDTO {
+  const declaredActivity = createMockedDeclaredActivity(id)
+
+  const activity = declaredActivity.activity ?? mockedDeclaredActivity.activity!
+
+  const mappedStatus: EDeclaredActivityStatus
+    = declaredActivity.status === DeclaredActivityStatus.COMPLETED
+      ? EDeclaredActivityStatus.COMPLETED
+      : declaredActivity.status === DeclaredActivityStatus.SUBSCRIBED
+        ? EDeclaredActivityStatus.SUBSCRIBED
+        : EDeclaredActivityStatus.IN_PROGRESS
+
+  return {
+    ...mockedDeclaredActivityDetails,
+    id: declaredActivity.id ?? id,
+    activity: {
+      ...mockedDeclaredActivityDetails.activity,
+      id: activity.id ?? mockedDeclaredActivityDetails.activity.id,
+      title: activity.title ?? mockedDeclaredActivityDetails.activity.title,
+      summary: activity.summary ?? mockedDeclaredActivityDetails.activity.summary,
+      executionPeriodInfo: activity.executionPeriodInfo ?? mockedDeclaredActivityDetails.activity.executionPeriodInfo,
+      createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
+      updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
+    },
+    status: mappedStatus,
+    startDate: declaredActivity.startDate?.slice(0, 10) ?? '',
+    endDate: declaredActivity.endDate?.slice(0, 10) ?? '',
+    createdAt: declaredActivity.createdAt ?? mockedDeclaredActivityDetails.createdAt,
+    updatedAt: declaredActivity.updatedAt ?? mockedDeclaredActivityDetails.updatedAt,
+    finishedAt: mappedStatus === EDeclaredActivityStatus.COMPLETED
+      ? mockedFinishedDeclaredActivityDetails.finishedAt
+      : '',
+    reflection: declaredActivity.reflection ?? mockedDeclaredActivityDetails.reflection,
+  }
 }
