@@ -69,6 +69,21 @@
             "ActivityDetailedDropdown": {
               "triggerLabel": "Manage my activity"
             },
+            "DeleteActivityAssociationsModal": {
+              "title": "Which association(s) do you want to delete?"
+            },
+            "DeleteAssociatedElementsDropdown": {
+              "skills": "one/many associated skill(s)",
+              "traces": "one/many associated trace(s)"
+            },
+            "MyPerspectiveSection": {
+              "AssociatedElementsTab": {
+                "title": "My associated elements ({count})"
+              },
+              "MyPerspectiveTab": {
+                "title": "My perspective"
+              }
+            },
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Implementation period"
             }
