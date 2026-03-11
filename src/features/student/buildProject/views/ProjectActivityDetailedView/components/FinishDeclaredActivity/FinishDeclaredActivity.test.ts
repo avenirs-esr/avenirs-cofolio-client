@@ -155,8 +155,9 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the finished label without formatted date value', () => {
-      expect(wrapper.text()).toContain('Terminée le')
+    BddTest().then('it should not render the finished date text', () => {
+      expect(wrapper.text()).not.toContain('Terminée le')
+      expect(wrapper.find('[data-testid="finish-declared-activity-date"]').exists()).toBe(false)
     })
   })
 

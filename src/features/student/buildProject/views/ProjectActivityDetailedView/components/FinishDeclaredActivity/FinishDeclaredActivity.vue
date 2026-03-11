@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { useModal } from '@/common/composables'
 import FinishDeclaredActivityConfirmModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
 import { AvBadge, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,18 +18,10 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const showConfirmModal = ref(false)
-
-function openConfirmModal () {
-  showConfirmModal.value = true
-}
-
-function closeConfirmModal () {
-  showConfirmModal.value = false
-}
+const { showModal, displayModal, hideModal } = useModal()
 
 function handleConfirm () {
-  showConfirmModal.value = false
+  hideModal()
   emit('finished')
 }
 
@@ -53,7 +46,7 @@ const finishedAtFormatted = computed(() => {
       :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishButton')"
       variant="FLAT"
       :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
-      @click="openConfirmModal"
+      @click="displayModal"
     />
     <div
       v-if="isCompleted"
@@ -66,13 +59,17 @@ const finishedAtFormatted = computed(() => {
         :icon="MDI_ICONS.CHECK_CIRCLE"
         data-testid="finish-declared-activity-finished-badge"
       />
-      <p class="av-text-text2">
+      <p
+        v-if="!!finishedAtFormatted"
+        class="av-text-text2"
+        data-testid="finish-declared-activity-date"
+      >
         {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishedAt', { date: finishedAtFormatted }) }}
       </p>
     </div>
     <FinishDeclaredActivityConfirmModal
-      :show="showConfirmModal"
-      @close="closeConfirmModal"
+      :show="showModal"
+      @close="hideModal"
       @confirm="handleConfirm"
     />
   </div>
