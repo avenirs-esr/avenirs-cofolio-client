@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
+import {
+  ACTIVITY_DETAILED_SECTIONS
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
 import { ICONS } from '@/features/student/global/icons'
 import {
   AvSideNavigation,
@@ -9,17 +12,12 @@ import {
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export type ActivityDetailedSection = 'activity-detailed' | 'my-perspective'
-
 export interface ActivityDetailedSideNavigationProps {
   activityTitle?: string
   selectedItem?: AvSideNavigationSelectedItem
 }
 
-const props = withDefaults(defineProps<ActivityDetailedSideNavigationProps>(), {
-  activityTitle: '',
-  selectedItem: () => ({ itemId: 'activity-detailed' }),
-})
+const { activityTitle = '', selectedItem = { itemId: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED } } = defineProps<ActivityDetailedSideNavigationProps>()
 
 const emit = defineEmits<{
   (e: 'update:selectedItem', value: AvSideNavigationSelectedItem): void
@@ -31,12 +29,12 @@ const isSideMenuCollapsed = ref(false)
 
 const items = computed<AvSideNavigationMenuItem[]>(() => [
   {
-    id: 'activity-detailed',
-    label: props.activityTitle || t('global.detail'),
+    id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+    label: activityTitle || t('global.detail'),
     icon: ICONS.ACTIVITY,
   },
   {
-    id: 'my-perspective',
+    id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
     label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
     icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
   },

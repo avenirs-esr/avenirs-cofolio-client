@@ -90,7 +90,7 @@ BddTest().given('a project activity detailed view', () => {
 
     BddTest().then('it should pass the declared activity detail to the layout', () => {
       const layout = wrapper.findComponent(ProjectActivityDetailedLayoutStub)
-      expect(layout.props('declaredActivityDetail')).toEqual(mockedDeclaredActivityDetails)
+      expect(layout.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
     })
 
     BddTest().then('it should render the ActivityStatusBadge with the correct status', () => {
