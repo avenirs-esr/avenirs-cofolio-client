@@ -6,12 +6,11 @@ import { ROUTES } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
-import {
-  useDeclaredActivitiesDetailedQuery
-} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
-import ActivityDetailedDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
-import ProjectActivityDetails
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
+import { useDeclaredActivitiesDetailedQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import ActivityDetailedDropdown
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
+import ProjectActivityDetailedLayout
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetailedLayout/ProjectActivityDetailedLayout.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailedViewProps {
@@ -71,7 +70,9 @@ const breadcrumbLinks = computed(() => [
         </div>
       </div>
 
-      <ProjectActivityDetails :declared-activity-details="declaredActivityDetail" />
+      <ProjectActivityDetailedLayout
+        :declared-activity-detail="declaredActivityDetail"
+      />
 
       <UnsubscribeActivitiesConfirmModal
         :show="showModal"
