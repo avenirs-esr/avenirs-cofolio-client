@@ -71,7 +71,7 @@ const breadcrumbLinks = computed(() => [
       </div>
 
       <ProjectActivityDetailedLayout
-        :declared-activity-detail="declaredActivityDetail"
+        :declared-activity-details="declaredActivityDetail"
       />
 
       <UnsubscribeActivitiesConfirmModal

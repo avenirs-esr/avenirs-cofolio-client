@@ -35,7 +35,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 BddTest().given('a project activity detailed layout component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedLayout>>
 
-  const declaredActivityDetail: DeclaredActivityDetailsDTO = {
+  const declaredActivityDetails: DeclaredActivityDetailsDTO = {
     id: 'declared-activity-id',
     status: EDeclaredActivityStatus.IN_PROGRESS,
     reflection: 'Ma réflexion',
@@ -70,7 +70,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
       wrapper = mountComponent(ProjectActivityDetailedLayout, {
         props: {
-          declaredActivityDetail,
+          declaredActivityDetails,
         },
         global: { stubs },
       })
@@ -99,7 +99,7 @@ BddTest().given('a project activity detailed layout component', () => {
       const projectActivityDetails = wrapper.findComponent(ProjectActivityDetailsStub)
 
       expect(projectActivityDetails.exists()).toBe(true)
-      expect(projectActivityDetails.props('declaredActivityDetails')).toEqual(declaredActivityDetail)
+      expect(projectActivityDetails.props('declaredActivityDetails')).toEqual(declaredActivityDetails)
     })
 
     BddTest().then('it should pass the activity title to side navigation', () => {
@@ -155,7 +155,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
       wrapper = mountComponent(ProjectActivityDetailedLayout, {
         props: {
-          declaredActivityDetail,
+          declaredActivityDetails,
         },
         global: { stubs },
       })

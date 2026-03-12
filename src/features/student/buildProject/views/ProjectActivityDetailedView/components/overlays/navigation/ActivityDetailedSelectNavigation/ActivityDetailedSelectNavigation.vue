@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import {
+  ACTIVITY_DETAILED_SECTIONS
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
+import {
   AvSelect,
   type AvSelectOption,
   type AvSelectSelectedOption,
@@ -12,10 +15,7 @@ export interface ActivityDetailedSelectNavigationProps {
   selectedItem?: AvSelectSelectedOption
 }
 
-const props = withDefaults(defineProps<ActivityDetailedSelectNavigationProps>(), {
-  activityTitle: '',
-  selectedItem: () => ({ itemId: 'activity-detailed' }),
-})
+const { activityTitle = '', selectedItem = { itemId: 'activity-detailed' } } = defineProps<ActivityDetailedSelectNavigationProps>()
 
 const emit = defineEmits<{
   (e: 'update:selectedItem', value: AvSelectSelectedOption): void
@@ -25,11 +25,11 @@ const { t } = useI18n()
 
 const selectOptions = computed<AvSelectOption[]>(() => [
   {
-    id: 'activity-detailed',
-    label: props.activityTitle || t('global.detail'),
+    id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+    label: activityTitle || t('global.detail'),
   },
   {
-    id: 'my-perspective',
+    id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
     label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
   },
 ])

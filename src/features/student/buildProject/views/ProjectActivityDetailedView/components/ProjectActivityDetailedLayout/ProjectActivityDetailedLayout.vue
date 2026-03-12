@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import type { ActivityDetailedSection }
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSideNavigation/ActivityDetailedSideNavigation.vue'
 import type { AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
 import type { Component } from 'vue'
 import MyPerspectiveSection
@@ -12,22 +10,26 @@ import ActivityDetailedSideNavigation
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSideNavigation/ActivityDetailedSideNavigation.vue'
 import ProjectActivityDetails
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
+import {
+  ACTIVITY_DETAILED_SECTIONS,
+  type ActivityDetailedSection
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 
 export interface ProjectActivityDetailedLayoutProps {
-  declaredActivityDetail: DeclaredActivityDetailsDTO
+  declaredActivityDetails: DeclaredActivityDetailsDTO
 }
 
-const props = defineProps<ProjectActivityDetailedLayoutProps>()
+const { declaredActivityDetails } = defineProps<ProjectActivityDetailedLayoutProps>()
 
 const { isMobile } = useAvBreakpoints()
 
 const selectedItem = ref<AvSideNavigationSelectedItem>({
-  itemId: 'activity-detailed',
+  itemId: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
 })
 
 function isActivityDetailedSection (value: string): value is ActivityDetailedSection {
-  return value === 'activity-detailed' || value === 'my-perspective'
+  return Object.values(ACTIVITY_DETAILED_SECTIONS).includes(value as ActivityDetailedSection)
 }
 
 const selectedSection = computed<ActivityDetailedSection>(() => {
@@ -37,14 +39,14 @@ const selectedSection = computed<ActivityDetailedSection>(() => {
     return itemId
   }
 
-  return 'activity-detailed'
+  return ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED
 })
 
 const displayedSection = computed<Component>(() => {
   switch (selectedSection.value) {
-    case 'my-perspective':
+    case ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE:
       return MyPerspectiveSection
-    case 'activity-detailed':
+    case ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED:
     default:
       return ProjectActivityDetails
   }
@@ -52,12 +54,12 @@ const displayedSection = computed<Component>(() => {
 
 const sectionProps = computed<Record<string, unknown>>(() => {
   switch (selectedSection.value) {
-    case 'my-perspective':
+    case ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE:
       return {}
-    case 'activity-detailed':
+    case ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED:
     default:
       return {
-        declaredActivityDetails: props.declaredActivityDetail,
+        declaredActivityDetails,
       }
   }
 })
@@ -76,12 +78,12 @@ function updateSelectedItem (value: AvSideNavigationSelectedItem) {
     <ActivityDetailedSideNavigation
       v-if="!isMobile"
       v-model:selected-item="selectedItem"
-      :activity-title="declaredActivityDetail.activity.title"
+      :activity-title="declaredActivityDetails.activity.title"
     />
     <ActivityDetailedSelectNavigation
       v-else
       :selected-item="selectedItem"
-      :activity-title="declaredActivityDetail.activity.title"
+      :activity-title="declaredActivityDetails.activity.title"
       @update:selected-item="updateSelectedItem"
     />
 
