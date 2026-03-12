@@ -69,6 +69,9 @@
             "ActivityDetailedDropdown": {
               "triggerLabel": "Manage my activity"
             },
+            "ActivityDetailedSideNavigation": {
+              "myPerspective": "My perspective"
+            },
             "DeleteActivityAssociationsModal": {
               "title": "Which association(s) do you want to delete?"
             },

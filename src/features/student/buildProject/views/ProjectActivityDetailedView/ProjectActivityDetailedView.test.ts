@@ -9,7 +9,9 @@ import { ROUTES } from '@/common/constants'
 import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
-import { ProjectActivityDetailsStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.stub'
+import {
+  ProjectActivityDetailedLayoutStub
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetailedLayout/ProjectActivityDetailedLayout.stub'
 import ProjectActivityDetailedView, { type ProjectActivityDetailedViewProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -24,7 +26,7 @@ BddTest().given('a project activity detailed view', () => {
     ActivityStatusBadge: ActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
-    ProjectActivityDetails: ProjectActivityDetailsStub
+    ProjectActivityDetailedLayout: ProjectActivityDetailedLayoutStub,
   }
 
   BddTest().when('the view is mounted with a valid activity', () => {
@@ -81,10 +83,14 @@ BddTest().given('a project activity detailed view', () => {
       })
     })
 
-    BddTest().then('it should render the ProjectActivityDetails component', () => {
-      const details = wrapper.findComponent(ProjectActivityDetailsStub)
-      expect(details.exists()).toBe(true)
-      expect(details.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+    BddTest().then('it should render the project activity detailed layout component', () => {
+      const layout = wrapper.findComponent(ProjectActivityDetailedLayoutStub)
+      expect(layout.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the declared activity detail to the layout', () => {
+      const layout = wrapper.findComponent(ProjectActivityDetailedLayoutStub)
+      expect(layout.props('declaredActivityDetail')).toEqual(mockedDeclaredActivityDetails)
     })
 
     BddTest().then('it should render the ActivityStatusBadge with the correct status', () => {
@@ -150,6 +156,10 @@ BddTest().given('a project activity detailed view', () => {
       expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
     })
 
+    BddTest().then('it should not render the layout', () => {
+      expect(wrapper.findComponent(ProjectActivityDetailedLayoutStub).exists()).toBe(false)
+    })
+
     BddTest().then('it should render an activity not found error message', async () => {
       await vi.waitFor(() => {
         const errorMessage = wrapper.find('[data-testid="error-message"]')
@@ -177,6 +187,10 @@ BddTest().given('a project activity detailed view', () => {
 
     BddTest().then('it should not render the page title', () => {
       expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the layout', () => {
+      expect(wrapper.findComponent(ProjectActivityDetailedLayoutStub).exists()).toBe(false)
     })
 
     BddTest().then('it should render a generic error message', async () => {

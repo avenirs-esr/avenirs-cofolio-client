@@ -68,6 +68,9 @@
             "ActivityDetailedDropdown": {
               "triggerLabel": "Gérer mon activité"
             },
+            "ActivityDetailedSideNavigation": {
+              "myPerspective": "Ma prise de recul"
+            },
             "DeleteActivityAssociationsModal": {
               "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
             },
