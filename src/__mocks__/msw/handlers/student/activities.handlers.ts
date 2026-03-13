@@ -23,6 +23,7 @@ import {
   getGetLatestActivitiesViewUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
+  getUpdatePeriodUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
@@ -276,6 +277,29 @@ export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':de
   )
 })
 
+export const updateActivityHandler = http.put(`*${getUpdatePeriodUrl(':declaredActivityId')}`, ({ params }) => {
+  const { declaredActivityId } = params
+
+  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Declared activity not found' },
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<string>('Period updated successfully', {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
+export const updateActivityPeriodHandler = http.put(`*${getUpdatePeriodUrl(':declaredActivityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    { status: 500, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -304,4 +328,5 @@ export const activitiesHandlers = [
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
+  updateActivityHandler,
 ]

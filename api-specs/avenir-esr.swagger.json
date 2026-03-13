@@ -1633,6 +1633,47 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/period": {
+      "put": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "updatePeriod",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclaredActivityPeriodRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/finish/{declaredActivityId}": {
       "put": {
         "tags": [
@@ -3562,6 +3603,14 @@
             "type": "string",
             "maxLength": 400,
             "minLength": 0
+          }
+        }
+      },
+      "DeclaredActivityPeriodRequest": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
           }
         }
       },

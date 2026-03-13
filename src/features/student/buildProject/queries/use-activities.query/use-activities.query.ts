@@ -6,6 +6,7 @@ import {
   type ActivityOverviewDTO,
   type DeclaredActivity,
   type DeclaredActivityDetailsDTO,
+  type DeclaredActivityPeriodRequest,
   type EActivityThematic,
   finish,
   getActivitiesView,
@@ -20,10 +21,12 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
   subscribeActivity,
   type SubscribeDeclaredActivityRequest,
-  unsubscribeActivitiesProgresses
+  unsubscribeActivitiesProgresses,
+  updatePeriod
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
+import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
 import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
@@ -245,6 +248,7 @@ export function useActivityDetailQuery (activityId: MaybeRef<string>) {
     queryKey,
     queryFn,
     enabled: computed(() => toValue(activityId).trim().length > 0),
+    staleTime: TanstackStaleTimeConfig.DETAILS
   })
 
   const activityDetail = computed(() => query.data.value)
@@ -285,6 +289,7 @@ export function useDeclaredActivitiesDetailedQuery (declaredActivityId: MaybeRef
     queryKey,
     queryFn,
     enabled: computed(() => toValue(declaredActivityId).trim().length > 0),
+    staleTime: TanstackStaleTimeConfig.DETAILS
   })
 
   const declaredActivityDetail = computed(() => query.data.value)
@@ -308,6 +313,26 @@ export function useFinishDeclaredActivityMutation ({
   return useMutation<DeclaredActivityDetailsDTO, BaseApiException, FinishDeclaredActivityVariables>({
     mutationFn: async ({ declaredActivityId }: FinishDeclaredActivityVariables): Promise<DeclaredActivityDetailsDTO> => {
       return await finish(declaredActivityId)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activityDetailsQueryKey, variables.declaredActivityId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UpdateActivityPeriodVariables {
+  declaredActivityId: string
+  declaredActivityPeriodRequest: DeclaredActivityPeriodRequest
+}
+
+export function useUpdateActivityPeriodMutation ({ onError, onSuccess }: MutationArgs<string, UpdateActivityPeriodVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<string, BaseApiException, UpdateActivityPeriodVariables>({
+    mutationFn: async ({ declaredActivityId, declaredActivityPeriodRequest }: UpdateActivityPeriodVariables): Promise<string> => {
+      return await updatePeriod(declaredActivityId, declaredActivityPeriodRequest)
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activityDetailsQueryKey, variables.declaredActivityId])
