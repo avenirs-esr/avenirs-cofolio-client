@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { useSubscribeActivityMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import ActivityPeriodFormField
+  from '@/features/student/buildProject/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 import CancelSubscribeActivityConfirmModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/CancelSubscribeActivityConfirmModal/CancelSubscribeActivityConfirmModal.vue'
-import { useToasterStore } from '@/store'
-import { AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
-import { useForm } from '@tanstack/vue-form'
+import { useSubscribeActivityForm } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/use-subscribe-activity-form/use-subscribe-activity-form'
 import { startOfToday } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -18,11 +16,6 @@ export interface SubscribeActivityModalProps {
   }
 }
 
-interface SubscribeActivityFormData {
-  startDate: string | null
-  endDate: string | null
-}
-
 const { activity } = defineProps<SubscribeActivityModalProps>()
 
 const emit = defineEmits<{
@@ -31,100 +24,15 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { validateDateInterval, validateRequired } = useFormValidators()
 const {
   showModal: showCancelSubscribeConfirmModal,
   displayModal: displayCancelSubscribeConfirmModal,
   hideModal: hideCancelSubscribeConfirmModal
 } = useModal()
-const { addSuccessMessage, addErrorMessage } = useToasterStore()
 
 const todayDate = startOfToday()
 
-const { mutate: subscribe } = useSubscribeActivityMutation({
-  onSuccess: () => {
-    addSuccessMessage(t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.success'))
-    emit('subscribed')
-  },
-  onError: (error) => {
-    addErrorMessage({
-      title: t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.error'),
-      description: error.message
-    })
-  }
-})
-
-const form = useForm({
-  defaultValues: {
-    startDate: null,
-    endDate: null
-  } as SubscribeActivityFormData,
-  validators: {
-    onSubmit ({ value }: { value: SubscribeActivityFormData }) {
-      const { startDate, endDate } = value
-      const validateEndDate = () => {
-        if (!startDate) {
-          return
-        }
-        return validateRequired(endDate) || validateDateInterval({
-          startDate,
-          endDate,
-          isOnGoing: true
-        })
-      }
-      const validateStartDate = () => {
-        if (!endDate) {
-          return
-        }
-        return validateRequired(startDate) || validateDateInterval({
-          startDate,
-          endDate,
-          isOnGoing: true
-        })
-      }
-      return {
-        fields: {
-          startDate: validateStartDate(),
-          endDate: validateEndDate()
-        }
-      }
-    }
-  },
-  onSubmit: ({ value }: { value: SubscribeActivityFormData }) => {
-    const { startDate, endDate } = value
-    const period = startDate && endDate
-      ? { startDate, endDate }
-      : undefined
-
-    subscribe({
-      activityId: activity.id,
-      subscribeDeclaredActivityRequest: {
-        period
-      }
-    }, {
-      onSuccess: () => {
-        form.reset()
-      }
-    })
-  }
-})
-
-const startDateField = form.useField({ name: 'startDate' })
-const startDateValue = computed(() => startDateField.state.value.value ?? '')
-const endDateField = form.useField({ name: 'endDate' })
-const endDateValue = computed(() => endDateField.state.value.value ?? '')
-const startDateErrorMessage = computed(() => startDateField.state.value.meta.errors?.join(', '))
-const endDateErrorMessage = computed(() => endDateField.state.value.meta.errors?.join(', '))
-
-const isFormValid = computed(() => {
-  const state = form.useStore(s => s)
-  return state.value.isValid && !state.value.isValidating
-})
-
-const isFormDirty = computed(() => {
-  const state = form.useStore(s => s)
-  return state.value.isDirty
-})
+const { form, isFormValid, isFormDirty } = useSubscribeActivityForm(activity, () => emit('subscribed'))
 
 function onConfirmCancelSubscribe () {
   hideCancelSubscribeConfirmModal()
@@ -141,14 +49,6 @@ function onCancelSubscribeModal () {
   else {
     emit('cancel')
   }
-}
-
-function onChangeStartDate (date: string) {
-  startDateField.api.handleChange(date)
-}
-
-function onChangeEndDate (date: string) {
-  endDateField.api.handleChange(date)
 }
 </script>
 
@@ -174,16 +74,10 @@ function onChangeEndDate (date: string) {
       </div>
     </template>
 
-    <AvPeriodInput
+    <ActivityPeriodFormField
       data-testid="subscribe-activity-modal__period-input"
-      :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.period.label')"
-      :start-model-value="startDateValue"
-      :end-model-value="endDateValue"
+      :form="form"
       :start-min-date="todayDate"
-      :start-error-message="startDateErrorMessage"
-      :end-error-message="endDateErrorMessage"
-      @update:start-model-value="onChangeStartDate"
-      @update:end-model-value="onChangeEndDate"
     />
 
     <CancelSubscribeActivityConfirmModal

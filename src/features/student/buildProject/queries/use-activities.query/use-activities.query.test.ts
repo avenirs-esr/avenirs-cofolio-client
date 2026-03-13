@@ -7,6 +7,7 @@ import {
   activityNavigationQuery,
   activityNavigationQueryError,
   libraryActivitiesErrorHandler,
+  updateActivityPeriodHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
@@ -14,14 +15,16 @@ import {
   type ActivityNavigationDTO,
   type DeclaredActivity,
   type DeclaredActivityDetailsDTO,
+  type DeclaredActivityPeriodRequest,
   EActivityThematic,
   type getDeclaredActivitiesView,
-  type SubscribeDeclaredActivityRequest
+  type SubscribeDeclaredActivityRequest,
 } from '@/api/avenir-esr'
 import {
   type FinishDeclaredActivityVariables,
   type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
+  type UpdateActivityPeriodVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
   useCountLibraryActivities,
@@ -30,6 +33,7 @@ import {
   useLibraryActivitiesQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
+  useUpdateActivityPeriodMutation,
 } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -1126,6 +1130,148 @@ BddTest().given('the useFinishDeclaredActivityMutation composable', () => {
 
       BddTest().then('it should call the custom onError callback', () => {
         expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('the useUpdateActivityPeriodMutation composable', () => {
+  let updatePeriodSpy: MockInstance<
+    (declaredActivityId: string, declaredActivityPeriodRequest: DeclaredActivityPeriodRequest, options?: RequestInit | undefined) => Promise<string>
+  >
+  let mutationResult: ReturnType<typeof useUpdateActivityPeriodMutation>
+
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError,
+  }
+
+  const declaredActivityId = 'declared-activity-1'
+  const declaredActivityPeriodRequest: DeclaredActivityPeriodRequest = {
+    period: { startDate: '2024-01-01', endDate: '2024-06-30' },
+  }
+  const variables: UpdateActivityPeriodVariables = { declaredActivityId, declaredActivityPeriodRequest }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    updatePeriodSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'updatePeriod'>(
+      await import('@/api/avenir-esr'),
+    'updatePeriod',
+    )
+
+    vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id with success callbacks', () => {
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityPeriodMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updatePeriod API with correct parameters', () => {
+        expect(updatePeriodSpy).toHaveBeenCalledWith(declaredActivityId, declaredActivityPeriodRequest)
+        expect(updatePeriodSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityPeriodMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updatePeriod API with correct parameters', () => {
+        expect(updatePeriodSpy).toHaveBeenCalledWith(declaredActivityId, declaredActivityPeriodRequest)
+        expect(updatePeriodSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no callbacks are provided', () => {
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityPeriodMutation())
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updatePeriod API', () => {
+        expect(updatePeriodSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not throw', () => {
+        expect(mutationResult.isError.value).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared activity id with error handler', () => {
+    const invalidVariables: UpdateActivityPeriodVariables = {
+      declaredActivityId: 'INVALID_DECLARED_ACTIVITY_ID',
+      declaredActivityPeriodRequest,
+    }
+
+    beforeEach(() => {
+      server.use(updateActivityPeriodHandler)
+    })
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityPeriodMutation(mutationArgs))
+        try {
+          await mutationResult.mutateAsync(invalidVariables)
+        }
+        catch {}
+
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updatePeriod API with the invalid parameters', () => {
+        expect(updatePeriodSpy).toHaveBeenCalledWith('INVALID_DECLARED_ACTIVITY_ID', declaredActivityPeriodRequest)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
       })
     })
   })

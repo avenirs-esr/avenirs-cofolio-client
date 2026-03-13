@@ -28,12 +28,35 @@
             "title": "Activity not found"
           }
         },
+        "interactions": {
+          "formFields": {
+            "ActivityPeriodFormField": {
+              "label": "Add a personal achievement period"
+            }
+          }
+        },
         "overlays": {
           "UnsubscribeActivitiesConfirmModal": {
             "description": "This action will result in the permanent loss of all associated data and actions.",
             "error": "An error occurred while unsubscribing from the activity. Please try again later. | An error occurred while unsubscribing from the activities. Please try again later.",
             "success": "You have been successfully unsubscribed.",
             "title": "Are you sure you want to unsubscribe from this activity? | Are you sure you want to unsubscribe from these activities?"
+          },
+          "UpdateActivityDrawer": {
+            "confirmationModal": {
+              "description": "Are you sure you want to cancel your changes? Unsaved changes will be lost."
+            },
+            "errors": {
+              "updatePeriod": "An error occurred while updating the activity. Please try again later."
+            },
+            "sections": {
+              "notificationHint": "You will receive a notification 1 day before the start of your activity.",
+              "reminder": "Reminders",
+              "period": "Achievement period",
+              "periodLabel": "Update my personal achievement period"
+            },
+            "success": "The achievement period has been successfully updated.",
+            "title": "Edit activity"
           }
         },
         "thematics": {
@@ -53,9 +76,6 @@
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "An error occurred while subscribing to the activity. Please try again later.",
-                "period": {
-                  "label": "Add a personal achievement period"
-                },
                 "success": "You have successfully subscribed. Find this activity in your activity library.",
                 "title": "Subscribe to the activity {title}"
               },

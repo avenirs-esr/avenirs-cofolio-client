@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useModal } from '@/common/composables'
+import { useDrawer, useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
+import UpdateActivityDrawer
+  from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import { useDeclaredActivitiesDetailedQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivityDetailedDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
@@ -22,6 +24,7 @@ const { id } = defineProps<ProjectActivityDetailedViewProps>()
 const { t } = useI18n()
 const { declaredActivityDetail, isLoading, isError, error } = useDeclaredActivitiesDetailedQuery(id)
 const { showModal, displayModal, hideModal } = useModal()
+const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -66,6 +69,7 @@ const breadcrumbLinks = computed(() => [
           <ActivityDetailedDropdown
             data-testid="activity-detailed-dropdown"
             @unsubscribe-selected="displayModal"
+            @update-selected="displayUpdateDrawer"
           />
         </div>
       </div>
@@ -76,9 +80,15 @@ const breadcrumbLinks = computed(() => [
 
       <UnsubscribeActivitiesConfirmModal
         :show="showModal"
-        :activities="[{ id: declaredActivityDetail.id, title: declaredActivityDetail.activity.title }]"
+        :activities="[{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }]"
         @cancel="hideModal"
         @unsubscribed="hideModal"
+      />
+
+      <UpdateActivityDrawer
+        :show="showUpdateDrawer"
+        :declared-activity="declaredActivityDetail"
+        @close="hideUpdateDrawer"
       />
     </div>
   </Loader>

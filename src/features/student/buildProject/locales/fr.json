@@ -28,12 +28,35 @@
             "title": "Activité introuvable"
           }
         },
+        "interactions": {
+          "formFields": {
+            "ActivityPeriodFormField": {
+              "label": "Ajouter une période de réalisation personnelle"
+            }
+          }
+        },
         "overlays": {
           "UnsubscribeActivitiesConfirmModal": {
             "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
             "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
             "success": "Vous avez été désinscrit.e avec succès.",
             "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité ? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités ?"
+          },
+          "UpdateActivityDrawer": {
+            "confirmationModal": {
+              "description": "Êtes-vous certain(e) de vouloir annuler les modifications ? Les changements non enregistrés seront perdus."
+            },
+            "errors": {
+              "updatePeriod": "Une erreur est survenue lors de la mise à jour de l'activité. Veuillez réessayer plus tard."
+            },
+            "sections": {
+              "notificationHint": "Vous recevrez une notification 1 jour avant le début de votre activité.",
+              "reminder": "Rappels",
+              "period": "Période de réalisation",
+              "periodLabel": "Modifier ma période de réalisation personnelle"
+            },
+            "success": "La période de réalisation a été mise à jour avec succès.",
+            "title": "Modifier l'activité"
           }
         },
         "thematics": {
@@ -53,9 +76,6 @@
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
-                "period": {
-                  "label": "Ajouter une période de réalisation personnelle"
-                },
                 "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d’activités.",
                 "title": "Inscription à l’activité {title}"
               },
