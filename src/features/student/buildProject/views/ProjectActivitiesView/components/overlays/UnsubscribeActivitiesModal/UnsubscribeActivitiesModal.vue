@@ -33,7 +33,7 @@ const {
   loadMoreActivities,
 } = usePaginatedLibraryActivities(computed(() => show))
 
-const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title })))
+const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
 
 function onUnsubscribeSuccess () {
   hideConfirmModal()

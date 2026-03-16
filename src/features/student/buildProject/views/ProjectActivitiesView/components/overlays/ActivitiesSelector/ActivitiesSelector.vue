@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import { EActivityThematic } from '@/api/avenir-esr'
+import { isEnumMember } from '@/common/utils'
 import ActivityCompactCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/cards/ActivityCompactCard/ActivityCompactCard.vue'
 import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 
 export interface ActivitiesSelectorProps {
-  activities: { id: string, title: string }[]
+  activities: { id: string, title: string, thematic: EActivityThematic }[]
   readonly?: boolean
 }
+
+defineOptions({
+  inheritAttrs: false
+})
 
 const { activities } = defineProps<ActivitiesSelectorProps>()
 
@@ -25,6 +31,7 @@ function getActivityThematic (baseElement?: unknown) {
     && typeof baseElement === 'object'
     && 'thematic' in baseElement
     && typeof baseElement.thematic === 'string'
+    && isEnumMember(EActivityThematic, baseElement.thematic)
   ) {
     return baseElement.thematic
   }
@@ -45,6 +52,8 @@ function getActivityThematic (baseElement?: unknown) {
     >
       <template #default="{ label, value, baseElement }">
         <ActivityCompactCard
+          v-bind="$attrs"
+          data-testid="activity-selector-item"
           :data-activity-id="value"
           :data-activity-thematic="getActivityThematic(baseElement)"
           :title="label"
