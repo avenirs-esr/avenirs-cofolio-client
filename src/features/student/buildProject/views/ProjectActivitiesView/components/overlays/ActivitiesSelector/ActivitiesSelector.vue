@@ -14,9 +14,23 @@ const selectedActivityIds = defineModel<string[]>({ default: [] })
 const selectableActivities = computed(() => {
   return activities.map(activity => ({
     value: activity.id,
-    label: activity.title
+    label: activity.title,
+    baseElement: activity
   }))
 })
+
+function getActivityThematic (baseElement?: unknown) {
+  if (
+    baseElement
+    && typeof baseElement === 'object'
+    && 'thematic' in baseElement
+    && typeof baseElement.thematic === 'string'
+  ) {
+    return baseElement.thematic
+  }
+
+  return 'unknown'
+}
 </script>
 
 <template>
@@ -29,8 +43,12 @@ const selectableActivities = computed(() => {
       :overlay-opacity="0.25"
       :readonly="readonly"
     >
-      <template #default="{ label }">
-        <ActivityCompactCard :title="label" />
+      <template #default="{ label, value, baseElement }">
+        <ActivityCompactCard
+          :data-activity-id="value"
+          :data-activity-thematic="getActivityThematic(baseElement)"
+          :title="label"
+        />
       </template>
     </SelectorOverlay>
   </div>

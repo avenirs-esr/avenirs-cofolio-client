@@ -160,9 +160,14 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().getDropdown().clickUnsubscribe()
   }
 
-  @When('the user selects the first activity in the unsubscribe modal')
+  @When('the user selects the last activity in the unsubscribe modal')
   async selectFirstActivityInUnsubscribeModal () {
-    await this.getActivityLibraryTab().getUnsubscribeModal().selectActivityByIndex(0)
+    const modal = this.getActivityLibraryTab().getUnsubscribeModal()
+
+    this.unsubscribedActivityId = await modal.getLastActivityId()
+    this.unsubscribedActivityThematic = await modal.getLastActivityThematic()
+
+    await modal.selectLastActivityItem()
   }
 
   @When('the user confirms the unsubscription')
