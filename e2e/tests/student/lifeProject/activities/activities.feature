@@ -136,7 +136,7 @@ Feature: Student Project Activities Page
     @high @library-activity-tab @unsubscribe-activity-from-library
     Scenario: Student can unsubscribe from a library activity using the more actions menu
       When the user opens the unsubscribe activities modal
-      And the user selects the first activity in the unsubscribe modal
+      And the user selects the last activity in the unsubscribe modal
       And the user confirms the unsubscription
       And the user confirms the final unsubscription
       Then unsubscription success message is visible

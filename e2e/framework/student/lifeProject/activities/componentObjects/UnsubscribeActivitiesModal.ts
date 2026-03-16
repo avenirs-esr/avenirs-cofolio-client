@@ -19,8 +19,16 @@ export class UnsubscribeActivitiesModal extends BaseObject {
     return new UnsubscribeActivitiesConfirmModal(this.page!)
   }
 
-  async selectActivityByIndex (index: number) {
-    await this.getActivityItems().nth(index).click()
+  async getLastActivityId (): Promise<string> {
+    return await this.getActivityItems().last().getAttribute('data-activity-id') ?? ''
+  }
+
+  async getLastActivityThematic (): Promise<string> {
+    return await this.getActivityItems().last().getAttribute('data-activity-thematic') ?? ''
+  }
+
+  async selectLastActivityItem () {
+    await this.getActivityItems().last().click()
   }
 
   async clickConfirm () {
