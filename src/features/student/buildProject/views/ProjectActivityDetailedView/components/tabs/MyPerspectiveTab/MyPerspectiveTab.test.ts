@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { MyPerspectiveCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.stub'
 import { FinishDeclaredActivityStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
 import MyPerspectiveTab, {
   type MyPerspectiveTabProps,
@@ -29,6 +30,7 @@ BddTest().given('a my perspective tab', () => {
 
   const stubs = {
     FinishDeclaredActivity: FinishDeclaredActivityStub,
+    MyPerspectiveCard: MyPerspectiveCardStub,
   }
 
   beforeEach(() => {
@@ -47,8 +49,9 @@ BddTest().given('a my perspective tab', () => {
       })
     })
 
-    BddTest().then('it should render the placeholder', () => {
-      expect(wrapper.text()).toContain('Placeholder...')
+    BddTest().then('it should render the perspective card', () => {
+      const perspectiveCard = wrapper.findComponent(MyPerspectiveCardStub)
+      expect(perspectiveCard.exists()).toBe(true)
     })
 
     BddTest().then('it should render the main container', () => {

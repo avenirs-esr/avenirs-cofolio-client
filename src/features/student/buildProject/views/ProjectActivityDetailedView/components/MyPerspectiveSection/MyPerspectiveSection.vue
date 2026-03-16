@@ -3,7 +3,7 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import MyPerspectiveTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 import { ICONS } from '@/features/student/global/icons'
-import { AvTab, AvTabs, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveSectionProps {
@@ -25,7 +25,7 @@ const dummyElementCount = 5 // TODO: #1211
   >
     <AvTab
       :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.MyPerspectiveTab.title')"
-      :icon="MS_ICONS.CLOCK_LOADER_90"
+      :icon="ICONS.ACTIVITY_PERSPECTIVE"
     >
       <MyPerspectiveTab :declared-activity-details="declaredActivityDetails" />
     </AvTab>

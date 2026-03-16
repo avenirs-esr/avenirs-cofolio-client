@@ -24,8 +24,10 @@ import {
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdatePeriodUrl,
+  getUpdateReflectionUrl,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
+import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import { delay, http, HttpResponse } from 'msw'
 
 const subscribedActivities = new Set<string>()
@@ -332,6 +334,37 @@ export const updateActivityPeriodHandler = http.put(`*${getUpdatePeriodUrl(':dec
   )
 })
 
+export const updateActivityReflectionHandler = http.put(`*${getUpdateReflectionUrl(':activityId')}`, async ({ params, request }) => {
+  const { reflection } = await request.json() as { reflection: string }
+  const { activityId } = params
+
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Activity not found' },
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  if (reflection === '') {
+    return HttpResponse.json(
+      { message: 'Reflection cannot be empty' },
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  if (reflection.length > PERSPECTIVE_MAX_LENGTH) {
+    return HttpResponse.json(
+      { message: 'Reflection exceeds maximum length' },
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<string>('Reflection updated successfully', {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -361,4 +394,5 @@ export const activitiesHandlers = [
   unsubscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
   updateActivityHandler,
+  updateActivityReflectionHandler,
 ]

@@ -22,7 +22,8 @@ import {
   subscribeActivity,
   type SubscribeDeclaredActivityRequest,
   unsubscribeActivitiesProgresses,
-  updatePeriod
+  updatePeriod,
+  updateReflection
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { commonQueryKeys } from '@/features/student/global'
@@ -336,6 +337,26 @@ export function useUpdateActivityPeriodMutation ({ onError, onSuccess }: Mutatio
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activityDetailsQueryKey, variables.declaredActivityId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UpdateActivityReflectionVariables {
+  activityId: string
+  reflection: string
+}
+
+export function useUpdateActivityReflectionMutation ({ onError, onSuccess }: MutationArgs<string, UpdateActivityReflectionVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<string, BaseApiException, UpdateActivityReflectionVariables>({
+    mutationFn: async ({ activityId, reflection }: UpdateActivityReflectionVariables): Promise<string> => {
+      return await updateReflection(activityId, { reflection })
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activityDetailsQueryKey, variables.activityId])
       onSuccess?.(data, variables)
     },
     onError

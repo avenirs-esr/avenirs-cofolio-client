@@ -1,0 +1,1 @@
+export const PERSPECTIVE_MAX_LENGTH = 4000
