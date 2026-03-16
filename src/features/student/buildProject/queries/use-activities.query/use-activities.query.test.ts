@@ -19,12 +19,14 @@ import {
   EActivityThematic,
   type getDeclaredActivitiesView,
   type SubscribeDeclaredActivityRequest,
+  type UpdateReflectionRequest,
 } from '@/api/avenir-esr'
 import {
   type FinishDeclaredActivityVariables,
   type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
   type UpdateActivityPeriodVariables,
+  type UpdateActivityReflectionVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
   useCountLibraryActivities,
@@ -34,6 +36,7 @@ import {
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
   useUpdateActivityPeriodMutation,
+  useUpdateActivityReflectionMutation,
 } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -1255,6 +1258,222 @@ BddTest().given('the useUpdateActivityPeriodMutation composable', () => {
 
       BddTest().then('it should call the updatePeriod API with the invalid parameters', () => {
         expect(updatePeriodSpy).toHaveBeenCalledWith('INVALID_DECLARED_ACTIVITY_ID', declaredActivityPeriodRequest)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
+BddTest().given('the useUpdateActivityReflection composable', () => {
+  let updateReflectionSpy: MockInstance<
+    (activityId: string, updateReflectionRequest: UpdateReflectionRequest, options?: RequestInit | undefined) => Promise<string>
+  >
+  let mutationResult: ReturnType<typeof useUpdateActivityReflectionMutation>
+
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError,
+  }
+
+  const activityId = 'activity-1'
+  const reflection = 'This is a reflection update'
+  const variables: UpdateActivityReflectionVariables = { activityId, reflection }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    updateReflectionSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'updateReflection'>(
+      await import('@/api/avenir-esr'),
+    'updateReflection',
+    )
+
+    vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid activity id with success callbacks', () => {
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API with correct parameters', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledWith(activityId, { reflection })
+        expect(updateReflectionSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API with correct parameters', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledWith(activityId, { reflection })
+        expect(updateReflectionSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no callbacks are provided', () => {
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation())
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not throw', () => {
+        expect(mutationResult.isError.value).toBe(false)
+      })
+    })
+  })
+
+  BddTest().and('an invalid activity id with error handler', () => {
+    const invalidVariables: UpdateActivityReflectionVariables = {
+      activityId: 'INVALID_ACTIVITY_ID',
+      reflection,
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation(mutationArgs))
+        try {
+          await mutationResult.mutateAsync(invalidVariables)
+        }
+        catch {}
+
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API with the invalid parameters', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledWith('INVALID_ACTIVITY_ID', { reflection })
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().and('an empty reflection with error handler', () => {
+    const invalidVariables: UpdateActivityReflectionVariables = {
+      activityId: 'activity-1',
+      reflection: '',
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation(mutationArgs))
+        try {
+          await mutationResult.mutateAsync(invalidVariables)
+        }
+        catch {}
+
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API with the invalid parameters', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledWith('activity-1', { reflection: '' })
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().and('a too long reflection with error handler', () => {
+    const invalidVariables: UpdateActivityReflectionVariables = {
+      activityId: 'activity-1',
+      reflection: 'a'.repeat(4001),
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useUpdateActivityReflectionMutation(mutationArgs))
+        try {
+          await mutationResult.mutateAsync(invalidVariables)
+        }
+        catch {}
+
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the updateReflection API with the invalid parameters', () => {
+        expect(updateReflectionSpy).toHaveBeenCalledWith('activity-1', { reflection: 'a'.repeat(4001) })
       })
 
       BddTest().then('it should contain the error information', () => {

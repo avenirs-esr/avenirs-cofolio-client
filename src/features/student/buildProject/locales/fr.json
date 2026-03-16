@@ -28,6 +28,9 @@
             "title": "Activité introuvable"
           }
         },
+        "global": {
+          "perspective": "Ma prise de recul"
+        },
         "interactions": {
           "formFields": {
             "ActivityPeriodFormField": {
@@ -51,9 +54,9 @@
             },
             "sections": {
               "notificationHint": "Vous recevrez une notification 1 jour avant le début de votre activité.",
-              "reminder": "Rappels",
               "period": "Période de réalisation",
-              "periodLabel": "Modifier ma période de réalisation personnelle"
+              "periodLabel": "Modifier ma période de réalisation personnelle",
+              "reminder": "Rappels"
             },
             "success": "La période de réalisation a été mise à jour avec succès.",
             "title": "Modifier l'activité"
@@ -111,6 +114,16 @@
               "error": "Une erreur est survenue lors de la finalisation de l'activité. Veuillez réessayer plus tard.",
               "success": "Votre activitée est terminée",
               "title": "Confirmer la finalisation de l'activité"
+            },
+            "MyPerspectiveCard": {
+              "autoSave": {
+                "error": "Une erreur est survenue lors de la sauvegarde automatique de votre prise de recul. Veuillez réessayer plus tard.",
+                "success": "Votre prise de recul a été sauvegardée automatiquement"
+              },
+              "save": {
+                "error": "Une erreur est survenue lors de la sauvegarde de votre prise de recul. Veuillez réessayer plus tard.",
+                "success": "Votre prise de recul a été sauvegardée avec succès"
+              }
             },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {

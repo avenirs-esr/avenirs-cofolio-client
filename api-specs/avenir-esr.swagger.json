@@ -1674,6 +1674,47 @@
         }
       }
     },
+    "/me/activity-progress/{activityId}/reflection": {
+      "put": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "updateReflection",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReflectionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/finish/{declaredActivityId}": {
       "put": {
         "tags": [
@@ -4569,6 +4610,19 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "UpdateReflectionRequest": {
+        "type": "object",
+        "properties": {
+          "reflection": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "id"
         ]
       },
       "ActivityDTO": {

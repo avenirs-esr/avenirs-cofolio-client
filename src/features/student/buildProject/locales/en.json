@@ -28,6 +28,9 @@
             "title": "Activity not found"
           }
         },
+        "global": {
+          "perspective": "My perspective"
+        },
         "interactions": {
           "formFields": {
             "ActivityPeriodFormField": {
@@ -51,9 +54,9 @@
             },
             "sections": {
               "notificationHint": "You will receive a notification 1 day before the start of your activity.",
-              "reminder": "Reminders",
               "period": "Achievement period",
-              "periodLabel": "Update my personal achievement period"
+              "periodLabel": "Update my personal achievement period",
+              "reminder": "Reminders"
             },
             "success": "The achievement period has been successfully updated.",
             "title": "Edit activity"
@@ -112,6 +115,16 @@
               "error": "An error occurred while finishing the activity. Please try again later.",
               "success": "Your activity is finished.",
               "title": "Confirm finition of the activity"
+            },
+            "MyPerspectiveCard": {
+              "autoSave": {
+                "error": "An error occurred while automatically saving your perspective. Please try again later.",
+                "success": "Your perspective has been automatically saved."
+              },
+              "save": {
+                "error": "An error occurred while saving your perspective. Please try again later.",
+                "success": "Your perspective has been successfully saved."
+              }
             },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {

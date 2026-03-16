@@ -161,22 +161,41 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   }
 ]
 
-export const mockedDeclaredActivity: DeclaredActivity = {
+const commonMockedDeclaredActivityProps = {
   id: 'declared-activity-1',
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z',
   activity: {
     id: 'activity-1',
     title: 'Activité “Connaissance de soi” : Définir ses valeurs',
-    thematic: ActivityThematic.TRAJECTORIES,
     summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
     executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
   },
+  reflection: `<h1>Mes valeurs</h1><p>Je me rends compte que mes valeurs sont :</p><ul><li><p><strong>autonomie</strong></p></li><li><p><strong>créativité</strong></p></li><li><p><strong>impact social</strong></p></li></ul><p>Je vois que je les incarne dans</p><ol><li><p><em>engagement associatif</em></p></li><li><p><em>projets personnels</em></p></li><li><p><em>choix de stage l'été dernier</em></p></li></ol><p></p>`,
+  startDate: '2024-01-01',
+  endDate: '2024-06-30',
+  createdAt: '2024-01-01T00:00:00Z',
+  updatedAt: '2024-01-01T00:00:00Z',
+}
+
+export const mockedDeclaredActivity: DeclaredActivity = {
+  ...commonMockedDeclaredActivityProps,
+  activity: {
+    ...commonMockedDeclaredActivityProps.activity,
+    thematic: ActivityThematic.ABOUT_ME,
+  },
   hasStarted: true,
-  reflection: 'Je me rends compte que mes valeurs sont l\'autonomie, la créativité et l\'impact social. Je vois que je les incarnent dans mon engagement associatif, mes projets personnels et mon choix de stage l\'été dernier.',
-  startDate: '2024-01-01T00:00:00Z',
-  endDate: '2024-06-30T00:00:00Z',
   status: DeclaredActivityStatus.IN_PROGRESS
+}
+
+export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
+  ...commonMockedDeclaredActivityProps,
+  activity: {
+    ...commonMockedDeclaredActivityProps.activity,
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    createdAt: '2024-01-01T00:00:00Z',
+    updatedAt: '2024-01-01T00:00:00Z'
+  },
+  status: EDeclaredActivityStatus.IN_PROGRESS,
+  finishedAt: '',
 }
 
 // TODO: changes this to activities returned by seeder in dev
@@ -330,26 +349,6 @@ export const mockedActivityDetail: ActivityDetailDTO = {
 }
 
 export const mockedSubscribedActivityDetail: ActivityDetailDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
-
-export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
-  id: 'declared-activity-1',
-  activity: {
-    id: 'activity-1',
-    title: 'Activité “Connaissance de soi” : Définir ses valeurs',
-    thematic: EActivityThematic.TRAJECTORIES,
-    summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
-    executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: '2024-01-01T00:00:00Z'
-  },
-  status: EDeclaredActivityStatus.IN_PROGRESS,
-  reflection: 'Je me rends compte que mes valeurs sont l\'autonomie, la créativité et l\'impact social. Je vois que je les incarnent dans mon engagement associatif, mes projets personnels et mon choix de stage l\'été dernier.',
-  startDate: '2024-01-01',
-  endDate: '2024-06-30',
-  finishedAt: '',
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z'
-}
 
 export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   ...mockedDeclaredActivityDetails,

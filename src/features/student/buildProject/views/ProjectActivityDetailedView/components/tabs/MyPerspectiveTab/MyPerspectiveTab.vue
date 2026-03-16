@@ -2,6 +2,7 @@
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { useFinishDeclaredActivityMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import FinishDeclaredActivity
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
 import { useToasterStore } from '@/store'
@@ -44,11 +45,13 @@ function onDeclaredActivityFinished () {
     data-testid="my-perspective-tab"
   >
     <div>
-      Placeholder...
+      <MyPerspectiveCard
+        :activity-id="declaredActivityDetails.id"
+        :perspective="declaredActivityDetails.reflection"
+      />
     </div>
 
     <FinishDeclaredActivity
-      v-if="declaredActivityDetails"
       :finished-at="declaredActivityDetails.finishedAt"
       :status="declaredActivityDetails.status"
       :disabled="isPending"
