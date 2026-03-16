@@ -19,12 +19,16 @@ export class UnsubscribeActivitiesModal extends BaseObject {
     return new UnsubscribeActivitiesConfirmModal(this.page!)
   }
 
+  getSelectorItems () {
+    return this.root.getByTestId('activity-selector-item')
+  }
+
   async getLastActivityId (): Promise<string> {
-    return await this.getActivityItems().last().getAttribute('data-activity-id') ?? ''
+    return await this.getSelectorItems().last().getAttribute('data-activity-id') ?? ''
   }
 
   async getLastActivityThematic (): Promise<string> {
-    return await this.getActivityItems().last().getAttribute('data-activity-thematic') ?? ''
+    return await this.getSelectorItems().last().getAttribute('data-activity-thematic') ?? ''
   }
 
   async selectLastActivityItem () {

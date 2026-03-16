@@ -1,3 +1,4 @@
+import { EActivityThematic } from '@/api/avenir-esr'
 import { ActivityCompactCardStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/cards/ActivityCompactCard/ActivityCompactCard.stub'
 import ActivitiesSelector, { type ActivitiesSelectorProps } from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
 import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
@@ -37,6 +38,7 @@ BddTest().given('an activities selector', () => {
         {
           id: '1',
           title: 'Activity 1',
+          thematic: EActivityThematic.TRANSVERSAL
         }
       ],
     }
@@ -83,10 +85,12 @@ BddTest().given('an activities selector', () => {
         {
           id: '1',
           title: 'Activity 1',
+          thematic: EActivityThematic.TRANSVERSAL
         },
         {
           id: '2',
           title: 'Activity 2',
+          thematic: EActivityThematic.TRANSVERSAL
         }
       ],
     }
@@ -111,6 +115,7 @@ BddTest().given('an activities selector', () => {
         {
           id: '1',
           title: 'Activity 1',
+          thematic: EActivityThematic.TRANSVERSAL
         }
       ],
       readonly: true
