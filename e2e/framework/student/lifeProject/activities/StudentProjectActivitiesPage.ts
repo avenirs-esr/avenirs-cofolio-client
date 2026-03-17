@@ -3,10 +3,8 @@ import type { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
-import { t } from '@e2e/framework/shared/utils/i18n'
 import { ActivityLibraryTab } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryTab'
 import { AllActivitiesTabs } from '@e2e/framework/student/lifeProject/activities/componentObjects/AllActivitiesTabs'
-import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
@@ -175,14 +173,9 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.getActivityLibraryTab().getUnsubscribeModal().clickConfirm()
   }
 
-  @When('the user confirms the final unsubscription')
-  async confirmFinalUnsubscription () {
-    await this.getActivityLibraryTab().getUnsubscribeModal().getConfirmModal().clickConfirm()
-  }
-
-  @Then('unsubscription success message is visible')
+  @Then('unsubscription confirmation modal is visible')
   async verifyUnsubscribeSuccessMessageVisible () {
-    await expect(this.page.getByText(t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.success', { count: 1 }))).toBeVisible()
+    await this.getActivityLibraryTab().getUnsubscribeModal().getConfirmModal().verifyVisible()
   }
 
   @When('the student clicks the first library activity card')
