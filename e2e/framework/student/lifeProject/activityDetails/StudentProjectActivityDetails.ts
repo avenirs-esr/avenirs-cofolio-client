@@ -90,6 +90,31 @@ export class StudentProjectActivityDetails extends BasePage {
     await this.getMyPerspectiveSection().verifyVisible()
   }
 
+  @Then('the my perspective card is visible')
+  async verifyMyPerspectiveCardVisible () {
+    await this.getMyPerspectiveSection().verifyPerspectiveCardVisible()
+  }
+
+  @Then('the my perspective card is in readonly mode')
+  async verifyMyPerspectiveCardReadonly () {
+    await this.getMyPerspectiveSection().verifyPerspectiveCardReadonly()
+  }
+
+  @When('the student clicks the edit my perspective button')
+  async clickEditMyPerspectiveButton () {
+    await this.getMyPerspectiveSection().clickEditPerspectiveButton()
+  }
+
+  @Then('the my perspective card is in editable mode')
+  async verifyMyPerspectiveCardEditable () {
+    await this.getMyPerspectiveSection().verifyPerspectiveCardEditable()
+  }
+
+  @When('the student cancels the perspective edition')
+  async clickCancelEditPerspectiveButton () {
+    await this.getMyPerspectiveSection().clickCancelEditPerspectiveButton()
+  }
+
   @Then('the finish activity button is hidden')
   async verifyFinishActivityButtonHidden () {
     await this.getMyPerspectiveSection().verifyFinishButtonHidden()

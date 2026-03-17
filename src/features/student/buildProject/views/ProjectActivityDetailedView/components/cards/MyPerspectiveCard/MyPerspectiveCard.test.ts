@@ -32,6 +32,11 @@ BddTest().given('a my perspective card', () => {
     UpdateInProgressBadge: UpdateInProgressBadgeStub,
   }
 
+  const getContent = () => wrapper.find('[data-testid="my-perspective-card-content"]')
+  const getEditButton = () => wrapper.find('[data-testid="my-perspective-card-edit-button"]')
+  const getSaveButton = () => wrapper.find('[data-testid="my-perspective-card-save-button"]')
+  const getCancelButton = () => wrapper.find('[data-testid="my-perspective-card-cancel-button"]')
+
   BddTest().when('the component is mounted with a valid activityId and a perspective', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
@@ -56,7 +61,7 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should render the edit button', () => {
-      const editButton = wrapper.find('[data-testid="edit-button"]')
+      const editButton = getEditButton()
       expect(editButton.exists()).toBe(true)
     })
 
@@ -71,29 +76,29 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should render the perspective content', () => {
-      const content = wrapper.find('[data-testid="my-perspective"]')
+      const content = getContent()
       expect(content.exists()).toBe(true)
       expect(content.html()).toContain(props.perspective)
     })
 
     BddTest().then('it should not render the save button', () => {
-      const saveButton = wrapper.find('[data-testid="save-button"]')
+      const saveButton = getSaveButton()
       expect(saveButton.exists()).toBe(false)
     })
 
-    BddTest().then('it should render not the cancel button', () => {
-      const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+    BddTest().then('it should not render the cancel button', () => {
+      const cancelButton = getCancelButton()
       expect(cancelButton.exists()).toBe(false)
     })
 
     BddTest().and('the user clicks the edit button', () => {
       beforeEach(() => {
-        const editButton = wrapper.find('[data-testid="edit-button"]')
+        const editButton = getEditButton()
         editButton.trigger('click')
       })
 
       BddTest().then('it should not render the edit button', () => {
-        const editButton = wrapper.find('[data-testid="edit-button"]')
+        const editButton = getEditButton()
         expect(editButton.exists()).toBe(false)
       })
 
@@ -110,23 +115,23 @@ BddTest().given('a my perspective card', () => {
       })
 
       BddTest().then('it should not render the save button', () => {
-        const saveButton = wrapper.find('[data-testid="save-button"]')
+        const saveButton = getSaveButton()
         expect(saveButton.exists()).toBe(false)
       })
 
       BddTest().then('it should render the cancel button', () => {
-        const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+        const cancelButton = getCancelButton()
         expect(cancelButton.exists()).toBe(true)
       })
 
       BddTest().and('the user clicks the cancel button', () => {
         beforeEach(() => {
-          const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+          const cancelButton = getCancelButton()
           cancelButton.trigger('click')
         })
 
         BddTest().then('it should render the edit button', () => {
-          const editButton = wrapper.find('[data-testid="edit-button"]')
+          const editButton = getEditButton()
           expect(editButton.exists()).toBe(true)
         })
 
@@ -141,18 +146,18 @@ BddTest().given('a my perspective card', () => {
         })
 
         BddTest().then('it should render the perspective content', () => {
-          const content = wrapper.find('[data-testid="my-perspective"]')
+          const content = getContent()
           expect(content.exists()).toBe(true)
           expect(content.html()).toContain(props.perspective)
         })
 
         BddTest().then('it should not render the save button', () => {
-          const saveButton = wrapper.find('[data-testid="save-button"]')
+          const saveButton = getSaveButton()
           expect(saveButton.exists()).toBe(false)
         })
 
         BddTest().then('it should not render the cancel button', () => {
-          const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+          const cancelButton = getCancelButton()
           expect(cancelButton.exists()).toBe(false)
         })
       })
@@ -172,7 +177,7 @@ BddTest().given('a my perspective card', () => {
         })
 
         BddTest().then('it should enable the save button', () => {
-          const saveButton = wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'save-button')
+          const saveButton = wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'my-perspective-card-save-button')
           expect(saveButton?.exists()).toBe(true)
           expect(saveButton!.props('disabled')).toBe(false)
         })
@@ -192,12 +197,12 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should not render the perspective content', () => {
-            const content = wrapper.find('[data-testid="my-perspective"]')
+            const content = getContent()
             expect(content.exists()).toBe(false)
           })
 
           BddTest().then('it should not render the edit button', () => {
-            const editButton = wrapper.find('[data-testid="edit-button"]')
+            const editButton = getEditButton()
             expect(editButton.exists()).toBe(false)
           })
 
@@ -214,19 +219,19 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should render the save button', () => {
-            const saveButton = wrapper.find('[data-testid="save-button"]')
+            const saveButton = getSaveButton()
             expect(saveButton.exists()).toBe(true)
           })
 
           BddTest().then('it should not render the cancel button', () => {
-            const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+            const cancelButton = getCancelButton()
             expect(cancelButton.exists()).toBe(false)
           })
         })
 
         BddTest().and('the user clicks the save button', () => {
           beforeEach(async () => {
-            const saveButton = wrapper.find('[data-testid="save-button"]')
+            const saveButton = getSaveButton()
             saveButton.trigger('click')
             await flushPromises()
           })
@@ -240,12 +245,12 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should render the perspective content', () => {
-            const content = wrapper.find('[data-testid="my-perspective"]')
+            const content = getContent()
             expect(content.exists()).toBe(true)
           })
 
           BddTest().then('it should render the edit button', () => {
-            const editButton = wrapper.find('[data-testid="edit-button"]')
+            const editButton = getEditButton()
             expect(editButton.exists()).toBe(true)
           })
 
@@ -260,12 +265,12 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should not render the save button', () => {
-            const saveButton = wrapper.find('[data-testid="save-button"]')
+            const saveButton = getSaveButton()
             expect(saveButton.exists()).toBe(false)
           })
 
           BddTest().then('it should not render the cancel button', () => {
-            const cancelButton = wrapper.find('[data-testid="cancel-button"]')
+            const cancelButton = getCancelButton()
             expect(cancelButton.exists()).toBe(false)
           })
         })
@@ -284,14 +289,14 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should render an empty perspective content', () => {
-      const content = wrapper.find('[data-testid="my-perspective"]')
+      const content = getContent()
       expect(content.exists()).toBe(true)
       expect(content.text()).toBe('')
     })
 
     BddTest().and('the user clicks the edit button', () => {
       beforeEach(() => {
-        const editButton = wrapper.find('[data-testid="edit-button"]')
+        const editButton = getEditButton()
         editButton.trigger('click')
       })
 
@@ -316,7 +321,7 @@ BddTest().given('a my perspective card', () => {
 
     BddTest().and('the user clicks the edit button', () => {
       beforeEach(() => {
-        const editButton = wrapper.find('[data-testid="edit-button"]')
+        const editButton = getEditButton()
         editButton.trigger('click')
       })
 
@@ -352,7 +357,7 @@ BddTest().given('a my perspective card', () => {
 
         BddTest().and('the user clicks the save button', () => {
           beforeEach(async () => {
-            const saveButton = wrapper.find('[data-testid="save-button"]')
+            const saveButton = getSaveButton()
             saveButton.trigger('click')
             await flushPromises()
           })

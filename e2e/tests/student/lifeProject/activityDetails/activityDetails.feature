@@ -43,6 +43,39 @@ Feature: Student Project Activity Detail Page
     Scenario: Student can see the activity status
       Then the activity status is visible
 
+  Rule: My perspective
+
+    Background:
+      And the project activity details are loaded
+
+    @high @activity-details @perspective
+    Scenario: Student can edit an activity perspective
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the my perspective card is visible
+      And the my perspective card is in readonly mode
+      When the student clicks the edit my perspective button
+      Then the my perspective card is in editable mode
+
+    @high @activity-details @perspective
+    Scenario: Student can cancel the edition of an activity perspective
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the my perspective card is visible
+      And the my perspective card is in readonly mode
+      When the student clicks the edit my perspective button
+      Then the my perspective card is in editable mode
+      When the student cancels the perspective edition
+      Then the my perspective card is in readonly mode
+
   Rule: Finish declared activity
 
     Background:

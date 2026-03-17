@@ -92,7 +92,7 @@ watch(content, () => {
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
             small
-            data-testid="edit-button"
+            data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />
           <UpdateInProgressBadge
@@ -111,7 +111,7 @@ watch(content, () => {
       />
       <div
         v-else
-        data-testid="my-perspective"
+        data-testid="my-perspective-card-content"
         v-html="perspective"
       />
 
@@ -125,7 +125,7 @@ watch(content, () => {
             :disabled="!isModified"
             :is-loading="isPendingSave || isPendingAutoSave"
             small
-            data-testid="save-button"
+            data-testid="my-perspective-card-save-button"
             @click="onSave"
           />
           <AvButton
@@ -135,7 +135,7 @@ watch(content, () => {
             variant="DEFAULT"
             small
             :is-loading="isPendingAutoSave"
-            data-testid="cancel-button"
+            data-testid="my-perspective-card-cancel-button"
             @click="readonly = true"
           />
         </div>
