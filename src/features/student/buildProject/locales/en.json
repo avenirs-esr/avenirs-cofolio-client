@@ -92,11 +92,21 @@
             "unsubscribe": "Unsubscribe"
           },
           "ProjectActivityDetailedView": {
+            "ActivityAssociateElementsDropdown": {
+              "skills": "one/many skill(s)",
+              "traces": "one/many trace(s)"
+            },
             "ActivityDetailedDropdown": {
               "triggerLabel": "Manage my activity"
             },
             "ActivityDetailedSideNavigation": {
               "myPerspective": "My perspective"
+            },
+            "AssociateTracesModal": {
+              "title": "Which trace(s) would you like to associate?"
+            },
+            "ConfirmAssociateTracesModal": {
+              "title": "Are you sure you want to combine these items?"
             },
             "DeleteActivityAssociationsModal": {
               "title": "Which association(s) do you want to delete?"
