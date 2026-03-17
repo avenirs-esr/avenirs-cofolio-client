@@ -52,7 +52,7 @@ const onAutoSave = debounce(() => {
   if (!readonly.value && isModified.value && !isPendingAutoSave.value && !isPendingSave.value) {
     updateActivityReflectionOnAutoSave({ activityId, reflection: content.value })
   }
-}, 2000)
+}, 15000)
 
 function onSave () {
   updateActivityReflection({ activityId, reflection: content.value })
