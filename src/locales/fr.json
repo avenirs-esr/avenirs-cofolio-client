@@ -62,6 +62,7 @@
     },
     "buttons": {
       "add": "Ajouter",
+      "associate": "Associer",
       "cancel": "Annuler",
       "close": "Fermer",
       "collapse": "Réduire",

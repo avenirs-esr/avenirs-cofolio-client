@@ -91,11 +91,21 @@
             "title": "Toutes les activités disponibles"
           },
           "ProjectActivityDetailedView": {
+            "ActivityAssociateElementsDropdown": {
+              "skills": "une/des compétence(s)",
+              "traces": "une/des trace(s)"
+            },
             "ActivityDetailedDropdown": {
               "triggerLabel": "Gérer mon activité"
             },
             "ActivityDetailedSideNavigation": {
               "myPerspective": "Ma prise de recul"
+            },
+            "AssociateTracesModal": {
+              "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
+            },
+            "ConfirmAssociateTracesModal": {
+              "title": "Êtes-vous certain(e) de vouloir associer ces éléments ?"
             },
             "DeleteActivityAssociationsModal": {
               "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
