@@ -93,7 +93,7 @@ BddTest().given('an associate traces modal', () => {
         })
 
         BddTest().then('it should not emit associate event', () => {
-          expect(wrapper.emitted('associate')).toBeFalsy()
+          expect(wrapper.emitted('associated')).toBeFalsy()
         })
       })
 
@@ -102,12 +102,12 @@ BddTest().given('an associate traces modal', () => {
           await wrapper.vm.$nextTick()
 
           const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-          confirmModal.vm.$emit('confirmed')
+          confirmModal.vm.$emit('confirm')
         })
 
         BddTest().then('it should emit associate event', async () => {
           await wrapper.vm.$nextTick()
-          expect(wrapper.emitted('associate')).toBeTruthy()
+          expect(wrapper.emitted('associated')).toBeTruthy()
         })
 
         BddTest().then('it should hide the confirm associate traces modal', async () => {

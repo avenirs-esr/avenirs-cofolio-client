@@ -14,13 +14,13 @@ const { traces } = defineProps<ConfirmAssociateTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
-  (e: 'confirmed'): void
+  (e: 'confirm'): void
 }>()
 
 const { t } = useI18n()
 
 function onConfirm () {
-  emit('confirmed')
+  emit('confirm')
 }
 </script>
 
@@ -28,7 +28,7 @@ function onConfirm () {
   <ConfirmationModal
     :show="show"
     data-testid="confirm-associate-traces-modal"
-    @close="$emit('cancel')"
+    @close="emit('cancel')"
     @confirm="onConfirm"
   >
     <template #header>
@@ -43,7 +43,6 @@ function onConfirm () {
     </template>
 
     <ul
-      v-if="traces.length > 1"
       data-testid="confirm-associate-traces-modal__traces-list"
     >
       <li

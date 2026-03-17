@@ -152,7 +152,7 @@ BddTest().given('an associated elements tab', () => {
       BddTest().and('the user confirms associate from the associate traces modal', () => {
         beforeEach(() => {
           const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
-          associateTracesModal.vm.$emit('associate')
+          associateTracesModal.vm.$emit('associated')
         })
 
         BddTest().then('the associate traces modal should be hidden', () => {
