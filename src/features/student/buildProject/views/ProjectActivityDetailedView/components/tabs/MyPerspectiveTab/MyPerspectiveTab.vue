@@ -41,10 +41,10 @@ function onDeclaredActivityFinished () {
 
 <template>
   <div
-    class="av-col av-gap-sm"
+    class="av-col av-gap-xl"
     data-testid="my-perspective-tab"
   >
-    <div>
+    <div class="av-pt-md">
       <MyPerspectiveCard
         :activity-id="declaredActivityDetails.id"
         :perspective="declaredActivityDetails.reflection"
