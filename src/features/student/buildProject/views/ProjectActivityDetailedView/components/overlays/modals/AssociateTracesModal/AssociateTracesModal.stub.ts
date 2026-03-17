@@ -6,12 +6,12 @@ export const AssociateTracesModalStub = defineComponent({
       required: true
     }
   },
-  emits: ['cancel', 'associate'],
+  emits: ['cancel', 'associated'],
   template: `
     <div v-if="show" class="associate-traces-modal-stub">
       <p>AssociateTracesModalStub</p>
       <button @click="$emit('cancel')">Cancel</button>
-      <button @click="$emit('associate')">Associate</button>
+      <button @click="$emit('associated')">Associated</button>
     </div>
   `
 })

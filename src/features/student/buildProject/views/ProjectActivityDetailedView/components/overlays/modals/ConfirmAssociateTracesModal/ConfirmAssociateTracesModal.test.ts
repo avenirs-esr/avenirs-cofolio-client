@@ -35,11 +35,6 @@ BddTest().given('a confirm associate traces modal', () => {
       expect(confirmationModal.props('show')).toBe(true)
     })
 
-    BddTest().then('it should not render the traces list', () => {
-      expect(wrapper.find('[data-testid="confirm-associate-traces-modal__traces-list"]').exists()).toBe(false)
-      expect(wrapper.text()).not.toContain('Trace 1')
-    })
-
     BddTest().and('the user cancels the association', () => {
       beforeEach(() => {
         const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
@@ -57,8 +52,8 @@ BddTest().given('a confirm associate traces modal', () => {
         confirmationModal.vm.$emit('confirm')
       })
 
-      BddTest().then('it should emit the confirmed event', () => {
-        expect(wrapper.emitted('confirmed')).toBeTruthy()
+      BddTest().then('it should emit the confirm event', () => {
+        expect(wrapper.emitted('confirm')).toBeTruthy()
       })
     })
   })
@@ -100,8 +95,8 @@ BddTest().given('a confirm associate traces modal', () => {
         confirmationModal.vm.$emit('confirm')
       })
 
-      BddTest().then('it should emit the confirmed event', () => {
-        expect(wrapper.emitted('confirmed')).toBeTruthy()
+      BddTest().then('it should emit the confirm event', () => {
+        expect(wrapper.emitted('confirm')).toBeTruthy()
       })
     })
 

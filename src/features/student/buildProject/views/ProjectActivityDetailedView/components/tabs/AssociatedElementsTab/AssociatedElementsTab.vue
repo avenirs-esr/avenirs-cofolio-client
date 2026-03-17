@@ -41,6 +41,6 @@ const { showModal: showAssociateTracesModal, displayModal: displayAssociateTrace
   <AssociateTracesModal
     :show="showAssociateTracesModal"
     @cancel="hideAssociateTracesModal"
-    @associate="hideAssociateTracesModal"
+    @associated="hideAssociateTracesModal"
   />
 </template>

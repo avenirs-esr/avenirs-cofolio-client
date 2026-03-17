@@ -10,10 +10,10 @@ export const ConfirmAssociateTracesModalStub = defineComponent({
       required: true
     }
   },
-  emits: ['confirmed', 'cancel'],
+  emits: ['confirm', 'cancel'],
   template: `<div v-if="show">
     <p>ConfirmAssociateTracesModalStub for traces: {{ traces.map(trace => trace.title).join(', ') }}</p>
     <button @click="$emit('cancel')">Cancel</button>
-    <button @click="$emit('confirmed')">Confirm</button>
+    <button @click="$emit('confirm')">Confirm</button>
   </div>`
 })

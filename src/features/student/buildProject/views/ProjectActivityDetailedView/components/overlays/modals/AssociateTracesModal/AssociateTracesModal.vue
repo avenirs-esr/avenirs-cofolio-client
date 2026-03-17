@@ -13,7 +13,7 @@ const { show } = defineProps<AssociateTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
-  (e: 'associate'): void
+  (e: 'associated'): void
 }>()
 
 const { t } = useI18n()
@@ -36,7 +36,7 @@ function onCancel () {
 
 function onConfirm () {
   hideConfirmModal()
-  emit('associate')
+  emit('associated')
 }
 </script>
 
@@ -69,6 +69,6 @@ function onConfirm () {
     :show="showConfirmModal"
     :traces="dummyAssociations"
     @cancel="hideConfirmModal"
-    @confirmed="onConfirm"
+    @confirm="onConfirm"
   />
 </template>

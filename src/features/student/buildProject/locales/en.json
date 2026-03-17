@@ -106,7 +106,7 @@
               "title": "Which trace(s) would you like to associate?"
             },
             "ConfirmAssociateTracesModal": {
-              "title": "Are you sure you want to combine these items?"
+              "title": "Are you sure you want to associate these items?"
             },
             "DeleteActivityAssociationsModal": {
               "title": "Which association(s) do you want to delete?"
