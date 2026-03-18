@@ -8,5 +8,16 @@ export const FloatingIconCardStub = defineComponent({
       <div class="card-footer"><slot name="footer" /></div>
     </div>
   `,
-  props: ['title', 'iconOptions', 'color', 'borderColor', 'borderColorOnHover', 'customTitleHeight', 'headerRows', 'height', 'titleTypographyClasses']
+  props: [
+    'title',
+    'titleColor',
+    'iconOptions',
+    'color',
+    'borderColor',
+    'borderColorOnHover',
+    'customTitleHeight',
+    'headerRows',
+    'height',
+    'titleTypographyClasses'
+  ]
 })
