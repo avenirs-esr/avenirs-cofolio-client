@@ -48,7 +48,7 @@ BddTest().given('a trace compact card', () => {
 
     BddTest().then('it should pass the correct height to the floating icon card', () => {
       const card = wrapper.findComponent(FloatingIconCardStub)
-      expect(card.props('height')).toBe('5.75rem')
+      expect(card.props('height')).toBe('7.5rem')
     })
 
     BddTest().then('it should pass the correct title typography classes to the floating icon card', () => {

@@ -27,7 +27,7 @@ const iconOptions = computed(() => ({
     :icon-options="iconOptions"
     border-color="var(--other-border-skill-card)"
     :header-rows="2"
-    height="5.75rem"
+    height="7.5rem"
     title-typography-classes="caption-regular"
   />
 </template>

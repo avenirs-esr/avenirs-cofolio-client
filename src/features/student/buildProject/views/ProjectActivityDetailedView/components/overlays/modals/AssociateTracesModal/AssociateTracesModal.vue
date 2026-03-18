@@ -5,6 +5,8 @@ import ConfirmAssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
 import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
+import SelectedAssociateTracesContainer
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.vue'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -28,12 +30,16 @@ const {
 
 const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({ itemId: EDeclaredActivityAssociationType.TRACE })
 
-// TODO: #1221
-const dummyAssociations = [
+// TODO: #1219
+const dummyAssociations = ref([
   { id: '1', title: '(Placeholder) Trace 1' },
   { id: '2', title: '(Placeholder) Trace 2' },
-  { id: '3', title: '(Placeholder) Trace 3' }
-]
+  { id: '3', title: '(Placeholder) Trace 3' },
+  { id: '4', title: '(Placeholder) Trace 4' },
+  { id: '5', title: '(Placeholder) Trace 5' },
+  { id: '6', title: '(Placeholder) Trace 6' },
+  { id: '7', title: '(Placeholder) Trace 7' }
+])
 
 function onCancel () {
   emit('cancel')
@@ -42,6 +48,10 @@ function onCancel () {
 function onConfirm () {
   hideConfirmModal()
   emit('associated')
+}
+
+function onDeleteTrace (traceId: string) {
+  dummyAssociations.value = dummyAssociations.value.filter(trace => trace.id !== traceId)
 }
 </script>
 
@@ -65,8 +75,17 @@ function onConfirm () {
       </div>
     </template>
 
-    <div class="av-col av-gap-sm">
-      <TracesTypeSelect v-model="selectedTraceType" />
+    <div class="associate-traces-modal__content av-row av-align-stretch av-gap-sm">
+      <div class="av-flex-fill av-col av-gap-sm">
+        <TracesTypeSelect v-model="selectedTraceType" />
+      </div>
+
+      <div class="av-flex-fill av-col av-gap-sm">
+        <SelectedAssociateTracesContainer
+          :traces="dummyAssociations"
+          @delete="onDeleteTrace"
+        />
+      </div>
     </div>
   </AvModal>
 
@@ -77,3 +96,9 @@ function onConfirm () {
     @confirm="onConfirm"
   />
 </template>
+
+<style lang="scss" scoped>
+.associate-traces-modal__content {
+  height: 32rem;
+}
+</style>
