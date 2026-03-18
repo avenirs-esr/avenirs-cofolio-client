@@ -34,7 +34,8 @@ const iconOptions = {
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"
       title-typography-classes="b1-light"
-      height="14rem"
+      title-color="var(--text1)"
+      height="27.5rem"
     >
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md body av-h-full">

@@ -47,7 +47,8 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
       :header-rows="2"
       custom-title-height="auto"
       :title-typography-classes="titleClasses"
-      height="10.8rem"
+      height="12.875rem"
+      title-color="var(--text1)"
     >
       <template #body>
         <div class="av-col av-pr-4xl--md av-pl-none av-pl-md--md">
@@ -85,7 +86,6 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
 
 <style lang="scss" scoped>
 .activity-library-card {
-
   &__summary {
     display: -webkit-box;
     -webkit-box-orient: vertical;

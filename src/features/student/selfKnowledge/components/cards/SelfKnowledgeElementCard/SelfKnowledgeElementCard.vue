@@ -36,6 +36,7 @@ const iconOptions = computed(() => ({
       :icon-options="iconOptions"
       :color="categoryColor"
       class="self-knowledge-element-card"
+      height="21.625rem"
     >
       <template #body>
         <div class="self-knowledge-element-card__body">

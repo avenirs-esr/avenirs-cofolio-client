@@ -73,7 +73,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-skill-card av-row av-w-full"
+    class="student-skill-card av-w-full"
     :to="{ name: studentSkillRouteName, params: { id: skill.id } }"
     data-testid="skill-card"
   >

@@ -117,7 +117,6 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
   &__title-container {
     position: relative;
     display: block;
-    color: v-bind('titleColor');
   }
 
   &__title {
@@ -126,6 +125,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     overflow: hidden;
     line-clamp: v-bind('headerRows');
     -webkit-line-clamp: v-bind('headerRows');
+    color: v-bind('titleColor');
   }
 
   &__icon {
