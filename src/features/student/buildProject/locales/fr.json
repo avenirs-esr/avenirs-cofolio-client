@@ -101,6 +101,9 @@
             "ActivityDetailedSideNavigation": {
               "myPerspective": "Ma prise de recul"
             },
+            "AssociatedTracesCard": {
+              "title": "Ma trace associée ({count}) | Mes traces associées ({count})"
+            },
             "AssociateTracesModal": {
               "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
             },

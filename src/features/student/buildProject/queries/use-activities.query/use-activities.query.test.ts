@@ -2,7 +2,7 @@ import type { useInvalidateQuery } from '@/common/composables'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { activitiesNavigationMock, mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { activitiesNavigationMock, mockedActivityDetail, mockedDeclaredActivity, mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   activityNavigationQuery,
   activityNavigationQueryError,
@@ -14,6 +14,7 @@ import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
   type DeclaredActivity,
+  type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
   EActivityThematic,
@@ -32,6 +33,7 @@ import {
   useCountLibraryActivities,
   useDeclaredActivitiesDetailedQuery,
   useFinishDeclaredActivityMutation,
+  useGetDeclaredActivityAssociationsQuery,
   useLibraryActivitiesQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
@@ -156,6 +158,67 @@ BddTest().given('the useActivityDetailQuery composable', () => {
 
       BddTest().then('it should have been called with invalid activity id', () => {
         expect(getActivityDetailSpy).toHaveBeenCalledWith(activityId.value)
+      })
+
+      BddTest().then('it should not fetch data', () => {
+        expect(queryResult.data.value).toBeUndefined()
+      })
+    })
+  })
+})
+
+BddTest().given('the useGetDeclaredActivityAssociationsQuery composable', () => {
+  let getDeclaredActivityAssociationsSpy: MockInstance<
+    (declaredActivityId: string, options?: RequestInit | undefined) => Promise<DeclaredActivityAssociationsDTO>
+  >
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    getDeclaredActivityAssociationsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'getDeclaredActivityAssociations'>(
+      await import('@/api/avenir-esr'),
+    'getDeclaredActivityAssociations',
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id', () => {
+    const declaredActivityId = ref(mockedDeclaredActivity.id ?? '')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useGetDeclaredActivityAssociationsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useGetDeclaredActivityAssociationsQuery(declaredActivityId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should have been called with declared activity id', () => {
+        expect(getDeclaredActivityAssociationsSpy).toHaveBeenCalledWith(declaredActivityId.value)
+      })
+
+      BddTest().then('it should return the mocked declared activity associations', () => {
+        expect(queryResult.data.value).toBeDefined()
+        expect(queryResult.data.value).toMatchObject(mockedDeclaredActivityAssociations)
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared activity id', () => {
+    const declaredActivityId = ref('INVALID_DECLARED_ACTIVITY_ID')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useGetDeclaredActivityAssociationsQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useGetDeclaredActivityAssociationsQuery(declaredActivityId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should have been called with invalid declared activity id', () => {
+        expect(getDeclaredActivityAssociationsSpy).toHaveBeenCalledWith(declaredActivityId.value)
       })
 
       BddTest().then('it should not fetch data', () => {

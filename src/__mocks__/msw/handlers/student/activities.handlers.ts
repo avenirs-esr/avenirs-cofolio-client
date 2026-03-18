@@ -5,6 +5,7 @@ import {
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
   mockedDeclaredActivity,
+  mockedDeclaredActivityAssociations,
   mockedFinishedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
@@ -12,6 +13,7 @@ import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
   type DeclaredActivity,
+  type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EErrorCode,
   getFinishUrl,
@@ -19,6 +21,7 @@ import {
   getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
   getGetDeclaredActivitiesViewUrl,
+  getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
   getSubscribeActivityUrl,
@@ -168,6 +171,21 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
       }
     }
   )
+})
+
+export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredActivityAssociationsUrl(':declaredActivityId')}`, async ({ params }) => {
+  const { declaredActivityId } = params
+  if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<DeclaredActivityAssociationsDTO>(mockedDeclaredActivityAssociations, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
 })
 
 export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, () => {
@@ -390,6 +408,7 @@ export const activitiesHandlers = [
   latestActivitiesHandler,
   activityDetailHandler,
   declaredActivityDetailsHandler,
+  declaredActivityAssociationsHandler,
   subscribeActivityProgressHandler,
   unsubscribeActivityProgressHandler,
   finishDeclaredActivityHandler,

@@ -5,6 +5,7 @@ import {
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   type DeclaredActivity,
+  type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
   type EActivityThematic,
@@ -15,6 +16,7 @@ import {
   getActivityNavigation,
   getDeclaredActivitiesView,
   type GetDeclaredActivitiesViewParams,
+  getDeclaredActivityAssociations,
   getDeclaredActivityDetails,
   getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
@@ -33,6 +35,7 @@ import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 const activitiesCommonQueryKey = [...commonQueryKeys, 'activities']
 const activityDetailsQueryKey = [...activitiesCommonQueryKey, 'details']
+const activitiesAssociationsQueryKey = [...activitiesCommonQueryKey, 'associations']
 const libraryActivitiesQueryKey = [...activitiesCommonQueryKey, 'library']
 const activityNavigationQueryKey = [...activitiesCommonQueryKey, 'navigation']
 const activitiesViewQueryKey = [...activitiesCommonQueryKey, 'view']
@@ -257,6 +260,26 @@ export function useActivityDetailQuery (activityId: MaybeRef<string>) {
   return {
     ...query,
     activityDetail,
+  }
+}
+
+export function useGetDeclaredActivityAssociationsQuery (declaredActivityId: MaybeRef<string>) {
+  const queryKey = computed(() => [...activitiesAssociationsQueryKey, toValue(declaredActivityId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredActivityAssociationsDTO> => {
+    return await getDeclaredActivityAssociations(toValue(declaredActivityId))
+  })
+
+  const query = useQuery<DeclaredActivityAssociationsDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(declaredActivityId).trim().length > 0),
+    staleTime: TanstackStaleTimeConfig.DETAILS
+  })
+
+  return {
+    ...query,
+    declaredActivityAssociations: computed(() => query.data.value)
   }
 }
 

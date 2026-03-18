@@ -1,3 +1,5 @@
+import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { ROUTES } from '@/common/constants'
 import AssociatedTraceCard, { type AssociatedTraceCardProps } from '@/features/student/global/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import { AssociationCardStub } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.stub'
 import { ICONS } from '@/features/student/global/icons'
@@ -16,8 +18,7 @@ BddTest().given('an associatied trace card', () => {
 
   BddTest().when('the component is mounted', () => {
     const props: AssociatedTraceCardProps = {
-      title: 'Skill',
-      to: '/test'
+      associatedTrace: mockedDeclaredActivityAssociations.traceAssociations[0],
     }
 
     beforeEach(() => {
@@ -28,13 +29,13 @@ BddTest().given('an associatied trace card', () => {
       const associationCard = wrapper.findComponent(AssociationCardStub)
       expect(associationCard.exists()).toBe(true)
       expect(associationCard.props()).toMatchObject({
-        title: props.title,
+        title: props.associatedTrace.trace.title,
         icon: ICONS.TRACES,
         color: 'var(--text1)',
         backgroundColor: 'var(--light-background-neutral)',
         hoverBorderColor: 'var(--dark-background-primary1)',
         iconBorderColor: 'var(--other-border-skill-card)',
-        to: props.to
+        to: { name: ROUTES.STUDENT.TRACE.name, params: { id: props.associatedTrace.trace.traceId } }
       })
     })
   })

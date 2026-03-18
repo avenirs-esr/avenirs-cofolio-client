@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import MyPerspectiveSection, {
   type MyPerspectiveSectionProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
@@ -15,15 +16,15 @@ BddTest().given('a my perspective section', () => {
   const stubs = {
     AvTabs: AvTabsStub,
     AvTab: AvTabStub,
+    Loader: LoaderStub,
     MyPerspectiveTab: MyPerspectiveTabStub,
     AssociatedElementsTab: AssociatedElementsTabStub,
   }
-
-  const props: MyPerspectiveSectionProps = {
-    declaredActivityDetails: mockedDeclaredActivityDetails,
-  }
-
   BddTest().when('the component is mounted', () => {
+    const props: MyPerspectiveSectionProps = {
+      declaredActivityDetails: mockedDeclaredActivityDetails,
+    }
+
     beforeEach(() => {
       wrapper = mountComponent(MyPerspectiveSection, {
         props,
@@ -65,6 +66,48 @@ BddTest().given('a my perspective section', () => {
       BddTest().then('it should update the active tab index', () => {
         const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.props('modelValue')).toBe(1)
+      })
+
+      BddTest().then('it should render the associated elements tab content', async () => {
+        await vi.waitFor(() => {
+          const associatedElementsTab = wrapper.findComponent(AssociatedElementsTabStub)
+          expect(associatedElementsTab.exists()).toBe(false)
+        })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with an invalid declared activity', () => {
+    const props: MyPerspectiveSectionProps = {
+      declaredActivityDetails: { ...mockedDeclaredActivityDetails, id: 'INVALID_DECLARED_ACTIVITY_ID' },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(MyPerspectiveSection, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the my perspective tab component', () => {
+      const myPerspectiveTab = wrapper.findComponent(MyPerspectiveTabStub)
+      expect(myPerspectiveTab.exists()).toBe(true)
+    })
+
+    BddTest().and('the user switches tabs to the associated elements tab', () => {
+      beforeEach(async () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        await tabs.vm.$emit('update:modelValue', 1)
+      })
+
+      BddTest().then('it should update the active tab index', () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        expect(tabs.props('modelValue')).toBe(1)
+      })
+
+      BddTest().then('it should not render the associated elements tab content', () => {
+        const associatedElementsTab = wrapper.findComponent(AssociatedElementsTabStub)
+        expect(associatedElementsTab.exists()).toBe(false)
       })
     })
   })

@@ -3,8 +3,10 @@ import {
   type ActivityNavigationDTO,
   ActivityThematic,
   type DeclaredActivity,
+  type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   DeclaredActivityStatus,
+  type DeclaredActivityTraceAssociationDTO,
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
@@ -196,6 +198,32 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   },
   status: EDeclaredActivityStatus.IN_PROGRESS,
   finishedAt: '',
+}
+
+export function createMockedTraceAssociations (traceCount: number): DeclaredActivityTraceAssociationDTO[] {
+  const traceAssociations: DeclaredActivityTraceAssociationDTO[] = []
+
+  for (let i = 1; i <= traceCount; i++) {
+    traceAssociations.push({
+      associationId: `association-${i}`,
+      trace: {
+        traceId: `trace-${i}`,
+        title: `Trace #${i} associée à l’activité`,
+        skillCount: (i * 2) % 5,
+        AMSCount: i % 3,
+        programName: `Programme de la trace #${i} associée`,
+        isGroup: i % 2 === 0,
+        createdAt: '2024-01-01T00:00:00Z',
+        updatedAt: '2024-01-01T00:00:00Z'
+      }
+    })
+  }
+
+  return traceAssociations
+}
+
+export const mockedDeclaredActivityAssociations: DeclaredActivityAssociationsDTO = {
+  traceAssociations: createMockedTraceAssociations(6)
 }
 
 // TODO: changes this to activities returned by seeder in dev
