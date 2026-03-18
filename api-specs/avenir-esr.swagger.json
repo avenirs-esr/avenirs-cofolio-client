@@ -5127,6 +5127,13 @@
           "LIFE_PROJECT"
         ]
       },
+      "EDeclaredActivityAssociationType": {
+        "type": "string",
+        "description": "Enum for declared activity association type",
+        "enum": [
+          "TRACE"
+        ]
+      },
       "EDeclaredActivityStatus": {
         "type": "string",
         "description": "Enum for declared activity status",

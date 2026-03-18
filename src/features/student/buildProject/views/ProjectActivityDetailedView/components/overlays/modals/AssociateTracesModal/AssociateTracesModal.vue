@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import ConfirmAssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
+import TracesTypeSelect
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -23,7 +26,9 @@ const {
   hideModal: hideConfirmModal
 } = useModal()
 
-// TODO: #1218
+const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({ itemId: EDeclaredActivityAssociationType.TRACE })
+
+// TODO: #1221
 const dummyAssociations = [
   { id: '1', title: '(Placeholder) Trace 1' },
   { id: '2', title: '(Placeholder) Trace 2' },
@@ -61,7 +66,7 @@ function onConfirm () {
     </template>
 
     <div class="av-col av-gap-sm">
-      Placeholder...
+      <TracesTypeSelect v-model="selectedTraceType" />
     </div>
   </AvModal>
 

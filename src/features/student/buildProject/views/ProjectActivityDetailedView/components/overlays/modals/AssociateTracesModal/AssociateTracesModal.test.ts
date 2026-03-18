@@ -1,8 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
 import AssociateTracesModal, {
   type AssociateTracesModalProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
 import { ConfirmAssociateTracesModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.stub'
+import { TracesTypeSelectStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -12,7 +14,8 @@ BddTest().given('an associate traces modal', () => {
 
   const stubs = {
     AvModal: AvModalStub,
-    ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub
+    ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub,
+    TracesTypeSelect: TracesTypeSelectStub
   }
 
   const props: AssociateTracesModalProps = {
@@ -41,6 +44,20 @@ BddTest().given('an associate traces modal', () => {
       expect(header.text()).toContain('Quelle(s) trace(s) souhaitez-vous associer ?')
     })
 
+    BddTest().then('it should render the traces type select', () => {
+      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
+
+      expect(tracesTypeSelect.exists()).toBe(true)
+    })
+
+    BddTest().then('it should initialize the traces type select with TRACE', () => {
+      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
+
+      expect(tracesTypeSelect.props('modelValue')).toEqual({
+        itemId: EDeclaredActivityAssociationType.TRACE
+      })
+    })
+
     BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
 
@@ -51,6 +68,24 @@ BddTest().given('an associate traces modal', () => {
         { id: '2', title: '(Placeholder) Trace 2' },
         { id: '3', title: '(Placeholder) Trace 3' }
       ])
+    })
+
+    BddTest().and('the user changes the selected trace type', () => {
+      beforeEach(async () => {
+        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
+        tracesTypeSelect.vm.$emit('update:modelValue', {
+          itemId: EDeclaredActivityAssociationType.TRACE
+        })
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should update the traces type select model value', () => {
+        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
+
+        expect(tracesTypeSelect.props('modelValue')).toEqual({
+          itemId: EDeclaredActivityAssociationType.TRACE
+        })
+      })
     })
 
     BddTest().and('the modal emits close event', () => {
@@ -92,12 +127,12 @@ BddTest().given('an associate traces modal', () => {
           expect(confirmModal.props('show')).toBe(false)
         })
 
-        BddTest().then('it should not emit associate event', () => {
+        BddTest().then('it should not emit associated event', () => {
           expect(wrapper.emitted('associated')).toBeFalsy()
         })
       })
 
-      BddTest().and('the confirm associate traces modal emits confirmed event', () => {
+      BddTest().and('the confirm associate traces modal emits confirm event', () => {
         beforeEach(async () => {
           await wrapper.vm.$nextTick()
 
@@ -105,7 +140,7 @@ BddTest().given('an associate traces modal', () => {
           confirmModal.vm.$emit('confirm')
         })
 
-        BddTest().then('it should emit associate event', async () => {
+        BddTest().then('it should emit associated event', async () => {
           await wrapper.vm.$nextTick()
           expect(wrapper.emitted('associated')).toBeTruthy()
         })

@@ -146,6 +146,13 @@
             },
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Implementation period"
+            },
+            "TracesTypeSelect": {
+              "label": "Search in:",
+              "placeholder": "Select a type of trace",
+              "options": {
+                "TRACE": "My unassociated traces"
+              }
             }
           }
         }
