@@ -37,7 +37,8 @@ const iconOptions = {
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="2"
       title-typography-classes="b1-bold"
-      height="14rem"
+      title-color="var(--text1)"
+      height="16.4375rem"
     >
       <template #footer>
         <div class="student-detailed-trace-card__body">

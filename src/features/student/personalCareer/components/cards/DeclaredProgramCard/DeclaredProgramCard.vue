@@ -60,6 +60,7 @@ const statusBadgeProps = computed(() => {
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"
       title-typography-classes="n6"
+      title-color="var(--text1)"
       height="12.8rem"
     >
       <template #body>
@@ -97,10 +98,6 @@ const statusBadgeProps = computed(() => {
 <style lang="scss" scoped>
 .declared-program-card {
   border-radius: 1.5rem;
-}
-
-:deep(.n5) {
-  color: var(--text1);
 }
 
 .floating-icon-card {

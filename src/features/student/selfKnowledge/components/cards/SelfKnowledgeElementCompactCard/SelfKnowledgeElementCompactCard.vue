@@ -59,6 +59,10 @@ const iconOptions = computed(() => ({
       padding-top: var(--spacing-xs);
       padding-bottom: var(--spacing-xs);
     }
+
+    &__content-collapsible {
+      padding-top: var(--spacing-xxs) !important;
+    }
   }
 
   .av-icon {

@@ -38,7 +38,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-trace-card"
+    class="student-trace-card av-w-full"
     :to="to"
     data-testid="trace-card"
   >
@@ -49,8 +49,9 @@ const iconOptions = {
       border-color-on-hover="var(--dark-background-primary1)"
       color="var(--surface-background)"
       :header-rows="2"
-      height="14rem"
+      height="16.75rem"
       title-typography-classes="b1-bold"
+      title-color="var(--text1)"
     >
       <template #body>
         <div class="av-col av-gap-xs">
@@ -104,8 +105,6 @@ const iconOptions = {
 @use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
 
 .student-trace-card {
-  width: 100%;
-
   @include dsav.min-width(md) {
     width: 17.25rem;
   }

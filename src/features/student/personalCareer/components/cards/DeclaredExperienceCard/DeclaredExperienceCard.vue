@@ -36,6 +36,7 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
       border-color-on-hover="var(--dark-background-primary1)"
       :header-rows="1"
       title-typography-classes="n6"
+      title-color="var(--text1)"
       height="12.8rem"
     >
       <template #body>
@@ -67,9 +68,5 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
 <style lang="scss" scoped>
 .declared-experience-card {
   border-radius: 1.5rem;
-}
-
-:deep(.n5) {
-  color: var(--text1);
 }
 </style>
