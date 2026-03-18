@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import AssociatedTracesCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import ActivityAssociateElementsDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.vue'
 import DeleteActivityAssociatedElementsDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
@@ -7,6 +9,12 @@ import AssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
 import DeleteActivityAssociatedSkillsModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.vue'
 import DeleteActivityAssociatedTracesModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+
+export interface AssociatedElementsTabProps {
+  associations: DeclaredActivityAssociationsDTO
+}
+
+defineProps<AssociatedElementsTabProps>()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showTracesModal, displayModal: displayTracesModal, hideModal: hideTracesModal } = useModal()
@@ -24,6 +32,10 @@ const { showModal: showAssociateTracesModal, displayModal: displayAssociateTrace
         @traces-selected="displayAssociateTracesModal"
       />
     </div>
+
+    <AssociatedTracesCard
+      :associated-traces="associations.traceAssociations"
+    />
   </div>
 
   <DeleteActivityAssociatedSkillsModal

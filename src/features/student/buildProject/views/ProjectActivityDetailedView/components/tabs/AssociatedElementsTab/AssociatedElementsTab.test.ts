@@ -1,3 +1,5 @@
+import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { ActivityAssociateElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.stub'
 import { DeleteActivityAssociatedElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.stub'
 import {
@@ -5,7 +7,7 @@ import {
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.stub'
 import { DeleteActivityAssociatedSkillsModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.stub'
 import { DeleteActivityAssociatedTracesModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.stub'
-import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
+import AssociatedElementsTab, { type AssociatedElementsTabProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -13,17 +15,22 @@ import { beforeEach, expect } from 'vitest'
 BddTest().given('an associated elements tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementsTab>>
 
+  const props: AssociatedElementsTabProps = {
+    associations: mockedDeclaredActivityAssociations,
+  }
+
   const stubs = {
     DeleteActivityAssociatedElementsDropdown: DeleteActivityAssociatedElementsDropdownStub,
     ActivityAssociateElementsDropdown: ActivityAssociateElementsDropdownStub,
     DeleteActivityAssociatedSkillsModal: DeleteActivityAssociatedSkillsModalStub,
     DeleteActivityAssociatedTracesModal: DeleteActivityAssociatedTracesModalStub,
-    AssociateTracesModal: AssociateTracesModalStub
+    AssociateTracesModal: AssociateTracesModalStub,
+    AssociatedTracesCard: AssociatedTracesCardStub
   }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(AssociatedElementsTab, { global: { stubs } })
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
     })
 
     BddTest().then('it should render the delete associated elements dropdown', () => {
@@ -34,6 +41,12 @@ BddTest().given('an associated elements tab', () => {
     BddTest().then('it should render the associate elements dropdown', () => {
       const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
       expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the associated traces card', () => {
+      const associatedTracesCard = wrapper.findComponent(AssociatedTracesCardStub)
+      expect(associatedTracesCard.exists()).toBe(true)
+      expect(associatedTracesCard.findAll('span')).toHaveLength(props.associations.traceAssociations.length)
     })
 
     BddTest().then('it should render the delete associated skills modal in hidden state', () => {

@@ -2052,6 +2052,76 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/associations": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getDeclaredActivityAssociations",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "deleteDeclaredActivityAssociations",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
@@ -3484,6 +3554,36 @@
           "title"
         ]
       },
+      "DeclaredActivityAssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityTraceAssociationDTO"
+            }
+          }
+        },
+        "required": [
+          "traceAssociations"
+        ]
+      },
+      "DeclaredActivityTraceAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trace": {
+            "$ref": "#/components/schemas/TraceOverviewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "trace"
+        ]
+      },
       "DeclaredExperienceRequest": {
         "type": "object",
         "properties": {
@@ -4877,6 +4977,21 @@
           "summary",
           "thematic",
           "title"
+        ]
+      },
+      "AssociationsDeleteRequest": {
+        "type": "object",
+        "properties": {
+          "idsToDelete": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "required": [
+          "idsToDelete"
         ]
       },
       "EActivityThematic": {

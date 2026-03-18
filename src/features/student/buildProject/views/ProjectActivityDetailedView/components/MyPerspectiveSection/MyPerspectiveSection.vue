@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import Loader from '@/common/components/Loader/Loader.vue'
+import { useGetDeclaredActivityAssociationsQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import MyPerspectiveTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 import { ICONS } from '@/features/student/global/icons'
@@ -10,12 +12,12 @@ export interface MyPerspectiveSectionProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
 }
 
-defineProps<MyPerspectiveSectionProps>()
+const { declaredActivityDetails } = defineProps<MyPerspectiveSectionProps>()
 
 const { t } = useI18n()
+const { declaredActivityAssociations, isPending, isError } = useGetDeclaredActivityAssociationsQuery(declaredActivityDetails.id)
 
 const activeTab = ref(0)
-const dummyElementCount = 5 // TODO: #1211
 </script>
 
 <template>
@@ -30,10 +32,15 @@ const dummyElementCount = 5 // TODO: #1211
       <MyPerspectiveTab :declared-activity-details="declaredActivityDetails" />
     </AvTab>
     <AvTab
-      :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: dummyElementCount })"
+      :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: declaredActivityAssociations?.traceAssociations.length })"
       :icon="ICONS.ASSOCIATED"
     >
-      <AssociatedElementsTab />
+      <Loader :is-loading="isPending && !isError">
+        <AssociatedElementsTab
+          v-if="declaredActivityAssociations"
+          :associations="declaredActivityAssociations"
+        />
+      </Loader>
     </AvTab>
   </AvTabs>
 </template>
