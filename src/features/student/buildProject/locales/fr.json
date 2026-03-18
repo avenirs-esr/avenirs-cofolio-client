@@ -145,6 +145,13 @@
             },
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Période de réalisation"
+            },
+            "TracesTypeSelect": {
+              "label": "Rechercher dans :",
+              "placeholder": "Sélectionnez un type de trace",
+              "options": {
+                "TRACE": "Mes traces non associées"
+              }
             }
           }
         }
