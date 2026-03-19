@@ -182,6 +182,13 @@ export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredAc
     )
   }
 
+  if (declaredActivityId === 'DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS') {
+    return HttpResponse.json<DeclaredActivityAssociationsDTO>({ traceAssociations: [] }, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+
   return HttpResponse.json<DeclaredActivityAssociationsDTO>(mockedDeclaredActivityAssociations, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }

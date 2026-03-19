@@ -42,6 +42,18 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('finish-declared-activity-confirm-modal')
   }
 
+  getAssociatedElementsTab () {
+    return this.root.page().getByTestId('associated-elements-tab-item')
+  }
+
+  getAssociatedTracesCard () {
+    return this.root.page().getByTestId('associated-traces-card')
+  }
+
+  getAssociatedTraceCards () {
+    return this.root.page().getByTestId('associated-trace-card')
+  }
+
   async verifyVisible () {
     await expect(this.root).toBeVisible()
   }
@@ -105,5 +117,31 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyFinishConfirmationModalVisible () {
     await expect(this.getFinishConfirmationModal()).toBeVisible()
+  }
+
+  async clickAssociatedElementsTab () {
+    await this.getAssociatedElementsTab().click()
+  }
+
+  async verifyAssociatedTracesCardVisible () {
+    await expect(this.getAssociatedTracesCard()).toBeVisible()
+  }
+
+  async verifyAssociatedTraceCardsHidden () {
+    const count = await this.getAssociatedTraceCards().count()
+    expect(count).toBe(0)
+  }
+
+  async clickAssociatedTracesCard () {
+    await this.getAssociatedTracesCard().click()
+  }
+
+  async verifyAssociatedTraceCardsVisible () {
+    const count = await this.getAssociatedTraceCards().count()
+    expect(count).toBeGreaterThan(0)
+  }
+
+  async verifyAssociatedTracesCardHidden () {
+    await expect(this.getAssociatedTracesCard()).toBeHidden()
   }
 }

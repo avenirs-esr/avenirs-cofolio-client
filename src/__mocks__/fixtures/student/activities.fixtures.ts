@@ -241,6 +241,14 @@ export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
 const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   mockedDeclaredActivityViewDTO,
   {
+    id: 'DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS',
+    activityId: 'DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS',
+    title: 'Activité "CV" : Construire son parcours',
+    thematic: EActivityThematic.RESUMES,
+    status: EDeclaredActivityStatus.SUBSCRIBED,
+    summary: 'Activité permettant à l\'étudiant.e de construire et de valoriser son parcours académique et professionnel.',
+  },
+  {
     id: 'declared-activity-2',
     activityId: 'declared-activity-2',
     title: 'Activité "CV" : Construire son parcours',

@@ -1,5 +1,6 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { MyPerspectiveSectionObject } from '@e2e/framework/student/lifeProject/activityDetails/componentObjects/MyPerspectiveSectionObject'
 import { ProjectActivityDetailsObject } from '@e2e/framework/student/lifeProject/activityDetails/componentObjects/ProjectActivityDetailsObject'
 import { expect, type Page } from '@playwright/test'
@@ -133,5 +134,36 @@ export class StudentProjectActivityDetails extends BasePage {
   @Then('the finish activity confirmation modal is visible')
   async verifyFinishActivityConfirmationModalVisible () {
     await this.getMyPerspectiveSection().verifyFinishConfirmationModalVisible()
+  }
+
+  @When('the student opens associated elements tab')
+  async clickAssociatedElementsTab () {
+    await this.getMyPerspectiveSection().clickAssociatedElementsTab()
+    await waitForPageLoad(this.page)
+  }
+
+  @Then('the associated traces card is visible')
+  async verifyAssociatedTracesCardVisible () {
+    await this.getMyPerspectiveSection().verifyAssociatedTracesCardVisible()
+  }
+
+  @Then('the associated trace cards are hidden')
+  async verifyAssociatedTraceCardsHidden () {
+    await this.getMyPerspectiveSection().verifyAssociatedTraceCardsHidden()
+  }
+
+  @When('the student clicks the associated traces card')
+  async clickAssociatedTracesCard () {
+    await this.getMyPerspectiveSection().clickAssociatedTracesCard()
+  }
+
+  @Then('the associated trace cards are visible')
+  async verifyAssociatedTraceCardsVisible () {
+    await this.getMyPerspectiveSection().verifyAssociatedTraceCardsVisible()
+  }
+
+  @Then('the associated traces card is hidden')
+  async verifyAssociatedTracesCardHidden () {
+    await this.getMyPerspectiveSection().verifyAssociatedTracesCardHidden()
   }
 }

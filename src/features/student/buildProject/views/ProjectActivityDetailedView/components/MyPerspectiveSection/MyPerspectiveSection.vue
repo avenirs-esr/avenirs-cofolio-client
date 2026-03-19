@@ -28,12 +28,14 @@ const activeTab = ref(0)
     <AvTab
       :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.MyPerspectiveTab.title')"
       :icon="ICONS.ACTIVITY_PERSPECTIVE"
+      data-testid="my-perspective-tab-item"
     >
       <MyPerspectiveTab :declared-activity-details="declaredActivityDetails" />
     </AvTab>
     <AvTab
       :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: declaredActivityAssociations?.traceAssociations.length })"
       :icon="ICONS.ASSOCIATED"
+      data-testid="associated-elements-tab-item"
     >
       <Loader :is-loading="isPending && !isError">
         <AssociatedElementsTab
