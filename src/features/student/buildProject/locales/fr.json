@@ -105,6 +105,7 @@
               "title": "Ma trace associée ({count}) | Mes traces associées ({count})"
             },
             "AssociateTracesModal": {
+              "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie \"Mes traces associées\". | Vous avez associé {count} traces. Retrouvez-les dans la catégorie \"Mes traces associées\".",
               "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
             },
             "ConfirmAssociateTracesModal": {

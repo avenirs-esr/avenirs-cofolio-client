@@ -1,20 +1,27 @@
 <script lang="ts" setup>
-import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
+import {
+  type AssociationsCreationRequest,
+  EDeclaredActivityAssociationType
+} from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { useAssociateActivityWithTracesMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ConfirmAssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
 import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
 import SelectedAssociateTracesContainer
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.vue'
+import { useToasterStore } from '@/store'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
   show: boolean
+  declaredActivityId: string
 }
 
-const { show } = defineProps<AssociateTracesModalProps>()
+const { show, declaredActivityId } = defineProps<AssociateTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -22,13 +29,40 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const {
   showModal: showConfirmModal,
   displayModal: displayConfirmModal,
   hideModal: hideConfirmModal
 } = useModal()
 
-const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({ itemId: EDeclaredActivityAssociationType.TRACE })
+const { mutate: associateActivityWithTraces, isPending } = useAssociateActivityWithTracesMutation({
+  onError: (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('global.error.generic'),
+      description: error.message,
+    })
+  },
+  onSuccess: (_, variables) => {
+    const count = variables.associationsCreationRequest.idsToAssociate.length
+
+    hideConfirmModal()
+
+    addSuccessMessage({
+      timeout: 2000,
+      description: t(
+        'student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.success',
+        { count }
+      ),
+    })
+
+    emit('associated')
+  }
+})
+
+const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({
+  itemId: EDeclaredActivityAssociationType.TRACE
+})
 
 // TODO: #1219
 const dummyAssociations = ref([
@@ -46,8 +80,14 @@ function onCancel () {
 }
 
 function onConfirm () {
-  hideConfirmModal()
-  emit('associated')
+  const associationsCreationRequest: AssociationsCreationRequest = {
+    idsToAssociate: dummyAssociations.value.map(trace => trace.id)
+  }
+
+  associateActivityWithTraces({
+    declaredActivityId,
+    associationsCreationRequest
+  })
 }
 
 function onDeleteTrace (traceId: string) {
@@ -92,6 +132,7 @@ function onDeleteTrace (traceId: string) {
   <ConfirmAssociateTracesModal
     :show="showConfirmModal"
     :traces="dummyAssociations"
+    :disabled="isPending"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
   />

@@ -10,7 +10,8 @@ import {
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
-  type PagedResponseDeclaredActivityViewDTO
+  type PagedResponseDeclaredActivityViewDTO,
+  type TraceOverviewDTO
 } from '@/api/avenir-esr'
 
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
@@ -425,5 +426,32 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       ? mockedFinishedDeclaredActivityDetails.finishedAt
       : '',
     reflection: declaredActivity.reflection ?? mockedDeclaredActivityDetails.reflection,
+  }
+}
+
+export function createMockedTraceOverviewDTO (
+  traceId: string,
+  index = 0
+): TraceOverviewDTO {
+  return {
+    traceId,
+    title: `(Placeholder) Trace ${index + 1}`,
+    skillCount: 0,
+    AMSCount: 0,
+    programName: 'Programme mock',
+    isGroup: false,
+    createdAt: '2026-03-18T10:00:00Z',
+    updatedAt: '2026-03-18T10:00:00Z'
+  }
+}
+
+export function createMockedDeclaredActivityAssociationsDTO (
+  idsToAssociate: string[]
+): DeclaredActivityAssociationsDTO {
+  return {
+    traceAssociations: idsToAssociate.map((traceId, index) => ({
+      associationId: `association-${index + 1}`,
+      trace: createMockedTraceOverviewDTO(traceId, index)
+    }))
   }
 }

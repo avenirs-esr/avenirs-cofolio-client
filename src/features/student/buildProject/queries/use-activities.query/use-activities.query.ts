@@ -4,6 +4,8 @@ import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
+  associateActivityWithTraces,
+  type AssociationsCreationRequest,
   type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
@@ -380,6 +382,32 @@ export function useUpdateActivityReflectionMutation ({ onError, onSuccess }: Mut
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activityDetailsQueryKey, variables.activityId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface AssociateActivityWithTracesVariables {
+  declaredActivityId: string
+  associationsCreationRequest: AssociationsCreationRequest
+}
+
+export function useAssociateActivityWithTracesMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<DeclaredActivityAssociationsDTO, AssociateActivityWithTracesVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<DeclaredActivityAssociationsDTO, BaseApiException, AssociateActivityWithTracesVariables>({
+    mutationFn: async ({
+      declaredActivityId,
+      associationsCreationRequest
+    }: AssociateActivityWithTracesVariables): Promise<DeclaredActivityAssociationsDTO> => {
+      return await associateActivityWithTraces(declaredActivityId, associationsCreationRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activitiesAssociationsQueryKey, variables.declaredActivityId])
       onSuccess?.(data, variables)
     },
     onError

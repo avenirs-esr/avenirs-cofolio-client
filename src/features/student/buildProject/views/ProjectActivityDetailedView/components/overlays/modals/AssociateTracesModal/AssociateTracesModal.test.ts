@@ -10,7 +10,30 @@ import {
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const addErrorMessage = vi.fn()
+const addSuccessMessage = vi.fn()
+const associateActivityWithTracesMutate = vi.fn()
+
+vi.mock('@/store', () => ({
+  useToasterStore: () => ({
+    addErrorMessage,
+    addSuccessMessage
+  })
+}))
+
+vi.mock('@/features/student/buildProject/queries/use-activities.query/use-activities.query', () => ({
+  useAssociateActivityWithTracesMutation: (options?: {
+    onSuccess?: (data: unknown, variables: unknown) => void
+    onError?: (error: Error) => void
+  }) => ({
+    mutate: associateActivityWithTracesMutate.mockImplementation((variables) => {
+      options?.onSuccess?.({}, variables)
+    }),
+    isPending: false
+  })
+}))
 
 BddTest().given('an associate traces modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociateTracesModal>>
@@ -23,7 +46,8 @@ BddTest().given('an associate traces modal', () => {
   }
 
   const props: AssociateTracesModalProps = {
-    show: true
+    show: true,
+    declaredActivityId: 'declared-activity-1'
   }
 
   const expectedDummyAssociations = [
@@ -40,6 +64,8 @@ BddTest().given('an associate traces modal', () => {
 
   BddTest().when('the modal is rendered', () => {
     beforeEach(() => {
+      vi.clearAllMocks()
+
       wrapper = mountComponent(AssociateTracesModal, {
         props,
         global: { stubs }
@@ -177,18 +203,36 @@ BddTest().given('an associate traces modal', () => {
 
           const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
           confirmModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should emit associated event', async () => {
-          await wrapper.vm.$nextTick()
+        BddTest().then('it should call the associate traces mutation with the declared activity id and selected trace ids', () => {
+          expect(associateActivityWithTracesMutate).toHaveBeenCalledWith({
+            declaredActivityId: 'declared-activity-1',
+            associationsCreationRequest: {
+              idsToAssociate: ['1', '2', '3', '4', '5', '6', '7']
+            }
+          })
+        })
+
+        BddTest().then('it should emit associated event', () => {
           expect(wrapper.emitted('associated')).toBeTruthy()
         })
 
-        BddTest().then('it should hide the confirm associate traces modal', async () => {
-          await wrapper.vm.$nextTick()
-
+        BddTest().then('it should hide the confirm associate traces modal', () => {
           const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
           expect(confirmModal.props('show')).toBe(false)
+        })
+
+        BddTest().then('it should show a success toaster with the correct count', () => {
+          expect(addSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: 'Vous avez associé 7 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
+          })
+        })
+
+        BddTest().then('it should not show an error toaster', () => {
+          expect(addErrorMessage).not.toHaveBeenCalled()
         })
       })
     })

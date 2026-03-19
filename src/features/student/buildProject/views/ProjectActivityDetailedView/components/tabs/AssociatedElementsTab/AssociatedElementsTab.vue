@@ -12,6 +12,7 @@ import DeleteActivityAssociatedTracesModal from '@/features/student/buildProject
 
 export interface AssociatedElementsTabProps {
   associations: DeclaredActivityAssociationsDTO
+  declaredActivityId: string
 }
 
 defineProps<AssociatedElementsTabProps>()
@@ -52,6 +53,7 @@ const { showModal: showAssociateTracesModal, displayModal: displayAssociateTrace
 
   <AssociateTracesModal
     :show="showAssociateTracesModal"
+    :declared-activity-id="declaredActivityId"
     @cancel="hideAssociateTracesModal"
     @associated="hideAssociateTracesModal"
   />

@@ -40,6 +40,7 @@ const activeTab = ref(0)
       <Loader :is-loading="isPending && !isError">
         <AssociatedElementsTab
           v-if="declaredActivityAssociations"
+          :declared-activity-id="declaredActivityDetails.id"
           :associations="declaredActivityAssociations"
         />
       </Loader>
