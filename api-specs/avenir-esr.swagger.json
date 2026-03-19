@@ -1000,6 +1000,47 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/associate/traces": {
+      "post": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "associateActivityWithTraces",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/subscribe/{activityId}": {
       "post": {
         "tags": [
@@ -3277,6 +3318,21 @@
         },
         "required": [
           "traceId"
+        ]
+      },
+      "AssociationsCreationRequest": {
+        "type": "object",
+        "properties": {
+          "idsToAssociate": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "required": [
+          "idsToAssociate"
         ]
       },
       "TraceFilter": {

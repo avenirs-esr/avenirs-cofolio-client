@@ -1,6 +1,7 @@
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedDeclaredActivityAssociationsDTO,
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
@@ -12,10 +13,12 @@ import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  type AssociationsCreationRequest,
   type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EErrorCode,
+  getAssociateActivityWithTracesUrl,
   getFinishUrl,
   getGetActivitiesViewUrl,
   getGetActivityDetailUrl,
@@ -383,6 +386,51 @@ export const updateActivityReflectionHandler = http.put(`*${getUpdateReflectionU
   })
 })
 
+export const associateActivityWithTracesHandler = http.post(
+  `*${getAssociateActivityWithTracesUrl(':declaredActivityId')}`,
+  async ({ params, request }) => {
+    const { declaredActivityId } = params
+
+    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const { idsToAssociate } = await request.json() as AssociationsCreationRequest
+
+    const response = createMockedDeclaredActivityAssociationsDTO(idsToAssociate)
+
+    return HttpResponse.json<DeclaredActivityAssociationsDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const associateActivityWithTracesErrorHandler = http.post(
+  `*${getAssociateActivityWithTracesUrl(':declaredActivityId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -414,4 +462,5 @@ export const activitiesHandlers = [
   finishDeclaredActivityHandler,
   updateActivityHandler,
   updateActivityReflectionHandler,
+  associateActivityWithTracesHandler,
 ]

@@ -2,10 +2,17 @@ import type { useInvalidateQuery } from '@/common/composables'
 import type { BaseApiException } from '@/common/exceptions'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
-import { activitiesNavigationMock, mockedActivityDetail, mockedDeclaredActivity, mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
+import {
+  activitiesNavigationMock,
+  createMockedDeclaredActivityAssociationsDTO,
+  mockedActivityDetail,
+  mockedDeclaredActivity,
+  mockedDeclaredActivityAssociations
+} from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   activityNavigationQuery,
   activityNavigationQueryError,
+  associateActivityWithTracesErrorHandler,
   libraryActivitiesErrorHandler,
   updateActivityPeriodHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
@@ -13,6 +20,7 @@ import { server } from '@/__mocks__/msw/server'
 import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
+  type AssociationsCreationRequest,
   type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
@@ -23,6 +31,7 @@ import {
   type UpdateReflectionRequest,
 } from '@/api/avenir-esr'
 import {
+  type AssociateActivityWithTracesVariables,
   type FinishDeclaredActivityVariables,
   type SubscribeActivityVariables,
   type UnsubscribeActivitiesVariables,
@@ -30,6 +39,7 @@ import {
   type UpdateActivityReflectionVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
+  useAssociateActivityWithTracesMutation,
   useCountLibraryActivities,
   useDeclaredActivitiesDetailedQuery,
   useFinishDeclaredActivityMutation,
@@ -1550,6 +1560,271 @@ BddTest().given('the useUpdateActivityReflection composable', () => {
 
       BddTest().then('it should not call the onSuccess callback', () => {
         expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
+BddTest().given('the useAssociateActivityWithTracesMutation composable', () => {
+  let associateActivityWithTracesSpy: MockInstance<
+    (
+      declaredActivityId: string,
+      associationsCreationRequest: AssociationsCreationRequest,
+      options?: RequestInit | undefined
+    ) => Promise<DeclaredActivityAssociationsDTO>
+  >
+  let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
+  let mutationResult: ReturnType<typeof useAssociateActivityWithTracesMutation>
+
+  const mockInvalidateFunction = vi.fn()
+
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError,
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    associateActivityWithTracesSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'associateActivityWithTraces'>(
+      await import('@/api/avenir-esr'),
+    'associateActivityWithTraces',
+    )
+
+    useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id with valid trace ids and success callback', () => {
+    const declaredActivityId = 'declared-activity-1'
+    const associationsCreationRequest: AssociationsCreationRequest = {
+      idsToAssociate: ['trace-1', 'trace-2', 'trace-3']
+    }
+    const variables: AssociateActivityWithTracesVariables = {
+      declaredActivityId,
+      associationsCreationRequest
+    }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with correct parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+        expect(mutationResult.data.value).toEqual(
+          createMockedDeclaredActivityAssociationsDTO(['trace-1', 'trace-2', 'trace-3'])
+        )
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function for associations query', () => {
+        expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledWith(
+          expect.arrayContaining([
+            'activities',
+            'associations',
+            declaredActivityId
+          ])
+        )
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(mutationResult.data.value, variables)
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with correct parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const declaredActivityId = 'declared-activity-1'
+    const associationsCreationRequest: AssociationsCreationRequest = {
+      idsToAssociate: ['trace-1', 'trace-2']
+    }
+    const variables: AssociateActivityWithTracesVariables = {
+      declaredActivityId,
+      associationsCreationRequest
+    }
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation())
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with correct parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared activity id with error callback', () => {
+    const declaredActivityId = 'INVALID_DECLARED_ACTIVITY_ID'
+    const associationsCreationRequest: AssociationsCreationRequest = {
+      idsToAssociate: ['trace-1', 'trace-2']
+    }
+    const variables: AssociateActivityWithTracesVariables = {
+      declaredActivityId,
+      associationsCreationRequest
+    }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with the invalid parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with the invalid parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().and('a server error with error callback', () => {
+    const declaredActivityId = 'declared-activity-1'
+    const associationsCreationRequest: AssociationsCreationRequest = {
+      idsToAssociate: ['trace-1', 'trace-2']
+    }
+    const variables: AssociateActivityWithTracesVariables = {
+      declaredActivityId,
+      associationsCreationRequest
+    }
+
+    beforeEach(() => {
+      server.use(associateActivityWithTracesErrorHandler)
+    })
+
+    BddTest().when('the mutation encounters a server error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateActivityWithTracesMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateActivityWithTraces API with the correct parameters', () => {
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledWith(declaredActivityId, associationsCreationRequest)
+        expect(associateActivityWithTracesSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should not call the invalidation function on error', () => {
