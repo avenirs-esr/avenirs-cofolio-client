@@ -1,4 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { associateActivityWithTracesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
 import AssociateTracesModal, {
   type AssociateTracesModalProps
@@ -12,28 +14,19 @@ import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const addErrorMessage = vi.fn()
-const addSuccessMessage = vi.fn()
-const associateActivityWithTracesMutate = vi.fn()
+const mockAddErrorMessage = vi.fn()
+const mockAddSuccessMessage = vi.fn()
 
-vi.mock('@/store', () => ({
-  useToasterStore: () => ({
-    addErrorMessage,
-    addSuccessMessage
-  })
-}))
-
-vi.mock('@/features/student/buildProject/queries/use-activities.query/use-activities.query', () => ({
-  useAssociateActivityWithTracesMutation: (options?: {
-    onSuccess?: (data: unknown, variables: unknown) => void
-    onError?: (error: Error) => void
-  }) => ({
-    mutate: associateActivityWithTracesMutate.mockImplementation((variables) => {
-      options?.onSuccess?.({}, variables)
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage,
+      addSuccessMessage: mockAddSuccessMessage
     }),
-    isPending: false
-  })
-}))
+  }
+})
 
 BddTest().given('an associate traces modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociateTracesModal>>
@@ -62,10 +55,12 @@ BddTest().given('an associate traces modal', () => {
 
   const expectedDummyAssociationsAfterDelete = expectedDummyAssociations.filter(trace => trace.id !== '2')
 
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   BddTest().when('the modal is rendered', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
-
       wrapper = mountComponent(AssociateTracesModal, {
         props,
         global: { stubs }
@@ -197,42 +192,85 @@ BddTest().given('an associate traces modal', () => {
         })
       })
 
-      BddTest().and('the confirm associate traces modal emits confirm event', () => {
+      BddTest().and('the confirm associate traces modal emits confirm event successfully', () => {
         beforeEach(async () => {
           await wrapper.vm.$nextTick()
-
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-          confirmModal.vm.$emit('confirm')
-          await wrapper.vm.$nextTick()
+          wrapper.findComponent(ConfirmAssociateTracesModalStub).vm.$emit('confirm')
         })
 
-        BddTest().then('it should call the associate traces mutation with the declared activity id and selected trace ids', () => {
-          expect(associateActivityWithTracesMutate).toHaveBeenCalledWith({
-            declaredActivityId: 'declared-activity-1',
-            associationsCreationRequest: {
-              idsToAssociate: ['1', '2', '3', '4', '5', '6', '7']
-            }
+        BddTest().then('it should emit associated event', async () => {
+          await vi.waitFor(() => {
+            expect(wrapper.emitted('associated')).toBeTruthy()
           })
         })
 
-        BddTest().then('it should emit associated event', () => {
-          expect(wrapper.emitted('associated')).toBeTruthy()
-        })
-
-        BddTest().then('it should hide the confirm associate traces modal', () => {
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-          expect(confirmModal.props('show')).toBe(false)
-        })
-
-        BddTest().then('it should show a success toaster with the correct count', () => {
-          expect(addSuccessMessage).toHaveBeenCalledWith({
-            timeout: 2000,
-            description: 'Vous avez associé 7 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
+        BddTest().then('it should hide the confirm associate traces modal', async () => {
+          await vi.waitFor(() => {
+            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            expect(confirmModal.props('show')).toBe(false)
           })
         })
 
-        BddTest().then('it should not show an error toaster', () => {
-          expect(addErrorMessage).not.toHaveBeenCalled()
+        BddTest().then('it should show a success toaster with the correct count', async () => {
+          await vi.waitFor(() => {
+            expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+              timeout: 2000,
+              description: 'Vous avez associé 7 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
+            })
+          })
+        })
+
+        BddTest().then('it should not show an error toaster', async () => {
+          await vi.waitFor(() => {
+            expect(mockAddErrorMessage).not.toHaveBeenCalled()
+          })
+        })
+      })
+    })
+  })
+
+  BddTest().when('associating traces fails', () => {
+    beforeEach(() => {
+      server.use(associateActivityWithTracesErrorHandler)
+
+      wrapper = mountComponent(AssociateTracesModal, {
+        props,
+        global: { stubs }
+      })
+    })
+
+    BddTest().and('the user confirms the association', () => {
+      beforeEach(async () => {
+        wrapper.findComponent(AvModalStub).vm.$emit('confirm')
+        await wrapper.vm.$nextTick()
+        wrapper.findComponent(ConfirmAssociateTracesModalStub).vm.$emit('confirm')
+      })
+
+      BddTest().then('it should add an error toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddErrorMessage).toHaveBeenCalledWith({
+            title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
+            description: 'Internal Server Error',
+          })
+        })
+      })
+
+      BddTest().then('it should not add a success toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().then('it should not emit associated event', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('associated')).toBeFalsy()
+        })
+      })
+
+      BddTest().then('it should keep the confirm modal opened', async () => {
+        await vi.waitFor(() => {
+          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+          expect(confirmModal.props('show')).toBe(true)
         })
       })
     })
