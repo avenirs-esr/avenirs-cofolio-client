@@ -19,6 +19,7 @@ import {
   type DeclaredActivityDetailsDTO,
   EErrorCode,
   getAssociateActivityWithTracesUrl,
+  getDeleteDeclaredActivityAssociationsUrl,
   getFinishUrl,
   getGetActivitiesViewUrl,
   getGetActivityDetailUrl,
@@ -438,6 +439,23 @@ export const associateActivityWithTracesErrorHandler = http.post(
   }
 )
 
+export const deleteDeclaredActivityAssociationsSuccessHandler = http.delete(
+  `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
+  async () => {
+    return HttpResponse.json('Associations deleted successfully', { status: 200 })
+  }
+)
+
+export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
+  `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
+  async () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -470,4 +488,5 @@ export const activitiesHandlers = [
   updateActivityHandler,
   updateActivityReflectionHandler,
   associateActivityWithTracesHandler,
+  deleteDeclaredActivityAssociationsSuccessHandler,
 ]

@@ -13,6 +13,7 @@ import {
   activityNavigationQuery,
   activityNavigationQueryError,
   associateActivityWithTracesErrorHandler,
+  deleteDeclaredActivityAssociationsErrorHandler,
   libraryActivitiesErrorHandler,
   updateActivityPeriodHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
@@ -42,6 +43,7 @@ import {
   useAssociateActivityWithTracesMutation,
   useCountLibraryActivities,
   useDeclaredActivitiesDetailedQuery,
+  useDeleteDeclaredActivityAssociationsMutation,
   useFinishDeclaredActivityMutation,
   useGetDeclaredActivityAssociationsQuery,
   useLibraryActivitiesQuery,
@@ -1830,6 +1832,112 @@ BddTest().given('the useAssociateActivityWithTracesMutation composable', () => {
       BddTest().then('it should not call the invalidation function on error', () => {
         expect(mockInvalidateFunction).not.toHaveBeenCalled()
       })
+    })
+  })
+})
+
+BddTest().given('the useDeleteDeclaredActivityAssociationsMutation composable', () => {
+  let mutationResult: ReturnType<typeof useDeleteDeclaredActivityAssociationsMutation>
+  let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
+
+  const declaredActivityId = 'declared-activity-1'
+  const associationsDeleteRequest = {
+    idsToDelete: ['association-1', 'association-2']
+  }
+
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mockInvalidateFunction = vi.fn()
+
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    useInvalidateQuerySpy = vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery',
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().when('the mutation is called successfully', () => {
+    beforeEach(async () => {
+      mutationResult = mountQueryComposable(() => useDeleteDeclaredActivityAssociationsMutation(mutationArgs))
+      await mutationResult.mutateAsync({
+        declaredActivityId,
+        associationsDeleteRequest
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should call the API with correct variables', () => {
+      expect(mutationResult.variables.value).toEqual({
+        declaredActivityId,
+        associationsDeleteRequest
+      })
+    })
+
+    BddTest().then('it should call the success callback', () => {
+      expect(mockOnSuccess).toHaveBeenCalledWith(
+        'Associations deleted successfully',
+        {
+          declaredActivityId,
+          associationsDeleteRequest
+        }
+      )
+    })
+
+    BddTest().then('it should invalidate the associations query', () => {
+      expect(useInvalidateQuerySpy).toHaveBeenCalledTimes(1)
+      expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      expect(mockInvalidateFunction).toHaveBeenCalledWith(
+        expect.arrayContaining([
+          'activities',
+          'associations',
+          declaredActivityId
+        ])
+      )
+    })
+
+    BddTest().then('it should not call the error callback', () => {
+      expect(mockOnError).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the mutation fails', () => {
+    beforeEach(async () => {
+      server.use(deleteDeclaredActivityAssociationsErrorHandler)
+
+      mutationResult = mountQueryComposable(() => useDeleteDeclaredActivityAssociationsMutation(mutationArgs))
+
+      await mutationResult.mutateAsync({
+        declaredActivityId,
+        associationsDeleteRequest
+      }).catch(() => {})
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should call the error callback', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().then('it should not call the success callback', () => {
+      expect(mockOnSuccess).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should not invalidate queries', () => {
+      expect(mockInvalidateFunction).not.toHaveBeenCalled()
     })
   })
 })

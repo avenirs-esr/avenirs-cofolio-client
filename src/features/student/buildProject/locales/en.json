@@ -112,12 +112,13 @@
             "ConfirmAssociateTracesModal": {
               "title": "Are you sure you want to associate these items?"
             },
-            "DeleteActivityAssociationsModal": {
-              "title": "Which association(s) do you want to delete?"
-            },
             "DeleteActivityAssociatedElementsDropdown": {
               "skills": "one/many associated skill(s)",
               "traces": "one/many associated trace(s)"
+            },
+            "DeleteActivityAssociatedTracesModal": {
+              "success": "The selected associations have been successfully deleted.",
+              "title": "Which association(s) do you want to delete?"
             },
             "FinishDeclaredActivity": {
               "finishedAt": "Finished at {date}",

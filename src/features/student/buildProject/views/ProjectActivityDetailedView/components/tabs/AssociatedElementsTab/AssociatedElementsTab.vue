@@ -47,6 +47,7 @@ const { showModal: showAssociateTracesModal, displayModal: displayAssociateTrace
 
   <DeleteActivityAssociatedTracesModal
     :show="showTracesModal"
+    :declared-activity-id="declaredActivityId"
     @cancel="hideTracesModal"
     @deleted="hideTracesModal"
   />
