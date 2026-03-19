@@ -35,7 +35,7 @@ export const SelectorOverlayStub = defineComponent({
           >
             {{ element.label }}
           </a>
-          <slot name="default" :label="element.label">{{ element.label }}</slot>
+          <slot name="default" :base-element="element.baseElement" :label="element.label">{{ element.label }}</slot>
         </div>
       </div>
     `,

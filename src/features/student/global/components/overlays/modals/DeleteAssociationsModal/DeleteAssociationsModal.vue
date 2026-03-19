@@ -12,6 +12,7 @@ export interface DeleteSelfKnowledgeElementsModalProps {
     title: string
   }[]
   selectedAssociationIds: string[]
+  isLoading?: boolean
 }
 
 defineProps<DeleteSelfKnowledgeElementsModalProps>()
@@ -52,6 +53,7 @@ function onConfirm () {
                              { count: selectedAssociationIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedAssociationIds.length === 0"
+    :is-loading="isLoading"
     @close="$emit('cancel')"
     @confirm="displayConfirmModal"
   >
