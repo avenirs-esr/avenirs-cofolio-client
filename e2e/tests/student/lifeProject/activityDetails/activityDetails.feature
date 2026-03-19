@@ -102,3 +102,33 @@ Feature: Student Project Activity Detail Page
       Then the finish activity button is visible
       When the student clicks the finish activity button
       Then the finish activity confirmation modal is visible
+
+  Rule: Associated elements
+
+    Background:
+      And the project activity details are loaded
+
+    @high @activity-details @associated-elements @dataset-full
+    Scenario: Student can see the activity associated elements
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      When the student opens associated elements tab
+      Then the associated traces card is visible
+      When the student clicks the associated traces card
+      Then the associated trace cards are visible
+
+    @high @activity-details @associated-elements
+    Scenario: Student can't see associated elements of activities without associated elements
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with not in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      When the student opens associated elements tab
+      Then the associated traces card is hidden
+      And the associated trace cards are hidden

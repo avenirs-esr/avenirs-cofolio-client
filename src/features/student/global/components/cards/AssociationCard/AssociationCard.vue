@@ -14,6 +14,10 @@ export interface AssociationCardProps {
   to: RouteLocationRaw
 }
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const { title, icon, color, backgroundColor, hoverBorderColor, iconBorderColor, to } = defineProps<AssociationCardProps>()
 
 defineSlots<{
@@ -36,6 +40,7 @@ const iconOptions: IconOptions = {
     data-testid="association-card"
   >
     <FloatingIconCard
+      v-bind="$attrs"
       :title="title"
       :icon-options="iconOptions"
       :color="backgroundColor"

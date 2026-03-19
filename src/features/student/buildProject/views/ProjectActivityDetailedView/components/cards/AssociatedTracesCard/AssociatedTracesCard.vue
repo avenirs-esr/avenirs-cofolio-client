@@ -22,7 +22,7 @@ const { t } = useI18n()
     border-color="var(--other-border-skill-card)"
     collapsible
     collapsed
-    data-testid="associated-trace-card"
+    data-testid="associated-traces-card"
   >
     <template #title>
       <div class="av-row av-flex-fill av-justify-start">
@@ -33,12 +33,16 @@ const { t } = useI18n()
           :text="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociatedTracesCard.title', { count: associatedTraces.length })"
           text-color="var(--text1)"
           gap="var(--spacing-sm)"
-          data-testid="associated-trace-card-title"
+          data-testid="associated-traces-card-title"
+          inline
         />
       </div>
     </template>
 
-    <div class="av-row av-wrap av-align-center av-justify-center av-gap-md">
+    <div
+      class="av-row av-wrap av-align-center av-gap-md"
+      data-testid="associated-traces-cards-container"
+    >
       <AssociatedTraceCard
         v-for="associatedTrace in associatedTraces"
         :key="associatedTrace.trace.traceId"
