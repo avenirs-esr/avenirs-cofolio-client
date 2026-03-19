@@ -14,6 +14,9 @@ export const DeleteAssociationsModalStub = defineComponent({
     selectedAssociationIds: {
       type: Array as PropType<string[]>,
       required: true
+    },
+    isLoading: {
+      type: Boolean
     }
   },
   emits: ['cancel', 'confirmDelete'],

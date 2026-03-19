@@ -11,7 +11,7 @@ export interface DeleteActivityAssociatedTracesModalProps {
   declaredActivityId: string
 }
 
-const { show, declaredActivityId } = defineProps<DeleteActivityAssociatedTracesModalProps>()
+const { declaredActivityId } = defineProps<DeleteActivityAssociatedTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -62,7 +62,7 @@ function onConfirmDelete () {
     :show="show"
     :associations="dummyAssociations"
     :selected-association-ids="dummySelectedAssociationIds"
-    :disabled="isPending"
+    :is-loading="isPending"
     @cancel="emit('cancel')"
     @confirm-delete="onConfirmDelete"
   >
