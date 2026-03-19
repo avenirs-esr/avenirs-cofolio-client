@@ -1,8 +1,27 @@
-import DeleteActivityAssociatedTracesModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import { deleteDeclaredActivityAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
+import DeleteActivityAssociatedTracesModal, {
+  type DeleteActivityAssociatedTracesModalProps
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage,
+    }),
+  }
+})
 
 BddTest().given('a delete activity associated traces modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedTracesModal>>
@@ -11,9 +30,21 @@ BddTest().given('a delete activity associated traces modal', () => {
     DeleteAssociationsModal: DeleteAssociationsModalStub,
   }
 
+  const props: DeleteActivityAssociatedTracesModalProps = {
+    show: true,
+    declaredActivityId: 'declared-activity-1',
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   BddTest().when('the modal is shown', () => {
     beforeEach(() => {
-      wrapper = mount(DeleteActivityAssociatedTracesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteActivityAssociatedTracesModal, {
+        props,
+        global: { stubs }
+      })
     })
 
     BddTest().then('it should render the delete associations modal', () => {
@@ -32,14 +63,70 @@ BddTest().given('a delete activity associated traces modal', () => {
       })
     })
 
+    BddTest().and('the delete associations modal emits confirmDelete successfully', () => {
+      beforeEach(() => {
+        const confirmModal = wrapper.findComponent(DeleteAssociationsModalStub)
+        confirmModal.vm.$emit('confirmDelete')
+      })
+
+      BddTest().then('the delete activity associated traces modal should emit deleted', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('deleted')).toBeTruthy()
+        })
+      })
+
+      BddTest().then('it should add a success toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: 'Les associations sélectionnées ont été supprimées avec succès.',
+          })
+        })
+      })
+
+      BddTest().then('it should not add an error toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddErrorMessage).not.toHaveBeenCalled()
+        })
+      })
+    })
+  })
+
+  BddTest().when('deleting associated traces fails', () => {
+    beforeEach(() => {
+      server.use(deleteDeclaredActivityAssociationsErrorHandler)
+
+      wrapper = mountComponent(DeleteActivityAssociatedTracesModal, {
+        props,
+        global: { stubs }
+      })
+    })
+
     BddTest().and('the delete associations modal emits confirmDelete', () => {
       beforeEach(() => {
         const confirmModal = wrapper.findComponent(DeleteAssociationsModalStub)
         confirmModal.vm.$emit('confirmDelete')
       })
 
-      BddTest().then('the delete activity associated traces modal should emit deleted', () => {
-        expect(wrapper.emitted('deleted')).toBeTruthy()
+      BddTest().then('it should add an error toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddErrorMessage).toHaveBeenCalledWith({
+            title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
+            description: 'Internal Server Error',
+          })
+        })
+      })
+
+      BddTest().then('it should not add a success toaster message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().then('the delete activity associated traces modal should not emit deleted', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('deleted')).toBeFalsy()
+        })
       })
     })
   })

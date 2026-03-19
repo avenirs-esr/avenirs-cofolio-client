@@ -6,10 +6,12 @@ import {
   type ActivityOverviewDTO,
   associateActivityWithTraces,
   type AssociationsCreationRequest,
+  type AssociationsDeleteRequest,
   type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
+  deleteDeclaredActivityAssociations,
   type EActivityThematic,
   finish,
   getActivitiesView,
@@ -405,6 +407,32 @@ export function useAssociateActivityWithTracesMutation ({
       associationsCreationRequest
     }: AssociateActivityWithTracesVariables): Promise<DeclaredActivityAssociationsDTO> => {
       return await associateActivityWithTraces(declaredActivityId, associationsCreationRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activitiesAssociationsQueryKey, variables.declaredActivityId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface DeleteDeclaredActivityAssociationsVariables {
+  declaredActivityId: string
+  associationsDeleteRequest: AssociationsDeleteRequest
+}
+
+export function useDeleteDeclaredActivityAssociationsMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<string, DeleteDeclaredActivityAssociationsVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<string, BaseApiException, DeleteDeclaredActivityAssociationsVariables>({
+    mutationFn: async ({
+      declaredActivityId,
+      associationsDeleteRequest
+    }: DeleteDeclaredActivityAssociationsVariables): Promise<string> => {
+      return await deleteDeclaredActivityAssociations(declaredActivityId, associationsDeleteRequest)
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...activitiesAssociationsQueryKey, variables.declaredActivityId])

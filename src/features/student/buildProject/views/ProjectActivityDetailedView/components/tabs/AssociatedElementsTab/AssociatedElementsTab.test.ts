@@ -113,6 +113,7 @@ BddTest().given('an associated elements tab', () => {
       BddTest().then('the delete activity associated traces modal should be shown', () => {
         const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
         expect(tracesModal.props('show')).toBe(true)
+        expect(tracesModal.props('declaredActivityId')).toBe(props.declaredActivityId)
       })
 
       BddTest().and('the user selects cancel from the delete activity associated traces modal', () => {
