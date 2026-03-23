@@ -125,7 +125,7 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should render the associations tab with correct title', () => {
       const tabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabs[1].props('title')).toBe('Mes associations')
+      expect(tabs[1].props('title')).toBe('Mes éléments associés')
     })
 
     BddTest().then('it should render StudentTraceDetails component in the first tab', () => {

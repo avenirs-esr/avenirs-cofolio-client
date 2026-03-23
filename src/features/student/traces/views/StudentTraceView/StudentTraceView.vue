@@ -2,6 +2,7 @@
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useBaseApiExceptionToast, useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
+import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
@@ -79,11 +80,10 @@ const breadcrumbLinks = computed(() => [
       v-model="activeTab"
       v-memo="[traceDetailed, activeTab]"
       class="trace-tabs"
-      compact
     >
       <AvTab
         :title="t('student.traces.views.StudentTraceView.tabs.details')"
-        :icon="MDI_ICONS.ATTACH_FILE"
+        :icon="MDI_ICONS.INFORMATION_OUTLINE"
       >
         <StudentTraceDetails
           :trace="traceDetailed"
@@ -91,7 +91,7 @@ const breadcrumbLinks = computed(() => [
       </AvTab>
       <AvTab
         :title="t('student.traces.views.StudentTraceView.tabs.associations')"
-        :icon="MDI_ICONS.LINK"
+        :icon="ICONS.ASSOCIATIONS"
       >
         <TraceAssociations
           :associations="traceDetailed.traceAssociations"

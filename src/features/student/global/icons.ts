@@ -1,4 +1,4 @@
-import { EOS_ICONS, IX_ICONS, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EOS_ICONS, IX_ICONS, MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export const ICONS = {
   ACTIVITY: EOS_ICONS.ACTION_CHAINS_OUTLINED,
@@ -13,5 +13,6 @@ export const ICONS = {
   SKILLS: MDI_ICONS.STARS,
   TRACES: MDI_ICONS.ATTACH_FILE,
   TRAJECTORIES: MDI_ICONS.ARROW_DECISION,
-  TRANSVERSAL: MDI_ICONS.WARNING // TODO: waiting for Morgane
+  TRANSVERSAL: MDI_ICONS.WARNING, // TODO: waiting for Morgane
+  ASSOCIATIONS: RI_ICONS.DIAMOND_FILL
 }
