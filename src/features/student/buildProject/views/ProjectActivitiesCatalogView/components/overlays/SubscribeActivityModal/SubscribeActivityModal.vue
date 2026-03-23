@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { IdTitle } from '@/types'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
 import ActivityPeriodFormField
@@ -10,10 +11,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface SubscribeActivityModalProps {
   show: boolean
-  activity: {
-    id: string
-    title: string
-  }
+  activity: IdTitle
 }
 
 const { activity } = defineProps<SubscribeActivityModalProps>()

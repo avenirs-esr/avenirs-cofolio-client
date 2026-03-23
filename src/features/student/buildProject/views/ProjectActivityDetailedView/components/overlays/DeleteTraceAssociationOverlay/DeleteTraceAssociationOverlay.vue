@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import type { IdTitle } from '@/types'
 import TraceCompactCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
 
 export interface DeleteTraceAssociationOverlayProps {
-  trace: {
-    id: string
-    title: string
-  }
+  trace: IdTitle
 }
 
 const { trace } = defineProps<DeleteTraceAssociationOverlayProps>()

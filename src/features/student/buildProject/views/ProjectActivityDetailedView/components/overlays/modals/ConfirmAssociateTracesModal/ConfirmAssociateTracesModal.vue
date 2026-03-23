@@ -1,13 +1,11 @@
 <script lang="ts" setup>
+import type { IdTitleList } from '@/types'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmAssociateTracesModalProps {
   show: boolean
-  traces: {
-    id: string
-    title: string
-  }[]
+  traces: IdTitleList
 }
 
 const { traces } = defineProps<ConfirmAssociateTracesModalProps>()

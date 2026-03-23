@@ -1,14 +1,12 @@
 <script lang="ts" setup>
+import type { IdTitleList } from '@/types'
 import DeleteTraceAssociationOverlay
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/DeleteTraceAssociationOverlay/DeleteTraceAssociationOverlay.vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectedAssociateTracesContainerProps {
-  traces: {
-    id: string
-    title: string
-  }[]
+  traces: IdTitleList
 }
 
 defineProps<SelectedAssociateTracesContainerProps>()
