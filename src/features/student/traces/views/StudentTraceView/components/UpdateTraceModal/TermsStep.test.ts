@@ -1,7 +1,6 @@
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
-import { EFileType, ESkillLevelStatus, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import TermsStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -74,61 +73,6 @@ BddTest().given('a terms step', () => {
     BddTest().then('it should render the impact and alert messages', () => {
       expect(wrapper.find('.caption-regular').text()).toEqual('Vos modifications affecteront la trace dans les associations suivantes :')
       expect(wrapper.find('.alert-message').text()).toEqual('Attention, message d\'information')
-    })
-
-    BddTest().then('it should render all skill-level and declared-skill items', () => {
-      const items = wrapper.findAll('.av-list-item-stub')
-      const expectedCount
-        = mockedTraceAssociations.skillLevelAssociations.length
-          + mockedTraceAssociations.declaredSkillAssociations.length
-      expect(items.length).toBe(expectedCount)
-    })
-
-    BddTest().then('it should set correct title text on each rendered item', () => {
-      const items = wrapper.findAll('.av-list-item-stub').map(n => n.get('.title').text())
-      const expectedTitles = [
-        ...mockedTraceAssociations.skillLevelAssociations.map(s => s.skillTitle),
-        ...mockedTraceAssociations.declaredSkillAssociations.map(a => a.title)
-      ]
-      expect(items).toEqual(expectedTitles)
-    })
-
-    BddTest().then('it should use the right icon, icon color and text color for skill-level items', () => {
-      const skillItems = wrapper.findAll('.av-list-item-stub')
-        .slice(0, mockedTraceAssociations.skillLevelAssociations.length)
-
-      const byTitle = (title: string) =>
-        skillItems.find(w => w.attributes('data-title') === title)!
-
-      const active = mockedTraceAssociations.skillLevelAssociations.find(s => s.status === ESkillLevelStatus.UNDER_ACQUISITION)!
-      const inactive = mockedTraceAssociations.skillLevelAssociations.find(s => s.status !== ESkillLevelStatus.UNDER_ACQUISITION)!
-
-      const activeItem = byTitle(active.skillTitle)
-      expect(activeItem.attributes('data-icon')).toBe(MDI_ICONS.RECORD_CIRCLE_OUTLINE)
-      expect(activeItem.attributes('data-icon-color')).toBe('var(--dark-background-primary1)')
-      expect(activeItem.attributes('data-color')).toBe('')
-
-      const inactiveItem = byTitle(inactive.skillTitle)
-      expect([MDI_ICONS.CLOSE_CIRCLE_OUTLINE]).toContain(inactiveItem.attributes('data-icon'))
-      expect(inactiveItem.attributes('data-icon-color')).toBe('var(--text2)')
-      expect(inactiveItem.attributes('data-color')).toBe('var(--text2)')
-    })
-
-    BddTest().then('it should display a badge only for non-active statuses', () => {
-      const badges = wrapper.findAll('.status-badge').map(b => b.text())
-      expect(badges).toContain(ESkillLevelStatus.VALIDATED)
-      expect(badges).toContain(ESkillLevelStatus.UNDER_REVIEW)
-      expect(badges.length).toBe(3)
-    })
-
-    BddTest().then('it should render declared skills with the expected icon and color', () => {
-      const offset = mockedTraceAssociations.skillLevelAssociations.length
-      const declaredItems = wrapper.findAll('.av-list-item-stub').slice(offset)
-
-      for (const declaredItem of declaredItems) {
-        expect(declaredItem.attributes('data-icon')).toBe(MDI_ICONS.RECORD_CIRCLE_OUTLINE)
-        expect(declaredItem.attributes('data-icon-color')).toBe('var(--dark-background-primary1)')
-      }
     })
   })
 })

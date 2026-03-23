@@ -235,7 +235,7 @@
           },
           "subtitle": "Détail de ma trace",
           "tabs": {
-            "associations": "Mes éléments associés",
+            "associations": "Mes éléments associés ({count})",
             "details": "Ma trace"
           },
           "title": "Trace {trace}",

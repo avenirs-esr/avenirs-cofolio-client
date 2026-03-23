@@ -8,12 +8,14 @@ import {
   deleteTrace,
   type ETraceAssociationType,
   getAssociatedTraces,
+  getTraceAssociations,
   getTraceConfig,
   getTraceDetail,
   getTraceOverview,
   getTracesSummary,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
+  type TraceAssociationsDTO,
   type TraceAssociationSearchResult,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
@@ -37,6 +39,7 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
+const traceAssocationsQueryKey = [...tracesCommonQueryKeys, 'associations']
 const tracesViewQueryKey = [...tracesCommonQueryKeys, 'view']
 
 export interface UseTracesViewQueryParams {
@@ -168,6 +171,27 @@ export function useTraceDetailedQuery (traceId: MaybeRef<string>) {
   return {
     ...query,
     traceDetailed,
+  }
+}
+
+export function useTraceAssociationsQuery (traceId: MaybeRef<string>) {
+  const queryKey = computed(() => [...traceAssocationsQueryKey, toValue(traceId)])
+
+  const queryFn = computed(() => async (): Promise<TraceAssociationsDTO> => {
+    return getTraceAssociations(toValue(traceId))
+  })
+
+  const query = useQuery<TraceAssociationsDTO, BaseApiException, TraceAssociationsDTO, readonly unknown[]>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(traceId).trim().length > 0),
+  })
+
+  const traceAssociations = computed(() => query.data.value)
+
+  return {
+    ...query,
+    traceAssociations,
   }
 }
 

@@ -1,10 +1,8 @@
 import {
   type AttachmentUploadDTO,
-  EAmsStatus,
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
-  ESkillLevelStatus,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
@@ -159,47 +157,7 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
 }
 
 export const mockedTraceAssociations: TraceAssociationsDTO = {
-  skillLevelAssociations: [
-    {
-      id: 'skill-1',
-      skillTitle: 'Compétence Prévenir la pollution à la source',
-      level: 'Niv. 1',
-      status: ESkillLevelStatus.VALIDATED,
-      ams: {
-        id: 'ams-1',
-        title: 'SAE 1.4 Etude des risques et impacts environnementaux',
-        status: EAmsStatus.COMPLETED
-      }
-    },
-    {
-      id: 'skill-2',
-      skillTitle: 'Compétence Évaluer l\'impact environnement',
-      level: 'Niv. 2',
-      status: ESkillLevelStatus.UNDER_ACQUISITION,
-      ams: {
-        id: 'ams-2',
-        title: 'SAE 2.3 Analyse du cycle de vie',
-        status: EAmsStatus.IN_PROGRESS
-      }
-    },
-    {
-      id: 'skill-3',
-      skillTitle: 'Compétence Gérer les déchets',
-      level: 'Niv. 1',
-      status: ESkillLevelStatus.UNDER_REVIEW
-    },
-    {
-      id: 'skill-4',
-      skillTitle: 'Compétence Optimiser les ressources',
-      level: 'Niv. 3',
-      status: ESkillLevelStatus.VALIDATED,
-      ams: {
-        id: 'ams-3',
-        title: 'SAE 3.1 Optimisation énergétique',
-        status: EAmsStatus.COMPLETED
-      }
-    }
-  ],
+  declaredActivityAssociations: [],
   declaredSkillAssociations: [
     {
       id: 'declared-1',

@@ -1310,6 +1310,37 @@
         }
       }
     },
+    "/me/traces/{traceId}/associations": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getTraceAssociations",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/student-progress": {
       "get": {
         "tags": [
@@ -3001,10 +3032,10 @@
       "TraceAssociationsDTO": {
         "type": "object",
         "properties": {
-          "skillLevelAssociations": {
+          "declaredActivityAssociations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SkillLevelAssociationDTO"
+              "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
             }
           },
           "declaredSkillAssociations": {
@@ -3015,8 +3046,23 @@
           }
         },
         "required": [
-          "declaredSkillAssociations",
-          "skillLevelAssociations"
+          "declaredActivityAssociations",
+          "declaredSkillAssociations"
+        ]
+      },
+      "DeclaredActivityAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredActivity": {
+            "$ref": "#/components/schemas/DeclaredActivityViewDTO"
+          }
+        },
+        "required": [
+          "associationId, declaredActivity"
         ]
       },
       "TraceDetailDTO": {

@@ -13,8 +13,10 @@ import { createMockedSearchStudentSkillsDTO } from '@/__mocks__/fixtures/student
 import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
+  EErrorCode,
   ETraceAssociationType,
   getCreateTraceUrl,
+  getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
@@ -22,6 +24,7 @@ import {
   getUpdateTraceUrl,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
+  type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
   type TraceFilter,
@@ -300,4 +303,22 @@ export const tracesHandlers = [
       }
     })
   }),
+
+  http.get(
+    `*${getGetTraceAssociationsUrl(':traceId')}`,
+    ({ params }) => {
+      const { traceId } = params
+      if (traceId === 'INVALID_TRACE_ID') {
+        return HttpResponse.json(
+          { code: EErrorCode.TRACE_NOT_FOUND, message: 'Trace not found' },
+          { status: 404, headers: { 'Content-Type': 'application/json' } }
+        )
+      }
+
+      return HttpResponse.json({
+        declaredActivityAssociations: [],
+        declaredSkillAssociations: []
+      } as TraceAssociationsDTO)
+    }
+  )
 ]

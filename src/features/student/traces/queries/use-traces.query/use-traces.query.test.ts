@@ -5,6 +5,7 @@ import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mo
 import {
   ELanguage,
   type PagedResponseTraceViewDTO,
+  type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
   type TraceFilter,
@@ -18,6 +19,7 @@ import {
   type UpdateTraceVariables,
   useDeleteTraceMutation,
   useStudentTracesSummaryQuery,
+  useTraceAssociationsQuery,
   useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
@@ -881,6 +883,120 @@ BddTest().given('a student traces summary query with no parameters', () => {
     BddTest().then('it should return an array of trace overviews', async () => {
       await vi.waitFor(() => {
         expect(Array.isArray(queryResult.data.value)).toBe(true)
+      })
+    })
+  })
+})
+
+BddTest().given('a useTraceAssociationsQuery composable', async () => {
+  let getTraceAssociationsSpy: MockInstance<
+    (traceId: string, options?: RequestInit | undefined) => Promise<TraceAssociationsDTO>
+  >
+
+  beforeEach(async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5)
+
+    getTraceAssociationsSpy = vi.spyOn<
+      typeof import('@/api/avenir-esr'),
+      'getTraceAssociations'
+    >(
+        await import('@/api/avenir-esr'),
+        'getTraceAssociations'
+        )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a trace associations query', () => {
+    const traceId = ref('trace-1')
+
+    BddTest().when('the query is executed successfully', () => {
+      BddTest().then('it should call getTraceAssociations API and return associations', async () => {
+        const { data } = mountQueryComposable<
+          UseQueryReturnType<TraceAssociationsDTO, BaseApiException>
+        >(() => useTraceAssociationsQuery(traceId))
+
+        await flushPromises()
+
+        expect(getTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+        expect(getTraceAssociationsSpy).toHaveBeenCalledWith('trace-1')
+
+        expect(data.value).toBeDefined()
+      })
+
+      BddTest().then('it should expose traceAssociations computed', async () => {
+        const queryReturn = mountQueryComposable(() =>
+          useTraceAssociationsQuery(traceId)
+        )
+
+        await flushPromises()
+
+        expect(queryReturn.traceAssociations.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the query as successful', async () => {
+        const queryReturn = mountQueryComposable(() =>
+          useTraceAssociationsQuery(traceId)
+        )
+
+        await flushPromises()
+
+        expect(queryReturn.isSuccess.value).toBe(true)
+        expect(queryReturn.isError.value).toBe(false)
+        expect(queryReturn.isLoading.value).toBe(false)
+      })
+    })
+
+    BddTest().when('traceId is empty', () => {
+      const emptyTraceId = ref('')
+
+      BddTest().then('it should not call the API', async () => {
+        mountQueryComposable(() =>
+          useTraceAssociationsQuery(emptyTraceId)
+        )
+
+        await flushPromises()
+
+        expect(getTraceAssociationsSpy).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('query should stay disabled', async () => {
+        const queryReturn = mountQueryComposable(() =>
+          useTraceAssociationsQuery(emptyTraceId)
+        )
+
+        await flushPromises()
+
+        expect(queryReturn.isSuccess.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query is called multiple times', () => {
+      BddTest().then('it should use TanStack Query caching', async () => {
+        function useMultipleCalls () {
+          useTraceAssociationsQuery(traceId)
+          return useTraceAssociationsQuery(traceId)
+        }
+
+        mountQueryComposable(() => useMultipleCalls())
+
+        await flushPromises()
+        await flushPromises()
+
+        expect(getTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().when('the query encounters an error', () => {
+      BddTest().then('it should handle error state correctly', async () => {
+        const queryReturn = mountQueryComposable(() =>
+          useTraceAssociationsQuery('INVALID_TRACE_ID')
+        )
+        await flushPromises()
+        expect(queryReturn.error.value).toBeDefined()
+        expect(queryReturn.isSuccess.value).toBe(false)
       })
     })
   })

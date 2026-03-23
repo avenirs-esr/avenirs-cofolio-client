@@ -236,7 +236,7 @@
           },
           "subtitle": "Detail of my trace",
           "tabs": {
-            "associations": "My associated elements",
+            "associations": "My associated elements ({count})",
             "details": "My trace"
           },
           "TraceAssociateElementsDropdown": {
