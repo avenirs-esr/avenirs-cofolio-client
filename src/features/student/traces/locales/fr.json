@@ -239,6 +239,10 @@
             "details": "Ma trace"
           },
           "title": "Trace {trace}",
+          "TraceAssociateElementsDropdown": {
+            "activities": "une/des activité(s)",
+            "skills": "une/des compétence(s)"
+          },
           "traceDeletionConfirmationModal": {
             "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
             "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
