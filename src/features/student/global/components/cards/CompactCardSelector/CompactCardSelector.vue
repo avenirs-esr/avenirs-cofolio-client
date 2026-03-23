@@ -5,12 +5,19 @@ import SelectorOverlay from '@/features/student/global/components/interaction/Se
 
 /**
  * @example
+ * -- SCRIPT PART --
+ * const selectedElementIds = ref<string[]>([])
+ *
+ * const selectableElements = [
+ *   { id: '1', title: 'Element 1', showSlot: props.customCondition },
+ *   { id: '2', title: 'Element 2' },
+ *   { id: '3', title: 'Element 3', showSlot: true }
+ * ]
+ *
+ * -- TEMPLATE PART --
  * <CompactCardSelector
- *   :elements="[
- *     { id: '1', title: 'Element 1', showSlot: props.customCondition },
- *     { id: '2', title: 'Element 2' },
- *     { id: '3', title: 'Element 3', showSlot: true }
- *   ]"
+ *   v-model="selectedElementIds"
+ *   :elements="selectableElements"
  *   icon="mdi-check"
  *   color="var(--text1)"
  *   background-color="var(--surface-background)"
@@ -80,6 +87,7 @@ function verifyShowSlot (element: unknown): boolean {
       :overlay-color="overlayColor"
       :overlay-opacity="overlayOpacity"
       :readonly="readonly"
+      border-radius="var(--radius-lg)"
     >
       <template #default="{ label, baseElement }">
         <FloatingIconCard
@@ -116,6 +124,7 @@ function verifyShowSlot (element: unknown): boolean {
   .floating-icon-card {
     &__title {
       text-align: left;
+      margin-right: var(--spacing-lg) !important;
     }
 
     &__icon {
@@ -125,6 +134,9 @@ function verifyShowSlot (element: unknown): boolean {
 }
 
   .av-card {
+    padding: var(--spacing-xxs) !important;
+    border-radius: var(--radius-lg) !important;
+
     &__title {
       padding-top: var(--spacing-xs);
       padding-bottom: var(--spacing-xs);
@@ -137,6 +149,10 @@ function verifyShowSlot (element: unknown): boolean {
 
   .av-icon {
     scale: 0.75 !important;
+  }
+
+  .selector-overlay__checkbox {
+    padding-top: var(--spacing-none) !important;
   }
 }
 </style>

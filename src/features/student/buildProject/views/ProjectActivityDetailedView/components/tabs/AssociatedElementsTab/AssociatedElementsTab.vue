@@ -15,11 +15,18 @@ export interface AssociatedElementsTabProps {
   declaredActivityId: string
 }
 
-defineProps<AssociatedElementsTabProps>()
+const { associations } = defineProps<AssociatedElementsTabProps>()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showTracesModal, displayModal: displayTracesModal, hideModal: hideTracesModal } = useModal()
 const { showModal: showAssociateTracesModal, displayModal: displayAssociateTracesModal, hideModal: hideAssociateTracesModal } = useModal()
+
+const tracesAssociations = computed(() => {
+  return associations.traceAssociations.map(traceAssociation => ({
+    id: traceAssociation.associationId,
+    title: traceAssociation.trace.title
+  }))
+})
 </script>
 
 <template>
@@ -48,6 +55,7 @@ const { showModal: showAssociateTracesModal, displayModal: displayAssociateTrace
   <DeleteActivityAssociatedTracesModal
     :show="showTracesModal"
     :declared-activity-id="declaredActivityId"
+    :associations="tracesAssociations"
     @cancel="hideTracesModal"
     @deleted="hideTracesModal"
   />

@@ -10,6 +10,7 @@ export interface SelectorOverlayProps {
   overlayColor?: string
   overlayOpacity?: number
   readonly?: boolean
+  borderRadius?: string
 }
 
 const {
@@ -19,7 +20,8 @@ const {
   checkboxColor = 'var(--dark-background-primary1)',
   overlayColor = 'var(--dark-background-primary1)',
   overlayOpacity = 0.1,
-  readonly = false
+  readonly = false,
+  borderRadius = '1.5rem'
 } = defineProps<SelectorOverlayProps>()
 
 const { t } = useI18n()
@@ -93,7 +95,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 1.5rem;
+    border-radius: v-bind('borderRadius');
 
     &::before {
       content: '';
@@ -102,7 +104,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       left: 0;
       right: 0;
       bottom: 0;
-      border-radius: 1.5rem;
+      border-radius: v-bind('borderRadius');
       background-color: transparent;
     }
 

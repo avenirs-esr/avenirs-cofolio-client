@@ -2,7 +2,7 @@
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useI18n } from 'vue-i18n'
 
-export interface UnsubscribeActivitiesConfirmModalProps {
+export interface DeleteAssociationsConfirmModalProps {
   show: boolean
   associations: {
     id: string
@@ -10,7 +10,7 @@ export interface UnsubscribeActivitiesConfirmModalProps {
   }[]
 }
 
-const { associations } = defineProps<UnsubscribeActivitiesConfirmModalProps>()
+const { associations } = defineProps<DeleteAssociationsConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -38,7 +38,7 @@ const { t } = useI18n()
       </div>
     </template>
     <ul
-      v-if="associations.length > 1"
+      v-if="associations.length > 0"
       data-testid="delete-associations-confirm-modal__associations-list"
     >
       <li

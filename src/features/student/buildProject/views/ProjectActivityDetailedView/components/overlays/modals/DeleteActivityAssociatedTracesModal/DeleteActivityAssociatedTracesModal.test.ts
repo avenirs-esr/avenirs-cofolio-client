@@ -4,6 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import DeleteActivityAssociatedTracesModal, {
   type DeleteActivityAssociatedTracesModalProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -27,12 +28,23 @@ BddTest().given('a delete activity associated traces modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedTracesModal>>
 
   const stubs = {
+    CompactCardSelector: CompactCardSelectorStub,
     DeleteAssociationsModal: DeleteAssociationsModalStub,
   }
 
   const props: DeleteActivityAssociatedTracesModalProps = {
     show: true,
     declaredActivityId: 'declared-activity-1',
+    associations: [
+      {
+        id: 'association-1',
+        title: 'Trace 1'
+      },
+      {
+        id: 'association-2',
+        title: 'Trace 2'
+      }
+    ]
   }
 
   beforeEach(() => {
@@ -60,6 +72,17 @@ BddTest().given('a delete activity associated traces modal', () => {
 
       BddTest().then('the delete activity associated traces modal should emit cancel', () => {
         expect(wrapper.emitted('cancel')).toBeTruthy()
+      })
+    })
+
+    BddTest().and('the user selects traces to delete from the selector', () => {
+      beforeEach(() => {
+        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        selector.vm.$emit('update:modelValue', ['association-1', 'association-2'])
+      })
+
+      BddTest().then('the selectedIds should be updated accordingly', () => {
+        expect(wrapper.findComponent(CompactCardSelectorStub).props('modelValue')).toEqual(['association-1', 'association-2'])
       })
     })
 
