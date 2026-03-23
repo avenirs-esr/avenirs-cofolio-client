@@ -153,8 +153,8 @@ class StudentProjectActivitiesPage extends BasePage {
 
   @When('the user opens the unsubscribe activities modal')
   async openUnsubscribeActivitiesModal () {
-    this.unsubscribedActivityId = await this.getActivityLibraryTab().getCardByIndex(0).getActivityId()
-    this.unsubscribedActivityThematic = await this.getActivityLibraryTab().getCardByIndex(0).getActivityThematic()
+    this.unsubscribedActivityId = await this.getActivityLibraryTab().getCardByIndex(1).getActivityId()
+    this.unsubscribedActivityThematic = await this.getActivityLibraryTab().getCardByIndex(1).getActivityThematic()
     await this.getActivityLibraryTab().getDropdown().clickUnsubscribe()
   }
 

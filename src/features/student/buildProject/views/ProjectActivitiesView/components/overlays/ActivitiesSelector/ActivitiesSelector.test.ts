@@ -51,7 +51,7 @@ BddTest().given('an activities selector', () => {
       BddTest().then('it should render the activity', () => {
         const card = wrapper.findComponent(ActivityCompactCardStub)
         expect(card.exists()).toBe(true)
-        expect(card.props('title')).toEqual(props.activities[0].title)
+        expect(card.props('activity')).toEqual({ id: props.activities[0].id, title: props.activities[0].title })
       })
 
       BddTest().and('the activity is clicked', () => {
@@ -103,8 +103,8 @@ BddTest().given('an activities selector', () => {
       BddTest().then('it should render the activities', () => {
         const cards = wrapper.findAllComponents(ActivityCompactCardStub)
         expect(cards).toHaveLength(2)
-        expect(cards[0].props('title')).toEqual(props.activities[0].title)
-        expect(cards[1].props('title')).toEqual(props.activities[1].title)
+        expect(cards[0].props('activity')).toEqual({ id: props.activities[0].id, title: props.activities[0].title })
+        expect(cards[1].props('activity')).toEqual({ id: props.activities[1].id, title: props.activities[1].title })
       })
     })
   })
