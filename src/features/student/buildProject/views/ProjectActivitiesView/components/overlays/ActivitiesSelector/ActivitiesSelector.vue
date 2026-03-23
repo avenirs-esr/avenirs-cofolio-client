@@ -56,7 +56,10 @@ function getActivityThematic (baseElement?: unknown) {
           data-testid="activity-selector-item"
           :data-activity-id="value"
           :data-activity-thematic="getActivityThematic(baseElement)"
-          :title="label"
+          :activity="{
+            id: value,
+            title: label,
+          }"
         />
       </template>
     </SelectorOverlay>
