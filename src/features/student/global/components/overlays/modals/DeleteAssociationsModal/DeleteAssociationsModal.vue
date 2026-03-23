@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { IdTitleList } from '@/types'
 import type { Slot } from 'vue'
 import { useModal } from '@/common/composables'
 import DeleteAssociationsConfirmModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsConfirmModal/DeleteAssociationsConfirmModal.vue'
@@ -7,10 +8,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface DeleteAssociationsModalProps {
   show: boolean
-  associations: {
-    id: string
-    title: string
-  }[]
+  associations: IdTitleList
   selectedAssociationIds: string[]
   isLoading?: boolean
 }

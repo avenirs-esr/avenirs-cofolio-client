@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { IdTitleList } from '@/types'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useUnsubscribeActivitiesMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useToasterStore } from '@/store'
@@ -6,10 +7,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface UnsubscribeActivitiesConfirmModalProps {
   show: boolean
-  activities: {
-    id: string
-    title: string
-  }[]
+  activities: IdTitleList
 }
 
 const { activities } = defineProps<UnsubscribeActivitiesConfirmModalProps>()

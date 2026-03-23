@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { AssociationsDeleteRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
+import type { IdTitleList } from '@/types'
 import { useDeleteDeclaredActivityAssociationsMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
@@ -11,10 +12,7 @@ import { useI18n } from 'vue-i18n'
 export interface DeleteActivityAssociatedTracesModalProps {
   show: boolean
   declaredActivityId: string
-  associations: {
-    id: string
-    title: string
-  }[]
+  associations: IdTitleList
 }
 
 const { declaredActivityId, associations } = defineProps<DeleteActivityAssociatedTracesModalProps>()
