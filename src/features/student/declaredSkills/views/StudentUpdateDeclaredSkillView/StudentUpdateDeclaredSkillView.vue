@@ -8,6 +8,7 @@ import UpdateDeclaredSkillAssociations
 import UpdateDeclaredSkillForm
   from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
+import { ICONS } from '@/features/student/global/icons'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -71,7 +72,7 @@ function backToStudentDeclaredSkillViewTabs () {
     </AvTab>
     <AvTab
       :title="t('student.global.myAssociationsWithCount', { count: declaredSkillDetailed?.traceAssociations?.length ?? 0 })"
-      :icon="MDI_ICONS.LINK"
+      :icon="ICONS.ASSOCIATIONS"
     >
       <UpdateDeclaredSkillAssociations
         v-if="declaredSkillDetailed"

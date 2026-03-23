@@ -1,5 +1,6 @@
 import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { ICONS } from '@/features/student/global/icons'
 import SelfKnowledgeElementTabs
   from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -73,7 +74,7 @@ BddTest().given('a self knowledge tabs component', () => {
 
       expect(associationsTab.exists()).toBe(true)
       expect(associationsTab.props('title')).toBe('Mes associations (0)')
-      expect(associationsTab.props('icon')).toBe(MDI_ICONS.LINK)
+      expect(associationsTab.props('icon')).toBe(ICONS.ASSOCIATIONS)
     })
 
     BddTest().then('it should render the element slot content', () => {

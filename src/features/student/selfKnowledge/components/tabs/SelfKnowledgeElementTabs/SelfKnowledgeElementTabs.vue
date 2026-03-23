@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { Slot } from 'vue'
+import { ICONS } from '@/features/student/global/icons'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -31,7 +32,7 @@ const activeTab = ref(0)
     </AvTab>
     <AvTab
       :title="t('student.selfKnowledge.tabs.SelfKnowledgeElementTabs.associations.title', 0)"
-      :icon="MDI_ICONS.LINK"
+      :icon="ICONS.ASSOCIATIONS"
     >
       <slot name="associations" />
     </AvTab>

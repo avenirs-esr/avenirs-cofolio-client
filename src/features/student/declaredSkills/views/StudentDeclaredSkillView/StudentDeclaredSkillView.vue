@@ -12,6 +12,7 @@ import DeclaredSkillSettingDropdown
 import DeleteDeclaredSkillConfirmModal from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
+import { ICONS } from '@/features/student/global/icons'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -85,7 +86,7 @@ function handleSkillDeleted () {
     </AvTab>
     <AvTab
       :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
-      :icon="MDI_ICONS.LINK"
+      :icon="ICONS.ASSOCIATIONS"
     >
       <StudentDeclaredSkillAssociations
         v-if="declaredSkillDetailed"
