@@ -5,7 +5,7 @@ import DeleteAssociationsConfirmModal from '@/features/student/global/components
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface DeleteSelfKnowledgeElementsModalProps {
+export interface DeleteAssociationsModalProps {
   show: boolean
   associations: {
     id: string
@@ -15,7 +15,7 @@ export interface DeleteSelfKnowledgeElementsModalProps {
   isLoading?: boolean
 }
 
-defineProps<DeleteSelfKnowledgeElementsModalProps>()
+defineProps<DeleteAssociationsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void

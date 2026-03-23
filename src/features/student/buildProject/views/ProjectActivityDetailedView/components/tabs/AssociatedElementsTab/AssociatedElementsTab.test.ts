@@ -15,11 +15,6 @@ import { beforeEach, expect } from 'vitest'
 BddTest().given('an associated elements tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementsTab>>
 
-  const props: AssociatedElementsTabProps = {
-    associations: mockedDeclaredActivityAssociations,
-    declaredActivityId: 'declared-activity-1',
-  }
-
   const stubs = {
     DeleteActivityAssociatedElementsDropdown: DeleteActivityAssociatedElementsDropdownStub,
     ActivityAssociateElementsDropdown: ActivityAssociateElementsDropdownStub,
@@ -29,7 +24,12 @@ BddTest().given('an associated elements tab', () => {
     AssociatedTracesCard: AssociatedTracesCardStub
   }
 
-  BddTest().when('the component is mounted', () => {
+  BddTest().when('the component is mounted with associations', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: mockedDeclaredActivityAssociations,
+      declaredActivityId: 'declared-activity-1',
+    }
+
     beforeEach(() => {
       wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
     })
@@ -60,6 +60,16 @@ BddTest().given('an associated elements tab', () => {
       const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
       expect(tracesModal.exists()).toBe(true)
       expect(tracesModal.props('show')).toBe(false)
+    })
+
+    BddTest().then('it should pass an array of {id, title} to delete activity associated traces modal', () => {
+      const modal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
+      mockedDeclaredActivityAssociations.traceAssociations.forEach((association) => {
+        expect(modal.props('associations')).toContainEqual({
+          id: association.associationId,
+          title: association.trace.title
+        })
+      })
     })
 
     BddTest().then('it should render the associate traces modal in hidden state', () => {

@@ -2,16 +2,22 @@
 import type { AssociationsDeleteRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { useDeleteDeclaredActivityAssociationsMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteActivityAssociatedTracesModalProps {
   show: boolean
   declaredActivityId: string
+  associations: {
+    id: string
+    title: string
+  }[]
 }
 
-const { declaredActivityId } = defineProps<DeleteActivityAssociatedTracesModalProps>()
+const { declaredActivityId, associations } = defineProps<DeleteActivityAssociatedTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -20,6 +26,8 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+
+const selectedIds = ref<string[]>([])
 
 const { mutate: deleteDeclaredActivityAssociations, isPending } = useDeleteDeclaredActivityAssociationsMutation({
   onError: (error: BaseApiException) => {
@@ -33,21 +41,14 @@ const { mutate: deleteDeclaredActivityAssociations, isPending } = useDeleteDecla
       timeout: 2000,
       description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedTracesModal.success'),
     })
+    selectedIds.value = []
     emit('deleted')
   },
 })
 
-const dummyAssociations = [
-  { id: '1', title: '(Placeholder) Trace 1' },
-  { id: '2', title: '(Placeholder) Trace 2' },
-  { id: '3', title: '(Placeholder) Trace 3' }
-]
-
-const dummySelectedAssociationIds = ['1', '2']
-
 function onConfirmDelete () {
   const associationsDeleteRequest: AssociationsDeleteRequest = {
-    idsToDelete: dummySelectedAssociationIds
+    idsToDelete: selectedIds.value
   }
 
   deleteDeclaredActivityAssociations({
@@ -55,24 +56,36 @@ function onConfirmDelete () {
     associationsDeleteRequest
   })
 }
+
+const selectableElements = associations.map(association => ({
+  id: association.id,
+  title: association.title,
+}))
+
+function onCancel () {
+  selectedIds.value = []
+  emit('cancel')
+}
 </script>
 
 <template>
   <DeleteAssociationsModal
     :show="show"
-    :associations="dummyAssociations"
-    :selected-association-ids="dummySelectedAssociationIds"
+    :associations="associations"
+    :selected-association-ids="selectedIds"
     :is-loading="isPending"
-    @cancel="emit('cancel')"
+    @cancel="onCancel"
     @confirm-delete="onConfirmDelete"
   >
-    <div class="av-col">
-      <span
-        v-for="association in dummyAssociations"
-        :key="association.id"
-      >
-        {{ association.title }}
-      </span>
-    </div>
+    <CompactCardSelector
+      v-model="selectedIds"
+      :elements="selectableElements"
+      :icon="ICONS.TRACES"
+      color="var(--text1)"
+      background-color="var(--light-background-neutral)"
+      checkbox-color="var(--dark-background-primary1)"
+      overlay-color="var(--dark-background-primary1)"
+      :overlay-opacity="0.25"
+    />
   </DeleteAssociationsModal>
 </template>
