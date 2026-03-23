@@ -239,6 +239,10 @@
             "associations": "My associations",
             "details": "My trace"
           },
+          "TraceAssociateElementsDropdown": {
+            "activities": "one/many activity(ies)",
+            "skills": "one/many skill(s)"
+          },
           "title": "Trace {trace}",
           "traceDeletionConfirmationModal": {
             "description": "Are you sure you want to delete your trace?",
