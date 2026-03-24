@@ -3062,7 +3062,8 @@
           }
         },
         "required": [
-          "associationId, declaredActivity"
+          "associationId",
+          "declaredActivity"
         ]
       },
       "TraceDetailDTO": {

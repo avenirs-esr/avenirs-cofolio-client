@@ -25,13 +25,14 @@ const stubs = {
 
 BddTest().given('a student trace associations component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceAssociations>>
-
+  const traceId = '123e4567-e89b-12d3-a456-426614174000'
   BddTest().when('the component is mounted with empty associations', () => {
     beforeEach(() => {
       const associationsProps = { declaredActivityAssociations: [], declaredSkillAssociations: [] }
       wrapper = mountComponent(TraceAssociations, {
         props: {
-          associations: associationsProps
+          associations: associationsProps,
+          traceId
         },
         global: {
           stubs
@@ -102,7 +103,8 @@ BddTest().given('a student trace associations component', () => {
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
         props: {
-          associations: associationsProps
+          associations: associationsProps,
+          traceId
         },
         global: {
           stubs

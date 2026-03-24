@@ -23,12 +23,16 @@ const { t } = useI18n()
       color="var(--dark-background-error)"
     />
     <div class="av-col av-align-center av-gap-sm av-text-center">
-      <h3 class="av-error-message__title">
+      <span
+        class="n6"
+        data-testid="error-message-title"
+      >
         {{ title ?? t('global.error.generic') }}
-      </h3>
+      </span>
       <p
         v-if="description"
-        class="av-error-message__description"
+        class="b1-regular"
+        data-testid="error-message-description"
       >
         {{ description }}
       </p>

@@ -62,14 +62,19 @@ BddTest().given('an update step', () => {
     },
     TraceAssociations: {
       name: 'TraceAssociations',
-      props: ['associations'],
+      props: ['associations', 'traceId'],
       template: '<div class="trace-associations"><slot name="caption" /></div>'
     }
   }
 
+  const mockedAssociations = {
+    declaredActivityAssociations: [],
+    declaredSkillAssociations: [],
+  }
+
   beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = mount(UpdateStep, { props: { trace: mockedTrace }, global: { stubs } })
+    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedAssociations }, global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -114,7 +119,12 @@ BddTest().given('an update step', () => {
 
     BddTest().then('it should pass associations prop to TraceAssociations', () => {
       const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
-      expect(traceAssociations.props('associations')).toEqual(mockedTrace.traceAssociations)
+      expect(traceAssociations.props('associations')).toEqual(mockedAssociations)
+    })
+
+    BddTest().then('it should pass traceId prop to TraceAssociations', () => {
+      const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
+      expect(traceAssociations.props('traceId')).toEqual(mockedTrace.id)
     })
   })
 })
