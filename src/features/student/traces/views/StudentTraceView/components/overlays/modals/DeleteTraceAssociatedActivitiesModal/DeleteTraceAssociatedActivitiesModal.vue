@@ -1,46 +1,53 @@
 <script lang="ts" setup>
+import type { DeclaredActivityAssociationDTO } from '@/api/avenir-esr'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { ICONS } from '@/features/student/global/icons'
 
 export interface DeleteTraceAssociatedActivitiesModalProps {
   show: boolean
+  traceId: string
+  associations: DeclaredActivityAssociationDTO[]
 }
 
-defineProps<DeleteTraceAssociatedActivitiesModalProps>()
+const { associations } = defineProps<DeleteTraceAssociatedActivitiesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'deleted'): void
 }>()
 
-const dummyAssociations = [
-  { id: '1', title: '(Placeholder) Activity 1' },
-  { id: '2', title: '(Placeholder) Activity 2' },
-  { id: '3', title: '(Placeholder) Activity 3' }
-]
+const selectedIds = ref<string[]>([])
 
-const dummySelectedAssociationIds = ['1', '2']
+const selectableElements = computed(() => associations.map(({ associationId, declaredActivity }) => ({
+  id: associationId,
+  title: declaredActivity.title,
+})))
 
 function onConfirmDelete () {
   // TODO: #1237
+  selectedIds.value = []
   emit('deleted')
+}
+
+function onCancel () {
+  selectedIds.value = []
+  emit('cancel')
 }
 </script>
 
 <template>
   <DeleteAssociationsModal
     :show="show"
-    :associations="dummyAssociations"
-    :selected-association-ids="dummySelectedAssociationIds"
-    @cancel="emit('cancel')"
+    :associations="selectableElements"
+    :selected-association-ids="selectedIds"
+    @cancel="onCancel"
     @confirm-delete="onConfirmDelete"
   >
-    <div class="av-col">
-      <span
-        v-for="association in dummyAssociations"
-        :key="association.id"
-      >
-        {{ association.title }}
-      </span>
-    </div>
+    <CompactCardSelector
+      v-model="selectedIds"
+      :elements="selectableElements"
+      :icon="ICONS.ACTIVITY"
+    />
   </DeleteAssociationsModal>
 </template>

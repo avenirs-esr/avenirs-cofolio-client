@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
+import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBaseApiExceptionToast, useModal } from '@/common/composables'
+import { useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
@@ -22,12 +24,10 @@ export interface StudentTraceDetailedProps {
 const props = defineProps<StudentTraceDetailedProps>()
 const { traceId } = toRefs(props)
 
-const { traceDetailed, error } = useTraceDetailedQuery(traceId)
-const { traceAssociations } = useTraceAssociationsQuery(traceId)
+const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
+const { traceAssociations, error: associationsError } = useTraceAssociationsQuery(traceId)
 
-const totalAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
-
-useBaseApiExceptionToast(error)
+const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
 
 const { t } = useI18n()
 const {
@@ -65,61 +65,84 @@ const breadcrumbLinks = computed(() => [
     :back="ROUTES.STUDENT.HOME"
   />
 
-  <div
-    v-if="!!traceDetailed"
-    class="main-container"
-  >
-    <div class="av-row av-justify-between av-align-center av-pb-md">
-      <h5 class="n5">
-        {{ t('student.traces.views.StudentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed?.title }}</span>
-      </h5>
-      <TraceSettingsDropdown
-        @delete-selected="displayDeleteModal"
-        @associate-selected="displayAssociateModal"
-        @update-selected="displayUpdateTraceModal"
+  <Loader :is-loading>
+    <div
+      v-if="!!traceDetailed"
+      class="main-container"
+    >
+      <div class="av-row av-justify-between av-align-center av-pb-md">
+        <h5 class="n5">
+          {{ t('student.traces.views.StudentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed.title }}</span>
+        </h5>
+        <TraceSettingsDropdown
+          @delete-selected="displayDeleteModal"
+          @associate-selected="displayAssociateModal"
+          @update-selected="displayUpdateTraceModal"
+        />
+      </div>
+
+      <AvTabs
+        v-model="activeTab"
+        v-memo="[traceDetailed, activeTab, traceDetailsError, associationsError]"
+        class="trace-tabs"
+      >
+        <AvTab
+          :title="t('student.traces.views.StudentTraceView.tabs.details')"
+          :icon="MDI_ICONS.INFORMATION_OUTLINE"
+        >
+          <div
+            v-if="traceDetailsError"
+            class="av-row av-px-2xl av-py-md av-justify-center"
+          >
+            <ErrorMessage
+              :title="t('student.traces.views.StudentTraceView.errors.fetchTrace')"
+              :description="traceDetailsError.message"
+            />
+          </div>
+
+          <StudentTraceDetails :trace="traceDetailed" />
+        </AvTab>
+        <AvTab
+          :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: countAssociations })"
+          :icon="ICONS.ASSOCIATIONS"
+        >
+          <div
+            v-if="associationsError"
+            class="av-row av-px-2xl av-py-md av-justify-center"
+          >
+            <ErrorMessage
+              :title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
+              :description="associationsError.message"
+            />
+          </div>
+          <TraceAssociations
+            v-if="traceAssociations"
+            :associations="traceAssociations"
+            :trace-id="traceDetailed.id"
+          />
+        </AvTab>
+      </AvTabs>
+
+      <StudentDetailedTraceAssociateModal
+        :trace="traceDetailed"
+        :show="showAssociateModal"
+        :on-close="() => hideAssociateModal()"
+      />
+
+      <TraceDeletionConfirmationModal
+        :trace="traceDetailed"
+        :show="showDeleteModal"
+        :on-confirm-delete="() => onDeleteTraceSuccess()"
+        :on-close="() => hideDeleteModal()"
+      />
+
+      <UpdateTraceModal
+        v-if="traceAssociations"
+        :trace="traceDetailed"
+        :associations="traceAssociations"
       />
     </div>
-
-    <AvTabs
-      v-model="activeTab"
-      v-memo="[traceDetailed, activeTab]"
-      class="trace-tabs"
-    >
-      <AvTab
-        :title="t('student.traces.views.StudentTraceView.tabs.details')"
-        :icon="MDI_ICONS.INFORMATION_OUTLINE"
-      >
-        <StudentTraceDetails
-          :trace="traceDetailed"
-        />
-      </AvTab>
-      <AvTab
-        :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: totalAssociations })"
-        :icon="ICONS.ASSOCIATIONS"
-      >
-        <TraceAssociations
-          :associations="traceDetailed.traceAssociations"
-        />
-      </AvTab>
-    </AvTabs>
-
-    <StudentDetailedTraceAssociateModal
-      :trace="traceDetailed"
-      :show="showAssociateModal"
-      :on-close="() => hideAssociateModal()"
-    />
-
-    <TraceDeletionConfirmationModal
-      :trace="traceDetailed"
-      :show="showDeleteModal"
-      :on-confirm-delete="() => onDeleteTraceSuccess()"
-      :on-close="() => hideDeleteModal()"
-    />
-
-    <UpdateTraceModal
-      :trace="traceDetailed"
-    />
-  </div>
+  </Loader>
 </template>
 
 <style lang="scss" scoped>

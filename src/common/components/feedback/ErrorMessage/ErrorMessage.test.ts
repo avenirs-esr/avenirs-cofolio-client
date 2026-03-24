@@ -24,8 +24,8 @@ BddTest().given('an ErrorMessage component', () => {
     })
 
     BddTest().then('it should render the title and description', () => {
-      expect(wrapper.find('.av-error-message__title').text()).toBe(props.title)
-      expect(wrapper.find('.av-error-message__description').text()).toBe(props.description)
+      expect(wrapper.find('[data-testid="error-message-title"]').text()).toBe(props.title)
+      expect(wrapper.find('[data-testid="error-message-description"]').text()).toBe(props.description)
     })
 
     BddTest().then('it should render the icon', () => {

@@ -226,7 +226,9 @@
             "skills": "une/des compétence(s) associée(s)"
           },
           "errors": {
-            "delete": "Une erreur est survenue lors de la suppression de la trace."
+            "delete": "Une erreur est survenue lors de la suppression de la trace.",
+            "fetchAssociations": "Une erreur est survenue lors de la récupération des éléments associés à la trace.",
+            "fetchTrace": "Une erreur est survenue lors de la récupération de la trace."
           },
           "settings": {
             "associate": "Associer ma trace",

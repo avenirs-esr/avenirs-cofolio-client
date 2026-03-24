@@ -55,7 +55,7 @@ BddTest().given('an update trace modal', () => {
     },
     UpdateStep: {
       name: 'UpdateStep',
-      props: ['trace'],
+      props: ['trace', 'associations'],
       template: '<div class="update-step" />'
     },
     ConfirmationModal: ConfirmationModalStub
@@ -66,7 +66,8 @@ BddTest().given('an update trace modal', () => {
       vi.clearAllMocks()
       wrapper = mountComponent(UpdateTraceModal, {
         props: {
-          trace: mockedTrace
+          trace: mockedTrace,
+          associations: mockedTraceAssociations
         },
         global: { stubs }
       })
@@ -89,7 +90,8 @@ BddTest().given('an update trace modal', () => {
       vi.clearAllMocks()
       wrapper = mountComponent(UpdateTraceModal, {
         props: {
-          trace: mockedTrace
+          trace: mockedTrace,
+          associations: mockedTraceAssociations
         },
         global: { stubs }
       })
@@ -186,6 +188,11 @@ BddTest().given('an update trace modal', () => {
         BddTest().then('it should pass trace prop to UpdateStep', () => {
           const updateStep = wrapper.findComponent({ name: 'UpdateStep' })
           expect(updateStep.props('trace')).toEqual(mockedTrace)
+        })
+
+        BddTest().then('it should pass associations prop to UpdateStep', () => {
+          const updateStep = wrapper.findComponent({ name: 'UpdateStep' })
+          expect(updateStep.props('associations')).toEqual(mockedTraceAssociations)
         })
 
         BddTest().and('the confirm button is clicked a second time', () => {

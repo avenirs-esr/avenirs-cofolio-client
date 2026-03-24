@@ -79,11 +79,6 @@ function onCancel () {
       v-model="selectedIds"
       :elements="selectableElements"
       :icon="ICONS.TRACES"
-      color="var(--text1)"
-      background-color="var(--light-background-neutral)"
-      checkbox-color="var(--dark-background-primary1)"
-      overlay-color="var(--dark-background-primary1)"
-      :overlay-opacity="0.25"
     />
   </DeleteAssociationsModal>
 </template>

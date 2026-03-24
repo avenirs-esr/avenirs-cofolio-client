@@ -35,8 +35,8 @@ export interface CompactCardSelectorProps {
   elements: { id: string, title: string, showSlot?: boolean }[]
   readonly?: boolean
   icon: string
-  color: string
-  backgroundColor: string
+  color?: string
+  backgroundColor?: string
   iconBorderColor?: string
   checkboxColor?: string
   overlayColor?: string
@@ -47,7 +47,16 @@ defineOptions({
   inheritAttrs: false
 })
 
-const { elements, icon, color, backgroundColor, iconBorderColor } = defineProps<CompactCardSelectorProps>()
+const {
+  elements,
+  icon,
+  iconBorderColor,
+  color = 'var(--text1)',
+  backgroundColor = 'var(--light-background-neutral)',
+  checkboxColor = 'var(--dark-background-primary1)',
+  overlayColor = 'var(--dark-background-primary1)',
+  overlayOpacity = 0.25,
+} = defineProps<CompactCardSelectorProps>()
 
 defineSlots<{
   /**

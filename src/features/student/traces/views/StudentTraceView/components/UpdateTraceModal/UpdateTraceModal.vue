@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
@@ -8,7 +8,12 @@ import UpdateStep from '@/features/student/traces/views/StudentTraceView/compone
 import { AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { trace } = defineProps<{ trace: TraceDetailDTO }>()
+interface UpdateTraceModalProps {
+  trace: TraceDetailDTO
+  associations: TraceAssociationsDTO
+}
+
+const { trace, associations } = defineProps<UpdateTraceModalProps>()
 
 enum UpdateTraceModalSteps {
   Terms = 0,
@@ -100,6 +105,7 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
       <component
         :is="displayedStep"
         :trace="trace"
+        :associations="associations"
       />
     </div>
   </AvModal>

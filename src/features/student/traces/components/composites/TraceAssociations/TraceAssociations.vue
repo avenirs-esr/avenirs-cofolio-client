@@ -5,28 +5,28 @@ import StudentTraceDeclaredSkillAssociationCard from '@/features/student/traces/
 import DeleteTraceAssociatedElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
 import DeleteTraceAssociatedActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
 import DeleteTraceAssociatedSkillsModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
+import isEmpty from 'lodash-es/isEmpty'
 
 export interface TraceAssociationsProps {
-  associations: TraceAssociationsDTO | undefined
+  associations: TraceAssociationsDTO
+  traceId: string
 }
 
-const { associations } = defineProps<TraceAssociationsProps>()
-
+const { associations, traceId } = defineProps<TraceAssociationsProps>()
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
 
-const declaredSkillAssociations = computed(() => associations && associations.declaredSkillAssociations ? associations.declaredSkillAssociations : [])
+const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ? associations.declaredSkillAssociations : [])
 
-const activitiesDisabled = true // TODO: #1155
-const skillsDisabled = false // TODO: #1155
+const activityAssociations = computed(() => associations.declaredActivityAssociations ? associations.declaredActivityAssociations : [])
 </script>
 
 <template>
   <div class="av-col av-gap-xl av-pt-xl">
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteTraceAssociatedElementsDropdown
-        :activities-disabled="activitiesDisabled"
-        :skills-disabled="skillsDisabled"
+        :activities-disabled="isEmpty(activityAssociations)"
+        :skills-disabled="isEmpty(declaredSkillAssociations)"
         @activities-selected="displayActivitiesModal"
         @skills-selected="displaySkillsModal"
       />
@@ -49,6 +49,8 @@ const skillsDisabled = false // TODO: #1155
 
   <DeleteTraceAssociatedActivitiesModal
     :show="showActivitiesModal"
+    :trace-id="traceId"
+    :associations="activityAssociations"
     @cancel="hideActivitiesModal"
     @deleted="hideActivitiesModal"
   />
