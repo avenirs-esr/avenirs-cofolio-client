@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { RouteLocationRaw } from 'vue-router'
 import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
@@ -9,10 +8,9 @@ import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
   trace: TraceOverviewDTO
-  to?: RouteLocationRaw
 }
 
-const { trace, to = { name: ROUTES.STUDENT.TOOLS_TRACES.name } } = defineProps<StudentTraceCardProps>()
+const { trace } = defineProps<StudentTraceCardProps>()
 const { title, skillCount, AMSCount, isGroup, programName } = trace
 
 const { t } = useI18n()
@@ -39,7 +37,7 @@ const iconOptions = {
 <template>
   <RouterLink
     class="student-trace-card av-w-full"
-    :to="to"
+    :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.traceId } }"
     data-testid="trace-card"
   >
     <FloatingIconCard
