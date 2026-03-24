@@ -14,6 +14,7 @@ export const STUDENT_ROUTES = {
     },
   },
   SKILL_DETAIL: '/cofolio/student/skill/',
+  TRACE_DETAIL: '/cofolio/student/trace/',
   TOOLS: {
     RESUMES: '/cofolio/student/tools/resumes',
     PAGES: '/cofolio/student/tools/pages',

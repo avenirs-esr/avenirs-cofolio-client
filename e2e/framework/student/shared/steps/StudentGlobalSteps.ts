@@ -63,6 +63,11 @@ class StudentGlobalSteps extends BasePage {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
   }
 
+  @Then('the page navigates to trace detail page')
+  async verifyNavigationToTraceDetailPage () {
+    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.TRACE_DETAIL}.+`))
+  }
+
   @Then('the main navigation menu is visible')
   async verifyMainNavigationMenu () {
     await expect(this.layout.getMainNavigation()).toBeVisible()

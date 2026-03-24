@@ -97,10 +97,10 @@ Feature: Student Home Page - out of MVP features
       And the see all traces button is visible
 
     @high @traces @dataset-full
-    Scenario: Trace cards are clickable and navigate to traces page
+    Scenario: Trace cards are clickable and navigate to detailed trace page
       When the student clicks a trace card
-      Then the page navigates to traces page
-      And the URL contains "/cofolio/student/tools/traces"
+      Then the page navigates to trace detail page
+      And the URL contains "/cofolio/student/trace"
 
     @medium @traces @dataset-full
     Scenario: See all traces button navigates to traces page
