@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
-import DeclaredProgramCompactCard
-  from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { ICONS } from '@/features/student/global/icons'
 
 export interface DeclaredProgramSelectorProps {
   declaredPrograms: { label: string, value: string }[]
@@ -9,23 +8,27 @@ export interface DeclaredProgramSelectorProps {
 
 const { declaredPrograms } = defineProps<DeclaredProgramSelectorProps>()
 
-const selectedProgramIds = defineModel<string[]>({ default: [] })
+const selectableElements = computed(() => {
+  return declaredPrograms.map(program => ({
+    id: program.value,
+    title: program.label,
+  }))
+})
+
+const selectedElementIds = defineModel<string[]>({ default: [] })
 </script>
 
 <template>
-  <div class="program-selector__container av-row av-wrap av-gap-md av-p-md av-align-center av-justify-center">
-    <SelectorOverlay
-      v-model:selected-elements="selectedProgramIds"
-      :selectable-elements="declaredPrograms"
-    >
-      <template #default="{ label }">
-        <DeclaredProgramCompactCard
-          :title="label"
-          :valorized="false"
-        />
-      </template>
-    </SelectorOverlay>
-  </div>
+  <CompactCardSelector
+    v-model="selectedElementIds"
+    :elements="selectableElements"
+    :icon="ICONS.DECLARED_PROGRAMS"
+    color="var(--text1)"
+    background-color="var(--surface-background)"
+    checkbox-color="var(--dark-background-primary1)"
+    overlay-color="var(--dark-background-primary1)"
+    :overlay-opacity="0.25"
+  />
 </template>
 
 <style lang="scss" scoped>
