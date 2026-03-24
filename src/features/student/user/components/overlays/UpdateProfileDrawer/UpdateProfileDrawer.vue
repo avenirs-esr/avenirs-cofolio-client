@@ -39,46 +39,26 @@ const {
   resetForm
 } = useUpdateProfileForm(studentSummary, onUpdateProfileSuccess)
 const FormField = markRaw(form.Field)
-const { onConfirmDeleteCoverPhoto } = useDeleteCoverPhoto()
-const { onConfirmDeleteProfilePhoto } = useDeleteProfilePhoto()
 
 function onUpdateProfileSuccess () {
   addSuccessMessage(t('student.user.overlays.UpdateProfileDrawer.onUpdate.success'))
   onClose()
 }
 
-function useDeleteCoverPhoto () {
-  function onDeleteCoverPhotoError (error: BaseApiException) {
-    addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
-  }
+const { mutate: deleteCoverPicture } = useDeletePhotoMutation({
+  onError: (error: BaseApiException) => addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+})
 
-  const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
-    onError: onDeleteCoverPhotoError,
-    onSuccess: onConfirmDeleteCoverPhoto
-  })
+const { mutate: deleteProfilePicture } = useDeletePhotoMutation({
+  onError: (error: BaseApiException) => addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+})
 
-  function onConfirmDeleteCoverPhoto () {
-    deletePhotoMutation({ fileId: studentSummary.coverPicture.fileId! })
-  }
-
-  return { onConfirmDeleteCoverPhoto }
+function onDeleteCoverPicture () {
+  deleteCoverPicture({ fileId: studentSummary.coverPicture.fileId! })
 }
 
-function useDeleteProfilePhoto () {
-  function onDeleteProfilePhotoError (error: BaseApiException) {
-    addErrorMessage({ title: t('student.user.overlays.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', })
-  }
-
-  const { mutate: deletePhotoMutation } = useDeletePhotoMutation({
-    onError: onDeleteProfilePhotoError,
-    onSuccess: onConfirmDeleteProfilePhoto
-  })
-
-  function onConfirmDeleteProfilePhoto () {
-    deletePhotoMutation({ fileId: studentSummary.profilePicture.fileId! })
-  }
-
-  return { onConfirmDeleteProfilePhoto }
+function onDeleteProfilePicture () {
+  deleteProfilePicture({ fileId: studentSummary.profilePicture.fileId! })
 }
 
 watch(() => show, (newVal) => {
@@ -167,7 +147,7 @@ watch(() => show, (newVal) => {
           >
             <ImageUpload
               v-model="coverPictureFile"
-              :on-delete-image="onConfirmDeleteCoverPhoto"
+              :on-delete-image="onDeleteCoverPicture"
               :default-image-url="studentSummary.coverPicture.fileName ? studentSummary.coverPicture.url : undefined"
               :default-image-name="studentSummary.coverPicture.fileName ?? undefined"
               :image-alt="t('student.user.overlays.UpdateProfileDrawer.pictures.banner')"
@@ -180,7 +160,7 @@ watch(() => show, (newVal) => {
           >
             <ImageUpload
               v-model="profilePictureFile"
-              :on-delete-image="onConfirmDeleteProfilePhoto"
+              :on-delete-image="onDeleteProfilePicture"
               :default-image-name="studentSummary.profilePicture.fileName ?? undefined"
               :image-alt="t('student.user.overlays.UpdateProfileDrawer.pictures.picture')"
               :on-update="onProfilePictureUpdate"
