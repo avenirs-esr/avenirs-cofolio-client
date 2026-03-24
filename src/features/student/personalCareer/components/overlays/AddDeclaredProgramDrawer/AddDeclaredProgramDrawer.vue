@@ -51,6 +51,8 @@ function confirmCancel () {
 }
 
 const activeAccordion = ref(0)
+
+const isDemo = __DEMO_MODE__
 </script>
 
 <template>
@@ -87,6 +89,7 @@ const activeAccordion = ref(0)
             </AvAccordion>
 
             <AvAccordion
+              v-if="!isDemo"
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.specifyProgram')"
               :icon="MDI_ICONS.INFORMATION_OUTLINE"
             >
@@ -94,6 +97,7 @@ const activeAccordion = ref(0)
             </AvAccordion>
 
             <AvAccordion
+              v-if="!isDemo"
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.associateProgram')"
               :icon="MDI_ICONS.ATTACH_FILE"
             >
