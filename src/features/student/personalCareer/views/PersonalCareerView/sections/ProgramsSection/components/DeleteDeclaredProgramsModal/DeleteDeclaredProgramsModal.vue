@@ -41,6 +41,11 @@ const declaredPrograms = computed(() => {
   }))
 })
 
+function onClose () {
+  selectedProgramIds.value = []
+  emit('close')
+}
+
 function onconfirm () {
   emit('confirm')
   hideModal()
@@ -53,7 +58,7 @@ function onconfirm () {
     :close-button-label="t('global.buttons.close')"
     :confirm-button-disabled="selectedProgramIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirm', { count: selectedProgramIds.length })"
-    @close="emit('close')"
+    @close="onClose"
     @confirm="displayModal"
   >
     <template #header>
