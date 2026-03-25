@@ -6,6 +6,7 @@ import {
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
+  deleteTraceAssociations,
   type ETraceAssociationType,
   getAssociatedTraces,
   getTraceAssociations,
@@ -39,7 +40,7 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
-const traceAssocationsQueryKey = [...tracesCommonQueryKeys, 'associations']
+const traceAssociationsQueryKey = [...tracesCommonQueryKeys, 'associations']
 const tracesViewQueryKey = [...tracesCommonQueryKeys, 'view']
 
 export interface UseTracesViewQueryParams {
@@ -175,7 +176,7 @@ export function useTraceDetailedQuery (traceId: MaybeRef<string>) {
 }
 
 export function useTraceAssociationsQuery (traceId: MaybeRef<string>) {
-  const queryKey = computed(() => [...traceAssocationsQueryKey, toValue(traceId)])
+  const queryKey = computed(() => [...traceAssociationsQueryKey, toValue(traceId)])
 
   const queryFn = computed(() => async (): Promise<TraceAssociationsDTO> => {
     return getTraceAssociations(toValue(traceId))
@@ -305,5 +306,30 @@ export function useStudentTracesSummaryQuery (): UseQueryReturnType<TraceOvervie
     queryFn: async (): Promise<TraceOverviewDTO[]> => {
       return getTraceOverview()
     }
+  })
+}
+
+export interface DeleteTraceAssociationsMutationVariables {
+  traceId: string
+  associationIds: string[]
+}
+
+export function useDeleteTraceAssociationsMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<string, DeleteTraceAssociationsMutationVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<string, BaseApiException, DeleteTraceAssociationsMutationVariables>({
+    mutationFn: async ({ traceId, associationIds }): Promise<string> => deleteTraceAssociations(traceId, associationIds),
+    onSuccess: async (data, variables) => {
+      const { traceId } = variables
+      await Promise.all([
+        invalidateQueryKey([...traceDetailQueryKey, traceId]),
+        invalidateQueryKey([...traceAssociationsQueryKey, traceId])
+      ])
+      onSuccess?.(data, variables)
+    },
+    onError
   })
 }
