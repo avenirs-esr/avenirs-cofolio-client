@@ -13,11 +13,8 @@ import {
 } from '@/features/student/user'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 useInvalidateAllQueriesAfterLocaleChange()
-
-const { t } = useI18n()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
 const { data: studentSummary, error: studentSummaryError } = useStudentSummaryQuery()
@@ -43,7 +40,6 @@ defineExpose({ searchQuery })
 <template>
   <AvHeader
     v-model="searchQuery"
-    :service-title="t('student.global.layout.header.serviceTitle')"
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
     :show-search="!isDemo"
     :language-selector="languageSelector"
