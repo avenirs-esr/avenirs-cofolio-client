@@ -4,6 +4,11 @@
       "badges": {
         "UpdateInProgress": "Modification en cours"
       },
+      "cards": {
+        "SelectedAssociateItemContainer": {
+          "label": "Mes éléments sélectionnés ({count})"
+        }
+      },
       "layout": {
         "header": {
           "quicklinks": {

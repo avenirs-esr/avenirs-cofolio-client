@@ -151,9 +151,6 @@
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Période de réalisation"
             },
-            "SelectedAssociateTracesContainer": {
-              "label": "Mes éléments sélectionnés ({count})"
-            },
             "TracesTypeSelect": {
               "label": "Rechercher dans :",
               "placeholder": "Sélectionnez un type de trace",

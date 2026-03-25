@@ -3,7 +3,7 @@ export const SearchAssociationLayoutStub = defineComponent({
   props: [
     'modelValue',
     'options',
-    'traces',
+    'items',
     'inputOptions',
     'getOptionKey',
     'getOptionLabel'
@@ -19,7 +19,7 @@ export const SearchAssociationLayoutStub = defineComponent({
       <div data-testid="search-association-layout-autocomplete-stub" />
 
       <div data-testid="search-association-layout-selected-stub">
-        {{ traces?.length ?? 0 }}
+        {{ items?.length ?? 0 }}
       </div>
 
     </div>

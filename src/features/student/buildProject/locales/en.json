@@ -152,9 +152,6 @@
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Implementation period"
             },
-            "SelectedAssociateTracesContainer": {
-              "label": "My selected elements ({count})"
-            },
             "TracesTypeSelect": {
               "label": "Search in:",
               "placeholder": "Select a type of trace",
