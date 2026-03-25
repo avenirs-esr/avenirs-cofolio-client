@@ -16,6 +16,8 @@ enum SelfKnowledgeElementDetailsDropdownEvents {
   SHARE = 'share',
 }
 
+const isDemo = false
+
 const menuItems = computed<AvDropdownItem[]>(() => [
   {
     name: SelfKnowledgeElementDetailsDropdownEvents.UPDATE,
@@ -27,11 +29,13 @@ const menuItems = computed<AvDropdownItem[]>(() => [
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('global.buttons.delete')
   },
-  {
-    name: SelfKnowledgeElementDetailsDropdownEvents.SHARE,
-    icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-    label: t('global.buttons.share')
-  }
+  ...(!isDemo
+    ? [{
+        name: SelfKnowledgeElementDetailsDropdownEvents.SHARE,
+        icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
+        label: t('global.buttons.share')
+      }]
+    : [])
 ])
 
 function handleItemSelected (itemName: string) {
