@@ -69,6 +69,8 @@ const drawerTitle = computed(() => {
     category: capitalize(selectedCategoryTypeTranslation.value)
   })
 })
+
+const isDemo = __DEMO_MODE__
 </script>
 
 <template>
@@ -115,6 +117,7 @@ const drawerTitle = computed(() => {
             </AvAccordion>
 
             <AvAccordion
+              v-if="!isDemo"
               :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.associate', { categoryType: selectedCategoryTypeTranslation })"
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
             >
