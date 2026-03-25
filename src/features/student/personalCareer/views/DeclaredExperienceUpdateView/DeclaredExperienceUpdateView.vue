@@ -36,12 +36,15 @@ const { showModal, displayModal, hideModal } = useModal()
 const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
 const { declaredExperience, isLoading, isError } = useDeclaredExperienceDetailedViewQuery({ experienceId: selectedExperienceId })
 
+const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
+
 const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'), to: ROUTES.STUDENT.PERSONAL_CAREER },
-  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb') }
+  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb') },
+  { text: declaredExperienceTitle.value }
 ])
 
 const {
@@ -82,7 +85,7 @@ function onExperienceUpdated () {
     <template #title>
       <span class="n2 av-text-title">
         {{ t('global.buttons.update') }}
-        <span class="n4">{{ declaredExperience?.title }}</span>
+        <span class="n4">{{ declaredExperienceTitle }}</span>
       </span>
     </template>
   </PageTitle>
