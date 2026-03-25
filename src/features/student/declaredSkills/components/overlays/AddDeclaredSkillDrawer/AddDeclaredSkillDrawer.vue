@@ -8,7 +8,7 @@ import {
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { useToasterStore } from '@/store'
-import { AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -26,6 +26,7 @@ const { form, isFormValid, isSubmitting } = useDeclaredSkillForm(() => {
 })
 
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { isMobile } = useAvBreakpoints()
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -66,6 +67,7 @@ function confirmCancel () {
           :text="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.title')"
           text-color="var(--text1)"
           typography-class="n6"
+          :inline="isMobile"
         />
       </div>
 

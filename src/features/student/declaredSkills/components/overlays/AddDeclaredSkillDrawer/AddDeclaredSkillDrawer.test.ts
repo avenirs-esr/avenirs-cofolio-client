@@ -9,6 +9,16 @@ import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconStub, Bdd
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: false,
+    })
+  }
+})
+
 const stubs = {
   AvDrawer: AvDrawerStub,
   AvButton: AvButtonStub,
