@@ -1,46 +1,81 @@
 <script lang="ts" setup>
+import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { ICONS } from '@/features/student/global/icons'
+import { useDeleteTraceAssociationsMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { useToasterStore } from '@/store'
+import { useI18n } from 'vue-i18n'
 
 export interface DeleteTraceAssociatedSkillsModalProps {
   show: boolean
+  traceId: string
+  associations: DeclaredSkillAssociationDTO[]
 }
 
-defineProps<DeleteTraceAssociatedSkillsModalProps>()
+const { traceId, associations } = defineProps<DeleteTraceAssociatedSkillsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'deleted'): void
 }>()
 
-const dummyAssociations = [
-  { id: '1', title: '(Placeholder) Skill 1' },
-  { id: '2', title: '(Placeholder) Skill 2' },
-  { id: '3', title: '(Placeholder) Skill 3' }
-]
+const { t } = useI18n()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
-const dummySelectedAssociationIds = ['1', '2']
+const selectedIds = ref<string[]>([])
+
+const selectableElements = computed(() => associations.map(({ id, title }) => ({
+  id,
+  title,
+})))
+
+const { mutate: deleteTraceAssociations } = useDeleteTraceAssociationsMutation({
+  onError: (error: BaseApiException) => {
+    addErrorMessage({
+      title: t('global.error.generic'),
+      description: error.message,
+    })
+  },
+  onSuccess: () => {
+    addSuccessMessage({
+      timeout: 2000,
+      description: t('student.global.overlays.modals.DeleteAssociationsModal.success', { count: selectedIds.value.length }),
+    })
+    selectedIds.value = []
+    emit('deleted')
+  },
+})
 
 function onConfirmDelete () {
-  // TODO: #1243
-  emit('deleted')
+  deleteTraceAssociations({
+    traceId,
+    associationIds: selectedIds.value
+  })
+}
+
+function onCancel () {
+  selectedIds.value = []
+  emit('cancel')
 }
 </script>
 
 <template>
   <DeleteAssociationsModal
     :show="show"
-    :associations="dummyAssociations"
-    :selected-association-ids="dummySelectedAssociationIds"
-    @cancel="emit('cancel')"
+    :associations="selectableElements"
+    :selected-association-ids="selectedIds"
+    @cancel="onCancel"
     @confirm-delete="onConfirmDelete"
   >
-    <div class="av-col">
-      <span
-        v-for="association in dummyAssociations"
-        :key="association.id"
-      >
-        {{ association.title }}
-      </span>
-    </div>
+    <CompactCardSelector
+      v-model="selectedIds"
+      :elements="selectableElements"
+      :icon="ICONS.SKILLS"
+      background-color="var(--dark-background-primary1)"
+      color="var(--card)"
+      checkbox-color="var(--card)"
+    />
   </DeleteAssociationsModal>
 </template>

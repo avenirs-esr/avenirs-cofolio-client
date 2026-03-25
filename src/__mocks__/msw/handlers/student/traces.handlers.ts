@@ -4,6 +4,7 @@ import {
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
+  mockedTraceAssociations,
   mockedTraceDetailed,
   mockedTraceOverview,
   mockedTracesConfiguration,
@@ -316,10 +317,7 @@ export const tracesHandlers = [
         )
       }
 
-      return HttpResponse.json({
-        declaredActivityAssociations: [],
-        declaredSkillAssociations: []
-      } as TraceAssociationsDTO)
+      return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations)
     }
   ),
 

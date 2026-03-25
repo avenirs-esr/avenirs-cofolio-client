@@ -78,7 +78,7 @@ const selectableElements = computed(() => {
 const iconOptions = computed(() => ({
   name: icon,
   color,
-  bottom: '-2rem',
+  bottom: '-2.5rem',
   borderColor: iconBorderColor ?? 'var(--other-border-skill-card)'
 }))
 
