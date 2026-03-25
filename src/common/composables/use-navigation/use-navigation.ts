@@ -97,6 +97,17 @@ export function useNavigation () {
     return router.push(to)
   }
 
+  const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } =
+  { replace: false }) => {
+    const to = {
+      name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name,
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
+  }
+
   const navigateToStudentTraces = () => {
     return router.push(ROUTES.STUDENT.TOOLS_TRACES)
   }
@@ -152,6 +163,7 @@ export function useNavigation () {
     navigateToStudentSkills,
     navigateToStudentProjectSkills,
     navigateToStudentProjectActivitiesCatalog,
+    navigateToStudentProjectActivities,
     navigateToStudentTraces,
     navigateToStudentDeclaredExperiences,
     navigateToStudentDeclaredPrograms,

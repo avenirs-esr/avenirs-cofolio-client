@@ -16,6 +16,18 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const navigateToStudentProjectActivities = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentProjectActivities
+    }),
+  }
+})
+
 BddTest().given('a project activity detailed view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedView>>
 
@@ -127,6 +139,11 @@ BddTest().given('a project activity detailed view', () => {
         const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
         expect(modal.exists()).toBe(true)
         expect(modal.props('show')).toBe(false)
+      })
+
+      BddTest().then('it should navigate to the project activities page', () => {
+        expect(navigateToStudentProjectActivities).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentProjectActivities).toHaveBeenCalledWith({ replace: true })
       })
     })
 
