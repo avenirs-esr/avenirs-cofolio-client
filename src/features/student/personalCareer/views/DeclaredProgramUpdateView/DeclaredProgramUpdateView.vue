@@ -26,11 +26,13 @@ const { showModal, displayModal, hideModal } = useModal()
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
 const { declaredProgramDetailed } = useDeclaredProgramDetailedQuery(selectedProgramId)
 
-const programTitle = computed(() => declaredProgramDetailed.value?.title)
+const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.experiences') }
+  { text: t('student.global.navigation.tabs.project.items.experiences') },
+  { text: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS },
+  { text: programTitle.value }
 ])
 
 const {
