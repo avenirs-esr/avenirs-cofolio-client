@@ -64,6 +64,8 @@ const minStartDate = computed(() => {
   }
   return startOfDay(new Date(declaredActivity.createdAt))
 })
+
+const isDemo = __DEMO_MODE__
 </script>
 
 <template>
@@ -104,6 +106,7 @@ const minStartDate = computed(() => {
           </AvAccordion>
 
           <AvAccordion
+            v-if="!isDemo"
             :title="t('student.buildProject.activities.overlays.UpdateActivityDrawer.sections.reminder')"
             :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
           >
