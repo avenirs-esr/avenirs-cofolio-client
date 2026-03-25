@@ -158,7 +158,10 @@
               "label": "Rechercher dans :",
               "placeholder": "Sélectionnez un type de trace",
               "options": {
-                "TRACE": "Mes traces non associées"
+                "TRACE": {
+                  "label": "Mes traces non associées",
+                  "searchPlaceholder": "Rechercher une trace non associée"
+                }
               }
             }
           }

@@ -17,7 +17,7 @@ const { t } = useI18n()
 const options = computed(() => [
   {
     id: EDeclaredActivityAssociationType.TRACE,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE')
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.label')
   }
 ])
 

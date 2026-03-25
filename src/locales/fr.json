@@ -2,6 +2,9 @@
   "global": {
     "application": "Application",
     "audio": "Audio",
+    "AvAutoComplete": {
+      "elementsSelectedLabel": "élément(s) sélectionné(s)"
+    },
     "avPagination": {
       "ariaLabel": "Pagination",
       "bottomAriaLabel": "Pagination basse",

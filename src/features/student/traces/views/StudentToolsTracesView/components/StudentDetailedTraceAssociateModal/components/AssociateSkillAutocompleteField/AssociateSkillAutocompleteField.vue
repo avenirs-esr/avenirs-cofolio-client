@@ -116,6 +116,7 @@ const emptySlotTextContent = computed<string>(() => {
         :get-option-key="getOptionKey"
         :multi-select="true"
         :show-selected-section="true"
+        :selected-items-count-label="t('global.AvAutoComplete.elementsSelectedLabel')"
         :server-side-filtering="true"
         :enable-load-more="true"
         max-dropdown-height="14.5rem"

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
+import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import {
   type AssociationsCreationRequest,
   EDeclaredActivityAssociationType
@@ -12,8 +13,9 @@ import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
 import SelectedAssociateTracesContainer
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.vue'
+import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { useToasterStore } from '@/store'
-import { AvModal } from '@avenirs-esr/avenirs-dsav'
+import { AvAutocomplete, type AvAutocompleteOption, AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
@@ -64,16 +66,37 @@ const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({
   itemId: EDeclaredActivityAssociationType.TRACE
 })
 
-// TODO: #1219
-const dummyAssociations = ref([
-  { id: '1', title: '(Placeholder) Trace 1' },
-  { id: '2', title: '(Placeholder) Trace 2' },
-  { id: '3', title: '(Placeholder) Trace 3' },
-  { id: '4', title: '(Placeholder) Trace 4' },
-  { id: '5', title: '(Placeholder) Trace 5' },
-  { id: '6', title: '(Placeholder) Trace 6' },
-  { id: '7', title: '(Placeholder) Trace 7' }
-])
+const searchQuery = ref('')
+
+// TODO : #1219
+const traceOptions = computed<AvAutocompleteOption[]>(() => {
+  return mockedTraceOverview.map(trace => ({
+    label: trace.title,
+    value: trace.traceId
+  }))
+})
+
+// TODO : remove this in #1219
+const filteredTraceOptions = computed(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+
+  if (!query) {
+    return traceOptions.value
+  }
+
+  return traceOptions.value.filter(trace =>
+    trace.label.toLowerCase().includes(query)
+  )
+})
+
+const selectedTraceOptions = ref<AvAutocompleteOption[]>([])
+
+const selectedAssociations = computed(() =>
+  selectedTraceOptions.value.map(trace => ({
+    id: trace.value.toString(),
+    title: trace.label
+  }))
+)
 
 function onCancel () {
   emit('cancel')
@@ -81,7 +104,7 @@ function onCancel () {
 
 function onConfirm () {
   const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: dummyAssociations.value.map(trace => trace.id)
+    idsToAssociate: selectedAssociations.value.map(trace => trace.id.toString()),
   }
 
   associateActivityWithTraces({
@@ -91,7 +114,11 @@ function onConfirm () {
 }
 
 function onDeleteTrace (traceId: string) {
-  dummyAssociations.value = dummyAssociations.value.filter(trace => trace.id !== traceId)
+  selectedTraceOptions.value = selectedTraceOptions.value.filter(trace => trace.value !== traceId)
+}
+
+function onSearch (query: string) {
+  searchQuery.value = query
 }
 </script>
 
@@ -115,31 +142,45 @@ function onDeleteTrace (traceId: string) {
       </div>
     </template>
 
-    <div class="associate-traces-modal__content av-row av-align-stretch av-gap-sm">
-      <div class="av-flex-fill av-col av-gap-sm">
+    <SearchAssociationLayout>
+      <template #search>
         <TracesTypeSelect v-model="selectedTraceType" />
-      </div>
 
-      <div class="av-flex-fill av-col av-gap-sm">
+        <AvAutocomplete
+          v-model="selectedTraceOptions"
+          :options="filteredTraceOptions"
+          multi-select
+          :show-selected-section="false"
+          :display-selection-in-input="false"
+          :input-options="{
+            placeholder: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${selectedTraceType.itemId}.searchPlaceholder`),
+          }"
+          :get-option-key="option => option.value"
+          :get-option-label="option => option.label"
+          @search="onSearch"
+        />
+      </template>
+
+      <template #selected>
         <SelectedAssociateTracesContainer
-          :traces="dummyAssociations"
+          :traces="selectedAssociations"
           @delete="onDeleteTrace"
         />
-      </div>
-    </div>
+      </template>
+    </SearchAssociationLayout>
   </AvModal>
 
   <ConfirmAssociateTracesModal
     :show="showConfirmModal"
-    :traces="dummyAssociations"
+    :traces="selectedAssociations"
     :disabled="isPending"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
   />
 </template>
 
-<style lang="scss" scoped>
-.associate-traces-modal__content {
-  height: 32rem;
+<style scoped lang="scss">
+:deep(.av-autocomplete-input__suffix) {
+  top: 50%;
 }
 </style>

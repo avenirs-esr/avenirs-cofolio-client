@@ -159,7 +159,10 @@
               "label": "Search in:",
               "placeholder": "Select a type of trace",
               "options": {
-                "TRACE": "My unassociated traces"
+                "TRACE": {
+                  "label": "My unassociated traces",
+                  "searchPlaceholder": "Search a unassociated trace"
+                }
               }
             }
           }
