@@ -9,6 +9,16 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useNavigation: () => ({
+      navigateToStudentTraces: vi.fn(),
+    }),
+  }
+})
+
 BddTest().given('a student trace view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentTraceView>>
 

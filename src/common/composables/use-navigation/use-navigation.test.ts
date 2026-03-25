@@ -210,6 +210,14 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student traces with replace', () => {
+    BddTest().then('it should navigate to student traces with replace', () => {
+      const { navigateToStudentTraces } = navigation
+      navigateToStudentTraces({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_TRACES)
+    })
+  })
+
   BddTest().when('trying to navigate to student declared programs', () => {
     BddTest().then('it should navigate to student declared programs', () => {
       const { navigateToStudentDeclaredPrograms } = navigation

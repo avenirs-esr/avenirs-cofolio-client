@@ -108,7 +108,11 @@ export function useNavigation () {
     return router.push(to)
   }
 
-  const navigateToStudentTraces = () => {
+  const navigateToStudentTraces = ({ replace }: { replace?: boolean } = { replace: false }) => {
+    if (replace) {
+      return router.replace(ROUTES.STUDENT.TOOLS_TRACES)
+    }
+
     return router.push(ROUTES.STUDENT.TOOLS_TRACES)
   }
 
