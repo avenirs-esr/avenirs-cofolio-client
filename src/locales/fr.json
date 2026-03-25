@@ -3,7 +3,7 @@
     "application": "Application",
     "audio": "Audio",
     "AvAutoComplete": {
-      "elementsSelectedLabel": "élément(s) sélectionné(s)"
+      "elementsSelectedLabel": "{count} élément sélectionné | {count} éléments sélectionnés"
     },
     "avPagination": {
       "ariaLabel": "Pagination",

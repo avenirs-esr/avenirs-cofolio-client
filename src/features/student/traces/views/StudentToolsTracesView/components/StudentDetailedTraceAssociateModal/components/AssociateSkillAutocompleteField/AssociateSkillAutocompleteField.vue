@@ -92,6 +92,10 @@ const emptySlotTextContent = computed<string>(() => {
   }
   return t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.startTyping')
 })
+
+function getSelectedItemsCount (value: unknown): number {
+  return Array.isArray(value) ? value.length : 0
+}
 </script>
 
 <template>
@@ -116,7 +120,7 @@ const emptySlotTextContent = computed<string>(() => {
         :get-option-key="getOptionKey"
         :multi-select="true"
         :show-selected-section="true"
-        :selected-items-count-label="t('global.AvAutoComplete.elementsSelectedLabel')"
+        :selected-items-count-label="t('global.AvAutoComplete.elementsSelectedLabel', { count: getSelectedItemsCount(slot.field.state.value) })"
         :server-side-filtering="true"
         :enable-load-more="true"
         max-dropdown-height="14.5rem"

@@ -7,11 +7,8 @@ import AssociateTracesModal, {
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
 import { ConfirmAssociateTracesModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.stub'
 import { TracesTypeSelectStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.stub'
-import {
-  SelectedAssociateTracesContainerStub
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
-import { AvAutocompleteStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -34,11 +31,9 @@ BddTest().given('an associate traces modal', () => {
 
   const stubs = {
     AvModal: AvModalStub,
-    AvAutocomplete: AvAutocompleteStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub,
-    TracesTypeSelect: TracesTypeSelectStub,
-    SelectedAssociateTracesContainer: SelectedAssociateTracesContainerStub
+    TracesTypeSelect: TracesTypeSelectStub
   }
 
   const props: AssociateTracesModalProps = {
@@ -92,6 +87,23 @@ BddTest().given('an associate traces modal', () => {
       expect(layout.exists()).toBe(true)
     })
 
+    BddTest().then('it should pass the correct props to the search association layout', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+
+      expect(layout.props('modelValue')).toEqual([])
+      expect(layout.props('traces')).toEqual([])
+      expect(layout.props('options')).toEqual([
+        { label: 'Prévenir la pollution à la source', value: 'trace1' },
+        { label: 'Mettre en place des filières d’économies circulaires', value: 'trace2' },
+        { label: 'Évaluer l’impact environnemental et économique', value: 'trace3' }
+      ])
+      expect(layout.props('inputOptions')).toEqual({
+        placeholder: 'Rechercher une trace non associée'
+      })
+      expect(layout.props('getOptionKey')).toBeTypeOf('function')
+      expect(layout.props('getOptionLabel')).toBeTypeOf('function')
+    })
+
     BddTest().then('it should render the traces type select', () => {
       const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
 
@@ -104,23 +116,6 @@ BddTest().given('an associate traces modal', () => {
       expect(tracesTypeSelect.props('modelValue')).toEqual({
         itemId: EDeclaredActivityAssociationType.TRACE
       })
-    })
-
-    BddTest().then('it should render the autocomplete', () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
-
-      expect(autocomplete.exists()).toBe(true)
-      expect(autocomplete.props('modelValue')).toEqual([])
-      expect(autocomplete.props('multiSelect')).toBeDefined()
-      expect(autocomplete.props('showSelectedSection')).toBe(false)
-      expect(autocomplete.props('displaySelectionInInput')).toBe(false)
-    })
-
-    BddTest().then('it should render the selected associate traces container with no traces by default', () => {
-      const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
-
-      expect(selectedAssociateTracesContainer.exists()).toBe(true)
-      expect(selectedAssociateTracesContainer.props('traces')).toEqual([])
     })
 
     BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
@@ -149,17 +144,33 @@ BddTest().given('an associate traces modal', () => {
       })
     })
 
-    BddTest().and('the user selects traces in the autocomplete', () => {
+    BddTest().and('the user searches in the search association layout', () => {
       beforeEach(async () => {
-        const autocomplete = wrapper.findComponent(AvAutocompleteStub)
-        autocomplete.vm.$emit('update:modelValue', selectedTraceOptions)
+        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+        layout.vm.$emit('search', 'pollution')
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should update the selected traces container', () => {
-        const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
+      BddTest().then('it should filter the options passed to the layout', () => {
+        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
-        expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedSelectedAssociations)
+        expect(layout.props('options')).toEqual([
+          { label: 'Prévenir la pollution à la source', value: 'trace1' }
+        ])
+      })
+    })
+
+    BddTest().and('the user selects traces in the search association layout', () => {
+      beforeEach(async () => {
+        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+        layout.vm.$emit('update:modelValue', selectedTraceOptions)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should update the selected traces passed to the layout', () => {
+        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+
+        expect(layout.props('traces')).toEqual(expectedSelectedAssociations)
       })
 
       BddTest().then('it should update the confirm associate traces modal traces', () => {
@@ -168,17 +179,17 @@ BddTest().given('an associate traces modal', () => {
         expect(confirmModal.props('traces')).toEqual(expectedSelectedAssociations)
       })
 
-      BddTest().and('the selected associate traces container emits delete event', () => {
+      BddTest().and('the search association layout emits delete event', () => {
         beforeEach(async () => {
-          const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
-          selectedAssociateTracesContainer.vm.$emit('delete', 'trace2')
+          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+          layout.vm.$emit('delete', 'trace2')
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should remove the deleted trace from the selected traces container', () => {
-          const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
+        BddTest().then('it should remove the deleted trace from the selected traces', () => {
+          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
-          expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
+          expect(layout.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
         })
 
         BddTest().then('it should also update the confirm associate traces modal traces', () => {
@@ -279,8 +290,8 @@ BddTest().given('an associate traces modal', () => {
         global: { stubs }
       })
 
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
-      autocomplete.vm.$emit('update:modelValue', selectedTraceOptions)
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      layout.vm.$emit('update:modelValue', selectedTraceOptions)
       await wrapper.vm.$nextTick()
     })
 
