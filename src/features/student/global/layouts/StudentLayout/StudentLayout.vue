@@ -35,6 +35,8 @@ const notificationsCount = 0 // TODO: waiting for notifications implementation
 
 const searchQuery = ref('')
 
+const isDemo = __DEMO_MODE__
+
 defineExpose({ searchQuery })
 </script>
 
@@ -43,7 +45,7 @@ defineExpose({ searchQuery })
     v-model="searchQuery"
     :service-title="t('student.global.layout.header.serviceTitle')"
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
-    show-search
+    :show-search="!isDemo"
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"
   >
