@@ -5,16 +5,20 @@ import { useI18n } from 'vue-i18n'
 const { username } = defineProps<{ username: string }>()
 
 const { t } = useI18n()
+
+const isDemo = __DEMO_MODE__
 </script>
 
 <template>
   <AvPopover padding="var(--spacing-xs)">
     <template #trigger="{ toggle }">
       <AvButton
+        class="trigger-displayed-for-demo"
         :label="username"
         :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
         small
         no-sentence-case
+        :disabled="isDemo"
         @click="toggle"
       />
     </template>
@@ -78,5 +82,9 @@ const { t } = useI18n()
 <style lang="scss" scoped>
 li > .av-button {
   width: 100% !important;
+}
+
+:deep(.trigger-displayed-for-demo) {
+  color: var(--dark-background-primary1) !important;
 }
 </style>
