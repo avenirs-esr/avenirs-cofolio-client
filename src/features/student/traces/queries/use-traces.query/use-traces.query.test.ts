@@ -15,8 +15,10 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
+  type DeleteTraceAssociationsMutationVariables,
   type DeleteTraceVariables,
   type UpdateTraceVariables,
+  useDeleteTraceAssociationsMutation,
   useDeleteTraceMutation,
   useStudentTracesSummaryQuery,
   useTraceAssociationsQuery,
@@ -997,6 +999,200 @@ BddTest().given('a useTraceAssociationsQuery composable', async () => {
         await flushPromises()
         expect(queryReturn.error.value).toBeDefined()
         expect(queryReturn.isSuccess.value).toBe(false)
+      })
+    })
+  })
+})
+
+BddTest().given('a useDeleteTraceAssociationsMutation composable', async () => {
+  let deleteTraceAssociationsSpy: MockInstance<(traceId: string, deleteTraceAssociationsBody: string[], options?: RequestInit | undefined) => Promise<string>>
+  let mutationResult: ReturnType<typeof useDeleteTraceAssociationsMutation>
+
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mutationArgs: MutationArgs<string, DeleteTraceAssociationsMutationVariables> = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    deleteTraceAssociationsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'deleteTraceAssociations'>(
+      await import('@/api/avenir-esr'),
+    'deleteTraceAssociations'
+    )
+
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid trace ID and association IDs with success callback', () => {
+    const traceId = '123e4567-e89b-12d3-a456-426614174000'
+    const associationIds = ['assoc-1', 'assoc-2']
+    const variables: DeleteTraceAssociationsMutationVariables = { traceId, associationIds }
+
+    BddTest().when('the mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteTraceAssociationsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteTraceAssociations API with correct parameters', () => {
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledWith(traceId, associationIds)
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the expected success response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should call the invalidation function once for both queries', () => {
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+        expect(mockOnSuccess).toHaveBeenCalledWith(
+          expect.any(String),
+          variables
+        )
+      })
+
+      BddTest().then('it should not call the onError callback', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteTraceAssociationsMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteTraceAssociations API with correct parameters', () => {
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledWith(traceId, associationIds)
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the custom onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the invalidation function for both queries', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+    })
+  })
+
+  BddTest().and('no success or error callbacks', () => {
+    const traceId = '123e4567-e89b-12d3-a456-426614174000'
+    const associationIds = ['assoc-1']
+    const variables: DeleteTraceAssociationsMutationVariables = { traceId, associationIds }
+    const emptyMutationArgs: MutationArgs<string, DeleteTraceAssociationsMutationVariables> = {}
+
+    BddTest().when('the mutation is called without callbacks', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteTraceAssociationsMutation(emptyMutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteTraceAssociations API with correct parameters', () => {
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledWith(traceId, associationIds)
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should still call the invalidation function for both queries', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(2)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should return the expected response', () => {
+        expect(mutationResult.data.value).toBeDefined()
+      })
+    })
+  })
+
+  BddTest().and('an invalid trace ID with error callback', () => {
+    const variables: DeleteTraceAssociationsMutationVariables = {
+      traceId: invalidTraceId,
+      associationIds: ['assoc-1']
+    }
+
+    BddTest().when('the mutation encounters an error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteTraceAssociationsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteTraceAssociations API with the invalid ID', () => {
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledWith(invalidTraceId, variables.associationIds)
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+        expect(mutationResult.isPending.value).toBe(false)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call the invalidation function on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the mutation is called using mutate with error', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useDeleteTraceAssociationsMutation(mutationArgs))
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the deleteTraceAssociations API with the invalid ID', () => {
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledWith(invalidTraceId, variables.associationIds)
+        expect(deleteTraceAssociationsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should contain the error information', () => {
+        expect(mutationResult.error.value).toBeDefined()
+        expect(mutationResult.isError.value).toBe(true)
+      })
+
+      BddTest().then('it should call the custom onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
       })
     })
   })

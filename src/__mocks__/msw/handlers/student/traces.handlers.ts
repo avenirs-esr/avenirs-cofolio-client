@@ -16,6 +16,7 @@ import {
   EErrorCode,
   ETraceAssociationType,
   getCreateTraceUrl,
+  getDeleteTraceAssociationsUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTraceOverviewUrl,
@@ -320,5 +321,35 @@ export const tracesHandlers = [
         declaredSkillAssociations: []
       } as TraceAssociationsDTO)
     }
+  ),
+
+  http.delete(
+    `*${getDeleteTraceAssociationsUrl(':traceId')}`,
+    ({ params }) => {
+      const traceId = params.traceId as string
+
+      if (!traceId) {
+        return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      }
+
+      if (traceId === invalidTraceId) {
+        return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      }
+
+      return HttpResponse.json<string>(createDeletedTraceIdMock(traceId), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
   )
 ]
+
+export const deleteTraceAssociationsErrorHandler = http.delete(
+  `*${getDeleteTraceAssociationsUrl(':traceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
