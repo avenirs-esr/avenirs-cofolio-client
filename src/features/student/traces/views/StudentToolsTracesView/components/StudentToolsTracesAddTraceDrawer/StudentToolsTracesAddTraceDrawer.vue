@@ -55,6 +55,8 @@ function handleCancel () {
 async function onSave () {
   await form.handleSubmit()
 }
+
+const isDemo = __DEMO_MODE__
 </script>
 
 <template>
@@ -100,7 +102,10 @@ async function onSave () {
               <CreateTraceFormDeclarationItems :form="form" />
             </AvAccordion>
 
-            <AvAccordion :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')">
+            <AvAccordion
+              v-if="!isDemo"
+              :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')"
+            >
               <div class="placeholder-content av-text-text2 av-p-md">
                 <p>{{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace') }} - Contenu à implémenter</p>
               </div>
