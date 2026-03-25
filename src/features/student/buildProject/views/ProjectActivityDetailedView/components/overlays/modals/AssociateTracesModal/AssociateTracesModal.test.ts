@@ -10,7 +10,8 @@ import { TracesTypeSelectStub } from '@/features/student/buildProject/views/Proj
 import {
   SelectedAssociateTracesContainerStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.stub'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
+import { AvAutocompleteStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -33,6 +34,8 @@ BddTest().given('an associate traces modal', () => {
 
   const stubs = {
     AvModal: AvModalStub,
+    AvAutocomplete: AvAutocompleteStub,
+    SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub,
     TracesTypeSelect: TracesTypeSelectStub,
     SelectedAssociateTracesContainer: SelectedAssociateTracesContainerStub
@@ -43,17 +46,19 @@ BddTest().given('an associate traces modal', () => {
     declaredActivityId: 'declared-activity-1'
   }
 
-  const expectedDummyAssociations = [
-    { id: '1', title: '(Placeholder) Trace 1' },
-    { id: '2', title: '(Placeholder) Trace 2' },
-    { id: '3', title: '(Placeholder) Trace 3' },
-    { id: '4', title: '(Placeholder) Trace 4' },
-    { id: '5', title: '(Placeholder) Trace 5' },
-    { id: '6', title: '(Placeholder) Trace 6' },
-    { id: '7', title: '(Placeholder) Trace 7' }
+  const selectedTraceOptions = [
+    { label: 'Prévenir la pollution à la source', value: 'trace1' },
+    { label: 'Mettre en place des filières d’économies circulaires', value: 'trace2' }
   ]
 
-  const expectedDummyAssociationsAfterDelete = expectedDummyAssociations.filter(trace => trace.id !== '2')
+  const expectedSelectedAssociations = [
+    { id: 'trace1', title: 'Prévenir la pollution à la source' },
+    { id: 'trace2', title: 'Mettre en place des filières d’économies circulaires' }
+  ]
+
+  const expectedSelectedAssociationsAfterDelete = [
+    { id: 'trace1', title: 'Prévenir la pollution à la source' }
+  ]
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -81,6 +86,12 @@ BddTest().given('an associate traces modal', () => {
       expect(header.text()).toContain('Quelle(s) trace(s) souhaitez-vous associer ?')
     })
 
+    BddTest().then('it should render the search association layout', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+
+      expect(layout.exists()).toBe(true)
+    })
+
     BddTest().then('it should render the traces type select', () => {
       const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
 
@@ -95,11 +106,21 @@ BddTest().given('an associate traces modal', () => {
       })
     })
 
-    BddTest().then('it should render the selected associate traces container', () => {
+    BddTest().then('it should render the autocomplete', () => {
+      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+
+      expect(autocomplete.exists()).toBe(true)
+      expect(autocomplete.props('modelValue')).toEqual([])
+      expect(autocomplete.props('multiSelect')).toBeDefined()
+      expect(autocomplete.props('showSelectedSection')).toBe(false)
+      expect(autocomplete.props('displaySelectionInInput')).toBe(false)
+    })
+
+    BddTest().then('it should render the selected associate traces container with no traces by default', () => {
       const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
 
       expect(selectedAssociateTracesContainer.exists()).toBe(true)
-      expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedDummyAssociations)
+      expect(selectedAssociateTracesContainer.props('traces')).toEqual([])
     })
 
     BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
@@ -107,7 +128,7 @@ BddTest().given('an associate traces modal', () => {
 
       expect(confirmModal.exists()).toBe(true)
       expect(confirmModal.props('show')).toBe(false)
-      expect(confirmModal.props('traces')).toEqual(expectedDummyAssociations)
+      expect(confirmModal.props('traces')).toEqual([])
     })
 
     BddTest().and('the user changes the selected trace type', () => {
@@ -128,23 +149,112 @@ BddTest().given('an associate traces modal', () => {
       })
     })
 
-    BddTest().and('the selected associate traces container emits delete event', () => {
+    BddTest().and('the user selects traces in the autocomplete', () => {
       beforeEach(async () => {
-        const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
-        selectedAssociateTracesContainer.vm.$emit('delete', '2')
+        const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+        autocomplete.vm.$emit('update:modelValue', selectedTraceOptions)
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should remove the deleted trace from the selected traces container', () => {
+      BddTest().then('it should update the selected traces container', () => {
         const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
 
-        expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedDummyAssociationsAfterDelete)
+        expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedSelectedAssociations)
       })
 
-      BddTest().then('it should also update the confirm associate traces modal traces', () => {
+      BddTest().then('it should update the confirm associate traces modal traces', () => {
         const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
 
-        expect(confirmModal.props('traces')).toEqual(expectedDummyAssociationsAfterDelete)
+        expect(confirmModal.props('traces')).toEqual(expectedSelectedAssociations)
+      })
+
+      BddTest().and('the selected associate traces container emits delete event', () => {
+        beforeEach(async () => {
+          const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
+          selectedAssociateTracesContainer.vm.$emit('delete', 'trace2')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should remove the deleted trace from the selected traces container', () => {
+          const selectedAssociateTracesContainer = wrapper.findComponent(SelectedAssociateTracesContainerStub)
+
+          expect(selectedAssociateTracesContainer.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
+        })
+
+        BddTest().then('it should also update the confirm associate traces modal traces', () => {
+          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+
+          expect(confirmModal.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
+        })
+      })
+
+      BddTest().and('the modal emits confirm event', () => {
+        beforeEach(() => {
+          const modal = wrapper.findComponent(AvModalStub)
+          modal.vm.$emit('confirm')
+        })
+
+        BddTest().then('it should show the confirm associate traces modal', async () => {
+          await wrapper.vm.$nextTick()
+
+          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+          expect(confirmModal.props('show')).toBe(true)
+        })
+
+        BddTest().and('the confirm associate traces modal emits cancel event', () => {
+          beforeEach(async () => {
+            await wrapper.vm.$nextTick()
+
+            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            confirmModal.vm.$emit('cancel')
+          })
+
+          BddTest().then('it should hide the confirm associate traces modal', async () => {
+            await wrapper.vm.$nextTick()
+
+            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            expect(confirmModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should not emit associated event', () => {
+            expect(wrapper.emitted('associated')).toBeFalsy()
+          })
+        })
+
+        BddTest().and('the confirm associate traces modal emits confirm event successfully', () => {
+          beforeEach(async () => {
+            await wrapper.vm.$nextTick()
+            wrapper.findComponent(ConfirmAssociateTracesModalStub).vm.$emit('confirm')
+          })
+
+          BddTest().then('it should emit associated event', async () => {
+            await vi.waitFor(() => {
+              expect(wrapper.emitted('associated')).toBeTruthy()
+            })
+          })
+
+          BddTest().then('it should hide the confirm associate traces modal', async () => {
+            await vi.waitFor(() => {
+              const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+              expect(confirmModal.props('show')).toBe(false)
+            })
+          })
+
+          BddTest().then('it should show a success toaster with the correct count', async () => {
+            await vi.waitFor(() => {
+              expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+                timeout: 2000,
+                description: 'Vous avez associé 2 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
+              })
+            })
+          })
+
+          BddTest().then('it should not show an error toaster', async () => {
+            await vi.waitFor(() => {
+              expect(mockAddErrorMessage).not.toHaveBeenCalled()
+            })
+          })
+        })
       })
     })
 
@@ -158,85 +268,20 @@ BddTest().given('an associate traces modal', () => {
         expect(wrapper.emitted('cancel')).toBeTruthy()
       })
     })
-
-    BddTest().and('the modal emits confirm event', () => {
-      beforeEach(() => {
-        const modal = wrapper.findComponent(AvModalStub)
-        modal.vm.$emit('confirm')
-      })
-
-      BddTest().then('it should show the confirm associate traces modal', async () => {
-        await wrapper.vm.$nextTick()
-
-        const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-        expect(confirmModal.props('show')).toBe(true)
-      })
-
-      BddTest().and('the confirm associate traces modal emits cancel event', () => {
-        beforeEach(async () => {
-          await wrapper.vm.$nextTick()
-
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-          confirmModal.vm.$emit('cancel')
-        })
-
-        BddTest().then('it should hide the confirm associate traces modal', async () => {
-          await wrapper.vm.$nextTick()
-
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-          expect(confirmModal.props('show')).toBe(false)
-        })
-
-        BddTest().then('it should not emit associated event', () => {
-          expect(wrapper.emitted('associated')).toBeFalsy()
-        })
-      })
-
-      BddTest().and('the confirm associate traces modal emits confirm event successfully', () => {
-        beforeEach(async () => {
-          await wrapper.vm.$nextTick()
-          wrapper.findComponent(ConfirmAssociateTracesModalStub).vm.$emit('confirm')
-        })
-
-        BddTest().then('it should emit associated event', async () => {
-          await vi.waitFor(() => {
-            expect(wrapper.emitted('associated')).toBeTruthy()
-          })
-        })
-
-        BddTest().then('it should hide the confirm associate traces modal', async () => {
-          await vi.waitFor(() => {
-            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
-            expect(confirmModal.props('show')).toBe(false)
-          })
-        })
-
-        BddTest().then('it should show a success toaster with the correct count', async () => {
-          await vi.waitFor(() => {
-            expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-              timeout: 2000,
-              description: 'Vous avez associé 7 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
-            })
-          })
-        })
-
-        BddTest().then('it should not show an error toaster', async () => {
-          await vi.waitFor(() => {
-            expect(mockAddErrorMessage).not.toHaveBeenCalled()
-          })
-        })
-      })
-    })
   })
 
   BddTest().when('associating traces fails', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       server.use(associateActivityWithTracesErrorHandler)
 
       wrapper = mountComponent(AssociateTracesModal, {
         props,
         global: { stubs }
       })
+
+      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      autocomplete.vm.$emit('update:modelValue', selectedTraceOptions)
+      await wrapper.vm.$nextTick()
     })
 
     BddTest().and('the user confirms the association', () => {
