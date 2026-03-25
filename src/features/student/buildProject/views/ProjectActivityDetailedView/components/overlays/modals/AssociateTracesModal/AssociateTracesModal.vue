@@ -11,11 +11,9 @@ import ConfirmAssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
 import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
-import SelectedAssociateTracesContainer
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.vue'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { useToasterStore } from '@/store'
-import { AvAutocomplete, type AvAutocompleteOption, AvModal } from '@avenirs-esr/avenirs-dsav'
+import { type AvAutocompleteOption, AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
@@ -142,30 +140,20 @@ function onSearch (query: string) {
       </div>
     </template>
 
-    <SearchAssociationLayout>
-      <template #search>
+    <SearchAssociationLayout
+      v-model="selectedTraceOptions"
+      :options="filteredTraceOptions"
+      :traces="selectedAssociations"
+      :input-options="{
+        placeholder: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${selectedTraceType.itemId}.searchPlaceholder`),
+      }"
+      :get-option-key="option => option.value"
+      :get-option-label="option => option.label"
+      @search="onSearch"
+      @delete="onDeleteTrace"
+    >
+      <template #beforeSearch>
         <TracesTypeSelect v-model="selectedTraceType" />
-
-        <AvAutocomplete
-          v-model="selectedTraceOptions"
-          :options="filteredTraceOptions"
-          multi-select
-          :show-selected-section="false"
-          :display-selection-in-input="false"
-          :input-options="{
-            placeholder: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${selectedTraceType.itemId}.searchPlaceholder`),
-          }"
-          :get-option-key="option => option.value"
-          :get-option-label="option => option.label"
-          @search="onSearch"
-        />
-      </template>
-
-      <template #selected>
-        <SelectedAssociateTracesContainer
-          :traces="selectedAssociations"
-          @delete="onDeleteTrace"
-        />
       </template>
     </SearchAssociationLayout>
   </AvModal>
