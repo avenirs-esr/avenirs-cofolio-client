@@ -18,6 +18,8 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
+const isDemo = __DEMO_MODE__
+
 const isCategoryDeletable = computed(() => ![
   ESelfKnowledgeCategoryType.VALUES,
   ESelfKnowledgeCategoryType.STRENGTHS,
@@ -43,12 +45,15 @@ const menuItems = computed<AvDropdownItem[]>(() => {
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
       label: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.delete')
     },
-    {
+  ]
+
+  if (!isDemo) {
+    items.push({
       name: SelfKnowledgeElementsDropdownEvents.SHARE,
       icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
       label: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.share')
-    }
-  ]
+    })
+  }
 
   if (isCategoryDeletable.value) {
     items.push({
