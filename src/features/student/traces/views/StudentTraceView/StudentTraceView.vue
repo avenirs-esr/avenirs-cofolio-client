@@ -2,7 +2,7 @@
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useModal } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
@@ -26,6 +26,7 @@ const { traceId } = toRefs(props)
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
 const { traceAssociations, error: associationsError } = useTraceAssociationsQuery(traceId)
+const { navigateToStudentTraces } = useNavigation()
 
 const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
 
@@ -48,6 +49,7 @@ const activeTab = ref(0)
 
 function onDeleteTraceSuccess () {
   hideDeleteModal()
+  navigateToStudentTraces({ replace: true })
 }
 
 const breadcrumbLinks = computed(() => [
