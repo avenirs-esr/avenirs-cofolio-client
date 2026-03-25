@@ -94,7 +94,7 @@ BddTest().given('a declared experience view component', () => {
 
         expect(pageTitle.props('title')).toBe('Développeur Web Full Stack')
         const breadcrumbs = pageTitle.props('breadcrumbLinks')
-        expect(breadcrumbs).toHaveLength(4)
+        expect(breadcrumbs).toHaveLength(5)
       })
     })
 
@@ -104,11 +104,12 @@ BddTest().given('a declared experience view component', () => {
         expect(pageTitle.exists()).toBe(true)
 
         const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
-        expect(breadcrumbLinks).toHaveLength(4)
+        expect(breadcrumbLinks).toHaveLength(5)
         expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
         expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
         expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours', to: ROUTES.STUDENT.PERSONAL_CAREER })
         expect(breadcrumbLinks[3]).toEqual({ text: 'Mes expériences', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES })
+        expect(breadcrumbLinks[4]).toEqual({ text: 'Développeur Web Full Stack' })
       })
     })
 
