@@ -1,5 +1,7 @@
 import {
   type AttachmentUploadDTO,
+  EActivityThematic,
+  EDeclaredActivityStatus,
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
@@ -157,7 +159,30 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
 }
 
 export const mockedTraceAssociations: TraceAssociationsDTO = {
-  declaredActivityAssociations: [],
+  declaredActivityAssociations: [
+    {
+      associationId: 'activity-assoc-1',
+      declaredActivity: {
+        id: 'declared-activity-1',
+        activityId: 'activity-1',
+        title: 'Stage en entreprise - Développement logiciel',
+        thematic: EActivityThematic.EXPERIENCES,
+        status: EDeclaredActivityStatus.IN_PROGRESS,
+        summary: 'Stage de 6 mois dans une entreprise de développement logiciel',
+      }
+    },
+    {
+      associationId: 'activity-assoc-2',
+      declaredActivity: {
+        id: 'declared-activity-2',
+        activityId: 'activity-2',
+        title: 'Projet tuteuré - Application mobile',
+        thematic: EActivityThematic.PROGRAMS,
+        status: EDeclaredActivityStatus.COMPLETED,
+        summary: 'Développement d\'une application mobile en équipe',
+      }
+    }
+  ],
   declaredSkillAssociations: [
     {
       id: 'declared-1',

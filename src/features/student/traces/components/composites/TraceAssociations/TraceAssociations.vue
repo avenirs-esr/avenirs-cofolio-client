@@ -43,6 +43,8 @@ const activityAssociations = computed(() => associations.declaredActivityAssocia
 
   <DeleteTraceAssociatedSkillsModal
     :show="showSkillsModal"
+    :trace-id="traceId"
+    :associations="declaredSkillAssociations"
     @cancel="hideSkillsModal"
     @deleted="hideSkillsModal"
   />
