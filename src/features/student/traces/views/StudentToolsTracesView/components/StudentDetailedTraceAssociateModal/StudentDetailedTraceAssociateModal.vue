@@ -50,8 +50,10 @@ const isDisabled = computed(() => {
     @confirm="form.handleSubmit"
   >
     <template #header>
-      <h3>{{ t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.title') }}</h3>
-      <span class="n5">{{ trace.title }}</span>
+      <h3>
+        {{ t('student.traces.views.StudentToolsTracesView.studentDetailedTraceAssociateModal.title') }}
+        <span class="n5">{{ trace.title }}</span>
+      </h3>
     </template>
     <div class="content-container av-col av-gap-sm">
       <AssociateSkillAutocompleteField
