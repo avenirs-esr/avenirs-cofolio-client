@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { associateActivityWithTracesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
+import { TraceCompactCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.stub'
 import AssociateTracesModal, {
   type AssociateTracesModalProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
@@ -33,7 +34,8 @@ BddTest().given('an associate traces modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub,
-    TracesTypeSelect: TracesTypeSelectStub
+    TracesTypeSelect: TracesTypeSelectStub,
+    TraceCompactCard: TraceCompactCardStub
   }
 
   const props: AssociateTracesModalProps = {
@@ -91,7 +93,7 @@ BddTest().given('an associate traces modal', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
       expect(layout.props('modelValue')).toEqual([])
-      expect(layout.props('traces')).toEqual([])
+      expect(layout.props('items')).toEqual([])
       expect(layout.props('options')).toEqual([
         { label: 'Prévenir la pollution à la source', value: 'trace1' },
         { label: 'Mettre en place des filières d’économies circulaires', value: 'trace2' },
@@ -167,10 +169,10 @@ BddTest().given('an associate traces modal', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should update the selected traces passed to the layout', () => {
+      BddTest().then('it should update the selected items passed to the layout', () => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
-        expect(layout.props('traces')).toEqual(expectedSelectedAssociations)
+        expect(layout.props('items')).toEqual(expectedSelectedAssociations)
       })
 
       BddTest().then('it should update the confirm associate traces modal traces', () => {
@@ -186,10 +188,10 @@ BddTest().given('an associate traces modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should remove the deleted trace from the selected traces', () => {
+        BddTest().then('it should remove the deleted trace from the selected items', () => {
           const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
-          expect(layout.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
+          expect(layout.props('items')).toEqual(expectedSelectedAssociationsAfterDelete)
         })
 
         BddTest().then('it should also update the confirm associate traces modal traces', () => {

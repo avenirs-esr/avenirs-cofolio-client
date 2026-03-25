@@ -1,12 +1,13 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption">
-import type { IdTitleList } from '@/types'
+import type { IdTitle, IdTitleList } from '@/types'
 import type { AvAutocompleteOption, AvInputProps } from '@avenirs-esr/avenirs-dsav'
-import SelectedAssociateTracesContainer from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/SelectedAssociateTracesContainer/SelectedAssociateTracesContainer.vue'
+import SelectedAssociateItemsContainer
+  from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
 import { AvAutocomplete } from '@avenirs-esr/avenirs-dsav'
 
 interface SearchAssociationLayoutProps<T> {
   options: T[]
-  traces: IdTitleList
+  items: IdTitleList
   inputOptions?: Omit<AvInputProps, 'id' | 'modelValue'>
   getOptionKey?: (option: T) => string | number
   getOptionLabel?: (option: T) => string
@@ -16,9 +17,14 @@ const props = defineProps<SearchAssociationLayoutProps<T>>()
 
 const emit = defineEmits<{
   (e: 'search', query: string): void
-  (e: 'delete', traceId: string): void
+  (e: 'delete', itemId: string): void
   (e: 'clear'): void
   (e: 'loadMore'): void
+}>()
+
+defineSlots<{
+  beforeSearch?: () => unknown
+  selectedItem?: (props: { item: IdTitle }) => unknown
 }>()
 
 const selectedOptions = defineModel<T[]>({ default: () => [] })
@@ -54,10 +60,17 @@ const selectedOptions = defineModel<T[]>({ default: () => [] })
       class="av-flex-fill av-col av-gap-sm"
       data-testid="search-association-layout-selected"
     >
-      <SelectedAssociateTracesContainer
-        :traces="props.traces"
+      <SelectedAssociateItemsContainer
+        :items="props.items"
         @delete="emit('delete', $event)"
-      />
+      >
+        <template #item="{ item }">
+          <slot
+            name="selectedItem"
+            :item="item"
+          />
+        </template>
+      </SelectedAssociateItemsContainer>
     </div>
   </div>
 </template>

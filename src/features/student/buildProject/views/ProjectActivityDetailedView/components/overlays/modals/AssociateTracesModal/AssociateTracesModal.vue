@@ -7,6 +7,8 @@ import {
 } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { useAssociateActivityWithTracesMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import TraceCompactCard
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
 import ConfirmAssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
 import TracesTypeSelect
@@ -143,7 +145,7 @@ function onSearch (query: string) {
     <SearchAssociationLayout
       v-model="selectedTraceOptions"
       :options="filteredTraceOptions"
-      :traces="selectedAssociations"
+      :items="selectedAssociations"
       :input-options="{
         placeholder: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${selectedTraceType.itemId}.searchPlaceholder`),
       }"
@@ -154,6 +156,13 @@ function onSearch (query: string) {
     >
       <template #beforeSearch>
         <TracesTypeSelect v-model="selectedTraceType" />
+      </template>
+
+      <template #selectedItem="{ item }">
+        <TraceCompactCard
+          :trace="item"
+          class="av-w-full"
+        />
       </template>
     </SearchAssociationLayout>
   </AvModal>
