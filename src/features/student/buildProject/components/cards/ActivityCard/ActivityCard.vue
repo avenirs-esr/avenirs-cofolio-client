@@ -75,13 +75,21 @@ const iconOptions = {
 </template>
 
 <style scoped lang="scss">
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .activity-card {
-  width: fit-content;
+  width: 100%;
+
+  @include dsav.min-width(md) {
+    width: fit-content;
+  }
 }
 
 .floating-icon-card {
-  min-width: 18.4375rem !important;
-  max-width: 27rem !important;
+  @include dsav.min-width(md) {
+    min-width: 18.4375rem !important;
+    max-width: 27rem !important;
+  }
 }
 
 .text-clamp {
