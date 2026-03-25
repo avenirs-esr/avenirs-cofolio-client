@@ -69,16 +69,17 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
               :thematic="activity.thematic"
             />
           </div>
-
-          <p class="av-hidden av-unhidden--md av-px-xs">
-            <span
-              data-testid="activity-library-card-summary"
-              class="activity-library-card__summary s2-regular av-text-text2"
-            >
-              {{ activity.summary }}
-            </span>
-          </p>
         </div>
+      </template>
+      <template #footer>
+        <p class="av-hidden av-unhidden--md av-px-xs w-full">
+          <span
+            data-testid="activity-library-card-summary"
+            class="activity-library-card__summary av-text-text2 caption-light"
+          >
+            {{ activity.summary }}
+          </span>
+        </p>
       </template>
     </FloatingIconCard>
   </RouterLink>

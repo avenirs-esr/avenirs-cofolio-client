@@ -64,7 +64,7 @@ const iconOptions = {
           </div>
           <span
             data-testid="activity-card-summary"
-            class="s2-regular av-text-text2"
+            class="av-text-text2"
           >
             {{ activity.summary }}
           </span>
