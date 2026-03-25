@@ -158,6 +158,22 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student project activities', () => {
+    BddTest().then('it should navigate to student project activities', () => {
+      const { navigateToStudentProjectActivities } = navigation
+      navigateToStudentProjectActivities({})
+      expect(pushMock).toHaveBeenCalledWith({ name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name })
+    })
+  })
+
+  BddTest().when('trying to navigate to student project activities with replace', () => {
+    BddTest().then('it should navigate to student project activities with replace', () => {
+      const { navigateToStudentProjectActivities } = navigation
+      navigateToStudentProjectActivities({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith({ name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name })
+    })
+  })
+
   BddTest().when('trying to navigate to student project activities catalog with thematic and id', () => {
     BddTest().then('it should navigate to student project activities catalog with thematic and id', () => {
       const { navigateToStudentProjectActivitiesCatalog } = navigation

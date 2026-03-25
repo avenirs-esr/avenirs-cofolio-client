@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useDrawer, useModal } from '@/common/composables'
+import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
@@ -23,6 +23,7 @@ const { id } = defineProps<ProjectActivityDetailedViewProps>()
 
 const { t } = useI18n()
 const { declaredActivityDetail, isLoading, isError, error } = useDeclaredActivitiesDetailedQuery(id)
+const { navigateToStudentProjectActivities } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
@@ -31,6 +32,11 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.activities') }
 ])
+
+function onUnsubscribed () {
+  hideModal()
+  navigateToStudentProjectActivities({ replace: true })
+}
 </script>
 
 <template>
@@ -82,7 +88,7 @@ const breadcrumbLinks = computed(() => [
         :show="showModal"
         :activities="[{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }]"
         @cancel="hideModal"
-        @unsubscribed="hideModal"
+        @unsubscribed="onUnsubscribed"
       />
 
       <UpdateActivityDrawer
