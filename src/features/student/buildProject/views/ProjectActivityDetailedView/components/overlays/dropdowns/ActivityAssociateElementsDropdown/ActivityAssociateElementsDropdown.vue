@@ -32,6 +32,7 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <AvDropdown
+    data-testid="activity-associate-elements-dropdown"
     :items="menuItems"
     :trigger-aria-label="`${t('global.buttons.associate')}...`"
     :trigger-label="`${t('global.buttons.associate')}...`"

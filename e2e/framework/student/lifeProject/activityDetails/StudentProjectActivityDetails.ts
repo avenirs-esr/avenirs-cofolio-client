@@ -166,4 +166,39 @@ export class StudentProjectActivityDetails extends BasePage {
   async verifyAssociatedTracesCardHidden () {
     await this.getMyPerspectiveSection().verifyAssociatedTracesCardHidden()
   }
+
+  @When('the student opens the associate elements dropdown')
+  async openAssociateElementsDropdown () {
+    await this.getMyPerspectiveSection().openAssociateElementsDropdown()
+  }
+
+  @When('the student clicks the associate traces dropdown item')
+  async clickAssociateTracesDropdownItem () {
+    await this.getMyPerspectiveSection().clickAssociateTracesDropdownItem()
+  }
+
+  @Then('the associate traces modal is visible')
+  async verifyAssociateTracesModalVisible () {
+    await this.getMyPerspectiveSection().verifyAssociateTracesModalVisible()
+  }
+
+  @Then('the associate traces modal title is visible')
+  async verifyAssociateTracesModalTitleVisible () {
+    await this.getMyPerspectiveSection().verifyAssociateTracesModalTitleVisible()
+  }
+
+  @Then('the traces type select is visible in associate traces modal')
+  async verifyTracesTypeSelectVisibleInAssociateTracesModal () {
+    await this.getMyPerspectiveSection().verifyTracesTypeSelectVisibleInAssociateTracesModal()
+  }
+
+  @Then('the search association layout is visible in associate traces modal')
+  async verifySearchAssociationLayoutVisibleInAssociateTracesModal () {
+    await this.getMyPerspectiveSection().verifySearchAssociationLayoutVisibleInAssociateTracesModal()
+  }
+
+  @Then('the associate traces confirmation modal is hidden')
+  async verifyAssociateTracesConfirmationModalHidden () {
+    await this.getMyPerspectiveSection().verifyAssociateTracesConfirmationModalHidden()
+  }
 }

@@ -132,3 +132,20 @@ Feature: Student Project Activity Detail Page
       When the student opens associated elements tab
       Then the associated traces card is hidden
       And the associated trace cards are hidden
+
+    @high @activity-details @associated-elements @associate-traces-modal @dataset-full
+    Scenario: Student can open associate traces modal from associated elements tab
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      And the student opens associated elements tab
+      And the student opens the associate elements dropdown
+      And the student clicks the associate traces dropdown item
+      Then the associate traces modal is visible
+      And the associate traces modal title is visible
+      And the traces type select is visible in associate traces modal
+      And the search association layout is visible in associate traces modal
+      And the associate traces confirmation modal is hidden

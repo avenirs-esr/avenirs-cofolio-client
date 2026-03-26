@@ -54,6 +54,34 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('associated-trace-card')
   }
 
+  getAssociateElementsDropdownTrigger () {
+    return this.root.page().getByRole('button', { name: 'Associer...' })
+  }
+
+  getAssociateTracesDropdownItem () {
+    return this.root.page().getByText('Une/des trace(s)', { exact: true })
+  }
+
+  getAssociateTracesModal () {
+    return this.root.page().getByTestId('associate-traces-modal')
+  }
+
+  getAssociateTracesModalTitle () {
+    return this.root.page().getByTestId('header')
+  }
+
+  getTracesTypeSelectInAssociateModal () {
+    return this.root.page().getByTestId('traces-type-select').first()
+  }
+
+  getSearchAssociationLayoutInAssociateModal () {
+    return this.root.page().getByTestId('search-association-layout')
+  }
+
+  getAssociateTracesConfirmationModal () {
+    return this.root.page().getByTestId('confirm-associate-traces-modal')
+  }
+
   async verifyVisible () {
     await expect(this.root).toBeVisible()
   }
@@ -143,5 +171,33 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyAssociatedTracesCardHidden () {
     await expect(this.getAssociatedTracesCard()).toBeHidden()
+  }
+
+  async openAssociateElementsDropdown () {
+    await this.getAssociateElementsDropdownTrigger().click()
+  }
+
+  async clickAssociateTracesDropdownItem () {
+    await this.getAssociateTracesDropdownItem().click()
+  }
+
+  async verifyAssociateTracesModalVisible () {
+    await expect(this.getAssociateTracesModal()).toBeVisible()
+  }
+
+  async verifyAssociateTracesModalTitleVisible () {
+    await expect(this.getAssociateTracesModalTitle()).toBeVisible()
+  }
+
+  async verifyTracesTypeSelectVisibleInAssociateTracesModal () {
+    await expect(this.getTracesTypeSelectInAssociateModal()).toBeVisible()
+  }
+
+  async verifySearchAssociationLayoutVisibleInAssociateTracesModal () {
+    await expect(this.getSearchAssociationLayoutInAssociateModal()).toBeVisible()
+  }
+
+  async verifyAssociateTracesConfirmationModalHidden () {
+    await expect(this.getAssociateTracesConfirmationModal()).toBeHidden()
   }
 }
