@@ -109,7 +109,6 @@ function getIsAssociatedParam () {
   if (type === TraceAssociationTypes.UNASSOCIATED) {
     return false
   }
-  return undefined
 }
 
 function onCancel () {
