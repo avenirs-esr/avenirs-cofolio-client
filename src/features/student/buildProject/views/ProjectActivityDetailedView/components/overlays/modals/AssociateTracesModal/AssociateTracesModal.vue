@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
-import {
-  type AssociationsCreationRequest,
-  EDeclaredActivityAssociationType
+import type {
+  AssociationsCreationRequest,
 } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { useModal } from '@/common/composables'
-import { useAssociateActivityWithTracesMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import {
+  useAssociateActivityWithTracesMutation,
+  useSearchTracesForAssociationQuery
+} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TraceCompactCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
 import ConfirmAssociateTracesModal
@@ -62,34 +64,35 @@ const { mutate: associateActivityWithTraces, isPending } = useAssociateActivityW
   }
 })
 
-const selectedTraceType = ref<{ itemId: EDeclaredActivityAssociationType }>({
-  itemId: EDeclaredActivityAssociationType.TRACE
+const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
+  itemId: TraceAssociationTypes.UNASSOCIATED
 })
 
 const searchQuery = ref('')
+const selectedTraceOptions = ref<AvAutocompleteOption[]>([])
 
-// TODO : #1219
-const traceOptions = computed<AvAutocompleteOption[]>(() => {
-  return mockedTraceOverview.map(trace => ({
-    label: trace.title,
-    value: trace.traceId
+const {
+  traces,
+  isError: isSearchError,
+  error: searchError
+} = useSearchTracesForAssociationQuery({
+  declaredActivityId: computed(() => declaredActivityId),
+  params: computed(() => ({
+    isAssociated: getIsAssociatedParam(),
+    keyword: searchQuery.value.trim() || undefined,
+    page: 0,
+    pageSize: 20,
+    type: selectedTraceType.value.itemId
   }))
 })
 
-// TODO : remove this in #1219
-const filteredTraceOptions = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase()
-
-  if (!query) {
-    return traceOptions.value
-  }
-
-  return traceOptions.value.filter(trace =>
-    trace.label.toLowerCase().includes(query)
-  )
+const traceOptions = computed<AvAutocompleteOption[]>(() => {
+  return traces.value.map(trace => ({
+    label: trace.title,
+    value: trace.id,
+    disabled: trace.disabled
+  }))
 })
-
-const selectedTraceOptions = ref<AvAutocompleteOption[]>([])
 
 const selectedAssociations = computed(() =>
   selectedTraceOptions.value.map(trace => ({
@@ -97,6 +100,17 @@ const selectedAssociations = computed(() =>
     title: trace.label
   }))
 )
+
+function getIsAssociatedParam () {
+  const type = selectedTraceType.value.itemId
+  if (type === TraceAssociationTypes.ASSOCIATED) {
+    return true
+  }
+  if (type === TraceAssociationTypes.UNASSOCIATED) {
+    return false
+  }
+  return undefined
+}
 
 function onCancel () {
   emit('cancel')
@@ -120,6 +134,17 @@ function onDeleteTrace (traceId: string) {
 function onSearch (query: string) {
   searchQuery.value = query
 }
+
+watch(isSearchError, (value) => {
+  if (!value || !searchError.value) {
+    return
+  }
+
+  addErrorMessage({
+    title: t('global.error.generic'),
+    description: searchError.value.message,
+  })
+})
 </script>
 
 <template>
@@ -144,7 +169,7 @@ function onSearch (query: string) {
 
     <SearchAssociationLayout
       v-model="selectedTraceOptions"
-      :options="filteredTraceOptions"
+      :options="traceOptions"
       :items="selectedAssociations"
       :input-options="{
         placeholder: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${selectedTraceType.itemId}.searchPlaceholder`),

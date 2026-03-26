@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
+import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import { AvSelect, type AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,14 +10,22 @@ const {
   ...restProps
 } = defineProps<TracesTypeSelectProps>()
 
-const selectedItem = defineModel<{ itemId: EDeclaredActivityAssociationType }>()
+const selectedItem = defineModel<{ itemId: TraceAssociationTypes }>()
 
 const { t } = useI18n()
 
 const options = computed(() => [
   {
-    id: EDeclaredActivityAssociationType.TRACE,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.label')
+    id: TraceAssociationTypes.ALL,
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.ALL.label')
+  },
+  {
+    id: TraceAssociationTypes.ASSOCIATED,
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.ASSOCIATED.label')
+  },
+  {
+    id: TraceAssociationTypes.UNASSOCIATED,
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.UNASSOCIATED.label')
   }
 ])
 

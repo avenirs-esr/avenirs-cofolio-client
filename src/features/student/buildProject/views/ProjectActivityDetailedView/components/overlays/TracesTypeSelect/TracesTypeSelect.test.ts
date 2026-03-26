@@ -1,4 +1,4 @@
-import { EDeclaredActivityAssociationType } from '@/api/avenir-esr'
+import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TracesTypeSelect from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -15,9 +15,6 @@ BddTest().given('a traces type select component', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(TracesTypeSelect, {
-        props: {
-          modelValue: undefined
-        },
         global: { stubs }
       })
     })
@@ -27,33 +24,53 @@ BddTest().given('a traces type select component', () => {
     })
 
     BddTest().then('it should render the AvSelect component', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.exists()).toBe(true)
     })
 
     BddTest().then('it should display the correct French label', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.props('label')).toBe('Rechercher dans :')
     })
 
     BddTest().then('it should display the correct placeholder', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.props('placeholder')).toBe('Sélectionnez un type de trace')
     })
 
-    BddTest().then('it should have one option', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('options')).toHaveLength(1)
+    BddTest().then('it should have three options', () => {
+      const select = wrapper.findComponent(AvSelectStub)
+      expect(select.props('options')).toHaveLength(3)
     })
 
-    BddTest().then('it should have trace option', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+    BddTest().then('it should have the ALL option', () => {
+      const select = wrapper.findComponent(AvSelectStub)
       const options = select.props('options')
-      const traceOption = options.find((opt: { id: EDeclaredActivityAssociationType }) => opt.id === EDeclaredActivityAssociationType.TRACE)
+      const allOption = options.find((opt: { id: TraceAssociationTypes }) => opt.id === TraceAssociationTypes.ALL)
 
-      expect(traceOption).toBeDefined()
-      expect(traceOption.label).toBe('Mes traces non associées')
-      expect(traceOption.id).toBe(EDeclaredActivityAssociationType.TRACE)
+      expect(allOption).toBeDefined()
+      expect(allOption.label).toBe('Toutes mes traces')
+      expect(allOption.id).toBe(TraceAssociationTypes.ALL)
+    })
+
+    BddTest().then('it should have the ASSOCIATED option', () => {
+      const select = wrapper.findComponent(AvSelectStub)
+      const options = select.props('options')
+      const associatedOption = options.find((opt: { id: TraceAssociationTypes }) => opt.id === TraceAssociationTypes.ASSOCIATED)
+
+      expect(associatedOption).toBeDefined()
+      expect(associatedOption.label).toBe('Mes traces associées')
+      expect(associatedOption.id).toBe(TraceAssociationTypes.ASSOCIATED)
+    })
+
+    BddTest().then('it should have the UNASSOCIATED option', () => {
+      const select = wrapper.findComponent(AvSelectStub)
+      const options = select.props('options')
+      const unassociatedOption = options.find((opt: { id: TraceAssociationTypes }) => opt.id === TraceAssociationTypes.UNASSOCIATED)
+
+      expect(unassociatedOption).toBeDefined()
+      expect(unassociatedOption.label).toBe('Mes traces non associées')
+      expect(unassociatedOption.id).toBe(TraceAssociationTypes.UNASSOCIATED)
     })
   })
 
@@ -62,15 +79,14 @@ BddTest().given('a traces type select component', () => {
       vi.clearAllMocks()
       wrapper = mount(TracesTypeSelect, {
         props: {
-          label: 'Custom Label',
-          modelValue: undefined
+          label: 'Custom Label'
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should display the custom label', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.props('label')).toBe('Custom Label')
     })
   })
@@ -80,37 +96,15 @@ BddTest().given('a traces type select component', () => {
       vi.clearAllMocks()
       wrapper = mount(TracesTypeSelect, {
         props: {
-          errorMessage: 'Ce champ est requis',
-          modelValue: undefined
+          errorMessage: 'Ce champ est requis'
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should pass the error message to AvSelect', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.props('errorMessage')).toBe('Ce champ est requis')
-    })
-  })
-
-  BddTest().when('the user selects trace type', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mount(TracesTypeSelect, {
-        props: {
-          modelValue: undefined
-        },
-        global: { stubs }
-      })
-
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      await select.vm.$emit('update:selectedItem', { itemId: EDeclaredActivityAssociationType.TRACE })
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should update the model value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('selectedItem')).toEqual({ itemId: EDeclaredActivityAssociationType.TRACE })
     })
   })
 
@@ -119,15 +113,34 @@ BddTest().given('a traces type select component', () => {
       vi.clearAllMocks()
       wrapper = mount(TracesTypeSelect, {
         props: {
-          modelValue: { itemId: EDeclaredActivityAssociationType.TRACE }
+          modelValue: { itemId: TraceAssociationTypes.UNASSOCIATED }
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should display the initial value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('selectedItem')).toEqual({ itemId: EDeclaredActivityAssociationType.TRACE })
+      const select = wrapper.findComponent(AvSelectStub)
+      expect(select.props('selectedItem')).toEqual({ itemId: TraceAssociationTypes.UNASSOCIATED })
+    })
+  })
+
+  BddTest().when('the user selects a trace type', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(TracesTypeSelect, {
+        global: { stubs }
+      })
+
+      const select = wrapper.findComponent(AvSelectStub)
+      await select.vm.$emit('update:selectedItem', { itemId: TraceAssociationTypes.ASSOCIATED })
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should emit the updated selected item', () => {
+      expect(wrapper.emitted('update:modelValue')).toEqual([
+        [{ itemId: TraceAssociationTypes.ASSOCIATED }]
+      ])
     })
   })
 
@@ -137,15 +150,14 @@ BddTest().given('a traces type select component', () => {
       wrapper = mount(TracesTypeSelect, {
         props: {
           disabled: true,
-          required: true,
-          modelValue: undefined
+          required: true
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should pass additional props to AvSelect', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       expect(select.props('disabled')).toBe(true)
       expect(select.props('required')).toBe(true)
     })
@@ -156,19 +168,18 @@ BddTest().given('a traces type select component', () => {
       vi.clearAllMocks()
       wrapper = mount(TracesTypeSelect, {
         props: {
-          modelValue: { itemId: EDeclaredActivityAssociationType.TRACE }
+          modelValue: { itemId: TraceAssociationTypes.ALL }
         },
         global: { stubs }
       })
 
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = wrapper.findComponent(AvSelectStub)
       await select.vm.$emit('update:selectedItem', undefined)
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should update to undefined value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('selectedItem')).toBeUndefined()
+    BddTest().then('it should emit undefined selected item', () => {
+      expect(wrapper.emitted('update:modelValue')).toEqual([[undefined]])
     })
   })
 })

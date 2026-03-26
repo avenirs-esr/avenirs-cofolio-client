@@ -9,6 +9,7 @@ import {
   type AssociationsDeleteRequest,
   type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
+  type DeclaredActivityAssociationTraceInfoDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
   deleteDeclaredActivityAssociations,
@@ -24,7 +25,10 @@ import {
   getDeclaredActivityDetails,
   getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
+  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
   type PagedResponseDeclaredActivityViewDTO,
+  searchTracesForAssociation,
+  type SearchTracesForAssociationParams,
   subscribeActivity,
   type SubscribeDeclaredActivityRequest,
   unsubscribeActivitiesProgresses,
@@ -43,6 +47,7 @@ const activitiesAssociationsQueryKey = [...activitiesCommonQueryKey, 'associatio
 const libraryActivitiesQueryKey = [...activitiesCommonQueryKey, 'library']
 const activityNavigationQueryKey = [...activitiesCommonQueryKey, 'navigation']
 const activitiesViewQueryKey = [...activitiesCommonQueryKey, 'view']
+const activitiesSearchAssociationTracesQueryKey = [...activitiesCommonQueryKey, 'search-association-traces']
 
 export interface ActivitiesViewQueryParams {
   thematic?: MaybeRef<EActivityThematic | undefined>
@@ -440,4 +445,59 @@ export function useDeleteDeclaredActivityAssociationsMutation ({
     },
     onError
   })
+}
+
+export interface SearchTracesForAssociationQueryParams {
+  declaredActivityId: MaybeRef<string>
+  params?: MaybeRef<SearchTracesForAssociationParams | undefined>
+}
+
+export type SearchTracesForAssociationQueryReturnType =
+  UseQueryReturnType<PagedResponseDeclaredActivityAssociationTraceInfoDTO, BaseApiException> & {
+    traces: Ref<DeclaredActivityAssociationTraceInfoDTO[]>
+    pageInfo: Ref<{
+      page: number
+      pageSize: number
+      totalElements: number
+      totalPages: number
+    }>
+  }
+
+export function useSearchTracesForAssociationQuery ({
+  declaredActivityId,
+  params
+}: SearchTracesForAssociationQueryParams): SearchTracesForAssociationQueryReturnType {
+  const queryKey = computed(() => [
+    ...activitiesSearchAssociationTracesQueryKey,
+    toValue(declaredActivityId),
+    toValue(params)
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseDeclaredActivityAssociationTraceInfoDTO> => {
+    return await searchTracesForAssociation(toValue(declaredActivityId), toValue(params))
+  })
+
+  const query = useQuery<PagedResponseDeclaredActivityAssociationTraceInfoDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(declaredActivityId).trim().length > 0),
+    placeholderData: keepPreviousData
+  })
+
+  const traces = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    traces,
+    pageInfo
+  }
 }

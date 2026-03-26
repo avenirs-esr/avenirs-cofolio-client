@@ -15,6 +15,7 @@ import {
   associateActivityWithTracesErrorHandler,
   deleteDeclaredActivityAssociationsErrorHandler,
   libraryActivitiesErrorHandler,
+  searchTracesForAssociationErrorHandler,
   updateActivityPeriodHandler,
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -28,6 +29,8 @@ import {
   type DeclaredActivityPeriodRequest,
   EActivityThematic,
   type getDeclaredActivitiesView,
+  type searchTracesForAssociation,
+  type SearchTracesForAssociationParams,
   type SubscribeDeclaredActivityRequest,
   type UpdateReflectionRequest,
 } from '@/api/avenir-esr'
@@ -47,6 +50,7 @@ import {
   useFinishDeclaredActivityMutation,
   useGetDeclaredActivityAssociationsQuery,
   useLibraryActivitiesQuery,
+  useSearchTracesForAssociationQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
   useUpdateActivityPeriodMutation,
@@ -1938,6 +1942,267 @@ BddTest().given('the useDeleteDeclaredActivityAssociationsMutation composable', 
 
     BddTest().then('it should not invalidate queries', () => {
       expect(mockInvalidateFunction).not.toHaveBeenCalled()
+    })
+  })
+})
+
+BddTest().given('the useSearchTracesForAssociationQuery composable', () => {
+  let searchTracesForAssociationSpy: MockInstance<typeof searchTracesForAssociation>
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    searchTracesForAssociationSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'searchTracesForAssociation'>(
+      await import('@/api/avenir-esr'),
+    'searchTracesForAssociation'
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid declared activity id with no isAssociated filter', () => {
+    const declaredActivityId = ref('declared-activity-1')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: undefined,
+      keyword: undefined,
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should call searchTracesForAssociation with declared activity id and params', () => {
+        expect(searchTracesForAssociationSpy).toHaveBeenCalledWith(declaredActivityId.value, params.value)
+        expect(searchTracesForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should return the traces list', () => {
+        expect(queryResult.data.value).toBeDefined()
+        expect(queryResult.traces.value).toHaveLength(10)
+      })
+
+      BddTest().then('it should expose pageInfo', () => {
+        expect(queryResult.pageInfo.value).toEqual({
+          page: 0,
+          pageSize: 20,
+          totalElements: 10,
+          totalPages: 1
+        })
+      })
+
+      BddTest().then('it should expose associated traces as disabled and unassociated traces as enabled', () => {
+        const disabledTraces = queryResult.traces.value.filter(trace => trace.disabled)
+        const enabledTraces = queryResult.traces.value.filter(trace => !trace.disabled)
+
+        expect(disabledTraces).toHaveLength(5)
+        expect(enabledTraces).toHaveLength(5)
+      })
+    })
+  })
+
+  BddTest().and('a valid declared activity id with a search filter', () => {
+    const declaredActivityId = ref('declared-activity-1')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: undefined,
+      keyword: 'numéro 1',
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should call searchTracesForAssociation with the search params', () => {
+        expect(searchTracesForAssociationSpy).toHaveBeenCalledWith(declaredActivityId.value, params.value)
+      })
+
+      BddTest().then('it should return only traces matching the typed letters', () => {
+        expect(queryResult.traces.value.length).toBeGreaterThan(0)
+        expect(
+          queryResult.traces.value.every(trace =>
+            trace.title.toLowerCase().includes('numéro 1'.toLowerCase())
+          )
+        ).toBe(true)
+      })
+
+      BddTest().then('it should expose a filtered totalElements count', () => {
+        expect(queryResult.pageInfo.value.totalElements).toBe(queryResult.traces.value.length)
+      })
+    })
+  })
+
+  BddTest().and('a valid declared activity id with isAssociated set to true', () => {
+    const declaredActivityId = ref('declared-activity-1')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: true,
+      keyword: undefined,
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should only return associated traces', () => {
+        expect(queryResult.traces.value).toHaveLength(5)
+        expect(queryResult.traces.value.every(trace => trace.disabled)).toBe(true)
+      })
+
+      BddTest().then('it should expose pageInfo for associated traces only', () => {
+        expect(queryResult.pageInfo.value.totalElements).toBe(5)
+      })
+    })
+  })
+
+  BddTest().and('a valid declared activity id with isAssociated set to false', () => {
+    const declaredActivityId = ref('declared-activity-1')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: false,
+      keyword: undefined,
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should only return unassociated traces', () => {
+        expect(queryResult.traces.value).toHaveLength(5)
+        expect(queryResult.traces.value.every(trace => !trace.disabled)).toBe(true)
+      })
+
+      BddTest().then('it should expose pageInfo for unassociated traces only', () => {
+        expect(queryResult.pageInfo.value.totalElements).toBe(5)
+      })
+    })
+  })
+
+  BddTest().and('a valid declared activity id when the API fails', () => {
+    const declaredActivityId = ref('declared-activity-1')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: undefined,
+      keyword: 'abc',
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        server.use(searchTracesForAssociationErrorHandler)
+
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should be in error state', async () => {
+        await vi.waitFor(() => {
+          expect(queryResult.isError.value).toBe(true)
+        })
+
+        expect(queryResult.isSuccess.value).toBe(false)
+        expect(queryResult.error.value).toBeDefined()
+      })
+
+      BddTest().then('it should return an empty traces array', () => {
+        expect(queryResult.traces.value).toEqual([])
+      })
+
+      BddTest().then('it should return the default pageInfo', () => {
+        expect(queryResult.pageInfo.value).toEqual({
+          page: 0,
+          pageSize: 0,
+          totalElements: 0,
+          totalPages: 0
+        })
+      })
+    })
+  })
+
+  BddTest().and('an empty declared activity id', () => {
+    const declaredActivityId = ref('')
+    const params = ref<SearchTracesForAssociationParams>({
+      isAssociated: undefined,
+      keyword: 'abc',
+      page: 0,
+      pageSize: 20
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchTracesForAssociationQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchTracesForAssociationQuery({
+            declaredActivityId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the API because the query is disabled', () => {
+        expect(searchTracesForAssociationSpy).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should return default values', () => {
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.traces.value).toEqual([])
+        expect(queryResult.pageInfo.value).toEqual({
+          page: 0,
+          pageSize: 0,
+          totalElements: 0,
+          totalPages: 0
+        })
+      })
     })
   })
 })

@@ -9,6 +9,7 @@ import {
   mockedDeclaredActivityAssociations,
   mockedFinishedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type ActivityDetailDTO,
@@ -28,10 +29,12 @@ import {
   getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getSearchTracesForAssociationUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdatePeriodUrl,
   getUpdateReflectionUrl,
+  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
@@ -456,6 +459,66 @@ export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
   }
 )
 
+export const searchTracesForAssociationHandler = http.get(
+  `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
+  async ({ params, request }) => {
+    const { declaredActivityId } = params
+
+    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const url = new URL(request.url)
+
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
+
+    const rawIsAssociated = url.searchParams.get('isAssociated')
+    const isAssociated
+      = rawIsAssociated === null || rawIsAssociated === 'null'
+        ? undefined
+        : rawIsAssociated === 'true'
+
+    const response = createMockedSearchTracesForAssociationResponse({
+      keyword,
+      page,
+      pageSize,
+      isAssociated
+    })
+
+    return HttpResponse.json<PagedResponseDeclaredActivityAssociationTraceInfoDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const searchTracesForAssociationErrorHandler = http.get(
+  `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
+  async () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -489,4 +552,5 @@ export const activitiesHandlers = [
   updateActivityReflectionHandler,
   associateActivityWithTracesHandler,
   deleteDeclaredActivityAssociationsSuccessHandler,
+  searchTracesForAssociationHandler,
 ]

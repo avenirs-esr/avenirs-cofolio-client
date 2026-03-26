@@ -1,11 +1,14 @@
 import {
   type AttachmentUploadDTO,
+  type DeclaredActivityAssociationTraceInfoDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
+  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
   type PagedResponseTraceViewDTO,
+  type SearchTracesForAssociationParams,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
@@ -14,6 +17,7 @@ import {
   type TracesSummaryDTO,
   type TracesViewParams,
   type TraceViewDTO
+
 } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { isAfter, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
@@ -227,4 +231,68 @@ export const mockedTraceDetailed = {
     uploadedAt: '2025-06-02T11:42:00.000Z',
   },
   traceAssociations: mockedTraceAssociations
+}
+
+export function createMockedSearchTracesForAssociationResponse (
+  params?: SearchTracesForAssociationParams
+): PagedResponseDeclaredActivityAssociationTraceInfoDTO {
+  const {
+    isAssociated,
+    keyword,
+    page = 0,
+    pageSize = PageSizes.FOUR
+  } = params ?? {}
+
+  const associatedResponse = createMockedTracesViewResponse(
+    { isAssociated: true },
+    {
+      keyword: undefined,
+      page: 0,
+      pageSize: 5
+    },
+    5
+  )
+
+  const unassociatedResponse = createMockedTracesViewResponse(
+    { isAssociated: false },
+    {
+      keyword: undefined,
+      page: 0,
+      pageSize: 5
+    },
+    5
+  )
+
+  const baseTraces
+    = isAssociated === undefined
+      ? [...associatedResponse.data, ...unassociatedResponse.data]
+      : isAssociated
+        ? associatedResponse.data
+        : unassociatedResponse.data
+
+  const normalizedSearch = keyword?.trim().toLowerCase()
+
+  const filteredTraces = normalizedSearch
+    ? baseTraces.filter(trace => trace.title.toLowerCase().includes(normalizedSearch))
+    : baseTraces
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedTraces = filteredTraces.slice(start, end)
+
+  const data: DeclaredActivityAssociationTraceInfoDTO[] = paginatedTraces.map(trace => ({
+    id: trace.id,
+    title: trace.title,
+    disabled: trace.isAssociated
+  }))
+
+  return {
+    data,
+    page: {
+      page,
+      pageSize,
+      totalElements: filteredTraces.length,
+      totalPages: Math.ceil(filteredTraces.length / pageSize)
+    }
+  }
 }
