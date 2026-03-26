@@ -87,11 +87,13 @@ const {
 })
 
 const traceOptions = computed<AvAutocompleteOption[]>(() => {
-  return traces.value.map(trace => ({
-    label: trace.title,
-    value: trace.id,
-    disabled: trace.disabled
-  }))
+  return traces.value
+    .filter(trace => !trace.disabled)
+    .map(trace => ({
+      label: trace.title,
+      value: trace.id,
+      disabled: trace.disabled
+    }))
 })
 
 const selectedAssociations = computed(() =>
@@ -179,7 +181,10 @@ watch(isSearchError, (value) => {
       @delete="onDeleteTrace"
     >
       <template #beforeSearch>
-        <TracesTypeSelect v-model="selectedTraceType" />
+        <TracesTypeSelect
+          v-model="selectedTraceType"
+          data-testid="traces-type-select"
+        />
       </template>
 
       <template #selectedItem="{ item }">
