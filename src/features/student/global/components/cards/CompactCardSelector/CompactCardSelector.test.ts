@@ -1,5 +1,5 @@
+import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import CompactCardSelector, { type CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -10,13 +10,13 @@ BddTest().given('a compact card selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof CompactCardSelector>>
 
   const stubs = {
-    FloatingIconCard: FloatingIconCardStub,
+    CompactCard: CompactCardStub,
     SelectorOverlay: SelectorOverlayStub
   }
 
   BddTest().when('the component is mounted with elements', () => {
     const props: CompactCardSelectorProps = {
-      elements: [{ id: '1', title: 'Element 1' }, { id: '2', title: 'Element 2', showSlot: true }],
+      elements: [{ id: '1', title: 'Element 1' }, { id: '2', title: 'Element 2', showSlot: true, baseElement: { id: 'base1', title: 'Base Element 1' } }],
       readonly: false,
       icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
       color: 'var(--color)',
@@ -35,19 +35,17 @@ BddTest().given('a compact card selector', () => {
       wrapper = mount(CompactCardSelector, { props, slots, global: { stubs } })
     })
 
-    BddTest().then('it should render the floating icon cards with the correct props', () => {
-      const cards = wrapper.findAllComponents(FloatingIconCardStub)
+    BddTest().then('it should render the compact cards with the correct props', () => {
+      const cards = wrapper.findAllComponents(CompactCardStub)
       expect(cards).toHaveLength(props.elements.length)
 
       cards.forEach((card, index) => {
-        expect(card.props('title')).toEqual(props.elements[index].title)
-        expect(card.props('iconOptions')).toMatchObject({
-          name: props.icon,
-          color: props.color,
-          borderColor: props.iconBorderColor
-        })
-        expect(card.props('titleColor')).toEqual(props.color)
-        expect(card.props('color')).toEqual(props.backgroundColor)
+        expect(card.props('element')).toEqual({ id: props.elements[index].id, title: props.elements[index].title })
+        expect(card.props('icon')).toBe(props.icon)
+        expect(card.props('color')).toEqual(props.color)
+        expect(card.props('iconColor')).toEqual(props.color)
+        expect(card.props('backgroundColor')).toEqual(props.backgroundColor)
+        expect(card.props('iconBorderColor')).toEqual(props.iconBorderColor)
       })
     })
 

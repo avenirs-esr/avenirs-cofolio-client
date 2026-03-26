@@ -1,62 +1,26 @@
 <script lang="ts" setup>
+import type { IdTitle } from '@/types'
 import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface DeclaredExperienceCompactCardProps {
-  title: string
+  experience: IdTitle
   valorized: boolean
 }
-const { title, valorized } = defineProps<DeclaredExperienceCompactCardProps>()
-
-const iconOptions = {
-  name: MDI_ICONS.HUB_OUTLINE,
-  color: 'var(--icon)',
-  bottom: 'calc(-1 * var(--spacing-xl))',
-  right: 'var(--spacing-none)',
-  borderColor: 'var(--other-border-skill-card)',
-}
+const { experience, valorized } = defineProps<DeclaredExperienceCompactCardProps>()
 </script>
 
 <template>
-  <FloatingIconCard
-    :title="title"
-    :icon-options="iconOptions"
-    :header-rows="2"
-    height="5.625rem"
+  <CompactCard
+    :element="experience"
+    :icon="MDI_ICONS.HUB_OUTLINE"
+    color="var(--text1)"
+    icon-color="var(--icon)"
+    background-color="var(--surface-background)"
     border-color="var(--other-border-skill-card)"
-    color="var(--surface-background)"
-    title-color="var(--text1)"
+    icon-border-color="var(--other-border-skill-card)"
   >
-    <template #body>
-      <ValorizedBadge v-if="valorized" />
-    </template>
-  </FloatingIconCard>
+    <ValorizedBadge v-if="valorized" />
+  </CompactCard>
 </template>
-
-<style lang="scss" scoped>
-.floating-icon-card {
-  min-width: 13.4375rem !important;
-  max-width: 13.4375rem !important;
-}
-
-:deep() {
-  .floating-icon-card {
-    &__title {
-      color: var(--text1);
-      text-align: left;
-    }
-  }
-
-  .av-card {
-    &__title {
-      padding-top: var(--spacing-xs);
-      padding-bottom: var(--spacing-xs);
-    }
-
-    &__content-collapsible {
-      padding-top: var(--spacing-xxs) !important;
-    }
-  }
-}
-</style>

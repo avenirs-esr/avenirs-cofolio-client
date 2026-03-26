@@ -1,5 +1,4 @@
-import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
-import { DeclaredExperienceCompactCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.stub'
+import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import DeclaredExperienceSelector, { type DeclaredExperienceSelectorProps } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -10,8 +9,7 @@ BddTest().given('a declared experience selector', () => {
 
   const stubs = {
     AvIcon: AvIconStub,
-    DeclaredExperienceCompactCard: DeclaredExperienceCompactCardStub,
-    SelectorOverlay: SelectorOverlayStub
+    CompactCardSelector: CompactCardSelectorStub
   }
 
   BddTest().when('the component is mounted with no declared experiences', () => {
@@ -24,8 +22,8 @@ BddTest().given('a declared experience selector', () => {
     })
 
     BddTest().then('it should render no experiences', () => {
-      const experienceCards = wrapper.findAllComponents(DeclaredExperienceCompactCardStub)
-      expect(experienceCards).toHaveLength(0)
+      const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
+      expect(cards).toHaveLength(0)
     })
   })
 
@@ -42,10 +40,10 @@ BddTest().given('a declared experience selector', () => {
     })
 
     BddTest().then('it should render the declared experiences', () => {
-      const experienceCards = wrapper.findAllComponents({ name: 'DeclaredExperienceCompactCard' })
-      expect(experienceCards).toHaveLength(2)
-      expect(experienceCards[0].props('title')).toBe('Experience 1')
-      expect(experienceCards[1].props('title')).toBe('Experience 2')
+      const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
+      expect(cards).toHaveLength(2)
+      expect(cards[0].text()).toContain(props.declaredExperiences[0].label)
+      expect(cards[1].text()).toContain(props.declaredExperiences[1].label)
     })
 
     BddTest().and('a experience card is clicked', () => {

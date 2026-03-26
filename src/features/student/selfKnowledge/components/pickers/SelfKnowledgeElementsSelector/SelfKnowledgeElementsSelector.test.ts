@@ -1,6 +1,5 @@
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
-import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
-import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
+import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import SelfKnowledgeElementsSelector, { type SelfKnowledgeElementsSelectorProps } from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -11,8 +10,7 @@ BddTest().given('a self knowledge element selector', () => {
 
   const stubs = {
     AvIcon: AvIconStub,
-    SelfKnowledgeElementCompactCard: SelfKnowledgeElementCompactCardStub,
-    SelectorOverlay: SelectorOverlayStub
+    CompactCardSelector: CompactCardSelectorStub
   }
 
   BddTest().and('no elements are given', () => {
@@ -27,7 +25,7 @@ BddTest().given('a self knowledge element selector', () => {
       })
 
       BddTest().then('it should render no elements', () => {
-        const cards = wrapper.findAllComponents(SelfKnowledgeElementCompactCardStub)
+        const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
         expect(cards).toHaveLength(0)
       })
     })
@@ -51,9 +49,9 @@ BddTest().given('a self knowledge element selector', () => {
       })
 
       BddTest().then('it should render the element', () => {
-        const card = wrapper.findComponent(SelfKnowledgeElementCompactCardStub)
+        const card = wrapper.find('[data-testid="compact-card-selector"]')
         expect(card.exists()).toBe(true)
-        expect(card.props('title')).toEqual(props.elements[0].title)
+        expect(card.text()).toContain(props.elements[0].title)
       })
 
       BddTest().and('the element is clicked', () => {
@@ -102,10 +100,10 @@ BddTest().given('a self knowledge element selector', () => {
       })
 
       BddTest().then('it should render the elements', () => {
-        const cards = wrapper.findAllComponents(SelfKnowledgeElementCompactCardStub)
+        const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
         expect(cards).toHaveLength(2)
-        expect(cards[0].props('title')).toEqual(props.elements[0].title)
-        expect(cards[1].props('title')).toEqual(props.elements[1].title)
+        expect(cards[0].text()).toContain(props.elements[0].title)
+        expect(cards[1].text()).toContain(props.elements[1].title)
       })
     })
   })

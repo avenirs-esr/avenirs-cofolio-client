@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ValorizedBadgeStub } from '@/common/components/ValorizedBadge/ValorizedBadge.stub'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import DeclaredProgramCompactCard
 , {
   type DeclaredProgramCompactCardProps
@@ -10,11 +10,11 @@ import { mountComponent } from 'tests/utils'
 
 BddTest().given('a declared program compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramCompactCard>>
-  const stubs = { FloatingIconCard: FloatingIconCardStub, ValorizedBadge: ValorizedBadgeStub }
+  const stubs = { CompactCard: CompactCardStub, ValorizedBadge: ValorizedBadgeStub }
 
   BddTest().and('valorized is true', async () => {
     const props: DeclaredProgramCompactCardProps = {
-      title: 'Program Title',
+      program: { id: '1', title: 'Program Title' },
       valorized: true
     }
 
@@ -32,7 +32,7 @@ BddTest().given('a declared program compact card', () => {
 
   BddTest().and('valorized is false', async () => {
     const props: DeclaredProgramCompactCardProps = {
-      title: 'Program Title',
+      program: { id: '1', title: 'Program Title' },
       valorized: false
     }
 

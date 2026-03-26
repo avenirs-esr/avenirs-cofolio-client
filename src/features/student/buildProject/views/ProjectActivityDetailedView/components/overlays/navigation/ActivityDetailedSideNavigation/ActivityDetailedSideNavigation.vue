@@ -51,6 +51,7 @@ const items = computed<AvSideNavigationMenuItem[]>(() => [
       :selected-item="selectedItem"
       :items="items"
       data-testid="activity-detailed-side-navigation"
+      width="15rem"
       @update:selected-item="emit('update:selectedItem', $event)"
     />
   </Loader>

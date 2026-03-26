@@ -68,7 +68,7 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
             @click="$emit('selectExperience', experience.id)"
           >
             <DeclaredExperienceCompactCard
-              :title="experience.title"
+              :experience="{ id: experience.id, title: experience.title }"
               :valorized="false"
               :icon-name="icon"
             />
