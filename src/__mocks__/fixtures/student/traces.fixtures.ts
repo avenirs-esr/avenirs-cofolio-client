@@ -9,8 +9,10 @@ import {
   EExternalSkillType,
   EFileType,
   type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
+  type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
   type PagedResponseTraceViewDTO,
   type SearchTracesForAssociationParams,
+  type TraceAssociationDeclaredActivityInfoDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
@@ -315,6 +317,55 @@ export function createMockedSearchTracesForAssociationResponse (
       pageSize,
       totalElements: filteredTraces.length,
       totalPages: Math.ceil(filteredTraces.length / pageSize)
+    }
+  }
+}
+
+export const mockedTraceActivitySearchResults: TraceAssociationDeclaredActivityInfoDTO[] = [
+  {
+    id: 'activity-search-1',
+    title: 'Définir ses valeurs',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    disabled: false
+  },
+  {
+    id: 'activity-search-2',
+    title: 'Explorer ses pistes d\'orientation',
+    thematic: EActivityThematic.FUTURE_PLANS,
+    disabled: false
+  },
+  {
+    id: 'activity-search-3',
+    title: 'Construire son projet professionnel',
+    thematic: EActivityThematic.FUTURE_PLANS,
+    disabled: true
+  }
+]
+
+export function createMockedSearchActivitiesForAssociationResponse (
+  params?: { keyword?: string, page?: number, pageSize?: number }
+): PagedResponseTraceAssociationDeclaredActivityInfoDTO {
+  const { keyword, page = 0, pageSize = 100 } = params ?? {}
+
+  let filtered = mockedTraceActivitySearchResults
+
+  if (keyword?.trim()) {
+    filtered = filtered.filter(activity =>
+      activity.title.toLowerCase().includes(keyword.toLowerCase())
+    )
+  }
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedData = filtered.slice(start, end)
+
+  return {
+    data: paginatedData,
+    page: {
+      page,
+      pageSize,
+      totalElements: filtered.length,
+      totalPages: Math.ceil(filtered.length / pageSize)
     }
   }
 }

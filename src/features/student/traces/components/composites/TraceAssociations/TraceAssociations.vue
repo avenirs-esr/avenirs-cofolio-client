@@ -5,8 +5,8 @@ import AssociatedActivityCard from '@/features/student/global/components/cards/A
 import AssociatedSkillCard from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { ICONS } from '@/features/student/global/icons'
 import DeleteTraceAssociatedElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
-import TraceAssociateElementsDropdown
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
+import TraceAssociateElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
+import AssociateActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import AssociateDeclaredSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
 import DeleteTraceAssociatedActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
@@ -26,6 +26,7 @@ const { t } = useI18n()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
+const { showModal: showAssociateActivitiesModal, displayModal: displayAssociateActivitiesModal, hideModal: hideAssociateActivitiesModal } = useModal()
 const { showModal: showAssociationModal, displayModal: displayAssociationModal, hideModal: hideAssociationModal } = useModal()
 
 const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
@@ -43,6 +44,7 @@ const declaredActivityAssociations = computed(() => associations.declaredActivit
       />
       <TraceAssociateElementsDropdown
         @skills-selected="displayAssociationModal"
+        @activities-selected="displayAssociateActivitiesModal"
       />
     </div>
 
@@ -110,6 +112,13 @@ const declaredActivityAssociations = computed(() => associations.declaredActivit
       </div>
     </AvCard>
   </div>
+
+  <AssociateActivitiesModal
+    :show="showAssociateActivitiesModal"
+    :trace-id="traceId"
+    @cancel="hideAssociateActivitiesModal"
+    @associated="hideAssociateActivitiesModal"
+  />
 
   <DeleteTraceAssociatedSkillsModal
     :show="showSkillsModal"

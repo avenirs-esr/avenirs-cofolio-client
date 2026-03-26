@@ -2,8 +2,7 @@
 import type {
   AssociationsCreationRequest,
 } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { useModal } from '@/common/composables'
+import type { BaseApiException } from '@/common/exceptions'
 import {
   useAssociateActivityWithTracesMutation,
   useSearchTracesForAssociationQuery
@@ -13,10 +12,11 @@ import TraceCompactCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
 import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
+import { useAssociationModal } from '@/features/student/global'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import ConfirmAssociateModal from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 import { useToasterStore } from '@/store'
-import { type AvAutocompleteOption, AvModal } from '@avenirs-esr/avenirs-dsav'
+import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
@@ -33,11 +33,49 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+
+const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
+  itemId: TraceAssociationTypes.UNASSOCIATED
+})
+
 const {
-  showModal: showConfirmModal,
-  displayModal: displayConfirmModal,
-  hideModal: hideConfirmModal
-} = useModal()
+  searchQuery,
+  selectedOptions: selectedTraceOptions,
+  selectedAssociations,
+  showConfirmModal,
+  displayConfirmModal,
+  hideConfirmModal,
+  onSearch,
+  onDeleteItem: onDeleteTrace,
+  listenAndDisplayToastOnSearchError
+} = useAssociationModal()
+
+const {
+  traces,
+  isError: isSearchError,
+  error: searchError
+} = useSearchTracesForAssociationQuery({
+  declaredActivityId: computed(() => declaredActivityId),
+  params: computed(() => ({
+    isAssociated: getIsAssociatedParam(),
+    keyword: searchQuery.value.trim() || undefined,
+    page: 0,
+    pageSize: 20,
+    type: selectedTraceType.value.itemId
+  }))
+})
+
+listenAndDisplayToastOnSearchError(isSearchError, searchError)
+
+const traceOptions = computed(() =>
+  traces.value
+    .filter(trace => !trace.disabled)
+    .map(trace => ({
+      label: trace.title,
+      value: trace.id,
+      disabled: trace.disabled
+    }))
+)
 
 const { mutate: associateActivityWithTraces, isPending } = useAssociateActivityWithTracesMutation({
   onError: (error: BaseApiException) => {
@@ -63,45 +101,6 @@ const { mutate: associateActivityWithTraces, isPending } = useAssociateActivityW
   }
 })
 
-const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
-  itemId: TraceAssociationTypes.UNASSOCIATED
-})
-
-const searchQuery = ref('')
-const selectedTraceOptions = ref<AvAutocompleteOption[]>([])
-
-const {
-  traces,
-  isError: isSearchError,
-  error: searchError
-} = useSearchTracesForAssociationQuery({
-  declaredActivityId: computed(() => declaredActivityId),
-  params: computed(() => ({
-    isAssociated: getIsAssociatedParam(),
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 20,
-    type: selectedTraceType.value.itemId
-  }))
-})
-
-const traceOptions = computed<AvAutocompleteOption[]>(() => {
-  return traces.value
-    .filter(trace => !trace.disabled)
-    .map(trace => ({
-      label: trace.title,
-      value: trace.id,
-      disabled: trace.disabled
-    }))
-})
-
-const selectedAssociations = computed(() =>
-  selectedTraceOptions.value.map(trace => ({
-    id: trace.value.toString(),
-    title: trace.label
-  }))
-)
-
 function getIsAssociatedParam () {
   const type = selectedTraceType.value.itemId
   if (type === TraceAssociationTypes.ASSOCIATED) {
@@ -126,25 +125,6 @@ function onConfirm () {
     associationsCreationRequest
   })
 }
-
-function onDeleteTrace (traceId: string) {
-  selectedTraceOptions.value = selectedTraceOptions.value.filter(trace => trace.value !== traceId)
-}
-
-function onSearch (query: string) {
-  searchQuery.value = query
-}
-
-watch(isSearchError, (value) => {
-  if (!value || !searchError.value) {
-    return
-  }
-
-  addErrorMessage({
-    title: t('global.error.generic'),
-    description: searchError.value.message,
-  })
-})
 </script>
 
 <template>

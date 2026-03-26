@@ -213,9 +213,18 @@
           }
         },
         "StudentTraceView": {
+          "AssociateActivitiesModal": {
+            "confirm": "Associate selected activity (1) | Associate selected activities ({count})",
+            "searchPlaceholder": "Enter the name of an activity",
+            "success": "You have associated {count} activity. Find it in the \"My associated activities\" category. | You have associated {count} activities. Find them in the \"My associated activities\" category.",
+            "title": "Which activity(ies) would you like to associate?"
+          },
           "AssociateDeclaredSkillsModal": {
             "confirmTitle": "Are you sure you want to associate this selected skill? | Are you sure you want to associate these selected skills?",
             "title": "Which skill(s) would you like to associate?"
+          },
+          "ConfirmAssociateActivitiesModal": {
+            "title": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?"
           },
           "DeleteTraceAssociatedElementsDropdown": {
             "activities": "one/many associated activity(ies)",

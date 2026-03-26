@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { invalidTraceId, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import { createMockedSearchActivitiesForAssociationResponse, invalidTraceId, mockedTraceActivitySearchResults, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
 import {
   ELanguage,
   type PagedResponseTraceViewDTO,
@@ -15,11 +15,15 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import {
+  type AssociateTraceWithActivitiesVariables,
   type DeleteTraceAssociationsMutationVariables,
   type DeleteTraceVariables,
+  type SearchActivitiesForAssociationQueryParams,
   type UpdateTraceVariables,
+  useAssociateTraceWithActivitiesMutation,
   useDeleteTraceAssociationsMutation,
   useDeleteTraceMutation,
+  useSearchActivitiesForAssociationQuery,
   useStudentTracesSummaryQuery,
   useTraceAssociationsQuery,
   useTraceDetailedQuery,
@@ -1192,6 +1196,187 @@ BddTest().given('a useDeleteTraceAssociationsMutation composable', async () => {
 
       BddTest().then('it should call the custom onError callback', () => {
         expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+})
+
+BddTest().given('a useSearchActivitiesForAssociationQuery composable', () => {
+  let searchActivitiesForAssociationSpy: MockInstance
+
+  beforeEach(async () => {
+    searchActivitiesForAssociationSpy = vi.spyOn(
+      await import('@/api/avenir-esr'),
+      'searchDeclaredActivityForAssociation'
+    )
+  })
+
+  BddTest().and('a valid trace ID', () => {
+    const traceId = ref('trace-123')
+    const params: SearchActivitiesForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10, search: 'activity' })
+
+    BddTest().when('the query is mounted', () => {
+      let queryResult: ReturnType<typeof useSearchActivitiesForAssociationQuery>
+
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
+        queryResult = mountQueryComposable(() => useSearchActivitiesForAssociationQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredActivityForAssociation API', () => {
+        expect(searchActivitiesForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+      })
+
+      BddTest().then('it should return activities from data', () => {
+        expect(queryResult.activities.value).toEqual(mockedTraceActivitySearchResults)
+      })
+
+      BddTest().then('it should return page info from data', () => {
+        expect(queryResult.pageInfo.value).toMatchObject({
+          page: 0,
+          pageSize: 100,
+          totalElements: mockedTraceActivitySearchResults.length,
+          totalPages: 1
+        })
+      })
+
+      BddTest().then('it should mark the query as successful', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+        expect(queryResult.isError.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query fails', () => {
+      let queryResult: ReturnType<typeof useSearchActivitiesForAssociationQuery>
+
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockRejectedValue(new Error('Network error'))
+        queryResult = mountQueryComposable(() => useSearchActivitiesForAssociationQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should return empty activities on error', () => {
+        expect(queryResult.activities.value).toEqual([])
+      })
+
+      BddTest().then('it should return default page info on error', () => {
+        expect(queryResult.pageInfo.value).toEqual({
+          page: 0,
+          pageSize: 0,
+          totalElements: 0,
+          totalPages: 0
+        })
+      })
+    })
+  })
+
+  BddTest().and('an empty trace ID', () => {
+    const traceId = ref('')
+    const params: SearchActivitiesForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10, search: '' })
+
+    BddTest().when('the query is mounted', () => {
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
+        mountQueryComposable(() => useSearchActivitiesForAssociationQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredActivityForAssociation API', () => {
+        expect(searchActivitiesForAssociationSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
+BddTest().given('a useAssociateTraceWithActivitiesMutation composable', () => {
+  let associateTraceWithActivitiesSpy: MockInstance
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+
+  const mutationArgs: MutationArgs<TraceAssociationsDTO, AssociateTraceWithActivitiesVariables> = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+    associateTraceWithActivitiesSpy = vi.spyOn(
+      await import('@/api/avenir-esr'),
+      'associateTraceWithActivities'
+    )
+    mockOnSuccess.mockReset()
+    mockOnError.mockReset()
+    mockInvalidateFunction.mockReset().mockResolvedValue(undefined)
+  })
+
+  BddTest().and('a valid trace ID', () => {
+    const variables: AssociateTraceWithActivitiesVariables = {
+      traceId: 'trace-123',
+      associationsCreationRequest: {
+        idsToAssociate: ['activity-1', 'activity-2']
+      }
+    }
+
+    BddTest().when('the mutation is called successfully', () => {
+      let mutationResult: ReturnType<typeof useAssociateTraceWithActivitiesMutation>
+
+      beforeEach(async () => {
+        const mockedResponse: TraceAssociationsDTO = { declaredActivityAssociations: [], declaredSkillAssociations: [] }
+        associateTraceWithActivitiesSpy.mockResolvedValue(mockedResponse)
+        mutationResult = mountQueryComposable(() => useAssociateTraceWithActivitiesMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateTraceWithActivities API', () => {
+        expect(associateTraceWithActivitiesSpy).toHaveBeenCalledWith(
+          variables.traceId,
+          variables.associationsCreationRequest
+        )
+      })
+
+      BddTest().then('it should invalidate the trace associations query', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the mutation fails', () => {
+      let mutationResult: ReturnType<typeof useAssociateTraceWithActivitiesMutation>
+
+      beforeEach(async () => {
+        associateTraceWithActivitiesSpy.mockRejectedValue(new Error('Network error'))
+        mutationResult = mountQueryComposable(() => useAssociateTraceWithActivitiesMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+      })
+
+      BddTest().then('it should call the onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not invalidate the query on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
       })
     })
   })

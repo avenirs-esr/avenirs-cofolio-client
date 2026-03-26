@@ -11,6 +11,7 @@ interface SearchAssociationLayoutProps<T> {
   inputOptions?: Omit<AvInputProps, 'id' | 'modelValue'>
   getOptionKey?: (option: T) => string | number
   getOptionLabel?: (option: T) => string
+  loading?: boolean
 }
 
 const props = defineProps<SearchAssociationLayoutProps<T>>()
@@ -50,6 +51,7 @@ const selectedOptions = defineModel<T[]>({ default: () => [] })
         :multi-select="true"
         :show-selected-section="false"
         :display-selection-in-input="false"
+        :loading="props.loading"
         @search="emit('search', $event)"
         @clear="emit('clear')"
         @load-more="emit('loadMore')"

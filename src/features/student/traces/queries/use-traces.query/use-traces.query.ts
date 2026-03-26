@@ -3,6 +3,8 @@ import type { MutationArgs } from '@/types'
 import {
   associate,
   type AssociateTraceDTO,
+  associateTraceWithActivities,
+  type AssociationsCreationRequest,
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
@@ -14,8 +16,12 @@ import {
   getTraceDetail,
   getTraceOverview,
   getTracesSummary,
+  type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
+  searchDeclaredActivityForAssociation,
+  type SearchDeclaredActivityForAssociationParams,
+  type TraceAssociationDeclaredActivityInfoDTO,
   type TraceAssociationsDTO,
   type TraceAssociationSearchResult,
   type TraceConfigurationDTO,
@@ -42,6 +48,7 @@ const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
 const traceAssociationsQueryKey = [...tracesCommonQueryKeys, 'associations']
 const tracesViewQueryKey = [...tracesCommonQueryKeys, 'view']
+const tracesSearchAssociationActivitiesQueryKey = [...tracesCommonQueryKeys, 'search-association-activities']
 
 export interface UseTracesViewQueryParams {
   params: Ref<TracesViewParams>
@@ -328,6 +335,87 @@ export function useDeleteTraceAssociationsMutation ({
         invalidateQueryKey([...traceDetailQueryKey, traceId]),
         invalidateQueryKey([...traceAssociationsQueryKey, traceId])
       ])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface SearchActivitiesForAssociationQueryParams {
+  traceId: MaybeRef<string>
+  params?: MaybeRef<SearchDeclaredActivityForAssociationParams | undefined>
+}
+
+export type SearchActivitiesForAssociationQueryReturnType =
+  UseQueryReturnType<PagedResponseTraceAssociationDeclaredActivityInfoDTO, BaseApiException> & {
+    activities: Ref<TraceAssociationDeclaredActivityInfoDTO[]>
+    pageInfo: Ref<{
+      page: number
+      pageSize: number
+      totalElements: number
+      totalPages: number
+    }>
+  }
+
+export function useSearchActivitiesForAssociationQuery ({
+  traceId,
+  params
+}: SearchActivitiesForAssociationQueryParams): SearchActivitiesForAssociationQueryReturnType {
+  const queryKey = computed(() => [
+    ...tracesSearchAssociationActivitiesQueryKey,
+    toValue(traceId),
+    toValue(params)
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseTraceAssociationDeclaredActivityInfoDTO> => {
+    return await searchDeclaredActivityForAssociation(toValue(traceId), toValue(params))
+  })
+
+  const query = useQuery<PagedResponseTraceAssociationDeclaredActivityInfoDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(traceId).trim().length > 0),
+    placeholderData: keepPreviousData
+  })
+
+  const activities = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    activities,
+    pageInfo
+  }
+}
+
+export interface AssociateTraceWithActivitiesVariables {
+  traceId: string
+  associationsCreationRequest: AssociationsCreationRequest
+}
+
+export function useAssociateTraceWithActivitiesMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<TraceAssociationsDTO, AssociateTraceWithActivitiesVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<TraceAssociationsDTO, BaseApiException, AssociateTraceWithActivitiesVariables>({
+    mutationFn: async ({
+      traceId,
+      associationsCreationRequest
+    }: AssociateTraceWithActivitiesVariables): Promise<TraceAssociationsDTO> => {
+      return await associateTraceWithActivities(traceId, associationsCreationRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...traceAssociationsQueryKey, variables.traceId])
       onSuccess?.(data, variables)
     },
     onError
