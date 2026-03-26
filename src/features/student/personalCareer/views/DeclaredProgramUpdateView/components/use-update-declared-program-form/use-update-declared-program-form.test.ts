@@ -33,7 +33,6 @@ function createMockedDeclaredProgramDetailedDTO (
     organization: 'University Paris-Saclay',
     result: 'Mention',
     sourceOfInformation: 'Website',
-    link: 'https://example.com',
     startDate: '2024-01-01',
     endDate: '2025-12-01',
     createdAt: '2025-01-01T10:00:00Z',
@@ -92,7 +91,6 @@ BddTest().given('an update declared program form', () => {
       expect(v.organization).toBe(declaredProgramDetailed.organization)
       expect(v.result).toBe(declaredProgramDetailed.result ?? '')
       expect(v.sourceOfInformation).toBe(declaredProgramDetailed.sourceOfInformation ?? '')
-      expect(v.link).toBe(declaredProgramDetailed.link ?? '')
 
       expect(v.startDate).toBe('2024-01')
       expect(v.endDate).toBe('2025-12')
@@ -117,7 +115,6 @@ BddTest().given('an update declared program form', () => {
           organization: '',
           result: '',
           sourceOfInformation: '',
-          link: '',
           startDate: '',
           endDate: '',
           isOngoing: false
@@ -141,7 +138,6 @@ BddTest().given('an update declared program form', () => {
           organization: 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 1),
           result: 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 1),
           sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
-          link: '',
           startDate: '2024-01',
           endDate: '2024-12',
           isOngoing: false

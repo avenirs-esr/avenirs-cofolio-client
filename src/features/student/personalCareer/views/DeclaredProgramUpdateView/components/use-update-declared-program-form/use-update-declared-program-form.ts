@@ -15,7 +15,6 @@ function toFormData (dto: DeclaredProgramDetailedDTO): DeclaredProgramFormData {
     organization: dto.organization ?? '',
     result: dto.result ?? '',
     sourceOfInformation: (dto.sourceOfInformation ?? ''),
-    link: dto.link ?? '',
     startDate: formatDateToYearMonth(dto.startDate) ?? '',
     endDate: dto.endDate ? formatDateToYearMonth(dto.endDate) : '',
     isOngoing: !dto.endDate
@@ -29,7 +28,6 @@ function toRequestDTO (value: DeclaredProgramFormData): DeclaredProgramRequestDT
     organization: value.organization,
     result: value.result || undefined,
     sourceOfInformation: value.sourceOfInformation || undefined,
-    link: value.link || undefined,
     startDate: formatYearMonthToDate(value.startDate),
     endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate)
   }

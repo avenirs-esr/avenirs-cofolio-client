@@ -28,7 +28,6 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
       organization: '',
       result: '',
       sourceOfInformation: '',
-      link: '',
       startDate: '',
       endDate: '',
       isOngoing: false
@@ -55,7 +54,6 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
         organization: value.organization,
         result: value.result || undefined,
         sourceOfInformation: value.sourceOfInformation || undefined,
-        link: value.link || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
       }, {
