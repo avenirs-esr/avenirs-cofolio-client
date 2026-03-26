@@ -1,6 +1,5 @@
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
-import { DeclaredProgramLinkFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.stub'
 import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
 import { DeclaredProgramPeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.stub'
 import { DeclaredProgramResultFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.stub'
@@ -40,7 +39,6 @@ BddTest().given('an add declared program drawer component', () => {
     DeclaredProgramPeriodFormField: DeclaredProgramPeriodFormFieldStub,
     DeclaredProgramResultFormField: DeclaredProgramResultFormFieldStub,
     DeclaredProgramSourceOfInformationFormField: DeclaredProgramSourceOfInformationFormFieldStub,
-    DeclaredProgramLinkFormField: DeclaredProgramLinkFormFieldStub
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -98,7 +96,6 @@ BddTest().given('an add declared program drawer component', () => {
       expect(wrapper.find('[data-testid="period-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="result-form-field"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="source-form-field"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="link-form-field"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render footer buttons', () => {

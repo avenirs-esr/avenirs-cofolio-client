@@ -3,8 +3,6 @@ import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import DeclaredProgramDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
-import DeclaredProgramLinkFormField
-  from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.vue'
 import DeclaredProgramOrganizationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
 import DeclaredProgramPeriodFormField
@@ -77,8 +75,6 @@ const createdAtPrefix = computed(() =>
         <DeclaredProgramResultFormField :form="form" />
 
         <DeclaredProgramSourceOfInformationFormField :form="form" />
-
-        <DeclaredProgramLinkFormField :form="form" />
       </div>
 
       <div

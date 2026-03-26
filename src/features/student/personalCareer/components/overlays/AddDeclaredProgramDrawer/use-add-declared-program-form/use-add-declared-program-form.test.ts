@@ -69,7 +69,6 @@ BddTest().given('an add declared program form', () => {
       expect(composableResult.form.state.values.organization).toBe('')
       expect(composableResult.form.state.values.result).toBe('')
       expect(composableResult.form.state.values.sourceOfInformation).toBe('')
-      expect(composableResult.form.state.values.link).toBe('')
       expect(composableResult.form.state.values.startDate).toBe('')
       expect(composableResult.form.state.values.endDate).toBe('')
       expect(composableResult.form.state.values.isOngoing).toBe(false)
@@ -105,7 +104,6 @@ BddTest().given('an add declared program form', () => {
           organization: '',
           result: '',
           sourceOfInformation: '',
-          link: '',
           startDate: '',
           endDate: '',
           isOngoing: false
@@ -129,7 +127,6 @@ BddTest().given('an add declared program form', () => {
           organization: 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 1),
           result: 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 1),
           sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
-          link: '',
           startDate: '2024-01',
           endDate: '2024-12',
           isOngoing: false
@@ -154,7 +151,6 @@ BddTest().given('an add declared program form', () => {
           organization: 'University',
           result: '',
           sourceOfInformation: '',
-          link: '',
           startDate: '2024-01',
           endDate: '',
           isOngoing: false
@@ -175,7 +171,6 @@ BddTest().given('an add declared program form', () => {
           organization: 'University',
           result: '',
           sourceOfInformation: '',
-          link: '',
           startDate: '2024-01',
           endDate: '',
           isOngoing: true
@@ -199,7 +194,6 @@ BddTest().given('an add declared program form', () => {
           organization: 'University Paris-Saclay',
           result: 'Mention Très Bien',
           sourceOfInformation: 'University website',
-          link: 'https://example.com',
           startDate: '2024-01',
           endDate: '2025-12',
           isOngoing: false

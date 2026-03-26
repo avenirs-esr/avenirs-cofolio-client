@@ -1,7 +1,6 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
-import { DeclaredProgramLinkFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.stub'
 import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
 import { DeclaredProgramPeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.stub'
 import { DeclaredProgramResultFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.stub'
@@ -65,7 +64,6 @@ BddTest().given('a declared program update form component', () => {
           DeclaredProgramPeriodFormField: DeclaredProgramPeriodFormFieldStub,
           DeclaredProgramResultFormField: DeclaredProgramResultFormFieldStub,
           DeclaredProgramSourceOfInformationFormField: DeclaredProgramSourceOfInformationFormFieldStub,
-          DeclaredProgramLinkFormField: DeclaredProgramLinkFormFieldStub,
         },
       },
       useI18n: true,
@@ -80,7 +78,6 @@ BddTest().given('a declared program update form component', () => {
       expect(wrapper.findComponent(DeclaredProgramPeriodFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramResultFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramSourceOfInformationFormFieldStub).exists()).toBe(true)
-      expect(wrapper.findComponent(DeclaredProgramLinkFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramDescriptionFormFieldStub).exists()).toBe(true)
     })
 

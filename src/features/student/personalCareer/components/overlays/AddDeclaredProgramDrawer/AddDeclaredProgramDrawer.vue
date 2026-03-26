@@ -2,7 +2,6 @@
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import DeclaredProgramDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
-import DeclaredProgramLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramLinkFormField/DeclaredProgramLinkFormField.vue'
 import DeclaredProgramOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
 import DeclaredProgramPeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
 import DeclaredProgramResultFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.vue'
@@ -84,7 +83,6 @@ const isDemo = __DEMO_MODE__
                 <DeclaredProgramPeriodFormField :form="form" />
                 <DeclaredProgramResultFormField :form="form" />
                 <DeclaredProgramSourceOfInformationFormField :form="form" />
-                <DeclaredProgramLinkFormField :form="form" />
               </div>
             </AvAccordion>
 

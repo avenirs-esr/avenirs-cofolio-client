@@ -16,7 +16,6 @@ export interface DeclaredProgramFormData {
   organization: string
   result: string
   sourceOfInformation: string
-  link: string
   startDate: string
   endDate: string
   isOngoing: boolean
