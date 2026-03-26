@@ -146,10 +146,3 @@ const breadcrumbLinks = computed(() => [
     </div>
   </Loader>
 </template>
-
-<style lang="scss" scoped>
-.trace-tabs {
-  overflow-y: auto;
-  height: auto;
-}
-</style>
