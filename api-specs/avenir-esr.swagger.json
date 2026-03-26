@@ -376,6 +376,47 @@
         }
       }
     },
+    "/me/traces/{traceId}/associate/activities": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "associateTraceWithActivities",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/view": {
       "post": {
         "tags": [
@@ -1377,6 +1418,63 @@
               "*/*": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/{traceId}/search-for-association/declared-activities": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "searchDeclaredActivityForAssociation",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseTraceAssociationDeclaredActivityInfoDTO"
                 }
               }
             }
@@ -5038,6 +5136,82 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "TraceAssociationActivityInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "thematic": {
+            "$ref": "#/components/schemas/EActivityThematic"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "thematic",
+          "title"
+        ]
+      },
+      "PagedResponseTraceAssociationDeclaredActivityInfoDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDeclaredActivityInfoDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "TraceAssociationDeclaredActivityInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "thematic",
+          "title"
         ]
       },
       "ActivityOverviewDTO": {
