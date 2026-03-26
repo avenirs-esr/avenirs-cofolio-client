@@ -59,7 +59,7 @@ const {
 
 async function onSelectExperience (experienceId: string) {
   if (await canLeave()) {
-    router.push({
+    router.replace({
       name: ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE.name,
       params: { id: experienceId }
     })

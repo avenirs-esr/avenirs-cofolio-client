@@ -6,14 +6,14 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockPush = vi.fn()
+const mockReplace = vi.fn()
 
 vi.mock('vue-router', async () => {
   const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
   return {
     ...actual,
     useRouter: () => ({
-      push: mockPush
+      replace: mockReplace
     }),
     useRoute: () => ({
       name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name
@@ -124,7 +124,7 @@ BddTest().given('a student academic career layout component', () => {
       })
 
       BddTest().then('it should navigate to the selected route', () => {
-        expect(mockPush).toHaveBeenCalledWith({
+        expect(mockReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
         })
       })

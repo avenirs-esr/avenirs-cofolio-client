@@ -20,7 +20,7 @@ import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-const routerPush = vi.fn()
+const routerReplace = vi.fn()
 const mockRouteId = ref<string>('')
 const mockShowModal = ref(false)
 const mockDisplayModal = vi.fn(() => {
@@ -45,7 +45,7 @@ vi.mock('vue-router', async (importOriginal) => {
       }
     }),
     useRouter: () => ({
-      push: routerPush
+      replace: routerReplace
     })
   }
 })
@@ -251,7 +251,7 @@ BddTest().given('a declared program detailed view component', () => {
       })
 
       BddTest().then('it should navigate to the route with the selected id', () => {
-        expect(routerPush).toHaveBeenCalledWith({
+        expect(routerReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
           params: { id: secondProgramId }
         })

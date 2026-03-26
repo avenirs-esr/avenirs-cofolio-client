@@ -38,7 +38,7 @@ const breadcrumbLinks = computed(() => [
 ])
 
 function onSelectProgram (programId: string) {
-  router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: programId } })
+  router.replace({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: programId } })
 }
 
 function handleConfirmDelete () {
