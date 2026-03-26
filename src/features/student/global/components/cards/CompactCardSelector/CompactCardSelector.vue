@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
 import { getUnknownElementProp } from '@/features/student/global/components/cards/CompactCardSelector/utils'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 
 /**
@@ -32,10 +32,11 @@ import SelectorOverlay from '@/features/student/global/components/interaction/Se
  */
 
 export interface CompactCardSelectorProps {
-  elements: { id: string, title: string, showSlot?: boolean }[]
+  elements: { id: string, title: string, showSlot?: boolean, baseElement?: unknown }[]
   readonly?: boolean
   icon: string
   color?: string
+  iconColor?: string
   backgroundColor?: string
   iconBorderColor?: string
   checkboxColor?: string
@@ -50,6 +51,7 @@ defineOptions({
 const {
   elements,
   icon,
+  iconColor = undefined,
   iconBorderColor,
   color = 'var(--text1)',
   backgroundColor = 'var(--light-background-neutral)',
@@ -65,103 +67,54 @@ defineSlots<{
   default: { element: unknown }
 }>()
 
-const selectedElementIds = defineModel<string[]>({ default: [] })
+const selectedElements = defineModel<string[]>({ default: [] })
 
 const selectableElements = computed(() => {
   return elements.map(element => ({
     value: element.id,
     label: element.title,
-    baseElement: element
+    showSlot: getUnknownElementProp<boolean>(element, 'showSlot') ?? false,
+    baseElement: element.baseElement
   }))
 })
 
 const iconOptions = computed(() => ({
-  name: icon,
-  color,
-  bottom: '-2.5rem',
+  color: iconColor ?? color,
   borderColor: iconBorderColor ?? 'var(--other-border-skill-card)'
 }))
-
-function verifyShowSlot (element: unknown): boolean {
-  return getUnknownElementProp<boolean>(element, 'showSlot') ?? false
-}
 </script>
 
 <template>
   <div class="av-row av-justify-center av-gap-sm av-radius-md av-wrap">
     <SelectorOverlay
-      v-model:selected-elements="selectedElementIds"
+      v-model:selected-elements="selectedElements"
       :selectable-elements="selectableElements"
       :checkbox-color="checkboxColor"
       :overlay-color="overlayColor"
       :overlay-opacity="overlayOpacity"
       :readonly="readonly"
       border-radius="var(--radius-lg)"
+      small
     >
-      <template #default="{ label, baseElement }">
-        <FloatingIconCard
+      <template #default="{ label, value, showSlot, baseElement }">
+        <CompactCard
           v-bind="$attrs"
-          :title="label"
-          :title-color="color"
-          :color="backgroundColor"
-          :icon-options="iconOptions"
+          :element="{ id: value, title: label }"
+          :icon="icon"
+          :icon-color="iconOptions.color"
+          :color="color"
+          :background-color="backgroundColor"
           border-color="var(--other-border-skill-card)"
-          :header-rows="2"
-          height="5.75rem"
-          custom-title-height="3.25rem"
-          title-typography-classes="caption-regular"
+          :icon-border-color="iconOptions.borderColor"
+          data-testid="compact-card-selector-item"
+          :data-element-id="value"
         >
-          <template #body>
-            <slot
-              v-if="verifyShowSlot(baseElement)"
-              :element="baseElement"
-            />
-          </template>
-        </FloatingIconCard>
+          <slot
+            v-if="showSlot"
+            :element="baseElement"
+          />
+        </CompactCard>
       </template>
     </SelectorOverlay>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.floating-icon-card {
-  min-width: 13.4375rem !important;
-  max-width: 13.4375rem !important;
-}
-
-:deep() {
-  .floating-icon-card {
-    &__title {
-      text-align: left;
-      margin-right: var(--spacing-lg) !important;
-    }
-
-    &__icon {
-      height: var(--dimension-lg);
-      width: var(--dimension-lg);
-    }
-}
-
-  .av-card {
-    padding: var(--spacing-xxs) !important;
-    border-radius: var(--radius-lg) !important;
-
-    &__title {
-      padding-top: var(--spacing-xs);
-      padding-bottom: var(--spacing-xs);
-    }
-
-    &__content-collapsible {
-      padding-top: var(--spacing-xxs) !important;
-    }
-  }
-
-  .av-icon {
-    scale: 0.75 !important;
-  }
-
-  .selector-overlay__checkbox {
-    padding-top: var(--spacing-none) !important;
-  }
-}
-</style>

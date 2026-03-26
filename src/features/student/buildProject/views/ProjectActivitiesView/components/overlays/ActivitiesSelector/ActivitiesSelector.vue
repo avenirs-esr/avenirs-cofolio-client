@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { EActivityThematic } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
-import ActivityCompactCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/cards/ActivityCompactCard/ActivityCompactCard.vue'
-import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
+import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { ICONS } from '@/features/student/global/icons'
 
 export interface ActivitiesSelectorProps {
   activities: { id: string, title: string, thematic: EActivityThematic }[]
@@ -19,9 +20,10 @@ const selectedActivityIds = defineModel<string[]>({ default: [] })
 
 const selectableActivities = computed(() => {
   return activities.map(activity => ({
-    value: activity.id,
-    label: activity.title,
-    baseElement: activity
+    id: activity.id,
+    title: activity.title,
+    baseElement: activity,
+    showSlot: getActivityThematic(activity) !== 'unknown'
   }))
 })
 
@@ -42,26 +44,29 @@ function getActivityThematic (baseElement?: unknown) {
 
 <template>
   <div class="av-row av-justify-center av-gap-sm av-radius-md av-wrap">
-    <SelectorOverlay
-      v-model:selected-elements="selectedActivityIds"
-      :selectable-elements="selectableActivities"
+    <CompactCardSelector
+      v-model="selectedActivityIds"
+      :elements="selectableActivities"
+      :icon="ICONS.ACTIVITY"
+      color="var(--text1)"
+      icon-color="var(--icon)"
+      background-color="var(--surface-background)"
       checkbox-color="var(--dark-background-primary1)"
       overlay-color="var(--dark-background-primary1)"
       :overlay-opacity="0.25"
       :readonly="readonly"
     >
-      <template #default="{ label, value, baseElement }">
-        <ActivityCompactCard
-          v-bind="$attrs"
-          data-testid="activity-selector-item"
-          :data-activity-id="value"
-          :data-activity-thematic="getActivityThematic(baseElement)"
-          :activity="{
-            id: value,
-            title: label,
-          }"
-        />
+      <template #default="{ element }">
+        <div
+          v-if="getActivityThematic(element) !== 'unknown'"
+          class="av-row"
+        >
+          <ActivityThematicBadge
+            :thematic="(getActivityThematic(element) as EActivityThematic)"
+            small
+          />
+        </div>
       </template>
-    </SelectorOverlay>
+    </CompactCardSelector>
   </div>
 </template>

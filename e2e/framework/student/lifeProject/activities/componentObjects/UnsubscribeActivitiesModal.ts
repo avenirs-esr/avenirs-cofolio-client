@@ -20,11 +20,11 @@ export class UnsubscribeActivitiesModal extends BaseObject {
   }
 
   getSelectorItems () {
-    return this.root.getByTestId('activity-selector-item')
+    return this.root.getByTestId('compact-card-selector-item')
   }
 
   async getLastActivityId (): Promise<string> {
-    return await this.getSelectorItems().last().getAttribute('data-activity-id') ?? ''
+    return await this.getSelectorItems().last().getAttribute('data-element-id') ?? ''
   }
 
   async getLastActivityThematic (): Promise<string> {

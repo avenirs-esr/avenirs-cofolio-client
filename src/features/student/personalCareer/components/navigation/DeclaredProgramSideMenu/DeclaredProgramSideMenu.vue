@@ -64,7 +64,7 @@ const isCollapsed = ref(false)
             @click="$emit('selectProgram', program.id)"
           >
             <DeclaredProgramCompactCard
-              :title="program.title"
+              :program="{ id: program.id, title: program.title }"
               :valorized="false"
             />
           </a>

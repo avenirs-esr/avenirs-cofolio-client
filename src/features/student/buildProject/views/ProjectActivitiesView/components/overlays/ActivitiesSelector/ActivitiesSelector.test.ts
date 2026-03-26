@@ -1,7 +1,7 @@
 import { EActivityThematic } from '@/api/avenir-esr'
-import { ActivityCompactCardStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/cards/ActivityCompactCard/ActivityCompactCard.stub'
+import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivitiesSelector, { type ActivitiesSelectorProps } from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
-import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
+import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -11,8 +11,8 @@ BddTest().given('an activities selector', () => {
 
   const stubs = {
     AvIcon: AvIconStub,
-    ActivityCompactCard: ActivityCompactCardStub,
-    SelectorOverlay: SelectorOverlayStub
+    CompactCardSelector: CompactCardSelectorStub,
+    ActivityThematicBadge: ActivityThematicBadgeStub
   }
 
   BddTest().and('no activities are given', () => {
@@ -26,7 +26,7 @@ BddTest().given('an activities selector', () => {
       })
 
       BddTest().then('it should render no elements', () => {
-        const cards = wrapper.findAllComponents(ActivityCompactCardStub)
+        const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
         expect(cards).toHaveLength(0)
       })
     })
@@ -49,15 +49,15 @@ BddTest().given('an activities selector', () => {
       })
 
       BddTest().then('it should render the activity', () => {
-        const card = wrapper.findComponent(ActivityCompactCardStub)
+        const card = wrapper.find('[data-testid="compact-card-selector"]')
         expect(card.exists()).toBe(true)
-        expect(card.props('activity')).toEqual({ id: props.activities[0].id, title: props.activities[0].title })
+        expect(card.text()).toContain(props.activities[0].title)
       })
 
       BddTest().and('the activity is clicked', () => {
         beforeEach(async () => {
-          expect(wrapper.find('[data-testid="selector-overlay"]').exists()).toBe(true)
-          await wrapper.find('[data-testid="selector-overlay"]').trigger('click')
+          expect(wrapper.find('[data-testid="compact-card-selector"]').exists()).toBe(true)
+          await wrapper.find('[data-testid="compact-card-selector"]').trigger('click')
         })
 
         BddTest().then('it should update the model with the activity id', () => {
@@ -67,8 +67,8 @@ BddTest().given('an activities selector', () => {
 
         BddTest().and('the activity is clicked again', () => {
           beforeEach(async () => {
-            expect(wrapper.find('[data-testid="selector-overlay"]').exists()).toBe(true)
-            await wrapper.find('[data-testid="selector-overlay"]').trigger('click')
+            expect(wrapper.find('[data-testid="compact-card-selector"]').exists()).toBe(true)
+            await wrapper.find('[data-testid="compact-card-selector"]').trigger('click')
           })
 
           BddTest().then('it should update the model to remove the activity id', () => {
@@ -101,10 +101,10 @@ BddTest().given('an activities selector', () => {
       })
 
       BddTest().then('it should render the activities', () => {
-        const cards = wrapper.findAllComponents(ActivityCompactCardStub)
+        const cards = wrapper.findAll('[data-testid="compact-card-selector"]')
         expect(cards).toHaveLength(2)
-        expect(cards[0].props('activity')).toEqual({ id: props.activities[0].id, title: props.activities[0].title })
-        expect(cards[1].props('activity')).toEqual({ id: props.activities[1].id, title: props.activities[1].title })
+        expect(cards[0].text()).toContain(props.activities[0].title)
+        expect(cards[1].text()).toContain(props.activities[1].title)
       })
     })
   })
@@ -127,7 +127,7 @@ BddTest().given('an activities selector', () => {
       })
 
       BddTest().then('it should not render the overlay', () => {
-        expect(wrapper.find('[data-testid="selector-overlay"]').exists()).toBe(false)
+        expect(wrapper.find('[data-testid="compact-card-selector"]').exists()).toBe(false)
       })
     })
   })

@@ -3,7 +3,7 @@ import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectorOverlayProps {
-  selectableElements: { label: string, value: string, baseElement?: unknown }[]
+  selectableElements: { label: string, value: string, showSlot?: boolean, baseElement?: unknown }[]
   selectedAriaLabel?: string
   unselectedAriaLabel?: string
   checkboxColor?: string
@@ -11,6 +11,7 @@ export interface SelectorOverlayProps {
   overlayOpacity?: number
   readonly?: boolean
   borderRadius?: string
+  small?: boolean
 }
 
 const {
@@ -21,12 +22,15 @@ const {
   overlayColor = 'var(--dark-background-primary1)',
   overlayOpacity = 0.1,
   readonly = false,
-  borderRadius = '1.5rem'
+  borderRadius = '1.5rem',
+  small = false,
 } = defineProps<SelectorOverlayProps>()
 
 const { t } = useI18n()
 
 const selectedElements = defineModel<string[]>('selectedElements', { default: [] })
+
+const iconScale = computed(() => small ? 0.75 : 1)
 
 function onSelectElement (elementValue: string) {
   if (selectedElements.value.includes(elementValue)) {
@@ -57,6 +61,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       name="default"
       :label="element.label"
       :value="element.value"
+      :show-slot="element.showSlot"
       :base-element="element.baseElement"
     />
     <a
@@ -66,7 +71,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       :aria-label="getAriaLabel(element.value, element.label)"
       :title="getAriaLabel(element.value, element.label)"
       :aria-pressed="selectedElements.includes(element.value)"
-      class="selector-overlay__checkbox av-row av-px-xs av-py-xs av-justify-end"
+      class="selector-overlay__checkbox av-row av-px-xs av-justify-end"
       :class="{ 'selector-overlay__checkbox--selected': selectedElements.includes(element.value) }"
       data-testid="selector-overlay"
       @click="() => onSelectElement(element.value)"
@@ -91,18 +96,18 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
 
   &__checkbox {
     position: absolute;
-    top: 0;
+    top: calc(-1 * var(--spacing-xxs));
     left: 0;
-    right: 0;
+    right: calc(-1 * var(--spacing-xxs));;
     bottom: 0;
     border-radius: v-bind('borderRadius');
 
     &::before {
       content: '';
       position: absolute;
-      top: 0;
+      top: var(--spacing-xxs);
       left: 0;
-      right: 0;
+      right: var(--spacing-xxs);
       bottom: 0;
       border-radius: v-bind('borderRadius');
       background-color: transparent;
@@ -112,6 +117,12 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       background-color: v-bind('overlayColor');
       opacity: v-bind('overlayOpacity');
     }
+  }
+}
+
+:deep() {
+  .av-icon {
+    scale: v-bind('iconScale') !important;
   }
 }
 </style>
