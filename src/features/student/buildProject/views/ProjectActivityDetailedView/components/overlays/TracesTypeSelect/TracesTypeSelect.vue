@@ -14,20 +14,12 @@ const selectedItem = defineModel<{ itemId: TraceAssociationTypes }>()
 
 const { t } = useI18n()
 
-const options = computed(() => [
-  {
-    id: TraceAssociationTypes.ALL,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.ALL.label')
-  },
-  {
-    id: TraceAssociationTypes.ASSOCIATED,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.ASSOCIATED.label')
-  },
-  {
-    id: TraceAssociationTypes.UNASSOCIATED,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.TRACE.UNASSOCIATED.label')
-  }
-])
+const options = computed(() =>
+  Object.values(TraceAssociationTypes).map(type => ({
+    id: type,
+    label: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${type}.label`)
+  }))
+)
 
 const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
