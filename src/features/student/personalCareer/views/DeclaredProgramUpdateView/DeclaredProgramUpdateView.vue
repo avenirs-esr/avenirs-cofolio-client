@@ -47,7 +47,7 @@ const {
 
 async function onSelectProgram (programId: string) {
   if (await canLeave()) {
-    router.push({
+    router.replace({
       name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
       params: { id: programId }
     })

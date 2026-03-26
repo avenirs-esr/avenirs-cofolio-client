@@ -34,7 +34,7 @@ const items = computed<AvSideNavigationItem[]>(() => {
 })
 
 function navigateToSelectedItem (item: { itemId: string }) {
-  router.push({ name: item.itemId })
+  router.replace({ name: item.itemId })
 }
 </script>
 

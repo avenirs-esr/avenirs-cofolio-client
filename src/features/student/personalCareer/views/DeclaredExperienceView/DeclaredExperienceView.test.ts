@@ -35,7 +35,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-const routerPush = vi.fn()
+const routerReplace = vi.fn()
 const mockRouteId = ref<string>('exp-123')
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -51,7 +51,7 @@ vi.mock('vue-router', async (importOriginal) => {
       }
     }),
     useRouter: () => ({
-      push: routerPush
+      replace: routerReplace
     })
   }
 })
@@ -156,7 +156,7 @@ BddTest().given('a declared experience view component', () => {
       })
 
       BddTest().then('it should navigate to the declared experience route', () => {
-        expect(routerPush).toHaveBeenCalledWith({
+        expect(routerReplace).toHaveBeenCalledWith({
           name: 'student-declared-experience',
           params: { id: experienceId }
         })

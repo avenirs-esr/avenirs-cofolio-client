@@ -13,7 +13,7 @@ import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-const routerPush = vi.fn()
+const routerReplace = vi.fn()
 const mockRouteId = ref<string>('')
 
 const showConfirmationModal = ref(false)
@@ -68,7 +68,7 @@ vi.mock('vue-router', async (importOriginal) => {
       }
     }),
     useRouter: () => ({
-      push: routerPush
+      replace: routerReplace
     })
   }
 })
@@ -220,7 +220,7 @@ BddTest().given('a declared program update view component', () => {
       })
 
       BddTest().then('it should navigate immediately and not open the modal', () => {
-        expect(routerPush).toHaveBeenCalledWith({
+        expect(routerReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
           params: { id: secondProgramId }
         })
@@ -251,7 +251,7 @@ BddTest().given('a declared program update view component', () => {
 
         expect(displayConfirmationModal).toHaveBeenCalledTimes(1)
         expect(modal.props('show')).toBe(true)
-        expect(routerPush).not.toHaveBeenCalled()
+        expect(routerReplace).not.toHaveBeenCalled()
       })
 
       BddTest().and('closing the modal', () => {
@@ -267,7 +267,7 @@ BddTest().given('a declared program update view component', () => {
 
           expect(mockCancel).toHaveBeenCalledTimes(1)
           expect(modal.props('show')).toBe(true)
-          expect(routerPush).not.toHaveBeenCalled()
+          expect(routerReplace).not.toHaveBeenCalled()
         })
       })
 

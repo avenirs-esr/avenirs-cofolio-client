@@ -49,7 +49,7 @@ const {
 } = usePaginatedDeclaredExperiences()
 
 function onSelectExperience (experienceId: string) {
-  router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
+  router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
 }
 
 function handleUpdateSelected () {

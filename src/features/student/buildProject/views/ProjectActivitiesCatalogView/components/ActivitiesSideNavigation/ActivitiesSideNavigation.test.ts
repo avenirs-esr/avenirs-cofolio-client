@@ -170,7 +170,7 @@ BddTest().given('a build project activities side navigation component', () => {
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledWith({
           thematic: EActivityThematic.SELF_KNOWLEDGE,
           id: 'some-id',
-          replace: false,
+          replace: true,
         })
       })
     })

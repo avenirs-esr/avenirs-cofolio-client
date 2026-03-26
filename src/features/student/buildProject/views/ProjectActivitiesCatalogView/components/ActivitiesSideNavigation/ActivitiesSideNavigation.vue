@@ -84,7 +84,7 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
   navigateToStudentProjectActivitiesCatalog({
     thematic,
     id,
-    replace: !routeThematic.value || !routeId.value,
+    replace: true,
   })
 }
 </script>
