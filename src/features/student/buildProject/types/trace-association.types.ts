@@ -1,0 +1,5 @@
+export enum TraceAssociationTypes {
+  ALL = 'TRACE.ALL',
+  ASSOCIATED = 'TRACE.ASSOCIATED',
+  UNASSOCIATED = 'TRACE.UNASSOCIATED'
+}

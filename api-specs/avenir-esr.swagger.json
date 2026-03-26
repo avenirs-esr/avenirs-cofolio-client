@@ -2167,6 +2167,71 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/search-for-association/traces": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "searchTracesForAssociation",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseDeclaredActivityAssociationTraceInfoDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/{declaredActivityId}/associations": {
       "get": {
         "tags": [
@@ -4970,6 +5035,44 @@
           "updatedAt"
         ]
       },
+      "DeclaredActivityAssociationTraceInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseDeclaredActivityAssociationTraceInfoDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityAssociationTraceInfoDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "ActivityOverviewDTO": {
         "type": "object",
         "properties": {
@@ -5386,13 +5489,6 @@
         "enum": [
           "APC",
           "LIFE_PROJECT"
-        ]
-      },
-      "EDeclaredActivityAssociationType": {
-        "type": "string",
-        "description": "Enum for declared activity association type",
-        "enum": [
-          "TRACE"
         ]
       },
       "EDeclaredActivityStatus": {
