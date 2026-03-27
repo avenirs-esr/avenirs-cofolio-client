@@ -162,6 +162,19 @@
     "pageSizePicker": {
       "label": "Number of results per page:"
     },
+    "selects": {
+      "FileTypeMultiselect": {
+        "AUDIO": "Audio file (mp3, wav)",
+        "IMAGE": "Image file (jpg, jpeg, png, svg)",
+        "label": "Type",
+        "PDF": "PDF file",
+        "placeholder": "Select one or more document types",
+        "selected": "1 type selected | {count} types selected",
+        "SHEET": "Spreadsheet file (excel, ods)",
+        "TEXT": "Text file (word, odt)",
+        "VIDEO": "Video file (mp4, mov, avi)"
+      }
+    },
     "sort": {
       "dateAsc": "Sort from oldest to newest",
       "dateDesc": "Sort from newest to oldest",

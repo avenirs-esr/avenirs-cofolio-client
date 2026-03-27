@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
-import { type TraceFilter, TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import { type TraceFilter, type TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
 import { useAllSkillsQuery } from '@/features/student/skills'
+import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
 import { AvButton, AvInput, AvModal, AvMultiselect, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { isValid } from 'date-fns'
 import { debounce } from 'lodash-es'
@@ -22,34 +25,8 @@ const debouncedEmit = debounce((payload: TraceFilter & DateFilter & SearchFilter
   emit('update:filters', payload)
 }, 350)
 
-const typesOptions: AvMultiselectOption[] = [
-  {
-    value: TraceFilterFileTypesItem.PDF,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.pdf'),
-    icon: MDI_ICONS.FILE
-  },
-  {
-    value: TraceFilterFileTypesItem.DOC,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.doc'),
-    icon: MDI_ICONS.FILE
-  },
-  {
-    value: TraceFilterFileTypesItem.DOCX,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.docx'),
-    icon: MDI_ICONS.FILE
-  },
-  {
-    value: TraceFilterFileTypesItem.JPEG,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.jpeg'),
-    icon: MDI_ICONS.FILE_IMAGE_OUTLINE
-  },
-  {
-    value: TraceFilterFileTypesItem.PNG,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.typesOptions.png'),
-    icon: MDI_ICONS.FILE_IMAGE_OUTLINE
-  }
-]
-const typesSelected = ref<AvMultiselectOption[]>([])
+const typesSelected = ref<TraceFilterFileTypesItem[]>([])
+const fileGlobalTypesSelected = ref<AvMultiselectOption[]>([])
 
 const statusesOptions: AvMultiselectOption[] = [
   {
@@ -84,7 +61,7 @@ const toDateSelected = ref<string>('')
 const keyword = ref<string>('')
 
 function resetAllFilters () {
-  typesSelected.value = []
+  fileGlobalTypesSelected.value = []
   statusesSelected.value = []
   skillsSelected.value = []
   fromDateSelected.value = ''
@@ -120,13 +97,17 @@ watch([
   keyword
 ]) => {
   debouncedEmit({
-    fileTypes: newTypes.map(t => t.value as TraceFilterFileTypesItem),
+    fileTypes: newTypes,
     statuses: newStatuses.map(s => s.value as TraceFilterStatusesItem),
     skillIds: newSkills.map(s => s.value as string),
     fromDate: newFromDate,
     toDate: newToDate,
     keyword
   })
+})
+
+watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
+  typesSelected.value = computeTraceFilterFileTypesFromGlobals(newFileGlobalTypes.map(t => t.value as FileGlobalType))
 })
 </script>
 
@@ -184,17 +165,7 @@ watch([
         :min-date="getDateSelectedFromString(fromDateSelected)"
         width="14.875rem"
       />
-      <AvMultiselect
-        v-model="typesSelected"
-        class="types-multiselect"
-        :options="typesOptions"
-        :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.types')"
-        :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.types')"
-        :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: typesSelected.length })"
-        dense
-        width="14.875rem"
-        height="2.5rem"
-      />
+      <FileTypeMultiselect v-model="fileGlobalTypesSelected" />
       <AvMultiselect
         v-if="isAssociated"
         v-model="statusesSelected"

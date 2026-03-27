@@ -195,20 +195,11 @@
                 "associatedNotEvaluated": "Associated with a non-evaluated skill level",
                 "associatedWithDeclaredSkill": "Associated with an additional skill level"
               },
-              "toDate": "End date",
-              "types": "Type",
-              "typesOptions": {
-                "doc": "DOC file",
-                "docx": "DOCX file",
-                "jpeg": "JPEG file",
-                "pdf": "PDF file",
-                "png": "PNG file"
-              }
+              "toDate": "End date"
             },
             "placeholders": {
               "skills": "Sort by associated skill",
-              "statuses": "Sort by trace status",
-              "types": "Sort by document type"
+              "statuses": "Sort by trace status"
             }
           },
           "warningMessage": {
