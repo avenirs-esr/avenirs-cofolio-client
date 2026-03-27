@@ -105,11 +105,9 @@
               "title": "Ma trace associée ({count}) | Mes traces associées ({count})"
             },
             "AssociateTracesModal": {
+              "confirmTitle": "Êtes-vous certain(e) de vouloir associer ces éléments ?",
               "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie \"Mes traces associées\". | Vous avez associé {count} traces. Retrouvez-les dans la catégorie \"Mes traces associées\".",
               "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
-            },
-            "ConfirmAssociateTracesModal": {
-              "title": "Êtes-vous certain(e) de vouloir associer ces éléments ?"
             },
             "DeleteActivityAssociatedElementsDropdown": {
               "traces": "une/des trace(s) associée(s)"

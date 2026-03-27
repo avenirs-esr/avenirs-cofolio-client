@@ -5,6 +5,10 @@ import AssociatedActivityCard from '@/features/student/global/components/cards/A
 import AssociatedSkillCard from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { ICONS } from '@/features/student/global/icons'
 import DeleteTraceAssociatedElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
+import TraceAssociateElementsDropdown
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
+import AssociateDeclaredSkillsModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
 import DeleteTraceAssociatedActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
 import DeleteTraceAssociatedSkillsModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
@@ -22,6 +26,7 @@ const { t } = useI18n()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
+const { showModal: showAssociationModal, displayModal: displayAssociationModal, hideModal: hideAssociationModal } = useModal()
 
 const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
 const declaredActivityAssociations = computed(() => associations.declaredActivityAssociations ?? [])
@@ -35,6 +40,9 @@ const declaredActivityAssociations = computed(() => associations.declaredActivit
         :skills-disabled="isEmpty(declaredSkillAssociations)"
         @activities-selected="displayActivitiesModal"
         @skills-selected="displaySkillsModal"
+      />
+      <TraceAssociateElementsDropdown
+        @skills-selected="displayAssociationModal"
       />
     </div>
 
@@ -117,5 +125,11 @@ const declaredActivityAssociations = computed(() => associations.declaredActivit
     :associations="declaredActivityAssociations"
     @cancel="hideActivitiesModal"
     @deleted="hideActivitiesModal"
+  />
+
+  <AssociateDeclaredSkillsModal
+    :show="showAssociationModal"
+    @cancel="hideAssociationModal"
+    @associated="hideAssociationModal"
   />
 </template>

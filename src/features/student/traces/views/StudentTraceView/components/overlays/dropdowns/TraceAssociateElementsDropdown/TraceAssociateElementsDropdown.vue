@@ -16,11 +16,13 @@ enum TraceAssociateElementsDropdownEvents {
 const { t } = useI18n()
 
 const menuItems = computed(() => [
-  {
-    name: TraceAssociateElementsDropdownEvents.ACTIVITIES,
-    icon: ICONS.ACTIVITY,
-    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities')
-  },
+  ...(!__DEMO_MODE__
+    ? [{
+        name: TraceAssociateElementsDropdownEvents.ACTIVITIES,
+        icon: ICONS.ACTIVITY,
+        label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities')
+      }]
+    : []),
   {
     name: TraceAssociateElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,

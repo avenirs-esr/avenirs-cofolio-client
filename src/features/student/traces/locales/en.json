@@ -213,6 +213,10 @@
           }
         },
         "StudentTraceView": {
+          "AssociateDeclaredSkillsModal": {
+            "confirmTitle": "Are you sure you want to associate these selected skills?",
+            "title": "Which skill(s) would you like to associate?"
+          },
           "DeleteTraceAssociatedElementsDropdown": {
             "activities": "one/many associated activity(ies)",
             "skills": "one/many associated skill(s)"

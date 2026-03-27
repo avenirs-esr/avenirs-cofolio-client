@@ -79,7 +79,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   getAssociateTracesConfirmationModal () {
-    return this.root.page().getByTestId('confirm-associate-traces-modal')
+    return this.root.page().getByTestId('confirm-associate-modal')
   }
 
   async verifyVisible () {
