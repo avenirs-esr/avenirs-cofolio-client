@@ -54,10 +54,11 @@ function onConfirm () {
     </template>
   </AvModal>
 
+  <!-- TODO: #1316 - items param and title plural replace 0 by items length -->
   <ConfirmAssociateModal
     :show="showConfirmModal"
     :items="[]"
-    :title="t('student.traces.views.StudentTraceView.AssociateDeclaredSkillsModal.confirmTitle')"
+    :title="t('student.traces.views.StudentTraceView.AssociateDeclaredSkillsModal.confirmTitle', 0)"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
   />
