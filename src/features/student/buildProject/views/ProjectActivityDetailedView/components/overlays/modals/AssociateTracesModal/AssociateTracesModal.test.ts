@@ -9,9 +9,11 @@ import { TraceCompactCardStub } from '@/features/student/buildProject/views/Proj
 import AssociateTracesModal, {
   type AssociateTracesModalProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
-import { ConfirmAssociateTracesModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.stub'
 import { TracesTypeSelectStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
+import {
+  ConfirmAssociateModalStub
+} from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -37,7 +39,7 @@ BddTest().given('an associate traces modal', () => {
   const stubs = {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
-    ConfirmAssociateTracesModal: ConfirmAssociateTracesModalStub,
+    ConfirmAssociateModal: ConfirmAssociateModalStub,
     TracesTypeSelect: TracesTypeSelectStub,
     TraceCompactCard: TraceCompactCardStub
   }
@@ -105,11 +107,11 @@ BddTest().given('an associate traces modal', () => {
     })
 
     BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
-      const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+      const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
       expect(confirmModal.exists()).toBe(true)
       expect(confirmModal.props('show')).toBe(false)
-      expect(confirmModal.props('traces')).toEqual([])
+      expect(confirmModal.props('items')).toEqual([])
     })
 
     BddTest().then('it should load unassociated traces from the query and pass them to the layout', async () => {
@@ -253,9 +255,9 @@ BddTest().given('an associate traces modal', () => {
       })
 
       BddTest().then('it should update the confirm associate traces modal traces', () => {
-        const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+        const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
-        expect(confirmModal.props('traces')).toEqual(expectedSelectedAssociations)
+        expect(confirmModal.props('items')).toEqual(expectedSelectedAssociations)
       })
 
       BddTest().and('the search association layout emits delete event', () => {
@@ -273,9 +275,9 @@ BddTest().given('an associate traces modal', () => {
         })
 
         BddTest().then('it should also update the confirm associate traces modal traces', () => {
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+          const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
-          expect(confirmModal.props('traces')).toEqual(expectedSelectedAssociationsAfterDelete)
+          expect(confirmModal.props('items')).toEqual(expectedSelectedAssociationsAfterDelete)
         })
       })
 
@@ -288,20 +290,20 @@ BddTest().given('an associate traces modal', () => {
         })
 
         BddTest().then('it should show the confirm associate traces modal', () => {
-          const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+          const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
           expect(confirmModal.props('show')).toBe(true)
         })
 
         BddTest().and('the confirm associate traces modal emits cancel event', () => {
           beforeEach(async () => {
-            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
             confirmModal.vm.$emit('cancel')
 
             await wrapper.vm.$nextTick()
           })
 
           BddTest().then('it should hide the confirm associate traces modal', () => {
-            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
             expect(confirmModal.props('show')).toBe(false)
           })
 
@@ -312,7 +314,7 @@ BddTest().given('an associate traces modal', () => {
 
         BddTest().and('the confirm associate traces modal emits confirm event successfully', () => {
           beforeEach(async () => {
-            const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+            const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
             confirmModal.vm.$emit('confirm')
 
             await flushPromises()
@@ -326,7 +328,7 @@ BddTest().given('an associate traces modal', () => {
 
           BddTest().then('it should hide the confirm associate traces modal', async () => {
             await vi.waitFor(() => {
-              const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+              const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
               expect(confirmModal.props('show')).toBe(false)
             })
           })
@@ -414,7 +416,7 @@ BddTest().given('an associate traces modal', () => {
         wrapper.findComponent(AvModalStub).vm.$emit('confirm')
         await wrapper.vm.$nextTick()
 
-        wrapper.findComponent(ConfirmAssociateTracesModalStub).vm.$emit('confirm')
+        wrapper.findComponent(ConfirmAssociateModalStub).vm.$emit('confirm')
         await flushPromises()
       })
 
@@ -436,7 +438,7 @@ BddTest().given('an associate traces modal', () => {
       })
 
       BddTest().then('it should keep the confirm modal opened', () => {
-        const confirmModal = wrapper.findComponent(ConfirmAssociateTracesModalStub)
+        const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
         expect(confirmModal.props('show')).toBe(true)
       })
     })

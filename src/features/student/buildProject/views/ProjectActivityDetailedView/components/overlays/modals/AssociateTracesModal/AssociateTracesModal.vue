@@ -11,11 +11,10 @@ import {
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TraceCompactCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
-import ConfirmAssociateTracesModal
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/ConfirmAssociateTracesModal/ConfirmAssociateTracesModal.vue'
 import TracesTypeSelect
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
+import ConfirmAssociateModal from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 import { useToasterStore } from '@/store'
 import { type AvAutocompleteOption, AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -196,10 +195,11 @@ watch(isSearchError, (value) => {
     </SearchAssociationLayout>
   </AvModal>
 
-  <ConfirmAssociateTracesModal
+  <ConfirmAssociateModal
     :show="showConfirmModal"
-    :traces="selectedAssociations"
+    :items="selectedAssociations"
     :disabled="isPending"
+    :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.confirmTitle')"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
   />

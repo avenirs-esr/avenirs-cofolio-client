@@ -1,21 +1,19 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
-import { useI18n } from 'vue-i18n'
 
-export interface ConfirmAssociateTracesModalProps {
+export interface ConfirmAssociateModalProps {
   show: boolean
-  traces: IdTitleList
+  items: IdTitleList
+  title: string
 }
 
-const { traces } = defineProps<ConfirmAssociateTracesModalProps>()
+defineProps<ConfirmAssociateModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'confirm'): void
 }>()
-
-const { t } = useI18n()
 
 function onConfirm () {
   emit('confirm')
@@ -25,30 +23,28 @@ function onConfirm () {
 <template>
   <ConfirmationModal
     :show="show"
-    data-testid="confirm-associate-traces-modal"
+    data-testid="confirm-associate-modal"
     @close="emit('cancel')"
     @confirm="onConfirm"
   >
     <template #header>
       <div
         class="av-row av-flex-fill"
-        data-testid="confirm-associate-traces-modal__header"
+        data-testid="confirm-associate-modal__header"
       >
         <span class="b2-bold av-text-text1">
-          {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ConfirmAssociateTracesModal.title') }}
+          {{ title }}
         </span>
       </div>
     </template>
 
-    <ul
-      data-testid="confirm-associate-traces-modal__traces-list"
-    >
+    <ul data-testid="confirm-associate-modal__items-list">
       <li
-        v-for="trace in traces"
-        :key="trace.id"
+        v-for="item in items"
+        :key="item.id"
       >
         <span class="b2-light av-text-text2">
-          {{ trace.title }}
+          {{ item.title }}
         </span>
       </li>
     </ul>
