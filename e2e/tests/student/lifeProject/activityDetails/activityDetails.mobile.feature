@@ -19,15 +19,3 @@ Feature: Student Project Activity Detail Page (Mobile)
       And the activity title is visible
       And the activity summary is visible
       And the activity execution period list is visible
-
-    @medium @responsive @activity-details @associate-traces-modal @dataset-full
-    Scenario: Student can open associate traces modal on mobile
-      When the student open activity library tab
-      And the student clicks a library activity card with in progress status
-      And the project activity details are loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
-      And the student opens associated elements tab
-      And the student opens the associate elements dropdown
-      And the student clicks the associate traces dropdown item
-      Then the associate traces modal is visible

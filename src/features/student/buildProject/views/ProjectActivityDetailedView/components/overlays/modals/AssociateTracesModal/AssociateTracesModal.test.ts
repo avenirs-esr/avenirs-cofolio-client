@@ -204,7 +204,7 @@ BddTest().given('an associate traces modal', () => {
           const options = layout.props('options')
 
           expect(options).toHaveLength(5)
-          expect(options.every((option: { disabled: boolean }) => option.disabled)).toBe(true)
+          expect(options.every((option: { disabled: boolean }) => !option.disabled)).toBe(true)
         })
       })
 

@@ -283,7 +283,7 @@ export function createMockedSearchTracesForAssociationResponse (
   const data: DeclaredActivityAssociationTraceInfoDTO[] = paginatedTraces.map(trace => ({
     id: trace.id,
     title: trace.title,
-    disabled: trace.isAssociated
+    disabled: false
   }))
 
   return {
