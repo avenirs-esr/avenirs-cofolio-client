@@ -3,6 +3,7 @@ import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/tra
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -67,7 +68,8 @@ BddTest().given('a student trace view', () => {
       name: 'StudentTraceAssociations',
       props: ['skillLevelAssociations', 'declaredSkillAssociations'],
       template: '<div class="student-trace-associations" />'
-    }
+    },
+    TraceAssociations: TraceAssociationsStub
   }
 
   beforeEach(async () => {

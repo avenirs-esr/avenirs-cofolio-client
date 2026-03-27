@@ -20,6 +20,8 @@
       },
       "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
       "myAssociationsWithCount": "My associations ({count})",
+      "myDeclaredActivityCount": "My declared activities (0) | My declared activity (1) | My declared activities ({count})",
+      "myDeclaredSkillCount": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
       "interaction": {
         "inputs": {
           "period": {

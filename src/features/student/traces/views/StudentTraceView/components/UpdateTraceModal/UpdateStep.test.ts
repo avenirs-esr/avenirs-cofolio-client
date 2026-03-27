@@ -1,3 +1,4 @@
+import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -37,10 +38,6 @@ BddTest().given('an update step', () => {
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
     },
-    traceAssociations: {
-      declaredActivityAssociations: [],
-      declaredSkillAssociations: []
-    }
   }
 
   const stubs = {
@@ -67,14 +64,9 @@ BddTest().given('an update step', () => {
     }
   }
 
-  const mockedAssociations = {
-    declaredActivityAssociations: [],
-    declaredSkillAssociations: [],
-  }
-
   beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedAssociations }, global: { stubs } })
+    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedTraceAssociations }, global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -119,7 +111,7 @@ BddTest().given('an update step', () => {
 
     BddTest().then('it should pass associations prop to TraceAssociations', () => {
       const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
-      expect(traceAssociations.props('associations')).toEqual(mockedAssociations)
+      expect(traceAssociations.props('associations')).toEqual(mockedTraceAssociations)
     })
 
     BddTest().then('it should pass traceId prop to TraceAssociations', () => {

@@ -62,7 +62,10 @@ BddTest().given('a delete trace associated skills modal', () => {
     BddTest().then('it should pass selectable elements derived from associations to the compact card selector', () => {
       const selector = wrapper.findComponent(CompactCardSelectorStub)
       expect(selector.props('elements')).toEqual(
-        associations.map(({ id, title }) => ({ id, title }))
+        associations.map(({ associationId, declaredSkill }) => ({
+          id: associationId,
+          title: declaredSkill.title,
+        }))
       )
     })
 
@@ -72,7 +75,9 @@ BddTest().given('a delete trace associated skills modal', () => {
     })
 
     BddTest().and('the user selects associations from the compact card selector', () => {
-      const selectedIds = associations.slice(0, 2).map(({ id }) => id)
+      const selectedIds = associations.slice(0, 2).map(({ associationId }) => ({
+        id: associationId,
+      }))
 
       beforeEach(() => {
         const selector = wrapper.findComponent(CompactCardSelectorStub)

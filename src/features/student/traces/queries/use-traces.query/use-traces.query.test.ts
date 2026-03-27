@@ -564,7 +564,6 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
           expect(typeof config.isGroup).toBe('boolean')
           expect(typeof config.personalNote).toBe('string')
           expect(typeof config.attachment).toBe('object')
-          expect(typeof config.traceAssociations).toBe('object')
         }
       })
 

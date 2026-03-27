@@ -65,6 +65,17 @@ export function createMockedPagedResponseSkillsDTO (pageSize: number, totalEleme
   }
 }
 
+export function createMockedDeclaredSkillProgressDTO () {
+  return {
+    id: crypto.randomUUID(),
+    title: `Ma super compétence complémentaire`,
+    pathSegments: ['Catégorie', `Sous-catégorie`],
+    type: EExternalSkillType.ROME4,
+    level: EDeclaredSkillLevel.ADVANCED,
+    description: `Description de la compétence complémentaire`
+  }
+}
+
 export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: number, totalElements: number, page: number): PagedResponseDeclaredSkillProgressDTO {
   const mockedSkills: DeclaredSkillProgressDTO[] = []
   const levels = Object.values(EDeclaredSkillLevel)

@@ -2978,47 +2978,17 @@
       "DeclaredSkillAssociationDTO": {
         "type": "object",
         "properties": {
-          "id": {
+          "associationId": {
             "type": "string",
             "format": "uuid"
           },
-          "title": {
-            "type": "string"
-          },
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "pathSegments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
+          "declaredSkill": {
+            "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
           }
         },
         "required": [
-          "id",
-          "level",
-          "pathSegments",
-          "title",
-          "type"
+          "associationId",
+          "declaredSkill"
         ]
       },
       "Activity": {
@@ -3201,9 +3171,6 @@
           },
           "attachment": {
             "$ref": "#/components/schemas/AttachmentUploadDTO"
-          },
-          "traceAssociations": {
-            "$ref": "#/components/schemas/TraceAssociationsDTO"
           },
           "createdAt": {
             "type": "string",

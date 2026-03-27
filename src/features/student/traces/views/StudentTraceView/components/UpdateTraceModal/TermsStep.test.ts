@@ -26,7 +26,6 @@ BddTest().given('a terms step', () => {
       version: 1,
       uploadedAt: '2025-06-02T11:42:00.000Z',
     },
-    traceAssociations: mockedTraceAssociations
   }
 
   const stubs = {
@@ -66,6 +65,7 @@ BddTest().given('a terms step', () => {
   beforeEach(async () => {
     wrapper = mount(TermsStep, { props: {
       trace: mockedTrace,
+      associations: mockedTraceAssociations
     }, global: { stubs } })
   })
 

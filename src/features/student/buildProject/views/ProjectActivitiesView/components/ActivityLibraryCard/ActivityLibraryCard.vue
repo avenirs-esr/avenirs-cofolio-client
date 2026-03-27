@@ -72,14 +72,14 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
         </div>
       </template>
       <template #footer>
-        <p class="av-hidden av-unhidden--md av-px-xs w-full">
+        <div class="av-hidden av-unhidden--md av-px-xs w-full">
           <span
             data-testid="activity-library-card-summary"
             class="activity-library-card__summary av-text-text2 caption-light"
           >
             {{ activity.summary }}
           </span>
-        </p>
+        </div>
       </template>
     </FloatingIconCard>
   </RouterLink>

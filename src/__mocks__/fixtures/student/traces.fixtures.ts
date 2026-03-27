@@ -1,6 +1,8 @@
 import {
   type AttachmentUploadDTO,
+  type DeclaredActivityAssociationDTO,
   type DeclaredActivityAssociationTraceInfoDTO,
+  type DeclaredSkillAssociationDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
   EDeclaredSkillLevel,
@@ -162,54 +164,74 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
   }
 }
 
-export const mockedTraceAssociations: TraceAssociationsDTO = {
-  declaredActivityAssociations: [
-    {
-      associationId: 'activity-assoc-1',
-      declaredActivity: {
-        id: 'declared-activity-1',
-        activityId: 'activity-1',
-        title: 'Stage en entreprise - Développement logiciel',
-        thematic: EActivityThematic.EXPERIENCES,
-        status: EDeclaredActivityStatus.IN_PROGRESS,
-        summary: 'Stage de 6 mois dans une entreprise de développement logiciel',
-      }
-    },
-    {
-      associationId: 'activity-assoc-2',
-      declaredActivity: {
-        id: 'declared-activity-2',
-        activityId: 'activity-2',
-        title: 'Projet tuteuré - Application mobile',
-        thematic: EActivityThematic.PROGRAMS,
-        status: EDeclaredActivityStatus.COMPLETED,
-        summary: 'Développement d\'une application mobile en équipe',
-      }
-    }
-  ],
-  declaredSkillAssociations: [
-    {
+export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[] = [
+  {
+    associationId: 'id-1-1',
+    declaredSkill: {
       id: 'declared-1',
       title: 'Gestion de projet agile',
       level: EDeclaredSkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
       type: EExternalSkillType.ROME4
-    },
-    {
+    }
+  },
+  {
+    associationId: 'id-1-2',
+    declaredSkill: {
       id: 'declared-2',
       title: 'Communication interpersonnelle',
       level: EDeclaredSkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
       type: EExternalSkillType.ROME4
-    },
-    {
+    }
+  },
+  {
+    associationId: 'id-1-3',
+    declaredSkill: {
       id: 'declared-3',
       title: 'Analyse de données',
       level: EDeclaredSkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
       type: EExternalSkillType.ROME4
     }
-  ]
+  }
+]
+
+export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociationDTO[] = [
+  {
+    associationId: 'id-2-1',
+    declaredActivity: {
+      id: 'c1c9f6d2-6c2b-4a5e-9c4f-8e2a6b1d3f01',
+      activityId: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
+      title: 'Définir ses valeurs',
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      status: EDeclaredActivityStatus.IN_PROGRESS,
+      summary: 'Activité faisant partie de la catégorie Connaissance de soi. Elle permet à l’étudiant.e d’identifier les valeurs essentielles qui orientent ses choix et d’analyser la manière dont elles se traduisent dans ses comportements quotidiens. Cette réflexion constitue une base structurante pour construire un projet personnel et professionnel cohérent.',
+      startDate: '2025-01-10',
+      endDate: '2025-01-20',
+    },
+  },
+  {
+    associationId: 'id-2-2',
+    declaredActivity: {
+      id: '7f3a2b91-3d44-4c6a-8a9e-2b6d5f1c0a22',
+      activityId: '7b3d4e91-6f2a-4c88-9a1e-5d3f7b2c8e44',
+      title: 'Explorer ses pistes d’orientation',
+      thematic: EActivityThematic.FUTURE_PLANS,
+      status: EDeclaredActivityStatus.SUBSCRIBED,
+      summary: 'Activité centrée sur l’exploration des futurs possibles. L’étudiant.e identifie différents domaines professionnels susceptibles de correspondre à son profil et analyse les conditions d’accès, les environnements de travail et les perspectives d’évolution associées.',
+    }
+  }
+]
+
+export const mockedTraceAssociations: TraceAssociationsDTO = {
+  declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
+  declaredSkillAssociations: mockedTraceDeclaredSkillAssociations
+}
+
+export const mockedEmptyTraceAssociations: TraceAssociationsDTO = {
+  declaredActivityAssociations: [],
+  declaredSkillAssociations: []
 }
 
 export const mockedTraceDetailed = {

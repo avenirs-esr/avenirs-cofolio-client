@@ -1,12 +1,11 @@
+import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { PropType } from 'vue'
+
 export const AssociatedSkillCardStub = defineComponent({
   name: 'AssociatedSkillCard',
   props: {
-    title: {
-      type: String,
-      required: true
-    },
-    to: {
-      type: [String, Object],
+    declaredSkill: {
+      type: Object as PropType<DeclaredSkillProgressDTO>,
       required: true
     }
   },

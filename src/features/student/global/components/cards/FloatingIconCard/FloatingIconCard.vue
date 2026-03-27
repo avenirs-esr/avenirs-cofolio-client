@@ -91,7 +91,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
         v-if="$slots.footer"
         #footer
       >
-        <div class="floating-icon-card__footer av-row av-align-center av-justify-end av-wrap av-gap-xxs">
+        <div class="floating-icon-card__footer av-row av-align-center av-wrap av-gap-xxs">
           <slot name="footer" />
         </div>
       </template>

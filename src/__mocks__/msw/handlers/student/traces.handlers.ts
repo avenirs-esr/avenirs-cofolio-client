@@ -91,6 +91,24 @@ export const traceOverviewErrorHandler = http.get(`*${getGetTraceOverviewUrl()}`
   )
 })
 
+export const traceWithoutAssociations = http.get(
+  `*${getGetTraceAssociationsUrl(':traceId')}`,
+  ({ params }) => {
+    const { traceId } = params
+    if (traceId === 'INVALID_TRACE_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.TRACE_NOT_FOUND, message: 'Trace not found' },
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    return HttpResponse.json({
+      declaredActivityAssociations: [],
+      declaredSkillAssociations: []
+    })
+  }
+)
+
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
     return HttpResponse.json<TracesSummaryDTO>(mockedTracesSummary, {

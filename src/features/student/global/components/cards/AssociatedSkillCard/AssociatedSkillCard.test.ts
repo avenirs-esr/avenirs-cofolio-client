@@ -1,3 +1,6 @@
+import {
+  createMockedDeclaredSkillProgressDTO
+} from '@/__mocks__/fixtures/student/skills.fixtures'
 import AssociatedSkillCard, { type AssociatedSkillCardProps } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { AssociationCardStub } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.stub'
 import { ICONS } from '@/features/student/global/icons'
@@ -16,8 +19,7 @@ BddTest().given('an associatied skill card', () => {
 
   BddTest().when('the component is mounted', () => {
     const props: AssociatedSkillCardProps = {
-      title: 'Skill',
-      to: '/test'
+      declaredSkill: createMockedDeclaredSkillProgressDTO(),
     }
 
     beforeEach(() => {
@@ -28,11 +30,10 @@ BddTest().given('an associatied skill card', () => {
       const associationCard = wrapper.findComponent(AssociationCardStub)
       expect(associationCard.exists()).toBe(true)
       expect(associationCard.props()).toMatchObject({
-        title: props.title,
+        title: props.declaredSkill.title,
         icon: ICONS.SKILLS,
         color: 'var(--card)',
         backgroundColor: 'var(--dark-background-primary1)',
-        to: props.to
       })
     })
   })

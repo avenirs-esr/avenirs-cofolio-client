@@ -26,9 +26,9 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const selectedIds = ref<string[]>([])
 
-const selectableElements = computed(() => associations.map(({ id, title }) => ({
-  id,
-  title,
+const selectableElements = computed(() => associations.map(({ associationId, declaredSkill }) => ({
+  id: associationId,
+  title: declaredSkill.title,
 })))
 
 const { mutate: deleteTraceAssociations } = useDeleteTraceAssociationsMutation({
