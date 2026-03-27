@@ -4,23 +4,16 @@ import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
-  (e: 'skillsSelected'): void
   (e: 'tracesSelected'): void
 }>()
 
 enum DeleteActivityAssociatedElementsDropdownEvents {
-  SKILLS = 'skills',
   TRACES = 'traces',
 }
 
 const { t } = useI18n()
 
 const menuItems = computed(() => [
-  {
-    name: DeleteActivityAssociatedElementsDropdownEvents.SKILLS,
-    icon: ICONS.SKILLS,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.skills')
-  },
   {
     name: DeleteActivityAssociatedElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
@@ -30,9 +23,6 @@ const menuItems = computed(() => [
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
-    case DeleteActivityAssociatedElementsDropdownEvents.SKILLS:
-      emit('skillsSelected')
-      break
     case DeleteActivityAssociatedElementsDropdownEvents.TRACES:
       emit('tracesSelected')
       break

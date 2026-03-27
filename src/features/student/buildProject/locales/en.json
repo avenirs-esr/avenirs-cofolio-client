@@ -113,7 +113,6 @@
               "title": "Are you sure you want to associate these items?"
             },
             "DeleteActivityAssociatedElementsDropdown": {
-              "skills": "one/many associated skill(s)",
               "traces": "one/many associated trace(s)"
             },
             "DeleteActivityAssociatedTracesModal": {

@@ -112,7 +112,6 @@
               "title": "Êtes-vous certain(e) de vouloir associer ces éléments ?"
             },
             "DeleteActivityAssociatedElementsDropdown": {
-              "skills": "une/des compétence(s) associée(s)",
               "traces": "une/des trace(s) associée(s)"
             },
             "DeleteActivityAssociatedTracesModal": {
