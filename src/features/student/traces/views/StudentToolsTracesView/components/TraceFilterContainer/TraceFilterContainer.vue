@@ -148,6 +148,7 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         dense
         width="14.875rem"
         height="2.5rem"
+        collapse-max-height="var(--dimension-7xl)"
       />
       <AvInput
         v-model="fromDateSelected"
@@ -165,7 +166,10 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         :min-date="getDateSelectedFromString(fromDateSelected)"
         width="14.875rem"
       />
-      <FileTypeMultiselect v-model="fileGlobalTypesSelected" />
+      <FileTypeMultiselect
+        v-model="fileGlobalTypesSelected"
+        max-height="var(--dimension-7xl)"
+      />
       <AvMultiselect
         v-if="isAssociated"
         v-model="statusesSelected"
@@ -177,6 +181,7 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         dense
         width="14.875rem"
         height="2.5rem"
+        collapse-max-height="var(--dimension-7xl)"
       />
       <AvButton
         :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.reset')"
@@ -197,10 +202,5 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
 
 .reset-button {
   height: var(--dimension-xl);
-}
-
-:deep(.av-multiselect__collapse__fieldset) {
-  max-height: var(--dimension-7xl) !important;
-  margin-bottom: var(--spacing-none) !important;
 }
 </style>
