@@ -3,6 +3,8 @@ import { FileGlobalType } from '@/common/components/interaction/selects/FileType
 import { AvMultiselect, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineProps<{ maxHeight?: string }>()
+
 const { t } = useI18n()
 
 const typesSelected = defineModel<AvMultiselectOption[]>({ default: [] })
@@ -52,6 +54,7 @@ const typesOptions: AvMultiselectOption[] = [
     dense
     width="14.875rem"
     height="2.5rem"
+    :collapse-max-height="maxHeight"
     data-testid="file-type-multiselect"
   />
 </template>
