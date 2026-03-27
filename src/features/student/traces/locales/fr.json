@@ -194,20 +194,11 @@
                 "associatedNotEvaluated": "Associée à un niveau de compétence non évalué",
                 "associatedWithDeclaredSkill": "Associée à un niveau de compétence supplémentaire"
               },
-              "toDate": "Date de fin",
-              "types": "Type",
-              "typesOptions": {
-                "doc": "Fichier DOC",
-                "docx": "Fichier DOCX",
-                "jpeg": "Fichier JPEG",
-                "pdf": "Fichier PDF",
-                "png": "Fichier PNG"
-              }
+              "toDate": "Date de fin"
             },
             "placeholders": {
               "skills": "Trier par compétence associée",
-              "statuses": "Trier par statut de la trace",
-              "types": "Trier par type de document"
+              "statuses": "Trier par statut de la trace"
             }
           },
           "warningMessage": {

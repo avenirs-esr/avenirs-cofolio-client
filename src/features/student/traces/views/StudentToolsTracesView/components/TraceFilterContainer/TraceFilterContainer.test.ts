@@ -3,6 +3,8 @@ import { createMockedAllSkillListItemDTO } from '@/__mocks__/fixtures/student/sk
 import { createAllSkillsHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import { FileTypeMultiselectStub } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.stub'
+import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -40,7 +42,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 })
 
 interface TraceFilterContainerRefs {
-  typesSelected: AvMultiselectOption[]
+  typesSelected: TraceFilterFileTypesItem[]
   statusesSelected: AvMultiselectOption[]
   skillsSelected: AvMultiselectOption[]
   fromDateSelected: string
@@ -119,7 +121,8 @@ BddTest().given('a trace filter container', () => {
         </div>
       `
     },
-    AvButton: AvButtonStub
+    AvButton: AvButtonStub,
+    FileTypeMultiselect: FileTypeMultiselectStub,
   }
 
   const mockedAllSkills = createMockedAllSkillListItemDTO()
@@ -177,17 +180,8 @@ BddTest().given('a trace filter container', () => {
       })
 
       BddTest().then('it should render the types multiselect', () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
+        const typesMultiselect = wrapper.findComponent(FileTypeMultiselectStub)
         expect(typesMultiselect.exists()).toBe(true)
-        const avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Type')
-      })
-
-      BddTest().then('it should render the types multiselect options', () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        const avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(5)
       })
 
       BddTest().then('it should render the statuses multiselect', () => {
@@ -333,28 +327,24 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some types are selected in the types select', async () => {
-      let avMultiselect: Omit<VueWrapper, 'exists'>
+      let typesMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
+        typesMultiselect = wrapper.findComponent(FileTypeMultiselectStub)
 
-        const select = avMultiselect.find('select')
-        await select.setValue([TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG])
+        const select = typesMultiselect.find('select')
+        await select.setValue([FileGlobalType.PDF])
       })
 
       BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          { value: TraceFilterFileTypesItem.DOC, label: 'Fichier DOC' },
-          { value: TraceFilterFileTypesItem.PNG, label: 'Fichier PNG' },
-        ])
+        expect(typesMultiselect.emitted('update:modelValue')).toBeDefined()
+        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
+        expect(emittedValues).toEqual([{ value: FileGlobalType.PDF, label: FileGlobalType.PDF }])
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG],
+          fileTypes: [TraceFilterFileTypesItem.PDF],
           statuses: [],
           skillIds: [],
           fromDate: '',
@@ -428,10 +418,8 @@ BddTest().given('a trace filter container', () => {
         const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
         await endDateAvInput.find('input').setValue('2026-10-10')
 
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        const typesAvMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const typesSelect = typesAvMultiselect.find('select')
-        await typesSelect.setValue([TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG])
+        const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
+        await typesSelect.setValue([FileGlobalType.PDF])
 
         const statusesMultiselect = wrapper.find('.statuses-multiselect')
         const statusesAvMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
@@ -450,9 +438,8 @@ BddTest().given('a trace filter container', () => {
         ])
         expect(vm.fromDateSelected).toBe('2025-10-10')
         expect(vm.toDateSelected).toBe('2026-10-10')
-        expect(vm.typesSelected.map(type => type.value)).toEqual([
-          TraceFilterFileTypesItem.DOC,
-          TraceFilterFileTypesItem.PNG
+        expect(vm.typesSelected).toEqual([
+          FileGlobalType.PDF
         ])
         expect(vm.statusesSelected.map(status => status.value)).toEqual([
           TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
@@ -464,7 +451,7 @@ BddTest().given('a trace filter container', () => {
         const emitted = wrapper.emitted('update:filters')
         const lastEmitted = emitted![emitted!.length - 1][0]
         expect(lastEmitted).toEqual({
-          fileTypes: [TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG],
+          fileTypes: [FileGlobalType.PDF],
           statuses: [
             TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
             TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
@@ -552,17 +539,8 @@ BddTest().given('a trace filter container', () => {
       })
 
       BddTest().then('it should render the types multiselect', () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
+        const typesMultiselect = wrapper.findComponent(FileTypeMultiselectStub)
         expect(typesMultiselect.exists()).toBe(true)
-        const avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Type')
-      })
-
-      BddTest().then('it should render the types multiselect options', () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        const avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(5)
       })
 
       BddTest().then('it should not render the statuses multiselect', () => {
@@ -667,28 +645,24 @@ BddTest().given('a trace filter container', () => {
     })
 
     BddTest().when('some types are selected in the types select', async () => {
-      let avMultiselect: Omit<VueWrapper, 'exists'>
+      let typesMultiselect: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        avMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
+        typesMultiselect = wrapper.findComponent(FileTypeMultiselectStub)
 
-        const select = avMultiselect.find('select')
-        await select.setValue([TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG])
+        const select = typesMultiselect.find('select')
+        await select.setValue([FileGlobalType.PDF])
       })
 
       BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          { value: TraceFilterFileTypesItem.DOC, label: 'Fichier DOC' },
-          { value: TraceFilterFileTypesItem.PNG, label: 'Fichier PNG' },
-        ])
+        expect(typesMultiselect.emitted('update:modelValue')).toBeDefined()
+        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
+        expect(emittedValues).toEqual([{ value: FileGlobalType.PDF, label: FileGlobalType.PDF }])
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG],
+          fileTypes: [TraceFilterFileTypesItem.PDF],
           statuses: [],
           skillIds: [],
           fromDate: '',
@@ -716,19 +690,16 @@ BddTest().given('a trace filter container', () => {
         const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
         await endDateAvInput.find('input').setValue('2026-10-10')
 
-        const typesMultiselect = wrapper.find('.types-multiselect')
-        const typesAvMultiselect = typesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const typesSelect = typesAvMultiselect.find('select')
-        await typesSelect.setValue([TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG])
+        const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
+        await typesSelect.setValue([FileGlobalType.PDF])
       })
 
       BddTest().then('the values should be set in the component refs', () => {
         expect(vm.keyword).toBe('example')
         expect(vm.fromDateSelected).toBe('2025-10-10')
         expect(vm.toDateSelected).toBe('2026-10-10')
-        expect(vm.typesSelected.map(type => type.value)).toEqual([
-          TraceFilterFileTypesItem.DOC,
-          TraceFilterFileTypesItem.PNG
+        expect(vm.typesSelected).toEqual([
+          TraceFilterFileTypesItem.PDF
         ])
       })
 
@@ -736,7 +707,7 @@ BddTest().given('a trace filter container', () => {
         const emitted = wrapper.emitted('update:filters')
         const lastEmitted = emitted![emitted!.length - 1][0]
         expect(lastEmitted).toEqual({
-          fileTypes: [TraceFilterFileTypesItem.DOC, TraceFilterFileTypesItem.PNG],
+          fileTypes: [TraceFilterFileTypesItem.PDF],
           statuses: [],
           skillIds: [],
           fromDate: '2025-10-10',
