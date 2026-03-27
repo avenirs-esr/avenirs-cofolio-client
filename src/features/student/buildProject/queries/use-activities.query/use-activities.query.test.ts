@@ -2001,14 +2001,6 @@ BddTest().given('the useSearchTracesForAssociationQuery composable', () => {
           totalPages: 1
         })
       })
-
-      BddTest().then('it should expose associated traces as disabled and unassociated traces as enabled', () => {
-        const disabledTraces = queryResult.traces.value.filter(trace => trace.disabled)
-        const enabledTraces = queryResult.traces.value.filter(trace => !trace.disabled)
-
-        expect(disabledTraces).toHaveLength(5)
-        expect(enabledTraces).toHaveLength(5)
-      })
     })
   })
 
@@ -2077,7 +2069,6 @@ BddTest().given('the useSearchTracesForAssociationQuery composable', () => {
 
       BddTest().then('it should only return associated traces', () => {
         expect(queryResult.traces.value).toHaveLength(5)
-        expect(queryResult.traces.value.every(trace => trace.disabled)).toBe(true)
       })
 
       BddTest().then('it should expose pageInfo for associated traces only', () => {

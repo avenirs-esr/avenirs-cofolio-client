@@ -107,11 +107,11 @@ Feature: Student Project Activity Detail Page
 
     Background:
       And the project activity details are loaded
+      When the student opens the project activities page
+      And the student open activity library tab
 
     @high @activity-details @associated-elements @dataset-full
     Scenario: Student can see the activity associated elements
-      When the student opens the project activities page
-      And the student open activity library tab
       And the student clicks a library activity card with in progress status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
@@ -123,8 +123,6 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @associated-elements
     Scenario: Student can't see associated elements of activities without associated elements
-      When the student opens the project activities page
-      And the student open activity library tab
       And the student clicks a library activity card with not in progress status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
@@ -135,8 +133,6 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @associated-elements @associate-traces-modal @dataset-full
     Scenario: Student can open associate traces modal from associated elements tab
-      When the student opens the project activities page
-      And the student open activity library tab
       And the student clicks a library activity card with in progress status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu

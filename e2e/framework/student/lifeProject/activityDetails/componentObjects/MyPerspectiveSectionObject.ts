@@ -55,11 +55,11 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   getAssociateElementsDropdownTrigger () {
-    return this.root.page().getByRole('button', { name: 'Associer...' })
+    return this.root.page().getByTestId('activity-associate-elements-dropdown')
   }
 
   getAssociateTracesDropdownItem () {
-    return this.root.page().getByText('Une/des trace(s)', { exact: true })
+    return this.root.page().getByTestId('traces')
   }
 
   getAssociateTracesModal () {
