@@ -213,7 +213,7 @@
         },
         "StudentTraceView": {
           "AssociateDeclaredSkillsModal": {
-            "confirmTitle": "Êtes-vous certain(e) de vouloir associer ces compétences déclarées ?",
+            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cet élément ? | Êtes-vous certain(e) de vouloir associer ces éléments ?",
             "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer ?"
           },
           "DeleteTraceAssociatedElementsDropdown": {
