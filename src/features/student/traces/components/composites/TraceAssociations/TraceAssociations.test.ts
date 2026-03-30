@@ -4,6 +4,7 @@ import {
   mockedTraceDeclaredActivityAssociations,
   mockedTraceDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student'
+import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { AssociatedActivityCardStub } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import { AssociatedSkillCardStub } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
 import TraceAssociations
@@ -239,7 +240,24 @@ BddTest().given('a student trace associations component', () => {
   })
 
   BddTest().when('the component is mounted with only declared activity associations', () => {
-    const declaredActivityAssociations = mockedTraceDeclaredActivityAssociations
+    const declaredActivityAssociations = [
+      ...mockedTraceDeclaredActivityAssociations,
+      {
+        associationId: '8cb6cff4-2419-4b22-8c44-a92022a2423a',
+        declaredActivity: {
+          id: 'c1c9f6d2-6c2b-4a5e-9c4f-8e2a6b1d3f01',
+          activityId: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
+          title: 'Renforcer sa capacité d’adaptation',
+          thematic: EActivityThematic.RESUMES,
+          summary: 'Activité visant à analyser sa capacité à s’adapter à des contextes variés et à gérer les changements. L’étudiant.e identifie des situations concrètes illustrant sa flexibilité et sa résilience.',
+          executionPeriodInfoSummary: 'Avant entretien professionnel',
+          status: EDeclaredActivityStatus.COMPLETED,
+          startDate: '2027-01-10',
+          endDate: '2027-01-20',
+          updatedAt: '2026-03-30T15:43:46.438115Z'
+        }
+      }
+    ]
     const associationsProps = { declaredActivityAssociations, declaredSkillAssociations: [] }
 
     beforeEach(() => {
@@ -254,9 +272,9 @@ BddTest().given('a student trace associations component', () => {
       })
     })
 
-    BddTest().then('it should render 2 declared activity association cards', () => {
+    BddTest().then('it should render 3 declared activity association cards', () => {
       const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
-      expect(declaredActivityCards).toHaveLength(2)
+      expect(declaredActivityCards).toHaveLength(3)
     })
 
     BddTest().then('it should render only the declared activity associations container', () => {
@@ -286,7 +304,8 @@ BddTest().given('a student trace associations component', () => {
 
     BddTest().then('it should pass declared activity associations to the delete activities modal', () => {
       const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
-      expect(activitiesModal.props('associations')).toEqual(declaredActivityAssociations)
+      const expectedAssociations = declaredActivityAssociations.filter(association => association.declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
+      expect(activitiesModal.props('associations')).toEqual(expectedAssociations)
       expect(activitiesModal.props('traceId')).toBe(traceId)
     })
   })
