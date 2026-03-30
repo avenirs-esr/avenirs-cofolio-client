@@ -32,15 +32,15 @@ BddTest().given('a trace associate elements dropdown', () => {
     })
   })
 
-  BddTest().when('the skills button is clicked', () => {
+  BddTest().when('the activities button is clicked', () => {
     beforeEach(() => {
       wrapper = mount(TraceAssociateElementsDropdown, { global: { stubs } })
     })
 
-    BddTest().then('it should emit the skillsSelected event', async () => {
-      const skillsButton = wrapper.find('[data-name="skills"]')
-      await skillsButton.trigger('click')
-      expect(wrapper.emitted('skillsSelected')).toHaveLength(1)
+    BddTest().then('it should emit the activitiesSelected event', async () => {
+      const activitiesButton = wrapper.find('[data-name="activities"]')
+      await activitiesButton.trigger('click')
+      expect(wrapper.emitted('activitiesSelected')).toHaveLength(1)
     })
   })
 })
