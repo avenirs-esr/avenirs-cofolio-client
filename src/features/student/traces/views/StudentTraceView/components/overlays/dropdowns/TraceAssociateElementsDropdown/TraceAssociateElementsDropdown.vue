@@ -4,10 +4,12 @@ import { AvDropdown } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
+  (e: 'activitiesSelected'): void
   (e: 'skillsSelected'): void
 }>()
 
 enum TraceAssociateElementsDropdownEvents {
+  ACTIVITIES = 'activities',
   SKILLS = 'skills'
 }
 
@@ -15,14 +17,17 @@ const { t } = useI18n()
 
 const menuItems = computed(() => [
   {
-    name: TraceAssociateElementsDropdownEvents.SKILLS,
-    icon: ICONS.SKILLS,
-    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.skills')
+    name: TraceAssociateElementsDropdownEvents.ACTIVITIES,
+    icon: ICONS.ACTIVITY,
+    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities')
   }
 ])
 
 function handleItemSelected (itemName: string) {
   switch (itemName) {
+    case TraceAssociateElementsDropdownEvents.ACTIVITIES:
+      emit('activitiesSelected')
+      break
     case TraceAssociateElementsDropdownEvents.SKILLS:
       emit('skillsSelected')
       break
