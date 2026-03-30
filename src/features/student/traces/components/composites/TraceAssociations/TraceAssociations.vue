@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import type { TraceAssociationsDTO } from '@/api/avenir-esr'
+import { EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import AssociatedActivityCard from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import AssociatedSkillCard from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { ICONS } from '@/features/student/global/icons'
-import DeleteTraceAssociatedElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
-import TraceAssociateElementsDropdown from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
-import AssociateActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
+import DeleteTraceAssociatedElementsDropdown
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
+import TraceAssociateElementsDropdown
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
+import AssociateActivitiesModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import AssociateDeclaredSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
-import DeleteTraceAssociatedActivitiesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
-import DeleteTraceAssociatedSkillsModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
+import DeleteTraceAssociatedActivitiesModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
+import DeleteTraceAssociatedSkillsModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { useI18n } from 'vue-i18n'
@@ -31,13 +36,15 @@ const { showModal: showAssociationModal, displayModal: displayAssociationModal, 
 
 const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
 const declaredActivityAssociations = computed(() => associations.declaredActivityAssociations ?? [])
+
+const deletableDeclaredActivityAssociations = computed(() => declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED))
 </script>
 
 <template>
   <div class="av-col av-gap-xl av-pt-xl">
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteTraceAssociatedElementsDropdown
-        :activities-disabled="isEmpty(declaredActivityAssociations)"
+        :activities-disabled="isEmpty(deletableDeclaredActivityAssociations)"
         :skills-disabled="isEmpty(declaredSkillAssociations)"
         @activities-selected="displayActivitiesModal"
         @skills-selected="displaySkillsModal"
@@ -131,7 +138,7 @@ const declaredActivityAssociations = computed(() => associations.declaredActivit
   <DeleteTraceAssociatedActivitiesModal
     :show="showActivitiesModal"
     :trace-id="traceId"
-    :associations="declaredActivityAssociations"
+    :associations="deletableDeclaredActivityAssociations"
     @cancel="hideActivitiesModal"
     @deleted="hideActivitiesModal"
   />
