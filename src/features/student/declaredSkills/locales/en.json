@@ -44,7 +44,7 @@
           },
           "errors": {
             "createDeclaredSkill": "Error while adding the skill",
-            "declaredSkillAlreadyExist": "This declared skill is already assigned to the student"
+            "declaredSkillAlreadyExist": "This declared skill has already been assigned to you"
           },
           "success": "Skill added successfully",
           "title": "Add additional skill",

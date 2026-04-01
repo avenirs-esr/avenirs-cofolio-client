@@ -44,7 +44,7 @@
           },
           "errors": {
             "createDeclaredSkill": "Erreur lors de l'ajout de la compétence",
-            "declaredSkillAlreadyExist": "Cette compétence déclarée est déjà attribuée à l'étudiant"
+            "declaredSkillAlreadyExist": "Cette compétence déclarée vous est déjà attribuée"
           },
           "success": "Compétence ajoutée avec succès",
           "title": "Ajouter une compétence complémentaire",
