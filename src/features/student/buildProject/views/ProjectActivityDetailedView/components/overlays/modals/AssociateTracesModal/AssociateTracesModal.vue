@@ -184,9 +184,3 @@ function onConfirm () {
     @confirm="onConfirm"
   />
 </template>
-
-<style scoped lang="scss">
-:deep(.av-autocomplete-input__suffix) {
-  top: 50%;
-}
-</style>
