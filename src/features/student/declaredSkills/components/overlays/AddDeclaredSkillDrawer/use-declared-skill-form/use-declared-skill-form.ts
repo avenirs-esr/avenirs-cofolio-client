@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { EDeclaredSkillLevel, EErrorCode } from '@/api/avenir-esr'
 import { useCreateDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -13,7 +13,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const onCreateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.createDeclaredSkill'),
-      description: error.message
+      description: error.code === EErrorCode.STUDENT_DECLARED_ALREADY_EXIST ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.declaredSkillAlreadyExist') : error.message
     })
   }
 
