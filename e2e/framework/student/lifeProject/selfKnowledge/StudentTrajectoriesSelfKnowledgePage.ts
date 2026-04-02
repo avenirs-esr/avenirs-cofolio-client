@@ -14,6 +14,32 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
     super(page)
   }
 
+  getSectionNavigationSideNavigation () {
+    return this.page.getByTestId('section-navigation-side-navigation')
+  }
+
+  getSectionNavigationSelectNavigation () {
+    return this.page.locator('select[data-testid="section-navigation-select-navigation"]')
+  }
+
+  getSelfKnowledgeSideNavigationItem () {
+    return this.page.getByTestId('collapsed-menu-SELF_KNOWLEDGE')
+      .or(this.page.getByTestId('expanded-menu-SELF_KNOWLEDGE'))
+  }
+
+  async navigateToSelfKnowledgeSection () {
+    const sideNavigation = this.getSectionNavigationSideNavigation()
+
+    if (await sideNavigation.isVisible().catch(() => false)) {
+      await this.getSelfKnowledgeSideNavigationItem().click()
+      return
+    }
+
+    await this.getSectionNavigationSelectNavigation().selectOption({
+      value: 'SELF_KNOWLEDGE',
+    })
+  }
+
   getUpdateProfileDrawer () {
     return this.page.getByTestId('update-profile-drawer').locator('.av-drawer')
   }
@@ -30,15 +56,12 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
     return this.page.getByTestId('self-knowledge-section-title')
   }
 
-  @Then('the self-knowledge section title is displayed')
-  async verifySectionTitle () {
-    await expect(this.getSectionTitle()).toBeVisible()
-    await expect(this.getSectionTitle()).toHaveText(t('student.selfKnowledge.SelfKnowledgeMainSection.title.content'))
-  }
-
   @Given('the student opens the project self knowledge main section page')
   async goto () {
     await this.page.goto(STUDENT_ROUTES.PROJECT.TRAJECTORIES.SELF_KNOWLEDGE)
+    await waitForPageLoad(this.page)
+
+    await this.navigateToSelfKnowledgeSection()
     await waitForPageLoad(this.page)
   }
 
@@ -47,11 +70,17 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.TRAJECTORIES.SELF_KNOWLEDGE)
   }
 
+  @Then('the self-knowledge section title is displayed')
+  async verifySectionTitle () {
+    await expect(this.getSectionTitle()).toBeVisible()
+    await expect(this.getSectionTitle()).toHaveText(
+      t('student.selfKnowledge.SelfKnowledgeMainSection.title.content'),
+    )
+  }
+
   @When('the user clicks the display update profile drawer button')
   async clickDisplayUpdateProfileDrawerButton () {
-    const button = this.getDisplayUpdateProfileDrawerButton()
-    // TODO: replace with button.click() after removing side nav that cause hozontal scroll and prevent click action
-    await button.dispatchEvent('click')
+    await this.getDisplayUpdateProfileDrawerButton().click()
     await waitForPageLoad(this.page)
   }
 
@@ -64,7 +93,7 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
   async closeDrawer () {
     const updateProfileDrawer = this.getUpdateProfileDrawer()
     const exitButton = updateProfileDrawer.locator('.av-cancel-confirm-buttons-container button').first()
-    await exitButton.dispatchEvent('click')
+    await exitButton.click()
   }
 
   @Then('the update profile drawer is closed in the project self knowledge main section page')

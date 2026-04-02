@@ -33,7 +33,7 @@ export class StudentProjectActivityDetails extends BasePage {
   }
 
   getActivityDetailedSideNavigation () {
-    return this.page.getByTestId('activity-detailed-side-navigation')
+    return this.page.getByTestId('section-navigation-side-navigation')
   }
 
   @Then('the project activity details are loaded')

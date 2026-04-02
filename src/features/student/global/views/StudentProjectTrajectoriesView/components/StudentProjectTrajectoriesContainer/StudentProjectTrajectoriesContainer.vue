@@ -1,27 +1,22 @@
 <script setup lang="ts">
+import type { SectionNavigationItem } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
 import type { Component } from 'vue'
-import { useQueryParam, useWatchQueryParam } from '@/common/composables'
-import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
-import StudentProjectTrajectoriesExploreFuturesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
-import StudentProjectTrajectoriesTrajectoriesSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
+import SectionNavigationLayout
+  from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
+import StudentProjectTrajectoriesBuildProjectSection
+  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
+import StudentProjectTrajectoriesExploreFuturesSection
+  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
+import StudentProjectTrajectoriesTrajectoriesSection
+  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
 import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
 import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
-import { AvSideNavigation, type AvSideNavigationItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const isSideMenuCollapsed = ref<boolean>(false)
-const { setQueryParamValue } = useQueryParam()
-const selectedItem = ref<{ itemId: ProjectTrajectoryItems }>({ itemId: ProjectTrajectoryItems.BUILD_PROJECT })
 
-const sectionsMap: Record<ProjectTrajectoryItems, Component> = {
-  [ProjectTrajectoryItems.BUILD_PROJECT]: StudentProjectTrajectoriesBuildProjectSection,
-  [ProjectTrajectoryItems.TRAJECTORIES]: StudentProjectTrajectoriesTrajectoriesSection,
-  [ProjectTrajectoryItems.SELF_KNOWLEDGE]: SelfKnowledgeMainSection,
-  [ProjectTrajectoryItems.EXPLORE_FUTURES]: StudentProjectTrajectoriesExploreFuturesSection,
-}
-
-const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
+const allItems = computed<SectionNavigationItem[]>(() => [
   {
     id: ProjectTrajectoryItems.BUILD_PROJECT,
     label: t('student.global.views.studentProjectTrajectoriesView.buildProject.title'),
@@ -44,50 +39,48 @@ const ALL_ITEMS = computed<AvSideNavigationItem[]>(() => [
   },
 ])
 
-const items = computed<AvSideNavigationItem[]>(() => {
+const items = computed<SectionNavigationItem[]>(() => {
   if (__DEMO_MODE__) {
-    return ALL_ITEMS.value.slice(0, 2)
+    return allItems.value.slice(0, 2)
   }
-  return ALL_ITEMS.value
+
+  return allItems.value
 })
 
-const displayedSection = computed<Component>(() => {
-  return sectionsMap[selectedItem.value.itemId]
-})
+const componentBySection = {
+  [ProjectTrajectoryItems.BUILD_PROJECT]: StudentProjectTrajectoriesBuildProjectSection,
+  [ProjectTrajectoryItems.TRAJECTORIES]: StudentProjectTrajectoriesTrajectoriesSection,
+  [ProjectTrajectoryItems.SELF_KNOWLEDGE]: SelfKnowledgeMainSection,
+  [ProjectTrajectoryItems.EXPLORE_FUTURES]: StudentProjectTrajectoriesExploreFuturesSection,
+} satisfies Record<ProjectTrajectoryItems, Component>
 
-useWatchQueryParam('section', (newSection) => {
-  if (newSection && Object.values(ProjectTrajectoryItems).includes(newSection as ProjectTrajectoryItems)) {
-    selectedItem.value = { itemId: newSection as ProjectTrajectoryItems }
+const defaultSection = computed<ProjectTrajectoryItems>(() => {
+  const firstItem = items.value[0]?.id
+
+  if (firstItem && Object.values(ProjectTrajectoryItems).includes(firstItem as ProjectTrajectoryItems)) {
+    return firstItem as ProjectTrajectoryItems
   }
-})
 
-watch(selectedItem, (newSelectedItem) => {
-  setQueryParamValue('section', newSelectedItem.itemId)
-}, { immediate: true })
+  return ProjectTrajectoryItems.BUILD_PROJECT
+})
 </script>
 
 <template>
-  <div class="student-project-trajectories-container av-row av-w-full">
-    <AvSideNavigation
-      v-model:is-side-menu-collapsed="isSideMenuCollapsed"
-      v-model:selected-item="selectedItem"
+  <div class="student-project-trajectories-container av-w-full">
+    <SectionNavigationLayout
       :items="items"
-      data-testid="project-trajectories-side-navigation"
+      :default-section="defaultSection"
+      :component-by-section="componentBySection"
+      :select-placeholder="t('student.global.navigation.selects.label')"
+      :select-label="t('student.global.navigation.selects.label')"
+      side-navigation-width="11rem"
+      data-testid="project-trajectories-layout"
     />
-    <div class="student-project-trajectories-container__content av-col av-flex-fill av-p-lg">
-      <component :is="displayedSection" />
-    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .student-project-trajectories-container {
   min-height: calc(100vh - 28.15rem);
-
-  &__content {
-    h2 {
-      margin-bottom: var(--spacing-md);
-    }
-  }
 }
 </style>
