@@ -26,7 +26,7 @@ if (CI) {
 
 export default defineConfig({
   testDir,
-  preserveOutput: 'never',
+  preserveOutput: 'failures-only',
   timeout: CI ? 30000 : 10000,
   expect: {
     timeout: CI ? 10000 : 5000
