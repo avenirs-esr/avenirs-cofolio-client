@@ -4,33 +4,29 @@ import {
   EDeclaredActivityStatus,
 } from '@/api/avenir-esr'
 import {
+  SectionNavigationLayoutStub,
+} from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
+import {
   MyPerspectiveSectionStub,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.stub'
-import {
-  ActivityDetailedSelectNavigationStub,
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSelectNavigation/ActivityDetailedSelectNavigation.stub'
-import {
-  ActivityDetailedSideNavigationStub,
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSideNavigation/ActivityDetailedSideNavigation.stub'
+import MyPerspectiveSection
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
 import ProjectActivityDetailedLayout
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetailedLayout/ProjectActivityDetailedLayout.vue'
 import {
   ProjectActivityDetailsStub,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.stub'
+import ProjectActivityDetails
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
+import {
+  ACTIVITY_DETAILED_SECTIONS,
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
+import { ICONS } from '@/features/student/global/icons'
+import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
-
-const useAvBreakpointsMock = vi.fn()
-
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-  return {
-    ...actual,
-    useAvBreakpoints: () => useAvBreakpointsMock(),
-  }
-})
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a project activity detailed layout component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedLayout>>
@@ -56,167 +52,119 @@ BddTest().given('a project activity detailed layout component', () => {
   }
 
   const stubs = {
-    ActivityDetailedSideNavigation: ActivityDetailedSideNavigationStub,
-    ActivityDetailedSelectNavigation: ActivityDetailedSelectNavigationStub,
+    SectionNavigationLayout: SectionNavigationLayoutStub,
     ProjectActivityDetails: ProjectActivityDetailsStub,
     MyPerspectiveSection: MyPerspectiveSectionStub,
   }
 
-  BddTest().when('the component is mounted on desktop', () => {
+  BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: false,
-      })
-
       wrapper = mountComponent(ProjectActivityDetailedLayout, {
         props: {
           declaredActivityDetails,
         },
-        global: { stubs },
+        global: {
+          stubs,
+        },
       })
 
       await flushPromises()
     })
 
-    BddTest().then('it should render the layout container', () => {
-      expect(wrapper.find('[data-testid="activity-detailed-layout"]').exists()).toBe(true)
+    BddTest().then('it should render the section navigation layout', () => {
+      expect(wrapper.find('[data-testid="section-navigation-layout"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the desktop side navigation', () => {
-      expect(wrapper.find('[data-testid="activity-detailed-side-navigation"]').exists()).toBe(true)
+    BddTest().then('it should pass the default section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(sectionNavigationLayout.props('defaultSection')).toBe(
+        ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+      )
     })
 
-    BddTest().then('it should not render the mobile select navigation', () => {
-      expect(wrapper.find('[data-testid="activity-detailed-select-navigation"]').exists()).toBe(false)
+    BddTest().then('it should pass the select placeholder', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(sectionNavigationLayout.props('selectPlaceholder')).toBe(
+        'Accéder à',
+      )
     })
 
-    BddTest().then('it should render project activity details by default', () => {
-      expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(false)
+    BddTest().then('it should pass the expected navigation items', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(sectionNavigationLayout.props('items')).toEqual([
+        {
+          id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+          label: 'Mon activité',
+          icon: ICONS.ACTIVITY,
+        },
+        {
+          id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
+          label: 'Ma prise de recul',
+          icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
+        },
+      ])
     })
 
-    BddTest().then('it should pass the declared activity detail to project activity details', () => {
-      const projectActivityDetails = wrapper.findComponent(ProjectActivityDetailsStub)
+    BddTest().then('it should pass the expected components by section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const componentBySection = sectionNavigationLayout.props('componentBySection') as Record<string, unknown>
 
-      expect(projectActivityDetails.exists()).toBe(true)
-      expect(projectActivityDetails.props('declaredActivityDetails')).toEqual(declaredActivityDetails)
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(componentBySection[ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]).toBe(ProjectActivityDetails)
+      expect(componentBySection[ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]).toBe(MyPerspectiveSection)
     })
 
-    BddTest().then('it should pass the activity title to side navigation', () => {
-      const sideNavigation = wrapper.findComponent(ActivityDetailedSideNavigationStub)
+    BddTest().then('it should pass the declared activity details in props by section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const propsBySection = sectionNavigationLayout.props('propsBySection') as Record<string, Record<string, unknown>>
 
-      expect(sideNavigation.exists()).toBe(true)
-      expect(sideNavigation.props('activityTitle')).toBe('Mon activité')
-    })
-
-    BddTest().then('it should pass the default selected item to side navigation', () => {
-      const sideNavigation = wrapper.findComponent(ActivityDetailedSideNavigationStub)
-
-      expect(sideNavigation.props('selectedItem')).toEqual({
-        itemId: 'activity-detailed',
-      })
-    })
-
-    BddTest().and('the side navigation selects my perspective', () => {
-      beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(ActivityDetailedSideNavigationStub)
-        await sideNavigation.vm.$emit('update:selectedItem', { itemId: 'my-perspective' })
-        await flushPromises()
-      })
-
-      BddTest().then('it should render my perspective section', () => {
-        expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(true)
-      })
-
-      BddTest().then('it should no longer render project activity details', () => {
-        expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(false)
-      })
-    })
-
-    BddTest().and('the side navigation emits an invalid selected item', () => {
-      beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(ActivityDetailedSideNavigationStub)
-        await sideNavigation.vm.$emit('update:selectedItem', { itemId: 'invalid-value' })
-        await flushPromises()
-      })
-
-      BddTest().then('it should keep project activity details as default section', () => {
-        expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(false)
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(propsBySection).toEqual({
+        [ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]: {
+          declaredActivityDetails,
+        },
+        [ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]: {
+          declaredActivityDetails,
+        },
       })
     })
   })
 
-  BddTest().when('the component is mounted on mobile', () => {
+  BddTest().when('the activity title is empty', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: true,
-      })
-
       wrapper = mountComponent(ProjectActivityDetailedLayout, {
         props: {
-          declaredActivityDetails,
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            activity: {
+              ...declaredActivityDetails.activity,
+              title: '',
+            },
+          },
         },
-        global: { stubs },
+        global: {
+          stubs,
+        },
       })
 
       await flushPromises()
     })
 
-    BddTest().then('it should render the mobile select navigation', () => {
-      expect(wrapper.find('[data-testid="activity-detailed-select-navigation"]').exists()).toBe(true)
-    })
+    BddTest().then('it should use the global detail label for the activity detailed item', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const items = sectionNavigationLayout.props('items') as Array<Record<string, string>>
 
-    BddTest().then('it should not render the desktop side navigation', () => {
-      expect(wrapper.find('[data-testid="activity-detailed-side-navigation"]').exists()).toBe(false)
-    })
-
-    BddTest().then('it should render project activity details by default', () => {
-      expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(false)
-    })
-
-    BddTest().then('it should pass the activity title to select navigation', () => {
-      const selectNavigation = wrapper.findComponent(ActivityDetailedSelectNavigationStub)
-
-      expect(selectNavigation.exists()).toBe(true)
-      expect(selectNavigation.props('activityTitle')).toBe('Mon activité')
-    })
-
-    BddTest().then('it should pass the default selected item to select navigation', () => {
-      const selectNavigation = wrapper.findComponent(ActivityDetailedSelectNavigationStub)
-
-      expect(selectNavigation.props('selectedItem')).toEqual({
-        itemId: 'activity-detailed',
-      })
-    })
-
-    BddTest().and('the select navigation selects my perspective', () => {
-      beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent(ActivityDetailedSelectNavigationStub)
-        await selectNavigation.vm.$emit('update:selectedItem', { itemId: 'my-perspective' })
-        await flushPromises()
-      })
-
-      BddTest().then('it should render my perspective section', () => {
-        expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(true)
-      })
-
-      BddTest().then('it should no longer render project activity details', () => {
-        expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(false)
-      })
-    })
-
-    BddTest().and('the select navigation emits an invalid selected item', () => {
-      beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent(ActivityDetailedSelectNavigationStub)
-        await selectNavigation.vm.$emit('update:selectedItem', { itemId: 'invalid-value' })
-        await flushPromises()
-      })
-
-      BddTest().then('it should keep project activity details as default section', () => {
-        expect(wrapper.find('[data-testid="project-activity-details"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="my-perspective-section"]').exists()).toBe(false)
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(items[0]).toEqual({
+        id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+        label: 'Détail',
+        icon: ICONS.ACTIVITY,
       })
     })
   })

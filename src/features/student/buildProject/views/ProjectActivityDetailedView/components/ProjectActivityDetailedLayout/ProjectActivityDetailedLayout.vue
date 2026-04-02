@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import type { AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
-import type { Component } from 'vue'
+import SectionNavigationLayout
+  from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
 import MyPerspectiveSection
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
-import ActivityDetailedSelectNavigation
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSelectNavigation/ActivityDetailedSelectNavigation.vue'
-import ActivityDetailedSideNavigation
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/navigation/ActivityDetailedSideNavigation/ActivityDetailedSideNavigation.vue'
 import ProjectActivityDetails
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
 import {
-  ACTIVITY_DETAILED_SECTIONS,
-  type ActivityDetailedSection
+  ACTIVITY_DETAILED_SECTIONS
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@/features/student/global/icons'
+import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailedLayoutProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
@@ -22,75 +19,42 @@ export interface ProjectActivityDetailedLayoutProps {
 
 const { declaredActivityDetails } = defineProps<ProjectActivityDetailedLayoutProps>()
 
-const { isMobile } = useAvBreakpoints()
+const { t } = useI18n()
 
-const selectedItem = ref<AvSideNavigationSelectedItem>({
-  itemId: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
-})
+const items = computed(() => [
+  {
+    id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+    label: declaredActivityDetails.activity.title || t('global.detail'),
+    icon: ICONS.ACTIVITY,
+  },
+  {
+    id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
+    icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
+  },
+])
 
-function isActivityDetailedSection (value: string): value is ActivityDetailedSection {
-  return Object.values(ACTIVITY_DETAILED_SECTIONS).includes(value as ActivityDetailedSection)
+const componentBySection = {
+  [ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]: ProjectActivityDetails,
+  [ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]: MyPerspectiveSection,
 }
 
-const selectedSection = computed<ActivityDetailedSection>(() => {
-  const itemId = selectedItem.value.itemId
-
-  if (itemId && isActivityDetailedSection(itemId)) {
-    return itemId
-  }
-
-  return ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED
-})
-
-const displayedSection = computed<Component>(() => {
-  switch (selectedSection.value) {
-    case ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE:
-      return MyPerspectiveSection
-    case ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED:
-    default:
-      return ProjectActivityDetails
-  }
-})
-
-const sectionProps = computed<Record<string, unknown>>(() => {
-  switch (selectedSection.value) {
-    case ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE:
-    case ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED:
-    default:
-      return {
-        declaredActivityDetails,
-      }
-  }
-})
-
-function updateSelectedItem (value: AvSideNavigationSelectedItem) {
-  selectedItem.value = value
-}
+const propsBySection = computed(() => ({
+  [ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]: {
+    declaredActivityDetails,
+  },
+  [ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]: {
+    declaredActivityDetails,
+  },
+}))
 </script>
 
 <template>
-  <div
-    class="av-py-md av-gap-sm"
-    :class="[isMobile ? 'av-col' : 'av-row']"
-    data-testid="activity-detailed-layout"
-  >
-    <ActivityDetailedSideNavigation
-      v-if="!isMobile"
-      v-model:selected-item="selectedItem"
-      :activity-title="declaredActivityDetails.activity.title"
-    />
-    <ActivityDetailedSelectNavigation
-      v-else
-      :selected-item="selectedItem"
-      :activity-title="declaredActivityDetails.activity.title"
-      @update:selected-item="updateSelectedItem"
-    />
-
-    <div class="av-col av-gap-sm av-flex-fill">
-      <component
-        :is="displayedSection"
-        v-bind="sectionProps"
-      />
-    </div>
-  </div>
+  <SectionNavigationLayout
+    :items="items"
+    :default-section="ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED"
+    :component-by-section="componentBySection"
+    :props-by-section="propsBySection"
+    :select-placeholder="t('student.global.navigation.selects.label')"
+  />
 </template>
