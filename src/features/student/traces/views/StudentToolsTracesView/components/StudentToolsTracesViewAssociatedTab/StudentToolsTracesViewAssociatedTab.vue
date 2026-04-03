@@ -39,7 +39,10 @@ watch([
 </script>
 
 <template>
-  <div class="av-col av-w-full av-gap-lg">
+  <div
+    class="av-col av-w-full av-gap-lg"
+    data-testid="associated-traces-tab"
+  >
     <TraceFilterContainer
       :is-associated="true"
       @update:filters="onUpdateFilters"
@@ -56,6 +59,7 @@ watch([
           v-for="trace in traces"
           :key="trace.id"
           :trace="trace"
+          data-testid="associated-trace-card"
         />
       </div>
     </Pagination>

@@ -71,6 +71,7 @@ const breadcrumbLinks = computed(() => [
     <div
       v-if="!!traceDetailed"
       class="main-container"
+      data-testid="trace-detailed-main-container"
     >
       <div class="av-row av-justify-between av-align-center av-pb-md">
         <h5 class="n5">
@@ -91,6 +92,7 @@ const breadcrumbLinks = computed(() => [
         <AvTab
           :title="t('student.traces.views.StudentTraceView.tabs.details')"
           :icon="MDI_ICONS.INFORMATION_OUTLINE"
+          data-testid="my-trace-tab-item"
         >
           <div
             v-if="traceDetailsError"
@@ -107,6 +109,7 @@ const breadcrumbLinks = computed(() => [
         <AvTab
           :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: countAssociations })"
           :icon="ICONS.ASSOCIATIONS"
+          data-testid="associations-tab-item"
         >
           <div
             v-if="associationsError"

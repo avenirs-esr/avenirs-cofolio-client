@@ -6,6 +6,8 @@ import FloatingIconCard from '@/features/student/global/components/cards/Floatin
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineOptions({ inheritAttrs: false })
+
 const { trace } = defineProps<{ trace: TraceViewDTO }>()
 const { id, title, isAssociated, willBeDeletedAt } = trace
 
@@ -26,6 +28,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
+    v-bind="$attrs"
     class="student-detailed-trace-card"
     :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id } }"
   >

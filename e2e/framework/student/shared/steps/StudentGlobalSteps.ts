@@ -171,4 +171,15 @@ class StudentGlobalSteps extends BasePage {
   async verifyNavigationToActivitiesPage () {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
   }
+
+  @Given('the student opens the tools traces page')
+  async goToToolsTracesPage () {
+    await this.page.goto(STUDENT_ROUTES.TOOLS.TRACES)
+    await waitForPageLoad(this.page)
+  }
+
+  @Then('the student tools traces page is displayed')
+  async verifyNavigationToToolsTracesPage () {
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
+  }
 }

@@ -7,6 +7,8 @@ import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/life
 import { StudentProjectActivityDetails } from '@e2e/framework/student/lifeProject/activityDetails/StudentProjectActivityDetails'
 import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentTrajectoriesSelfKnowledgePage'
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
+import { StudentTracePage } from '@e2e/framework/student/tools/traceDetails/StudentTracePage'
+import { StudentToolsTracesPage } from '@e2e/framework/student/tools/traces/StudentToolsTracesPage'
 import { test as base, createBdd } from 'playwright-bdd'
 
 interface Fixtures {
@@ -18,6 +20,8 @@ interface Fixtures {
   studentProjectActivityDetails: StudentProjectActivityDetails
   studentTrajectoriesSelfKnowledgePage: StudentTrajectoriesSelfKnowledgePage
   studentProjectActivitiesCatalogPage: StudentProjectActivitiesCatalogPage
+  studentToolsTracesPage: StudentToolsTracesPage
+  studentTracePage: StudentTracePage
 }
 
 export const test = base.extend<Fixtures>({
@@ -52,6 +56,14 @@ export const test = base.extend<Fixtures>({
     await setLocaleFromPage(page)
     await use(new StudentProjectActivitiesCatalogPage(page))
   },
+  studentToolsTracesPage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentToolsTracesPage(page))
+  },
+  studentTracePage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentTracePage(page))
+  }
 })
 
 export const { BeforeScenario, AfterScenario } = createBdd(test)
