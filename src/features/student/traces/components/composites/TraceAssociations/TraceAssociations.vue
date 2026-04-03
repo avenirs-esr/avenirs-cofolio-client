@@ -17,7 +17,6 @@ import DeleteTraceAssociatedActivitiesModal
 import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
-import isEmpty from 'lodash-es/isEmpty'
 import { useI18n } from 'vue-i18n'
 
 export interface TraceAssociationsProps {
@@ -41,11 +40,14 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
 </script>
 
 <template>
-  <div class="av-col av-gap-xl av-pt-xl">
+  <div
+    class="av-col av-gap-xl av-pt-xl"
+    data-testid="trace-associations"
+  >
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteTraceAssociatedElementsDropdown
-        :activities-disabled="isEmpty(deletableDeclaredActivityAssociations)"
-        :skills-disabled="isEmpty(declaredSkillAssociations)"
+        :activities-disabled="deletableDeclaredActivityAssociations.length === 0"
+        :skills-disabled="declaredSkillAssociations.length === 0"
         @activities-selected="displayActivitiesModal"
         @skills-selected="displaySkillsModal"
       />
@@ -58,7 +60,7 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
     <slot name="caption" />
 
     <AvCard
-      v-if="!isEmpty(declaredSkillAssociations)"
+      v-if="declaredSkillAssociations.length > 0"
       data-testid="declared-skill-associations-container"
       background-color="var(--surface-background)"
       title-background="var(--surface-background)"
@@ -84,12 +86,13 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
           v-for="skill in declaredSkillAssociations"
           :key="skill.associationId"
           :declared-skill="skill.declaredSkill"
+          data-testid="associated-skill-card"
         />
       </div>
     </AvCard>
 
     <AvCard
-      v-if="!isEmpty(declaredActivityAssociations)"
+      v-if="declaredActivityAssociations.length > 0"
       data-testid="declared-activity-associations-container"
       background-color="var(--surface-background)"
       title-background="var(--surface-background)"
@@ -115,6 +118,7 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
           v-for="activityAssociation in declaredActivityAssociations"
           :key="activityAssociation.associationId"
           :declared-activity="activityAssociation.declaredActivity"
+          data-testid="associated-activity-card"
         />
       </div>
     </AvCard>

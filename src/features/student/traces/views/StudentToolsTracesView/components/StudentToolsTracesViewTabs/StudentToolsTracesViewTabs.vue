@@ -18,12 +18,14 @@ const activeTab = ref(0)
     <AvTab
       :title="`${t('student.traces.views.StudentToolsTracesView.studentToolsTracesViewTabs.unassociatedTracesTab.title', { count: tracesSummary?.unassociated ?? 0 })}`"
       :icon="MDI_ICONS.ALERT_OUTLINE"
+      data-testid="unassociated-traces-tab-item"
     >
       <StudentToolsTracesViewUnassociatedTab :traces-summary="tracesSummary" />
     </AvTab>
     <AvTab
       :title="`${t('student.traces.views.StudentToolsTracesView.studentToolsTracesViewTabs.associatedTracesTab.title', { count: tracesSummary?.associated ?? 0 })}`"
       :icon="MDI_ICONS.LINK"
+      data-testid="associated-traces-tab-item"
     >
       <StudentToolsTracesViewAssociatedTab />
     </AvTab>
