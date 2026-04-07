@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { Component } from 'vue'
 import SelectedAssociateItemsContainer, {
   type SelectedAssociateItemsContainerProps
 } from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
@@ -7,15 +8,17 @@ import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
+const SelectedAssociateItemsContainerComponent = SelectedAssociateItemsContainer as unknown as Component
+
 BddTest().given('a selected associate items container', () => {
-  let wrapper: VueWrapper<InstanceType<typeof SelectedAssociateItemsContainer>>
+  let wrapper: VueWrapper
 
   const stubs = {
     AvCard: AvCardStub,
     DeleteOverlay: DeleteOverlayStub
   }
 
-  const props: SelectedAssociateItemsContainerProps = {
+  const props: SelectedAssociateItemsContainerProps<{ id: string, title: string }> = {
     items: [
       { id: 'item-1', title: 'Item 1' },
       { id: 'item-2', title: 'Item 2' }
@@ -24,7 +27,7 @@ BddTest().given('a selected associate items container', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mountComponent(SelectedAssociateItemsContainer, {
+      wrapper = mountComponent(SelectedAssociateItemsContainerComponent, {
         props,
         global: { stubs },
         slots: {
@@ -50,7 +53,7 @@ BddTest().given('a selected associate items container', () => {
 
   BddTest().when('a delete overlay emits delete', () => {
     beforeEach(() => {
-      wrapper = mountComponent(SelectedAssociateItemsContainer, {
+      wrapper = mountComponent(SelectedAssociateItemsContainerComponent, {
         props,
         global: { stubs },
         slots: {
@@ -71,7 +74,7 @@ BddTest().given('a selected associate items container', () => {
 
   BddTest().when('the component is mounted with no items', () => {
     beforeEach(() => {
-      wrapper = mountComponent(SelectedAssociateItemsContainer, {
+      wrapper = mountComponent(SelectedAssociateItemsContainerComponent, {
         props: {
           items: []
         },

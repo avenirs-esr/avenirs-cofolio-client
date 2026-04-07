@@ -55,6 +55,15 @@
             "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
             "skillRequired": "Une compétence doit être sélectionnée"
           }
+        },
+        "modals": {
+          "AssociateDeclaredSkillsModal": {
+            "confirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
+            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence ? | Êtes-vous certain(e) de vouloir associer ces compétences ?",
+            "searchPlaceholder": "Entrer le nom d'une compétence déclarée",
+            "success": "{count} compétence associée avec succès | {count} compétences associées avec succès",
+            "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer ?"
+          }
         }
       },
       "views": {

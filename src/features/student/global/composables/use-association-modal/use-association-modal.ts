@@ -5,7 +5,7 @@ import { useModal } from '@/common/composables'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
-export function useAssociationModal () {
+export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompleteOption> () {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const {
@@ -15,7 +15,7 @@ export function useAssociationModal () {
   } = useModal()
 
   const searchQuery = ref('')
-  const selectedOptions = ref<AvAutocompleteOption[]>([])
+  const selectedOptions = ref<T[]>([]) as Ref<T[]>
 
   const selectedAssociations = computed(() =>
     selectedOptions.value.map(option => ({
@@ -45,6 +45,13 @@ export function useAssociationModal () {
     })
   }
 
+  function onAssociateMutationError (error: BaseApiException) {
+    addErrorMessage({
+      title: t('global.error.generic'),
+      description: error.message,
+    })
+  }
+
   return {
     searchQuery,
     selectedOptions,
@@ -54,6 +61,7 @@ export function useAssociationModal () {
     hideConfirmModal,
     onSearch,
     onDeleteItem,
-    listenAndDisplayToastOnSearchError
+    listenAndDisplayToastOnSearchError,
+    onAssociateMutationError
   }
 }

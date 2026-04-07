@@ -1,20 +1,20 @@
-<script setup lang="ts" generic="T extends AvAutocompleteOption">
-import type { IdTitle, IdTitleList } from '@/types'
+<script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
+import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption, AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import SelectedAssociateItemsContainer
   from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
 import { AvAutocomplete } from '@avenirs-esr/avenirs-dsav'
 
-interface SearchAssociationLayoutProps<T> {
+interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends IdTitle = IdTitle> {
   options: T[]
-  items: IdTitleList
+  items: U[]
   inputOptions?: Omit<AvInputProps, 'id' | 'modelValue'>
   getOptionKey?: (option: T) => string | number
   getOptionLabel?: (option: T) => string
   loading?: boolean
 }
 
-const props = defineProps<SearchAssociationLayoutProps<T>>()
+const props = defineProps<SearchAssociationLayoutProps<T, U>>()
 
 const emit = defineEmits<{
   (e: 'search', query: string): void
@@ -25,7 +25,7 @@ const emit = defineEmits<{
 
 defineSlots<{
   beforeSearch?: () => unknown
-  selectedItem?: (props: { item: IdTitle }) => unknown
+  selectedItem?: (props: { item: U }) => unknown
 }>()
 
 const selectedOptions = defineModel<T[]>({ default: () => [] })

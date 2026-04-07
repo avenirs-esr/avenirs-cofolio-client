@@ -20,6 +20,11 @@ const menuItems = computed(() => [
     name: TraceAssociateElementsDropdownEvents.ACTIVITIES,
     icon: ICONS.ACTIVITY,
     label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities')
+  },
+  {
+    name: TraceAssociateElementsDropdownEvents.SKILLS,
+    icon: ICONS.SKILLS,
+    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.skills')
   }
 ])
 

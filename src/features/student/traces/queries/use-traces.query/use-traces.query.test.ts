@@ -1,7 +1,9 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
-import { createMockedSearchActivitiesForAssociationResponse, invalidTraceId, mockedTraceActivitySearchResults, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import { createMockedSearchActivitiesForAssociationResponse, invalidTraceId, mockedSkillSearchResults, mockedTraceActivitySearchResults, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
+import { associateTraceWithDeclaredSkillsErrorHandler, searchSkillsForAssociationErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
 import {
   ELanguage,
   type PagedResponseTraceViewDTO,
@@ -16,21 +18,25 @@ import {
 import { useInvalidateQuery } from '@/common/composables'
 import {
   type AssociateTraceWithActivitiesVariables,
+  type AssociateTraceWithDeclaredSkillsVariables,
   type DeleteTraceAssociationsMutationVariables,
   type DeleteTraceVariables,
   type SearchActivitiesForAssociationQueryParams,
   type UpdateTraceVariables,
   useAssociateTraceWithActivitiesMutation,
+  useAssociateTraceWithDeclaredSkillsMutation,
+  type UseDeclaredSkillsForAssociationQueryParams,
   useDeleteTraceAssociationsMutation,
   useDeleteTraceMutation,
   useSearchActivitiesForAssociationQuery,
+  useSearchDeclaredSkillsForAssociationWithTraceQuery,
   useStudentTracesSummaryQuery,
   useTraceAssociationsQuery,
   useTraceDetailedQuery,
   useTracesConfigurationQuery,
   useTracesSummaryQuery,
   useTracesViewQuery,
-  useUpdateTraceMutation
+  useUpdateTraceMutation,
 } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -1360,6 +1366,206 @@ BddTest().given('a useAssociateTraceWithActivitiesMutation composable', () => {
         mutationResult = mountQueryComposable(() => useAssociateTraceWithActivitiesMutation(mutationArgs))
         await mutationResult.mutateAsync(variables).catch(() => {})
         await flushPromises()
+      })
+
+      BddTest().then('it should mark the mutation as error', () => {
+        expect(mutationResult.isError.value).toBe(true)
+        expect(mutationResult.isSuccess.value).toBe(false)
+      })
+
+      BddTest().then('it should call the onError callback', () => {
+        expect(mockOnError).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call the onSuccess callback', () => {
+        expect(mockOnSuccess).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not invalidate the query on error', () => {
+        expect(mockInvalidateFunction).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
+BddTest().given('a useSearchDeclaredSkillsForAssociationWithTraceQuery composable', () => {
+  let searchDeclaredSkillForAssociationSpy: MockInstance
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    searchDeclaredSkillForAssociationSpy = vi.spyOn(
+      await import('@/api/avenir-esr'),
+      'searchDeclaredSkillForAssociation'
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid trace ID', () => {
+    const traceId = ref('trace-123')
+    const params: UseDeclaredSkillsForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10 })
+
+    BddTest().when('the query is mounted', () => {
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithTraceQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredSkillForAssociation API', () => {
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+      })
+
+      BddTest().then('it should return skills from data', () => {
+        expect(queryResult.skills.value).toEqual(mockedSkillSearchResults)
+      })
+
+      BddTest().then('it should return page info from data', () => {
+        expect(queryResult.pageInfo.value).toMatchObject({
+          page: 0,
+          pageSize: 10,
+          totalElements: mockedSkillSearchResults.length,
+          totalPages: 1
+        })
+      })
+
+      BddTest().then('it should mark the query as successful', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+        expect(queryResult.isError.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the query fails with a server error', () => {
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithTraceQuery>
+
+      beforeEach(async () => {
+        server.use(searchSkillsForAssociationErrorHandler)
+        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredSkillForAssociation API', () => {
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+      })
+
+      BddTest().then('it should be in error state', async () => {
+        await vi.waitFor(() => {
+          expect(queryResult.isError.value).toBe(true)
+        })
+        expect(queryResult.isSuccess.value).toBe(false)
+      })
+
+      BddTest().then('it should return empty skills on error', () => {
+        expect(queryResult.skills.value).toEqual([])
+      })
+
+      BddTest().then('it should return default page info on error', () => {
+        expect(queryResult.pageInfo.value).toEqual({
+          page: 0,
+          pageSize: 0,
+          totalElements: 0,
+          totalPages: 0
+        })
+      })
+    })
+  })
+
+  BddTest().and('an empty trace ID', () => {
+    const traceId = ref('')
+    const params: UseDeclaredSkillsForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10 })
+
+    BddTest().when('the query is mounted', () => {
+      beforeEach(async () => {
+        mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({ traceId, params }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredSkillForAssociation API', () => {
+        expect(searchDeclaredSkillForAssociationSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
+})
+
+BddTest().given('a useAssociateTraceWithDeclaredSkillsMutation composable', () => {
+  let associateTraceWithDeclaredSkillSpy: MockInstance
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+  const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
+  const mockInvalidateFunction = vi.fn()
+
+  const mutationArgs: MutationArgs<TraceAssociationsDTO, AssociateTraceWithDeclaredSkillsVariables> = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
+    associateTraceWithDeclaredSkillSpy = vi.spyOn(
+      await import('@/api/avenir-esr'),
+      'associateTraceWithDeclaredSkill'
+    )
+    mockOnSuccess.mockReset()
+    mockOnError.mockReset()
+    mockInvalidateFunction.mockReset().mockResolvedValue(undefined)
+  })
+
+  BddTest().and('a valid trace ID', () => {
+    const variables: AssociateTraceWithDeclaredSkillsVariables = {
+      traceId: 'trace-123',
+      associationsCreationRequest: {
+        idsToAssociate: ['skill-1', 'skill-2']
+      }
+    }
+
+    BddTest().when('the mutation is called successfully', () => {
+      let mutationResult: ReturnType<typeof useAssociateTraceWithDeclaredSkillsMutation>
+
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() => useAssociateTraceWithDeclaredSkillsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateTraceWithDeclaredSkill API', () => {
+        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
+          variables.traceId,
+          variables.associationsCreationRequest
+        )
+      })
+
+      BddTest().then('it should invalidate the trace associations query', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call the onSuccess callback', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should mark the mutation as successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+    })
+
+    BddTest().when('the mutation fails with a server error', () => {
+      let mutationResult: ReturnType<typeof useAssociateTraceWithDeclaredSkillsMutation>
+
+      beforeEach(async () => {
+        server.use(associateTraceWithDeclaredSkillsErrorHandler)
+        mutationResult = mountQueryComposable(() => useAssociateTraceWithDeclaredSkillsMutation(mutationArgs))
+        await mutationResult.mutateAsync(variables).catch(() => {})
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the associateTraceWithDeclaredSkill API', () => {
+        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
+          variables.traceId,
+          variables.associationsCreationRequest
+        )
       })
 
       BddTest().then('it should mark the mutation as error', () => {

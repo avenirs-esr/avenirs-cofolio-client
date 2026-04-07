@@ -218,10 +218,6 @@
             "success": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
             "title": "Quelle(s) activité(s) souhaitez-vous associer ?"
           },
-          "AssociateDeclaredSkillsModal": {
-            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cet élément ? | Êtes-vous certain(e) de vouloir associer ces éléments ?",
-            "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer ?"
-          },
           "ConfirmAssociateActivitiesModal": {
             "title": "Êtes-vous certain(e) de vouloir associer cette activité ? | Êtes-vous certain(e) de vouloir associer ces activités ?"
           },

@@ -55,6 +55,15 @@
             "levelRequired": "A self-positioning level must be selected",
             "skillRequired": "A skill must be selected"
           }
+        },
+        "modals": {
+          "AssociateDeclaredSkillsModal": {
+            "confirm": "Associate selected skill (1) | Associate selected skills ({count})",
+            "confirmTitle": "Are you sure you want to associate this skill? | Are you sure you want to associate these skills?",
+            "searchPlaceholder": "Enter the name of a declared skill",
+            "success": "You have associated {count} declared skill. | You have associated {count} declared skills.",
+            "title": "Which declared skill(s) would you like to associate?"
+          }
         }
       },
       "views": {

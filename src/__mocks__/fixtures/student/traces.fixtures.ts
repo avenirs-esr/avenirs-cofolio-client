@@ -10,9 +10,11 @@ import {
   EFileType,
   type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
   type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
+  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
   type PagedResponseTraceViewDTO,
   type SearchTracesForAssociationParams,
   type TraceAssociationDeclaredActivityInfoDTO,
+  type TraceAssociationDeclaredSkillInfoDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
@@ -341,6 +343,55 @@ export const mockedTraceActivitySearchResults: TraceAssociationDeclaredActivityI
     disabled: true
   }
 ]
+
+export const mockedSkillSearchResults: TraceAssociationDeclaredSkillInfoDTO[] = [
+  {
+    id: 'skill-search-1',
+    title: 'Gestion de projet agile',
+    type: EExternalSkillType.ROME4,
+    disabled: false
+  },
+  {
+    id: 'skill-search-2',
+    title: 'Communication interpersonnelle',
+    type: EExternalSkillType.XXI,
+    disabled: false
+  },
+  {
+    id: 'skill-search-3',
+    title: 'Analyse de données',
+    type: EExternalSkillType.ROME4,
+    disabled: true
+  }
+]
+
+export function createMockedSearchSkillsForAssociationResponse (
+  params?: { keyword?: string, page?: number, pageSize?: number }
+): PagedResponseTraceAssociationDeclaredSkillInfoDTO {
+  const { keyword, page = 0, pageSize = 100 } = params ?? {}
+
+  let filtered = mockedSkillSearchResults
+
+  if (keyword?.trim()) {
+    filtered = filtered.filter(skill =>
+      skill.title.toLowerCase().includes(keyword.toLowerCase())
+    )
+  }
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedData = filtered.slice(start, end)
+
+  return {
+    data: paginatedData,
+    page: {
+      page,
+      pageSize,
+      totalElements: filtered.length,
+      totalPages: Math.ceil(filtered.length / pageSize)
+    }
+  }
+}
 
 export function createMockedSearchActivitiesForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }

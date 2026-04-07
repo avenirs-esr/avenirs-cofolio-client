@@ -10,8 +10,8 @@ import TraceAssociateElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
 import AssociateActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
-import AssociateDeclaredSkillsModal
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
+import AssociateDeclaredSkillsToTracesModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import DeleteTraceAssociatedActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
 import DeleteTraceAssociatedSkillsModal
@@ -147,8 +147,9 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
     @deleted="hideActivitiesModal"
   />
 
-  <AssociateDeclaredSkillsModal
+  <AssociateDeclaredSkillsToTracesModal
     :show="showAssociationModal"
+    :trace-id="traceId"
     @cancel="hideAssociationModal"
     @associated="hideAssociationModal"
   />

@@ -4,6 +4,7 @@ import {
   associate,
   type AssociateTraceDTO,
   associateTraceWithActivities,
+  associateTraceWithDeclaredSkill,
   type AssociationsCreationRequest,
   createTrace,
   type CreateTraceDTO,
@@ -17,11 +18,15 @@ import {
   getTraceOverview,
   getTracesSummary,
   type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
+  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   searchDeclaredActivityForAssociation,
   type SearchDeclaredActivityForAssociationParams,
+  searchDeclaredSkillForAssociation,
+  type SearchDeclaredSkillForAssociationParams,
   type TraceAssociationDeclaredActivityInfoDTO,
+  type TraceAssociationDeclaredSkillInfoDTO,
   type TraceAssociationsDTO,
   type TraceAssociationSearchResult,
   type TraceConfigurationDTO,
@@ -49,6 +54,7 @@ const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
 const traceAssociationsQueryKey = [...tracesCommonQueryKeys, 'associations']
 const tracesViewQueryKey = [...tracesCommonQueryKeys, 'view']
 const tracesSearchAssociationActivitiesQueryKey = [...tracesCommonQueryKeys, 'search-association-activities']
+const tracesSearchAssociationSkillsQueryKey = [...tracesCommonQueryKeys, 'search-association-skills']
 
 export interface UseTracesViewQueryParams {
   params: Ref<TracesViewParams>
@@ -413,6 +419,87 @@ export function useAssociateTraceWithActivitiesMutation ({
       associationsCreationRequest
     }: AssociateTraceWithActivitiesVariables): Promise<TraceAssociationsDTO> => {
       return await associateTraceWithActivities(traceId, associationsCreationRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...traceAssociationsQueryKey, variables.traceId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UseDeclaredSkillsForAssociationQueryParams {
+  traceId: MaybeRef<string>
+  params?: MaybeRef<SearchDeclaredSkillForAssociationParams | undefined>
+}
+
+export type SearchDeclaredSkillsForAssociationWithTraceQueryReturnType =
+  UseQueryReturnType<PagedResponseTraceAssociationDeclaredSkillInfoDTO, BaseApiException> & {
+    skills: Ref<TraceAssociationDeclaredSkillInfoDTO[]>
+    pageInfo: Ref<{
+      page: number
+      pageSize: number
+      totalElements: number
+      totalPages: number
+    }>
+  }
+
+export function useSearchDeclaredSkillsForAssociationWithTraceQuery ({
+  traceId,
+  params
+}: UseDeclaredSkillsForAssociationQueryParams): SearchDeclaredSkillsForAssociationWithTraceQueryReturnType {
+  const queryKey = computed(() => [
+    ...tracesSearchAssociationSkillsQueryKey,
+    toValue(traceId),
+    toValue(params)
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseTraceAssociationDeclaredSkillInfoDTO> => {
+    return await searchDeclaredSkillForAssociation(toValue(traceId), toValue(params))
+  })
+
+  const query = useQuery<PagedResponseTraceAssociationDeclaredSkillInfoDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(traceId).trim().length > 0),
+    placeholderData: keepPreviousData
+  })
+
+  const skills = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    skills,
+    pageInfo
+  }
+}
+
+export interface AssociateTraceWithDeclaredSkillsVariables {
+  traceId: string
+  associationsCreationRequest: AssociationsCreationRequest
+}
+
+export function useAssociateTraceWithDeclaredSkillsMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<TraceAssociationsDTO, AssociateTraceWithDeclaredSkillsVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<TraceAssociationsDTO, BaseApiException, AssociateTraceWithDeclaredSkillsVariables>({
+    mutationFn: async ({
+      traceId,
+      associationsCreationRequest
+    }: AssociateTraceWithDeclaredSkillsVariables): Promise<TraceAssociationsDTO> => {
+      return await associateTraceWithDeclaredSkill(traceId, associationsCreationRequest)
     },
     onSuccess: async (data, variables) => {
       await invalidateQueryKey([...traceAssociationsQueryKey, variables.traceId])
