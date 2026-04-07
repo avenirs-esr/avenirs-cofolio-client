@@ -2,6 +2,7 @@ import {
   createDeletedTraceIdMock,
   createMockedAttachmentUploadResponse,
   createMockedSearchActivitiesForAssociationResponse,
+  createMockedSearchSkillsForAssociationResponse,
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
@@ -18,6 +19,7 @@ import {
   EErrorCode,
   ETraceAssociationType,
   getAssociateTraceWithActivitiesUrl,
+  getAssociateTraceWithDeclaredSkillUrl,
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
   getGetTraceAssociationsUrl,
@@ -25,9 +27,11 @@ import {
   getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
   getSearchDeclaredActivityForAssociationUrl,
+  getSearchDeclaredSkillForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
   type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
+  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
@@ -398,6 +402,43 @@ export const tracesHandlers = [
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
+  }),
+
+  http.get(`*${getSearchDeclaredSkillForAssociationUrl(':traceId')}`, ({ params, request }) => {
+    const traceId = params.traceId as string
+
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+
+    const url = new URL(request.url)
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
+
+    const response = createMockedSearchSkillsForAssociationResponse({ keyword, page, pageSize })
+
+    return HttpResponse.json<PagedResponseTraceAssociationDeclaredSkillInfoDTO>(response, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }),
+
+  http.post(`*${getAssociateTraceWithDeclaredSkillUrl(':traceId')}`, ({ params }) => {
+    const traceId = params.traceId as string
+
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+
+    if (traceId === invalidTraceId) {
+      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+    }
+
+    return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
   })
 ]
 
@@ -423,6 +464,26 @@ export const searchActivitiesForAssociationErrorHandler = http.get(
 
 export const associateTraceWithActivitiesErrorHandler = http.post(
   `*${getAssociateTraceWithActivitiesUrl(':traceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const searchSkillsForAssociationErrorHandler = http.get(
+  `*${getSearchDeclaredSkillForAssociationUrl(':traceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const associateTraceWithDeclaredSkillsErrorHandler = http.post(
+  `*${getAssociateTraceWithDeclaredSkillUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error' },

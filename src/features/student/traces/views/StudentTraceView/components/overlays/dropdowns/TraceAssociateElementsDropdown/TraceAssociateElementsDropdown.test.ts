@@ -19,16 +19,30 @@ BddTest().given('a trace associate elements dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
 
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(1)
+      expect(dropdown.props('items')).toHaveLength(2)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
 
-      expect(dropdown.props('items')).toHaveLength(1)
+      expect(dropdown.props('items')).toHaveLength(2)
       expect(dropdown.props('triggerAriaLabel')).toBe('Associer...')
       expect(dropdown.props('triggerLabel')).toBe('Associer...')
       expect(dropdown.props('triggerVariant')).toBe('FLAT')
+    })
+
+    BddTest().then('it should have activities as first item', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string }[]
+
+      expect(items[0].name).toBe('activities')
+    })
+
+    BddTest().then('it should have skills as second item', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string }[]
+
+      expect(items[1].name).toBe('skills')
     })
   })
 
@@ -41,6 +55,18 @@ BddTest().given('a trace associate elements dropdown', () => {
       const activitiesButton = wrapper.find('[data-name="activities"]')
       await activitiesButton.trigger('click')
       expect(wrapper.emitted('activitiesSelected')).toHaveLength(1)
+    })
+  })
+
+  BddTest().when('the skills button is clicked', () => {
+    beforeEach(() => {
+      wrapper = mount(TraceAssociateElementsDropdown, { global: { stubs } })
+    })
+
+    BddTest().then('it should emit the skillsSelected event', async () => {
+      const skillsButton = wrapper.find('[data-name="skills"]')
+      await skillsButton.trigger('click')
+      expect(wrapper.emitted('skillsSelected')).toHaveLength(1)
     })
   })
 })

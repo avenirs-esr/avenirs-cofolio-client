@@ -1,21 +1,21 @@
-<script lang="ts" setup>
-import type { IdTitle, IdTitleList } from '@/types'
+<script lang="ts" setup generic="U extends IdTitle = IdTitle">
+import type { IdTitle } from '@/types'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface SelectedAssociateItemsContainerProps {
-  items: IdTitleList
+export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
+  items: U[]
 }
 
-defineProps<SelectedAssociateItemsContainerProps>()
+defineProps<SelectedAssociateItemsContainerProps<U>>()
 
 defineEmits<{
   (e: 'delete', itemId: string): void
 }>()
 
 defineSlots<{
-  item: (props: { item: IdTitle }) => unknown
+  item: (props: { item: U }) => unknown
 }>()
 
 const { t } = useI18n()
