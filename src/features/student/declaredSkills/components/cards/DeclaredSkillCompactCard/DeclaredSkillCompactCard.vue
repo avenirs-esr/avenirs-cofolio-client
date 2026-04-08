@@ -19,6 +19,7 @@ const iconOptions = computed(() => ({
   bottom: '-2.5rem',
   borderColor: 'var(--other-border-skill-card)'
 }))
+
 const typeBadge = computed<AvBadgeProps>(() => ({
   label: t(`student.declaredSkills.declaredSkillTypes.${declaredSkill.type}`),
   color: 'var(--text1)',
@@ -44,13 +45,11 @@ const typeBadge = computed<AvBadgeProps>(() => ({
       v-if="declaredSkill.type"
       #body
     >
-      <div class="av-row">
-        <AvBadge
-          v-bind="typeBadge"
-          small
-          ellipsis
-        />
-      </div>
+      <AvBadge
+        v-bind="typeBadge"
+        small
+        ellipsis
+      />
     </template>
   </FloatingIconCard>
 </template>

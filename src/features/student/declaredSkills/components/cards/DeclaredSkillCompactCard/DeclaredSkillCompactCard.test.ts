@@ -2,11 +2,11 @@ import type { VueWrapper } from '@vue/test-utils'
 import { EExternalSkillType } from '@/api/avenir-esr'
 import DeclaredSkillCompactCard, {
   type DeclaredSkillCompactCardProps
-} from '@/features/student/global/components/cards/DeclaredSkillCompactCard/DeclaredSkillCompactCard.vue'
+} from '@/features/student/declaredSkills/components/cards/DeclaredSkillCompactCard/DeclaredSkillCompactCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a declared skill compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillCompactCard>>
@@ -15,10 +15,6 @@ BddTest().given('a declared skill compact card', () => {
     FloatingIconCard: FloatingIconCardStub,
     AvBadge: AvBadgeStub
   }
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
 
   BddTest().when('the component is mounted with declared skill without type', () => {
     const props: DeclaredSkillCompactCardProps = {
