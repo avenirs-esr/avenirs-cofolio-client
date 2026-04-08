@@ -68,6 +68,9 @@
       },
       "views": {
         "StudentDeclaredSkillView": {
+          "DeclaredSkillAssociateElementsDropdown": {
+            "activities": "une/des activité(s)"
+          },
           "declaredSkillDetails": {
             "levelTitle": "Auto-positionnement",
             "skillTitle": "Intitulé :"
