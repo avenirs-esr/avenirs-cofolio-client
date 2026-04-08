@@ -1,6 +1,8 @@
+import { FooterSteps } from '@e2e/framework/shared/steps/FooterSteps'
 import { PageTitleSteps } from '@e2e/framework/shared/steps/PageTitleSteps'
 import { PaginationSteps } from '@e2e/framework/shared/steps/PaginationSteps'
 import { setLocaleFromPage } from '@e2e/framework/shared/utils/i18n'
+import { StaffHomePage } from '@e2e/framework/staff/home/StaffHomePage'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
 import { StudentProjectActivitiesPage } from '@e2e/framework/student/lifeProject/activities/StudentProjectActivitiesPage'
 import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
@@ -14,6 +16,8 @@ import { test as base, createBdd } from 'playwright-bdd'
 interface Fixtures {
   pageTitleSteps: PageTitleSteps
   paginationSteps: PaginationSteps
+  footerSteps: FooterSteps
+  staffHomePage: StaffHomePage
   studentGlobalSteps: StudentGlobalSteps
   studentHomePage: StudentHomePage
   studentProjectActivitiesPage: StudentProjectActivitiesPage
@@ -31,6 +35,14 @@ export const test = base.extend<Fixtures>({
   paginationSteps: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new PaginationSteps(page))
+  },
+  footerSteps: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new FooterSteps(page))
+  },
+  staffHomePage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StaffHomePage(page))
   },
   studentGlobalSteps: async ({ page }, use) => {
     await setLocaleFromPage(page)

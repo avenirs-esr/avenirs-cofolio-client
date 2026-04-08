@@ -75,6 +75,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
     id="footer"
     class="av-footer"
     role="contentinfo"
+    data-testid="footer"
   >
     <div class="separator" />
     <div class="anr av-row av-align-center av-gap-md av-py-xs av-px-sm av-justify-center">
@@ -82,6 +83,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         <a
           href="https://anr.fr/ProjetIA-21-DMAV-0001"
           :title="t('global.footer.links.anr')"
+          data-testid="anr-link"
         >
           <img
             class="long-img av-row"
@@ -92,6 +94,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         <a
           href="https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de"
           :title="t('global.footer.links.france2030')"
+          data-testid="france2030-link"
         >
           <img
             class="square-img av-row"
@@ -101,7 +104,10 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         </a>
       </div>
 
-      <span class="caption-regular av-text-text1 anr-desc">
+      <span
+        class="caption-regular av-text-text1 anr-desc"
+        data-testid="anr-description"
+      >
         {{ t('global.footer.anr') }}
       </span>
     </div>
@@ -111,8 +117,12 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         <CofolioLogoSvg
           role="img"
           aria-label="Logo Cofolio"
+          data-testid="cofolio-logo"
         />
-        <span class="caption-regular av-text-text1">
+        <span
+          class="caption-regular av-text-text1"
+          data-testid="cofolio-description"
+        >
           {{ t('global.footer.instituteInfo') }}
         </span>
       </div>
@@ -127,6 +137,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
               v-for="(link, index) in mandatoryLinks"
               :key="index"
               class="mandatory-link"
+              data-testid="mandatory-link"
             >
               <RouterLink
                 :to="link.to"
@@ -148,6 +159,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
               v-for="({ href, label, title, ...attrs }, index) in ecosystemLinks"
               :key="index"
               class="av-footer__content-item"
+              data-testid="ecosystem-link"
             >
               <a
                 class="av-footer__content-link caption-regular av-text-text1"
@@ -173,6 +185,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
               href="https://avenirs-esr.fr/"
               :aria-label="t('global.footer.links.avenirs')"
               :title="t('global.footer.links.avenirs')"
+              data-testid="avenirs-link"
             >
               <img
                 class="long-img"
@@ -184,6 +197,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
               href="https://www.esup-portail.org/"
               :aria-label="t('global.footer.links.esup')"
               :title="t('global.footer.links.esup')"
+              data-testid="esup-link"
             >
               <EsupLogo height="2rem" />
             </a>
@@ -197,6 +211,7 @@ const ecosystemLinks = computed(() => props.ecosystemLinks ?? [
         class="caption-regular av-text-text1 copyright"
         href="https://www.esup-portail.org/"
         :aria-label="t('global.footer.links.copyrightAria')"
+        data-testid="copyright-link"
       >
         {{ t('global.footer.links.copyright') }}
       </a>
