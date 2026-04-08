@@ -40,11 +40,11 @@ BddTest().given('a declared skill compact card', () => {
     })
 
     BddTest().then('it should use the neutral background color', () => {
-      expect(floatingCard.props('color')).toBe('var(--light-background-neutral)')
+      expect(floatingCard.props('color')).toBe('var(--dark-background-primary1)')
     })
 
     BddTest().then('it should use the text1 title color', () => {
-      expect(floatingCard.props('titleColor')).toBe('var(--text1)')
+      expect(floatingCard.props('titleColor')).toBe('var(--card)')
     })
 
     BddTest().then('it should use the correct border color', () => {

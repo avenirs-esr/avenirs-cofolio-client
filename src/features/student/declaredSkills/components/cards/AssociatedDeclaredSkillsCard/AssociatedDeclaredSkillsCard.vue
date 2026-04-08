@@ -47,7 +47,7 @@ const { t } = useI18n()
         v-for="associatedDeclaredSkill in associatedDeclaredSkills"
         :key="associatedDeclaredSkill.associationId"
         :declared-skill="associatedDeclaredSkill.declaredSkill"
-        data-testid="associated-skill-card"
+        data-testid="associated-declared-skill-card"
       />
     </div>
   </AvCard>
