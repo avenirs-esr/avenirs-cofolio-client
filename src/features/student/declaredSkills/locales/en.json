@@ -2,6 +2,9 @@
   "student": {
     "declaredSkills": {
       "cards": {
+        "AssociatedDeclaredSkillsCard": {
+          "title": "My declared skills ({count})"
+        },
         "DeclaredSkillRefCard": {
           "refTitle": "From the reference system:"
         }
