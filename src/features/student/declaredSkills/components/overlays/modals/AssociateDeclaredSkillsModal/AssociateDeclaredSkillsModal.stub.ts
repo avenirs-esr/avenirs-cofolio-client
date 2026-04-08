@@ -9,7 +9,6 @@ export const AssociateDeclaredSkillsModalStub = defineComponent({
     show: { type: Boolean, required: true },
     skills: { type: Array as PropType<AssociationDeclaredSkill[]>, required: true as const },
     isLoading: { type: Boolean, default: false },
-    isPending: { type: Boolean, default: false },
   },
   emits: ['cancel', 'search', 'associate'],
   template: `

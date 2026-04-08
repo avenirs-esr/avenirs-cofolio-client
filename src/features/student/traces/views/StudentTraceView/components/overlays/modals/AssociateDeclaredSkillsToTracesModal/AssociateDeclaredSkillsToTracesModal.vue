@@ -48,7 +48,7 @@ const {
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
 const { mutate: associateTraceWithDeclaredSkills, isPending } = useAssociateTraceWithDeclaredSkillsMutation({
-  onError: onAssociateMutationError,
+  onError: error => onAssociateMutationError(error),
   onSuccess: (_, variables) => {
     const count = variables.associationsCreationRequest.idsToAssociate.length
     addSuccessMessage({
@@ -74,8 +74,7 @@ function onAssociate (ids: string[]) {
   <AssociateDeclaredSkillsModal
     :show="show"
     :skills="skills"
-    :is-loading="isLoading"
-    :is-pending="isPending"
+    :is-loading="isLoading || isPending"
     @cancel="emit('cancel')"
     @search="onSearch"
     @associate="onAssociate"

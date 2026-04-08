@@ -8,7 +8,6 @@ import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/g
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
-import isEmpty from 'lodash/isEmpty'
 import { useI18n } from 'vue-i18n'
 
 export type AssociationDeclaredSkill = IdTitle & { disabled: boolean, type: EExternalSkillType }
@@ -21,14 +20,12 @@ export interface AssociateDeclaredSkillsModalProps {
   show: boolean
   skills: AssociationDeclaredSkill[]
   isLoading?: boolean
-  isPending?: boolean
 }
 
 const {
   show,
   skills,
   isLoading = false,
-  isPending = false,
 } = defineProps<AssociateDeclaredSkillsModalProps>()
 
 const emit = defineEmits<{
@@ -90,8 +87,9 @@ function onConfirm () {
     data-testid="associate-declared-skills-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.declaredSkills.overlays.modals.AssociateDeclaredSkillsModal.confirm', { count: selectedAssociations.length })"
-    :confirm-button-disabled="isEmpty(selectedAssociations) || isPending"
+    :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-icon="ICONS.ASSOCIATIONS"
+    :is-loading="isLoading"
     @close="onCancel"
     @confirm="displayConfirmModal"
   >
@@ -118,9 +116,7 @@ function onConfirm () {
       @delete="onDeleteSkill"
     >
       <template #selectedItem="{ item }">
-        <DeclaredSkillCompactCard
-          :declared-skill="item"
-        />
+        <DeclaredSkillCompactCard :declared-skill="item" />
       </template>
     </SearchAssociationLayout>
   </AvModal>

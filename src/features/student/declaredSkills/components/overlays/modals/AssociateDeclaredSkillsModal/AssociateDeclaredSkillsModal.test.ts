@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EExternalSkillType } from '@/api/avenir-esr'
+import { mockedSkillSearchResults } from '@/__mocks__/fixtures/student/traces.fixtures'
 import AssociateDeclaredSkillsModal, {
   type AssociateDeclaredSkillsModalProps
 } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
@@ -21,26 +21,16 @@ BddTest().given('an associate declared skills modal', () => {
     FloatingIconCard: FloatingIconCardStub,
   }
 
-  const skills = [
-    { id: 'skill-1', title: 'Gestion de projet agile', type: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-2', title: 'Communication interpersonnelle', type: EExternalSkillType.XXI, disabled: false },
-    { id: 'skill-3', title: 'Analyse de données', type: EExternalSkillType.ROME4, disabled: true },
-  ]
+  const skills = mockedSkillSearchResults
 
   const props: AssociateDeclaredSkillsModalProps = {
     show: true,
     skills,
   }
 
-  const selectedOptions = [
-    { label: 'Gestion de projet agile', value: 'skill-1', type: EExternalSkillType.ROME4 },
-    { label: 'Communication interpersonnelle', value: 'skill-2', type: EExternalSkillType.XXI },
-  ]
+  const selectedOptions = skills.slice(0, 2).map(s => ({ label: s.title, value: s.id, type: s.type }))
 
-  const expectedSelectedAssociations = [
-    { id: 'skill-1', title: 'Gestion de projet agile', type: EExternalSkillType.ROME4 },
-    { id: 'skill-2', title: 'Communication interpersonnelle', type: EExternalSkillType.XXI },
-  ]
+  const expectedSelectedAssociations = selectedOptions.map(o => ({ id: String(o.value), title: o.label, type: o.type }))
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -78,11 +68,9 @@ BddTest().given('an associate declared skills modal', () => {
 
     BddTest().then('it should pass only enabled skills as options to the layout', () => {
       const options = layout.props('options')
-      expect(options).toHaveLength(2)
-      expect(options).toEqual([
-        { label: 'Gestion de projet agile', value: 'skill-1', type: EExternalSkillType.ROME4 },
-        { label: 'Communication interpersonnelle', value: 'skill-2', type: EExternalSkillType.XXI },
-      ])
+      const enabledSkills = skills.filter(s => !s.disabled)
+      expect(options).toHaveLength(enabledSkills.length)
+      expect(options).toEqual(enabledSkills.map(s => ({ label: s.title, value: s.id, type: s.type })))
     })
 
     BddTest().then('it should pass the correct input options to the layout', () => {
@@ -121,20 +109,16 @@ BddTest().given('an associate declared skills modal', () => {
 
       BddTest().and('the layout emits a delete event', () => {
         beforeEach(async () => {
-          layout.vm.$emit('delete', 'skill-2')
+          layout.vm.$emit('delete', skills[1].id)
           await wrapper.vm.$nextTick()
         })
 
         BddTest().then('it should remove the deleted skill from items', () => {
-          expect(layout.props('items')).toEqual([
-            { id: 'skill-1', title: 'Gestion de projet agile', type: EExternalSkillType.ROME4 },
-          ])
+          expect(layout.props('items')).toEqual([expectedSelectedAssociations[0]])
         })
 
         BddTest().then('it should update the confirm modal items', () => {
-          expect(confirmModal.props('items')).toEqual([
-            { id: 'skill-1', title: 'Gestion de projet agile', type: EExternalSkillType.ROME4 },
-          ])
+          expect(confirmModal.props('items')).toEqual([expectedSelectedAssociations[0]])
         })
       })
 
@@ -171,7 +155,7 @@ BddTest().given('an associate declared skills modal', () => {
 
           BddTest().then('it should emit associate event with selected ids', () => {
             expect(wrapper.emitted('associate')).toBeTruthy()
-            expect(wrapper.emitted('associate')?.[0]).toEqual([['skill-1', 'skill-2']])
+            expect(wrapper.emitted('associate')?.[0]).toEqual([[skills[0].id, skills[1].id]])
           })
         })
       })
@@ -260,7 +244,7 @@ BddTest().given('an associate declared skills modal', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub) as VueWrapper<InstanceType<typeof SearchAssociationLayoutStub>>
       const options = layout.props('options')
       expect(options).toHaveLength(1)
-      expect(options.every((o: { value: string }) => o.value !== 'skill-1')).toBe(true)
+      expect(options.every((o: { value: string }) => o.value !== skills[0].id)).toBe(true)
     })
   })
 
@@ -278,10 +262,10 @@ BddTest().given('an associate declared skills modal', () => {
     })
   })
 
-  BddTest().when('the modal is rendered with isPending true', () => {
+  BddTest().when('the modal is rendered with isLoading true during mutation', () => {
     beforeEach(() => {
       wrapper = mountComponent(AssociateDeclaredSkillsModal, {
-        props: { ...props, isPending: true },
+        props: { ...props, isLoading: true },
         global: { stubs },
       })
     })
