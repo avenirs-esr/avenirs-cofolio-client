@@ -38,6 +38,7 @@ const tracesAssociations = computed(() => {
   <div class="av-col av-gap-xl av-pt-xl">
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteActivityAssociatedElementsDropdown
+        :traces-disabled="tracesAssociations.length === 0"
         @skills-selected="displaySkillsModal"
         @traces-selected="displayTracesModal"
       />
