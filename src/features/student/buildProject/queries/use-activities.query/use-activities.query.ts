@@ -450,6 +450,7 @@ export function useDeleteDeclaredActivityAssociationsMutation ({
 export interface SearchTracesForAssociationQueryParams {
   declaredActivityId: MaybeRef<string>
   params?: MaybeRef<SearchTracesForAssociationParams | undefined>
+  enabled?: MaybeRef<boolean>
 }
 
 export type SearchTracesForAssociationQueryReturnType =
@@ -465,7 +466,8 @@ export type SearchTracesForAssociationQueryReturnType =
 
 export function useSearchTracesForAssociationQuery ({
   declaredActivityId,
-  params
+  params,
+  enabled
 }: SearchTracesForAssociationQueryParams): SearchTracesForAssociationQueryReturnType {
   const queryKey = computed(() => [
     ...activitiesSearchAssociationTracesQueryKey,
@@ -480,7 +482,10 @@ export function useSearchTracesForAssociationQuery ({
   const query = useQuery<PagedResponseDeclaredActivityAssociationTraceInfoDTO, BaseApiException>({
     queryKey,
     queryFn,
-    enabled: computed(() => toValue(declaredActivityId).trim().length > 0),
+    enabled: computed(() =>
+      (toValue(enabled) ?? true)
+      && toValue(declaredActivityId).trim().length > 0
+    ),
     placeholderData: keepPreviousData
   })
 

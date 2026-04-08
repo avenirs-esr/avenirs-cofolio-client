@@ -1,14 +1,19 @@
 <script lang="ts" setup>
 import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
-import AssociatedTracesCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
+import AssociatedTracesCard
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import ActivityAssociateElementsDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.vue'
-import DeleteActivityAssociatedElementsDropdown from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
+import DeleteActivityAssociatedElementsDropdown
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
 import AssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
-import DeleteActivityAssociatedSkillsModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.vue'
-import DeleteActivityAssociatedTracesModal from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import DeleteActivityAssociatedSkillsModal
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.vue'
+import DeleteActivityAssociatedTracesModal
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 
 export interface AssociatedElementsTabProps {
   associations: DeclaredActivityAssociationsDTO
@@ -40,6 +45,10 @@ const tracesAssociations = computed(() => {
         @traces-selected="displayAssociateTracesModal"
       />
     </div>
+
+    <AssociatedDeclaredSkillsCard
+      :associated-declared-skills="associations.declaredSkillAssociations"
+    />
 
     <AssociatedTracesCard
       :associated-traces="associations.traceAssociations"

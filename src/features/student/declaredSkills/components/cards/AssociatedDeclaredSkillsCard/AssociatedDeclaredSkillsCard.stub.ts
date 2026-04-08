@@ -1,16 +1,15 @@
-import type { DeclaredActivityAssociationDTO } from '@/api/avenir-esr'
+import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
 
-export const AssociatedSkillCardStub = defineComponent({
-  name: 'AssociatedSkillCard',
+export const AssociatedDeclaredSkillsCardStub = defineComponent({
+  name: 'AssociatedDeclaredSkillsCard',
   props: {
-    associatedSkill: {
-      type: Object as () => DeclaredActivityAssociationDTO,
+    associatedDeclaredSkills: {
+      type: Object as () => DeclaredSkillAssociationDTO[],
       required: true
     }
   },
   template: `
-    <div data-testid="associated-skill-card">
-      <span>{{ associatedSkill.declaredActivity.title }}</span>
+    <div data-testid="associated-declared-skill-card">
     </div>
   `
 })

@@ -3936,10 +3936,33 @@
             "items": {
               "$ref": "#/components/schemas/DeclaredActivityTraceAssociationDTO"
             }
+          },
+          "declaredSkillAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityDeclaredSkillAssociationDTO"
+            }
           }
         },
         "required": [
+          "declaredSkillAssociations",
           "traceAssociations"
+        ]
+      },
+      "DeclaredActivityDeclaredSkillAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredSkill": {
+            "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredSkill"
         ]
       },
       "DeclaredActivityTraceAssociationDTO": {

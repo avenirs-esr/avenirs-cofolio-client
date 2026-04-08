@@ -4,6 +4,10 @@ export const AssociateTracesModalStub = defineComponent({
     show: {
       type: Boolean,
       required: true
+    },
+    declaredActivityId: {
+      type: String,
+      required: true
     }
   },
   emits: ['cancel', 'associated'],

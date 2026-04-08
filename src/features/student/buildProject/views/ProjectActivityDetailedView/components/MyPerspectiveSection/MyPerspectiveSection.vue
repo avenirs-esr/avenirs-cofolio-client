@@ -18,6 +18,10 @@ const { t } = useI18n()
 const { declaredActivityAssociations, isPending, isError } = useGetDeclaredActivityAssociationsQuery(declaredActivityDetails.id)
 
 const activeTab = ref(0)
+const associationsCount = computed(() =>
+  (declaredActivityAssociations.value?.traceAssociations.length ?? 0)
+  + (declaredActivityAssociations.value?.declaredSkillAssociations.length ?? 0)
+)
 </script>
 
 <template>
@@ -33,7 +37,7 @@ const activeTab = ref(0)
       <MyPerspectiveTab :declared-activity-details="declaredActivityDetails" />
     </AvTab>
     <AvTab
-      :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: declaredActivityAssociations?.traceAssociations.length })"
+      :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: associationsCount })"
       :icon="ICONS.ASSOCIATED"
       data-testid="associated-elements-tab-item"
     >
