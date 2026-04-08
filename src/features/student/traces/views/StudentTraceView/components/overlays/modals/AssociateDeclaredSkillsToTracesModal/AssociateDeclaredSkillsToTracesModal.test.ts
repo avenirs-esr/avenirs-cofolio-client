@@ -67,8 +67,8 @@ BddTest().given('an associate declared skills to traces modal', () => {
       expect(modal.props('isLoading')).toBe(false)
     })
 
-    BddTest().then('it should pass isPending prop as false initially', () => {
-      expect(modal.props('isPending')).toBe(false)
+    BddTest().then('it should pass isLoading as false initially when no mutation is pending', () => {
+      expect(modal.props('isLoading')).toBe(false)
     })
 
     BddTest().then('it should load skills from the query and pass them to the modal', async () => {

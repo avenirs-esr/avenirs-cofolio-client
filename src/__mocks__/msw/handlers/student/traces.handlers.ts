@@ -411,6 +411,10 @@ export const tracesHandlers = [
       return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
     }
 
+    if (traceId === invalidTraceId) {
+      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+    }
+
     const url = new URL(request.url)
     const keyword = url.searchParams.get('keyword') ?? undefined
     const page = Number(url.searchParams.get('page') ?? 0)

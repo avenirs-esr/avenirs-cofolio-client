@@ -123,6 +123,35 @@ BddTest().given('the useAssociationModal composable', () => {
     })
   })
 
+  BddTest().when('onAssociateMutationError is called without a custom title', () => {
+    beforeEach(() => {
+      composable.onAssociateMutationError(new BaseApiException('Association failed'))
+    })
+
+    BddTest().then('it should call addErrorMessage with the generic title and error message', () => {
+      expect(mockAddErrorMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          description: 'Association failed'
+        })
+      )
+    })
+  })
+
+  BddTest().when('onAssociateMutationError is called with a custom title', () => {
+    beforeEach(() => {
+      composable.onAssociateMutationError(new BaseApiException('Association failed'), 'Custom error title')
+    })
+
+    BddTest().then('it should call addErrorMessage with the custom title', () => {
+      expect(mockAddErrorMessage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: 'Custom error title',
+          description: 'Association failed'
+        })
+      )
+    })
+  })
+
   BddTest().when('listenAndDisplayToastOnSearchError is set up and error occurs', () => {
     const isSearchError = ref(false)
     const searchError = ref<BaseApiException | null >(null)

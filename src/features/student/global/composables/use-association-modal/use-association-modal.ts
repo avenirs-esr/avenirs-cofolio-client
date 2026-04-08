@@ -45,9 +45,9 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
     })
   }
 
-  function onAssociateMutationError (error: BaseApiException) {
+  function onAssociateMutationError (error: BaseApiException, title?: string) {
     addErrorMessage({
-      title: t('global.error.generic'),
+      title: title ?? t('global.error.generic'),
       description: error.message,
     })
   }
