@@ -33,8 +33,8 @@ const { t } = useI18n()
           :text="t('student.declaredSkills.cards.AssociatedDeclaredSkillsCard.title', { count: associatedDeclaredSkills.length })"
           text-color="var(--text1)"
           gap="var(--spacing-sm)"
-          data-testid="associated-declared-skills-card-title"
           inline
+          data-testid="associated-declared-skills-card-title"
         />
       </div>
     </template>

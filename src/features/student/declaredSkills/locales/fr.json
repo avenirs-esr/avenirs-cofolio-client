@@ -3,7 +3,7 @@
     "declaredSkills": {
       "cards": {
         "AssociatedDeclaredSkillsCard": {
-          "title": "Mes compétences associées ({count})"
+          "title": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})"
         },
         "DeclaredSkillRefCard": {
           "refTitle": "Issu du référentiel :"
