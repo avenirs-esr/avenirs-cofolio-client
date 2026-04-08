@@ -3,6 +3,12 @@ import { ICONS } from '@/features/student/global/icons'
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface DeleteActivityAssociatedElementsDropdownProps {
+  tracesDisabled: boolean
+}
+
+const { tracesDisabled } = defineProps<DeleteActivityAssociatedElementsDropdownProps>()
+
 const emit = defineEmits<{
   (e: 'tracesSelected'): void
 }>()
@@ -17,7 +23,8 @@ const menuItems = computed(() => [
   {
     name: DeleteActivityAssociatedElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.traces')
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.traces'),
+    disabled: tracesDisabled
   }
 ])
 
