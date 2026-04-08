@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Footer from '@/common/components/Footer/Footer.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
@@ -40,7 +41,6 @@ defineExpose({ searchQuery })
       <router-view />
     </div>
   </main>
-</template>
 
-<style lang="scss" scoped>
-</style>
+  <Footer />
+</template>
