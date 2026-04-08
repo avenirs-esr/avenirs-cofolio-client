@@ -61,16 +61,15 @@ export class FooterObject extends BaseObject {
     await expect(this.getAnrDescription()).toBeVisible()
     await expect(this.getCofolioLogo()).toBeVisible()
     await expect(this.getCofolioDescription()).toBeVisible()
-    await expect(this.getMandatoryLinks()).toBeVisible()
-    await expect(this.getEcosystemLinks()).toBeVisible()
-    await expect(this.getAvenirsLink()).toBeVisible()
-    await expect(this.getEsupLink()).toBeVisible()
-    await expect(this.getCopyrightLink()).toBeVisible()
 
     const countMandatoryLinks = await this.getMandatoryLinksCount()
     expect(countMandatoryLinks).toBeGreaterThan(0)
 
     const countEcosystemLinks = await this.getEcosystemLinksCount()
     expect(countEcosystemLinks).toBeGreaterThan(0)
+
+    await expect(this.getAvenirsLink()).toBeVisible()
+    await expect(this.getEsupLink()).toBeVisible()
+    await expect(this.getCopyrightLink()).toBeVisible()
   }
 }

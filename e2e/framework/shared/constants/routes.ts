@@ -1,3 +1,7 @@
+export const STAFF_ROUTES = {
+  HOME: '/cofolio/staff',
+}
+
 export const STUDENT_ROUTES = {
   DELIVERABLES: '/cofolio/student/deliverables',
   EDUCATION: {

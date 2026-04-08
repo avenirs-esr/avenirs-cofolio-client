@@ -3,6 +3,7 @@ import { PageTitleSteps } from '@e2e/framework/shared/steps/PageTitleSteps'
 import { PaginationSteps } from '@e2e/framework/shared/steps/PaginationSteps'
 import { setLocaleFromPage } from '@e2e/framework/shared/utils/i18n'
 import { StaffHomePage } from '@e2e/framework/staff/home/StaffHomePage'
+import { StaffGlobalSteps } from '@e2e/framework/staff/shared/steps/StaffGlobalSteps'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
 import { StudentProjectActivitiesPage } from '@e2e/framework/student/lifeProject/activities/StudentProjectActivitiesPage'
 import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
@@ -17,6 +18,7 @@ interface Fixtures {
   pageTitleSteps: PageTitleSteps
   paginationSteps: PaginationSteps
   footerSteps: FooterSteps
+  staffGlobalSteps: StaffGlobalSteps
   staffHomePage: StaffHomePage
   studentGlobalSteps: StudentGlobalSteps
   studentHomePage: StudentHomePage
@@ -39,6 +41,10 @@ export const test = base.extend<Fixtures>({
   footerSteps: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new FooterSteps(page))
+  },
+  staffGlobalSteps: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StaffGlobalSteps(page))
   },
   staffHomePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
