@@ -3,7 +3,7 @@
     "declaredSkills": {
       "cards": {
         "AssociatedDeclaredSkillsCard": {
-          "title": "My declared skills ({count})"
+          "title": "My declared skills (0) | My declared skill (1) | My declared skills ({count})"
         },
         "DeclaredSkillRefCard": {
           "refTitle": "From the reference system:"

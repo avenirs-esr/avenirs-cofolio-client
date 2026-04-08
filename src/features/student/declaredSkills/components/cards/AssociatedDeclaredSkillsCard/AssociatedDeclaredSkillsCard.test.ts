@@ -6,7 +6,7 @@ import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 import { AssociatedSkillCardStub } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
 import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an associated declared skills card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedDeclaredSkillsCard>>
@@ -23,7 +23,6 @@ BddTest().given('an associated declared skills card', () => {
     }
 
     beforeEach(() => {
-      vi.clearAllMocks()
       wrapper = mount(AssociatedDeclaredSkillsCard, {
         props,
         global: { stubs }
@@ -47,7 +46,6 @@ BddTest().given('an associated declared skills card', () => {
     }
 
     beforeEach(() => {
-      vi.clearAllMocks()
       wrapper = mount(AssociatedDeclaredSkillsCard, {
         props,
         global: { stubs }
