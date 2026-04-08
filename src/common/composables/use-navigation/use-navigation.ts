@@ -138,9 +138,9 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
   }
 
-  const navigateToTeacherHome = (
+  const navigateToStaffHome = (
   ): Promise<NavigationFailure | void | undefined> => {
-    return router.push(ROUTES.TEACHER.HOME)
+    return router.push(ROUTES.STAFF.HOME)
   }
 
   const navigateToActivityDetailed = ({ id, thematic }: { id?: string, thematic?: string }) => {
@@ -173,7 +173,7 @@ export function useNavigation () {
     navigateToStudentDeclaredPrograms,
     navigateToStudentUpdateDeclaredSkill,
     navigateToStudentUpdateDeclaredProgram,
-    navigateToTeacherHome,
+    navigateToStaffHome,
     navigateToActivityDetailed,
   }
 }

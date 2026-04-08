@@ -12,7 +12,7 @@ npm run generate:feature <feature> <subFeatureName>
 
 ### Arguments
 
-- `feature` (required): Must be either `student` or `teacher`
+- `feature` (required): Must be either `student` or `staff`
 - `subFeatureName` (required): Name of the sub-feature in camelCase (e.g., `myNewFeature`)
 
 ### Example
@@ -73,5 +73,5 @@ export default {}
 
 The script will exit with an error if:
 - Required arguments are missing
-- Feature is not `student` or `teacher`
+- Feature is not `student` or `staff`
 - Sub-feature already exists at the target location

@@ -30,7 +30,7 @@
             "assessedSkill": "A third party will have assessed you on a skill",
             "comingUpEvent": "An event is coming up",
             "header": "You will receive a notification in the following cases:",
-            "teacherMessage": "A teacher will send you a message",
+            "staffMessage": "A staff will send you a message",
             "validatedTrace": "A trace has been validated"
           },
           "buttons": {

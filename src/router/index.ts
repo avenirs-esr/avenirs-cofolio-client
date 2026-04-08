@@ -1,13 +1,13 @@
 import { ROUTES } from '@/common/constants'
+import staffRoutes from '@/features/staff/global/routes'
 import studentRoutes from '@/features/student/global/routes'
-import teacherRoutes from '@/features/teacher/global/routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const MAIN_TITLE = 'Cofolio'
 
 const routes = [
   ...studentRoutes,
-  ...teacherRoutes,
+  ...staffRoutes,
   {
     path: '/',
     redirect: {

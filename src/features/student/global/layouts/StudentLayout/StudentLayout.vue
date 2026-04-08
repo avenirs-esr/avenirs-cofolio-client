@@ -43,6 +43,7 @@ defineExpose({ searchQuery })
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
     :show-search="!isDemo"
     :language-selector="languageSelector"
+    service-title=" "
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>

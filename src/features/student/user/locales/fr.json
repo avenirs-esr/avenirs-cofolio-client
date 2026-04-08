@@ -30,7 +30,7 @@
             "assessedSkill": "Un tiers vous aura évalué sur une compétence",
             "comingUpEvent": "Un événement a lieu prochainement",
             "header": "Vous recevrez une notification dans les cas suivants :",
-            "teacherMessage": "Un enseignant vous enverra un message",
+            "staffMessage": "Un enseignant vous enverra un message",
             "validatedTrace": "Une trace a été validée"
           },
           "buttons": {

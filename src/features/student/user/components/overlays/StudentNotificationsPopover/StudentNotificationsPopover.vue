@@ -35,7 +35,7 @@ const { t } = useI18n()
         <div v-if="notificationsCount === 0">
           <span class="b2-light">{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.header') }}</span>
           <ul class="b2-regular av-pl-lg">
-            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.teacherMessage') }}</span></li>
+            <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.staffMessage') }}</span></li>
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.assessedSkill') }}</span></li>
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.validatedTrace') }}</span></li>
             <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.bodyNoNew.comingUpEvent') }}</span></li>

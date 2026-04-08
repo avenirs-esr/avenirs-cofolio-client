@@ -9,7 +9,7 @@ const mockShowModal = ref(false)
 const mockDisplayModal = vi.fn()
 const mockHideModal = vi.fn()
 const navigateToStudentHome = vi.fn()
-const navigateToTeacherHome = vi.fn()
+const navigateToStaffHome = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -22,7 +22,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     }),
     useNavigation: () => ({
       navigateToStudentHome,
-      navigateToTeacherHome
+      navigateToStaffHome
     }),
   }
 })
@@ -84,18 +84,18 @@ BddTest().given('a universe switcher', () => {
       })
     })
 
-    BddTest().when('clicking the teacher button in modal', () => {
+    BddTest().when('clicking the staff button in modal', () => {
       beforeEach(async () => {
         mockShowModal.value = true
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the modal and navigate to teacher', async () => {
-        const teacherButton = wrapper.findAll('button')[1]
-        await teacherButton.trigger('click')
+      BddTest().then('it should hide the modal and navigate to staff', async () => {
+        const staffButton = wrapper.findAll('button')[1]
+        await staffButton.trigger('click')
 
         expect(mockHideModal).toHaveBeenCalled()
-        expect(navigateToTeacherHome).toHaveBeenCalled()
+        expect(navigateToStaffHome).toHaveBeenCalled()
         expect(navigateToStudentHome).not.toHaveBeenCalled()
       })
     })
@@ -111,18 +111,18 @@ BddTest().given('a universe switcher', () => {
         await studentButton.trigger('click')
 
         expect(mockHideModal).toHaveBeenCalled()
-        expect(navigateToTeacherHome).not.toHaveBeenCalled()
+        expect(navigateToStaffHome).not.toHaveBeenCalled()
         expect(navigateToStudentHome).not.toHaveBeenCalled()
       })
     })
   })
 
-  BddTest().and('we are on teacher route', () => {
+  BddTest().and('we are on staff route', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
       vi.mocked(useRoute).mockReturnValue({
-        path: '/teacher/home'
+        path: '/staff/home'
       } as any)
 
       wrapper = await mountWithRouter(SwitchUniverse, {
@@ -144,7 +144,7 @@ BddTest().given('a universe switcher', () => {
 
         expect(mockHideModal).toHaveBeenCalled()
         expect(navigateToStudentHome).toHaveBeenCalled()
-        expect(navigateToTeacherHome).not.toHaveBeenCalled()
+        expect(navigateToStaffHome).not.toHaveBeenCalled()
       })
     })
   })

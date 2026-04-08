@@ -5549,7 +5549,7 @@
           "AMS_NOT_FOUND",
           "ACTIVITY_NOT_FOUND",
           "USER_IS_NOT_STUDENT_EXCEPTION",
-          "USER_IS_NOT_TEACHER_EXCEPTION",
+          "USER_IS_NOT_STAFF_EXCEPTION",
           "LANGUAGE_NOT_SUPPORTED",
           "INVALID_ARGUMENT_TYPE",
           "DECLARED_SKILL_NOT_AVAILABLE",
@@ -5696,7 +5696,7 @@
         "type": "string",
         "description": "Enum for user category",
         "enum": [
-          "TEACHER",
+          "STAFF",
           "STUDENT"
         ]
       },

@@ -5,12 +5,11 @@ import { ROUTES } from '@/common/constants'
 import { AvHeader, type AvHeaderProps } from '@avenirs-esr/avenirs-dsav'
 
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const serviceTitle = 'CoFolio Enseignant'
 
 const quickLinks: AvHeaderProps['quickLinks'] = [
   {
     label: 'Home',
-    to: ROUTES.TEACHER.HOME,
+    to: ROUTES.STAFF.HOME,
     icon: 'ri-home-4-line',
     iconAttrs: { color: 'var(--red-marianne-425-625)' },
   },
@@ -24,8 +23,8 @@ defineExpose({ searchQuery })
 <template>
   <AvHeader
     v-model="searchQuery"
-    :service-title="serviceTitle"
-    :home-to="ROUTES.TEACHER.HOME"
+    service-title=" "
+    :home-to="ROUTES.STAFF.HOME"
     show-search
     :quick-links="quickLinks"
     :language-selector="languageSelector"

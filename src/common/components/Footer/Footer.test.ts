@@ -143,11 +143,11 @@ BddTest().given('a footer', () => {
     })
   })
 
-  BddTest().and('we are in a teacher route', () => {
+  BddTest().and('we are in a staff route', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       vi.mocked(useRoute).mockReturnValue({
-        path: '/teacher/home'
+        path: '/staff/home'
       } as any)
     })
 
