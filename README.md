@@ -17,7 +17,7 @@ The Avenirs Cofolio project is a comprehensive portfolio management system desig
   - `components/`: Reusable UI components
   - `features/`: Feature modules
     - `student/`: Student module with complete folder structure
-    - `teacher/`: Teacher module with complete folder structure
+    - `staff/`: Staff module with complete folder structure
   - `layouts/`: Application layouts
   - `plugins/`: Vue plugins
   - `router/`: Routing configuration
@@ -31,7 +31,7 @@ The project follows a feature-based architecture with a clear separation of conc
 
 ### Feature-Based Organization
 
-Each feature module (`student`, `teacher`) follows a consistent internal structure:
+Each feature module (`student`, `staff`) follows a consistent internal structure:
 
 ```
 features/
@@ -43,12 +43,12 @@ features/
 │   ├── views/               # Student page components
 │   ├── index.ts             # Module entry point and exports
 │   └── routes.ts            # Student route definitions
-├── teacher/                 # Teacher module
-│   ├── components/          # Teacher-specific UI components
-│   ├── composables/         # Teacher-specific Vue composition functions
-│   ├── layouts/             # Layout structures for teacher views
-│   ├── queries/             # Teacher-specific data fetching
-│   ├── views/               # Teacher page components
+├── staff/                 # Staff module
+│   ├── components/          # Staff-specific UI components
+│   ├── composables/         # Staff-specific Vue composition functions
+│   ├── layouts/             # Layout structures for staff views
+│   ├── queries/             # Staff-specific data fetching
+│   ├── views/               # Staff page components
 │   └── ...                  # Similar structure as student module
 ```
 
@@ -141,7 +141,7 @@ npm install @avenirs-esr/avenirs-dsav
 ## Features
 
 - Student portfolio management
-- Teacher assessment tools
+- Staff assessment tools
 - Asset organization
 - Progress tracking
 

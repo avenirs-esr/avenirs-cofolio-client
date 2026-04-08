@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ROUTES } from '@/common/constants'
-import TeacherLayout from '@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue'
+import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-BddTest().given('a teacher layout component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof TeacherLayout>>
+BddTest().given('a staff layout component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StaffLayout>>
 
   const stubs = {
     AvHeader: {
@@ -23,7 +23,7 @@ BddTest().given('a teacher layout component', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = await mountWithRouter<typeof TeacherLayout>(TeacherLayout, {
+    wrapper = await mountWithRouter<typeof StaffLayout>(StaffLayout, {
       global: { stubs }
     })
   })
@@ -40,7 +40,7 @@ BddTest().given('a teacher layout component', () => {
       expect(quickLinks).toEqual([
         {
           label: 'Home',
-          to: ROUTES.TEACHER.HOME,
+          to: ROUTES.STAFF.HOME,
           icon: 'ri-home-4-line',
           iconAttrs: { color: 'var(--red-marianne-425-625)' },
         },

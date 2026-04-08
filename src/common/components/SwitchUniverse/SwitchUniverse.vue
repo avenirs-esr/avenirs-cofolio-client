@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
-const { navigateToStudentHome, navigateToTeacherHome } = useNavigation()
+const { navigateToStudentHome, navigateToStaffHome } = useNavigation()
 const route = useRoute()
 const isStudentRoute = route.path.startsWith('/student')
 
@@ -14,9 +14,9 @@ function onStudentButtonClick () {
   !isStudentRoute && navigateToStudentHome()
 }
 
-function onTeacherButtonClick () {
+function onStaffButtonClick () {
   hideModal()
-  isStudentRoute && navigateToTeacherHome()
+  isStudentRoute && navigateToStaffHome()
 }
 </script>
 
@@ -44,10 +44,10 @@ function onTeacherButtonClick () {
     </template>
     <div class="av-col av-gap-lg">
       <AvButton
-        :label="t('global.header.switchUniverse.teacher')"
+        :label="t('global.header.switchUniverse.staff')"
         theme="SECONDARY"
         small
-        @click="onTeacherButtonClick"
+        @click="onStaffButtonClick"
       />
       <AvButton
         :label="t('global.header.switchUniverse.student')"

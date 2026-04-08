@@ -44,18 +44,18 @@ BddTest().given('a legal view', () => {
     })
   })
 
-  BddTest().when('the view is mounted in a teacher route', () => {
+  BddTest().when('the view is mounted in a staff route', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       vi.mocked(useRoute).mockReturnValue({
-        path: '/teacher/home'
+        path: '/staff/home'
       } as unknown as RouteLocationNormalized)
 
       wrapper = mount(LegalView, { global: { stubs } })
     })
 
     const title = 'Mentions légales'
-    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.TEACHER.HOME }
+    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STAFF.HOME }
     const currentBreadcrumbLink = { text: title }
 
     BddTest().then('it should render PageTitle with correct props', () => {
@@ -66,7 +66,7 @@ BddTest().given('a legal view', () => {
         homeBreadcrumbLink,
         currentBreadcrumbLink
       ])
-      expect(pageTitle.props('back')).toBe(ROUTES.TEACHER.HOME)
+      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.HOME)
     })
   })
 })

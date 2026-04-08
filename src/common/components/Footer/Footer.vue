@@ -44,19 +44,19 @@ const a11yCompliance = computed(() => {
 const mandatoryLinks = computed(() => props.mandatoryLinks ?? [
   {
     label: a11yCompliance.value,
-    to: isStudentRoute.value ? ROUTES.STUDENT.ACCESSIBILITY : ROUTES.TEACHER.ACCESSIBILITY
+    to: isStudentRoute.value ? ROUTES.STUDENT.ACCESSIBILITY : ROUTES.STAFF.ACCESSIBILITY
   },
   {
     label: t('global.footer.links.legal'),
-    to: isStudentRoute.value ? ROUTES.STUDENT.LEGAL : ROUTES.TEACHER.LEGAL
+    to: isStudentRoute.value ? ROUTES.STUDENT.LEGAL : ROUTES.STAFF.LEGAL
   },
   {
     label: t('global.footer.links.data'),
-    to: isStudentRoute.value ? ROUTES.STUDENT.PERSONAL_DATA : ROUTES.TEACHER.PERSONAL_DATA
+    to: isStudentRoute.value ? ROUTES.STUDENT.PERSONAL_DATA : ROUTES.STAFF.PERSONAL_DATA
   },
   {
     label: t('global.footer.links.cookies'),
-    to: isStudentRoute.value ? ROUTES.STUDENT.COOKIES : ROUTES.TEACHER.COOKIES
+    to: isStudentRoute.value ? ROUTES.STUDENT.COOKIES : ROUTES.STAFF.COOKIES
   },
 ])
 

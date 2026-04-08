@@ -250,11 +250,11 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to teacher home', () => {
-    BddTest().then('it should navigate to teacher home', () => {
-      const { navigateToTeacherHome } = navigation
-      navigateToTeacherHome()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.TEACHER.HOME)
+  BddTest().when('trying to navigate to staff home', () => {
+    BddTest().then('it should navigate to staff home', () => {
+      const { navigateToStaffHome } = navigation
+      navigateToStaffHome()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.HOME)
     })
   })
 

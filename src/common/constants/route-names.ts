@@ -37,11 +37,11 @@ export const ROUTES = {
     TOOLS_TRACES: { name: 'student-tools-traces', path: 'tools/traces' },
     TRACE: { name: 'student-trace', path: 'trace/:id' },
   },
-  TEACHER: {
-    HOME: { name: 'teacher-home', path: '' },
-    ACCESSIBILITY: { name: 'teacher-accessibility', path: 'accessibility' },
-    COOKIES: { name: 'teacher-cookies', path: 'cookies' },
-    LEGAL: { name: 'teacher-legal', path: 'legal' },
-    PERSONAL_DATA: { name: 'teacher-personal-data', path: 'personal-data' },
+  STAFF: {
+    HOME: { name: 'staff-home', path: '' },
+    ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
+    COOKIES: { name: 'staff-cookies', path: 'cookies' },
+    LEGAL: { name: 'staff-legal', path: 'legal' },
+    PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
   },
 } as const

@@ -134,7 +134,7 @@
       "switchUniverse": {
         "label": "Switch universe",
         "student": "Student",
-        "teacher": "Teacher"
+        "staff": "Staff"
       }
     },
     "images": "Images",

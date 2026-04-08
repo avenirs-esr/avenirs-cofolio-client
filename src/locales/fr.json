@@ -134,7 +134,7 @@
       "switchUniverse": {
         "label": "Changer d'univers",
         "student": "Étudiant",
-        "teacher": "Enseignant"
+        "staff": "Enseignant"
       }
     },
     "images": "Images",

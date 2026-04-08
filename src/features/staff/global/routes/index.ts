@@ -2,31 +2,31 @@ import { ROUTES } from '@/common/constants'
 
 export default [
   {
-    path: '/teacher',
-    component: () => import('@/features/teacher/global/layouts/TeacherLayout/TeacherLayout.vue'),
+    path: '/staff',
+    component: () => import('@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'),
     children: [
       {
-        ...ROUTES.TEACHER.HOME,
+        ...ROUTES.STAFF.HOME,
         component: () =>
-          import('@/features/teacher/global/views/TeacherHomeView/TeacherHomeView.vue'),
+          import('@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'),
       },
       {
-        ...ROUTES.TEACHER.ACCESSIBILITY,
+        ...ROUTES.STAFF.ACCESSIBILITY,
         component: () =>
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
       },
       {
-        ...ROUTES.TEACHER.COOKIES,
+        ...ROUTES.STAFF.COOKIES,
         component: () =>
           import('@/common/views/CookiesView/CookiesView.vue'),
       },
       {
-        ...ROUTES.TEACHER.LEGAL,
+        ...ROUTES.STAFF.LEGAL,
         component: () =>
           import('@/common/views/LegalView/LegalView.vue'),
       },
       {
-        ...ROUTES.TEACHER.PERSONAL_DATA,
+        ...ROUTES.STAFF.PERSONAL_DATA,
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },

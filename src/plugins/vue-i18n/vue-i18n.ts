@@ -80,7 +80,7 @@ async function registerFeatureLocales (feature: string) {
 
 async function initializeI18n () {
   await registerFeatureLocales('student')
-  await registerFeatureLocales('teacher')
+  await registerFeatureLocales('staff')
 }
 
 function createVueI18nPlugin () {

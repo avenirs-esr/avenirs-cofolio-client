@@ -10,7 +10,7 @@ const isStudentRoute = computed(() => route.path.startsWith('/student'))
 
 const homeRoute = computed(() => isStudentRoute.value
   ? ROUTES.STUDENT.HOME
-  : ROUTES.TEACHER.HOME)
+  : ROUTES.STAFF.HOME)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: homeRoute.value },

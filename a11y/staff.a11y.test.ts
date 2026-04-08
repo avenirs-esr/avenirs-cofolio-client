@@ -12,10 +12,10 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const pathsToTest = [
-  `./teacher${ROUTES.TEACHER.HOME.path}`,
+  `./staff${ROUTES.STAFF.HOME.path}`,
 ]
 
-test.describe('teacher routes', () => {
+test.describe('staff routes', () => {
   pathsToTest.forEach((path) => {
     test(`${path} should have no accessibility violations`, async ({ page }) => {
       await page.goto(path)
@@ -30,11 +30,11 @@ test.describe('teacher routes', () => {
         const reportHTML = createHtmlReport({
           results: rawAxeResults,
           options: {
-            projectKey: `Cofolio A11y Report - Teacher Universe -  ${pageName}`,
+            projectKey: `Cofolio A11y Report - Staff Universe -  ${pageName}`,
             doNotCreateReportFile: true,
           },
         })
-        const reportPath = resolve(__dirname, `reports/teacher/${pageName}.html`)
+        const reportPath = resolve(__dirname, `reports/staff/${pageName}.html`)
 
         fs.mkdirSync(dirname(reportPath), { recursive: true })
 
