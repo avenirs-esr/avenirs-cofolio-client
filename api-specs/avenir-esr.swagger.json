@@ -3533,9 +3533,9 @@
               "EXPERT"
             ]
           },
-          "description": {
+          "reflection": {
             "type": "string",
-            "maxLength": 400,
+            "maxLength": 4000,
             "minLength": 0
           }
         },
@@ -4931,7 +4931,7 @@
               "$ref": "#/components/schemas/DeclaredSkillCategoryDTO"
             }
           },
-          "description": {
+          "reflection": {
             "type": "string"
           },
           "type": {

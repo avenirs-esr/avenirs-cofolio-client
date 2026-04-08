@@ -1,10 +1,11 @@
-import DeclaredSkillCommentInput from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillCommentInput/DeclaredSkillCommentInput.vue'
+import DeclaredSkillReflectionInput from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-BddTest().given('a declared skill comment input', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillCommentInput>>
+BddTest().given('a declared skill reflection input', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillReflectionInput>>
 
   const stubs = {
     AvInput: AvInputStub
@@ -13,7 +14,7 @@ BddTest().given('a declared skill comment input', () => {
   BddTest().when('the component is mounted with default props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         global: { stubs }
       })
     })
@@ -50,19 +51,19 @@ BddTest().given('a declared skill comment input', () => {
 
     BddTest().then('it should have default maxlength prop set to 400', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('maxlength')).toBe(400)
+      expect(input.props('maxlength')).toBe(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
     })
 
     BddTest().then('it should use default i18n label', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('label')).toBe('Description de ma compétence')
+      expect(input.props('label')).toBe('Bilan Réflexif')
     })
   })
 
   BddTest().when('the component is mounted with custom props', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
           isValid: true,
           isTextarea: false,
@@ -122,29 +123,29 @@ BddTest().given('a declared skill comment input', () => {
   BddTest().when('the user updates the input value', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
           modelValue: ''
         },
         global: { stubs }
       })
       const input = wrapper.findComponent({ name: 'AvInput' })
-      await input.vm.$emit('update:modelValue', 'New comment value')
+      await input.vm.$emit('update:modelValue', 'New reflection value')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should emit update:modelValue event', () => {
       expect(wrapper.emitted('update:modelValue')).toBeTruthy()
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['New comment value'])
+      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['New reflection value'])
     })
   })
 
   BddTest().when('the component receives a modelValue prop', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
-          modelValue: 'Initial comment'
+          modelValue: 'Initial reflection'
         },
         global: { stubs }
       })
@@ -152,14 +153,14 @@ BddTest().given('a declared skill comment input', () => {
 
     BddTest().then('it should pass the modelValue to AvInput', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
-      expect(input.props('modelValue')).toBe('Initial comment')
+      expect(input.props('modelValue')).toBe('Initial reflection')
     })
   })
 
   BddTest().when('the component is mounted with empty modelValue', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
           modelValue: ''
         },
@@ -176,7 +177,7 @@ BddTest().given('a declared skill comment input', () => {
   BddTest().and('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
           errorMessage: 'This field is required'
         },
@@ -193,7 +194,7 @@ BddTest().given('a declared skill comment input', () => {
   BddTest().when('the component receives multiple updates', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      wrapper = mount(DeclaredSkillCommentInput, {
+      wrapper = mount(DeclaredSkillReflectionInput, {
         props: {
           modelValue: 'First value'
         },

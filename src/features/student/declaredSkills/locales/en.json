@@ -23,8 +23,8 @@
       },
       "interactions": {
         "inputs": {
-          "DeclaredSkillCommentFormField": {
-            "label": "Description of my skill"
+          "DeclaredSkillReflectionFormField": {
+            "label": "Reflection"
           }
         },
         "radios": {
@@ -120,7 +120,6 @@
             },
             "success": "Additional skill updated",
             "validation": {
-              "commentTooLong": "The description must not exceed {count} characters",
               "levelRequired": "Self-positioning is required"
             }
           }

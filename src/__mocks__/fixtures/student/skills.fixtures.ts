@@ -271,7 +271,7 @@ export function createMockedDeclaredSkillProgressDetailsDTO (skillId: string): D
         libelle: 'Conduire un projet de bout en bout'
       }
     ],
-    description: `Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
+    reflection: `Voici les enjeux et les objectifs de cette compétence "Conduire un projet de bout en bout"
 Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
 Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`,
     type: EExternalSkillType.ROME4,

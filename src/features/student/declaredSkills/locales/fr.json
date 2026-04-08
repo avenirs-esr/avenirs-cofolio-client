@@ -23,8 +23,8 @@
       },
       "interactions": {
         "inputs": {
-          "DeclaredSkillCommentFormField": {
-            "label": "Description de ma compétence"
+          "DeclaredSkillReflectionFormField": {
+            "label": "Bilan Réflexif"
           }
         },
         "radios": {
@@ -120,7 +120,6 @@
             },
             "success": "Compétence déclarée mise à jour",
             "validation": {
-              "commentTooLong": "La description ne doit pas dépasser les {count} charactères",
               "levelRequired": "L'auto-positionnement est requis"
             }
           }

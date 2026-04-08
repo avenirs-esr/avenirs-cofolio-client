@@ -1,6 +1,7 @@
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
-import DeclaredSkillCommentFormField
-  from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillCommentFormField/DeclaredSkillCommentFormField.vue'
+import DeclaredSkillReflectionFormField
+  from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -8,14 +9,14 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = {
   components: {
-    DeclaredSkillCommentFormField
+    DeclaredSkillReflectionFormField
   },
   setup () {
     const form = useForm({
-      defaultValues: { comment: '' },
+      defaultValues: { reflection: '' },
       validators: {
         onSubmit () {
-          return { fields: { comment: undefined } }
+          return { fields: { reflection: undefined } }
         }
       }
     }) as unknown as UpdateDeclaredSkillForm
@@ -24,12 +25,12 @@ const TestWrapper = {
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
-      <DeclaredSkillCommentFormField :form="form" />
+      <DeclaredSkillReflectionFormField :form="form" />
     </form>
   `
 }
 
-BddTest().given('a declared skill comment form field component', () => {
+BddTest().given('a declared skill reflection form field component', () => {
   let wrapper: VueWrapper
 
   const stubs = {
@@ -69,7 +70,7 @@ BddTest().given('a declared skill comment form field component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the comment textarea', () => {
+    BddTest().then('it should render the reflection textarea', () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
       expect(avInput.exists()).toBe(true)
       const textarea = avInput.find('textarea')
@@ -78,7 +79,7 @@ BddTest().given('a declared skill comment form field component', () => {
 
     BddTest().then('it should have the correct id', () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
-      expect(avInput.props('id')).toBe('skill-comment')
+      expect(avInput.props('id')).toBe('skill-reflection')
     })
 
     BddTest().then('it should be a textarea', () => {
@@ -86,9 +87,9 @@ BddTest().given('a declared skill comment form field component', () => {
       expect(avInput.props('isTextarea')).toBe(true)
     })
 
-    BddTest().then('it should have maxlength of 400', () => {
+    BddTest().then('it should have maxlength of 4000', () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
-      expect(avInput.props('maxlength')).toBe(400)
+      expect(avInput.props('maxlength')).toBe(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
     })
 
     BddTest().then('it should have empty initial value', () => {
@@ -102,12 +103,12 @@ BddTest().given('a declared skill comment form field component', () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
       const textarea = avInput.find('textarea')
 
-      await textarea.setValue('My skill comment')
+      await textarea.setValue('My skill reflection')
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'AvInput' })
-        expect(updated.props('modelValue')).toBe('My skill comment')
+        expect(updated.props('modelValue')).toBe('My skill reflection')
       })
     })
   })
@@ -124,18 +125,18 @@ BddTest().given('a declared skill comment form field component', () => {
     })
   })
 
-  BddTest().when('the user types a long comment', () => {
+  BddTest().when('the user types a long reflection', () => {
     BddTest().then('it should respect the maxlength (display truncated to 400)', async () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
       const textarea = avInput.find('textarea')
 
-      await textarea.setValue('a'.repeat(500))
+      await textarea.setValue('a'.repeat(DECLARED_SKILL_REFLECTION_MAX_LENGTH + 1))
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'AvInput' })
         const displayed = updated.props('modelValue') as string
-        expect(displayed.length).toBeLessThanOrEqual(400)
+        expect(displayed.length).toBeLessThanOrEqual(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
       })
     })
   })
