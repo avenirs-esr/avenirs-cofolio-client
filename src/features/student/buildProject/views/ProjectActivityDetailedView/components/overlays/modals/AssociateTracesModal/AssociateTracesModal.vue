@@ -62,7 +62,8 @@ const {
     page: 0,
     pageSize: 20,
     type: selectedTraceType.value.itemId
-  }))
+  })),
+  enabled: computed(() => show)
 })
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)

@@ -5,8 +5,8 @@ import {
   mockedTraceDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student'
 import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { AssociatedDeclaredSkillsCardStub } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
 import { AssociatedActivityCardStub } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
-import { AssociatedSkillCardStub } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { DeleteTraceAssociatedElementsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.stub'
@@ -26,13 +26,14 @@ const stubs = {
   DeleteTraceAssociatedActivitiesModal: DeleteTraceAssociatedActivitiesModalStub,
   AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
   AssociateActivitiesModal: AssociateActivitiesModalStub,
-  AssociatedSkillCard: AssociatedSkillCardStub,
+  AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
   AssociatedActivityCard: AssociatedActivityCardStub,
 }
 
 BddTest().given('a student trace associations component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceAssociations>>
   const traceId = '123e4567-e89b-12d3-a456-426614174000'
+
   BddTest().when('the component is mounted with empty associations', () => {
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -46,12 +47,20 @@ BddTest().given('a student trace associations component', () => {
       })
     })
 
-    BddTest().then('it should not render any association cards', () => {
-      const declaredSkillCards = wrapper.findAllComponents(AssociatedSkillCardStub)
+    BddTest().then('it should render no associated activity cards', () => {
       const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
-
-      expect(declaredSkillCards).toHaveLength(0)
       expect(declaredActivityCards).toHaveLength(0)
+    })
+
+    BddTest().then('it should render the associated declared skills card with empty associations', () => {
+      const declaredSkillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
+      expect(declaredSkillsCard.exists()).toBe(true)
+      expect(declaredSkillsCard.props('associatedDeclaredSkills')).toEqual([])
+    })
+
+    BddTest().then('it should not render the declared activity associations container', () => {
+      const declaredActivityContainer = wrapper.find('[data-testid="declared-activity-associations-container"]')
+      expect(declaredActivityContainer.exists()).toBe(false)
     })
 
     BddTest().then('it should render the delete trace associated elements dropdown with disabled items', () => {
@@ -69,17 +78,30 @@ BddTest().given('a student trace associations component', () => {
     BddTest().then('it should render the delete trace associated skills modal', () => {
       const skillsModal = wrapper.findComponent(DeleteTraceAssociatedSkillsModalStub)
       expect(skillsModal.exists()).toBe(true)
+      expect(skillsModal.props('show')).toBe(false)
+      expect(skillsModal.props('traceId')).toBe(traceId)
+      expect(skillsModal.props('associations')).toEqual([])
     })
 
     BddTest().then('it should render the delete trace associated activities modal', () => {
       const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
       expect(activitiesModal.exists()).toBe(true)
+      expect(activitiesModal.props('show')).toBe(false)
+      expect(activitiesModal.props('traceId')).toBe(traceId)
+      expect(activitiesModal.props('associations')).toEqual([])
     })
 
     BddTest().then('it should render the associate declared skills modal', () => {
       const associateDeclaredSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
       expect(associateDeclaredSkillsModal.exists()).toBe(true)
       expect(associateDeclaredSkillsModal.props('show')).toBe(false)
+    })
+
+    BddTest().then('it should render the associate activities modal', () => {
+      const associateActivitiesModal = wrapper.findComponent(AssociateActivitiesModalStub)
+      expect(associateActivitiesModal.exists()).toBe(true)
+      expect(associateActivitiesModal.props('show')).toBe(false)
+      expect(associateActivitiesModal.props('traceId')).toBe(traceId)
     })
 
     BddTest().and('the delete trace associated elements dropdown emits skillsSelected', () => {
@@ -208,22 +230,15 @@ BddTest().given('a student trace associations component', () => {
       })
     })
 
-    BddTest().then('it should render 3 declared skill association card', () => {
-      const declaredSkillCards = wrapper.findAllComponents(AssociatedSkillCardStub)
-      expect(declaredSkillCards).toHaveLength(3)
+    BddTest().then('it should render the associated declared skills card with the correct associations', () => {
+      const declaredSkillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
+      expect(declaredSkillsCard.exists()).toBe(true)
+      expect(declaredSkillsCard.props('associatedDeclaredSkills')).toEqual(declaredSkillAssociations)
     })
 
-    BddTest().then('it should pass correct props to declared skill card', () => {
-      const declaredSkillCards = wrapper.findAllComponents(AssociatedSkillCardStub)
-      expect(declaredSkillCards[0].props('declaredSkill')).toEqual(declaredSkillAssociations[0].declaredSkill)
-    })
-
-    BddTest().then('it should not render skill associations container', () => {
+    BddTest().then('it should not render the declared activity associations container', () => {
       const activityContainer = wrapper.find('[data-testid="declared-activity-associations-container"]')
-      const skillContainer = wrapper.find('[data-testid="declared-skill-associations-container"]')
-
       expect(activityContainer.exists()).toBe(false)
-      expect(skillContainer.exists()).toBe(true)
     })
 
     BddTest().then('it should render the delete trace associated elements dropdown', () => {
@@ -236,6 +251,12 @@ BddTest().given('a student trace associations component', () => {
     BddTest().then('it should render the trace associate elements dropdown', () => {
       const dropdown = wrapper.findComponent(TraceAssociateElementsDropdownStub)
       expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass declared skill associations to the delete skills modal', () => {
+      const skillsModal = wrapper.findComponent(DeleteTraceAssociatedSkillsModalStub)
+      expect(skillsModal.props('associations')).toEqual(declaredSkillAssociations)
+      expect(skillsModal.props('traceId')).toBe(traceId)
     })
   })
 
@@ -272,6 +293,12 @@ BddTest().given('a student trace associations component', () => {
       })
     })
 
+    BddTest().then('it should render the associated declared skills card with empty associations', () => {
+      const declaredSkillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
+      expect(declaredSkillsCard.exists()).toBe(true)
+      expect(declaredSkillsCard.props('associatedDeclaredSkills')).toEqual([])
+    })
+
     BddTest().then('it should render 3 declared activity association cards', () => {
       const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
       expect(declaredActivityCards).toHaveLength(3)
@@ -279,10 +306,7 @@ BddTest().given('a student trace associations component', () => {
 
     BddTest().then('it should render only the declared activity associations container', () => {
       const activityContainer = wrapper.find('[data-testid="declared-activity-associations-container"]')
-      const skillContainer = wrapper.find('[data-testid="declared-skill-associations-container"]')
-
       expect(activityContainer.exists()).toBe(true)
-      expect(skillContainer.exists()).toBe(false)
     })
 
     BddTest().then('it should pass correct props to declared activity card', () => {
@@ -302,9 +326,12 @@ BddTest().given('a student trace associations component', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass declared activity associations to the delete activities modal', () => {
+    BddTest().then('it should pass only deletable declared activity associations to the delete activities modal', () => {
       const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
-      const expectedAssociations = declaredActivityAssociations.filter(association => association.declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
+      const expectedAssociations = declaredActivityAssociations.filter(
+        association => association.declaredActivity.status !== EDeclaredActivityStatus.COMPLETED
+      )
+
       expect(activitiesModal.props('associations')).toEqual(expectedAssociations)
       expect(activitiesModal.props('traceId')).toBe(traceId)
     })

@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const iconOptions = computed(() => ({
   name: ICONS.SKILLS,
-  color: 'var(--icon)',
+  color: 'var(--card)',
   bottom: '-2.5rem',
   borderColor: 'var(--other-border-skill-card)'
 }))
@@ -32,8 +32,8 @@ const typeBadge = computed<AvBadgeProps>(() => ({
 <template>
   <FloatingIconCard
     :title="declaredSkill.title"
-    title-color="var(--text1)"
-    color="var(--light-background-neutral)"
+    title-color="var(--card)"
+    color="var(--dark-background-primary1)"
     :icon-options="iconOptions"
     border-color="var(--other-border-skill-card)"
     :header-rows="2"

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 import AssociatedActivityCard from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
-import AssociatedSkillCard from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { ICONS } from '@/features/student/global/icons'
 import DeleteTraceAssociatedElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
@@ -59,37 +59,9 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
 
     <slot name="caption" />
 
-    <AvCard
-      v-if="declaredSkillAssociations.length > 0"
-      data-testid="declared-skill-associations-container"
-      background-color="var(--surface-background)"
-      title-background="var(--surface-background)"
-      border-color="var(--stroke)"
-      collapsible
-      collapsed
-    >
-      <template #title>
-        <div class="av-row av-align-center av-justify-between av-w-full av-gap-md av-px-md">
-          <AvIconText
-            typography-class="n5"
-            :icon="ICONS.SKILLS"
-            icon-color="var(--icon)"
-            :text="t('student.global.myDeclaredSkillCount', { count: declaredSkillAssociations.length })"
-            text-color="var(--title)"
-            gap="var(--spacing-sm)"
-          />
-        </div>
-      </template>
-
-      <div class="av-row av-justify-start av-gap-md av-wrap category-elements-paginator__cards">
-        <AssociatedSkillCard
-          v-for="skill in declaredSkillAssociations"
-          :key="skill.associationId"
-          :declared-skill="skill.declaredSkill"
-          data-testid="associated-skill-card"
-        />
-      </div>
-    </AvCard>
+    <AssociatedDeclaredSkillsCard
+      :associated-declared-skills="declaredSkillAssociations"
+    />
 
     <AvCard
       v-if="declaredActivityAssociations.length > 0"

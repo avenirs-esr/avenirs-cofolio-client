@@ -190,7 +190,7 @@ export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredAc
   }
 
   if (declaredActivityId === 'DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS') {
-    return HttpResponse.json<DeclaredActivityAssociationsDTO>({ traceAssociations: [] }, {
+    return HttpResponse.json<DeclaredActivityAssociationsDTO>({ traceAssociations: [], declaredSkillAssociations: [] }, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })

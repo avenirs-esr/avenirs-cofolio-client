@@ -7,7 +7,7 @@ export class TraceAssociationsObject extends BaseObject {
   }
 
   getDeclaredSkillAssociationsContainer () {
-    return this.root.getByTestId('declared-skill-associations-container')
+    return this.root.getByTestId('associated-declared-skills-card')
   }
 
   getAssociatedSkillCards () {
