@@ -3,8 +3,8 @@ import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
-import DeclaredSkillCommentInput
-  from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillCommentInput/DeclaredSkillCommentInput.vue'
+import DeclaredSkillReflectionInput
+  from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
 import { AvCard, AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -14,7 +14,7 @@ export interface DeclaredSkillDetailsProps {
 }
 
 const { declaredSkillProgressDetails } = defineProps<DeclaredSkillDetailsProps>()
-const { title, description, type, pathSegments, level, createdAt, updatedAt } = declaredSkillProgressDetails
+const { title, reflection, type, pathSegments, level, createdAt, updatedAt } = declaredSkillProgressDetails
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
@@ -66,8 +66,8 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       class="layout-declared-skill-details__side av-col av-gap-xl"
       data-testid="layout-declared-skill-details__side"
     >
-      <DeclaredSkillCommentInput
-        :model-value="description"
+      <DeclaredSkillReflectionInput
+        :model-value="reflection"
         disabled
       />
     </div>

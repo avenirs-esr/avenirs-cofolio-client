@@ -1,5 +1,6 @@
 import type { EDeclaredSkillLevel } from '@/api/avenir-esr'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import * as queries from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -46,7 +47,7 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
       expect(values.type).toBe(mockedDeclaredSkillProgressDetails.type)
       expect(values.level).toBe(mockedDeclaredSkillProgressDetails.level)
       expect(values.pathSegments).toEqual(mockedDeclaredSkillProgressDetails.pathSegments)
-      expect(values.description).toBe((mockedDeclaredSkillProgressDetails.description ?? '').slice(0, 400))
+      expect(values.reflection).toBe((mockedDeclaredSkillProgressDetails.reflection ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH))
     })
 
     BddTest().then('it should have submit validators configured', async () => {
@@ -71,20 +72,20 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
       const payload = (mutate.mock.calls[0] as [unknown])[0]
       expect(payload).toEqual({
         ...mockedDeclaredSkillProgressDetails,
-        description: (mockedDeclaredSkillProgressDetails.description ?? '').slice(0, 400),
+        reflection: (mockedDeclaredSkillProgressDetails.reflection ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH),
       })
     })
   })
 
   BddTest().when('the form is submitted with invalid data', () => {
-    BddTest().then('it should set validation errors for level and description', async () => {
+    BddTest().then('it should set validation errors for level and reflection', async () => {
       result.form.setFieldValue('level', undefined as unknown as EDeclaredSkillLevel)
-      result.form.setFieldValue('description', 'a'.repeat(500))
+      result.form.setFieldValue('reflection', 'a'.repeat(DECLARED_SKILL_REFLECTION_MAX_LENGTH + 1))
 
       const validation = await result.form.validate('submit')
 
       expect(validation.level?.onSubmit).toBeDefined()
-      expect(validation.description?.onSubmit).toBeDefined()
+      expect(validation.reflection?.onSubmit).toBeDefined()
     })
   })
 

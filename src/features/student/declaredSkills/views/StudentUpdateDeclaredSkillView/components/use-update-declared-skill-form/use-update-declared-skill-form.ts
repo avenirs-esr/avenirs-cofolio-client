@@ -1,5 +1,6 @@
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useUpdateDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -8,7 +9,7 @@ import { useI18n } from 'vue-i18n'
 function normalize (dto: DeclaredSkillProgressDetailsDTO): DeclaredSkillProgressDetailsDTO {
   return {
     ...dto,
-    description: (dto.description ?? '').slice(0, 400),
+    reflection: (dto.reflection ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH),
   }
 }
 
@@ -43,8 +44,8 @@ export function useUpdateDeclaredSkillForm (
             level: (value.level == null)
               ? t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.validation.levelRequired')
               : undefined,
-            description: (value.description && value.description.length > 400)
-              ? t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.validation.commentTooLong', 400)
+            reflection: (value.reflection && value.reflection.length > DECLARED_SKILL_REFLECTION_MAX_LENGTH)
+              ? t('global.error.form.maxLength', DECLARED_SKILL_REFLECTION_MAX_LENGTH)
               : undefined
           }
         }

@@ -267,8 +267,8 @@ BddTest().given('an useDeclaredSkillDetailedQuery composable', () => {
         expect(queryResult.data.value?.traceAssociations).toHaveLength(3)
       })
 
-      BddTest().then('it should include description', () => {
-        expect(queryResult.data.value?.description).toBe(`Voici les enjeux et les objectifs de cette compétence \"Conduire un projet de bout en bout\"
+      BddTest().then('it should include reflection', () => {
+        expect(queryResult.data.value?.reflection).toBe(`Voici les enjeux et les objectifs de cette compétence \"Conduire un projet de bout en bout\"
 Enjeu : Aider les entreprises à gérer des projets complexes et à s'adapter aux mutations du marché du travail
 Objectif : Développer une approche par compétences pour favoriser la mobilité professionnelle et l'employabilité des individus.`)
       })

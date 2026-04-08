@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -9,7 +10,7 @@ const {
   labelVisible = true,
   disabled = false,
   required = true,
-  maxlength = 400,
+  maxlength = DECLARED_SKILL_REFLECTION_MAX_LENGTH,
   id,
   label,
   errorMessage,
@@ -28,8 +29,8 @@ const avInputProps = computed(() => ({
   required,
   errorMessage,
   maxlength,
-  id: id ?? `declared-skill-comment-input-${crypto.randomUUID()}`,
-  label: label ?? t('student.declaredSkills.interactions.inputs.DeclaredSkillCommentFormField.label'),
+  id: id ?? `declared-skill-reflection-input-${crypto.randomUUID()}`,
+  label: label ?? t('student.declaredSkills.interactions.inputs.DeclaredSkillReflectionFormField.label'),
 }))
 </script>
 

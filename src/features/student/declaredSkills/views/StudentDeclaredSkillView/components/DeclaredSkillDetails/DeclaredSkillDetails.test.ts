@@ -2,7 +2,7 @@ import type {
   DeclaredSkillProgressDetailsDTO
 } from '@/api/avenir-esr'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { DECLARED_SKILL_COMMENT_MAX_LENGTH } from '@/features/student/declaredSkills/config'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import DeclaredSkillDetails, { type DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -24,7 +24,7 @@ const mockedDeclaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO = crea
 
 const mockedDeclaredSkillProgressDetailsWithUndefinedDescription: DeclaredSkillProgressDetailsDTO = {
   ...mockedDeclaredSkillProgressDetails,
-  description: undefined
+  reflection: undefined
 }
 
 const AvInputStub = {
@@ -123,13 +123,13 @@ BddTest().given('the DeclaredSkillDetails component', () => {
       expect(typeBadge).toBeDefined()
     })
 
-    BddTest().then('it should render the declared skill comment', () => {
-      const commentTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
-      expect(commentTextarea.exists()).toBe(true)
-      expect(commentTextarea.props('modelValue')).toBe(mockedDeclaredSkillProgressDetails.description)
+    BddTest().then('it should render the declared skill reflection', () => {
+      const reflectionTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
+      expect(reflectionTextarea.exists()).toBe(true)
+      expect(reflectionTextarea.props('modelValue')).toBe(mockedDeclaredSkillProgressDetails.reflection)
     })
 
-    BddTest().and('the declared skill comment is undefined', () => {
+    BddTest().and('the declared skill reflection is undefined', () => {
       const newProps: DeclaredSkillDetailsProps = {
         declaredSkillProgressDetails: mockedDeclaredSkillProgressDetailsWithUndefinedDescription
       }
@@ -139,16 +139,16 @@ BddTest().given('the DeclaredSkillDetails component', () => {
         wrapper = mount(DeclaredSkillDetails, { props: newProps, global: { stubs } })
       })
 
-      BddTest().then('it should render an empty declared skill comment', () => {
-        const commentTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
-        expect(commentTextarea.exists()).toBe(true)
-        expect(commentTextarea.props('modelValue')).toBeUndefined()
+      BddTest().then('it should render an empty declared skill reflection', () => {
+        const reflectionTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
+        expect(reflectionTextarea.exists()).toBe(true)
+        expect(reflectionTextarea.props('modelValue')).toBeUndefined()
       })
 
       BddTest().then('it should set the correct maxLength', () => {
-        const commentTextarea = wrapper.findComponent({ name: 'DeclaredSkillCommentInput' })
-        const avInput = commentTextarea.findComponent({ name: 'AvInput' })
-        expect(avInput.props('maxlength')).toBe(DECLARED_SKILL_COMMENT_MAX_LENGTH)
+        const reflectionTextarea = wrapper.findComponent({ name: 'DeclaredSkillReflectionInput' })
+        const avInput = reflectionTextarea.findComponent({ name: 'AvInput' })
+        expect(avInput.props('maxlength')).toBe(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
       })
     })
   })

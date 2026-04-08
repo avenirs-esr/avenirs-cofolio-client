@@ -171,7 +171,7 @@ export function useUpdateDeclaredSkillMutation ({ onError, onSuccess }: Mutation
     mutationFn: async (declaredSkillProgressDetailsDTO: DeclaredSkillProgressDetailsDTO): Promise<void> => {
       const declaredSkillProgressRequest: DeclaredSkillProgressRequest = {
         level: declaredSkillProgressDetailsDTO.level,
-        description: declaredSkillProgressDetailsDTO.description ?? '',
+        reflection: declaredSkillProgressDetailsDTO.reflection ?? '',
       }
       await updateDeclaredSkillProgress(declaredSkillProgressDetailsDTO.id, declaredSkillProgressRequest)
     },

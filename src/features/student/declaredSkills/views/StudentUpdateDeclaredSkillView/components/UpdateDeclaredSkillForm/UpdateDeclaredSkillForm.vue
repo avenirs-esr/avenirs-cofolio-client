@@ -2,8 +2,8 @@
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
-import DeclaredSkillCommentFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillCommentFormField/DeclaredSkillCommentFormField.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
+import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import { AvCard, AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
@@ -89,7 +89,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
             class="av-col av-gap-sm"
             data-testid="update-declared-skill-form__field"
           >
-            <DeclaredSkillCommentFormField :form="form" />
+            <DeclaredSkillReflectionFormField :form="form" />
           </div>
         </div>
       </div>

@@ -31,10 +31,10 @@ const AvIconTextStub = {
   template: `<div class="av-icon-text">{{ text }}</div>`,
 }
 
-const DeclaredSkillCommentFormFieldStub = {
-  name: 'DeclaredSkillCommentFormField',
+const DeclaredSkillReflectionFormFieldStub = {
+  name: 'DeclaredSkillReflectionFormField',
   props: ['form'],
-  template: `<div class="comment-field-stub"></div>`,
+  template: `<div class="reflection-field-stub"></div>`,
 }
 
 BddTest().given('an UpdateDeclaredSkillForm component', () => {
@@ -63,7 +63,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
           AvIconText: AvIconTextStub,
           AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
           DeclaredSkillLevelRadioButtonSetFormField: DeclaredSkillLevelRadioButtonSetFormFieldStub,
-          DeclaredSkillCommentFormField: DeclaredSkillCommentFormFieldStub,
+          DeclaredSkillReflectionFormField: DeclaredSkillReflectionFormFieldStub,
         },
       },
       useI18n: true,
@@ -85,9 +85,9 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
       expect(input.text()).toBe(mockedDeclaredSkillProgressDetails.title)
     })
 
-    BddTest().then('it should render level and comment fields', () => {
+    BddTest().then('it should render level and reflection fields', () => {
       expect(wrapper.find('[data-testid="declared-skill-level-form-field"]').exists()).toBe(true)
-      expect(wrapper.findComponent(DeclaredSkillCommentFormFieldStub).exists()).toBe(true)
+      expect(wrapper.findComponent(DeclaredSkillReflectionFormFieldStub).exists()).toBe(true)
     })
   })
 
