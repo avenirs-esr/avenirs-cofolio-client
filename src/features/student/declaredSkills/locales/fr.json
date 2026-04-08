@@ -2,6 +2,9 @@
   "student": {
     "declaredSkills": {
       "cards": {
+        "AssociatedDeclaredSkillsCard": {
+          "title": "Mes compétences associées ({count})"
+        },
         "DeclaredSkillRefCard": {
           "refTitle": "Issu du référentiel :"
         }
