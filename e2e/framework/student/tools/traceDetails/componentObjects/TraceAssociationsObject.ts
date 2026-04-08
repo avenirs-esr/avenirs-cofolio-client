@@ -6,16 +6,16 @@ export class TraceAssociationsObject extends BaseObject {
     super(root)
   }
 
-  getDeclaredSkillAssociationsContainer () {
+  getAssociatedDeclaredSkillsCard () {
     return this.root.getByTestId('associated-declared-skills-card')
   }
 
-  getAssociatedSkillCards () {
-    return this.root.getByTestId('associated-skill-card')
+  getAssociatedDeclaredSkillCards () {
+    return this.root.getByTestId('associated-declared-skill-card')
   }
 
   async getAssociatedSkillCardsCount () {
-    return await this.getAssociatedSkillCards().count()
+    return await this.getAssociatedDeclaredSkillCards().count()
   }
 
   getDeclaredActivityAssociationsContainer () {
@@ -35,7 +35,7 @@ export class TraceAssociationsObject extends BaseObject {
   }
 
   async verifyDeclaredSkillAssociationsVisible () {
-    await expect(this.getDeclaredSkillAssociationsContainer()).toBeVisible()
+    await expect(this.getAssociatedDeclaredSkillsCard()).toBeVisible()
   }
 
   async verifyAssociatedSkillCardsNotEmpty () {
