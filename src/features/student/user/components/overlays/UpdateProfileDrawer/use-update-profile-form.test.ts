@@ -10,14 +10,18 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 import { nextTick } from 'vue'
 
-vi.mock('@avenirs-esr/avenirs-dsav', () => ({
-  isValidEmail: (email: string) => email.includes('@'),
-  PageSizes: {
-    FOUR: 4,
-    EIGHT: 8,
-    TWELVE: 12
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    isValidEmail: (email: string) => email.includes('@'),
+    PageSizes: {
+      FOUR: 4,
+      EIGHT: 8,
+      TWELVE: 12
+    }
   }
-}))
+})
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
