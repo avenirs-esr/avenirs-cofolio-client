@@ -17,3 +17,10 @@ Feature: Staff Home Page
     @high @footer
     Scenario: Staff can see the footer
       Then the footer is visible
+      
+  Rule: Navigation
+
+    @high @navigation @desktop
+    Scenario: Main navigation is fully visible on desktop
+      Then the staff main navigation menu is visible
+      And the staff HOME link is visible

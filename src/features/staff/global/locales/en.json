@@ -5,6 +5,11 @@
         "header": {
           "home": "Home - Staff CoFolio"
         }
+      },
+      "navigation": {
+        "tabs": {
+          "home": "Home"
+        }
       }
     }
   }

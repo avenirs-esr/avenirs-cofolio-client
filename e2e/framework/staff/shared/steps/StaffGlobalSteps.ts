@@ -2,14 +2,18 @@ import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { StaffLayout } from '@e2e/framework/staff/shared/componentObjects/StaffLayout'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then } from 'playwright-bdd/decorators'
 
 export
 @Fixture<typeof test>('staffGlobalSteps')
 class StaffGlobalSteps extends BasePage {
+  private layout: StaffLayout
+
   constructor (page: Page) {
     super(page)
+    this.layout = new StaffLayout(page)
   }
 
   @Given('the staff opens the home page')
@@ -21,5 +25,15 @@ class StaffGlobalSteps extends BasePage {
   @Then('the staff home page is displayed')
   async verifyPageLoaded () {
     await expect(this.page).toHaveURL(STAFF_ROUTES.HOME)
+  }
+
+  @Then('the staff HOME link is visible')
+  async verifyHomeLink () {
+    await expect(this.layout.getHomeNavLink()).toBeVisible()
+  }
+
+  @Then('the staff main navigation menu is visible')
+  async verifyMainNavigationMenuVisible () {
+    await expect(this.layout.getMainNavigation()).toBeVisible()
   }
 }
