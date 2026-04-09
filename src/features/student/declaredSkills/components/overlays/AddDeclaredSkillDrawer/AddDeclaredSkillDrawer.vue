@@ -2,13 +2,17 @@
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
-import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
+import DeclaredSkillReflectionFormField
+  from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
+import AddDeclaredSkillAutocompleteField
+  from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 import {
   useDeclaredSkillForm
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
+import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
-import { AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -79,8 +83,23 @@ function confirmCancel () {
           novalidate
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AddDeclaredSkillAutocompleteField :form="form" />
-          <DeclaredSkillLevelRadioButtonSetFormField :form="form" />
+          <AvAccordionsGroup>
+            <AvAccordion
+              :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addMySkill.title')"
+              :icon="ICONS.SKILLS"
+            >
+              <div class="av-col av-gap-md">
+                <AddDeclaredSkillAutocompleteField :form="form" />
+                <DeclaredSkillReflectionFormField :form="form" />
+              </div>
+            </AvAccordion>
+            <AvAccordion
+              :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.declarations.title')"
+              :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+            >
+              <DeclaredSkillLevelRadioButtonSetFormField :form="form" />
+            </AvAccordion>
+          </AvAccordionsGroup>
         </form>
       </div>
     </div>

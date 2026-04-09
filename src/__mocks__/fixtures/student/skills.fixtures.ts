@@ -72,7 +72,7 @@ export function createMockedDeclaredSkillProgressDTO () {
     pathSegments: ['Catégorie', `Sous-catégorie`],
     type: EExternalSkillType.ROME4,
     level: EDeclaredSkillLevel.ADVANCED,
-    description: `Description de la compétence complémentaire`
+    reflection: `Ecrit reflexif de la compétence déclarée`
   }
 }
 
@@ -87,7 +87,7 @@ export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: num
       pathSegments: ['Catégorie', `Sous-catégorie ${i}`],
       type: EExternalSkillType.ROME4,
       level: levels[i % levels.length],
-      description: `Description de la compétence complémentaire ${i}`
+      reflection: `Ecrit reflexif de la compétence déclarée ${i}`
     }
     mockedSkills.push(skill)
   }

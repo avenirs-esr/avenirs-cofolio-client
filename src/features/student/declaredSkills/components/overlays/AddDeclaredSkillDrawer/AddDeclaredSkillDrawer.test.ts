@@ -68,7 +68,7 @@ BddTest().given('an add declared skill drawer component', () => {
 
       expect(header.exists()).toBe(true)
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Ajouter une compétence complémentaire')
+      expect(title.text()).toBe('Ajouter une compétence déclarée')
     })
 
     BddTest().then('it should render footer buttons', () => {
@@ -89,17 +89,21 @@ BddTest().given('an add declared skill drawer component', () => {
 
     BddTest().then('it should render the field components', () => {
       const autocompleteField = wrapper.findComponent({ name: 'AddDeclaredSkillAutocompleteField' })
+      const reflectionField = wrapper.findComponent({ name: 'DeclaredSkillReflectionFormField' })
       const levelField = wrapper.findComponent({ name: 'DeclaredSkillLevelFormField' })
 
       expect(autocompleteField.exists()).toBe(true)
+      expect(reflectionField.exists()).toBe(true)
       expect(levelField.exists()).toBe(true)
     })
 
     BddTest().then('it should pass form to field components', () => {
       const autocompleteField = wrapper.findComponent({ name: 'AddDeclaredSkillAutocompleteField' })
+      const reflectionField = wrapper.findComponent({ name: 'DeclaredSkillReflectionFormField' })
       const levelField = wrapper.findComponent({ name: 'DeclaredSkillLevelFormField' })
 
       expect(autocompleteField.props('form')).toBeDefined()
+      expect(reflectionField.props('form')).toBeDefined()
       expect(levelField.props('form')).toBeDefined()
     })
   })

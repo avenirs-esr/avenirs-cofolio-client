@@ -33,7 +33,8 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
               : undefined,
             level: !value.level
               ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.validation.levelRequired')
-              : undefined
+              : undefined,
+            reflection: !value.reflection
           }
         }
       }
@@ -43,7 +44,8 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
       createDeclaredSkill({
         id: selectedSkill.id,
         type: selectedSkill.type,
-        level: value.level
+        level: value.level,
+        reflection: value.reflection
       }, {
         onSuccess: () => {
           onSkillAdded?.()

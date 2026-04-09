@@ -10,4 +10,5 @@ export interface DeclaredSkillOption extends AvAutocompleteOption, IdTitle {
 export interface DeclaredSkillFormData {
   selectedSkills: DeclaredSkillOption[]
   level: EDeclaredSkillLevel
+  reflection?: string
 }

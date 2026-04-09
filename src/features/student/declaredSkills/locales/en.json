@@ -35,6 +35,15 @@
       },
       "overlays": {
         "AddDeclaredSkillDrawer": {
+          "accordions": {
+            "addMySkill": {
+              "title": "Add my skill",
+              "reflectionLabel": "Reflective review"
+            },
+            "declarations": {
+              "title": "Submit my declarations"
+            }
+          },
           "autocompleteField": {
             "minimumCharacters": "Type at least 3 characters to search",
             "noResultsFound": "No skill found",
@@ -50,7 +59,7 @@
             "declaredSkillAlreadyExist": "This declared skill has already been assigned to you"
           },
           "success": "Skill added successfully",
-          "title": "Add additional skill",
+          "title": "Add declared skill",
           "validation": {
             "levelRequired": "A self-positioning level must be selected",
             "skillRequired": "A skill must be selected"

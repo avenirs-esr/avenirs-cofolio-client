@@ -35,6 +35,15 @@
       },
       "overlays": {
         "AddDeclaredSkillDrawer": {
+          "accordions": {
+            "addMySkill": {
+              "title": "Ajouter ma compétence",
+              "reflectionLabel": "Bilan reflexif"
+            },
+            "declarations": {
+              "title": "Effectuer mes déclarations"
+            }
+          },
           "autocompleteField": {
             "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
             "noResultsFound": "Aucune compétence trouvée",
@@ -50,7 +59,7 @@
             "declaredSkillAlreadyExist": "Cette compétence déclarée vous est déjà attribuée"
           },
           "success": "Compétence ajoutée avec succès",
-          "title": "Ajouter une compétence complémentaire",
+          "title": "Ajouter une compétence déclarée",
           "validation": {
             "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
             "skillRequired": "Une compétence doit être sélectionnée"

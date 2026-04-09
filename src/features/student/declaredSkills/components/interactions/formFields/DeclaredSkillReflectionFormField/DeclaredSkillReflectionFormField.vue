@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DeclaredSkillForm } from '@/features/student/declaredSkills/types/forms.types'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
@@ -7,16 +8,11 @@ import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface DeclaredSkillReflectionFormFieldProps {
-  form: UpdateDeclaredSkillForm
+  form: UpdateDeclaredSkillForm | DeclaredSkillForm
 }
 
 const { form } = defineProps<DeclaredSkillReflectionFormFieldProps>()
 const FormField = markRaw(form.Field)
-const reflectionField = form.useField({ name: 'reflection' })
-
-function onUpdateReflection (value: string | undefined) {
-  reflectionField.api.handleChange(String(value ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH))
-}
 const { t } = useI18n()
 </script>
 
@@ -29,7 +25,7 @@ const { t } = useI18n()
         :model-value="(field.state.value ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH)"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="onUpdateReflection"
+        @update:model-value="(value) => field.handleChange(String(value ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH))"
       >
         <template #maxLengthCaption>
           <span class="caption-regular">

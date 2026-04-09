@@ -259,7 +259,7 @@ export const skillsHandlers = [
       pathSegments: ['Category', 'Subcategory'],
       type: body.type ?? EExternalSkillType.ROME4,
       level: body.level ?? EDeclaredSkillLevel.INTERMEDIATE,
-      description: body.description ?? 'Mocked skill description'
+      reflection: body.reflection ?? 'Mocked skill reflection'
     }
 
     return HttpResponse.json(response, {
