@@ -1,20 +1,22 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
-import { ROUTES } from '@/common/constants'
+import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
+import { StaffNavigationStub } from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.stub'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const AvHeaderStub = defineComponent({
-  name: 'AvHeader',
-  props: ['modelValue', 'serviceTitle', 'homeTo', 'quickLinks', 'languageSelector'],
-  emits: ['update:modelValue', 'language-select'],
-  template: `
-    <div>
-      <button @click="quickLinks[0].onClick($event)" data-testid="home-btn">Home</button>
-    </div>
-  `
+const selectLanguageMock = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useLanguageSwitcher: () => ({
+      selectLanguage: selectLanguageMock
+    }),
+  }
 })
 
 BddTest().given('a staff layout component', () => {
@@ -22,7 +24,9 @@ BddTest().given('a staff layout component', () => {
 
   const stubs = {
     AvHeader: AvHeaderStub,
-    Footer: FooterStub
+    Footer: FooterStub,
+    StaffNavigation: StaffNavigationStub,
+    SwitchUniverse: SwitchUniverseStub
   }
 
   beforeEach(async () => {
@@ -41,18 +45,8 @@ BddTest().given('a staff layout component', () => {
       expect(wrapper.findComponent(FooterStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass correct quickLinks to AvHeader', () => {
-      const header = wrapper.findComponent(AvHeaderStub)
-      const quickLinks = header.props('quickLinks')
-
-      expect(quickLinks).toEqual([
-        {
-          label: 'Home',
-          to: ROUTES.STAFF.HOME,
-          icon: 'ri-home-4-line',
-          iconAttrs: { color: 'var(--red-marianne-425-625)' },
-        },
-      ])
+    BddTest().then('it should render the StaffNavigation component', () => {
+      expect(wrapper.findComponent(StaffNavigationStub).exists()).toBe(true)
     })
 
     BddTest().and('AvHeader emits update:modelValue', () => {
@@ -78,6 +72,18 @@ BddTest().given('a staff layout component', () => {
 
       BddTest().then('it should pass searchQuery as modelValue to AvHeader', async () => {
         expect(avHeader.props('modelValue')).toBe('test')
+      })
+    })
+
+    BddTest().and('AvHeader emits language-select', () => {
+      beforeEach(async () => {
+        const avHeader = wrapper.findComponent(AvHeaderStub)
+        avHeader.vm.$emit('language-select', 'en')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should call selectLanguage from useLanguageSwitcher', () => {
+        expect(selectLanguageMock).toHaveBeenCalledWith('en')
       })
     })
   })

@@ -13,6 +13,9 @@ import {
 } from '@/features/student/user'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 useInvalidateAllQueriesAfterLocaleChange()
 
@@ -40,10 +43,10 @@ defineExpose({ searchQuery })
 <template>
   <AvHeader
     v-model="searchQuery"
+    :home-label="t('student.global.layout.header.home')"
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
     :show-search="!isDemo"
     :language-selector="languageSelector"
-    service-title=" "
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>
@@ -70,7 +73,7 @@ defineExpose({ searchQuery })
     <template #mainnav>
       <StudentNavigation />
     </template>
-    <template #serviceDescription>
+    <template #roleContext>
       <SwitchUniverse />
     </template>
   </AvHeader>
@@ -83,5 +86,3 @@ defineExpose({ searchQuery })
 
   <Footer />
 </template>
-
-<style lang="scss" scoped></style>
