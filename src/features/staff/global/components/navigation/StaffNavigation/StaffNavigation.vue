@@ -11,7 +11,7 @@ const navItems = computed(() => [
   {
     id: homeItemId,
     to: ROUTES.STAFF.HOME,
-    text: t('student.global.navigation.tabs.home').toUpperCase(),
+    text: t('staff.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
 ])

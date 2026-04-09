@@ -5,6 +5,11 @@
         "header": {
           "home": "Accueil - Cofolio Staff"
         }
+      },
+      "navigation": {
+        "tabs": {
+          "home": "Accueil"
+        }
       }
     }
   }
