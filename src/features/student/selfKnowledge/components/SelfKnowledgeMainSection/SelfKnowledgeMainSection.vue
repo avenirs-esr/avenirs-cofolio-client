@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import { ProfileCard, useStudentSummaryQuery } from '@/features/student/user'
+import { useStudentSummaryQuery } from '@/features/student/user'
 import UpdateProfileDrawer from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -52,7 +53,11 @@ const { data: studentSummary } = useStudentSummaryQuery()
 
     <ProfileCard
       v-if="studentSummary"
-      :student-summary
+      :first-name="studentSummary.firstname"
+      :last-name="studentSummary.lastname"
+      :profile-picture-url="studentSummary.profilePicture.url"
+      :cover-picture-url="studentSummary.coverPicture.url"
+      :bio="studentSummary.bio"
     />
 
     <div class="av-row av-justify-end">

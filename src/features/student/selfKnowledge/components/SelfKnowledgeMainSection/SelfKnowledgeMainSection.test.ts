@@ -4,8 +4,8 @@ import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
-import { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -103,9 +103,13 @@ BddTest().given('a self knowledge section component', () => {
         expect(profileCard.exists()).toBe(true)
       })
 
-      BddTest().then('it should pass correct student summary props', () => {
+      BddTest().then('it should pass correct props to ProfileCard', () => {
         const profileCard = wrapper.findComponent(ProfileCardStub)
-        expect(profileCard.props('studentSummary')).toEqual(mockedProfileOverview)
+        expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
+        expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
+        expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
+        expect(profileCard.props('coverPictureUrl')).toBe(mockedProfileOverview.coverPicture.url)
+        expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
       })
 
       BddTest().then('it should render the display update profile drawer button', () => {

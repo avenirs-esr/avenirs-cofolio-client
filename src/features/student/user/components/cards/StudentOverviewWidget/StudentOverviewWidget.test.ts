@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ProfileCardStub } from '@/features/student/user/components/cards/ProfileCard/ProfileCard.stub'
+import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import StudentOverviewWidget from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
 import { UpdateProfileDrawerStub } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -34,9 +34,13 @@ BddTest().given('a student overview widget', () => {
       expect(profileCard.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass studentSummary to ProfileCard', () => {
+    BddTest().then('it should pass correct props to ProfileCard', () => {
       const profileCard = wrapper.findComponent({ name: 'ProfileCard' })
-      expect(profileCard.props('studentSummary')).toEqual(mockedProfileOverview)
+      expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
+      expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
+      expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
+      expect(profileCard.props('coverPictureUrl')).toBe(mockedProfileOverview.coverPicture.url)
+      expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
     })
 
     BddTest().then('it should render 4 rich buttons in footer', () => {

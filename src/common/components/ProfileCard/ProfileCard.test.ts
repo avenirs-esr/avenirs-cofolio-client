@@ -1,7 +1,6 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import ProfileCard from '@/features/student/user/components/cards/ProfileCard/ProfileCard.vue'
+import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -13,16 +12,11 @@ BddTest().given('a profile card', () => {
     AvCard: AvCardStub
   }
 
-  const studentSummary: ProfileOverviewDTO = {
-    firstname: 'Jeanne',
-    lastname: 'Moulin',
-    email: 'j.moulin@example.com',
-    profilePicture: {
-      url: profile_picture_placeholder,
-    },
-    coverPicture: {
-      url: profile_banner_placeholder,
-    },
+  const props = {
+    firstName: 'Jeanne',
+    lastName: 'Moulin',
+    profilePictureUrl: profile_picture_placeholder,
+    coverPictureUrl: profile_banner_placeholder,
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
@@ -30,7 +24,7 @@ BddTest().given('a profile card', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
-        props: { studentSummary },
+        props,
         global: { stubs }
       })
     })
@@ -45,7 +39,7 @@ BddTest().given('a profile card', () => {
     })
 
     BddTest().then('it should display the bio', () => {
-      expect(wrapper.text()).toContain(studentSummary.bio)
+      expect(wrapper.text()).toContain(props.bio)
     })
 
     BddTest().and('the banner image is rendered', () => {
@@ -60,7 +54,7 @@ BddTest().given('a profile card', () => {
       })
 
       BddTest().then('it should have correct src', () => {
-        expect(bannerImage.attributes('src')).toBe(studentSummary.coverPicture.url)
+        expect(bannerImage.attributes('src')).toBe(props.coverPictureUrl)
       })
 
       BddTest().then('it should have correct alt text', () => {
@@ -80,7 +74,7 @@ BddTest().given('a profile card', () => {
       })
 
       BddTest().then('it should have correct src', () => {
-        expect(profilePicture.attributes('src')).toBe(studentSummary.profilePicture.url)
+        expect(profilePicture.attributes('src')).toBe(props.profilePictureUrl)
       })
 
       BddTest().then('it should have correct alt text', () => {
@@ -109,7 +103,7 @@ BddTest().given('a profile card', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
-        props: { studentSummary },
+        props,
         slots: {
           default: '<div class="custom-content">Custom Content</div>'
         },
@@ -128,7 +122,7 @@ BddTest().given('a profile card', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
-        props: { studentSummary },
+        props,
         global: { stubs }
       })
     })
@@ -140,16 +134,14 @@ BddTest().given('a profile card', () => {
     })
   })
 
-  BddTest().when('the student has lowercase names', () => {
+  BddTest().when('the component receives lowercase names', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(ProfileCard, {
         props: {
-          studentSummary: {
-            ...studentSummary,
-            firstname: 'jean',
-            lastname: 'dupont'
-          }
+          ...props,
+          firstName: 'jean',
+          lastName: 'dupont'
         },
         global: { stubs }
       })

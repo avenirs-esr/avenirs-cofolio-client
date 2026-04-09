@@ -85,6 +85,12 @@
       "undo": "Annuler",
       "update": "Modifier"
     },
+    "cards": {
+      "ProfileCard": {
+        "bannerAlt": "Bannière du profil",
+        "pictureAlt": "Photo de profil"
+      }
+    },
     "colon": "{before} :",
     "dates": {
       "createdAt": "Créé le {date}",
