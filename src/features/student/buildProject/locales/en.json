@@ -17,6 +17,11 @@
           "subscribe": "Subscribe to the activity",
           "unsubscribe": "Unsubscribe"
         },
+        "cards": {
+          "AssociatedDeclaredActivitiesCard": {
+            "title": "My associated declared activity ({count}) | My associated declared activities ({count})"
+          }
+        },
         "declaredActivityStatus": {
           "COMPLETED": "Completed",
           "IN_PROGRESS": "In progress",

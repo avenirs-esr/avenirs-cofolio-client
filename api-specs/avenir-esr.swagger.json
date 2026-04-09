@@ -996,6 +996,47 @@
         }
       }
     },
+    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-activities": {
+      "post": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "associateDeclaredSkillWithDeclaredActivities",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/unassociate/traces": {
       "post": {
         "tags": [
@@ -3187,6 +3228,27 @@
           "declaredSkill"
         ]
       },
+      "DeclaredSkillAssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDTO"
+            }
+          },
+          "declaredActivityAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
+            }
+          }
+        },
+        "required": [
+          "declaredActivityAssociations",
+          "traceAssociations"
+        ]
+      },
       "Activity": {
         "type": "object",
         "properties": {
@@ -4341,6 +4403,22 @@
           "title",
           "traceId",
           "updatedAt"
+        ]
+      },
+      "TraceAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "trace": {
+            "$ref": "#/components/schemas/TraceOverviewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "trace"
         ]
       },
       "StudentProgressDTO": {
