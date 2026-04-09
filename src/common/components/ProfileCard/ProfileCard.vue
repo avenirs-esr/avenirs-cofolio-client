@@ -1,23 +1,32 @@
 <script setup lang="ts">
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { Slot } from 'vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface ProfileCardProps {
-  studentSummary: ProfileOverviewDTO
+  firstName: string
+  lastName: string
+  profilePictureUrl: string
+  coverPictureUrl: string
+  bio?: string
 }
 
-const { studentSummary } = defineProps<ProfileCardProps>()
+const {
+  firstName,
+  lastName,
+  profilePictureUrl,
+  coverPictureUrl,
+  bio
+} = defineProps<ProfileCardProps>()
 
-defineSlots()
+defineSlots<{
+  default?: Slot
+}>()
 
 const { t } = useI18n()
 
-const fullName = computed(() => {
-  const { firstname, lastname } = studentSummary
-  return `${capitalize(firstname)} ${capitalize(lastname)}`
-})
+const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)}`)
 </script>
 
 <template>
@@ -29,17 +38,17 @@ const fullName = computed(() => {
     <template #title>
       <div class="profile-card__title">
         <img
-          :src="studentSummary.coverPicture.url"
-          :alt="t('student.user.cards.ProfileCard.bannerAlt')"
+          :src="coverPictureUrl"
+          :alt="t('global.cards.ProfileCard.bannerAlt')"
           class="profile-card__banner av-w-full av-radius-md"
           data-testid="profile-banner"
         >
         <div
-          class="profile-card__icon av-row av-justify-center av-align-center av-radius-md"
+          class="profile-card__icon av-row av-justify-center av-align-center av-radius-md av-border-width-lg av-border-style-solid"
         >
           <img
-            :src="studentSummary.profilePicture.url"
-            :alt="t('student.user.cards.ProfileCard.pictureAlt')"
+            :src="profilePictureUrl"
+            :alt="t('global.cards.ProfileCard.pictureAlt')"
             class="profile-card__picture av-w-full av-h-full"
             data-testid="profile-picture"
           >
@@ -55,7 +64,7 @@ const fullName = computed(() => {
         <span
           class="b2-light profile-card__bio"
           data-testid="profile-bio"
-        >{{ studentSummary.bio }}</span>
+        >{{ bio }}</span>
       </div>
     </template>
     <template
@@ -77,7 +86,7 @@ const fullName = computed(() => {
   position: absolute;
   width: var(--dimension-5xl);
   height: var(--dimension-5xl);
-  border: 4px solid var(--dark-foreground);
+  border-color: var(--dark-foreground);
   right: var(--spacing-sm);
   top: var(--spacing-sm);
 }

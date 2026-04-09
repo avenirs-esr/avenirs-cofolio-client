@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
-import ProfileCard from '@/features/student/user/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useStudentSummaryQuery } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,7 +17,13 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
     v-if="studentSummary"
     data-testid="student-overview-widget"
   >
-    <ProfileCard :student-summary="studentSummary">
+    <ProfileCard
+      :first-name="studentSummary.firstname"
+      :last-name="studentSummary.lastname"
+      :profile-picture-url="studentSummary.profilePicture.url"
+      :cover-picture-url="studentSummary.coverPicture.url"
+      :bio="studentSummary.bio"
+    >
       <div
         class="av-pt-sm"
         data-testid="student-overview-widget-actions"

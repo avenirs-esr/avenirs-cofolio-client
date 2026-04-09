@@ -2,10 +2,6 @@
   "student": {
     "user": {
       "cards": {
-        "ProfileCard": {
-          "bannerAlt": "Bannière du profil",
-          "pictureAlt": "Photo de profil"
-        },
         "StudentOverviewWidget": {
           "buttons": {
             "editProfile": "Modifier mon profil",
