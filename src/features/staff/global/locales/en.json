@@ -1,3 +1,11 @@
 {
-  "staff": {}
+  "staff": {
+    "global": {
+      "layout": {
+        "header": {
+          "home": "Home - Staff CoFolio"
+        }
+      }
+    }
+  }
 }

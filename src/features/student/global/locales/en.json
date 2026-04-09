@@ -11,11 +11,11 @@
       },
       "layout": {
         "header": {
+          "home": "Home - Student CoFolio",
           "quicklinks": {
             "mailbox": "Mailbox",
             "notifications": "Notifications"
-          },
-          "serviceTitle": "Cofolio Student"
+          }
         }
       },
       "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",

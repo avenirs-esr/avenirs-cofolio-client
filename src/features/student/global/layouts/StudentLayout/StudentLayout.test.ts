@@ -4,12 +4,25 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { Ref } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
 import { useStudentSummaryQuery } from '@/features/student/user'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const selectLanguageMock = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useLanguageSwitcher: () => ({
+      selectLanguage: selectLanguageMock
+    }),
+  }
+})
 
 vi.mock(import('@/features/student/user'), async (importOriginal) => {
   const actual = await importOriginal()
@@ -46,17 +59,8 @@ BddTest().given('a student layout', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentLayout>>
 
   const stubs = {
-    AvHeader: {
-      name: 'AvHeader',
-      props: ['modelValue', 'serviceTitle', 'homeTo', 'showSearch', 'languageSelector'],
-      emits: ['update:modelValue', 'language-select'],
-      template: `
-        <div>
-          <slot name="before-quick-links" />
-          <slot name="mainnav" />
-        </div>
-      `
-    },
+    AvHeader: AvHeaderStub,
+    SwitchUniverse: SwitchUniverseStub,
     StudentMailboxPopover: {
       name: 'StudentMailboxPopover',
       props: ['messagesCount'],
@@ -131,6 +135,18 @@ BddTest().given('a student layout', () => {
         await wrapper.vm.$nextTick()
 
         expect(wrapper.vm.searchQuery).toBe('test search')
+      })
+    })
+
+    BddTest().when('AvHeader emits language-select', () => {
+      beforeEach(async () => {
+        const avHeader = wrapper.findComponent(AvHeaderStub)
+        avHeader.vm.$emit('language-select', 'en')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should call selectLanguage from useLanguageSwitcher', () => {
+        expect(selectLanguageMock).toHaveBeenCalledWith('en')
       })
     })
 

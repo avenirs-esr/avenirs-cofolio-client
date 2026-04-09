@@ -3,18 +3,12 @@ import Footer from '@/common/components/Footer/Footer.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useLanguageSwitcher } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import { AvHeader, type AvHeaderProps } from '@avenirs-esr/avenirs-dsav'
+import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
+import { AvHeader } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-
-const quickLinks: AvHeaderProps['quickLinks'] = [
-  {
-    label: 'Home',
-    to: ROUTES.STAFF.HOME,
-    icon: 'ri-home-4-line',
-    iconAttrs: { color: 'var(--red-marianne-425-625)' },
-  },
-]
 
 const searchQuery = ref('')
 
@@ -24,14 +18,15 @@ defineExpose({ searchQuery })
 <template>
   <AvHeader
     v-model="searchQuery"
-    service-title=" "
+    :home-label="t('staff.global.layout.header.home')"
     :home-to="ROUTES.STAFF.HOME"
-    show-search
-    :quick-links="quickLinks"
     :language-selector="languageSelector"
     @language-select="selectLanguage($event)"
   >
-    <template #serviceDescription>
+    <template #mainnav>
+      <StaffNavigation />
+    </template>
+    <template #roleContext>
       <SwitchUniverse />
     </template>
   </AvHeader>
