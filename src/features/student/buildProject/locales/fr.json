@@ -17,6 +17,11 @@
           "subscribe": "M'inscrire à l'activité",
           "unsubscribe": "Me désinscrire"
         },
+        "cards": {
+          "AssociatedDeclaredActivitiesCard": {
+            "title": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})"
+          }
+        },
         "declaredActivityStatus": {
           "COMPLETED": "Terminée",
           "IN_PROGRESS": "En cours",
