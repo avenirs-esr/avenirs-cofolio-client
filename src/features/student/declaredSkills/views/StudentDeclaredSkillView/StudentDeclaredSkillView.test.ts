@@ -4,6 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
+import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -51,12 +52,6 @@ const DeclaredSkillDetailsStub = {
   name: 'DeclaredSkillDetails',
   props: ['declaredSkillProgressDetails'],
   template: '<div class="declared-skill-details-stub" />'
-}
-
-const StudentDeclaredSkillAssociationsStub = {
-  name: 'StudentDeclaredSkillAssociations',
-  props: ['traceAssociations'],
-  template: '<div class="student-declared-skill-associations-stub" />'
 }
 
 const stubs = {
@@ -144,10 +139,10 @@ BddTest().given('a student declared skill view component', () => {
 
     BddTest().then('it should render StudentDeclaredSkillAssociations component with correct props', async () => {
       await vi.waitFor(() => {
-        const associationsComponent = wrapper.findComponent({ name: 'StudentDeclaredSkillAssociations' })
+        const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
         expect(associationsComponent.exists()).toBe(true)
-        expect(associationsComponent.props('traceAssociations')).toBeDefined()
-        expect(associationsComponent.props('traceAssociations')).toHaveLength(3)
+        expect(associationsComponent.props('associatedTraces')).toBeDefined()
+        expect(associationsComponent.props('associatedDeclaredActivities')).toBeDefined()
       })
     })
 

@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import { TracesSelector } from '@/features/student/traces'
-import { useI18n } from 'vue-i18n'
+import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
+import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
+import AssociatedTracesCard
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 
-const { traceAssociations } = defineProps<{ traceAssociations: TraceOverviewDTO[] }>()
-const { t } = useI18n()
+const { associatedTraces, associatedDeclaredActivities } = defineProps<{ associatedDeclaredActivities: DeclaredActivityAssociationDTO[], associatedTraces: TraceAssociationDTO[] }>()
 </script>
 
 <template>
   <div class="student-declared-skill-associations-container">
-    <span
-      class="b2-regular av-text-text2"
-      data-testid="associated-trace-count"
-    >{{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
-    <TracesSelector
-      :traces="traceAssociations"
-      readonly
-    />
+    <div
+      class="av-col av-gap-xl av-pt-xl"
+      data-testid="declared-skill-associations"
+    >
+      <AssociatedTracesCard :associated-traces="associatedTraces" />
+      <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
+    </div>
   </div>
 </template>

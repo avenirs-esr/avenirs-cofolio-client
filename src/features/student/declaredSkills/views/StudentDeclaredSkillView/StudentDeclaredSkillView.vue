@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
@@ -54,6 +55,10 @@ function handleSkillDeleted () {
   hideModal()
   navigateToStudentProjectSkills({ replace: true })
 }
+
+// TODO: https://github.com/avenirs-esr/AVENIRS-Project/issues/1361
+const associatedTraces = [] as TraceAssociationDTO[]
+const associatedDeclaredActivities = [] as DeclaredActivityAssociationDTO[]
 </script>
 
 <template>
@@ -90,7 +95,8 @@ function handleSkillDeleted () {
     >
       <StudentDeclaredSkillAssociations
         v-if="declaredSkillDetailed"
-        :trace-associations="declaredSkillDetailed.traceAssociations"
+        :associated-traces="associatedTraces"
+        :associated-declared-activities="associatedDeclaredActivities"
       />
     </AvTab>
   </AvTabs>
