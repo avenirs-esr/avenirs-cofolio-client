@@ -17,4 +17,11 @@ const { associatedTraces, associatedDeclaredActivities } = defineProps<{ associa
       <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
     </div>
   </div>
+
+  <AssociateActivitiesToDeclaredSkillModal
+    :show="showAssociateActivitiesModal"
+    :declared-skill-id="declaredSkillId"
+    @cancel="hideAssociateActivitiesModal"
+    @associated="onAssociated"
+  />
 </template>

@@ -1515,7 +1515,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseTraceAssociationDeclaredActivityInfoDTO"
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
                 }
               }
             }
@@ -1740,6 +1740,63 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/NavigationAccessDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/declared/skill-progress/{declaredSkillProgressId}/search-for-association/declared-activities": {
+      "get": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "searchDeclaredActivityForAssociation_1",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
                 }
               }
             }
@@ -2169,13 +2226,14 @@
             "required": false,
             "schema": {
               "type": "string",
+              "$ref": "#/components/schemas/EActivityThematic",
               "enum": [
-                "ABOUT_ME",
+                "SELF_KNOWLEDGE",
                 "FUTURE_PLANS",
                 "PROGRAMS",
                 "EXPERIENCES",
                 "TRAJECTORIES",
-                "CV",
+                "RESUMES",
                 "TRANSVERSAL"
               ]
             }
@@ -2363,7 +2421,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseDeclaredActivityAssociationTraceInfoDTO"
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
                 }
               }
             }
@@ -3035,7 +3093,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseTraceAssociationDeclaredSkillInfoDTO"
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
                 }
               }
             }
@@ -4288,6 +4346,107 @@
           "profilePicture"
         ]
       },
+      "AssociationSearchResultDeclaredSkillIDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EExternalSkillType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL"
+            ]
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title",
+          "type"
+        ]
+      },
+      "PagedResponseAssociationSearchResultDeclaredSkillIDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultDeclaredSkillIDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "AssociationSearchResultDeclaredActivityDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "thematic",
+          "title"
+        ]
+      },
+      "PagedResponseAssociationSearchResultDeclaredActivityDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultDeclaredActivityDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "TracesSummaryDTO": {
         "type": "object",
         "properties": {
@@ -5319,24 +5478,6 @@
           "title"
         ]
       },
-      "PagedResponseDeclaredActivityAssociationTraceInfoDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredActivityAssociationTraceInfoDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
       "TraceAssociationActivityInfoDTO": {
         "type": "object",
         "properties": {
@@ -5359,24 +5500,6 @@
           "id",
           "thematic",
           "title"
-        ]
-      },
-      "PagedResponseTraceAssociationDeclaredActivityInfoDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDeclaredActivityInfoDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "TraceAssociationDeclaredActivityInfoDTO": {
@@ -5411,6 +5534,44 @@
           "id",
           "thematic",
           "title"
+        ]
+      },
+      "AssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseAssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "ActivityOverviewDTO": {
@@ -6193,24 +6354,6 @@
           "id",
           "title",
           "type"
-        ]
-      },
-      "PagedResponseTraceAssociationDeclaredSkillInfoDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDeclaredSkillInfoDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       }
     }

@@ -30,7 +30,7 @@ enum StudentDeclaredSkillViewTabs {
 
 const { t } = useI18n()
 const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
-const { declaredSkillDetailed, error } = useDeclaredSkillDetailedQuery(skillId)
+const { declaredSkillDetailed, error, refetch } = useDeclaredSkillDetailedQuery(skillId)
 const { showModal, displayModal, hideModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
@@ -46,6 +46,18 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
   { text: t('student.global.navigation.tabs.project.items.declaredSkills') }
 ])
+
+// TODO: refacto this when get association query is ready
+const declaredSkillAssociations = computed<DeclaredSkillAssociationsDTO | undefined>(() => {
+  if (!declaredSkillDetailed.value) {
+    return undefined
+  }
+
+  return {
+    traceAssociations: declaredSkillDetailed.value.traceAssociations ?? [],
+    declaredActivityAssociations: []
+  }
+})
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredSkill()

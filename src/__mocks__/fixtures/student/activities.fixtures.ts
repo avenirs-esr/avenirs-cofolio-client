@@ -11,6 +11,7 @@ import {
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredActivityViewDTO
 } from '@/api/avenir-esr'
 
@@ -439,5 +440,44 @@ export function createMockedDeclaredActivityAssociationsDTO (
   return {
     traceAssociations: createMockedTraceAssociations(idsToAssociate.length - 1, idsToAssociate),
     declaredSkillAssociations: createMockedDeclaredActivityAssociations(1)
+  }
+}
+
+export function createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO (
+  pageSize: number,
+  page: number,
+  keyword = ''
+): PagedResponseAssociationSearchResultDeclaredActivityDTO {
+  const normalizedKeyword = keyword.toLowerCase()
+
+  const filteredActivities = allDeclaredActivities.filter(activity =>
+    normalizedKeyword.length === 0
+    || activity.title.toLowerCase().includes(normalizedKeyword)
+  )
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedActivities = filteredActivities.slice(start, end)
+  const totalPages = Math.ceil(filteredActivities.length / pageSize)
+
+  return {
+    data: paginatedActivities.map(activity => ({
+      id: activity.id,
+      title: activity.title,
+      thematic: activity.thematic,
+      disabled: false,
+      summary: activity.summary,
+      executionPeriodInfoSummary: 'Execution period info',
+      status: activity.status,
+      startDate: activity.startDate,
+      endDate: activity.endDate,
+      updatedAt: '2026-01-01T00:00:00Z'
+    })),
+    page: {
+      pageSize,
+      totalElements: filteredActivities.length,
+      totalPages,
+      page
+    }
   }
 }

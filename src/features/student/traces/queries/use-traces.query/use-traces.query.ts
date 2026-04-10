@@ -17,8 +17,8 @@ import {
   getTraceDetail,
   getTraceOverview,
   getTracesSummary,
-  type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
-  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   searchDeclaredActivityForAssociation,
@@ -353,7 +353,7 @@ export interface SearchActivitiesForAssociationQueryParams {
 }
 
 export type SearchActivitiesForAssociationQueryReturnType =
-  UseQueryReturnType<PagedResponseTraceAssociationDeclaredActivityInfoDTO, BaseApiException> & {
+  UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
     activities: Ref<TraceAssociationDeclaredActivityInfoDTO[]>
     pageInfo: Ref<{
       page: number
@@ -373,11 +373,11 @@ export function useSearchActivitiesForAssociationQuery ({
     toValue(params)
   ])
 
-  const queryFn = computed(() => async (): Promise<PagedResponseTraceAssociationDeclaredActivityInfoDTO> => {
+  const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultDeclaredActivityDTO> => {
     return await searchDeclaredActivityForAssociation(toValue(traceId), toValue(params))
   })
 
-  const query = useQuery<PagedResponseTraceAssociationDeclaredActivityInfoDTO, BaseApiException>({
+  const query = useQuery<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException>({
     queryKey,
     queryFn,
     enabled: computed(() => toValue(traceId).trim().length > 0),
@@ -434,7 +434,7 @@ export interface UseDeclaredSkillsForAssociationQueryParams {
 }
 
 export type SearchDeclaredSkillsForAssociationWithTraceQueryReturnType =
-  UseQueryReturnType<PagedResponseTraceAssociationDeclaredSkillInfoDTO, BaseApiException> & {
+  UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException> & {
     skills: Ref<TraceAssociationDeclaredSkillInfoDTO[]>
     pageInfo: Ref<{
       page: number
@@ -454,11 +454,11 @@ export function useSearchDeclaredSkillsForAssociationWithTraceQuery ({
     toValue(params)
   ])
 
-  const queryFn = computed(() => async (): Promise<PagedResponseTraceAssociationDeclaredSkillInfoDTO> => {
+  const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultDeclaredSkillIDTO> => {
     return await searchDeclaredSkillForAssociation(toValue(traceId), toValue(params))
   })
 
-  const query = useQuery<PagedResponseTraceAssociationDeclaredSkillInfoDTO, BaseApiException>({
+  const query = useQuery<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException>({
     queryKey,
     queryFn,
     enabled: computed(() => toValue(traceId).trim().length > 0),

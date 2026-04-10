@@ -7,8 +7,8 @@ import DeleteTraceAssociatedElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
 import TraceAssociateElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
-import AssociateActivitiesModal
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
+import AssociateActivitiesToTracesModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesToTracesModal/AssociateActivitiesToTracesModal.vue'
 import AssociateDeclaredSkillsToTracesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import DeleteTraceAssociatedActivitiesModal
@@ -31,7 +31,9 @@ const { showModal: showAssociationModal, displayModal: displayAssociationModal, 
 const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
 const declaredActivityAssociations = computed(() => associations.declaredActivityAssociations ?? [])
 
-const deletableDeclaredActivityAssociations = computed(() => declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED))
+const deletableDeclaredActivityAssociations = computed(() =>
+  declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
+)
 </script>
 
 <template>
@@ -61,7 +63,7 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
     <AssociatedDeclaredActivitiesCard :associated-activities="declaredActivityAssociations" />
   </div>
 
-  <AssociateActivitiesModal
+  <AssociateActivitiesToTracesModal
     :show="showAssociateActivitiesModal"
     :trace-id="traceId"
     @cancel="hideAssociateActivitiesModal"
