@@ -2,19 +2,26 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { UseMutationReturnType, UseQueryReturnType } from '@tanstack/vue-query'
 import type { Ref } from 'vue'
 import {
+  type AssociationSearchResultDeclaredActivityDTO,
+  type DeclaredSkillAssociationsDTO,
   type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   EExternalSkillType,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PageInfoDTO
 } from '@/api/avenir-esr'
 import {
   type DeleteDeclaredSkillVariables,
+  useAssociateDeclaredSkillWithActivitiesMutation,
+  type UseAssociateDeclaredSkillWithActivitiesMutationVariables,
   useDeclaredSkillDetailedQuery,
   useDeclaredSkillsViewQuery,
   useDeleteDeclaredSkillMutation,
+  useSearchActivitiesForAssociationWithDeclaredSkillQuery,
+  type UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams,
   useSearchExternalSkillsQuery,
   useUnassociateTracesFromDeclaredSkillMutation,
   type UseUnassociateTracesFromDeclaredSkillMutationVariables
@@ -426,6 +433,275 @@ BddTest().given('the useDeleteDeclaredSkillMutation composable', () => {
 
       expect(mockOnError).toHaveBeenCalledTimes(1)
       expect(composableResult.error.value).toBeDefined()
+    })
+  })
+})
+
+BddTest().given('the useAssociateDeclaredSkillWithActivitiesMutation composable', () => {
+  let composableResult: UseMutationReturnType<
+    DeclaredSkillAssociationsDTO,
+    BaseApiException,
+    UseAssociateDeclaredSkillWithActivitiesMutationVariables,
+    unknown
+  >
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+
+  beforeEach(() => {
+    const result = mountComposable(
+      () => useAssociateDeclaredSkillWithActivitiesMutation({ onSuccess: mockOnSuccess, onError: mockOnError }),
+      {
+        useI18n: true,
+        useTanstack: true,
+        usePinia: true
+      }
+    )
+    composableResult = result.result
+  })
+
+  BddTest().when('checking the mutation initial state', () => {
+    BddTest().then('it should have correct initial values', () => {
+      expect(composableResult.isPending.value).toBe(false)
+      expect(composableResult.isError.value).toBe(false)
+      expect(composableResult.isSuccess.value).toBe(false)
+      expect(composableResult.data.value).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the mutation is called with valid data', () => {
+    BddTest().then('it should successfully associate activities to the declared skill', async () => {
+      const variables: UseAssociateDeclaredSkillWithActivitiesMutationVariables = {
+        declaredSkillProgressId: 'test-skill-id-123',
+        associationsCreationRequest: {
+          idsToAssociate: ['activity-search-1', 'activity-search-2']
+        }
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isSuccess.value).toBe(true)
+      })
+
+      expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      expect(composableResult.data.value).toBeDefined()
+      expect(composableResult.data.value?.declaredActivityAssociations).toBeDefined()
+      expect(composableResult.data.value?.declaredActivityAssociations.length).toBeGreaterThanOrEqual(2)
+    })
+  })
+
+  BddTest().when('the mutation is called with an invalid declared skill id', () => {
+    BddTest().then('it should handle the error correctly', async () => {
+      const variables: UseAssociateDeclaredSkillWithActivitiesMutationVariables = {
+        declaredSkillProgressId: 'INVALID_SKILL_ID',
+        associationsCreationRequest: {
+          idsToAssociate: ['activity-search-1']
+        }
+      }
+
+      composableResult.mutate(variables)
+
+      await vi.waitFor(() => {
+        expect(composableResult.isError.value).toBe(true)
+      })
+
+      expect(mockOnError).toHaveBeenCalledTimes(1)
+      expect(composableResult.error.value).toBeDefined()
+    })
+  })
+})
+
+BddTest().given('an useSearchActivitiesForAssociationWithDeclaredSkillQuery composable', () => {
+  const declaredSkillId = ref('test-skill-id-123')
+
+  BddTest().and('valid search parameters', () => {
+    const params = ref<UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams>({
+      keyword: undefined,
+      page: 0,
+      pageSize: 100
+    })
+
+    BddTest().when('the query is executed without keyword', () => {
+      let queryResult: UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+        activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
+        pageInfo: Ref<PageInfoDTO>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchActivitiesForAssociationWithDeclaredSkillQuery({
+            declaredSkillId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should return activities for association', () => {
+        expect(queryResult.data.value?.data).toBeDefined()
+        expect(queryResult.data.value?.data.length).toBeGreaterThan(0)
+
+        const firstActivity = queryResult.data.value?.data?.[0]
+        expect(firstActivity).toHaveProperty('id')
+        expect(firstActivity).toHaveProperty('title')
+        expect(firstActivity).toHaveProperty('thematic')
+        expect(firstActivity).toHaveProperty('disabled')
+      })
+
+      BddTest().then('it should return computed activities array', () => {
+        expect(queryResult.activities.value.length).toBeGreaterThan(0)
+      })
+
+      BddTest().then('it should return correct pageInfo', () => {
+        expect(queryResult.pageInfo.value.page).toBe(0)
+        expect(queryResult.pageInfo.value.pageSize).toBe(100)
+        expect(queryResult.pageInfo.value.totalElements).toBeGreaterThan(0)
+        expect(queryResult.pageInfo.value.totalPages).toBeGreaterThan(0)
+      })
+    })
+
+    BddTest().when('the query is executed with a keyword', () => {
+      let queryResult: UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+        activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
+        pageInfo: Ref<PageInfoDTO>
+      }
+
+      beforeEach(async () => {
+        params.value = {
+          keyword: 'valeurs',
+          page: 0,
+          pageSize: 100
+        }
+
+        queryResult = mountQueryComposable(() =>
+          useSearchActivitiesForAssociationWithDeclaredSkillQuery({
+            declaredSkillId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should filter activities with the keyword', () => {
+        expect(queryResult.activities.value.length).toBeGreaterThan(0)
+        expect(queryResult.activities.value[0].title.toLowerCase()).toContain('valeurs')
+      })
+    })
+
+    BddTest().when('reactive params change', () => {
+      let queryResult: UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+        activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
+        pageInfo: Ref<PageInfoDTO>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchActivitiesForAssociationWithDeclaredSkillQuery({
+            declaredSkillId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().and('the keyword changes', () => {
+        beforeEach(async () => {
+          params.value = {
+            ...params.value,
+            keyword: 'Valoriser'
+          }
+          await flushPromises()
+        })
+
+        BddTest().then('the query should update the activities', async () => {
+          await vi.waitFor(() => {
+            expect(queryResult.activities.value.length).toBeGreaterThan(0)
+            expect(queryResult.activities.value[0].title.toLowerCase()).toContain('valoriser')
+          })
+        })
+      })
+
+      BddTest().and('the page changes', () => {
+        beforeEach(async () => {
+          params.value = {
+            ...params.value,
+            page: 1,
+            pageSize: 1
+          }
+          await flushPromises()
+        })
+
+        BddTest().then('the query should update pageInfo', () => {
+          expect(queryResult.pageInfo.value.page).toBe(1)
+          expect(queryResult.pageInfo.value.pageSize).toBe(1)
+        })
+      })
+    })
+  })
+
+  BddTest().and('an invalid declared skill id', () => {
+    const invalidDeclaredSkillId = ref('INVALID_SKILL_ID')
+    const params = ref<UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams>({
+      keyword: undefined,
+      page: 0,
+      pageSize: 100
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+        activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
+        pageInfo: Ref<PageInfoDTO>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchActivitiesForAssociationWithDeclaredSkillQuery({
+            declaredSkillId: invalidDeclaredSkillId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should handle the error correctly', async () => {
+        await vi.waitFor(() => {
+          expect(queryResult.isError.value).toBe(true)
+        })
+
+        expect(queryResult.error.value).toBeDefined()
+        expect(queryResult.activities.value).toEqual([])
+      })
+    })
+  })
+
+  BddTest().and('an empty declared skill id', () => {
+    const emptyDeclaredSkillId = ref('')
+    const params = ref<UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams>({
+      keyword: undefined,
+      page: 0,
+      pageSize: 100
+    })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+        activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
+        pageInfo: Ref<PageInfoDTO>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchActivitiesForAssociationWithDeclaredSkillQuery({
+            declaredSkillId: emptyDeclaredSkillId,
+            params
+          })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should not fetch data', () => {
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.activities.value).toEqual([])
+      })
     })
   })
 })

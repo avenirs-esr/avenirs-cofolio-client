@@ -2,11 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
 import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -30,24 +31,6 @@ const DeclaredSkillSettingDropdownStub = {
   template: '<div class="declared-skill-setting-popover-stub" />'
 }
 
-const AvTabsStub = {
-  name: 'AvTabs',
-  props: ['modelValue'],
-  template: '<div class="av-tabs-stub"><slot /></div>'
-}
-
-const AvTabStub = {
-  name: 'AvTab',
-  props: ['title', 'icon'],
-  template: '<div class="av-tab-stub"><slot /></div>'
-}
-
-const PageTitleStubWithBack = {
-  name: 'PageTitle',
-  template: '<div />',
-  props: ['title', 'breadcrumbLinks', 'back']
-}
-
 const DeclaredSkillDetailsStub = {
   name: 'DeclaredSkillDetails',
   props: ['declaredSkillProgressDetails'],
@@ -55,7 +38,7 @@ const DeclaredSkillDetailsStub = {
 }
 
 const stubs = {
-  PageTitle: PageTitleStubWithBack,
+  PageTitle: PageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub,
   AvTabs: AvTabsStub,
@@ -120,12 +103,9 @@ BddTest().given('a student declared skill view component', () => {
       expect(settingPopover.exists()).toBe(true)
     })
 
-    BddTest().then('it should render AvTabs with two tabs', () => {
+    BddTest().then('it should render AvTabs', () => {
       const tabs = wrapper.findComponent({ name: 'AvTabs' })
       expect(tabs.exists()).toBe(true)
-
-      const tabComponents = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabComponents).toHaveLength(2)
     })
 
     BddTest().then('it should render DeclaredSkillDetails component with correct props', async () => {
@@ -137,7 +117,10 @@ BddTest().given('a student declared skill view component', () => {
       })
     })
 
-    BddTest().then('it should render StudentDeclaredSkillAssociations component with correct props', async () => {
+    BddTest().then('it should render StudentDeclaredSkillAssociations component with correct props when associations tab is active', async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      await tabs.vm.$emit('update:modelValue', 1)
+
       await vi.waitFor(() => {
         const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
         expect(associationsComponent.exists()).toBe(true)
@@ -146,10 +129,13 @@ BddTest().given('a student declared skill view component', () => {
       })
     })
 
-    BddTest().then('it should display the correct count of associations in tab title', async () => {
+    BddTest().then('it should display the correct count of associations in associations tab title', async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      await tabs.vm.$emit('update:modelValue', 1)
+
       await vi.waitFor(() => {
-        const tabComponents = wrapper.findAllComponents({ name: 'AvTab' })
-        const associationsTab = tabComponents[1]
+        const associationsTab = wrapper.findComponent({ name: 'AvTab' })
+        expect(associationsTab.exists()).toBe(true)
         expect(associationsTab.props('title')).toContain('3')
       })
     })
@@ -166,13 +152,6 @@ BddTest().given('a student declared skill view component', () => {
       const settingPopover = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
       await settingPopover.vm.$emit('updateSelected')
       expect(navigateToStudentUpdateDeclaredSkill).toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('the delete association selected event is emitted', () => {
-    BddTest().then('it should handle the event', async () => {
-      const settingPopover = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
-      await settingPopover.vm.$emit('deleteAssociationSelected')
     })
   })
 

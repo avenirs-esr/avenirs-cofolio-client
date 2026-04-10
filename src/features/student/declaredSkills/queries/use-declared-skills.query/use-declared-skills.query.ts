@@ -2,7 +2,10 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
   type AddDeclaredSkillDTO,
+  associateDeclaredSkillWithDeclaredActivities,
+  type AssociationsCreationRequest,
   createDeclaredSkillProgress,
+  type DeclaredSkillAssociationsDTO,
   type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
@@ -10,10 +13,12 @@ import {
   deleteDeclaredSkillProgress,
   getDeclaredSkillProgressDetails,
   getDeclaredSkillsProgresses,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PageInfoDTO,
+  searchDeclaredActivityForAssociation1,
   searchExternalSkills,
   unassociateTraces,
   updateDeclaredSkillProgress
@@ -204,4 +209,96 @@ export function useUnassociateTracesFromDeclaredSkillMutation ({ onError, onSucc
     },
     onError
   })
+}
+
+export interface UseAssociateDeclaredSkillWithActivitiesMutationVariables {
+  declaredSkillProgressId: string
+  associationsCreationRequest: AssociationsCreationRequest
+}
+
+export function useAssociateDeclaredSkillWithActivitiesMutation ({ onError, onSuccess }: MutationArgs<
+  DeclaredSkillAssociationsDTO,
+  UseAssociateDeclaredSkillWithActivitiesMutationVariables
+> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<
+    DeclaredSkillAssociationsDTO,
+    BaseApiException,
+    UseAssociateDeclaredSkillWithActivitiesMutationVariables
+  >({
+    mutationFn: async ({
+      declaredSkillProgressId,
+      associationsCreationRequest
+    }: UseAssociateDeclaredSkillWithActivitiesMutationVariables): Promise<DeclaredSkillAssociationsDTO> => {
+      return await associateDeclaredSkillWithDeclaredActivities(
+        declaredSkillProgressId,
+        associationsCreationRequest
+      )
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...declaredSkillDetailsQueryKey, variables.declaredSkillProgressId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
+}
+
+export interface UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams {
+  keyword?: string
+  page: number
+  pageSize: number
+}
+
+export function useSearchActivitiesForAssociationWithDeclaredSkillQuery ({
+  declaredSkillId,
+  params
+}: {
+  declaredSkillId: Ref<string | undefined>
+  params: Ref<UseSearchActivitiesForAssociationWithDeclaredSkillQueryParams>
+}): UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
+  activities: Ref<PagedResponseAssociationSearchResultDeclaredActivityDTO['data']>
+  pageInfo: Ref<PageInfoDTO>
+} {
+  const safeDeclaredSkillId = computed(() => declaredSkillId.value ?? '')
+
+  const queryKey = computed(() => [
+    ...declaredSkillCommonQueryKey,
+    'search-activities-for-association',
+    safeDeclaredSkillId.value,
+    {
+      keyword: params.value.keyword,
+      page: params.value.page,
+      pageSize: params.value.pageSize
+    }
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultDeclaredActivityDTO> => {
+    return await searchDeclaredActivityForAssociation1(safeDeclaredSkillId.value, {
+      keyword: params.value.keyword,
+      page: params.value.page,
+      pageSize: params.value.pageSize
+    })
+  })
+
+  const query = useQuery<
+    PagedResponseAssociationSearchResultDeclaredActivityDTO,
+    BaseApiException,
+    PagedResponseAssociationSearchResultDeclaredActivityDTO,
+    readonly unknown[]
+  >({
+    queryKey,
+    queryFn,
+    enabled: computed(() => safeDeclaredSkillId.value.trim().length > 0),
+    placeholderData: keepPreviousData
+  })
+
+  const activities = computed(() => query.data.value?.data ?? [])
+  const pageInfo = computed(() => query.data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
+
+  return {
+    ...query,
+    activities,
+    pageInfo,
+  }
 }

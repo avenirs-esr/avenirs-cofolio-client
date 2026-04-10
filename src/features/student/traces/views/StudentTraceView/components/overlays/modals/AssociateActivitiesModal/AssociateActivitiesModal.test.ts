@@ -1,9 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import {
-  associateTraceWithActivitiesErrorHandler,
-  searchActivitiesForAssociationErrorHandler
-} from '@/__mocks__/msw/handlers/student/traces.handlers'
-import { server } from '@/__mocks__/msw/server'
+import { EActivityThematic } from '@/api/avenir-esr'
 import { DeclaredActivityCompactCardStub } from '@/features/student/buildProject/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
 import { ConfirmAssociateModalStub } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
@@ -13,21 +9,7 @@ import AssociateActivitiesModal, {
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
-
-const mockAddErrorMessage = vi.fn()
-const mockAddSuccessMessage = vi.fn()
-
-vi.mock('@/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/store')>()
-  return {
-    ...actual,
-    useToasterStore: () => ({
-      addErrorMessage: mockAddErrorMessage,
-      addSuccessMessage: mockAddSuccessMessage
-    }),
-  }
-})
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an associate activities modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociateActivitiesModal>>
@@ -39,24 +21,58 @@ BddTest().given('an associate activities modal', () => {
     DeclaredActivityCompactCard: DeclaredActivityCompactCardStub
   }
 
+  const activities = [
+    {
+      id: 'activity-search-1',
+      title: 'Définir ses valeurs',
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      disabled: false
+    },
+    {
+      id: 'activity-search-2',
+      title: 'Explorer ses pistes d’orientation',
+      thematic: EActivityThematic.FUTURE_PLANS,
+      disabled: false
+    },
+    {
+      id: 'activity-search-3',
+      title: 'Activité désactivée',
+      thematic: EActivityThematic.RESUMES,
+      disabled: true
+    }
+  ]
+
   const props: AssociateActivitiesModalProps = {
     show: true,
-    traceId: 'trace-1'
+    activities,
+    isLoading: false
   }
 
   const selectedActivityOptions = [
-    { label: 'Définir ses valeurs', value: 'activity-search-1' },
-    { label: 'Explorer ses pistes d\'orientation', value: 'activity-search-2' }
+    {
+      label: 'Définir ses valeurs',
+      value: 'activity-search-1',
+      thematic: EActivityThematic.SELF_KNOWLEDGE
+    },
+    {
+      label: 'Explorer ses pistes d’orientation',
+      value: 'activity-search-2',
+      thematic: EActivityThematic.FUTURE_PLANS
+    }
   ]
 
   const expectedSelectedAssociations = [
-    { id: 'activity-search-1', title: 'Définir ses valeurs' },
-    { id: 'activity-search-2', title: 'Explorer ses pistes d\'orientation' }
+    {
+      id: 'activity-search-1',
+      title: 'Définir ses valeurs',
+      thematic: EActivityThematic.SELF_KNOWLEDGE
+    },
+    {
+      id: 'activity-search-2',
+      title: 'Explorer ses pistes d’orientation',
+      thematic: EActivityThematic.FUTURE_PLANS
+    }
   ]
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
 
   BddTest().when('the modal is rendered', () => {
     beforeEach(async () => {
@@ -84,33 +100,43 @@ BddTest().given('an associate activities modal', () => {
       expect(layout.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the confirm associate activities modal hidden by default', () => {
+    BddTest().then('it should render the confirm associate modal hidden by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
       expect(confirmModal.exists()).toBe(true)
       expect(confirmModal.props('show')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
     })
 
-    BddTest().then('it should load activities from the query and pass enabled ones to the layout', async () => {
-      await vi.waitFor(() => {
-        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        const options = layout.props('options')
-        expect(options.length).toBeGreaterThan(0)
-        expect(options.every((option: { disabled?: boolean }) => !option.disabled)).toBe(true)
-      })
+    BddTest().then('it should pass only enabled activities to the layout options', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      expect(layout.props('options')).toEqual([
+        {
+          label: 'Définir ses valeurs',
+          value: 'activity-search-1',
+          thematic: EActivityThematic.SELF_KNOWLEDGE
+        },
+        {
+          label: 'Explorer ses pistes d’orientation',
+          value: 'activity-search-2',
+          thematic: EActivityThematic.FUTURE_PLANS
+        }
+      ])
     })
 
-    BddTest().then('it should pass the correct initial props to the search association layout', async () => {
-      await vi.waitFor(() => {
-        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        expect(layout.props('modelValue')).toEqual([])
-        expect(layout.props('items')).toEqual([])
-        expect(layout.props('inputOptions')).toEqual({
-          placeholder: 'Entrer le nom d\'une activité'
-        })
-        expect(layout.props('getOptionKey')).toBeTypeOf('function')
-        expect(layout.props('getOptionLabel')).toBeTypeOf('function')
+    BddTest().then('it should pass the correct initial props to the search association layout', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      expect(layout.props('modelValue')).toEqual([])
+      expect(layout.props('items')).toEqual([])
+      expect(layout.props('inputOptions')).toEqual({
+        placeholder: 'Entrer le nom d\'une activité'
       })
+      expect(layout.props('getOptionKey')).toBeTypeOf('function')
+      expect(layout.props('getOptionLabel')).toBeTypeOf('function')
+    })
+
+    BddTest().then('it should pass isLoading to the modal', () => {
+      const modal = wrapper.findComponent(AvModalStub)
+      expect(modal.props('isLoading')).toBe(false)
     })
 
     BddTest().and('the user searches in the search association layout', () => {
@@ -120,13 +146,8 @@ BddTest().given('an associate activities modal', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should filter the options through the query', async () => {
-        await vi.waitFor(() => {
-          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-          const options = layout.props('options')
-          expect(options.length).toBeGreaterThanOrEqual(1)
-          expect(options[0].label).toContain('valeurs')
-        })
+      BddTest().then('it should emit search', () => {
+        expect(wrapper.emitted('search')).toEqual([['valeurs']])
       })
     })
 
@@ -142,9 +163,14 @@ BddTest().given('an associate activities modal', () => {
         expect(layout.props('items')).toEqual(expectedSelectedAssociations)
       })
 
-      BddTest().then('it should update the confirm associate activities modal activities', () => {
+      BddTest().then('it should update the confirm associate modal items', () => {
         const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
         expect(confirmModal.props('items')).toEqual(expectedSelectedAssociations)
+      })
+
+      BddTest().then('it should enable the confirm button', () => {
+        const modal = wrapper.findComponent(AvModalStub)
+        expect(modal.props('confirmButtonDisabled')).toBe(false)
       })
 
       BddTest().and('the search association layout emits delete event', () => {
@@ -157,14 +183,22 @@ BddTest().given('an associate activities modal', () => {
         BddTest().then('it should remove the deleted activity from the selected items', () => {
           const layout = wrapper.findComponent(SearchAssociationLayoutStub)
           expect(layout.props('items')).toEqual([
-            { id: 'activity-search-1', title: 'Définir ses valeurs' }
+            {
+              id: 'activity-search-1',
+              title: 'Définir ses valeurs',
+              thematic: EActivityThematic.SELF_KNOWLEDGE
+            }
           ])
         })
 
-        BddTest().then('it should update the confirm modal activities', () => {
+        BddTest().then('it should update the confirm modal items', () => {
           const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
           expect(confirmModal.props('items')).toEqual([
-            { id: 'activity-search-1', title: 'Définir ses valeurs' }
+            {
+              id: 'activity-search-1',
+              title: 'Définir ses valeurs',
+              thematic: EActivityThematic.SELF_KNOWLEDGE
+            }
           ])
         })
       })
@@ -176,7 +210,7 @@ BddTest().given('an associate activities modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the confirm associate activities modal', () => {
+        BddTest().then('it should show the confirm associate modal', () => {
           const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
           expect(confirmModal.props('show')).toBe(true)
         })
@@ -193,42 +227,22 @@ BddTest().given('an associate activities modal', () => {
             expect(confirmModal.props('show')).toBe(false)
           })
 
-          BddTest().then('it should not emit associated event', () => {
-            expect(wrapper.emitted('associated')).toBeFalsy()
+          BddTest().then('it should not emit associate', () => {
+            expect(wrapper.emitted('associate')).toBeFalsy()
           })
         })
 
-        BddTest().and('the confirm modal emits confirm event successfully', () => {
+        BddTest().and('the confirm modal emits confirm event', () => {
           beforeEach(async () => {
             const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
             confirmModal.vm.$emit('confirm')
             await flushPromises()
           })
 
-          BddTest().then('it should emit associated event', async () => {
-            await vi.waitFor(() => {
-              expect(wrapper.emitted('associated')).toBeTruthy()
-            })
-          })
-
-          BddTest().then('it should hide the confirm modal', async () => {
-            await vi.waitFor(() => {
-              const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-              expect(confirmModal.props('show')).toBe(false)
-            })
-          })
-
-          BddTest().then('it should show a success toaster with the correct count', async () => {
-            await vi.waitFor(() => {
-              expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-                timeout: 2000,
-                description: expect.stringContaining('2')
-              })
-            })
-          })
-
-          BddTest().then('it should not show an error toaster', () => {
-            expect(mockAddErrorMessage).not.toHaveBeenCalled()
+          BddTest().then('it should emit associate with selected ids', () => {
+            expect(wrapper.emitted('associate')).toEqual([[
+              ['activity-search-1', 'activity-search-2']
+            ]])
           })
         })
       })
@@ -246,86 +260,102 @@ BddTest().given('an associate activities modal', () => {
     })
   })
 
-  BddTest().when('loading activities fails', () => {
+  BddTest().when('the modal is rendered with no selected activity', () => {
     beforeEach(async () => {
-      server.use(searchActivitiesForAssociationErrorHandler)
-
       wrapper = mountComponent(AssociateActivitiesModal, {
         props,
         global: { stubs }
       })
-
       await flushPromises()
     })
 
-    BddTest().then('it should add an error toaster message', async () => {
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith({
-          title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-          description: 'Internal Server Error',
-        })
-      })
+    BddTest().then('it should disable the confirm button', () => {
+      const modal = wrapper.findComponent(AvModalStub)
+      expect(modal.props('confirmButtonDisabled')).toBe(true)
     })
 
-    BddTest().then('it should not add a success toaster message', () => {
-      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
-    })
-
-    BddTest().then('it should pass empty options to the layout', () => {
-      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-      expect(layout.props('options')).toEqual([])
+    BddTest().then('it should pass an empty items array to the confirm modal', () => {
+      const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
+      expect(confirmModal.props('items')).toEqual([])
     })
   })
 
-  BddTest().when('associating activities fails', () => {
+  BddTest().when('the show prop becomes false', () => {
     beforeEach(async () => {
-      server.use(associateTraceWithActivitiesErrorHandler)
-
       wrapper = mountComponent(AssociateActivitiesModal, {
         props,
         global: { stubs }
       })
-
-      await vi.waitFor(() => {
-        const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        expect(layout.props('options').length).toBeGreaterThan(0)
-      })
+      await flushPromises()
 
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
       layout.vm.$emit('update:modelValue', selectedActivityOptions)
       await wrapper.vm.$nextTick()
+
+      const modal = wrapper.findComponent(AvModalStub)
+      modal.vm.$emit('confirm')
+      await wrapper.vm.$nextTick()
+
+      await wrapper.setProps({ show: false })
+      await wrapper.vm.$nextTick()
     })
 
-    BddTest().and('the user confirms the association', () => {
-      beforeEach(async () => {
-        wrapper.findComponent(AvModalStub).vm.$emit('confirm')
-        await wrapper.vm.$nextTick()
+    BddTest().then('it should reset selected items', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      expect(layout.props('items')).toEqual([])
+      expect(layout.props('modelValue')).toEqual([])
+    })
 
-        wrapper.findComponent(ConfirmAssociateModalStub).vm.$emit('confirm')
-        await flushPromises()
-      })
+    BddTest().then('it should hide the confirm modal', () => {
+      const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
+      expect(confirmModal.props('show')).toBe(false)
+    })
+  })
 
-      BddTest().then('it should add an error toaster message', async () => {
-        await vi.waitFor(() => {
-          expect(mockAddErrorMessage).toHaveBeenCalledWith({
-            title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-            description: 'Internal Server Error',
-          })
-        })
+  BddTest().when('the modal is rendered with isLoading true', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(AssociateActivitiesModal, {
+        props: {
+          ...props,
+          isLoading: true
+        },
+        global: { stubs }
       })
+      await flushPromises()
+    })
 
-      BddTest().then('it should not add a success toaster message', () => {
-        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
-      })
+    BddTest().then('it should pass loading state to modal', () => {
+      const modal = wrapper.findComponent(AvModalStub)
+      expect(modal.props('isLoading')).toBe(true)
+    })
+  })
 
-      BddTest().then('it should not emit associated event', () => {
-        expect(wrapper.emitted('associated')).toBeFalsy()
+  BddTest().when('getOptionLabel is called', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(AssociateActivitiesModal, {
+        props,
+        global: { stubs }
       })
+      await flushPromises()
+    })
 
-      BddTest().then('it should keep the confirm modal opened', () => {
-        const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-        expect(confirmModal.props('show')).toBe(true)
-      })
+    BddTest().then('it should return label and thematic when thematic exists', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      const getOptionLabel = layout.props('getOptionLabel') as (option: { label: string, thematic?: EActivityThematic }) => string
+
+      expect(getOptionLabel({
+        label: 'Définir ses valeurs',
+        thematic: EActivityThematic.SELF_KNOWLEDGE
+      })).toBe('Définir ses valeurs - SELF_KNOWLEDGE')
+    })
+
+    BddTest().then('it should return only label when thematic is undefined', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      const getOptionLabel = layout.props('getOptionLabel') as (option: { label: string, thematic?: EActivityThematic }) => string
+
+      expect(getOptionLabel({
+        label: 'Définir ses valeurs'
+      })).toBe('Définir ses valeurs')
     })
   })
 })

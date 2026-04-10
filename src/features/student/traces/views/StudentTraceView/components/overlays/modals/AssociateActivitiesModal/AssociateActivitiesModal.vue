@@ -1,92 +1,81 @@
 <script lang="ts" setup>
-import type { AssociationsCreationRequest, EActivityThematic } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
+import type { EActivityThematic } from '@/api/avenir-esr'
+import type { IdTitle } from '@/types'
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import { DeclaredActivityCompactCard } from '@/features/student/buildProject'
 import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/global'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { ICONS } from '@/features/student/global/icons'
-import {
-  useAssociateTraceWithActivitiesMutation,
-  useSearchActivitiesForAssociationQuery
-} from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { useToasterStore } from '@/store'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
-import isEmpty from 'lodash/isEmpty'
 import { useI18n } from 'vue-i18n'
+
+export type AssociationActivity = IdTitle & {
+  disabled: boolean
+  thematic?: EActivityThematic
+}
+
+export type SelectedActivity = Omit<AssociationActivity, 'disabled'>
+
+export type ActivityAvAutocompleteOption = AvAutocompleteOption & {
+  thematic?: EActivityThematic
+}
 
 export interface AssociateActivitiesModalProps {
   show: boolean
-  traceId: string
+  activities: AssociationActivity[]
+  isLoading?: boolean
 }
 
-const { show, traceId } = defineProps<AssociateActivitiesModalProps>()
+const {
+  show,
+  activities,
+  isLoading = false,
+} = defineProps<AssociateActivitiesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
-  (e: 'associated'): void
+  (e: 'search', query: string): void
+  (e: 'associate', ids: string[]): void
 }>()
 
 const { t } = useI18n()
-const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const {
-  searchQuery,
   selectedOptions: selectedActivityOptions,
-  selectedAssociations,
   showConfirmModal,
   displayConfirmModal,
   hideConfirmModal,
-  onSearch,
   onDeleteItem: onDeleteActivity,
-  listenAndDisplayToastOnSearchError
-} = useAssociationModal()
+} = useAssociationModal<ActivityAvAutocompleteOption>()
 
-const {
-  activities,
-  isError: isSearchError,
-  error: searchError,
-  isLoading
-} = useSearchActivitiesForAssociationQuery({
-  traceId: computed(() => traceId),
-  params: computed(() => ({
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 100,
-  }))
-})
+const activityAutocompleteOptions = computed<ActivityAvAutocompleteOption[]>(() =>
+  activities
+    .filter(({ disabled }) => !disabled)
+    .map(activity => ({
+      label: activity.title,
+      value: activity.id,
+      thematic: activity.thematic
+    }))
+)
 
-listenAndDisplayToastOnSearchError(isSearchError, searchError)
-
-const activityOptions = computed(() =>
-  activities.value.filter(({ disabled }) => !disabled).map(activity => ({
-    label: activity.title,
-    value: activity.id,
+const selectedAssociations = computed<SelectedActivity[]>(() =>
+  selectedActivityOptions.value.map(option => ({
+    id: option.value.toString(),
+    title: option.label,
+    thematic: option.thematic
   }))
 )
 
-const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWithActivitiesMutation({
-  onError: (error: BaseApiException) => {
-    addErrorMessage({
-      title: t('global.error.generic'),
-      description: error.message,
-    })
-  },
-  onSuccess: (_, variables) => {
-    const count = variables.associationsCreationRequest.idsToAssociate.length
-
+watch(() => show, (newVal) => {
+  if (!newVal) {
     hideConfirmModal()
-
-    addSuccessMessage({
-      timeout: 2000,
-      description: t(
-        'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
-        { count }
-      ),
-    })
-
-    emit('associated')
+    selectedActivityOptions.value = []
   }
 })
+
+function onSearch (query: string) {
+  emit('search', query)
+}
 
 function onCancel () {
   selectedActivityOptions.value = []
@@ -94,22 +83,13 @@ function onCancel () {
 }
 
 function onConfirm () {
-  const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: selectedAssociations.value.map(activity => activity.id),
-  }
-
-  associateTraceWithActivities({
-    traceId,
-    associationsCreationRequest
-  })
+  emit('associate', selectedAssociations.value.map(activity => activity.id))
 }
 
-function getActivityThematic (activityId: string): EActivityThematic | undefined {
-  return activities.value.find(activity => activity.id === activityId)?.thematic
-}
-
-function getOptionLabel (option: { label: string, value: string | number }): string {
-  return [option.label, getActivityThematic(option.value.toString())].join(' - ')
+function getOptionLabel (option: ActivityAvAutocompleteOption): string {
+  return option.thematic
+    ? `${option.label} - ${option.thematic}`
+    : option.label
 }
 </script>
 
@@ -119,8 +99,9 @@ function getOptionLabel (option: { label: string, value: string | number }): str
     data-testid="associate-activities-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.traces.views.StudentTraceView.AssociateActivitiesModal.confirm', { count: selectedAssociations.length })"
-    :confirm-button-disabled="isEmpty(selectedAssociations) || isPending"
+    :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-icon="ICONS.ASSOCIATIONS"
+    :is-loading="isLoading"
     @close="onCancel"
     @confirm="displayConfirmModal"
   >
@@ -137,7 +118,7 @@ function getOptionLabel (option: { label: string, value: string | number }): str
 
     <SearchAssociationLayout
       v-model="selectedActivityOptions"
-      :options="activityOptions"
+      :options="activityAutocompleteOptions"
       :items="selectedAssociations"
       :input-options="{
         placeholder: t('student.traces.views.StudentTraceView.AssociateActivitiesModal.searchPlaceholder'),
@@ -150,7 +131,7 @@ function getOptionLabel (option: { label: string, value: string | number }): str
     >
       <template #selectedItem="{ item }">
         <DeclaredActivityCompactCard
-          :activity="{ ...item, thematic: getActivityThematic(item.id) }"
+          :activity="item"
           class="av-w-full"
         />
       </template>

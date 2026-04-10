@@ -34,7 +34,7 @@ import {
   getUnsubscribeActivitiesProgressesUrl,
   getUpdatePeriodUrl,
   getUpdateReflectionUrl,
-  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
+  type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
@@ -495,7 +495,7 @@ export const searchTracesForAssociationHandler = http.get(
       isAssociated
     })
 
-    return HttpResponse.json<PagedResponseDeclaredActivityAssociationTraceInfoDTO>(response, {
+    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'

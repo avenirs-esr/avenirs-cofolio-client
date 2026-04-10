@@ -8,9 +8,9 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
-  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
-  type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
-  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
+  type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseTraceViewDTO,
   type SearchTracesForAssociationParams,
   type TraceAssociationDeclaredActivityInfoDTO,
@@ -261,7 +261,7 @@ export const mockedTraceDetailed = {
 
 export function createMockedSearchTracesForAssociationResponse (
   params?: SearchTracesForAssociationParams
-): PagedResponseDeclaredActivityAssociationTraceInfoDTO {
+): PagedResponseAssociationSearchResultTraceDTO {
   const {
     isAssociated,
     keyword,
@@ -367,7 +367,7 @@ export const mockedSkillSearchResults: TraceAssociationDeclaredSkillInfoDTO[] = 
 
 export function createMockedSearchSkillsForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }
-): PagedResponseTraceAssociationDeclaredSkillInfoDTO {
+): PagedResponseAssociationSearchResultDeclaredSkillIDTO {
   const { keyword, page = 0, pageSize = 100 } = params ?? {}
 
   let filtered = mockedSkillSearchResults
@@ -395,7 +395,7 @@ export function createMockedSearchSkillsForAssociationResponse (
 
 export function createMockedSearchActivitiesForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }
-): PagedResponseTraceAssociationDeclaredActivityInfoDTO {
+): PagedResponseAssociationSearchResultDeclaredActivityDTO {
   const { keyword, page = 0, pageSize = 100 } = params ?? {}
 
   let filtered = mockedTraceActivitySearchResults

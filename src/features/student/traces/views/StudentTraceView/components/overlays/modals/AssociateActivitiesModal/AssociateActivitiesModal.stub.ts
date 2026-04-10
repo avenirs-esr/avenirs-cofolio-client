@@ -1,9 +1,23 @@
 export const AssociateActivitiesModalStub = defineComponent({
   name: 'AssociateActivitiesModal',
   props: {
-    show: Boolean,
-    traceId: String
+    show: {
+      type: Boolean,
+      required: true
+    },
+    activities: {
+      type: Array,
+      required: true
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    }
   },
-  emits: ['cancel', 'associated'],
-  template: '<div data-testid="associate-activities-modal-stub" />'
+  emits: ['cancel', 'search', 'associate'],
+  template: `
+    <div data-testid="associate-activities-modal-stub">
+      <slot />
+    </div>
+  `
 })

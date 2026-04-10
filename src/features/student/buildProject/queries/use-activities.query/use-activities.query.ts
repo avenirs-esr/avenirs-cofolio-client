@@ -25,7 +25,7 @@ import {
   getDeclaredActivityDetails,
   getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
-  type PagedResponseDeclaredActivityAssociationTraceInfoDTO,
+  type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
   searchTracesForAssociation,
   type SearchTracesForAssociationParams,
@@ -454,7 +454,7 @@ export interface SearchTracesForAssociationQueryParams {
 }
 
 export type SearchTracesForAssociationQueryReturnType =
-  UseQueryReturnType<PagedResponseDeclaredActivityAssociationTraceInfoDTO, BaseApiException> & {
+  UseQueryReturnType<PagedResponseAssociationSearchResultTraceDTO, BaseApiException> & {
     traces: Ref<DeclaredActivityAssociationTraceInfoDTO[]>
     pageInfo: Ref<{
       page: number
@@ -475,11 +475,11 @@ export function useSearchTracesForAssociationQuery ({
     toValue(params)
   ])
 
-  const queryFn = computed(() => async (): Promise<PagedResponseDeclaredActivityAssociationTraceInfoDTO> => {
+  const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultTraceDTO> => {
     return await searchTracesForAssociation(toValue(declaredActivityId), toValue(params))
   })
 
-  const query = useQuery<PagedResponseDeclaredActivityAssociationTraceInfoDTO, BaseApiException>({
+  const query = useQuery<PagedResponseAssociationSearchResultTraceDTO, BaseApiException>({
     queryKey,
     queryFn,
     enabled: computed(() =>

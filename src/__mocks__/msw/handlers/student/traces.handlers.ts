@@ -30,8 +30,8 @@ import {
   getSearchDeclaredSkillForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
-  type PagedResponseTraceAssociationDeclaredActivityInfoDTO,
-  type PagedResponseTraceAssociationDeclaredSkillInfoDTO,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
@@ -381,7 +381,7 @@ export const tracesHandlers = [
 
     const response = createMockedSearchActivitiesForAssociationResponse({ keyword, page, pageSize })
 
-    return HttpResponse.json<PagedResponseTraceAssociationDeclaredActivityInfoDTO>(response, {
+    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredActivityDTO>(response, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
@@ -422,7 +422,7 @@ export const tracesHandlers = [
 
     const response = createMockedSearchSkillsForAssociationResponse({ keyword, page, pageSize })
 
-    return HttpResponse.json<PagedResponseTraceAssociationDeclaredSkillInfoDTO>(response, {
+    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredSkillIDTO>(response, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
