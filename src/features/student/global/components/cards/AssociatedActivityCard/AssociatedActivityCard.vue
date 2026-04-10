@@ -21,6 +21,7 @@ const { declaredActivity } = defineProps<AssociatedActivityCardProps>()
     icon-border-color="var(--other-border-skill-card)"
     background-color="var(--surface-background)"
     :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
+    data-testid="associated-declared-activity-card"
   >
     <template #body>
       <ActivityThematicBadge

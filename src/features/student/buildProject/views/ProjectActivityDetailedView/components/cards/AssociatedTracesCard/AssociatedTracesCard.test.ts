@@ -1,16 +1,16 @@
 import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import AssociatedTracesCard, { type AssociatedTracesCardProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import { AssociatedTraceCardStub } from '@/features/student/global/components/cards/AssociatedTraceCard/AssociatedTraceCard.stub'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AssociationsCardStub } from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an associated traces card', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AssociatedTracesCard>>
+  let wrapper: VueWrapper
 
   const stubs = {
-    AvCard: AvCardStub,
-    AvIconText: AvIconTextStub,
+    AssociationsCard: AssociationsCardStub,
     AssociatedTraceCard: AssociatedTraceCardStub,
   }
 
@@ -24,14 +24,13 @@ BddTest().given('an associated traces card', () => {
       wrapper = mount(AssociatedTracesCard, { props, global: { stubs } })
     })
 
-    BddTest().then('it should render the av card', () => {
-      const card = wrapper.findComponent(AvCardStub)
-      expect(card.exists()).toBe(true)
-    })
-
     BddTest().then('it should render a card for each associated trace', () => {
       const traceCards = wrapper.findAllComponents(AssociatedTraceCardStub)
       expect(traceCards).toHaveLength(props.associatedTraces.length)
+    })
+
+    BddTest().then('it should pass the plural title with count', () => {
+      expect(wrapper.findComponent(AssociationsCardStub).props('title')).toBe(`Mes traces associées (${props.associatedTraces.length})`)
     })
   })
 
@@ -46,8 +45,7 @@ BddTest().given('an associated traces card', () => {
     })
 
     BddTest().then('it should render nothing', () => {
-      const card = wrapper.findComponent(AvCardStub)
-      expect(card.exists()).toBe(false)
+      expect(wrapper.findComponent(AssociationsCardStub).exists()).toBe(false)
     })
   })
 })

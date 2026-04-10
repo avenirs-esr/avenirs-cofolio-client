@@ -5,6 +5,7 @@ import {
   mockedTraceDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student'
 import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCardStub } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
 import { AssociatedActivityCardStub } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import TraceAssociations
@@ -305,7 +306,7 @@ BddTest().given('a student trace associations component', () => {
     })
 
     BddTest().then('it should render only the declared activity associations container', () => {
-      const activityContainer = wrapper.find('[data-testid="declared-activity-associations-container"]')
+      const activityContainer = wrapper.findComponent(AssociatedDeclaredActivitiesCard)
       expect(activityContainer.exists()).toBe(true)
     })
 

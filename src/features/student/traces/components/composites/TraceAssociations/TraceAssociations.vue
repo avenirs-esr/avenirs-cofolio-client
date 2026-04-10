@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
-import AssociatedActivityCard from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 import DeleteTraceAssociatedElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
 import TraceAssociateElementsDropdown
@@ -16,8 +15,6 @@ import DeleteTraceAssociatedActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
 import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface TraceAssociationsProps {
   associations: TraceAssociationsDTO
@@ -25,8 +22,6 @@ export interface TraceAssociationsProps {
 }
 
 const { associations, traceId } = defineProps<TraceAssociationsProps>()
-
-const { t } = useI18n()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
@@ -63,37 +58,7 @@ const deletableDeclaredActivityAssociations = computed(() => declaredActivityAss
       :associated-declared-skills="declaredSkillAssociations"
     />
 
-    <AvCard
-      v-if="declaredActivityAssociations.length > 0"
-      data-testid="declared-activity-associations-container"
-      background-color="var(--surface-background)"
-      title-background="var(--surface-background)"
-      border-color="var(--stroke)"
-      collapsible
-      collapsed
-    >
-      <template #title>
-        <div class="av-row av-align-center av-justify-between av-w-full av-gap-md av-px-md">
-          <AvIconText
-            typography-class="n5"
-            :icon="ICONS.ACTIVITY"
-            icon-color="var(--icon)"
-            :text="t('student.global.myDeclaredActivityCount', { count: declaredActivityAssociations.length })"
-            text-color="var(--title)"
-            gap="var(--spacing-sm)"
-          />
-        </div>
-      </template>
-
-      <div class="av-row av-justify-start av-gap-md av-wrap">
-        <AssociatedActivityCard
-          v-for="activityAssociation in declaredActivityAssociations"
-          :key="activityAssociation.associationId"
-          :declared-activity="activityAssociation.declaredActivity"
-          data-testid="associated-activity-card"
-        />
-      </div>
-    </AvCard>
+    <AssociatedDeclaredActivitiesCard :associated-activities="declaredActivityAssociations" />
   </div>
 
   <AssociateActivitiesModal

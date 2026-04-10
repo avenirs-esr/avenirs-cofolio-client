@@ -9,5 +9,5 @@ export const AssociatedActivityCardStub = defineComponent({
       required: true
     }
   },
-  template: '<div data-testid="associated-activity-card"></div>'
+  template: '<div data-testid="associated-declared-activity-card"></div>'
 })

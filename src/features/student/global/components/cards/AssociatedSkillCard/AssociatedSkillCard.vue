@@ -37,6 +37,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     color="var(--card)"
     background-color="var(--dark-background-primary1)"
     :to="{ name: ROUTES.STUDENT.DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
+    data-testid="associated-declared-skill-card"
   >
     <template #body>
       <AvBadge
