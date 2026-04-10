@@ -19,11 +19,11 @@ export class TraceAssociationsObject extends BaseObject {
   }
 
   getDeclaredActivityAssociationsContainer () {
-    return this.root.getByTestId('declared-activity-associations-container')
+    return this.root.getByTestId('associated-declared-activities-card')
   }
 
   getAssociatedActivityCards () {
-    return this.root.getByTestId('associated-activity-card')
+    return this.root.getByTestId('associated-declared-activity-card')
   }
 
   async getAssociatedActivityCardsCount () {

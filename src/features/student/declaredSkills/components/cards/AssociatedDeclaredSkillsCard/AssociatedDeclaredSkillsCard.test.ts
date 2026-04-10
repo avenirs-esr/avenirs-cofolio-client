@@ -4,7 +4,8 @@ import type {
 import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 import { AssociatedSkillCardStub } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AssociationsCardStub } from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -12,8 +13,7 @@ BddTest().given('an associated declared skills card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedDeclaredSkillsCard>>
 
   const stubs = {
-    AvCard: AvCardStub,
-    AvIconText: AvIconTextStub,
+    AssociationsCard: AssociationsCardStub,
     AssociatedSkillCard: AssociatedSkillCardStub,
   }
 
@@ -23,20 +23,17 @@ BddTest().given('an associated declared skills card', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(AssociatedDeclaredSkillsCard, {
-        props,
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should render the av card', () => {
-      const card = wrapper.findComponent(AvCardStub)
-      expect(card.exists()).toBe(true)
+      vi.clearAllMocks()
+      wrapper = mount(AssociatedDeclaredSkillsCard, { props, global: { stubs } })
     })
 
     BddTest().then('it should render a card for each associated declared skill', () => {
       const skillCards = wrapper.findAllComponents(AssociatedSkillCardStub)
       expect(skillCards).toHaveLength(props.associatedDeclaredSkills.length)
+    })
+
+    BddTest().then('it should pass the plural title with count', () => {
+      expect(wrapper.findComponent(AssociationsCardStub).props('title')).toBe(`Mes compétences associées (${props.associatedDeclaredSkills.length})`)
     })
   })
 
@@ -46,15 +43,12 @@ BddTest().given('an associated declared skills card', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(AssociatedDeclaredSkillsCard, {
-        props,
-        global: { stubs }
-      })
+      vi.clearAllMocks()
+      wrapper = mount(AssociatedDeclaredSkillsCard, { props, global: { stubs } })
     })
 
     BddTest().then('it should render nothing', () => {
-      const card = wrapper.findComponent(AvCardStub)
-      expect(card.exists()).toBe(false)
+      expect(wrapper.findComponent(AssociationsCardStub).exists()).toBe(false)
     })
   })
 })

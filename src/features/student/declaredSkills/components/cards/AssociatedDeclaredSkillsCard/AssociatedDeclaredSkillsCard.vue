@@ -1,54 +1,32 @@
 <script setup lang="ts">
 import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
 import AssociatedSkillCard from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
+import AssociationsCard from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.vue'
 import { ICONS } from '@/features/student/global/icons'
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedDeclaredSkillsCardProps {
   associatedDeclaredSkills: DeclaredSkillAssociationDTO[]
 }
 
-defineProps<AssociatedDeclaredSkillsCardProps>()
+const { associatedDeclaredSkills } = defineProps<AssociatedDeclaredSkillsCardProps>()
 
 const { t } = useI18n()
+
+const title = computed(() => t('student.declaredSkills.cards.AssociatedDeclaredSkillsCard.title', { count: associatedDeclaredSkills.length }))
 </script>
 
 <template>
-  <AvCard
+  <AssociationsCard
     v-if="associatedDeclaredSkills.length > 0"
-    background-color="var(--card2)"
-    title-background="var(--card2)"
-    border-color="var(--other-border-skill-card)"
-    collapsible
-    collapsed
+    :title
+    :icon="ICONS.SKILLS"
     data-testid="associated-declared-skills-card"
   >
-    <template #title>
-      <div class="av-row av-flex-fill av-justify-start">
-        <AvIconText
-          typography-class="n4"
-          :icon="ICONS.SKILLS"
-          icon-color="var(--text2)"
-          :text="t('student.declaredSkills.cards.AssociatedDeclaredSkillsCard.title', { count: associatedDeclaredSkills.length })"
-          text-color="var(--text1)"
-          gap="var(--spacing-sm)"
-          inline
-          data-testid="associated-declared-skills-card-title"
-        />
-      </div>
-    </template>
-
-    <div
-      class="av-row av-wrap av-align-center av-gap-md"
-      data-testid="associated-declared-skills-cards-container"
-    >
-      <AssociatedSkillCard
-        v-for="associatedDeclaredSkill in associatedDeclaredSkills"
-        :key="associatedDeclaredSkill.associationId"
-        :declared-skill="associatedDeclaredSkill.declaredSkill"
-        data-testid="associated-declared-skill-card"
-      />
-    </div>
-  </AvCard>
+    <AssociatedSkillCard
+      v-for="associatedDeclaredSkill in associatedDeclaredSkills"
+      :key="associatedDeclaredSkill.associationId"
+      :declared-skill="associatedDeclaredSkill.declaredSkill"
+    />
+  </AssociationsCard>
 </template>
