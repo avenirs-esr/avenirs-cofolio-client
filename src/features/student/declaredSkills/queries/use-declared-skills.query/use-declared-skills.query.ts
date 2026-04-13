@@ -14,7 +14,6 @@ import {
   getDeclaredSkillProgressDetails,
   getDeclaredSkillsProgresses,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
-  type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PageInfoDTO,
@@ -33,7 +32,7 @@ const declaredSkillDetailsQueryKey = [...declaredSkillCommonQueryKey, 'details']
 export function useDeclaredSkillsViewQuery (
   page: Ref<number>,
   pageSize: Ref<number>
-): UseQueryReturnType<PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
+): UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
   skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
   pageInfo: Ref<PageInfoDTO>
 } {
@@ -42,7 +41,7 @@ export function useDeclaredSkillsViewQuery (
     pageSize: pageSize.value
   }])
 
-  const queryFn = computed(() => async (): Promise<PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO> => {
+  const queryFn = computed(() => async (): Promise<PagedResponseDeclaredSkillProgressDTO> => {
     return await getDeclaredSkillsProgresses({
       pageSize: toValue(pageSize),
       page: toValue(page.value),
@@ -50,9 +49,9 @@ export function useDeclaredSkillsViewQuery (
   })
 
   const query = useQuery<
-    PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO,
+    PagedResponseDeclaredSkillProgressDTO,
     BaseApiException,
-    PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO,
+    PagedResponseDeclaredSkillProgressDTO,
     readonly unknown[]
   >({
     queryKey,

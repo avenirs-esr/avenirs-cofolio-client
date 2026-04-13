@@ -493,47 +493,6 @@
         }
       }
     },
-    "/me/traces/unassociate/{traceId}": {
-      "post": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "unassociate",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociateTraceDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/associate/{traceId}": {
       "post": {
         "tags": [
@@ -2146,55 +2105,6 @@
         }
       }
     },
-    "/declared-skills/search": {
-      "get": {
-        "tags": [
-          "declared-skill-controller"
-        ],
-        "operationId": "searchDeclaredSkills",
-        "parameters": [
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseDeclaredSkillDTO"
-                }
-              }
-            }
-          }
-        },
-        "deprecated": true
-      }
-    },
     "/me/activities": {
       "get": {
         "tags": [
@@ -3654,8 +3564,8 @@
           }
         },
         "required": [
-          "description",
-          "level"
+          "level",
+          "reflection"
         ]
       },
       "DeclaredSkillProgressDTO": {
@@ -5320,24 +5230,6 @@
           "pathSegments",
           "title",
           "type"
-        ]
-      },
-      "PagedResponseDeclaredSkillDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "UpdateReflectionRequest": {
