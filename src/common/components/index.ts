@@ -7,6 +7,7 @@ export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize 
 export { default as PageTitle } from './PageTitle/PageTitle.vue'
 export { default as Pagination } from './Pagination/Pagination.vue'
 export { default as ProfileCard, type ProfileCardProps } from './ProfileCard/ProfileCard.vue'
+export { default as QuerySuspense, type QuerySuspenseProps } from './QuerySuspense/QuerySuspense.vue'
 export { default as Rating, type RatingProps } from './Rating/Rating.vue'
 export { default as Toggle, type ToggleProps } from './Toggle/Toggle.vue'
 export { default as EmptyState, type EmptyStateProps } from '@/common/components/feedback/EmptyState/EmptyState.vue'

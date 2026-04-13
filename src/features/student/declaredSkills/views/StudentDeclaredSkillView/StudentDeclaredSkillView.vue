@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import EmptyState from '@/common/components/feedback/EmptyState/EmptyState.vue'
+import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
@@ -94,25 +94,19 @@ function handleSkillDeleted () {
       :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
       :icon="ICONS.ASSOCIATIONS"
     >
-      <div
-        v-if="associationsError"
-        class="av-row av-px-2xl av-py-md av-justify-center"
+      <QuerySuspense
+        :error="associationsError"
+        :error-title="t('student.declaredSkills.views.StudentDeclaredSkillView.errors.fetchAssociations')"
+        :empty-state-message="t('student.declaredSkills.views.StudentDeclaredSkillView.empty.associations')"
+        :is-empty="countAssociations === 0"
       >
-        <ErrorMessage
-          :title="t('student.declaredSkills.views.StudentDeclaredSkillView.errors.fetchAssociations')"
-          :description="associationsError.message"
+        <StudentDeclaredSkillAssociations
+          v-if="declaredSkillDetailed"
+          :declared-skill-id="declaredSkillDetailed.id"
+          :associated-traces="traceAssociations"
+          :associated-declared-activities="declaredActivityAssociations"
         />
-      </div>
-      <EmptyState
-        v-else-if="countAssociations === 0"
-        :title="t('student.declaredSkills.views.StudentDeclaredSkillView.empty.associations')"
-      />
-      <StudentDeclaredSkillAssociations
-        v-if="declaredSkillDetailed && countAssociations > 0"
-        :declared-skill-id="declaredSkillDetailed.id"
-        :associated-traces="traceAssociations"
-        :associated-declared-activities="declaredActivityAssociations"
-      />
+      </QuerySuspense>
     </AvTab>
   </AvTabs>
 

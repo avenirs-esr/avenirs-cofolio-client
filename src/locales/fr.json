@@ -92,6 +92,12 @@
       }
     },
     "colon": "{before} :",
+    "components": {
+      "QuerySuspense": {
+        "defaultEmptyStateMessage": "Aucune donnée à afficher",
+        "defaultErrorTitle": "Une erreur est survenue lors du chargement des données"
+      }
+    },
     "dates": {
       "createdAt": "Créé le {date}",
       "createdAtWithPrefix": "{prefix} créé le {date}",

@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const EmptyStateStub: Component = defineComponent({
+export const EmptyStateStub = defineComponent({
   name: 'EmptyState',
   template: '<div data-testid="empty-state-stub"></div>',
   props: {

@@ -92,6 +92,12 @@
       }
     },
     "colon": "{before}:",
+    "components": {
+      "QuerySuspense": {
+        "defaultEmptyStateMessage": "No data to display",
+        "defaultErrorTitle": "An error occurred while loading data"
+      }
+    },
     "dates": {
       "createdAt": "Created on {date}",
       "createdAtWithPrefix": "{prefix} created on {date}",
