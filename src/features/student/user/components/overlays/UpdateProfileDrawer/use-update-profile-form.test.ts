@@ -151,15 +151,11 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
   BddTest().when('submitting invalid values', () => {
     BddTest().then('it should return validation errors', async () => {
-      result.form.setFieldValue('firstname', '')
-      result.form.setFieldValue('lastname', '')
       result.form.setFieldValue('bio', Array.from({ length: BIOGRAPHY_MAX_LENGTH + 1 }).fill('a').join(''))
       result.form.setFieldValue('email', 'invalid')
 
       const errors = await result.form.validate('submit')
 
-      expect(errors.firstname!.onSubmit).toBe('Ce champ est requis.')
-      expect(errors.lastname!.onSubmit).toBe('Ce champ est requis.')
       expect(errors.email!.onSubmit).toBe('Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)')
       expect(errors.bio!.onSubmit).toBe('La biographie ne doit pas dépasser les 400 charactères')
     })

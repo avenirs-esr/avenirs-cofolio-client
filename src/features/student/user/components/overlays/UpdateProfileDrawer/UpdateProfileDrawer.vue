@@ -94,28 +94,16 @@ watch(() => show, (newVal) => {
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
           >
             <div class="av-col av-gap-md">
-              <FormField name="lastname">
-                <template #default="{ field }">
-                  <AvInput
-                    v-model="field.state.value"
-                    :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.lastname')"
-                    required
-                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
-                  />
-                </template>
-              </FormField>
-              <FormField name="firstname">
-                <template #default="{ field }">
-                  <AvInput
-                    v-model="field.state.value"
-                    :error-message="field.state.meta.errors.join(', ')"
-                    :label="t('student.user.overlays.UpdateProfileDrawer.identity.firstname')"
-                    required
-                    @input="(e: Event) => field.handleChange((e.target as HTMLInputElement).value)"
-                  />
-                </template>
-              </FormField>
+              <AvInput
+                :label="t('student.user.overlays.UpdateProfileDrawer.identity.lastname')"
+                :model-value="studentSummary.lastname"
+                disabled
+              />
+              <AvInput
+                :label="t('student.user.overlays.UpdateProfileDrawer.identity.firstname')"
+                :model-value="studentSummary.firstname"
+                disabled
+              />
               <FormField name="email">
                 <template #default="{ field }">
                   <AvInput

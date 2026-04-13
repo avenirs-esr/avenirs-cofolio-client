@@ -362,16 +362,8 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().then('they should have their new value set', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
-        expect(avInputs[0].element.value).toBe(studentSummary.lastname)
-        expect(avInputs[1].element.value).toBe(studentSummary.firstname)
         expect(avInputs[2].element.value).toBe(studentSummary.email)
         expect(avInputs[3].element.value).toBe(studentSummary.bio)
-
-        await avInputs[0].setValue('This is a new lastname')
-        expect(avInputs[0].element.value).toBe('This is a new lastname')
-
-        await avInputs[1].setValue('This is a new firstname')
-        expect(avInputs[1].element.value).toBe('This is a new firstname')
 
         await avInputs[2].setValue('supertest@example.com')
         expect(avInputs[2].element.value).toBe('supertest@example.com')
@@ -383,8 +375,6 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().then('they should reset if the drawer is hidden then shown again', async () => {
         const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
         expect(avInputs).toHaveLength(4)
-        expect(avInputs[0].element.value).toBe(studentSummary.lastname)
-        await avInputs[0].setValue('This is a new lastname')
 
         await wrapper.setProps({ show: false })
         await wrapper.vm.$nextTick()

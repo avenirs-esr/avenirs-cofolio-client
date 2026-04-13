@@ -29,8 +29,6 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
       onSubmit ({ value }) {
         return {
           fields: {
-            lastname: !value.lastname.trim() ? t('global.error.form.requiredField') : undefined,
-            firstname: !value.firstname.trim() ? t('global.error.form.requiredField') : undefined,
             email: value.email && !isValidEmail(value.email) ? t('global.error.form.invalidEmail') : undefined,
             bio: validateBiography(value.bio)
           }
@@ -39,7 +37,7 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
     },
     onSubmit: async ({ value }) => {
       try {
-        const { email, firstname, lastname, bio } = value
+        const { email, bio } = value
 
         const [coverResult, photoResult] = await Promise.allSettled([
           coverPictureFile.value ? onUpdateProfileCoverAsync({ file: coverPictureFile.value }) : Promise.resolve(),
@@ -54,7 +52,7 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
           throw photoResult.reason
         }
 
-        onUpdateProfile({ email, firstname, lastname, bio })
+        onUpdateProfile({ email, bio })
       }
       catch (error) {
         addErrorMessage({
