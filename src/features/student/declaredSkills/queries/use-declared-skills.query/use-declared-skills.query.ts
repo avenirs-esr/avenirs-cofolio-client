@@ -5,6 +5,7 @@ import {
   associateDeclaredSkillWithDeclaredActivities,
   type AssociationsCreationRequest,
   createDeclaredSkillProgress,
+  type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationsDTO,
   type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
@@ -13,12 +14,14 @@ import {
   deleteDeclaredSkillProgress,
   getDeclaredSkillProgressDetails,
   getDeclaredSkillsProgresses,
+  getDeclaredSkillWithDeclaredActivities,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PageInfoDTO,
   searchDeclaredActivityForAssociation1,
   searchExternalSkills,
+  type TraceAssociationDTO,
   unassociateTraces,
   updateDeclaredSkillProgress
 } from '@/api/avenir-esr'
@@ -297,5 +300,31 @@ export function useSearchActivitiesForAssociationWithDeclaredSkillQuery ({
     ...query,
     activities,
     pageInfo,
+  }
+}
+
+export function useDeclaredSkillAssociationsQuery (skillProgressId: MaybeRef<string>): UseQueryReturnType<DeclaredSkillAssociationsDTO, BaseApiException> & {
+  traceAssociations: Ref<TraceAssociationDTO[]>
+  declaredActivityAssociations: Ref<DeclaredActivityAssociationDTO[]>
+} {
+  const queryKey = computed(() => [...declaredSkillDetailsQueryKey, 'associations', toValue(skillProgressId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredSkillAssociationsDTO> => {
+    return await getDeclaredSkillWithDeclaredActivities(toValue(skillProgressId))
+  })
+
+  const query = useQuery<DeclaredSkillAssociationsDTO, BaseApiException, DeclaredSkillAssociationsDTO, readonly unknown[]>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(skillProgressId).trim().length > 0),
+  })
+
+  const traceAssociations = computed(() => query.data.value?.traceAssociations ?? [])
+  const declaredActivityAssociations = computed(() => query.data.value?.declaredActivityAssociations ?? [])
+
+  return {
+    ...query,
+    traceAssociations,
+    declaredActivityAssociations,
   }
 }

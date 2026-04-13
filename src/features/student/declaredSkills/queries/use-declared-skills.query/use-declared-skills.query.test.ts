@@ -3,6 +3,7 @@ import type { UseMutationReturnType, UseQueryReturnType } from '@tanstack/vue-qu
 import type { Ref } from 'vue'
 import {
   type AssociationSearchResultDeclaredActivityDTO,
+  type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationsDTO,
   type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
@@ -10,12 +11,14 @@ import {
   EExternalSkillType,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredSkillProgressDTO,
-  type PageInfoDTO
+  type PageInfoDTO,
+  type TraceAssociationDTO
 } from '@/api/avenir-esr'
 import {
   type DeleteDeclaredSkillVariables,
   useAssociateDeclaredSkillWithActivitiesMutation,
   type UseAssociateDeclaredSkillWithActivitiesMutationVariables,
+  useDeclaredSkillAssociationsQuery,
   useDeclaredSkillDetailedQuery,
   useDeclaredSkillsViewQuery,
   useDeleteDeclaredSkillMutation,
@@ -700,6 +703,88 @@ BddTest().given('an useSearchActivitiesForAssociationWithDeclaredSkillQuery comp
       BddTest().then('it should not fetch data', () => {
         expect(queryResult.data.value).toBeUndefined()
         expect(queryResult.activities.value).toEqual([])
+      })
+    })
+  })
+})
+
+BddTest().given('an useDeclaredSkillAssociationsQuery composable', () => {
+  BddTest().and('a valid skill progress id', () => {
+    const skillProgressId = ref('test-skill-id-123')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<DeclaredSkillAssociationsDTO, BaseApiException> & {
+        traceAssociations: Ref<TraceAssociationDTO[]>
+        declaredActivityAssociations: Ref<DeclaredActivityAssociationDTO[]>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useDeclaredSkillAssociationsQuery(skillProgressId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should return trace associations', () => {
+        expect(queryResult.traceAssociations.value).toHaveLength(2)
+        expect(queryResult.traceAssociations.value[0]).toHaveProperty('associationId')
+        expect(queryResult.traceAssociations.value[0]).toHaveProperty('trace')
+      })
+
+      BddTest().then('it should return declared activity associations', () => {
+        expect(queryResult.declaredActivityAssociations.value).toHaveLength(1)
+        expect(queryResult.declaredActivityAssociations.value[0]).toHaveProperty('associationId')
+        expect(queryResult.declaredActivityAssociations.value[0]).toHaveProperty('declaredActivity')
+      })
+
+      BddTest().then('it should return the full associations DTO', () => {
+        expect(queryResult.data.value).toBeDefined()
+        expect(queryResult.data.value?.traceAssociations).toHaveLength(2)
+        expect(queryResult.data.value?.declaredActivityAssociations).toHaveLength(1)
+      })
+    })
+  })
+
+  BddTest().and('a reactive skill progress id that changes', () => {
+    const skillProgressId = ref('skill-id-1')
+
+    BddTest().when('the skill progress id changes', () => {
+      let queryResult: UseQueryReturnType<DeclaredSkillAssociationsDTO, BaseApiException> & {
+        traceAssociations: Ref<TraceAssociationDTO[]>
+        declaredActivityAssociations: Ref<DeclaredActivityAssociationDTO[]>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useDeclaredSkillAssociationsQuery(skillProgressId))
+        await flushPromises()
+      })
+
+      BddTest().then('the query should still return associations for the new skill progress id', async () => {
+        skillProgressId.value = 'skill-id-2'
+        await flushPromises()
+
+        expect(queryResult.traceAssociations.value).toHaveLength(2)
+        expect(queryResult.declaredActivityAssociations.value).toHaveLength(1)
+      })
+    })
+  })
+
+  BddTest().and('an empty skill progress id', () => {
+    const skillProgressId = ref('')
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: UseQueryReturnType<DeclaredSkillAssociationsDTO, BaseApiException> & {
+        traceAssociations: Ref<TraceAssociationDTO[]>
+        declaredActivityAssociations: Ref<DeclaredActivityAssociationDTO[]>
+      }
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useDeclaredSkillAssociationsQuery(skillProgressId))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not fetch data', () => {
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.traceAssociations.value).toEqual([])
+        expect(queryResult.declaredActivityAssociations.value).toEqual([])
       })
     })
   })

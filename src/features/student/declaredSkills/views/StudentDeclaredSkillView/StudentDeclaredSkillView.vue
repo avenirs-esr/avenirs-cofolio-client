@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
+import EmptyState from '@/common/components/feedback/EmptyState/EmptyState.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
-import { useDeclaredSkillDetailedQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
+import {
+  useDeclaredSkillAssociationsQuery,
+  useDeclaredSkillDetailedQuery
+} from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
@@ -25,7 +28,6 @@ const { skillId } = defineProps<StudentDeclaredSkillViewProps>()
 
 enum StudentDeclaredSkillViewTabs {
   DETAILS = 0,
-  ASSOCIATIONS = 1
 }
 
 const { t } = useI18n()
@@ -35,10 +37,13 @@ const { showModal, displayModal, hideModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
+const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
+const { traceAssociations, declaredActivityAssociations, error: associationsError } = useDeclaredSkillAssociationsQuery(skillProgressId)
+
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
-const countAssociations = computed(() => declaredSkillDetailed.value?.traceAssociations?.length ?? 0)
+const countAssociations = computed(() => (traceAssociations.value?.length ?? 0) + (declaredActivityAssociations.value?.length ?? 0))
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -55,10 +60,6 @@ function handleSkillDeleted () {
   hideModal()
   navigateToStudentProjectSkills({ replace: true })
 }
-
-// TODO: https://github.com/avenirs-esr/AVENIRS-Project/issues/1361
-const associatedTraces = [] as TraceAssociationDTO[]
-const associatedDeclaredActivities = [] as DeclaredActivityAssociationDTO[]
 </script>
 
 <template>
@@ -93,11 +94,24 @@ const associatedDeclaredActivities = [] as DeclaredActivityAssociationDTO[]
       :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
       :icon="ICONS.ASSOCIATIONS"
     >
+      <div
+        v-if="associationsError"
+        class="av-row av-px-2xl av-py-md av-justify-center"
+      >
+        <ErrorMessage
+          :title="t('student.declaredSkills.views.StudentDeclaredSkillView.errors.fetchAssociations')"
+          :description="associationsError.message"
+        />
+      </div>
+      <EmptyState
+        v-else-if="countAssociations === 0"
+        :title="t('student.declaredSkills.views.StudentDeclaredSkillView.empty.associations')"
+      />
       <StudentDeclaredSkillAssociations
-        v-if="declaredSkillDetailed"
+        v-if="declaredSkillDetailed && countAssociations > 0"
         :declared-skill-id="declaredSkillDetailed.id"
-        :associated-traces="associatedTraces"
-        :associated-declared-activities="associatedDeclaredActivities"
+        :associated-traces="traceAssociations"
+        :associated-declared-activities="declaredActivityAssociations"
       />
     </AvTab>
   </AvTabs>

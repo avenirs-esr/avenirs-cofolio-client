@@ -90,7 +90,11 @@
             "title": "Confirmez-vous la suppression de la compétence {skill} ?",
             "success": "Compétence {skill} supprimée avec succès"
           },
+          "empty": {
+            "associations": "Aucune association pour cette compétence déclarée"
+          },
           "errors": {
+            "fetchAssociations": "Une erreur est survenue lors du chargement des associations",
             "notFound": {
               "description": "La compétence que vous recherchez n'existe pas ou n'est pas accessible.",
               "title": "Compétence déclarée introuvable"
