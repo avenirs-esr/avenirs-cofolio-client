@@ -63,13 +63,11 @@ const associationActivities = computed<AssociationActivity[]>(() =>
 const { mutate: associateDeclaredSkillWithActivities, isPending } = useAssociateDeclaredSkillWithActivitiesMutation({
   onError: error => onAssociateMutationError(error),
   onSuccess: (_, variables) => {
-    const count = variables.associationsCreationRequest.idsToAssociate.length
-
     addSuccessMessage({
       timeout: 2000,
       description: t(
         'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
-        { count }
+        { count: variables.associationsCreationRequest.idsToAssociate.length }
       ),
     })
 

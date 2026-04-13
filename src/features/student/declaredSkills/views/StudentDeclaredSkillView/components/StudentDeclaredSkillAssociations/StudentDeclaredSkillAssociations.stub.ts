@@ -3,6 +3,10 @@ import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/
 export const StudentDeclaredSkillAssociationsStub = defineComponent({
   name: 'StudentDeclaredSkillAssociations',
   props: {
+    declaredSkillId: {
+      type: String,
+      required: true
+    },
     associatedTraces: {
       type: Array as () => TraceAssociationDTO[],
       required: true
