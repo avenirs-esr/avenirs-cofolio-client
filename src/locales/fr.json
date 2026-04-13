@@ -110,7 +110,7 @@
         "size": "La taille du fichier dépasse la limite autorisée."
       },
       "form": {
-        "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)",
+        "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom{'@'}exemple.com)",
         "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères",
         "requiredField": "Ce champ est requis."
       },
@@ -163,6 +163,44 @@
       "confirmation": {
         "description": "Toutes les modifications non enregistrées seront perdues.",
         "title": "Êtes-vous sûr de vouloir quitter ?"
+      }
+    },
+    "overlay": {
+      "drawers": {
+        "UpdateProfileDrawer": {
+          "confirmDeletePhotoModal": {
+            "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression ?",
+            "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
+          },
+          "identity": {
+            "biography": {
+              "errors": {
+                "tooLong": "La biographie ne doit pas dépasser les {maxLength} charactères"
+              },
+              "label": "Biographie"
+            },
+            "firstname": "Prénom",
+            "lastname": "Nom",
+            "mail": {
+              "STAFF": "Adresse email professionnelle",
+              "STUDENT": "Adresse email personnelle"
+            },
+            "title": "Identité"
+          },
+          "onDelete": {
+            "error": "Une erreur est survenue lors de la suppression de votre photo.",
+            "success": "Votre photo a été supprimée."
+          },
+          "onUpdate": {
+            "error": "Une erreur est survenue lors de la mise à jour du profil.",
+            "success": "Votre profil a été mis à jour."
+          },
+          "pictures": {
+            "banner": "Couverture",
+            "picture": "Photo de profil"
+          },
+          "title": "Modifier mon profil"
+        }
       }
     },
     "pageSizePicker": {

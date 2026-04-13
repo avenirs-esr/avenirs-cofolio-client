@@ -7,7 +7,7 @@ import { getStaffProfileErrorHandler } from '@/__mocks__/msw/handlers/staffs/use
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EUserCategory } from '@/api/avenir-esr'
-import { useUserSummaryQuery } from '@/common/queries/use-user-summary.query'
+import { useUserSummaryQuery } from '@/common/queries/use-user-profile/use-user-profile.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountQueryComposable } from 'tests/utils'

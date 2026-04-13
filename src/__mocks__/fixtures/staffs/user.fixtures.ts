@@ -1,6 +1,6 @@
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
-import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import profile_banner_placeholder from '@/assets/staff_profile_banner_placeholder.jpg'
+import profile_picture_placeholder from '@/assets/staff_profile_picture_placeholder.jpg'
 
 export const mockedStaffProfileOverview: ProfileOverviewDTO = {
   firstname: 'Marie',
