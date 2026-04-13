@@ -1,7 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
 import {
-  declaredSkillAssociationsEmptyHandler,
-  declaredSkillAssociationsErrorHandler,
   detailedSkillProgressNotFoundErrorHandler
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -240,10 +238,8 @@ BddTest().given('a student declared skill view', () => {
 
   BddTest().when('the associations query returns empty data', () => {
     beforeEach(() => {
-      server.use(declaredSkillAssociationsEmptyHandler)
-
       wrapper = mountComponent(StudentDeclaredSkillView, {
-        props: { skillId },
+        props: { skillId: 'SKILL_WITHOUT_ASSOCIATIONS' },
         global: { stubs }
       })
     })
@@ -272,10 +268,8 @@ BddTest().given('a student declared skill view', () => {
 
   BddTest().when('the associations query fails', () => {
     beforeEach(() => {
-      server.use(declaredSkillAssociationsErrorHandler)
-
       wrapper = mountComponent(StudentDeclaredSkillView, {
-        props: { skillId },
+        props: { skillId: 'INVALID_DECLARED_SKILL_ID' },
         global: { stubs }
       })
     })
