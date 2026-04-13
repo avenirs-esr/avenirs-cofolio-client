@@ -32,6 +32,7 @@ BddTest().given('an associated elements tab', () => {
     const props: AssociatedElementsTabProps = {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
+      countAssociations: 9
     }
 
     beforeEach(() => {

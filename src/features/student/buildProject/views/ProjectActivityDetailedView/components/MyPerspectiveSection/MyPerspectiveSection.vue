@@ -15,7 +15,7 @@ export interface MyPerspectiveSectionProps {
 const { declaredActivityDetails } = defineProps<MyPerspectiveSectionProps>()
 
 const { t } = useI18n()
-const { declaredActivityAssociations, isPending, isError } = useGetDeclaredActivityAssociationsQuery(declaredActivityDetails.id)
+const { declaredActivityAssociations, isPending, isError, error } = useGetDeclaredActivityAssociationsQuery(declaredActivityDetails.id)
 
 const activeTab = ref(0)
 const associationsCount = computed(() =>
@@ -46,6 +46,8 @@ const associationsCount = computed(() =>
           v-if="declaredActivityAssociations"
           :declared-activity-id="declaredActivityDetails.id"
           :associations="declaredActivityAssociations"
+          :count-associations="associationsCount"
+          :error
         />
       </Loader>
     </AvTab>

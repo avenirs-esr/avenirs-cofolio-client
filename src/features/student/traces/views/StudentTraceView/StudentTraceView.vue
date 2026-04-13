@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -111,20 +112,17 @@ const breadcrumbLinks = computed(() => [
           :icon="ICONS.ASSOCIATIONS"
           data-testid="associations-tab-item"
         >
-          <div
-            v-if="associationsError"
-            class="av-row av-px-2xl av-py-md av-justify-center"
+          <QuerySuspense
+            :error="associationsError"
+            :error-title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
+            :is-empty="countAssociations === 0"
           >
-            <ErrorMessage
-              :title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
-              :description="associationsError.message"
+            <TraceAssociations
+              v-if="traceAssociations"
+              :associations="traceAssociations"
+              :trace-id="traceDetailed.id"
             />
-          </div>
-          <TraceAssociations
-            v-if="traceAssociations"
-            :associations="traceAssociations"
-            :trace-id="traceDetailed.id"
-          />
+          </QuerySuspense>
         </AvTab>
       </AvTabs>
 

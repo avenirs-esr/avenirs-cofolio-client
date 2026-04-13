@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
+import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
@@ -18,6 +20,8 @@ import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 export interface AssociatedElementsTabProps {
   associations: DeclaredActivityAssociationsDTO
   declaredActivityId: string
+  countAssociations: number
+  error?: BaseApiException | null
 }
 
 const { associations } = defineProps<AssociatedElementsTabProps>()
@@ -47,13 +51,17 @@ const tracesAssociations = computed(() => {
       />
     </div>
 
-    <AssociatedDeclaredSkillsCard
-      :associated-declared-skills="associations.declaredSkillAssociations"
-    />
-
-    <AssociatedTracesCard
-      :associated-traces="associations.traceAssociations"
-    />
+    <QuerySuspense
+      :error="error"
+      :is-empty="countAssociations === 0"
+    >
+      <AssociatedDeclaredSkillsCard
+        :associated-declared-skills="associations.declaredSkillAssociations"
+      />
+      <AssociatedTracesCard
+        :associated-traces="associations.traceAssociations"
+      />
+    </QuerySuspense>
   </div>
 
   <DeleteActivityAssociatedSkillsModal
