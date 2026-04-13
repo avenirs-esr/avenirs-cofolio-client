@@ -262,23 +262,21 @@ export function useSearchActivitiesForAssociationWithDeclaredSkillQuery ({
 } {
   const safeDeclaredSkillId = computed(() => declaredSkillId.value ?? '')
 
+  const searchParams = computed(() => ({
+    keyword: params.value.keyword,
+    page: params.value.page,
+    pageSize: params.value.pageSize
+  }))
+
   const queryKey = computed(() => [
     ...declaredSkillCommonQueryKey,
     'search-activities-for-association',
     safeDeclaredSkillId.value,
-    {
-      keyword: params.value.keyword,
-      page: params.value.page,
-      pageSize: params.value.pageSize
-    }
+    searchParams.value
   ])
 
   const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultDeclaredActivityDTO> => {
-    return await searchDeclaredActivityForAssociation1(safeDeclaredSkillId.value, {
-      keyword: params.value.keyword,
-      page: params.value.page,
-      pageSize: params.value.pageSize
-    })
+    return await searchDeclaredActivityForAssociation1(safeDeclaredSkillId.value, searchParams.value)
   })
 
   const query = useQuery<
