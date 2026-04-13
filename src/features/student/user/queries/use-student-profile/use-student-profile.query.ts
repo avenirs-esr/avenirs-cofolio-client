@@ -4,7 +4,6 @@ import {
   deleteUserPhoto,
   EUserCategory,
   EUserPhotoType,
-  type ProfileOverviewDTO,
   type ProfileUpdateRequest,
   updateProfile,
   updateProfilePhoto,

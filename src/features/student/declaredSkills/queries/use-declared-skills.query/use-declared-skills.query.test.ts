@@ -9,7 +9,6 @@ import {
   type DeclaredSkillProgressDTO,
   EExternalSkillType,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
-  type PagedResponseDeclaredSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PageInfoDTO
 } from '@/api/avenir-esr'
@@ -40,7 +39,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     BddTest().when('the query is executed with all parameters', () => {
-      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
         skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
@@ -86,7 +85,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
     const pageSize = ref(PageSizes.EIGHT)
 
     BddTest().when('the query is executed with different parameters', () => {
-      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
         skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
@@ -118,7 +117,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
     const pageSize = ref(PageSizes.FOUR)
 
     BddTest().when('parameter values are updated', () => {
-      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillDTO | PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
+      let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
         skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
