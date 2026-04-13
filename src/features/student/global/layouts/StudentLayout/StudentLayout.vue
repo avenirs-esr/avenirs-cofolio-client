@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import { EUserCategory } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
+import { useUserSummaryQuery } from '@/common/queries'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import {
   StudentMailboxPopover,
   StudentNotificationsPopover,
   StudentProfilePopover,
-  useStudentSummaryQuery,
   useStudentUserStore
 } from '@/features/student/user'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
@@ -20,7 +21,7 @@ const { t } = useI18n()
 useInvalidateAllQueriesAfterLocaleChange()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
-const { data: studentSummary, error: studentSummaryError } = useStudentSummaryQuery()
+const { data: studentSummary, error: studentSummaryError } = useUserSummaryQuery(EUserCategory.STUDENT)
 useBaseApiExceptionToast(studentSummaryError)
 
 const name = computed(() => {

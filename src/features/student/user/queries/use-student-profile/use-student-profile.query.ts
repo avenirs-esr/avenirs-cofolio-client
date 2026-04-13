@@ -4,7 +4,6 @@ import {
   deleteUserPhoto,
   EUserCategory,
   EUserPhotoType,
-  getProfile,
   type ProfileOverviewDTO,
   type ProfileUpdateRequest,
   updateProfile,
@@ -12,19 +11,10 @@ import {
   type UpdateProfilePhotoBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
-import { commonQueryKeys } from '@/features/student/global'
-import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { getUserSummaryQueryKeys } from '@/common/queries'
+import { useMutation } from '@tanstack/vue-query'
 
-const studentSummaryQueryKeys = [...commonQueryKeys, 'summary']
-
-export function useStudentSummaryQuery (): UseQueryReturnType<ProfileOverviewDTO, BaseApiException> {
-  return useQuery<ProfileOverviewDTO, BaseApiException>({
-    queryKey: studentSummaryQueryKeys,
-    queryFn: async (): Promise<ProfileOverviewDTO> => {
-      return getProfile(EUserCategory.STUDENT)
-    }
-  })
-}
+const studentSummaryQueryKeys = getUserSummaryQueryKeys(EUserCategory.STUDENT)
 
 export interface UpdateProfileVariables {
   profile: EUserCategory

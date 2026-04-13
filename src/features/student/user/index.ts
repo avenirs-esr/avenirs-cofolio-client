@@ -4,5 +4,4 @@ export { default as StudentNotificationsPopover } from '@/features/student/user/
 export { default as StudentProfilePopover } from '@/features/student/user/components/overlays/StudentProfilePopover/StudentProfilePopover.vue'
 export { default as UpdateProfileDrawer } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 export { useStudentNavigationAccessControlQuery } from '@/features/student/user/queries/use-student-access-control.query/use-student-access-control.query'
-export { useStudentSummaryQuery } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
 export { useStudentUserStore } from '@/features/student/user/stores/user.store'
