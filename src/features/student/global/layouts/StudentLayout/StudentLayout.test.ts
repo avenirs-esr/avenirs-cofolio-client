@@ -5,8 +5,8 @@ import type { Ref } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
+import { useUserSummaryQuery } from '@/common/queries'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
-import { useStudentSummaryQuery } from '@/features/student/user'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
 import { mountWithRouter } from 'tests/utils'
@@ -24,34 +24,34 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock(import('@/features/student/user'), async (importOriginal) => {
+vi.mock(import('@/common/queries'), async (importOriginal) => {
   const actual = await importOriginal()
   return {
     ...actual,
-    useStudentSummaryQuery: vi.fn()
+    useUserSummaryQuery: vi.fn()
   }
 })
 
-const mockedUseStudentSummaryQuery = vi.mocked(useStudentSummaryQuery)
+const mockedUseUserSummaryQuery = vi.mocked(useUserSummaryQuery)
 
-function mockUseStudentSummaryQuery (payload: ProfileOverviewDTO) {
+function mockUseUserSummaryQuery (payload: ProfileOverviewDTO) {
   const mockData: Ref<ProfileOverviewDTO> = ref(payload)
   const mockError: Ref<null> = ref(null)
   const queryMockedData = {
     data: mockData,
     error: mockError
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
-  mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
+  mockedUseUserSummaryQuery.mockReturnValue(queryMockedData)
 }
 
-function mockUseStudentSummaryQueryUndefined () {
+function mockUseUserSummaryQueryUndefined () {
   const mockData: Ref<ProfileOverviewDTO | undefined> = ref(undefined)
   const mockError: Ref<null> = ref(null)
   const queryMockedData = {
     data: mockData,
     error: mockError
   } as unknown as UseQueryDefinedReturnType<ProfileOverviewDTO, BaseApiException>
-  mockedUseStudentSummaryQuery.mockReturnValue(queryMockedData)
+  mockedUseUserSummaryQuery.mockReturnValue(queryMockedData)
 }
 
 BddTest().given('a student layout', () => {
@@ -103,7 +103,7 @@ BddTest().given('a student layout', () => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
     queryClient = new QueryClient()
-    mockUseStudentSummaryQuery(studentSummary)
+    mockUseUserSummaryQuery(studentSummary)
   })
 
   BddTest().and('a valid summary', () => {
@@ -163,7 +163,7 @@ BddTest().given('a student layout', () => {
 
   BddTest().and('an undefined summary', () => {
     beforeEach(() => {
-      mockUseStudentSummaryQueryUndefined()
+      mockUseUserSummaryQueryUndefined()
     })
 
     BddTest().when('the layout is rendered', () => {
