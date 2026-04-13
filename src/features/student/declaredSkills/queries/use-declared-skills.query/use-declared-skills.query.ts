@@ -28,6 +28,7 @@ import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
 
 const declaredSkillCommonQueryKey = ['user', 'student', 'declared-skills']
 const declaredSkillDetailsQueryKey = [...declaredSkillCommonQueryKey, 'details']
+const declaredSkillSearchForAssociationQueryKey = [...declaredSkillCommonQueryKey, 'search-activities-for-association']
 
 export function useDeclaredSkillsViewQuery (
   page: Ref<number>,
@@ -236,7 +237,14 @@ export function useAssociateDeclaredSkillWithActivitiesMutation ({ onError, onSu
       )
     },
     onSuccess: async (data, variables) => {
-      await invalidateQueryKey([...declaredSkillDetailsQueryKey, variables.declaredSkillProgressId])
+      await Promise.all([
+        invalidateQueryKey([...declaredSkillDetailsQueryKey, variables.declaredSkillProgressId]),
+        invalidateQueryKey([
+          ...declaredSkillSearchForAssociationQueryKey,
+          variables.declaredSkillProgressId
+        ])
+      ])
+
       onSuccess?.(data, variables)
     },
     onError
@@ -268,8 +276,7 @@ export function useSearchActivitiesForAssociationWithDeclaredSkillQuery ({
   }))
 
   const queryKey = computed(() => [
-    ...declaredSkillCommonQueryKey,
-    'search-activities-for-association',
+    ...declaredSkillSearchForAssociationQueryKey,
     safeDeclaredSkillId.value,
     searchParams.value
   ])
