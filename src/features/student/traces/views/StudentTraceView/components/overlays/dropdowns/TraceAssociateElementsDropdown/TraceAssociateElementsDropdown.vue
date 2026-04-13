@@ -48,6 +48,7 @@ function handleItemSelected (itemName: string) {
     :trigger-icon="ICONS.ASSOCIATED"
     trigger-variant="FLAT"
     width="max-content"
+    data-testid="trace-associate-elements-dropdown"
     @item-selected="handleItemSelected"
   />
 </template>

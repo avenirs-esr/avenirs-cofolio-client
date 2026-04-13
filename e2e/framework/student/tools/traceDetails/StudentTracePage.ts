@@ -18,6 +18,10 @@ export class StudentTracePage extends BasePage {
     return this.page.getByTestId('associations-tab-item')
   }
 
+  private async shouldSkipSkillAssociationFlow () {
+    return await this.getTraceAssociations().hasAssociatedSkillCards()
+  }
+
   @Then('the trace details page is loaded')
   async verifyTraceDetailsPageLoaded () {
     await expect(this.page.getByTestId('trace-detailed-main-container')).toBeVisible()
@@ -51,5 +55,31 @@ export class StudentTracePage extends BasePage {
   @Then('the activity associations are not empty')
   async verifyActivityAssociationsNotEmpty () {
     await this.getTraceAssociations().verifyAssociatedActivityCardsNotEmpty()
+  }
+
+  @When('the student clicks on the declared skill associate button')
+  async clickDeclaredSkillAssociateButton () {
+    if (await this.shouldSkipSkillAssociationFlow()) {
+      return
+    }
+    await this.getTraceAssociations().clickDeclaredSkillAssociateButton()
+  }
+
+  @When('the student selects the first skill in the associate skill dropdown')
+  async selectFirstSkillInAssociateSkillDropdown () {
+    if (await this.shouldSkipSkillAssociationFlow()) {
+      return
+    }
+    await this.page.getByTestId('search-association-layout').locator('input').first().click()
+    await this.page.getByTestId('search-association-layout').getByRole('listitem').first().click()
+  }
+
+  @When('the student confirms the skill association')
+  async confirmSkillAssociation () {
+    if (await this.shouldSkipSkillAssociationFlow()) {
+      return
+    }
+    await this.page.getByTestId('confirm-button').click()
+    await this.page.getByTestId('confirm-associate-modal').getByTestId('confirm-button').click()
   }
 }

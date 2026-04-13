@@ -31,6 +31,9 @@ Feature: Student Tools Trace Detail Page
 
     @high @trace-details @trace-associations @dataset-full
     Scenario: Student can see the declared skill associations
+      When the student clicks on the declared skill associate button
+      And the student selects the first skill in the associate skill dropdown
+      And the student confirms the skill association
       Then the declared skill associations are visible
       And the skill associations are not empty
 
