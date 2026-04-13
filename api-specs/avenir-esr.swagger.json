@@ -996,6 +996,37 @@
         }
       }
     },
+    "/me/declared/skill-progress/{declaredSkillProgressId}/associations": {
+      "get": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "getDeclaredSkillWithDeclaredActivities",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/unassociate/traces": {
       "post": {
         "tags": [

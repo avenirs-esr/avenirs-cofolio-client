@@ -1,6 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import {
+  declaredSkillAssociationsEmptyHandler,
+  declaredSkillAssociationsErrorHandler,
+  detailedSkillProgressNotFoundErrorHandler
+} from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EmptyStateStub } from '@/common/components/feedback/EmptyState/EmptyState.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
@@ -27,6 +32,7 @@ vi.mock('@/common/composables', async () => {
 
 const stubs = {
   PageTitle: PageTitleStub,
+  EmptyState: EmptyStateStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
   StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
@@ -129,8 +135,8 @@ BddTest().given('a student declared skill view', () => {
         const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
         expect(associationsComponent.exists()).toBe(true)
         expect(associationsComponent.props('declaredSkillId')).toBe('declared-skill-progress-1')
-        expect(associationsComponent.props('associatedTraces')).toEqual([])
-        expect(associationsComponent.props('associatedDeclaredActivities')).toEqual([])
+        expect(associationsComponent.props('associatedTraces')).toHaveLength(2)
+        expect(associationsComponent.props('associatedDeclaredActivities')).toHaveLength(1)
       })
     })
 
@@ -228,6 +234,60 @@ BddTest().given('a student declared skill view', () => {
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.props('title')).toBe('Compétence déclarée introuvable')
         expect(errorMessage.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
+      })
+    })
+  })
+
+  BddTest().when('the associations query returns empty data', () => {
+    beforeEach(() => {
+      server.use(declaredSkillAssociationsEmptyHandler)
+
+      wrapper = mountComponent(StudentDeclaredSkillView, {
+        props: { skillId },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render EmptyState with the correct title inside the associations tab', async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      await tabs.vm.$emit('update:modelValue', 1)
+
+      await vi.waitFor(() => {
+        const emptyState = wrapper.findComponent(EmptyStateStub)
+        expect(emptyState.exists()).toBe(true)
+        expect(emptyState.props('title')).toBe('Aucune association pour cette compétence déclarée')
+      })
+    })
+
+    BddTest().then('it should not render StudentDeclaredSkillAssociations', async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      await tabs.vm.$emit('update:modelValue', 1)
+
+      await vi.waitFor(() => {
+        const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
+        expect(associationsComponent.exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the associations query fails', () => {
+    beforeEach(() => {
+      server.use(declaredSkillAssociationsErrorHandler)
+
+      wrapper = mountComponent(StudentDeclaredSkillView, {
+        props: { skillId },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ErrorMessage for associations error inside the associations tab', async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      await tabs.vm.$emit('update:modelValue', 1)
+
+      await vi.waitFor(() => {
+        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        expect(errorMessage.exists()).toBe(true)
+        expect(errorMessage.props('title')).toBe('Une erreur est survenue lors du chargement des associations')
       })
     })
   })

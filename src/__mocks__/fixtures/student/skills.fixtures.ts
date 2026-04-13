@@ -1,7 +1,12 @@
+import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type DeclaredActivityAssociationDTO,
+  type DeclaredSkillAssociationsDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
+  EActivityThematic,
+  EDeclaredActivityStatus,
   EDeclaredSkillLevel,
   EExternalSkillCategoryType,
   EExternalSkillType,
@@ -238,6 +243,29 @@ export function createMockedSearchStudentSkillsDTO (pageSize: number, totalEleme
     data: paginatedSkills,
     page: { pageSize, totalElements: actualTotalElements, totalPages, page }
   }
+}
+
+export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
+  return Array.from({ length: count }, (_, index) => ({
+    associationId: `declared-activity-association-${index + 1}`,
+    declaredActivity: {
+      id: `declared-activity-${index + 1}`,
+      activityId: `activity-${index + 1}`,
+      title: `Activité déclarée associée ${index + 1}`,
+      thematic: EActivityThematic.TRANSVERSAL,
+      summary: `Résumé de l'activité déclarée ${index + 1}`,
+      executionPeriodInfoSummary: '01/01/2026 - 30/06/2026',
+      status: EDeclaredActivityStatus.IN_PROGRESS,
+      startDate: '2026-01-01',
+      endDate: '2026-06-30',
+      updatedAt: '2026-01-01T00:00:00Z'
+    }
+  }))
+}
+
+export const mockedDeclaredSkillAssociations: DeclaredSkillAssociationsDTO = {
+  traceAssociations: createMockedTraceAssociations(2),
+  declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1)
 }
 
 export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {

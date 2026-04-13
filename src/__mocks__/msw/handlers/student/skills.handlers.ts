@@ -6,6 +6,7 @@ import {
   createMockedPagedResponseDeclaredSkillProgressDTO,
   createMockedPagedResponseSkillsDTO,
   createMockedSearchExternalSkillsDTO,
+  mockedDeclaredSkillAssociations,
   mockedSkillDetailed
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
@@ -24,6 +25,7 @@ import {
   getGetAllSkillsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
+  getGetDeclaredSkillWithDeclaredActivitiesUrl,
   getGetDetailedSkillUrl,
   getGetSkillLevelProgressesUrl,
   getSearchDeclaredActivityForAssociation1Url,
@@ -113,6 +115,37 @@ export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDecl
     { status: 404 }
   )
 })
+
+export function createDeclaredSkillAssociationsHandler (payload: DeclaredSkillAssociationsDTO) {
+  return http.get(`*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`, () => {
+    return HttpResponse.json<DeclaredSkillAssociationsDTO>(payload, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
+}
+
+export const declaredSkillAssociationsErrorHandler = http.get(
+  `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const declaredSkillAssociationsEmptyHandler = http.get(
+  `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+  () => {
+    return HttpResponse.json<DeclaredSkillAssociationsDTO>(
+      { traceAssociations: [], declaredActivityAssociations: [] },
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+)
 
 export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
   `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
@@ -366,4 +399,16 @@ export const skillsHandlers = [
   }),
   associateDeclaredSkillWithDeclaredActivityHandler,
   searchActivitiesForAssociationWithDeclaredSkillHandler,
+
+  http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
+    `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+    () => {
+      return HttpResponse.json<DeclaredSkillAssociationsDTO>(mockedDeclaredSkillAssociations, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+    }
+  ),
 ]
