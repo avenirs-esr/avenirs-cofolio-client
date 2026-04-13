@@ -110,7 +110,7 @@
         "size": "The file size exceeds the allowed limit."
       },
       "form": {
-        "invalidEmail": "Please provide a valid email address (e.g.: name@example.com).",
+        "invalidEmail": "Please provide a valid email address (e.g.: name{'@'}example.com).",
         "maxLength": "Please limit your input to {maxLength} characters",
         "requiredField": "This field is required."
       },
@@ -163,6 +163,40 @@
       "confirmation": {
         "description": "Any unsaved changes will be lost.",
         "title": "Are you sure you want to exit?"
+      }
+    },
+    "overlay": {
+      "drawers": {
+        "UpdateProfileDrawer": {
+          "identity": {
+            "biography": {
+              "errors": {
+                "tooLong": "The biography must not exceed {maxLength} characters"
+              },
+              "label": "Biography"
+            },
+            "firstname": "First name",
+            "lastname": "Last name",
+            "mail": {
+              "STAFF": "Professional email",
+              "STUDENT": "Personal email"
+            },
+            "title": "Identity"
+          },
+          "onDelete": {
+            "error": "An error occurred while deleting the photo.",
+            "success": "Your photo has been deleted."
+          },
+          "onUpdate": {
+            "error": "An error occurred while updating the profile.",
+            "success": "Your profile has been updated."
+          },
+          "pictures": {
+            "banner": "Banner",
+            "picture": "Profile picture"
+          },
+          "title": "Edit my profile"
+        }
       }
     },
     "pageSizePicker": {

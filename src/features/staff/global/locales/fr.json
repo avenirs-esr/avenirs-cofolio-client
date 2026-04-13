@@ -10,6 +10,13 @@
         "tabs": {
           "home": "Accueil"
         }
+      },
+      "views": {
+        "StaffHomeView": {
+          "buttons": {
+            "editProfile": "Modifier mon profil"
+          }
+        }
       }
     }
   }
