@@ -40,6 +40,8 @@ import {
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
+const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
+
 export function createDeclaredSkillsProgressViewHandler (payload: PagedResponseDeclaredSkillProgressDTO) {
   return http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, () => {
     return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(payload, {
@@ -62,17 +64,6 @@ export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
   })
 }
 
-export function createSkillDetailedHandler (payload: SkillDetailedDTO) {
-  return http.get<PathParams, SkillDetailedDTO>(`*/me/skill-level-progress/details/:skillId`, () => {
-    return HttpResponse.json<SkillDetailedDTO>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
 export function createAllSkillsHandler (payload: SkillListItemDTO[]) {
   return http.get(`*${getGetAllSkillsUrl()}`, () => {
     return HttpResponse.json<SkillListItemDTO[]>(payload, {
@@ -83,13 +74,6 @@ export function createAllSkillsHandler (payload: SkillListItemDTO[]) {
     })
   })
 }
-
-export const skillsViewErrorHandler = http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
-  return HttpResponse.json(
-    { message: 'Internal server error' },
-    { status: 500 }
-  )
-})
 
 export function createDetailedSkillHandler (payload: SkillDetailedDTO) {
   return http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
@@ -115,37 +99,6 @@ export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDecl
     { status: 404 }
   )
 })
-
-export function createDeclaredSkillAssociationsHandler (payload: DeclaredSkillAssociationsDTO) {
-  return http.get(`*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`, () => {
-    return HttpResponse.json<DeclaredSkillAssociationsDTO>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
-export const declaredSkillAssociationsErrorHandler = http.get(
-  `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
-    )
-  }
-)
-
-export const declaredSkillAssociationsEmptyHandler = http.get(
-  `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
-  () => {
-    return HttpResponse.json<DeclaredSkillAssociationsDTO>(
-      { traceAssociations: [], declaredActivityAssociations: [] },
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    )
-  }
-)
 
 export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
   `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
@@ -402,7 +355,18 @@ export const skillsHandlers = [
 
   http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
     `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
-    () => {
+    ({ params }) => {
+      if (params.declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
+        return HttpResponse.json({ error: 'Invalid declared skill ID' }, { status: 400 })
+      }
+
+      if (params.declaredSkillProgressId === 'SKILL_WITHOUT_ASSOCIATIONS') {
+        return HttpResponse.json<DeclaredSkillAssociationsDTO>(
+          { traceAssociations: [], declaredActivityAssociations: [] },
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        )
+      }
+
       return HttpResponse.json<DeclaredSkillAssociationsDTO>(mockedDeclaredSkillAssociations, {
         status: 200,
         headers: {
