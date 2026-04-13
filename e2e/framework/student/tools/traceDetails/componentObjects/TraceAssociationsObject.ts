@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { expect, type Locator } from '@playwright/test'
 
 export class TraceAssociationsObject extends BaseObject {
@@ -18,12 +19,24 @@ export class TraceAssociationsObject extends BaseObject {
     return await this.getAssociatedDeclaredSkillCards().count()
   }
 
+  async hasAssociatedSkillCards () {
+    return (await this.getAssociatedSkillCardsCount()) > 0
+  }
+
   getDeclaredActivityAssociationsContainer () {
     return this.root.getByTestId('associated-declared-activities-card')
   }
 
   getAssociatedActivityCards () {
     return this.root.getByTestId('associated-declared-activity-card')
+  }
+
+  getTraceAssociateElementsDropdown () {
+    return this.root.getByTestId('trace-associate-elements-dropdown')
+  }
+
+  getDeclaredSkillAssociateButton () {
+    return this.root.page().getByTestId('skills').first()
   }
 
   async getAssociatedActivityCardsCount () {
@@ -50,5 +63,12 @@ export class TraceAssociationsObject extends BaseObject {
   async verifyAssociatedActivityCardsNotEmpty () {
     const count = await this.getAssociatedActivityCardsCount()
     expect(count).toBeGreaterThan(0)
+  }
+
+  async clickDeclaredSkillAssociateButton () {
+    await this.getTraceAssociateElementsDropdown().click()
+    await waitForPageLoad(this.root.page())
+    await expect(this.getDeclaredSkillAssociateButton()).toBeVisible()
+    await this.getDeclaredSkillAssociateButton().click()
   }
 }
