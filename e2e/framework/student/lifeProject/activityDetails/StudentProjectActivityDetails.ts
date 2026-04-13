@@ -129,6 +129,7 @@ export class StudentProjectActivityDetails extends BasePage {
   @When('the student clicks the finish activity button')
   async clickFinishActivityButton () {
     await this.getMyPerspectiveSection().clickFinishButton()
+    await waitForPageLoad(this.page)
   }
 
   @Then('the finish activity confirmation modal is visible')
