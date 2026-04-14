@@ -19,7 +19,7 @@ BddTest().given('a trace type selector container', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render a trace type selector container', () => {
-      const container = wrapper.find('.trace-type-selector-container')
+      const container = wrapper.find('[data-testid="trace-type-selector"]')
       expect(container.exists()).toBe(true)
     })
 

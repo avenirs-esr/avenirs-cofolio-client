@@ -113,12 +113,6 @@
               "associateTrace": "Associate my trace",
               "declarations": "Make my declarations"
             },
-            "traceTypeSelector": {
-              "add": "Add",
-              "linkType": "A trace of type link",
-              "fileType": "A trace of type file",
-              "ariaLabel": "Select trace type"
-            },
             "createTraceForm": {
               "declaration": {
                 "groupProduction": {
@@ -146,7 +140,13 @@
               },
               "success": "Your trace has been successfully added."
             },
-            "title": "Add a trace"
+            "title": "Add a trace",
+            "traceTypeSelector": {
+              "add": "Add",
+              "ariaLabel": "Select trace type",
+              "fileType": "A trace of type file",
+              "linkType": "A trace of type link"
+            }
           },
           "studentToolsTracesViewContainer": {
             "pagination": {

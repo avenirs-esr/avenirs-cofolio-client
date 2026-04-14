@@ -5,9 +5,9 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const traceType = defineModel<{ itemId: string }>('traceType', {
+const traceType = defineModel<{ itemId: TraceType }>('traceType', {
   default: { itemId: TraceType.FILE },
-  type: Object as () => { itemId: string },
+  type: Object as () => { itemId: TraceType },
 })
 
 const { traceTypeOptions } = useTraceTypeSelector()
@@ -28,7 +28,10 @@ function useTraceTypeSelector () {
 </script>
 
 <template>
-  <div class="trace-type-selector-container">
+  <div
+    class="av-pb-md trace-type-select-container"
+    data-testid="trace-type-selector"
+  >
     <AvSelect
       v-model:selected-item="traceType"
       :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelector.add')"
@@ -40,3 +43,9 @@ function useTraceTypeSelector () {
     />
   </div>
 </template>
+
+<style lang="scss" scoped>
+.trace-type-select-container {
+  border-bottom: 1px solid var(--divider);
+}
+</style>
