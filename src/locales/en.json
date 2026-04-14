@@ -152,6 +152,7 @@
     "images": "Images",
     "information": {
       "fileUpload": {
+        "deleteConfirmation": "Confirm deletion?",
         "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
         "filesTypes": "JPG, JPEG, PNG •",
