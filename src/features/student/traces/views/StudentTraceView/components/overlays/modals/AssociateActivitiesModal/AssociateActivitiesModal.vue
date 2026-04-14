@@ -11,13 +11,7 @@ import { useI18n } from 'vue-i18n'
 
 export type AssociationActivity = IdTitle & {
   disabled: boolean
-  thematic?: EActivityThematic
-}
-
-export type SelectedActivity = Omit<AssociationActivity, 'disabled'>
-
-export type ActivityAvAutocompleteOption = AvAutocompleteOption & {
-  thematic?: EActivityThematic
+  thematic: EActivityThematic
 }
 
 export interface AssociateActivitiesModalProps {
@@ -46,24 +40,20 @@ const {
   displayConfirmModal,
   hideConfirmModal,
   onDeleteItem: onDeleteActivity,
-} = useAssociationModal<ActivityAvAutocompleteOption>()
+} = useAssociationModal<AvAutocompleteOption>()
 
-const activityAutocompleteOptions = computed<ActivityAvAutocompleteOption[]>(() =>
+const activityAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
   activities
-    .filter(({ disabled }) => !disabled)
     .map(activity => ({
       label: activity.title,
       value: activity.id,
-      thematic: activity.thematic
+      description: t(`student.buildProject.activities.thematics.${activity.thematic}`),
+      disabled: activity.disabled
     }))
 )
 
-const selectedAssociations = computed<SelectedActivity[]>(() =>
-  selectedActivityOptions.value.map(option => ({
-    id: option.value.toString(),
-    title: option.label,
-    thematic: option.thematic
-  }))
+const selectedAssociations = computed<AssociationActivity[]>(() =>
+  activities.filter(activity => selectedActivityOptions.value.some(option => option.value === activity.id))
 )
 
 watch(() => show, (newVal) => {
@@ -84,12 +74,6 @@ function onCancel () {
 
 function onConfirm () {
   emit('associate', selectedAssociations.value.map(activity => activity.id))
-}
-
-function getOptionLabel (option: ActivityAvAutocompleteOption): string {
-  return option.thematic
-    ? `${option.label} - ${option.thematic}`
-    : option.label
 }
 </script>
 
@@ -124,7 +108,7 @@ function getOptionLabel (option: ActivityAvAutocompleteOption): string {
         placeholder: t('student.traces.views.StudentTraceView.AssociateActivitiesModal.searchPlaceholder'),
       }"
       :get-option-key="option => option.value"
-      :get-option-label="getOptionLabel"
+      :get-option-label="(option) => option.label"
       :loading="isLoading"
       @search="onSearch"
       @delete="onDeleteActivity"
