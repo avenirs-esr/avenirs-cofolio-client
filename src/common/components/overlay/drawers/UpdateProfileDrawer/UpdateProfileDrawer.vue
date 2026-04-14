@@ -5,7 +5,7 @@ import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
-import { useDeletePhotoMutation } from '@/features/student/user/queries/use-student-profile/use-student-profile.query'
+import { useDeletePhotoMutation } from '@/common/queries/use-user-profile/use-user-profile.query'
 import { useToasterStore } from '@/store'
 import {
   AvAccordion,
@@ -65,11 +65,11 @@ function onUpdateProfileSuccess () {
   onClose()
 }
 
-const { mutate: deleteCoverPicture } = useDeletePhotoMutation({
+const { mutate: deleteCoverPicture } = useDeletePhotoMutation(userCategory.value, {
   onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
 })
 
-const { mutate: deleteProfilePicture } = useDeletePhotoMutation({
+const { mutate: deleteProfilePicture } = useDeletePhotoMutation(userCategory.value, {
   onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
 })
 
@@ -124,7 +124,10 @@ watch(() => show, (newVal) => {
                 :model-value="firstname"
                 disabled
               />
-              <FormField name="email">
+              <FormField
+                v-if="userCategory === EUserCategory.STUDENT"
+                name="email"
+              >
                 <template #default="{ field }">
                   <AvInput
                     v-model="field.state.value"
@@ -135,6 +138,12 @@ watch(() => show, (newVal) => {
                   />
                 </template>
               </FormField>
+              <AvInput
+                v-else
+                :label="t(`global.overlay.drawers.UpdateProfileDrawer.identity.mail.${userCategory}`)"
+                :model-value="email"
+                disabled
+              />
               <FormField
                 v-if="userCategory === EUserCategory.STUDENT"
                 name="bio"

@@ -10,9 +10,9 @@ import { useI18n } from 'vue-i18n'
 export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
-  const { onUpdateProfile, iseUpdateProfilePending } = useUpdateProfile(onSuccess)
-  const { onUpdateProfileCoverAsync, iseUpdateProfileCoverPending } = useUpdateProfileCover(onUpdateProfileCoverSuccess)
-  const { onUpdateProfilePhotoAsync, iseUpdateProfilePhotoPending } = useUpdateProfilePhoto(onUpdateProfilePhotoSuccess)
+  const { onUpdateProfile, isUpdateProfilePending } = useUpdateProfile(onSuccess)
+  const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(onUpdateProfileCoverSuccess)
+  const { onUpdateProfilePhotoAsync, isUpdateProfilePhotoPending } = useUpdateProfilePhoto(onUpdateProfilePhotoSuccess)
 
   const coverPictureFile = ref<File | null>(null)
   const profilePictureFile = ref<File | null>(null)
@@ -80,9 +80,9 @@ export function useUpdateProfileForm (initialData: ProfileOverviewDTO, onSuccess
   }
 
   const isPending = computed(() =>
-    iseUpdateProfilePending.value
-    || iseUpdateProfileCoverPending.value
-    || iseUpdateProfilePhotoPending.value
+    isUpdateProfilePending.value
+    || isUpdateProfileCoverPending.value
+    || isUpdateProfilePhotoPending.value
     || form.state.isSubmitting
   )
 

@@ -56,19 +56,19 @@ BddTest().given('a useUpdateProfileForm composable', () => {
     onUpdateProfile: vi.fn().mockImplementation(() => {
       onSuccess()
     }),
-    iseUpdateProfilePending: ref(false),
+    isUpdateProfilePending: ref(false),
   }))
 
   const mockedUseUpdateProfileCover: MockedFunction<typeof useUpdateProfileCover> = vi.mocked(useUpdateProfileCover)
   mockedUseUpdateProfileCover.mockImplementation(() => ({
     onUpdateProfileCoverAsync: vi.fn().mockResolvedValue('cover-url'),
-    iseUpdateProfileCoverPending: ref(false),
+    isUpdateProfileCoverPending: ref(false),
   }))
 
   const mockedUseUpdateProfilePhoto: MockedFunction<typeof useUpdateProfilePhoto> = vi.mocked(useUpdateProfilePhoto)
   mockedUseUpdateProfilePhoto.mockImplementation(() => ({
     onUpdateProfilePhotoAsync: vi.fn().mockResolvedValue('photo-url'),
-    iseUpdateProfilePhotoPending: ref(false),
+    isUpdateProfilePhotoPending: ref(false),
   }))
 
   const initialData = {
@@ -193,7 +193,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         onUpdateProfile: vi.fn().mockImplementation(() => {
           throw error
         }),
-        iseUpdateProfilePending: ref(false),
+        isUpdateProfilePending: ref(false),
       }))
 
       errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
@@ -231,7 +231,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       mockedUseUpdateProfileCover.mockImplementation(() => ({
         onUpdateProfileCoverAsync: vi.fn().mockRejectedValue(error),
-        iseUpdateProfileCoverPending: ref(false),
+        isUpdateProfileCoverPending: ref(false),
       }))
 
       errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
@@ -271,7 +271,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       mockedUseUpdateProfilePhoto.mockImplementation(() => ({
         onUpdateProfilePhotoAsync: vi.fn().mockRejectedValue(error),
-        iseUpdateProfilePhotoPending: ref(false),
+        isUpdateProfilePhotoPending: ref(false),
       }))
 
       errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
@@ -306,7 +306,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         onUpdateProfile: vi.fn().mockImplementation(() => {
           throw Exception
         }),
-        iseUpdateProfilePending: ref(false),
+        isUpdateProfilePending: ref(false),
       }))
 
       errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
@@ -351,7 +351,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       mockedUseUpdateProfile.mockImplementation(() => ({
         onUpdateProfile: vi.fn(),
-        iseUpdateProfilePending: ref(true),
+        isUpdateProfilePending: ref(true),
       }))
 
       result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
@@ -372,7 +372,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       mockedUseUpdateProfileCover.mockImplementation(() => ({
         onUpdateProfileCoverAsync: vi.fn(),
-        iseUpdateProfileCoverPending: ref(true),
+        isUpdateProfileCoverPending: ref(true),
       }))
 
       result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
@@ -393,7 +393,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       mockedUseUpdateProfilePhoto.mockImplementation(() => ({
         onUpdateProfilePhotoAsync: vi.fn(),
-        iseUpdateProfilePhotoPending: ref(true),
+        isUpdateProfilePhotoPending: ref(true),
       }))
 
       result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {

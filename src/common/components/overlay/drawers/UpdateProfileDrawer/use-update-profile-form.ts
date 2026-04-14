@@ -1,5 +1,5 @@
-import type { EUserCategory, ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
 import { useToasterStore } from '@/store'
@@ -14,9 +14,9 @@ interface UseUpdateProfileFormData extends Omit<ProfileOverviewDTO, 'bio'> {
 export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, profile: EUserCategory, onSuccess: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
-  const { onUpdateProfile, iseUpdateProfilePending } = useUpdateProfile(profile, onSuccess)
-  const { onUpdateProfileCoverAsync, iseUpdateProfileCoverPending } = useUpdateProfileCover(profile, onUpdateProfileCoverSuccess)
-  const { onUpdateProfilePhotoAsync, iseUpdateProfilePhotoPending } = useUpdateProfilePhoto(profile, onUpdateProfilePhotoSuccess)
+  const { onUpdateProfile, isUpdateProfilePending } = useUpdateProfile(profile, onSuccess)
+  const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(profile, onUpdateProfileCoverSuccess)
+  const { onUpdateProfilePhotoAsync, isUpdateProfilePhotoPending } = useUpdateProfilePhoto(profile, onUpdateProfilePhotoSuccess)
 
   const coverPictureFile = ref<File | null>(null)
   const profilePictureFile = ref<File | null>(null)
@@ -56,7 +56,12 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
           throw photoResult.reason
         }
 
-        onUpdateProfile({ email, bio })
+        if (profile === EUserCategory.STUDENT) {
+          onUpdateProfile({ email, bio })
+        }
+        else {
+          onSuccess()
+        }
       }
       catch (error) {
         addErrorMessage({
@@ -84,10 +89,9 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
   }
 
   const isPending = computed(() =>
-    iseUpdateProfilePending.value
-    || iseUpdateProfileCoverPending.value
-    || iseUpdateProfilePhotoPending.value
-    || form.state.isSubmitting
+    isUpdateProfilePending.value
+    || isUpdateProfileCoverPending.value
+    || isUpdateProfilePhotoPending.value
   )
 
   const isDefaultValue = useStore(form.store, state => state.isDefaultValue)
