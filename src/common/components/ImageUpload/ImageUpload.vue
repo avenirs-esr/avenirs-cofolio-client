@@ -90,7 +90,7 @@ function onConfirmDeleteImage () {
     :on-delete-file="displayModal"
     @update:model-value="(value) => modelValue = value"
     @change="onUpdateImage"
-    @on-drop-accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
+    @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
   >
     <template
       v-if="defaultImageName || imageUpload.previewUrl.value"

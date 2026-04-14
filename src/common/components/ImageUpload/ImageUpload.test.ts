@@ -44,7 +44,7 @@ function createWrapper (props = {}) {
         AvFileUpload: {
           name: 'AvFileUpload',
           props: ['error', 'validMessage', 'accept', 'onDeleteFile'],
-          emits: ['change', 'on-drop-accept-type-error'],
+          emits: ['change', 'accept-type-error'],
           template: `
             <div>
               <slot name="left"></slot>
@@ -55,7 +55,7 @@ function createWrapper (props = {}) {
               />
               <button
                 class="error-trigger"
-                @click="$emit('on-drop-accept-type-error')"
+                @click="$emit('accept-type-error')"
               >
                 Trigger Error
               </button>
@@ -117,7 +117,7 @@ BddTest().given('and image upload with valid props', () => {
       error.value = 'Le fichier ne respecte pas le format attendu.'
     })
 
-    BddTest().then('it should set error message when on-drop-accept-type-error event is emitted', async () => {
+    BddTest().then('it should set error message when accept-type-error event is emitted', async () => {
       const errorBtn = wrapper.find('button.error-trigger')
 
       await errorBtn.trigger('click')
