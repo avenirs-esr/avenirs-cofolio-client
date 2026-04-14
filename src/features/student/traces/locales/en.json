@@ -113,6 +113,12 @@
               "associateTrace": "Associate my trace",
               "declarations": "Make my declarations"
             },
+            "traceTypeSelector": {
+              "add": "Add",
+              "linkType": "A trace of type link",
+              "fileType": "A trace of type file",
+              "ariaLabel": "Select trace type"
+            },
             "createTraceForm": {
               "declaration": {
                 "groupProduction": {
