@@ -29,7 +29,7 @@ function useTraceTypeSelect () {
 
 <template>
   <div
-    class="av-pb-md trace-type-select-container"
+    class="av-pb-md trace-type-select"
     data-testid="trace-type-select"
   >
     <AvSelect
@@ -45,7 +45,7 @@ function useTraceTypeSelect () {
 </template>
 
 <style lang="scss" scoped>
-.trace-type-select-container {
+.trace-type-select {
   border-bottom: 1px solid var(--divider);
 }
 </style>
