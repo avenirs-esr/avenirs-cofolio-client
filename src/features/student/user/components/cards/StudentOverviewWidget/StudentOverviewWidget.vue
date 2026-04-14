@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { EUserCategory } from '@/api/avenir-esr'
+import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
 import { useUserSummaryQuery } from '@/common/queries'
-import UpdateProfileDrawer from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -78,7 +78,7 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
   <UpdateProfileDrawer
     v-if="studentSummary"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    :student-summary="studentSummary"
+    v-bind="studentSummary"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

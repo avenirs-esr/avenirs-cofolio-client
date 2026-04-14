@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { EUserCategory } from '@/api/avenir-esr'
+import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
 import { useUserSummaryQuery } from '@/common/queries'
@@ -8,7 +9,6 @@ import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/co
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import UpdateProfileDrawer from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -89,7 +89,7 @@ const { data: studentSummary } = useUserSummaryQuery(EUserCategory.STUDENT)
   <UpdateProfileDrawer
     v-if="studentSummary"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    :student-summary="studentSummary"
+    v-bind="studentSummary"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

@@ -4,9 +4,9 @@ import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
-import { UpdateProfileDrawerStub } from '@/features/student/user/components/overlays/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

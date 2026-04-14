@@ -1,6 +1,7 @@
 import { createPutUpdateProfileCoverHandler, createPutUpdateProfileHandler, createPutUpdateProfilePhotoHandler, putUpdateProfileCoverErrorHandler, putUpdateProfileErrorHandler, putUpdateProfilePhotoErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/features/student/user/components/overlays/UpdateProfileDrawer/use-update-profile'
+import { EUserCategory } from '@/api/avenir-esr'
+import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
@@ -17,13 +18,13 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-BddTest().given('an useUpdateProfile composable', () => {
+BddTest().given('an useUpdateProfile composable with a STAFF user', () => {
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfile>
 
   beforeEach(() => {
     vi.clearAllMocks()
-    result = mountComposable(() => useUpdateProfile(onSuccessSpy), {
+    result = mountComposable(() => useUpdateProfile(EUserCategory.STAFF, onSuccessSpy), {
       useI18n: true,
       usePinia: true,
       useTanstack: true
@@ -61,14 +62,14 @@ BddTest().given('an useUpdateProfile composable', () => {
   })
 })
 
-BddTest().given('an useUpdateProfileCover composable', () => {
+BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
   const fakeFile = new File(['cover'], 'cover.jpg', { type: 'image/jpeg' })
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfileCover>
 
   beforeEach(() => {
     vi.clearAllMocks()
-    result = mountComposable(() => useUpdateProfileCover(onSuccessSpy), {
+    result = mountComposable(() => useUpdateProfileCover(EUserCategory.STAFF, onSuccessSpy), {
       useI18n: true,
       usePinia: true,
       useTanstack: true
@@ -106,14 +107,14 @@ BddTest().given('an useUpdateProfileCover composable', () => {
   })
 })
 
-BddTest().given('an useUpdateProfilePhoto composable', () => {
+BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
   const fakeFile = new File(['photo'], 'photo.jpg', { type: 'image/jpeg' })
   const onSuccessSpy = vi.fn()
   let result: ReturnType<typeof useUpdateProfilePhoto>
 
   beforeEach(() => {
     vi.clearAllMocks()
-    result = mountComposable(() => useUpdateProfilePhoto(onSuccessSpy), {
+    result = mountComposable(() => useUpdateProfilePhoto(EUserCategory.STAFF, onSuccessSpy), {
       useI18n: true,
       usePinia: true,
       useTanstack: true

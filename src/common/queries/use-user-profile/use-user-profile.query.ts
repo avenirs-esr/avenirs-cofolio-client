@@ -13,6 +13,7 @@ import {
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { toValue } from 'vue'
 
 export const getUserSummaryQueryKeys = (category: EUserCategory) => ['user', category, 'summary']
 
@@ -31,7 +32,7 @@ export interface UpdateProfileVariables {
 }
 
 export function useUpdateProfileMutation (profile: EUserCategory, { onError, onSuccess }: MutationArgs<string> = {}) {
-  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(profile))
+  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(toValue(profile)))
   return useMutation<string, BaseApiException, UpdateProfileVariables>({
     mutationFn: async ({ profile, profileUpdateRequest }: UpdateProfileVariables): Promise<string> => {
       return await updateProfile(profile, profileUpdateRequest)
@@ -50,7 +51,7 @@ export interface UpdateProfileCoverVariables {
 }
 
 export function useUpdateProfileCoverMutation (profile: EUserCategory, { onError, onSuccess }: MutationArgs<string>) {
-  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(profile))
+  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(toValue(profile)))
   return useMutation<string, BaseApiException, UpdateProfileCoverVariables>({
     mutationFn: async ({ profile, updateProfileCoverBody }: UpdateProfileCoverVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.COVER, updateProfileCoverBody)
@@ -70,7 +71,7 @@ export interface UpdateProfilePhotoVariables {
 }
 
 export function useUpdateProfilePhotoMutation (profile: EUserCategory, { onError, onSuccess }: MutationArgs<string, UpdateProfilePhotoVariables>) {
-  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(profile))
+  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(toValue(profile)))
   return useMutation<string, BaseApiException, UpdateProfilePhotoVariables>({
     mutationFn: async ({ profile, updateProfilePhotoBody }: UpdateProfilePhotoVariables): Promise<string> => {
       const uploadedPhoto = await updateProfilePhoto(profile, EUserPhotoType.PROFILE, updateProfilePhotoBody)
@@ -89,7 +90,7 @@ interface DeleteUserPhotoVariables {
 }
 
 export function useDeletePhotoMutation (profile: EUserCategory, { onError, onSuccess }: MutationArgs = {}) {
-  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(profile))
+  const invalidateUserSummaryQuery = useInvalidateQuery(getUserSummaryQueryKeys(toValue(profile)))
   return useMutation<string, BaseApiException, DeleteUserPhotoVariables>({
     mutationFn: async ({ fileId }: DeleteUserPhotoVariables): Promise<string> => {
       return await deleteUserPhoto(fileId)
