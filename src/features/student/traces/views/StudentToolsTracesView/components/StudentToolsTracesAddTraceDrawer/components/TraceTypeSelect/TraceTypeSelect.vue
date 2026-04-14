@@ -10,17 +10,17 @@ const traceType = defineModel<{ itemId: TraceType }>('traceType', {
   type: Object as () => { itemId: TraceType },
 })
 
-const { traceTypeOptions } = useTraceTypeSelector()
+const { traceTypeOptions } = useTraceTypeSelect()
 
-function useTraceTypeSelector () {
+function useTraceTypeSelect () {
   const traceTypeOptions = computed(() => [
     {
       id: TraceType.FILE,
-      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelector.fileType')
+      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.fileType')
     },
     {
       id: TraceType.LINK,
-      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelector.linkType')
+      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.linkType')
     },
   ])
   return { traceTypeOptions }
@@ -30,16 +30,16 @@ function useTraceTypeSelector () {
 <template>
   <div
     class="av-pb-md trace-type-select-container"
-    data-testid="trace-type-selector"
+    data-testid="trace-type-select"
   >
     <AvSelect
       v-model:selected-item="traceType"
-      :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelector.add')"
-      select-id="trace-type-selector"
+      :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.add')"
+      select-id="trace-type-Select"
       placeholder=""
       :options="traceTypeOptions"
       dense
-      :aria-label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelector.ariaLabel')"
+      :aria-label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.ariaLabel')"
     />
   </div>
 </template>

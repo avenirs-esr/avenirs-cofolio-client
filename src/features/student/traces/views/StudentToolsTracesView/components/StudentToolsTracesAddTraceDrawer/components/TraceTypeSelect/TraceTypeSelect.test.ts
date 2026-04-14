@@ -1,14 +1,14 @@
-import TraceTypeSelectorContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelector/TraceTypeSelector.vue'
+import TraceTypeSelectContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelect/TraceTypeSelect.vue'
 import { TraceType } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('a trace type selector container', () => {
-  let wrapper: VueWrapper<InstanceType<typeof TraceTypeSelectorContainer>>
+BddTest().given('a trace type select container', () => {
+  let wrapper: VueWrapper<InstanceType<typeof TraceTypeSelectContainer>>
 
   beforeEach(() => {
-    wrapper = mount(TraceTypeSelectorContainer, {
+    wrapper = mount(TraceTypeSelectContainer, {
       global: {
         stubs: {
           AvSelect: AvSelectStub
@@ -18,8 +18,8 @@ BddTest().given('a trace type selector container', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render a trace type selector container', () => {
-      const container = wrapper.find('[data-testid="trace-type-selector"]')
+    BddTest().then('it should render a trace type select container', () => {
+      const container = wrapper.find('[data-testid="trace-type-select"]')
       expect(container.exists()).toBe(true)
     })
 

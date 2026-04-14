@@ -3,7 +3,7 @@ import type { CreateTraceForm } from '@/features/student/traces/types/forms.type
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
-import TraceTypeSelector from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelector/TraceTypeSelector.vue'
+import TraceTypeSelect from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelect/TraceTypeSelect.vue'
 import { TraceType } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types/trace-type.types'
 
 interface CreateTraceFormTraceDefinitionItemsProps {
@@ -21,7 +21,7 @@ const selectedTraceType = ref({ itemId: TraceType.FILE })
       class="av-col av-gap-lg"
       data-testid="form-fields-container"
     >
-      <TraceTypeSelector v-model:trace-type="selectedTraceType" />
+      <TraceTypeSelect v-model:trace-type="selectedTraceType" />
 
       <div
         v-if="selectedTraceType.itemId === TraceType.FILE"

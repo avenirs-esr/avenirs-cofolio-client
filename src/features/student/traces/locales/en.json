@@ -141,7 +141,7 @@
               "success": "Your trace has been successfully added."
             },
             "title": "Add a trace",
-            "traceTypeSelector": {
+            "traceTypeSelect": {
               "add": "Add",
               "ariaLabel": "Select trace type",
               "fileType": "A trace of type file",

@@ -140,7 +140,7 @@
               "success": "Votre trace a été ajoutée à votre bibliothèque."
             },
             "title": "Ajouter une trace",
-            "traceTypeSelector": {
+            "traceTypeSelect": {
               "add": "Ajouter",
               "ariaLabel": "Sélectionner le type de trace",
               "fileType": "Une trace de type fichier",
