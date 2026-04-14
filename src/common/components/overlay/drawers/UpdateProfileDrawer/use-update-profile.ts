@@ -30,7 +30,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
 
   return {
     onUpdateProfile,
-    iseUpdateProfilePending: updateProfileMutation.isPending,
+    isUpdateProfilePending: updateProfileMutation.isPending,
   }
 }
 
@@ -60,7 +60,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
 
   return {
     onUpdateProfileCoverAsync,
-    iseUpdateProfileCoverPending: updateProfileCoverMutation.isPending,
+    isUpdateProfileCoverPending: updateProfileCoverMutation.isPending,
   }
 }
 
@@ -86,6 +86,6 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
 
   return {
     onUpdateProfilePhotoAsync,
-    iseUpdateProfilePhotoPending: updateProfilePhotoMutation.isPending,
+    isUpdateProfilePhotoPending: updateProfilePhotoMutation.isPending,
   }
 }
