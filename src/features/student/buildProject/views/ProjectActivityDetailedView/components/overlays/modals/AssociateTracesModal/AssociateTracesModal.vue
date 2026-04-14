@@ -3,6 +3,7 @@ import type {
   AssociationsCreationRequest,
 } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import {
   useAssociateActivityWithTracesMutation,
   useSearchTracesForAssociationQuery
@@ -68,7 +69,7 @@ const {
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const traceOptions = computed(() =>
+const traceOptions = computed<AvAutocompleteOption[]>(() =>
   traces.value
     .filter(trace => !trace.disabled)
     .map(trace => ({

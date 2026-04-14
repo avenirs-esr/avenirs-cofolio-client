@@ -20,7 +20,8 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
   const selectedAssociations = computed(() =>
     selectedOptions.value.map(option => ({
       id: option.value.toString(),
-      title: option.label
+      title: option.label,
+      description: option.description
     }))
   )
 

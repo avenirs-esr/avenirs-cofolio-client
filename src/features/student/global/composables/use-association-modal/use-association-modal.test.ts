@@ -92,6 +92,24 @@ BddTest().given('the useAssociationModal composable', () => {
       })
     })
 
+    BddTest().and('options include description', () => {
+      const optionsWithDescription: AvAutocompleteOption[] = [
+        { label: 'Item C', value: 'id-c', description: 'Description C' },
+        { label: 'Item D', value: 'id-d', description: 'Description D' }
+      ]
+
+      beforeEach(() => {
+        composable.selectedOptions.value = optionsWithDescription
+      })
+
+      BddTest().then('it should include description in selectedAssociations', () => {
+        expect(composable.selectedAssociations.value).toEqual([
+          { id: 'id-c', title: 'Item C', description: 'Description C' },
+          { id: 'id-d', title: 'Item D', description: 'Description D' }
+        ])
+      })
+    })
+
     BddTest().and('onDeleteItem is called with a non-existing id', () => {
       beforeEach(() => {
         composable.onDeleteItem('id-unknown')

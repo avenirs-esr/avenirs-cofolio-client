@@ -6,12 +6,13 @@ export const SearchAssociationLayoutStub = defineComponent({
     'items',
     'inputOptions',
     'getOptionKey',
-    'getOptionLabel'
+    'getOptionLabel',
+    'loading'
   ],
   emits: ['update:modelValue', 'search', 'clear', 'loadMore', 'delete'],
   template: `
     <div data-testid="search-association-layout-stub">
-      
+
       <div data-testid="search-association-layout-before-search-stub">
         <slot name="beforeSearch" />
       </div>

@@ -51,13 +51,11 @@ BddTest().given('an associate activities modal', () => {
   const selectedActivityOptions = [
     {
       label: 'Définir ses valeurs',
-      value: 'activity-search-1',
-      thematic: EActivityThematic.SELF_KNOWLEDGE
+      value: 'activity-search-1'
     },
     {
       label: 'Explorer ses pistes d’orientation',
-      value: 'activity-search-2',
-      thematic: EActivityThematic.FUTURE_PLANS
+      value: 'activity-search-2'
     }
   ]
 
@@ -65,12 +63,14 @@ BddTest().given('an associate activities modal', () => {
     {
       id: 'activity-search-1',
       title: 'Définir ses valeurs',
-      thematic: EActivityThematic.SELF_KNOWLEDGE
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      disabled: false
     },
     {
       id: 'activity-search-2',
       title: 'Explorer ses pistes d’orientation',
-      thematic: EActivityThematic.FUTURE_PLANS
+      thematic: EActivityThematic.FUTURE_PLANS,
+      disabled: false
     }
   ]
 
@@ -107,18 +107,26 @@ BddTest().given('an associate activities modal', () => {
       expect(confirmModal.props('items')).toEqual([])
     })
 
-    BddTest().then('it should pass only enabled activities to the layout options', () => {
+    BddTest().then('it should pass all activities to the layout options with description and disabled fields', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
       expect(layout.props('options')).toEqual([
         {
           label: 'Définir ses valeurs',
           value: 'activity-search-1',
-          thematic: EActivityThematic.SELF_KNOWLEDGE
+          description: 'Me connaître',
+          disabled: false
         },
         {
           label: 'Explorer ses pistes d’orientation',
           value: 'activity-search-2',
-          thematic: EActivityThematic.FUTURE_PLANS
+          description: 'Explorer mes futures',
+          disabled: false
+        },
+        {
+          label: 'Activité désactivée',
+          value: 'activity-search-3',
+          description: 'CV',
+          disabled: true
         }
       ])
     })
@@ -186,7 +194,8 @@ BddTest().given('an associate activities modal', () => {
             {
               id: 'activity-search-1',
               title: 'Définir ses valeurs',
-              thematic: EActivityThematic.SELF_KNOWLEDGE
+              thematic: EActivityThematic.SELF_KNOWLEDGE,
+              disabled: false
             }
           ])
         })
@@ -197,7 +206,8 @@ BddTest().given('an associate activities modal', () => {
             {
               id: 'activity-search-1',
               title: 'Définir ses valeurs',
-              thematic: EActivityThematic.SELF_KNOWLEDGE
+              thematic: EActivityThematic.SELF_KNOWLEDGE,
+              disabled: false
             }
           ])
         })
@@ -327,35 +337,6 @@ BddTest().given('an associate activities modal', () => {
     BddTest().then('it should pass loading state to modal', () => {
       const modal = wrapper.findComponent(AvModalStub)
       expect(modal.props('isLoading')).toBe(true)
-    })
-  })
-
-  BddTest().when('getOptionLabel is called', () => {
-    beforeEach(async () => {
-      wrapper = mountComponent(AssociateActivitiesModal, {
-        props,
-        global: { stubs }
-      })
-      await flushPromises()
-    })
-
-    BddTest().then('it should return label and thematic when thematic exists', () => {
-      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-      const getOptionLabel = layout.props('getOptionLabel') as (option: { label: string, thematic?: EActivityThematic }) => string
-
-      expect(getOptionLabel({
-        label: 'Définir ses valeurs',
-        thematic: EActivityThematic.SELF_KNOWLEDGE
-      })).toBe('Définir ses valeurs - SELF_KNOWLEDGE')
-    })
-
-    BddTest().then('it should return only label when thematic is undefined', () => {
-      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-      const getOptionLabel = layout.props('getOptionLabel') as (option: { label: string, thematic?: EActivityThematic }) => string
-
-      expect(getOptionLabel({
-        label: 'Définir ses valeurs'
-      })).toBe('Définir ses valeurs')
     })
   })
 })
