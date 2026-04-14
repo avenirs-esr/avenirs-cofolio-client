@@ -124,6 +124,8 @@ function onConfirmDeleteImage () {
 
   <ConfirmationModal
     :show="showModal"
+    :title="t('global.information.fileUpload.deleteConfirmation')"
+    description=""
     @confirm="onConfirmDeleteImage"
     @close="hideModal"
   />
