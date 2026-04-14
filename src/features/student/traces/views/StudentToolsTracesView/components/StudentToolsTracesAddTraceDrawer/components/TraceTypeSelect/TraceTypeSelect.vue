@@ -10,21 +10,16 @@ const traceType = defineModel<{ itemId: TraceType }>('traceType', {
   type: Object as () => { itemId: TraceType },
 })
 
-const { traceTypeOptions } = useTraceTypeSelect()
-
-function useTraceTypeSelect () {
-  const traceTypeOptions = computed(() => [
-    {
-      id: TraceType.FILE,
-      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.fileType')
-    },
-    {
-      id: TraceType.LINK,
-      label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.linkType')
-    },
-  ])
-  return { traceTypeOptions }
-}
+const traceTypeOptions = computed(() => [
+  {
+    id: TraceType.FILE,
+    label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.fileType')
+  },
+  {
+    id: TraceType.LINK,
+    label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.linkType')
+  },
+])
 </script>
 
 <template>
@@ -35,7 +30,7 @@ function useTraceTypeSelect () {
     <AvSelect
       v-model:selected-item="traceType"
       :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.traceTypeSelect.add')"
-      select-id="trace-type-Select"
+      select-id="trace-type-select"
       placeholder=""
       :options="traceTypeOptions"
       dense
