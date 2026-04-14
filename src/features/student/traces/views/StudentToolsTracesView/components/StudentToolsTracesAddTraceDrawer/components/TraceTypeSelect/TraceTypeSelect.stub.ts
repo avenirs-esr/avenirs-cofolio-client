@@ -1,6 +1,6 @@
-export const TraceTypeSelectorContainerStub = defineComponent({
-  name: 'TraceTypeSelectorContainer',
-  template: `<div class="trace-type-selector-container"/>`,
+export const TraceTypeSelectStub = defineComponent({
+  name: 'TraceTypeSelect',
+  template: `<div class="trace-type-Select"/>`,
   props: ['traceType'],
   emits: ['update:traceType']
 })
