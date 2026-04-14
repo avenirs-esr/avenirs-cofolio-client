@@ -1,3 +1,4 @@
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -6,15 +7,29 @@ import { expect, type Mock, vi } from 'vitest'
 const error = ref('')
 const valid = ref(true)
 
-vi.mock('@/common/composables', () => ({
-  useImageUpload: () => ({
-    update: vi.fn(),
-    error,
-    valid,
-    name: { value: 'test.jpg' },
-    previewUrl: { value: 'exemple.com/image.png' }
-  })
-}))
+const mockShowModal = ref(false)
+const mockDisplayModal = vi.fn()
+const mockHideModal = vi.fn()
+const mockOnDeleteImage = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useModal: () => ({
+      showModal: mockShowModal,
+      displayModal: mockDisplayModal,
+      hideModal: mockHideModal
+    }),
+    useImageUpload: () => ({
+      update: vi.fn(),
+      error,
+      valid,
+      name: { value: 'test.jpg' },
+      previewUrl: { value: 'exemple.com/image.png' }
+    })
+  }
+})
 
 function createWrapper (props = {}) {
   return mount<typeof ImageUpload>(ImageUpload, {
@@ -44,10 +59,12 @@ function createWrapper (props = {}) {
               >
                 Trigger Error
               </button>
+              <button data-testid="delete-file-button" @click="onDeleteFile && onDeleteFile()">Delete File</button>
             </div>
           `
-        }
-      }
+        },
+        ConfirmationModal: ConfirmationModalStub
+      },
     },
   })
 }
@@ -66,7 +83,7 @@ BddTest().given('and image upload with valid props', () => {
 
   beforeEach(() => {
     onUpdateMock = vi.fn()
-    wrapper = createWrapper({ onUpdate: onUpdateMock })
+    wrapper = createWrapper({ onUpdate: onUpdateMock, onDeleteImage: mockOnDeleteImage })
   })
 
   afterEach(() => {
@@ -121,25 +138,6 @@ BddTest().given('and image upload with valid props', () => {
     })
   })
 
-  BddTest().when('onDeleteImage prop is provided', () => {
-    BddTest().then('it should pass onDeleteImage to AvFileUpload', () => {
-      const onDeleteImageMock = vi.fn()
-      const wrapperWithDelete = createWrapper({ onDeleteImage: onDeleteImageMock })
-
-      const avFileUpload = wrapperWithDelete.findComponent({ name: 'AvFileUpload' })
-      expect(avFileUpload.props('onDeleteFile')).toBe(onDeleteImageMock)
-    })
-  })
-
-  BddTest().when('onDeleteImage prop is not provided', () => {
-    BddTest().then('it should render without onDeleteFile prop', () => {
-      const wrapperWithoutDelete = createWrapper()
-
-      const avFileUpload = wrapperWithoutDelete.findComponent({ name: 'AvFileUpload' })
-      expect(avFileUpload.props('onDeleteFile')).toBeUndefined()
-    })
-  })
-
   BddTest().when('defaultImageUrl is provided', () => {
     BddTest().then('it should use defaultImageUrl for image src', () => {
       const wrapperWithUrl = createWrapper({ defaultImageUrl: 'https://example.com/custom.jpg' })
@@ -188,6 +186,31 @@ BddTest().given('and image upload with valid props', () => {
 
       const errorSpan = wrapper.find('#image-upload-error')
       expect(errorSpan.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('delete file button is clicked', () => {
+    beforeEach(async () => {
+      const deleteButton = wrapper.find('[data-testid="delete-file-button"]')
+      await deleteButton.trigger('click')
+    })
+
+    BddTest().then('it should display the confirmation modal', () => {
+      expect(mockDisplayModal).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('confirming file deletion in modal', () => {
+    beforeEach(() => {
+      wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+    })
+
+    BddTest().then('it should hide the modal', () => {
+      expect(mockHideModal).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should call delete image function', () => {
+      expect(mockOnDeleteImage).toHaveBeenCalled()
     })
   })
 })

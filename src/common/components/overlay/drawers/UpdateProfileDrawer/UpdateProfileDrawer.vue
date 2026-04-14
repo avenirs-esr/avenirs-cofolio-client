@@ -67,10 +67,12 @@ function onUpdateProfileSuccess () {
 
 const { mutate: deleteCoverPicture } = useDeletePhotoMutation(userCategory.value, {
   onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+  onSuccess: () => addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
 })
 
 const { mutate: deleteProfilePicture } = useDeletePhotoMutation(userCategory.value, {
   onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+  onSuccess: () => addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
 })
 
 function onDeleteCoverPicture () {
@@ -79,6 +81,16 @@ function onDeleteCoverPicture () {
 
 function onDeleteProfilePicture () {
   deleteProfilePicture({ fileId: profilePicture.fileId! })
+}
+
+function onSubmitForm (event: Event) {
+  const submitter = (event as SubmitEvent).submitter as HTMLElement | null
+
+  if (submitter?.closest('[data-image-upload-delete-zone]')) {
+    return
+  }
+
+  form.handleSubmit()
 }
 
 watch(() => show, (newVal) => {
@@ -106,7 +118,7 @@ watch(() => show, (newVal) => {
       <form
         id="profile-form"
         novalidate
-        @submit.prevent.stop="form.handleSubmit"
+        @submit.prevent.stop="onSubmitForm"
       >
         <AvAccordionsGroup>
           <AvAccordion
@@ -165,27 +177,31 @@ watch(() => show, (newVal) => {
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
-            <ImageUpload
-              v-model="coverPictureFile"
-              :on-delete-image="onDeleteCoverPicture"
-              :default-image-url="coverPicture.fileName ? coverPicture.url : undefined"
-              :default-image-name="coverPicture.fileName ?? undefined"
-              :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
-              :on-update="onCoverPictureUpdate"
-            />
+            <div data-image-upload-delete-zone>
+              <ImageUpload
+                v-model="coverPictureFile"
+                :on-delete-image="onDeleteCoverPicture"
+                :default-image-url="coverPicture.fileName ? coverPicture.url : undefined"
+                :default-image-name="coverPicture.fileName ?? undefined"
+                :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
+                :on-update="onCoverPictureUpdate"
+              />
+            </div>
           </AvAccordion>
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
           >
-            <ImageUpload
-              v-model="profilePictureFile"
-              :on-delete-image="onDeleteProfilePicture"
-              :default-image-url="profilePicture.fileName ? profilePicture.url : undefined"
-              :default-image-name="profilePicture.fileName ?? undefined"
-              :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
-              :on-update="onProfilePictureUpdate"
-            />
+            <div data-image-upload-delete-zone>
+              <ImageUpload
+                v-model="profilePictureFile"
+                :on-delete-image="onDeleteProfilePicture"
+                :default-image-url="profilePicture.fileName ? profilePicture.url : undefined"
+                :default-image-name="profilePicture.fileName ?? undefined"
+                :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
+                :on-update="onProfilePictureUpdate"
+              />
+            </div>
           </AvAccordion>
         </AvAccordionsGroup>
       </form>

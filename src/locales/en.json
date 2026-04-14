@@ -154,7 +154,7 @@
       "fileUpload": {
         "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
-        "filesTypes": "PDF, JPG, JPEG, PNG •",
+        "filesTypes": "JPG, JPEG, PNG •",
         "size": "10 Mo max",
         "sizeIndication": "Size : ",
         "title": "Add a file"
