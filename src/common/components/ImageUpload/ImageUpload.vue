@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useImageUpload } from '@/common/composables'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useImageUpload, useModal } from '@/common/composables'
 import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -35,12 +36,12 @@ interface ImageUploadProps {
   onDeleteImage?: () => void
 }
 
-const { defaultImageName, imageAlt, onUpdate } = defineProps<ImageUploadProps>()
+const { defaultImageName, imageAlt, onUpdate, onDeleteImage } = defineProps<ImageUploadProps>()
 
 const { t } = useI18n()
 const imageUpload = useImageUpload()
 
-const ACCEPTED_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png', 'application/pdf']
+const ACCEPTED_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png']
 
 const errorId = 'image-upload-error'
 const hintId = 'image-upload-hint'
@@ -63,6 +64,16 @@ async function onUpdateImage (files: FileList | File[]) {
   }
 }
 const modelValue = defineModel<File | null>()
+
+const { showModal, displayModal, hideModal } = useModal()
+
+function onConfirmDeleteImage () {
+  hideModal()
+
+  if (onDeleteImage) {
+    onDeleteImage()
+  }
+}
 </script>
 
 <template>
@@ -76,7 +87,7 @@ const modelValue = defineModel<File | null>()
     :file-name="defaultImageName"
     :aria-describedby="describedBy"
     :accept="ACCEPTED_FILE_TYPES"
-    :on-delete-file="onDeleteImage"
+    :on-delete-file="displayModal"
     @update:model-value="(value) => modelValue = value"
     @change="onUpdateImage"
     @on-drop-accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
@@ -110,6 +121,12 @@ const modelValue = defineModel<File | null>()
       {{ imageUpload.error.value }}
     </span>
   </template>
+
+  <ConfirmationModal
+    :show="showModal"
+    @confirm="onConfirmDeleteImage"
+    @close="hideModal"
+  />
 </template>
 
 <style lang="scss" scoped>
