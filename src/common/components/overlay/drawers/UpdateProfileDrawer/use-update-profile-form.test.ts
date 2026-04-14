@@ -95,7 +95,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
+    result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, onSuccess), {
       useI18n: true,
       usePinia: true,
       useTanstack: true,
@@ -196,7 +196,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfilePending: ref(false),
       }))
 
-      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
+      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, vi.fn()), {
         useI18n: true,
         usePinia: true,
         useTanstack: true
@@ -234,7 +234,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfileCoverPending: ref(false),
       }))
 
-      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
+      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, vi.fn()), {
         useI18n: true,
         usePinia: true,
         useTanstack: true
@@ -274,7 +274,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfilePhotoPending: ref(false),
       }))
 
-      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
+      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, vi.fn()), {
         useI18n: true,
         usePinia: true,
         useTanstack: true
@@ -309,7 +309,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfilePending: ref(false),
       }))
 
-      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, vi.fn()), {
+      errorForm = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, vi.fn()), {
         useI18n: true,
         usePinia: true,
         useTanstack: true
@@ -333,7 +333,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
-      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
+      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, onSuccess), {
         useI18n: true,
         usePinia: true,
         useTanstack: true,
@@ -354,7 +354,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfilePending: ref(true),
       }))
 
-      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
+      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, onSuccess), {
         useI18n: true,
         usePinia: true,
         useTanstack: true,
@@ -375,7 +375,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfileCoverPending: ref(true),
       }))
 
-      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
+      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, onSuccess), {
         useI18n: true,
         usePinia: true,
         useTanstack: true,
@@ -396,7 +396,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
         isUpdateProfilePhotoPending: ref(true),
       }))
 
-      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STAFF, onSuccess), {
+      result = mountComposable(() => useUpdateProfileForm(initialData, EUserCategory.STUDENT, onSuccess), {
         useI18n: true,
         usePinia: true,
         useTanstack: true,
