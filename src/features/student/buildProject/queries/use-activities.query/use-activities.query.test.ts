@@ -29,12 +29,15 @@ import {
   type DeclaredActivityPeriodRequest,
   EActivityThematic,
   type getDeclaredActivitiesView,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
+  type SearchDeclaredSkillForAssociationParams,
   type searchTracesForAssociation,
   type SearchTracesForAssociationParams,
   type SubscribeDeclaredActivityRequest,
   type UpdateReflectionRequest,
 } from '@/api/avenir-esr'
 import {
+  type AssociateActivityWithDeclaredSkillsVariables,
   type AssociateActivityWithTracesVariables,
   type FinishDeclaredActivityVariables,
   type SubscribeActivityVariables,
@@ -43,6 +46,7 @@ import {
   type UpdateActivityReflectionVariables,
   useActivitiesNavigationQuery,
   useActivityDetailQuery,
+  useAssociateActivityWithDeclaredSkillsMutation,
   useAssociateActivityWithTracesMutation,
   useCountLibraryActivities,
   useDeclaredActivitiesDetailedQuery,
@@ -50,6 +54,7 @@ import {
   useFinishDeclaredActivityMutation,
   useGetDeclaredActivityAssociationsQuery,
   useLibraryActivitiesQuery,
+  useSearchDeclaredSkillsForAssociationWithActivityQuery,
   useSearchTracesForAssociationQuery,
   useSubscribeActivityMutation,
   useUnsubscribeActivitiesMutation,
@@ -2193,6 +2198,207 @@ BddTest().given('the useSearchTracesForAssociationQuery composable', () => {
           totalElements: 0,
           totalPages: 0
         })
+      })
+    })
+  })
+})
+
+BddTest().given('the useSearchDeclaredSkillsForAssociationWithActivityQuery composable', () => {
+  let searchDeclaredSkillsForAssociationSpy: MockInstance<
+    (
+      activityId: string,
+      params?: SearchDeclaredSkillForAssociationParams,
+      options?: RequestInit
+    ) => Promise<PagedResponseAssociationSearchResultDeclaredSkillIDTO>
+  >
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    searchDeclaredSkillsForAssociationSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'searchDeclaredSkillsForAssociation'>(
+      await import('@/api/avenir-esr'),
+    'searchDeclaredSkillsForAssociation'
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('a valid activity id', () => {
+    const activityId = ref('activity-1')
+    const params = ref<SearchDeclaredSkillForAssociationParams>({ page: 0, pageSize: 10 })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithActivityQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchDeclaredSkillsForAssociationWithActivityQuery({ activityId, params })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should call searchDeclaredSkillsForAssociation API with correct params', () => {
+        expect(searchDeclaredSkillsForAssociationSpy).toHaveBeenCalledWith(activityId.value, params.value)
+        expect(searchDeclaredSkillsForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should expose skills from query data', () => {
+        expect(queryResult.skills.value).toBeDefined()
+      })
+
+      BddTest().then('it should expose pageInfo', () => {
+        expect(queryResult.pageInfo.value).toBeDefined()
+      })
+
+      BddTest().then('it should be successful', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+        expect(queryResult.isError.value).toBe(false)
+      })
+    })
+
+    BddTest().and('params change', () => {
+      beforeEach(async () => {
+        mountQueryComposable(() =>
+          useSearchDeclaredSkillsForAssociationWithActivityQuery({ activityId, params })
+        )
+        await flushPromises()
+
+        params.value = { page: 1, pageSize: 5 }
+        await flushPromises()
+      })
+
+      BddTest().then('it should refetch with updated params', () => {
+        expect(searchDeclaredSkillsForAssociationSpy).toHaveBeenLastCalledWith(activityId.value, params.value)
+      })
+    })
+  })
+
+  BddTest().and('an empty activity id', () => {
+    const activityId = ref('')
+    const params = ref<SearchDeclaredSkillForAssociationParams>({ page: 0, pageSize: 10 })
+
+    BddTest().when('the query is executed', () => {
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithActivityQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() =>
+          useSearchDeclaredSkillsForAssociationWithActivityQuery({ activityId, params })
+        )
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the API', () => {
+        expect(searchDeclaredSkillsForAssociationSpy).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not have data', () => {
+        expect(queryResult.data.value).toBeUndefined()
+        expect(queryResult.skills.value).toEqual([])
+      })
+    })
+  })
+})
+
+BddTest().given('the useAssociateActivityWithDeclaredSkillsMutation composable', () => {
+  let associateActivityWithDeclaredSkillsSpy: MockInstance<
+    (
+      activityId: string,
+      associationsCreationRequest: AssociationsCreationRequest,
+      options?: RequestInit
+    ) => Promise<DeclaredActivityAssociationsDTO>
+  >
+
+  let mutationResult: ReturnType<typeof useAssociateActivityWithDeclaredSkillsMutation>
+
+  const mockInvalidateFunction = vi.fn()
+  const mockOnSuccess = vi.fn()
+  const mockOnError = vi.fn()
+
+  const mutationArgs = {
+    onSuccess: mockOnSuccess,
+    onError: mockOnError
+  }
+
+  beforeEach(async () => {
+    vi.clearAllMocks()
+    vi.restoreAllMocks()
+
+    associateActivityWithDeclaredSkillsSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'associateActivityWithDeclaredSkills'>(
+      await import('@/api/avenir-esr'),
+    'associateActivityWithDeclaredSkills'
+    )
+
+    vi.spyOn<typeof import('@/common/composables'), 'useInvalidateQuery'>(
+      await import('@/common/composables'),
+    'useInvalidateQuery'
+    ).mockReturnValue(mockInvalidateFunction)
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  BddTest().and('valid activity id and skills', () => {
+    const activityId = 'activity-1'
+    const associationsCreationRequest: AssociationsCreationRequest = {
+      idsToAssociate: ['skill-1', 'skill-2']
+    }
+
+    const variables: AssociateActivityWithDeclaredSkillsVariables = {
+      activityId,
+      associationsCreationRequest
+    }
+
+    BddTest().when('mutation is called with mutateAsync', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() =>
+          useAssociateActivityWithDeclaredSkillsMutation(mutationArgs)
+        )
+
+        await mutationResult.mutateAsync(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call API with correct params', () => {
+        expect(associateActivityWithDeclaredSkillsSpy).toHaveBeenCalledWith(activityId, associationsCreationRequest)
+        expect(associateActivityWithDeclaredSkillsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should be successful', () => {
+        expect(mutationResult.isSuccess.value).toBe(true)
+        expect(mutationResult.isError.value).toBe(false)
+      })
+
+      BddTest().then('it should call invalidate', () => {
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call onSuccess', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not call onError', () => {
+        expect(mockOnError).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('mutation is called with mutate', () => {
+      beforeEach(async () => {
+        mutationResult = mountQueryComposable(() =>
+          useAssociateActivityWithDeclaredSkillsMutation(mutationArgs)
+        )
+
+        mutationResult.mutate(variables)
+        await flushPromises()
+      })
+
+      BddTest().then('it should call API', () => {
+        expect(associateActivityWithDeclaredSkillsSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should call onSuccess', () => {
+        expect(mockOnSuccess).toHaveBeenCalledTimes(1)
       })
     })
   })

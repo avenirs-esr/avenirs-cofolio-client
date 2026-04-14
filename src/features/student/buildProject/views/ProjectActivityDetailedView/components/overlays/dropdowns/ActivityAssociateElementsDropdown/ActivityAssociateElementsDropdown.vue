@@ -5,10 +5,12 @@ import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
   (e: 'tracesSelected'): void
+  (e: 'skillsSelected'): void
 }>()
 
 enum ActivityAssociateElementsDropdownEvents {
   TRACES = 'traces',
+  SKILLS = 'skills',
 }
 
 const { t } = useI18n()
@@ -18,6 +20,11 @@ const menuItems = computed(() => [
     name: ActivityAssociateElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
     label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityAssociateElementsDropdown.traces')
+  },
+  {
+    name: ActivityAssociateElementsDropdownEvents.SKILLS,
+    icon: ICONS.SKILLS,
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityAssociateElementsDropdown.skills')
   }
 ])
 
@@ -25,6 +32,9 @@ function handleItemSelected (itemName: string) {
   switch (itemName) {
     case ActivityAssociateElementsDropdownEvents.TRACES:
       emit('tracesSelected')
+      break
+    case ActivityAssociateElementsDropdownEvents.SKILLS:
+      emit('skillsSelected')
       break
   }
 }

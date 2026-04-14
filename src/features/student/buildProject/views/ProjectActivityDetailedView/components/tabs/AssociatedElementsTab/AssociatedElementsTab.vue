@@ -5,6 +5,8 @@ import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
+import AssociateDeclaredSkillToActivityModal
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.vue'
 import ActivityAssociateElementsDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.vue'
 import DeleteActivityAssociatedElementsDropdown
@@ -29,6 +31,7 @@ const { associations } = defineProps<AssociatedElementsTabProps>()
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showTracesModal, displayModal: displayTracesModal, hideModal: hideTracesModal } = useModal()
 const { showModal: showAssociateTracesModal, displayModal: displayAssociateTracesModal, hideModal: hideAssociateTracesModal } = useModal()
+const { showModal: showAssociateSkillsModal, displayModal: displayAssociateSkillsModal, hideModal: hideAssociateSkillsModal } = useModal()
 
 const tracesAssociations = computed(() => {
   return associations.traceAssociations.map(traceAssociation => ({
@@ -48,6 +51,7 @@ const tracesAssociations = computed(() => {
       />
       <ActivityAssociateElementsDropdown
         @traces-selected="displayAssociateTracesModal"
+        @skills-selected="displayAssociateSkillsModal"
       />
     </div>
 
@@ -83,5 +87,12 @@ const tracesAssociations = computed(() => {
     :declared-activity-id="declaredActivityId"
     @cancel="hideAssociateTracesModal"
     @associated="hideAssociateTracesModal"
+  />
+
+  <AssociateDeclaredSkillToActivityModal
+    :show="showAssociateSkillsModal"
+    :activity-id="declaredActivityId"
+    @cancel="hideAssociateSkillsModal"
+    @associated="hideAssociateSkillsModal"
   />
 </template>

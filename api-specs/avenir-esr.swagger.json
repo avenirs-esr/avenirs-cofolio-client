@@ -1113,6 +1113,47 @@
         }
       }
     },
+    "/me/activity-progress/{declaredActivityId}/associate/declared-skills": {
+      "post": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "associateActivityWithDeclaredSkills",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/subscribe/{activityId}": {
       "post": {
         "tags": [
@@ -2363,6 +2404,63 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/{declaredActivityId}/search-for-association/declared-skills": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "searchDeclaredSkillsForAssociation",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
                 }
               }
             }

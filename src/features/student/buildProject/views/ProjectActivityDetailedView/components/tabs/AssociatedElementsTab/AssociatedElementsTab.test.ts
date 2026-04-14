@@ -1,5 +1,8 @@
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
+import {
+  AssociateDeclaredSkillsToActivityModalStub
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.stub'
 import { ActivityAssociateElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.stub'
 import { DeleteActivityAssociatedElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.stub'
 import {
@@ -25,6 +28,7 @@ BddTest().given('an associated elements tab', () => {
     DeleteActivityAssociatedTracesModal: DeleteActivityAssociatedTracesModalStub,
     AssociateTracesModal: AssociateTracesModalStub,
     AssociatedTracesCard: AssociatedTracesCardStub,
+    AssociateDeclaredSkillToActivityModal: AssociateDeclaredSkillsToActivityModalStub,
     AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub
   }
 
@@ -97,9 +101,17 @@ BddTest().given('an associated elements tab', () => {
       expect(associateTracesModal.props('show')).toBe(false)
     })
 
-    BddTest().then('it should pass declaredActivityId to associate traces modal', () => {
+    BddTest().then('it should render the associate skills modal in hidden state', () => {
+      const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+      expect(associateSkillsModal.exists()).toBe(true)
+      expect(associateSkillsModal.props('show')).toBe(false)
+    })
+
+    BddTest().then('it should pass declaredActivityId to associate modals', () => {
       const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+      const associateDeclaredSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
       expect(associateTracesModal.props('declaredActivityId')).toBe(props.declaredActivityId)
+      expect(associateDeclaredSkillsModal.props('activityId')).toBe(props.declaredActivityId)
     })
 
     BddTest().and('the user selects skills to delete from the dropdown', () => {
@@ -208,6 +220,43 @@ BddTest().given('an associated elements tab', () => {
         BddTest().then('the associate traces modal should be hidden', () => {
           const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
           expect(associateTracesModal.props('show')).toBe(false)
+        })
+      })
+    })
+
+    BddTest().and('the user selects skills to associate from the associate dropdown', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+        dropdown.vm.$emit('skillsSelected')
+      })
+
+      BddTest().then('the associate skills modal should be shown', () => {
+        const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+        expect(associateSkillsModal.props('show')).toBe(true)
+        expect(associateSkillsModal.props('activityId')).toBe(props.declaredActivityId)
+      })
+
+      BddTest().and('the user selects cancel from the associate skills modal', () => {
+        beforeEach(() => {
+          const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+          associateSkillsModal.vm.$emit('cancel')
+        })
+
+        BddTest().then('the associate traces modal should be hidden', () => {
+          const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+          expect(associateSkillsModal.props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user confirms associate from the associate traces modal', () => {
+        beforeEach(() => {
+          const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+          associateSkillsModal.vm.$emit('associated')
+        })
+
+        BddTest().then('the associate traces modal should be hidden', () => {
+          const associateSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
+          expect(associateSkillsModal.props('show')).toBe(false)
         })
       })
     })

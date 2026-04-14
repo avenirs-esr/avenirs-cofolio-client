@@ -19,6 +19,7 @@ import {
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EErrorCode,
+  getAssociateActivityWithDeclaredSkillsUrl,
   getAssociateActivityWithTracesUrl,
   getDeleteDeclaredActivityAssociationsUrl,
   getFinishUrl,
@@ -29,6 +30,7 @@ import {
   getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getSearchDeclaredSkillsForAssociationUrl,
   getSearchTracesForAssociationUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
@@ -38,7 +40,7 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
-import { delay, http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 const subscribedActivities = new Set<string>()
 const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()
@@ -442,6 +444,51 @@ export const associateActivityWithTracesErrorHandler = http.post(
   }
 )
 
+export const associateActivityWithDeclaredSkillsHandler = http.post<PathParams, AssociationsCreationRequest>(
+  `*${getAssociateActivityWithDeclaredSkillsUrl(':declaredActivityId')}`,
+  async ({ params, request }) => {
+    const { declaredActivityId } = params
+
+    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const { idsToAssociate } = await request.json()
+
+    const response = createMockedDeclaredActivityAssociationsDTO(idsToAssociate)
+
+    return HttpResponse.json<DeclaredActivityAssociationsDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const associateActivityWithDeclaredSkillsErrorHandler = http.post(
+  `*${getAssociateActivityWithDeclaredSkillsUrl(':declaredActivityId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
 export const deleteDeclaredActivityAssociationsSuccessHandler = http.delete(
   `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
   async () => {
@@ -504,6 +551,44 @@ export const searchTracesForAssociationHandler = http.get(
   }
 )
 
+export const searchSkillsForAssociationHandler = http.get(
+  `*${getSearchDeclaredSkillsForAssociationUrl(':declaredActivityId')}`,
+  async ({ params, request }) => {
+    const { declaredActivityId } = params
+
+    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const url = new URL(request.url)
+
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
+
+    const response = createMockedSearchTracesForAssociationResponse({
+      keyword,
+      page,
+      pageSize,
+    })
+
+    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
 export const searchTracesForAssociationErrorHandler = http.get(
   `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
   async () => {
@@ -551,6 +636,8 @@ export const activitiesHandlers = [
   updateActivityHandler,
   updateActivityReflectionHandler,
   associateActivityWithTracesHandler,
+  associateActivityWithDeclaredSkillsHandler,
   deleteDeclaredActivityAssociationsSuccessHandler,
   searchTracesForAssociationHandler,
+  searchSkillsForAssociationHandler
 ]

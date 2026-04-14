@@ -4,6 +4,7 @@ import {
   type ActivityDetailDTO,
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
+  associateActivityWithDeclaredSkills,
   associateActivityWithTraces,
   type AssociationsCreationRequest,
   type AssociationsDeleteRequest,
@@ -25,12 +26,16 @@ import {
   getDeclaredActivityDetails,
   getLatestActivitiesView,
   type PagedResponseActivityOverviewDTO,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
+  type SearchDeclaredSkillForAssociationParams,
+  searchDeclaredSkillsForAssociation,
   searchTracesForAssociation,
   type SearchTracesForAssociationParams,
   subscribeActivity,
   type SubscribeDeclaredActivityRequest,
+  type TraceAssociationDeclaredSkillInfoDTO,
   unsubscribeActivitiesProgresses,
   updatePeriod,
   updateReflection
@@ -48,6 +53,7 @@ const libraryActivitiesQueryKey = [...activitiesCommonQueryKey, 'library']
 const activityNavigationQueryKey = [...activitiesCommonQueryKey, 'navigation']
 const activitiesViewQueryKey = [...activitiesCommonQueryKey, 'view']
 const activitiesSearchAssociationTracesQueryKey = [...activitiesCommonQueryKey, 'search-association-traces']
+const activitiesSearchAssociationSkillsQueryKey = [...activitiesCommonQueryKey, 'search-association-skills']
 
 export interface ActivitiesViewQueryParams {
   thematic?: MaybeRef<EActivityThematic | undefined>
@@ -505,4 +511,85 @@ export function useSearchTracesForAssociationQuery ({
     traces,
     pageInfo
   }
+}
+
+export interface UseDeclaredSkillsForAssociationWithActivityQueryParams {
+  activityId: MaybeRef<string>
+  params?: MaybeRef<SearchDeclaredSkillForAssociationParams | undefined>
+}
+
+export type SearchDeclaredSkillsForAssociationWithActivityQueryReturnType =
+  UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException> & {
+    skills: Ref<TraceAssociationDeclaredSkillInfoDTO[]>
+    pageInfo: Ref<{
+      page: number
+      pageSize: number
+      totalElements: number
+      totalPages: number
+    }>
+  }
+
+export function useSearchDeclaredSkillsForAssociationWithActivityQuery ({
+  activityId,
+  params
+}: UseDeclaredSkillsForAssociationWithActivityQueryParams): SearchDeclaredSkillsForAssociationWithActivityQueryReturnType {
+  const queryKey = computed(() => [
+    ...activitiesSearchAssociationSkillsQueryKey,
+    toValue(activityId),
+    toValue(params)
+  ])
+
+  const queryFn = computed(() => async (): Promise<PagedResponseAssociationSearchResultDeclaredSkillIDTO> => {
+    return await searchDeclaredSkillsForAssociation(toValue(activityId), toValue(params))
+  })
+
+  const query = useQuery<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    enabled: computed(() => toValue(activityId).trim().length > 0),
+    placeholderData: keepPreviousData
+  })
+
+  const skills = computed(() => query.data.value?.data ?? [])
+
+  const pageInfo = computed(() =>
+    query.data.value?.page ?? {
+      page: 0,
+      pageSize: 0,
+      totalElements: 0,
+      totalPages: 0
+    }
+  )
+
+  return {
+    ...query,
+    skills,
+    pageInfo
+  }
+}
+
+export interface AssociateActivityWithDeclaredSkillsVariables {
+  activityId: string
+  associationsCreationRequest: AssociationsCreationRequest
+}
+
+export function useAssociateActivityWithDeclaredSkillsMutation ({
+  onError,
+  onSuccess
+}: MutationArgs<DeclaredActivityAssociationsDTO, AssociateActivityWithDeclaredSkillsVariables> = {}) {
+  const invalidateQueryKey = useInvalidateQuery()
+
+  return useMutation<DeclaredActivityAssociationsDTO, BaseApiException, AssociateActivityWithDeclaredSkillsVariables>({
+    mutationFn: async ({
+      activityId,
+      associationsCreationRequest
+    }: AssociateActivityWithDeclaredSkillsVariables): Promise<DeclaredActivityAssociationsDTO> => {
+      return await associateActivityWithDeclaredSkills(activityId, associationsCreationRequest)
+    },
+    onSuccess: async (data, variables) => {
+      await invalidateQueryKey([...activitiesAssociationsQueryKey, variables.activityId])
+      onSuccess?.(data, variables)
+    },
+    onError
+  })
 }
