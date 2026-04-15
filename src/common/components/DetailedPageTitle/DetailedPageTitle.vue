@@ -10,10 +10,10 @@ const { t } = useI18n()
 <template>
   <PageTitle v-bind="$props">
     <template #title>
-      <span class="n2 av-text-title">
+      <h1 class="av-text-title">
         {{ t('global.detail') }}
         <span class="n4">{{ title }}</span>
-      </span>
+      </h1>
     </template>
   </PageTitle>
 </template>

@@ -54,13 +54,13 @@ function onUnsubscribed () {
         :back="ROUTES.STUDENT.HOME"
       >
         <template #title>
-          <span
-            class="n2 av-text-title"
+          <h1
+            class="av-text-title"
             data-testid="activity-detail-title"
           >
             {{ t('global.detail') }}
             <span class="n4 av-text-text2">{{ declaredActivityDetail?.activity.title }}</span>
-          </span>
+          </h1>
         </template>
       </PageTitle>
 

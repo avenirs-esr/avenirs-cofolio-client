@@ -42,7 +42,7 @@ BddTest().given('a detailed page title', () => {
     })
 
     BddTest().then('it should render the detailed title slot', () => {
-      const titleContainer = wrapper.find('.n2')
+      const titleContainer = wrapper.find('h1')
       expect(titleContainer.exists()).toBe(true)
       expect(titleContainer.text()).toContain('Détail')
       expect(titleContainer.text()).toContain(title)

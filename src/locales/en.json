@@ -240,7 +240,7 @@
     "video": "Video",
     "views": {
       "accessibilityView": {
-        "title": "Accessibility"
+        "title": "Accessibility declaration"
       },
       "cookiesView": {
         "title": "Cookie management"

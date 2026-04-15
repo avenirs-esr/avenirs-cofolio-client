@@ -39,10 +39,7 @@ function goBack () {
     class="page-title"
     data-testid="page-title"
   >
-    <h1 class="av-sr-only">
-      {{ title }}
-    </h1>
-    <div class="av-col av-gap-sm av-pb-xl">
+    <div class="av-col av-gap-sm av-pb-lg">
       <AvBreadcrumb
         :navigation-label="t('global.breadcrumb.ariaLabel')"
         :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
@@ -57,7 +54,7 @@ function goBack () {
           @click="goBack"
         />
         <slot name="title">
-          <span class="n2">{{ title }}</span>
+          <h1>{{ title }}</h1>
         </slot>
       </div>
     </div>

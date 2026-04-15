@@ -28,7 +28,7 @@ BddTest().given('an accessibility view', () => {
       wrapper = mount(AccessibilityView, { global: { stubs } })
     })
 
-    const title = 'Accessibilité'
+    const title = 'Déclaration d\'accessibilité'
     const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
     const currentBreadcrumbLink = { text: title }
 
@@ -54,7 +54,7 @@ BddTest().given('an accessibility view', () => {
       wrapper = mount(AccessibilityView, { global: { stubs } })
     })
 
-    const title = 'Accessibilité'
+    const title = 'Déclaration d\'accessibilité'
     const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STAFF.HOME }
     const currentBreadcrumbLink = { text: title }
 
