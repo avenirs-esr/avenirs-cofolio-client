@@ -113,6 +113,18 @@
               "associateTrace": "Associate my trace",
               "declarations": "Make my declarations"
             },
+            "associateElements": {
+              "searchPlaceholder": {
+                "activities": "Search for an activity...",
+                "declaredSkills": "Search for a skill..."
+              },
+              "types": {
+                "activities": "My activities",
+                "declaredSkills": "My declared skills"
+              },
+              "typeSelectLabel": "Search in :",
+              "typeSelectPlaceholder": "Select a type"
+            },
             "createTraceForm": {
               "declaration": {
                 "groupProduction": {
@@ -131,6 +143,7 @@
                 }
               },
               "errors": {
+                "association": "An error occurred during the association",
                 "createTrace": "An error occurred while creating the trace.",
                 "fileUpload": "An error occurred while uploading the file."
               },

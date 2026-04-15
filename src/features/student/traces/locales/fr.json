@@ -113,6 +113,18 @@
               "associateTrace": "Associer ma trace",
               "declarations": "Effectuer mes déclarations"
             },
+            "associateElements": {
+              "searchPlaceholder": {
+                "activities": "Rechercher une activité...",
+                "declaredSkills": "Rechercher une compétence..."
+              },
+              "types": {
+                "activities": "Mes activités",
+                "declaredSkills": "Mes compétences déclarées"
+              },
+              "typeSelectLabel": "Rechercher dans :",
+              "typeSelectPlaceholder": "Sélectionnez un type"
+            },
             "createTraceForm": {
               "declaration": {
                 "groupProduction": {
@@ -130,6 +142,7 @@
                 }
               },
               "errors": {
+                "association": "Une erreur est survenue lors de l'association",
                 "createTrace": "Une erreur est survenue lors de la création de la trace.",
                 "fileUpload": "Une erreur est survenue lors du téléchargement du fichier."
               },

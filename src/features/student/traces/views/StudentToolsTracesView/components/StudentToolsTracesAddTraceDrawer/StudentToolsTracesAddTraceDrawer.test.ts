@@ -2,10 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { useTracesStore } from '@/features/student/traces'
+import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
+import { AssociateElementsDrawerSectionStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -41,7 +43,8 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     AvIconText: AvIconTextStub,
     Toggle: ToggleStub,
     ConfirmationModal: ConfirmationModalStub,
-    AvCancelConfirmButtons: AvCancelConfirmButtonsStub
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+    AssociateElementsDrawerSection: AssociateElementsDrawerSectionStub,
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -268,6 +271,68 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       const associateTraceAccordion = accordions[2]
 
       expect(associateTraceAccordion.props('title')).toBe('Associer ma trace')
+    })
+  })
+
+  BddTest().when('the associate elements section is rendered', () => {
+    BddTest().then('it should render the associate elements drawer section in the third accordion', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.exists()).toBe(true)
+      expect(section.attributes('data-testid')).toBe('associate-elements-section')
+    })
+
+    BddTest().then('it should pass typeConfigs with declared skills and activities', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+
+      expect(typeConfigs).toHaveLength(2)
+      expect(typeConfigs[0].key).toBe(EAssociationTypeKey.DECLARED_SKILLS)
+      expect(typeConfigs[1].key).toBe(EAssociationTypeKey.ACTIVITIES)
+    })
+  })
+
+  BddTest().when('the associate elements section emits a search event', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    BddTest().then('it should debounce the search and update options after 350ms', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+
+      await section.vm.$emit('search', 'test query')
+      const optionsBefore = section.props('options')
+
+      vi.advanceTimersByTime(350)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('options')).toStrictEqual(optionsBefore)
+    })
+
+    BddTest().then('it should not update immediately before debounce delay', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const initialOptions = section.props('options')
+
+      await section.vm.$emit('search', 'test query')
+      vi.advanceTimersByTime(100)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('options')).toStrictEqual(initialOptions)
+    })
+  })
+
+  BddTest().when('the associate elements section emits a typeChange event', () => {
+    BddTest().then('it should update the typeConfigs passed to the section', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+
+      await section.vm.$emit('typeChange', EAssociationTypeKey.ACTIVITIES)
+      await wrapper.vm.$nextTick()
+
+      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+      expect(typeConfigs.some(c => c.key === EAssociationTypeKey.ACTIVITIES)).toBe(true)
     })
   })
 

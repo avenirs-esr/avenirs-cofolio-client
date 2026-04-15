@@ -6,6 +6,7 @@ import {
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import { EAssociationTypeKey, type TraceFormData } from '@/features/student/traces/types/traces.types'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { waitFor } from 'storybook/test'
@@ -16,10 +17,14 @@ BddTest().given('the useCreateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useCreateTraceForm>
   let createTraceSpy: MockInstance<(createTraceDTO: CreateTraceDTO, options?: RequestInit | undefined) => Promise<TracesCreationResponse>>
   let uploadAttachmentSpy: MockInstance<(traceId: string, uploadAttachmentBody: UploadAttachmentBody, options?: RequestInit | undefined) => Promise<AttachmentUploadDTO>>
+  let associateTraceWithActivitiesSpy: MockInstance
+  let associateTraceWithDeclaredSkillSpy: MockInstance
 
   beforeEach(() => {
     createTraceSpy = vi.spyOn(avenirEsrApi, 'createTrace')
     uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadAttachment')
+    associateTraceWithActivitiesSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithActivities').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
+    associateTraceWithDeclaredSkillSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithDeclaredSkill').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
 
     const result = mountComposable(() => useCreateTraceForm(), {
       useI18n: true,
@@ -229,6 +234,136 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
       const validationResult = onSubmitValidator!({ value: formDataWithoutJustification })
       expect(validationResult?.fields?.iaJustification).toEqual('Ce champ est requis.')
+    })
+  })
+
+  BddTest().when('form is submitted with association selections', () => {
+    BddTest().then('it should call associateTraceWithActivities when activities are selected', async () => {
+      const formData: TraceFormData = {
+        file: null,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: '',
+        associationSelections: {
+          [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }]
+        }
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await waitFor(() => {
+        expect(associateTraceWithActivitiesSpy).toHaveBeenCalledWith(
+          expect.stringContaining('trace-my-trace-name'),
+          { idsToAssociate: ['activity-1'] }
+        )
+      })
+      expect(associateTraceWithDeclaredSkillSpy).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should call associateTraceWithDeclaredSkill when declared skills are selected', async () => {
+      const formData: TraceFormData = {
+        file: null,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: '',
+        associationSelections: {
+          [EAssociationTypeKey.DECLARED_SKILLS]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await waitFor(() => {
+        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
+          expect.stringContaining('trace-my-trace-name'),
+          { idsToAssociate: ['skill-1'] }
+        )
+      })
+      expect(associateTraceWithActivitiesSpy).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should call both association APIs when both types are selected', async () => {
+      const formData: TraceFormData = {
+        file: null,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: '',
+        associationSelections: {
+          [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }],
+          [EAssociationTypeKey.DECLARED_SKILLS]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await waitFor(() => {
+        expect(associateTraceWithActivitiesSpy).toHaveBeenCalledWith(
+          expect.stringContaining('trace-my-trace-name'),
+          { idsToAssociate: ['activity-1'] }
+        )
+        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
+          expect.stringContaining('trace-my-trace-name'),
+          { idsToAssociate: ['skill-1'] }
+        )
+      })
+    })
+
+    BddTest().then('it should not call association APIs when selections are empty', async () => {
+      const formData: TraceFormData = {
+        file: null,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: '',
+        associationSelections: {}
+      }
+
+      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await waitFor(() => {
+        expect(createTraceSpy).toHaveBeenCalled()
+      })
+      expect(associateTraceWithActivitiesSpy).not.toHaveBeenCalled()
+      expect(associateTraceWithDeclaredSkillSpy).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('onTraceCreated callback is provided', () => {
+    BddTest().then('it should call the callback after trace creation with no file and no associations', async () => {
+      const onTraceCreated = vi.fn()
+      const { result: composableWithCallback } = mountComposable(() => useCreateTraceForm(onTraceCreated), {
+        useI18n: true,
+        useTanstack: true,
+        usePinia: true
+      })
+
+      const formData: TraceFormData = {
+        file: null,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: '',
+        associationSelections: {}
+      }
+
+      composableWithCallback.form.options.onSubmit?.({ value: formData, formApi: composableWithCallback.form, meta: {} })
+
+      await waitFor(() => {
+        expect(onTraceCreated).toHaveBeenCalled()
+      })
     })
   })
 })
