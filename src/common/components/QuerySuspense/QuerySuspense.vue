@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 export interface QuerySuspenseProps {
   error?: BaseApiException | null
   errorTitle?: string
+  errorDescription?: string
   emptyStateMessage?: string
   isEmpty?: boolean
   isLoading?: boolean
@@ -16,6 +17,7 @@ export interface QuerySuspenseProps {
 
 const {
   errorTitle,
+  errorDescription,
   emptyStateMessage,
   isEmpty,
   error = null,
@@ -30,6 +32,7 @@ defineSlots<{
 
 const { t } = useI18n()
 const computedErrorTitle = computed(() => errorTitle ?? t('global.components.QuerySuspense.defaultErrorTitle'))
+const computedErrorDescription = computed(() => errorDescription ?? error?.message)
 const computedEmptyStateMessage = computed(() => emptyStateMessage ?? t('global.components.QuerySuspense.defaultEmptyStateMessage'))
 </script>
 
@@ -42,7 +45,7 @@ const computedEmptyStateMessage = computed(() => emptyStateMessage ?? t('global.
       <slot name="error">
         <ErrorMessage
           :title="computedErrorTitle"
-          :description="error.message"
+          :description="computedErrorDescription"
         />
       </slot>
     </div>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
-import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import Loader from '@/common/components/Loader/Loader.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
@@ -64,20 +63,12 @@ function handleConfirmDelete () {
         @load-more-programs="loadMoreDeclaredPrograms"
       />
     </div>
-    <Loader
+    <QuerySuspense
+      :error="error"
       :is-loading="isLoading && !isError"
-      size="2xl"
+      :error-title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
+      :error-description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : error?.message"
     >
-      <div
-        v-if="error"
-        class="av-col av-gap-md av-flex-fill"
-      >
-        <ErrorMessage
-          v-if="error"
-          :title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
-          :description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : error.message"
-        />
-      </div>
       <div
         v-if="declaredProgramDetailed"
         class="av-col av-gap-md av-flex-fill"
@@ -91,7 +82,7 @@ function handleConfirmDelete () {
           :declared-program-detailed="declaredProgramDetailed"
         />
       </div>
-    </Loader>
+    </QuerySuspense>
   </div>
 
   <DeleteDeclaredProgramConfirmModal

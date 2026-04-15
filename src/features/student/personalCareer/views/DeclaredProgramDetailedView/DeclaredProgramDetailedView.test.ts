@@ -7,8 +7,7 @@ import {
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
-import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
@@ -74,12 +73,11 @@ const DeclaredProgramDetailedStub = defineComponent({
 
 const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
-  ErrorMessage: ErrorMessageStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   DeclaredProgramDetailed: DeclaredProgramDetailedStub,
-  Loader: LoaderStub,
   ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
-  DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub
+  DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub,
+  QuerySuspense: QuerySuspenseStub
 }
 
 BddTest().given('a declared program detailed view component', () => {
@@ -142,9 +140,9 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
-    BddTest().then('it should not render ErrorMessage', async () => {
+    BddTest().then('it should not render the query suspense error', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
+        expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
       })
     })
 
@@ -356,7 +354,7 @@ BddTest().given('a declared program detailed view component', () => {
 
     BddTest().then('it should show the loader', async () => {
       await vi.waitFor(() => {
-        const loader = wrapper.find('[data-testid="loader-stub"]')
+        const loader = wrapper.find('[data-testid="query-suspense-loading"]')
         expect(loader.exists()).toBe(true)
       })
     })
@@ -392,13 +390,13 @@ BddTest().given('a declared program detailed view component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should render ErrorMessage', async () => {
+    BddTest().then('it should render the query suspense error', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
+        expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(true)
 
-        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
-        expect(errorMessage.props('title')).toBe('Programme déclaré introuvable')
-        expect(errorMessage.props('description')).toBe('Le programme déclaré que vous recherchez n\'existe pas ou n\'est pas accessible.')
+        const errorMessage = wrapper.findComponent(QuerySuspenseStub)
+        expect(errorMessage.props('errorTitle')).toBe('Programme déclaré introuvable')
+        expect(errorMessage.props('errorDescription')).toBe('Le programme déclaré que vous recherchez n\'existe pas ou n\'est pas accessible.')
       })
     })
 
