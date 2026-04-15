@@ -14,12 +14,14 @@ const activeTab = ref(0)
     <AvTab
       :title="t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.education')"
       :icon="MDI_ICONS.STARS"
+      data-testid="education-skills-tab-item"
     >
       <SkillsViewEducationTab />
     </AvTab>
     <AvTab
       :title="t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.other')"
       :icon="MDI_ICONS.STARS"
+      data-testid="declared-skills-tab-item"
     >
       <SkillsViewOtherTab />
     </AvTab>

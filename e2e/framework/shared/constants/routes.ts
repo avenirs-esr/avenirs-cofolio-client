@@ -13,10 +13,12 @@ export const STUDENT_ROUTES = {
     ACTIVITIES: '/cofolio/student/project/activities',
     ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:thematic/:id',
     ACTIVITY_DETAIL: '/cofolio/student/project/activities/:id',
+    SKILLS: '/cofolio/student/project/skills',
     TRAJECTORIES: {
       SELF_KNOWLEDGE: '/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE',
     },
   },
+  DECLARED_SKILL: '/cofolio/student/declared-skill/',
   SKILL_DETAIL: '/cofolio/student/skill/',
   TRACE_DETAIL: '/cofolio/student/trace/',
   TOOLS: {

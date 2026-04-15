@@ -26,6 +26,7 @@ const iconOptions = {
   <RouterLink
     class="student-detailed-skill-card"
     :to="{ name: to ?? ROUTES.STUDENT.SKILL.name, params: { id } }"
+    data-testid="student-detailed-skill-card"
   >
     <FloatingIconCard
       :title="name"
