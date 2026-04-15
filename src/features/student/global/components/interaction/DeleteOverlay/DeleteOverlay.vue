@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteOverlayProps {
   buttonLabel?: string
+  buttonTheme?: AvButtonProps['theme']
 }
 
 const { buttonLabel } = defineProps<DeleteOverlayProps>()
@@ -25,6 +26,7 @@ const resolvedButtonLabel = computed(() => buttonLabel ?? t('global.buttons.dele
       <AvButton
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="resolvedButtonLabel"
+        :theme="buttonTheme"
         icon-only
         @click="$emit('delete')"
       />
