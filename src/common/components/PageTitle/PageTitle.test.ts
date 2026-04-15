@@ -45,8 +45,8 @@ BddTest().given('a page title', () => {
       expect(breadcrumb.props('links')).toStrictEqual(breadcrumbLinks)
 
       const pageTitle = wrapper.find('.page-title')
-      const spanTitle = pageTitle.find('.n2')
-      expect(spanTitle.text()).toBe(title)
+      const titleElement = pageTitle.find('h1')
+      expect(titleElement.text()).toBe(title)
     })
   })
 
@@ -57,7 +57,7 @@ BddTest().given('a page title', () => {
       wrapper = await mountWithRouter(PageTitle, {
         props,
         slots: {
-          title: `<span class="slot-title n2">${slotTitle}</span>`
+          title: `<h1 class="slot-title">${slotTitle}</h1>`
         },
         global: { stubs }
       })
@@ -65,8 +65,8 @@ BddTest().given('a page title', () => {
 
     BddTest().then('it should render the slot title instead of the prop title', () => {
       const pageTitle = wrapper.find('.page-title')
-      const spanTitle = pageTitle.find('.slot-title')
-      expect(spanTitle.text()).toBe(slotTitle)
+      const slotTitleElement = pageTitle.find('.slot-title')
+      expect(slotTitleElement.text()).toBe(slotTitle)
     })
   })
 

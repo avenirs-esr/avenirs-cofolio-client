@@ -36,11 +36,7 @@ export class PageTitle extends BaseObject {
   }
 
   getTitle () {
-    return this.root.locator('.n2')
-  }
-
-  getH1Title () {
-    return this.root.locator('h1.av-sr-only')
+    return this.root.locator('h1')
   }
 
   async verifyBreadcrumbVisible () {
@@ -90,7 +86,6 @@ export class PageTitle extends BaseObject {
   }
 
   async verifyTitle (expectedTitle: string) {
-    await expect(this.getH1Title()).toHaveText(expectedTitle)
     await expect(this.getTitle()).toHaveText(expectedTitle)
   }
 
