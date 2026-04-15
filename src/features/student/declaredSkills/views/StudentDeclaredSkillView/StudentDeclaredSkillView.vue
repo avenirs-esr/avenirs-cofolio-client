@@ -93,6 +93,7 @@ function handleSkillDeleted () {
     <AvTab
       :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
       :icon="ICONS.ASSOCIATIONS"
+      data-testid="skill-associations-tab-item"
     >
       <QuerySuspense
         :error="associationsError"
