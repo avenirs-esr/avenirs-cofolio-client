@@ -45,10 +45,12 @@ const {
 } = useAssociationModal<DeclaredSkillAvAutocompleteOption>()
 
 const skillAutocompleteOptions = computed<DeclaredSkillAvAutocompleteOption[]>(() =>
-  skills.filter(({ disabled }) => !disabled).map(skill => ({
+  skills.map(skill => ({
     label: skill.title,
     value: skill.id,
-    type: skill.type
+    type: skill.type,
+    description: skill.type,
+    disabled: skill.disabled
   }))
 )
 

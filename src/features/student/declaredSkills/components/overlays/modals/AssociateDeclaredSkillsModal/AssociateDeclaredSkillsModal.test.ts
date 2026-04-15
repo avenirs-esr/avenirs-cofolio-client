@@ -66,13 +66,6 @@ BddTest().given('an associate declared skills modal', () => {
       expect(layout.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass only enabled skills as options to the layout', () => {
-      const options = layout.props('options')
-      const enabledSkills = skills.filter(s => !s.disabled)
-      expect(options).toHaveLength(enabledSkills.length)
-      expect(options).toEqual(enabledSkills.map(s => ({ label: s.title, value: s.id, type: s.type })))
-    })
-
     BddTest().then('it should pass the correct input options to the layout', () => {
       expect(layout.props('inputOptions')).toEqual({
         placeholder: 'Entrer le nom d\'une compétence déclarée',
@@ -226,25 +219,6 @@ BddTest().given('an associate declared skills modal', () => {
     BddTest().then('it should clear the selected skills', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub) as VueWrapper<InstanceType<typeof SearchAssociationLayoutStub>>
       expect(layout.props('modelValue')).toEqual([])
-    })
-  })
-
-  BddTest().when('the modal is rendered with one disabled skill', () => {
-    const [firstSkill, ...rest] = skills
-    const skillsWithOneDisabled = [{ ...firstSkill, disabled: true }, ...rest]
-
-    beforeEach(() => {
-      wrapper = mountComponent(AssociateDeclaredSkillsModal, {
-        props: { ...props, skills: skillsWithOneDisabled },
-        global: { stubs },
-      })
-    })
-
-    BddTest().then('it should exclude disabled skills from the layout options', () => {
-      const layout = wrapper.findComponent(SearchAssociationLayoutStub) as VueWrapper<InstanceType<typeof SearchAssociationLayoutStub>>
-      const options = layout.props('options')
-      expect(options).toHaveLength(1)
-      expect(options.every((o: { value: string }) => o.value !== skills[0].id)).toBe(true)
     })
   })
 
