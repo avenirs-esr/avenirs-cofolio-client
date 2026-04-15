@@ -1,19 +1,30 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import type { IdTitle } from '@/types'
 import type { ComputedRef } from 'vue'
 import { ELanguage } from '@/api/avenir-esr'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
-import { useCreateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import {
+  useAssociateTraceWithActivitiesMutation,
+  useAssociateTraceWithDeclaredSkillsMutation,
+  useCreateTraceMutation,
+  useUploadAttachmentMutation
+} from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
+
+function getIdsForType (associationSelections: Record<string, IdTitle[]>, typeKey: string): string[] {
+  return (associationSelections[typeKey] ?? []).map(item => item.id)
+}
 
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
 
   const { addErrorMessage } = useToasterStore()
 
-  const onCreateTraceError = (error: BaseApiException) => {
+  function onCreateTraceError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
       description: error.message
@@ -22,7 +33,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const createTraceMutation = useCreateTraceMutation({ onError: onCreateTraceError })
 
-  const onUploadAttachmentError = (error: BaseApiException) => {
+  function onUploadAttachmentError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
       description: error.message
@@ -31,21 +42,74 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const uploadAttachmentMutation = useUploadAttachmentMutation({ onError: onUploadAttachmentError })
 
+  function onAssociationError (error: BaseApiException) {
+    addErrorMessage({
+      title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.association'),
+      description: error.message
+    })
+  }
+
+  function makeAssociationPromise<T> (
+    mutate: (variables: T, options: { onSuccess: () => void, onError: (error: BaseApiException) => void }) => void,
+    variables: T
+  ): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      mutate(variables, {
+        onSuccess: () => resolve(),
+        onError: (error) => {
+          onAssociationError(error)
+          reject(error)
+        }
+      })
+    })
+  }
+
+  const { mutate: associateWithActivities, isPending: isPendingAssociateWithActivities } = useAssociateTraceWithActivitiesMutation({ onError: onAssociationError })
+  const { mutate: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkillsMutation({ onError: onAssociationError })
+
   const isFileUploading = ref(false)
 
   const { validateFile } = useTraceFileValidation(true)
 
-  function mutateFile (file: File | null, traceId: string) {
-    if (!file) {
-      return
+  function associateElements (traceId: string, associationSelections: Record<string, IdTitle[]>) {
+    const pendingAssociations: Promise<void>[] = []
+
+    const activityIds = getIdsForType(associationSelections, EAssociationTypeKey.ACTIVITIES)
+    if (activityIds.length > 0) {
+      pendingAssociations.push(
+        makeAssociationPromise(associateWithActivities, {
+          traceId,
+          associationsCreationRequest: { idsToAssociate: activityIds }
+        })
+      )
     }
-    uploadAttachmentMutation.mutate({
-      traceId,
-      file
-    }, {
-      onSuccess: () => {
-        onTraceCreated?.()
-      }
+
+    const skillIds = getIdsForType(associationSelections, EAssociationTypeKey.DECLARED_SKILLS)
+    if (skillIds.length > 0) {
+      pendingAssociations.push(
+        makeAssociationPromise(associateWithDeclaredSkills, {
+          traceId,
+          associationsCreationRequest: { idsToAssociate: skillIds }
+        })
+      )
+    }
+
+    return pendingAssociations
+  }
+
+  function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
+    const selections = traceFormData.associationSelections ?? {}
+
+    const pendingOperations: Promise<void>[] = [
+      ...associateElements(traceId, selections),
+      makeAssociationPromise(uploadAttachmentMutation.mutate, {
+        traceId,
+        file: traceFormData.file!
+      })
+    ]
+
+    Promise.allSettled(pendingOperations).then(() => {
+      onTraceCreated?.()
     })
   }
 
@@ -58,7 +122,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       language: ELanguage.FRENCH
     }, {
       onSuccess: (traceResult) => {
-        mutateFile(traceFormData.file, traceResult.traceId)
+        finalizeTraceCreation(traceResult.traceId, traceFormData)
       }
     })
   }
@@ -71,7 +135,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       isAuthentic: false,
       isGroup: false,
       useIA: false,
-      iaJustification: ''
+      iaJustification: '',
+      associationSelections: {}
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
@@ -103,7 +168,11 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   })
 
   const isSubmitting: ComputedRef<boolean> = computed(() => {
-    return createTraceMutation.isPending.value || uploadAttachmentMutation.isPending.value || isFileUploading.value
+    return createTraceMutation.isPending.value
+      || uploadAttachmentMutation.isPending.value
+      || isPendingAssociateWithActivities.value
+      || isPendingAssociateWithDeclaredSkills.value
+      || isFileUploading.value
   })
 
   return {
