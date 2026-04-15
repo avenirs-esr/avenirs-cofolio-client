@@ -33,7 +33,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.187",
+    "@avenirs-esr/avenirs-dsav": "^0.1.189",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "@vue-flow/core": "^1.48.0",
