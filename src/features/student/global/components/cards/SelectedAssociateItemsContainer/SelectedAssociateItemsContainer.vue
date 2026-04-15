@@ -1,11 +1,12 @@
 <script lang="ts" setup generic="U extends IdTitle = IdTitle">
 import type { IdTitle } from '@/types'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import { type AvButtonProps, AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
   items: U[]
+  buttonTheme?: AvButtonProps['theme']
 }
 
 defineProps<SelectedAssociateItemsContainerProps<U>>()
@@ -39,6 +40,7 @@ const { t } = useI18n()
         <DeleteOverlay
           v-for="item in items"
           :key="item.id"
+          :button-theme="buttonTheme"
           class="av-w-full"
           @delete="$emit('delete', item.id)"
         >

@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
 import type { IdTitle } from '@/types'
-import type { AvAutocompleteOption, AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvAutocompleteOption, AvButtonProps, AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import SelectedAssociateItemsContainer
   from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
 import { AvAutocomplete } from '@avenirs-esr/avenirs-dsav'
@@ -12,6 +12,7 @@ interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends
   getOptionKey?: (option: T) => string | number
   getOptionLabel?: (option: T) => string
   loading?: boolean
+  buttonTheme?: AvButtonProps['theme']
 }
 
 const props = defineProps<SearchAssociationLayoutProps<T, U>>()
@@ -64,6 +65,7 @@ const selectedOptions = defineModel<T[]>({ default: () => [] })
     >
       <SelectedAssociateItemsContainer
         :items="props.items"
+        :button-theme="props.buttonTheme"
         @delete="emit('delete', $event)"
       >
         <template #item="{ item }">

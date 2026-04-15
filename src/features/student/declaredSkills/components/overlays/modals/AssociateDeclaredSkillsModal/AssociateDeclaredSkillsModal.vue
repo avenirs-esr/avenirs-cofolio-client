@@ -112,6 +112,7 @@ function onConfirm () {
       :get-option-key="option => option.value"
       :get-option-label="option => option.label"
       :loading="isLoading"
+      button-theme="TERTIARY"
       @search="onSearch"
       @delete="onDeleteSkill"
     >
