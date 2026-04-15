@@ -1,6 +1,8 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { BaseApiErrorCode } from '@/common/exceptions'
 import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
@@ -19,6 +21,7 @@ const mockedAssociatedTraces: TraceAssociationDTO[] = mockedTraceOverview.map((t
 }))
 
 const stubs = {
+  QuerySuspense: QuerySuspenseStub,
   AssociatedTracesCard: AssociatedTracesCardStub,
   AssociatedDeclaredActivitiesCard: AssociatedDeclaredActivitiesCardStub,
   DeclaredSkillAssociateElementsDropdown: DeclaredSkillAssociateElementsDropdownStub,
@@ -38,7 +41,8 @@ BddTest().given('a student declared skill associations component', () => {
         props: {
           declaredSkillId,
           associatedTraces: mockedAssociatedTraces,
-          associatedDeclaredActivities: mockedTraceDeclaredActivityAssociations
+          associatedDeclaredActivities: mockedTraceDeclaredActivityAssociations,
+          countAssociations: 3
         },
         global: { stubs }
       })
@@ -47,6 +51,23 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should render the associations container', () => {
       const container = wrapper.find('[data-testid="declared-skill-associations"]')
       expect(container.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render QuerySuspense with correct props', () => {
+      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      expect(querySuspense.exists()).toBe(true)
+      expect(querySuspense.props('error')).toBeFalsy()
+      expect(querySuspense.props('isEmpty')).toBe(false)
+      expect(querySuspense.props('emptyStateMessage')).toBe('Aucune association pour cette compétence déclarée')
+      expect(querySuspense.props('errorTitle')).toBe('Une erreur est survenue lors du chargement des associations')
+    })
+
+    BddTest().then('it should not render the query suspense empty state', () => {
+      expect(wrapper.find('[data-testid="query-suspense-empty"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the query suspense error', () => {
+      expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
     })
 
     BddTest().then('it should render AssociatedTracesCard', () => {
@@ -135,7 +156,8 @@ BddTest().given('a student declared skill associations component', () => {
         props: {
           declaredSkillId,
           associatedTraces: [],
-          associatedDeclaredActivities: []
+          associatedDeclaredActivities: [],
+          countAssociations: 0
         },
         global: { stubs }
       })
@@ -146,19 +168,87 @@ BddTest().given('a student declared skill associations component', () => {
       expect(container.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass empty arrays to AssociatedTracesCard', () => {
-      const card = wrapper.findComponent(AssociatedTracesCardStub)
-      expect(card.props('associatedTraces')).toEqual([])
+    BddTest().then('it should render QuerySuspense as empty', () => {
+      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      expect(querySuspense.exists()).toBe(true)
+      expect(querySuspense.props('isEmpty')).toBe(true)
+      expect(querySuspense.props('error')).toBeFalsy()
+      expect(querySuspense.props('emptyStateMessage')).toBe('Aucune association pour cette compétence déclarée')
+      expect(querySuspense.props('errorTitle')).toBe('Une erreur est survenue lors du chargement des associations')
     })
 
-    BddTest().then('it should pass empty arrays to AssociatedDeclaredActivitiesCard', () => {
+    BddTest().then('it should render the query suspense empty fallback', () => {
+      expect(wrapper.find('[data-testid="query-suspense-empty"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the query suspense error fallback', () => {
+      expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render AssociatedTracesCard', () => {
+      const card = wrapper.findComponent(AssociatedTracesCardStub)
+      expect(card.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render AssociatedDeclaredActivitiesCard', () => {
       const card = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
-      expect(card.props('associatedActivities')).toEqual([])
+      expect(card.exists()).toBe(false)
     })
 
     BddTest().then('it should render the associate activities modal with the declared skill id', () => {
       const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
+    })
+  })
+
+  BddTest().when('the component is rendered with an associations error', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StudentDeclaredSkillAssociations, {
+        props: {
+          declaredSkillId,
+          associatedTraces: [],
+          associatedDeclaredActivities: [],
+          associationsError: {
+            status: 404,
+            code: BaseApiErrorCode.NOT_FOUND,
+            name: 'Not Found',
+            message: 'Boom'
+          },
+          countAssociations: 0
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render QuerySuspense with the associations error', () => {
+      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      expect(querySuspense.exists()).toBe(true)
+      expect(querySuspense.props('error')).toEqual({
+        status: 404,
+        code: BaseApiErrorCode.NOT_FOUND,
+        name: 'Not Found',
+        message: 'Boom'
+      })
+      expect(querySuspense.props('errorTitle')).toBe('Une erreur est survenue lors du chargement des associations')
+      expect(querySuspense.props('isEmpty')).toBe(true)
+    })
+
+    BddTest().then('it should render the query suspense error fallback', () => {
+      expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the query suspense empty fallback because error has priority', () => {
+      expect(wrapper.find('[data-testid="query-suspense-empty"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render AssociatedTracesCard', () => {
+      const card = wrapper.findComponent(AssociatedTracesCardStub)
+      expect(card.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render AssociatedDeclaredActivitiesCard', () => {
+      const card = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
+      expect(card.exists()).toBe(false)
     })
   })
 })
