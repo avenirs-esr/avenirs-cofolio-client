@@ -245,7 +245,8 @@ export function useAssociateDeclaredSkillWithActivitiesMutation ({ onError, onSu
         invalidateQueryKey([
           ...declaredSkillSearchForAssociationQueryKey,
           variables.declaredSkillProgressId
-        ])
+        ]),
+        invalidateQueryKey([...declaredSkillDetailsQueryKey, 'associations', variables.declaredSkillProgressId])
       ])
 
       onSuccess?.(data, variables)
