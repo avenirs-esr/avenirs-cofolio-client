@@ -215,6 +215,20 @@ BddTest().given('an add declared experience form', () => {
       })
     })
 
+    BddTest().and('externalLink is not a valid URL', () => {
+      BddTest().then('it should return an error for externalLink', () => {
+        const invalidData: DeclaredExperienceFormData = {
+          ...validData,
+          externalLink: 'invalid-url'
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result?.fields?.externalLink).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
+      })
+    })
+
     BddTest().and('data is valid', () => {
       BddTest().then('it should not return validation errors', () => {
         const validator = getOnSubmitValidator()

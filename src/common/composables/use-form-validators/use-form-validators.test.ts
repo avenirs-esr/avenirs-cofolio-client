@@ -18,6 +18,7 @@ BddTest().given('a form validators composable', () => {
       expect(composableResult.validateRequired).toBeDefined()
       expect(composableResult.validateMaxLength).toBeDefined()
       expect(composableResult.validateDateInterval).toBeDefined()
+      expect(composableResult.validateLinkFormat).toBeDefined()
     })
   })
 
@@ -149,6 +150,43 @@ BddTest().given('a form validators composable', () => {
           endDate: '2025-06',
           format: 'yyyy-MM'
         })
+        expect(error).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('validating link format', () => {
+    BddTest().and('the link is valid', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateLinkFormat('https://example.com')
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the link is invalid', () => {
+      BddTest().then('it should return invalid link error', () => {
+        const error = composableResult.validateLinkFormat('invalid-link')
+        expect(error).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
+      })
+    })
+
+    BddTest().and('the link is empty', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateLinkFormat('')
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the link is undefined', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateLinkFormat(undefined)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the link is null', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateLinkFormat(null)
         expect(error).toBeUndefined()
       })
     })

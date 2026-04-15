@@ -50,7 +50,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
             endDate: validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }),
             sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
             description: validators.validateDescription(value.description),
-            summary: validators.validateSummary(value.summary)
+            summary: validators.validateSummary(value.summary),
+            externalLink: validators.validateExternalLink(value.externalLink)
           }
         }
       }

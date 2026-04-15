@@ -1,3 +1,4 @@
+import { isValidLink } from '@avenirs-esr/avenirs-dsav'
 import { isBefore, parse } from 'date-fns'
 import isEmpty from 'lodash-es/isEmpty'
 import { useI18n } from 'vue-i18n'
@@ -19,6 +20,8 @@ export interface UseFormValidatorsReturn {
   validateMaxLength: (value: string | undefined | null, maxLength: number) => string | undefined
   /** Validates an interval where endDate can be null (ongoing). If endDate provided, it must be after startDate. */
   validateDateInterval: (args: validateDateIntervalArgs) => string | undefined
+  /** Validates that a link is in a valid format */
+  validateLinkFormat: (link: string | undefined | null) => string | undefined
 }
 
 export interface ValidationOptions {
@@ -36,6 +39,7 @@ export interface ValidationOptions {
  *  - `validateRequired` (function) : returns an error message if the value is empty, undefined otherwise,
  *  - `validateMaxLength` (function) : returns an error message if the value exceeds the max length, undefined otherwise.
  *  - `validateDateInterval` (function) : returns an error message if the end date is before the start date in an ongoing interval, undefined otherwise.
+ *  - `validateLinkFormat` (function) : returns an error message if the link is not in a valid format, undefined otherwise.
  */
 export function useFormValidators (): UseFormValidatorsReturn {
   const { t } = useI18n()
@@ -77,9 +81,17 @@ export function useFormValidators (): UseFormValidatorsReturn {
     }
   }
 
+  function validateLinkFormat (link: string | undefined | null): string | undefined {
+    if (link && !isValidLink(link)) {
+      return t('global.error.form.invalidLink')
+    }
+  }
+
   return {
     validateMaxLength,
     validateRequired,
-    validateDateInterval
+    validateDateInterval,
+    validateLinkFormat
+
   }
 }

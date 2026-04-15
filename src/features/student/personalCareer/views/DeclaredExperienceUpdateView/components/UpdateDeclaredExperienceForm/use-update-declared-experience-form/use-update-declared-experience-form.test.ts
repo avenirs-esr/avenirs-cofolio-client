@@ -80,6 +80,21 @@ BddTest().given('an update declared experience form', () => {
     mountForm()
   })
 
+  const validData: DeclaredExperienceFormData = {
+    title: 'Software Engineer',
+    type: EExperienceType.PROFESSIONAL,
+    organization: 'Tech Company',
+    activitySector: 'Technology',
+    location: 'Paris, France',
+    startDate: '2024-01',
+    endDate: '2025-12',
+    isOngoing: false,
+    sourceOfInformation: 'LinkedIn',
+    description: 'Description of the experience',
+    summary: 'A positive summary',
+    externalLink: 'https://example.com'
+  }
+
   BddTest().when('the form is initialized', () => {
     BddTest().then('it should return the expected structure', () => {
       expect(composableResult).toBeDefined()
@@ -143,21 +158,6 @@ BddTest().given('an update declared experience form', () => {
 
     BddTest().and('fields exceed max length', () => {
       BddTest().then('it should return max length errors', () => {
-        const validData: DeclaredExperienceFormData = {
-          title: 'Software Engineer',
-          type: EExperienceType.PROFESSIONAL,
-          organization: 'Tech Company',
-          activitySector: 'Technology',
-          location: 'Paris, France',
-          startDate: '2024-01',
-          endDate: '2025-12',
-          isOngoing: false,
-          sourceOfInformation: 'LinkedIn',
-          description: 'Description of the experience',
-          summary: 'A positive summary',
-          externalLink: 'https://example.com'
-        }
-
         const maxLengthFields = {
           title: DECLARED_EXPERIENCE_TITLE_MAX_LENGTH,
           organization: DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH,
@@ -182,6 +182,20 @@ BddTest().given('an update declared experience form', () => {
             `Veuillez limiter votre saisie à ${maxLength} caractères`
           )
         })
+      })
+    })
+
+    BddTest().and('externalLink is not a valid URL', () => {
+      BddTest().then('it should return an error for externalLink', () => {
+        const invalidData: DeclaredExperienceFormData = {
+          ...validData,
+          externalLink: 'invalid-url'
+        }
+
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result?.fields?.externalLink).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
       })
     })
   })

@@ -117,6 +117,7 @@
       },
       "form": {
         "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom{'@'}exemple.com)",
+        "invalidLink": "Veuillez renseigner une URL valide (ex. : http://www.exemple.com)",
         "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères",
         "requiredField": "Ce champ est requis."
       },
