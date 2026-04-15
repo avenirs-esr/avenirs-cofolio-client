@@ -32,6 +32,7 @@ const isEmpty = computed(() => !data.value?.length)
 | `isLoading` | `boolean` | `false` | Affiche le spinner pendant le chargement |
 | `error` | `BaseApiException \| null` | `null` | Erreur retournée par la query |
 | `errorTitle` | `string` | `"Une erreur est survenue lors du chargement des données"` | Titre du message d'erreur |
+| `errorDescription` | `string` | `"Veuillez réessayer plus tard."` | Description du message d'erreur |
 | `emptyStateMessage` | `string` | `"Aucune donnée à afficher"` | Message de l'état vide |
 
 ## Slots
