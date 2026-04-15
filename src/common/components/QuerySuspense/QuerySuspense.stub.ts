@@ -3,9 +3,13 @@ export const QuerySuspenseStub = defineComponent({
   template: `
     <div data-testid="query-suspense-stub">
       <div v-if="isLoading" data-testid="query-suspense-loading" />
-      <slot />
-      <slot name="error"><div v-if="error" data-testid="query-suspense-error" /></slot>
-      <slot name="empty"><div v-if="isEmpty" data-testid="query-suspense-empty" /></slot>
+      <slot name="error" v-else-if="error">
+        <div data-testid="query-suspense-error" />
+      </slot>
+      <slot name="empty" v-else-if="isEmpty">
+        <div data-testid="query-suspense-empty" />
+      </slot>
+      <slot v-else />
     </div>
   `,
   props: {
