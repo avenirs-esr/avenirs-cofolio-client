@@ -12,27 +12,27 @@ import {
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
-import { createMockedSearchStudentSkillsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
   EErrorCode,
-  ETraceAssociationType,
   getAssociateTraceWithActivitiesUrl,
   getAssociateTraceWithDeclaredSkillUrl,
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
+  getDeleteTraceUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
+  getGetTraceDetailUrl,
   getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
   getSearchDeclaredActivityForAssociationUrl,
   getSearchDeclaredSkillForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
+  getUploadAttachmentUrl,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
-  type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
@@ -44,7 +44,6 @@ import {
   type TracesViewParams,
   type UpdateTraceDTO
 } from '@/api/avenir-esr'
-import { isEnumMember } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -71,7 +70,7 @@ export function createTracesViewHandler (payload: PagedResponseTraceViewDTO) {
 }
 
 export function createTraceDetailedHandler (payload: TraceDetailDTO) {
-  return http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, () => {
+  return http.get<PathParams, TraceDetailDTO>(`*${getGetTraceDetailUrl(':traceId')}`, () => {
     return HttpResponse.json<TraceDetailDTO>(payload, {
       status: 200,
       headers: {
@@ -127,7 +126,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.delete(`*/me/traces/:traceId`, ({ params }) => {
+  http.delete(`*${getDeleteTraceUrl(':traceId')}`, ({ params }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
@@ -210,7 +209,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.post(`*/me/storage/traces/:traceId`, async ({ params, request }) => {
+  http.post(`*${getUploadAttachmentUrl(':traceId')}`, async ({ params, request }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
@@ -233,46 +232,9 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get<PathParams, TraceDetailDTO>(`*/me/traces/:traceId/detail`, async () => {
+  http.get<PathParams, TraceDetailDTO>(`*${getGetTraceDetailUrl(':traceId')}`, async () => {
     await delay(100)
     return HttpResponse.json(mockedTraceDetailed, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
-  http.get<PathParams, PagedResponseTraceAssociationSearchResult>(`*/me/traces/search-association/:associationType`, ({ params, request }) => {
-    const { associationType } = params
-    const associationTypeParam: ETraceAssociationType | undefined = typeof associationType === 'string' && isEnumMember(ETraceAssociationType, associationType) ? associationType : undefined
-    if (!associationTypeParam || !associationTypeParam?.includes(ETraceAssociationType.SKILL_LEVEL)) {
-      return HttpResponse.json({ error: 'Invalid or missing association type' }, { status: 400 })
-    }
-    const url = new URL(request.url)
-    const searchParams = url.searchParams
-    const keyword = searchParams.get('keyword') ?? ''
-
-    const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
-    const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedSearchStudentSkillsDTO(pageSize, 20, page, keyword)
-
-    return HttpResponse.json<PagedResponseTraceAssociationSearchResult>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
-  http.post(`*/me/traces/associate/:traceId`, async ({ params }) => {
-    const traceId: string | undefined = params.traceId as string | undefined
-
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
-    }
-
-    return HttpResponse.json({ message: 'Ok' }, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

@@ -43,6 +43,7 @@ BddTest().given('a delete trace associated activities modal', () => {
         thematic: EActivityThematic.PROGRAMS,
         status: EDeclaredActivityStatus.IN_PROGRESS,
         summary: 'Summary 1',
+        description: '<h3>Description 1</h3><p>Rich text description</p>',
       }
     },
     {
@@ -54,6 +55,7 @@ BddTest().given('a delete trace associated activities modal', () => {
         thematic: EActivityThematic.EXPERIENCES,
         status: EDeclaredActivityStatus.COMPLETED,
         summary: 'Summary 2',
+        description: '<h3>Description 2</h3><p>Rich text description</p>',
       }
     }
   ]

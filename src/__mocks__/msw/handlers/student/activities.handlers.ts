@@ -5,17 +5,16 @@ import {
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
-  mockedDeclaredActivity,
   mockedDeclaredActivityAssociations,
+  mockedDeclaredActivityDetails,
   mockedFinishedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
-  type ActivityDetailDTO,
+  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
   type AssociationsCreationRequest,
-  type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EErrorCode,
@@ -82,7 +81,7 @@ const subscribeActivityProgressHandler = http.post(`*${getSubscribeActivityUrl('
     return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
   }
   subscribedActivities.add(activityId as string)
-  return HttpResponse.json<DeclaredActivity>(mockedDeclaredActivity, {
+  return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedDeclaredActivityDetails, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
@@ -142,7 +141,7 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
     )
   }
 
-  return HttpResponse.json<ActivityDetailDTO>({ ...mockedActivityDetail, id: activityId as string }, {
+  return HttpResponse.json<ActivityDetailsDTO>({ ...mockedActivityDetail, id: activityId as string }, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })

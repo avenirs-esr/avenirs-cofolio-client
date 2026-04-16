@@ -7,11 +7,11 @@ import {
   createDeclaredSkillProgress,
   type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationsDTO,
-  type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   type DeclaredSkillProgressRequest,
   deleteDeclaredSkillProgress,
+  type ExternalSkillDTO,
   getDeclaredSkillProgressDetails,
   getDeclaredSkillsProgresses,
   getDeclaredSkillWithDeclaredActivities,
@@ -37,7 +37,7 @@ export function useDeclaredSkillsViewQuery (
   page: Ref<number>,
   pageSize: Ref<number>
 ): UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
-  skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
+  skills: Ref<ExternalSkillDTO[] | DeclaredSkillProgressDTO[]>
   pageInfo: Ref<PageInfoDTO>
 } {
   const queryKey = computed(() => [...declaredSkillCommonQueryKey, 'view', {
@@ -94,7 +94,7 @@ export function useSearchExternalSkillsQuery (
   const query = useInfiniteQuery<
     PagedResponseExternalSkillDTO,
     BaseApiException,
-    DeclaredSkillDTO[],
+    ExternalSkillDTO[],
     Readonly<UnwrapRef<typeof queryKey>>,
     number
   >({

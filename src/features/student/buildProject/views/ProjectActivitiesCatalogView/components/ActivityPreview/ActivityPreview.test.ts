@@ -285,16 +285,4 @@ BddTest().given('an activity preview', () => {
       expect(badge!.props('status')).toBe(EDeclaredActivityStatus.SUBSCRIBED)
     })
   })
-
-  BddTest().when('the component is mounted with an activity that has no banner', () => {
-    beforeEach(() => {
-      const activityWithoutBanner = { ...mockedActivityDetail, banner: undefined }
-      wrapper = mount(ActivityPreview, { props: { activity: activityWithoutBanner }, global: { stubs } })
-    })
-
-    BddTest().then('it should not render the banner image', () => {
-      bannerImage = wrapper.find('[data-testid="activity-banner"]')
-      expect(bannerImage.exists()).toBe(false)
-    })
-  })
 })

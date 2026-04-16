@@ -1,10 +1,10 @@
-import { type DeclaredSkillDTO, EExternalSkillType } from '@/api/avenir-esr'
+import { EExternalSkillType, type ExternalSkillDTO } from '@/api/avenir-esr'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-const mockSkill: DeclaredSkillDTO = {
+const mockSkill: ExternalSkillDTO = {
   id: 'declared-skill-1',
   title: 'Accueillir des enfants',
   type: EExternalSkillType.ROME4,
@@ -20,7 +20,7 @@ const stubs = {
   AvBadge: AvBadgeStub
 }
 
-function createWrapper (declaredSkill: DeclaredSkillDTO = mockSkill) {
+function createWrapper (declaredSkill: ExternalSkillDTO = mockSkill) {
   return mount(StudentDetailedDeclaredSkillCard, {
     props: {
       declaredSkill
@@ -87,7 +87,7 @@ BddTest().given('a student detailed declared skill card', () => {
 
   BddTest().when('the component is mounted with single path segment', () => {
     beforeEach(() => {
-      const singlePathSkill: DeclaredSkillDTO = {
+      const singlePathSkill: ExternalSkillDTO = {
         ...mockSkill,
         pathSegments: ['Single Path']
       }
@@ -102,7 +102,7 @@ BddTest().given('a student detailed declared skill card', () => {
 
   BddTest().when('the component is mounted with multiple path segments', () => {
     beforeEach(() => {
-      const multiplePathSkill: DeclaredSkillDTO = {
+      const multiplePathSkill: ExternalSkillDTO = {
         ...mockSkill,
         pathSegments: ['Path 1', 'Path 2', 'Path 3']
       }

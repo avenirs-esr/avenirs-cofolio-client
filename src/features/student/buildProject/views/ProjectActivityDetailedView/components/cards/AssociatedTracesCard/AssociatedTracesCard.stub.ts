@@ -1,10 +1,10 @@
-import type { DeclaredActivityTraceAssociationDTO } from '@/api/avenir-esr'
+import type { TraceAssociationDTO } from '@/api/avenir-esr'
 
 export const AssociatedTracesCardStub = defineComponent({
   name: 'AssociatedTracesCard',
   props: {
     associatedTraces: {
-      type: Array as () => DeclaredActivityTraceAssociationDTO[],
+      type: Array as () => TraceAssociationDTO[],
       required: true
     }
   },

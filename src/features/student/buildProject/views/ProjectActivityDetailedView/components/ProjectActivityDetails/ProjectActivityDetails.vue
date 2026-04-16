@@ -29,7 +29,7 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
 
 <template>
   <div
-    class="av-col av-gap-xxs"
+    class="av-col av-gap-md"
     data-testid="project-activity-details"
   >
     <AvPeriodInput

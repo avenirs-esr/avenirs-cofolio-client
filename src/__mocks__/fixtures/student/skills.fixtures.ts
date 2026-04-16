@@ -16,7 +16,6 @@ import {
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PagedResponseSkillDTO,
-  type PagedResponseTraceAssociationSearchResult,
   type SkillDTO,
   type SkillListItemDTO
 } from '@/api/avenir-esr'
@@ -230,21 +229,6 @@ export const mockedStudentSkills = [
   }
 ]
 
-export function createMockedSearchStudentSkillsDTO (pageSize: number, totalElements: number, page: number, keyword: string): PagedResponseTraceAssociationSearchResult {
-  const allSkills = mockedStudentSkills
-  const filteredSkills = allSkills.filter(skill => skill.title.toLowerCase().includes(keyword.toLowerCase()))
-  const actualTotalElements = Math.min(filteredSkills.length, totalElements)
-  const start = page * pageSize
-  const end = start + pageSize
-  const paginatedSkills = filteredSkills.slice(start, end)
-  const totalPages = Math.ceil(actualTotalElements / pageSize)
-
-  return {
-    data: paginatedSkills,
-    page: { pageSize, totalElements: actualTotalElements, totalPages, page }
-  }
-}
-
 export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({
     associationId: `declared-activity-association-${index + 1}`,
@@ -254,6 +238,7 @@ export function createMockedDeclaredActivitiesAssociations (count: number): Decl
       title: `Activité déclarée associée ${index + 1}`,
       thematic: EActivityThematic.TRANSVERSAL,
       summary: `Résumé de l'activité déclarée ${index + 1}`,
+      description: `<h3>Description de l'activité déclarée ${index + 1}</h3><p>Voici une description détaillée de l'activité déclarée associée ${index + 1}.</p>`,
       executionPeriodInfoSummary: '01/01/2026 - 30/06/2026',
       status: EDeclaredActivityStatus.IN_PROGRESS,
       startDate: '2026-01-01',

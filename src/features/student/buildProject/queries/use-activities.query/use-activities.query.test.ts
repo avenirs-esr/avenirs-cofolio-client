@@ -6,8 +6,8 @@ import {
   activitiesNavigationMock,
   createMockedDeclaredActivityAssociationsDTO,
   mockedActivityDetail,
-  mockedDeclaredActivity,
-  mockedDeclaredActivityAssociations
+  mockedDeclaredActivityAssociations,
+  mockedDeclaredActivityDetails
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   activityNavigationQuery,
@@ -20,10 +20,9 @@ import {
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
-  type ActivityDetailDTO,
+  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
   type AssociationsCreationRequest,
-  type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
@@ -129,7 +128,7 @@ BddTest().given('the useActivitiesNavigationQuery composable', () => {
 
 BddTest().given('the useActivityDetailQuery composable', () => {
   let getActivityDetailSpy: MockInstance<
-    (activityId: string, options?: RequestInit | undefined) => Promise<ActivityDetailDTO>
+    (activityId: string, options?: RequestInit | undefined) => Promise<ActivityDetailsDTO>
   >
 
   beforeEach(async () => {
@@ -206,7 +205,7 @@ BddTest().given('the useGetDeclaredActivityAssociationsQuery composable', () => 
   })
 
   BddTest().and('a valid declared activity id', () => {
-    const declaredActivityId = ref(mockedDeclaredActivity.id ?? '')
+    const declaredActivityId = ref(mockedDeclaredActivityDetails.id ?? '')
 
     BddTest().when('the query is executed', () => {
       let queryResult: ReturnType<typeof useGetDeclaredActivityAssociationsQuery>
@@ -251,7 +250,7 @@ BddTest().given('the useGetDeclaredActivityAssociationsQuery composable', () => 
 
 BddTest().given('the useSubscribeActivityMutation composable', () => {
   let subscribeActivitySpy: MockInstance<
-    (activityId: string, params: SubscribeDeclaredActivityRequest, options?: RequestInit | undefined) => Promise<DeclaredActivity>
+    (activityId: string, params: SubscribeDeclaredActivityRequest, options?: RequestInit | undefined) => Promise<DeclaredActivityDetailsDTO>
   >
   let useInvalidateQuerySpy: MockInstance<typeof useInvalidateQuery>
   let mutationResult: ReturnType<typeof useSubscribeActivityMutation>

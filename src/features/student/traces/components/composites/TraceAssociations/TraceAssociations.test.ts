@@ -4,7 +4,7 @@ import {
   mockedTraceDeclaredActivityAssociations,
   mockedTraceDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student'
-import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { type DeclaredActivityAssociationDTO, EActivityThematic, EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCardStub } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
 import { AssociatedActivityCardStub } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
@@ -264,7 +264,7 @@ BddTest().given('a student trace associations component', () => {
   })
 
   BddTest().when('the component is mounted with only declared activity associations', () => {
-    const declaredActivityAssociations = [
+    const declaredActivityAssociations: DeclaredActivityAssociationDTO[] = [
       ...mockedTraceDeclaredActivityAssociations,
       {
         associationId: '8cb6cff4-2419-4b22-8c44-a92022a2423a',
@@ -274,6 +274,7 @@ BddTest().given('a student trace associations component', () => {
           title: 'Renforcer sa capacité d’adaptation',
           thematic: EActivityThematic.RESUMES,
           summary: 'Activité visant à analyser sa capacité à s’adapter à des contextes variés et à gérer les changements. L’étudiant.e identifie des situations concrètes illustrant sa flexibilité et sa résilience.',
+          description: '<h3>Objectifs</h3><ul><li>Analyser sa capacité à s’adapter à des contextes variés et à gérer les changements</li><li>Identifier des situations concrètes illustrant sa flexibilité et sa résilience</li><li>Utiliser cette analyse pour renforcer sa capacité d’adaptation dans son projet professionnel</li></ul>',
           executionPeriodInfoSummary: 'Avant entretien professionnel',
           status: EDeclaredActivityStatus.COMPLETED,
           startDate: '2027-01-10',
@@ -282,7 +283,7 @@ BddTest().given('a student trace associations component', () => {
         }
       }
     ]
-    const associationsProps = { declaredActivityAssociations, declaredSkillAssociations: [] }
+    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
