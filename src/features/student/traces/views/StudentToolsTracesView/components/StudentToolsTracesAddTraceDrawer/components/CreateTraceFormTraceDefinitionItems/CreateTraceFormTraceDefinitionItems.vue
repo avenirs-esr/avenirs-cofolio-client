@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
+import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import TraceTypeSelect from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelect/TraceTypeSelect.vue'
-import { TraceType } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types/trace-type.types'
 
 interface CreateTraceFormTraceDefinitionItemsProps {
   form: CreateTraceForm
@@ -13,6 +14,10 @@ interface CreateTraceFormTraceDefinitionItemsProps {
 const { form } = defineProps<CreateTraceFormTraceDefinitionItemsProps>()
 
 const selectedTraceType = ref({ itemId: TraceType.FILE })
+
+watch(selectedTraceType, (newType) => {
+  form.setFieldValue('traceType', newType.itemId)
+})
 </script>
 
 <template>
@@ -34,7 +39,7 @@ const selectedTraceType = ref({ itemId: TraceType.FILE })
         v-else
         class="av-col"
       >
-        <h5>Link Trace Task #1390</h5>
+        <TraceLinkInputFormField :form="form" />
       </div>
 
       <div class="av-col">

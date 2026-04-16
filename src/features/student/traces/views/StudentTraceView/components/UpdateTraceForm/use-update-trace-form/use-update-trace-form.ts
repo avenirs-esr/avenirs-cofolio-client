@@ -4,6 +4,8 @@ import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
+import { TraceType } from '@/features/student/traces/types/traces.types'
+import { isTraceFileType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
@@ -41,6 +43,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const form = useForm({
     defaultValues: {
       file: attachmentFile.value,
+      traceType: TraceType.FILE,
       traceName: trace.title,
       personalNote: trace.personalNote || '',
       isAuthentic: true,
@@ -52,7 +55,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
       onSubmit ({ value }: { value: TraceFormData }) {
         return {
           fields: {
-            file: validateFile(value.file),
+            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
             isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
             traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
@@ -62,7 +65,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
       onChange ({ value }: { value: TraceFormData }) {
         return {
           fields: {
-            file: validateFile(value.file),
+            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
           }
         }
       }
@@ -98,7 +101,14 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
         language: ELanguage.FRENCH
       }
     }, {
-      onSuccess: () => mutateFile(traceFormData.file, trace.id)
+      onSuccess: () => {
+        if (isTraceFileType(traceFormData)) {
+          mutateFile(traceFormData.file, trace.id)
+        }
+        else {
+          onTraceUpdated?.()
+        }
+      }
     })
   }
 

@@ -1,5 +1,9 @@
 import type { TraceFormData } from '@/features/student/traces'
+import { TraceLinkInputFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.stub'
+import { TraceType } from '@/features/student/traces/types/traces.types'
+import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
+import { TraceTypeSelectStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/TraceTypeSelect/TraceTypeSelect.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -12,6 +16,7 @@ const TestWrapper = {
     const form = useForm({
       defaultValues: {
         file: null,
+        traceType: TraceType.FILE,
         traceName: '',
         personalNote: ''
       } as TraceFormData,
@@ -19,7 +24,8 @@ const TestWrapper = {
         onSubmit ({ value }) {
           return {
             fields: {
-              file: !value.file ? 'Required field' : undefined,
+              file: isTraceFileType(value) && !value.file ? 'Required field' : undefined,
+              link: isTraceLinkType(value) && !value.link ? 'Required field' : undefined,
               traceName: !value.traceName.trim() ? 'Required field' : undefined,
             }
           }
@@ -36,6 +42,8 @@ const TestWrapper = {
 }
 
 const stubs = {
+  TraceTypeSelect: TraceTypeSelectStub,
+  TraceLinkInputFormField: TraceLinkInputFormFieldStub,
   TraceFileUpload: {
     name: 'TraceFileUpload',
     props: ['id', 'modelValue', 'accept', 'ariaLabel', 'error', 'validMessage'],
@@ -70,6 +78,18 @@ BddTest().given('a create trace form trace definition items component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
+    BddTest().then('it should render TraceTypeSelect', () => {
+      const traceTypeSelect = wrapper.findComponent({ name: 'TraceTypeSelect' })
+      expect(traceTypeSelect.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render TraceFileUpload by default and not TraceLinkInputFormField', () => {
+      const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
+      const linkInput = wrapper.findComponent({ name: 'TraceLinkInputFormField' })
+      expect(fileUpload.exists()).toBe(true)
+      expect(linkInput.exists()).toBe(false)
+    })
+
     BddTest().then('it should render the form fields container', () => {
       const container = wrapper.find('[data-testid="form-fields-container"]')
       expect(container.exists()).toBe(true)
@@ -95,6 +115,23 @@ BddTest().given('a create trace form trace definition items component', () => {
 
       expect(personalNoteInput.exists()).toBe(true)
       expect(personalNoteInput.props('id')).toBe('personal-note')
+    })
+  })
+
+  BddTest().when('the trace type is LINK', () => {
+    BddTest().then('it should render TraceLinkInputFormField and not render TraceFileUpload', async () => {
+      const linkInputBefore = wrapper.findComponent({ name: 'TraceLinkInputFormField' })
+      expect(linkInputBefore.exists()).toBe(false)
+
+      const traceTypeSelect = wrapper.findComponent({ name: 'TraceTypeSelect' })
+      await traceTypeSelect.vm.$emit('update:traceType', { itemId: 'link' })
+      await wrapper.vm.$nextTick()
+
+      const linkInputAfter = wrapper.findComponent({ name: 'TraceLinkInputFormField' })
+      expect(linkInputAfter.exists()).toBe(true)
+
+      const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
+      expect(fileUpload.exists()).toBe(false)
     })
   })
 

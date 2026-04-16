@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
 import { markRaw } from 'vue'
 
-interface TraceNameInputFormFieldProps {
+interface TraceLinkInputFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
 }
 
-const { form } = defineProps<TraceNameInputFormFieldProps>()
+const { form } = defineProps<TraceLinkInputFormFieldProps>()
+const { validateLink } = useFormValidators()
 const FormField = markRaw(form.Field)
 </script>
 
 <template>
-  <FormField name="traceName">
+  <FormField
+    name="link"
+    :validators="{
+      onBlur: ({ value }) => validateLink(value),
+    }"
+  >
     <template #default="{ field }">
-      <TraceNameInput
+      <TraceLinkInput
         v-bind="$attrs"
-        id="trace-name"
+        id="trace-link"
         v-model="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         required

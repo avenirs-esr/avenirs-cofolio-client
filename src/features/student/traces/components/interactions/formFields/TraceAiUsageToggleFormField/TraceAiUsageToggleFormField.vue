@@ -35,7 +35,3 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
     </template>
   </FormField>
 </template>
-
-<style scoped lang="scss">
-
-</style>

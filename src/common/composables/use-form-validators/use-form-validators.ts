@@ -21,7 +21,7 @@ export interface UseFormValidatorsReturn {
   /** Validates an interval where endDate can be null (ongoing). If endDate provided, it must be after startDate. */
   validateDateInterval: (args: validateDateIntervalArgs) => string | undefined
   /** Validates that a link is in a valid format */
-  validateLinkFormat: (link: string | undefined | null) => string | undefined
+  validateLink: (link: string | undefined | null, required?: boolean) => string | undefined
 }
 
 export interface ValidationOptions {
@@ -39,7 +39,7 @@ export interface ValidationOptions {
  *  - `validateRequired` (function) : returns an error message if the value is empty, undefined otherwise,
  *  - `validateMaxLength` (function) : returns an error message if the value exceeds the max length, undefined otherwise.
  *  - `validateDateInterval` (function) : returns an error message if the end date is before the start date in an ongoing interval, undefined otherwise.
- *  - `validateLinkFormat` (function) : returns an error message if the link is not in a valid format, undefined otherwise.
+ *  - `validateLink` (function) : returns an error message if the link is not in a valid format, undefined otherwise ; it also returns an error if the link is required and undefined or empty.
  */
 export function useFormValidators (): UseFormValidatorsReturn {
   const { t } = useI18n()
@@ -81,7 +81,12 @@ export function useFormValidators (): UseFormValidatorsReturn {
     }
   }
 
-  function validateLinkFormat (link: string | undefined | null): string | undefined {
+  function validateLink (link: string | undefined | null, required?: boolean): string | undefined {
+    if (required) {
+      if (!link?.trim()) {
+        return t('global.error.form.requiredField')
+      }
+    }
     if (link && !isValidLink(link)) {
       return t('global.error.form.invalidLink')
     }
@@ -91,7 +96,6 @@ export function useFormValidators (): UseFormValidatorsReturn {
     validateMaxLength,
     validateRequired,
     validateDateInterval,
-    validateLinkFormat
-
+    validateLink
   }
 }

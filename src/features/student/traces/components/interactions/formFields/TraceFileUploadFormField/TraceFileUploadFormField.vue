@@ -42,7 +42,3 @@ function handleFilesChange (files: FileList) {
     </template>
   </FormField>
 </template>
-
-<style scoped lang="scss">
-
-</style>

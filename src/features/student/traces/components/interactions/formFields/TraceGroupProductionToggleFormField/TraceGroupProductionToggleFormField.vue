@@ -24,7 +24,3 @@ const FormField = markRaw(form.Field)
     </template>
   </FormField>
 </template>
-
-<style scoped lang="scss">
-
-</style>

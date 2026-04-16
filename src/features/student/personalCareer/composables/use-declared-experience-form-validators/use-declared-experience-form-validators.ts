@@ -12,7 +12,7 @@ import {
 } from '@/features/student/personalCareer/config'
 
 export function useDeclaredExperienceFormValidators () {
-  const { validateRequired, validateMaxLength, validateDateInterval, validateLinkFormat } = useFormValidators()
+  const { validateRequired, validateMaxLength, validateDateInterval, validateLink } = useFormValidators()
 
   function validateTitle (title: DeclaredExperienceFormData['title']) {
     return validateRequired(title) ?? validateMaxLength(title, DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)
@@ -47,7 +47,7 @@ export function useDeclaredExperienceFormValidators () {
   }
 
   function validateExternalLink (externalLink: DeclaredExperienceFormData['externalLink']) {
-    return validateMaxLength(externalLink, DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH) ?? validateLinkFormat(externalLink)
+    return validateMaxLength(externalLink, DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH) ?? validateLink(externalLink)
   }
 
   function validateStartDate (startDate: DeclaredExperienceFormData['startDate']) {

@@ -1,8 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { TraceFormData } from '@/features/student/traces/types/traces.types'
 import type { IdTitle } from '@/types'
 import type { ComputedRef } from 'vue'
 import { ELanguage } from '@/api/avenir-esr'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import {
   useAssociateTraceWithActivitiesMutation,
@@ -10,7 +10,8 @@ import {
   useCreateTraceMutation,
   useUploadAttachmentMutation
 } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
+import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
+import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
@@ -18,11 +19,11 @@ import { useI18n } from 'vue-i18n'
 function getIdsForType (associationSelections: Record<string, IdTitle[]>, typeKey: string): string[] {
   return (associationSelections[typeKey] ?? []).map(item => item.id)
 }
-
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
 
   const { addErrorMessage } = useToasterStore()
+  const { validateLink } = useFormValidators()
 
   function onCreateTraceError (error: BaseApiException) {
     addErrorMessage({
@@ -76,22 +77,18 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
     const activityIds = getIdsForType(associationSelections, EAssociationTypeKey.ACTIVITIES)
     if (activityIds.length > 0) {
-      pendingAssociations.push(
-        makeAssociationPromise(associateWithActivities, {
-          traceId,
-          associationsCreationRequest: { idsToAssociate: activityIds }
-        })
-      )
+      pendingAssociations.push(makeAssociationPromise(associateWithActivities, {
+        traceId,
+        associationsCreationRequest: { idsToAssociate: activityIds }
+      }))
     }
 
     const skillIds = getIdsForType(associationSelections, EAssociationTypeKey.DECLARED_SKILLS)
     if (skillIds.length > 0) {
-      pendingAssociations.push(
-        makeAssociationPromise(associateWithDeclaredSkills, {
-          traceId,
-          associationsCreationRequest: { idsToAssociate: skillIds }
-        })
-      )
+      pendingAssociations.push(makeAssociationPromise(associateWithDeclaredSkills, {
+        traceId,
+        associationsCreationRequest: { idsToAssociate: skillIds }
+      }))
     }
 
     return pendingAssociations
@@ -99,14 +96,16 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     const selections = traceFormData.associationSelections ?? {}
+    const pendingOperations: Promise<void>[] = associateElements(traceId, selections)
 
-    const pendingOperations: Promise<void>[] = [
-      ...associateElements(traceId, selections),
-      makeAssociationPromise(uploadAttachmentMutation.mutate, {
-        traceId,
-        file: traceFormData.file!
-      })
-    ]
+    if (isTraceFileType(traceFormData) && traceFormData.file) {
+      pendingOperations.push(
+        makeAssociationPromise(uploadAttachmentMutation.mutate, {
+          traceId,
+          file: traceFormData.file
+        })
+      )
+    }
 
     Promise.allSettled(pendingOperations).then(() => {
       onTraceCreated?.()
@@ -119,7 +118,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       personalNote: traceFormData.personalNote || undefined,
       isGroup: traceFormData.isGroup,
       iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
-      language: ELanguage.FRENCH
+      language: ELanguage.FRENCH,
+      link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
     }, {
       onSuccess: (traceResult) => {
         finalizeTraceCreation(traceResult.traceId, traceFormData)
@@ -130,6 +130,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   const form = useForm({
     defaultValues: {
       file: null,
+      traceType: TraceType.FILE,
       traceName: '',
       personalNote: '',
       isAuthentic: false,
@@ -142,7 +143,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       onSubmit ({ value }: { value: TraceFormData }) {
         return {
           fields: {
-            file: validateFile(value.file),
+            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
+            link: isTraceLinkType(value) ? validateLink(value.link, true) : undefined,
             traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
             isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
@@ -152,7 +154,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       onChange ({ value }: { value: TraceFormData }) {
         return {
           fields: {
-            file: validateFile(value.file),
+            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
           }
         }
       }

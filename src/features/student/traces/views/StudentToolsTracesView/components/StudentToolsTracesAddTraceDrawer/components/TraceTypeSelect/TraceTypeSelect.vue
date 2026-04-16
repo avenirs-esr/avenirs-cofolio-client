@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TraceType } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/types'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

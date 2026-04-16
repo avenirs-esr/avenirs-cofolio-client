@@ -38,6 +38,10 @@
             "label": "AI usage justification",
             "placeholder": "Describe how and why you used AI..."
           },
+          "TraceLinkInput": {
+            "label": "Add a link",
+            "placeholder": "Add a link..."
+          },
           "TraceNameInput": {
             "label": "My trace name",
             "placeholder": "My-trace-name-01"

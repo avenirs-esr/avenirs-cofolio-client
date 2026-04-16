@@ -1,5 +1,10 @@
 import type { IdTitle } from '@/types'
 
+export enum TraceType {
+  FILE = 'FILE',
+  LINK = 'LINK'
+}
+
 export enum EAssociationTypeKey {
   DECLARED_SKILLS = 'declaredSkills',
   ACTIVITIES = 'activities'
@@ -15,8 +20,8 @@ export interface AssociateElementTypeConfig {
   searchPlaceholder: string
 }
 
-export interface TraceFormData {
-  file: File | null
+interface TraceFormDataBase {
+  traceType: TraceType
   traceName: string
   personalNote?: string
   isAuthentic: boolean
@@ -25,3 +30,15 @@ export interface TraceFormData {
   iaJustification?: string
   associationSelections?: Record<string, IdTitle[]>
 }
+
+export interface TraceFormDataFile extends TraceFormDataBase {
+  traceType: TraceType.FILE
+  file: File | null
+}
+
+export interface TraceFormDataLink extends TraceFormDataBase {
+  traceType: TraceType.LINK
+  link: string
+}
+
+export type TraceFormData = TraceFormDataFile | TraceFormDataLink

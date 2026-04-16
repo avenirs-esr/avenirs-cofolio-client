@@ -1,5 +1,6 @@
 import type { TraceFormData } from '@/features/student/traces'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
+import { isTraceFileType } from '@/features/student/traces/utils/trace.types-guard'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
@@ -25,7 +26,7 @@ const TestWrapper = {
         onSubmit ({ value }) {
           return {
             fields: {
-              file: !value.file ? 'Required field' : undefined,
+              file: isTraceFileType(value) && !value.file ? 'Required field' : undefined,
               traceName: !value.traceName.trim() ? 'Required field' : undefined,
               isAuthentic: !value.isAuthentic ? 'Required field' : undefined,
               iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? 'Required field' : undefined,

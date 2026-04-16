@@ -1,6 +1,7 @@
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -71,8 +72,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
   BddTest().when('form is validated with invalid data', () => {
     BddTest().then('it should return validation errors for empty title', () => {
-      const invalidData = {
+      const invalidData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: '',
         personalNote: '',
         isAuthentic: false,
@@ -92,8 +94,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
     BddTest().then('it should return validation error when useIA is true but justification is empty', () => {
       const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
-      const invalidData = {
+      const invalidData: TraceFormData = {
         file: mockFile,
+        traceType: TraceType.FILE,
         traceName: 'Valid Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -112,8 +115,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
   BddTest().when('form is validated with valid data', () => {
     BddTest().then('it should return no validation errors', () => {
       const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
-      const validData = {
+      const validData: TraceFormData = {
         file: mockFile,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Updated note',
         isAuthentic: true,
@@ -140,8 +144,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     })
 
     BddTest().then('it should call updateTrace API with correct data', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Updated note',
         isAuthentic: true,
@@ -166,8 +171,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     })
 
     BddTest().then('it should call updateTrace without personalNote when empty', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: '',
         isAuthentic: true,
@@ -190,8 +196,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     })
 
     BddTest().then('it should handle form submission with AI usage and justification', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -228,8 +235,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     })
 
     BddTest().then('it should not upload file when file field is not dirty', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: new File(['original'], 'test.pdf', { type: 'application/pdf' }),
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -258,8 +266,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         usePinia: true
       })
 
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -285,8 +294,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       const onChangeValidator = composableResult.form.options.validators?.onChange
       expect(onChangeValidator).toBeDefined()
 
-      const invalidData = {
+      const invalidData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -309,8 +319,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       updateTraceSpy.mockRejectedValueOnce(mockError)
 
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
         isAuthentic: true,
@@ -336,8 +347,9 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       uploadAttachmentSpy.mockRejectedValueOnce(mockError)
 
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
         isAuthentic: true,

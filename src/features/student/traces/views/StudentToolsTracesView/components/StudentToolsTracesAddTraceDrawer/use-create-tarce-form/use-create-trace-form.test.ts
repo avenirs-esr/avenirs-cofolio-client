@@ -6,7 +6,7 @@ import {
   type UploadAttachmentBody
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { EAssociationTypeKey, type TraceFormData } from '@/features/student/traces/types/traces.types'
+import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { waitFor } from 'storybook/test'
@@ -52,8 +52,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
   BddTest().when('form is validated with invalid data', () => {
     BddTest().then('it should return validation errors', () => {
-      const invalidData = {
+      const invalidData: TraceFormData = {
         file: null as unknown as File,
+        traceType: TraceType.FILE,
         traceName: '',
         personalNote: '',
         isAuthentic: false,
@@ -76,8 +77,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
   BddTest().when('form is validated with valid data', () => {
     BddTest().then('it should return no validation errors', () => {
       const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
-      const validData = {
+      const validData: TraceFormData = {
         file: mockFile,
+        traceType: TraceType.FILE,
         traceName: 'My Trace Name',
         personalNote: 'Optional note',
         isAuthentic: true,
@@ -103,8 +105,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
     })
 
     BddTest().then('it should validate form before submission', () => {
-      const validFormData = {
+      const validFormData: TraceFormData = {
         file: new File(['test'], 'test.pdf', { type: 'application/pdf' }),
+        traceType: TraceType.FILE,
         traceName: 'My Trace Name',
         personalNote: 'Optional note',
         isAuthentic: true,
@@ -120,8 +123,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
     })
 
     BddTest().then('it should validate required fields before submission', () => {
-      const invalidFormData = {
+      const invalidFormData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: '',
         personalNote: 'Optional note',
         isAuthentic: false,
@@ -141,8 +145,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
     BddTest().then('it should call both createTrace and uploadAttachment APIs when file is provided', async () => {
       const mockFile = new File(['text content'], 'test.txt', { type: 'text/plain' })
-      const formData = {
+      const formData: TraceFormData = {
         file: mockFile,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: 'Optional note',
         isAuthentic: true,
@@ -171,8 +176,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
     })
 
     BddTest().then('it should handle form submission without personalNote', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -195,8 +201,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
     })
 
     BddTest().then('it should handle form submission with IA usage and justification', async () => {
-      const formData = {
+      const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -219,8 +226,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
     })
 
     BddTest().then('it should validate IA justification when IA is enabled', () => {
-      const formDataWithoutJustification = {
+      const formDataWithoutJustification: TraceFormData = {
         file: new File(['test'], 'test.pdf', { type: 'application/pdf' }),
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -235,12 +243,76 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const validationResult = onSubmitValidator!({ value: formDataWithoutJustification })
       expect(validationResult?.fields?.iaJustification).toEqual('Ce champ est requis.')
     })
+
+    BddTest().then('it should require link when traceType is LINK and link is empty', () => {
+      const formData: TraceFormData = {
+        link: '',
+        traceType: TraceType.LINK,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+      const validationResult = onSubmitValidator!({ value: formData })
+
+      expect(validationResult?.fields?.link).toEqual('Ce champ est requis.')
+    })
+
+    BddTest().then('it should not require link when traceType is FILE', () => {
+      const formData: TraceFormData = {
+        file: null,
+        traceType: TraceType.FILE,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
+      const validationResult = onSubmitValidator!({ value: formData })
+
+      expect(validationResult?.fields?.link).toBeUndefined()
+    })
+
+    BddTest().then('it should not call uploadAttachment when no file is provided', async () => {
+      const onTraceCreated = vi.fn()
+      const result = mountComposable(() => useCreateTraceForm(onTraceCreated), {
+        useI18n: true,
+        useTanstack: true,
+        usePinia: true
+      })
+
+      const formData: TraceFormData = {
+        file: null,
+        traceType: TraceType.FILE,
+        traceName: 'my-trace-name',
+        personalNote: '',
+        isAuthentic: true,
+        isGroup: false,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      result.result.form.options.onSubmit?.({ value: formData, formApi: result.result.form, meta: {} })
+      await waitFor(() => {
+        expect(createTraceSpy).toHaveBeenCalled()
+        expect(uploadAttachmentSpy).not.toHaveBeenCalled()
+        expect(onTraceCreated).toHaveBeenCalled()
+      })
+    })
   })
 
   BddTest().when('form is submitted with association selections', () => {
     BddTest().then('it should call associateTraceWithActivities when activities are selected', async () => {
       const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -266,6 +338,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
     BddTest().then('it should call associateTraceWithDeclaredSkill when declared skills are selected', async () => {
       const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -291,6 +364,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
     BddTest().then('it should call both association APIs when both types are selected', async () => {
       const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -320,6 +394,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
     BddTest().then('it should not call association APIs when selections are empty', async () => {
       const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
@@ -350,6 +425,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
       const formData: TraceFormData = {
         file: null,
+        traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
         isAuthentic: true,
