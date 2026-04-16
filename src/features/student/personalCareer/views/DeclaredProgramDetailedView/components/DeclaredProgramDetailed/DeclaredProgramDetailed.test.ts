@@ -29,7 +29,6 @@ const mockedDeclaredProgramDetailed: DeclaredProgramDetailedDTO = {
   organization: 'My organization',
   result: 'My result',
   sourceOfInformation: 'My source',
-  link: undefined,
   startDate: '2026-01-10',
   endDate: '2026-01-20',
   createdAt: '2026-01-01T10:00:00Z',

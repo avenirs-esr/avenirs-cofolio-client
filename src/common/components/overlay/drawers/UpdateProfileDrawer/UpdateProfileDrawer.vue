@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type PictureDTO } from '@/api/avenir-esr'
+import { EUserCategory, type FileDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
@@ -24,8 +24,8 @@ interface UpdateProfileDrawerProps {
   lastname: string
   bio?: string
   email: string
-  profilePicture: PictureDTO
-  coverPicture: PictureDTO
+  profilePicture: FileDTO
+  coverPicture: FileDTO
   show: boolean
   onClose: () => void
 }

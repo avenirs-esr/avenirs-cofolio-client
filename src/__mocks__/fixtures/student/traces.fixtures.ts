@@ -1,7 +1,9 @@
 import {
+  type AssociationSearchResultDeclaredActivityDTO,
+  type AssociationSearchResultDeclaredSkillIDTO,
+  type AssociationSearchResultTraceDTO,
   type AttachmentUploadDTO,
   type DeclaredActivityAssociationDTO,
-  type DeclaredActivityAssociationTraceInfoDTO,
   type DeclaredSkillAssociationDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
@@ -13,8 +15,6 @@ import {
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseTraceViewDTO,
   type SearchTracesForAssociationParams,
-  type TraceAssociationDeclaredActivityInfoDTO,
-  type TraceAssociationDeclaredSkillInfoDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
   type TraceFilter,
@@ -211,6 +211,7 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
       thematic: EActivityThematic.SELF_KNOWLEDGE,
       status: EDeclaredActivityStatus.IN_PROGRESS,
       summary: 'Activité faisant partie de la catégorie Connaissance de soi. Elle permet à l’étudiant.e d’identifier les valeurs essentielles qui orientent ses choix et d’analyser la manière dont elles se traduisent dans ses comportements quotidiens. Cette réflexion constitue une base structurante pour construire un projet personnel et professionnel cohérent.',
+      description: '<h3>Objectifs</h3><ul><li>Identifier les valeurs qui guident les choix de l’étudiant.e</li><li>Analyser comment ces valeurs se manifestent dans les comportements quotidiens</li><li>Utiliser cette connaissance de soi pour construire un projet personnel et professionnel cohérent</li></ul>',
       startDate: '2025-01-10',
       endDate: '2025-01-20',
     },
@@ -224,6 +225,7 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
       thematic: EActivityThematic.FUTURE_PLANS,
       status: EDeclaredActivityStatus.SUBSCRIBED,
       summary: 'Activité centrée sur l’exploration des futurs possibles. L’étudiant.e identifie différents domaines professionnels susceptibles de correspondre à son profil et analyse les conditions d’accès, les environnements de travail et les perspectives d’évolution associées.',
+      description: '<h3>Objectifs</h3><ul><li>Identifier différents domaines professionnels correspondant au profil de l’étudiant.e</li><li>Analyser les conditions d’accès, les environnements de travail et les perspectives d’évolution associées à ces domaines</li><li>Utiliser ces informations pour affiner son projet professionnel</li></ul>',
     }
   }
 ]
@@ -306,7 +308,7 @@ export function createMockedSearchTracesForAssociationResponse (
   const end = start + pageSize
   const paginatedTraces = filteredTraces.slice(start, end)
 
-  const data: DeclaredActivityAssociationTraceInfoDTO[] = paginatedTraces.map(trace => ({
+  const data: AssociationSearchResultTraceDTO[] = paginatedTraces.map(trace => ({
     id: trace.id,
     title: trace.title,
     disabled: false
@@ -323,7 +325,7 @@ export function createMockedSearchTracesForAssociationResponse (
   }
 }
 
-export const mockedTraceActivitySearchResults: TraceAssociationDeclaredActivityInfoDTO[] = [
+export const mockedTraceActivitySearchResults: AssociationSearchResultDeclaredActivityDTO[] = [
   {
     id: 'activity-search-1',
     title: 'Définir ses valeurs',
@@ -344,7 +346,7 @@ export const mockedTraceActivitySearchResults: TraceAssociationDeclaredActivityI
   }
 ]
 
-export const mockedSkillSearchResults: TraceAssociationDeclaredSkillInfoDTO[] = [
+export const mockedSkillSearchResults: AssociationSearchResultDeclaredSkillIDTO[] = [
   {
     id: 'skill-search-1',
     title: 'Gestion de projet agile',

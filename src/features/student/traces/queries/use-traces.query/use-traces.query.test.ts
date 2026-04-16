@@ -6,6 +6,7 @@ import { associateTraceWithDeclaredSkillsErrorHandler, searchSkillsForAssociatio
 import { server } from '@/__mocks__/msw/server'
 import {
   ELanguage,
+  type GetTraceAssociationsParams,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
@@ -901,7 +902,7 @@ BddTest().given('a student traces summary query with no parameters', () => {
 
 BddTest().given('a useTraceAssociationsQuery composable', async () => {
   let getTraceAssociationsSpy: MockInstance<
-    (traceId: string, options?: RequestInit | undefined) => Promise<TraceAssociationsDTO>
+    (traceId: string, params?: GetTraceAssociationsParams, options?: RequestInit) => Promise<TraceAssociationsDTO>
   >
 
   beforeEach(async () => {

@@ -1,18 +1,15 @@
 import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import {
-  type ActivityDetailDTO,
+  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
-  ActivityThematic,
-  type DeclaredActivity,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
-  DeclaredActivityStatus,
-  type DeclaredActivityTraceAssociationDTO,
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
-  type PagedResponseDeclaredActivityViewDTO
+  type PagedResponseDeclaredActivityViewDTO,
+  type TraceAssociationDTO
 } from '@/api/avenir-esr'
 
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
@@ -171,6 +168,7 @@ const commonMockedDeclaredActivityProps = {
     id: 'activity-1',
     title: 'Activité “Connaissance de soi” : Définir ses valeurs',
     summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+    description: '<h3>Objectifs de l’activité</h3><ul><li><p>Permettre à l’étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l’étudiant.e à réfléchir à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l’activité</h3><p>L’activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s’incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
     executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
   },
   reflection: `<h1>Mes valeurs</h1><p>Je me rends compte que mes valeurs sont :</p><ul><li><p><strong>autonomie</strong></p></li><li><p><strong>créativité</strong></p></li><li><p><strong>impact social</strong></p></li></ul><p>Je vois que je les incarne dans</p><ol><li><p><em>engagement associatif</em></p></li><li><p><em>projets personnels</em></p></li><li><p><em>choix de stage l'été dernier</em></p></li></ol><p></p>`,
@@ -178,16 +176,6 @@ const commonMockedDeclaredActivityProps = {
   endDate: '2024-06-30',
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z',
-}
-
-export const mockedDeclaredActivity: DeclaredActivity = {
-  ...commonMockedDeclaredActivityProps,
-  activity: {
-    ...commonMockedDeclaredActivityProps.activity,
-    thematic: ActivityThematic.ABOUT_ME,
-  },
-  hasStarted: true,
-  status: DeclaredActivityStatus.IN_PROGRESS
 }
 
 export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
@@ -210,6 +198,7 @@ export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   status: EDeclaredActivityStatus.IN_PROGRESS,
   summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes.',
+  description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
   startDate: '2024-01-01T00:00:00Z',
   endDate: '2024-06-30T00:00:00Z',
 }
@@ -223,6 +212,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.RESUMES,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Activité permettant à l\'étudiant.e de construire et de valoriser son parcours académique et professionnel.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de construire un CV structuré et valorisant</p></li><li><p>Guider l\'étudiant.e dans la valorisation de son parcours académique et professionnel</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences et compétences clés à valoriser</p></li><li><p>Structuration du CV en fonction du projet professionnel</p></li><li><p>Rédaction de descriptions impactantes pour chaque expérience</p></li><li><p>Conseils pour adapter le CV à différentes offres d\'emploi ou de stage</p></li></ol>',
   },
   {
     id: 'declared-activity-2',
@@ -231,6 +221,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.RESUMES,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Activité permettant à l\'étudiant.e de construire et de valoriser son parcours académique et professionnel.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de construire un CV structuré et valorisant</p></li><li><p>Guider l\'étudiant.e dans la valorisation de son parcours académique et professionnel</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences et compétences clés à valoriser</p></li><li><p>Structuration du CV en fonction du projet professionnel</p></li><li><p>Rédaction de descriptions impactantes pour chaque expérience</p></li><li><p>Conseils pour adapter le CV à différentes offres d\'emploi ou de stage</p></li></ol>',
   },
   {
     id: 'declared-activity-3',
@@ -239,6 +230,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.TRAJECTORIES,
     status: EDeclaredActivityStatus.COMPLETED,
     summary: 'Activité au cours de laquelle l\'étudiant.e explore différentes voies professionnelles et académiques.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e d\'explorer différentes voies professionnelles et académiques</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des voies professionnelles et académiques possibles</p></li><li><p>Analyse des compétences et intérêts personnels</p></li><li><p>Évaluation des options et choix d\'une voie</p></li></ol>',
     startDate: '2023-09-01T00:00:00Z',
     endDate: '2024-01-31T00:00:00Z',
   },
@@ -249,6 +241,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.EXPERIENCES,
     status: EDeclaredActivityStatus.IN_PROGRESS,
     summary: 'Activité permettant à l\'étudiant.e de valoriser ses expériences personnelles et professionnelles.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de valoriser ses expériences personnelles et professionnelles</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences et compétences clés à valoriser</p></li><li><p>Structuration des expériences en fonction du projet professionnel</p></li><li><p>Rédaction de descriptions impactantes pour chaque expérience</p></li><li><p>Conseils pour adapter les expériences à différentes offres d\'emploi ou de stage</p></li></ol>',
     startDate: '2024-02-01T00:00:00Z',
   },
   {
@@ -258,6 +251,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.TRAJECTORIES,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Activité guidant l\'étudiant.e dans la construction d\'un projet professionnel cohérent avec ses aspirations.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Guider l\'étudiant.e dans la construction d\'un projet professionnel cohérent avec ses aspirations</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des aspirations professionnelles et personnelles</p></li><li><p>Exploration des options professionnelles possibles</p></li><li><p>Évaluation de la cohérence entre les aspirations et les options</p></li><li><p>Construction d\'un projet professionnel provisoire</p></li></ol>',
   },
   {
     id: 'declared-activity-6',
@@ -266,42 +260,11 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.COMPLETED,
     summary: 'Activité permettant à l\'étudiant.e d\'identifier et de nommer ses compétences acquises.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e d\'identifier et de nommer ses compétences acquises</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences significatives</p></li><li><p>Analyse des compétences mobilisées dans ces expériences</p></li><li><p>Nomination des compétences identifiées</p></li><li><p>Valorisation des compétences dans le projet professionnel</p></li></ol>',
     startDate: '2023-11-01T00:00:00Z',
     endDate: '2024-03-31T00:00:00Z',
   },
 ]
-
-export function createMockedDeclaredActivity (id: string): DeclaredActivity {
-  const selectedActivity = allDeclaredActivities.find(activity => activity.id === id)
-
-  if (!selectedActivity) {
-    return {
-      ...mockedDeclaredActivity,
-      id,
-    }
-  }
-
-  const statusMap: Record<EDeclaredActivityStatus, DeclaredActivityStatus> = {
-    [EDeclaredActivityStatus.SUBSCRIBED]: DeclaredActivityStatus.SUBSCRIBED,
-    [EDeclaredActivityStatus.IN_PROGRESS]: DeclaredActivityStatus.IN_PROGRESS,
-    [EDeclaredActivityStatus.COMPLETED]: DeclaredActivityStatus.COMPLETED,
-  }
-
-  return {
-    ...mockedDeclaredActivity,
-    id: selectedActivity.id,
-    activity: {
-      ...mockedDeclaredActivity.activity,
-      id: selectedActivity.activityId,
-      title: selectedActivity.title,
-      summary: selectedActivity.summary,
-    },
-    startDate: selectedActivity.startDate ?? mockedDeclaredActivity.startDate,
-    endDate: selectedActivity.endDate ?? mockedDeclaredActivity.endDate,
-    status: statusMap[selectedActivity.status],
-    hasStarted: selectedActivity.status !== EDeclaredActivityStatus.SUBSCRIBED,
-  }
-}
 
 export function createMockedPagedResponseDeclaredActivityViewDTO (
   pageSize: number,
@@ -345,7 +308,7 @@ export function createLargeMockedPagedResponseDeclaredActivityViewDTO (
   }
 }
 
-export const mockedActivityDetail: ActivityDetailDTO = {
+export const mockedActivityDetail: ActivityDetailsDTO = {
   id: 'activity-1',
   title: 'Activité “Connaissance de soi” : Définir ses valeurs',
   banner: {
@@ -355,12 +318,13 @@ export const mockedActivityDetail: ActivityDetailDTO = {
   },
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+  description: '<h3>Objectifs de l’activité</h3><ul><li><p>Permettre à l’étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l’étudiant.e à réfléchir à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l’activité</h3><p>L’activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s’incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
   executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
 
-export const mockedSubscribedActivityDetail: ActivityDetailDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
+export const mockedSubscribedActivityDetail: ActivityDetailsDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
 
 export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   ...mockedDeclaredActivityDetails,
@@ -369,20 +333,23 @@ export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO =
 }
 
 export function createMockedDeclaredActivityDetails (id: string): DeclaredActivityDetailsDTO {
-  const declaredActivity = createMockedDeclaredActivity(id)
+  const selectedActivity = allDeclaredActivities.find(activity => activity.id === id)
 
-  const activity = declaredActivity.activity ?? mockedDeclaredActivity.activity!
+  const activity = selectedActivity
+    ? {
+        ...selectedActivity,
+        executionPeriodInfo: mockedDeclaredActivityDetails.activity.executionPeriodInfo,
+        createdAt: mockedDeclaredActivityDetails.activity.createdAt,
 
-  const mappedStatus: EDeclaredActivityStatus
-    = declaredActivity.status === DeclaredActivityStatus.COMPLETED
-      ? EDeclaredActivityStatus.COMPLETED
-      : declaredActivity.status === DeclaredActivityStatus.SUBSCRIBED
-        ? EDeclaredActivityStatus.SUBSCRIBED
-        : EDeclaredActivityStatus.IN_PROGRESS
+      }
+    : {
+        ...mockedDeclaredActivityDetails.activity!,
+        status: mockedDeclaredActivityDetails.status,
+      }
 
   return {
-    ...mockedDeclaredActivityDetails,
-    id: declaredActivity.id ?? id,
+    ...activity,
+    id: activity.id ?? id,
     activity: {
       ...mockedDeclaredActivityDetails.activity,
       id: activity.id ?? mockedDeclaredActivityDetails.activity.id,
@@ -392,23 +359,21 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },
-    status: mappedStatus,
-    startDate: declaredActivity.startDate?.slice(0, 10) ?? '',
-    endDate: declaredActivity.endDate?.slice(0, 10) ?? '',
-    createdAt: declaredActivity.createdAt ?? mockedDeclaredActivityDetails.createdAt,
-    updatedAt: declaredActivity.updatedAt ?? mockedDeclaredActivityDetails.updatedAt,
-    finishedAt: mappedStatus === EDeclaredActivityStatus.COMPLETED
+    endDate: mockedDeclaredActivityDetails.endDate?.slice(0, 10) ?? '',
+    createdAt: mockedDeclaredActivityDetails.createdAt,
+    updatedAt: mockedDeclaredActivityDetails.updatedAt,
+    finishedAt: activity.status === EDeclaredActivityStatus.COMPLETED
       ? mockedFinishedDeclaredActivityDetails.finishedAt
       : '',
-    reflection: declaredActivity.reflection ?? mockedDeclaredActivityDetails.reflection,
+    reflection: mockedDeclaredActivityDetails.reflection,
   }
 }
 
 export function createMockedTraceAssociations (
   traceCount: number,
   idsToAssociate?: string[]
-): DeclaredActivityTraceAssociationDTO[] {
-  const traceAssociations: DeclaredActivityTraceAssociationDTO[] = []
+): TraceAssociationDTO[] {
+  const traceAssociations: TraceAssociationDTO[] = []
 
   for (let i = 1; i <= traceCount; i++) {
     traceAssociations.push({

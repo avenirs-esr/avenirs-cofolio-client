@@ -1,17 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
-  associate,
-  type AssociateTraceDTO,
   associateTraceWithActivities,
   associateTraceWithDeclaredSkill,
   type AssociationsCreationRequest,
+  type AssociationSearchResultDeclaredActivityDTO,
+  type AssociationSearchResultDeclaredSkillIDTO,
   createTrace,
   type CreateTraceDTO,
   deleteTrace,
   deleteTraceAssociations,
-  type ETraceAssociationType,
-  getAssociatedTraces,
   getTraceAssociations,
   getTraceConfig,
   getTraceDetail,
@@ -19,16 +17,12 @@ import {
   getTracesSummary,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
-  type PagedResponseTraceAssociationSearchResult,
   type PagedResponseTraceViewDTO,
   searchDeclaredActivityForAssociation,
   type SearchDeclaredActivityForAssociationParams,
   searchDeclaredSkillForAssociation,
   type SearchDeclaredSkillForAssociationParams,
-  type TraceAssociationDeclaredActivityInfoDTO,
-  type TraceAssociationDeclaredSkillInfoDTO,
   type TraceAssociationsDTO,
-  type TraceAssociationSearchResult,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
   type TraceFilter,
@@ -46,8 +40,8 @@ import {
 import { useInvalidateQuery } from '@/common/composables'
 import { removeEmpty } from '@/common/utils'
 import { commonQueryKeys } from '@/features/student/global'
-import { keepPreviousData, useInfiniteQuery, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue, type UnwrapRef } from 'vue'
+import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
+import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
@@ -219,77 +213,6 @@ export function useInvalidateTraceDetailQuery () {
   return invalidateTraceDetailsQuery
 }
 
-export function useTracesAssociationQuery (
-  associationType: Ref<ETraceAssociationType>,
-  keyword: Ref<string>,
-  pageSize: Ref<number>
-) {
-  const queryKey = computed(() => [
-    ...tracesCommonQueryKeys,
-    'association',
-    {
-      associationType: associationType.value,
-      keyword: keyword.value,
-      pageSize: pageSize.value,
-    },
-  ])
-
-  const queryFn = computed(
-    () =>
-      async ({ pageParam = 0 }): Promise<PagedResponseTraceAssociationSearchResult> =>
-        await getAssociatedTraces(associationType.value, {
-          keyword: toValue(keyword),
-          page: pageParam,
-          pageSize: toValue(pageSize)
-        })
-  )
-
-  const query = useInfiniteQuery<
-    PagedResponseTraceAssociationSearchResult,
-    BaseApiException,
-    TraceAssociationSearchResult[],
-    Readonly<UnwrapRef<typeof queryKey>>,
-    number
-  >({
-    queryKey,
-    queryFn,
-    enabled: computed(() => keyword.value.trim().length >= 3),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      const { page, totalPages } = lastPage.page
-      return page + 1 < totalPages ? page + 1 : undefined
-    },
-    select: data => data.pages.flatMap(p => p.data)
-  })
-
-  const associations = computed(() => (keyword.value.trim().length >= 3 ? query.data.value ?? [] : []))
-
-  return {
-    ...query,
-    associations
-  }
-}
-
-export interface UseCreateAssociateTraceMutationVariables {
-  traceId: string
-  associateTraceDTO: AssociateTraceDTO
-}
-
-export function useCreateAssociateTraceMutation ({ onError, onSuccess }: MutationArgs) {
-  const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
-
-  return useMutation<void, BaseApiException, UseCreateAssociateTraceMutationVariables>({
-    mutationFn: async ({ traceId, associateTraceDTO }): Promise<void> => {
-      await associate(traceId, associateTraceDTO)
-    },
-    onSuccess: async (data, variables) => {
-      await invalidateTraceDetailQuery(variables.traceId)
-      onSuccess?.(data, variables)
-    },
-    onError
-  })
-}
-
 export interface UpdateTraceVariables {
   traceId: string
   updateTraceDTO: UpdateTraceDTO
@@ -354,7 +277,7 @@ export interface SearchActivitiesForAssociationQueryParams {
 
 export type SearchActivitiesForAssociationQueryReturnType =
   UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException> & {
-    activities: Ref<TraceAssociationDeclaredActivityInfoDTO[]>
+    activities: Ref<AssociationSearchResultDeclaredActivityDTO[]>
     pageInfo: Ref<{
       page: number
       pageSize: number
@@ -435,7 +358,7 @@ export interface UseDeclaredSkillsForAssociationQueryParams {
 
 export type SearchDeclaredSkillsForAssociationWithTraceQueryReturnType =
   UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException> & {
-    skills: Ref<TraceAssociationDeclaredSkillInfoDTO[]>
+    skills: Ref<AssociationSearchResultDeclaredSkillIDTO[]>
     pageInfo: Ref<{
       page: number
       pageSize: number

@@ -5,10 +5,10 @@ import {
   type AssociationSearchResultDeclaredActivityDTO,
   type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationsDTO,
-  type DeclaredSkillDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   EExternalSkillType,
+  type ExternalSkillDTO,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PageInfoDTO,
@@ -43,7 +43,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
 
     BddTest().when('the query is executed with all parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
-        skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
+        skills: Ref<ExternalSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
 
@@ -89,7 +89,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
 
     BddTest().when('the query is executed with different parameters', () => {
       let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
-        skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
+        skills: Ref<ExternalSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
 
@@ -121,7 +121,7 @@ BddTest().given('an useDeclaredSkillsViewQuery composable', () => {
 
     BddTest().when('parameter values are updated', () => {
       let queryResult: UseQueryReturnType<PagedResponseDeclaredSkillProgressDTO, BaseApiException> & {
-        skills: Ref<DeclaredSkillDTO[] | DeclaredSkillProgressDTO[]>
+        skills: Ref<ExternalSkillDTO[] | DeclaredSkillProgressDTO[]>
         pageInfo: Ref<PageInfoDTO>
       }
 

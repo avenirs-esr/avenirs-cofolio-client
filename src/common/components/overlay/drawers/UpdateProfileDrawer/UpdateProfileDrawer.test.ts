@@ -1,4 +1,4 @@
-import type { EUserCategory, PictureDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { EUserCategory, FileDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SetupContext } from 'vue'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
@@ -160,7 +160,7 @@ BddTest().given('given an update profile drawer', () => {
     }
   }
 
-  const store: Record<string, { value: string | PictureDTO }> = {
+  const store: Record<string, { value: string | FileDTO }> = {
     lastname: ref(userSummary.lastname),
     firstname: ref(userSummary.firstname),
     email: ref(userSummary.email),
@@ -191,7 +191,7 @@ BddTest().given('given an update profile drawer', () => {
     coverPicture: { fileId: undefined, fileName: undefined, url: '' }
   }
 
-  const storeWithMissingFields: Record<string, { value: string | PictureDTO }> = {
+  const storeWithMissingFields: Record<string, { value: string | FileDTO }> = {
     lastname: ref(userSummaryWithMissingFields.lastname),
     firstname: ref(userSummaryWithMissingFields.firstname),
     email: ref(userSummaryWithMissingFields.email),

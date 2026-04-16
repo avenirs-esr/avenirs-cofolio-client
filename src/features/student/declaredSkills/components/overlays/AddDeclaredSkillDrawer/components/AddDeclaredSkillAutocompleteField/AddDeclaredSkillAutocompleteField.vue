@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredSkillDTO } from '@/api/avenir-esr'
+import type { ExternalSkillDTO } from '@/api/avenir-esr'
 import type { DeclaredSkillOption } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import type {
   DeclaredSkillForm,
@@ -34,7 +34,7 @@ const { skills: apiSkills, hasNextPage, fetchNextPage, isLoading, isFetchingNext
 )
 
 const skills = computed((): DeclaredSkillOption[] => {
-  return apiSkills.value.map((skill: DeclaredSkillDTO): DeclaredSkillOption => ({
+  return apiSkills.value.map((skill: ExternalSkillDTO): DeclaredSkillOption => ({
     label: skill.title,
     value: skill.id,
     ...skill

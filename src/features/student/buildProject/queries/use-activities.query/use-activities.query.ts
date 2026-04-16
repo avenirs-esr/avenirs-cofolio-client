@@ -1,16 +1,16 @@
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { MutationArgs } from '@/types'
 import {
-  type ActivityDetailDTO,
+  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   associateActivityWithDeclaredSkills,
   associateActivityWithTraces,
   type AssociationsCreationRequest,
   type AssociationsDeleteRequest,
-  type DeclaredActivity,
+  type AssociationSearchResultDeclaredSkillIDTO,
+  type AssociationSearchResultTraceDTO,
   type DeclaredActivityAssociationsDTO,
-  type DeclaredActivityAssociationTraceInfoDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityPeriodRequest,
   deleteDeclaredActivityAssociations,
@@ -35,7 +35,6 @@ import {
   type SearchTracesForAssociationParams,
   subscribeActivity,
   type SubscribeDeclaredActivityRequest,
-  type TraceAssociationDeclaredSkillInfoDTO,
   unsubscribeActivitiesProgresses,
   updatePeriod,
   updateReflection
@@ -220,11 +219,11 @@ export interface SubscribeActivityVariables {
   subscribeDeclaredActivityRequest: SubscribeDeclaredActivityRequest
 }
 
-export function useSubscribeActivityMutation ({ onError, onSuccess }: MutationArgs<DeclaredActivity, SubscribeActivityVariables> = {}) {
+export function useSubscribeActivityMutation ({ onError, onSuccess }: MutationArgs<DeclaredActivityDetailsDTO, SubscribeActivityVariables> = {}) {
   const invalidateQueryKey = useInvalidateQuery()
 
-  return useMutation<DeclaredActivity, BaseApiException, SubscribeActivityVariables>({
-    mutationFn: async ({ activityId, subscribeDeclaredActivityRequest }: SubscribeActivityVariables): Promise<DeclaredActivity> => {
+  return useMutation<DeclaredActivityDetailsDTO, BaseApiException, SubscribeActivityVariables>({
+    mutationFn: async ({ activityId, subscribeDeclaredActivityRequest }: SubscribeActivityVariables): Promise<DeclaredActivityDetailsDTO> => {
       return await subscribeActivity(activityId, subscribeDeclaredActivityRequest)
     },
     onSuccess: async (data, variables) => {
@@ -259,11 +258,11 @@ export function useUnsubscribeActivitiesMutation ({ onError, onSuccess }: Mutati
 export function useActivityDetailQuery (activityId: MaybeRef<string>) {
   const queryKey = computed(() => [...activityDetailsQueryKey, toValue(activityId)])
 
-  const queryFn = computed(() => async (): Promise<ActivityDetailDTO> => {
+  const queryFn = computed(() => async (): Promise<ActivityDetailsDTO> => {
     return await getActivityDetail(toValue(activityId))
   })
 
-  const query = useQuery<ActivityDetailDTO, BaseApiException>({
+  const query = useQuery<ActivityDetailsDTO, BaseApiException>({
     queryKey,
     queryFn,
     enabled: computed(() => toValue(activityId).trim().length > 0),
@@ -461,7 +460,7 @@ export interface SearchTracesForAssociationQueryParams {
 
 export type SearchTracesForAssociationQueryReturnType =
   UseQueryReturnType<PagedResponseAssociationSearchResultTraceDTO, BaseApiException> & {
-    traces: Ref<DeclaredActivityAssociationTraceInfoDTO[]>
+    traces: Ref<AssociationSearchResultTraceDTO[]>
     pageInfo: Ref<{
       page: number
       pageSize: number
@@ -520,7 +519,7 @@ export interface UseDeclaredSkillsForAssociationWithActivityQueryParams {
 
 export type SearchDeclaredSkillsForAssociationWithActivityQueryReturnType =
   UseQueryReturnType<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException> & {
-    skills: Ref<TraceAssociationDeclaredSkillInfoDTO[]>
+    skills: Ref<AssociationSearchResultDeclaredSkillIDTO[]>
     pageInfo: Ref<{
       page: number
       pageSize: number

@@ -1,4 +1,4 @@
-import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { type DeclaredActivityViewDTO, EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import {
   ActivityPeriodSummaryBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.stub'
@@ -37,13 +37,14 @@ BddTest().given('an ActivityLibraryCard', () => {
     RouterLink: RouterLinkStub
   }
 
-  const baseActivity = {
+  const baseActivity: DeclaredActivityViewDTO = {
     id: '1',
     activityId: '1',
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Une activité de connaissance de soi.',
+    description: '<h3>Description activité</h3>',
     executionPeriodInfoSummary: 'À faire cette année',
     startDate: '2025-09-01T00:00:00.000Z',
     endDate: '2026-06-30T00:00:00.000Z'

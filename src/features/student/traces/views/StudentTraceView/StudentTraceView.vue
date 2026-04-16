@@ -9,9 +9,8 @@ import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
-import StudentDetailedTraceAssociateModal
-  from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceAssociateModal/StudentDetailedTraceAssociateModal.vue'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
+import AssociateDeclaredSkillsToTracesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import UpdateTraceModal from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
@@ -126,10 +125,11 @@ const breadcrumbLinks = computed(() => [
         </AvTab>
       </AvTabs>
 
-      <StudentDetailedTraceAssociateModal
-        :trace="traceDetailed"
+      <AssociateDeclaredSkillsToTracesModal
         :show="showAssociateModal"
-        :on-close="() => hideAssociateModal()"
+        :trace-id="traceDetailed.id"
+        @cancel="hideAssociateModal"
+        @associated="hideAssociateModal"
       />
 
       <TraceDeletionConfirmationModal

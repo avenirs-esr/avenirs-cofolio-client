@@ -13,7 +13,6 @@ export const declaredProgramViewDTOFixture: DeclaredProgramDetailedDTO = {
   organization: 'Université Paris-Saclay',
   result: 'Mention Très Bien',
   sourceOfInformation: 'Site web de l\'université',
-  link: 'https://www.universite-paris-saclay.fr/master-informatique',
   startDate: '2023-09',
   endDate: '2025-06',
   createdAt: '2024-01-15T10:30:00Z',

@@ -33,6 +33,7 @@ export function createDeclaredSkillAssociationResponseFixture (associations: Ass
         title: `Mocked activity ${activityId}`,
         thematic: EActivityThematic.TRANSVERSAL,
         summary: `Mocked summary for ${activityId}`,
+        description: `<h3>Description for ${activityId}</h3><p>This is a mocked description for the declared activity with id ${activityId}.</p>`,
         executionPeriodInfoSummary: `Mocked execution period for ${activityId}`,
         status: EDeclaredActivityStatus.IN_PROGRESS,
         startDate: '2026-01-01',

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { DeclaredActivityTraceAssociationDTO } from '@/api/avenir-esr'
+import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import AssociatedTraceCard from '@/features/student/global/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import AssociationsCard from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedTracesCardProps {
-  associatedTraces: DeclaredActivityTraceAssociationDTO[]
+  associatedTraces: TraceAssociationDTO[]
 }
 
 const { associatedTraces } = defineProps<AssociatedTracesCardProps>()

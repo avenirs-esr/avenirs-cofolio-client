@@ -4,6 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
+import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -49,16 +50,7 @@ BddTest().given('a student trace view', () => {
       props: ['trace'],
       template: '<div class="update-trace-modal" />'
     },
-    StudentDetailedTraceAssociateModal: {
-      name: 'StudentDetailedTraceAssociateModal',
-      props: ['trace', 'show', 'onConfirmAssociateTrace', 'onClose'],
-      template: `
-        <div v-if="show" class="associate-modal">
-          <div class="trace-title">{{ trace?.title }}</div>
-          <button class="associate-close" @click="onClose()">close</button>
-        </div>
-      `
-    },
+    AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
     StudentTraceDetails: {
       name: 'StudentTraceDetails',
       props: ['trace'],
@@ -151,8 +143,8 @@ BddTest().given('a student trace view', () => {
       expect(allTabs).toHaveLength(2)
     })
 
-    BddTest().then('it should render the StudentDetailedTraceAssociateModal initially hidden', async () => {
-      const modal = wrapper.findComponent({ name: 'StudentDetailedTraceAssociateModal' })
+    BddTest().then('it should render the AssociateDeclaredSkillsToTracesModal initially hidden', async () => {
+      const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
     })
@@ -164,25 +156,8 @@ BddTest().given('a student trace view', () => {
       await popover.vm.$emit('associate-selected')
       await flushPromises()
 
-      const modal = wrapper.findComponent({ name: 'StudentDetailedTraceAssociateModal' })
+      const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
       expect(modal.props('show')).toBe(true)
-      expect(wrapper.find('.associate-modal .trace-title').text()).toContain(mockedTraceDetailed.title)
-    })
-  })
-
-  BddTest().when('Associate modal is opened', () => {
-    BddTest().and('its close is triggered', () => {
-      BddTest().then('it should hide the associate modal', async () => {
-        const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-        await popover.vm.$emit('associate-selected')
-        await flushPromises()
-
-        await wrapper.find('.associate-close').trigger('click')
-        await flushPromises()
-
-        const modal = wrapper.findComponent({ name: 'StudentDetailedTraceAssociateModal' })
-        expect(modal.props('show')).toBe(false)
-      })
     })
   })
 
