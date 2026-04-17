@@ -156,6 +156,11 @@
               "description": "The experience you are looking for does not exist or is not accessible.",
               "title": "Declared experience not found"
             }
+          },
+          "tabs": {
+            "details": {
+              "title": "My declared experience"
+            }
           }
         },
         "DeclaredExperienceUpdateView": {

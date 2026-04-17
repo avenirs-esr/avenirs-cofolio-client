@@ -6,28 +6,50 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
+import { ICONS } from '@/features/student/global/icons'
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
-import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
+import DeleteDeclaredExperienceConfirmModal
+  from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import {
   usePaginatedDeclaredExperiences
 } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
-import { useDeclaredExperienceDetailedViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
+import {
+  useDeclaredExperienceDetailedViewQuery
+} from '@/features/student/personalCareer/queries/use-declared-experiences.query'
+import DeclaredExperienceAssociations
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import DeclaredExperienceDetails
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+
+enum DeclaredExperienceViewTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
+
 const experienceId = computed(() => String(route.params.id ?? ''))
 
-const { declaredExperience: declaredExperienceDetailed, isLoading, isError, error } = useDeclaredExperienceDetailedViewQuery({ experienceId })
+const {
+  declaredExperience: declaredExperienceDetailed,
+  isLoading,
+  isError,
+  error
+} = useDeclaredExperienceDetailedViewQuery({ experienceId })
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
-const isDeclaredExperienceNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND || isNotFound.value)
+const isDeclaredExperienceNotFound = computed(() =>
+  originalErrorCode.value === ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND || isNotFound.value
+)
+
 const experienceTitle = computed(() => declaredExperienceDetailed.value?.title ?? '')
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 
@@ -47,6 +69,9 @@ const {
   pageInfo,
   loadMoreDeclaredExperiences
 } = usePaginatedDeclaredExperiences()
+
+// TODO: US#1444
+const countAssociations = 0
 
 function onSelectExperience (experienceId: string) {
   router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
@@ -100,13 +125,30 @@ function handleConfirmDelete () {
           @delete-selected="displayModal"
           @update-selected="handleUpdateSelected"
         />
-        <DeclaredExperienceDetails
-          :key="declaredExperienceDetailed.id"
-          :declared-experience-details="declaredExperienceDetailed"
-        />
+
+        <AvTabs v-model="activeTab">
+          <AvTab
+            :title="t('student.personalCareer.views.DeclaredExperienceView.tabs.details.title')"
+            :icon="MDI_ICONS.INFORMATION_OUTLINE"
+          >
+            <DeclaredExperienceDetails
+              :key="declaredExperienceDetailed.id"
+              :declared-experience-details="declaredExperienceDetailed"
+            />
+          </AvTab>
+
+          <AvTab
+            :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+            :icon="ICONS.ASSOCIATIONS"
+            data-testid="declared-experience-associations-tab-item"
+          >
+            <DeclaredExperienceAssociations />
+          </AvTab>
+        </AvTabs>
       </div>
     </Loader>
   </div>
+
   <DeleteDeclaredExperienceConfirmModal
     :show="showModal"
     :declared-experience-ids="[selectedExperienceId]"

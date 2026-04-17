@@ -13,11 +13,13 @@ import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }
   from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
+import { DeclaredExperienceAssociationsStub }
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.stub'
 import {
   DeclaredExperienceDetailsDropdownStub
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -67,9 +69,12 @@ const stubs = {
   ErrorMessage: ErrorMessageStub,
   DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailedStub,
+  DeclaredExperienceAssociations: DeclaredExperienceAssociationsStub,
   Loader: LoaderStub,
   DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub,
   DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
+  AvTabs: AvTabsStub,
+  AvTab: AvTabStub
 }
 
 BddTest().given('a declared experience view component', () => {
@@ -128,6 +133,68 @@ BddTest().given('a declared experience view component', () => {
       expect(Array.isArray(sideMenu.props('experiences'))).toBe(true)
       expect(typeof sideMenu.props('experienceCount')).toBe('number')
       expect(sideMenu.props('selectedExperienceId')).toBe('exp-123')
+    })
+
+    BddTest().then('it should render the dropdown', async () => {
+      await vi.waitFor(() => {
+        const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
+        expect(dropdown.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should render AvTabs', async () => {
+      await vi.waitFor(() => {
+        const tabs = wrapper.findComponent({ name: 'AvTabs' })
+        expect(tabs.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should render the details tab by default', async () => {
+      await vi.waitFor(() => {
+        const activeTab = wrapper.findComponent(AvTabStub)
+        expect(activeTab.exists()).toBe(true)
+        expect(activeTab.props('title')).toBe('Mon expérience déclarée')
+      })
+    })
+
+    BddTest().then('it should render DeclaredExperienceDetails component in details tab', async () => {
+      await vi.waitFor(() => {
+        const details = wrapper.findComponent(DeclaredExperienceDetailedStub)
+        expect(details.exists()).toBe(true)
+        expect(details.props('declaredExperienceDetails')).toBeDefined()
+        expect(details.props('declaredExperienceDetails').title).toBe('Développeur Web Full Stack')
+      })
+    })
+
+    BddTest().then('it should render DeclaredExperienceAssociations component when associations tab is active', async () => {
+      await vi.waitFor(async () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        expect(tabs.exists()).toBe(true)
+        await tabs.vm.$emit('update:modelValue', 1)
+      })
+
+      await vi.waitFor(() => {
+        const activeTab = wrapper.findComponent(AvTabStub)
+        expect(activeTab.exists()).toBe(true)
+        expect(String(activeTab.props('title'))).toContain('0')
+
+        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
+        expect(associations.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should display the correct count of associations in tab title when associations tab is active', async () => {
+      await vi.waitFor(async () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        expect(tabs.exists()).toBe(true)
+        await tabs.vm.$emit('update:modelValue', 1)
+      })
+
+      await vi.waitFor(() => {
+        const activeTab = wrapper.findComponent(AvTabStub)
+        expect(activeTab.exists()).toBe(true)
+        expect(String(activeTab.props('title'))).toContain('0')
+      })
     })
 
     BddTest().then('it should not render ErrorMessage', async () => {
@@ -193,14 +260,7 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should pass a dropdown', async () => {
-      await vi.waitFor(() => {
-        const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
-        expect(dropdown.exists()).toBe(true)
-      })
-    })
-
-    BddTest().then('it should pass a dropdown', async () => {
+    BddTest().then('it should render DeclaredExperienceDetails component', async () => {
       await vi.waitFor(() => {
         const details = wrapper.findComponent(DeclaredExperienceDetailedStub)
         expect(details.exists()).toBe(true)
@@ -305,10 +365,24 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should render an empty title in DetailedPageTitle', async () => {
+    BddTest().then('it should not render DetailedPageTitle', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
         expect(pageTitle.exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render AvTabs', async () => {
+      await vi.waitFor(() => {
+        const tabs = wrapper.findComponent({ name: 'AvTabs' })
+        expect(tabs.exists()).toBe(false)
+      })
+    })
+
+    BddTest().then('it should not render DeclaredExperienceAssociations', async () => {
+      await vi.waitFor(() => {
+        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
+        expect(associations.exists()).toBe(false)
       })
     })
   })
