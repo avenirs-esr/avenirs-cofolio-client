@@ -17,5 +17,5 @@ Feature: Student Project Activity Detail Page (Mobile)
     Scenario: Student can see activity detail content on mobile
       Then the activity detail title is visible
       And the activity title is visible
-      And the activity summary is visible
+      And the activity description is visible
       And the activity execution period list is visible

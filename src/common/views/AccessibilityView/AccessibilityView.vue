@@ -39,6 +39,7 @@ watchEffect(() => {
   />
 
   <div
+    role="document"
     class="accessibility-declaration"
     v-html="content"
   />

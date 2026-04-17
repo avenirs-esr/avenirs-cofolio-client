@@ -22,7 +22,9 @@ test.describe('staff routes', () => {
       await waitMswToStart(page)
       await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
 
-      const rawAxeResults = await new AxeBuilder({ page }).analyze()
+      const rawAxeResults = await new AxeBuilder({ page })
+        .exclude('[data-user-content]')
+        .analyze()
 
       const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 
