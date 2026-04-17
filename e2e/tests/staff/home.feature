@@ -18,6 +18,17 @@ Feature: Staff Home Page
     Scenario: Staff can see the footer
       Then the footer is visible
       
+  Rule: Profile Section
+
+    Background:
+      Given the staff profile overview widget is visible
+
+    @high @profile
+    Scenario: Staff can see profile section
+      Then the staff profile banner is visible
+      And the staff profile picture is visible
+      And the staff name is visible
+
   Rule: Navigation
 
     @high @navigation @desktop

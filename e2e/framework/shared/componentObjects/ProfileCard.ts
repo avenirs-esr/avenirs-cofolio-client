@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
 import { expect, type Locator } from '@playwright/test'
 
 export class ProfileCard extends BaseObject {
@@ -14,11 +15,11 @@ export class ProfileCard extends BaseObject {
     return this.root.getByTestId('profile-picture')
   }
 
-  getStudentName () {
+  getFullName () {
     return this.root.getByTestId('profile-full-name')
   }
 
-  getStudentBio () {
+  getBio () {
     return this.root.getByTestId('profile-bio')
   }
 
@@ -30,18 +31,18 @@ export class ProfileCard extends BaseObject {
     await expect(this.getProfilePicture()).toBeVisible()
   }
 
-  async verifyStudentName () {
-    await expect(this.getStudentName()).toBeVisible()
+  async verifyFullName () {
+    await verifyTextLocator(this.getFullName())
   }
 
-  async verifyStudentBio () {
-    await expect(this.getStudentBio()).toBeVisible()
+  async verifyBio () {
+    await verifyTextLocator(this.getBio())
   }
 
   async verifyCardContent () {
     await this.verifyProfileBanner()
     await this.verifyProfilePicture()
-    await this.verifyStudentName()
-    await this.verifyStudentBio()
+    await this.verifyFullName()
+    await this.verifyBio()
   }
 }
