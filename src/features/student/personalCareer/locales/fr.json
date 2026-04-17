@@ -156,6 +156,11 @@
               "description": "L'expérience déclarée que vous recherchez n'existe pas ou n'est pas accessible.",
               "title": "Expérience déclarée introuvable"
             }
+          },
+          "tabs": {
+            "details": {
+              "title": "Mon expérience déclarée"
+            }
           }
         },
         "DeclaredExperienceUpdateView": {
