@@ -104,6 +104,7 @@ export class StudentProjectActivityDetails extends BasePage {
   @When('the student clicks the edit my perspective button')
   async clickEditMyPerspectiveButton () {
     await this.getMyPerspectiveSection().clickEditPerspectiveButton()
+    await this.getMyPerspectiveSection().waitForPerspectiveCardEditable()
   }
 
   @Then('the my perspective card is in editable mode')
