@@ -6,6 +6,7 @@ import UpdateInProgressBadge from '@/features/student/global/components/badges/U
 import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
@@ -21,6 +22,7 @@ const { addSuccessMessage, addErrorMessage } = useToasterStore()
 
 const readonly = ref(true)
 const content = ref(perspective ?? '<p></p>')
+const sanitizedContent = computed(() => DOMPurify.sanitize(content.value))
 
 const { mutate: updateActivityReflection, isPending: isPendingSave } = useUpdateActivityReflectionMutation({
   onError: (error) => {
@@ -46,16 +48,16 @@ const { mutate: updateActivityReflectionOnAutoSave, isPending: isPendingAutoSave
   }
 })
 
-const isModified = computed(() => content.value !== perspective)
+const isModified = computed(() => sanitizedContent.value !== perspective)
 
 const onAutoSave = debounce(() => {
   if (!readonly.value && isModified.value && !isPendingAutoSave.value && !isPendingSave.value) {
-    updateActivityReflectionOnAutoSave({ activityId, reflection: content.value })
+    updateActivityReflectionOnAutoSave({ activityId, reflection: sanitizedContent.value })
   }
 }, 15000)
 
 function onSave () {
-  updateActivityReflection({ activityId, reflection: content.value })
+  updateActivityReflection({ activityId, reflection: sanitizedContent.value })
 }
 
 watch(content, () => {
@@ -111,8 +113,9 @@ watch(content, () => {
       />
       <div
         v-else
+        data-user-content
         data-testid="my-perspective-card-content"
-        v-html="perspective"
+        v-html="sanitizedContent"
       />
 
       <div class="av-row av-flex-fill av-align-center av-gap-sm av-justify-end">

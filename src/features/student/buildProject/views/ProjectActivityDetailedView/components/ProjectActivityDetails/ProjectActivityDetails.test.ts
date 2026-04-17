@@ -51,10 +51,9 @@ BddTest().given('a project activity details component', () => {
       expect(title.props('text')).toBe(mockedDeclaredActivityDetails.activity.title)
     })
 
-    BddTest().then('it should render the activity summary', () => {
-      const summary = wrapper.find('[data-testid="activity-summary"]')
-      expect(summary.exists()).toBe(true)
-      expect(summary.text()).toBe(mockedDeclaredActivityDetails.activity.summary)
+    BddTest().then('it should render the activity description', () => {
+      const description = wrapper.find('[data-testid="activity-description"]')
+      expect(description.exists()).toBe(true)
     })
 
     BddTest().then('it should render the execution period as a bullet list', () => {

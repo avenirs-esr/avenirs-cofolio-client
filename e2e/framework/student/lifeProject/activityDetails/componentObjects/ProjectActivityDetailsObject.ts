@@ -14,8 +14,8 @@ export class ProjectActivityDetailsObject extends BaseObject {
     return this.root.getByTestId('activity-title')
   }
 
-  getSummary () {
-    return this.root.getByTestId('activity-summary')
+  getDescription () {
+    return this.root.getByTestId('activity-description')
   }
 
   getExecutionPeriodList () {
@@ -34,8 +34,8 @@ export class ProjectActivityDetailsObject extends BaseObject {
     await expect(this.getTitle()).toBeVisible()
   }
 
-  async verifySummaryVisible () {
-    await expect(this.getSummary()).toBeVisible()
+  async verifyDescriptionVisible () {
+    await expect(this.getDescription()).toBeVisible()
   }
 
   async verifyExecutionPeriodListVisible () {

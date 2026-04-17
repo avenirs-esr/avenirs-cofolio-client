@@ -31,9 +31,9 @@ Feature: Student Project Activity Detail Page
       And the activity end date is visible
 
     @high @activity-details @activity-content
-    Scenario: Student can see the activity title and summary
+    Scenario: Student can see the activity title and description
       Then the activity title is visible
-      And the activity summary is visible
+      And the activity description is visible
 
     @high @activity-details @activity-execution-period
     Scenario: Student can see the activity execution period list

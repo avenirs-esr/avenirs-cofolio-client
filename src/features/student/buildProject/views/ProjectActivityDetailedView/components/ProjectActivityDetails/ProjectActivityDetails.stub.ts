@@ -14,8 +14,8 @@ export const ProjectActivityDetailsStub = defineComponent({
         {{ declaredActivityDetails.activity.title }}
       </span>
 
-      <span data-testid="activity-summary">
-        {{ declaredActivityDetails.activity.summary }}
+      <span data-testid="activity-description">
+        {{ declaredActivityDetails.activity.description }}
       </span>
 
       <span data-testid="activity-execution-period-info">

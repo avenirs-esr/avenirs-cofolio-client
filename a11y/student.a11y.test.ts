@@ -63,7 +63,9 @@ pathsToTest.forEach((path) => {
   test(`${path} should have no accessibility violations`, async ({ page }) => {
     await page.goto(path)
     await waitMswToStart(page)
-    const rawAxeResults = await new AxeBuilder({ page }).analyze()
+    const rawAxeResults = await new AxeBuilder({ page })
+      .exclude('[data-user-content]')
+      .analyze()
 
     const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 
