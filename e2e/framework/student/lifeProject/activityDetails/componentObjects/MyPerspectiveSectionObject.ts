@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { expect, type Locator } from '@playwright/test'
 
 export class MyPerspectiveSectionObject extends BaseObject {
@@ -124,7 +125,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async clickEditPerspectiveButton () {
-    await this.getEditPerspectiveButton().click()
+    await clickOnElement(this.getEditPerspectiveButton())
   }
 
   async verifyFinishButtonVisible () {
@@ -136,15 +137,11 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async clickCancelEditPerspectiveButton () {
-    await this.getCancelEditPerspectiveButton().click()
+    await clickOnElement(this.getCancelEditPerspectiveButton())
   }
 
   async clickFinishButton () {
-    const button = this.getFinishButton()
-
-    await expect(button).toBeVisible()
-    await expect(button).toBeEnabled()
-    await button.click()
+    await clickOnElement(this.getFinishButton())
   }
 
   async waitForFinishConfirmationModalVisible () {
@@ -156,7 +153,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async clickAssociatedElementsTab () {
-    await this.getAssociatedElementsTab().click()
+    await clickOnElement(this.getAssociatedElementsTab())
   }
 
   async verifyAssociatedTracesCardVisible () {
@@ -169,7 +166,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async clickAssociatedTracesCard () {
-    await this.getAssociatedTracesCard().click()
+    await clickOnElement(this.getAssociatedTracesCard())
   }
 
   async verifyAssociatedTraceCardsVisible () {
@@ -182,11 +179,11 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async openAssociateElementsDropdown () {
-    await this.getAssociateElementsDropdownTrigger().click()
+    await clickOnElement(this.getAssociateElementsDropdownTrigger())
   }
 
   async clickAssociateTracesDropdownItem () {
-    await this.getAssociateTracesDropdownItem().click()
+    await clickOnElement(this.getAssociateTracesDropdownItem())
   }
 
   async verifyAssociateTracesModalVisible () {
@@ -207,5 +204,10 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyAssociateTracesConfirmationModalHidden () {
     await expect(this.getAssociateTracesConfirmationModal()).toBeHidden()
+  }
+
+  async waitForPerspectiveCardEditable () {
+    await expect(this.getEditPerspectiveButton()).toBeHidden({ timeout: 10000 })
+    await expect(this.getRichTextEditor()).toBeVisible({ timeout: 10000 })
   }
 }
