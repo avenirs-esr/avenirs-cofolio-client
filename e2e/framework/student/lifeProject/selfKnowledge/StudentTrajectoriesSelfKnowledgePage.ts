@@ -1,9 +1,9 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { ProfileCard } from '@e2e/framework/student/user/componentObjects/ProfileCard'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
@@ -123,12 +123,12 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
 
   @Then('the self-knowledge profile card name is visible')
   async verifyProfileCardNameVisible () {
-    await this.getProfileCard().verifyStudentName()
+    await this.getProfileCard().verifyFullName()
   }
 
   @Then('the self-knowledge profile card bio is visible')
   async verifyProfileCardBioVisible () {
-    await this.getProfileCard().verifyStudentBio()
+    await this.getProfileCard().verifyBio()
   }
 
   @Then('the profile card spans full width')

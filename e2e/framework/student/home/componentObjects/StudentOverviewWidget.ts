@@ -1,6 +1,6 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { ProfileCard } from '@e2e/framework/student/user/componentObjects/ProfileCard'
 import { expect, type Page } from '@playwright/test'
 
 export class StudentOverviewWidget extends BaseObject {
@@ -21,11 +21,11 @@ export class StudentOverviewWidget extends BaseObject {
   }
 
   getStudentName () {
-    return this.getProfileCard().getStudentName()
+    return this.getProfileCard().getFullName()
   }
 
   getStudentBio () {
-    return this.getProfileCard().getStudentBio()
+    return this.getProfileCard().getBio()
   }
 
   getEditProfileButton () {
@@ -57,11 +57,11 @@ export class StudentOverviewWidget extends BaseObject {
   }
 
   async verifyStudentName () {
-    await this.getProfileCard().verifyStudentName()
+    await this.getProfileCard().verifyFullName()
   }
 
   async verifyStudentBio () {
-    await this.getProfileCard().verifyStudentBio()
+    await this.getProfileCard().verifyBio()
   }
 
   async verifyActionButtons () {

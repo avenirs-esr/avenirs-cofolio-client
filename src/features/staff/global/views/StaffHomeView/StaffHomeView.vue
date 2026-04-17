@@ -19,32 +19,36 @@ const { data: staffSummary } = useUserSummaryQuery(EUserCategory.STAFF)
     {{ t('staff.global.layout.header.home') }}
   </h1>
   <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
-    <div class="layout-home__sidebar av-col av-gap-xl">
-      <ProfileCard
-        v-if="staffSummary"
-        :first-name="staffSummary.firstname"
-        :last-name="staffSummary.lastname"
-        :profile-picture-url="staffSummary.profilePicture.url"
-        :cover-picture-url="staffSummary.coverPicture.url"
-      >
-        <div
-          class="av-pt-sm"
-          data-testid="staff-overview-widget-actions"
+    <div
+      class="layout-home__sidebar av-col av-gap-xl"
+    >
+      <div data-testid="staff-overview-widget">
+        <ProfileCard
+          v-if="staffSummary"
+          :first-name="staffSummary.firstname"
+          :last-name="staffSummary.lastname"
+          :profile-picture-url="staffSummary.profilePicture.url"
+          :cover-picture-url="staffSummary.coverPicture.url"
         >
-          <ul class="av-col av-gap-sm av-list-reset">
-            <li>
-              <AvRichButton
-                :label="t('staff.global.views.StaffHomeView.buttons.editProfile')"
-                :icon-right="MDI_ICONS.PENCIL_OUTLINE"
-                data-testid="edit-profile-button"
-                @click="displayDrawer"
-              >
-                <span class="b1-regular">{{ t('staff.global.views.StaffHomeView.buttons.editProfile') }}</span>
-              </AvRichButton>
-            </li>
-          </ul>
-        </div>
-      </ProfileCard>
+          <div
+            class="av-pt-sm"
+            data-testid="staff-overview-widget-actions"
+          >
+            <ul class="av-col av-gap-sm av-list-reset">
+              <li>
+                <AvRichButton
+                  :label="t('staff.global.views.StaffHomeView.buttons.editProfile')"
+                  :icon-right="MDI_ICONS.PENCIL_OUTLINE"
+                  data-testid="edit-profile-button"
+                  @click="displayDrawer"
+                >
+                  <span class="b1-regular">{{ t('staff.global.views.StaffHomeView.buttons.editProfile') }}</span>
+                </AvRichButton>
+              </li>
+            </ul>
+          </div>
+        </ProfileCard>
+      </div>
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       Placeholder main categories

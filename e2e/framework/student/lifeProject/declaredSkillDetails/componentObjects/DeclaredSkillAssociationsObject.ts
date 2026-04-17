@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
 import { expect, type Locator } from '@playwright/test'
 
 export class DeclaredSkillAssociationsObject extends BaseObject {
@@ -51,13 +52,11 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
   }
 
   async verifyTracesCardTitleDefined () {
-    const title = await this.getTracesCardTitle().textContent()
-    expect(title?.trim()).toBeTruthy()
+    await verifyTextLocator(this.getTracesCardTitle())
   }
 
   async verifyActivitiesCardTitleDefined () {
-    const title = await this.getActivitiesCardTitle().textContent()
-    expect(title?.trim()).toBeTruthy()
+    await verifyTextLocator(this.getActivitiesCardTitle())
   }
 
   async expandTracesCard () {
@@ -82,8 +81,8 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
     const items = this.getTraceAssociationItems()
     const count = await items.count()
     for (let i = 0; i < count; i++) {
-      const title = await items.nth(i).getByTestId('floating-icon-card-title').textContent()
-      expect(title?.trim()).toBeTruthy()
+      const titleLocator = items.nth(i).getByTestId('floating-icon-card-title')
+      await verifyTextLocator(titleLocator)
     }
   }
 
@@ -91,8 +90,8 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
     const items = this.getActivityAssociationItems()
     const count = await items.count()
     for (let i = 0; i < count; i++) {
-      const title = await items.nth(i).getByTestId('floating-icon-card-title').textContent()
-      expect(title?.trim()).toBeTruthy()
+      const titleLocator = items.nth(i).getByTestId('floating-icon-card-title')
+      await verifyTextLocator(titleLocator)
     }
   }
 }
