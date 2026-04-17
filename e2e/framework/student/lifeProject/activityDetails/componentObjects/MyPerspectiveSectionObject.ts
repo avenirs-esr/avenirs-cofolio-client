@@ -140,12 +140,15 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   async clickFinishButton () {
-    await expect(this.getFinishButton()).toBeVisible()
-    await this.getFinishButton().click()
+    const button = this.getFinishButton()
+
+    await expect(button).toBeVisible()
+    await expect(button).toBeEnabled()
+    await button.click()
   }
 
   async waitForFinishConfirmationModalVisible () {
-    await this.getFinishConfirmationModal().waitFor({ state: 'visible' })
+    await expect(this.getFinishConfirmationModal()).toBeVisible({ timeout: 10000 })
   }
 
   async verifyFinishConfirmationModalVisible () {
