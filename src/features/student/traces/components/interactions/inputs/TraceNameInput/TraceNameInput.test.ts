@@ -6,7 +6,7 @@ import { beforeEach, expect } from 'vitest'
 
 const AvInputStub = {
   name: 'AvInput',
-  props: ['modelValue', 'label', 'placeholder', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
+  props: ['modelValue', 'label', 'placeholder', 'maxlength', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
   emits: ['update:modelValue'],
   template: `
     <div>
@@ -14,10 +14,12 @@ const AvInputStub = {
       <input
         :value="modelValue"
         :placeholder="placeholder"
+        :maxlength="maxlength"
         :disabled="disabled"
         :required="required"
         @input="$emit('update:modelValue', $event.target.value)"
       />
+      <slot name="maxLengthCaption" :current-value="modelValue" :maxlength="maxlength" />
     </div>
   `
 }
@@ -44,11 +46,19 @@ BddTest().given('a trace name input component', () => {
       expect(input.exists()).toBe(true)
       expect(input.props('label')).toBe('Nom de ma trace')
       expect(input.props('placeholder')).toBe('Nom-de-ma-trace-01')
+      expect(input.props('maxlength')).toBe(80)
       expect(input.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
       expect(input.props('isTextarea')).toBe(false)
       expect(input.props('labelVisible')).toBe(true)
       expect(input.props('disabled')).toBe(false)
       expect(input.props('required')).toBe(true)
+    })
+
+    BddTest().then('it should render character count hint', () => {
+      const hint = wrapper.find('.caption-light')
+
+      expect(hint.exists()).toBe(true)
+      expect(hint.text()).toBe('0 / 80 caractères (espaces compris)')
     })
   })
 
@@ -83,6 +93,23 @@ BddTest().given('a trace name input component', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
 
       expect(input.props('placeholder')).toBe('Custom placeholder text')
+    })
+  })
+
+  BddTest().when('custom maxlength is provided', () => {
+    BddTest().then('it should use the custom maxlength', () => {
+      wrapper = mount(TraceNameInput, {
+        props: {
+          maxlength: 200
+        },
+        global: {
+          stubs
+        }
+      })
+
+      const input = wrapper.findComponent({ name: 'AvInput' })
+
+      expect(input.props('maxlength')).toBe(200)
     })
   })
 
@@ -179,6 +206,21 @@ BddTest().given('a trace name input component', () => {
 
       expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['My trace name'])
     })
+
+    BddTest().then('it should update the character count hint', async () => {
+      wrapper = mount(TraceNameInput, {
+        props: {
+          modelValue: 'Du texte ici'
+        },
+        global: {
+          stubs
+        }
+      })
+
+      const hint = wrapper.find('.caption-light')
+
+      expect(hint.text()).toBe('12 / 80 caractères (espaces compris)')
+    })
   })
 
   BddTest().when('a value is provided via v-model', () => {
@@ -231,6 +273,25 @@ BddTest().given('a trace name input component', () => {
       const input = wrapper.findComponent({ name: 'AvInput' })
 
       expect(input.props('isTextarea')).toBe(true)
+    })
+  })
+
+  BddTest().when('the character count reaches maximum', () => {
+    BddTest().then('it should display the correct count in hint', () => {
+      const maxText = 'a'.repeat(80)
+
+      wrapper = mount(TraceNameInput, {
+        props: {
+          modelValue: maxText
+        },
+        global: {
+          stubs
+        }
+      })
+
+      const hint = wrapper.find('.caption-light')
+
+      expect(hint.text()).toBe('80 / 80 caractères (espaces compris)')
     })
   })
 })
