@@ -8,8 +8,8 @@ export default defineConfig({
     output: {
       workspace: './src/api/avenir-esr/generated',
       target: './',
+      client: 'vue-query',
       schemas: './types',
-      client: 'fetch',
       mode: 'tags',
       clean: true,
       override: {
@@ -20,8 +20,19 @@ export default defineConfig({
           path: './../fetch-instance/fetch-instance.ts',
           name: 'customFetch',
         },
-        enumGenerationType: 'enum'
+        enumGenerationType: 'enum',
+        query: {
+          useQuery: true,
+          useMutation: true,
+          useInfinite: true,
+          usePrefetch: false,
+          useInvalidate: true,
+          useSetQueryData: true,
+          useGetQueryData: true,
+          signal: false,
+          runtimeValidation: false,
+        },
       },
     },
-  },
+  }
 })
