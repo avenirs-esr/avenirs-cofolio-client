@@ -1,3 +1,4 @@
+import type { BaseApiException } from '@/common/exceptions'
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { i18n } from '@/plugins/vue-i18n'
 import { AvIsoLocaleMap } from '@/types'
@@ -26,3 +27,7 @@ const fetcher = createCustomFetch({
 export async function customFetch<T> (url: string, options: RequestInit): Promise<T> {
   return fetcher<T>(url, options)
 }
+
+export type ErrorType<_Error> = BaseApiException
+
+export type BodyType<BodyData> = BodyData
