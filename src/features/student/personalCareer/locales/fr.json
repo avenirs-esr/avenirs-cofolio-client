@@ -151,7 +151,11 @@
           "DeclaredExperienceDetailsSideMenu": {
             "title": "Toutes mes expériences déclarées"
           },
+          "empty": {
+            "associations": "Aucune association pour cette expérience déclarée"
+          },
           "errors": {
+            "fetchAssociations": "Une erreur est survenue lors de la récupération des associations de l'expérience déclarée.",
             "notFound": {
               "description": "L'expérience déclarée que vous recherchez n'existe pas ou n'est pas accessible.",
               "title": "Expérience déclarée introuvable"
