@@ -3,6 +3,7 @@ import type { MutationArgs } from '@/types'
 import type { Ref } from 'vue'
 import {
   createDeclaredExperienceErrorHandler,
+  declaredExperienceAssociationsQueryErrorHandler,
   declaredExperienceDetailedQueryErrorHandler,
   declaredExperiencesQueryEmptyHandler,
   declaredExperiencesQueryErrorHandler
@@ -10,9 +11,11 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { useInvalidateQuery } from '@/common/composables'
 import {
+  type DeclaredExperienceAssociationsQueryReturnType,
   type DeclaredExperienceDetailedViewQueryReturnType,
   type DeclaredExperiencesViewQueryReturnType,
   useCreateDeclaredExperienceMutation,
+  useDeclaredExperienceAssociationsQuery,
   useDeclaredExperienceDetailedViewQuery,
   useDeclaredExperiencesViewQuery
 } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
@@ -428,6 +431,136 @@ BddTest().given('a useCreateDeclaredExperienceMutation composable', async () => 
       BddTest().then('it should call the custom onError callback', () => {
         expect(mockOnError).toHaveBeenCalledTimes(1)
       })
+    })
+  })
+})
+
+BddTest().given('a declared experience associations query', () => {
+  let queryResult: DeclaredExperienceAssociationsQueryReturnType
+  let experienceId: Ref<string>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    experienceId = ref('exp123')
+  })
+
+  BddTest().when('the query is executed with initial parameters', () => {
+    beforeEach(async () => {
+      queryResult = mountQueryComposable(() => useDeclaredExperienceAssociationsQuery({ experienceId }))
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return data with expected structure', () => {
+      expect(queryResult.data.value).toBeDefined()
+      expect(queryResult.data.value).toMatchObject({
+        traceAssociations: expect.any(Array)
+      })
+    })
+
+    BddTest().then('it should have success state', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+
+    BddTest().then('it should compute traceAssociations', () => {
+      expect(queryResult.traceAssociations.value).toBeDefined()
+      expect(Array.isArray(queryResult.traceAssociations.value)).toBe(true)
+      expect(queryResult.traceAssociations.value.length).toBeGreaterThan(0)
+    })
+
+    BddTest().then('it should return trace associations with expected structure', () => {
+      const firstAssociation = queryResult.traceAssociations.value[0]
+
+      expect(firstAssociation).toMatchObject({
+        associationId: expect.any(String),
+        trace: {
+          traceId: expect.any(String),
+          title: expect.any(String),
+          skillCount: expect.any(Number),
+          AMSCount: expect.any(Number),
+          programName: expect.any(String),
+          isGroup: expect.any(Boolean),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String)
+        }
+      })
+    })
+  })
+
+  BddTest().when('the query fails with server error', () => {
+    beforeEach(async () => {
+      server.use(declaredExperienceAssociationsQueryErrorHandler)
+      queryResult = mountQueryComposable(() => useDeclaredExperienceAssociationsQuery({ experienceId }))
+      await flushPromises()
+    })
+
+    BddTest().then('it should set error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should return undefined data', () => {
+      expect(queryResult.data.value).toBeUndefined()
+    })
+
+    BddTest().then('it should return empty traceAssociations', () => {
+      expect(queryResult.traceAssociations.value).toEqual([])
+    })
+  })
+
+  BddTest().when('the query returns empty associations', () => {
+    beforeEach(async () => {
+      experienceId.value = 'EXP_WITHOUT_ASSOCIATIONS'
+      queryResult = mountQueryComposable(() => useDeclaredExperienceAssociationsQuery({ experienceId }))
+      await vi.waitFor(() => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().then('it should return an empty traceAssociations array', () => {
+      expect(queryResult.traceAssociations.value).toEqual([])
+    })
+
+    BddTest().then('it should return the expected empty data structure', () => {
+      expect(queryResult.data.value).toEqual({
+        traceAssociations: []
+      })
+    })
+
+    BddTest().then('it should keep success state', () => {
+      expect(queryResult.isSuccess.value).toBe(true)
+      expect(queryResult.isError.value).toBe(false)
+    })
+  })
+
+  BddTest().when('the query is executed with an invalid experience id', () => {
+    beforeEach(async () => {
+      experienceId.value = 'INVALID_SKILL_ID'
+      queryResult = mountQueryComposable(() => useDeclaredExperienceAssociationsQuery({ experienceId }))
+      await flushPromises()
+    })
+
+    BddTest().then('it should set error state', async () => {
+      await vi.waitFor(() => {
+        expect(queryResult.isError.value).toBe(true)
+      })
+
+      expect(queryResult.isSuccess.value).toBe(false)
+      expect(queryResult.error.value).toBeDefined()
+    })
+
+    BddTest().then('it should return undefined data', () => {
+      expect(queryResult.data.value).toBeUndefined()
+    })
+
+    BddTest().then('it should return empty traceAssociations', () => {
+      expect(queryResult.traceAssociations.value).toEqual([])
     })
   })
 })

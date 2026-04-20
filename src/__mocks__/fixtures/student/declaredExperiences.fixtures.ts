@@ -1,7 +1,10 @@
+import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EExperienceType,
-  type PagedResponseDeclaredExperienceViewDTO
+  type PagedResponseDeclaredExperienceViewDTO,
+  type TraceOverviewDTO
 } from '@/api/avenir-esr'
 
 export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
@@ -93,4 +96,15 @@ export function searchDeclaredExperienceById (
   id: string
 ): DeclaredExperienceViewDTO | undefined {
   return mockedDeclaredExperiences.find(p => p.id === id)
+}
+
+export function createMockedDeclaredExperienceAssociationsDTO (
+  traces: TraceOverviewDTO[] = mockedTraceOverview
+): DeclaredExperienceAssociationsDTO {
+  return {
+    traceAssociations: traces.map((trace, index) => ({
+      associationId: `declared-experience-trace-association-${index + 1}`,
+      trace
+    }))
+  }
 }

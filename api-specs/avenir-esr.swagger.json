@@ -2285,6 +2285,37 @@
         }
       }
     },
+    "/me/declared/experiences/{experienceId}/associations": {
+      "get": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "getDeclaredExperienceAssociations",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/experiences/view": {
       "get": {
         "tags": [
@@ -5320,6 +5351,20 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "DeclaredExperienceAssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDTO"
+            }
+          }
+        },
+        "required": [
+          "traceAssociations"
         ]
       },
       "PagedResponseDeclaredExperienceViewDTO": {

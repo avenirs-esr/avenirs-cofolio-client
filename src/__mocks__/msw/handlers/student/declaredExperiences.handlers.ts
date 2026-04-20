@@ -1,13 +1,15 @@
-import { searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredExperienceAssociationsDTO, searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
 import {
   createMockedDeclaredExperiencesPagedResponse,
   createMockedDeclaredExperienceViewDTO,
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import {
+  type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   getCreateDeclaredExperienceUrl,
   getDeleteDeclaredExperiencesUrl,
+  getGetDeclaredExperienceAssociationsUrl,
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
   type PagedResponseDeclaredExperienceViewDTO
@@ -79,6 +81,52 @@ export const declaredExperienceDetailedNotFoundHandler = http.get(`*${getGetDecl
   )
 })
 
+export const declaredExperienceAssociationsQueryHandler = http.get(
+  `*${getGetDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  async ({ params }) => {
+    await delay('real')
+
+    const { experienceId } = params as { experienceId: string }
+
+    if (experienceId === 'EXP_WITHOUT_ASSOCIATIONS') {
+      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(
+        { traceAssociations: [] },
+        {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    if (experienceId === 'INVALID_SKILL_ID') {
+      return HttpResponse.json(
+        { code: 'DECLARED_EXPERIENCE_NOT_FOUND', message: 'Internal server error' },
+        { status: 404 }
+      )
+    }
+
+    const mockData = createMockedDeclaredExperienceAssociationsDTO()
+
+    return HttpResponse.json<DeclaredExperienceAssociationsDTO>(mockData, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+)
+
+export const declaredExperienceAssociationsQueryErrorHandler = http.get(
+  `*${getGetDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+)
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get<{ id: string }, DeclaredExperienceViewDTO>(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
@@ -130,7 +178,8 @@ export const declaredExperiencesHandlers = [
         'Content-Type': 'application/json',
       }
     })
-  })
+  }),
+  declaredExperienceAssociationsQueryHandler
 ]
 
 export const declaredExperienceDetailedLoadingHandler = http.get(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {

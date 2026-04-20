@@ -15,6 +15,7 @@ import {
   usePaginatedDeclaredExperiences
 } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import {
+  useDeclaredExperienceAssociationsQuery,
   useDeclaredExperienceDetailedViewQuery
 } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import DeclaredExperienceAssociations
@@ -70,8 +71,15 @@ const {
   loadMoreDeclaredExperiences
 } = usePaginatedDeclaredExperiences()
 
-// TODO: US#1444
-const countAssociations = 0
+const {
+  traceAssociations,
+  error: associationsError
+} = useDeclaredExperienceAssociationsQuery({
+  experienceId
+})
+
+// TODO: Add other associations length
+const countAssociations = computed(() => (traceAssociations.value?.length ?? 0))
 
 function onSelectExperience (experienceId: string) {
   router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
@@ -142,7 +150,10 @@ function handleConfirmDelete () {
             :icon="ICONS.ASSOCIATIONS"
             data-testid="declared-experience-associations-tab-item"
           >
-            <DeclaredExperienceAssociations />
+            <DeclaredExperienceAssociations
+              :trace-associations="traceAssociations"
+              :associations-error="associationsError"
+            />
           </AvTab>
         </AvTabs>
       </div>

@@ -2,10 +2,12 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import {
   createDeclaredExperience,
+  type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceRequest,
   type DeclaredExperienceViewDTO,
   deleteDeclaredExperiences,
   getDeclaredExperience,
+  getDeclaredExperienceAssociations,
   getDeclaredExperienceView,
   type PagedResponseDeclaredExperienceViewDTO,
   type PageInfoDTO,
@@ -18,8 +20,8 @@ import { type MaybeRef, type Ref, toValue } from 'vue'
 
 const declaredExperiencesCommonQueryKey = [...commonQueryKeys, 'declared-experiences']
 const declaredExperiencesViewQueryKey = [...declaredExperiencesCommonQueryKey, 'view']
-
 const declaredExperienceDetailsQueryKey = [...declaredExperiencesCommonQueryKey, 'details']
+const declaredExperienceAssociationsQueryKey = [...declaredExperiencesCommonQueryKey, 'associations']
 
 export interface DeclaredExperiencesViewQueryParams {
   page: MaybeRef<number>
@@ -146,4 +148,36 @@ export function useUpdateDeclaredExperienceMutation (
     },
     onError
   })
+}
+
+export interface DeclaredExperienceAssociationsQueryProps {
+  experienceId: MaybeRef<string>
+}
+
+export type DeclaredExperienceAssociationsQueryReturnType =
+  UseQueryReturnType<DeclaredExperienceAssociationsDTO, BaseApiException> & {
+    traceAssociations: Ref<DeclaredExperienceAssociationsDTO['traceAssociations']>
+  }
+
+export function useDeclaredExperienceAssociationsQuery ({
+  experienceId
+}: DeclaredExperienceAssociationsQueryProps): DeclaredExperienceAssociationsQueryReturnType {
+  const queryKey = computed(() => [...declaredExperienceAssociationsQueryKey, toValue(experienceId)])
+
+  const queryFn = computed(() => async (): Promise<DeclaredExperienceAssociationsDTO> => {
+    return await getDeclaredExperienceAssociations(toValue(experienceId))
+  })
+
+  const query = useQuery<DeclaredExperienceAssociationsDTO, BaseApiException>({
+    queryKey,
+    queryFn,
+    placeholderData: keepPreviousData
+  })
+
+  const traceAssociations = computed(() => query.data.value?.traceAssociations ?? [])
+
+  return {
+    ...query,
+    traceAssociations
+  }
 }

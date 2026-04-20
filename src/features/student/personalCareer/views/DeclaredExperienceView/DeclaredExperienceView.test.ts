@@ -144,7 +144,7 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().then('it should render AvTabs', async () => {
       await vi.waitFor(() => {
-        const tabs = wrapper.findComponent({ name: 'AvTabs' })
+        const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.exists()).toBe(true)
       })
     })
@@ -176,10 +176,12 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('0')
+        expect(String(activeTab.props('title'))).toContain('3')
 
         const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
         expect(associations.exists()).toBe(true)
+        expect(associations.props('traceAssociations')).toHaveLength(3)
+        expect(associations.props('associationsError')).toBeFalsy()
       })
     })
 
@@ -193,7 +195,7 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('0')
+        expect(String(activeTab.props('title'))).toContain('3')
       })
     })
 
@@ -374,7 +376,7 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().then('it should not render AvTabs', async () => {
       await vi.waitFor(() => {
-        const tabs = wrapper.findComponent({ name: 'AvTabs' })
+        const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.exists()).toBe(false)
       })
     })
@@ -383,6 +385,51 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
         expect(associations.exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the associations query returns empty data', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      mockRouteId.value = 'EXP_WITHOUT_ASSOCIATIONS'
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should render DeclaredExperienceAssociations with empty associations', async () => {
+      await vi.waitFor(async () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        expect(tabs.exists()).toBe(true)
+        await tabs.vm.$emit('update:modelValue', 1)
+      })
+
+      await vi.waitFor(() => {
+        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
+        expect(associations.exists()).toBe(true)
+        expect(associations.props('traceAssociations')).toEqual([])
+        expect(associations.props('associationsError')).toBeFalsy()
+      })
+    })
+  })
+
+  BddTest().when('the associations query fails', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      mockRouteId.value = 'INVALID_SKILL_ID'
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should pass the associations error to DeclaredExperienceAssociations', async () => {
+      await vi.waitFor(async () => {
+        const tabs = wrapper.findComponent(AvTabsStub)
+        expect(tabs.exists()).toBe(true)
+        await tabs.vm.$emit('update:modelValue', 1)
+      })
+
+      await vi.waitFor(() => {
+        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
+        expect(associations.exists()).toBe(true)
+        expect(associations.props('associationsError')).toBeDefined()
       })
     })
   })
