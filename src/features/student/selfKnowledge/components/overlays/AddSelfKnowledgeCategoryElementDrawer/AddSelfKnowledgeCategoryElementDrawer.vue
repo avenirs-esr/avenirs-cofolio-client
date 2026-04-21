@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.vue'
 import CategoryElementTitleInputFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
@@ -42,6 +43,12 @@ const {
   hideModal: hideDiscardChangesModal
 } = useModal()
 
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
+  isDirty: isFormDirty,
+  openModal: displayDiscardChangesModal,
+  closeModal: hideDiscardChangesModal
+})
+
 const activeAccordion = ref(0)
 
 function confirmCancel () {
@@ -51,11 +58,8 @@ function confirmCancel () {
   hideDiscardChangesModal()
 }
 
-function handleCancel () {
-  if (isFormDirty.value) {
-    displayDiscardChangesModal()
-  }
-  else {
+async function handleCancel () {
+  if (await canLeave()) {
     confirmCancel()
   }
 }
@@ -77,8 +81,8 @@ const isDemo = __DEMO_MODE__
   <ConfirmationModal
     :show="showDiscardChangesModal"
     :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.confirmationModal.title')"
-    @confirm="confirmCancel"
-    @close="hideDiscardChangesModal"
+    @confirm="confirm"
+    @close="cancel"
   />
   <AvDrawer
     :show="showDrawer"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import DeclaredProgramDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
 import DeclaredProgramOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
 import DeclaredProgramPeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
@@ -34,19 +35,17 @@ const isDirty = computed(() => {
   return state.value.isDirty
 })
 
-function handleCancel () {
-  if (isDirty.value) {
-    displayConfirmationModal()
-  }
-  else {
-    confirmCancel()
-  }
-}
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
+  isDirty,
+  openModal: displayConfirmationModal,
+  closeModal: hideConfirmationModal
+})
 
-function confirmCancel () {
-  form.reset()
-  declaredProgramsStore.hideAddDeclaredProgramDrawer()
-  hideConfirmationModal()
+async function handleCancel () {
+  if (await canLeave()) {
+    form.reset()
+    declaredProgramsStore.hideAddDeclaredProgramDrawer()
+  }
 }
 
 const activeAccordion = ref(0)
@@ -124,7 +123,7 @@ const isDemo = __DEMO_MODE__
   <ConfirmationModal
     :show="showConfirmationModal"
     :description="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.confirmationModal.description')"
-    @close="hideConfirmationModal"
-    @confirm="confirmCancel"
+    @close="cancel"
+    @confirm="confirm"
   />
 </template>

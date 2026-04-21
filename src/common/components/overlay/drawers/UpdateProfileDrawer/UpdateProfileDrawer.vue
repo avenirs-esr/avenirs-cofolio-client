@@ -5,6 +5,7 @@ import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { useToasterStore } from '@/store'
 import {
   AvAccordion,
@@ -66,6 +67,16 @@ function onUpdateProfileSuccess () {
   onClose()
 }
 
+const {
+  canLeave,
+  confirm,
+  cancel
+} = useUnsavedChangesGuard({
+  isDirty: isModified,
+  openModal: displayModal,
+  closeModal: hideModal
+})
+
 const { mutate: deleteCoverPictureMutation } = useDeleteUserPhoto()
 
 function deleteCoverPicture ({ fileId }: { fileId: string }) {
@@ -108,6 +119,12 @@ function onSubmitForm (event: Event) {
   form.handleSubmit()
 }
 
+async function handleCancel () {
+  if (await canLeave()) {
+    onClose()
+  }
+}
+
 watch(() => show, (newVal) => {
   if (newVal) {
     resetForm()
@@ -119,7 +136,7 @@ watch(() => show, (newVal) => {
   <AvDrawer
     :show="show"
     data-testid="update-profile-drawer"
-    @escape-pressed="isModified ? displayModal() : onClose()"
+    @escape-pressed="handleCancel"
   >
     <div class="av-col av-gap-xl">
       <AvIconText
@@ -232,8 +249,8 @@ watch(() => show, (newVal) => {
           :confirm-is-loading="isPending"
           :confirm-disabled="!isModified"
           form="profile-form"
-          @cancel="() => isModified ? displayModal() : onClose()"
-          @confirm="form.handleSubmit"
+          @cancel="handleCancel"
+          @confirm="confirm"
         />
       </div>
     </template>
@@ -241,10 +258,7 @@ watch(() => show, (newVal) => {
   <ConfirmationModal
     :show="showModal"
     :is-loading="isPending"
-    @confirm="() => {
-      hideModal()
-      onClose()
-    }"
-    @close="hideModal"
+    @confirm="confirm"
+    @close="cancel"
   />
 </template>

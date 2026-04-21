@@ -3,6 +3,7 @@ import type { AssociateElementOption, AssociateElementTypeConfig } from '@/featu
 import type { IdTitle } from '@/types'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import {
   useSearchActivitiesForAssociationQuery,
   useSearchDeclaredSkillsForAssociationWithTraceQuery
@@ -24,14 +25,6 @@ const { addSuccessMessage } = useToasterStore()
 
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
-const {
-  showModal: showDiscardChangesModal,
-  displayModal: displayDiscardChangesModal,
-  hideModal: hideDiscardChangesModal
-} = useModal()
-
-const activeAccordion = ref(0)
-
 const searchQuery = ref('')
 const associationSelections = ref<Record<string, IdTitle[]>>({})
 const activeTypeKey = ref<string>(EAssociationTypeKey.DECLARED_SKILLS)
@@ -48,6 +41,24 @@ const { form, isFormValid, isSubmitting } = useCreateTraceForm(onTraceCreated)
 
 const isFormDirty = form.useStore(state => state.isDirty)
 
+const {
+  showModal: showDiscardChangesModal,
+  displayModal: displayDiscardChangesModal,
+  hideModal: hideDiscardChangesModal
+} = useModal()
+
+const {
+  canLeave,
+  confirm,
+  cancel
+} = useUnsavedChangesGuard({
+  isDirty: isFormDirty,
+  openModal: displayDiscardChangesModal,
+  closeModal: hideDiscardChangesModal
+})
+
+const activeAccordion = ref(0)
+
 function confirmCancel () {
   form.reset()
   associationSelections.value = {}
@@ -55,14 +66,10 @@ function confirmCancel () {
   activeTypeKey.value = EAssociationTypeKey.DECLARED_SKILLS
   activeAccordion.value = 0
   tracesStore.hideCreateTraceDrawer()
-  hideDiscardChangesModal()
 }
 
-function handleCancel () {
-  if (isFormDirty.value) {
-    displayDiscardChangesModal()
-  }
-  else {
+async function handleCancel () {
+  if (await canLeave()) {
     confirmCancel()
   }
 }
@@ -164,8 +171,8 @@ watch(associationSelections, (newSelections) => {
 <template>
   <ConfirmationModal
     :show="showDiscardChangesModal"
-    @confirm="confirmCancel"
-    @close="hideDiscardChangesModal"
+    @confirm="confirm"
+    @close="cancel"
   />
   <AvDrawer
     :show="showDrawer"

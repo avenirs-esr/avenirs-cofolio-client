@@ -24,6 +24,24 @@ vi.mock('@/store', async () => {
   }
 })
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 BddTest().given('an add self knowledge category element drawer component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof AddSelfKnowledgeCategoryElementDrawer>>
 
@@ -49,6 +67,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
   beforeEach(async () => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
     setActivePinia(createPinia())
 
     const store = useSelfKnowledgeStore()
@@ -56,14 +75,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
     wrapper = mountComponent<typeof AddSelfKnowledgeCategoryElementDrawer>(
       AddSelfKnowledgeCategoryElementDrawer,
-      {
-        global: {
-          stubs
-        }
-      },
-      {
-        usePinia: false
-      }
+      { global: { stubs } },
+      { usePinia: false }
     )
 
     await wrapper.vm.$nextTick()
@@ -132,27 +145,85 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     })
   })
 
-  BddTest().when('escape is pressed on drawer', () => {
-    BddTest().then('it should closeAddElementDrawer when form is not dirty', async () => {
-      const store = useSelfKnowledgeStore()
-      const hideDrawerSpy = vi.spyOn(store, 'closeAddElementDrawer')
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+  BddTest().and('escape is pressed on drawer', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
 
-      await drawer.vm.$emit('escape-pressed')
+      BddTest().then('it should hide the drawer', () => {
+        const store = useSelfKnowledgeStore()
+        expect(store.showAddElementDrawer).toBe(false)
+      })
+    })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the drawer', () => {
+        const store = useSelfKnowledgeStore()
+        expect(store.showAddElementDrawer).toBe(true)
+      })
     })
   })
 
-  BddTest().when('cancel button is clicked', () => {
-    BddTest().then('it should closeAddElementDrawer when form is not dirty', async () => {
-      const store = useSelfKnowledgeStore()
-      const hideDrawerSpy = vi.spyOn(store, 'closeAddElementDrawer')
+  BddTest().and('cancel button is clicked', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        await cancelConfirmButtons.vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
 
-      const cancelConfirmButtons = getCancelConfirmButtons()
-      await cancelConfirmButtons.vm.$emit('cancel')
+      BddTest().then('it should hide the drawer', () => {
+        const store = useSelfKnowledgeStore()
+        expect(store.showAddElementDrawer).toBe(false)
+      })
+    })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        await cancelConfirmButtons.vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the drawer', () => {
+        const store = useSelfKnowledgeStore()
+        expect(store.showAddElementDrawer).toBe(true)
+      })
+
+      BddTest().and('confirming the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard cancel', () => {
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+        })
+      })
     })
   })
 

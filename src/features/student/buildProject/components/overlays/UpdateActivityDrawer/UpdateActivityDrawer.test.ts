@@ -8,6 +8,24 @@ import { AvAccordionStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 BddTest().given('the UpdateActivityDrawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateActivityDrawer>>
 
@@ -22,6 +40,8 @@ BddTest().given('the UpdateActivityDrawer component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
+
     wrapper = mountComponent(UpdateActivityDrawer, {
       props: {
         show: true,
@@ -61,6 +81,8 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   BddTest().when('the drawer is mounted with show=false', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+      mockCanLeave.mockResolvedValue(true)
+
       wrapper = mountComponent(UpdateActivityDrawer, {
         props: {
           show: false,
@@ -76,32 +98,86 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     })
   })
 
-  BddTest().when('the cancel action is triggered without dirty form', () => {
-    beforeEach(async () => {
-      const formCancelConfirmButtons = wrapper.findComponent({ name: 'FormCancelConfirmButtons' })
-      await formCancelConfirmButtons.vm.$emit('cancel')
-      await wrapper.vm.$nextTick()
+  BddTest().when('cancel button is clicked', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const formCancelConfirmButtons = wrapper.findComponent({ name: 'FormCancelConfirmButtons' })
+        await formCancelConfirmButtons.vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should emit close', () => {
+        expect(wrapper.emitted('close')).toBeTruthy()
+      })
+
+      BddTest().then('it should not show the confirmation modal', () => {
+        const modal = wrapper.findComponent({ name: 'ConfirmationModal' }) as VueWrapper<InstanceType<typeof ConfirmationModalStub>>
+        expect(modal.props('show')).toBe(false)
+      })
     })
 
-    BddTest().then('it should emit close', () => {
-      expect(wrapper.emitted('close')).toBeTruthy()
-    })
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const formCancelConfirmButtons = wrapper.findComponent({ name: 'FormCancelConfirmButtons' })
+        await formCancelConfirmButtons.vm.$emit('cancel')
+        await wrapper.vm.$nextTick()
+      })
 
-    BddTest().then('it should not show the confirmation modal', () => {
-      const modal = wrapper.findComponent({ name: 'ConfirmationModal' }) as VueWrapper<InstanceType<typeof ConfirmationModalStub>>
-      expect(modal.props('show')).toBe(false)
+      BddTest().then('it should not emit close', () => {
+        expect(wrapper.emitted('close')).toBeFalsy()
+      })
+
+      BddTest().and('confirming the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard cancel', () => {
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+        })
+      })
     })
   })
 
-  BddTest().when('escape is pressed without dirty form', () => {
-    beforeEach(async () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
-      await avDrawer.vm.$emit('escape-pressed')
-      await wrapper.vm.$nextTick()
+  BddTest().when('escape is pressed on drawer', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await avDrawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should emit close', () => {
+        expect(wrapper.emitted('close')).toBeTruthy()
+      })
     })
 
-    BddTest().then('it should emit close', () => {
-      expect(wrapper.emitted('close')).toBeTruthy()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await avDrawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not emit close', () => {
+        expect(wrapper.emitted('close')).toBeFalsy()
+      })
     })
   })
 
@@ -112,8 +188,8 @@ BddTest().given('the UpdateActivityDrawer component', () => {
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should not emit close', () => {
-      expect(wrapper.emitted('close')).toBeFalsy()
+    BddTest().then('it should call guard cancel', () => {
+      expect(mockCancel).toHaveBeenCalledTimes(1)
     })
   })
 })

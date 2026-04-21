@@ -19,6 +19,24 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 const stubs = {
   AvDrawer: AvDrawerStub,
   AvButton: AvButtonStub,
@@ -42,6 +60,7 @@ BddTest().given('an add declared skill drawer component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent(AddDeclaredSkillDrawer, {
       global: {
@@ -119,27 +138,85 @@ BddTest().given('an add declared skill drawer component', () => {
     })
   })
 
-  BddTest().when('the escape key is pressed on drawer', () => {
-    BddTest().then('it should hide the declared skill drawer', async () => {
-      const store = useDeclaredSkillsStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateDeclaredSkillDrawer')
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+  BddTest().when('escape is pressed on drawer', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
 
-      await drawer.vm.$emit('escape-pressed')
+      BddTest().then('it should hide the declared skill drawer', () => {
+        const store = useDeclaredSkillsStore()
+        expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+      })
+    })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the declared skill drawer', () => {
+        const store = useDeclaredSkillsStore()
+        expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+      })
     })
   })
 
-  BddTest().when('the cancel button is clicked', () => {
-    BddTest().then('it should hide the drawer and reset form', async () => {
-      const store = useDeclaredSkillsStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateDeclaredSkillDrawer')
-      const cancelButton = getCancelButton()
+  BddTest().when('cancel button is clicked', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const cancelButton = getCancelButton()
+        await cancelButton?.trigger('click')
+        await wrapper.vm.$nextTick()
+      })
 
-      await cancelButton?.trigger('click')
+      BddTest().then('it should hide the declared skill drawer', () => {
+        const store = useDeclaredSkillsStore()
+        expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+      })
+    })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const cancelButton = getCancelButton()
+        await cancelButton?.trigger('click')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the declared skill drawer', () => {
+        const store = useDeclaredSkillsStore()
+        expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+      })
+
+      BddTest().and('confirming the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard cancel', () => {
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+        })
+      })
     })
   })
 

@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ROUTES } from '@/common/constants'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -15,6 +16,24 @@ vi.mock('@/common/composables', async (importOriginal) => {
     useNavigation: () => ({
       navigateToStudentDeclaredSkill,
     }),
+  }
+})
+
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
   }
 })
 
@@ -39,7 +58,7 @@ const PageTitleStubWithBack = {
 
 const UpdateDeclaredSkillFormStub = {
   name: 'UpdateDeclaredSkillForm',
-  props: ['declaredSkillProgressDetails', 'onSkillUpdated'],
+  props: ['declaredSkillProgressDetails', 'onSkillUpdated', 'onCancel'],
   emits: ['dirty-change'],
   template: '<div class="update-form-stub" />',
 }
@@ -56,7 +75,8 @@ const stubs = {
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
   UpdateDeclaredSkillAssociations: UpdateDeclaredSkillAssociationsStub,
-  UpdateInProgressBadge: UpdateInProgressBadgeStub
+  UpdateInProgressBadge: UpdateInProgressBadgeStub,
+  ConfirmationModal: ConfirmationModalStub
 }
 
 BddTest().given('a student update declared skill view component', () => {
@@ -64,6 +84,7 @@ BddTest().given('a student update declared skill view component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
       props: {
@@ -119,6 +140,7 @@ BddTest().given('a student update declared skill view component', () => {
         const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
         expect(typeof form.props('onSkillUpdated')).toBe('function')
+        expect(typeof form.props('onCancel')).toBe('function')
         expect(form.props('declaredSkillProgressDetails')).toMatchObject({
           id: '123',
           title: 'Conduire un projet de bout en bout'
@@ -137,6 +159,12 @@ BddTest().given('a student update declared skill view component', () => {
         expect(associations.exists()).toBe(true)
         expect(associations.props('declaredSkillId')).toBe('123')
       })
+    })
+
+    BddTest().then('it should render the confirmation modal initially hidden', () => {
+      const modal = wrapper.findComponent(ConfirmationModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
     })
   })
 
@@ -183,6 +211,65 @@ BddTest().given('a student update declared skill view component', () => {
 
       badge = wrapper.find('[data-testid="update-in-progress-badge"]')
       expect(badge.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the cancel action is triggered on the form', () => {
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => {
+          const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+          expect(form.exists()).toBe(true)
+        })
+        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        await form.vm.$props.onCancel()
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should navigate to declared skill view', () => {
+        expect(navigateToStudentDeclaredSkill).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        await vi.waitFor(() => {
+          const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+          expect(form.exists()).toBe(true)
+        })
+        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        await form.vm.$props.onCancel()
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not navigate', () => {
+        expect(navigateToStudentDeclaredSkill).not.toHaveBeenCalled()
+      })
+
+      BddTest().and('confirming the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard cancel', () => {
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+        })
+      })
     })
   })
 })

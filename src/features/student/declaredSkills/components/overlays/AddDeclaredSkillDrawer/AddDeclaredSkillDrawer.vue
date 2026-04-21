@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField
   from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
@@ -37,19 +38,17 @@ const isDirty = computed(() => {
   return state.value.isDirty
 })
 
-function handleCancel () {
-  if (isDirty.value) {
-    displayConfirmationModal()
-  }
-  else {
-    confirmCancel()
-  }
-}
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
+  isDirty,
+  openModal: displayConfirmationModal,
+  closeModal: hideConfirmationModal
+})
 
-function confirmCancel () {
-  form.reset()
-  declaredSkillsStore.hideCreateDeclaredSkillDrawer()
-  hideConfirmationModal()
+async function handleCancel () {
+  if (await canLeave()) {
+    form.reset()
+    declaredSkillsStore.hideCreateDeclaredSkillDrawer()
+  }
 }
 </script>
 
@@ -123,8 +122,8 @@ function confirmCancel () {
   <ConfirmationModal
     :show="showConfirmationModal"
     :description="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.confirmationModal.description')"
-    @close="hideConfirmationModal"
-    @confirm="confirmCancel"
+    @close="cancel"
+    @confirm="confirm"
   />
 </template>
 
