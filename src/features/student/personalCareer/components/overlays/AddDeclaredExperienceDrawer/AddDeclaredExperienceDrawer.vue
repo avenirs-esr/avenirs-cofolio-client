@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import DeclaredExperienceActivitySectorFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import DeclaredExperienceExternalLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.vue'
@@ -38,19 +39,17 @@ const isDirty = computed(() => {
   return state.value.isDirty
 })
 
-function handleCancel () {
-  if (isDirty.value) {
-    displayConfirmationModal()
-  }
-  else {
-    confirmCancel()
-  }
-}
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
+  isDirty,
+  openModal: displayConfirmationModal,
+  closeModal: hideConfirmationModal
+})
 
-function confirmCancel () {
-  form.reset()
-  personalCareerStore.hideAddDeclaredExperienceDrawer()
-  hideConfirmationModal()
+async function handleCancel () {
+  if (await canLeave()) {
+    form.reset()
+    personalCareerStore.hideAddDeclaredExperienceDrawer()
+  }
 }
 
 const activeAccordion = ref(0)
@@ -124,7 +123,7 @@ const activeAccordion = ref(0)
   <ConfirmationModal
     :show="showConfirmationModal"
     :description="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.confirmationModal.description')"
-    @close="hideConfirmationModal"
-    @confirm="confirmCancel"
+    @close="cancel"
+    @confirm="confirm"
   />
 </template>

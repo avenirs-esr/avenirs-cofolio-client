@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useNavigation } from '@/common/composables'
+import { ConfirmationModal, PageTitle } from '@/common/components'
+import { useModal, useNavigation } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import { useDeclaredSkillDetailedQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
-import UpdateDeclaredSkillAssociations
-  from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
-import UpdateDeclaredSkillForm
-  from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
+import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
+import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,6 +16,7 @@ interface StudentUpdateDeclaredSkillViewProps {
 }
 
 const { skillId } = defineProps<StudentUpdateDeclaredSkillViewProps>()
+
 enum StudentUpdateDeclaredSkillViewTabs {
   DETAILS = 0,
   ASSOCIATIONS = 1
@@ -39,9 +39,31 @@ const breadcrumbLinks = computed(() => [
 function backToStudentDeclaredSkillViewTabs () {
   navigateToStudentDeclaredSkill()
 }
+
+const isDirty = computed(() => updateInProgress.value)
+
+const { showModal, displayModal, hideModal } = useModal()
+
+const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
+  isDirty,
+  openModal: displayModal,
+  closeModal: hideModal
+})
+
+async function handleCancel () {
+  if (await canLeave()) {
+    backToStudentDeclaredSkillViewTabs()
+  }
+}
 </script>
 
 <template>
+  <ConfirmationModal
+    :show="showModal"
+    @confirm="confirm"
+    @close="cancel"
+  />
+
   <PageTitle
     :title="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.title')"
     :breadcrumb-links="breadcrumbLinks"
@@ -66,7 +88,7 @@ function backToStudentDeclaredSkillViewTabs () {
         v-if="declaredSkillDetailed"
         :declared-skill-progress-details="declaredSkillDetailed!"
         :on-skill-updated="backToStudentDeclaredSkillViewTabs"
-        :on-cancel="backToStudentDeclaredSkillViewTabs"
+        :on-cancel="handleCancel"
         @dirty-change="updateInProgress = $event"
       />
     </AvTab>

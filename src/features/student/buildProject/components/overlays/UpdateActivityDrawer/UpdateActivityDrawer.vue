@@ -3,6 +3,7 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import FormCancelConfirmButtons from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 import { useModal } from '@/common/composables'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import ActivityPeriodFormField
   from '@/features/student/buildProject/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 import { useUpdateActivityForm } from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/use-update-activity-form/use-update-activity-form'
@@ -43,19 +44,21 @@ const isDirty = computed(() => {
   return state.value.isDirty
 })
 
-function handleCancel () {
-  if (isDirty.value) {
-    displayConfirmationModal()
-  }
-  else {
-    confirmCancel()
-  }
-}
+const {
+  canLeave,
+  confirm,
+  cancel
+} = useUnsavedChangesGuard({
+  isDirty,
+  openModal: displayConfirmationModal,
+  closeModal: hideConfirmationModal
+})
 
-function confirmCancel () {
-  form.reset()
-  hideConfirmationModal()
-  emit('close')
+async function handleCancel () {
+  if (await canLeave()) {
+    form.reset()
+    emit('close')
+  }
 }
 
 const minStartDate = computed(() => {
@@ -134,7 +137,7 @@ const isDemo = __DEMO_MODE__
   <ConfirmationModal
     :show="showConfirmationModal"
     :description="t('student.buildProject.activities.overlays.UpdateActivityDrawer.confirmationModal.description')"
-    @close="hideConfirmationModal"
-    @confirm="confirmCancel"
+    @close="cancel"
+    @confirm="confirm"
   />
 </template>

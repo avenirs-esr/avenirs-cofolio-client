@@ -15,6 +15,7 @@ import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -27,6 +28,24 @@ vi.mock('@/store', async () => {
       addSuccessMessage: mockAddSuccessMessage,
       addErrorMessage: mockAddErrorMessage
     }))
+  }
+})
+
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
   }
 })
 
@@ -54,6 +73,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
     setActivePinia(createPinia())
 
     const store = usePersonalCareerStore()
@@ -61,8 +81,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
     wrapper = mountComponent<typeof AddDeclaredExperienceDrawer>(
       AddDeclaredExperienceDrawer,
-      { global: { stubs }
-      },
+      { global: { stubs } },
       { usePinia: false }
     )
 
@@ -121,7 +140,6 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
     BddTest().then('it should be disabled initially when form is invalid', async () => {
       const cancelConfirmButtons = getCancelConfirmButtons()
-
       expect(cancelConfirmButtons.props('confirmDisabled')).toBe(true)
     })
 
@@ -152,26 +170,84 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().and('escape is pressed on drawer', () => {
-      BddTest().then('it should hide drawer when form is not dirty', async () => {
-        const store = usePersonalCareerStore()
-        const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredExperienceDrawer')
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      BddTest().and('canLeave is true', () => {
+        beforeEach(async () => {
+          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          await drawer.vm.$emit('escape-pressed')
+          await wrapper.vm.$nextTick()
+        })
 
-        await drawer.vm.$emit('escape-pressed')
+        BddTest().then('it should hide the drawer', () => {
+          const store = usePersonalCareerStore()
+          expect(store.showAddDeclaredExperienceDrawer).toBe(false)
+        })
+      })
 
-        expect(hideDrawerSpy).toHaveBeenCalled()
+      BddTest().and('canLeave is false', () => {
+        beforeEach(async () => {
+          mockCanLeave.mockResolvedValue(false)
+          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          await drawer.vm.$emit('escape-pressed')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should not hide the drawer', () => {
+          const store = usePersonalCareerStore()
+          expect(store.showAddDeclaredExperienceDrawer).toBe(true)
+        })
       })
     })
 
     BddTest().and('cancel button is clicked', () => {
-      BddTest().then('it should hide drawer when form is not dirty', async () => {
-        const store = usePersonalCareerStore()
-        const hideDrawerSpy = vi.spyOn(store, 'hideAddDeclaredExperienceDrawer')
+      BddTest().and('canLeave is true', () => {
+        beforeEach(async () => {
+          const cancelConfirmButtons = getCancelConfirmButtons()
+          await cancelConfirmButtons.vm.$emit('cancel')
+          await wrapper.vm.$nextTick()
+        })
 
-        const cancelConfirmButtons = getCancelConfirmButtons()
-        await cancelConfirmButtons.vm.$emit('cancel')
+        BddTest().then('it should hide the drawer', () => {
+          const store = usePersonalCareerStore()
+          expect(store.showAddDeclaredExperienceDrawer).toBe(false)
+        })
+      })
 
-        expect(hideDrawerSpy).toHaveBeenCalled()
+      BddTest().and('canLeave is false', () => {
+        beforeEach(async () => {
+          mockCanLeave.mockResolvedValue(false)
+          const cancelConfirmButtons = getCancelConfirmButtons()
+          await cancelConfirmButtons.vm.$emit('cancel')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should not hide the drawer', () => {
+          const store = usePersonalCareerStore()
+          expect(store.showAddDeclaredExperienceDrawer).toBe(true)
+        })
+
+        BddTest().and('confirming the modal', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            await confirmationModal.vm.$emit('confirm')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should call guard confirm', () => {
+            expect(mockConfirm).toHaveBeenCalledTimes(1)
+          })
+        })
+
+        BddTest().and('closing the modal', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            await confirmationModal.vm.$emit('close')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should call guard cancel', () => {
+            expect(mockCancel).toHaveBeenCalledTimes(1)
+          })
+        })
       })
     })
   })

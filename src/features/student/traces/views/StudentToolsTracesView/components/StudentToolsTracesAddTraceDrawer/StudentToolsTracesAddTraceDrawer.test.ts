@@ -23,6 +23,24 @@ vi.mock('@/store', async () => {
   }
 })
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 BddTest().given('a student tools traces add trace drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
@@ -102,6 +120,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {
       global: {
@@ -175,24 +194,83 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   })
 
   BddTest().when('escape is pressed on drawer', () => {
-    BddTest().then('it should hideCreateTraceDrawer', async () => {
-      const store = useTracesStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
 
-      await drawer.vm.$emit('escape-pressed')
+      BddTest().then('it should hide the drawer', () => {
+        const store = useTracesStore()
+        expect(store.showCreateTraceDrawer).toBe(false)
+      })
+    })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        await drawer.vm.$emit('escape-pressed')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the drawer', () => {
+        const store = useTracesStore()
+        expect(store.showCreateTraceDrawer).toBe(true)
+      })
     })
   })
 
   BddTest().when('cancel button is clicked', () => {
-    BddTest().then('it should hideCreateTraceDrawer', async () => {
-      const store = useTracesStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-      await clickCancelButton()
+    BddTest().and('canLeave is true', () => {
+      beforeEach(async () => {
+        await clickCancelButton()
+        await wrapper.vm.$nextTick()
+      })
 
-      expect(hideDrawerSpy).toHaveBeenCalled()
+      BddTest().then('it should hide the drawer', () => {
+        const store = useTracesStore()
+        expect(store.showCreateTraceDrawer).toBe(false)
+      })
+    })
+
+    BddTest().and('canLeave is false', () => {
+      beforeEach(async () => {
+        mockCanLeave.mockResolvedValue(false)
+        await fillFormFields()
+        await clickCancelButton()
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should not hide the drawer', () => {
+        const store = useTracesStore()
+        expect(store.showCreateTraceDrawer).toBe(true)
+      })
+
+      BddTest().and('confirming the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('confirm')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard confirm', () => {
+          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('closing the modal', () => {
+        beforeEach(async () => {
+          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          await confirmationModal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call guard cancel', () => {
+          expect(mockCancel).toHaveBeenCalledTimes(1)
+        })
+      })
     })
   })
 
@@ -333,43 +411,6 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
       const typeConfigs = section.props('typeConfigs') as { key: string }[]
       expect(typeConfigs.some(c => c.key === EAssociationTypeKey.ACTIVITIES)).toBe(true)
-    })
-  })
-
-  BddTest().when('form is dirty and cancel is clicked', () => {
-    BddTest().then('it should show confirmation modal when form has changes', async () => {
-      await fillFormFields()
-      await clickCancelButton()
-      await wrapper.vm.$nextTick()
-
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
-      expect(confirmationModal.props('show')).toBe(true)
-    })
-
-    BddTest().then('it should hide drawer when confirmation modal confirm is triggered', async () => {
-      const store = useTracesStore()
-      const hideDrawerSpy = vi.spyOn(store, 'hideCreateTraceDrawer')
-
-      await fillFormFields()
-      await clickCancelButton()
-      await wrapper.vm.$nextTick()
-
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
-      await confirmationModal.vm.$emit('confirm')
-
-      expect(hideDrawerSpy).toHaveBeenCalled()
-    })
-
-    BddTest().then('it should hide confirmation modal when close is triggered', async () => {
-      await fillFormFields()
-      await clickCancelButton()
-      await wrapper.vm.$nextTick()
-
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
-      await confirmationModal.vm.$emit('close')
-      await wrapper.vm.$nextTick()
-
-      expect(confirmationModal.props('show')).toBe(false)
     })
   })
 })

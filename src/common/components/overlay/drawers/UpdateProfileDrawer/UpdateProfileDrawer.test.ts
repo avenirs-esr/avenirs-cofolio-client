@@ -34,6 +34,24 @@ vi.mock('./use-update-profile-form', () => ({
   useUpdateProfileForm: vi.fn(),
 }))
 
+const mockCanLeave = vi.fn<() => Promise<boolean>>()
+const mockConfirm = vi.fn()
+const mockCancel = vi.fn()
+
+vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard')
+  >()
+  return {
+    ...actual,
+    useUnsavedChangesGuard: () => ({
+      canLeave: mockCanLeave,
+      confirm: mockConfirm,
+      cancel: mockCancel
+    })
+  }
+})
+
 BddTest().given('given an update profile drawer', () => {
   let wrapper: VueWrapper
 
@@ -215,6 +233,8 @@ BddTest().given('given an update profile drawer', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockCanLeave.mockResolvedValue(true)
+
     vi.mocked(useRoute).mockReturnValue({
       path: '/student/home'
     } as any)
@@ -396,13 +416,115 @@ BddTest().given('given an update profile drawer', () => {
       })
     })
 
-    BddTest().when('the confirmation modal emits confirm', () => {
-      BddTest().then('it should call hideModal and onClose', async () => {
-        const modal = wrapper.findComponent({ name: 'ConfirmationModal' })
-        await modal.vm.$emit('confirm')
-        await wrapper.vm.$nextTick()
+    BddTest().when('escape is pressed on drawer', () => {
+      BddTest().and('canLeave is true', () => {
+        beforeEach(async () => {
+          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          await drawer.vm.$emit('escape-pressed')
+          await wrapper.vm.$nextTick()
+        })
 
-        expect(defaultProps.onClose).toHaveBeenCalled()
+        BddTest().then('it should call onClose', () => {
+          expect(mockOnClose).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('canLeave is false', () => {
+        beforeEach(async () => {
+          mockCanLeave.mockResolvedValue(false)
+          mockedUseUpdateProfileForm.mockImplementation(() => ({
+            form: mockedForm as any,
+            isPending: computed(() => false),
+            isModified: computed(() => true),
+            resetForm: mockedResetForm,
+            onCoverPictureUpdate: vi.fn(),
+            onProfilePictureUpdate: vi.fn(),
+            onUpdateProfileCoverSuccess: vi.fn(),
+            onUpdateProfilePhotoSuccess: vi.fn(),
+            coverPictureFile: ref<File | null>(null),
+            profilePictureFile: ref<File | null>(null),
+          }))
+          wrapper = mountComponent(UpdateProfileDrawer, {
+            props: defaultProps,
+            global: { stubs }
+          })
+          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          await drawer.vm.$emit('escape-pressed')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should not call onClose', () => {
+          expect(mockOnClose).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    BddTest().when('cancel button is clicked', () => {
+      BddTest().and('canLeave is true', () => {
+        beforeEach(async () => {
+          const cancelButton = wrapper.findAllComponents({ name: 'AvButton' })
+            .find(b => b.props('label') === 'Quitter')
+          await cancelButton?.trigger('click')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call onClose', () => {
+          expect(mockOnClose).toHaveBeenCalledTimes(1)
+        })
+      })
+
+      BddTest().and('canLeave is false', () => {
+        beforeEach(async () => {
+          mockCanLeave.mockResolvedValue(false)
+          mockedUseUpdateProfileForm.mockImplementation(() => ({
+            form: mockedForm as any,
+            isPending: computed(() => false),
+            isModified: computed(() => true),
+            resetForm: mockedResetForm,
+            onCoverPictureUpdate: vi.fn(),
+            onProfilePictureUpdate: vi.fn(),
+            onUpdateProfileCoverSuccess: vi.fn(),
+            onUpdateProfilePhotoSuccess: vi.fn(),
+            coverPictureFile: ref<File | null>(null),
+            profilePictureFile: ref<File | null>(null),
+          }))
+          wrapper = mountComponent(UpdateProfileDrawer, {
+            props: defaultProps,
+            global: { stubs }
+          })
+          const cancelButton = wrapper.findAllComponents({ name: 'AvButton' })
+            .find(b => b.props('label') === 'Quitter')
+          await cancelButton?.trigger('click')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should not call onClose', () => {
+          expect(mockOnClose).not.toHaveBeenCalled()
+        })
+
+        BddTest().and('confirming the modal', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            await confirmationModal.vm.$emit('confirm')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should call guard confirm', () => {
+            expect(mockConfirm).toHaveBeenCalledTimes(1)
+          })
+        })
+
+        BddTest().and('closing the modal', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            await confirmationModal.vm.$emit('close')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should call guard cancel', () => {
+            expect(mockCancel).toHaveBeenCalledTimes(1)
+          })
+        })
       })
     })
 
