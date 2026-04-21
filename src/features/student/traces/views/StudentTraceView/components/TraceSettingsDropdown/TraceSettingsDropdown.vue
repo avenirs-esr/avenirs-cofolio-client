@@ -2,6 +2,12 @@
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface TraceSettingsDropdownProps {
+  downloadDisabled?: boolean
+}
+
+const { downloadDisabled = false } = defineProps<TraceSettingsDropdownProps>()
+
 const emit = defineEmits<{
   (e: 'associateSelected'): void
   (e: 'deleteSelected'): void
@@ -37,7 +43,8 @@ const menuItems = computed(() => [
   {
     name: TraceSettingsPopoverEvents.DOWNLOAD,
     icon: MDI_ICONS.DOWNLOAD_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.download')
+    label: t('student.traces.views.StudentTraceView.settings.download'),
+    disabled: downloadDisabled
   }
 ])
 
