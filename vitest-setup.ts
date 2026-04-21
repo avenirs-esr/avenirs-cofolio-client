@@ -9,16 +9,16 @@ window.matchMedia = function () {
 }
 
 const IGNORED_WARNINGS = []
-
+const FAILED_WARNINGS: string[] = ['[Vue warn]', '[intlify]']
 const originalWarn = console.warn
+
+const isIgnoredWarning = (message: string) => IGNORED_WARNINGS.some(text => message.includes(text))
 
 function setupWarningHandler () {
   console.warn = (...args: any[]) => {
     const message = args.map(String).join(' ')
 
-    const isIgnoredWarning = (message: string) => IGNORED_WARNINGS.some(text => message.includes(text))
-
-    if (message.includes('[Vue warn]')) {
+    if (FAILED_WARNINGS.some(warningPrefix => message.includes(warningPrefix))) {
       if (isIgnoredWarning(message)) {
         originalWarn(...args)
         return

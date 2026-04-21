@@ -58,8 +58,8 @@ BddTest().given('a not found view', () => {
     beforeEach(() => {
       wrapper = mount(NotFoundView, {
         props: {
-          titleKey: 'titre test',
-          descriptionKey: 'description test',
+          titleKey: 'global.text',
+          descriptionKey: 'global.text',
         },
         global: {
           stubs: {
@@ -70,8 +70,8 @@ BddTest().given('a not found view', () => {
     })
 
     BddTest().then('it should render the title/description from the given keys', () => {
-      expect(wrapper.find('h3').text()).toBe('titre test')
-      expect(wrapper.find('p').text()).toBe('description test')
+      expect(wrapper.find('h3').text()).toBe('Texte')
+      expect(wrapper.find('p').text()).toBe('Texte')
     })
   })
 })
