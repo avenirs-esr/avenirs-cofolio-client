@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import RichTextEditor from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'
 import { useUpdateActivityReflectionMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -8,6 +7,7 @@ import { useToasterStore } from '@/store'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
+import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveCardProps {
@@ -16,6 +16,8 @@ export interface MyPerspectiveCardProps {
 }
 
 const { activityId, perspective } = defineProps<MyPerspectiveCardProps>()
+
+const RichTextEditor = defineAsyncComponent(() => import('@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'))
 
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
