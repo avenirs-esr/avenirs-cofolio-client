@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
-import { useUserSummaryQuery } from '@/common/queries'
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { data: studentSummary, error } = useUserSummaryQuery(EUserCategory.STUDENT)
+const { data: studentSummary, error } = useGetProfile(EUserCategory.STUDENT)
 useBaseApiExceptionToast(error)
 const { t } = useI18n()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()

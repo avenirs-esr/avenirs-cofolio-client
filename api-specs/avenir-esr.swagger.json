@@ -3492,11 +3492,9 @@
         },
         "required": [
           "aiUseJustification",
-          "attachment",
           "createdAt",
           "id",
           "isGroup",
-          "link",
           "personalNote",
           "programName",
           "status",

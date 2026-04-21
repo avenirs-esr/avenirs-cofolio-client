@@ -79,7 +79,7 @@ interface UseTraceAttachmentFileReturn {
    * console.log(attachmentFile.value.name)
    * ```
    */
-  attachmentFile: ComputedRef<File>
+  attachmentFile: ComputedRef<File | null>
 
   /**
    * Reactive computed value returning the localized upload date and time of the attachment.
@@ -120,18 +120,24 @@ interface UseTraceAttachmentFileReturn {
  * console.log(uploadDate.value) // "15 octobre 2025 à 16:32"
  * ```
  *
- * @param {MaybeRef<AttachmentUploadDTO>} attachment - Reactive or static reference to an attachment DTO.
+ * @param {MaybeRef<AttachmentUploadDTO | undefined>} attachment - Reactive or static reference to an attachment DTO.
  * @returns {UseTraceAttachmentFileReturn} Object containing:
  *  - `attachmentFile`: computed reactive file object.
  *  - `uploadDate`: computed localized upload date string.
  */
-export function useTraceAttachmentFile (attachment: MaybeRef<AttachmentUploadDTO>): UseTraceAttachmentFileReturn {
+export function useTraceAttachmentFile (attachment: MaybeRef<AttachmentUploadDTO | undefined>): UseTraceAttachmentFileReturn {
   const { formatTranslatedDateTime } = useDateUtils()
 
-  const attachmentFile = computed(() => dtoToFile(toValue(attachment)))
+  const attachmentFile = computed(() => {
+    const attachmentValue = toValue(attachment)
+
+    return attachmentValue ? dtoToFile(attachmentValue) : null
+  })
 
   const uploadDate = computed<string>(() => {
-    return formatTranslatedDateTime(toValue(attachment).uploadedAt)
+    const attachmentValue = toValue(attachment)
+
+    return attachmentValue ? formatTranslatedDateTime(attachmentValue.uploadedAt) : ''
   })
 
   return {

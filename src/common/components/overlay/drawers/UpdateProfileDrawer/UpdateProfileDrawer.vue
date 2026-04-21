@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type FileDTO } from '@/api/avenir-esr'
+import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteUserPhoto } from '@/api/avenir-esr'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
-import { useDeletePhotoMutation } from '@/common/queries/use-user-profile/use-user-profile.query'
 import { useToasterStore } from '@/store'
 import {
   AvAccordion,
@@ -16,6 +15,7 @@ import {
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -45,6 +45,7 @@ const { t } = useI18n()
 const route = useRoute()
 const { showModal, displayModal, hideModal } = useModal()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const userCategory = computed<EUserCategory>(() => route.path.startsWith('/student') ? EUserCategory.STUDENT : EUserCategory.STAFF)
 
@@ -65,15 +66,29 @@ function onUpdateProfileSuccess () {
   onClose()
 }
 
-const { mutate: deleteCoverPicture } = useDeletePhotoMutation(userCategory.value, {
-  onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
-  onSuccess: () => addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
-})
+const { mutate: deleteCoverPictureMutation } = useDeleteUserPhoto()
 
-const { mutate: deleteProfilePicture } = useDeletePhotoMutation(userCategory.value, {
-  onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
-  onSuccess: () => addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
-})
+function deleteCoverPicture ({ fileId }: { fileId: string }) {
+  deleteCoverPictureMutation({ fileId }, {
+    onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+    onSuccess: async () => {
+      await invalidateGetProfile(queryClient, userCategory.value)
+      addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
+    }
+  })
+}
+
+const { mutate: deleteProfilePictureMutation } = useDeleteUserPhoto()
+
+function deleteProfilePicture ({ fileId }: { fileId: string }) {
+  deleteProfilePictureMutation({ fileId }, {
+    onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+    onSuccess: async () => {
+      await invalidateGetProfile(queryClient, userCategory.value)
+      addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
+    }
+  })
+}
 
 function onDeleteCoverPicture () {
   deleteCoverPicture({ fileId: coverPicture.fileId! })

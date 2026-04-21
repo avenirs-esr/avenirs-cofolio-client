@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
-import { useUserSummaryQuery } from '@/common/queries'
 import { Handle, type NodeProps, Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 
 defineProps<NodeProps>()
 
 const { t } = useI18n()
-const { data: studentData } = useUserSummaryQuery(EUserCategory.STUDENT)
+const { data: studentData } = useGetProfile(EUserCategory.STUDENT)
 // TODO: Remove localhost replacement when backend will provide the correct URL
 const profilePictureUrl = computed(() => studentData.value?.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
 
