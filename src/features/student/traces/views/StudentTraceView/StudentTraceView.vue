@@ -96,6 +96,7 @@ const breadcrumbLinks = computed(() => [
           {{ t('student.traces.views.StudentTraceView.subtitle') }} <span class="s1-regular">{{ traceDetailed.title }}</span>
         </h5>
         <TraceSettingsDropdown
+          :download-disabled="!traceDetailed.attachment"
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="displayUpdateTraceModal"
