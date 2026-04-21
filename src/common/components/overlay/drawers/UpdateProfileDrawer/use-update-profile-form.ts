@@ -44,8 +44,8 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
         const { email, bio } = value
 
         const [coverResult, photoResult] = await Promise.allSettled([
-          coverPictureFile.value ? onUpdateProfileCoverAsync({ file: coverPictureFile.value }) : Promise.resolve(),
-          profilePictureFile.value ? onUpdateProfilePhotoAsync({ file: profilePictureFile.value }) : Promise.resolve()
+          coverPictureFile.value ? onUpdateProfileCoverAsync(profile, { file: coverPictureFile.value }) : Promise.resolve(),
+          profilePictureFile.value ? onUpdateProfilePhotoAsync(profile, { file: profilePictureFile.value }) : Promise.resolve()
         ])
 
         if (coverResult.status === 'rejected') {

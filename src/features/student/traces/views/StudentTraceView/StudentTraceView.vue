@@ -53,7 +53,7 @@ function downloadAttachment (attachmentId: string) {
         description: error instanceof BaseApiException ? error.message : t('global.error.generic')
       })
     },
-    onSuccess: data => downloadBlob(data, traceDetailed.value?.attachment.fileName)
+    onSuccess: data => downloadBlob(data, traceDetailed.value?.attachment?.fileName)
   })
 }
 
@@ -100,7 +100,7 @@ const breadcrumbLinks = computed(() => [
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="displayUpdateTraceModal"
-          @download-selected="downloadAttachment(traceDetailed.attachment.id)"
+          @download-selected="downloadAttachment(traceDetailed.attachment?.id ?? '')"
         />
       </div>
 

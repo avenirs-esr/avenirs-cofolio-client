@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
-import { useUserSummaryQuery } from '@/common/queries'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
@@ -20,7 +19,7 @@ const {
 } = useModal()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 const { categories } = useSelfKnowledgeCategoriesQuery()
-const { data: studentSummary } = useUserSummaryQuery(EUserCategory.STUDENT)
+const { data: studentSummary } = useGetProfile(EUserCategory.STUDENT)
 </script>
 
 <template>

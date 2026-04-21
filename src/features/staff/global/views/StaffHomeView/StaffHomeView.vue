@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
-import { useUserSummaryQuery } from '@/common/queries'
 import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -11,7 +10,7 @@ useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 
-const { data: staffSummary } = useUserSummaryQuery(EUserCategory.STAFF)
+const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
 </script>
 
 <template>

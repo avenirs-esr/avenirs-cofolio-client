@@ -1,16 +1,22 @@
-import type { EUserCategory, ProfileUpdateRequest, UpdateProfilePhotoBody } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import {
-  useUpdateProfileCoverMutation,
-  useUpdateProfileMutation,
-  useUpdateProfilePhotoMutation
-} from '@/common/queries/use-user-profile/use-user-profile.query'
+  type EUserCategory,
+  EUserPhotoType,
+  invalidateGetProfile,
+  type ProfileUpdateRequest,
+  type UpdateProfilePhotoBody,
+  type UserPhotoUploadDTO,
+  useUpdateProfile as useUpdateProfileFromApi,
+  useUpdateProfilePhoto as useUpdateProfilePhotoFromApi,
+} from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   function onUpdateProfileError (error: BaseApiException) {
     addErrorMessage({
@@ -19,24 +25,32 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
     })
   }
 
-  const updateProfileMutation = useUpdateProfileMutation(profile, {
-    onError: onUpdateProfileError,
-    onSuccess: onProfileUpdated
-  })
+  const { mutate: updateProfileMutation, isPending: isUpdateProfilePending } = useUpdateProfileFromApi()
+
+  function updateProfile (userCategory: EUserCategory, profileUpdateRequest: ProfileUpdateRequest) {
+    updateProfileMutation({ userCategory, data: profileUpdateRequest }, {
+      onError: onUpdateProfileError,
+      onSuccess: async (_data, variables) => {
+        await invalidateGetProfile(queryClient, variables.userCategory)
+        onProfileUpdated()
+      }
+    })
+  }
 
   function onUpdateProfile (profileUpdateRequest: ProfileUpdateRequest) {
-    updateProfileMutation.mutate({ profile, profileUpdateRequest })
+    updateProfile(profile, profileUpdateRequest)
   }
 
   return {
     onUpdateProfile,
-    isUpdateProfilePending: updateProfileMutation.isPending,
+    isUpdateProfilePending,
   }
 }
 
 export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data: string) => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   function onUpdateProfileCoverError (error: BaseApiException) {
     addErrorMessage({
@@ -45,28 +59,32 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
     })
   }
 
-  function onUpdateProfileCoverSuccess (data: string) {
-    onSuccess(data)
+  function onUpdateProfileCoverSuccess (data: UserPhotoUploadDTO) {
+    onSuccess(data.id)
   }
 
-  const updateProfileCoverMutation = useUpdateProfileCoverMutation(profile, {
-    onError: onUpdateProfileCoverError,
-    onSuccess: onUpdateProfileCoverSuccess
-  })
+  const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfileCoverPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfileCoverAsync (updateProfileCoverBody: UpdateProfilePhotoBody) {
-    return await updateProfileCoverMutation.mutateAsync({ profile, updateProfileCoverBody })
+  async function onUpdateProfileCoverAsync (userCategory: EUserCategory, updateProfilePhotoBody: UpdateProfilePhotoBody) {
+    return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.COVER, data: updateProfilePhotoBody }, {
+      onError: onUpdateProfileCoverError,
+      onSuccess: async (data, variables) => {
+        await invalidateGetProfile(queryClient, variables.userCategory)
+        onUpdateProfileCoverSuccess(data)
+      }
+    })
   }
 
   return {
     onUpdateProfileCoverAsync,
-    isUpdateProfileCoverPending: updateProfileCoverMutation.isPending,
+    isUpdateProfileCoverPending,
   }
 }
 
 export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpdated: (data: string) => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   function onUpdateProfilePhotoError (error: BaseApiException) {
     addErrorMessage({
@@ -75,17 +93,20 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
     })
   }
 
-  const updateProfilePhotoMutation = useUpdateProfilePhotoMutation(profile, {
-    onError: onUpdateProfilePhotoError,
-    onSuccess: onProfilePhotoUpdated
-  })
+  const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfilePhotoPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfilePhotoAsync (updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation.mutateAsync({ profile, updateProfilePhotoBody })
+  async function onUpdateProfilePhotoAsync (userCategory: EUserCategory, updateProfilePhotoBody: UpdateProfilePhotoBody) {
+    return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.PROFILE, data: updateProfilePhotoBody }, {
+      onError: onUpdateProfilePhotoError,
+      onSuccess: async (data, variables) => {
+        await invalidateGetProfile(queryClient, variables.userCategory)
+        onProfilePhotoUpdated(data.id)
+      }
+    })
   }
 
   return {
     onUpdateProfilePhotoAsync,
-    isUpdateProfilePhotoPending: updateProfilePhotoMutation.isPending,
+    isUpdateProfilePhotoPending,
   }
 }

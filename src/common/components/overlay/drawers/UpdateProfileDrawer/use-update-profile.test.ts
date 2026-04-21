@@ -83,7 +83,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
     })
 
     BddTest().then('it should call the onSuccess callback', async () => {
-      await result.onUpdateProfileCoverAsync({ file: fakeFile })
+      await result.onUpdateProfileCoverAsync(EUserCategory.STAFF, { file: fakeFile })
       await flushPromises()
 
       expect(onSuccessSpy).toHaveBeenCalled()
@@ -96,7 +96,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
     })
 
     BddTest().then('it should show an error message', async () => {
-      await result.onUpdateProfileCoverAsync({ file: fakeFile }).catch(() => {})
+      await result.onUpdateProfileCoverAsync(EUserCategory.STAFF, { file: fakeFile }).catch(() => {})
       await flushPromises()
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
@@ -128,20 +128,20 @@ BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
     })
 
     BddTest().then('it should call the onSuccess callback', async () => {
-      await result.onUpdateProfilePhotoAsync({ file: fakeFile })
+      await result.onUpdateProfilePhotoAsync(EUserCategory.STAFF, { file: fakeFile })
       await flushPromises()
 
       expect(onSuccessSpy).toHaveBeenCalled()
     })
   })
 
-  BddTest().when('update profile cover fails with server error', () => {
+  BddTest().when('update profile photo fails with server error', () => {
     beforeEach(() => {
       server.use(putUpdateProfilePhotoErrorHandler)
     })
 
     BddTest().then('it should show an error message', async () => {
-      await result.onUpdateProfilePhotoAsync({ file: fakeFile }).catch(() => {})
+      await result.onUpdateProfilePhotoAsync(EUserCategory.STAFF, { file: fakeFile }).catch(() => {})
       await flushPromises()
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({

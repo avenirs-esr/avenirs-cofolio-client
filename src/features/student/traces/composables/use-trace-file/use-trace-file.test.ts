@@ -57,8 +57,8 @@ BddTest().given('a use-trace-attachment-file composable', () => {
       const file = result.result.attachmentFile.value
 
       expect(file).toBeInstanceOf(File)
-      expect(file.name).toBe('test-file.pdf')
-      expect(file.lastModified).toBe(new Date('2024-01-15T14:30:00').getTime())
+      expect(file!.name).toBe('test-file.pdf')
+      expect(file!.lastModified).toBe(new Date('2024-01-15T14:30:00').getTime())
     })
 
     BddTest().then('it should format upload date', () => {
@@ -95,9 +95,20 @@ BddTest().given('a use-trace-attachment-file composable', () => {
       const file = result.result.attachmentFile.value
       const uploadDate = result.result.uploadDate.value
 
-      expect(file.name).toBe('image.jpg')
-      expect(file.lastModified).toBe(new Date('2023-06-10T10:00:00').getTime())
+      expect(file!.name).toBe('image.jpg')
+      expect(file!.lastModified).toBe(new Date('2023-06-10T10:00:00').getTime())
       expect(uploadDate).toContain('juin')
+    })
+  })
+
+  BddTest().when('processing an undefined attachment', () => {
+    BddTest().then('it should return an empty file state', () => {
+      const result = mountComposable(() => useTraceAttachmentFile(undefined), {
+        useI18n: true
+      })
+
+      expect(result.result.attachmentFile.value).toBeNull()
+      expect(result.result.uploadDate.value).toBe('')
     })
   })
 })
