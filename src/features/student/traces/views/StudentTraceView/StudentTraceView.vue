@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useDownloadAttachment } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
+import { BaseApiException } from '@/common/exceptions'
+import { downloadBlob } from '@/common/utils/download/download'
 import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
@@ -14,6 +17,7 @@ import AssociateDeclaredSkillsToTracesModal from '@/features/student/traces/view
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import UpdateTraceModal from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
+import { useToasterStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -23,6 +27,7 @@ export interface StudentTraceDetailedProps {
 
 const props = defineProps<StudentTraceDetailedProps>()
 const { traceId } = toRefs(props)
+const { addErrorMessage } = useToasterStore()
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
 const { traceAssociations, error: associationsError } = useTraceAssociationsQuery(traceId)
@@ -38,6 +43,19 @@ const {
 } = useModal()
 
 const { displayUpdateTraceModal } = useTracesStore()
+const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
+
+function downloadAttachment (attachmentId: string) {
+  mutateDownloadAttachment({ attachmentId }, {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('student.traces.views.StudentTraceView.errors.download'),
+        description: error instanceof BaseApiException ? error.message : t('global.error.generic')
+      })
+    },
+    onSuccess: data => downloadBlob(data, traceDetailed.value?.attachment.fileName)
+  })
+}
 
 const {
   showModal: showAssociateModal,
@@ -81,6 +99,7 @@ const breadcrumbLinks = computed(() => [
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="displayUpdateTraceModal"
+          @download-selected="downloadAttachment(traceDetailed.attachment.id)"
         />
       </div>
 

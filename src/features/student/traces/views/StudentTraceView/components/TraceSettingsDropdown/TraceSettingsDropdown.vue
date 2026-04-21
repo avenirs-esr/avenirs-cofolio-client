@@ -6,12 +6,14 @@ const emit = defineEmits<{
   (e: 'associateSelected'): void
   (e: 'deleteSelected'): void
   (e: 'updateSelected'): void
+  (e: 'downloadSelected'): void
 }>()
 
 enum TraceSettingsPopoverEvents {
   ASSOCIATE = 'associate',
   DELETE = 'delete',
-  UPDATE = 'update'
+  UPDATE = 'update',
+  DOWNLOAD = 'download'
 }
 
 const { t } = useI18n()
@@ -31,6 +33,11 @@ const menuItems = computed(() => [
     name: TraceSettingsPopoverEvents.UPDATE,
     icon: MDI_ICONS.PENCIL_OUTLINE,
     label: t('student.traces.views.StudentTraceView.settings.update')
+  },
+  {
+    name: TraceSettingsPopoverEvents.DOWNLOAD,
+    icon: MDI_ICONS.DOWNLOAD_OUTLINE,
+    label: t('student.traces.views.StudentTraceView.settings.download')
   }
 ])
 
@@ -44,6 +51,9 @@ function handleItemSelected (itemName: string) {
       break
     case TraceSettingsPopoverEvents.UPDATE:
       emit('updateSelected')
+      break
+    case TraceSettingsPopoverEvents.DOWNLOAD:
+      emit('downloadSelected')
       break
   }
 }

@@ -246,12 +246,14 @@
           },
           "errors": {
             "delete": "Une erreur est survenue lors de la suppression de la trace.",
+            "download": "Une erreur est survenue lors du téléchargement de la trace.",
             "fetchAssociations": "Une erreur est survenue lors de la récupération des éléments associés à la trace.",
             "fetchTrace": "Une erreur est survenue lors de la récupération de la trace."
           },
           "settings": {
             "associate": "Associer ma trace",
             "delete": "Supprimer ma trace",
+            "download": "Télécharger ma trace",
             "update": "Modifier ma trace"
           },
           "subtitle": "Détail de ma trace",

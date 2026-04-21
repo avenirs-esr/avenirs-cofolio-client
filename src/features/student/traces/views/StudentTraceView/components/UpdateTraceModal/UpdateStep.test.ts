@@ -23,6 +23,7 @@ BddTest().given('an update step', () => {
   const mockedTrace: TraceDetailDTO = {
     id: 'mock-trace',
     title: 'An awesome trace',
+    link: 'https://example.com',
     isAssociated: true,
     createdAt: '2025-06-01T10:42:00.000Z',
     updatedAt: '2025-06-02T11:42:00.000Z',

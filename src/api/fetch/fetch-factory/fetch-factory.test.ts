@@ -91,6 +91,19 @@ BddTest().given('a custom fetch creator', () => {
     })
   })
 
+  BddTest().when('creating a custom fetch for image content', () => {
+    BddTest().then('it should return a blob', async () => {
+      const imageContent = 'PNG content'
+      vi.mocked(mockFetch).mockResolvedValueOnce(
+        new Response(imageContent, { status: 200, headers: { 'content-type': 'image/png' } })
+      )
+      const fetcher = createCustomFetch({ baseUrl }, interceptorManager)
+      const result = await fetcher<Blob>('/me/traces/attachment')
+      const responseText = await result.text()
+      expect(responseText).toBe(imageContent)
+    })
+  })
+
   BddTest().when('creating a custom fetch for application/octet-stream', () => {
     BddTest().then('it should return body', async () => {
       const content = 'Binary content'
@@ -98,9 +111,8 @@ BddTest().given('a custom fetch creator', () => {
         new Response(content, { status: 200, headers: { 'content-type': 'application/octet-stream' } })
       )
       const fetcher = createCustomFetch({ baseUrl }, interceptorManager)
-      const result = await fetcher<ArrayBuffer>('/me/resumes')
-      const decoder = new TextDecoder()
-      const responseText = decoder.decode(result)
+      const result = await fetcher<Blob>('/me/resumes')
+      const responseText = await result.text()
       expect(responseText).toBe(content)
     })
   })
