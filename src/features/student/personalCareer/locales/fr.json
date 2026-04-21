@@ -234,7 +234,7 @@
             },
             "DeleteDeclaredExperiencesModal": {
               "confirm": "Supprimer l'expérience sélectionnée | Supprimer les expériences sélectionnées ({count})",
-              "noDeclaredPrograms": "Aucune expérience à supprimer.",
+              "noDeclaredExperiences": "Aucune expérience à supprimer.",
               "title": "Quelle(s) expérience(s) souhaitez-vous supprimer ?"
             },
             "title": "Mes expériences",
