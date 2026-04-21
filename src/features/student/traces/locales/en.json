@@ -247,12 +247,14 @@
           },
           "errors": {
             "delete": "An error occurred while deleting the trace",
+            "download": "An error occurred while downloading the trace",
             "fetchAssociations": "An error occurred while fetching the trace associations",
             "fetchTrace": "An error occurred while fetching the trace details"
           },
           "settings": {
             "associate": "Associate my trace",
             "delete": "Delete my trace",
+            "download": "Download my trace",
             "update": "Update my trace"
           },
           "subtitle": "Detail of my trace",

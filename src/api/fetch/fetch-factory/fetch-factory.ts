@@ -14,20 +14,31 @@ function buildUrl (url: string, baseUrl: string): string {
 }
 
 async function getBody<T> (response: Response): Promise<T> {
-  const contentType = response.headers.get('content-type') || ''
+  const contentType = (response.headers.get('content-type') || '').toLowerCase()
   const contentLength = response.headers.get('content-length')
+  const contentDisposition = (response.headers.get('content-disposition') || '').toLowerCase()
 
   if (contentLength === '0' || response.status === 204) {
     return undefined as T
   }
 
-  if (contentType.includes('application/pdf')) {
+  const isJsonResponse = contentType.includes('application/json') || contentType.includes('+json')
+  const isTextResponse = contentType.startsWith('text/')
+  const isBinaryResponse = contentDisposition.includes('attachment')
+    || contentType.startsWith('image/')
+    || contentType.startsWith('audio/')
+    || contentType.startsWith('video/')
+    || (contentType.startsWith('application/') && !isJsonResponse && !contentType.includes('xml'))
+
+  if (isJsonResponse) {
+    return await response.json() as T
+  }
+
+  if (isBinaryResponse) {
     return await response.blob() as T
   }
-  if (contentType.includes('application/octet-stream')) {
-    return await response.arrayBuffer() as T
-  }
-  if (contentType.includes('text')) {
+
+  if (isTextResponse) {
     return await response.text() as T
   }
 

@@ -68,6 +68,7 @@ BddTest().given('an update trace form component', () => {
     mockTrace = {
       id: 'trace-123',
       title: 'Existing Trace',
+      link: 'https://example.com/existing-trace',
       programName: 'Test Program',
       isGroup: false,
       aiUseJustification: '',

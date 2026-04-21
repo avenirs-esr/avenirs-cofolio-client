@@ -244,6 +244,7 @@ export const mockedTraceDetailed = {
   id: 'trace1',
   title: 'Développement d\'un ePortfolio',
   isAssociated: false,
+  link: 'https://example.com/trace/trace1',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',
   programName: 'An awesome program',

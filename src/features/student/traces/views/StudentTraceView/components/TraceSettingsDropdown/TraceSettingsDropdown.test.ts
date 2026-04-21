@@ -18,12 +18,12 @@ BddTest().given('a setting popover', () => {
     BddTest().then('it should render the dropdown with three menu items', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(3)
+      expect(dropdown.props('items')).toHaveLength(4)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.props('items')).toHaveLength(3)
+      expect(dropdown.props('items')).toHaveLength(4)
       expect(dropdown.props('triggerAriaLabel')).toBe('Plus d\'actions')
       expect(dropdown.props('triggerLabel')).toBe('Plus d\'actions')
     })
@@ -50,6 +50,14 @@ BddTest().given('a setting popover', () => {
       const updateButton = wrapper.find('[data-name="update"]')
       await updateButton.trigger('click')
       expect(wrapper.emitted('updateSelected')).toHaveLength(1)
+    })
+  })
+
+  BddTest().when('the download button is clicked', () => {
+    BddTest().then('it should emit the downloadSelected event', async () => {
+      const downloadButton = wrapper.find('[data-name="download"]')
+      await downloadButton.trigger('click')
+      expect(wrapper.emitted('downloadSelected')).toHaveLength(1)
     })
   })
 })

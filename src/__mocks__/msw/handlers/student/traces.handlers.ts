@@ -21,6 +21,7 @@ import {
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
   getDeleteTraceUrl,
+  getDownloadAttachmentUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTraceDetailUrl,
@@ -232,6 +233,26 @@ export const tracesHandlers = [
     })
   }),
 
+  http.get(`*${getDownloadAttachmentUrl(':attachmentId')}`, ({ params }) => {
+    const attachmentId: string | undefined = params.attachmentId as string | undefined
+
+    if (!attachmentId) {
+      return HttpResponse.json({ error: 'Attachment ID is required' }, { status: 400 })
+    }
+
+    if (attachmentId === 'INVALID_ATTACHMENT_ID') {
+      return HttpResponse.json({ error: 'Attachment not found' }, { status: 404 })
+    }
+
+    return new HttpResponse('trace attachment content', {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment; filename="An awesome attachment"'
+      }
+    })
+  }),
+
   http.get<PathParams, TraceDetailDTO>(`*${getGetTraceDetailUrl(':traceId')}`, async () => {
     await delay(100)
     return HttpResponse.json(mockedTraceDetailed, {
@@ -410,6 +431,16 @@ export const tracesHandlers = [
 
 export const deleteTraceAssociationsErrorHandler = http.delete(
   `*${getDeleteTraceAssociationsUrl(':traceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const downloadTraceAttachmentErrorHandler = http.get(
+  `*${getDownloadAttachmentUrl(':attachmentId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error' },

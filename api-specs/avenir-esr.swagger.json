@@ -2052,6 +2052,51 @@
         }
       }
     },
+    "/me/storage/traces/attachments/{attachmentId}": {
+      "get": {
+        "tags": [
+          "trace-attachment-controller"
+        ],
+        "summary": "Download an attachment",
+        "description": "Retrieves the binary content of a specific attachment associated with a trace.",
+        "operationId": "downloadAttachment",
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File downloaded successfully",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Attachment not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/skill-level-progress": {
       "get": {
         "tags": [
@@ -3430,6 +3475,9 @@
           "personalNote": {
             "type": "string"
           },
+          "link": {
+            "type": "string"
+          },
           "attachment": {
             "$ref": "#/components/schemas/AttachmentUploadDTO"
           },
@@ -3448,6 +3496,7 @@
           "createdAt",
           "id",
           "isGroup",
+          "link",
           "personalNote",
           "programName",
           "status",
@@ -4052,6 +4101,9 @@
             "type": "string"
           },
           "iaJustification": {
+            "type": "string"
+          },
+          "link": {
             "type": "string"
           }
         },
@@ -5854,6 +5906,7 @@
           "SKILL_NOT_FOUND",
           "SKILL_LEVEL_NOT_FOUND",
           "TRACE_NOT_FOUND",
+          "INVALID_TRACE_TYPE",
           "AMS_NOT_FOUND",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
@@ -5865,6 +5918,7 @@
           "STUDENT_DECLARED_ALREADY_EXIST",
           "STUDENT_PROGRESS_NOT_FOUND",
           "FILE_NOT_FOUND",
+          "ATTACHMENT_NOT_FOUND",
           "CONFIGURATION_ERROR",
           "TITLE_TOO_LONG",
           "DESCRIPTION_TOO_LONG",

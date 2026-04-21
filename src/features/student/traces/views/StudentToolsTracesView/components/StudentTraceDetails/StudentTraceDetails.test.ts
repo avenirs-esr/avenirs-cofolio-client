@@ -53,6 +53,7 @@ BddTest().given('a student detailed trace information component', () => {
     title: 'Test Trace Title',
     isAssociated: true,
     programName: 'Test Program',
+    link: 'https://example.com/trace/1',
     isGroup: false,
     aiUseJustification: '',
     personalNote: 'Test personal note content',

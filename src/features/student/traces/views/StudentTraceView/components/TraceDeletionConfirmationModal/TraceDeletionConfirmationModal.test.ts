@@ -35,6 +35,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
   const mockedTrace: TraceDetailDTO = {
     id: 'trace1',
     title: 'Développement d\'un ePortfolio',
+    link: 'https://example.com/trace1',
     isAssociated: false,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',

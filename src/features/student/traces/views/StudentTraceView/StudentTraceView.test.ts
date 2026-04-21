@@ -1,15 +1,38 @@
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import {
+  createTraceDetailedHandler,
+  downloadTraceAttachmentErrorHandler
+} from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
+
+vi.mock('@/common/utils/download/download', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/utils/download/download')>()
+  return {
+    ...actual,
+    downloadBlob: vi.fn()
+  }
+})
+
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage,
+    }),
+  }
+})
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -66,7 +89,7 @@ BddTest().given('a student trace view', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    setActivePinia(createPinia())
+
     const handler = createTraceDetailedHandler(mockedTraceDetailed)
     server.use(handler)
     wrapper = mountComponent(StudentTraceView, {
@@ -185,6 +208,46 @@ BddTest().given('a student trace view', () => {
       const { useTracesStore } = await import('@/features/student/traces')
       const tracesStore = useTracesStore()
       expect(tracesStore.showUpdateTraceModal).toBe(true)
+    })
+  })
+
+  BddTest().when('TraceSettingsDropdown emits download-selected', () => {
+    BddTest().then('it should download the trace attachment', async () => {
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
+
+      await popover.vm.$emit('download-selected')
+      await flushPromises()
+
+      expect(downloadBlob).toHaveBeenCalledTimes(1)
+      const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0]
+      expect(blob).toMatchObject({
+        size: expect.any(Number),
+        type: 'application/octet-stream'
+      })
+      expect(fileName).toBe(mockedTraceDetailed.attachment.fileName)
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('TraceSettingsDropdown emits download-selected and download fails', () => {
+    beforeEach(() => {
+      server.use(downloadTraceAttachmentErrorHandler)
+    })
+
+    BddTest().then('it should add an error toaster message', async () => {
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
+
+      await popover.vm.$emit('download-selected')
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalledWith({
+          title: 'Une erreur est survenue lors du téléchargement de la trace.',
+          description: 'Internal Server Error',
+        })
+      })
+
+      expect(downloadBlob).not.toHaveBeenCalled()
     })
   })
 })

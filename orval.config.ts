@@ -13,6 +13,13 @@ export default defineConfig({
       mode: 'tags',
       clean: true,
       override: {
+        operations: {
+          downloadAttachment: {
+            query: {
+              useMutation: true,
+            }
+          }
+        },
         fetch: {
           includeHttpResponseReturnType: false,
         },
