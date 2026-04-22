@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useGetDetailedSkill } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
-import { useSkillDetailedQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import StudentSkillViewContainer
   from '@/features/student/skills/views/StudentSkillView/components/StudentSkillViewContainer/StudentSkillViewContainer.vue'
 import { useI18n } from 'vue-i18n'
@@ -16,7 +16,7 @@ const props = defineProps<StudentSkillDetailedProps>()
 const { skillId } = toRefs(props)
 const { t } = useI18n()
 
-const { skillDetailed, error } = useSkillDetailedQuery(skillId)
+const { data: skillDetailed, error } = useGetDetailedSkill(skillId)
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.SKILL_NOT_FOUND || isNotFound.value)

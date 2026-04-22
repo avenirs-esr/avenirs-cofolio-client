@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useGetStudentProgressOverview } from '@/api/avenir-esr'
 import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
 import HomeWidget from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import StudentSkillsWidgetContainer from '@/features/student/skills/components/cards/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
-import { useStudentCoursesSummaryQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { data: apiCourses, error } = useStudentCoursesSummaryQuery()
+const { data: apiCourses, error } = useGetStudentProgressOverview()
 useBaseApiExceptionToast(error)
 const { navigateToStudentSkills } = useNavigation()
 const { t } = useI18n()

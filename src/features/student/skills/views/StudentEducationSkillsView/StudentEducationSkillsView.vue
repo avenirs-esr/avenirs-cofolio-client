@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { GetStudentProgressViewParams } from '@/api/avenir-esr'
+import { type GetStudentProgressViewParams, useGetStudentProgressView } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
-import { useProgramProgressViewQuery } from '@/features/student/skills/queries/use-program-progress.query/use-program-progress.query'
 import { StudentProgressViewSortableFields } from '@/features/student/skills/types/student-progress.types'
 import SkillsSortContainer
   from '@/features/student/skills/views/StudentEducationSkillsView/components/SkillsSortContainer/SkillsSortContainer.vue'
@@ -23,7 +22,7 @@ const params = computed((): GetStudentProgressViewParams => ({
   sort: selectedSortOption.value.itemId,
 }))
 
-const { data: courses, error } = useProgramProgressViewQuery(params)
+const { data: courses, error } = useGetStudentProgressView(params)
 
 useBaseApiExceptionToast(error)
 
