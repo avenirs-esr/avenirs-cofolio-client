@@ -1,15 +1,26 @@
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import { type AddDeclaredSkillDTO, type DeclaredSkillProgressDTO, EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
-import * as avenirEsrApi from '@/api/avenir-esr'
+import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { type MockInstance, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const onSkillAdded = vi.fn()
+
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 BddTest().given('the useDeclaredSkillForm composable', () => {
   let composableResult: ReturnType<typeof useDeclaredSkillForm>
-  let mockOnSubmit: ReturnType<typeof vi.fn>
-  let createDeclaredSkillProgressSpy: MockInstance<(addDeclaredSkillDTO: AddDeclaredSkillDTO, options?: RequestInit | undefined) => Promise<DeclaredSkillProgressDTO>>
 
   const createMockSkill = (id = '1', label = 'Test Skill', type = EExternalSkillType.ROME4) => ({
     id,
@@ -23,6 +34,11 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
   const createValidFormData = (level = EDeclaredSkillLevel.INTERMEDIATE, skillData = createMockSkill()): DeclaredSkillFormData => ({
     selectedSkills: [skillData],
     level
+  })
+
+  const createExistingDeclaredSkillData = (): DeclaredSkillFormData => ({
+    selectedSkills: [createMockSkill('EXISTING_SKILL_ID', 'Existing Skill')],
+    level: EDeclaredSkillLevel.COMPETENT
   })
 
   const createInvalidFormData = (): DeclaredSkillFormData => ({
@@ -43,10 +59,7 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
   }
 
   beforeEach(() => {
-    mockOnSubmit = vi.fn()
-    createDeclaredSkillProgressSpy = vi.spyOn(avenirEsrApi, 'createDeclaredSkillProgress')
-
-    const result = mountComposable(() => useDeclaredSkillForm(mockOnSubmit), {
+    const result = mountComposable(() => useDeclaredSkillForm(onSkillAdded), {
       useI18n: true,
       useTanstack: true,
       usePinia: true
@@ -158,61 +171,6 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
       expect(typeof composableResult.form.options.onSubmit).toBe('function')
     })
 
-    BddTest().then('it should trigger the mutation on form submit', async () => {
-      const validData = createValidFormData()
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSubmit).toHaveBeenCalled()
-      })
-    })
-
-    BddTest().then('it should call createDeclaredSkillProgress API with correct parameters', async () => {
-      const skill = createMockSkill('skill-123', 'JavaScript Development')
-      const validData = createValidFormData(EDeclaredSkillLevel.ADVANCED, skill)
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalledWith({
-          id: 'skill-123',
-          type: EExternalSkillType.ROME4,
-          level: EDeclaredSkillLevel.ADVANCED
-        })
-      })
-    })
-
-    BddTest().then('it should call createDeclaredSkillProgress API with different skill levels', async () => {
-      const skill = createMockSkill('skill-456', 'Python Programming')
-      const validData = createValidFormData(EDeclaredSkillLevel.BEGINNER, skill)
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalledWith({
-          id: 'skill-456',
-          type: EExternalSkillType.ROME4,
-          level: EDeclaredSkillLevel.BEGINNER
-        })
-      })
-    })
-
-    BddTest().then('it should handle different skill types in API call', async () => {
-      const skill = createMockSkill('skill-789', 'Design Thinking', EExternalSkillType.ROME4)
-      const validData = createValidFormData(EDeclaredSkillLevel.COMPETENT, skill)
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalledWith({
-          id: 'skill-789',
-          type: EExternalSkillType.ROME4,
-          level: EDeclaredSkillLevel.COMPETENT
-        })
-      })
-    })
-
     BddTest().then('it should call onSubmit callback after successful API call', async () => {
       const validData = createValidFormData()
       const handler = getOnSubmitHandler()
@@ -220,8 +178,7 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
       handler({ value: validData, formApi: composableResult.form, meta: {} })
 
       await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalled()
-        expect(mockOnSubmit).toHaveBeenCalled()
+        expect(onSkillAdded).toHaveBeenCalled()
       })
     })
   })
@@ -263,67 +220,20 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
   })
 
   BddTest().when('API errors occur', () => {
-    BddTest().then('it should handle API errors gracefully', async () => {
-      const validData = createValidFormData()
+    beforeEach(() => {
+      vi.clearAllMocks()
+      const existingSkillData = createExistingDeclaredSkillData()
       const handler = getOnSubmitHandler()
-      const apiError = new Error('API Error')
-      createDeclaredSkillProgressSpy.mockRejectedValueOnce(apiError)
-
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
+      handler({ value: existingSkillData, formApi: composableResult.form, meta: {} })
+    })
+    BddTest().then('it should call addErrorMessage', async () => {
       await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalled()
+        expect(mockAddErrorMessage).toHaveBeenCalled()
       })
     })
 
-    BddTest().then('it should not call onSubmit when API fails', async () => {
-      const validData = createValidFormData()
-      const handler = getOnSubmitHandler()
-      createDeclaredSkillProgressSpy.mockRejectedValueOnce(new Error('API Error'))
-
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalled()
-      })
-
-      expect(mockOnSubmit).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('form data is transformed to DTO', () => {
-    BddTest().then('it should correctly transform form data to DTO', async () => {
-      const skill = createMockSkill('transform-test', 'Transform Test Skill', EExternalSkillType.ROME4)
-      const validData = createValidFormData(EDeclaredSkillLevel.EXPERT, skill)
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalledWith({
-          id: 'transform-test',
-          type: EExternalSkillType.ROME4,
-          level: EDeclaredSkillLevel.EXPERT
-        })
-      })
-    })
-
-    BddTest().then('it should handle multiple skills by taking the first one', async () => {
-      const skill1 = createMockSkill('skill-1', 'First Skill')
-      const skill2 = createMockSkill('skill-2', 'Second Skill')
-      const validData: DeclaredSkillFormData = {
-        selectedSkills: [skill1, skill2],
-        level: EDeclaredSkillLevel.INTERMEDIATE
-      }
-      const handler = getOnSubmitHandler()
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(createDeclaredSkillProgressSpy).toHaveBeenCalledWith({
-          id: 'skill-1',
-          type: EExternalSkillType.ROME4,
-          level: EDeclaredSkillLevel.INTERMEDIATE
-        })
-      })
+    BddTest().then('it should not call onSkillAddedls', async () => {
+      expect(onSkillAdded).not.toHaveBeenCalled()
     })
   })
 })

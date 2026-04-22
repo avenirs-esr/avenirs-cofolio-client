@@ -7,9 +7,6 @@ export { default as DeclaredSkillCompactCard } from '@/features/student/declared
 export { default as AddDeclaredSkillDrawer } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/AddDeclaredSkillDrawer.vue'
 export { default as AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
 
-export {
-  useDeclaredSkillsViewQuery,
-} from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 export { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 
 export { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'

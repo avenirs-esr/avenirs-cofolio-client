@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { EDeclaredSkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
-import { useAdditionalSkillConfig } from '@/features/student/declaredSkills/queries/use-skills-config.query/use-skills-config.query'
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -21,7 +20,7 @@ const emit = defineEmits<{
 const modelValue = defineModel<EDeclaredSkillLevel | ''>()
 
 const { t } = useI18n()
-const { data: skillConfig } = useAdditionalSkillConfig()
+const { data: skillConfig } = useGetAdditionalSkillConfig()
 
 const skillLevels = computed(() => Object.values(EDeclaredSkillLevel))
 

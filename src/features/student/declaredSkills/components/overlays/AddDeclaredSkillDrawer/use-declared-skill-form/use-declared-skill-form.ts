@@ -1,14 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import { EDeclaredSkillLevel, EErrorCode } from '@/api/avenir-esr'
-import { useCreateDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
+import { EDeclaredSkillLevel, EErrorCode, invalidateGetDeclaredSkillsProgresses, useCreateDeclaredSkillProgress } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   const onCreateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
@@ -17,7 +18,25 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     })
   }
 
-  const { mutate: createDeclaredSkill, isPending } = useCreateDeclaredSkillMutation({ onError: onCreateDeclaredSkillError })
+  const { mutate: mutateCreateDeclaredSkillProgress, isPending } = useCreateDeclaredSkillProgress()
+
+  function createDeclaredSkill (value: DeclaredSkillFormData) {
+    const selectedSkill = value.selectedSkills[0]
+    mutateCreateDeclaredSkillProgress({
+      data: {
+        id: selectedSkill.id,
+        type: selectedSkill.type,
+        level: value.level,
+        reflection: value.reflection
+      }
+    }, {
+      onError: onCreateDeclaredSkillError,
+      onSuccess: async () => {
+        await invalidateGetDeclaredSkillsProgresses(queryClient)
+        onSkillAdded?.()
+      }
+    })
+  }
 
   const form = useForm({
     defaultValues: {
@@ -40,17 +59,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
       }
     },
     onSubmit: ({ value }: { value: DeclaredSkillFormData }) => {
-      const selectedSkill = value.selectedSkills[0]
-      createDeclaredSkill({
-        id: selectedSkill.id,
-        type: selectedSkill.type,
-        level: value.level,
-        reflection: value.reflection
-      }, {
-        onSuccess: () => {
-          onSkillAdded?.()
-        }
-      })
+      createDeclaredSkill(value)
     }
   })
 

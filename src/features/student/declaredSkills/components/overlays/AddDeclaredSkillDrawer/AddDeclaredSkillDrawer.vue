@@ -86,6 +86,7 @@ async function handleCancel () {
             <AvAccordion
               :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addMySkill.title')"
               :icon="ICONS.SKILLS"
+              overflow-visible
             >
               <div class="av-col av-gap-md">
                 <AddDeclaredSkillAutocompleteField :form="form" />

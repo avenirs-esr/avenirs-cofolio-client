@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import {
-  useUnassociateTracesFromDeclaredSkillMutation
-} from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
+import { type TraceOverviewDTO, useUnassociateTraces } from '@/api/avenir-esr'
 import TracesSelector from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -30,19 +27,23 @@ function onError () {
   addErrorMessage(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateAssociations.errors.unassociateTraces'))
 }
 
-const { mutate: unassociateTraces, isPending } = useUnassociateTracesFromDeclaredSkillMutation({
-  onSuccess,
-  onError
-})
+const { mutate: mutateUnassociateTraces, isPending } = useUnassociateTraces()
+
+function unassociateTraces () {
+  mutateUnassociateTraces({
+    declaredSkillProgressId: declaredSkillId,
+    data: selectedTraceIds.value
+  }, {
+    onSuccess,
+    onError
+  })
+}
 
 async function handleRemoveAssociations () {
   if (selectedTraceIds.value.length === 0) {
     return
   }
-  unassociateTraces({
-    declaredSkillProgressId: declaredSkillId,
-    traceIds: selectedTraceIds.value
-  })
+  unassociateTraces()
 }
 </script>
 

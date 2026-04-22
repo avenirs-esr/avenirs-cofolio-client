@@ -1,16 +1,20 @@
 <script lang="ts" setup>
-import type { AssociationsCreationRequest } from '@/api/avenir-esr'
 import type {
   AssociationActivity
 } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import {
-  useAssociateDeclaredSkillWithActivitiesMutation,
-  useSearchActivitiesForAssociationWithDeclaredSkillQuery
-} from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
+  type AssociationsCreationRequest,
+  invalidateGetDeclaredSkillProgressDetails,
+  invalidateGetDeclaredSkillWithDeclaredActivities,
+  invalidateSearchDeclaredSkillForAssociation,
+  useAssociateDeclaredSkillWithDeclaredActivities,
+  useSearchDeclaredActivityForAssociation1
+} from '@/api/avenir-esr'
 import { useAssociationModal } from '@/features/student/global'
 import AssociateActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateActivitiesToDeclaredSkillModalProps {
@@ -27,6 +31,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addSuccessMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const {
   searchQuery,
@@ -35,55 +40,63 @@ const {
   onAssociateMutationError
 } = useAssociationModal()
 
+const params = computed(() => ({
+  keyword: searchQuery.value.trim() || undefined,
+  page: 0,
+  pageSize: 100,
+}))
+
 const {
-  activities,
+  data: activities,
   isError: isSearchError,
   error: searchError,
   isLoading
-} = useSearchActivitiesForAssociationWithDeclaredSkillQuery({
-  declaredSkillId: computed(() => declaredSkillId),
-  params: computed(() => ({
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 100,
-  }))
-})
+} = useSearchDeclaredActivityForAssociation1(declaredSkillId, params)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const associationActivities = computed<AssociationActivity[]>(() =>
-  activities.value.map(activity => ({
-    id: activity.id,
-    title: activity.title,
-    thematic: activity.thematic,
-    disabled: activity.disabled
-  }))
+const associationActivities = computed<AssociationActivity[]>(() => activities.value
+  ? (activities.value.data).map(activity => ({
+      id: activity.id,
+      title: activity.title,
+      thematic: activity.thematic,
+      disabled: activity.disabled
+    }))
+  : []
 )
 
-const { mutate: associateDeclaredSkillWithActivities, isPending } = useAssociateDeclaredSkillWithActivitiesMutation({
-  onError: error => onAssociateMutationError(error),
-  onSuccess: (_, variables) => {
-    addSuccessMessage({
-      timeout: 2000,
-      description: t(
-        'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
-        { count: variables.associationsCreationRequest.idsToAssociate.length }
-      ),
-    })
+const { mutate: mutateAssociateDeclaredSkillWithDeclaredActivities, isPending } = useAssociateDeclaredSkillWithDeclaredActivities()
 
-    emit('associated')
-  }
-})
+function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest) {
+  mutateAssociateDeclaredSkillWithDeclaredActivities({
+    declaredSkillProgressId: declaredSkillId,
+    data
+  }, {
+    onError: error => onAssociateMutationError(error),
+    onSuccess: async (_, variables) => {
+      await invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId)
+      await invalidateSearchDeclaredSkillForAssociation(queryClient, variables.declaredSkillProgressId)
+      await invalidateGetDeclaredSkillWithDeclaredActivities(queryClient, variables.declaredSkillProgressId)
+
+      addSuccessMessage({
+        timeout: 2000,
+        description: t(
+          'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
+          { count: variables.data.idsToAssociate.length }
+        ),
+      })
+
+      emit('associated')
+    }
+  })
+}
 
 function onAssociate (ids: string[]) {
   const associationsCreationRequest: AssociationsCreationRequest = {
     idsToAssociate: ids,
   }
 
-  associateDeclaredSkillWithActivities({
-    declaredSkillProgressId: declaredSkillId,
-    associationsCreationRequest
-  })
+  associateDeclaredSkillWithActivities(associationsCreationRequest)
 }
 </script>
 

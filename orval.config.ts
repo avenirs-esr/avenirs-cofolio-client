@@ -18,6 +18,11 @@ export default defineConfig({
             query: {
               useMutation: true,
             }
+          },
+          searchExternalSkills: {
+            query: {
+              useInfinite: true,
+            }
           }
         },
         fetch: {

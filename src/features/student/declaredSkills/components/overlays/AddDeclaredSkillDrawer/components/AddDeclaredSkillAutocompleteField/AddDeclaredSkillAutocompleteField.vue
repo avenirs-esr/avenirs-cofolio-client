@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { ExternalSkillDTO } from '@/api/avenir-esr'
 import type { DeclaredSkillOption } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import type {
   DeclaredSkillForm,
   UpdateDeclaredSkillForm
 } from '@/features/student/declaredSkills/types/forms.types'
+import { type ExternalSkillDTO, type PagedResponseExternalSkillDTO, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
-import { useSearchExternalSkillsQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
@@ -28,10 +27,30 @@ const PAGE_SIZE = 10
 const searchQuery = ref('')
 const pageSize = ref(PAGE_SIZE)
 
-const { skills: apiSkills, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } = useSearchExternalSkillsQuery(
-  searchQuery,
-  pageSize
-)
+const params = computed(() => ({
+  keyword: searchQuery.value,
+  pageSize: pageSize.value
+}))
+
+const {
+  data,
+  hasNextPage,
+  fetchNextPage,
+  isLoading,
+  isFetchingNextPage
+} = useSearchExternalSkillsInfinite(params, {
+  query: {
+    enabled: computed(() => searchQuery.value.length >= SEARCH_SKILLS_MIN_LENGTH),
+    getNextPageParam: (lastPage: PagedResponseExternalSkillDTO) => {
+      const { page, totalPages } = lastPage.page
+      return page + 1 < totalPages ? page + 1 : undefined
+    }
+  }
+})
+
+const apiSkills = computed<ExternalSkillDTO[]>(() => {
+  return data.value ? data.value.pages.flatMap(page => page.data) : []
+})
 
 const skills = computed((): DeclaredSkillOption[] => {
   return apiSkills.value.map((skill: ExternalSkillDTO): DeclaredSkillOption => ({

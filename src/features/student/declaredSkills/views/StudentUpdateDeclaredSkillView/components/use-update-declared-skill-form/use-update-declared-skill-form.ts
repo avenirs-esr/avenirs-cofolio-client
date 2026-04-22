@@ -1,9 +1,9 @@
-import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { type DeclaredSkillProgressDetailsDTO, type DeclaredSkillProgressRequest, invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
-import { useUpdateDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 function normalize (dto: DeclaredSkillProgressDetailsDTO): DeclaredSkillProgressDetailsDTO {
@@ -19,6 +19,7 @@ export function useUpdateDeclaredSkillForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   const onUpdateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
@@ -27,13 +28,23 @@ export function useUpdateDeclaredSkillForm (
     })
   }
 
-  const { mutate: updateDeclaredSkill, isPending } = useUpdateDeclaredSkillMutation({
-    onError: onUpdateDeclaredSkillError,
-    onSuccess: () => {
-      addSuccessMessage?.(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.success'))
-      onSkillUpdated?.()
+  const { mutate: mutateUpdateDeclaredSkillProgress, isPending } = useUpdateDeclaredSkillProgress()
+
+  function updateDeclaredSkill (declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO) {
+    const data: DeclaredSkillProgressRequest = {
+      level: declaredSkillProgressDetails.level,
+      reflection: declaredSkillProgressDetails.reflection ?? '',
     }
-  })
+
+    mutateUpdateDeclaredSkillProgress({ declaredSkillProgressId: declaredSkillProgressDetails.id, data }, {
+      onError: onUpdateDeclaredSkillError,
+      onSuccess: async () => {
+        addSuccessMessage(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.success'))
+        onSkillUpdated?.()
+        await invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressDetails.id)
+      }
+    })
+  }
 
   const form = useForm({
     defaultValues: normalize(declaredSkillProgressDetails),

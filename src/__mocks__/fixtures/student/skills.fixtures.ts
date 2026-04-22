@@ -84,6 +84,13 @@ export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: num
   const mockedSkills: DeclaredSkillProgressDTO[] = []
   const levels = Object.values(EDeclaredSkillLevel)
 
+  if (totalElements === 0) {
+    return {
+      data: [],
+      page: { pageSize, totalElements, totalPages: 0, page }
+    }
+  }
+
   for (let i = 1; i <= totalElements; i++) {
     const skill: DeclaredSkillProgressDTO = {
       id: crypto.randomUUID(),
