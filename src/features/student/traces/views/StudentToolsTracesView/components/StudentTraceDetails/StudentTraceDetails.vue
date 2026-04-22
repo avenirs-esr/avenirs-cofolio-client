@@ -2,9 +2,9 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
+import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
-import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
 import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -23,8 +23,7 @@ const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
 const traceFileUploadLabel = computed(() => {
   return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
-}
-)
+})
 </script>
 
 <template>
@@ -36,11 +35,18 @@ const traceFileUploadLabel = computed(() => {
           :required="false"
           disabled
         />
-
         <TraceFileUpload
+          v-if="attachment"
           :label="traceFileUploadLabel"
           :model-value="attachmentFile"
           :valid-message="t('global.success.file.loaded')"
+          disabled
+        />
+        <TraceLinkInput
+          v-else
+          :model-value="trace.link"
+          :label="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.linkLabel')"
+          :required="false"
           disabled
         />
       </div>

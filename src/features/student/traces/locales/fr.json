@@ -192,7 +192,8 @@
           "studentTraceDetails": {
             "authenticProduction": "Production authentique et personnelle",
             "groupProduction": "Cette trace est une production de groupe",
-            "iaToggleLabel": "Production avec IA"
+            "iaToggleLabel": "Production avec IA",
+            "linkLabel": "Lien de ma trace"
           },
           "studentTraceFilters": {
             "resetButton": "Réinitialiser les filtres",

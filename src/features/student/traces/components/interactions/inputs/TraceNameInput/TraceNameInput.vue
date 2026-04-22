@@ -43,22 +43,20 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <div class="av-col av-flex-fill">
-    <AvInput
-      v-bind="avInputProps"
-      v-model="modelValue"
+  <AvInput
+    v-bind="avInputProps"
+    v-model="modelValue"
+  >
+    <template
+      v-if="!$slots.maxLengthCaption"
+      #maxLengthCaption="{ currentValue }"
     >
-      <template
-        v-if="!$slots.maxLengthCaption"
-        #maxLengthCaption="{ currentValue }"
-      >
-        <span class="caption-light">
-          {{ t('global.inputs.textarea.limit', {
-            count: currentValue?.toString().length || 0,
-            maxlength,
-          }) }}
-        </span>
-      </template>
-    </AvInput>
-  </div>
+      <span class="caption-light">
+        {{ t('global.inputs.textarea.limit', {
+          count: currentValue?.toString().length || 0,
+          maxlength,
+        }) }}
+      </span>
+    </template>
+  </AvInput>
 </template>

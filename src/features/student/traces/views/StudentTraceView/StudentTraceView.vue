@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@/common/exceptions'
 import { useDownloadAttachment } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
@@ -6,7 +7,6 @@ import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import { BaseApiException } from '@/common/exceptions'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ICONS } from '@/features/student/global/icons'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
@@ -50,7 +50,7 @@ function downloadAttachment (attachmentId: string) {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('student.traces.views.StudentTraceView.errors.download'),
-        description: error instanceof BaseApiException ? error.message : t('global.error.generic')
+        description: error.message ?? t('global.error.generic')
       })
     },
     onSuccess: data => downloadBlob(data, traceDetailed.value?.attachment?.fileName)
