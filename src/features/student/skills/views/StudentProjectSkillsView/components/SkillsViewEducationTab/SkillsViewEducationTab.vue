@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { useGetSkillLevelProgresses } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import StudentDetailedEducationalSkillCard from '@/features/student/skills/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
-import { useSkillsViewQuery } from '@/features/student/skills/queries/use-skills-view.query/use-skills-view.query'
 import { useSkillsStore } from '@/features/student/skills/stores/skills.store'
 import StudentDetailedPastSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewEducationTab/components/StudentDetailedPastSkillCard/StudentDetailedPastSkillCard.vue'
 import { useI18n } from 'vue-i18n'
@@ -18,7 +19,15 @@ const {
 
 const search = ref('')
 
-const { skills, pageInfo, error } = useSkillsViewQuery(search, currentPage, pageSizeSelected)
+const params = computed(() => ({
+  sort: search.value,
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value,
+}))
+
+const { data, error, isPending } = useGetSkillLevelProgresses(params)
+const skills = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
 useBaseApiExceptionToast(error)
 </script>
 
@@ -35,31 +44,38 @@ useBaseApiExceptionToast(error)
         </span>
       </span>
     </div>
-    <Pagination
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+    <QuerySuspense
+      :error="error"
+      :is-loading="isPending"
+      :is-empty="skills.length === 0"
     >
-      <div
-        class="av-col av-gap-lg av-py-lg"
-        data-testid="skills-container"
+      <Pagination
+        v-if="pageInfo && skills.length > 0"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
       >
-        <template
-          v-for="(skill, index) in skills"
-          :key="skill.id"
+        <div
+          class="av-col av-gap-lg av-py-lg"
+          data-testid="skills-container"
         >
-          <StudentDetailedPastSkillCard
-            v-if="skill.isProgramFinished"
-            :skill="skill"
-          />
-          <StudentDetailedEducationalSkillCard
-            v-else
-            :skill="skill"
-            :skill-color="`var(--skill${index + 1})`"
-          />
-        </template>
-      </div>
-    </Pagination>
+          <template
+            v-for="(skill, index) in skills"
+            :key="skill.id"
+          >
+            <StudentDetailedPastSkillCard
+              v-if="skill.isProgramFinished"
+              :skill="skill"
+            />
+            <StudentDetailedEducationalSkillCard
+              v-else
+              :skill="skill"
+              :skill-color="`var(--skill${index + 1})`"
+            />
+          </template>
+        </div>
+      </Pagination>
+    </QuerySuspense>
   </div>
 </template>

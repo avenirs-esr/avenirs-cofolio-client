@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
-import { type TraceFilter, type TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import { type TraceFilter, type TraceFilterFileTypesItem, TraceFilterStatusesItem, useGetAllSkills } from '@/api/avenir-esr'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
-import { useAllSkillsQuery } from '@/features/student/skills'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
 import { AvButton, AvInput, AvModal, AvMultiselect, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { isValid } from 'date-fns'
@@ -17,7 +16,7 @@ const emit = defineEmits<{ (e: 'update:filters',
   payload: TraceFilter & DateFilter & SearchFilter): void }>()
 
 const { t } = useI18n()
-const { allSkills } = useAllSkillsQuery()
+const { data: allSkills } = useGetAllSkills()
 const { showModal, displayModal, hideModal } = useModal()
 const { isMobile } = useAvBreakpoints()
 
