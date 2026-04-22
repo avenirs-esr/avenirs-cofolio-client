@@ -1,4 +1,5 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { TraceLinkInputStub } from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
 import StudentTraceDetails
@@ -44,7 +45,8 @@ const stubs = {
   TracePersonalNoteTextarea: TracePersonalNoteTextareaStub,
   TraceIaJustificationTextarea: TraceIaJustificationTextareaStub,
   AvIconText: AvIconTextStub,
-  TraceAiUsageToggle: TraceAiUsageToggleStub
+  TraceAiUsageToggle: TraceAiUsageToggleStub,
+  CreationUpdateDateDetails: CreationUpdateDateDetailsStub
 }
 
 BddTest().given('a student detailed trace information component', () => {
@@ -112,6 +114,13 @@ BddTest().given('a student detailed trace information component', () => {
 
       expect(traceFileUpload.props('validMessage')).toBe('Document chargé.')
       expect(traceFileUpload.props('disabled')).toBe('')
+    })
+
+    BddTest().then('it should render the trace creation / update date', () => {
+      const creationUpdateDateDetails = wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
+      expect(creationUpdateDateDetails.exists()).toBeTruthy()
+      expect(creationUpdateDateDetails.props('createdAt')).toBe('2024-01-15T10:30:00')
+      expect(creationUpdateDateDetails.props('updatedAt')).toBe('2024-01-15T10:30:00')
     })
 
     BddTest().then('it should not render the link input when attachment is present', () => {

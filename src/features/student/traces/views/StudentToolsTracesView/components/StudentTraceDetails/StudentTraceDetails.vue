@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { CreationUpdateDateDetails } from '@/common/components'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
 import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
@@ -16,7 +17,6 @@ interface StudentDetailedTraceInformationProps {
 const props = defineProps<StudentDetailedTraceInformationProps>()
 
 const { t } = useI18n()
-
 const attachment = computed(() => props.trace.attachment)
 
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
@@ -49,6 +49,12 @@ const traceFileUploadLabel = computed(() => {
           :required="false"
           disabled
         />
+        <div class="av-row av-justify-end">
+          <CreationUpdateDateDetails
+            :created-at="trace.createdAt"
+            :updated-at="trace.updatedAt"
+          />
+        </div>
       </div>
 
       <div class="av-col av-flex-fill personal-note">
