@@ -2,12 +2,13 @@ import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/f
 import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import SkillsViewOtherTab from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
@@ -20,8 +21,6 @@ vi.mock('@/common/composables/use-pagination/use-pagination', () => {
 
 BddTest().given('a skills view other tab component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SkillsViewOtherTab>>
-
-  let queryClient: QueryClient
 
   const stubs = {
     AvButton: {
@@ -39,25 +38,18 @@ BddTest().given('a skills view other tab component', () => {
     },
     Pagination: PaginationStub,
     RouterLink: RouterLinkStub,
+    QuerySuspense: QuerySuspenseStub
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
-    queryClient = new QueryClient()
 
     const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseDeclaredSkillProgressDTO(PageSizes.FOUR, 20, 0))
     server.use(handler)
 
     paginationMock = createUsePaginationMock()
 
-    setActivePinia(createPinia())
-
-    wrapper = mount<typeof SkillsViewOtherTab>(SkillsViewOtherTab, {
-      global: {
-        stubs,
-        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]]
-      }
-    })
+    wrapper = mountComponent<typeof SkillsViewOtherTab>(SkillsViewOtherTab, { global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -71,24 +63,29 @@ BddTest().given('a skills view other tab component', () => {
       expect(buttonContainer.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the Pagination component', () => {
-      const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(true)
+    BddTest().then('it should render the Pagination component', async () => {
+      await vi.waitFor(() => expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true))
     })
 
-    BddTest().then('it should pass correct props to Pagination component', () => {
-      const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.props('pageSizeSelected')).toBeDefined()
-      expect(pagination.props('pageInfo')).toBeDefined()
-      expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
-      expect(pagination.props('onUpdatePageSize')).toBeDefined()
+    BddTest().then('it should pass correct props to Pagination component', async () => {
+      let pagination: VueWrapper<InstanceType<typeof PaginationStub>>
+
+      await vi.waitFor(() => {
+        pagination = wrapper.findComponent(PaginationStub)
+        expect(pagination.exists()).toBe(true)
+
+        expect(pagination.props('pageSizeSelected')).toBeDefined()
+        expect(pagination.props('pageInfo')).toBeDefined()
+        expect(pagination.props('onUpdateCurrentPage')).toBeDefined()
+        expect(pagination.props('onUpdatePageSize')).toBeDefined()
+      })
     })
 
     BddTest().then('it should render skill cards when skills are loaded', async () => {
-      const { flushPromises } = await import('@vue/test-utils')
-      await flushPromises()
-      const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
-      expect(skillCards.length).toBe(4)
+      await vi.waitFor(() => {
+        const skillCards = wrapper.findAllComponents({ name: 'StudentDetailedDeclaredSkillCard' })
+        expect(skillCards.length).toBe(4)
+      })
     })
 
     BddTest().then('it should have proper CSS classes applied', () => {
@@ -152,9 +149,13 @@ BddTest().given('a skills view other tab component', () => {
 
   BddTest().when('clicking on the page update buttons', () => {
     BddTest().then('it should update current page and page size in the mock', async () => {
+      await vi.waitFor(() => expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true))
+
       await wrapper.find('.emit-current-page').trigger('click')
       expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
       expect(paginationMock.currentPage.value).toBe(5)
+
+      await vi.waitFor(() => expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true))
 
       await wrapper.find('.emit-page-size').trigger('click')
       expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
@@ -182,11 +183,6 @@ BddTest().given('a skills view other tab component', () => {
       expect(paginationMock.currentPage.value).toBeDefined()
       expect(paginationMock.pageSizeSelected.value).toBeDefined()
     })
-
-    BddTest().then('it should call useDeclaredSkillsViewQuery with pagination parameters', async () => {
-      await wrapper.vm.$nextTick()
-      expect(wrapper.exists()).toBe(true)
-    })
   })
 
   BddTest().when('handling API errors', () => {
@@ -196,14 +192,27 @@ BddTest().given('a skills view other tab component', () => {
   })
 
   BddTest().when('no declared skills are available', () => {
-    BddTest().then('it should render empty skills container gracefully', async () => {
-      const skillsContainer = wrapper.find('[data-testid="skills-container"]')
-      expect(skillsContainer.exists()).toBe(true)
+    beforeEach(() => {
+      vi.clearAllMocks()
+
+      const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseDeclaredSkillProgressDTO(PageSizes.FOUR, 0, 0))
+      server.use(handler)
+
+      paginationMock = createUsePaginationMock()
+
+      wrapper = mountComponent<typeof SkillsViewOtherTab>(SkillsViewOtherTab, { global: { stubs } })
     })
 
-    BddTest().then('it should still show pagination with no skills', () => {
+    BddTest().then('it should render the query suspense empty state', async () => {
+      await vi.waitFor(() => {
+        const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
+        expect(emptyState.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should not show pagination with no skills', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(true)
+      expect(pagination.exists()).toBe(false)
     })
 
     BddTest().then('it should still show add skill button when no skills exist', () => {

@@ -296,6 +296,18 @@ export const skillsHandlers = [
 
   http.put<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getUpdateDeclaredSkillProgressUrl(':id')}`, async ({ params }) => {
     const { id } = params
+
+    if (!id) {
+      return HttpResponse.json({ error: 'Declared skill progress ID is required' }, { status: 400 })
+    }
+
+    if (id === INVALID_DECLARED_SKILL_ID) {
+      return HttpResponse.json(
+        { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
+        { status: 404 }
+      )
+    }
+
     const response = createMockedDeclaredSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
@@ -324,6 +336,13 @@ export const skillsHandlers = [
   http.post<PathParams, AddDeclaredSkillDTO>(`*${getCreateDeclaredSkillProgressUrl()}`, async ({ request }) => {
     const body = await request.json()
     await delay(100)
+
+    if (body.id === 'EXISTING_SKILL_ID') {
+      return HttpResponse.json(
+        { code: 'DECLARED_SKILL_PROGRESS_ALREADY_EXISTS', message: 'Internal server error' },
+        { status: 400 }
+      )
+    }
 
     const response: DeclaredSkillProgressDTO = {
       id: body.id ?? crypto.randomUUID(),

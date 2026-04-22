@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useGetDeclaredSkillsProgresses } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { AddDeclaredSkillDrawer, useDeclaredSkillsStore, useDeclaredSkillsViewQuery } from '@/features/student/declaredSkills'
+import { AddDeclaredSkillDrawer, useDeclaredSkillsStore } from '@/features/student/declaredSkills'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -15,7 +17,14 @@ const {
   onUpdatePageSize
 } = usePagination(toRef(declaredSkillsStore, 'currentPage'), toRef(declaredSkillsStore, 'pageSizeSelected'))
 
-const { skills, pageInfo, error } = useDeclaredSkillsViewQuery(currentPage, pageSizeSelected)
+const params = computed(() => ({
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value
+}))
+
+const { data, error, isPending } = useGetDeclaredSkillsProgresses(params)
+const skills = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
 useBaseApiExceptionToast(error)
 
 function handleAddSkill (): void {
@@ -37,23 +46,30 @@ function handleAddSkill (): void {
         @click="handleAddSkill"
       />
     </div>
-    <Pagination
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+    <QuerySuspense
+      :error="error"
+      :is-loading="isPending"
+      :is-empty="skills.length === 0"
     >
-      <div
-        class="av-col av-gap-md av-py-lg"
-        data-testid="skills-container"
+      <Pagination
+        v-if="pageInfo && skills.length > 0"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
       >
-        <StudentDetailedDeclaredSkillCard
-          v-for="skill in skills"
-          :key="skill.id"
-          :declared-skill="skill"
-        />
-      </div>
-    </Pagination>
+        <div
+          class="av-col av-gap-md av-py-lg"
+          data-testid="skills-container"
+        >
+          <StudentDetailedDeclaredSkillCard
+            v-for="skill in skills"
+            :key="skill.id"
+            :declared-skill="skill"
+          />
+        </div>
+      </Pagination>
+    </QuerySuspense>
 
     <AddDeclaredSkillDrawer />
   </div>

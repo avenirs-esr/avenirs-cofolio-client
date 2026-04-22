@@ -1,13 +1,10 @@
 <script setup lang="ts">
+import { useGetDeclaredSkillProgressDetails, useGetDeclaredSkillWithDeclaredActivities } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
-import {
-  useDeclaredSkillAssociationsQuery,
-  useDeclaredSkillDetailedQuery
-} from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
@@ -31,13 +28,15 @@ enum StudentDeclaredSkillViewTabs {
 
 const { t } = useI18n()
 const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
-const { declaredSkillDetailed, error } = useDeclaredSkillDetailedQuery(skillId)
+const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
 const { showModal, displayModal, hideModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { traceAssociations, declaredActivityAssociations, error: associationsError } = useDeclaredSkillAssociationsQuery(skillProgressId)
+const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivities(skillProgressId)
+const traceAssociations = computed(() => data.value?.traceAssociations ?? [])
+const declaredActivityAssociations = computed(() => data.value?.declaredActivityAssociations ?? [])
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)

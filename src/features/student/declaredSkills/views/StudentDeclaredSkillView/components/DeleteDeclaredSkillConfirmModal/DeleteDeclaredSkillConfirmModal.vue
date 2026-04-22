@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { invalidateGetDeclaredSkillsProgresses, useDeleteDeclaredSkillProgress } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
-import { useDeleteDeclaredSkillMutation } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredSkillConfirmModalProps {
@@ -10,7 +11,7 @@ export interface DeleteDeclaredSkillConfirmModalProps {
   skillTitle: string
 }
 
-const { skillTitle } = defineProps<DeleteDeclaredSkillConfirmModalProps>()
+const { skillTitle, skillId } = defineProps<DeleteDeclaredSkillConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'skillDeleted'): void
@@ -19,18 +20,24 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
-const { mutate: deleteDeclaredSkill } = useDeleteDeclaredSkillMutation({
-  onSuccess: () => {
-    addSuccessMessage(t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.success', { skill: skillTitle }))
-    emit('skillDeleted')
-  },
-  onError: (error) => {
-    addErrorMessage({
-      title: t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.error', { skill: skillTitle }),
-      description: error.message
-    })
-  }
-})
+const queryClient = useQueryClient()
+const { mutate: mutateDeleteDeclaredSkillProgress } = useDeleteDeclaredSkillProgress()
+
+function deleteDeclaredSkill () {
+  mutateDeleteDeclaredSkillProgress({ declaredSkillProgressId: skillId }, {
+    onSuccess: async () => {
+      addSuccessMessage(t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.success', { skill: skillTitle }))
+      emit('skillDeleted')
+      await invalidateGetDeclaredSkillsProgresses(queryClient)
+    },
+    onError: (error) => {
+      addErrorMessage({
+        title: t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.error', { skill: skillTitle }),
+        description: error.message
+      })
+    }
+  })
+}
 </script>
 
 <template>
@@ -39,7 +46,7 @@ const { mutate: deleteDeclaredSkill } = useDeleteDeclaredSkillMutation({
     :title="t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.title', { skill: skillTitle })"
     :description="t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.description')"
     @close="emit('close')"
-    @confirm="deleteDeclaredSkill({ declaredSkillProgressId: skillId })"
+    @confirm="deleteDeclaredSkill"
   />
 </template>
 

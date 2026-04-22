@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { EDeclaredSkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
-import { useAdditionalSkillConfig } from '@/features/student/declaredSkills/queries/use-skills-config.query/use-skills-config.query'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 
 export interface DeclaredSkillLevelBadgeProps {
@@ -11,7 +10,7 @@ export interface DeclaredSkillLevelBadgeProps {
 
 const { small = false, level } = defineProps<DeclaredSkillLevelBadgeProps>()
 
-const { data: skillConfig } = useAdditionalSkillConfig()
+const { data: skillConfig } = useGetAdditionalSkillConfig()
 
 function getBadgeConfig (level: string) {
   const config = {

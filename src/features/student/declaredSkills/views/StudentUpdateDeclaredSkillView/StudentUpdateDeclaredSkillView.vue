@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal, PageTitle } from '@/common/components'
 import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
-import { useDeclaredSkillDetailedQuery } from '@/features/student/declaredSkills/queries/use-declared-skills.query/use-declared-skills.query'
 import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -24,7 +24,7 @@ enum StudentUpdateDeclaredSkillViewTabs {
 
 const { t } = useI18n()
 const { navigateToStudentDeclaredSkill } = useNavigation()
-const { declaredSkillDetailed } = useDeclaredSkillDetailedQuery(skillId)
+const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
 
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
