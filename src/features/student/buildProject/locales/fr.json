@@ -4,7 +4,7 @@
       "activities": {
         "AllActivitiesSection": {
           "buttons": {
-            "all": "Toutes les activtés"
+            "all": "Toutes les activités"
           },
           "noActivitiesFound": "Cette thématique ne contient pas encore d'activité"
         },
@@ -241,11 +241,11 @@
             "pagination": {
               "ariaLabel": "Pagination des activités de la bibliothèque"
             },
-            "tabTitle": "Ma bibliothèque d’activités ({count})"
+            "tabTitle": "Ma bibliothèque d’activités | Ma bibliothèque d’activités ({count}) | Ma bibliothèque d’activités ({count})"
           },
           "allActivitiesTab": {
             "allActivitiesSection": {
-              "title": "Toutes les activités ({count})"
+              "title": "Toutes les activités | Toutes les activités ({count}) | Toutes les activités ({count})"
             },
             "header": {
               "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d’activités complémentaires, veuillez-vous rapprocher de votre conseiller d’orientation.",
@@ -255,7 +255,7 @@
               "pagination": {
                 "ariaLabel": "Pagination des nouvelles activités"
               },
-              "title": "Les nouveautés ({count})"
+              "title": "Les nouveautés | Les nouveautés ({count}) | Les nouveautés ({count})"
             },
             "tabTitle": "Toutes les activités disponibles ({count})"
           },

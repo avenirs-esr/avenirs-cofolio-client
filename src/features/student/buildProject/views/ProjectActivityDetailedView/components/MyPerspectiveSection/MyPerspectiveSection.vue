@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import Loader from '@/common/components/Loader/Loader.vue'
-import { useGetDeclaredActivityAssociationsQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { type DeclaredActivityDetailsDTO, useGetDeclaredActivityAssociations } from '@/api/avenir-esr'
 import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import MyPerspectiveTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 import { ICONS } from '@/features/student/global/icons'
@@ -15,7 +13,7 @@ export interface MyPerspectiveSectionProps {
 const { declaredActivityDetails } = defineProps<MyPerspectiveSectionProps>()
 
 const { t } = useI18n()
-const { declaredActivityAssociations, isPending, isError, error } = useGetDeclaredActivityAssociationsQuery(declaredActivityDetails.id)
+const { data: declaredActivityAssociations, isPending, error } = useGetDeclaredActivityAssociations(declaredActivityDetails.id)
 
 const activeTab = ref(0)
 const associationsCount = computed(() =>
@@ -41,15 +39,14 @@ const associationsCount = computed(() =>
       :icon="ICONS.ASSOCIATED"
       data-testid="associated-elements-tab-item"
     >
-      <Loader :is-loading="isPending && !isError">
-        <AssociatedElementsTab
-          v-if="declaredActivityAssociations"
-          :declared-activity-id="declaredActivityDetails.id"
-          :associations="declaredActivityAssociations"
-          :count-associations="associationsCount"
-          :error
-        />
-      </Loader>
+      <AssociatedElementsTab
+        v-if="declaredActivityAssociations"
+        :declared-activity-id="declaredActivityDetails.id"
+        :associations="declaredActivityAssociations"
+        :count-associations="associationsCount"
+        :error="error"
+        :is-loading="isPending"
+      />
     </AvTab>
   </AvTabs>
 </template>

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { useFinishDeclaredActivityMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { type DeclaredActivityDetailsDTO, invalidateGetActivityDetail, useFinish } from '@/api/avenir-esr'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import FinishDeclaredActivity
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveTabProps {
@@ -16,25 +16,25 @@ const { declaredActivityDetails } = defineProps<MyPerspectiveTabProps>()
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
-const { mutate: finishDeclaredActivity, isPending } = useFinishDeclaredActivityMutation({
-  onError: (error: BaseApiException) => {
-    addErrorMessage({
-      title: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.error'),
-      description: error.message,
-    })
-  },
-  onSuccess: () => {
-    addSuccessMessage({
-      timeout: 2000,
-      description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success'),
-    })
-  },
-})
+const { mutate: mutateFinish, isPending } = useFinish()
 
-function onDeclaredActivityFinished () {
-  finishDeclaredActivity({
-    declaredActivityId: declaredActivityDetails.id,
+function finishDeclaredActivity () {
+  mutateFinish({ declaredActivityId: declaredActivityDetails.id }, {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.error'),
+        description: error.message,
+      })
+    },
+    onSuccess: async () => {
+      await invalidateGetActivityDetail(queryClient, declaredActivityDetails.id)
+      addSuccessMessage({
+        timeout: 2000,
+        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success'),
+      })
+    },
   })
 }
 </script>
@@ -55,7 +55,7 @@ function onDeclaredActivityFinished () {
       :finished-at="declaredActivityDetails.finishedAt"
       :status="declaredActivityDetails.status"
       :disabled="isPending"
-      @finished="onDeclaredActivityFinished"
+      @finished="finishDeclaredActivity"
     />
   </div>
 </template>

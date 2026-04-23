@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { AssociationsDeleteRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { IdTitleList } from '@/types'
-import { useDeleteDeclaredActivityAssociationsMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { invalidateGetDeclaredActivityAssociations, useDeleteDeclaredActivityAssociations } from '@/api/avenir-esr'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteActivityAssociatedTracesModalProps {
@@ -24,34 +24,34 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const selectedIds = ref<string[]>([])
 
-const { mutate: deleteDeclaredActivityAssociations, isPending } = useDeleteDeclaredActivityAssociationsMutation({
-  onError: (error: BaseApiException) => {
-    addErrorMessage({
-      title: t('global.error.generic'),
-      description: error.message,
-    })
-  },
-  onSuccess: () => {
-    addSuccessMessage({
-      timeout: 2000,
-      description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedTracesModal.success'),
-    })
-    selectedIds.value = []
-    emit('deleted')
-  },
-})
+const { mutate: mutateDeleteDeclaredActivityAssociations, isPending } = useDeleteDeclaredActivityAssociations()
 
-function onConfirmDelete () {
-  const associationsDeleteRequest: AssociationsDeleteRequest = {
-    idsToDelete: selectedIds.value
-  }
-
-  deleteDeclaredActivityAssociations({
+function deleteDeclaredActivityAssociations () {
+  mutateDeleteDeclaredActivityAssociations({
     declaredActivityId,
-    associationsDeleteRequest
+    data: {
+      idsToDelete: selectedIds.value
+    }
+  }, {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('global.error.generic'),
+        description: error.message,
+      })
+    },
+    onSuccess: async () => {
+      await invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId)
+      addSuccessMessage({
+        timeout: 2000,
+        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedTracesModal.success'),
+      })
+      selectedIds.value = []
+      emit('deleted')
+    },
   })
 }
 
@@ -73,7 +73,7 @@ function onCancel () {
     :selected-association-ids="selectedIds"
     :is-loading="isPending"
     @cancel="onCancel"
-    @confirm-delete="onConfirmDelete"
+    @confirm-delete="deleteDeclaredActivityAssociations"
   >
     <CompactCardSelector
       v-model="selectedIds"

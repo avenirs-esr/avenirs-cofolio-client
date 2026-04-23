@@ -242,11 +242,11 @@
             "pagination": {
               "ariaLabel": "Pagination of library activities"
             },
-            "tabTitle": "My activity library ({count})"
+            "tabTitle": "My activity library | My activity library ({count}) | My activity library ({count})"
           },
           "allActivitiesTab": {
             "allActivitiesSection": {
-              "title": "All activities ({count})"
+              "title": "All activities | All activities ({count}) | All activities ({count})"
             },
             "header": {
               "description": "Activities offered by your SUIO and your institution. For any requests for additional activities, please contact your guidance counselor.",
@@ -256,7 +256,7 @@
               "pagination": {
                 "ariaLabel": "Pagination of new activities"
               },
-              "title": "New activities ({count})"
+              "title": "New activities | New activities ({count}) | New activities ({count})"
             },
             "tabTitle": "All available activities ({count})"
           },

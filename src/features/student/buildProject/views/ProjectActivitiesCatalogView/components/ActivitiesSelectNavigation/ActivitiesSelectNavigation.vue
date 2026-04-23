@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { EActivityThematic } from '@/api/avenir-esr'
+import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
-import { useActivitiesNavigationQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { AvSelect, type AvSelectOption, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -11,7 +10,7 @@ const { t } = useI18n()
 const route = useRoute()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
-const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigationQuery()
+const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
 function getThematicLabel (title: string) {
   return isEnumMember(EActivityThematic, title) ? t(`student.buildProject.activities.thematics.${title}`) : title

@@ -1,12 +1,9 @@
 <script lang="ts" setup>
-import type { AssociationsCreationRequest } from '@/api/avenir-esr'
-import {
-  useAssociateActivityWithDeclaredSkillsMutation,
-  useSearchDeclaredSkillsForAssociationWithActivityQuery
-} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { invalidateGetDeclaredActivityAssociations, type SearchDeclaredSkillForAssociationParams, useAssociateActivityWithDeclaredSkills, useSearchDeclaredSkillsForAssociation } from '@/api/avenir-esr'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
 import { useAssociationModal } from '@/features/student/global'
 import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateDeclaredSkillsToActivityModalProps {
@@ -23,6 +20,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addSuccessMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const {
   searchQuery,
@@ -31,42 +29,41 @@ const {
   onAssociateMutationError
 } = useAssociationModal()
 
+const params = computed<SearchDeclaredSkillForAssociationParams>(() => ({
+  keyword: searchQuery.value.trim() || undefined,
+  page: 0,
+  pageSize: 100,
+}))
+
 const {
-  skills,
+  data,
   isError: isSearchError,
   error: searchError,
   isLoading
-} = useSearchDeclaredSkillsForAssociationWithActivityQuery({
-  activityId: computed(() => activityId),
-  params: computed(() => ({
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 100,
-  }))
-})
+} = useSearchDeclaredSkillsForAssociation(activityId, params)
+
+const skills = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: associateActivityWithDeclaredSkills, isPending } = useAssociateActivityWithDeclaredSkillsMutation({
-  onError: error => onAssociateMutationError(error),
-  onSuccess: (_, variables) => {
-    const count = variables.associationsCreationRequest.idsToAssociate.length
-    addSuccessMessage({
-      timeout: 2000,
-      description: t(
-        'student.declaredSkills.overlays.modals.AssociateDeclaredSkillsModal.success',
-        { count }
-      ),
-    })
-    emit('associated')
-  }
-})
+const { mutate: mutateAssociateActivityWithDeclaredSkills, isPending } = useAssociateActivityWithDeclaredSkills()
 
-function onAssociate (ids: string[]) {
-  const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: ids,
-  }
-  associateActivityWithDeclaredSkills({ activityId, associationsCreationRequest })
+function associateActivityWithDeclaredSkills (idsToAssociate: string[]) {
+  mutateAssociateActivityWithDeclaredSkills({ declaredActivityId: activityId, data: { idsToAssociate } }, {
+    onError: error => onAssociateMutationError(error),
+    onSuccess: async (_, variables) => {
+      await invalidateGetDeclaredActivityAssociations(queryClient, activityId)
+      const count = variables.data.idsToAssociate.length
+      addSuccessMessage({
+        timeout: 2000,
+        description: t(
+          'student.declaredSkills.overlays.modals.AssociateDeclaredSkillsModal.success',
+          { count }
+        ),
+      })
+      emit('associated')
+    }
+  })
 }
 </script>
 
@@ -77,6 +74,6 @@ function onAssociate (ids: string[]) {
     :is-loading="isLoading || isPending"
     @cancel="emit('cancel')"
     @search="onSearch"
-    @associate="onAssociate"
+    @associate="associateActivityWithDeclaredSkills"
   />
 </template>

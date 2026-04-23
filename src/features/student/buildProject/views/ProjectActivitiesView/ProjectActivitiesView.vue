@@ -1,10 +1,7 @@
 <script setup lang="ts">
+import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
-import {
-  useCountActivitiesQuery,
-  useCountLibraryActivities
-} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
 import AllActivitiesTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
@@ -22,8 +19,15 @@ const params = computed(() => ({
   pageSize: activitiesStore.libraryPageSizeSelected,
 }))
 
-const { data: libraryTotalElements } = useCountLibraryActivities(params)
-const { data: activityTotalElements } = useCountActivitiesQuery()
+const countActivitiesParams = computed(() => ({
+  page: 0,
+  pageSize: 1,
+}))
+
+const { data: dataDeclaredActivities } = useGetDeclaredActivitiesView(params)
+const { data } = useGetActivitiesView(countActivitiesParams)
+const activityTotalElements = computed(() => data.value?.page.totalElements ?? 0)
+const libraryTotalElements = computed(() => dataDeclaredActivities.value?.page.totalElements ?? 0)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
