@@ -1,3 +1,4 @@
+import type { AssociationActivity } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import {
   associateDeclaredSkillWithDeclaredActivityErrorHandler,
@@ -75,16 +76,18 @@ BddTest().given('an associate activities to declared skill modal', () => {
     })
 
     BddTest().and('the inner modal emits search event', () => {
+      let initialActivities: AssociationActivity[]
+
       beforeEach(async () => {
+        initialActivities = modal.props('activities') as AssociationActivity[]
         modal.vm.$emit('search', 'valeurs')
         await flushPromises()
       })
 
-      BddTest().then('it should filter activities through the query', async () => {
+      BddTest().then('it should update activities after search', async () => {
         await vi.waitFor(() => {
-          const updatedModal = wrapper.findComponent(AssociateActivitiesModalStub) as VueWrapper<InstanceType<typeof AssociateActivitiesModalStub>>
-          const activities = updatedModal.props('activities')
-          expect(activities.length).toBeGreaterThanOrEqual(0)
+          const updatedModal = wrapper.findComponent(AssociateActivitiesModalStub)
+          expect(updatedModal.props('activities')).not.toEqual(initialActivities)
         })
       })
     })
@@ -97,21 +100,19 @@ BddTest().given('an associate activities to declared skill modal', () => {
         })
 
         modal.vm.$emit('associate', ['activity-search-1', 'activity-search-2'])
-        await flushPromises()
-      })
-
-      BddTest().then('it should emit associated event', async () => {
         await vi.waitFor(() => {
           expect(wrapper.emitted('associated')).toBeTruthy()
         })
       })
 
-      BddTest().then('it should show a success toaster with the correct count', async () => {
-        await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-            timeout: 2000,
-            description: expect.stringContaining('2')
-          })
+      BddTest().then('it should emit associated event', () => {
+        expect(wrapper.emitted('associated')).toHaveLength(1)
+      })
+
+      BddTest().then('it should show a success toaster with the correct count', () => {
+        expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+          timeout: 2000,
+          description: expect.stringContaining('2')
         })
       })
 
@@ -126,7 +127,7 @@ BddTest().given('an associate activities to declared skill modal', () => {
       })
 
       BddTest().then('it should emit cancel', () => {
-        expect(wrapper.emitted('cancel')).toBeTruthy()
+        expect(wrapper.emitted('cancel')).toHaveLength(1)
       })
     })
   })
