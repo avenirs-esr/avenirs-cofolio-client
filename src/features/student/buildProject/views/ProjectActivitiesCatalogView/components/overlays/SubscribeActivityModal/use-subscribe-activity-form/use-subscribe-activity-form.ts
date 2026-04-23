@@ -1,8 +1,9 @@
 import type { BaseApiException } from '@/common/exceptions'
+import { invalidateGetActivityDetail, useSubscribeActivity } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { useSubscribeActivityMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface SubscribeActivityFormData {
@@ -17,19 +18,29 @@ export function useSubscribeActivityForm (
   const { t } = useI18n()
   const { validateRequired, validateDateInterval } = useFormValidators()
   const { addSuccessMessage, addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
-  const { mutate: subscribe } = useSubscribeActivityMutation({
-    onSuccess: () => {
-      addSuccessMessage(t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.success'))
-      onSubscribed?.()
-    },
-    onError: (error: BaseApiException) => {
-      addErrorMessage({
-        title: t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.error'),
-        description: error.message
-      })
-    }
-  })
+  const { mutate: mutateSubscribeActivity } = useSubscribeActivity()
+
+  function subscribe (period: { startDate: string, endDate: string } | undefined, onSuccess: () => void) {
+    mutateSubscribeActivity({
+      activityId: activity.id,
+      data: { period }
+    }, {
+      onSuccess: async () => {
+        await invalidateGetActivityDetail(queryClient, activity.id)
+        addSuccessMessage(t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.success'))
+        onSubscribed?.()
+        onSuccess()
+      },
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.error'),
+          description: error.message
+        })
+      }
+    })
+  }
 
   const form = useForm({
     defaultValues: {
@@ -52,13 +63,8 @@ export function useSubscribeActivityForm (
         ? { startDate, endDate }
         : undefined
 
-      subscribe({
-        activityId: activity.id,
-        subscribeDeclaredActivityRequest: { period }
-      }, {
-        onSuccess: () => {
-          form.reset()
-        }
+      subscribe(period, () => {
+        form.reset()
       })
     }
   })

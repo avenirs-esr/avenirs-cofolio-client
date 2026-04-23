@@ -2,6 +2,12 @@
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface ActivityLibraryDropdownProps {
+  unsubscribeDisabled?: boolean
+}
+
+const { unsubscribeDisabled = false } = defineProps<ActivityLibraryDropdownProps>()
+
 const emit = defineEmits<{
   (e: 'unsubscribeSelected'): void
 }>()
@@ -16,7 +22,8 @@ const menuItems = computed(() => [
   {
     name: ActivityDetailedDropdownEvents.UNSUBSCRIBE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.buildProject.activities.buttons.unsubscribe')
+    label: t('student.buildProject.activities.buttons.unsubscribe'),
+    disabled: unsubscribeDisabled,
   }
 ])
 

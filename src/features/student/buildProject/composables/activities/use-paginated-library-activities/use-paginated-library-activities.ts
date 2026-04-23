@@ -1,6 +1,5 @@
-import type { DeclaredActivityViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { type DeclaredActivityViewDTO, type PageInfoDTO, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { useLibraryActivitiesQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { type ComputedRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedLibraryActivitiesResult {
@@ -23,10 +22,12 @@ export function usePaginatedLibraryActivities (enabled?: ComputedRef<boolean>): 
   }))
 
   const {
-    pageInfo: fetchedPageInfo,
-    libraryActivities: fetchedActivities,
+    data,
     isFetching
-  } = useLibraryActivitiesQuery(queryParams, enabled)
+  } = useGetDeclaredActivitiesView(queryParams, { query: { enabled } })
+
+  const fetchedActivities = computed(() => data.value?.data ?? [])
+  const fetchedPageInfo = computed(() => data.value?.page)
 
   const pageInfo = computed(() => fetchedPageInfo.value ?? { page: page.value, pageSize: 10, totalElements: 0, totalPages: 0 })
 

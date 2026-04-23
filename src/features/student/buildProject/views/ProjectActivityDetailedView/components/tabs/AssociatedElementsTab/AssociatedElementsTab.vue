@@ -24,6 +24,7 @@ export interface AssociatedElementsTabProps {
   declaredActivityId: string
   countAssociations: number
   error?: BaseApiException | null
+  isLoading?: boolean
 }
 
 const { associations } = defineProps<AssociatedElementsTabProps>()
@@ -58,6 +59,7 @@ const tracesAssociations = computed(() => {
     <QuerySuspense
       :error="error"
       :is-empty="countAssociations === 0"
+      :is-loading="isLoading"
     >
       <AssociatedDeclaredSkillsCard
         :associated-declared-skills="associations.declaredSkillAssociations"

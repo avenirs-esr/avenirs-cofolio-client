@@ -29,7 +29,7 @@ export class ActivityLibraryTab extends BaseObject {
   }
 
   getEmptyState () {
-    return this.root.getByTestId('activity-library-empty-state')
+    return this.root.getByTestId('empty-state')
   }
 
   getPagination () {

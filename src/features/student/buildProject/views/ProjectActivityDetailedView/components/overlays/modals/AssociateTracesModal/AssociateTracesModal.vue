@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import type {
-  AssociationsCreationRequest,
-} from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import {
-  useAssociateActivityWithTracesMutation,
-  useSearchTracesForAssociationQuery
-} from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+  invalidateGetDeclaredActivityAssociations,
+  useAssociateActivityWithTraces,
+  useSearchTracesForAssociation,
+} from '@/api/avenir-esr'
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TraceCompactCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
@@ -18,6 +16,7 @@ import SearchAssociationLayout from '@/features/student/global/components/intera
 import ConfirmAssociateModal from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 import { useToasterStore } from '@/store'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
@@ -34,6 +33,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
   itemId: TraceAssociationTypes.UNASSOCIATED
@@ -51,21 +51,23 @@ const {
   listenAndDisplayToastOnSearchError
 } = useAssociationModal()
 
+const params = computed(() => ({
+  isAssociated: getIsAssociatedParam(),
+  keyword: searchQuery.value.trim() || undefined,
+  page: 0,
+  pageSize: 20,
+  type: selectedTraceType.value.itemId
+}))
+
 const {
-  traces,
+  data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociationQuery({
-  declaredActivityId: computed(() => declaredActivityId),
-  params: computed(() => ({
-    isAssociated: getIsAssociatedParam(),
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 20,
-    type: selectedTraceType.value.itemId
-  })),
-  enabled: computed(() => show)
+} = useSearchTracesForAssociation(computed(() => declaredActivityId), params, {
+  query: { enabled: computed(() => show) }
 })
+
+const traces = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
@@ -79,29 +81,37 @@ const traceOptions = computed<AvAutocompleteOption[]>(() =>
     }))
 )
 
-const { mutate: associateActivityWithTraces, isPending } = useAssociateActivityWithTracesMutation({
-  onError: (error: BaseApiException) => {
-    addErrorMessage({
-      title: t('global.error.generic'),
-      description: error.message,
-    })
-  },
-  onSuccess: (_, variables) => {
-    const count = variables.associationsCreationRequest.idsToAssociate.length
+const idsToAssociate = computed(() => selectedAssociations.value.map(trace => trace.id.toString()))
 
-    hideConfirmModal()
+const { mutate: mutateAssociateActivityWithTraces, isPending } = useAssociateActivityWithTraces()
 
-    addSuccessMessage({
-      timeout: 2000,
-      description: t(
-        'student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.success',
-        { count }
-      ),
-    })
+function associateActivityWithTraces () {
+  mutateAssociateActivityWithTraces({
+    declaredActivityId,
+    data: { idsToAssociate: idsToAssociate.value }
+  }, {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('global.error.generic'),
+        description: error.message,
+      })
+    },
+    onSuccess: async (_, variables) => {
+      await invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId)
 
-    emit('associated')
-  }
-})
+      const count = variables.data.idsToAssociate.length
+
+      hideConfirmModal()
+
+      addSuccessMessage({
+        timeout: 2000,
+        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.success', { count }),
+      })
+
+      emit('associated')
+    }
+  })
+}
 
 function getIsAssociatedParam () {
   const type = selectedTraceType.value.itemId
@@ -112,21 +122,6 @@ function getIsAssociatedParam () {
     return false
   }
 }
-
-function onCancel () {
-  emit('cancel')
-}
-
-function onConfirm () {
-  const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: selectedAssociations.value.map(trace => trace.id.toString()),
-  }
-
-  associateActivityWithTraces({
-    declaredActivityId,
-    associationsCreationRequest
-  })
-}
 </script>
 
 <template>
@@ -135,7 +130,7 @@ function onConfirm () {
     data-testid="associate-traces-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.confirm')"
-    @close="onCancel"
+    @close="emit('cancel')"
     @confirm="displayConfirmModal"
   >
     <template #header>
@@ -183,6 +178,6 @@ function onConfirm () {
     :disabled="isPending"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.confirmTitle')"
     @cancel="hideConfirmModal"
-    @confirm="onConfirm"
+    @confirm="associateActivityWithTraces"
   />
 </template>

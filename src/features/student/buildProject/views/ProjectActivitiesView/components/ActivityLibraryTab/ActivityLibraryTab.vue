@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import EmptyState from '@/common/components/feedback/EmptyState/EmptyState.vue'
-import Loader from '@/common/components/Loader/Loader.vue'
+import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { useLibraryActivitiesQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import ActivityLibraryCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import ActivityLibraryDropdown from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/ActivityLibraryDropdown/ActivityLibraryDropdown.vue'
@@ -28,10 +27,11 @@ const params = computed(() => ({
   pageSize: pageSizeSelected.value,
 }))
 
-const { libraryActivities, pageInfo, isLoading, isError, error } = useLibraryActivitiesQuery(params)
+const { data, isLoading, error } = useGetDeclaredActivitiesView(params)
 const { showModal, displayModal, hideModal } = useModal()
 
-const shouldShowEmptyState = computed(() => !isLoading.value && libraryActivities.value?.length === 0 && !isError.value)
+const libraryActivities = computed(() => data.value?.data || [])
+const pageInfo = computed(() => data.value?.page)
 </script>
 
 <template>
@@ -39,34 +39,35 @@ const shouldShowEmptyState = computed(() => !isLoading.value && libraryActivitie
     class="av-col av-gap-xl av-pt-md"
     data-testid="activity-library-tab"
   >
-    <ActivityErrorMessage :error />
-
-    <Loader
-      :is-loading="isLoading && !isError"
-      size="2xl"
-    >
-      <div class="av-col av-gap-md">
-        <div class="av-row av-justify-end">
-          <ActivityLibraryDropdown @unsubscribe-selected="displayModal" />
-        </div>
-
-        <AvIconText
-          :icon="RI_ICONS.BOOK_SHELF_LINE"
-          icon-color="var(--text2)"
-          :text="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.tabTitle', { count: pageInfo?.totalElements ?? 0 })"
-          text-color="var(--text1)"
-          typography-class="n5"
-          data-testid="activity-library-tab-title"
+    <div class="av-col av-gap-md">
+      <div class="av-row av-justify-end">
+        <ActivityLibraryDropdown
+          :unsubscribe-disabled="libraryActivities.length === 0"
+          @unsubscribe-selected="displayModal"
         />
+      </div>
 
-        <EmptyState
-          v-if="shouldShowEmptyState"
-          :title="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.emptyState')"
-          data-testid="activity-library-empty-state"
-        />
+      <AvIconText
+        :icon="RI_ICONS.BOOK_SHELF_LINE"
+        icon-color="var(--text2)"
+        :text="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.tabTitle', { count: pageInfo?.totalElements ?? 0 })"
+        text-color="var(--text1)"
+        typography-class="n5"
+        data-testid="activity-library-tab-title"
+      />
+
+      <QuerySuspense
+        :error="error"
+        :is-loading="isLoading"
+        :is-empty="libraryActivities.length === 0"
+        :empty-state-message="t('student.buildProject.views.projectActivitiesView.ActivityLibraryTab.emptyState')"
+      >
+        <template #error>
+          <ActivityErrorMessage :error="error" />
+        </template>
 
         <Pagination
-          v-else-if="pageInfo && !shouldShowEmptyState"
+          v-if="pageInfo"
           :page-info="pageInfo"
           :page-size-selected="pageSizeSelected"
           :on-update-current-page="onUpdateCurrentPage"
@@ -83,8 +84,8 @@ const shouldShowEmptyState = computed(() => !isLoading.value && libraryActivitie
             />
           </div>
         </Pagination>
-      </div>
-    </Loader>
+      </QuerySuspense>
+    </div>
   </div>
 
   <UnsubscribeActivitiesModal

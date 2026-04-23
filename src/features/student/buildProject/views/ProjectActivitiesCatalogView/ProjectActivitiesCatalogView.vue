@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import { EActivityThematic } from '@/api/avenir-esr'
-import Loader from '@/common/components/Loader/Loader.vue'
+import { EActivityThematic, useGetActivityDetail, useGetActivityNavigation } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { useActivitiesNavigationQuery, useActivityDetailQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivitiesPreviousNextNavigation from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.vue'
 import ActivitiesSelectNavigation
   from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.vue'
 import ActivitiesSideNavigation
   from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
 import ActivityPreview from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
+import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -21,14 +21,17 @@ export interface ProjectActivitiesCatalogViewProps {
   id?: string
 }
 
-const props = defineProps<ProjectActivitiesCatalogViewProps>()
+const { id = '', thematic } = defineProps<ProjectActivitiesCatalogViewProps>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
-const { activityDetail, isLoading, isError, error } = useActivityDetailQuery(computed(() => props.id ?? ''))
-const { activities, isLoading: isNavigationLoading, isError: isNavigationError } = useActivitiesNavigationQuery()
+const { data: activityDetail, isLoading, error } = useGetActivityDetail(computed(() => id), { query: {
+  enabled: computed(() => !!id),
+  staleTime: TanstackStaleTimeConfig.DETAILS,
+} })
+const { data: activities, isLoading: isNavigationLoading, isError: isNavigationError } = useGetActivityNavigation()
 
 const firstCatalogEntry = computed(() => {
   const firstThematic = activities.value?.[0]?.title
@@ -45,13 +48,13 @@ const firstCatalogEntry = computed(() => {
 })
 
 watchEffect(() => {
-  const thematic = props.thematic
-  const id = props.id
+  const newThematic = thematic
+  const newId = id
   const loading = isNavigationLoading.value
   const hasError = isNavigationError.value
   const firstEntry = firstCatalogEntry.value
 
-  if ((thematic && id) || loading || hasError || !firstEntry) {
+  if ((newThematic && newId) || loading || hasError || !firstEntry) {
     return
   }
 
@@ -91,17 +94,19 @@ const breadcrumbLinks = computed(() => [
     <div class="av-col av-gap-sm">
       <ActivitiesPreviousNextNavigation />
       <div class="av-row av-flex-fill av-justify-center">
-        <Loader
-          :is-loading="isLoading && !isError"
-          size="2xl"
+        <QuerySuspense
+          :error="error"
+          :is-loading="isLoading"
         >
+          <template #error>
+            <ActivityErrorMessage :error="error" />
+          </template>
           <ActivityPreview
             v-if="activityDetail"
             :activity="activityDetail"
           />
-        </Loader>
+        </QuerySuspense>
       </div>
     </div>
   </div>
-  <ActivityErrorMessage :error="error" />
 </template>

@@ -43,8 +43,8 @@ BddTest().given('an ActivityLibraryTab', () => {
       expect(wrapper.find('[data-testid="activity-library-tab"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should not render the title', () => {
-      expect(wrapper.findComponent(AvIconTextStub).exists()).toBe(false)
+    BddTest().then('it should render the title', () => {
+      expect(wrapper.findComponent(AvIconTextStub).exists()).toBe(true)
     })
   })
 

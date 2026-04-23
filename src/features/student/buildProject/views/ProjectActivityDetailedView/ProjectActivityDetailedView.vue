@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useDrawer, useModal, useNavigation } from '@/common/composables'
@@ -8,11 +9,11 @@ import ActivityErrorMessage from '@/features/student/buildProject/components/fee
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
   from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
-import { useDeclaredActivitiesDetailedQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import ActivityDetailedDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import ProjectActivityDetailedLayout
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetailedLayout/ProjectActivityDetailedLayout.vue'
+import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailedViewProps {
@@ -22,7 +23,10 @@ export interface ProjectActivityDetailedViewProps {
 const { id } = defineProps<ProjectActivityDetailedViewProps>()
 
 const { t } = useI18n()
-const { declaredActivityDetail, isLoading, isError, error } = useDeclaredActivitiesDetailedQuery(id)
+const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclaredActivityDetails(id, { query: {
+  enabled: !!id,
+  staleTime: TanstackStaleTimeConfig.DETAILS
+} })
 const { navigateToStudentProjectActivities } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()

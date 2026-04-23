@@ -1,9 +1,9 @@
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdatePeriod } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { useUpdateActivityPeriodMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { type MaybeRef, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -19,15 +19,27 @@ export function useUpdateActivityForm (
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const { validateRequired, validateDateInterval } = useFormValidators()
+  const queryClient = useQueryClient()
 
-  const { mutate: updateActivityPeriod, isPending } = useUpdateActivityPeriodMutation({
-    onError: (error: BaseApiException) => {
-      addErrorMessage({
-        title: t('student.buildProject.activities.overlays.UpdateActivityDrawer.errors.updatePeriod'),
-        description: error.message
-      })
-    }
-  })
+  const { mutate: mutateUpdatePeriod, isPending } = useUpdatePeriod()
+
+  function updateActivityPeriod (period: { startDate: string, endDate: string } | undefined) {
+    mutateUpdatePeriod({
+      declaredActivityId: toValue(declaredActivity).id,
+      data: { period }
+    }, {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('student.buildProject.activities.overlays.UpdateActivityDrawer.errors.updatePeriod'),
+          description: error.message
+        })
+      },
+      onSuccess: async () => {
+        await invalidateGetDeclaredActivityDetails(queryClient, toValue(declaredActivity).id)
+        onUpdated?.()
+      }
+    })
+  }
 
   const form = useForm({
     defaultValues: {
@@ -46,18 +58,9 @@ export function useUpdateActivityForm (
       }
     },
     onSubmit: ({ value }: { value: UpdateActivityPeriodFormData }) => {
-      updateActivityPeriod({
-        declaredActivityId: toValue(declaredActivity).id,
-        declaredActivityPeriodRequest: {
-          period: value.startDate && value.endDate
-            ? { startDate: value.startDate, endDate: value.endDate }
-            : undefined
-        }
-      }, {
-        onSuccess: () => {
-          onUpdated?.()
-        }
-      })
+      updateActivityPeriod(value.startDate && value.endDate
+        ? { startDate: value.startDate, endDate: value.endDate }
+        : undefined)
     }
   })
 

@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { EActivityThematic } from '@/api/avenir-esr'
-import { Loader } from '@/common/components'
+import { EActivityThematic, type GetActivitiesViewParams, useGetActivitiesView } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { usePagination } from '@/common/composables'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { useActivitiesViewQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import { AvIconText, AvTagPicker, type AvTagPickerOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -29,9 +28,20 @@ function onSelectThematic (thematic: AvTagPickerOption) {
   selectedThematic.value = thematic.value === 'all' ? undefined : thematic.value as EActivityThematic
 }
 
-const { activities, pageInfo, error, isFetching, isError } = useActivitiesViewQuery({ thematic: selectedThematic, page: currentPage, pageSize: pageSizeSelected })
+const params = computed<GetActivitiesViewParams>(() => ({
+  thematic: selectedThematic.value as GetActivitiesViewParams['thematic'],
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value
+}))
 
-const filterOptions: AvTagPickerOption[] = Object.values(EActivityThematic).map(thematic => ({ label: t(`student.buildProject.activities.thematics.${thematic}`), value: thematic }))
+const { data, error, isFetching } = useGetActivitiesView(params)
+const activities = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
+
+const filterOptions: AvTagPickerOption[] = Object.values(EActivityThematic).map(thematic => ({
+  label: t(`student.buildProject.activities.thematics.${thematic}`),
+  value: thematic
+}))
 const allThematicsOption = { label: t('student.buildProject.activities.AllActivitiesSection.buttons.all'), value: 'all' }
 filterOptions.push(allThematicsOption)
 </script>
@@ -44,7 +54,7 @@ filterOptions.push(allThematicsOption)
     <AvIconText
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
       icon-color="var(--icon)"
-      :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: pageInfo.totalElements })"
+      :text="t('student.buildProject.views.projectActivitiesView.allActivitiesTab.allActivitiesSection.title', { count: pageInfo?.totalElements ?? 0 })"
       text-color="var(--text1)"
       typography-class="n5"
       data-testid="all-activities-section-title"
@@ -59,16 +69,20 @@ filterOptions.push(allThematicsOption)
         :handle-select-change="onSelectThematic"
       />
     </div>
-    <Pagination
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+    <QuerySuspense
+      :error="error"
+      :is-loading="isFetching"
+      :is-empty="activities.length === 0"
     >
-      <ActivityErrorMessage :error />
-      <Loader
-        :is-loading="isFetching && !isError"
-        size="2xl"
+      <template #error>
+        <ActivityErrorMessage :error="error" />
+      </template>
+      <Pagination
+        v-if="pageInfo"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
       >
         <div
           v-if="activities.length > 0"
@@ -90,7 +104,7 @@ filterOptions.push(allThematicsOption)
             {{ t('student.buildProject.activities.AllActivitiesSection.noActivitiesFound') }}
           </span>
         </div>
-      </Loader>
-    </Pagination>
+      </Pagination>
+    </QuerySuspense>
   </div>
 </template>

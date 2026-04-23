@@ -50,7 +50,7 @@ useBaseApiExceptionToast(error)
       :is-empty="skills.length === 0"
     >
       <Pagination
-        v-if="pageInfo && skills.length > 0"
+        v-if="pageInfo"
         :page-info="pageInfo"
         :page-size-selected="pageSizeSelected"
         :on-update-current-page="onUpdateCurrentPage"

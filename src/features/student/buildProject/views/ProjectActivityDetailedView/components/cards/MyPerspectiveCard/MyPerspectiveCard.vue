@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { useUpdateActivityReflectionMutation } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
+import { invalidateGetActivityDetail, useUpdateReflection } from '@/api/avenir-esr'
+import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
 import { defineAsyncComponent } from 'vue'
@@ -21,45 +23,57 @@ const RichTextEditor = defineAsyncComponent(() => import('@/common/components/in
 
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
 const readonly = ref(true)
 const content = ref(perspective ?? '<p></p>')
 const sanitizedContent = computed(() => DOMPurify.sanitize(content.value))
 
-const { mutate: updateActivityReflection, isPending: isPendingSave } = useUpdateActivityReflectionMutation({
-  onError: (error) => {
-    addErrorMessage({
-      title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.error'),
-      description: error.message
-    })
-  },
-  onSuccess: () => {
-    addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.success'))
-    readonly.value = true
-  }
-})
-const { mutate: updateActivityReflectionOnAutoSave, isPending: isPendingAutoSave } = useUpdateActivityReflectionMutation({
-  onError: (error) => {
-    addErrorMessage({
-      title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.error'),
-      description: error.message
-    })
-  },
-  onSuccess: () => {
-    addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.success'))
-  }
-})
+const { mutate: mutateUpdateReflection, isPending: isPendingSave } = useUpdateReflection()
+
+function updateActivityReflection (reflection: string) {
+  mutateUpdateReflection({ activityId, data: { reflection } }, {
+    onError: (error) => {
+      addErrorMessage({
+        title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.error'),
+        description: error.message
+      })
+    },
+    onSuccess: async () => {
+      await invalidateGetActivityDetail(queryClient, activityId)
+      addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.success'))
+      readonly.value = true
+    }
+  })
+}
+
+const { mutate: mutateUpdateReflectionOnAutoSave, isPending: isPendingAutoSave } = useUpdateReflection()
+
+function updateActivityReflectionOnAutoSave (reflection: string) {
+  mutateUpdateReflectionOnAutoSave({ activityId, data: { reflection } }, {
+    onError: (error) => {
+      addErrorMessage({
+        title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.error'),
+        description: error.message
+      })
+    },
+    onSuccess: async () => {
+      await invalidateGetActivityDetail(queryClient, activityId)
+      addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.success'))
+    }
+  })
+}
 
 const isModified = computed(() => sanitizedContent.value !== perspective)
 
 const onAutoSave = debounce(() => {
   if (!readonly.value && isModified.value && !isPendingAutoSave.value && !isPendingSave.value) {
-    updateActivityReflectionOnAutoSave({ activityId, reflection: sanitizedContent.value })
+    updateActivityReflectionOnAutoSave(sanitizedContent.value)
   }
-}, 15000)
+}, AUTO_SAVE_DEBOUNCE_DELAY)
 
 function onSave () {
-  updateActivityReflection({ activityId, reflection: sanitizedContent.value })
+  updateActivityReflection(sanitizedContent.value)
 }
 
 watch(content, () => {

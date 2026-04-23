@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { EActivityThematic } from '@/api/avenir-esr'
+import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
-import { useActivitiesNavigationQuery } from '@/features/student/buildProject/queries/use-activities.query/use-activities.query'
 import { ICONS } from '@/features/student/global/icons'
 import {
   AvSideNavigation,
@@ -18,7 +17,7 @@ const route = useRoute()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const isSideMenuCollapsed = ref(false)
-const { activities: activitiesRef, isLoading, isError } = useActivitiesNavigationQuery()
+const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
 const DEFAULT_PARENT_ICON = MDI_ICONS.BOOK_OPEN_VARIANT
 const CHILD_ICON = ICONS.ACTIVITY
