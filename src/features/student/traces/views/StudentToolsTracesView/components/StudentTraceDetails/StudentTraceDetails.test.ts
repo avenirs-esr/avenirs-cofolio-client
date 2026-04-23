@@ -1,6 +1,5 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
-import { TraceLinkInputStub } from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
 import StudentTraceDetails
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
@@ -41,7 +40,6 @@ const AvIconTextStub = {
 const stubs = {
   TraceNameInput: TraceNameInputStub,
   TraceFileUpload: TraceFileUploadStub,
-  TraceLinkInput: TraceLinkInputStub,
   TracePersonalNoteTextarea: TracePersonalNoteTextareaStub,
   TraceIaJustificationTextarea: TraceIaJustificationTextareaStub,
   AvIconText: AvIconTextStub,
@@ -123,9 +121,8 @@ BddTest().given('a student detailed trace information component', () => {
       expect(creationUpdateDateDetails.props('updatedAt')).toBe('2024-01-15T10:30:00')
     })
 
-    BddTest().then('it should not render the link input when attachment is present', () => {
-      const traceLinkInput = wrapper.findComponent({ name: 'TraceLinkInput' })
-      expect(traceLinkInput.exists()).toBe(false)
+    BddTest().then('it should not render the link when attachment is present', () => {
+      expect(wrapper.find('a.trace-link').exists()).toBe(false)
     })
 
     BddTest().then('it should render the personal note textarea with correct props', () => {
@@ -171,14 +168,19 @@ BddTest().given('a student detailed trace information component', () => {
       })
     })
 
-    BddTest().then('it should render the link input with correct props', () => {
-      const traceLinkInput = wrapper.findComponent({ name: 'TraceLinkInput' })
+    BddTest().then('it should render the link label', () => {
+      const label = wrapper.find('label')
+      expect(label.exists()).toBe(true)
+      expect(label.text()).toBe('Lien de ma trace')
+    })
 
-      expect(traceLinkInput.exists()).toBe(true)
-      expect(traceLinkInput.props('modelValue')).toBe('https://example.com/trace/1')
-      expect(traceLinkInput.props('label')).toBe('Lien de ma trace')
-      expect(traceLinkInput.props('required')).toBe(false)
-      expect(traceLinkInput.props('disabled')).toBe(true)
+    BddTest().then('it should render the link as an anchor with correct attributes', () => {
+      const link = wrapper.find('a.trace-link')
+      expect(link.exists()).toBe(true)
+      expect(link.attributes('href')).toBe('https://example.com/trace/1')
+      expect(link.attributes('target')).toBe('_blank')
+      expect(link.attributes('rel')).toBe('noopener noreferrer')
+      expect(link.text()).toBe('https://example.com/trace/1')
     })
 
     BddTest().then('it should not render the file upload when there is no attachment', () => {

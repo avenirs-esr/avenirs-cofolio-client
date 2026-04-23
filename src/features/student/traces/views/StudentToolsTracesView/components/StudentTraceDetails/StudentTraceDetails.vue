@@ -3,7 +3,6 @@ import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
-import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
@@ -42,13 +41,26 @@ const traceFileUploadLabel = computed(() => {
           :valid-message="t('global.success.file.loaded')"
           disabled
         />
-        <TraceLinkInput
+        <div
           v-else
-          :model-value="trace.link"
-          :label="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.linkLabel')"
-          :required="false"
-          disabled
-        />
+          class="av-col"
+        >
+          <label
+            id="trace-link-label"
+            class="av-label"
+          >
+            <span class="b2-light">{{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.linkLabel') }}</span>
+          </label>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="trace.link"
+            class="trace-link"
+            aria-labelledby="trace-link-label"
+          >
+            {{ trace.link }}
+          </a>
+        </div>
         <div class="av-row av-justify-end">
           <CreationUpdateDateDetails
             :created-at="trace.createdAt"
@@ -102,5 +114,9 @@ const traceFileUploadLabel = computed(() => {
 <style lang="scss" scoped>
 .personal-note :deep(.av-input textarea) {
   min-height: 14rem;
+}
+
+.trace-link {
+  color: revert;
 }
 </style>
