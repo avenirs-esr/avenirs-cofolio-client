@@ -273,6 +273,7 @@ export function useDeleteTraceAssociationsMutation ({
 export interface SearchActivitiesForAssociationQueryParams {
   traceId: MaybeRef<string>
   params?: MaybeRef<SearchDeclaredActivityForAssociationParams | undefined>
+  enabled?: MaybeRef<boolean>
 }
 
 export type SearchActivitiesForAssociationQueryReturnType =
@@ -288,7 +289,8 @@ export type SearchActivitiesForAssociationQueryReturnType =
 
 export function useSearchActivitiesForAssociationQuery ({
   traceId,
-  params
+  params,
+  enabled
 }: SearchActivitiesForAssociationQueryParams): SearchActivitiesForAssociationQueryReturnType {
   const queryKey = computed(() => [
     ...tracesSearchAssociationActivitiesQueryKey,
@@ -303,7 +305,7 @@ export function useSearchActivitiesForAssociationQuery ({
   const query = useQuery<PagedResponseAssociationSearchResultDeclaredActivityDTO, BaseApiException>({
     queryKey,
     queryFn,
-    enabled: computed(() => toValue(traceId).trim().length > 0),
+    enabled: computed(() => (enabled === undefined || toValue(enabled)) && toValue(traceId).trim().length > 0),
     placeholderData: keepPreviousData
   })
 
@@ -354,6 +356,7 @@ export function useAssociateTraceWithActivitiesMutation ({
 export interface UseDeclaredSkillsForAssociationQueryParams {
   traceId: MaybeRef<string>
   params?: MaybeRef<SearchDeclaredSkillForAssociationParams | undefined>
+  enabled?: MaybeRef<boolean>
 }
 
 export type SearchDeclaredSkillsForAssociationWithTraceQueryReturnType =
@@ -369,7 +372,8 @@ export type SearchDeclaredSkillsForAssociationWithTraceQueryReturnType =
 
 export function useSearchDeclaredSkillsForAssociationWithTraceQuery ({
   traceId,
-  params
+  params,
+  enabled
 }: UseDeclaredSkillsForAssociationQueryParams): SearchDeclaredSkillsForAssociationWithTraceQueryReturnType {
   const queryKey = computed(() => [
     ...tracesSearchAssociationSkillsQueryKey,
@@ -384,7 +388,7 @@ export function useSearchDeclaredSkillsForAssociationWithTraceQuery ({
   const query = useQuery<PagedResponseAssociationSearchResultDeclaredSkillIDTO, BaseApiException>({
     queryKey,
     queryFn,
-    enabled: computed(() => toValue(traceId).trim().length > 0),
+    enabled: computed(() => (enabled === undefined || toValue(enabled)) && toValue(traceId).trim().length > 0),
     placeholderData: keepPreviousData
   })
 

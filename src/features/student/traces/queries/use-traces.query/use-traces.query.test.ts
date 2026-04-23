@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { MutationArgs } from '@/types'
 import type { UseQueryReturnType } from '@tanstack/vue-query'
+import type { Ref } from 'vue'
 import { createMockedSearchActivitiesForAssociationResponse, invalidTraceId, mockedSkillSearchResults, mockedTraceActivitySearchResults, mockedTraceDetailed, mockedTracesSummary } from '@/__mocks__/fixtures/student'
 import { associateTraceWithDeclaredSkillsErrorHandler, searchSkillsForAssociationErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -1276,16 +1277,109 @@ BddTest().given('a useSearchActivitiesForAssociationQuery composable', () => {
         })
       })
     })
+
+    BddTest().when('enabled is explicitly false', () => {
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
+        mountQueryComposable(() => useSearchActivitiesForAssociationQuery({
+          traceId,
+          params,
+          enabled: ref(false)
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredActivityForAssociation API', () => {
+        expect(searchActivitiesForAssociationSpy).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('enabled is explicitly true', () => {
+      let queryResult: ReturnType<typeof useSearchActivitiesForAssociationQuery>
+
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
+        queryResult = mountQueryComposable(() => useSearchActivitiesForAssociationQuery({
+          traceId,
+          params,
+          enabled: ref(true)
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredActivityForAssociation API', () => {
+        expect(searchActivitiesForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+      })
+
+      BddTest().then('it should mark the query as successful', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().when('enabled switches from false to true', () => {
+      let enabled: Ref<boolean>
+      let queryResult: ReturnType<typeof useSearchActivitiesForAssociationQuery>
+
+      beforeEach(async () => {
+        searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
+        enabled = ref(false)
+        queryResult = mountQueryComposable(() => useSearchActivitiesForAssociationQuery({
+          traceId,
+          params,
+          enabled
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredActivityForAssociation API while disabled', () => {
+        expect(searchActivitiesForAssociationSpy).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should call the searchDeclaredActivityForAssociation API once enabled', async () => {
+        enabled.value = true
+        await flushPromises()
+        expect(searchActivitiesForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().when('enabled switches from true to false', () => {
+      let enabled: Ref<boolean>
+
+      beforeEach(async () => {
+        enabled = ref(true)
+        mountQueryComposable(() => useSearchActivitiesForAssociationQuery({
+          traceId,
+          params,
+          enabled
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredActivityForAssociation API while enabled', () => {
+        expect(searchActivitiesForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not re-call the searchDeclaredActivityForAssociation API after being disabled even if params change', async () => {
+        enabled.value = false
+        await flushPromises()
+        expect(searchActivitiesForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+    })
   })
 
-  BddTest().and('an empty trace ID', () => {
+  BddTest().and('an empty trace ID with enabled true', () => {
     const traceId = ref('')
     const params: SearchActivitiesForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10, search: '' })
 
-    BddTest().when('the query is mounted', () => {
+    BddTest().when('the query is mounted with enabled true but empty traceId', () => {
       beforeEach(async () => {
         searchActivitiesForAssociationSpy.mockResolvedValue(createMockedSearchActivitiesForAssociationResponse())
-        mountQueryComposable(() => useSearchActivitiesForAssociationQuery({ traceId, params }))
+        mountQueryComposable(() => useSearchActivitiesForAssociationQuery({
+          traceId,
+          params,
+          enabled: ref(true)
+        }))
         await flushPromises()
       })
 
@@ -1472,15 +1566,105 @@ BddTest().given('a useSearchDeclaredSkillsForAssociationWithTraceQuery composabl
         })
       })
     })
+
+    BddTest().when('enabled is explicitly false', () => {
+      beforeEach(async () => {
+        mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({
+          traceId,
+          params,
+          enabled: ref(false)
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredSkillForAssociation API', () => {
+        expect(searchDeclaredSkillForAssociationSpy).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('enabled is explicitly true', () => {
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithTraceQuery>
+
+      beforeEach(async () => {
+        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({
+          traceId,
+          params,
+          enabled: ref(true)
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredSkillForAssociation API', () => {
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+      })
+
+      BddTest().then('it should mark the query as successful', () => {
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().when('enabled switches from false to true', () => {
+      let enabled: Ref<boolean>
+      let queryResult: ReturnType<typeof useSearchDeclaredSkillsForAssociationWithTraceQuery>
+
+      beforeEach(async () => {
+        enabled = ref(false)
+        queryResult = mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({
+          traceId,
+          params,
+          enabled
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should not call the searchDeclaredSkillForAssociation API while disabled', () => {
+        expect(searchDeclaredSkillForAssociationSpy).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should call the searchDeclaredSkillForAssociation API once enabled', async () => {
+        enabled.value = true
+        await flushPromises()
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledWith(traceId.value, params.value)
+        expect(queryResult.isSuccess.value).toBe(true)
+      })
+    })
+
+    BddTest().when('enabled switches from true to false', () => {
+      let enabled: Ref<boolean>
+
+      beforeEach(async () => {
+        enabled = ref(true)
+        mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({
+          traceId,
+          params,
+          enabled
+        }))
+        await flushPromises()
+      })
+
+      BddTest().then('it should call the searchDeclaredSkillForAssociation API while enabled', () => {
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not re-call the searchDeclaredSkillForAssociation API after being disabled even if params change', async () => {
+        enabled.value = false
+        await flushPromises()
+        expect(searchDeclaredSkillForAssociationSpy).toHaveBeenCalledTimes(1)
+      })
+    })
   })
 
-  BddTest().and('an empty trace ID', () => {
+  BddTest().and('an empty trace ID with enabled true', () => {
     const traceId = ref('')
     const params: UseDeclaredSkillsForAssociationQueryParams['params'] = ref({ page: 0, pageSize: 10 })
 
-    BddTest().when('the query is mounted', () => {
+    BddTest().when('the query is mounted with enabled true but empty traceId', () => {
       beforeEach(async () => {
-        mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({ traceId, params }))
+        mountQueryComposable(() => useSearchDeclaredSkillsForAssociationWithTraceQuery({
+          traceId,
+          params,
+          enabled: ref(true)
+        }))
         await flushPromises()
       })
 
