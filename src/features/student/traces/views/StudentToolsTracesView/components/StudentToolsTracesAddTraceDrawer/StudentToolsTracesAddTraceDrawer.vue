@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AssociateElementOption, AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import type { IdTitle } from '@/types'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -26,7 +25,6 @@ const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
 const searchQuery = ref('')
-const associationSelections = ref<Record<string, IdTitle[]>>({})
 const activeTypeKey = ref<string>(EAssociationTypeKey.DECLARED_SKILLS)
 
 function onTraceCreated () {
@@ -61,7 +59,6 @@ const activeAccordion = ref(0)
 
 function confirmCancel () {
   form.reset()
-  associationSelections.value = {}
   searchQuery.value = ''
   activeTypeKey.value = EAssociationTypeKey.DECLARED_SKILLS
   activeAccordion.value = 0
@@ -164,10 +161,6 @@ function onTypeChange (typeKey: string) {
 }
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
-
-watch(associationSelections, (newSelections) => {
-  associationSelectionsField.api.handleChange(newSelections)
-}, { deep: true })
 </script>
 
 <template>
@@ -218,11 +211,12 @@ watch(associationSelections, (newSelections) => {
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
             >
               <AssociateElementsDrawerSection
-                v-model:selections-by-type="associationSelections"
+                :selections-by-type="associationSelectionsField.state.value.value"
                 :type-configs="typeConfigs"
                 :options="currentOptions"
                 :loading="isSearchLoading"
                 data-testid="associate-elements-section"
+                @update:selections-by-type="associationSelectionsField.api.handleChange"
                 @search="onSearch"
                 @type-change="onTypeChange"
               />
