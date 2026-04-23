@@ -100,7 +100,8 @@ const {
   isLoading: isSkillsLoading
 } = useSearchDeclaredSkillsForAssociationWithTraceQuery({
   traceId: searchTraceId,
-  params: makeSearchParams(EAssociationTypeKey.DECLARED_SKILLS)
+  params: makeSearchParams(EAssociationTypeKey.DECLARED_SKILLS),
+  enabled: computed(() => activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS)
 })
 
 const {
@@ -108,7 +109,8 @@ const {
   isLoading: isActivitiesLoading
 } = useSearchActivitiesForAssociationQuery({
   traceId: searchTraceId,
-  params: makeSearchParams(EAssociationTypeKey.ACTIVITIES)
+  params: makeSearchParams(EAssociationTypeKey.ACTIVITIES),
+  enabled: computed(() => activeTypeKey.value === EAssociationTypeKey.ACTIVITIES)
 })
 
 const typeConfigs = computed<AssociateElementTypeConfig[]>(() => [
