@@ -1,24 +1,15 @@
 <script lang="ts" setup>
+import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import SelfKnowledgeElementDetailsContainer
-  from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
-import SelfKnowledgeElementsSideMenu
-  from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs
-  from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
-import { useSelfKnowledgeCategory }
-  from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
-import {
-  useSelfKnowledgePaginatedElements
-} from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
-import {
-  useSelfKnowledgeElementDetailsQuery
-} from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
-import SelfKnowledgeElementUpdateForm
-  from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
+import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
+import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
+import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
+import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
+import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
+import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateViewProps {
@@ -28,9 +19,7 @@ export interface SelfKnowledgeElementUpdateViewProps {
 
 const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 
-const { element } = useSelfKnowledgeElementDetailsQuery({
-  selfKnowledgeElementId: toRef(props, 'elementId')
-})
+const { data: element } = useGetSelfKnowledgeElementDetails(toRef(props, 'elementId'))
 
 const { t } = useI18n()
 const {

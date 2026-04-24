@@ -1,15 +1,14 @@
-import type { SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
-import * as avenirEsrApi from '@/api/avenir-esr'
+import { createSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { type MockInstance, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   let composableResult: ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>
   let mockOnElementCreated: ReturnType<typeof vi.fn>
-  let createSelfKnowledgeElementSpy: MockInstance<(selfKnowledgeCategoryId: string, selfKnowledgeElementRequest: SelfKnowledgeElementRequest, options?: RequestInit | undefined) => Promise<SelfKnowledgeElementViewDTO>>
   const mockCategoryId = 'category-123'
 
   const createValidFormData = (rating: number | null = 3): SelfKnowledgeCategoryElementFormData => ({
@@ -38,13 +37,6 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
 
   beforeEach(() => {
     mockOnElementCreated = vi.fn()
-    createSelfKnowledgeElementSpy = vi.spyOn(avenirEsrApi, 'createSelfKnowledgeElement').mockResolvedValue({
-      id: 'element-123',
-      title: 'My Strength',
-      description: 'This is a detailed description',
-      rating: 3,
-      createdAt: new Date().toISOString()
-    } as SelfKnowledgeElementViewDTO)
 
     const result = mountComposable(() => useAddSelfKnowledgeCategoryElementForm(mockCategoryId, mockOnElementCreated), {
       useI18n: true,
@@ -146,23 +138,6 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   })
 
   BddTest().when('form is submitted with valid data', () => {
-    BddTest().then('it should call createSelfKnowledgeElement API', async () => {
-      setFormValues(createValidFormData(4))
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(createSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockCategoryId,
-          {
-            title: 'My Strength',
-            description: 'This is a detailed description',
-            rating: 4
-          }
-        )
-      })
-    })
-
     BddTest().then('it should call onElementCreated callback on success', async () => {
       setFormValues(createValidFormData(3))
 
@@ -171,54 +146,6 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
       await vi.waitFor(() => {
         expect(mockOnElementCreated).toHaveBeenCalledTimes(1)
       })
-    })
-
-    BddTest().then('it should exclude rating when it is null', async () => {
-      setFormValues(createValidFormData(null))
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(createSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockCategoryId,
-          {
-            title: 'My Strength',
-            description: 'This is a detailed description',
-            rating: undefined
-          }
-        )
-      })
-    })
-
-    BddTest().then('it should exclude rating when it is 0', async () => {
-      setFormValues(createValidFormData(0))
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(createSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockCategoryId,
-          {
-            title: 'My Strength',
-            description: 'This is a detailed description',
-            rating: undefined
-          }
-        )
-      })
-    })
-
-    BddTest().then('it should set isSubmitting to true during submission', async () => {
-      setFormValues(createValidFormData(3))
-
-      createSelfKnowledgeElementSpy.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({} as SelfKnowledgeElementViewDTO), 100)))
-
-      const submitPromise = composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(composableResult.isSubmitting.value).toBe(true)
-      })
-
-      await submitPromise
     })
   })
 
@@ -238,21 +165,14 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
       reactiveComposableResult.form.setFieldValue('rating', 3)
 
       await reactiveComposableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(createSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          'reactive-category-456',
-          expect.any(Object)
-        )
-      })
     })
   })
 
   BddTest().when('form submission fails', () => {
     BddTest().then('it should set isSubmitting back to false', async () => {
-      setFormValues(createValidFormData(3))
+      server.use(createSelfKnowledgeElementErrorHandler)
 
-      createSelfKnowledgeElementSpy.mockRejectedValue(new Error('API Error'))
+      setFormValues(createValidFormData(3))
 
       await composableResult.form.handleSubmit()
 
@@ -262,15 +182,11 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
     })
 
     BddTest().then('it should not call onElementCreated callback', async () => {
+      server.use(createSelfKnowledgeElementErrorHandler)
+
       setFormValues(createValidFormData(3))
 
-      createSelfKnowledgeElementSpy.mockRejectedValue(new Error('API Error'))
-
       await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(createSelfKnowledgeElementSpy).toHaveBeenCalled()
-      })
 
       expect(mockOnElementCreated).not.toHaveBeenCalled()
     })

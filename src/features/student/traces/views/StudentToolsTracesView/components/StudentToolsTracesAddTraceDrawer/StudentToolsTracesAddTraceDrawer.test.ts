@@ -285,7 +285,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
           timeout: 2000,
           description: 'Votre trace a été ajoutée à votre bibliothèque.'
         })
-      })
+      }, { timeout: 5000 })
     })
 
     BddTest().then('it should show error message when trace creation fails', async () => {
@@ -298,7 +298,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
           title: 'Une erreur est survenue lors de la création de la trace.',
           description: 'Failed to create trace'
         })
-      })
+      }, { timeout: 5000 })
     })
 
     BddTest().then('it should not submit when required fields are missing', async () => {

@@ -1,6 +1,8 @@
 import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
+export const CATEGORY_ELEMENTS_PAGE_SIZE = 3
+
 export function getSelfKnowledgeCategoryIcon (categoryType: ESelfKnowledgeCategoryType): string {
   switch (categoryType) {
     case ESelfKnowledgeCategoryType.VALUES:

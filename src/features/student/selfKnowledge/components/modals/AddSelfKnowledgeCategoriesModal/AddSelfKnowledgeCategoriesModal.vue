@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useAddSelfKnowledgeCategoriesMutation, useSelfKnowledgeCategoriesAvailableQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 interface AddSelfKnowledgeCategoriesModalProps {
@@ -17,23 +18,27 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
-const { categoriesAvailable } = useSelfKnowledgeCategoriesAvailableQuery()
+const { data: fetchedCategoriesAvailable } = useGetSelfKnowledgeCategoriesAvailable()
+const queryClient = useQueryClient()
 
-const { mutate: addSelfKnowledgeCategories } = useAddSelfKnowledgeCategoriesMutation({
-  onSuccess: (_data, variables) => {
-    addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.success', { count: variables.selectedIds.length }))
-    emit('confirm')
-    resetSelected()
-  },
-  onError: (error) => {
-    addErrorMessage(error.message)
-  }
-})
+const categoriesAvailable = computed(() => fetchedCategoriesAvailable.value ?? [])
+
+const { mutate: mutateAddSelfKnowledgeCategories } = useAddSelfKnowledgeCategories()
 
 const selected = ref<string[]>([])
 
-function onConfirm () {
-  addSelfKnowledgeCategories({ selectedIds: selected.value })
+function addSelfKnowledgeCategories () {
+  mutateAddSelfKnowledgeCategories({ data: selected.value }, {
+    onSuccess: async () => {
+      await invalidateGetSelfKnowledgeCategories(queryClient)
+      addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.success', { count: selected.value.length }))
+      emit('confirm')
+      resetSelected()
+    },
+    onError: (error) => {
+      addErrorMessage(error.message)
+    }
+  })
 }
 
 function onCancel () {
@@ -54,7 +59,7 @@ function resetSelected () {
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
     :confirm-button-disabled="selected.length === 0"
     @close="onCancel"
-    @confirm="onConfirm"
+    @confirm="addSelfKnowledgeCategories"
   >
     <template #header>
       <div class="av-row av-justify-center av-flex-fill">

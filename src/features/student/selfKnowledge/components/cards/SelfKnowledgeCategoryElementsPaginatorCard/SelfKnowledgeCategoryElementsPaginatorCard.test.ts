@@ -2,6 +2,7 @@ import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self
 import { selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper, } from '@vue/test-utils'
@@ -109,7 +110,8 @@ const stubs = {
   AvIconText: AvIconTextStub,
   AvPagination: AvPaginationStub,
   DeleteSelfKnowledgeCategoryModal: DeleteSelfKnowledgeCategoryModalStub,
-  DeleteSelfKnowledgeElementModal: DeleteSelfKnowledgeElementModalStub
+  DeleteSelfKnowledgeElementModal: DeleteSelfKnowledgeElementModalStub,
+  QuerySuspense: QuerySuspenseStub
 }
 
 BddTest().given('a self knowledge category elements paginator card', () => {
@@ -292,9 +294,9 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         })
       })
 
-      BddTest().then('it should display the empty state message', async () => {
+      BddTest().then('it should display the query suspense error', async () => {
         await vi.waitFor(() => {
-          expect(wrapper.text()).toContain('Aucun élément dans cette catégorie')
+          expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(true)
         })
       })
 

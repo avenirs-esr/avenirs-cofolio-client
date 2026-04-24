@@ -4,10 +4,15 @@ export const QuerySuspenseStub = defineComponent({
     <div data-testid="query-suspense-stub">
       <div v-if="isLoading" data-testid="query-suspense-loading" />
       <slot name="error" v-else-if="error">
-        <div data-testid="query-suspense-error" />
+        <div data-testid="query-suspense-error">
+          <h2>{{ errorTitle }}</h2>
+          <p>{{ errorDescription }}</p>
+        </div>
       </slot>
       <slot name="empty" v-else-if="isEmpty">
-        <div data-testid="query-suspense-empty" />
+        <div data-testid="query-suspense-empty">
+          <span>{{ emptyStateMessage }}</span>
+        </div>
       </slot>
       <slot v-else />
     </div>
