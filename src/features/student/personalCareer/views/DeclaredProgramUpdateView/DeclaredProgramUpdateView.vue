@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
@@ -10,7 +11,6 @@ import DeclaredProgramSideMenu
 import {
   usePaginatedDeclaredPrograms
 } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
-import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import DeclaredProgramUpdateForm
   from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
 import { useI18n } from 'vue-i18n'
@@ -24,7 +24,7 @@ const isDirty = ref(false)
 const { showModal, displayModal, hideModal } = useModal()
 
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
-const { declaredProgramDetailed } = useDeclaredProgramDetailedQuery(selectedProgramId)
+const { data: declaredProgramDetailed } = useGetDeclaredProgram(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const breadcrumbLinks = computed(() => [

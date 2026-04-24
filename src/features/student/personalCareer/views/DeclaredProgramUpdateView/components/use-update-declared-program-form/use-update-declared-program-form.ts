@@ -1,11 +1,12 @@
-import type { DeclaredProgramDetailedDTO, DeclaredProgramRequestDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import { type DeclaredProgramDetailedDTO, type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useUpdateDeclaredProgram } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
-import { useUpdateDeclaredProgramMutation } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 function toFormData (dto: DeclaredProgramDetailedDTO): DeclaredProgramFormData {
@@ -39,6 +40,8 @@ export function useUpdateDeclaredProgramForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
+  const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onUpdateDeclaredProgramError = (error: BaseApiException) => {
     addErrorMessage({
@@ -49,16 +52,24 @@ export function useUpdateDeclaredProgramForm (
 
   const validators = useDeclaredProgramFormValidators()
 
-  const { mutate: updateDeclaredProgram, isPending } = useUpdateDeclaredProgramMutation({
-    onError: onUpdateDeclaredProgramError,
-    onSuccess: () => {
-      addSuccessMessage({
-        timeout: 2000,
-        description: t('student.personalCareer.views.DeclaredProgramUpdateView.updateForm.success')
-      })
-      onProgramUpdated?.()
-    }
-  })
+  const { mutate: mutateUpdateDeclaredProgram, isPending } = useUpdateDeclaredProgram()
+
+  function updateDeclaredProgram (value: DeclaredProgramFormData) {
+    mutateUpdateDeclaredProgram({
+      declaredProgramId: declaredProgramDetailed.id,
+      data: toRequestDTO(value)
+    }, {
+      onSuccess: async () => {
+        await withTaskLoading(() => invalidateGetDeclaredPrograms(queryClient))
+        addSuccessMessage({
+          timeout: 2000,
+          description: t('student.personalCareer.views.DeclaredProgramUpdateView.updateForm.success')
+        })
+        onProgramUpdated?.()
+      },
+      onError: onUpdateDeclaredProgramError
+    })
+  }
 
   const form = useForm({
     defaultValues: toFormData(declaredProgramDetailed),
@@ -78,10 +89,7 @@ export function useUpdateDeclaredProgramForm (
       }
     },
     onSubmit: ({ value }: { value: DeclaredProgramFormData }) => {
-      updateDeclaredProgram({
-        declaredProgramId: declaredProgramDetailed.id,
-        declaredProgramRequestDTO: toRequestDTO(value)
-      })
+      updateDeclaredProgram(value)
     }
   })
 
@@ -93,6 +101,6 @@ export function useUpdateDeclaredProgramForm (
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }

@@ -1,7 +1,7 @@
-import type { DeclaredProgramViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { type DeclaredProgramViewDTO, type PageInfoDTO, useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { useDeclaredProgramsViewQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredProgramsParams {
@@ -23,14 +23,14 @@ export function usePaginatedDeclaredPrograms ({
   const { declaredProgramsPageSizeSelected } = usePersonalCareerStore()
   const page = ref(0)
 
-  const {
-    pageInfo,
-    declaredPrograms: fetchedDeclaredPrograms,
-    isFetching
-  } = useDeclaredProgramsViewQuery({
-    page,
-    pageSize: computed(() => toValue(pageSize) ?? toValue(declaredProgramsPageSizeSelected))
-  })
+  const declaredProgramsParams = computed(() => ({
+    page: page.value,
+    pageSize: toValue(pageSize) ?? toValue(declaredProgramsPageSizeSelected)
+  }))
+
+  const { data, isFetching } = useGetDeclaredPrograms(declaredProgramsParams, { query: { placeholderData: keepPreviousData } })
+  const fetchedDeclaredPrograms = computed(() => data.value?.data ?? [])
+  const pageInfo = computed(() => data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   const {
     items: declaredPrograms,
