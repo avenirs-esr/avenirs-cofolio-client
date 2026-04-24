@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
+import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
@@ -7,7 +7,6 @@ import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfK
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
-import { useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -18,8 +17,10 @@ const {
   showModal: showAddCategoryModal
 } = useModal()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
-const { categories } = useSelfKnowledgeCategoriesQuery()
+const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
 const { data: studentSummary } = useGetProfile(EUserCategory.STUDENT)
+
+const categories = computed(() => fetchedCategories.value ?? [])
 </script>
 
 <template>

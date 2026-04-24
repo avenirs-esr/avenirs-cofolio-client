@@ -1,10 +1,10 @@
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
-import { useUpdateSelfKnowledgeElementMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { invalidateGetSelfKnowledgeElementDetails, type SelfKnowledgeElementDetailsDTO, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -14,6 +14,7 @@ export function useUpdateSelfKnowledgeElementForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   const onUpdateElementError = (error: BaseApiException) => {
     addErrorMessage({
@@ -22,29 +23,26 @@ export function useUpdateSelfKnowledgeElementForm (
     })
   }
 
-  const updateElementMutation = useUpdateSelfKnowledgeElementMutation({
-    onError: onUpdateElementError
-  })
+  const { mutate: mutateUpdateSelfKnowledgeElement, isPending } = useUpdateSelfKnowledgeElement()
+
+  function updateSelfKnowledgeElement (formData: SelfKnowledgeCategoryElementFormData) {
+    mutateUpdateSelfKnowledgeElement({
+      selfKnowledgeElementId: toValue(element).id,
+      data: {
+        title: formData.title,
+        description: formData.description,
+        rating: formData.rating && formData.rating > 0 ? formData.rating : undefined
+      }
+    }, {
+      onSuccess: async () => {
+        await invalidateGetSelfKnowledgeElementDetails(queryClient, toValue(element).id)
+        onElementUpdated?.()
+      },
+      onError: onUpdateElementError
+    })
+  }
 
   const currentElement = toValue(element)
-
-  function updateElement (formData: SelfKnowledgeCategoryElementFormData) {
-    const elementValue = toValue(element)
-
-    updateElementMutation.mutate(
-      {
-        selfKnowledgeElementId: elementValue.id,
-        element: {
-          title: formData.title,
-          description: formData.description,
-          rating: formData.rating && formData.rating > 0 ? formData.rating : undefined
-        }
-      },
-      {
-        onSuccess: () => onElementUpdated?.()
-      }
-    )
-  }
 
   const form = useForm({
     defaultValues: {
@@ -63,7 +61,7 @@ export function useUpdateSelfKnowledgeElementForm (
       }
     },
     onSubmit: ({ value }: { value: SelfKnowledgeCategoryElementFormData }) => {
-      updateElement(value)
+      updateSelfKnowledgeElement(value)
     }
   })
 
@@ -72,7 +70,7 @@ export function useUpdateSelfKnowledgeElementForm (
     return state.value.isValid && !state.value.isValidating
   })
 
-  const isSubmitting = computed(() => updateElementMutation.isPending.value)
+  const isSubmitting = computed(() => isPending.value)
 
   return {
     form,

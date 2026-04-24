@@ -351,10 +351,10 @@ BddTest().given('a self knowledge category view component', () => {
       })
     })
 
-    BddTest().then('it should not render DetailedPageTitle', async () => {
+    BddTest().then('it should render DetailedPageTitle', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
-        expect(pageTitle.exists()).toBe(false)
+        expect(pageTitle.exists()).toBe(true)
       })
     })
 

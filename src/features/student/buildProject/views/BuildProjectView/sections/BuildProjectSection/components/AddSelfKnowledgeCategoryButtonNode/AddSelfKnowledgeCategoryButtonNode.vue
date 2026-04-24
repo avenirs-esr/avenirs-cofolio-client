@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
+import { useGetSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
 import ButtonNodeTemplate from '@/common/components/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
 import { useModal } from '@/common/composables'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
-import { useSelfKnowledgeCategoriesAvailableQuery, useSelfKnowledgeCategoriesQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useVueFlow } from '@vue-flow/core'
@@ -19,8 +19,12 @@ const { showModal, displayModal, hideModal } = useModal()
 const { nodes } = useVueFlow()
 const { addNode } = useNodes(MIND_MAP_FLOW_ID)
 const { addErrorMessage } = useToasterStore()
-const { categories } = useSelfKnowledgeCategoriesQuery()
-const { categoriesAvailable } = useSelfKnowledgeCategoriesAvailableQuery()
+const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
+const { data: fetchedCategoriesAvailable } = useGetSelfKnowledgeCategoriesAvailable()
+
+const categoriesAvailable = computed(() => fetchedCategoriesAvailable.value ?? [])
+
+const categories = computed(() => fetchedCategories.value ?? [])
 
 const allCategories = computed(() => categories.value.concat(categoriesAvailable.value))
 const availableCategories = computed(() => allCategories.value.filter(category => categoryExists(category.id) === false))

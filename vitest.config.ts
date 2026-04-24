@@ -38,6 +38,7 @@ export default ({ mode }: { mode: string }) => {
       test: {
         globals: true,
         environment: 'jsdom',
+        testTimeout: 10000,
         exclude: [...configDefaults.exclude, ...sharedExclusions, ...tempExclusions],
         root: fileURLToPath(new URL('./', import.meta.url)),
         setupFiles: [

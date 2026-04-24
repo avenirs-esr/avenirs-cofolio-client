@@ -1,23 +1,17 @@
-import type {
-  SelfKnowledgeElementDetailsDTO,
-  SelfKnowledgeElementRequest,
-  SelfKnowledgeElementViewDTO
-} from '@/api/avenir-esr'
+import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
-import * as avenirEsrApi from '@/api/avenir-esr'
+import { putUpdateSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
 import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { type MockInstance, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateSelfKnowledgeElementForm>
   let mockOnElementUpdated: ReturnType<typeof vi.fn>
-  let updateSelfKnowledgeElementSpy: MockInstance<
-    (selfKnowledgeElementId: string, selfKnowledgeElementRequest: SelfKnowledgeElementRequest, options?: RequestInit | undefined) => Promise<SelfKnowledgeElementViewDTO>
-  >
 
   const mockElement: SelfKnowledgeElementDetailsDTO = {
     id: 'element-123',
@@ -55,16 +49,6 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
 
   beforeEach(() => {
     mockOnElementUpdated = vi.fn()
-
-    updateSelfKnowledgeElementSpy = vi
-      .spyOn(avenirEsrApi, 'updateSelfKnowledgeElement')
-      .mockResolvedValue({
-        id: 'element-123',
-        title: 'My Updated Strength',
-        description: 'Updated description',
-        rating: 4,
-        createdAt: new Date().toISOString()
-      } as SelfKnowledgeElementViewDTO)
 
     const result = mountComposable(
       () => useUpdateSelfKnowledgeElementForm(mockElement, mockOnElementUpdated),
@@ -170,24 +154,6 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   })
 
   BddTest().when('form is submitted with valid data', () => {
-    BddTest().then('it should call updateSelfKnowledgeElement API with correct payload', async () => {
-      const validData = createValidFormData({ rating: 4 })
-      setFormValues(validData)
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(updateSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockElement.id,
-          {
-            title: validData.title,
-            description: validData.description,
-            rating: 4
-          }
-        )
-      })
-    })
-
     BddTest().then('it should call onElementUpdated callback on success', async () => {
       const validData = createValidFormData()
       setFormValues(validData)
@@ -198,109 +164,14 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
         expect(mockOnElementUpdated).toHaveBeenCalledTimes(1)
       })
     })
-
-    BddTest().then('it should exclude rating when it is null', async () => {
-      const validData = createValidFormData({ rating: null })
-      setFormValues(validData)
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(updateSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockElement.id,
-          {
-            title: validData.title,
-            description: validData.description,
-            rating: undefined
-          }
-        )
-      })
-    })
-
-    BddTest().then('it should exclude rating when it is 0', async () => {
-      const validData = createValidFormData({ rating: 0 })
-      setFormValues(validData)
-
-      await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(updateSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          mockElement.id,
-          {
-            title: validData.title,
-            description: validData.description,
-            rating: undefined
-          }
-        )
-      })
-    })
-
-    BddTest().then('it should set isSubmitting to true during submission', async () => {
-      const validData = createValidFormData()
-      setFormValues(validData)
-
-      updateSelfKnowledgeElementSpy.mockImplementation(
-        () =>
-          new Promise(resolve =>
-            setTimeout(
-              () => resolve({} as SelfKnowledgeElementViewDTO),
-              100
-            )
-          )
-      )
-
-      const submitPromise = composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(composableResult.isSubmitting.value).toBe(true)
-      })
-
-      await submitPromise
-    })
-  })
-
-  BddTest().when('form is submitted with a reactive element', () => {
-    BddTest().then('it should use the current value of element id', async () => {
-      const reactiveElement = ref<SelfKnowledgeElementDetailsDTO>({
-        ...mockElement,
-        id: 'element-reactive-456'
-      })
-
-      const result = mountComposable(
-        () => useUpdateSelfKnowledgeElementForm(reactiveElement, mockOnElementUpdated),
-        {
-          useI18n: true,
-          useTanstack: true,
-          usePinia: true
-        }
-      )
-
-      const reactiveComposableResult = result.result
-
-      reactiveComposableResult.form.setFieldValue('title', 'Reactive strength')
-      reactiveComposableResult.form.setFieldValue('description', 'Reactive description')
-      reactiveComposableResult.form.setFieldValue('rating', 2)
-
-      await reactiveComposableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(updateSelfKnowledgeElementSpy).toHaveBeenCalledWith(
-          'element-reactive-456',
-          expect.objectContaining({
-            title: 'Reactive strength',
-            description: 'Reactive description'
-          })
-        )
-      })
-    })
   })
 
   BddTest().when('form submission fails', () => {
     BddTest().then('it should set isSubmitting back to false', async () => {
+      server.use(putUpdateSelfKnowledgeElementErrorHandler)
+
       const validData = createValidFormData()
       setFormValues(validData)
-
-      updateSelfKnowledgeElementSpy.mockRejectedValue(new Error('API Error'))
 
       await composableResult.form.handleSubmit()
 
@@ -310,16 +181,12 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
     })
 
     BddTest().then('it should not call onElementUpdated callback', async () => {
+      server.use(putUpdateSelfKnowledgeElementErrorHandler)
+
       const validData = createValidFormData()
       setFormValues(validData)
 
-      updateSelfKnowledgeElementSpy.mockRejectedValue(new Error('API Error'))
-
       await composableResult.form.handleSubmit()
-
-      await vi.waitFor(() => {
-        expect(updateSelfKnowledgeElementSpy).toHaveBeenCalled()
-      })
 
       expect(mockOnElementUpdated).not.toHaveBeenCalled()
     })

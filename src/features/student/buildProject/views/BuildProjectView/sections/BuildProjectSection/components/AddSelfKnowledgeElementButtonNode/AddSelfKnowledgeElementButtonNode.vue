@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { GetSelfKnowledgeElementsParams } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
+import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import ButtonNodeTemplate from '@/common/components/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
 import { useModal } from '@/common/composables'
@@ -8,9 +10,9 @@ import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildPro
 import { type AddElementFormData, useAddElementForm } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-add-element-form/use-add-element-form'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
-import { useSelfKnowledgeCategoryElementsViewQuery } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvInput, AvModal, AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -21,11 +23,15 @@ const { addNode, findNodeByTitleAndDescription } = useNodes(MIND_MAP_FLOW_ID)
 const { addErrorMessage } = useToasterStore()
 const { t } = useI18n()
 
-const { elements } = useSelfKnowledgeCategoryElementsViewQuery({
-  selfKnowledgeCategoryId: computed(() => data.categoryId as string),
-  page: ref(0), // TODO: temporary value for POC purpose - need a real pagination later
-  pageSize: ref(12) // TODO: temporary value for POC purpose - need a real pagination later
+const params = computed<GetSelfKnowledgeElementsParams>(() => ({
+  page: 0, // TODO: temporary value for POC purpose - need a real pagination later
+  pageSize: 12 // TODO: temporary value for POC purpose - need a real pagination later
+}))
+
+const { data: fetchedElements } = useGetSelfKnowledgeElements(computed(() => data.categoryId as string), params, {
+  query: { enabled: computed(() => !!data.categoryId), placeholderData: keepPreviousData }
 })
+const elements = computed(() => fetchedElements.value ? fetchedElements.value.data : [])
 const { form, isModified, isValid, resetForm } = useAddElementForm(data => onConfirmAddElements(data))
 const FormField = markRaw(form.Field)
 

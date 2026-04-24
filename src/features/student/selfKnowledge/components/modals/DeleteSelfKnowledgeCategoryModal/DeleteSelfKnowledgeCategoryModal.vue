@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useRemoveSelfKnowledgeCategoryMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { invalidateGetSelfKnowledgeCategories, useRemoveSelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeCategoryModalProps {
@@ -20,19 +21,21 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const queryClient = useQueryClient()
 
-const { mutate: removeSelfKnowledgeCategory } = useRemoveSelfKnowledgeCategoryMutation({
-  onSuccess: () => {
-    addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
-    emit('confirm')
-  },
-  onError: (error) => {
-    addErrorMessage(error.message)
-  }
-})
+const { mutate: mutateRemoveSelfKnowledgeCategory } = useRemoveSelfKnowledgeCategory()
 
-function onConfirm () {
-  removeSelfKnowledgeCategory({ categoryId })
+function removeSelfKnowledgeCategory () {
+  mutateRemoveSelfKnowledgeCategory({ categoryId }, {
+    onSuccess: async () => {
+      await invalidateGetSelfKnowledgeCategories(queryClient)
+      addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
+      emit('confirm')
+    },
+    onError: (error) => {
+      addErrorMessage(error.message)
+    }
+  })
 }
 </script>
 
@@ -43,7 +46,7 @@ function onConfirm () {
     :confirm-button-label="t('global.buttons.confirm')"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
     @close="$emit('cancel')"
-    @confirm="onConfirm"
+    @confirm="removeSelfKnowledgeCategory"
   >
     <template #header>
       <div

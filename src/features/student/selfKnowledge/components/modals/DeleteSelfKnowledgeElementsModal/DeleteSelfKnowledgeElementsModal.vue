@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
@@ -9,9 +10,9 @@ import {
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
-import { useDeleteSelfKnowledgeElementsMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
 import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
@@ -33,6 +34,7 @@ const {
   displayModal: displayConfirmModal,
   hideModal: hideConfirmModal
 } = useModal()
+const queryClient = useQueryClient()
 
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
@@ -56,16 +58,22 @@ function onDeleteSuccess (deletedCount: number) {
   resetSelectedElements()
 }
 
-const { mutate: deleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElementsMutation({
-  onSuccess: (_data, variables) => onDeleteSuccess(variables.selfKnowledgeElementIds.length),
-  onError: error => addErrorMessage({
-    title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
-    description: error.message
-  })
-
-})
-
 const selectedElementIds = ref<string[]>([])
+
+const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
+
+function deleteSelfKnowledgeElements () {
+  mutateDeleteSelfKnowledgeElements({ data: selectedElementIds.value }, {
+    onSuccess: async (_data, variables) => {
+      await invalidateGetSelfKnowledgeElements(queryClient, categoryId)
+      onDeleteSuccess(variables.data.length)
+    },
+    onError: error => addErrorMessage({
+      title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
+      description: error.message
+    })
+  })
+}
 
 function resetSelectedElements () {
   selectedElementIds.value = []
@@ -74,10 +82,6 @@ function resetSelectedElements () {
 function onCancel () {
   resetSelectedElements()
   emit('cancel')
-}
-
-function onConfirmDelete () {
-  deleteSelfKnowledgeElements({ selfKnowledgeElementIds: selectedElementIds.value })
 }
 
 const elementsContainer = ref<HTMLElement | null>(null)
@@ -132,6 +136,6 @@ useInfiniteScroll(
     :show="showConfirmModal"
     :elements="elements.filter(element => selectedElementIds.includes(element.id))"
     @cancel="hideConfirmModal"
-    @confirm="onConfirmDelete"
+    @confirm="deleteSelfKnowledgeElements"
   />
 </template>

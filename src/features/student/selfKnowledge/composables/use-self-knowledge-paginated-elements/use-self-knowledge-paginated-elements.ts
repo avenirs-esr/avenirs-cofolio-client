@@ -1,9 +1,7 @@
-import type { PageInfoDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { type GetSelfKnowledgeElementsParams, type PageInfoDTO, type SelfKnowledgeElementViewDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import {
-  CATEGORY_ELEMENTS_PAGE_SIZE,
-  useSelfKnowledgeCategoryElementsViewQuery
-} from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { CATEGORY_ELEMENTS_PAGE_SIZE } from '@/features/student/selfKnowledge/utils/category.utils'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
@@ -29,15 +27,14 @@ export function useSelfKnowledgePaginatedElements ({
   const size = computed(() => toValue(pageSize) ?? CATEGORY_ELEMENTS_PAGE_SIZE)
   const page = ref(0)
 
-  const {
-    pageInfo,
-    elements: fetchedElements,
-    isFetching
-  } = useSelfKnowledgeCategoryElementsViewQuery({
-    selfKnowledgeCategoryId: categoryId,
-    page,
-    pageSize: size
+  const params = computed<GetSelfKnowledgeElementsParams>(() => ({ page: page.value, pageSize: size.value }))
+
+  const { data, isFetching } = useGetSelfKnowledgeElements(categoryId, params, {
+    query: { enabled: computed(() => !!categoryId.value), placeholderData: keepPreviousData }
   })
+
+  const fetchedElements = computed(() => data.value?.data ?? [])
+  const pageInfo = computed(() => data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   const {
     items: elements,

@@ -1,9 +1,10 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
-import { useAddSelfKnowledgeCategoryElementMutation } from '@/features/student/selfKnowledge/queries/self-knowledge.query/self-knowledge.query'
+import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -13,6 +14,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
 
   const onCreateElementError = (error: BaseApiException) => {
     addErrorMessage({
@@ -21,18 +23,22 @@ export function useAddSelfKnowledgeCategoryElementForm (
     })
   }
 
-  const createElementMutation = useAddSelfKnowledgeCategoryElementMutation({ onError: onCreateElementError })
+  const { mutate: mutateCreateSelfKnowledgeElement, isPending } = useCreateSelfKnowledgeElement()
 
-  function createElement (formData: SelfKnowledgeCategoryElementFormData) {
-    createElementMutation.mutate({
+  function createSelfKnowledgeElement (formData: SelfKnowledgeCategoryElementFormData) {
+    mutateCreateSelfKnowledgeElement({
       selfKnowledgeCategoryId: toValue(selfKnowledgeCategoryId),
-      element: {
+      data: {
         title: formData.title,
         description: formData.description,
         rating: formData.rating && formData.rating > 0 ? formData.rating : undefined
       }
     }, {
-      onSuccess: () => onElementCreated?.()
+      onSuccess: async () => {
+        await invalidateGetSelfKnowledgeElements(queryClient, toValue(selfKnowledgeCategoryId))
+        onElementCreated?.()
+      },
+      onError: onCreateElementError
     })
   }
 
@@ -53,7 +59,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
       }
     },
     onSubmit: ({ value }: { value: SelfKnowledgeCategoryElementFormData }) => {
-      createElement(value)
+      createSelfKnowledgeElement(value)
     }
   })
 
@@ -63,7 +69,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
   })
 
   const isSubmitting = computed(() => {
-    return createElementMutation.isPending.value
+    return isPending.value
   })
 
   return {
