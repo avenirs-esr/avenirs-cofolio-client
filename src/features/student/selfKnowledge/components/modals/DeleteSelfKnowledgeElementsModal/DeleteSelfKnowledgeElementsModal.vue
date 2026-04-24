@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import SelfKnowledgeElementsSelector from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
@@ -35,6 +36,7 @@ const {
   hideModal: hideConfirmModal
 } = useModal()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
@@ -60,12 +62,12 @@ function onDeleteSuccess (deletedCount: number) {
 
 const selectedElementIds = ref<string[]>([])
 
-const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
+const { mutate: mutateDeleteSelfKnowledgeElements, isPending } = useDeleteSelfKnowledgeElements()
 
 function deleteSelfKnowledgeElements () {
   mutateDeleteSelfKnowledgeElements({ data: selectedElementIds.value }, {
     onSuccess: async (_data, variables) => {
-      await invalidateGetSelfKnowledgeElements(queryClient, categoryId)
+      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, categoryId))
       onDeleteSuccess(variables.data.length)
     },
     onError: error => addErrorMessage({
@@ -104,6 +106,7 @@ useInfiniteScroll(
                              { count: selectedElementIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedElementIds.length === 0"
+    :is-loading="isPending || isLoading"
     @close="onCancel"
     @confirm="displayConfirmModal"
   >

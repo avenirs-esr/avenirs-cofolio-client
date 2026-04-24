@@ -10,6 +10,7 @@ import {
   useAssociateDeclaredSkillWithDeclaredActivities,
   useSearchDeclaredActivityForAssociation1
 } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
 import AssociateActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
@@ -32,6 +33,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const {
   searchQuery,
@@ -50,7 +52,7 @@ const {
   data: activities,
   isError: isSearchError,
   error: searchError,
-  isLoading
+  isLoading: isSearchLoading
 } = useSearchDeclaredActivityForAssociation1(declaredSkillId, params)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
@@ -74,9 +76,11 @@ function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest
   }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
-      await invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId)
-      await invalidateSearchDeclaredSkillForAssociation(queryClient, variables.declaredSkillProgressId)
-      await invalidateGetDeclaredSkillWithDeclaredActivities(queryClient, variables.declaredSkillProgressId)
+      await withTaskLoading(() => Promise.all([
+        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
+        invalidateSearchDeclaredSkillForAssociation(queryClient, variables.declaredSkillProgressId),
+        invalidateGetDeclaredSkillWithDeclaredActivities(queryClient, variables.declaredSkillProgressId)
+      ]))
 
       addSuccessMessage({
         timeout: 2000,
@@ -104,7 +108,7 @@ function onAssociate (ids: string[]) {
   <AssociateActivitiesModal
     :show="show"
     :activities="associationActivities"
-    :is-loading="isLoading || isPending"
+    :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"
     @associate="onAssociate"

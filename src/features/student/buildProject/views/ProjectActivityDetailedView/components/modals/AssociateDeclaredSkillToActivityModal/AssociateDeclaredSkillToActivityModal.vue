@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { invalidateGetDeclaredActivityAssociations, type SearchDeclaredSkillForAssociationParams, useAssociateActivityWithDeclaredSkills, useSearchDeclaredSkillsForAssociation } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
 import { useAssociationModal } from '@/features/student/global'
 import { useToasterStore } from '@/store'
@@ -21,6 +22,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const {
   searchQuery,
@@ -39,7 +41,7 @@ const {
   data,
   isError: isSearchError,
   error: searchError,
-  isLoading
+  isLoading: isSearchLoading
 } = useSearchDeclaredSkillsForAssociation(activityId, params)
 
 const skills = computed(() => data.value?.data ?? [])
@@ -52,7 +54,7 @@ function associateActivityWithDeclaredSkills (idsToAssociate: string[]) {
   mutateAssociateActivityWithDeclaredSkills({ declaredActivityId: activityId, data: { idsToAssociate } }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
-      await invalidateGetDeclaredActivityAssociations(queryClient, activityId)
+      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, activityId))
       const count = variables.data.idsToAssociate.length
       addSuccessMessage({
         timeout: 2000,
@@ -71,7 +73,7 @@ function associateActivityWithDeclaredSkills (idsToAssociate: string[]) {
   <AssociateDeclaredSkillsModal
     :show="show"
     :skills="skills"
-    :is-loading="isLoading || isPending"
+    :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"
     @associate="associateActivityWithDeclaredSkills"

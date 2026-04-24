@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 export interface FinishDeclaredActivityProps {
   finishedAt?: string
   status?: EDeclaredActivityStatus
+  isLoading?: boolean
 }
 
 const { finishedAt, status } = defineProps<FinishDeclaredActivityProps>()
@@ -70,6 +71,7 @@ const finishedAtFormatted = computed(() => {
     </div>
     <FinishDeclaredActivityConfirmModal
       :show="showModal"
+      :is-loading="isLoading"
       @close="hideModal"
       @confirm="handleConfirm"
     />
