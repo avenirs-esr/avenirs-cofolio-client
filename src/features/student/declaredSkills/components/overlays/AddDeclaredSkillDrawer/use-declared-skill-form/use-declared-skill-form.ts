@@ -73,7 +73,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading
+    isSubmitting: isPending || isLoading.value
   }
 }
 

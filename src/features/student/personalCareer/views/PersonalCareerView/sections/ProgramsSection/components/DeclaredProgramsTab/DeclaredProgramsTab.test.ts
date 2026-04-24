@@ -3,6 +3,7 @@ import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler } 
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { DeclaredProgramCardStub } from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.stub'
 import DeclaredProgramsTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsTab/DeclaredProgramsTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -51,7 +52,8 @@ BddTest().given('a declared programs tab', () => {
     DeclaredProgramCard: DeclaredProgramCardStub,
     Pagination: PaginationStub,
     Loader: LoaderStub,
-    AvIconText: AvIconTextStub
+    AvIconText: AvIconTextStub,
+    QuerySuspense: QuerySuspenseStub
   }
 
   beforeEach(async () => {
@@ -133,15 +135,15 @@ BddTest().given('a declared programs tab', () => {
         global: { stubs }
       })
       await vi.waitFor(() => {
-        const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+        const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
         expect(emptyState.exists()).toBe(true)
       })
     })
 
     BddTest().then('it should display the empty state message', () => {
-      const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
       expect(emptyState.exists()).toBe(true)
-      expect(emptyState.find('.s2-regular').exists()).toBe(true)
+      expect(emptyState.text().length).toBeGreaterThan(0)
     })
 
     BddTest().then('it should not render declared program cards', () => {
@@ -154,9 +156,9 @@ BddTest().given('a declared programs tab', () => {
       expect(loaderSpinner.exists()).toBe(false)
     })
 
-    BddTest().then('it should render the pagination component', () => {
+    BddTest().then('it should not render the pagination component', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(true)
+      expect(pagination.exists()).toBe(false)
     })
   })
 
@@ -183,7 +185,7 @@ BddTest().given('a declared programs tab', () => {
     })
 
     BddTest().then('it should not display the empty state', () => {
-      const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
       expect(emptyState.exists()).toBe(false)
     })
   })

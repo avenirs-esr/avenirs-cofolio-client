@@ -1,16 +1,14 @@
 <script setup lang="ts">
+import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
-import DeclaredProgramSideMenu
-  from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
+import DeclaredProgramSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
-import { useDeclaredProgramDetailedQuery } from '@/features/student/personalCareer/queries/use-declared-programs.query'
-import DeclaredProgramDetailed
-  from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
+import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
@@ -20,7 +18,7 @@ const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
-const { declaredProgramDetailed, isLoading, isError, error } = useDeclaredProgramDetailedQuery(selectedProgramId)
+const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 
@@ -48,7 +46,6 @@ function handleConfirmDelete () {
 
 <template>
   <DetailedPageTitle
-    v-if="declaredProgramDetailed"
     :title="programTitle"
     :breadcrumb-links="breadcrumbLinks"
     :back="ROUTES.STUDENT.PROJECT_SKILLS"

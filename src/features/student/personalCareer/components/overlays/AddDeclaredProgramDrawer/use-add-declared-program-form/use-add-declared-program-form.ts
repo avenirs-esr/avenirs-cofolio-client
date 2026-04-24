@@ -1,15 +1,19 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import { type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useCreateDeclaredProgram } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
-import { useCreateDeclaredProgramMutation } from '@/features/student/personalCareer/queries/use-declared-programs.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
   const onCreateDeclaredProgramError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.personalCareer.overlays.AddDeclaredProgramDrawer.errors.createDeclaredProgram'),
@@ -19,7 +23,17 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
 
   const validators = useDeclaredProgramFormValidators()
 
-  const { mutate: createDeclaredProgram, isPending } = useCreateDeclaredProgramMutation({ onError: onCreateDeclaredProgramError })
+  const { mutate: mutateCreateDeclaredProgram, isPending } = useCreateDeclaredProgram()
+
+  function createDeclaredProgram (value: DeclaredProgramRequestDTO) {
+    mutateCreateDeclaredProgram({ data: value }, {
+      onSuccess: async () => {
+        await withTaskLoading(() => invalidateGetDeclaredPrograms(queryClient))
+        onProgramAdded?.()
+      },
+      onError: onCreateDeclaredProgramError
+    })
+  }
 
   const form = useForm({
     defaultValues: {
@@ -56,10 +70,6 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
         sourceOfInformation: value.sourceOfInformation || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
-      }, {
-        onSuccess: () => {
-          onProgramAdded?.()
-        }
       })
     }
   })
@@ -72,6 +82,6 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }

@@ -400,10 +400,10 @@ BddTest().given('a declared program detailed view component', () => {
       })
     })
 
-    BddTest().then('it should not render DetailedPageTitle', async () => {
+    BddTest().then('it should still render DetailedPageTitle', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
-        expect(pageTitle.exists()).toBe(false)
+        expect(pageTitle.exists()).toBe(true)
       })
     })
 

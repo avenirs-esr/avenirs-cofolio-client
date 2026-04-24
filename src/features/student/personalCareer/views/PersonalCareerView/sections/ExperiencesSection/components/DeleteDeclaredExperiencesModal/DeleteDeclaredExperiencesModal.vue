@@ -40,9 +40,15 @@ const declaredExperiences = computed(() => {
   }))
 })
 
+function onCancel () {
+  emit('close')
+  selectedExperienceIds.value = []
+}
+
 function onConfirm () {
   emit('confirm')
   hideModal()
+  selectedExperienceIds.value = []
 }
 </script>
 
@@ -52,7 +58,7 @@ function onConfirm () {
     :close-button-label="t('global.buttons.close')"
     :confirm-button-disabled="selectedExperienceIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeleteDeclaredExperiencesModal.confirm', { count: selectedExperienceIds.length })"
-    @close="emit('close')"
+    @close="onCancel"
     @confirm="displayModal"
   >
     <template #header>
