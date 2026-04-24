@@ -12,12 +12,12 @@ import { tracesHandlers } from '@/__mocks__/msw/handlers/student/traces.handlers
 export const handlers = [
   ...activitiesHandlers,
   ...backOfficeHandlers,
+  ...tracesHandlers,
   ...declaredExperiencesHandlers,
   ...declaredProgramsHandlers,
   ...overviewsHandlers,
   ...programProgressHandlers,
   ...selfKnowledgeHandlers,
   ...skillsHandlers,
-  ...tracesHandlers,
   ...staffsUserHandlers,
 ]

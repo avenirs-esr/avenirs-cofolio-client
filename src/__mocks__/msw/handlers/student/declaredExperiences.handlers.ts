@@ -1,4 +1,4 @@
-import { createMockedDeclaredExperienceAssociationsDTO, searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredExperienceAssociationsDTO, createMockedSearchExperiencesForAssociationResponse, searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
 import {
   createMockedDeclaredExperiencesPagedResponse,
   createMockedDeclaredExperienceViewDTO,
@@ -12,6 +12,8 @@ import {
   getGetDeclaredExperienceAssociationsUrl,
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
+  getSearchDeclaredExperiencesForAssociationUrl,
+  type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
 import { delay, http, HttpResponse } from 'msw'
@@ -129,6 +131,17 @@ export const declaredExperienceAssociationsQueryErrorHandler = http.get(
 
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
+  http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
+    const url = new URL(request.url)
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number(url.searchParams.get('page') ?? 0)
+    const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
+    const response = createMockedSearchExperiencesForAssociationResponse({ keyword, page, pageSize })
+    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredExperienceDTO>(response, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }),
   http.get<{ id: string }, DeclaredExperienceViewDTO>(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedDeclaredExperienceViewDTO(id)
@@ -191,3 +204,13 @@ export const declaredExperienceDetailedLoadingHandler = http.get(`*${getGetDecla
     headers: { 'Content-Type': 'application/json' }
   })
 })
+
+export const searchDeclaredExperiencesForAssociationErrorHandler = http.get(
+  `*${getSearchDeclaredExperiencesForAssociationUrl()}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)

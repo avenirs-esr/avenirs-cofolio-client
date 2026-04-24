@@ -15,6 +15,7 @@ import { TraceAssociateElementsDropdownStub } from '@/features/student/traces/vi
 import {
   AssociateActivitiesToTracesModalStub
 } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesToTracesModal/AssociateActivitiesToTracesModal.stub'
+import { AssociateDeclaredExperiencesToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredExperiencesToTracesModal/AssociateDeclaredExperiencesToTracesModal.stub'
 import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
 import { DeleteTraceAssociatedActivitiesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.stub'
 import { DeleteTraceAssociatedSkillsModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.stub'
@@ -28,6 +29,7 @@ const stubs = {
   DeleteTraceAssociatedSkillsModal: DeleteTraceAssociatedSkillsModalStub,
   DeleteTraceAssociatedActivitiesModal: DeleteTraceAssociatedActivitiesModalStub,
   AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
+  AssociateDeclaredExperiencesToTracesModal: AssociateDeclaredExperiencesToTracesModalStub,
   AssociateActivitiesToTracesModal: AssociateActivitiesToTracesModalStub,
   AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
   AssociatedActivityCard: AssociatedActivityCardStub,
@@ -105,6 +107,13 @@ BddTest().given('a student trace associations component', () => {
       expect(associateActivitiesModal.exists()).toBe(true)
       expect(associateActivitiesModal.props('show')).toBe(false)
       expect(associateActivitiesModal.props('traceId')).toBe(traceId)
+    })
+
+    BddTest().then('it should render the associate experiences modal', () => {
+      const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('traceId')).toBe(traceId)
     })
 
     BddTest().and('the delete trace associated elements dropdown emits skillsSelected', () => {
@@ -212,6 +221,46 @@ BddTest().given('a student trace associations component', () => {
 
       BddTest().then('the AssociateActivitiesToTracesModal should be hidden', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToTracesModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+    })
+
+    BddTest().and('TraceAssociateElementsDropdown emits experiencesSelected', () => {
+      beforeEach(async () => {
+        const dropdown = wrapper.findComponent(TraceAssociateElementsDropdownStub)
+        await dropdown.vm.$emit('experiencesSelected')
+      })
+
+      BddTest().then('the AssociateDeclaredExperiencesToTracesModal should be shown', () => {
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
+        expect(modal.props('show')).toBe(true)
+      })
+    })
+
+    BddTest().and('AssociateDeclaredExperiencesToTracesModal emits cancel', () => {
+      beforeEach(async () => {
+        const dropdown = wrapper.findComponent(TraceAssociateElementsDropdownStub)
+        await dropdown.vm.$emit('experiencesSelected')
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
+        await modal.vm.$emit('cancel')
+      })
+
+      BddTest().then('the AssociateDeclaredExperiencesToTracesModal should be hidden', () => {
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+    })
+
+    BddTest().and('AssociateDeclaredExperiencesToTracesModal emits associated', () => {
+      beforeEach(async () => {
+        const dropdown = wrapper.findComponent(TraceAssociateElementsDropdownStub)
+        await dropdown.vm.$emit('experiencesSelected')
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
+        await modal.vm.$emit('associated')
+      })
+
+      BddTest().then('the AssociateDeclaredExperiencesToTracesModal should be hidden', () => {
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToTracesModalStub)
         expect(modal.props('show')).toBe(false)
       })
     })

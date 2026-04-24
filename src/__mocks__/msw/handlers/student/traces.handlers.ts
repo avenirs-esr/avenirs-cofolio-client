@@ -17,6 +17,7 @@ import {
   type CreateTraceDTO,
   EErrorCode,
   getAssociateTraceWithActivitiesUrl,
+  getAssociateTraceWithDeclaredExperiencesUrl,
   getAssociateTraceWithDeclaredSkillUrl,
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
@@ -426,6 +427,20 @@ export const tracesHandlers = [
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
+  }),
+
+  http.post(`*${getAssociateTraceWithDeclaredExperiencesUrl(':traceId')}`, ({ params }) => {
+    const traceId = params.traceId as string
+    if (!traceId) {
+      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+    }
+    if (traceId === invalidTraceId) {
+      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+    }
+    return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
   })
 ]
 
@@ -481,6 +496,16 @@ export const searchSkillsForAssociationErrorHandler = http.get(
 
 export const associateTraceWithDeclaredSkillsErrorHandler = http.post(
   `*${getAssociateTraceWithDeclaredSkillUrl(':traceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const associateTraceWithDeclaredExperiencesErrorHandler = http.post(
+  `*${getAssociateTraceWithDeclaredExperiencesUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error' },

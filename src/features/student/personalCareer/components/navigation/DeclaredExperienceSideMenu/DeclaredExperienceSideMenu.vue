@@ -3,7 +3,7 @@ import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeclaredExperienceCompactCard
   from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
-import { AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -34,7 +34,6 @@ useInfiniteScroll(
 )
 
 const isCollapsed = ref(false)
-const icon = MDI_ICONS.SCHOOL_OUTLINE
 </script>
 
 <template>
@@ -69,8 +68,6 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
           >
             <DeclaredExperienceCompactCard
               :experience="{ id: experience.id, title: experience.title }"
-              :valorized="false"
-              :icon-name="icon"
             />
           </a>
         </div>
@@ -99,5 +96,42 @@ const icon = MDI_ICONS.SCHOOL_OUTLINE
       box-shadow: 0 0 0 2px var(--dark-background-primary1);
     }
   }
+
+  :deep(.floating-icon-card) {
+    min-width: 13.4375rem !important;
+    max-width: 13.4375rem !important;
+    height: 5.75rem !important;
+  }
+
+  :deep(.floating-icon-card__title) {
+    text-align: left;
+    margin-right: var(--spacing-lg) !important;
+  }
+
+  :deep(.floating-icon-card__icon) {
+    height: var(--dimension-lg);
+    width: var(--dimension-lg);
+  }
+
+  :deep(.av-icon) {
+    scale: 0.75 !important;
+  }
+
+  :deep(.av-card) {
+    padding: var(--spacing-xxs) !important;
+    border-radius: var(--radius-lg) !important;
+    height: 5.75rem !important;
+    overflow: hidden !important;
+  }
+
+  :deep(.av-card__title) {
+    min-height: 3.25rem !important;
+    max-height: 3.25rem !important;
+  }
+
+  :deep(.av-card__content-collapsible) {
+    padding-top: var(--spacing-xxs) !important;
+  }
+
 }
 </style>

@@ -9,6 +9,8 @@ import TraceAssociateElementsDropdown
   from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
 import AssociateActivitiesToTracesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesToTracesModal/AssociateActivitiesToTracesModal.vue'
+import AssociateDeclaredExperiencesToTracesModal
+  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredExperiencesToTracesModal/AssociateDeclaredExperiencesToTracesModal.vue'
 import AssociateDeclaredSkillsToTracesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import DeleteTraceAssociatedActivitiesModal
@@ -25,8 +27,10 @@ const { associations, traceId } = defineProps<TraceAssociationsProps>()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
+
 const { showModal: showAssociateActivitiesModal, displayModal: displayAssociateActivitiesModal, hideModal: hideAssociateActivitiesModal } = useModal()
 const { showModal: showAssociationModal, displayModal: displayAssociationModal, hideModal: hideAssociationModal } = useModal()
+const { showModal: showAssociateExperiencesModal, displayModal: displayAssociateExperiencesModal, hideModal: hideAssociateExperiencesModal } = useModal()
 
 const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
 const declaredActivityAssociations = computed(() => associations.declaredActivityAssociations ?? [])
@@ -51,6 +55,7 @@ const deletableDeclaredActivityAssociations = computed(() =>
       <TraceAssociateElementsDropdown
         @skills-selected="displayAssociationModal"
         @activities-selected="displayAssociateActivitiesModal"
+        @experiences-selected="displayAssociateExperiencesModal"
       />
     </div>
 
@@ -91,5 +96,12 @@ const deletableDeclaredActivityAssociations = computed(() =>
     :trace-id="traceId"
     @cancel="hideAssociationModal"
     @associated="hideAssociationModal"
+  />
+
+  <AssociateDeclaredExperiencesToTracesModal
+    :show="showAssociateExperiencesModal"
+    :trace-id="traceId"
+    @cancel="hideAssociateExperiencesModal"
+    @associated="hideAssociateExperiencesModal"
   />
 </template>

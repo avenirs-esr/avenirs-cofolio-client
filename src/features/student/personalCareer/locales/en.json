@@ -129,6 +129,15 @@
           "success": "Declared program added successfully",
           "title": "Add a declared program"
         },
+        "AssociateDeclaredExperiencesModal": {
+          "confirm": "Associate selected experience (1) | Associate selected experiences ({count})",
+          "searchPlaceholder": "Enter the name of a declared experience",
+          "success": "You have associated {count} experience. Find it in the \"My associated experiences\" category. | You have associated {count} experiences. Find them in the \"My associated experiences\" category.",
+          "title": "Which declared experience(s) would you like to associate?"
+        },
+        "ConfirmAssociateDeclaredExperiencesModal": {
+          "title": "Are you sure you want to associate this experience? | Are you sure you want to associate these experiences?"
+        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "This action will result in the deletion of any associated links.",
           "error": "An error occurred while deleting the experience. | An error occurred while deleting the experiences.",
