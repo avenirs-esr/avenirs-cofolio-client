@@ -18,7 +18,6 @@ interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends
 const props = defineProps<SearchAssociationLayoutProps<T, U>>()
 
 const emit = defineEmits<{
-  (e: 'search', query: string): void
   (e: 'delete', itemId: string): void
   (e: 'clear'): void
   (e: 'loadMore'): void
@@ -30,6 +29,7 @@ defineSlots<{
 }>()
 
 const selectedOptions = defineModel<T[]>({ default: () => [] })
+const search = defineModel<string>('search', { default: '' })
 </script>
 
 <template>
@@ -45,6 +45,7 @@ const selectedOptions = defineModel<T[]>({ default: () => [] })
 
       <AvAutocomplete
         v-model="selectedOptions"
+        v-model:search="search"
         :options="props.options"
         :input-options="props.inputOptions"
         :get-option-key="props.getOptionKey"
@@ -53,7 +54,6 @@ const selectedOptions = defineModel<T[]>({ default: () => [] })
         :show-selected-section="false"
         :display-selection-in-input="false"
         :loading="props.loading"
-        @search="emit('search', $event)"
         @clear="emit('clear')"
         @load-more="emit('loadMore')"
       />

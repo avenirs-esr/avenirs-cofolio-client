@@ -24,7 +24,7 @@ BddTest().given('an associate element type select', () => {
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       wrapper = mount(AssociateElementTypeSelect, {
-        props: { typeConfigs },
+        props: { typeConfigs, activeTypeKey: 'declaredSkills' },
         global: { stubs }
       })
     })
@@ -42,9 +42,26 @@ BddTest().given('an associate element type select', () => {
       ])
     })
 
-    BddTest().then('it should initialize with the first type selected', () => {
+    BddTest().then('it should pass the active type key as the selected item', () => {
       expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
         itemId: 'declaredSkills'
+      })
+    })
+  })
+
+  BddTest().when('the active type key prop changes', () => {
+    beforeEach(async () => {
+      wrapper = mount(AssociateElementTypeSelect, {
+        props: { typeConfigs, activeTypeKey: 'declaredSkills' },
+        global: { stubs }
+      })
+
+      await wrapper.setProps({ activeTypeKey: 'activities' })
+    })
+
+    BddTest().then('it should reflect the new active type key on the select', () => {
+      expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
+        itemId: 'activities'
       })
     })
   })
@@ -52,7 +69,7 @@ BddTest().given('an associate element type select', () => {
   BddTest().when('the user selects a different type', () => {
     beforeEach(async () => {
       wrapper = mount(AssociateElementTypeSelect, {
-        props: { typeConfigs },
+        props: { typeConfigs, activeTypeKey: 'declaredSkills' },
         global: { stubs }
       })
 
@@ -60,9 +77,9 @@ BddTest().given('an associate element type select', () => {
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should emit typeChange with the selected type key', () => {
-      expect(wrapper.emitted('typeChange')).toBeTruthy()
-      expect(wrapper.emitted('typeChange')?.[0]).toEqual(['activities'])
+    BddTest().then('it should emit update:activeTypeKey with the selected type key', () => {
+      expect(wrapper.emitted('update:activeTypeKey')).toBeTruthy()
+      expect(wrapper.emitted('update:activeTypeKey')?.[0]).toEqual(['activities'])
     })
   })
 })

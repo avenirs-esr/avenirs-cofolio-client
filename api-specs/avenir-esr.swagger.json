@@ -2330,6 +2330,77 @@
         }
       }
     },
+    "/me/declared/skill-progress/search-for-association": {
+      "get": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "searchDeclaredSkillsForAssociation",
+        "parameters": [
+          {
+            "name": "excludeAssociatedWithElementId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "contextType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "TRACE",
+                "DECLARED_ACTIVITY",
+                "DECLARED_SKILL",
+                "DECLARED_EXPERIENCE"
+              ]
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/experiences/{experienceId}/associations": {
       "get": {
         "tags": [
@@ -2394,6 +2465,77 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseDeclaredExperienceViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/declared/experiences/search-for-association": {
+      "get": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "searchDeclaredExperiencesForAssociation",
+        "parameters": [
+          {
+            "name": "excludeAssociatedWithElementId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "contextType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "TRACE",
+                "DECLARED_ACTIVITY",
+                "DECLARED_SKILL",
+                "DECLARED_EXPERIENCE"
+              ]
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredExperienceDTO"
                 }
               }
             }
@@ -2591,7 +2733,7 @@
         "tags": [
           "declared-activity-controller"
         ],
-        "operationId": "searchDeclaredSkillsForAssociation",
+        "operationId": "searchDeclaredSkillsForAssociation_1",
         "parameters": [
           {
             "name": "declaredActivityId",
@@ -2706,6 +2848,77 @@
               "*/*": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/search-for-association": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "searchDeclaredActivitiesForAssociation",
+        "parameters": [
+          {
+            "name": "excludeAssociatedWithElementId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "contextType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "TRACE",
+                "DECLARED_ACTIVITY",
+                "DECLARED_SKILL",
+                "DECLARED_EXPERIENCE"
+              ]
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
                 }
               }
             }
@@ -5763,6 +5976,16 @@
           "IN_PROGRESS",
           "SUBMITTED",
           "COMPLETED"
+        ]
+      },
+      "EAssociationContextType": {
+        "type": "string",
+        "description": "Enum for association context type",
+        "enum": [
+          "TRACE",
+          "DECLARED_ACTIVITY",
+          "DECLARED_SKILL",
+          "DECLARED_EXPERIENCE"
         ]
       },
       "EExternalSkillCategoryType": {

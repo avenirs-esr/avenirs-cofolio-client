@@ -17,7 +17,15 @@ export const AssociateElementsDrawerSectionStub = defineComponent({
       type: Object,
       default: () => ({}),
     },
+    activeTypeKey: {
+      type: String,
+      required: true,
+    },
+    searchQuery: {
+      type: String,
+      default: '',
+    },
   },
-  emits: ['update:selectionsByType', 'search', 'typeChange'],
+  emits: ['update:selectionsByType', 'update:activeTypeKey', 'update:searchQuery'],
   template: '<div data-testid="associate-elements-drawer-section-stub"></div>',
 })

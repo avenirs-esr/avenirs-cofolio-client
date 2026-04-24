@@ -109,16 +109,16 @@ BddTest().given('a search association layout', () => {
     })
   })
 
-  BddTest().when('the autocomplete emits search', () => {
+  BddTest().when('the autocomplete emits update:search', () => {
     beforeEach(async () => {
       const autocomplete = wrapper.findComponent(AvAutocompleteStub)
-      autocomplete.vm.$emit('search', 'item')
+      autocomplete.vm.$emit('update:search', 'item')
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should emit search', () => {
-      expect(wrapper.emitted('search')).toBeTruthy()
-      expect(wrapper.emitted('search')?.[0]).toEqual(['item'])
+    BddTest().then('it should emit update:search', () => {
+      expect(wrapper.emitted('update:search')).toBeTruthy()
+      expect(wrapper.emitted('update:search')?.[0]).toEqual(['item'])
     })
   })
 

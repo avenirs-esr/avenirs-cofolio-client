@@ -378,10 +378,10 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       vi.useRealTimers()
     })
 
-    BddTest().then('it should debounce the search and update options after 350ms', async () => {
+    BddTest().then('it should debounce the searchQuery and update options after 350ms', async () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
 
-      await section.vm.$emit('search', 'test query')
+      await section.vm.$emit('update:searchQuery', 'test query')
       const optionsBefore = section.props('options')
 
       vi.advanceTimersByTime(350)
@@ -394,7 +394,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
       const initialOptions = section.props('options')
 
-      await section.vm.$emit('search', 'test query')
+      await section.vm.$emit('update:searchQuery', 'test query')
       vi.advanceTimersByTime(100)
       await wrapper.vm.$nextTick()
 
@@ -402,15 +402,14 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
   })
 
-  BddTest().when('the associate elements section emits a typeChange event', () => {
-    BddTest().then('it should update the typeConfigs passed to the section', async () => {
+  BddTest().when('the associate elements section updates the active type key', () => {
+    BddTest().then('it should forward the new active type key back to the section', async () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
 
-      await section.vm.$emit('typeChange', EAssociationTypeKey.ACTIVITIES)
+      await section.vm.$emit('update:activeTypeKey', EAssociationTypeKey.ACTIVITIES)
       await wrapper.vm.$nextTick()
 
-      const typeConfigs = section.props('typeConfigs') as { key: string }[]
-      expect(typeConfigs.some(c => c.key === EAssociationTypeKey.ACTIVITIES)).toBe(true)
+      expect(section.props('activeTypeKey')).toBe(EAssociationTypeKey.ACTIVITIES)
     })
   })
 })

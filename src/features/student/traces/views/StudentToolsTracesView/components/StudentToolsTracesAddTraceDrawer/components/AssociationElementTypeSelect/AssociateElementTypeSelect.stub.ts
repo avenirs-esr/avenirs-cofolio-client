@@ -1,6 +1,6 @@
 export const AssociateElementTypeSelectStub = defineComponent({
   name: 'AssociateElementTypeSelect',
-  props: ['typeConfigs'],
-  emits: ['typeChange'],
+  props: ['typeConfigs', 'activeTypeKey'],
+  emits: ['update:activeTypeKey'],
   template: '<div class="associate-element-type-select-stub"></div>'
 })

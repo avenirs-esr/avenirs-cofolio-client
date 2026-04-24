@@ -115,7 +115,7 @@ function onConfirm () {
       :get-option-label="option => option.label"
       :loading="isLoading"
       button-theme="TERTIARY"
-      @search="onSearch"
+      @update:search="onSearch"
       @delete="onDeleteSkill"
     >
       <template #selectedItem="{ item }">

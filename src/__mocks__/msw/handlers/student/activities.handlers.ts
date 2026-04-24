@@ -29,7 +29,7 @@ import {
   getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
-  getSearchDeclaredSkillsForAssociationUrl,
+  getSearchDeclaredSkillsForAssociation1Url,
   getSearchTracesForAssociationUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
@@ -551,7 +551,7 @@ export const searchTracesForAssociationHandler = http.get(
 )
 
 export const searchSkillsForAssociationHandler = http.get(
-  `*${getSearchDeclaredSkillsForAssociationUrl(':declaredActivityId')}`,
+  `*${getSearchDeclaredSkillsForAssociation1Url(':declaredActivityId')}`,
   async ({ params, request }) => {
     const { declaredActivityId } = params
 

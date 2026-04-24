@@ -224,7 +224,7 @@ BddTest().given('an associate traces modal', () => {
     BddTest().and('the user searches in the search association layout', () => {
       beforeEach(async () => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        layout.vm.$emit('search', 'numéro 1')
+        layout.vm.$emit('update:search', 'numéro 1')
 
         await flushPromises()
       })

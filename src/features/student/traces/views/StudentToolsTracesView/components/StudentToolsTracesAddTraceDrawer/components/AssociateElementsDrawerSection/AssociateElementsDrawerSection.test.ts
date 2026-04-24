@@ -1,7 +1,8 @@
-import type { AssociateElementOption, AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
+import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
+import { type AssociateElementTypeConfig, EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import AssociateElementsDrawerSection, {
   type AssociateElementsDrawerSectionProps
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
@@ -24,7 +25,7 @@ const activitiesConfig: AssociateElementTypeConfig = {
 
 const typeConfigs: AssociateElementTypeConfig[] = [declaredSkillsConfig, activitiesConfig]
 
-const options: AssociateElementOption[] = [
+const options: Association[] = [
   { id: 'skill-1', title: 'Compétence 1', description: 'Rome 4.0' },
   { id: 'skill-2', title: 'Compétence 2', description: 'XXIᵉ onisep' },
   { id: 'skill-3', title: 'Compétence 3', description: 'Rome 4.0', disabled: true }
@@ -41,7 +42,8 @@ BddTest().given('an associate elements drawer section', () => {
   const defaultProps: AssociateElementsDrawerSectionProps = {
     typeConfigs,
     options,
-    loading: false
+    loading: false,
+    activeTypeKey: EAssociationTypeKey.DECLARED_SKILLS
   }
 
   function getSearchLayout () {
@@ -92,20 +94,20 @@ BddTest().given('an associate elements drawer section', () => {
     })
   })
 
-  BddTest().when('the user searches', () => {
+  BddTest().when('the underlying layout updates its search model', () => {
     beforeEach(async () => {
       wrapper = mount(AssociateElementsDrawerSection, {
         props: defaultProps,
         global: { stubs }
       })
 
-      getSearchLayout().vm.$emit('search', 'Compétence')
+      getSearchLayout().vm.$emit('update:search', 'Compétence')
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should emit search event', () => {
-      expect(wrapper.emitted('search')).toBeTruthy()
-      expect(wrapper.emitted('search')?.[0]).toEqual(['Compétence'])
+    BddTest().then('it should emit update:searchQuery with the new value', () => {
+      expect(wrapper.emitted('update:searchQuery')).toBeTruthy()
+      expect(wrapper.emitted('update:searchQuery')?.[0]).toEqual(['Compétence'])
     })
   })
 
@@ -129,8 +131,8 @@ BddTest().given('an associate elements drawer section', () => {
       expect(wrapper.emitted('update:selectionsByType')).toBeTruthy()
       expect(wrapper.emitted('update:selectionsByType')?.[0]).toEqual([{
         declaredSkills: [
-          { id: 'skill-1', title: 'Compétence 1', description: 'Rome 4.0' },
-          { id: 'skill-2', title: 'Compétence 2', description: 'XXIᵉ onisep' }
+          { id: 'skill-1', title: 'Compétence 1', description: 'Rome 4.0', disabled: false },
+          { id: 'skill-2', title: 'Compétence 2', description: 'XXIᵉ onisep', disabled: false }
         ]
       }])
     })
@@ -167,7 +169,7 @@ BddTest().given('an associate elements drawer section', () => {
 
       expect(lastEmit).toEqual([{
         declaredSkills: [
-          { id: 'skill-2', title: 'Compétence 2', description: 'XXIᵉ onisep' }
+          { id: 'skill-2', title: 'Compétence 2', description: 'XXIᵉ onisep', disabled: false }
         ]
       }])
     })
@@ -211,17 +213,41 @@ BddTest().given('an associate elements drawer section', () => {
         global: { stubs }
       })
 
-      getTypeSelect().vm.$emit('typeChange', 'activities')
+      getTypeSelect().vm.$emit('update:activeTypeKey', 'activities')
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should emit typeChange event with the new type key', () => {
-      expect(wrapper.emitted('typeChange')).toBeTruthy()
-      expect(wrapper.emitted('typeChange')?.[0]).toEqual(['activities'])
+    BddTest().then('it should emit update:activeTypeKey with the new type key', () => {
+      expect(wrapper.emitted('update:activeTypeKey')).toBeTruthy()
+      expect(wrapper.emitted('update:activeTypeKey')?.[0]).toEqual([EAssociationTypeKey.ACTIVITIES])
     })
 
     BddTest().then('it should pass empty items for the new type', () => {
       expect(getSearchLayout().props('items')).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('the active type key prop changes externally', () => {
+    beforeEach(async () => {
+      wrapper = mount(AssociateElementsDrawerSection, {
+        props: {
+          ...defaultProps,
+          selectionsByType: {
+            declaredSkills: [{ id: 'skill-1', title: 'Compétence 1', description: 'Rome 4.0' }]
+          }
+        },
+        global: { stubs }
+      })
+
+      await wrapper.setProps({ activeTypeKey: EAssociationTypeKey.ACTIVITIES })
+    })
+
+    BddTest().then('it should display items for the newly active type only', () => {
+      expect(getSearchLayout().props('items')).toHaveLength(0)
+    })
+
+    BddTest().then('it should forward the new active type key to the type select', () => {
+      expect(getTypeSelect().props('activeTypeKey')).toBe(EAssociationTypeKey.ACTIVITIES)
     })
   })
 
@@ -237,10 +263,10 @@ BddTest().given('an associate elements drawer section', () => {
       ])
       await wrapper.vm.$nextTick()
 
-      getTypeSelect().vm.$emit('typeChange', 'activities')
+      getTypeSelect().vm.$emit('update:activeTypeKey', EAssociationTypeKey.ACTIVITIES)
       await wrapper.vm.$nextTick()
 
-      getTypeSelect().vm.$emit('typeChange', 'declaredSkills')
+      getTypeSelect().vm.$emit('update:activeTypeKey', EAssociationTypeKey.DECLARED_SKILLS)
       await wrapper.vm.$nextTick()
     })
 
@@ -253,8 +279,32 @@ BddTest().given('an associate elements drawer section', () => {
 
     BddTest().then('it should restore the modelValue on the layout', () => {
       expect(getSearchLayout().props('modelValue')).toEqual([
-        { value: 'skill-1', label: 'Compétence 1', description: 'Rome 4.0' }
+        { value: 'skill-1', label: 'Compétence 1', description: 'Rome 4.0', disabled: false }
       ])
+    })
+  })
+
+  BddTest().when('the parent resets selectionsByType externally', () => {
+    beforeEach(async () => {
+      wrapper = mount(AssociateElementsDrawerSection, {
+        props: {
+          ...defaultProps,
+          selectionsByType: {
+            declaredSkills: [{ id: 'skill-1', title: 'Compétence 1', description: 'Rome 4.0' }]
+          }
+        },
+        global: { stubs }
+      })
+
+      await wrapper.setProps({ selectionsByType: {} })
+    })
+
+    BddTest().then('it should clear the items displayed in the layout', () => {
+      expect(getSearchLayout().props('items')).toHaveLength(0)
+    })
+
+    BddTest().then('it should clear the modelValue on the layout', () => {
+      expect(getSearchLayout().props('modelValue')).toEqual([])
     })
   })
 })

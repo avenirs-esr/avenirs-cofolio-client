@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { invalidateGetDeclaredActivityAssociations, type SearchDeclaredSkillForAssociationParams, useAssociateActivityWithDeclaredSkills, useSearchDeclaredSkillsForAssociation } from '@/api/avenir-esr'
+import {
+  invalidateGetDeclaredActivityAssociations,
+  type SearchDeclaredSkillForAssociationParams,
+  useAssociateActivityWithDeclaredSkills,
+  useSearchDeclaredSkillsForAssociation1
+} from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
 import { useAssociationModal } from '@/features/student/global'
@@ -42,7 +47,7 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredSkillsForAssociation(activityId, params)
+} = useSearchDeclaredSkillsForAssociation1(activityId, params)
 
 const skills = computed(() => data.value?.data ?? [])
 
