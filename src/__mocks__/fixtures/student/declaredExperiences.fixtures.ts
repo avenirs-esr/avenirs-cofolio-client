@@ -1,10 +1,12 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type AssociationSearchResultDeclaredExperienceDTO,
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EExperienceType,
+  type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
   type PagedResponseDeclaredExperienceViewDTO,
-  type TraceOverviewDTO
+  type TraceOverviewDTO,
 } from '@/api/avenir-esr'
 
 export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
@@ -106,5 +108,54 @@ export function createMockedDeclaredExperienceAssociationsDTO (
       associationId: `declared-experience-trace-association-${index + 1}`,
       trace
     }))
+  }
+}
+
+export const mockedExperienceSearchResults: AssociationSearchResultDeclaredExperienceDTO[] = [
+  {
+    id: 'experience-search-1',
+    title: 'Définir ses valeurs',
+    experienceType: EExperienceType.PERSONAL,
+    disabled: false
+  },
+  {
+    id: 'experience-search-2',
+    title: 'Explorer ses pistes d\'orientation',
+    experienceType: EExperienceType.PROFESSIONAL,
+    disabled: false
+  },
+  {
+    id: 'experience-search-3',
+    title: 'Développeur Web Full Stack',
+    experienceType: EExperienceType.PROFESSIONAL,
+    disabled: true
+  }
+]
+
+export function createMockedSearchExperiencesForAssociationResponse (
+  params?: { keyword?: string, page?: number, pageSize?: number }
+): PagedResponseAssociationSearchResultDeclaredExperienceDTO {
+  const { keyword, page = 0, pageSize = 100 } = params ?? {}
+
+  let filtered = mockedExperienceSearchResults
+
+  if (keyword?.trim()) {
+    filtered = filtered.filter(experience =>
+      experience.title.toLowerCase().includes(keyword.toLowerCase())
+    )
+  }
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const paginatedData = filtered.slice(start, end)
+
+  return {
+    data: paginatedData,
+    page: {
+      page,
+      pageSize,
+      totalElements: filtered.length,
+      totalPages: Math.ceil(filtered.length / pageSize)
+    }
   }
 }

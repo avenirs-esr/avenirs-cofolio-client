@@ -129,6 +129,15 @@
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
         },
+        "AssociateDeclaredExperiencesModal": {
+          "confirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
+          "searchPlaceholder": "Entrer le nom d'une expérience déclarée",
+          "success": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
+          "title": "Quelle(s) expérience(s) souhaitez-vous associer ?"
+        },
+        "ConfirmAssociateDeclaredExperiencesModal": {
+          "title": "Êtes-vous certain(e) de vouloir associer cette expérience ? | Êtes-vous certain(e) de vouloir associer ces expériences ?"
+        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",

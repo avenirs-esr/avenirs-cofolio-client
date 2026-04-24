@@ -1,48 +1,60 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ValorizedBadgeStub } from '@/common/components/ValorizedBadge/ValorizedBadge.stub'
-import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
-import DeclaredExperienceCompactCard, { type DeclaredExperienceCompactCardProps } from
-  '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import DeclaredExperienceCompactCard, {
+  type DeclaredExperienceCompactCardProps
+} from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience compact card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceCompactCard>>
-  const stubs = { CompactCard: CompactCardStub, ValorizedBadge: ValorizedBadgeStub }
 
-  BddTest().and('valorized is true', async () => {
-    const props: DeclaredExperienceCompactCardProps = {
-      experience: { id: '1', title: 'Experience Title' },
-      valorized: true,
-    }
+  const stubs = {
+    FloatingIconCard: FloatingIconCardStub,
+  }
 
-    BddTest().when('the component is mounted', () => {
-      beforeEach(() => {
-        wrapper = mountComponent(DeclaredExperienceCompactCard, { props, global: { stubs } })
-      })
-
-      BddTest().then('it should render the valorized badge', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
-        expect(badge.exists()).toBe(true)
-      })
-    })
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
-  BddTest().and('valorized is false', () => {
+  BddTest().when('the component is mounted', () => {
     const props: DeclaredExperienceCompactCardProps = {
-      experience: { id: '1', title: 'Experience Title' },
-      valorized: false,
+      experience: { id: 'experience-1', title: 'Expérience sans thématique' }
     }
 
-    BddTest().when('the component is mounted', () => {
-      beforeEach(() => {
-        wrapper = mountComponent(DeclaredExperienceCompactCard, { props, global: { stubs } })
-      })
+    let floatingCard: VueWrapper<InstanceType<typeof FloatingIconCardStub>>
 
-      BddTest().then('it should not render the valorized badge', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
-        expect(badge.exists()).toBe(false)
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceCompactCard, {
+        props,
+        global: { stubs }
       })
+      floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+    })
+
+    BddTest().then('it should render the floating icon card', () => {
+      expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the experience title to the card', () => {
+      expect(floatingCard.props('title')).toBe(props.experience.title)
+    })
+
+    BddTest().then('it should use the neutral background color', () => {
+      expect(floatingCard.props('color')).toBe('var(--light-background-neutral)')
+    })
+
+    BddTest().then('it should use the text1 title color', () => {
+      expect(floatingCard.props('titleColor')).toBe('var(--text1)')
+    })
+
+    BddTest().then('it should use the correct height', () => {
+      expect(floatingCard.props('height')).toBe('7.5rem')
+    })
+
+    BddTest().then('it should use the correct border color', () => {
+      expect(floatingCard.props('borderColor')).toBe('var(--other-border-skill-card)')
     })
   })
 })

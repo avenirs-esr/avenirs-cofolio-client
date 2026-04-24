@@ -1,26 +1,32 @@
 <script lang="ts" setup>
 import type { IdTitle } from '@/types'
-import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
-import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { ICONS } from '@/features/student/global/icons'
 
 export interface DeclaredExperienceCompactCardProps {
   experience: IdTitle
-  valorized: boolean
 }
-const { experience, valorized } = defineProps<DeclaredExperienceCompactCardProps>()
+
+const { experience } = defineProps<DeclaredExperienceCompactCardProps>()
+
+const iconOptions = computed(() => ({
+  name: ICONS.EXPERIENCES,
+  color: 'var(--icon)',
+  bottom: '-2.5rem',
+  borderColor: 'var(--other-border-skill-card)'
+}))
 </script>
 
 <template>
-  <CompactCard
-    :element="experience"
-    :icon="MDI_ICONS.HUB_OUTLINE"
-    color="var(--text1)"
-    icon-color="var(--icon)"
-    background-color="var(--surface-background)"
+  <FloatingIconCard
+    :title="experience.title"
+    title-color="var(--text1)"
+    color="var(--light-background-neutral)"
+    :icon-options="iconOptions"
     border-color="var(--other-border-skill-card)"
-    icon-border-color="var(--other-border-skill-card)"
-  >
-    <ValorizedBadge v-if="valorized" />
-  </CompactCard>
+    :header-rows="2"
+    height="7.5rem"
+    custom-title-height="4rem"
+    title-typography-classes="caption-regular"
+  />
 </template>

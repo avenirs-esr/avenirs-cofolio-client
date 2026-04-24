@@ -272,6 +272,7 @@
           "title": "Trace {trace}",
           "TraceAssociateElementsDropdown": {
             "activities": "une/des activité(s)",
+            "experiences": "une/des expérience(s)",
             "skills": "une/des compétence(s)"
           },
           "traceDeletionConfirmationModal": {

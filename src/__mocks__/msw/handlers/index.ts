@@ -14,12 +14,12 @@ export const handlers = [
   ...activitiesHandlers,
   ...amsHandlers,
   ...backOfficeHandlers,
+  ...tracesHandlers,
   ...declaredExperiencesHandlers,
   ...declaredProgramsHandlers,
   ...overviewsHandlers,
   ...programProgressHandlers,
   ...selfKnowledgeHandlers,
   ...skillsHandlers,
-  ...tracesHandlers,
   ...staffsUserHandlers,
 ]

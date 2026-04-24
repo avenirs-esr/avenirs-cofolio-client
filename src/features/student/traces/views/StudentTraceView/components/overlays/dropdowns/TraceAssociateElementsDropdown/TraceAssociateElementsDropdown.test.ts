@@ -19,13 +19,13 @@ BddTest().given('a trace associate elements dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
 
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(2)
+      expect(dropdown.props('items')).toHaveLength(3)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
 
-      expect(dropdown.props('items')).toHaveLength(2)
+      expect(dropdown.props('items')).toHaveLength(3)
       expect(dropdown.props('triggerAriaLabel')).toBe('Associer...')
       expect(dropdown.props('triggerLabel')).toBe('Associer...')
       expect(dropdown.props('triggerVariant')).toBe('FLAT')
@@ -38,11 +38,18 @@ BddTest().given('a trace associate elements dropdown', () => {
       expect(items[0].name).toBe('activities')
     })
 
-    BddTest().then('it should have skills as second item', () => {
+    BddTest().then('it should have experiences as second item', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       const items = dropdown.props('items') as { name: string }[]
 
-      expect(items[1].name).toBe('skills')
+      expect(items[1].name).toBe('experiences')
+    })
+
+    BddTest().then('it should have skills as third item', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string }[]
+
+      expect(items[2].name).toBe('skills')
     })
   })
 
@@ -55,6 +62,18 @@ BddTest().given('a trace associate elements dropdown', () => {
       const activitiesButton = wrapper.find('[data-name="activities"]')
       await activitiesButton.trigger('click')
       expect(wrapper.emitted('activitiesSelected')).toHaveLength(1)
+    })
+  })
+
+  BddTest().when('the experiences button is clicked', () => {
+    beforeEach(() => {
+      wrapper = mount(TraceAssociateElementsDropdown, { global: { stubs } })
+    })
+
+    BddTest().then('it should emit the experiencesSelected event', async () => {
+      const experiencesButton = wrapper.find('[data-name="experiences"]')
+      await experiencesButton.trigger('click')
+      expect(wrapper.emitted('experiencesSelected')).toHaveLength(1)
     })
   })
 

@@ -272,6 +272,7 @@
           },
           "TraceAssociateElementsDropdown": {
             "activities": "one/many activity(ies)",
+            "experiences": "one/many experience(s)",
             "skills": "one/many skill(s)"
           },
           "title": "Trace {trace}",
