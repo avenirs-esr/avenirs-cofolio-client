@@ -1,11 +1,12 @@
-import type { DeclaredExperienceRequest, DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { type DeclaredExperienceRequest, type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperience, invalidateGetDeclaredExperienceView, useUpdateDeclaredExperience } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
-import { useUpdateDeclaredExperienceMutation } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 function toFormData (dto: DeclaredExperienceViewDTO): DeclaredExperienceFormData {
@@ -47,6 +48,8 @@ export function useUpdateDeclaredExperienceForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
+  const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onUpdateDeclaredExperienceError = (error: BaseApiException) => {
     addErrorMessage({
@@ -57,16 +60,26 @@ export function useUpdateDeclaredExperienceForm (
 
   const validators = useDeclaredExperienceFormValidators()
 
-  const { mutate: updateDeclaredExperience, isPending } = useUpdateDeclaredExperienceMutation({
-    onError: onUpdateDeclaredExperienceError,
-    onSuccess: () => {
-      addSuccessMessage({
-        timeout: 2000,
-        description: t('student.personalCareer.views.DeclaredExperienceUpdateView.updateForm.success')
-      })
-      onExperienceUpdated?.()
-    }
-  })
+  const { mutate: mutateUpdateDeclaredExperience, isPending } = useUpdateDeclaredExperience()
+
+  function updateDeclaredExperience (value: DeclaredExperienceFormData) {
+    mutateUpdateDeclaredExperience({ experienceId: declaredExperience.id, data: toRequestDTO(value) }, {
+      onError: onUpdateDeclaredExperienceError,
+      onSuccess: async (_, variables) => {
+        await withTaskLoading(() => Promise.all([
+          invalidateGetDeclaredExperienceView(queryClient),
+          invalidateGetDeclaredExperience(queryClient, variables.experienceId)
+        ]))
+
+        addSuccessMessage({
+          timeout: 2000,
+          description: t('student.personalCareer.views.DeclaredExperienceUpdateView.updateForm.success')
+        })
+        onExperienceUpdated?.()
+      }
+    })
+  }
+
   const form = useForm({
     defaultValues: toFormData(declaredExperience),
     validators: {
@@ -89,10 +102,7 @@ export function useUpdateDeclaredExperienceForm (
       }
     },
     onSubmit: ({ value }: { value: DeclaredExperienceFormData }) => {
-      updateDeclaredExperience({
-        declaredExperienceId: declaredExperience.id,
-        declaredExperienceRequestDTO: toRequestDTO(value)
-      })
+      updateDeclaredExperience(value)
     }
   })
 
@@ -104,6 +114,6 @@ export function useUpdateDeclaredExperienceForm (
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }

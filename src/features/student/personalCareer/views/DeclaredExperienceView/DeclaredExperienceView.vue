@@ -1,30 +1,21 @@
 <script lang="ts" setup>
+import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import Loader from '@/common/components/Loader/Loader.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import { ICONS } from '@/features/student/global/icons'
-import DeclaredExperienceSideMenu
-  from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
-import DeleteDeclaredExperienceConfirmModal
-  from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
-import {
-  usePaginatedDeclaredExperiences
-} from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
-import {
-  useDeclaredExperienceAssociationsQuery,
-  useDeclaredExperienceDetailedViewQuery
-} from '@/features/student/personalCareer/queries/use-declared-experiences.query'
-import DeclaredExperienceAssociations
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
-import DeclaredExperienceDetails
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
-import DeclaredExperienceDetailsDropdown
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
+import DeclaredExperienceSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
+import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
+import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
+import DeclaredExperienceAssociations from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
+import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
+import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 enum DeclaredExperienceViewTabs {
@@ -39,12 +30,7 @@ const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const experienceId = computed(() => String(route.params.id ?? ''))
 
-const {
-  declaredExperience: declaredExperienceDetailed,
-  isLoading,
-  isError,
-  error
-} = useDeclaredExperienceDetailedViewQuery({ experienceId })
+const { data: declaredExperienceDetailed, isLoading, error } = useGetDeclaredExperience(experienceId, { query: { placeholderData: keepPreviousData } })
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isDeclaredExperienceNotFound = computed(() =>
@@ -71,15 +57,13 @@ const {
   loadMoreDeclaredExperiences
 } = usePaginatedDeclaredExperiences()
 
-const {
-  traceAssociations,
-  error: associationsError
-} = useDeclaredExperienceAssociationsQuery({
-  experienceId
+const { data: associations, error: associationsError } = useGetDeclaredExperienceAssociations(experienceId, {
+  query: { placeholderData: keepPreviousData }
 })
 
 // TODO: Add other associations length
-const countAssociations = computed(() => (traceAssociations.value?.length ?? 0))
+const countAssociations = computed(() => (associations.value?.traceAssociations.length ?? 0))
+const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
 
 function onSelectExperience (experienceId: string) {
   router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
@@ -97,7 +81,6 @@ function handleConfirmDelete () {
 
 <template>
   <DetailedPageTitle
-    v-if="declaredExperienceDetailed"
     :title="experienceTitle"
     :breadcrumb-links="breadcrumbLinks"
   />
@@ -111,20 +94,18 @@ function handleConfirmDelete () {
         @load-more-experiences="loadMoreDeclaredExperiences"
       />
     </div>
-    <Loader
-      :is-loading="isLoading && !isError"
-      size="2xl"
+    <QuerySuspense
+      :error="error"
+      :is-loading="isLoading"
     >
-      <div
-        v-if="error"
-        class="av-col av-gap-md av-flex-fill"
-      >
+      <template #error>
         <ErrorMessage
           v-if="error"
           :title="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.title') : t('global.error.generic')"
           :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : error.message"
         />
-      </div>
+      </template>
+
       <div
         v-if="declaredExperienceDetailed"
         class="av-col av-gap-md av-flex-fill"
@@ -157,7 +138,7 @@ function handleConfirmDelete () {
           </AvTab>
         </AvTabs>
       </div>
-    </Loader>
+    </QuerySuspense>
   </div>
 
   <DeleteDeclaredExperienceConfirmModal

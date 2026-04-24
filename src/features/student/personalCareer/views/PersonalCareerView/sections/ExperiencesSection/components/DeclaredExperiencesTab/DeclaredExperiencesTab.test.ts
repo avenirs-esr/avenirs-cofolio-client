@@ -3,6 +3,7 @@ import { declaredExperiencesQueryEmptyHandler, declaredExperiencesQueryErrorHand
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { DeclaredExperienceCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.stub'
 import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
 import DeclaredExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesTab/DeclaredExperiencesTab.vue'
@@ -49,7 +50,8 @@ BddTest().given('a declared experiences tab', () => {
       template: '<div data-testid="add-declared-experience-drawer-stub"></div>'
     }),
     DeclaredExperiencesMoreActionsDropdown: DeclaredExperiencesMoreActionsDropdownStub,
-    AvIconText: AvIconTextStub
+    AvIconText: AvIconTextStub,
+    QuerySuspense: QuerySuspenseStub
   }
 
   beforeEach(async () => {
@@ -131,15 +133,15 @@ BddTest().given('a declared experiences tab', () => {
         global: { stubs }
       })
       await vi.waitFor(() => {
-        const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+        const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
         expect(emptyState.exists()).toBe(true)
       })
     })
 
     BddTest().then('it should display the empty state message', () => {
-      const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
       expect(emptyState.exists()).toBe(true)
-      expect(emptyState.find('.s2-regular').exists()).toBe(true)
+      expect(emptyState.text().length).toBeGreaterThan(0)
     })
 
     BddTest().then('it should not render declared experience cards', () => {
@@ -152,9 +154,9 @@ BddTest().given('a declared experiences tab', () => {
       expect(loaderSpinner.exists()).toBe(false)
     })
 
-    BddTest().then('it should render the pagination component', () => {
+    BddTest().then('it should not render the pagination component', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(true)
+      expect(pagination.exists()).toBe(false)
     })
   })
 
@@ -181,7 +183,7 @@ BddTest().given('a declared experiences tab', () => {
     })
 
     BddTest().then('it should not display the empty state', () => {
-      const emptyState = wrapper.find('.av-row.av-justify-center.av-my-md')
+      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
       expect(emptyState.exists()).toBe(false)
     })
   })

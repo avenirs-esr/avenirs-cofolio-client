@@ -1,16 +1,19 @@
-import type { EExperienceType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
-import { useCreateDeclaredExperienceMutation } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onCreateDeclaredExperienceError = (error: BaseApiException) => {
     addErrorMessage({
@@ -21,7 +24,17 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
 
   const validators = useDeclaredExperienceFormValidators()
 
-  const { mutate: createDeclaredExperience, isPending } = useCreateDeclaredExperienceMutation({ onError: onCreateDeclaredExperienceError })
+  const { mutate: mutateCreateDeclaredExperience, isPending } = useCreateDeclaredExperience()
+
+  function createDeclaredExperience (data: DeclaredExperienceViewDTO) {
+    mutateCreateDeclaredExperience({ data }, {
+      onSuccess: async () => {
+        await withTaskLoading(() => invalidateGetDeclaredExperienceView(queryClient))
+        onExperienceAdded?.()
+      },
+      onError: onCreateDeclaredExperienceError
+    })
+  }
 
   const form = useForm({
     defaultValues: {
@@ -69,11 +82,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         externalLink: value.externalLink || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
-      }, {
-        onSuccess: () => {
-          onExperienceAdded?.()
-        }
-      })
+      } as DeclaredExperienceViewDTO)
     }
   })
 
@@ -85,6 +94,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }

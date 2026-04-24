@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -9,7 +10,6 @@ import UpdateInProgressBadge from '@/features/student/global/components/badges/U
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
-import { useDeclaredExperienceDetailedViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -34,7 +34,7 @@ const isDirty = ref(false)
 const { showModal, displayModal, hideModal } = useModal()
 
 const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
-const { declaredExperience, isLoading, isError } = useDeclaredExperienceDetailedViewQuery({ experienceId: selectedExperienceId })
+const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId.value)
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
