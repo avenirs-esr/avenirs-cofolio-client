@@ -1,7 +1,7 @@
-import type { DeclaredExperienceViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { type DeclaredExperienceViewDTO, type PageInfoDTO, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { useDeclaredExperiencesViewQuery } from '@/features/student/personalCareer/queries/use-declared-experiences.query'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredExperiencesResult {
@@ -17,10 +17,14 @@ export function usePaginatedDeclaredExperiences ({ pageSize }: { pageSize?: Ref<
   const { declaredExperiencesPageSizeSelected } = usePersonalCareerStore()
   const page = ref(0)
 
-  const { pageInfo, declaredExperiences: fetchedDeclaredExperiences, isFetching } = useDeclaredExperiencesViewQuery({
-    page,
-    pageSize: computed(() => toValue(pageSize) ?? declaredExperiencesPageSizeSelected)
-  })
+  const params = computed(() => ({
+    page: page.value,
+    pageSize: toValue(pageSize) ?? declaredExperiencesPageSizeSelected
+  }))
+
+  const { data, isFetching } = useGetDeclaredExperienceView(params, { query: { placeholderData: keepPreviousData } })
+  const fetchedDeclaredExperiences = computed(() => data.value?.data || [])
+  const pageInfo = computed(() => data.value?.page ?? { page: 0, pageSize: 0, totalElements: 0, totalPages: 0 })
 
   const {
     items: declaredExperiences,
