@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { invalidateGetSelfKnowledgeCategories, useRemoveSelfKnowledgeCategory } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -22,13 +23,14 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
-const { mutate: mutateRemoveSelfKnowledgeCategory } = useRemoveSelfKnowledgeCategory()
+const { mutate: mutateRemoveSelfKnowledgeCategory, isPending } = useRemoveSelfKnowledgeCategory()
 
 function removeSelfKnowledgeCategory () {
   mutateRemoveSelfKnowledgeCategory({ categoryId }, {
     onSuccess: async () => {
-      await invalidateGetSelfKnowledgeCategories(queryClient)
+      await withTaskLoading(() => invalidateGetSelfKnowledgeCategories(queryClient))
       addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))
       emit('confirm')
     },
@@ -45,6 +47,7 @@ function removeSelfKnowledgeCategory () {
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.confirm')"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
+    :is-loading="isPending || isLoading"
     @close="$emit('cancel')"
     @confirm="removeSelfKnowledgeCategory"
   >

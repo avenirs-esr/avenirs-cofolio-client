@@ -2,6 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { IdTitleList } from '@/types'
 import { invalidateGetDeclaredActivityAssociations, useDeleteDeclaredActivityAssociations } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { ICONS } from '@/features/student/global/icons'
@@ -25,6 +26,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const selectedIds = ref<string[]>([])
 
@@ -44,7 +46,7 @@ function deleteDeclaredActivityAssociations () {
       })
     },
     onSuccess: async () => {
-      await invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId)
+      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedTracesModal.success'),
@@ -71,7 +73,7 @@ function onCancel () {
     :show="show"
     :associations="associations"
     :selected-association-ids="selectedIds"
-    :is-loading="isPending"
+    :is-loading="isPending || isLoading"
     @cancel="onCancel"
     @confirm-delete="deleteDeclaredActivityAssociations"
   >

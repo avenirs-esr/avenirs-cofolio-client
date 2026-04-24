@@ -5,6 +5,7 @@ import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { useToasterStore } from '@/store'
 import {
@@ -47,6 +48,7 @@ const route = useRoute()
 const { showModal, displayModal, hideModal } = useModal()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const userCategory = computed<EUserCategory>(() => route.path.startsWith('/student') ? EUserCategory.STUDENT : EUserCategory.STAFF)
 
@@ -83,7 +85,7 @@ function deleteCoverPicture ({ fileId }: { fileId: string }) {
   deleteCoverPictureMutation({ fileId }, {
     onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
     onSuccess: async () => {
-      await invalidateGetProfile(queryClient, userCategory.value)
+      await withTaskLoading(() => invalidateGetProfile(queryClient, userCategory.value))
       addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
     }
   })
@@ -95,7 +97,7 @@ function deleteProfilePicture ({ fileId }: { fileId: string }) {
   deleteProfilePictureMutation({ fileId }, {
     onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
     onSuccess: async () => {
-      await invalidateGetProfile(queryClient, userCategory.value)
+      await withTaskLoading(() => invalidateGetProfile(queryClient, userCategory.value))
       addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
     }
   })
@@ -245,8 +247,8 @@ watch(() => show, (newVal) => {
           :confirm-label="t('global.buttons.save')"
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-is-loading="isPending"
-          :confirm-is-loading="isPending"
+          :cancel-is-loading="isPending || isLoading"
+          :confirm-is-loading="isPending || isLoading"
           :confirm-disabled="!isModified"
           form="profile-form"
           @cancel="handleCancel"

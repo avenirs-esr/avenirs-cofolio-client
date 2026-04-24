@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
 import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -15,6 +16,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onCreateElementError = (error: BaseApiException) => {
     addErrorMessage({
@@ -35,7 +37,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
       }
     }, {
       onSuccess: async () => {
-        await invalidateGetSelfKnowledgeElements(queryClient, toValue(selfKnowledgeCategoryId))
+        await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, toValue(selfKnowledgeCategoryId)))
         onElementCreated?.()
       },
       onError: onCreateElementError
@@ -69,7 +71,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
   })
 
   const isSubmitting = computed(() => {
-    return isPending.value
+    return isPending.value || isLoading.value
   })
 
   return {

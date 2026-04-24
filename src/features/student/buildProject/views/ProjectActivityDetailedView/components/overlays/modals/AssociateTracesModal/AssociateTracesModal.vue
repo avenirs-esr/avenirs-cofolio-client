@@ -6,6 +6,7 @@ import {
   useAssociateActivityWithTraces,
   useSearchTracesForAssociation,
 } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TraceCompactCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
@@ -34,6 +35,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
   itemId: TraceAssociationTypes.UNASSOCIATED
@@ -97,7 +99,7 @@ function associateActivityWithTraces () {
       })
     },
     onSuccess: async (_, variables) => {
-      await invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId)
+      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
 
       const count = variables.data.idsToAssociate.length
 
@@ -175,7 +177,7 @@ function getIsAssociatedParam () {
   <ConfirmAssociateModal
     :show="showConfirmModal"
     :items="selectedAssociations"
-    :disabled="isPending"
+    :is-loading="isPending || isLoading"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.confirmTitle')"
     @cancel="hideConfirmModal"
     @confirm="associateActivityWithTraces"

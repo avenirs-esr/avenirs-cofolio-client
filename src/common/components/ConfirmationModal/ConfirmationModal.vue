@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 import { AvModal, type AvModalProps } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonLabel'> {
@@ -14,12 +15,32 @@ defineOptions({
   inheritAttrs: false
 })
 
-defineProps<ConfirmationModalProps>()
-
+const props = defineProps<ConfirmationModalProps>()
 defineSlots<{
   header?: Slot
   default?: Slot
 }>()
+
+const attrs = useAttrs()
+
+const avModalProps = computed(() => {
+  const {
+    show,
+    title,
+    description,
+    closeButtonLabel,
+    confirmButtonLabel,
+    opened,
+    id,
+    ...rest
+  } = props
+  return rest
+})
+
+const avModalBindings = computed(() => ({
+  ...attrs,
+  ...avModalProps.value
+}))
 
 const { t } = useI18n()
 </script>
@@ -27,10 +48,10 @@ const { t } = useI18n()
 <template>
   <AvModal
     id="confirmation-modal"
-    :opened="show"
-    :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="confirmButtonLabel ?? t('global.buttons.confirm')"
-    v-bind="$attrs"
+    :opened="props.show"
+    :close-button-label="props.closeButtonLabel ?? t('global.buttons.cancel')"
+    :confirm-button-label="props.confirmButtonLabel ?? t('global.buttons.confirm')"
+    v-bind="avModalBindings"
   >
     <template
       v-if="$slots.header"
@@ -43,8 +64,8 @@ const { t } = useI18n()
         class="av-col av-gap-sm"
         data-testid="content-container"
       >
-        <span class="n5">{{ title ?? t('global.modals.confirmation.title') }}</span>
-        <span class="b2-light">{{ description ?? t('global.modals.confirmation.description') }}</span>
+        <span class="n5">{{ props.title ?? t('global.modals.confirmation.title') }}</span>
+        <span class="b2-light">{{ props.description ?? t('global.modals.confirmation.description') }}</span>
       </div>
     </slot>
   </AvModal>

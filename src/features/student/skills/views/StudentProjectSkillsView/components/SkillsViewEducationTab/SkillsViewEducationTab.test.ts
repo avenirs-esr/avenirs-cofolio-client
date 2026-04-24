@@ -46,7 +46,15 @@ BddTest().given('a skills view education tab component', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
 
-    const handler = createSkillsViewHandler(createMockedPagedResponseSkillsDTO(PageSizes.FOUR, 20, 0, ''))
+    const payload = createMockedPagedResponseSkillsDTO(PageSizes.FOUR, 20, 0, '')
+    if (payload.data.length > 0) {
+      payload.data[0] = {
+        ...payload.data[0],
+        isProgramFinished: false
+      }
+    }
+
+    const handler = createSkillsViewHandler(payload)
     server.use(handler)
 
     paginationMock = createUsePaginationMock()

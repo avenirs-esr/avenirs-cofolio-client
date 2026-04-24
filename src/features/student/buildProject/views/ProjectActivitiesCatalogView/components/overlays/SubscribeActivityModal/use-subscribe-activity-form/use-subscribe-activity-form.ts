@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { invalidateGetActivityDetail, useSubscribeActivity } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -19,8 +20,9 @@ export function useSubscribeActivityForm (
   const { validateRequired, validateDateInterval } = useFormValidators()
   const { addSuccessMessage, addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
-  const { mutate: mutateSubscribeActivity } = useSubscribeActivity()
+  const { mutate: mutateSubscribeActivity, isPending } = useSubscribeActivity()
 
   function subscribe (period: { startDate: string, endDate: string } | undefined, onSuccess: () => void) {
     mutateSubscribeActivity({
@@ -28,7 +30,7 @@ export function useSubscribeActivityForm (
       data: { period }
     }, {
       onSuccess: async () => {
-        await invalidateGetActivityDetail(queryClient, activity.id)
+        await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activity.id))
         addSuccessMessage(t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.success'))
         onSubscribed?.()
         onSuccess()
@@ -82,6 +84,7 @@ export function useSubscribeActivityForm (
   return {
     form,
     isFormDirty,
-    isFormValid
+    isFormValid,
+    isSubmitting: isPending || isLoading.value
   }
 }

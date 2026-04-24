@@ -2,6 +2,7 @@
 import type { IdTitleList } from '@/types'
 import { invalidateGetActivitiesView, invalidateGetActivityDetail, invalidateGetDeclaredActivitiesView, invalidateGetDeclaredActivityDetails, useUnsubscribeActivitiesProgresses } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -21,6 +22,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const { mutate: mutateUnsubscribeActivitiesProgresses } = useUnsubscribeActivitiesProgresses()
 
@@ -31,14 +33,16 @@ function unsubscribeActivities () {
     { data: activitiesIds.value },
     {
       onSuccess: async () => {
-        await Promise.all(
-          activitiesIds.value.map(activityId => invalidateGetDeclaredActivityDetails(queryClient, activityId)),
-        )
-        await Promise.all(
-          activitiesIds.value.map(activityId => invalidateGetActivityDetail(queryClient, activityId)),
-        )
-        await invalidateGetDeclaredActivitiesView(queryClient)
-        await invalidateGetActivitiesView(queryClient)
+        await withTaskLoading(() => Promise.all([
+          ...activitiesIds.value.map(activityId =>
+            invalidateGetDeclaredActivityDetails(queryClient, activityId),
+          ),
+          ...activitiesIds.value.map(activityId =>
+            invalidateGetActivityDetail(queryClient, activityId),
+          ),
+          invalidateGetDeclaredActivitiesView(queryClient),
+          invalidateGetActivitiesView(queryClient)
+        ]))
 
         addSuccessMessage(t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.success', { count: activities.length }))
         emit('unsubscribed')
@@ -57,6 +61,7 @@ function unsubscribeActivities () {
 <template>
   <ConfirmationModal
     :show="show"
+    :is-loading="isLoading"
     data-testid="unsubscribe-activities-confirm-modal"
     @close="$emit('cancel')"
     @confirm="unsubscribeActivities"

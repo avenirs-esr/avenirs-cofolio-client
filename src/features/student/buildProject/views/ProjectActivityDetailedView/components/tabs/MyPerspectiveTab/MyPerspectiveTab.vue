@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { type DeclaredActivityDetailsDTO, invalidateGetActivityDetail, useFinish } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import FinishDeclaredActivity
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
@@ -17,6 +18,7 @@ const { declaredActivityDetails } = defineProps<MyPerspectiveTabProps>()
 const { t } = useI18n()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const { mutate: mutateFinish, isPending } = useFinish()
 
@@ -29,7 +31,7 @@ function finishDeclaredActivity () {
       })
     },
     onSuccess: async () => {
-      await invalidateGetActivityDetail(queryClient, declaredActivityDetails.id)
+      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, declaredActivityDetails.id))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success'),
@@ -54,7 +56,7 @@ function finishDeclaredActivity () {
     <FinishDeclaredActivity
       :finished-at="declaredActivityDetails.finishedAt"
       :status="declaredActivityDetails.status"
-      :disabled="isPending"
+      :is-loading="isPending || isLoading"
       @finished="finishDeclaredActivity"
     />
   </div>

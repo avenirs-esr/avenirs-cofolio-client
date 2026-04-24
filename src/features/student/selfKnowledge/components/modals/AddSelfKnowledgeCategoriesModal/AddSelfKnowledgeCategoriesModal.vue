@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -20,17 +21,18 @@ const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { data: fetchedCategoriesAvailable } = useGetSelfKnowledgeCategoriesAvailable()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const categoriesAvailable = computed(() => fetchedCategoriesAvailable.value ?? [])
 
-const { mutate: mutateAddSelfKnowledgeCategories } = useAddSelfKnowledgeCategories()
+const { mutate: mutateAddSelfKnowledgeCategories, isPending } = useAddSelfKnowledgeCategories()
 
 const selected = ref<string[]>([])
 
 function addSelfKnowledgeCategories () {
   mutateAddSelfKnowledgeCategories({ data: selected.value }, {
     onSuccess: async () => {
-      await invalidateGetSelfKnowledgeCategories(queryClient)
+      await withTaskLoading(() => invalidateGetSelfKnowledgeCategories(queryClient))
       addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.success', { count: selected.value.length }))
       emit('confirm')
       resetSelected()
@@ -58,6 +60,7 @@ function resetSelected () {
     :confirm-button-label="categoriesAvailable.length > 0 ? t('global.buttons.add') : undefined"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
     :confirm-button-disabled="selected.length === 0"
+    :is-loading="isPending || isLoading"
     @close="onCancel"
     @confirm="addSelfKnowledgeCategories"
   >

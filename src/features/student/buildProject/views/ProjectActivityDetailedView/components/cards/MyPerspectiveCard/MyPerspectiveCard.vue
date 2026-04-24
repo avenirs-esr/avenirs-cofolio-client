@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { invalidateGetActivityDetail, useUpdateReflection } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -24,6 +25,7 @@ const RichTextEditor = defineAsyncComponent(() => import('@/common/components/in
 const { t } = useI18n()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const readonly = ref(true)
 const content = ref(perspective ?? '<p></p>')
@@ -40,7 +42,7 @@ function updateActivityReflection (reflection: string) {
       })
     },
     onSuccess: async () => {
-      await invalidateGetActivityDetail(queryClient, activityId)
+      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activityId))
       addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.success'))
       readonly.value = true
     }
@@ -58,7 +60,7 @@ function updateActivityReflectionOnAutoSave (reflection: string) {
       })
     },
     onSuccess: async () => {
-      await invalidateGetActivityDetail(queryClient, activityId)
+      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activityId))
       addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.success'))
     }
   })
@@ -142,7 +144,7 @@ watch(content, () => {
             :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
             variant="FLAT"
             :disabled="!isModified"
-            :is-loading="isPendingSave || isPendingAutoSave"
+            :is-loading="isPendingSave || isPendingAutoSave || isLoading"
             small
             data-testid="my-perspective-card-save-button"
             @click="onSave"
@@ -153,7 +155,7 @@ watch(content, () => {
             :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             variant="DEFAULT"
             small
-            :is-loading="isPendingAutoSave"
+            :is-loading="isPendingAutoSave || isLoading"
             data-testid="my-perspective-card-cancel-button"
             @click="readonly = true"
           />

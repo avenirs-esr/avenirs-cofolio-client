@@ -9,6 +9,7 @@ import {
   useUpdateProfile as useUpdateProfileFromApi,
   useUpdateProfilePhoto as useUpdateProfilePhotoFromApi,
 } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -17,6 +18,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   function onUpdateProfileError (error: BaseApiException) {
     addErrorMessage({
@@ -31,7 +33,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
     updateProfileMutation({ userCategory, data: profileUpdateRequest }, {
       onError: onUpdateProfileError,
       onSuccess: async (_data, variables) => {
-        await invalidateGetProfile(queryClient, variables.userCategory)
+        await withTaskLoading(() => invalidateGetProfile(queryClient, variables.userCategory))
         onProfileUpdated()
       }
     })
@@ -43,7 +45,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
 
   return {
     onUpdateProfile,
-    isUpdateProfilePending,
+    isUpdateProfilePending: isUpdateProfilePending || isLoading.value,
   }
 }
 
@@ -51,6 +53,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   function onUpdateProfileCoverError (error: BaseApiException) {
     addErrorMessage({
@@ -69,7 +72,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
     return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.COVER, data: updateProfilePhotoBody }, {
       onError: onUpdateProfileCoverError,
       onSuccess: async (data, variables) => {
-        await invalidateGetProfile(queryClient, variables.userCategory)
+        await withTaskLoading(() => invalidateGetProfile(queryClient, variables.userCategory))
         onUpdateProfileCoverSuccess(data)
       }
     })
@@ -77,7 +80,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
 
   return {
     onUpdateProfileCoverAsync,
-    isUpdateProfileCoverPending,
+    isUpdateProfileCoverPending: isUpdateProfileCoverPending || isLoading.value,
   }
 }
 
@@ -85,6 +88,7 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   function onUpdateProfilePhotoError (error: BaseApiException) {
     addErrorMessage({
@@ -99,7 +103,7 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
     return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.PROFILE, data: updateProfilePhotoBody }, {
       onError: onUpdateProfilePhotoError,
       onSuccess: async (data, variables) => {
-        await invalidateGetProfile(queryClient, variables.userCategory)
+        await withTaskLoading(() => invalidateGetProfile(queryClient, variables.userCategory))
         onProfilePhotoUpdated(data.id)
       }
     })
@@ -107,6 +111,6 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
 
   return {
     onUpdateProfilePhotoAsync,
-    isUpdateProfilePhotoPending,
+    isUpdateProfilePhotoPending: isUpdateProfilePhotoPending || isLoading.value,
   }
 }

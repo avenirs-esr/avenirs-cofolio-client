@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { type DeclaredSkillProgressDetailsDTO, type DeclaredSkillProgressRequest, invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -20,6 +21,7 @@ export function useUpdateDeclaredSkillForm (
   const { t } = useI18n()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onUpdateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
@@ -41,7 +43,7 @@ export function useUpdateDeclaredSkillForm (
       onSuccess: async () => {
         addSuccessMessage(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.success'))
         onSkillUpdated?.()
-        await invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressDetails.id)
+        await withTaskLoading(() => invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressDetails.id))
       }
     })
   }
@@ -75,7 +77,7 @@ export function useUpdateDeclaredSkillForm (
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }
 

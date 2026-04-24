@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
 import { invalidateGetSelfKnowledgeElementDetails, type SelfKnowledgeElementDetailsDTO, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -15,6 +16,7 @@ export function useUpdateSelfKnowledgeElementForm (
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const onUpdateElementError = (error: BaseApiException) => {
     addErrorMessage({
@@ -35,7 +37,7 @@ export function useUpdateSelfKnowledgeElementForm (
       }
     }, {
       onSuccess: async () => {
-        await invalidateGetSelfKnowledgeElementDetails(queryClient, toValue(element).id)
+        await withTaskLoading(() => invalidateGetSelfKnowledgeElementDetails(queryClient, toValue(element).id))
         onElementUpdated?.()
       },
       onError: onUpdateElementError
@@ -70,7 +72,7 @@ export function useUpdateSelfKnowledgeElementForm (
     return state.value.isValid && !state.value.isValidating
   })
 
-  const isSubmitting = computed(() => isPending.value)
+  const isSubmitting = computed(() => isPending.value || isLoading.value)
 
   return {
     form,

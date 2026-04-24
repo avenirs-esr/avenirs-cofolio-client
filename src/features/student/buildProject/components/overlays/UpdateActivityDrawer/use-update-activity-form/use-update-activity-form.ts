@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdatePeriod } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -20,6 +21,7 @@ export function useUpdateActivityForm (
   const { addErrorMessage } = useToasterStore()
   const { validateRequired, validateDateInterval } = useFormValidators()
   const queryClient = useQueryClient()
+  const { isLoading, withTaskLoading } = useTaskLoading()
 
   const { mutate: mutateUpdatePeriod, isPending } = useUpdatePeriod()
 
@@ -35,7 +37,7 @@ export function useUpdateActivityForm (
         })
       },
       onSuccess: async () => {
-        await invalidateGetDeclaredActivityDetails(queryClient, toValue(declaredActivity).id)
+        await withTaskLoading(() => invalidateGetDeclaredActivityDetails(queryClient, toValue(declaredActivity).id))
         onUpdated?.()
       }
     })
@@ -82,6 +84,6 @@ export function useUpdateActivityForm (
   return {
     form,
     isFormValid,
-    isSubmitting: isPending
+    isSubmitting: isPending || isLoading.value
   }
 }
