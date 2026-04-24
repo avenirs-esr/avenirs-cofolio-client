@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBackOfficeBuildLifeProjectConfigQuery } from '@/features/student/global/queries/use-back-office.query/use-back-office.query'
+import { useGetBuildLifeProjectConfig } from '@/api/avenir-esr'
 import { AvModal, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,7 +10,7 @@ const {
 
 const { t } = useI18n()
 
-const { data: config } = useBackOfficeBuildLifeProjectConfigQuery()
+const { data: config } = useGetBuildLifeProjectConfig()
 </script>
 
 <template>
