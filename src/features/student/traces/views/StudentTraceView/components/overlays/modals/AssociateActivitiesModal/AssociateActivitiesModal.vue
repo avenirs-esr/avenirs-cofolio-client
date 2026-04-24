@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { EActivityThematic } from '@/api/avenir-esr'
-import type { IdTitle } from '@/types'
+import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import { DeclaredActivityCompactCard } from '@/features/student/buildProject'
 import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/global'
@@ -9,8 +9,7 @@ import { ICONS } from '@/features/student/global/icons'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export type AssociationActivity = IdTitle & {
-  disabled: boolean
+export type AssociationActivity = Association & {
   thematic: EActivityThematic
 }
 
@@ -110,7 +109,7 @@ function onConfirm () {
       :get-option-key="option => option.value"
       :get-option-label="(option) => option.label"
       :loading="isLoading"
-      @search="onSearch"
+      @update:search="onSearch"
       @delete="onDeleteActivity"
     >
       <template #selectedItem="{ item }">

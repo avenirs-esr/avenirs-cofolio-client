@@ -1,84 +1,67 @@
 <script setup lang="ts">
-import type { AssociateElementOption, AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import type { IdTitle } from '@/types'
+import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import AssociateElementTypeSelect from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociationElementTypeSelect/AssociateElementTypeSelect.vue'
 
 export interface AssociateElementsDrawerSectionProps {
   typeConfigs: AssociateElementTypeConfig[]
-  options: AssociateElementOption[]
+  options: Association[]
   loading?: boolean
+  activeTypeKey: string
 }
 
 const { typeConfigs, options, loading } = defineProps<AssociateElementsDrawerSectionProps>()
 
-const emit = defineEmits<{
-  (e: 'search', query: string): void
-  (e: 'typeChange', typeKey: string): void
-}>()
+function autocompleteOptionToAssociateElementOption (option: AvAutocompleteOption): Association {
+  return {
+    id: option.value.toString(),
+    title: option.label,
+    description: option.description,
+    disabled: option.disabled ?? false
+  }
+}
 
-const selectionsByType = defineModel<Record<string, IdTitle[]>>('selectionsByType', { default: () => ({}) })
+function associateElementOptionToAutocompleteOption (option: Association): AvAutocompleteOption {
+  return {
+    value: option.id,
+    label: option.title,
+    description: option.description,
+    disabled: option.disabled
+  }
+}
 
-const activeTypeKey = ref<string>(typeConfigs[0]?.key ?? '')
-
-const selectedOptionsByType = ref<Record<string, AvAutocompleteOption[]>>({})
+const selectionsByType = defineModel<Record<string, Association[]>>('selectionsByType', { default: () => ({}) })
+const activeTypeKey = defineModel<string>('activeTypeKey', { required: true })
+const searchQuery = defineModel<string>('searchQuery', { default: '' })
 
 const activeConfig = computed(() =>
   typeConfigs.find(config => config.key === activeTypeKey.value) ?? typeConfigs[0]
 )
 
 const autocompleteOptions = computed<AvAutocompleteOption[]>(() =>
-  options.map(option => ({
-    label: option.title,
-    value: option.id,
-    description: option.description,
-    disabled: option.disabled
-  }))
+  options.map(associateElementOptionToAutocompleteOption)
 )
 
-const selectedOptions = computed({
-  get: (): AvAutocompleteOption[] => selectedOptionsByType.value[activeTypeKey.value] ?? [],
-  set: (newOptions: AvAutocompleteOption[]) => {
-    selectedOptionsByType.value = {
-      ...selectedOptionsByType.value,
-      [activeTypeKey.value]: newOptions
+const activeTypeAssociations = computed<Association[]>(() => selectionsByType.value[activeTypeKey.value] ?? [])
+
+const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
+  get: () => activeTypeAssociations.value.map(associateElementOptionToAutocompleteOption),
+  set: (newOptions) => {
+    selectionsByType.value = {
+      ...selectionsByType.value,
+      [activeTypeKey.value]: newOptions.map(autocompleteOptionToAssociateElementOption)
     }
   }
 })
 
-const selectedItems = computed<IdTitle[]>(() =>
-  selectedOptions.value.map(option => ({
-    id: option.value.toString(),
-    title: option.label,
-    description: option.description
-  }))
-)
-
-function onTypeChange (typeKey: string) {
-  activeTypeKey.value = typeKey
-  emit('typeChange', typeKey)
-}
-
 function onDeleteItem (itemId: string) {
-  const current = selectedOptionsByType.value[activeTypeKey.value] ?? []
-  selectedOptionsByType.value = {
-    ...selectedOptionsByType.value,
-    [activeTypeKey.value]: current.filter(option => option.value !== itemId)
+  selectionsByType.value = {
+    ...selectionsByType.value,
+    [activeTypeKey.value]: activeTypeAssociations.value.filter(item => item.id !== itemId)
   }
 }
-
-watch(selectedOptionsByType, () => {
-  const updated: Record<string, IdTitle[]> = {}
-  for (const [typeKey, opts] of Object.entries(selectedOptionsByType.value)) {
-    updated[typeKey] = opts.map(option => ({
-      id: option.value.toString(),
-      title: option.label,
-      description: option.description
-    }))
-  }
-  selectionsByType.value = updated
-}, { deep: true })
 </script>
 
 <template>
@@ -87,18 +70,18 @@ watch(selectedOptionsByType, () => {
     data-testid="associate-elements-drawer-section"
   >
     <SearchAssociationLayout
-      v-model="selectedOptions"
+      v-model="autocompleteSelectedOptions"
+      v-model:search="searchQuery"
       :options="autocompleteOptions"
-      :items="selectedItems"
+      :items="activeTypeAssociations"
       :input-options="{ placeholder: activeConfig?.searchPlaceholder }"
       :loading="loading"
-      @search="emit('search', $event)"
       @delete="onDeleteItem"
     >
       <template #beforeSearch>
         <AssociateElementTypeSelect
+          v-model:active-type-key="activeTypeKey"
           :type-configs="typeConfigs"
-          @type-change="onTypeChange"
         />
       </template>
 

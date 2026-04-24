@@ -5,14 +5,15 @@ import { useI18n } from 'vue-i18n'
 
 const { typeConfigs } = defineProps<{ typeConfigs: AssociateElementTypeConfig[] }>()
 
-const emit = defineEmits<{
-  (e: 'typeChange', typeKey: string): void
-}>()
+const activeTypeKey = defineModel<string>('activeTypeKey', { required: true })
 
 const { t } = useI18n()
 
-const selectedTypeItem = ref<{ itemId: string }>({
-  itemId: typeConfigs[0]?.key ?? ''
+const selectedTypeItem = computed({
+  get: () => ({ itemId: activeTypeKey.value }),
+  set: (val: { itemId: string }) => {
+    activeTypeKey.value = val.itemId
+  }
 })
 
 const typeSelectOptions = computed(() =>
@@ -21,10 +22,6 @@ const typeSelectOptions = computed(() =>
     label: config.label
   }))
 )
-
-watch(selectedTypeItem, (val) => {
-  emit('typeChange', val.itemId)
-})
 </script>
 
 <template>

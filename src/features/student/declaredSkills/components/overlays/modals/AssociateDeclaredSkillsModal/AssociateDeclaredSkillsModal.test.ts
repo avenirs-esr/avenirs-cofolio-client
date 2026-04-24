@@ -154,9 +154,9 @@ BddTest().given('an associate declared skills modal', () => {
       })
     })
 
-    BddTest().and('the layout emits search event', () => {
+    BddTest().and('the layout emits update:search event', () => {
       beforeEach(async () => {
-        layout.vm.$emit('search', 'gestion')
+        layout.vm.$emit('update:search', 'gestion')
         await wrapper.vm.$nextTick()
       })
 

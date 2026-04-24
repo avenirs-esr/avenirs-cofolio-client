@@ -147,7 +147,10 @@
                 }
               },
               "errors": {
-                "association": "An error occurred during the association",
+                "association": {
+                  "description": "Your trace has been created, you can try linking your trace again on its details page.",
+                  "title": "An error occurred while associating the trace with its elements."
+                },
                 "createTrace": "An error occurred while creating the trace.",
                 "fileUpload": "An error occurred while uploading the file."
               },

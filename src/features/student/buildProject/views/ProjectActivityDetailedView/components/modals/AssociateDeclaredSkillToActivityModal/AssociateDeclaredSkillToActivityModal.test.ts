@@ -66,19 +66,19 @@ BddTest().given('an associate declared skills to activity modal', () => {
 
     BddTest().then('it should load skills from the query and pass them to the modal', async () => {
       await vi.waitFor(() => {
-        const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredSkillsModalStub>>
+        const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub)
         expect(updatedModal.props('skills').length).toBeGreaterThan(0)
       })
 
       BddTest().and('the inner modal emits search event', () => {
         beforeEach(async () => {
-          modal.vm.$emit('search', 'compétence')
+          modal.vm.$emit('update:search', 'compétence')
           await flushPromises()
         })
 
         BddTest().then('it should filter skills through the query', async () => {
           await vi.waitFor(() => {
-            const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredSkillsModalStub>>
+            const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub)
             const skills = updatedModal.props('skills')
             expect(skills.length).toBeGreaterThanOrEqual(0)
           })
@@ -88,7 +88,7 @@ BddTest().given('an associate declared skills to activity modal', () => {
       BddTest().and('the inner modal emits associate event successfully', () => {
         beforeEach(async () => {
           await vi.waitFor(() => {
-            const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredSkillsModalStub>>
+            const updatedModal = wrapper.findComponent(AssociateDeclaredSkillsModalStub)
             expect(updatedModal.props('skills').length).toBeGreaterThan(0)
           })
 
@@ -142,7 +142,7 @@ BddTest().given('an associate declared skills to activity modal', () => {
         })
 
         await vi.waitFor(() => {
-          const modal = wrapper.findComponent(AssociateDeclaredSkillsModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredSkillsModalStub>>
+          const modal = wrapper.findComponent(AssociateDeclaredSkillsModalStub)
           expect(modal.props('skills').length).toBeGreaterThan(0)
         })
       })

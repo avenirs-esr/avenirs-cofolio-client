@@ -150,7 +150,7 @@ BddTest().given('an associate activities modal', () => {
     BddTest().and('the user searches in the search association layout', () => {
       beforeEach(async () => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        layout.vm.$emit('search', 'valeurs')
+        layout.vm.$emit('update:search', 'valeurs')
         await flushPromises()
       })
 

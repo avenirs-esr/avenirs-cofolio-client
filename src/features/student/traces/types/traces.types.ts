@@ -1,4 +1,4 @@
-import type { IdTitle } from '@/types'
+import type { Association } from '@/features/student/global/types/associations.types'
 
 export enum TraceType {
   FILE = 'FILE',
@@ -8,10 +8,6 @@ export enum TraceType {
 export enum EAssociationTypeKey {
   DECLARED_SKILLS = 'declaredSkills',
   ACTIVITIES = 'activities'
-}
-
-export interface AssociateElementOption extends IdTitle {
-  disabled?: boolean
 }
 
 export interface AssociateElementTypeConfig {
@@ -28,7 +24,7 @@ interface TraceFormDataBase {
   isGroup: boolean
   useIA: boolean
   iaJustification?: string
-  associationSelections?: Record<string, IdTitle[]>
+  associationSelections?: Record<string, Association[]>
 }
 
 export interface TraceFormDataFile extends TraceFormDataBase {

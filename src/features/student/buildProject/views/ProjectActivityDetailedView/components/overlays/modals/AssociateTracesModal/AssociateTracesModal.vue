@@ -155,7 +155,7 @@ function getIsAssociatedParam () {
       }"
       :get-option-key="option => option.value"
       :get-option-label="option => option.label"
-      @search="onSearch"
+      @update:search="onSearch"
       @delete="onDeleteTrace"
     >
       <template #beforeSearch>

@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { IdTitle } from '@/types'
+import type { Association } from '@/features/student/global/types/associations.types'
 import type { ComputedRef } from 'vue'
-import { ELanguage } from '@/api/avenir-esr'
+import { ELanguage, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import {
@@ -16,7 +16,7 @@ import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
-function getIdsForType (associationSelections: Record<string, IdTitle[]>, typeKey: string): string[] {
+function getIdsForType (associationSelections: Record<string, Association[]>, typeKey: string): string[] {
   return (associationSelections[typeKey] ?? []).map(item => item.id)
 }
 export function useCreateTraceForm (onTraceCreated?: () => void) {
@@ -43,41 +43,26 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const uploadAttachmentMutation = useUploadAttachmentMutation({ onError: onUploadAttachmentError })
 
-  function onAssociationError (error: BaseApiException) {
+  function onAssociationError () {
     addErrorMessage({
-      title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.association'),
-      description: error.message
+      title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.association.title'),
+      description: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.association.description')
     })
   }
 
-  function makeAssociationPromise<T> (
-    mutate: (variables: T, options: { onSuccess: () => void, onError: (error: BaseApiException) => void }) => void,
-    variables: T
-  ): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      mutate(variables, {
-        onSuccess: () => resolve(),
-        onError: (error) => {
-          onAssociationError(error)
-          reject(error)
-        }
-      })
-    })
-  }
-
-  const { mutate: associateWithActivities, isPending: isPendingAssociateWithActivities } = useAssociateTraceWithActivitiesMutation({ onError: onAssociationError })
-  const { mutate: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkillsMutation({ onError: onAssociationError })
+  const { mutateAsync: associateWithActivities, isPending: isPendingAssociateWithActivities } = useAssociateTraceWithActivitiesMutation()
+  const { mutateAsync: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkillsMutation()
 
   const isFileUploading = ref(false)
 
   const { validateFile } = useTraceFileValidation(true)
 
-  function associateElements (traceId: string, associationSelections: Record<string, IdTitle[]>) {
-    const pendingAssociations: Promise<void>[] = []
+  function associateElements (traceId: string, associationSelections: Record<string, Association[]>) {
+    const pendingAssociations = []
 
     const activityIds = getIdsForType(associationSelections, EAssociationTypeKey.ACTIVITIES)
     if (activityIds.length > 0) {
-      pendingAssociations.push(makeAssociationPromise(associateWithActivities, {
+      pendingAssociations.push(associateWithActivities({
         traceId,
         associationsCreationRequest: { idsToAssociate: activityIds }
       }))
@@ -85,7 +70,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
     const skillIds = getIdsForType(associationSelections, EAssociationTypeKey.DECLARED_SKILLS)
     if (skillIds.length > 0) {
-      pendingAssociations.push(makeAssociationPromise(associateWithDeclaredSkills, {
+      pendingAssociations.push(associateWithDeclaredSkills({
         traceId,
         associationsCreationRequest: { idsToAssociate: skillIds }
       }))
@@ -94,21 +79,25 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     return pendingAssociations
   }
 
-  function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
-    const selections = traceFormData.associationSelections ?? {}
-    const pendingOperations: Promise<void>[] = associateElements(traceId, selections)
-
+  async function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     if (isTraceFileType(traceFormData) && traceFormData.file) {
-      pendingOperations.push(
-        makeAssociationPromise(uploadAttachmentMutation.mutate, {
-          traceId,
-          file: traceFormData.file
-        })
-      )
+      await uploadAttachmentMutation.mutateAsync({
+        traceId,
+        file: traceFormData.file
+      })
     }
 
-    Promise.allSettled(pendingOperations).then(() => {
-      onTraceCreated?.()
+    onTraceCreated?.()
+
+    const selections = traceFormData.associationSelections ?? {}
+    const $associations = associateElements(traceId, selections)
+
+    await Promise.allSettled($associations).then((data: PromiseSettledResult<TraceAssociationsDTO>[]) => {
+      const rejected = data.filter(result => result.status === 'rejected')
+
+      if (rejected.length > 0) {
+        onAssociationError()
+      }
     })
   }
 
@@ -121,8 +110,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       language: ELanguage.FRENCH,
       link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
     }, {
-      onSuccess: (traceResult) => {
-        finalizeTraceCreation(traceResult.traceId, traceFormData)
+      onSuccess: async (traceResult) => {
+        await finalizeTraceCreation(traceResult.traceId, traceFormData)
       }
     })
   }

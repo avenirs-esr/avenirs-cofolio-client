@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import type { AssociateElementOption, AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
+import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
+import {
+  SearchDeclaredActivitiesForAssociationContextType,
+  SearchDeclaredSkillsForAssociationContextType,
+  useSearchDeclaredActivitiesForAssociation,
+  useSearchDeclaredSkillsForAssociation,
+} from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import {
-  useSearchActivitiesForAssociationQuery,
-  useSearchDeclaredSkillsForAssociationWithTraceQuery
-} from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { useDeclaredActivityAssociation } from '@/features/student/buildProject'
+import { useDeclaredSkillAssociation } from '@/features/student/declaredSkills'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import AssociateElementsDrawerSection from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
@@ -15,8 +20,13 @@ import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
+
+enum AddTraceAccordionGroupItems {
+  TRACE = 0,
+  DECLARATION = 1,
+  ASSOCIATION = 2
+}
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()
@@ -55,7 +65,10 @@ const {
   closeModal: hideDiscardChangesModal
 })
 
-const activeAccordion = ref(0)
+const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
+const { declaredActivityToAssociation } = useDeclaredActivityAssociation()
+
+const activeAccordion = ref(AddTraceAccordionGroupItems.TRACE)
 
 function confirmCancel () {
   form.reset()
@@ -75,40 +88,37 @@ async function onSave () {
   await form.handleSubmit()
 }
 
-// During trace creation, we don't have a real traceId yet.
-// During trace creation, the BE search endpoints require a traceId to exclude already-associated elements.
-// Since the trace doesn't exist yet, any valid UUID works — the BE finds no existing associations for it.
-// TODO : create an endpoint to search elements without providing a traceId
-const PLACEHOLDER_TRACE_ID = '00000000-0000-0000-0000-000000000000'
-const searchTraceId = computed(() => showDrawer.value ? PLACEHOLDER_TRACE_ID : '')
-
-function makeSearchParams (typeKey: EAssociationTypeKey) {
-  return computed(() => ({
-    keyword: activeTypeKey.value === typeKey
-      ? (searchQuery.value.trim() || undefined)
-      : undefined,
-    page: 0,
-    pageSize: 100,
-  }))
-}
+const searchParams = computed(() => ({
+  keyword: searchQuery.value.trim(),
+  page: 0,
+  pageSize: 100,
+}))
 
 const {
-  skills,
+  data: skills,
   isLoading: isSkillsLoading
-} = useSearchDeclaredSkillsForAssociationWithTraceQuery({
-  traceId: searchTraceId,
-  params: makeSearchParams(EAssociationTypeKey.DECLARED_SKILLS),
-  enabled: computed(() => activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS)
-})
+} = useSearchDeclaredSkillsForAssociation(
+  computed(() => ({ contextType: SearchDeclaredSkillsForAssociationContextType.TRACE, ...searchParams.value })),
+  {
+    query: {
+      enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS),
+      select: response => response.data,
+    }
+  }
+)
 
 const {
-  activities,
+  data: activities,
   isLoading: isActivitiesLoading
-} = useSearchActivitiesForAssociationQuery({
-  traceId: searchTraceId,
-  params: makeSearchParams(EAssociationTypeKey.ACTIVITIES),
-  enabled: computed(() => activeTypeKey.value === EAssociationTypeKey.ACTIVITIES)
-})
+} = useSearchDeclaredActivitiesForAssociation(
+  computed(() => ({ contextType: SearchDeclaredActivitiesForAssociationContextType.TRACE, ...searchParams.value })),
+  {
+    query: {
+      enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.ACTIVITIES),
+      select: response => response.data,
+    }
+  }
+)
 
 const typeConfigs = computed<AssociateElementTypeConfig[]>(() => [
   {
@@ -123,42 +133,20 @@ const typeConfigs = computed<AssociateElementTypeConfig[]>(() => [
   }
 ])
 
-const currentOptions = computed<AssociateElementOption[]>(() => {
+const currentOptions = computed<Association[]>(() => {
   if (activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS) {
-    return skills.value.map(skill => ({
-      id: skill.id,
-      title: skill.title,
-      disabled: skill.disabled,
-      description: skill.type
-        ? t(`student.declaredSkills.declaredSkillTypes.${skill.type}`)
-        : undefined
-    }))
+    return skills.value?.map(declaredSkillToAssociation) ?? []
   }
-  return activities.value.map(activity => ({
-    id: activity.id,
-    title: activity.title,
-    disabled: activity.disabled,
-    description: activity.thematic
-      ? t(`student.buildProject.activities.thematics.${activity.thematic}`)
-      : undefined
-  }))
+  return activities.value?.map(declaredActivityToAssociation) ?? []
 })
 
 const isSearchLoading = computed(() => {
-  if (activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS) {
-    return isSkillsLoading.value
-  }
-  return isActivitiesLoading.value
+  return isActivitiesLoading.value || isSkillsLoading.value
 })
 
-const onSearch = debounce((query: string) => {
-  searchQuery.value = query
-}, 350)
-
-function onTypeChange (typeKey: string) {
-  activeTypeKey.value = typeKey
+watch(activeTypeKey, () => {
   searchQuery.value = ''
-}
+})
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
 </script>
@@ -189,7 +177,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
       <div class="av-col av-flex-fill">
         <form
           novalidate
-          @submit.prevent.stop="form.handleSubmit"
+          @submit.prevent.stop
         >
           <AvAccordionsGroup v-model:active-accordion="activeAccordion">
             <AvAccordion
@@ -211,14 +199,14 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
             >
               <AssociateElementsDrawerSection
+                v-model:active-type-key="activeTypeKey"
+                v-model:search-query="searchQuery"
                 :selections-by-type="associationSelectionsField.state.value.value"
                 :type-configs="typeConfigs"
                 :options="currentOptions"
                 :loading="isSearchLoading"
                 data-testid="associate-elements-section"
                 @update:selections-by-type="associationSelectionsField.api.handleChange"
-                @search="onSearch"
-                @type-change="onTypeChange"
               />
             </AvAccordion>
           </AvAccordionsGroup>

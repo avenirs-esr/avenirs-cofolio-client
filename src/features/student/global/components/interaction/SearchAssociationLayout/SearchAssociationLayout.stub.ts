@@ -2,6 +2,7 @@ export const SearchAssociationLayoutStub = defineComponent({
   name: 'SearchAssociationLayout',
   props: [
     'modelValue',
+    'search',
     'options',
     'items',
     'inputOptions',
@@ -9,7 +10,7 @@ export const SearchAssociationLayoutStub = defineComponent({
     'getOptionLabel',
     'loading'
   ],
-  emits: ['update:modelValue', 'search', 'clear', 'loadMore', 'delete'],
+  emits: ['update:modelValue', 'update:search', 'clear', 'loadMore', 'delete'],
   template: `
     <div data-testid="search-association-layout-stub">
 
