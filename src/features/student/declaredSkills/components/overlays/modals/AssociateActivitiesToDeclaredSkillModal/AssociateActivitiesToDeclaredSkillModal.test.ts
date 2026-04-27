@@ -1,9 +1,7 @@
 import type { AssociationActivity } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import {
-  associateDeclaredSkillWithDeclaredActivityErrorHandler,
-  searchActivitiesForAssociationWithDeclaredSkillErrorHandler
-} from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { searchDeclaredActivitiesForAssociationErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { associateDeclaredSkillWithDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import AssociateActivitiesToDeclaredSkillModal, {
   type AssociateActivitiesToDeclaredSkillModalProps
@@ -149,7 +147,7 @@ BddTest().given('an associate activities to declared skill modal', () => {
 
   BddTest().when('loading activities fails', () => {
     beforeEach(async () => {
-      server.use(searchActivitiesForAssociationWithDeclaredSkillErrorHandler)
+      server.use(searchDeclaredActivitiesForAssociationErrorHandler)
 
       wrapper = mountComponent(AssociateActivitiesToDeclaredSkillModal, {
         props,

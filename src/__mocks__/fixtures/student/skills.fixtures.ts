@@ -1,6 +1,7 @@
 import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type AssociationSearchResultDeclaredSkillIDTO,
   type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationsDTO,
   type DeclaredSkillProgressDetailsDTO,
@@ -12,6 +13,7 @@ import {
   EExternalSkillType,
   ESkillLevelStatus,
   type ExternalSkillDTO,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PagedResponseSkillDTO,
@@ -225,6 +227,35 @@ export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
   }
 
   return mockedAllSkills
+}
+
+export function createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO (
+  pageSize: number,
+  page: number,
+  keyword: string
+): PagedResponseAssociationSearchResultDeclaredSkillIDTO {
+  const allSkills: AssociationSearchResultDeclaredSkillIDTO[] = [
+    { id: 'skill-search-1', title: 'Conduire un projet de bout en bout', type: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-2', title: 'Analyser et synthétiser des informations', type: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-3', title: 'Développement web et compétence numérique', type: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-4', title: 'Gestion de projet et compétences managériales', type: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-5', title: 'Communication interpersonnelle', type: EExternalSkillType.ROME4, disabled: false },
+  ]
+
+  const filtered = keyword
+    ? allSkills.filter(s => s.title.toLowerCase().includes(keyword.toLowerCase()))
+    : allSkills
+
+  const start = page * pageSize
+  const end = start + pageSize
+  const data = filtered.slice(start, end)
+  const totalElements = filtered.length
+  const totalPages = Math.ceil(totalElements / pageSize)
+
+  return {
+    data,
+    page: { pageSize, totalElements, totalPages, page }
+  }
 }
 
 export function createMockedDeclaredSkillProgressDetailsDTO (skillId: string): DeclaredSkillProgressDetailsDTO {

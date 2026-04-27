@@ -3,6 +3,7 @@ import {
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
   createMockedDeclaredActivityAssociationsDTO,
   createMockedDeclaredActivityDetails,
+  createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
   mockedDeclaredActivityAssociations,
@@ -29,12 +30,13 @@ import {
   getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
-  getSearchDeclaredSkillsForAssociation1Url,
+  getSearchDeclaredActivitiesForAssociationUrl,
   getSearchTracesForAssociationUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdatePeriodUrl,
   getUpdateReflectionUrl,
+  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
@@ -550,44 +552,6 @@ export const searchTracesForAssociationHandler = http.get(
   }
 )
 
-export const searchSkillsForAssociationHandler = http.get(
-  `*${getSearchDeclaredSkillsForAssociation1Url(':declaredActivityId')}`,
-  async ({ params, request }) => {
-    const { declaredActivityId } = params
-
-    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
-      return HttpResponse.json(
-        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-    }
-
-    const url = new URL(request.url)
-
-    const keyword = url.searchParams.get('keyword') ?? undefined
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
-
-    const response = createMockedSearchTracesForAssociationResponse({
-      keyword,
-      page,
-      pageSize,
-    })
-
-    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
-)
-
 export const searchTracesForAssociationErrorHandler = http.get(
   `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
   async () => {
@@ -600,6 +564,40 @@ export const searchTracesForAssociationErrorHandler = http.get(
         }
       }
     )
+  }
+)
+
+export const searchDeclaredActivitiesForAssociationErrorHandler = http.get(
+  `*${getSearchDeclaredActivitiesForAssociationUrl()}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+)
+
+export const searchDeclaredActivitiesForAssociationHandler = http.get(
+  `*${getSearchDeclaredActivitiesForAssociationUrl()}*`,
+  ({ request }) => {
+    const url = new URL(request.url)
+    const searchParams = url.searchParams
+    const keyword = searchParams.get('keyword') ?? ''
+    const pageSize = Number(searchParams.get('pageSize') ?? 100)
+    const page = Number(searchParams.get('page') ?? 0)
+
+    const response = createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO(
+      pageSize,
+      page,
+      keyword
+    )
+
+    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredActivityDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
   }
 )
 
@@ -626,6 +624,7 @@ export const activitiesHandlers = [
   activityNavigationQuery,
   activitiesViewHandler,
   latestActivitiesHandler,
+  searchDeclaredActivitiesForAssociationHandler,
   activityDetailHandler,
   declaredActivityDetailsHandler,
   declaredActivityAssociationsHandler,
@@ -638,5 +637,4 @@ export const activitiesHandlers = [
   associateActivityWithDeclaredSkillsHandler,
   deleteDeclaredActivityAssociationsSuccessHandler,
   searchTracesForAssociationHandler,
-  searchSkillsForAssociationHandler
 ]

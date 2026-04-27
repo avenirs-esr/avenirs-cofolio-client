@@ -1,8 +1,8 @@
 import { createDeclaredSkillAssociationResponseFixture } from '@/__mocks__/fixtures/student'
-import { createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {
   createMockedAllSkillListItemDTO,
   createMockedDeclaredSkillProgressDetailsDTO,
+  createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO,
   createMockedPagedResponseDeclaredSkillProgressDTO,
   createMockedPagedResponseSkillsDTO,
   createMockedSearchExternalSkillsDTO,
@@ -28,9 +28,10 @@ import {
   getGetDeclaredSkillWithDeclaredActivitiesUrl,
   getGetDetailedSkillUrl,
   getGetSkillLevelProgressesUrl,
-  getSearchDeclaredActivityForAssociation1Url,
+  getSearchDeclaredSkillsForAssociationUrl,
   getUnassociateTracesUrl,
   getUpdateDeclaredSkillProgressUrl,
+  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
   type PagedResponseSkillDTO,
@@ -100,8 +101,8 @@ export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDecl
   )
 })
 
-export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
-  `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+export const searchDeclaredSkillsForAssociationErrorHandler = http.get(
+  `*${getSearchDeclaredSkillsForAssociationUrl()}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal server error' },
@@ -110,8 +111,32 @@ export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
   }
 )
 
-export const searchActivitiesForAssociationWithDeclaredSkillErrorHandler = http.get(
-  `*${getSearchDeclaredActivityForAssociation1Url(':declaredSkillProgressId')}`,
+export const searchDeclaredSkillsForAssociationHandler = http.get(
+  `*${getSearchDeclaredSkillsForAssociationUrl()}*`,
+  ({ request }) => {
+    const url = new URL(request.url)
+    const searchParams = url.searchParams
+    const keyword = searchParams.get('keyword') ?? ''
+    const pageSize = Number(searchParams.get('pageSize') ?? 100)
+    const page = Number(searchParams.get('page') ?? 0)
+
+    const response = createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO(
+      pageSize,
+      page,
+      keyword
+    )
+
+    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredSkillIDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }
+)
+
+export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
+  `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal server error' },
@@ -138,38 +163,6 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
     }
 
     const response: DeclaredSkillAssociationsDTO = createDeclaredSkillAssociationResponseFixture(body)
-
-    return HttpResponse.json(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }
-)
-
-export const searchActivitiesForAssociationWithDeclaredSkillHandler = http.get(
-  `*${getSearchDeclaredActivityForAssociation1Url(':declaredSkillProgressId')}`,
-  ({ request, params }) => {
-    const url = new URL(request.url)
-    const searchParams = url.searchParams
-    const keyword = searchParams.get('keyword') ?? ''
-    const pageSize = Number(searchParams.get('pageSize') ?? 100)
-    const page = Number(searchParams.get('page') ?? 0)
-    const { declaredSkillProgressId } = params
-
-    if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
-      return HttpResponse.json(
-        { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
-        { status: 404 }
-      )
-    }
-
-    const response = createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO(
-      pageSize,
-      page,
-      keyword
-    )
 
     return HttpResponse.json(response, {
       status: 200,
@@ -282,7 +275,7 @@ export const skillsHandlers = [
       }
     })
   }),
-
+  searchDeclaredSkillsForAssociationHandler,
   http.get<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedDeclaredSkillProgressDetailsDTO(id)
@@ -370,7 +363,6 @@ export const skillsHandlers = [
     })
   }),
   associateDeclaredSkillWithDeclaredActivityHandler,
-  searchActivitiesForAssociationWithDeclaredSkillHandler,
 
   http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
     `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,

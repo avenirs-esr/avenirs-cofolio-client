@@ -4,11 +4,12 @@ import type {
 } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import {
   type AssociationsCreationRequest,
+  EAssociationContextType,
   invalidateGetDeclaredSkillProgressDetails,
   invalidateGetDeclaredSkillWithDeclaredActivities,
-  invalidateSearchDeclaredSkillForAssociation,
+  invalidateSearchDeclaredActivitiesForAssociation,
   useAssociateDeclaredSkillWithDeclaredActivities,
-  useSearchDeclaredActivityForAssociation1
+  useSearchDeclaredActivitiesForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
@@ -43,6 +44,8 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
+  excludeAssociatedWithElementId: declaredSkillId,
+  contextType: EAssociationContextType.DECLARED_SKILL,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
@@ -53,12 +56,16 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredActivityForAssociation1(declaredSkillId, params)
+} = useSearchDeclaredActivitiesForAssociation(params, {
+  query: {
+    select: response => response.data,
+  }
+})
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
 const associationActivities = computed<AssociationActivity[]>(() => activities.value
-  ? (activities.value.data).map(activity => ({
+  ? (activities.value).map(activity => ({
       id: activity.id,
       title: activity.title,
       thematic: activity.thematic,
@@ -78,7 +85,7 @@ function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
         invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
-        invalidateSearchDeclaredSkillForAssociation(queryClient, variables.declaredSkillProgressId),
+        invalidateSearchDeclaredActivitiesForAssociation(queryClient),
         invalidateGetDeclaredSkillWithDeclaredActivities(queryClient, variables.declaredSkillProgressId)
       ]))
 

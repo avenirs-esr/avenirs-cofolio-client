@@ -2242,63 +2242,6 @@
         }
       }
     },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/search-for-association/declared-activities": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "searchDeclaredActivityForAssociation_1",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/associations": {
       "get": {
         "tags": [
@@ -2351,13 +2294,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "TRACE",
-                "DECLARED_ACTIVITY",
-                "DECLARED_SKILL",
-                "DECLARED_EXPERIENCE"
-              ]
+              "$ref": "#/components/schemas/EAssociationContextType"
             }
           },
           {
@@ -2493,13 +2430,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "TRACE",
-                "DECLARED_ACTIVITY",
-                "DECLARED_SKILL",
-                "DECLARED_EXPERIENCE"
-              ]
+              "$ref": "#/components/schemas/EAssociationContextType"
             }
           },
           {
@@ -2679,63 +2610,6 @@
         }
       }
     },
-    "/me/activity-progress/{declaredActivityId}/search-for-association/declared-skills": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "searchDeclaredSkillsForAssociation_1",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/activity-progress/{declaredActivityId}/associations": {
       "get": {
         "tags": [
@@ -2827,13 +2701,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "TRACE",
-                "DECLARED_ACTIVITY",
-                "DECLARED_SKILL",
-                "DECLARED_EXPERIENCE"
-              ]
+              "$ref": "#/components/schemas/EAssociationContextType"
             }
           },
           {
