@@ -1,0 +1,1 @@
+export const TRACE_LINK_MAX_LENGTH = 2000
