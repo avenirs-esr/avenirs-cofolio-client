@@ -2,8 +2,7 @@
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import {
-  SearchDeclaredActivitiesForAssociationContextType,
-  SearchDeclaredSkillsForAssociationContextType,
+  EAssociationContextType,
   useSearchDeclaredActivitiesForAssociation,
   useSearchDeclaredSkillsForAssociation,
 } from '@/api/avenir-esr'
@@ -98,7 +97,7 @@ const {
   data: skills,
   isLoading: isSkillsLoading
 } = useSearchDeclaredSkillsForAssociation(
-  computed(() => ({ contextType: SearchDeclaredSkillsForAssociationContextType.TRACE, ...searchParams.value })),
+  computed(() => ({ contextType: EAssociationContextType.TRACE, ...searchParams.value })),
   {
     query: {
       enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS),
@@ -111,7 +110,7 @@ const {
   data: activities,
   isLoading: isActivitiesLoading
 } = useSearchDeclaredActivitiesForAssociation(
-  computed(() => ({ contextType: SearchDeclaredActivitiesForAssociationContextType.TRACE, ...searchParams.value })),
+  computed(() => ({ contextType: EAssociationContextType.TRACE, ...searchParams.value })),
   {
     query: {
       enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.ACTIVITIES),

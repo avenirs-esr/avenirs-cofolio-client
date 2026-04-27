@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import {
+  EAssociationContextType,
   invalidateGetDeclaredActivityAssociations,
-  type SearchDeclaredSkillForAssociationParams,
+  type SearchDeclaredSkillsForAssociationParams,
   useAssociateActivityWithDeclaredSkills,
-  useSearchDeclaredSkillsForAssociation1
+  useSearchDeclaredSkillsForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
@@ -36,20 +37,20 @@ const {
   onAssociateMutationError
 } = useAssociationModal()
 
-const params = computed<SearchDeclaredSkillForAssociationParams>(() => ({
+const params = computed<SearchDeclaredSkillsForAssociationParams>(() => ({
+  excludeAssociatedWithElementId: activityId,
+  contextType: EAssociationContextType.DECLARED_ACTIVITY,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
 }))
 
 const {
-  data,
+  data: skills,
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredSkillsForAssociation1(activityId, params)
-
-const skills = computed(() => data.value?.data ?? [])
+} = useSearchDeclaredSkillsForAssociation(params, { query: { select: response => response.data } })
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
@@ -77,7 +78,7 @@ function associateActivityWithDeclaredSkills (idsToAssociate: string[]) {
 <template>
   <AssociateDeclaredSkillsModal
     :show="show"
-    :skills="skills"
+    :skills="skills ?? []"
     :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"
