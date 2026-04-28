@@ -121,23 +121,19 @@ BddTest().given('a student navigation', () => {
     BddTest().then('it should include education menu with submenus', () => {
       const succeedMyEducationMenuItems = [
         'Mes compétences',
-        'Mes activités de mise en situation'
       ]
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 
       const educationItem = navItems.find((item: any) => item.title === succeedMyEducationMenuTitle)
       expect(educationItem).toBeDefined()
-      expect(educationItem.links).toHaveLength(2)
+      expect(educationItem.links).toHaveLength(1)
       const linkTexts = educationItem.links.map((link: any) => link.text)
       expect(linkTexts).toEqual(succeedMyEducationMenuItems)
       const routerLinks = avNavigation.findAllComponents({ name: 'RouterLink' })
       const skillsLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[0]))
       expect(skillsLink).toBeTruthy()
       expect(skillsLink!.props('to')).toEqual(ROUTES.STUDENT.EDUCATION_SKILLS)
-      const activitiesLink = routerLinks.find(link => link.text().includes(succeedMyEducationMenuItems[1]))
-      expect(activitiesLink).toBeTruthy()
-      expect(activitiesLink!.props('to')).toEqual(ROUTES.STUDENT.EDUCATION_ACTIVITIES)
     })
 
     BddTest().then('it should not set education menu "to" property when submenus are shown', () => {

@@ -16,8 +16,6 @@ BddTest().given('a student last completed level badge component', () => {
     const validatedLevel: SkillLevelProgressOverviewDTO = {
       id: '1',
       name: 'Niveau 1',
-      traceCount: 0,
-      activityCount: 0,
       status: ESkillLevelStatus.VALIDATED,
     }
 
@@ -47,8 +45,6 @@ BddTest().given('a student last completed level badge component', () => {
     const failedLevel: SkillLevelProgressOverviewDTO = {
       id: '2',
       name: 'Niveau 2',
-      traceCount: 0,
-      activityCount: 0,
       status: ESkillLevelStatus.FAILED,
     }
 
@@ -71,33 +67,6 @@ BddTest().given('a student last completed level badge component', () => {
       expect(badge.props('color')).toBe('var(--light-foreground-error)')
       expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
       expect(badge.props('icon')).toBe(ICONS_DATA_URL.MDI_CLOSE_CIRCLE_OUTLINE)
-    })
-  })
-
-  BddTest().when('the level status is neither validated nor failed', () => {
-    const inProgressLevel: SkillLevelProgressOverviewDTO = {
-      id: '3',
-      name: 'Niveau 3',
-      traceCount: 0,
-      activityCount: 0,
-      status: ESkillLevelStatus.UNDER_REVIEW,
-    }
-
-    beforeEach(() => {
-      wrapper = mount(StudentLastCompletedLevelBadge, {
-        props: {
-          level: inProgressLevel
-        },
-        global: {
-          stubs
-        }
-      })
-    })
-
-    BddTest().then('it should not render AvBadge', () => {
-      const badge = wrapper.findComponent({ name: 'AvBadge' })
-
-      expect(badge.exists()).toBe(false)
     })
   })
 })

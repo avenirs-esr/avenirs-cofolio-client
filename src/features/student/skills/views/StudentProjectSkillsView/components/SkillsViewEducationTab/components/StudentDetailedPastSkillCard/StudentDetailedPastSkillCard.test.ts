@@ -25,16 +25,12 @@ const mockSkill: SkillDTO = {
   currentSkillLevel: {
     id: '5e7090f5-0c9e-4f71-a770-03ad2bb75711',
     name: 'Niv. 0 - [fr_FR]',
-    traceCount: 0,
-    activityCount: 0,
     shortDescription: 'Molestiae et libero. - [fr_FR]',
     status: ESkillLevelStatus.UNDER_ACQUISITION
   },
   achievedSkillLevels: {
     id: '80ca37c3-388d-4ac9-948a-63288a2d4148',
     name: 'Niv. 2 - [fr_FR]',
-    traceCount: 0,
-    activityCount: 0,
     shortDescription: 'Ex molestiae illum beatae eligendi laborum ducimus quos. - [fr_FR]',
     status: ESkillLevelStatus.VALIDATED
   },
@@ -48,8 +44,6 @@ const mockSkillWithoutAchievedLevels: SkillDTO = {
   currentSkillLevel: {
     id: 'a29eb925-23f7-4d5d-bcf3-597ea2c17427',
     name: 'Niv. 7 - [fr_FR]',
-    traceCount: 0,
-    activityCount: 1,
     shortDescription: 'Perferendis repellat dolorem optio consequatur quis minus. - [fr_FR]',
     status: ESkillLevelStatus.TO_BE_EVALUATED
   },

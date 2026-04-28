@@ -29,8 +29,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 1,
-          activityCount: 8,
           status: ESkillLevelStatus.VALIDATED
         }
       },
@@ -40,8 +38,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 2,
-          activityCount: 7,
           status: ESkillLevelStatus.VALIDATED
         },
       },
@@ -51,8 +47,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 3,
-          activityCount: 6,
           status: ESkillLevelStatus.FAILED
         },
       },
@@ -62,8 +56,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv2',
           name: 'Niv.2',
-          traceCount: 4,
-          activityCount: 5,
           status: ESkillLevelStatus.VALIDATED
         }
       },
@@ -73,8 +65,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 5,
-          activityCount: 4,
           status: ESkillLevelStatus.VALIDATED
         },
       },
@@ -84,8 +74,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 6,
-          activityCount: 3,
           status: ESkillLevelStatus.VALIDATED
         }
       },
@@ -95,8 +83,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
-          traceCount: 7,
-          activityCount: 2,
           status: ESkillLevelStatus.FAILED
         }
       },
@@ -106,8 +92,6 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
         currentSkillLevel: {
           id: 'Niv2',
           name: 'Niv.2',
-          traceCount: 8,
-          activityCount: 1,
           status: ESkillLevelStatus.VALIDATED
         }
       },

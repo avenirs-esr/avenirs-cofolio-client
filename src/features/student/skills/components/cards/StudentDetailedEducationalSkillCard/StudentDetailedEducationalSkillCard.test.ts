@@ -12,16 +12,12 @@ const baseSkill: SkillDTO = {
   currentSkillLevel: {
     id: 'level-1',
     name: 'Niveau 1',
-    traceCount: 5,
-    activityCount: 2,
     status: ESkillLevelStatus.TO_BE_EVALUATED,
     shortDescription: 'Une description courte'
   },
   achievedSkillLevels: {
     id: 'level-0',
     name: 'Niveau 0',
-    traceCount: 5,
-    activityCount: 2,
     shortDescription: 'Niveau 0 description',
     status: ESkillLevelStatus.VALIDATED
   }
@@ -46,16 +42,6 @@ function createWrapper (skill: SkillDTO = baseSkill) {
           name: 'StudentSkillLevelStatusBadge',
           props: ['status'],
           template: `<div class="student-level-badge">{{ status }}</div>`
-        },
-        StudentCountTracesIconText: {
-          name: 'StudentCountTracesIconText',
-          props: ['countTraces', 'gap', 'inline'],
-          template: `<div class="trace-count">Traces: {{ countTraces }}</div>`
-        },
-        StudentCountAmsIconText: {
-          name: 'StudentCountAmsIconText',
-          props: ['countAms', 'gap', 'inline'],
-          template: `<div class="ams-count">AMS: {{ countAms }}</div>`
         },
         AvBadge: {
           name: 'AvBadge',
@@ -85,14 +71,6 @@ BddTest().given('a student detailed educationnal skill card with valid props', (
 
     BddTest().then('it should render the short description', () => {
       expect(wrapper.text()).toContain(baseSkill.currentSkillLevel.shortDescription)
-    })
-
-    BddTest().then('it should render the trace count', () => {
-      expect(wrapper.text()).toContain(`Traces: ${baseSkill.currentSkillLevel.traceCount}`)
-    })
-
-    BddTest().then('it should render the activity count', () => {
-      expect(wrapper.text()).toContain(`AMS: ${baseSkill.currentSkillLevel.activityCount}`)
     })
 
     BddTest().then('it should render the AvBadge with correct label', () => {

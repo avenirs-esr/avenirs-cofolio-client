@@ -50,9 +50,6 @@ const isDemo = __DEMO_MODE__
               <span class="ellipsis b1-regular">
                 {{ t('student.global.widgets.deliverables.skill', { skill: deliverable.skill }) }}
               </span>
-              <span class="ellipsis caption-light">
-                {{ t('student.global.widgets.deliverables.ams', { ams: deliverable.activity }) }}
-              </span>
             </div>
           </div>
         </AvRichButton>

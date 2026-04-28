@@ -1,28 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { ESkillLevelStatus, type SkillOverviewDTO } from '@/api/avenir-esr'
 import StudentSkillCard from '@/features/student/skills/components/cards/StudentSkillCard/StudentSkillCard.vue'
-import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a studentSkillCard', () => {
   let wrapper: VueWrapper
-
-  const stubs = {
-    AvBadge: AvBadgeStub,
-    AvIcon: AvIconStub,
-    StudentCountTracesIconText: {
-      name: 'StudentCountTracesIconText',
-      template: `<div class="student-count-traces-icon-text" />`,
-      props: ['countTraces']
-    },
-    StudentCountAmsIconText: {
-      name: 'StudentCountAmsIconText',
-      template: `<div class="student-count-ams-icon-text" />`,
-      props: ['countAms']
-    },
-    RouterLink: RouterLinkStub
-  }
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -34,8 +18,6 @@ BddTest().given('a studentSkillCard', () => {
     currentSkillLevel: {
       id: 'Niv1',
       name: 'Niveau 1',
-      traceCount: 4,
-      activityCount: 2,
       status: ESkillLevelStatus.VALIDATED
     }
   }
@@ -44,27 +26,6 @@ BddTest().given('a studentSkillCard', () => {
     skill,
     skillColor: '--color-skill',
   } as const
-
-  BddTest().when('the component is mounted', async () => {
-    beforeEach(async () => {
-      wrapper = await mountWithRouter(StudentSkillCard, {
-        props: baseProps,
-        global: {
-          stubs
-        }
-      })
-    })
-
-    BddTest().then('it should render skill name, trace and activity counts', async () => {
-      expect(wrapper.text()).toContain('Résolution de problème')
-      const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
-      expect(amsIconText.exists()).toBe(true)
-      expect(amsIconText.props()).toMatchObject({ countAms: baseProps.skill.currentSkillLevel.activityCount })
-      const tracesIconText = wrapper.findComponent({ name: 'StudentCountTracesIconText' })
-      expect(tracesIconText.exists()).toBe(true)
-      expect(tracesIconText.props()).toMatchObject({ countTraces: baseProps.skill.currentSkillLevel.traceCount })
-    })
-  })
 
   BddTest().when('the component is mounted with only one level', async () => {
     beforeEach(async () => {

@@ -1,4 +1,3 @@
-export * from '@/__mocks__/fixtures/student/ams.fixtures'
 export * from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 export * from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 export * from '@/__mocks__/fixtures/student/declaredSkills.fixtures'

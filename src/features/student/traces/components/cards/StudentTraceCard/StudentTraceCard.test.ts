@@ -30,11 +30,6 @@ BddTest().given('a student trace card', () => {
 
   const stubs = {
     AvTag: AvTagStub,
-    StudentCountAmsIconText: {
-      name: 'StudentCountAmsIconText',
-      template: `<div class="student-count-ams-icon-text" />`,
-      props: ['countAms']
-    },
     RouterLink: RouterLinkStub
   }
 
@@ -52,12 +47,8 @@ BddTest().given('a student trace card', () => {
       })
     })
 
-    BddTest().then('it should render the trace name, skill and activity counts', () => {
+    BddTest().then('it should render the trace name, skill counts', () => {
       expect(wrapper.text()).toContain('Prévenir la pollution à la source')
-      expect(wrapper.text()).toContain('1 compétence')
-      const amsIconText = wrapper.findComponent({ name: 'StudentCountAmsIconText' })
-      expect(amsIconText.exists()).toBe(true)
-      expect(amsIconText.props()).toMatchObject({ countAms: baseProps.trace.AMSCount })
     })
 
     BddTest().then('it should render the program name', () => {
@@ -68,24 +59,6 @@ BddTest().given('a student trace card', () => {
       const tag = wrapper.findComponent({ name: 'AvTag' })
       expect(tag.exists()).toBe(true)
       expect(tag.props('label')).toBe('Individuel')
-    })
-  })
-
-  BddTest().when('the component is mounted with a skillCount greaten than 3', () => {
-    beforeEach(async () => {
-      wrapper = await mountWithRouter(StudentTraceCard, {
-        props: {
-          trace: {
-            ...baseProps.trace,
-            skillCount: 5,
-          },
-        },
-      })
-    })
-
-    BddTest().then('it should render up to 3 skill icons', () => {
-      const icons = wrapper.findAll('.student-trace-card__lineicon')
-      expect(icons).toHaveLength(3)
     })
   })
 })

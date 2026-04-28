@@ -50,22 +50,6 @@ export class TracesWidget extends BaseObject {
     expect(count).toEqual(expectedTraces)
   }
 
-  async verifyEachCardSkillCount () {
-    const count = await this.countCards()
-    expect(count).toBeGreaterThan(0)
-    for (let i = 0; i < count; i++) {
-      await this.getCard(i).verifySkillCount()
-    }
-  }
-
-  async verifyEachCardAmsCount () {
-    const count = await this.countCards()
-    expect(count).toBeGreaterThan(0)
-    for (let i = 0; i < count; i++) {
-      await this.getCard(i).verifyAmsCount()
-    }
-  }
-
   async verifyEachCardType () {
     const count = await this.countCards()
     expect(count).toBeGreaterThan(0)

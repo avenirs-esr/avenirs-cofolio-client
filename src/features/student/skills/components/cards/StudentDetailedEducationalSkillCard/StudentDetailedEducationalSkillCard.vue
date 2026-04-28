@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
-import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
 import StudentLastCompletedLevelBadge from '@/features/student/skills/components/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
 import StudentSkillLevelStatusBadge from '@/features/student/skills/components/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
 import { AvBadge, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentDetailedEducationalSkillCardProps {
@@ -15,7 +13,6 @@ export interface StudentDetailedEducationalSkillCardProps {
 
 const { skill, skillColor } = defineProps<StudentDetailedEducationalSkillCardProps>()
 const { levelCount, currentSkillLevel } = skill
-const { traceCount, activityCount } = currentSkillLevel
 
 const showLevelBadge = computed((): boolean => {
   const badgeVisibleStatuses: ESkillLevelStatus[] = [
@@ -62,16 +59,6 @@ const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = comp
       </div>
       <div class="av-row av-gap-sm av-align-center">
         <span class="s2-regular">{{ skill.currentSkillLevel.shortDescription }}</span>
-      </div>
-      <div class="av-row av-gap-sm av-align-center">
-        <StudentCountTracesIconText
-          :count-traces="traceCount"
-          inline
-        />
-        <StudentCountAmsIconText
-          :count-ams="activityCount"
-          inline
-        />
       </div>
     </div>
   </StudentDetailedSkillCard>

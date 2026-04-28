@@ -1,5 +1,4 @@
 import { ROUTES } from '@/common/constants'
-import { studentAmsRoute, studentEducationAmsRoute } from '@/features/student/ams/routes'
 import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
 import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
@@ -22,7 +21,6 @@ export default [
         component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
       },
       studentDeclaredSkillRoute,
-      studentAmsRoute,
       {
         ...ROUTES.STUDENT.COOKIES,
         component: () => import('@/common/views/CookiesView/CookiesView.vue'),
@@ -32,7 +30,6 @@ export default [
         component: () => import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
       },
       studentEducationSkillsRoute,
-      studentEducationAmsRoute,
       {
         ...ROUTES.STUDENT.EVENTS,
         component: () => import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue'),

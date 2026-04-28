@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import StudentCountAmsIconText from '@/features/student/ams/components/base/StudentCountAmsIconText/StudentCountAmsIconText.vue'
 import { FloatingIconCard } from '@/features/student/global'
-import { AvIcon, AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
@@ -11,14 +10,9 @@ export interface StudentTraceCardProps {
 }
 
 const { trace } = defineProps<StudentTraceCardProps>()
-const { title, skillCount, AMSCount, isGroup, programName } = trace
+const { title, isGroup, programName } = trace
 
 const { t } = useI18n()
-
-function getRandomSkillColor () {
-  const random = Math.floor(Math.random() * 12) + 1
-  return `var(--skill${random})`
-}
 
 const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.traces.cards.StudentTraceCard.lifeProject'))
 const typeInfo = computed(() => isGroup
@@ -53,29 +47,6 @@ const iconOptions = {
     >
       <template #body>
         <div class="av-col av-gap-xs">
-          <div class="av-row av-align-center av-gap-xs">
-            <div
-              v-for="n in Math.min(skillCount, 3)"
-              :key="n"
-              class="student-trace-card__lineicon"
-              :style="{ backgroundColor: getRandomSkillColor() }"
-            >
-              <AvIcon
-                :name="MDI_ICONS.STAR_SHOOTING_OUTLINE"
-                color="var(--other-background-base)"
-              />
-            </div>
-            <span
-              class="b2-regular"
-              data-testid="trace-card-skill-count"
-            >{{ t('student.traces.cards.StudentTraceCard.skillCount', { count: skillCount }) }}</span>
-          </div>
-          <div class="student-trace-card__activities">
-            <StudentCountAmsIconText
-              :count-ams="AMSCount"
-              gap="0.75rem"
-            />
-          </div>
           <div class="student-trace-card__category">
             <AvIconText
               :icon="MDI_ICONS.SWAP_VERTICAL_VARIANT"

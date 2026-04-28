@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import { ESkillLevelStatus, type SkillLevelProgressOverviewDTO, type SkillOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { StudentCountAmsIconText } from '@/features/student/ams'
 import { FloatingIconCard } from '@/features/student/global'
-import StudentCountTracesIconText from '@/features/student/traces/components/base/StudentCountTracesIconText/StudentCountTracesIconText.vue'
 import { AvBadge, type AvBadgeProps, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -83,10 +81,6 @@ const iconOptions = {
       :color="varSkillColor"
       title-typography-classes="student-skill-card__title b1-bold"
     >
-      <template #body>
-        <StudentCountTracesIconText :count-traces="currentSkillLevel.traceCount" />
-        <StudentCountAmsIconText :count-ams="currentSkillLevel.activityCount" />
-      </template>
       <template #footer>
         <div class="student-skill-card__footer">
           <AvBadge

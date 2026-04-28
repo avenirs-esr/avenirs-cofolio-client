@@ -28,8 +28,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-2-2-3',
           name: 'Niveau 3',
-          traceCount: 6,
-          activityCount: 3,
           status: ESkillLevelStatus.TO_BE_EVALUATED
         }
       },
@@ -39,8 +37,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-2-4-3',
           name: 'Niveau 3',
-          traceCount: 8,
-          activityCount: 1,
           status: ESkillLevelStatus.TO_BE_EVALUATED
         },
       },
@@ -50,8 +46,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-2-1-4',
           name: 'Niveau 4',
-          traceCount: 5,
-          activityCount: 4,
           status: ESkillLevelStatus.UNDER_REVIEW
         }
       },
@@ -61,8 +55,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-2-3-1',
           name: 'Niveau 1',
-          traceCount: 7,
-          activityCount: 2,
           status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
@@ -78,8 +70,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-1-4-3',
           name: 'Niveau 3',
-          traceCount: 4,
-          activityCount: 5,
           status: ESkillLevelStatus.TO_BE_EVALUATED
         },
       },
@@ -89,8 +79,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-1-3-2',
           name: 'Niveau 2',
-          traceCount: 3,
-          activityCount: 6,
           status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
@@ -100,8 +88,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-1-2-1',
           name: 'Niveau 1',
-          traceCount: 2,
-          activityCount: 7,
           status: ESkillLevelStatus.NOT_STARTED
         },
       },
@@ -111,8 +97,6 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
         currentSkillLevel: {
           id: 'lvl-1-1-2',
           name: 'Niveau 2',
-          traceCount: 1,
-          activityCount: 8,
           status: ESkillLevelStatus.UNDER_REVIEW
         },
       },
@@ -180,8 +164,6 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
     return {
       id: skill.id,
       name: skill.name,
-      traceCount: skill.currentSkillLevel.traceCount,
-      activityCount: skill.currentSkillLevel.activityCount,
       isProgramFinished: false,
       levelCount,
       currentSkillLevel,

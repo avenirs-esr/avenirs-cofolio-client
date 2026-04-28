@@ -8,9 +8,7 @@
       },
       "cards": {
         "StudentTraceCard": {
-          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
           "lifeProject": "Life project",
-          "skillCount": "0 skill | 1 skill | {count} skills",
           "tagLabel": {
             "group": "Group",
             "solo": "Individual"

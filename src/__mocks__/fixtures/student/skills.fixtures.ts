@@ -11,7 +11,6 @@ import {
   EExternalSkillCategoryType,
   EExternalSkillType,
   ESkillLevelStatus,
-  ETraceAssociationType,
   type ExternalSkillDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO,
@@ -190,51 +189,6 @@ export const mockedSkillDetailed = {
     }
   ]
 }
-
-export const mockedStudentSkills = [
-  {
-    id: '1',
-    title: 'Physique',
-    description: 'Compétence liée aux principes et lois de la physique.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '2',
-    title: 'Chimie',
-    description: 'Compétence liée aux substances chimiques et leurs interactions.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '3',
-    title: 'Science',
-    description: 'Compétence liée à l\'étude systématique du monde naturel.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '4',
-    title: 'Histoire',
-    description: 'Compétence liée à l\'étude des événements passés.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '5',
-    title: 'Informatique',
-    description: 'Compétence liée aux technologies de l\'information et de la communication.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '6',
-    title: 'Mathématiques',
-    description: 'Compétence liée aux nombres, aux quantités et aux formes.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  },
-  {
-    id: '7',
-    title: 'Artistique',
-    description: 'Compétence liée aux arts visuels et plastiques.',
-    type: ETraceAssociationType.SKILL_LEVEL
-  }
-]
 
 export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({

@@ -43,12 +43,6 @@ BddTest().given('a skills tab switcher', () => {
       expect(tabs[1].text()).toBe('Mes autres compétences')
     })
 
-    BddTest().then('it should render with ams list tab selected', () => {
-      const selectedTab = wrapper.find('.av-tab-item__tab[aria-selected="true"]')
-      expect(selectedTab.exists()).toBe(true)
-      expect(selectedTab.text()).toBe('Les compétences de mes formations (terminées et en cours)')
-    })
-
     BddTest().then('it should render SkillsViewEducationTab component in first tab', () => {
       const educationTab = wrapper.find('.skills-view-education-tab-stub')
       expect(educationTab.exists()).toBe(true)

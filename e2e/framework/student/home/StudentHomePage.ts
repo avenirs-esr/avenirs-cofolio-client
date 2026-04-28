@@ -223,16 +223,6 @@ class StudentHomePage extends BasePage {
     await this.getSkillsWidget().verifyEachCardStatusBadge()
   }
 
-  @Then('each skill card shows trace count')
-  async verifyEachSkillCardShowsTraceCount () {
-    await this.getSkillsWidget().verifyEachCardTraceCount()
-  }
-
-  @Then('each skill card shows AMS count')
-  async verifyEachSkillCardShowsAmsCount () {
-    await this.getSkillsWidget().verifyEachCardAmsCount()
-  }
-
   @Then('the see all skills button is visible')
   async verifySeeAllSkillsButton () {
     await this.getSkillsWidget().verifySeeAllButton()
@@ -269,16 +259,6 @@ class StudentHomePage extends BasePage {
   @Then('{int} trace cards are displayed')
   async verifyTraceCards (expectedTraces: number) {
     await this.getTracesWidget().verifyRenderedTracesCount(expectedTraces)
-  }
-
-  @Then('each trace card shows skill count')
-  async verifyEachTraceCardShowsSkillCount () {
-    await this.getTracesWidget().verifyEachCardSkillCount()
-  }
-
-  @Then('each trace card shows AMS count')
-  async verifyEachTraceCardShowsAmsCount () {
-    await this.getTracesWidget().verifyEachCardAmsCount()
   }
 
   @Then(/each trace card shows type \(solo\/group\)/)

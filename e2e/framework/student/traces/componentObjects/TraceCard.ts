@@ -1,6 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { AmsCountIconText } from '@e2e/framework/student/ams/componentObjects/AmsCountIconText'
 import { expect, type Locator } from '@playwright/test'
 
 export class TraceCard extends BaseObject {
@@ -10,10 +9,6 @@ export class TraceCard extends BaseObject {
 
   getSkillCountElement () {
     return this.root.getByTestId('trace-card-skill-count')
-  }
-
-  getAmsCountIconText () {
-    return new AmsCountIconText(this.root.getByTestId('count-ams-icon-text'))
   }
 
   getTypeTagElement () {
@@ -29,10 +24,6 @@ export class TraceCard extends BaseObject {
     const skillCount = Number.parseInt(match![1])
     const expectedText = t('student.traces.cards.StudentTraceCard.skillCount', { count: skillCount })
     expect(text?.trim()).toEqual(expectedText)
-  }
-
-  async verifyAmsCount () {
-    await this.getAmsCountIconText().verify()
   }
 
   async verifyType () {

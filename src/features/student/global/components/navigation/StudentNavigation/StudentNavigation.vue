@@ -26,7 +26,6 @@ const educationMenu = computed(() => {
         ROUTES.STUDENT.APC_UNAVAILABLE,
         ROUTES.STUDENT.EDUCATION_SKILLS,
         ROUTES.STUDENT.EDUCATION_SKILLS,
-        ROUTES.STUDENT.EDUCATION_ACTIVITIES
       ])
     },
   }
@@ -56,12 +55,7 @@ const educationMenu = computed(() => {
           to: ROUTES.STUDENT.EDUCATION_SKILLS,
           text: t('student.global.navigation.tabs.education.items.skills'),
           icon: MDI_ICONS.STARS,
-        },
-        {
-          to: ROUTES.STUDENT.EDUCATION_ACTIVITIES,
-          text: t('student.global.navigation.tabs.education.items.activities'),
-          icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
-        },
+        }
       ]
     }
   }

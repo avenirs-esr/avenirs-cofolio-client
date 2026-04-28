@@ -89,10 +89,8 @@ Feature: Student Home Page - out of MVP features
       Then the last traces widget is visible
 
     @high @traces @dataset-full
-    Scenario: Traces widget displays 3 traces with skill count, AMS count, type, and see all button
+    Scenario: Traces widget displays 3 traces with type, and see all button
       Then 3 trace cards are displayed
-      And each trace card shows skill count
-      And each trace card shows AMS count
       And each trace card shows type (solo/group)
       And the see all traces button is visible
 

@@ -36,8 +36,6 @@ export const ROUTES = {
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
     UPDATE_DECLARED_EXPERIENCE: { name: 'student-update-declared-experience', path: 'update-declared-experience/:id' },
     UPDATE_DECLARED_SKILL: { name: 'student-update-declared-skill', path: 'update-declared-skill/:id' },
-    ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
-    EDUCATION_ACTIVITIES: { name: 'student-education-activities', path: 'education/activities' },
     EDUCATION_SKILLS: { name: 'student-education-skills', path: 'education/skills' },
     PROJECT_SKILLS: { name: 'student-project-skills', path: 'project/skills' },
     SKILL: { name: 'student-skill', path: 'skill/:id' },

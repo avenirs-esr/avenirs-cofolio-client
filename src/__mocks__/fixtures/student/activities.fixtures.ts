@@ -381,8 +381,6 @@ export function createMockedTraceAssociations (
       trace: {
         traceId: idsToAssociate?.[i - 1] ?? `trace-${i}`,
         title: `Trace #${i} associée à l’activité`,
-        skillCount: (i * 2) % 5,
-        AMSCount: i % 3,
         programName: `Programme de la trace #${i} associée`,
         isGroup: i % 2 === 0,
         createdAt: '2024-01-01T00:00:00Z',

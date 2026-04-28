@@ -219,9 +219,6 @@
         },
         "PersonalCareerView": {
           "ExperiencesSection": {
-            "AmsTab": {
-              "title": "Mes AMS"
-            },
             "breadcrumb": "Mes expériences",
             "DeclaredExperiencesMoreActionsDropdown": {
               "add": "Ajouter une expérience",

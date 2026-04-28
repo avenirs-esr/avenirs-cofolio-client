@@ -63,22 +63,6 @@ export class SkillsWidget extends BaseObject {
     }
   }
 
-  async verifyEachCardTraceCount () {
-    const count = await this.countCards()
-    expect(count).toBeGreaterThan(0)
-    for (let i = 0; i < count; i++) {
-      await this.getCard(i).verifyTraceCount()
-    }
-  }
-
-  async verifyEachCardAmsCount () {
-    const count = await this.countCards()
-    expect(count).toBeGreaterThan(0)
-    for (let i = 0; i < count; i++) {
-      await this.getCard(i).verifyAmsCount()
-    }
-  }
-
   async verifySeeAllButton () {
     await expect(this.getSeeAllButton()).toBeVisible()
     await expect(this.getSeeAllButton()).toHaveText(t('student.skills.cards.StudentSkillsWidget.buttons.seeAll'))

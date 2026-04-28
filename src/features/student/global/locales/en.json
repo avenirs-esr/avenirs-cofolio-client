@@ -123,7 +123,6 @@
       },
       "widgets": {
         "deliverables": {
-          "ams": "RPA - {ams}",
           "buttons": {
             "seeAll": "See all my deliverables"
           },

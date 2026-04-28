@@ -2543,55 +2543,6 @@
         }
       }
     },
-    "/me/ams/view": {
-      "get": {
-        "tags": [
-          "ams-controller"
-        ],
-        "operationId": "getAmsView",
-        "parameters": [
-          {
-            "name": "studentProgressId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAmsViewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/activity-progress": {
       "get": {
         "tags": [
@@ -4736,14 +4687,6 @@
           "title": {
             "type": "string"
           },
-          "skillCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "AMSCount": {
-            "type": "integer",
-            "format": "int32"
-          },
           "programName": {
             "type": "string"
           },
@@ -4760,11 +4703,9 @@
           }
         },
         "required": [
-          "AMSCount",
           "createdAt",
           "isGroup",
           "programName",
-          "skillCount",
           "title",
           "traceId",
           "updatedAt"
@@ -5155,14 +5096,6 @@
           "shortDescription": {
             "type": "string"
           },
-          "traceCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
-          },
           "status": {
             "type": "string",
             "$ref": "#/components/schemas/ESkillLevelStatus",
@@ -5177,12 +5110,10 @@
           }
         },
         "required": [
-          "activityCount",
           "id",
           "name",
           "shortDescription",
-          "status",
-          "traceCount"
+          "status"
         ]
       },
       "StudentProgressViewDTO": {
@@ -5217,14 +5148,6 @@
           },
           "name": {
             "type": "string"
-          },
-          "traceCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "activityCount": {
-            "type": "integer",
-            "format": "int32"
           },
           "status": {
             "type": "string",
@@ -5648,82 +5571,6 @@
           "page"
         ]
       },
-      "AMSProgress": {
-        "type": "object",
-        "properties": {
-          "startedActivities": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalActivities": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "startedActivities",
-          "totalActivities"
-        ]
-      },
-      "AmsViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "countSkills": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "countTraces": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/EAmsStatus",
-            "enum": [
-              "NOT_STARTED",
-              "IN_PROGRESS",
-              "SUBMITTED",
-              "COMPLETED"
-            ]
-          },
-          "progress": {
-            "$ref": "#/components/schemas/AMSProgress"
-          }
-        },
-        "required": [
-          "countSkills",
-          "countTraces",
-          "id",
-          "progress",
-          "status",
-          "title"
-        ]
-      },
-      "PagedResponseAmsViewDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AmsViewDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
       "PagedResponseDeclaredActivityViewDTO": {
         "type": "object",
         "properties": {
@@ -5966,16 +5813,6 @@
           "TRAJECTORIES",
           "RESUMES",
           "TRANSVERSAL"
-        ]
-      },
-      "EAmsStatus": {
-        "type": "string",
-        "description": "Enum for ams status",
-        "enum": [
-          "NOT_STARTED",
-          "IN_PROGRESS",
-          "SUBMITTED",
-          "COMPLETED"
         ]
       },
       "EAssociationContextType": {
@@ -6254,15 +6091,6 @@
           "ASSOCIATED_IN_EVALUATION",
           "ASSOCIATED_NOT_EVALUATED",
           "ASSOCIATED_WITH_DECLARED_SKILL"
-        ]
-      },
-      "ETraceAssociationType": {
-        "type": "string",
-        "description": "Enum for trace association type",
-        "enum": [
-          "AMS",
-          "SKILL_LEVEL",
-          "DECLARED_SKILL"
         ]
       },
       "EContextType": {
