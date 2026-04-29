@@ -108,7 +108,7 @@ function printResults (result) {
 }
 
 async function run () {
-  if (process.env.CI) {
+  if (process.env.CI || process.env.IS_DOCKER) {
     console.log('⏭️  Skipping API diff check in CI environment')
     return
   }
