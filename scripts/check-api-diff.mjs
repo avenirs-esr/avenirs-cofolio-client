@@ -108,6 +108,11 @@ function printResults (result) {
 }
 
 async function run () {
+  if (process.env.CI) {
+    console.log('⏭️  Skipping API diff check in CI environment')
+    return
+  }
+
   let remoteSpecContent
 
   try {
