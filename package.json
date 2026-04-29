@@ -27,6 +27,7 @@
     "lint-staged": "lint-staged",
     "generate:api": "orval",
     "check:api-diff": "node scripts/check-api-diff.mjs",
+    "pregenerate:api": "npm run check:api-diff",
     "postgenerate:api": "eslint ./src/api --fix",
     "generate:feature": "node scripts/generate-feature.mjs",
     "storybook": "storybook dev -p 6006",
