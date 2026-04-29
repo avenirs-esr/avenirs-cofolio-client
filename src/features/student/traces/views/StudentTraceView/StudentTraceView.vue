@@ -6,6 +6,7 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ICONS } from '@/features/student/global/icons'
@@ -63,7 +64,8 @@ const {
   hideModal: hideAssociateModal
 } = useModal()
 
-const activeTab = ref(0)
+const tabs = ['details', 'associations']
+const activeTab = useQueryParamIndex(tabs, 'tab')
 
 function onDeleteTraceSuccess () {
   hideDeleteModal()

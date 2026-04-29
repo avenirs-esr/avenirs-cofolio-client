@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { ROUTES } from '@/common/constants'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
@@ -9,8 +10,6 @@ import { AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-
-const activeTab = ref(0)
 
 const activitiesStore = useProjectActivitiesStore()
 
@@ -34,6 +33,9 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.activities') }
 ])
+
+const tabs = ['all', 'library']
+const activeTab = useQueryParamIndex(tabs, 'tab')
 </script>
 
 <template>

@@ -135,4 +135,21 @@ BddTest().given('a useQueryParam composable', () => {
       expect(replaceMock).toHaveBeenCalledWith({ query: { ...existingParam, [paramName]: paramValue } })
     })
   })
+
+  BddTest().when('setting a query parameter to undefined', () => {
+    BddTest().then('it should call router.replace without the param', () => {
+      const { result } = mountComposable(() => useQueryParam(), {})
+      result.setQueryParamValue('section', undefined)
+      expect(replaceMock).toHaveBeenCalledWith({ query: {} })
+    })
+  })
+
+  BddTest().when('setting a query parameter to undefined with existing query params', () => {
+    BddTest().then('it should call router.replace preserving other params', () => {
+      query.value = { other: 'value', section: 'profile' }
+      const { result } = mountComposable(() => useQueryParam(), {})
+      result.setQueryParamValue('section', undefined)
+      expect(replaceMock).toHaveBeenCalledWith({ query: { other: 'value' } })
+    })
+  })
 })

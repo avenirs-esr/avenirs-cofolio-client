@@ -5,6 +5,7 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { ErrorCodes } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import { ICONS } from '@/features/student/global/icons'
@@ -18,15 +19,9 @@ import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-enum DeclaredExperienceViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
-
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const experienceId = computed(() => String(route.params.id ?? ''))
 
@@ -64,6 +59,9 @@ const { data: associations, error: associationsError } = useGetDeclaredExperienc
 // TODO: Add other associations length
 const countAssociations = computed(() => (associations.value?.traceAssociations.length ?? 0))
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
+
+const tabs = ['details', 'associations']
+const activeTab = useQueryParamIndex(tabs, 'tab')
 
 function onSelectExperience (experienceId: string) {
   router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })

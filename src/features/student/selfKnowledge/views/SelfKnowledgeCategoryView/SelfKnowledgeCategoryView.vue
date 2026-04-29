@@ -6,6 +6,7 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
@@ -49,6 +50,9 @@ const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetail
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
+
+const elementTabs = ['details', 'associations']
+const activeElementTab = useQueryParamIndex(elementTabs, 'tab')
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
@@ -98,7 +102,10 @@ function onUpdateSelected () {
           />
         </template>
 
-        <SelfKnowledgeElementTabs :category-type="categoryType">
+        <SelfKnowledgeElementTabs
+          v-model="activeElementTab"
+          :category-type="categoryType"
+        >
           <template #element>
             <SelfKnowledgeElementDetails :element="selectedElementDetails" />
           </template>

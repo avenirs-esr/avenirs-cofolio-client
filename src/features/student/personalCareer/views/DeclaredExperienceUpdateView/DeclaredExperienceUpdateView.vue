@@ -4,6 +4,7 @@ import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -20,10 +21,6 @@ export interface DeclaredExperienceUpdateViewProps {
 }
 
 const { experienceId } = defineProps<DeclaredExperienceUpdateViewProps>()
-enum DeclaredExperienceUpdateViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
 
 const { t } = useI18n()
 const route = useRoute()
@@ -38,7 +35,6 @@ const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperienc
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
-const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
@@ -56,6 +52,9 @@ const {
   openModal: displayModal,
   closeModal: hideModal
 })
+
+const tabs = ['details', 'associations']
+const activeTab = useQueryParamIndex(tabs, 'tab')
 
 async function onSelectExperience (experienceId: string) {
   if (await canLeave()) {

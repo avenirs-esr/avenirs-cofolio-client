@@ -7,10 +7,10 @@ import StudentToolsTracesViewUnassociatedTab
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const activeTab = defineModel<number>()
+
 const { t } = useI18n()
 const { data: tracesSummary } = useTracesSummaryQuery()
-
-const activeTab = ref(0)
 </script>
 
 <template>

@@ -2,6 +2,7 @@
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
@@ -47,6 +48,9 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 
+const elementTabs = ['details', 'associations']
+const activeElementTab = useQueryParamIndex(elementTabs, 'tab')
+
 function onSelectElement (selectedElementId: string) {
   navigateToStudentSelfKnowledgeElementUpdate({
     categoryId: props.categoryId,
@@ -86,6 +90,7 @@ function backToElementDetails () {
       </template>
 
       <SelfKnowledgeElementTabs
+        v-model="activeElementTab"
         :self-knowledge-element="element"
         :category-type="categoryType"
       >

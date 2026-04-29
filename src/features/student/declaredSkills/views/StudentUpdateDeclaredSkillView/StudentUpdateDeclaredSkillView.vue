@@ -2,6 +2,7 @@
 import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal, PageTitle } from '@/common/components'
 import { useModal, useNavigation } from '@/common/composables'
+import { useQueryParamIndex } from '@/common/composables/use-query-param-index/use-query-param-index'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
@@ -17,16 +18,10 @@ interface StudentUpdateDeclaredSkillViewProps {
 
 const { skillId } = defineProps<StudentUpdateDeclaredSkillViewProps>()
 
-enum StudentUpdateDeclaredSkillViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
-
 const { t } = useI18n()
 const { navigateToStudentDeclaredSkill } = useNavigation()
 const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
 
-const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
 const breadcrumbLinks = computed(() => [
@@ -35,6 +30,9 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
   { text: t('student.global.navigation.tabs.project.items.declaredSkills') }
 ])
+
+const tabs = ['details', 'associations']
+const activeTab = useQueryParamIndex(tabs, 'tab')
 
 function backToStudentDeclaredSkillViewTabs () {
   navigateToStudentDeclaredSkill()
