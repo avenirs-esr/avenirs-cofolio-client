@@ -1,6 +1,5 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { DeclaredProgramCompactCardStub } from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.stub'
+import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import DeclaredProgramSideMenu, {
   type DeclaredProgramSideMenuProps
 } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
@@ -49,8 +48,7 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
     AvSideMenu: AvSideMenuStub,
     AvIconText: AvIconTextStub,
     AvButton: AvButtonStub,
-    FloatingIconCard: FloatingIconCardStub,
-    DeclaredProgramCompactCard: DeclaredProgramCompactCardStub
+    CompactCard: CompactCardStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -62,7 +60,7 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
       const sideMenu = wrapper.findComponent(AvSideMenuStub)
       expect(sideMenu.exists()).toBe(true)
 
-      const programItems = sideMenu.findAllComponents(DeclaredProgramCompactCardStub)
+      const programItems = sideMenu.findAllComponents(CompactCardStub)
       expect(programItems.length).toBe(dummyPrograms.length)
     })
 

@@ -1,7 +1,5 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { DeclaredExperienceCompactCardStub } from
-  '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.stub'
+import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import DeclaredExperienceSideMenu, {
   type DeclaredExperienceSideMenuProps
 } from
@@ -61,8 +59,7 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
     AvSideMenu: AvSideMenuStub,
     AvIconText: AvIconTextStub,
     AvButton: AvButtonStub,
-    FloatingIconCard: FloatingIconCardStub,
-    DeclaredExperienceCompactCard: DeclaredExperienceCompactCardStub,
+    CompactCard: CompactCardStub,
   }
 
   BddTest().when('the component is mounted', () => {
@@ -77,7 +74,7 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
       const sideMenu = wrapper.findComponent(AvSideMenuStub)
       expect(sideMenu.exists()).toBe(true)
 
-      const experienceItems = sideMenu.findAllComponents(DeclaredExperienceCompactCardStub)
+      const experienceItems = sideMenu.findAllComponents(CompactCardStub)
 
       expect(experienceItems.length).toBe(dummyExperiences.length)
     })
