@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
-import DeclaredProgramCompactCard
-  from '@/features/student/personalCareer/components/cards/DeclaredProgramCompactCard/DeclaredProgramCompactCard.vue'
-import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
+import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import { AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
@@ -63,10 +63,17 @@ const isCollapsed = ref(false)
             @keydown.space="$emit('selectProgram', program.id)"
             @click="$emit('selectProgram', program.id)"
           >
-            <DeclaredProgramCompactCard
-              :program="{ id: program.id, title: program.title }"
-              :valorized="false"
-            />
+            <CompactCard
+              :element="{ id: program.id, title: program.title }"
+              :icon="MDI_ICONS.HUB_OUTLINE"
+              color="var(--text1)"
+              icon-color="var(--icon)"
+              background-color="var(--surface-background)"
+              border-color="var(--other-border-skill-card)"
+              icon-border-color="var(--other-border-skill-card)"
+            >
+              <ValorizedBadge v-if="false" />
+            </CompactCard>
           </a>
         </div>
       </div>

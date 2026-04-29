@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
-import DeclaredExperienceCompactCard
-  from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
-import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
+import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import { AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -66,9 +66,17 @@ const isCollapsed = ref(false)
             @keydown.space="$emit('selectExperience', experience.id)"
             @click="$emit('selectExperience', experience.id)"
           >
-            <DeclaredExperienceCompactCard
-              :experience="{ id: experience.id, title: experience.title }"
-            />
+            <CompactCard
+              :element="{ id: experience.id, title: experience.title }"
+              :icon="MDI_ICONS.HUB_OUTLINE"
+              color="var(--text1)"
+              icon-color="var(--icon)"
+              background-color="var(--surface-background)"
+              border-color="var(--other-border-skill-card)"
+              icon-border-color="var(--other-border-skill-card)"
+            >
+              <ValorizedBadge v-if="false" />
+            </CompactCard>
           </a>
         </div>
       </div>
@@ -96,42 +104,5 @@ const isCollapsed = ref(false)
       box-shadow: 0 0 0 2px var(--dark-background-primary1);
     }
   }
-
-  :deep(.floating-icon-card) {
-    min-width: 13.4375rem !important;
-    max-width: 13.4375rem !important;
-    height: 5.75rem !important;
-  }
-
-  :deep(.floating-icon-card__title) {
-    text-align: left;
-    margin-right: var(--spacing-lg) !important;
-  }
-
-  :deep(.floating-icon-card__icon) {
-    height: var(--dimension-lg);
-    width: var(--dimension-lg);
-  }
-
-  :deep(.av-icon) {
-    scale: 0.75 !important;
-  }
-
-  :deep(.av-card) {
-    padding: var(--spacing-xxs) !important;
-    border-radius: var(--radius-lg) !important;
-    height: 5.75rem !important;
-    overflow: hidden !important;
-  }
-
-  :deep(.av-card__title) {
-    min-height: 3.25rem !important;
-    max-height: 3.25rem !important;
-  }
-
-  :deep(.av-card__content-collapsible) {
-    padding-top: var(--spacing-xxs) !important;
-  }
-
 }
 </style>
