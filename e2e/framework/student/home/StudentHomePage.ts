@@ -80,6 +80,11 @@ class StudentHomePage extends BasePage {
     await this.getSkillsWidget().verifyVisible()
   }
 
+  @Then('the educational skills widget is not visible')
+  async verifyEducationalSkillsWidgetNotVisible () {
+    await this.getSkillsWidget().isHidden()
+  }
+
   @Given('the next deliverables widget is visible')
   async verifyNextDeliverablesWidgetVisible () {
     await this.getDeliverablesWidget().verifyVisible()
