@@ -60,7 +60,32 @@ Feature: Student Home Page
       When the student clicks see all skills button
       Then the page navigates to skills page
       And the URL contains "/cofolio/student/education/skills"
-      
+
+    @high @skills @dataset-nominal
+    Scenario: Skills widget displays skills and see all button with partial data 
+      Then the skills widget shows at least one skill
+      And each skill card shows status badge
+      And the see all skills button is visible
+
+    @high @skills @dataset-nominal
+    Scenario: Skill cards are clickable and navigate to skill detail with partial data
+      And skill cards are displayed
+      When the student clicks a skill card
+      Then the page navigates to skill detail page
+      And the URL contains "/cofolio/student/skill/"
+
+    @medium @skills @dataset-nominal
+    Scenario: See all skills button navigates to skills page with partial data
+      When the student clicks see all skills button
+      Then the page navigates to skills page
+      And the URL contains "/cofolio/student/education/skills"
+
+  Rule: Skills Widget - Empty State
+
+    @high @skills @dataset-empty
+    Scenario: Skills widget is hidden when student has no skills
+      Then the educational skills widget is not visible 
+
   Rule: Navigation
 
     @high @navigation @desktop
