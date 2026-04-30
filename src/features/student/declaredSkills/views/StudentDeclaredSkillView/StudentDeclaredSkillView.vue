@@ -2,7 +2,7 @@
 import { useGetDeclaredSkillProgressDetails, useGetDeclaredSkillWithDeclaredActivities } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation, useQueryParamEnum } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import DeclaredSkillDetails
@@ -22,16 +22,10 @@ interface StudentDeclaredSkillViewProps {
 
 const { skillId } = defineProps<StudentDeclaredSkillViewProps>()
 
-enum StudentDeclaredSkillViewTabs {
-  DETAILS = 0,
-}
-
 const { t } = useI18n()
 const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
 const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
 const { showModal, displayModal, hideModal } = useModal()
-
-const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
 const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivities(skillProgressId)
@@ -49,6 +43,12 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
   { text: t('student.global.navigation.tabs.project.items.declaredSkills') }
 ])
+
+enum StudentDeclaredSkillTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeTab = useQueryParamEnum(StudentDeclaredSkillTabs, 'tab')
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredSkill()

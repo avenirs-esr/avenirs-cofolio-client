@@ -3,7 +3,7 @@ import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation, useQueryParamEnum } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
@@ -18,15 +18,9 @@ import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-enum DeclaredExperienceViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
-
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const experienceId = computed(() => String(route.params.id ?? ''))
 
@@ -64,6 +58,12 @@ const { data: associations, error: associationsError } = useGetDeclaredExperienc
 // TODO: Add other associations length
 const countAssociations = computed(() => (associations.value?.traceAssociations.length ?? 0))
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
+
+enum DeclaredExperienceTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeTab = useQueryParamEnum(DeclaredExperienceTabs, 'tab')
 
 function onSelectExperience (experienceId: string) {
   router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })

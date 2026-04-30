@@ -3,7 +3,7 @@ import { useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useModal } from '@/common/composables'
+import { useModal, useQueryParamEnum } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -20,10 +20,6 @@ export interface DeclaredExperienceUpdateViewProps {
 }
 
 const { experienceId } = defineProps<DeclaredExperienceUpdateViewProps>()
-enum DeclaredExperienceUpdateViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
 
 const { t } = useI18n()
 const route = useRoute()
@@ -38,7 +34,6 @@ const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperienc
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
-const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
@@ -56,6 +51,12 @@ const {
   openModal: displayModal,
   closeModal: hideModal
 })
+
+enum DeclaredExperienceUpdateTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeTab = useQueryParamEnum(DeclaredExperienceUpdateTabs, 'tab')
 
 async function onSelectExperience (experienceId: string) {
   if (await canLeave()) {

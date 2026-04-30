@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useNavigation } from '@/common/composables'
+import { useNavigation, useQueryParamEnum } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
@@ -47,6 +46,12 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 
+enum SelfKnowledgeElementUpdateTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeElementTab = useQueryParamEnum(SelfKnowledgeElementUpdateTabs, 'tab')
+
 function onSelectElement (selectedElementId: string) {
   navigateToStudentSelfKnowledgeElementUpdate({
     categoryId: props.categoryId,
@@ -86,6 +91,7 @@ function backToElementDetails () {
       </template>
 
       <SelfKnowledgeElementTabs
+        v-model="activeElementTab"
         :self-knowledge-element="element"
         :category-type="categoryType"
       >

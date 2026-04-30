@@ -4,12 +4,11 @@ import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useNavigation } from '@/common/composables'
+import { useNavigation, useQueryParamEnum } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
@@ -49,6 +48,12 @@ const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetail
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
+
+enum SelfKnowledgeCategoryTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeElementTab = useQueryParamEnum(SelfKnowledgeCategoryTabs, 'tab')
 
 function onSelectElement (elementId: string) {
   selectedElementId.value = elementId
@@ -98,7 +103,10 @@ function onUpdateSelected () {
           />
         </template>
 
-        <SelfKnowledgeElementTabs :category-type="categoryType">
+        <SelfKnowledgeElementTabs
+          v-model="activeElementTab"
+          :category-type="categoryType"
+        >
           <template #element>
             <SelfKnowledgeElementDetails :element="selectedElementDetails" />
           </template>

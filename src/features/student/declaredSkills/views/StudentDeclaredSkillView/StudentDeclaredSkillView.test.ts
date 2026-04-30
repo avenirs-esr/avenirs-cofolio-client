@@ -23,7 +23,8 @@ vi.mock('@/common/composables', async () => {
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredSkill,
       navigateToStudentProjectSkills
-    })
+    }),
+    useQueryParamEnum: () => ref(0)
   }
 })
 

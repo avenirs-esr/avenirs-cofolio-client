@@ -13,6 +13,14 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useQueryParamEnum: () => ref(0)
+  }
+})
+
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
 
 vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {

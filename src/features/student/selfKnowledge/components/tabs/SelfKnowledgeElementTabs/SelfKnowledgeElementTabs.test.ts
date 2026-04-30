@@ -14,7 +14,8 @@ const stubs = {
     props: {
       modelValue: {
         type: Number,
-        required: false
+        required: false,
+        default: 0
       }
     },
     emits: ['update:modelValue'],

@@ -9,6 +9,14 @@ import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub,
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@/api/avenir-esr', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
+  return {
+    ...actual,
+    uploadAttachment: vi.fn().mockResolvedValue({}),
+  }
+})
+
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
 

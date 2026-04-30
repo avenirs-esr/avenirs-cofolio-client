@@ -16,6 +16,14 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useQueryParamEnum: () => ref(0)
+  }
+})
+
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
 const mockSelectedElementId = ref('')
 

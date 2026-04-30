@@ -6,6 +6,14 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useQueryParamEnum: () => ref(0)
+  }
+})
+
 const stubs = {
   PageTitle: PageTitleStub,
   SkillsViewTabs: SkillsViewTabsStub

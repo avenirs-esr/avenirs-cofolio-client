@@ -7,6 +7,14 @@ import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useQueryParamEnum: () => ref(0)
+  }
+})
+
 const mockRouteId = ref<string>('exp123')
 const routerPush = vi.fn()
 

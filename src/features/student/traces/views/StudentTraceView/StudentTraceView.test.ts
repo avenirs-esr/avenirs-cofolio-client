@@ -41,6 +41,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     useNavigation: () => ({
       navigateToStudentTraces: vi.fn(),
     }),
+    useQueryParamEnum: () => ref(0)
   }
 })
 

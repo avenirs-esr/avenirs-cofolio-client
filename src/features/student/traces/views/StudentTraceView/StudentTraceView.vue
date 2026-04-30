@@ -5,7 +5,7 @@ import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation, useQueryParamEnum } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ICONS } from '@/features/student/global/icons'
@@ -63,7 +63,11 @@ const {
   hideModal: hideAssociateModal
 } = useModal()
 
-const activeTab = ref(0)
+enum StudentTraceTabs {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+const activeTab = useQueryParamEnum(StudentTraceTabs, 'tab')
 
 function onDeleteTraceSuccess () {
   hideDeleteModal()

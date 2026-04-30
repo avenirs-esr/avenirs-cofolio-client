@@ -65,7 +65,8 @@ vi.mock('vue-router', async (importOriginal) => {
         get id () {
           return mockRouteId.value
         }
-      }
+      },
+      query: {}
     }),
     useRouter: () => ({
       replace: routerReplace

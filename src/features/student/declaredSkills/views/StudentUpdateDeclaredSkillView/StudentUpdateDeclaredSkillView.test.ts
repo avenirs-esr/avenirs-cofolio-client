@@ -16,6 +16,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     useNavigation: () => ({
       navigateToStudentDeclaredSkill,
     }),
+    useQueryParamEnum: () => ref(0)
   }
 })
 

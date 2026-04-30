@@ -59,15 +59,18 @@ export function useWatchQueryParam (queryParamName: string, handler: (value: Loc
  */
 
 interface UseQueryParamReturn {
-  setQueryParamValue: (queryParamName: string, value: LocationQueryValue | LocationQueryValue[]) => void
+  setQueryParamValue: (queryParamName: string, value: LocationQueryValue | LocationQueryValue[] | undefined) => void
 }
 
 export function useQueryParam (): UseQueryParamReturn {
   const router = useRouter()
   const route = useRoute()
 
-  function setQueryParamValue (queryParamName: string, value: LocationQueryValue | LocationQueryValue[]) {
-    router.replace({ query: { ...route.query, [queryParamName]: value } })
+  function setQueryParamValue (queryParamName: string, value: LocationQueryValue | LocationQueryValue[] | undefined) {
+    const { [queryParamName]: _, ...restQuery } = route.query
+    router.replace({
+      query: value ? { ...restQuery, [queryParamName]: value } : restQuery
+    })
   }
 
   return {

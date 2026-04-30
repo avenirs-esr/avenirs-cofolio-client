@@ -10,16 +10,16 @@ interface SelfKnowledgeProps {
 }
 
 const { categoryType } = defineProps<SelfKnowledgeProps>()
-
 defineSlots<{
   element?: Slot
   associations?: Slot
 }>()
 
+const activeTab = defineModel<number>()
+
 const { t } = useI18n()
 
 const categoryTypeLabel = computed(() => t(`student.selfKnowledge.tabs.SelfKnowledgeElementTabs.category.titles.${categoryType}`))
-const activeTab = ref(0)
 </script>
 
 <template>

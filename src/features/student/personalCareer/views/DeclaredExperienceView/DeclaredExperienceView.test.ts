@@ -34,6 +34,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
       navigateToStudentUpdateDeclaredExperience,
       navigateToStudentDeclaredExperiences,
     }),
+    useQueryParamEnum: () => ref(0)
   }
 })
 
