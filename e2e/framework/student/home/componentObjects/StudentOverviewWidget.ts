@@ -64,6 +64,10 @@ export class StudentOverviewWidget extends BaseObject {
     await this.getProfileCard().verifyBio()
   }
 
+  async verifyStudentBioHidden () {
+    await this.getProfileCard().verifyBioHidden()
+  }
+
   async verifyActionButtons () {
     await expect(this.getEditProfileButton()).toBeVisible()
     await expect(this.getEditProfileButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.editProfile'))

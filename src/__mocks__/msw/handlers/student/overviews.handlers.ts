@@ -1,4 +1,5 @@
 import { createUpdatedCoverMock, createUpdatedPhotoMock, createUpdatedProfileMock, invalidProfile, mockedProfileOverview } from '@/__mocks__/fixtures/student'
+import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   EUserCategory,
   EUserPhotoType,
@@ -70,7 +71,16 @@ export const getProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategor
 })
 
 export const overviewsHandlers = [
-  http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
+  http.get<PathParams, ProfileOverviewDTO>(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, ({ request }) => {
+    if (isEmptyDataSetRequest(request)) {
+      return HttpResponse.json<ProfileOverviewDTO>({
+        ...mockedProfileOverview,
+        bio: ''
+      }, {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
     return HttpResponse.json<ProfileOverviewDTO>(mockedProfileOverview, {
       status: 200,
       headers: {
