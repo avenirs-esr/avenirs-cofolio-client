@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -15,7 +16,7 @@ const {
   labelVisible = true,
   disabled = false,
   required = false,
-  maxlength = 200,
+  maxlength = TRACE_PERSONAL_NOTE_MAX_LENGTH,
   label,
   placeholder,
   errorMessage,

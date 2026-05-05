@@ -1,4 +1,5 @@
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
+import { TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -55,7 +56,7 @@ BddTest().given('a trace personal note textarea component', () => {
       expect(input.exists()).toBe(true)
       expect(input.props('label')).toBe('Note personnelle')
       expect(input.props('placeholder')).toBe('Ajoutez votre note personnelle ici...')
-      expect(input.props('maxlength')).toBe(200)
+      expect(input.props('maxlength')).toBe(TRACE_PERSONAL_NOTE_MAX_LENGTH)
       expect(input.props('isTextarea')).toBe(true)
       expect(input.props('labelVisible')).toBe(true)
       expect(input.props('disabled')).toBe(false)
@@ -66,7 +67,7 @@ BddTest().given('a trace personal note textarea component', () => {
       const hint = wrapper.find('.caption-light')
 
       expect(hint.exists()).toBe(true)
-      expect(hint.text()).toBe('0 / 200 caractères (espaces compris)')
+      expect(hint.text()).toBe(`0 / ${TRACE_PERSONAL_NOTE_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 
@@ -213,7 +214,7 @@ BddTest().given('a trace personal note textarea component', () => {
 
       const hint = wrapper.find('.caption-light')
 
-      expect(hint.text()).toBe('12 / 200 caractères (espaces compris)')
+      expect(hint.text()).toBe(`12 / ${TRACE_PERSONAL_NOTE_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 
@@ -255,7 +256,7 @@ BddTest().given('a trace personal note textarea component', () => {
 
   BddTest().when('the character count reaches maximum', () => {
     BddTest().then('it should display the correct count in hint', () => {
-      const maxText = 'a'.repeat(200)
+      const maxText = 'a'.repeat(TRACE_PERSONAL_NOTE_MAX_LENGTH)
 
       wrapper = mount(TracePersonalNoteTextarea, {
         props: {
@@ -268,7 +269,7 @@ BddTest().given('a trace personal note textarea component', () => {
 
       const hint = wrapper.find('.caption-light')
 
-      expect(hint.text()).toBe('200 / 200 caractères (espaces compris)')
+      expect(hint.text()).toBe(`${TRACE_PERSONAL_NOTE_MAX_LENGTH} / ${TRACE_PERSONAL_NOTE_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 })
