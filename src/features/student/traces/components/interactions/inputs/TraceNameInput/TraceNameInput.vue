@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
 import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -16,7 +17,7 @@ const {
   labelVisible = true,
   disabled = false,
   required = true,
-  maxlength = 80,
+  maxlength = TRACE_NAME_MAX_LENGTH,
   label,
   prefixIcon,
   placeholder,

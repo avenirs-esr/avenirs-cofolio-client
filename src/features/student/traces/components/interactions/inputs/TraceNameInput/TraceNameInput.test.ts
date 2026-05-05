@@ -1,4 +1,5 @@
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
+import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -46,7 +47,7 @@ BddTest().given('a trace name input component', () => {
       expect(input.exists()).toBe(true)
       expect(input.props('label')).toBe('Nom de ma trace')
       expect(input.props('placeholder')).toBe('Nom-de-ma-trace-01')
-      expect(input.props('maxlength')).toBe(80)
+      expect(input.props('maxlength')).toBe(TRACE_NAME_MAX_LENGTH)
       expect(input.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
       expect(input.props('isTextarea')).toBe(false)
       expect(input.props('labelVisible')).toBe(true)
@@ -58,7 +59,7 @@ BddTest().given('a trace name input component', () => {
       const hint = wrapper.find('.caption-light')
 
       expect(hint.exists()).toBe(true)
-      expect(hint.text()).toBe('0 / 80 caractères (espaces compris)')
+      expect(hint.text()).toBe(`0 / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 
@@ -219,7 +220,7 @@ BddTest().given('a trace name input component', () => {
 
       const hint = wrapper.find('.caption-light')
 
-      expect(hint.text()).toBe('12 / 80 caractères (espaces compris)')
+      expect(hint.text()).toBe(`12 / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 
@@ -278,7 +279,7 @@ BddTest().given('a trace name input component', () => {
 
   BddTest().when('the character count reaches maximum', () => {
     BddTest().then('it should display the correct count in hint', () => {
-      const maxText = 'a'.repeat(80)
+      const maxText = 'a'.repeat(TRACE_NAME_MAX_LENGTH)
 
       wrapper = mount(TraceNameInput, {
         props: {
@@ -291,7 +292,7 @@ BddTest().given('a trace name input component', () => {
 
       const hint = wrapper.find('.caption-light')
 
-      expect(hint.text()).toBe('80 / 80 caractères (espaces compris)')
+      expect(hint.text()).toBe(`${TRACE_NAME_MAX_LENGTH} / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 })
