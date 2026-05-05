@@ -17,12 +17,20 @@ Feature: Student Home Page
     Background:
       Given the profile overview widget is visible
 
-    @high @profile
+    @high @profile @dataset-full
     Scenario: Student can see profile section with edit profile button
       Then the profile banner is visible
       And the profile picture is visible
       And the student name is visible
       And the student bio is visible
+      And edit profile button is displayed
+
+    @high @profile @dataset-empty
+    Scenario: Student bio is hidden when no bio available
+      Then the profile banner is visible
+      And the profile picture is visible
+      And the student name is visible
+      And the student bio is hidden
       And edit profile button is displayed
       
     @high @profile
@@ -37,54 +45,38 @@ Feature: Student Home Page
       Then the update profile drawer is closed
       And the profile overview widget is still visible
 
-  Rule: Skills Widget
+  Rule: Traces Widget
 
     Background:
-      Given the educational skills widget is visible
+      Given there are traces available
 
-    @high @skills @dataset-full
-    Scenario: Skills widget displays skills and see all button
-      Then the skills widget shows at least one skill
-      And each skill card shows status badge
-      And the see all skills button is visible
+    @high @traces @dataset-full
+    Scenario: Traces widget is visible
+      Then the last traces widget is visible
 
-    @high @skills @dataset-full
-    Scenario: Skill cards are clickable and navigate to skill detail
-      And skill cards are displayed
-      When the student clicks a skill card
-      Then the page navigates to skill detail page
-      And the URL contains "/cofolio/student/skill/"
+    @high @traces @dataset-full
+    Scenario: Traces widget displays 3 traces with type, and see all button
+      Then 3 trace cards are displayed
+      And each trace card shows type (solo/group)
+      And the see all traces button is visible
 
-    @medium @skills @dataset-full
-    Scenario: See all skills button navigates to skills page
-      When the student clicks see all skills button
-      Then the page navigates to skills page
-      And the URL contains "/cofolio/student/education/skills"
+    @high @traces @dataset-full
+    Scenario: Trace cards are clickable and navigate to detailed trace page
+      When the student clicks a trace card
+      Then the page navigates to trace detail page
+      And the URL contains "/cofolio/student/trace"
 
-    @high @skills @dataset-nominal
-    Scenario: Skills widget displays skills and see all button with partial data 
-      Then the skills widget shows at least one skill
-      And each skill card shows status badge
-      And the see all skills button is visible
+    @medium @traces @dataset-full
+    Scenario: See all traces button navigates to traces page
+      When the student clicks see all traces button
+      Then the page navigates to traces page
+      And the URL contains "/cofolio/student/tools/traces"
 
-    @high @skills @dataset-nominal
-    Scenario: Skill cards are clickable and navigate to skill detail with partial data
-      And skill cards are displayed
-      When the student clicks a skill card
-      Then the page navigates to skill detail page
-      And the URL contains "/cofolio/student/skill/"
+  Rule: Traces Widget - Empty State
 
-    @medium @skills @dataset-nominal
-    Scenario: See all skills button navigates to skills page with partial data
-      When the student clicks see all skills button
-      Then the page navigates to skills page
-      And the URL contains "/cofolio/student/education/skills"
-
-  Rule: Skills Widget - Empty State
-
-    @high @skills @dataset-empty
-    Scenario: Skills widget is hidden when student has no skills
-      Then the educational skills widget is not visible 
+    @high @traces @dataset-empty
+    Scenario: Traces widget is hidden when student has no traces
+      Then the last traces widget is hidden
 
   Rule: Navigation
 

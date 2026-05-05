@@ -12,6 +12,7 @@ import {
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
+import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type AttachmentUploadDTO,
   type CreateTraceDTO,
@@ -306,8 +307,14 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get<PathParams, TraceDetailDTO>(`*${getGetTraceOverviewUrl()}`, async () => {
+  http.get<PathParams, TraceDetailDTO>(`*${getGetTraceOverviewUrl()}`, async ({ request }) => {
     await delay(100)
+    if (isEmptyDataSetRequest(request)) {
+      return HttpResponse.json([], {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      })
+    }
     return HttpResponse.json(mockedTraceOverview, {
       status: 200,
       headers: {

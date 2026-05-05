@@ -39,6 +39,10 @@ export class ProfileCard extends BaseObject {
     await verifyTextLocator(this.getBio())
   }
 
+  async verifyBioHidden () {
+    await expect(this.getBio()).toBeHidden()
+  }
+
   async verifyCardContent () {
     await this.verifyProfileBanner()
     await this.verifyProfilePicture()

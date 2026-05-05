@@ -79,33 +79,30 @@ Feature: Student Home Page - out of MVP features
       Then the page navigates to deliverables page
       And the URL contains "/cofolio/student/deliverables"
 
-  Rule: Traces Widget
+   Rule: Skills Widget
 
     Background:
-      Given there are traces available
+      Given the educational skills widget is visible
 
-    @high @traces @dataset-full
-    Scenario: Traces widget is visible
-      Then the last traces widget is visible
+    @high @skills @dataset-full
+    Scenario: Skills widget displays skills and see all button
+      Then the skills widget shows at least one skill
+      And each skill card shows status badge
+      And the see all skills button is visible
 
-    @high @traces @dataset-full
-    Scenario: Traces widget displays 3 traces with type, and see all button
-      Then 3 trace cards are displayed
-      And each trace card shows type (solo/group)
-      And the see all traces button is visible
+    @high @skills @dataset-full
+    Scenario: Skill cards are clickable and navigate to skill detail
+      And skill cards are displayed
+      When the student clicks a skill card
+      Then the page navigates to skill detail page
+      And the URL contains "/cofolio/student/skill/"
 
-    @high @traces @dataset-full
-    Scenario: Trace cards are clickable and navigate to detailed trace page
-      When the student clicks a trace card
-      Then the page navigates to trace detail page
-      And the URL contains "/cofolio/student/trace"
+    @medium @skills @dataset-full
+    Scenario: See all skills button navigates to skills page
+      When the student clicks see all skills button
+      Then the page navigates to skills page
+      And the URL contains "/cofolio/student/education/skills"
 
-    @medium @traces @dataset-full
-    Scenario: See all traces button navigates to traces page
-      When the student clicks see all traces button
-      Then the page navigates to traces page
-      And the URL contains "/cofolio/student/tools/traces"
-  
   Rule: Navigation
     
     @medium @navigation @desktop

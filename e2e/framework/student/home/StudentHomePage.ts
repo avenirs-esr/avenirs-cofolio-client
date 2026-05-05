@@ -80,8 +80,8 @@ class StudentHomePage extends BasePage {
     await this.getSkillsWidget().verifyVisible()
   }
 
-  @Then('the educational skills widget is not visible')
-  async verifyEducationalSkillsWidgetNotVisible () {
+  @Then('the educational skills widget is hidden')
+  async verifyEducationalSkillsWidgetHidden () {
     await this.getSkillsWidget().isHidden()
   }
 
@@ -98,6 +98,11 @@ class StudentHomePage extends BasePage {
   @Then('the last traces widget is visible')
   async verifyLastTracesWidgetVisible () {
     await this.getTracesWidget().verifyVisible()
+  }
+
+  @Then('the last traces widget is hidden')
+  async verifyLastTracesWidgetHidden () {
+    await this.getTracesWidget().isHidden()
   }
 
   @Then('the profile banner is visible')
@@ -118,6 +123,11 @@ class StudentHomePage extends BasePage {
   @Then('the student bio is visible')
   async verifyStudentBio () {
     await this.getStudentOverviewWidget().verifyStudentBio()
+  }
+
+  @Then('the student bio is hidden')
+  async verifyStudentBioHidden () {
+    await this.getStudentOverviewWidget().verifyStudentBioHidden()
   }
 
   @Then('profile action buttons are displayed')
