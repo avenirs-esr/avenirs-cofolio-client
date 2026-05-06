@@ -151,6 +151,10 @@ export function useNavigation () {
     return router.push(to)
   }
 
+  const navigateToStaffActivities = () => {
+    return router.push(ROUTES.STAFF.ACTIVITIES)
+  }
+
   return {
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
@@ -175,5 +179,6 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredProgram,
     navigateToStaffHome,
     navigateToActivityDetailed,
+    navigateToStaffActivities,
   }
 }

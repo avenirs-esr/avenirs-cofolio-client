@@ -1,4 +1,5 @@
 import { ROUTES } from '@/common/constants'
+import { staffActivitiesRoute } from '@/features/staff/activities/routes'
 
 export default [
   {
@@ -30,6 +31,7 @@ export default [
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
+      staffActivitiesRoute,
     ]
   }
 ]

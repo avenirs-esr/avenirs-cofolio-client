@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ROUTES } from '@/common/constants'
-import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvNavigation, EOS_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -13,6 +13,11 @@ const navItems = computed(() => [
     to: ROUTES.STAFF.HOME,
     text: t('staff.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
+  },
+  {
+    to: ROUTES.STAFF.ACTIVITIES,
+    text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
+    icon: EOS_ICONS.ACTION_CHAINS_OUTLINED,
   },
 ])
 </script>
