@@ -5,7 +5,6 @@ import { DeclaredExperienceSourceOfInformationInputStub } from '@/features/stude
 import {
   useDeclaredExperienceFormValidators
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
-import { DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
@@ -58,17 +57,30 @@ BddTest().given('a declared experience source of information form field', () => 
     })
 
     BddTest().and('the user enters a source exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
+      BddTest().then('it should keep the user value in the field state', async () => {
         const input = wrapper.findComponent({ name: 'DeclaredExperienceSourceOfInformationInput' })
         const textInput = input.find('input')
-        const longSource = 'a'.repeat(DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH + 10)
+        const longSource = 'a'.repeat(300)
         await textInput.setValue(longSource)
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredExperienceSourceOfInformationInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH)
+          expect(updated.props('modelValue')).toBe(longSource)
         })
+      })
+    })
+
+    BddTest().and('the input emits maxlength exceeded state', () => {
+      BddTest().then('it should forward maxlengthExceeded to parent', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredExperienceSourceOfInformationInput' })
+        const formField = wrapper.findComponent(DeclaredExperienceSourceOfInformationFormField)
+        await input.vm.$emit('maxlengthExceeded', true)
+        await wrapper.vm.$nextTick()
+
+        const events = formField.emitted('maxlengthExceeded')
+        expect(events).toBeTruthy()
+        expect(events?.at(-1)?.[0]).toBe(true)
       })
     })
 

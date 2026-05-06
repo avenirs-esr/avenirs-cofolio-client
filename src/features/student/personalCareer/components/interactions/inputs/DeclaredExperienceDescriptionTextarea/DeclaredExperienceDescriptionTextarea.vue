@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-type DeclaredExperienceDescriptionTextareaProps = Omit<AvInputProps, 'maxlength' | 'isTextarea'>
+type DeclaredExperienceDescriptionTextareaProps = Omit<InputProps, 'maxlength' | 'isTextarea'>
+
+defineOptions({
+  inheritAttrs: false
+})
 
 const {
   label,
@@ -12,8 +17,10 @@ const {
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
+const attrs = useAttrs()
 
 const avInputProps = computed(() => ({
+  ...attrs,
   ...restProps,
   isTextarea: true,
   labelVisible: true,
@@ -25,7 +32,7 @@ const avInputProps = computed(() => ({
 
 <template>
   <div class="declared-experience-description-textarea">
-    <AvInput
+    <Input
       v-bind="avInputProps"
       v-model="modelValue"
     >
@@ -37,6 +44,6 @@ const avInputProps = computed(() => ({
           }) }}
         </span>
       </template>
-    </AvInput>
+    </Input>
   </div>
 </template>

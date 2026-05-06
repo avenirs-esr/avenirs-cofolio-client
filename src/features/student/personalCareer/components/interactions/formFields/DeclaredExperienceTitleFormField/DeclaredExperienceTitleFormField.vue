@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
-import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredExperienceTitleFormFieldProps {
@@ -13,11 +12,20 @@ defineOptions({
 })
 
 const { form } = defineProps<DeclaredExperienceTitleFormFieldProps>()
+
+const emit = defineEmits<{
+  (e: 'maxlengthExceeded', value: boolean): void
+}>()
+
 const FormField = markRaw(form.Field)
 const titleField = form.useField({ name: 'title' })
 
 function onUpdateTitle (value: string | undefined) {
-  titleField.api.handleChange(String(value ?? '').slice(0, DECLARED_EXPERIENCE_TITLE_MAX_LENGTH))
+  titleField.api.handleChange(String(value ?? ''))
+}
+
+function onMaxlengthExceeded (value: boolean) {
+  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -26,10 +34,11 @@ function onUpdateTitle (value: string | undefined) {
     <template #default="{ field }">
       <DeclaredExperienceTitleInput
         v-bind="$attrs"
-        :model-value="(field.state.value ?? '').slice(0, DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)"
+        :model-value="(field.state.value ?? '')"
         :error-message="field.state.meta.errors?.join(', ')"
         required
         @blur="field.handleBlur"
+        @maxlength-exceeded="onMaxlengthExceeded"
         @update:model-value="onUpdateTitle"
       />
     </template>

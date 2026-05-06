@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceLocationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
-import { DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredExperienceLocationFormFieldProps {
@@ -13,11 +12,20 @@ defineOptions({
 })
 
 const { form } = defineProps<DeclaredExperienceLocationFormFieldProps>()
+
+const emit = defineEmits<{
+  (e: 'maxlengthExceeded', value: boolean): void
+}>()
+
 const FormField = markRaw(form.Field)
 const locationField = form.useField({ name: 'location' })
 
 function onUpdateLocation (value: string | undefined) {
-  locationField.api.handleChange(String(value ?? '').slice(0, DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH))
+  locationField.api.handleChange(String(value ?? ''))
+}
+
+function onMaxlengthExceeded (value: boolean) {
+  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -26,10 +34,11 @@ function onUpdateLocation (value: string | undefined) {
     <template #default="{ field }">
       <DeclaredExperienceLocationInput
         v-bind="$attrs"
-        :model-value="(field.state.value ?? '').slice(0, DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH)"
+        :model-value="(field.state.value ?? '')"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
         @update:model-value="onUpdateLocation"
+        @maxlength-exceeded="onMaxlengthExceeded"
       />
     </template>
   </FormField>

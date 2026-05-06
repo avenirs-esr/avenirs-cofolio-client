@@ -1,7 +1,7 @@
 export const DeclaredExperienceSourceOfInformationInputStub = defineComponent({
   name: 'DeclaredExperienceSourceOfInformationInput',
   props: ['modelValue', 'errorMessage'],
-  emits: ['update:modelValue', 'blur'],
+  emits: ['update:modelValue', 'blur', 'maxlengthExceeded'],
   template: `
     <div data-testid="declared-experience-source-input-stub">
       <input

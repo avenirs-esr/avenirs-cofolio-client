@@ -1,7 +1,7 @@
 export const DeclaredExperienceActivitySectorInputStub = defineComponent({
   name: 'DeclaredExperienceActivitySectorInput',
   props: ['modelValue', 'errorMessage'],
-  emits: ['update:modelValue', 'blur'],
+  emits: ['update:modelValue', 'blur', 'maxlengthExceeded'],
   template: `
     <div data-testid="declared-experience-activity-sector-input-stub">
       <input

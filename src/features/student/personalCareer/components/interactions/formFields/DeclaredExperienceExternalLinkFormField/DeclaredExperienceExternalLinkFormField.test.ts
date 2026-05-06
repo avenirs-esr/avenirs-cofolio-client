@@ -2,7 +2,6 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceExternalLinkFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.vue'
 import { DeclaredExperienceExternalLinkInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.stub'
-import { DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
@@ -55,17 +54,30 @@ BddTest().given('a declared experience external link form field', () => {
     })
 
     BddTest().and('the user enters an external link exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
+      BddTest().then('it should keep the user value in the field state', async () => {
         const input = wrapper.findComponent({ name: 'DeclaredExperienceExternalLinkInput' })
         const textInput = input.find('input')
-        const longExternalLink = `https://example.com/${'a'.repeat(DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH)}`
+        const longExternalLink = `https://example.com/${'a'.repeat(300)}`
         await textInput.setValue(longExternalLink)
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredExperienceExternalLinkInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH)
+          expect(updated.props('modelValue')).toBe(longExternalLink)
         })
+      })
+    })
+
+    BddTest().and('the input emits maxlength exceeded state', () => {
+      BddTest().then('it should forward maxlengthExceeded to parent', async () => {
+        const input = wrapper.findComponent({ name: 'DeclaredExperienceExternalLinkInput' })
+        const formField = wrapper.findComponent(DeclaredExperienceExternalLinkFormField)
+        await input.vm.$emit('maxlengthExceeded', true)
+        await wrapper.vm.$nextTick()
+
+        const events = formField.emitted('maxlengthExceeded')
+        expect(events).toBeTruthy()
+        expect(events?.at(-1)?.[0]).toBe(true)
       })
     })
 
