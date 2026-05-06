@@ -1,13 +1,13 @@
 import { type DeclaredActivityViewDTO, EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import {
+  ActivityThematicBadgeStub
+} from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import {
   ActivityPeriodSummaryBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.stub'
 import {
   ActivityStatusBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
-import {
-  ActivityThematicBadgeStub
-} from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivityLibraryCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

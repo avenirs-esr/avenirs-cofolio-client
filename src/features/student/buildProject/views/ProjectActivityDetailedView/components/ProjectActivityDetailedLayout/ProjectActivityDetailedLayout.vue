@@ -2,6 +2,7 @@
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import SectionNavigationLayout
   from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
+import { ICONS } from '@/common/constants'
 import MyPerspectiveSection
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
 import ProjectActivityDetails
@@ -9,7 +10,6 @@ import ProjectActivityDetails
 import {
   ACTIVITY_DETAILED_SECTIONS
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
-import { ICONS } from '@/features/student/global/icons'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

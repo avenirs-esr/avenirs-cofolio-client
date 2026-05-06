@@ -1,6 +1,6 @@
+import { ICONS } from '@/common/constants'
 import AssociationCard, { type AssociationCardProps } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { ICONS } from '@/features/student/global/icons'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'

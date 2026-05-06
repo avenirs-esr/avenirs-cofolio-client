@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { invalidateGetActivityDetail, useUpdateReflection } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
+import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'

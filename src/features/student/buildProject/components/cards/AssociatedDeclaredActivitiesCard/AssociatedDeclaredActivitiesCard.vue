@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredActivityAssociationDTO } from '@/api/avenir-esr'
+import { ICONS } from '@/common/constants'
 import AssociatedActivityCard from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import AssociationsCard from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedDeclaredActivitiesCardProps {

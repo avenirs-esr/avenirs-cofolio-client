@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ICONS } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
-import { EOS_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -38,7 +39,7 @@ BddTest().given('a staff navigation', () => {
       expect(navItems[1]).toMatchObject({
         text: 'BIBLIOTHÈQUE DES ACTIVITÉS',
         to: expect.objectContaining({ name: 'staff-activities' }),
-        icon: EOS_ICONS.ACTION_CHAINS_OUTLINED,
+        icon: ICONS.ACTIVITY,
       })
     })
   })

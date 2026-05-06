@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { ICONS } from '@/common/constants'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
-import { ICONS } from '@/features/student/global/icons'
 
 export interface DeclaredProgramSelectorProps {
   declaredPrograms: { label: string, value: string }[]

@@ -1,5 +1,18 @@
 {
   "global": {
+    "activities": {
+      "badges": {
+        "thematics": {
+          "EXPERIENCES": "Mes expériences",
+          "FUTURE_PLANS": "Explorer mes futures",
+          "PROGRAMS": "Mes formations",
+          "RESUMES": "CV",
+          "SELF_KNOWLEDGE": "Me connaître",
+          "TRAJECTORIES": "Mes trajectoires",
+          "TRANSVERSAL": "Transverse"
+        }
+      }
+    },
     "application": "Application",
     "audio": "Audio",
     "AvAutoComplete": {

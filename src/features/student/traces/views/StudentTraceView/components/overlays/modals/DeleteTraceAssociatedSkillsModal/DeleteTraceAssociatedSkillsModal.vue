@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { ICONS } from '@/common/constants'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { useDeleteTraceAssociationsMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'

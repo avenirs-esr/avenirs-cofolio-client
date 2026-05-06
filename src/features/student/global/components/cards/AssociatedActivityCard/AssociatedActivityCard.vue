@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
-import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/global/components/cards/AssociationCard/AssociationCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 
 export interface AssociatedActivityCardProps {
   declaredActivity: DeclaredActivityViewDTO

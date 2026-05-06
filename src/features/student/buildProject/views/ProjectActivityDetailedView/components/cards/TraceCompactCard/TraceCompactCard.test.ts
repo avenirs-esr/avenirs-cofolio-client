@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ICONS } from '@/common/constants'
 import TraceCompactCard, {
   type TraceCompactCardProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { ICONS } from '@/features/student/global/icons'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

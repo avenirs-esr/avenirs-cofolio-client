@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import { AvList, AvListItem } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

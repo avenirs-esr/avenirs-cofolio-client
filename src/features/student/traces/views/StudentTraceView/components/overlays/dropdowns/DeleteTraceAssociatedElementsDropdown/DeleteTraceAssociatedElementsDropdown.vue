@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

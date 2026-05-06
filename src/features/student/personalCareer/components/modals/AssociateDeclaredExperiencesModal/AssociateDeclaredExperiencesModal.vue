@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@/common/constants'
 import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/global'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
-import { ICONS } from '@/features/student/global/icons'
 import DeclaredExperienceCompactCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.vue'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

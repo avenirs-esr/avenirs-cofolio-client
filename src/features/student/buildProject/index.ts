@@ -1,4 +1,3 @@
-export { default as ActivityThematicBadge } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 export { default as AssociatedDeclaredActivitiesCard, type AssociatedDeclaredActivitiesCardProps } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.vue'
 export { DeclaredActivityCompactCardStub } from '@/features/student/buildProject/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.stub'
 export { default as DeclaredActivityCompactCard } from '@/features/student/buildProject/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.vue'

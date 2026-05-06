@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { EActivityThematic } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
-import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import { ICONS } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 
 export interface DeclaredActivityCompactCardProps {
   activity: IdTitle & { thematic?: EActivityThematic }

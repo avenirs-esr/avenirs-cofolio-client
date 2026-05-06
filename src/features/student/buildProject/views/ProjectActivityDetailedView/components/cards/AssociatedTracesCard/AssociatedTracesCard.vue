@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
+import { ICONS } from '@/common/constants'
 import AssociatedTraceCard from '@/features/student/global/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import AssociationsCard from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedTracesCardProps {

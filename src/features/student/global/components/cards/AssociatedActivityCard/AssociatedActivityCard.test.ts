@@ -1,13 +1,12 @@
 import { type DeclaredActivityViewDTO, EActivityThematic } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
 import {
   ActivityThematicBadgeStub
-} from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+} from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ICONS, ROUTES } from '@/common/constants'
 import AssociatedActivityCard, {
   type AssociatedActivityCardProps
 } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import { AssociationCardStub } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.stub'
-import { ICONS } from '@/features/student/global/icons'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, vi } from 'vitest'

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { EActivityThematic } from '@/api/avenir-esr'
+import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
-import ActivityThematicBadge from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
-import { ICONS } from '@/features/student/global/icons'
 
 export interface ActivitiesSelectorProps {
   activities: { id: string, title: string, thematic: EActivityThematic }[]

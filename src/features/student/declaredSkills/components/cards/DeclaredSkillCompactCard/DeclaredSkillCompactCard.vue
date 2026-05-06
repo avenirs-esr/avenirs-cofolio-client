@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { EExternalSkillType } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
+import { ICONS } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

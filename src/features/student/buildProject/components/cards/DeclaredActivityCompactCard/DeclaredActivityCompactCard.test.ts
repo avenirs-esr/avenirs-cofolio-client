@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EActivityThematic } from '@/api/avenir-esr'
-import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import DeclaredActivityCompactCard, {
   type DeclaredActivityCompactCardProps
 } from '@/features/student/buildProject/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.vue'

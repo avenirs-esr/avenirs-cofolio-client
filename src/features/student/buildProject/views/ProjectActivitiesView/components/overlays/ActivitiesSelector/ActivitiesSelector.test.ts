@@ -1,5 +1,5 @@
 import { EActivityThematic } from '@/api/avenir-esr'
-import { ActivityThematicBadgeStub } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import ActivitiesSelector, { type ActivitiesSelectorProps } from '@/features/student/buildProject/views/ProjectActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

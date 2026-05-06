@@ -6,6 +6,7 @@ import {
 import {
   SectionNavigationLayoutStub,
 } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
+import { ICONS } from '@/common/constants'
 import {
   MyPerspectiveSectionStub,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.stub'
@@ -21,7 +22,6 @@ import ProjectActivityDetails
 import {
   ACTIVITY_DETAILED_SECTIONS,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
-import { ICONS } from '@/features/student/global/icons'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
