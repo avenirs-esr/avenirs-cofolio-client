@@ -18,6 +18,7 @@ const { data: config } = useGetBuildLifeProjectConfig()
     :opened="showModal"
     :close-button-label="t('student.global.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.closeButtonLabel')"
     @close="onClose"
+    @click-outside="onClose"
   >
     <div
       v-if="config"
