@@ -8,6 +8,12 @@
       },
       "navigation": {
         "tabs": {
+          "activityLibrary": {
+            "header": "Activity Library",
+            "items": {
+              "addActivity": "Create my activity"
+            }
+          },
           "home": "Home"
         }
       },
@@ -16,6 +22,9 @@
           "buttons": {
             "editProfile": "Edit profile"
           }
+        },
+        "addNationalActivityView": {
+          "title": "Create my activity"
         }
       }
     }

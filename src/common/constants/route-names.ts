@@ -5,6 +5,7 @@ export const ROUTES = {
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     LEGAL: { name: 'staff-legal', path: 'legal' },
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
+    ACTIVITY_LIBRARY_ADD: { name: 'staff-activity-library-add', path: 'activity-library/add' },
   },
   STUDENT: {
     HOME: { name: 'student-home', path: '' },

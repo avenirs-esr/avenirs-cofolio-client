@@ -30,6 +30,11 @@ export default [
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
+      {
+        ...ROUTES.STAFF.ACTIVITY_LIBRARY_ADD,
+        component: () =>
+          import('@/features/staff/activities/views/ActivitiesView/AddNationalActivityView.vue'),
+      },
     ]
   }
 ]

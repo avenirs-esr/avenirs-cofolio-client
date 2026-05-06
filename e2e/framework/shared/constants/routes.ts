@@ -1,5 +1,6 @@
 export const STAFF_ROUTES = {
   HOME: '/cofolio/staff',
+  ACTIVITY_LIBRARY_ADD: '/cofolio/staff/activity-library/add',
 }
 
 export const STUDENT_ROUTES = {

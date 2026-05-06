@@ -8,6 +8,12 @@
       },
       "navigation": {
         "tabs": {
+          "activityLibrary": {
+            "header": "Bibliothèque des activités",
+            "items": {
+              "addActivity": "Créer mon activité"
+            }
+          },
           "home": "Accueil"
         }
       },
@@ -16,6 +22,9 @@
           "buttons": {
             "editProfile": "Modifier mon profil"
           }
+        },
+        "addNationalActivityView": {
+          "title": "Créer mon activité"
         }
       }
     }
