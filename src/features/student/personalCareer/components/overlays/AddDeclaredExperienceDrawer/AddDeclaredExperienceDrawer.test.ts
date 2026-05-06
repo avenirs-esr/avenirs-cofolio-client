@@ -143,6 +143,17 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       expect(cancelConfirmButtons.props('confirmDisabled')).toBe(true)
     })
 
+    BddTest().and('description field emits maxlength exceeded', () => {
+      BddTest().then('it should keep confirm button disabled', async () => {
+        const descriptionField = wrapper.findComponent(DeclaredExperienceDescriptionFormFieldStub)
+        await descriptionField.vm.$emit('maxlengthExceeded', true)
+        await wrapper.vm.$nextTick()
+
+        const cancelConfirmButtons = getCancelConfirmButtons()
+        expect(cancelConfirmButtons.props('confirmDisabled')).toBe(true)
+      })
+    })
+
     BddTest().then('it should render add experience accordion with correct title', () => {
       const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
       const addExperienceAccordion = accordions[0]

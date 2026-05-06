@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-type DeclaredExperienceSourceOfInformationInputProps = Omit<AvInputProps, 'maxlength'>
+type DeclaredExperienceSourceOfInformationInputProps = Omit<InputProps, 'maxlength'>
 
 const {
   label,
@@ -26,7 +27,7 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <AvInput
+  <Input
     v-bind="avInputProps"
     v-model="modelValue"
   />

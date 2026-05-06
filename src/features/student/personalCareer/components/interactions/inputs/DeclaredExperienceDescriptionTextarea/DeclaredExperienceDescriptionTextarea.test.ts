@@ -212,4 +212,27 @@ BddTest().given('a declared experience description textarea component', () => {
       expect(wrapper.text()).toContain('0 / 400')
     })
   })
+
+  BddTest().when('the input emits maxlength exceeded', () => {
+    const onMaxlengthExceeded = vi.fn()
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(DeclaredExperienceDescriptionTextarea, {
+        props: {
+          modelValue: '',
+          onMaxlengthExceeded,
+        },
+        global: { stubs }
+      })
+
+      const input = wrapper.findComponent({ name: 'AvInput' })
+      await input.vm.$emit('maxlengthExceeded', true)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should forward the event listener to input', () => {
+      expect(onMaxlengthExceeded).toHaveBeenCalledWith(true)
+    })
+  })
 })

@@ -22,7 +22,7 @@ const mockIsSubmitting = ref(false)
 const mockState = ref({ isDirty: false })
 
 vi.mock(
-  '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/use-update-declared-experience-form/use-update-declared-experience-form',
+  '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form',
   () => ({
     useUpdateDeclaredExperienceForm: () => ({
       form: {
@@ -98,6 +98,35 @@ BddTest().given('a declared experience update form component', () => {
       expect(buttons.exists()).toBe(true)
       expect(buttons.props('cancelLabel')).toBe('Annuler')
       expect(buttons.props('confirmLabel')).toBe('Enregistrer')
+    })
+
+    BddTest().then('it should enable confirm button when form is valid', () => {
+      const buttons = getCancelConfirmButtons()
+      expect(buttons.props('confirmDisabled')).toBe(false)
+    })
+
+    BddTest().and('title field emits maxlength exceeded true', () => {
+      BddTest().then('it should disable the confirm button', async () => {
+        const titleField = wrapper.findComponent(DeclaredExperienceTitleFormFieldStub)
+        await titleField.vm.$emit('maxlengthExceeded', true)
+        await flushPromises()
+
+        const buttons = getCancelConfirmButtons()
+        expect(buttons.props('confirmDisabled')).toBe(true)
+      })
+    })
+
+    BddTest().and('title field emits maxlength exceeded then back to false', () => {
+      BddTest().then('it should re-enable confirm button', async () => {
+        const titleField = wrapper.findComponent(DeclaredExperienceTitleFormFieldStub)
+        await titleField.vm.$emit('maxlengthExceeded', true)
+        await flushPromises()
+        await titleField.vm.$emit('maxlengthExceeded', false)
+        await flushPromises()
+
+        const buttons = getCancelConfirmButtons()
+        expect(buttons.props('confirmDisabled')).toBe(false)
+      })
     })
   })
 

@@ -1,7 +1,7 @@
 export const DeclaredExperienceSummaryTextareaStub = defineComponent({
   name: 'DeclaredExperienceSummaryTextarea',
   props: ['modelValue', 'errorMessage'],
-  emits: ['update:modelValue', 'blur'],
+  emits: ['update:modelValue', 'blur', 'maxlengthExceeded'],
   template: `
     <div data-testid="declared-experience-summary-textarea-stub">
       <textarea
