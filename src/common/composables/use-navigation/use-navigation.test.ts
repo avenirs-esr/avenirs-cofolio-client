@@ -327,4 +327,12 @@ BddTest().given('a useNavigation composable', () => {
       })
     })
   })
+
+  BddTest().when('trying to navigate to staff activities', () => {
+    BddTest().then('it should navigate to staff activities', () => {
+      const { navigateToStaffActivities } = navigation
+      navigateToStaffActivities()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES)
+    })
+  })
 })

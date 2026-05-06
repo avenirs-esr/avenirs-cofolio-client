@@ -8,10 +8,16 @@
       },
       "navigation": {
         "tabs": {
+          "activities": {
+            "header": "Activity library"
+          },
           "home": "Home"
         }
       },
       "views": {
+        "ActivitiesView": {
+          "title": "My activity library"
+        },
         "StaffHomeView": {
           "buttons": {
             "editProfile": "Edit profile"

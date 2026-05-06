@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { EOS_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -20,14 +20,25 @@ BddTest().given('a staff navigation', () => {
       expect(avNavigation.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass correct navigation items to AvNavigation', () => {
+    BddTest().then('it should include home navigation item with correct propertie', () => {
       const avNavigation = wrapper.findComponent(AvNavigationStub)
       const navItems = avNavigation.props('navItems')
-      expect(navItems).toHaveLength(1)
+
       expect(navItems[0]).toMatchObject({
         text: 'ACCUEIL',
         to: expect.objectContaining({ name: 'staff-home' }),
         icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
+      })
+    })
+
+    BddTest().then('it should include activities navigation item with correct propertie', () => {
+      const avNavigation = wrapper.findComponent(AvNavigationStub)
+      const navItems = avNavigation.props('navItems')
+
+      expect(navItems[1]).toMatchObject({
+        text: 'BIBLIOTHÈQUE DES ACTIVITÉS',
+        to: expect.objectContaining({ name: 'staff-activities' }),
+        icon: EOS_ICONS.ACTION_CHAINS_OUTLINED,
       })
     })
   })

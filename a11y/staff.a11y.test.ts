@@ -1,5 +1,6 @@
+import type { AvRoute } from '@/common/types'
 import fs from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ROUTES } from '@/common/constants'
 import { AxeBuilder } from '@axe-core/playwright'
@@ -11,8 +12,25 @@ import { createHtmlReport } from 'axe-html-reporter'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+const routesToCheck: Array<AvRoute> = [
+  ROUTES.STAFF.ACTIVITIES,
+]
+
 const pathsToTest = [
   `./staff${ROUTES.STAFF.HOME.path}`,
+  ...routesToCheck.map((route) => {
+    const routes = [join(`./staff`, route.path)]
+
+    if (!Array.isArray(route.children)) {
+      return routes
+    }
+
+    route.children.forEach((childRoute) => {
+      routes.push(join(`./staff`, route.path, childRoute.path))
+    })
+
+    return routes
+  }).flat(),
 ]
 
 test.describe('staff routes', () => {
