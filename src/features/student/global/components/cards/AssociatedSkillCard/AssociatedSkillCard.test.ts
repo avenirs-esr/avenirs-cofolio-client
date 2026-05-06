@@ -1,9 +1,9 @@
 import {
   createMockedDeclaredSkillProgressDTO
 } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { ICONS } from '@/common/constants'
 import AssociatedSkillCard, { type AssociatedSkillCardProps } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { AssociationCardStub } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.stub'
-import { ICONS } from '@/features/student/global/icons'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, vi } from 'vitest'

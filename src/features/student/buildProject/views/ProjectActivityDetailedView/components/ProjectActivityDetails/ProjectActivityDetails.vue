@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import { AvCard, AvIconText, AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'

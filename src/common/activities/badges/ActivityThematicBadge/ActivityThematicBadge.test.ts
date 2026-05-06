@@ -1,6 +1,7 @@
+import type { ActivityThematicBadgeProps } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { EActivityThematic } from '@/api/avenir-esr'
-import ActivityThematicBadge, { type ActivityThematicBadgeProps } from '@/features/student/buildProject/components/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
-import { ICONS } from '@/features/student/global/icons'
+import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import { ICONS } from '@/common/constants'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -10,9 +11,9 @@ BddTest().given('an activity thematic badge', () => {
   const stubs = { AvBadge: AvBadgeStub }
 
   const scenario: Array<{ props: ActivityThematicBadgeProps, label: string, icon: string }> = [
-    { props: { thematic: EActivityThematic.PROGRAMS }, label: 'Mes formations', icon: ICONS.PROGRAMS },
     { props: { thematic: EActivityThematic.EXPERIENCES }, label: 'Mes expériences', icon: ICONS.EXPERIENCES },
     { props: { thematic: EActivityThematic.FUTURE_PLANS }, label: 'Explorer mes futures', icon: ICONS.FUTURES },
+    { props: { thematic: EActivityThematic.PROGRAMS }, label: 'Mes formations', icon: ICONS.PROGRAMS },
     { props: { thematic: EActivityThematic.RESUMES }, label: 'CV', icon: ICONS.RESUMES },
     { props: { thematic: EActivityThematic.SELF_KNOWLEDGE }, label: 'Me connaître', icon: ICONS.SELF_KNOWLEDGE },
     { props: { thematic: EActivityThematic.TRAJECTORIES }, label: 'Mes trajectoires', icon: ICONS.TRAJECTORIES },

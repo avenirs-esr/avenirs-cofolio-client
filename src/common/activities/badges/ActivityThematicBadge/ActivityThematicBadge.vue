@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { EActivityThematic } from '@/api/avenir-esr'
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -13,7 +13,7 @@ const { thematic } = defineProps<ActivityThematicBadgeProps>()
 
 const { t } = useI18n()
 
-const label = computed(() => t(`student.buildProject.activities.thematics.${thematic}`))
+const label = computed(() => t(`global.activities.badges.thematics.${thematic}`))
 
 const icon = computed(() => {
   switch (thematic) {

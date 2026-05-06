@@ -2,10 +2,10 @@
 import type { EActivityThematic } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { ICONS } from '@/common/constants'
 import { DeclaredActivityCompactCard } from '@/features/student/buildProject'
 import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/global'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

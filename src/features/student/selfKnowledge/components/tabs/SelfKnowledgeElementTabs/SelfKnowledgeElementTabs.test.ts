@@ -1,6 +1,6 @@
 import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import SelfKnowledgeElementTabs
   from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

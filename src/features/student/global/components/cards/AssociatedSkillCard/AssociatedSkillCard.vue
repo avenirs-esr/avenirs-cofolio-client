@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/global/components/cards/AssociationCard/AssociationCard.vue'
-import { ICONS } from '@/features/student/global/icons'
 import { AvBadge, type AvBadgeProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

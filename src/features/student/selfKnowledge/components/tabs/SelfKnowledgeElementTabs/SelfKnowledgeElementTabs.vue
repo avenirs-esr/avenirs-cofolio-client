@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
 import type { Slot } from 'vue'
-import { ICONS } from '@/features/student/global/icons'
+import { ICONS } from '@/common/constants'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

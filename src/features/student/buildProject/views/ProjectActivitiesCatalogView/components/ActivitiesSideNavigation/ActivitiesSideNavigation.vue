@@ -2,8 +2,8 @@
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
+import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
-import { ICONS } from '@/features/student/global/icons'
 import {
   AvSideNavigation,
   type AvSideNavigationMenuItem,
