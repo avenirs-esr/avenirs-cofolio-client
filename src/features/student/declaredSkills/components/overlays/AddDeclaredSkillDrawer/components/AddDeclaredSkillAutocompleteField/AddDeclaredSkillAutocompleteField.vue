@@ -120,7 +120,7 @@ const emptySlotTextContent = computed<string>(() => {
           max-dropdown-height="14.5rem"
           :debounce-delay="500"
           @update:model-value="field.handleChange"
-          @search="handleSearch"
+          @update:search="handleSearch"
           @clear="handleClear"
           @load-more="handleLoadMore"
         >

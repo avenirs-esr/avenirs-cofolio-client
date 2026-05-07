@@ -57,7 +57,7 @@ const stubs = {
       'maxDropdownHeight',
       'debounceDelay'
     ],
-    emits: ['update:modelValue', 'search', 'clear', 'loadMore'],
+    emits: ['update:modelValue', 'update:search', 'clear', 'loadMore'],
     template: `
       <div class="av-autocomplete-stub">
         <input 
@@ -142,10 +142,10 @@ BddTest().given('an autocomplete skill field component', () => {
   })
 
   BddTest().when('a search query is entered', () => {
-    BddTest().then('it should emit search event', async () => {
+    BddTest().then('it should emit update:search event', async () => {
       const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
 
-      await autocomplete.vm.$emit('search', 'javascript')
+      await autocomplete.vm.$emit('update:search', 'javascript')
 
       expect(autocomplete.exists()).toBe(true)
     })
