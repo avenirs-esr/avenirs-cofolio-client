@@ -56,6 +56,10 @@ const {
   form,
   isPending,
   isModified,
+  isFormValid,
+  hasIdentityErrors,
+  hasCoverPictureErrors,
+  hasProfilePictureErrors,
   coverPictureFile,
   onCoverPictureUpdate,
   profilePictureFile,
@@ -158,6 +162,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.identity.title')"
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
+            :class="{ 'update-profile-drawer__accordion--error': hasIdentityErrors }"
           >
             <div class="av-col av-gap-md">
               <AvInput
@@ -210,6 +215,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
+            :class="{ 'update-profile-drawer__accordion--error': hasCoverPictureErrors }"
           >
             <div data-image-upload-delete-zone>
               <ImageUpload
@@ -225,6 +231,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
+            :class="{ 'update-profile-drawer__accordion--error': hasProfilePictureErrors }"
           >
             <div data-image-upload-delete-zone>
               <ImageUpload
@@ -249,7 +256,7 @@ watch(() => show, (newVal) => {
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :cancel-is-loading="isPending || isLoading"
           :confirm-is-loading="isPending || isLoading"
-          :confirm-disabled="!isModified"
+          :confirm-disabled="!isModified || !isFormValid"
           form="profile-form"
           @cancel="handleCancel"
           @confirm="confirm"
@@ -264,3 +271,12 @@ watch(() => show, (newVal) => {
     @close="cancel"
   />
 </template>
+
+<style scoped lang="scss">
+.update-profile-drawer__accordion--error {
+  :deep(.av-accordion__trigger) {
+    border: 1px solid var(--dark-background-error);
+    color: var(--dark-background-error);
+  }
+}
+</style>

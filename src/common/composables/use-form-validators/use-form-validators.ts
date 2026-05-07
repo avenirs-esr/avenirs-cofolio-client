@@ -1,7 +1,13 @@
+import type { FormApi } from '@tanstack/vue-form'
+import type { Ref } from 'vue'
 import { isValidLink } from '@avenirs-esr/avenirs-dsav'
+import { useStore } from '@tanstack/vue-form'
 import { isBefore, parse } from 'date-fns'
 import isEmpty from 'lodash-es/isEmpty'
 import { useI18n } from 'vue-i18n'
+
+type AnyFormApi<TFormData extends object> = FormApi<TFormData, any, any, any, any, any, any, any, any, any>
+type TopLevelFieldKey<TFormData extends object> = TFormData extends unknown ? Extract<keyof TFormData, string> : never
 
 export interface validateDateIntervalArgs {
   startDate: string | undefined | null
@@ -22,6 +28,8 @@ export interface UseFormValidatorsReturn {
   validateDateInterval: (args: validateDateIntervalArgs) => string | undefined
   /** Validates that a link is in a valid format */
   validateLink: (link: string | undefined | null, required?: boolean) => string | undefined
+  /** Returns a reactive boolean indicating whether at least one field has errors */
+  hasFieldErrors: <TFormData extends object>(form: AnyFormApi<TFormData>, fieldNames: readonly TopLevelFieldKey<TFormData>[]) => Ref<boolean>
 }
 
 export interface ValidationOptions {
@@ -92,10 +100,19 @@ export function useFormValidators (): UseFormValidatorsReturn {
     }
   }
 
+  function hasFieldErrors<TFormData extends object> (form: AnyFormApi<TFormData>, fieldNames: readonly TopLevelFieldKey<TFormData>[]) {
+    return useStore(form.store, (state) => {
+      return fieldNames.some((fieldName) => {
+        return (state.fieldMeta[fieldName]?.errors?.length ?? 0) > 0
+      })
+    })
+  }
+
   return {
     validateMaxLength,
     validateRequired,
     validateDateInterval,
-    validateLink
+    validateLink,
+    hasFieldErrors
   }
 }

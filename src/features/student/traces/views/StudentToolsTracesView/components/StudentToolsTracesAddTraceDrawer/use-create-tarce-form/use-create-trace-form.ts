@@ -4,6 +4,7 @@ import type { ComputedRef } from 'vue'
 import { ELanguage, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
+import { TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import {
   useAssociateTraceWithActivitiesMutation,
   useAssociateTraceWithDeclaredSkillsMutation,
@@ -23,7 +24,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
 
   const { addErrorMessage } = useToasterStore()
-  const { validateLink } = useFormValidators()
+  const { validateLink, validateMaxLength, hasFieldErrors } = useFormValidators()
 
   function onCreateTraceError (error: BaseApiException) {
     addErrorMessage({
@@ -143,6 +144,9 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       onChange ({ value }: { value: TraceFormData }) {
         return {
           fields: {
+            link: isTraceLinkType(value) ? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
+            traceName: validateMaxLength(value.traceName, TRACE_NAME_MAX_LENGTH),
+            personalNote: validateMaxLength(value.personalNote, TRACE_PERSONAL_NOTE_MAX_LENGTH),
             file: isTraceFileType(value) ? validateFile(value.file) : undefined,
           }
         }
@@ -155,8 +159,11 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const isFormValid = computed(() => {
     const state = form.useStore(state => state)
-    return state.value.isValid && !state.value.isValidating
+    return state.value.isDirty && state.value.isValid && !state.value.isValidating
   })
+
+  const hasDefinitionItemsError = hasFieldErrors(form, ['traceName', 'personalNote', 'traceType', 'file', 'link'])
+  const hasDeclarationItemsError = hasFieldErrors(form, ['isAuthentic', 'isGroup', 'useIA'])
 
   const isSubmitting: ComputedRef<boolean> = computed(() => {
     return createTraceMutation.isPending.value
@@ -169,6 +176,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting
+    isSubmitting,
+    hasDefinitionItemsError,
+    hasDeclarationItemsError
   }
 }

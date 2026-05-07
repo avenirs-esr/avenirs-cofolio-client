@@ -321,10 +321,10 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   })
 
   BddTest().when('save button state', () => {
-    BddTest().then('it should be enabled by default', async () => {
+    BddTest().then('it should be disabled by default', async () => {
       const cancelConfirmButtons = getCancelConfirmButtons()
 
-      expect(cancelConfirmButtons.props('confirmDisabled')).toBe(false)
+      expect(cancelConfirmButtons.props('confirmDisabled')).toBe(true)
     })
   })
 

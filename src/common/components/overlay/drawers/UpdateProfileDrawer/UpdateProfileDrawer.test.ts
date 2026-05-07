@@ -200,6 +200,27 @@ BddTest().given('given an update profile drawer', () => {
     resetForm: mockedResetForm,
   }
 
+  function createUseUpdateProfileFormMock (overrides?: Partial<ReturnType<typeof useUpdateProfileForm>>) {
+    return {
+      form: mockedForm as any,
+      isPending: computed(() => false),
+      isModified: computed(() => false),
+      isFormValid: computed(() => false),
+      hasIdentityErrors: computed(() => false),
+      hasPicturesErrors: computed(() => false),
+      hasCoverPictureErrors: computed(() => false),
+      hasProfilePictureErrors: computed(() => false),
+      resetForm: mockedResetForm,
+      onCoverPictureUpdate: vi.fn(),
+      onProfilePictureUpdate: vi.fn(),
+      onUpdateProfileCoverSuccess: vi.fn(),
+      onUpdateProfilePhotoSuccess: vi.fn(),
+      coverPictureFile: ref<File | null>(null),
+      profilePictureFile: ref<File | null>(null),
+      ...overrides,
+    }
+  }
+
   const userSummaryWithMissingFields = {
     firstname: '',
     lastname: '',
@@ -239,18 +260,7 @@ BddTest().given('given an update profile drawer', () => {
       path: '/student/home'
     } as any)
 
-    mockedUseUpdateProfileForm.mockImplementation(() => ({
-      form: mockedForm as any,
-      isPending: computed(() => false),
-      isModified: computed(() => false),
-      resetForm: mockedResetForm,
-      onCoverPictureUpdate: vi.fn(),
-      onProfilePictureUpdate: vi.fn(),
-      onUpdateProfileCoverSuccess: vi.fn(),
-      onUpdateProfilePhotoSuccess: vi.fn(),
-      coverPictureFile: ref<File | null>(null),
-      profilePictureFile: ref<File | null>(null),
-    }))
+    mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock())
 
     wrapper = mountComponent(UpdateProfileDrawer, {
       props: defaultProps,
@@ -298,17 +308,9 @@ BddTest().given('given an update profile drawer', () => {
       beforeEach(() => {
         vi.clearAllMocks()
 
-        mockedUseUpdateProfileForm.mockImplementation(() => ({
+        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
           form: mockedFormWithEmptyFields as any,
           isPending: computed(() => true),
-          isModified: computed(() => false),
-          resetForm: mockedResetForm,
-          onCoverPictureUpdate: vi.fn(),
-          onProfilePictureUpdate: vi.fn(),
-          onUpdateProfileCoverSuccess: vi.fn(),
-          onUpdateProfilePhotoSuccess: vi.fn(),
-          coverPictureFile: ref<File | null>(null),
-          profilePictureFile: ref<File | null>(null),
         }))
 
         wrapper = mountComponent(UpdateProfileDrawer, {
@@ -344,17 +346,8 @@ BddTest().given('given an update profile drawer', () => {
 
     BddTest().when('the update profile form composable is pending', () => {
       beforeEach(() => {
-        mockedUseUpdateProfileForm.mockImplementation(() => ({
-          form: mockedForm as any,
+        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
           isPending: computed(() => true),
-          isModified: computed(() => false),
-          resetForm: mockedResetForm,
-          onCoverPictureUpdate: vi.fn(),
-          onProfilePictureUpdate: vi.fn(),
-          onUpdateProfileCoverSuccess: vi.fn(),
-          onUpdateProfilePhotoSuccess: vi.fn(),
-          coverPictureFile: ref<File | null>(null),
-          profilePictureFile: ref<File | null>(null),
         }))
 
         wrapper = mountComponent(UpdateProfileDrawer, {
@@ -376,17 +369,8 @@ BddTest().given('given an update profile drawer', () => {
 
     BddTest().when('inputs are modified', () => {
       beforeEach(() => {
-        mockedUseUpdateProfileForm.mockImplementation(() => ({
-          form: mockedForm as any,
-          isPending: computed(() => false),
+        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
           isModified: computed(() => true),
-          resetForm: mockedResetForm,
-          onCoverPictureUpdate: vi.fn(),
-          onProfilePictureUpdate: vi.fn(),
-          onUpdateProfileCoverSuccess: vi.fn(),
-          onUpdateProfilePhotoSuccess: vi.fn(),
-          coverPictureFile: ref<File | null>(null),
-          profilePictureFile: ref<File | null>(null),
         }))
       })
 
@@ -432,17 +416,8 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          mockedUseUpdateProfileForm.mockImplementation(() => ({
-            form: mockedForm as any,
-            isPending: computed(() => false),
+          mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
             isModified: computed(() => true),
-            resetForm: mockedResetForm,
-            onCoverPictureUpdate: vi.fn(),
-            onProfilePictureUpdate: vi.fn(),
-            onUpdateProfileCoverSuccess: vi.fn(),
-            onUpdateProfilePhotoSuccess: vi.fn(),
-            coverPictureFile: ref<File | null>(null),
-            profilePictureFile: ref<File | null>(null),
           }))
           wrapper = mountComponent(UpdateProfileDrawer, {
             props: defaultProps,
@@ -476,17 +451,8 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          mockedUseUpdateProfileForm.mockImplementation(() => ({
-            form: mockedForm as any,
-            isPending: computed(() => false),
+          mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
             isModified: computed(() => true),
-            resetForm: mockedResetForm,
-            onCoverPictureUpdate: vi.fn(),
-            onProfilePictureUpdate: vi.fn(),
-            onUpdateProfileCoverSuccess: vi.fn(),
-            onUpdateProfilePhotoSuccess: vi.fn(),
-            coverPictureFile: ref<File | null>(null),
-            profilePictureFile: ref<File | null>(null),
           }))
           wrapper = mountComponent(UpdateProfileDrawer, {
             props: defaultProps,
@@ -542,16 +508,9 @@ BddTest().given('given an update profile drawer', () => {
       beforeEach(() => {
         mockedUseUpdateProfileForm.mockImplementation((_data, _profile: EUserCategory, onSuccess: () => void) => {
           const obj = {
-            form: mockedForm as any,
-            isPending: computed(() => false),
-            isModified: computed(() => true),
-            resetForm: mockedResetForm,
-            onCoverPictureUpdate: vi.fn(),
-            onProfilePictureUpdate: vi.fn(),
-            onUpdateProfileCoverSuccess: vi.fn(),
-            onUpdateProfilePhotoSuccess: vi.fn(),
-            coverPictureFile: ref<File | null>(null),
-            profilePictureFile: ref<File | null>(null),
+            ...createUseUpdateProfileFormMock({
+              isModified: computed(() => true),
+            }),
             simulateSuccess: () => {
               onSuccess()
             }
