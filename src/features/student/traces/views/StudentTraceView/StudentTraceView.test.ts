@@ -155,6 +155,13 @@ BddTest().given('a student trace view', () => {
       expect(tabs[1].props('title')).toBe('Mes éléments associés (5)')
     })
 
+    BddTest().then('it should render TraceAssociations with correct props', async () => {
+      const traceAssociations = wrapper.findComponent(TraceAssociationsStub)
+      expect(traceAssociations.exists()).toBe(true)
+      expect(traceAssociations.props('countAssociations')).toBe(5)
+      expect(traceAssociations.props('associationsError')).toBeNull()
+    })
+
     BddTest().then('it should render StudentTraceDetails component in the first tab', () => {
       const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
       expect(traceDetails.exists()).toBe(true)

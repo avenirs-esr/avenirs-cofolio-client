@@ -250,6 +250,9 @@
             "activities": "une/des activité(s) associée(s)",
             "skills": "une/des compétence(s) associée(s)"
           },
+          "empty": {
+            "associations": "Aucune association pour cette trace."
+          },
           "errors": {
             "delete": "Une erreur est survenue lors de la suppression de la trace.",
             "download": "Une erreur est survenue lors du téléchargement de la trace.",

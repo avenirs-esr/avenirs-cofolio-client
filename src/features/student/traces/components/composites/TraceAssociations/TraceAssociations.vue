@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@/common/exceptions'
 import { EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import QuerySuspense
+  from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
@@ -17,13 +20,18 @@ import DeleteTraceAssociatedActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedActivitiesModal/DeleteTraceAssociatedActivitiesModal.vue'
 import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
+import { useI18n } from 'vue-i18n'
+
+const { associations, traceId, associationsError, countAssociations = 0 } = defineProps<TraceAssociationsProps>()
+
+const { t } = useI18n()
 
 export interface TraceAssociationsProps {
-  associations: TraceAssociationsDTO
+  associations: TraceAssociationsDTO | undefined
   traceId: string
+  associationsError?: BaseApiException | null
+  countAssociations?: number
 }
-
-const { associations, traceId } = defineProps<TraceAssociationsProps>()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showActivitiesModal, displayModal: displayActivitiesModal, hideModal: hideActivitiesModal } = useModal()
@@ -32,8 +40,8 @@ const { showModal: showAssociateActivitiesModal, displayModal: displayAssociateA
 const { showModal: showAssociationModal, displayModal: displayAssociationModal, hideModal: hideAssociationModal } = useModal()
 const { showModal: showAssociateExperiencesModal, displayModal: displayAssociateExperiencesModal, hideModal: hideAssociateExperiencesModal } = useModal()
 
-const declaredSkillAssociations = computed(() => associations.declaredSkillAssociations ?? [])
-const declaredActivityAssociations = computed(() => associations.declaredActivityAssociations ?? [])
+const declaredSkillAssociations = computed(() => associations?.declaredSkillAssociations ?? [])
+const declaredActivityAssociations = computed(() => associations?.declaredActivityAssociations ?? [])
 
 const deletableDeclaredActivityAssociations = computed(() =>
   declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
@@ -61,11 +69,15 @@ const deletableDeclaredActivityAssociations = computed(() =>
 
     <slot name="caption" />
 
-    <AssociatedDeclaredSkillsCard
-      :associated-declared-skills="declaredSkillAssociations"
-    />
-
-    <AssociatedDeclaredActivitiesCard :associated-activities="declaredActivityAssociations" />
+    <QuerySuspense
+      :error="associationsError"
+      :error-title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
+      :empty-state-message="t('student.traces.views.StudentTraceView.empty.associations')"
+      :is-empty="countAssociations === 0"
+    >
+      <AssociatedDeclaredSkillsCard :associated-declared-skills="declaredSkillAssociations" />
+      <AssociatedDeclaredActivitiesCard :associated-activities="declaredActivityAssociations" />
+    </QuerySuspense>
   </div>
 
   <AssociateActivitiesToTracesModal

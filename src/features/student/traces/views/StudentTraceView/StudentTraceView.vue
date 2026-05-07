@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import { useDownloadAttachment } from '@/api/avenir-esr'
-import { QuerySuspense } from '@/common/components'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -29,7 +28,7 @@ const { traceId } = toRefs(props)
 const { addErrorMessage } = useToasterStore()
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
-const { traceAssociations, error: associationsError } = useTraceAssociationsQuery(traceId)
+const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
 const { navigateToStudentTraces } = useNavigation()
 
 const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
@@ -130,17 +129,14 @@ const breadcrumbLinks = computed(() => [
           :icon="ICONS.ASSOCIATIONS"
           data-testid="associations-tab-item"
         >
-          <QuerySuspense
-            :error="associationsError"
-            :error-title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
-            :is-empty="countAssociations === 0"
-          >
+          <Loader :is-loading="isAssociationsLoading">
             <TraceAssociations
-              v-if="traceAssociations"
               :associations="traceAssociations"
               :trace-id="traceDetailed.id"
+              :associations-error="associationsError"
+              :count-associations="countAssociations"
             />
-          </QuerySuspense>
+          </Loader>
         </AvTab>
       </AvTabs>
 

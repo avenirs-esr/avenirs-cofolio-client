@@ -257,6 +257,9 @@
             "fetchAssociations": "An error occurred while fetching the trace associations",
             "fetchTrace": "An error occurred while fetching the trace details"
           },
+          "empty": {
+            "associations": "No association for this trace."
+          },
           "settings": {
             "associate": "Associate my trace",
             "delete": "Delete my trace",
