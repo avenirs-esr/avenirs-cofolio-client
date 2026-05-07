@@ -5,6 +5,7 @@ import { DeclaredExperienceLocationInputStub } from '@/features/student/personal
 import {
   useDeclaredExperienceFormValidators
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
+import { DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
@@ -60,7 +61,7 @@ BddTest().given('a declared experience location form field', () => {
       BddTest().then('it should keep the user value in the field state', async () => {
         const input = wrapper.findComponent({ name: 'DeclaredExperienceLocationInput' })
         const textInput = input.find('input')
-        const longLocation = 'a'.repeat(300)
+        const longLocation = 'a'.repeat(DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH + 10)
         await textInput.setValue(longLocation)
         await wrapper.vm.$nextTick()
 
@@ -68,19 +69,6 @@ BddTest().given('a declared experience location form field', () => {
           const updated = wrapper.findComponent({ name: 'DeclaredExperienceLocationInput' })
           expect(updated.props('modelValue')).toBe(longLocation)
         })
-      })
-    })
-
-    BddTest().and('the input emits maxlength exceeded state', () => {
-      BddTest().then('it should forward maxlengthExceeded to parent', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredExperienceLocationInput' })
-        const formField = wrapper.findComponent(DeclaredExperienceLocationFormField)
-        await input.vm.$emit('maxlengthExceeded', true)
-        await wrapper.vm.$nextTick()
-
-        const events = formField.emitted('maxlengthExceeded')
-        expect(events).toBeTruthy()
-        expect(events?.at(-1)?.[0]).toBe(true)
       })
     })
 

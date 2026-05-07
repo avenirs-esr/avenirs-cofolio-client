@@ -14,16 +14,24 @@ import {
 export function useDeclaredExperienceFormValidators () {
   const { validateRequired, validateMaxLength, validateDateInterval, validateLink } = useFormValidators()
 
+  function validateTitleMaxLength (title: DeclaredExperienceFormData['title']) {
+    return validateMaxLength(title, DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)
+  }
+
   function validateTitle (title: DeclaredExperienceFormData['title']) {
-    return validateRequired(title) ?? validateMaxLength(title, DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)
+    return validateRequired(title) ?? validateTitleMaxLength(title)
   }
 
   function validateType (type: DeclaredExperienceFormData['type']) {
     return validateRequired(type)
   }
 
+  function validateOrganizationMaxLength (organization: DeclaredExperienceFormData['organization']) {
+    return validateMaxLength(organization, DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH)
+  }
+
   function validateOrganization (organization: DeclaredExperienceFormData['organization']) {
-    return validateRequired(organization) ?? validateMaxLength(organization, DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH)
+    return validateRequired(organization) ?? validateOrganizationMaxLength(organization)
   }
 
   function validateActivitySector (activitySector: DeclaredExperienceFormData['activitySector']) {
@@ -46,8 +54,12 @@ export function useDeclaredExperienceFormValidators () {
     return validateMaxLength(summary, DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH)
   }
 
+  function validateExternalLinkMaxLength (externalLink: DeclaredExperienceFormData['externalLink']) {
+    return validateMaxLength(externalLink, DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH)
+  }
+
   function validateExternalLink (externalLink: DeclaredExperienceFormData['externalLink']) {
-    return validateMaxLength(externalLink, DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH) ?? validateLink(externalLink)
+    return validateExternalLinkMaxLength(externalLink) ?? validateLink(externalLink)
   }
 
   function validateStartDate (startDate: DeclaredExperienceFormData['startDate']) {
@@ -71,12 +83,15 @@ export function useDeclaredExperienceFormValidators () {
     validateActivitySector,
     validateDescription,
     validateEndDate,
+    validateExternalLinkMaxLength,
     validateExternalLink,
     validateLocation,
+    validateOrganizationMaxLength,
     validateOrganization,
     validateSummary,
     validateSourceOfInformation,
     validateStartDate,
+    validateTitleMaxLength,
     validateTitle,
     validateType
   }

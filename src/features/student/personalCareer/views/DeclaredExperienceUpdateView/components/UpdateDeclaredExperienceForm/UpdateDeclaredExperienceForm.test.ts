@@ -104,30 +104,6 @@ BddTest().given('a declared experience update form component', () => {
       const buttons = getCancelConfirmButtons()
       expect(buttons.props('confirmDisabled')).toBe(false)
     })
-
-    BddTest().and('title field emits maxlength exceeded true', () => {
-      BddTest().then('it should disable the confirm button', async () => {
-        const titleField = wrapper.findComponent(DeclaredExperienceTitleFormFieldStub)
-        await titleField.vm.$emit('maxlengthExceeded', true)
-        await flushPromises()
-
-        const buttons = getCancelConfirmButtons()
-        expect(buttons.props('confirmDisabled')).toBe(true)
-      })
-    })
-
-    BddTest().and('title field emits maxlength exceeded then back to false', () => {
-      BddTest().then('it should re-enable confirm button', async () => {
-        const titleField = wrapper.findComponent(DeclaredExperienceTitleFormFieldStub)
-        await titleField.vm.$emit('maxlengthExceeded', true)
-        await flushPromises()
-        await titleField.vm.$emit('maxlengthExceeded', false)
-        await flushPromises()
-
-        const buttons = getCancelConfirmButtons()
-        expect(buttons.props('confirmDisabled')).toBe(false)
-      })
-    })
   })
 
   BddTest().when('the form store emits state changes', () => {

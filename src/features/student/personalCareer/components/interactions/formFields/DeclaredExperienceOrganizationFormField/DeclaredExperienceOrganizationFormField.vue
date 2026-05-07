@@ -13,19 +13,11 @@ defineOptions({
 
 const { form } = defineProps<DeclaredExperienceOrganizationFormFieldProps>()
 
-const emit = defineEmits<{
-  (e: 'maxlengthExceeded', value: boolean): void
-}>()
-
 const FormField = markRaw(form.Field)
 const organizationField = form.useField({ name: 'organization' })
 
 function onUpdateOrganization (value: string | undefined) {
   organizationField.api.handleChange(String(value ?? ''))
-}
-
-function onMaxlengthExceeded (value: boolean) {
-  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -38,7 +30,6 @@ function onMaxlengthExceeded (value: boolean) {
         :error-message="field.state.meta.errors?.join(', ')"
         required
         @blur="field.handleBlur"
-        @maxlength-exceeded="onMaxlengthExceeded"
         @update:model-value="onUpdateOrganization"
       />
     </template>

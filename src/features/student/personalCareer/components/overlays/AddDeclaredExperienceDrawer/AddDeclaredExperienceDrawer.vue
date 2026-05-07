@@ -33,24 +33,6 @@ const { form, isFormValid, isSubmitting } = useAddDeclaredExperienceForm(() => {
 })
 
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
-const isTitleMaxlengthExceeded = ref(false)
-const isOrganizationMaxlengthExceeded = ref(false)
-const isActivitySectorMaxlengthExceeded = ref(false)
-const isLocationMaxlengthExceeded = ref(false)
-const isSourceOfInformationMaxlengthExceeded = ref(false)
-const isExternalLinkMaxlengthExceeded = ref(false)
-const isDescriptionMaxlengthExceeded = ref(false)
-const isSummaryMaxlengthExceeded = ref(false)
-const isSubmittable = computed(() =>
-  isFormValid.value
-  && !isTitleMaxlengthExceeded.value
-  && !isOrganizationMaxlengthExceeded.value
-  && !isActivitySectorMaxlengthExceeded.value
-  && !isLocationMaxlengthExceeded.value
-  && !isSourceOfInformationMaxlengthExceeded.value
-  && !isExternalLinkMaxlengthExceeded.value
-  && !isDescriptionMaxlengthExceeded.value
-  && !isSummaryMaxlengthExceeded.value)
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -99,47 +81,23 @@ const activeAccordion = ref(0)
               :icon="MDI_ICONS.SCHOOL_OUTLINE"
             >
               <div class="av-col av-gap-md">
-                <DeclaredExperienceTitleFormField
-                  :form="form"
-                  @maxlength-exceeded="isTitleMaxlengthExceeded = $event"
-                />
+                <DeclaredExperienceTitleFormField :form="form" />
                 <DeclaredExperienceTypeFormField :form="form" />
-                <DeclaredExperienceOrganizationFormField
-                  :form="form"
-                  @maxlength-exceeded="isOrganizationMaxlengthExceeded = $event"
-                />
+                <DeclaredExperienceOrganizationFormField :form="form" />
                 <div class="av-row av-gap-md">
                   <div class="av-flex-fill">
-                    <DeclaredExperienceActivitySectorFormField
-                      :form="form"
-                      @maxlength-exceeded="isActivitySectorMaxlengthExceeded = $event"
-                    />
+                    <DeclaredExperienceActivitySectorFormField :form="form" />
                   </div>
 
                   <div class="av-flex-fill">
-                    <DeclaredExperienceLocationFormField
-                      :form="form"
-                      @maxlength-exceeded="isLocationMaxlengthExceeded = $event"
-                    />
+                    <DeclaredExperienceLocationFormField :form="form" />
                   </div>
                 </div>
                 <DeclaredExperiencePeriodFormField :form="form" />
-                <DeclaredExperienceSourceOfInformationFormField
-                  :form="form"
-                  @maxlength-exceeded="isSourceOfInformationMaxlengthExceeded = $event"
-                />
-                <DeclaredExperienceDescriptionFormField
-                  :form="form"
-                  @maxlength-exceeded="isDescriptionMaxlengthExceeded = $event"
-                />
-                <DeclaredExperienceSummaryFormField
-                  :form="form"
-                  @maxlength-exceeded="isSummaryMaxlengthExceeded = $event"
-                />
-                <DeclaredExperienceExternalLinkFormField
-                  :form="form"
-                  @maxlength-exceeded="isExternalLinkMaxlengthExceeded = $event"
-                />
+                <DeclaredExperienceSourceOfInformationFormField :form="form" />
+                <DeclaredExperienceDescriptionFormField :form="form" />
+                <DeclaredExperienceSummaryFormField :form="form" />
+                <DeclaredExperienceExternalLinkFormField :form="form" />
               </div>
             </AvAccordion>
           </AvAccordionsGroup>
@@ -149,12 +107,12 @@ const activeAccordion = ref(0)
 
     <template #footer>
       <div
-        v-memo="[isSubmittable, isSubmitting]"
+        v-memo="[isFormValid, isSubmitting]"
         class="av-row av-justify-end av-p-md"
       >
         <FormCancelConfirmButtons
           :is-submitting="isSubmitting"
-          :is-form-valid="isSubmittable"
+          :is-form-valid="isFormValid"
           @cancel="handleCancel"
           @submit="form.handleSubmit"
         />

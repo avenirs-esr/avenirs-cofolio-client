@@ -83,6 +83,20 @@ export function useUpdateDeclaredExperienceForm (
   const form = useForm({
     defaultValues: toFormData(declaredExperience),
     validators: {
+      onChange ({ value }: { value: DeclaredExperienceFormData }) {
+        return {
+          fields: {
+            title: validators.validateTitleMaxLength(value.title),
+            organization: validators.validateOrganizationMaxLength(value.organization),
+            activitySector: validators.validateActivitySector(value.activitySector),
+            location: validators.validateLocation(value.location),
+            sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
+            description: validators.validateDescription(value.description),
+            summary: validators.validateSummary(value.summary),
+            externalLink: validators.validateExternalLinkMaxLength(value.externalLink)
+          }
+        }
+      },
       onSubmit ({ value }: { value: DeclaredExperienceFormData }) {
         return {
           fields: {
