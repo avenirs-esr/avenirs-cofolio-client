@@ -13,19 +13,11 @@ defineOptions({
 
 const { form } = defineProps<DeclaredExperienceTitleFormFieldProps>()
 
-const emit = defineEmits<{
-  (e: 'maxlengthExceeded', value: boolean): void
-}>()
-
 const FormField = markRaw(form.Field)
 const titleField = form.useField({ name: 'title' })
 
 function onUpdateTitle (value: string | undefined) {
   titleField.api.handleChange(String(value ?? ''))
-}
-
-function onMaxlengthExceeded (value: boolean) {
-  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -38,7 +30,6 @@ function onMaxlengthExceeded (value: boolean) {
         :error-message="field.state.meta.errors?.join(', ')"
         required
         @blur="field.handleBlur"
-        @maxlength-exceeded="onMaxlengthExceeded"
         @update:model-value="onUpdateTitle"
       />
     </template>

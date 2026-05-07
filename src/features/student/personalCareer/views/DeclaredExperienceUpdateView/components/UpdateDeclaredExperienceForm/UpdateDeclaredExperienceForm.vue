@@ -42,24 +42,6 @@ const { form, isFormValid, isSubmitting } = useUpdateDeclaredExperienceForm(
   props.declaredExperience,
   props.onExperienceUpdated
 )
-const isTitleMaxlengthExceeded = ref(false)
-const isOrganizationMaxlengthExceeded = ref(false)
-const isActivitySectorMaxlengthExceeded = ref(false)
-const isLocationMaxlengthExceeded = ref(false)
-const isSourceOfInformationMaxlengthExceeded = ref(false)
-const isExternalLinkMaxlengthExceeded = ref(false)
-const isDescriptionMaxlengthExceeded = ref(false)
-const isSummaryMaxlengthExceeded = ref(false)
-const isSubmittable = computed(() =>
-  isFormValid.value
-  && !isTitleMaxlengthExceeded.value
-  && !isOrganizationMaxlengthExceeded.value
-  && !isActivitySectorMaxlengthExceeded.value
-  && !isLocationMaxlengthExceeded.value
-  && !isSourceOfInformationMaxlengthExceeded.value
-  && !isExternalLinkMaxlengthExceeded.value
-  && !isDescriptionMaxlengthExceeded.value
-  && !isSummaryMaxlengthExceeded.value)
 
 function handleSubmit () {
   form.handleSubmit()
@@ -92,47 +74,29 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
       >
         <div class="av-row av-gap-md av-align-baseline">
           <div class="av-flex-fill">
-            <DeclaredExperienceTitleFormField
-              :form="form"
-              @maxlength-exceeded="isTitleMaxlengthExceeded = $event"
-            />
+            <DeclaredExperienceTitleFormField :form="form" />
           </div>
           <div class="av-flex-fill">
             <DeclaredExperienceTypeFormField :form="form" />
           </div>
         </div>
 
-        <DeclaredExperienceOrganizationFormField
-          :form="form"
-          @maxlength-exceeded="isOrganizationMaxlengthExceeded = $event"
-        />
+        <DeclaredExperienceOrganizationFormField :form="form" />
 
         <div class="av-row av-gap-md av-align-baseline">
           <div class="av-flex-fill">
-            <DeclaredExperienceActivitySectorFormField
-              :form="form"
-              @maxlength-exceeded="isActivitySectorMaxlengthExceeded = $event"
-            />
+            <DeclaredExperienceActivitySectorFormField :form="form" />
           </div>
           <div class="av-flex-fill">
-            <DeclaredExperienceLocationFormField
-              :form="form"
-              @maxlength-exceeded="isLocationMaxlengthExceeded = $event"
-            />
+            <DeclaredExperienceLocationFormField :form="form" />
           </div>
         </div>
 
         <DeclaredExperiencePeriodFormField :form="form" />
 
-        <DeclaredExperienceSourceOfInformationFormField
-          :form="form"
-          @maxlength-exceeded="isSourceOfInformationMaxlengthExceeded = $event"
-        />
+        <DeclaredExperienceSourceOfInformationFormField :form="form" />
 
-        <DeclaredExperienceExternalLinkFormField
-          :form="form"
-          @maxlength-exceeded="isExternalLinkMaxlengthExceeded = $event"
-        />
+        <DeclaredExperienceExternalLinkFormField :form="form" />
       </div>
 
       <div
@@ -140,15 +104,9 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
         data-testid="update-declared-experience-form__side"
       >
         <div class="av-col av-gap-sm av-justify-between">
-          <DeclaredExperienceDescriptionFormField
-            :form="form"
-            @maxlength-exceeded="isDescriptionMaxlengthExceeded = $event"
-          />
+          <DeclaredExperienceDescriptionFormField :form="form" />
 
-          <DeclaredExperienceSummaryFormField
-            :form="form"
-            @maxlength-exceeded="isSummaryMaxlengthExceeded = $event"
-          />
+          <DeclaredExperienceSummaryFormField :form="form" />
 
           <CreationUpdateDateDetails
             :created-at="declaredExperience.createdAt"
@@ -165,7 +123,7 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
   >
     <FormCancelConfirmButtons
       :is-submitting="isSubmitting"
-      :is-form-valid="isSubmittable"
+      :is-form-valid="isFormValid"
       @cancel="handleCancel"
       @submit="handleSubmit"
     />

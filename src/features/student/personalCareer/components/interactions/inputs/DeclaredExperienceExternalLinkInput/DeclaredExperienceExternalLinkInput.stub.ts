@@ -1,7 +1,7 @@
 export const DeclaredExperienceExternalLinkInputStub = defineComponent({
   name: 'DeclaredExperienceExternalLinkInput',
   props: ['modelValue', 'errorMessage'],
-  emits: ['update:modelValue', 'blur', 'maxlengthExceeded'],
+  emits: ['update:modelValue', 'blur'],
   template: `
     <div data-testid="declared-experience-link-input-stub">
       <input

@@ -13,19 +13,11 @@ defineOptions({
 
 const { form } = defineProps<DeclaredExperienceSourceOfInformationFormFieldProps>()
 
-const emit = defineEmits<{
-  (e: 'maxlengthExceeded', value: boolean): void
-}>()
-
 const FormField = markRaw(form.Field)
 const sourceOfInformationField = form.useField({ name: 'sourceOfInformation' })
 
 function onUpdateSourceOfInformation (value: string | undefined) {
   sourceOfInformationField.api.handleChange(String(value ?? ''))
-}
-
-function onMaxlengthExceeded (value: boolean) {
-  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -38,7 +30,6 @@ function onMaxlengthExceeded (value: boolean) {
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
         @update:model-value="onUpdateSourceOfInformation"
-        @maxlength-exceeded="onMaxlengthExceeded"
       />
     </template>
   </FormField>

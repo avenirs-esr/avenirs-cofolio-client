@@ -13,19 +13,11 @@ defineOptions({
 
 const { form } = defineProps<DeclaredExperienceActivitySectorFormFieldProps>()
 
-const emit = defineEmits<{
-  (e: 'maxlengthExceeded', value: boolean): void
-}>()
-
 const FormField = markRaw(form.Field)
 const activitySectorField = form.useField({ name: 'activitySector' })
 
 function onUpdateActivitySector (value: string | undefined) {
   activitySectorField.api.handleChange(String(value ?? ''))
-}
-
-function onMaxlengthExceeded (value: boolean) {
-  emit('maxlengthExceeded', value)
 }
 </script>
 
@@ -38,7 +30,6 @@ function onMaxlengthExceeded (value: boolean) {
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
         @update:model-value="onUpdateActivitySector"
-        @maxlength-exceeded="onMaxlengthExceeded"
       />
     </template>
   </FormField>

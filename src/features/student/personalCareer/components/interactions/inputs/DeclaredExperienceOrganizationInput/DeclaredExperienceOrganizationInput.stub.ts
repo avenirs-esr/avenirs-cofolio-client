@@ -1,7 +1,7 @@
 export const DeclaredExperienceOrganizationInputStub = defineComponent({
   name: 'DeclaredExperienceOrganizationInput',
   props: ['modelValue', 'errorMessage'],
-  emits: ['update:modelValue', 'blur', 'maxlengthExceeded'],
+  emits: ['update:modelValue', 'blur'],
   template: `
     <div data-testid="declared-experience-organization-input-stub">
       <input
