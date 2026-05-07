@@ -44,9 +44,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
       expect(typeof composableResult.form.useStore).toBe('function')
     })
 
-    BddTest().then('it should return isFormValid as true initially', () => {
+    BddTest().then('it should return isFormValid as false initially', () => {
       expect(composableResult.isFormValid).toBeDefined()
-      expect(composableResult.isFormValid.value).toBe(true)
+      expect(composableResult.isFormValid.value).toBe(false)
     })
   })
 

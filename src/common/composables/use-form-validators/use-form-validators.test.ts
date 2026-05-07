@@ -19,6 +19,7 @@ BddTest().given('a form validators composable', () => {
       expect(composableResult.validateMaxLength).toBeDefined()
       expect(composableResult.validateDateInterval).toBeDefined()
       expect(composableResult.validateLink).toBeDefined()
+      expect(composableResult.hasFieldErrors).toBeDefined()
     })
   })
 

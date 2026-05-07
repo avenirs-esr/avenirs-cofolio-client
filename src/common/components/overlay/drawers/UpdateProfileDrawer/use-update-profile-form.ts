@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useToasterStore } from '@/store'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
 import { useForm, useStore } from '@tanstack/vue-form'
@@ -17,6 +18,7 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
   const { onUpdateProfile, isUpdateProfilePending } = useUpdateProfile(profile, onSuccess)
   const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(profile, onUpdateProfileCoverSuccess)
   const { onUpdateProfilePhotoAsync, isUpdateProfilePhotoPending } = useUpdateProfilePhoto(profile, onUpdateProfilePhotoSuccess)
+  const { validateMaxLength, hasFieldErrors } = useFormValidators()
 
   const coverPictureFile = ref<File | null>(null)
   const profilePictureFile = ref<File | null>(null)
@@ -30,7 +32,14 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
   const form = useForm({
     defaultValues: { ...initialData },
     validators: {
-      onSubmit ({ value }) {
+      onChange ({ value }: { value: UseUpdateProfileFormData }) {
+        return {
+          fields: {
+            bio: validateMaxLength(value.bio, BIOGRAPHY_MAX_LENGTH)
+          }
+        }
+      },
+      onSubmit ({ value }: { value: UseUpdateProfileFormData }) {
         return {
           fields: {
             email: value.email && !isValidEmail(value.email) ? t('global.error.form.invalidEmail') : undefined,
@@ -100,6 +109,19 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
     !isDefaultValue.value || !!coverPictureFile.value || !!profilePictureFile.value
   )
 
+  const hasIdentityErrors = hasFieldErrors(form, ['email', 'bio'])
+
+  const hasPicturesErrors = hasFieldErrors(form, ['coverPicture', 'profilePicture'])
+
+  const hasCoverPictureErrors = hasFieldErrors(form, ['coverPicture'])
+
+  const hasProfilePictureErrors = hasFieldErrors(form, ['profilePicture'])
+
+  const isFormValid = computed(() => {
+    const state = form.useStore(state => state)
+    return state.value.isDirty && state.value.isValid && !state.value.isValidating
+  })
+
   function resetForm () {
     form.reset(initialData)
     coverPictureFile.value = null
@@ -110,6 +132,11 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
     form,
     isPending,
     isModified,
+    isFormValid,
+    hasIdentityErrors,
+    hasPicturesErrors,
+    hasCoverPictureErrors,
+    hasProfilePictureErrors,
     resetForm,
     coverPictureFile,
     onCoverPictureUpdate,
