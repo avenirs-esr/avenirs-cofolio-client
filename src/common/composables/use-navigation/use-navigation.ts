@@ -162,8 +162,16 @@ export function useNavigation () {
     return router.push(ROUTES.STAFF.ACTIVITIES)
   }
 
-  const navigateToStaffActivitiesAddNationalActivity = () => {
-    return router.push(ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY)
+  const navigateToStaffActivitiesEditNationalActivity = ({ id, mode, replace }: { id: string, mode?: string, replace?: boolean }) => {
+    const to = {
+      name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+      params: { id },
+      query: mode ? { mode } : undefined
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
   }
 
   return {
@@ -192,6 +200,6 @@ export function useNavigation () {
     navigateToStaffHome,
     navigateToActivityDetailed,
     navigateToStaffActivities,
-    navigateToStaffActivitiesAddNationalActivity,
+    navigateToStaffActivitiesEditNationalActivity,
   }
 }

@@ -2,7 +2,7 @@ export const ROUTES = {
   STAFF: {
     ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
-    ACTIVITIES_ADD_NATIONAL_ACTIVITY: { name: 'staff-activities-add-national-activity', path: 'activities/:id/add-national-activity' },
+    ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
     ACTIVITY_DETAILS: { name: 'staff-activity-details', path: 'activities/:status/:id' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     HOME: { name: 'staff-home', path: '' },

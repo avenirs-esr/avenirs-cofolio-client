@@ -352,11 +352,27 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to staff activities add national activity', () => {
-    BddTest().then('it should navigate to staff activities add national activity', () => {
-      const { navigateToStaffActivitiesAddNationalActivity } = navigation
-      navigateToStaffActivitiesAddNationalActivity()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY)
+  BddTest().when('trying to navigate to staff activities edit national activity', () => {
+    BddTest().then('it should navigate to staff activities edit national activity', () => {
+      const { navigateToStaffActivitiesEditNationalActivity } = navigation
+      navigateToStaffActivitiesEditNationalActivity({ id: 'id' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+        params: { id: 'id' }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to staff activities edit national activity with replace', () => {
+    BddTest().then('it should navigate to staff activities edit national activity with replace', () => {
+      const { navigateToStaffActivitiesEditNationalActivity } = navigation
+      navigateToStaffActivitiesEditNationalActivity({ id: 'id', replace: true })
+
+      expect(replaceMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+        params: { id: 'id' }
+      })
     })
   })
 })
