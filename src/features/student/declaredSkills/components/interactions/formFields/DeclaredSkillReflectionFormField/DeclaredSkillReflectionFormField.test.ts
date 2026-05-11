@@ -126,17 +126,18 @@ BddTest().given('a declared skill reflection form field component', () => {
   })
 
   BddTest().when('the user types a long reflection', () => {
-    BddTest().then('it should respect the maxlength (display truncated to 400)', async () => {
+    BddTest().then('it should allow the maxlength to be exceeded', async () => {
       const avInput = wrapper.findComponent({ name: 'AvInput' })
       const textarea = avInput.find('textarea')
 
-      await textarea.setValue('a'.repeat(DECLARED_SKILL_REFLECTION_MAX_LENGTH + 1))
+      const longReflection = 'a'.repeat(DECLARED_SKILL_REFLECTION_MAX_LENGTH + 1)
+      await textarea.setValue(longReflection)
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
         const updated = wrapper.findComponent({ name: 'AvInput' })
         const displayed = updated.props('modelValue') as string
-        expect(displayed.length).toBeLessThanOrEqual(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
+        expect(displayed).toBe(longReflection)
       })
     })
   })
