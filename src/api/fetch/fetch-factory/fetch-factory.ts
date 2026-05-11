@@ -1,6 +1,10 @@
 import type { FetchConfig } from '@/api/fetch/types'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
-import { BaseApiException, createBasApiExceptionFromResponseBody, createBaseApiExceptionFromUnknownError } from '@/common/exceptions'
+import {
+  BaseApiException,
+  createBasApiExceptionFromResponseBody,
+  createBaseApiExceptionFromUnknownError,
+} from '@/common/exceptions'
 
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
@@ -72,7 +76,36 @@ function mergeHeaders (defaultHeaders: HeadersInit = {}, requestHeaders: Headers
   return headers
 }
 
-function createCustomFetch (config: FetchConfig = {}, interceptorManager: FetchInterceptorManager = new FetchInterceptorManager()) {
+function shouldRedirectToLogin (response: Response): boolean {
+  if (response.status !== 401) {
+    return false
+  }
+
+  if (typeof window === 'undefined') {
+    return false
+  }
+
+  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
+
+  return !currentPath.startsWith('/node-api/auth/login')
+    && !currentPath.startsWith('/node-api/cas-auth-callback')
+    && !currentPath.startsWith('/cas/')
+}
+
+function redirectToLogin (): never {
+  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
+
+  window.location.assign(
+    `/node-api/auth/login?redirect=${encodeURIComponent(currentPath)}`
+  )
+
+  throw new Error('Redirecting to login')
+}
+
+function createCustomFetch (
+  config: FetchConfig = {},
+  interceptorManager: FetchInterceptorManager = new FetchInterceptorManager(),
+) {
   const {
     baseUrl = __BASE_URL__,
     defaultHeaders = { 'Content-Type': 'application/json' },
@@ -93,14 +126,17 @@ function createCustomFetch (config: FetchConfig = {}, interceptorManager: FetchI
 
       const requestInit: RequestInit = {
         ...interceptedOptions,
+        credentials: interceptedOptions.credentials ?? 'include',
         headers: mergedHeaders,
       }
 
-      const response = await fetch(requestUrl, {
-        ...requestInit,
-      })
+      const response = await fetch(requestUrl, requestInit)
 
       const interceptedResponse = await interceptorManager.applyResponseInterceptors(response)
+
+      if (shouldRedirectToLogin(interceptedResponse)) {
+        redirectToLogin()
+      }
 
       if (!interceptedResponse.ok) {
         const errorData: unknown = await getBody(interceptedResponse.clone())

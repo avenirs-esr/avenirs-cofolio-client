@@ -54,7 +54,7 @@ BddTest().given('a custom fetch creator', () => {
       expectedHeaders.set('Content-Type', 'application/json')
       expectedHeaders.set('X-Default', '1')
       expectedHeaders.set('X-Country', 'fr')
-      expect(mockFetch).toHaveBeenCalledWith('https://avenir.esr.example.com/me/navigation-access', { headers: expectedHeaders })
+      expect(mockFetch).toHaveBeenCalledWith('https://avenir.esr.example.com/me/navigation-access', { credentials: 'include', headers: expectedHeaders })
     })
   })
 
