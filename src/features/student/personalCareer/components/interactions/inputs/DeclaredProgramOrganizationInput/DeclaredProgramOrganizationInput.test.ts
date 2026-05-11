@@ -172,6 +172,22 @@ BddTest().given('a declared program institution input component', () => {
     })
   })
 
+  BddTest().when('the component uses default custom captions template', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(DeclaredProgramOrganizationInput, {
+        props: {
+          modelValue: 'Test'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should display character count', () => {
+      expect(wrapper.text()).toContain('4 / 50')
+    })
+  })
+
   BddTest().when('the component receives additional props via restProps', () => {
     beforeEach(() => {
       vi.clearAllMocks()

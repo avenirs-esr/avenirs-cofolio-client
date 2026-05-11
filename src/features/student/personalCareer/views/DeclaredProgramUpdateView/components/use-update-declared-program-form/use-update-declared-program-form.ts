@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { type DeclaredProgramDetailedDTO, type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useUpdateDeclaredProgram } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
@@ -83,9 +83,27 @@ export function useUpdateDeclaredProgramForm (
             result: validators.validateResult(value.result),
             sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
             startDate: validators.validateStartDate(value.startDate),
-            endDate: validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing })
+            endDate: validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }),
           }
         }
+      },
+      onChange ({ value, formApi }: { value: DeclaredProgramFormData, formApi: DeclaredProgramFormApi }) {
+        const isTouched = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isTouched ?? true
+        const isValid = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isValid ?? true
+        return {
+          fields: {
+            title: isTouched('title') ? validators.validateTitle(value.title) : undefined,
+            description: isTouched('description') ? validators.validateDescription(value.description) : undefined,
+            organization: isTouched('organization') ? validators.validateOrganization(value.organization) : undefined,
+            result: isTouched('result') ? validators.validateResult(value.result) : undefined,
+            sourceOfInformation: isTouched('sourceOfInformation') ? validators.validateSourceOfInformation(value.sourceOfInformation) : undefined,
+            startDate: isTouched('startDate') ? validators.validateStartDate(value.startDate) : undefined,
+            endDate: isTouched('startDate') && isValid('startDate') ? validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }) : undefined,
+          }
+        }
+      },
+      onBlur ({ formApi }: { formApi: DeclaredProgramFormApi }) {
+        formApi.validate('change')
       }
     },
     onSubmit: ({ value }: { value: DeclaredProgramFormData }) => {

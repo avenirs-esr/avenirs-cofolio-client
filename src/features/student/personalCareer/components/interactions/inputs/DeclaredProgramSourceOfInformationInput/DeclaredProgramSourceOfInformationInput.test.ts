@@ -130,6 +130,22 @@ BddTest().given('a declared program source of information input', () => {
     })
   })
 
+  BddTest().when('the component uses default custom captions template', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(DeclaredProgramSourceOfInformationInput, {
+        props: {
+          modelValue: 'Test'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should display character count', () => {
+      expect(wrapper.text()).toContain('4 / 200')
+    })
+  })
+
   BddTest().when('the component is mounted with error message', () => {
     beforeEach(() => {
       vi.clearAllMocks()

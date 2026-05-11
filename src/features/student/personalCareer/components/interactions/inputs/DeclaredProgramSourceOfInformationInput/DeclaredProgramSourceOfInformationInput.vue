@@ -29,5 +29,14 @@ const avInputProps = computed(() => ({
   <AvInput
     v-bind="avInputProps"
     v-model="modelValue"
-  />
+  >
+    <template #maxLengthCaption="{ currentValue }">
+      <span class="caption-light">
+        {{ t('global.inputs.textarea.limit', {
+          count: currentValue?.toString().length || 0,
+          maxlength: avInputProps.maxlength,
+        }) }}
+      </span>
+    </template>
+  </AvInput>
 </template>

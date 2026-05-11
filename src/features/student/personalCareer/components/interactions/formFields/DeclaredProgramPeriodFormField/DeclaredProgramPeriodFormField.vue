@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
 import { AvCheckbox, AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
+import { isBefore, parse } from 'date-fns'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -19,7 +20,16 @@ const startDateField = form.useField({ name: 'startDate' })
 const endDateField = form.useField({ name: 'endDate' })
 const isOngoingField = form.useField({ name: IS_ONGOING })
 
-const isOngoing = computed(() => Boolean(isOngoingField.state.value.value))
+const isOngoingDisabled = computed(() => {
+  const endDate = String(endDateField.state.value.value ?? '')
+  if (!endDate) {
+    return false
+  }
+
+  const parsedEndDate = parse(endDate, 'yyyy-MM', new Date())
+  return isBefore(parsedEndDate, new Date())
+})
+const isOngoing = computed(() => !isOngoingDisabled.value && Boolean(isOngoingField.state.value.value))
 
 function setStartDate (value: string) {
   startDateField.api.handleChange(value)
@@ -56,6 +66,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
             :model-value="field.state.value ? [IS_ONGOING] : []"
             :value="IS_ONGOING"
             :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
+            :disabled="isOngoingDisabled"
             @update:model-value="onUpdateIsOngoing"
           />
         </template>
