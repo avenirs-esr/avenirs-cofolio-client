@@ -5,10 +5,12 @@ import StudentToolsTracesAddTraceDrawer
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import StudentToolsTracesViewTabs
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.vue'
+import TracesInformation from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.vue'
 </script>
 
 <template>
   <div class="av-col av-w-full av-gap-lg">
+    <TracesInformation />
     <StudentToolsTracesActionButtons />
     <StudentToolsTracesViewTabs />
 
