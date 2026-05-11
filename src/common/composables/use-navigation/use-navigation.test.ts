@@ -86,6 +86,22 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student trajectories', () => {
+    BddTest().then('it should navigate to student trajectories', () => {
+      const { navigateToStudentTrajectories } = navigation
+      navigateToStudentTrajectories()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
+    })
+  })
+
+  BddTest().when('trying to navigate to student trajectories with replace', () => {
+    BddTest().then('it should navigate to student trajectories with replace', () => {
+      const { navigateToStudentTrajectories } = navigation
+      navigateToStudentTrajectories(true)
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
+    })
+  })
+
   BddTest().when('trying to navigate to self-knowledge categories', () => {
     BddTest().then('it should navigate to self-knowledge categories', () => {
       const { navigateToStudentSelfKnowledgeCategory } = navigation

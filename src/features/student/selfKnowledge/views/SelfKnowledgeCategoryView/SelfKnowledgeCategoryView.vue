@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
+import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
@@ -14,6 +16,8 @@ import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/compo
 import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
+import { useToasterStore } from '@/store'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
 
@@ -24,7 +28,9 @@ interface SelfKnowledgeCategoryViewProps {
 const props = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeElementUpdate } = useNavigation()
+const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentTrajectories } = useNavigation()
+const { showModal: showConfirmModal, displayModal: displayConfirmModal, hideModal: hideConfirmModal } = useModal()
+const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const { categoryType } = useSelfKnowledgeCategory(computed(() => props.categoryId))
 
@@ -36,6 +42,7 @@ const breadcrumbLinks = computed(() => [
 ])
 
 const selectedElementId: Ref<string> = useRouteQuery('elementId', '')
+const queryClient = useQueryClient()
 
 const {
   elements,
@@ -46,6 +53,27 @@ const {
 })
 
 const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId)
+const { isLoading, withTaskLoading } = useTaskLoading()
+
+const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
+
+function deleteSelfKnowledgeElement () {
+  mutateDeleteSelfKnowledgeElements({
+    data: [selectedElementId.value]
+  }, {
+    onError: error => addErrorMessage({
+      title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
+      description: error.message
+    }),
+    onSuccess: async () => {
+      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, props.categoryId))
+      addSuccessMessage(
+        t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: 1 })
+      )
+      navigateToStudentTrajectories(true)
+    }
+  })
+}
 
 const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
@@ -95,6 +123,7 @@ function onUpdateSelected () {
         <template #title>
           <SelfKnowledgeElementDetailsDropdown
             @update-selected="onUpdateSelected"
+            @delete-selected="displayConfirmModal"
           />
         </template>
 
@@ -109,4 +138,13 @@ function onUpdateSelected () {
       </SelfKnowledgeElementDetailsContainer>
     </div>
   </QuerySuspense>
+
+  <ConfirmationModal
+    :show="showConfirmModal"
+    :title="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.confirmDeleteElements.title', { count: 1 })"
+    :description="selectedElementDetails?.title"
+    :is-loading="isLoading"
+    @close="hideConfirmModal"
+    @confirm="deleteSelfKnowledgeElement"
+  />
 </template>

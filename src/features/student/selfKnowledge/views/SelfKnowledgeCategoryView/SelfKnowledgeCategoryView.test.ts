@@ -3,6 +3,7 @@ import {
   selfKnowledgeElementDetailsNotFoundHandler
 } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
@@ -17,7 +18,22 @@ import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
+const navigateToStudentTrajectories = vi.fn()
 const mockSelectedElementId = ref('')
+
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 vi.mock('@vueuse/router', () => ({
   useRouteQuery: vi.fn((key: string, defaultValue: string) => {
@@ -34,6 +50,7 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
     ...actual,
     useNavigation: () => ({
       navigateToStudentSelfKnowledgeElementUpdate,
+      navigateToStudentTrajectories
     }),
   }
 })
@@ -63,7 +80,8 @@ const stubs = {
   SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
   SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub,
   SelfKnowledgeElementDetails: SelfKnowledgeElementDetailsStub,
-  SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub
+  SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
+  ConfirmationModal: ConfirmationModalStub
 }
 
 BddTest().given('a self knowledge category view component', () => {
@@ -213,6 +231,40 @@ BddTest().given('a self knowledge category view component', () => {
         expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
           categoryId,
           elementId: firstElementId
+        })
+      })
+    })
+
+    BddTest().and('confirming deletion of an element', () => {
+      let firstElementId: string
+
+      beforeEach(async () => {
+        const sideMenu = getSideMenu()
+        const elements = getSideMenuElements()
+        firstElementId = elements[0].id
+
+        sideMenu.vm.$emit('selectElement', firstElementId)
+        await nextTick()
+        await flushPromises()
+
+        const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
+        expect(dropdown.exists()).toBe(true)
+        await dropdown.vm.$emit('deleteSelected')
+
+        const confirmModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+        expect(confirmModal.exists()).toBe(true)
+        await confirmModal.vm.$emit('confirm')
+      })
+
+      BddTest().then('it should call the delete API and show success message', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).toHaveBeenCalled()
+        })
+      })
+
+      BddTest().then('it should navigate to the trajectories view', () => {
+        return vi.waitFor(() => {
+          expect(navigateToStudentTrajectories).toHaveBeenCalled()
         })
       })
     })
