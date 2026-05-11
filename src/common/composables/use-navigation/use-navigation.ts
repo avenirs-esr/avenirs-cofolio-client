@@ -55,6 +55,13 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.TOOLS_RESUMES)
   }
 
+  const navigateToStudentTrajectories = (replace?: boolean) => {
+    if (replace) {
+      return router.replace(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
+    }
+    return router.push(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
+  }
+
   const navigateToStudentSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
     return router.push({
       name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
@@ -170,6 +177,7 @@ export function useNavigation () {
     navigateToStudentNotifications,
     navigateToStudentPages,
     navigateToStudentResumes,
+    navigateToStudentTrajectories,
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentSkills,
