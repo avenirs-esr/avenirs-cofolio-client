@@ -12,3 +12,10 @@ export const staffActivitiesAddNationalActivityRoute: AvRoute = {
   component: () =>
     import('@/features/staff/activities/views/AddNationalActivityView/AddNationalActivityView.vue'),
 }
+
+export const staffActivityDetailsRoute: AvRoute = {
+  ...ROUTES.STAFF.ACTIVITY_DETAILS,
+  // TODO: us #1493 update component to load when #1493 is merged
+  component: () =>
+    import('@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'),
+}

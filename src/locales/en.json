@@ -116,6 +116,10 @@
       "createdAtWithPrefix": "{prefix} created on {date}",
       "dateTimeAt": "{date} at {time}",
       "endDateBeforeStartDate": "End date must be after start date",
+      "hoursAgo": "{count} hour ago | {count} hours ago",
+      "justNow": "Just now",
+      "minutesAgo": "{count} minute ago | {count} minutes ago",
+      "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },
     "detail": "Detail",
