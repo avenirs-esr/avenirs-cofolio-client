@@ -7,10 +7,10 @@ export const staffActivitiesRoute: AvRoute = {
     import('@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'),
 }
 
-export const staffActivitiesAddNationalActivityRoute: AvRoute = {
-  ...ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY,
+export const staffActivitiesEditNationalActivityRoute: AvRoute = {
+  ...ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY,
   component: () =>
-    import('@/features/staff/activities/views/AddNationalActivityView/AddNationalActivityView.vue'),
+    import('@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'),
 }
 
 export const staffActivityDetailsRoute: AvRoute = {

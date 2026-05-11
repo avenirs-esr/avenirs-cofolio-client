@@ -11,7 +11,8 @@
           "activities": {
             "header": "Bibliothèque des activités",
             "items": {
-              "addNationalActivity": "Créer mon activité"
+              "addNationalActivity": "Créer mon activité",
+              "editNationalActivity": "Modifier l'activité"
             }
           },
           "home": "Accueil"
@@ -20,9 +21,6 @@
       "views": {
         "ActivitiesView": {
           "title": "Ma bibliothèque d'activités"
-        },
-        "AddNationalActivityView": {
-          "title": "Créer mon activité"
         },
         "StaffHomeView": {
           "buttons": {

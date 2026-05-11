@@ -11,7 +11,8 @@
           "activities": {
             "header": "Activity library",
             "items": {
-              "addNationalActivity": "Create my activity"
+              "addNationalActivity": "Create my activity",
+              "editNationalActivity": "Edit activity"
             }
           },
           "home": "Home"
@@ -20,9 +21,6 @@
       "views": {
         "ActivitiesView": {
           "title": "My activity library"
-        },
-        "AddNationalActivityView": {
-          "title": "Create my activity"
         },
         "StaffHomeView": {
           "buttons": {
