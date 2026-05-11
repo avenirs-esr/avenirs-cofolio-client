@@ -1,5 +1,6 @@
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
+import { TracesInformationStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
@@ -18,7 +19,8 @@ const stubs = {
   StudentToolsTracesAddTraceDrawer: {
     name: 'StudentToolsTracesAddTraceDrawer',
     template: '<div class="student-tools-traces-add-trace-drawer-stub">Drawer Content</div>'
-  }
+  },
+  TracesInformation: TracesInformationStub
 }
 
 BddTest().given('a student tools traces view container', () => {
@@ -37,6 +39,10 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
+      BddTest().then('it should render the traces information', () => {
+        expect(wrapper.findComponent({ name: 'TracesInformation' }).exists()).toBe(true)
+      })
+
       BddTest().then('it should render the action buttons', () => {
         expect(wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' }).exists()).toBe(true)
       })

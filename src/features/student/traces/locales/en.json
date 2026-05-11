@@ -227,6 +227,10 @@
               "statuses": "Sort by trace status"
             }
           },
+          "TracesInformation": {
+            "description": "You can associate your traces with skills and situational activities, as well as with your life project. Unassociated traces are automatically deleted after three months if no action is taken on them.",
+            "title": "My traces"
+          },
           "warningMessage": {
             "delete": {
               "days": "tomorrow | in the coming {daysWarning} days.",
