@@ -22,10 +22,10 @@ const { t } = useI18n()
       <DeclaredSkillReflectionInput
         v-bind="$attrs"
         id="skill-reflection"
-        :model-value="(field.state.value ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH)"
+        :model-value="(field.state.value ?? '')"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
-        @update:model-value="(value) => field.handleChange(String(value ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH))"
+        @update:model-value="(value) => field.handleChange(String(value ?? ''))"
       >
         <template #maxLengthCaption>
           <span class="caption-regular">

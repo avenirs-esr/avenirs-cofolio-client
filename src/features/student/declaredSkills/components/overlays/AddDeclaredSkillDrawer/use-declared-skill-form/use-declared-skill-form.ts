@@ -1,7 +1,9 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { EDeclaredSkillLevel, EErrorCode, invalidateGetDeclaredSkillsProgresses, useCreateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -12,6 +14,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
+  const { validateRequired, validateMaxLength, hasFieldErrors } = useFormValidators()
 
   const onCreateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
@@ -46,6 +49,13 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
       level: EDeclaredSkillLevel.BEGINNER
     } as unknown as DeclaredSkillFormData,
     validators: {
+      onChange ({ value }: { value: DeclaredSkillFormData }) {
+        return {
+          fields: {
+            reflection: validateMaxLength(value.reflection, DECLARED_SKILL_REFLECTION_MAX_LENGTH)
+          }
+        }
+      },
       onSubmit ({ value }: { value: DeclaredSkillFormData }) {
         return {
           fields: {
@@ -55,7 +65,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
             level: !value.level
               ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.validation.levelRequired')
               : undefined,
-            reflection: !value.reflection
+            reflection: validateRequired(value.reflection)
           }
         }
       }
@@ -70,10 +80,13 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     return state.value.isValid && !state.value.isValidating
   })
 
+  const hasSkillDetailsErrors = hasFieldErrors(form, ['reflection'])
+
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value
+    isSubmitting: isPending || isLoading.value,
+    hasSkillDetailsErrors
   }
 }
 
