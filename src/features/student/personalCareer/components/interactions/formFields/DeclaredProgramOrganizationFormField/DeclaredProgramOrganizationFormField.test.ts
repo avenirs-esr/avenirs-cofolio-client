@@ -1,6 +1,5 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
-import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -91,21 +90,6 @@ BddTest().given('a declared program institution form field', () => {
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
           expect(updated.props('modelValue')).toBe('University of Paris')
-        })
-      })
-    })
-
-    BddTest().and('the user enters an institution name exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
-        const textInput = input.find('input')
-        const longInstitution = 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 10)
-        await textInput.setValue(longInstitution)
-        await wrapper.vm.$nextTick()
-
-        await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramOrganizationInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH)
         })
       })
     })

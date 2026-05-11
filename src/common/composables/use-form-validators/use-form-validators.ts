@@ -1,13 +1,10 @@
-import type { FormApi } from '@tanstack/vue-form'
+import type { AnyFormApi, TopLevelFieldKey } from '@/common/types'
 import type { Ref } from 'vue'
 import { isValidLink } from '@avenirs-esr/avenirs-dsav'
 import { useStore } from '@tanstack/vue-form'
 import { isBefore, parse } from 'date-fns'
 import isEmpty from 'lodash-es/isEmpty'
 import { useI18n } from 'vue-i18n'
-
-type AnyFormApi<TFormData extends object> = FormApi<TFormData, any, any, any, any, any, any, any, any, any>
-type TopLevelFieldKey<TFormData extends object> = TFormData extends unknown ? Extract<keyof TFormData, string> : never
 
 export interface validateDateIntervalArgs {
   startDate: string | undefined | null

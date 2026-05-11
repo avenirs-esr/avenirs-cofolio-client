@@ -19,7 +19,7 @@ const declaredProgramsStore = usePersonalCareerStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(declaredProgramsStore, 'showAddDeclaredProgramDrawer')
 
-const { form, isFormValid, isSubmitting } = useAddDeclaredProgramForm(() => {
+const { form, isFormValid, isSubmitting, hasDefinitionItemsError } = useAddDeclaredProgramForm(() => {
   addSuccessMessage({
     timeout: 2000,
     description: t('student.personalCareer.overlays.AddDeclaredProgramDrawer.success')
@@ -74,6 +74,7 @@ const isDemo = __DEMO_MODE__
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.addProgram')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
+              :trigger-border-color="hasDefinitionItemsError ? 'var(--dark-background-error)' : undefined"
             >
               <div class="av-col av-gap-md">
                 <DeclaredProgramTitleFormField :form="form" />

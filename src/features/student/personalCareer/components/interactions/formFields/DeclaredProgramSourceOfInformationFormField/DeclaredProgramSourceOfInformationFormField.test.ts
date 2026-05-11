@@ -1,6 +1,5 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramSourceOfInformationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramSourceOfInformationFormField/DeclaredProgramSourceOfInformationFormField.vue'
-import { DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -84,21 +83,6 @@ BddTest().given('a declared program source of information form field', () => {
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredProgramSourceOfInformationInput' })
           expect(updated.props('modelValue')).toBe('Information from university website')
-        })
-      })
-    })
-
-    BddTest().and('the user enters a source of information exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramSourceOfInformationInput' })
-        const textInput = input.find('input')
-        const longSource = 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 10)
-        await textInput.setValue(longSource)
-        await wrapper.vm.$nextTick()
-
-        await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramSourceOfInformationInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH)
         })
       })
     })

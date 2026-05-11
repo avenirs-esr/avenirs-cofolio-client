@@ -1,23 +1,18 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
-import { DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { markRaw } from 'vue'
 
 interface DeclaredProgramInstitutionFormFieldProps {
   form: AddDeclaredProgramForm
 }
 
-defineOptions({
-  inheritAttrs: false
-})
-
 const { form } = defineProps<DeclaredProgramInstitutionFormFieldProps>()
 const FormField = markRaw(form.Field)
 const institutionField = form.useField({ name: 'organization' })
 
 function onUpdateInstitution (value: string | undefined) {
-  institutionField.api.handleChange(String(value ?? '').slice(0, DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH))
+  institutionField.api.handleChange(String(value ?? ''))
 }
 </script>
 
@@ -26,8 +21,9 @@ function onUpdateInstitution (value: string | undefined) {
     <template #default="{ field }">
       <DeclaredProgramOrganizationInput
         v-bind="$attrs"
-        :model-value="(field.state.value ?? '').slice(0, DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH)"
+        :model-value="field.state.value ?? ''"
         :error-message="field.state.meta.errors?.join(', ')"
+        required
         @blur="field.handleBlur"
         @update:model-value="onUpdateInstitution"
       />
