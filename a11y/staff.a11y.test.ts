@@ -14,6 +14,7 @@ const __dirname = dirname(__filename)
 
 const routesToCheck: Array<AvRoute> = [
   ROUTES.STAFF.ACTIVITIES,
+  ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY,
 ]
 
 const pathsToTest = [

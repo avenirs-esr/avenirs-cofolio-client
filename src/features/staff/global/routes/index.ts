@@ -1,5 +1,5 @@
 import { ROUTES } from '@/common/constants'
-import { staffActivitiesRoute } from '@/features/staff/activities/routes'
+import { staffActivitiesAddNationalActivityRoute, staffActivitiesRoute } from '@/features/staff/activities/routes'
 
 export default [
   {
@@ -32,6 +32,7 @@ export default [
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
       staffActivitiesRoute,
+      staffActivitiesAddNationalActivityRoute,
     ]
   }
 ]

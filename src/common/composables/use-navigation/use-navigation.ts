@@ -155,6 +155,10 @@ export function useNavigation () {
     return router.push(ROUTES.STAFF.ACTIVITIES)
   }
 
+  const navigateToStaffActivitiesAddNationalActivity = () => {
+    return router.push(ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY)
+  }
+
   return {
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
@@ -180,5 +184,6 @@ export function useNavigation () {
     navigateToStaffHome,
     navigateToActivityDetailed,
     navigateToStaffActivities,
+    navigateToStaffActivitiesAddNationalActivity,
   }
 }

@@ -9,7 +9,10 @@
       "navigation": {
         "tabs": {
           "activities": {
-            "header": "Activity library"
+            "header": "Activity library",
+            "items": {
+              "addNationalActivity": "Create my activity"
+            }
           },
           "home": "Home"
         }
@@ -17,6 +20,9 @@
       "views": {
         "ActivitiesView": {
           "title": "My activity library"
+        },
+        "AddNationalActivityView": {
+          "title": "Create my activity"
         },
         "StaffHomeView": {
           "buttons": {
