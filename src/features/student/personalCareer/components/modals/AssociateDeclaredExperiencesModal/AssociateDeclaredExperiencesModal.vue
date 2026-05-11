@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { EExperienceType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import { ICONS } from '@/common/constants'
@@ -8,9 +9,13 @@ import DeclaredExperienceCompactCard from '@/features/student/personalCareer/com
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export type AssociationDeclaredExperiences = Association & {
+  experienceType: EExperienceType
+}
+
 export interface AssociateDeclaredExperiencesModalProps {
   show: boolean
-  experiences: Association[]
+  experiences: AssociationDeclaredExperiences[]
   isLoading?: boolean
 }
 
@@ -41,11 +46,12 @@ const experienceAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
     .map(experience => ({
       label: experience.title,
       value: experience.id,
+      description: t(`student.personalCareer.declaredExperienceType.${experience.experienceType}`),
       disabled: experience.disabled
     }))
 )
 
-const selectedAssociations = computed<Association[]>(() =>
+const selectedAssociations = computed<AssociationDeclaredExperiences[]>(() =>
   experiences.filter(experience => selectedExperienceOptions.value.some(option => option.value === experience.id))
 )
 
