@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociationDeclaredExperiences } from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
 import {
   useAssociateTraceWithDeclaredExperiences,
   useSearchDeclaredExperiencesForAssociation,
@@ -39,9 +39,10 @@ const params = computed(() => ({
 
 const { data: associationExperiences, isError: isSearchError, error: searchError, isPending: isLoading } = useSearchDeclaredExperiencesForAssociation(params, {
   query: {
-    select: (response): Association[] => response.data.map(experience => ({
+    select: (response): AssociationDeclaredExperiences[] => response.data.map(experience => ({
       id: experience.id,
       title: experience.title,
+      experienceType: experience.experienceType,
       disabled: experience.disabled
     }))
   }

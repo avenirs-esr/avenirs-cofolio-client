@@ -1,11 +1,12 @@
-import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
+import { EExperienceType } from '@/api/avenir-esr'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
 import { ConfirmAssociateModalStub } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
 import { DeclaredExperienceCompactCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.stub'
 import AssociateDeclaredExperiencesModal, {
-  type AssociateDeclaredExperiencesModalProps
+  type AssociateDeclaredExperiencesModalProps,
+  type AssociationDeclaredExperiences
 } from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -26,16 +27,19 @@ BddTest().given('an associate declared experiences modal', () => {
     {
       id: 'experience-search-1',
       title: 'Définir ses valeurs',
+      experienceType: EExperienceType.PERSONAL,
       disabled: false
     },
     {
       id: 'experience-search-2',
       title: 'Explorer ses pistes d’orientation',
+      experienceType: EExperienceType.PROFESSIONAL,
       disabled: false
     },
     {
       id: 'experience-search-3',
       title: 'Développeur Web Full Stack',
+      experienceType: EExperienceType.PROFESSIONAL,
       disabled: true
     }
 
@@ -58,15 +62,17 @@ BddTest().given('an associate declared experiences modal', () => {
     }
   ]
 
-  const expectedSelectedAssociations: Association[] = [
+  const expectedSelectedAssociations: AssociationDeclaredExperiences[] = [
     {
       id: 'experience-search-1',
       title: 'Définir ses valeurs',
+      experienceType: EExperienceType.PERSONAL,
       disabled: false
     },
     {
       id: 'experience-search-2',
       title: 'Explorer ses pistes d’orientation',
+      experienceType: EExperienceType.PROFESSIONAL,
       disabled: false
     }
   ]
@@ -110,16 +116,19 @@ BddTest().given('an associate declared experiences modal', () => {
         {
           label: 'Définir ses valeurs',
           value: 'experience-search-1',
+          description: 'Expérience personnelle',
           disabled: false
         },
         {
           label: 'Explorer ses pistes d’orientation',
           value: 'experience-search-2',
+          description: 'Expérience professionnelle',
           disabled: false
         },
         {
           label: 'Développeur Web Full Stack',
           value: 'experience-search-3',
+          description: 'Expérience professionnelle',
           disabled: true
         },
       ])
@@ -188,6 +197,7 @@ BddTest().given('an associate declared experiences modal', () => {
             {
               id: 'experience-search-1',
               title: 'Définir ses valeurs',
+              experienceType: EExperienceType.PERSONAL,
               disabled: false
             }
           ])
@@ -199,6 +209,7 @@ BddTest().given('an associate declared experiences modal', () => {
             {
               id: 'experience-search-1',
               title: 'Définir ses valeurs',
+              experienceType: EExperienceType.PERSONAL,
               disabled: false
             }
           ])
