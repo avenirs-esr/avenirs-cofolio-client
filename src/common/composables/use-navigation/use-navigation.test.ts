@@ -335,4 +335,12 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES)
     })
   })
+
+  BddTest().when('trying to navigate to staff activities add national activity', () => {
+    BddTest().then('it should navigate to staff activities add national activity', () => {
+      const { navigateToStaffActivitiesAddNationalActivity } = navigation
+      navigateToStaffActivitiesAddNationalActivity()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES_ADD_NATIONAL_ACTIVITY)
+    })
+  })
 })
