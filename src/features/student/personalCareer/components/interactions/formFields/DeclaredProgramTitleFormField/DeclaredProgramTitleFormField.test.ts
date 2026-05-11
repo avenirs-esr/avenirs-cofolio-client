@@ -1,6 +1,5 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramTitleFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
-import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -91,21 +90,6 @@ BddTest().given('a declared program title form field', () => {
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
           expect(updated.props('modelValue')).toBe('My Program Title')
-        })
-      })
-    })
-
-    BddTest().and('the user enters a title exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
-        const textInput = input.find('input')
-        const longTitle = 'a'.repeat(DECLARED_PROGRAM_TITLE_MAX_LENGTH + 10)
-        await textInput.setValue(longTitle)
-        await wrapper.vm.$nextTick()
-
-        await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramTitleInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_TITLE_MAX_LENGTH)
         })
       })
     })

@@ -1,3 +1,4 @@
+import type { AnyFormApi } from '@/common/types'
 import type {
   useAddDeclaredExperienceForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
@@ -20,6 +21,7 @@ export interface DeclaredProgramFormData {
   endDate: string
   isOngoing: boolean
 }
+export type DeclaredProgramFormApi = AnyFormApi<DeclaredProgramFormData>
 
 export interface DeclaredExperienceFormData {
   title: string

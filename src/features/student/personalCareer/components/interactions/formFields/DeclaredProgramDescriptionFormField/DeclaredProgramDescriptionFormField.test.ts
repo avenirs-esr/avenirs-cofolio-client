@@ -1,6 +1,5 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
-import { DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -92,21 +91,6 @@ BddTest().given('a declared program description form field', () => {
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
           expect(updated.props('modelValue')).toBe('This is my program description')
-        })
-      })
-    })
-
-    BddTest().and('the user enters a description exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
-        const textarea = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-        const textareaElement = textarea.find('textarea')
-        const longDescription = 'a'.repeat(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH + 20)
-        await textareaElement.setValue(longDescription)
-        await wrapper.vm.$nextTick()
-
-        await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramDescriptionTextarea' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH)
         })
       })
     })

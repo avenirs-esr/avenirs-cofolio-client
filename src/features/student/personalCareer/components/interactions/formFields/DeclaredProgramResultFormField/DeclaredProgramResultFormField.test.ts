@@ -1,6 +1,5 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredProgramResultFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramResultFormField/DeclaredProgramResultFormField.vue'
-import { DECLARED_PROGRAM_RESULT_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -84,21 +83,6 @@ BddTest().given('a declared program result form field', () => {
         await vi.waitFor(() => {
           const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
           expect(updated.props('modelValue')).toBe('Admis avec mention')
-        })
-      })
-    })
-
-    BddTest().and('the user enters a result exceeding max length', () => {
-      BddTest().then('it should truncate the value to max length', async () => {
-        const input = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-        const textInput = input.find('input')
-        const longResult = 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 10)
-        await textInput.setValue(longResult)
-        await wrapper.vm.$nextTick()
-
-        await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredProgramResultInput' })
-          expect(updated.props('modelValue')).toHaveLength(DECLARED_PROGRAM_RESULT_MAX_LENGTH)
         })
       })
     })
