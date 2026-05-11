@@ -17,7 +17,8 @@ const {
   description = undefined,
   accept = [...TRACE_ACCEPTED_FILE_TYPES],
   deleteButtonLabel = undefined,
-  disabled = false
+  disabled = false,
+  ...restProps
 } = defineProps<TraceFileUploadProps>()
 
 const modelValue = defineModel<File | null>({
@@ -37,6 +38,7 @@ const filesTypesMaxSize = [
 
 const avFileUploadProps = computed<AvFileUploadProps>(() => ({
   ...attrs,
+  ...restProps,
   accept,
   disabled,
   title: title ?? t('global.information.fileUpload.title'),
