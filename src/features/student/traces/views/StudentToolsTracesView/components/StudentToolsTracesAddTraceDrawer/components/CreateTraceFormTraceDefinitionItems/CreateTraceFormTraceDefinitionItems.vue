@@ -18,6 +18,12 @@ const selectedTraceType = ref({ itemId: TraceType.FILE })
 watch(selectedTraceType, (newType) => {
   form.setFieldValue('traceType', newType.itemId)
 })
+
+function handleFileSelected (file: File) {
+  if (file && form.getFieldValue('traceName') === '') {
+    form.setFieldValue('traceName', file.name)
+  }
+}
 </script>
 
 <template>
@@ -32,7 +38,10 @@ watch(selectedTraceType, (newType) => {
         v-if="selectedTraceType.itemId === TraceType.FILE"
         class="av-col"
       >
-        <TraceFileUploadFormField :form="form" />
+        <TraceFileUploadFormField
+          :form="form"
+          @file-selected="handleFileSelected"
+        />
       </div>
 
       <div

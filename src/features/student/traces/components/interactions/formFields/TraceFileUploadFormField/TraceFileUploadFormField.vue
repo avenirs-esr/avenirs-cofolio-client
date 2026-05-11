@@ -9,6 +9,10 @@ interface TraceFileUploadFormFieldProps {
 }
 
 const { form } = defineProps<TraceFileUploadFormFieldProps>()
+const emit = defineEmits<{
+  fileSelected: [file: File]
+}>()
+
 const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
@@ -22,6 +26,7 @@ function getFileInputSuccessMessage (file: File | null) {
 function handleFilesChange (files: FileList) {
   if (files.length > 0) {
     fileField.api.handleChange(files[0])
+    emit('fileSelected', files[0])
   }
 }
 </script>
