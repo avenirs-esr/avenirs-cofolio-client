@@ -1,0 +1,19 @@
+{
+  "staff": {
+    "activities": {
+      "views": {
+        "ActivitiesView": {
+          "MyWorkspaceTab": {
+            "columns": {
+              "activityName": "Activity name",
+              "lastModification": "Last modification",
+              "owner": "Owner",
+              "status": "Status"
+            },
+            "title": "All published activities in my institution ({count})"
+          }
+        }
+      }
+    }
+  }
+}
