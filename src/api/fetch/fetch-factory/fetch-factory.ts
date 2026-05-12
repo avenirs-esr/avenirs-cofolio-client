@@ -8,6 +8,10 @@ import {
 
 const AUTH_LOGIN_PATH = '/node-api/auth/login'
 
+function shouldIncludeCredentials (baseUrl: string): boolean {
+  return !baseUrl.replace(/\/$/, '').endsWith('/apim')
+}
+
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url
@@ -128,7 +132,9 @@ function createCustomFetch (
 
       const requestInit: RequestInit = {
         ...interceptedOptions,
-        credentials: interceptedOptions.credentials ?? 'include',
+        credentials: interceptedOptions.credentials ?? (
+          shouldIncludeCredentials(baseUrl) ? 'include' : 'same-origin'
+        ),
         headers: mergedHeaders,
       }
 
