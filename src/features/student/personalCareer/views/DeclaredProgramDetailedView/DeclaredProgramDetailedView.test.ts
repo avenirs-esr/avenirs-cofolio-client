@@ -251,7 +251,8 @@ BddTest().given('a declared program detailed view component', () => {
       BddTest().then('it should navigate to the route with the selected id', () => {
         expect(routerReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-          params: { id: secondProgramId }
+          params: { id: secondProgramId },
+          state: { preserveScroll: true }
         })
       })
 

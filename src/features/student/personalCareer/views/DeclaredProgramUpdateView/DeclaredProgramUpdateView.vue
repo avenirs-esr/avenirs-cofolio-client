@@ -49,7 +49,8 @@ async function onSelectProgram (programId: string) {
   if (await canLeave()) {
     router.replace({
       name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-      params: { id: programId }
+      params: { id: programId },
+      state: { preserveScroll: true }
     })
   }
 }

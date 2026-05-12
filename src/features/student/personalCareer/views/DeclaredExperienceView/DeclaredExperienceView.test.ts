@@ -227,7 +227,8 @@ BddTest().given('a declared experience view component', () => {
       BddTest().then('it should navigate to the declared experience route', () => {
         expect(routerReplace).toHaveBeenCalledWith({
           name: 'student-declared-experience',
-          params: { id: experienceId }
+          params: { id: experienceId },
+          state: { preserveScroll: true }
         })
       })
     })

@@ -64,7 +64,11 @@ const countAssociations = computed(() => (associations.value?.traceAssociations.
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
 
 function onSelectExperience (experienceId: string) {
-  router.replace({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: experienceId } })
+  router.replace({
+    name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+    params: { id: experienceId },
+    state: { preserveScroll: true }
+  })
 }
 
 function handleUpdateSelected () {
