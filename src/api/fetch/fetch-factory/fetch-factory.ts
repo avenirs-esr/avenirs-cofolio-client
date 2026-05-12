@@ -6,6 +6,8 @@ import {
   createBaseApiExceptionFromUnknownError,
 } from '@/common/exceptions'
 
+const AUTH_LOGIN_PATH = '/node-api/auth/login'
+
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url
@@ -87,7 +89,7 @@ function shouldRedirectToLogin (response: Response): boolean {
 
   const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
 
-  return !currentPath.startsWith('/node-api/auth/login')
+  return !currentPath.startsWith(AUTH_LOGIN_PATH)
     && !currentPath.startsWith('/node-api/cas-auth-callback')
     && !currentPath.startsWith('/cas/')
 }
@@ -96,7 +98,7 @@ function redirectToLogin (): never {
   const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
 
   window.location.assign(
-    `/node-api/auth/login?redirect=${encodeURIComponent(currentPath)}`
+    `${AUTH_LOGIN_PATH}?redirect=${encodeURIComponent(currentPath)}`
   )
 
   throw new Error('Redirecting to login')
