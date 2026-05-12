@@ -6,9 +6,11 @@ import TraceAiUsageToggleFormField from '@/features/student/traces/components/in
 import TraceAuthenticDeclarationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAuthenticDeclarationToggleFormField/TraceAuthenticDeclarationToggleFormField.vue'
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
 import TraceGroupProductionToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
+import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
@@ -45,6 +47,10 @@ function onChangeAiUsageToggle (value: boolean) {
   }
 }
 const traceFileUploadLabel = computed(() => {
+  if (!trace.attachment) {
+    return ''
+  }
+
   const uploadDate = formatTranslatedDateTime(trace.attachment?.uploadedAt ?? '')
   return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate })}`
 })
@@ -61,8 +67,13 @@ const traceFileUploadLabel = computed(() => {
         <TraceNameInputFormField :form="form" />
 
         <TraceFileUploadFormField
+          v-if="form.getFieldValue('traceType') === TraceType.FILE"
           :form="form"
           :label="traceFileUploadLabel"
+        />
+        <TraceLinkInputFormField
+          v-else
+          :form="form"
         />
       </div>
 
