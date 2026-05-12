@@ -55,7 +55,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
             :name="IS_ONGOING"
             :model-value="field.state.value ? [IS_ONGOING] : []"
             :value="IS_ONGOING"
-            label="En cours"
+            :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
             @update:model-value="onUpdateIsOngoing"
           />
         </template>
@@ -68,7 +68,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
         label-class="av-hidden"
         :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
         :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
-        :in-progress-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
+        :ongoing-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
         :start-model-value="String(startDateField.state.value.value ?? '')"
         :end-model-value="String(endDateField.state.value.value ?? '')"
         :end-date-disabled="isOngoing"
