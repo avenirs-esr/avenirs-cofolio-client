@@ -105,10 +105,10 @@
           "category": {
             "titles": {
               "ASPIRATIONS": "My aspiration",
-              "IMPROVEMENT_AREAS": "My area for improvement",
+              "IMPROVEMENT": "My area for improvement",
               "INSPIRATIONS": "My inspiration",
               "INTERESTS": "My area of interest",
-              "MOTIVATIONS": "My professional motivation",
+              "MOTIVATION": "My professional motivation",
               "OBLIGATIONS": "My obligation",
               "STRENGTHS": "My strength",
               "TESTIMONIALS": "My testimonial",

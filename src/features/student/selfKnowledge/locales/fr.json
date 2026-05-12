@@ -104,10 +104,10 @@
           "category": {
             "titles": {
               "ASPIRATIONS": "Mon envie",
-              "IMPROVEMENT_AREAS": "Mon axe d'amélioration",
+              "IMPROVEMENT": "Mon axe d'amélioration",
               "INSPIRATIONS": "Mon inspiration",
               "INTERESTS": "Mon centre d'intérêt",
-              "MOTIVATIONS": "Ma motivation professionnelle",
+              "MOTIVATION": "Ma motivation professionnelle",
               "OBLIGATIONS": "Mon obligation",
               "STRENGTHS": "Mon point fort",
               "TESTIMONIALS": "Mon témoignage",
