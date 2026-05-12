@@ -1,0 +1,34 @@
+<script setup lang="ts">
+import type { Slot } from 'vue'
+import Toggle from '@/common/components/Toggle/Toggle.vue'
+import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+
+export interface ToggleParameterCardProps {
+  title: string
+  icon: string
+}
+
+defineProps<ToggleParameterCardProps>()
+defineSlots<{
+  default?: Slot
+}>()
+
+const model = defineModel<boolean>({ default: true })
+</script>
+
+<template>
+  <FormFieldCardContainer
+    :title="title"
+    :title-icon="icon"
+    data-testid="toggle-parameter-card"
+  >
+    <template #title>
+      <Toggle
+        v-model="model"
+        description=""
+      />
+    </template>
+
+    <slot />
+  </FormFieldCardContainer>
+</template>

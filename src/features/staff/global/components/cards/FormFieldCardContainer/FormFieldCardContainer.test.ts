@@ -1,41 +1,76 @@
-import type { VueWrapper } from '@vue/test-utils'
+import type { FormFieldCardContainerProps } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
 import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a form field card container', () => {
   let wrapper: VueWrapper<InstanceType<typeof FormFieldCardContainer>>
+
   const stubs = {
-    AvCard: AvCardStub
+    AvCard: AvCardStub,
+    AvIconText: AvIconTextStub
   }
 
-  BddTest().when('component is mounted', () => {
+  const props: FormFieldCardContainerProps = {
+    title: 'Mon titre',
+    titleIcon: 'mdi:attach-file',
+  }
+
+  BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      vi.clearAllMocks()
+      wrapper = mount(FormFieldCardContainer, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the card', () => {
+      const card = wrapper.findComponent(AvCardStub)
+      expect(card.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the title', () => {
+      const title = wrapper.findComponent(AvIconTextStub)
+      expect(title.exists()).toBe(true)
+      expect(title.props('text')).toBe(props.title)
+    })
+
+    BddTest().then('it should render the icon', () => {
+      const title = wrapper.findComponent(AvIconTextStub)
+      expect(title.props('icon')).toBe(props.titleIcon)
+    })
+
+    BddTest().then('it should render the card with collapsible false by default', () => {
+      const card = wrapper.findComponent(AvCardStub)
+      expect(card.props('collapsible')).toBe(false)
+    })
+
+    BddTest().then('it should render the card with collapsed false by default', () => {
+      const card = wrapper.findComponent(AvCardStub)
+      expect(card.props('collapsed')).toBe(false)
+    })
+
+    BddTest().then('it should render the card with titleOnly false by default', () => {
+      const card = wrapper.findComponent(AvCardStub)
+      expect(card.props('titleOnly')).toBe(false)
+    })
+
+    BddTest().then('it should render the slot content', () => {
       wrapper = mount(FormFieldCardContainer, {
-        global: { stubs }
+        props,
+        global: { stubs },
+        slots: { default: '<p data-testid="slot-content">Contenu</p>' },
       })
+      const slot = wrapper.find('[data-testid="slot-content"]')
+      expect(slot.exists()).toBe(true)
     })
 
-    BddTest().then('it should render vertical orientation by default', () => {
-      expect(wrapper.find('[data-testid="vertical-container"]').exists()).toBe(true)
-    })
-  })
-
-  BddTest().when('orientation is horizontal', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
+    BddTest().then('it should render the title slot content', () => {
       wrapper = mount(FormFieldCardContainer, {
-        props: {
-          orientation: 'horizontal'
-        },
-        global: { stubs }
+        props,
+        global: { stubs },
+        slots: { title: '<button data-testid="title-slot-content">Action</button>' },
       })
-    })
-
-    BddTest().then('it should render horizontal layout', () => {
-      expect(wrapper.find('[data-testid="horizontal-container"]').exists()).toBe(true)
+      const slot = wrapper.find('[data-testid="title-slot-content"]')
+      expect(slot.exists()).toBe(true)
     })
   })
 })
