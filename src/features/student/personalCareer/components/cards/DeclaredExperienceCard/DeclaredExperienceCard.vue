@@ -51,8 +51,7 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
               ellipsis
             />
             <AvBadge
-              v-if="declaredExperience.location"
-              :label="declaredExperience.location"
+              :label="declaredExperience.organization"
               :icon="MDI_ICONS.MAP_MARKER_OUTLINE"
               color="var(--text2)"
               background-color="transparent"

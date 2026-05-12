@@ -37,7 +37,7 @@ BddTest().given('a declared experience card', () => {
           declaredExperience: {
             ...baseDeclaredExperience,
             experienceType: EExperienceType.PROFESSIONAL,
-            location: 'Paris, France'
+            organization: 'AVENIR(S)'
           }
         },
         global: { stubs }
@@ -106,32 +106,32 @@ BddTest().given('a declared experience card', () => {
       })
     })
 
-    BddTest().and('the location badge is rendered', () => {
-      let locationBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
+    BddTest().and('the organization badge is rendered', () => {
+      let organizationBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
 
       beforeEach(() => {
         const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-        locationBadge = badges.find(badge => badge.props('label') === 'Paris, France') as VueWrapper<InstanceType<typeof AvBadgeStub>>
+        organizationBadge = badges.find(badge => badge.props('label') === 'AVENIR(S)') as VueWrapper<InstanceType<typeof AvBadgeStub>>
       })
 
       BddTest().then('it should exist', () => {
-        expect(locationBadge).toBeDefined()
+        expect(organizationBadge).toBeDefined()
       })
 
       BddTest().then('it should have map marker outline icon', () => {
-        expect(locationBadge?.props('icon')).toBe(MDI_ICONS.MAP_MARKER_OUTLINE)
+        expect(organizationBadge?.props('icon')).toBe(MDI_ICONS.MAP_MARKER_OUTLINE)
       })
 
       BddTest().then('it should have text2 color', () => {
-        expect(locationBadge?.props('color')).toBe('var(--text2)')
+        expect(organizationBadge?.props('color')).toBe('var(--text2)')
       })
 
       BddTest().then('it should have transparent background', () => {
-        expect(locationBadge?.props('backgroundColor')).toBe('transparent')
+        expect(organizationBadge?.props('backgroundColor')).toBe('transparent')
       })
 
       BddTest().then('it should have ellipsis enabled', () => {
-        expect(locationBadge?.props('ellipsis')).toBe(true)
+        expect(organizationBadge?.props('ellipsis')).toBe(true)
       })
     })
   })
@@ -209,26 +209,6 @@ BddTest().given('a declared experience card', () => {
     })
   })
 
-  BddTest().when('the component is mounted without location', () => {
-    beforeEach(() => {
-      wrapper = mount(DeclaredExperienceCard, {
-        props: {
-          declaredExperience: {
-            ...baseDeclaredExperience,
-            location: undefined
-          }
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should not render location badge', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const locationBadge = badges.find(badge => badge.props('icon') === MDI_ICONS.MAP_MARKER_OUTLINE)
-      expect(locationBadge).toBeUndefined()
-    })
-  })
-
   BddTest().when('the component is mounted with only required fields', () => {
     beforeEach(() => {
       wrapper = mount(DeclaredExperienceCard, {
@@ -244,9 +224,9 @@ BddTest().given('a declared experience card', () => {
       expect(floatingCard.exists()).toBe(true)
     })
 
-    BddTest().then('it should not render any badges', () => {
+    BddTest().then('it should only render the organization badge', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      expect(badges.length).toBe(0)
+      expect(badges.length).toBe(1)
     })
   })
 })
