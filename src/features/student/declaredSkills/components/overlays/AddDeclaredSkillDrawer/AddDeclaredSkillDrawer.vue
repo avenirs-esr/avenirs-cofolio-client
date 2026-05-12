@@ -87,9 +87,7 @@ async function handleCancel () {
               :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addMySkill.title')"
               :icon="ICONS.SKILLS"
               overflow-visible
-              :class="{
-                'accordion--error': hasSkillDetailsErrors,
-              }"
+              :trigger-border-color="hasSkillDetailsErrors ? 'var(--dark-background-error)' : undefined"
             >
               <div class="av-col av-gap-md">
                 <AddDeclaredSkillAutocompleteField :form="form" />
@@ -136,14 +134,5 @@ async function handleCancel () {
   color: var(--light-foreground-primary1) !important;
   background-color: transparent;
   font-weight: var(--font-weight-bold);
-}
-</style>
-
-<style scoped lang="scss">
-.accordion--error {
-  :deep(.av-accordion__trigger) {
-    border: 1px solid var(--dark-background-error);
-    color: var(--dark-background-error);
-  }
 }
 </style>

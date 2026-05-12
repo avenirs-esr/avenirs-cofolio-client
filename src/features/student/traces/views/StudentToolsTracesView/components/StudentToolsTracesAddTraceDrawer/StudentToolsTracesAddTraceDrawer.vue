@@ -182,7 +182,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
             <AvAccordion
               :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.addTrace')"
               :icon="MDI_ICONS.IMAGE_OUTLINE"
-              :class="{ 'add-trace-drawer__accordion--error': hasDefinitionItemsError }"
+              :trigger-border-color="hasDefinitionItemsError ? 'var(--dark-background-error)' : undefined"
             >
               <CreateTraceFormTraceDefinitionItems :form="form" />
             </AvAccordion>
@@ -190,7 +190,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
             <AvAccordion
               :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')"
               :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
-              :class="{ 'add-trace-drawer__accordion--error': hasDeclarationItemsError }"
+              :trigger-border-color="hasDeclarationItemsError ? 'var(--dark-background-error)' : undefined"
             >
               <CreateTraceFormDeclarationItems :form="form" />
             </AvAccordion>
@@ -232,12 +232,5 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
 <style scoped lang="scss">
 .placeholder-content {
   font-style: italic;
-}
-
-.add-trace-drawer__accordion--error {
-  :deep(.av-accordion__trigger) {
-    border: 1px solid var(--dark-background-error);
-    color: var(--dark-background-error);
-  }
 }
 </style>

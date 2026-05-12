@@ -33,7 +33,7 @@ function onElementCreated () {
   confirmCancel()
 }
 
-const { form, isFormValid, isSubmitting } = useAddSelfKnowledgeCategoryElementForm(selectedCategoryId, onElementCreated)
+const { form, isFormValid, isSubmitting, hasElementDetailsErrors } = useAddSelfKnowledgeCategoryElementForm(selectedCategoryId, onElementCreated)
 
 const isFormDirty = form.useStore(state => state.isDirty)
 
@@ -73,8 +73,6 @@ const drawerTitle = computed(() => {
     category: capitalize(selectedCategoryTypeTranslation.value)
   })
 })
-
-const isDemo = __DEMO_MODE__
 </script>
 
 <template>
@@ -104,6 +102,7 @@ const isDemo = __DEMO_MODE__
             <AvAccordion
               :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.definition', { categoryType: selectedCategoryTypeTranslation })"
               :icon="selectedCategoryIcon"
+              :trigger-border-color="hasElementDetailsErrors ? 'var(--dark-background-error)' : undefined"
             >
               <div class="av-col av-gap-md av-p-md">
                 <CategoryElementTitleInputFormField :form="form" />
@@ -117,16 +116,6 @@ const isDemo = __DEMO_MODE__
             >
               <div class="av-col av-gap-md av-p-sm">
                 <CategoryElementRatingRadioButtonSetFormField :form="form" />
-              </div>
-            </AvAccordion>
-
-            <AvAccordion
-              v-if="!isDemo"
-              :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.accordions.associate', { categoryType: selectedCategoryTypeTranslation })"
-              :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-            >
-              <div class="add-self-knowledge-category-element-drawer__placeholder av-p-md">
-                <p>Placeholder for associations</p>
               </div>
             </AvAccordion>
           </AvAccordionsGroup>

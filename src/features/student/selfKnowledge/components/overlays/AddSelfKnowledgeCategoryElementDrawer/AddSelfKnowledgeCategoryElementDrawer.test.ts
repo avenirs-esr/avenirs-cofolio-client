@@ -98,12 +98,12 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       expect(title.text()).toContain('Point fort')
     })
 
-    BddTest().then('it should render accordion group with three accordions', () => {
+    BddTest().then('it should render accordion group with two accordions', () => {
       const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
       const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
 
       expect(accordionsGroup.exists()).toBe(true)
-      expect(accordions).toHaveLength(3)
+      expect(accordions).toHaveLength(2)
     })
 
     BddTest().then('it should render the form fields in first accordion', () => {
@@ -249,13 +249,6 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       const ratingAccordion = accordions[1]
 
       expect(ratingAccordion.props('title')).toBe('Préciser mon élément')
-    })
-
-    BddTest().then('it should render associate accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
-      const associateAccordion = accordions[2]
-
-      expect(associateAccordion.props('title')).toBe('Associer mon élément')
     })
   })
 

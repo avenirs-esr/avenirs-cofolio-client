@@ -162,7 +162,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.identity.title')"
             :icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
-            :class="{ 'update-profile-drawer__accordion--error': hasIdentityErrors }"
+            :trigger-border-color="hasIdentityErrors ? 'var(--dark-background-error)' : undefined"
           >
             <div class="av-col av-gap-md">
               <AvInput
@@ -215,7 +215,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
-            :class="{ 'update-profile-drawer__accordion--error': hasCoverPictureErrors }"
+            :trigger-border-color="hasCoverPictureErrors ? 'var(--dark-background-error)' : undefined"
           >
             <div data-image-upload-delete-zone>
               <ImageUpload
@@ -231,7 +231,7 @@ watch(() => show, (newVal) => {
           <AvAccordion
             :title="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
             :icon="MDI_ICONS.IMAGE_OUTLINE"
-            :class="{ 'update-profile-drawer__accordion--error': hasProfilePictureErrors }"
+            :trigger-border-color="hasProfilePictureErrors ? 'var(--dark-background-error)' : undefined"
           >
             <div data-image-upload-delete-zone>
               <ImageUpload
@@ -271,12 +271,3 @@ watch(() => show, (newVal) => {
     @close="cancel"
   />
 </template>
-
-<style scoped lang="scss">
-.update-profile-drawer__accordion--error {
-  :deep(.av-accordion__trigger) {
-    border: 1px solid var(--dark-background-error);
-    color: var(--dark-background-error);
-  }
-}
-</style>

@@ -40,7 +40,6 @@
       "overlays": {
         "AddSelfKnowledgeCategoryElementDrawer": {
           "accordions": {
-            "associate": "Associate my element",
             "definition": "Add my element",
             "rating": "Specify my element"
           },

@@ -2,7 +2,9 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
 import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -17,6 +19,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
+  const { validateMaxLength, hasFieldErrors } = useFormValidators()
 
   const onCreateElementError = (error: BaseApiException) => {
     addErrorMessage({
@@ -51,6 +54,14 @@ export function useAddSelfKnowledgeCategoryElementForm (
       rating: null
     } as SelfKnowledgeCategoryElementFormData,
     validators: {
+      onChange ({ value }: { value: SelfKnowledgeCategoryElementFormData }) {
+        return {
+          fields: {
+            title: validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
+            description: validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH)
+          }
+        }
+      },
       onSubmit ({ value }: { value: SelfKnowledgeCategoryElementFormData }) {
         return {
           fields: {
@@ -74,9 +85,12 @@ export function useAddSelfKnowledgeCategoryElementForm (
     return isPending.value || isLoading.value
   })
 
+  const hasElementDetailsErrors = hasFieldErrors(form, ['title', 'description'])
+
   return {
     form,
     isFormValid,
-    isSubmitting
+    isSubmitting,
+    hasElementDetailsErrors
   }
 }
