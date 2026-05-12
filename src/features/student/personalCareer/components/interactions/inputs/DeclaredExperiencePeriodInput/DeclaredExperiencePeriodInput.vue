@@ -20,7 +20,8 @@ const avPeriodInputProps = computed<AvPeriodInputProps>(() => ({
   endLabel: t('student.personalCareer.interactions.inputs.DeclaredExperiencePeriodInput.endLabel'),
   stacked: isMobile.value,
   separatorSpacing: 'var(--spacing-sm)',
-  width: '10rem'
+  width: '10rem',
+  inProgressLabel: t('student.personalCareer.interactions.formFields.DeclaredExperiencePeriodFormField.ongoing'),
 }))
 </script>
 
