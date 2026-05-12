@@ -28,7 +28,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env?.BASE_URL || ''),
   routes,
-  scrollBehavior: () => {
+  scrollBehavior: (_to, _from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition
+    }
+
+    if (window.history.state?.preserveScroll) {
+      return false
+    }
+
     return { top: 0 }
   }
 })

@@ -34,7 +34,7 @@ const isDirty = ref(false)
 const { showModal, displayModal, hideModal } = useModal()
 
 const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
-const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId.value)
+const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
@@ -61,7 +61,8 @@ async function onSelectExperience (experienceId: string) {
   if (await canLeave()) {
     router.replace({
       name: ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE.name,
-      params: { id: experienceId }
+      params: { id: experienceId },
+      state: { preserveScroll: true }
     })
   }
 }

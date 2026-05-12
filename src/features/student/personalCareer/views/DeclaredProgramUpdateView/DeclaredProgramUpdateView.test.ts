@@ -222,7 +222,8 @@ BddTest().given('a declared program update view component', () => {
       BddTest().then('it should navigate immediately and not open the modal', () => {
         expect(routerReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-          params: { id: secondProgramId }
+          params: { id: secondProgramId },
+          state: { preserveScroll: true }
         })
         expect(displayConfirmationModal).not.toHaveBeenCalled()
       })
