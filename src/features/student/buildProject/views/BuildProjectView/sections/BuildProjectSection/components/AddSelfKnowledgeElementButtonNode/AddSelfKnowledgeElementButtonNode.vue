@@ -6,6 +6,7 @@ import ButtonNodeTemplate from '@/common/components/VueFlow/ButtonNodeTemplate/B
 import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
 import { useModal } from '@/common/composables'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { type AddElementFormData, useAddElementForm } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-add-element-form/use-add-element-form'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
@@ -181,7 +182,19 @@ function onConfirmAddElements (formData?: AddElementFormData) {
                       :label="t('student.buildProject.mindMap.selfKnowledge.addElementButton.tabs.new.form.title')"
                       required
                       @update:model-value="(value) => field.handleChange(String(value ?? ''))"
-                    />
+                    >
+                      <template
+                        v-if="!$slots.maxLengthCaption"
+                        #maxLengthCaption="{ currentValue }"
+                      >
+                        <span class="caption-light">
+                          {{ t('global.inputs.textarea.limit', {
+                            count: currentValue?.toString().length || 0,
+                            maxlength: SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH,
+                          }) }}
+                        </span>
+                      </template>
+                    </AvInput>
                   </template>
                 </FormField>
                 <FormField name="description">
@@ -193,7 +206,19 @@ function onConfirmAddElements (formData?: AddElementFormData) {
                       is-textarea
                       required
                       @update:model-value="(value) => field.handleChange(String(value ?? ''))"
-                    />
+                    >
+                      <template
+                        v-if="!$slots.maxLengthCaption"
+                        #maxLengthCaption="{ currentValue }"
+                      >
+                        <span class="caption-light">
+                          {{ t('global.inputs.textarea.limit', {
+                            count: currentValue?.toString().length || 0,
+                            maxlength: SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH,
+                          }) }}
+                        </span>
+                      </template>
+                    </AvInput>
                   </template>
                 </FormField>
                 <FormField name="rating">

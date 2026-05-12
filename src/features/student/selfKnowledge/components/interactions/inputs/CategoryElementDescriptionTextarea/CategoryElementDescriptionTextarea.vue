@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -9,7 +10,7 @@ const {
   labelVisible = true,
   disabled = false,
   required = false,
-  maxlength = 400,
+  maxlength = SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH,
   label,
   placeholder,
   errorMessage,

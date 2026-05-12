@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -12,6 +13,7 @@ const {
   label,
   prefixIcon,
   placeholder,
+  maxlength = SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH,
   errorMessage,
 } = defineProps<AvInputProps>()
 
@@ -37,5 +39,17 @@ const avInputProps = computed(() => ({
   <AvInput
     v-bind="avInputProps"
     v-model="modelValue"
-  />
+  >
+    <template
+      v-if="!$slots.maxLengthCaption"
+      #maxLengthCaption="{ currentValue }"
+    >
+      <span class="caption-light">
+        {{ t('global.inputs.textarea.limit', {
+          count: currentValue?.toString().length || 0,
+          maxlength,
+        }) }}
+      </span>
+    </template>
+  </AvInput>
 </template>
