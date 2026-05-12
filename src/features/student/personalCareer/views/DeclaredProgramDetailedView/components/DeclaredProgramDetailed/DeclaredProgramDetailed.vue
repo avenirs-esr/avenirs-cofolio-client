@@ -68,6 +68,7 @@ const createdAtPrefix = computed(() =>
         label-class="caption-regular"
         :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
         :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
+        :in-progress-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
         :start-model-value="startDate ?? ''"
         :end-model-value="endDate ?? ''"
         start-date-disabled
