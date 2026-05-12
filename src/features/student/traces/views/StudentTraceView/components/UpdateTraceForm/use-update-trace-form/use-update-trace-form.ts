@@ -46,7 +46,8 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const form = useForm({
     defaultValues: {
       file: attachmentFile.value,
-      traceType: TraceType.FILE,
+      link: trace.link || '',
+      traceType: attachmentFile.value ? TraceType.FILE : TraceType.LINK,
       traceName: trace.title,
       personalNote: trace.personalNote || '',
       isAuthentic: true,
@@ -59,6 +60,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
         return {
           fields: {
             file: isTraceFileType(value) ? validateFile(value.file) : undefined,
+            link: isTraceLinkType(value) ? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
             isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
             traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
             iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
@@ -104,6 +106,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
         personalNote: traceFormData.personalNote || undefined,
         isGroup: traceFormData.isGroup,
         iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
+        link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
         language: ELanguage.FRENCH
       }
     }, {

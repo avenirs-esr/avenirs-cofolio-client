@@ -21,7 +21,33 @@ vi.mock('@/store', async () => {
 
 BddTest().given('an update trace form component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateTraceForm>>
-  let mockTrace: TraceDetailDTO
+  const mockTrace: TraceDetailDTO = {
+    id: 'trace-123',
+    title: 'Existing Trace',
+    programName: 'Test Program',
+    isGroup: false,
+    aiUseJustification: '',
+    personalNote: 'Existing note',
+    createdAt: '2025-01-15T10:00:00Z',
+    updatedAt: '2025-01-15T10:00:00Z'
+  }
+
+  const mockTraceWithFile: TraceDetailDTO = {
+    ...mockTrace,
+    attachment: {
+      id: 'attachment-123',
+      fileName: 'existing-file.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 1024,
+      version: 1,
+      uploadedAt: '2025-01-15T10:00:00Z'
+    },
+  }
+
+  const mockTraceWithLink: TraceDetailDTO = {
+    ...mockTrace,
+    link: 'https://example.com/existing-trace'
+  }
 
   const stubs = {
     TraceNameInputFormField: {
@@ -33,6 +59,11 @@ BddTest().given('an update trace form component', () => {
       name: 'TraceFileUploadFormField',
       props: ['form', 'label'],
       template: '<input id="trace-file-upload" type="file" />'
+    },
+    TraceLinkInputFormField: {
+      name: 'TraceLinkInputFormField',
+      props: ['form'],
+      template: '<input id="traceLink" />'
     },
     TracePersonalNoteTextareaFormField: {
       name: 'TracePersonalNoteTextareaFormField',
@@ -64,38 +95,20 @@ BddTest().given('an update trace form component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-
-    mockTrace = {
-      id: 'trace-123',
-      title: 'Existing Trace',
-      link: 'https://example.com/existing-trace',
-      programName: 'Test Program',
-      isGroup: false,
-      aiUseJustification: '',
-      personalNote: 'Existing note',
-      attachment: {
-        id: 'attachment-123',
-        fileName: 'existing-file.pdf',
-        fileType: EFileType.PDF,
-        fileSize: 1024,
-        version: 1,
-        uploadedAt: '2025-01-15T10:00:00Z'
-      },
-      createdAt: '2025-01-15T10:00:00Z',
-      updatedAt: '2025-01-15T10:00:00Z'
-    }
-
-    wrapper = mountComponent<typeof UpdateTraceForm>(UpdateTraceForm, {
-      props: {
-        trace: mockTrace
-      },
-      global: {
-        stubs
-      }
-    })
   })
 
-  BddTest().when('the component is mounted', () => {
+  BddTest().when('the component is mounted with a file trace', () => {
+    beforeEach(() => {
+      wrapper = mountComponent<typeof UpdateTraceForm>(UpdateTraceForm, {
+        props: {
+          trace: mockTraceWithFile
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
     BddTest().then('it should render the form', () => {
       const form = wrapper.find('form.update-trace-form')
       expect(form.exists()).toBe(true)
@@ -110,6 +123,11 @@ BddTest().given('an update trace form component', () => {
       const fileUploadField = wrapper.findComponent({ name: 'TraceFileUploadFormField' })
       expect(fileUploadField.exists()).toBe(true)
       expect(fileUploadField.props('label')).toContain('Mon document chargé')
+    })
+
+    BddTest().then('it should not render link field', () => {
+      const linkField = wrapper.findComponent({ name: 'TraceLinkInputFormField' })
+      expect(linkField.exists()).toBe(false)
     })
 
     BddTest().then('it should render personal note field', () => {
@@ -137,50 +155,73 @@ BddTest().given('an update trace form component', () => {
       expect(aiJustificationField.exists()).toBe(true)
       expect(aiJustificationField.props('labelVisible')).toBe(false)
     })
-  })
 
-  BddTest().when('the AI usage toggle is changed to false', () => {
-    BddTest().then('it should clear AI justification field', async () => {
-      const aiToggle = wrapper.findComponent({ name: 'TraceAiUsageToggleFormField' })
-      await aiToggle.vm.$emit('change', false)
-      await wrapper.vm.$nextTick()
+    BddTest().and('the AI usage toggle is changed to false', () => {
+      BddTest().then('it should clear AI justification field', async () => {
+        const aiToggle = wrapper.findComponent({ name: 'TraceAiUsageToggleFormField' })
+        await aiToggle.vm.$emit('change', false)
+        await wrapper.vm.$nextTick()
 
-      const aiJustificationField = wrapper.findComponent({ name: 'TraceAiJustificationTextareaFormField' })
-      expect(aiJustificationField.props('showAiJustification')).toBe(false)
+        const aiJustificationField = wrapper.findComponent({ name: 'TraceAiJustificationTextareaFormField' })
+        expect(aiJustificationField.props('showAiJustification')).toBe(false)
+      })
     })
-  })
 
-  BddTest().when('the AI usage toggle is not changed', () => {
-    BddTest().then('it should keep AI justification field hidden by default', () => {
-      const aiJustificationField = wrapper.findComponent({ name: 'TraceAiJustificationTextareaFormField' })
-      expect(aiJustificationField.props('showAiJustification')).toBe(false)
+    BddTest().and('the AI usage toggle is not changed', () => {
+      BddTest().then('it should keep AI justification field hidden by default', () => {
+        const aiJustificationField = wrapper.findComponent({ name: 'TraceAiJustificationTextareaFormField' })
+        expect(aiJustificationField.props('showAiJustification')).toBe(false)
+      })
     })
-  })
 
-  BddTest().when('the form is submitted successfully', () => {
-    BddTest().then('it should show success message and hide modal', async () => {
-      const traceNameInput = wrapper.find('#traceName')
-      await traceNameInput.setValue('Updated Trace Name')
-      await wrapper.vm.$nextTick()
+    BddTest().and('the form is submitted successfully', () => {
+      BddTest().then('it should show success message and hide modal', async () => {
+        const traceNameInput = wrapper.find('#traceName')
+        await traceNameInput.setValue('Updated Trace Name')
+        await wrapper.vm.$nextTick()
 
-      const form = wrapper.find('form')
-      await form.trigger('submit')
+        const form = wrapper.find('form')
+        await form.trigger('submit')
 
-      await vi.waitFor(() => {
-        expect(mockAddSuccessMessage).toHaveBeenCalledWith({
-          timeout: 2000,
-          description: 'Votre trace a été modifiée avec succès.'
+        await vi.waitFor(() => {
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: 'Votre trace a été modifiée avec succès.'
+          })
         })
+      })
+    })
+
+    BddTest().and('the file upload label is computed', () => {
+      BddTest().then('it should include uploaded date', () => {
+        const fileUploadField = wrapper.findComponent({ name: 'TraceFileUploadFormField' })
+        const label = fileUploadField.props('label')
+        expect(label).toContain('Mon document chargé')
+        expect(label).toContain('Ajouté le')
       })
     })
   })
 
-  BddTest().when('the file upload label is computed', () => {
-    BddTest().then('it should include uploaded date', () => {
+  BddTest().when('the component is mounted with a link trace', () => {
+    beforeEach(() => {
+      wrapper = mountComponent<typeof UpdateTraceForm>(UpdateTraceForm, {
+        props: {
+          trace: mockTraceWithLink
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should not render file upload field', () => {
       const fileUploadField = wrapper.findComponent({ name: 'TraceFileUploadFormField' })
-      const label = fileUploadField.props('label')
-      expect(label).toContain('Mon document chargé')
-      expect(label).toContain('Ajouté le')
+      expect(fileUploadField.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render link field', () => {
+      const linkField = wrapper.findComponent({ name: 'TraceLinkInputFormField' })
+      expect(linkField.exists()).toBe(true)
     })
   })
 })
