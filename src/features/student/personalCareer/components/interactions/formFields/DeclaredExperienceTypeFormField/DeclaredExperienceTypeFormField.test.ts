@@ -3,9 +3,6 @@ import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/fe
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
-import {
-  useDeclaredExperienceFormValidators
-} from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
@@ -15,7 +12,7 @@ const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, Declar
   formFieldComponent: DeclaredExperienceTypeFormField,
   fieldName: 'type',
   defaultValue: '',
-  useValidator: () => useDeclaredExperienceFormValidators().validateType
+  useValidator: () => vi.fn()
 })
 
 BddTest().given('a declared experience type form field', () => {
@@ -67,13 +64,13 @@ BddTest().given('a declared experience type form field', () => {
     })
 
     BddTest().and('the form is submitted with empty type', () => {
-      BddTest().then('it should show validation error', async () => {
+      BddTest().then('it should not show validation error', async () => {
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-          expect(select.props('errorMessage')).toBe('Ce champ est requis.')
+          const updated = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+          expect(updated.props('errorMessage')).toBeFalsy()
         })
       })
     })

@@ -28,7 +28,6 @@ BddTest().given('a declared experience form validators composable', () => {
   BddTest().when('the composable is initialized', () => {
     BddTest().then('it should return all validation functions', () => {
       expect(composableResult.validateTitle).toBeDefined()
-      expect(composableResult.validateType).toBeDefined()
       expect(composableResult.validateOrganization).toBeDefined()
       expect(composableResult.validateActivitySector).toBeDefined()
       expect(composableResult.validateLocation).toBeDefined()
@@ -59,22 +58,6 @@ BddTest().given('a declared experience form validators composable', () => {
     BddTest().and('the title is valid', () => {
       BddTest().then('it should return undefined', () => {
         const error = composableResult.validateTitle('Valid title')
-        expect(error).toBeUndefined()
-      })
-    })
-  })
-
-  BddTest().when('validating type', () => {
-    BddTest().and('the type is empty', () => {
-      BddTest().then('it should return required error', () => {
-        const error = composableResult.validateType('')
-        expect(error).toBe('Ce champ est requis.')
-      })
-    })
-
-    BddTest().and('the type is valid', () => {
-      BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateType('PROFESSIONAL')
         expect(error).toBeUndefined()
       })
     })
