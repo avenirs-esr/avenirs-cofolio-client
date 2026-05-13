@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
-import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -44,20 +45,8 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <AvInput
+  <Input
     v-bind="avInputProps"
     v-model="modelValue"
-  >
-    <template
-      v-if="!$slots.maxLengthCaption"
-      #maxLengthCaption="{ currentValue }"
-    >
-      <span class="caption-light">
-        {{ t('global.inputs.textarea.limit', {
-          count: currentValue?.toString().length || 0,
-          maxlength,
-        }) }}
-      </span>
-    </template>
-  </AvInput>
+  />
 </template>

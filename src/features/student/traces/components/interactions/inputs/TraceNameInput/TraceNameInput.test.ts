@@ -1,3 +1,4 @@
+import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -5,28 +6,8 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-const AvInputStub = {
-  name: 'AvInput',
-  props: ['modelValue', 'label', 'placeholder', 'maxlength', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
-  emits: ['update:modelValue'],
-  template: `
-    <div>
-      <label v-if="labelVisible">{{ label }}</label>
-      <input
-        :value="modelValue"
-        :placeholder="placeholder"
-        :maxlength="maxlength"
-        :disabled="disabled"
-        :required="required"
-        @input="$emit('update:modelValue', $event.target.value)"
-      />
-      <slot name="maxLengthCaption" :current-value="modelValue" :maxlength="maxlength" />
-    </div>
-  `
-}
-
 const stubs = {
-  AvInput: AvInputStub
+  Input: InputStub
 }
 
 BddTest().given('a trace name input component', () => {
@@ -41,8 +22,8 @@ BddTest().given('a trace name input component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render AvInput with default props', () => {
-      const input = wrapper.findComponent({ name: 'AvInput' })
+    BddTest().then('it should render Input with default props', () => {
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.exists()).toBe(true)
       expect(input.props('label')).toBe('Nom de ma trace')
@@ -56,7 +37,7 @@ BddTest().given('a trace name input component', () => {
     })
 
     BddTest().then('it should render character count hint', () => {
-      const hint = wrapper.find('.caption-light')
+      const hint = wrapper.find('[data-testid="maxlength-caption"]')
 
       expect(hint.exists()).toBe(true)
       expect(hint.text()).toBe(`0 / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
@@ -74,7 +55,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('label')).toBe('Custom Label')
     })
@@ -91,7 +72,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('placeholder')).toBe('Custom placeholder text')
     })
@@ -108,7 +89,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('maxlength')).toBe(200)
     })
@@ -125,14 +106,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('prefixIcon')).toBe(MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE)
     })
   })
 
   BddTest().when('the component is disabled', () => {
-    BddTest().then('it should pass disabled state to AvInput', () => {
+    BddTest().then('it should pass disabled state to Input', () => {
       wrapper = mount(TraceNameInput, {
         props: {
           disabled: true
@@ -142,14 +123,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('disabled')).toBe(true)
     })
   })
 
   BddTest().when('required is false', () => {
-    BddTest().then('it should pass required state to AvInput', () => {
+    BddTest().then('it should pass required state to Input', () => {
       wrapper = mount(TraceNameInput, {
         props: {
           required: false
@@ -159,7 +140,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('required')).toBe(false)
     })
@@ -176,14 +157,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('labelVisible')).toBe(false)
     })
   })
 
   BddTest().when('isValid is true', () => {
-    BddTest().then('it should pass valid state to AvInput', () => {
+    BddTest().then('it should pass valid state to Input', () => {
       wrapper = mount(TraceNameInput, {
         props: {
           isValid: true
@@ -193,7 +174,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('isValid')).toBe(true)
     })
@@ -201,7 +182,7 @@ BddTest().given('a trace name input component', () => {
 
   BddTest().when('text is entered', () => {
     BddTest().then('it should update the model value', async () => {
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
       await input.vm.$emit('update:modelValue', 'My trace name')
       await wrapper.vm.$nextTick()
 
@@ -218,14 +199,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const hint = wrapper.find('.caption-light')
+      const hint = wrapper.find('[data-testid="maxlength-caption"]')
 
       expect(hint.text()).toBe(`12 / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
     })
   })
 
   BddTest().when('a value is provided via v-model', () => {
-    BddTest().then('it should pass the value to AvInput', () => {
+    BddTest().then('it should pass the value to Input', () => {
       const testValue = 'Test trace name'
 
       wrapper = mount(TraceNameInput, {
@@ -237,14 +218,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('modelValue')).toBe(testValue)
     })
   })
 
   BddTest().when('errorMessage is provided', () => {
-    BddTest().then('it should pass the error message to AvInput', () => {
+    BddTest().then('it should pass the error message to Input', () => {
       wrapper = mount(TraceNameInput, {
         props: {
           errorMessage: 'Ce champ est requis'
@@ -254,14 +235,14 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('errorMessage')).toBe('Ce champ est requis')
     })
   })
 
   BddTest().when('isTextarea is true', () => {
-    BddTest().then('it should pass textarea state to AvInput', () => {
+    BddTest().then('it should pass textarea state to Input', () => {
       wrapper = mount(TraceNameInput, {
         props: {
           isTextarea: true
@@ -271,7 +252,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent({ name: 'AvInput' })
+      const input = wrapper.findComponent(InputStub)
 
       expect(input.props('isTextarea')).toBe(true)
     })
@@ -290,7 +271,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const hint = wrapper.find('.caption-light')
+      const hint = wrapper.find('[data-testid="maxlength-caption"]')
 
       expect(hint.text()).toBe(`${TRACE_NAME_MAX_LENGTH} / ${TRACE_NAME_MAX_LENGTH} caractères (espaces compris)`)
     })
