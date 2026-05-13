@@ -1,8 +1,21 @@
 {
   "staff": {
     "activities": {
+      "interactions": {
+        "inputs": {
+          "ActivityTitleInput": {
+            "label": "Titre de l'activité"
+          }
+        }
+      },
       "views": {
         "ActivitiesView": {
+          "ActivityDraftCreationModal": {
+            "closeButtonLabel": "Annuler",
+            "confirmButtonLabel": "Créer",
+            "error": "Une erreur est survenue lors de la création de l'activité",
+            "title": "Créer une activité"
+          },
           "MyWorkspaceTab": {
             "columns": {
               "activityName": "Nom de l'activité",
@@ -10,6 +23,7 @@
               "owner": "Propriétaire",
               "status": "Statut"
             },
+            "createActivity": "Créer une activité",
             "title": "Toutes les activités publiées dans mon établissement ({count})"
           }
         }

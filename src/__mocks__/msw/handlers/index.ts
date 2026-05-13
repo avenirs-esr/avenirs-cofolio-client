@@ -1,3 +1,4 @@
+import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { staffsUserHandlers } from '@/__mocks__/msw/handlers/staffs/user.handlers'
 import { activitiesHandlers } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { backOfficeHandlers } from '@/__mocks__/msw/handlers/student/back-office.handlers'
@@ -20,4 +21,5 @@ export const handlers = [
   ...selfKnowledgeHandlers,
   ...skillsHandlers,
   ...staffsUserHandlers,
+  ...staffsActivitiesHandlers,
 ]

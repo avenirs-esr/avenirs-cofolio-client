@@ -1,0 +1,1 @@
+export const ACTIVITY_TITLE_MAX_LENGTH = 80

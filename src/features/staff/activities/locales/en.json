@@ -1,8 +1,21 @@
 {
   "staff": {
     "activities": {
+      "interactions": {
+        "inputs": {
+          "ActivityTitleInput": {
+            "label": "Activity title"
+          }
+        }
+      },
       "views": {
         "ActivitiesView": {
+          "ActivityDraftCreationModal": {
+            "closeButtonLabel": "Cancel",
+            "confirmButtonLabel": "Create",
+            "error": "An error occurred while creating the activity",
+            "title": "Create an activity"
+          },
           "MyWorkspaceTab": {
             "columns": {
               "activityName": "Activity name",
@@ -10,6 +23,7 @@
               "owner": "Owner",
               "status": "Status"
             },
+            "createActivity": "Create an activity",
             "title": "All published activities in my institution ({count})"
           }
         }

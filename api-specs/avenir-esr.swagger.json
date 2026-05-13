@@ -1490,6 +1490,36 @@
         }
       }
     },
+    "/me/activities/draft": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "createActivityDraft",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityDraftCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDraftCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/seeding/run": {
       "post": {
         "tags": [
@@ -4713,6 +4743,29 @@
             "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
           }
         }
+      },
+      "ActivityDraftCreationRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "ActivityDraftCreationResponse": {
+        "type": "object",
+        "properties": {
+          "draftId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "draftId"
+        ]
       },
       "FileDTO": {
         "type": "object",
