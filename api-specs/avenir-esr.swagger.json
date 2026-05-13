@@ -1550,6 +1550,55 @@
         }
       }
     },
+    "/me/activities/{activityStatus}/{activityId}": {
+      "patch": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "updateActivity",
+        "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityStatus"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityDraftUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDraftUpdateResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/storage/users/{fileId}": {
       "get": {
         "tags": [
@@ -2843,14 +2892,8 @@
             "name": "activityStatus",
             "in": "path",
             "required": true,
-            "$ref": "#/components/schemas/EActivityStatus",
             "schema": {
-              "type": "string",
-              "$ref": "#/components/schemas/EActivityStatus",
-              "enum": [
-                "PUBLISHED",
-                "DRAFT"
-              ]
+              "$ref": "#/components/schemas/EActivityStatus"
             }
           },
           {
@@ -2888,14 +2931,8 @@
             "name": "activityStatus",
             "in": "path",
             "required": true,
-            "$ref": "#/components/schemas/EActivityStatus",
             "schema": {
-              "type": "string",
-              "$ref": "#/components/schemas/EActivityStatus",
-              "enum": [
-                "PUBLISHED",
-                "DRAFT"
-              ]
+              "$ref": "#/components/schemas/EActivityStatus"
             }
           },
           {
@@ -4767,6 +4804,62 @@
           "draftId"
         ]
       },
+      "ActivityDraftUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "executionPeriodInfo": {
+            "type": "string"
+          },
+          "executionPeriodInfoSummary": {
+            "type": "string"
+          },
+          "traceAllowedAssociations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "feedbackAllowedIterations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enableReflection": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ActivityDraftUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "draftId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "draftId"
+        ]
+      },
       "FileDTO": {
         "type": "object",
         "properties": {
@@ -5628,6 +5721,9 @@
             "type": "string",
             "format": "uuid"
           },
+          "author": {
+            "$ref": "#/components/schemas/AuthorDTO"
+          },
           "title": {
             "type": "string"
           },
@@ -5669,6 +5765,26 @@
           "summary",
           "thematic",
           "title"
+        ]
+      },
+      "AuthorDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "userId"
         ]
       },
       "PagedResponseActivityOverviewDTO": {
@@ -5974,10 +6090,12 @@
           "DECLARED_PROGRAM_NOT_FOUND",
           "INSTITUTION_CONFIG_NOT_FOUND",
           "ACTIVITY_NOT_FOUND",
+          "ACTIVITY_DRAFT_NOT_FOUND",
           "DECLARED_ACTIVITY_NOT_FOUND",
           "USER_NOT_AUTHORIZED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
+          "MAXIMUM_ALLOWED_ASSOCIATIONS_REACHED",
           "USER_ALREADY_EXISTS",
           "STUDENT_DECLARED_ALREADY_EXIST",
           "DECLARED_ACTIVITY_ALREADY_EXIST",
