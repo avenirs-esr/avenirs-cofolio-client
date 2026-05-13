@@ -22,10 +22,6 @@ export function useDeclaredExperienceFormValidators () {
     return validateRequired(title) ?? validateTitleMaxLength(title)
   }
 
-  function validateType (type: DeclaredExperienceFormData['type']) {
-    return validateRequired(type)
-  }
-
   function validateOrganizationMaxLength (organization: DeclaredExperienceFormData['organization']) {
     return validateMaxLength(organization, DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH)
   }
@@ -93,6 +89,5 @@ export function useDeclaredExperienceFormValidators () {
     validateStartDate,
     validateTitleMaxLength,
     validateTitle,
-    validateType
   }
 }

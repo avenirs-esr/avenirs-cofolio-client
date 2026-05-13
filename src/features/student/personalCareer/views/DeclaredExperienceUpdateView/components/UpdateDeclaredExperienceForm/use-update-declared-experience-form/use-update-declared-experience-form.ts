@@ -29,7 +29,7 @@ function toFormData (dto: DeclaredExperienceViewDTO): DeclaredExperienceFormData
 function toRequestDTO (value: DeclaredExperienceFormData): DeclaredExperienceRequest {
   return {
     title: value.title,
-    experienceType: value.type as EExperienceType,
+    experienceType: value.type ? value.type as EExperienceType : undefined,
     organization: value.organization,
     activitySector: value.activitySector || undefined,
     location: value.location || undefined,
@@ -101,7 +101,6 @@ export function useUpdateDeclaredExperienceForm (
         return {
           fields: {
             title: validators.validateTitle(value.title),
-            type: validators.validateType(value.type),
             organization: validators.validateOrganization(value.organization),
             activitySector: validators.validateActivitySector(value.activitySector),
             location: validators.validateLocation(value.location),
