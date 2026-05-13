@@ -120,6 +120,11 @@ BddTest().given('a delete declared programs modal', () => {
         BddTest().then('it should emit confirm with the selected ids', () => {
           expect(wrapper.emitted('confirm')).toBeTruthy()
         })
+
+        BddTest().then('it should reset the selected program ids', () => {
+          const modal = wrapper.findComponent(AvModalStub)
+          expect(modal.props('confirmButtonLabel')).toContain('(0)')
+        })
       })
     })
   })
