@@ -47,6 +47,7 @@ function onClose () {
 }
 
 function onconfirm () {
+  selectedProgramIds.value = []
   emit('confirm')
   hideModal()
 }
