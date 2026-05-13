@@ -27,20 +27,18 @@ const {
   toRef(personalCareerStore, 'declaredProgramsPageSizeSelected')
 )
 
-const { data, error, isFetching } = useGetDeclaredPrograms({
+const params = computed(() => ({
   page: currentPage.value,
   pageSize: pageSizeSelected.value
-}, {
-  query: { placeholderData: keepPreviousData }
-})
+}))
 
+const { data, error, isFetching } = useGetDeclaredPrograms(params, { query: { placeholderData: keepPreviousData } })
 const declaredPrograms = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 
 const { showModal, displayModal, hideModal } = useModal()
 
-const countDeclaredPrograms = computed(() => pageInfo.value?.totalElements ?? 0)
-const titleWithCount = computed(() => t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsTab.title').concat(` (${countDeclaredPrograms.value})`))
+const titleWithCount = computed(() => t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsTab.title').concat(` (${pageInfo.value?.totalElements ?? 0})`))
 
 useBaseApiExceptionToast(error)
 </script>
