@@ -18,6 +18,7 @@ import {
   type AssociationsCreationRequest,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
+  EActivityStatus,
   EErrorCode,
   getAssociateActivityWithDeclaredSkillsUrl,
   getAssociateActivityWithTracesUrl,
@@ -46,7 +47,7 @@ import { delay, http, HttpResponse, type PathParams } from 'msw'
 const subscribedActivities = new Set<string>()
 const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()
 
-export const activityDetailsErrorHandler = http.get(`*${getGetActivityPresentationUrl('PUBLISHED', ':activityId')}`, () => {
+export const activityDetailsErrorHandler = http.get(`*${getGetActivityPresentationUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
     {
@@ -133,8 +134,7 @@ export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActiviti
     }
   })
 })
-
-export const activityDetailHandler = http.get(`*${getGetActivityPresentationUrl('PUBLISHED', ':activityId')}`, async ({ params }) => {
+export const activityDetailHandler = http.get(`*${getGetActivityPresentationUrl(EActivityStatus.PUBLISHED, ':activityId')}`, async ({ params }) => {
   const { activityId } = params
   if (activityId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
