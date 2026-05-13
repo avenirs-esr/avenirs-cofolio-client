@@ -29,3 +29,9 @@ const executionPeriodList = computed(() => {
     </li>
   </ul>
 </template>
+
+<style scoped lang="scss">
+.execution-list {
+  color: var(--dark-background-primary1);
+}
+</style>
