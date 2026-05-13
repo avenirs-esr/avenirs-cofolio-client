@@ -1,7 +1,8 @@
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
+import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
-import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -9,22 +10,29 @@ BddTest().given('a MyWorkspaceTab component', () => {
   let wrapper: ReturnType<typeof mount<typeof MyWorkspaceTab>>
 
   const stubs = {
+    ActivityDraftCreationModal: ActivityDraftCreationModalStub,
     ActivityTableTitle: ActivityTableTitleStub,
+    AvButton: AvButtonStub,
     AvTable: AvTableStub,
     Pagination: PaginationStub,
   }
+
+  const getModal = () => wrapper.findComponent(ActivityDraftCreationModalStub) as VueWrapper<InstanceType<typeof ActivityDraftCreationModalStub>>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    wrapper = mount(MyWorkspaceTab, {
+      global: { stubs },
+    })
+  })
 
   BddTest().when('the component is mounted', () => {
     let avTable: VueWrapper<InstanceType<typeof AvTableStub>>
     let pagination: VueWrapper<InstanceType<typeof PaginationStub>>
 
     beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(MyWorkspaceTab, {
-        global: { stubs },
-      })
-      avTable = wrapper.findComponent({ name: 'AvTable' })
-      pagination = wrapper.findComponent(PaginationStub)
+      avTable = wrapper.findComponent({ name: 'AvTable' }) as VueWrapper<InstanceType<typeof AvTableStub>>
+      pagination = wrapper.findComponent(PaginationStub) as VueWrapper<InstanceType<typeof PaginationStub>>
     })
 
     BddTest().then('it should render the component', () => {
@@ -55,6 +63,10 @@ BddTest().given('a MyWorkspaceTab component', () => {
       expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 3 })
     })
 
+    BddTest().then('it should render the modal closed', () => {
+      expect(getModal().props('opened')).toBe(false)
+    })
+
     BddTest().and('the column labels are correct', () => {
       let columns: { key: string, label: string }[]
 
@@ -83,6 +95,26 @@ BddTest().given('a MyWorkspaceTab component', () => {
       BddTest().then('it should render one ActivityTableTitle per row', () => {
         const titles = wrapper.findAllComponents({ name: 'ActivityTableTitle' })
         expect(titles).toHaveLength(3)
+      })
+    })
+  })
+
+  BddTest().when('the create activity button is clicked', () => {
+    beforeEach(async () => {
+      await wrapper.find('#create-activity-button').trigger('click')
+    })
+
+    BddTest().then('it should open the modal', () => {
+      expect(getModal().props('opened')).toBe(true)
+    })
+
+    BddTest().and('the modal emits close', () => {
+      beforeEach(() => {
+        getModal().vm.$emit('close')
+      })
+
+      BddTest().then('it should close the modal', () => {
+        expect(getModal().props('opened')).toBe(false)
       })
     })
   })

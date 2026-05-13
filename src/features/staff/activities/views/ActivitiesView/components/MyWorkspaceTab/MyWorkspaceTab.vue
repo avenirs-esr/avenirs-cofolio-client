@@ -4,14 +4,16 @@ import type { ActivityTableRow } from '@/features/staff/activities/views/Activit
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import { EActivityThematic } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
-import { useDateUtils, usePagination } from '@/common/composables'
+import { useDateUtils, useModal, usePagination } from '@/common/composables'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
+import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
-import { AvTable, PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTable, MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
+const { showModal: showAddActivityModal, displayModal: displayAddActivityModal, hideModal: hideAddActivityModal } = useModal()
 
 const currentPageRef = ref<number>(0)
 const pageSizeRef = ref<PageSizes>(PageSizes.TWELVE)
@@ -98,6 +100,17 @@ const pageInfo = computed<PageInfoDTO>(() => ({
       {{ t('staff.activities.views.ActivitiesView.MyWorkspaceTab.title', { count: totalElements }) }}
     </h2>
 
+    <div class="av-row av-justify-end av-py-md">
+      <AvButton
+        id="create-activity-button"
+        :label="t('staff.activities.views.ActivitiesView.MyWorkspaceTab.createActivity')"
+        variant="FLAT"
+        :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+        theme="PRIMARY"
+        @click="displayAddActivityModal"
+      />
+    </div>
+
     <Pagination
       :page-info="pageInfo"
       :page-size-selected="pageSizeSelected"
@@ -120,4 +133,9 @@ const pageInfo = computed<PageInfoDTO>(() => ({
       </AvTable>
     </Pagination>
   </div>
+
+  <ActivityDraftCreationModal
+    :opened="showAddActivityModal"
+    @close="hideAddActivityModal"
+  />
 </template>
