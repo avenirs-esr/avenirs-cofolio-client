@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { invalidateGetActivityDetail, useSubscribeActivity } from '@/api/avenir-esr'
+import { EActivityStatus, invalidateGetActivityPresentation, useSubscribeActivity } from '@/api/avenir-esr'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
@@ -30,7 +30,7 @@ export function useSubscribeActivityForm (
       data: { period }
     }, {
       onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activity.id))
+        await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activity.id))
         addSuccessMessage(t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.success'))
         onSubscribed?.()
         onSuccess()

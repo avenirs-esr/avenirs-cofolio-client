@@ -1,7 +1,7 @@
 import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import {
-  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
+  type ActivityPresentationDTO,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityViewDTO,
@@ -308,7 +308,7 @@ export function createLargeMockedPagedResponseDeclaredActivityViewDTO (
   }
 }
 
-export const mockedActivityDetail: ActivityDetailsDTO = {
+export const mockedActivityDetail: ActivityPresentationDTO = {
   id: 'activity-1',
   title: 'Activité “Connaissance de soi” : Définir ses valeurs',
   banner: {
@@ -324,7 +324,7 @@ export const mockedActivityDetail: ActivityDetailsDTO = {
   updatedAt: '2024-01-01T00:00:00Z'
 }
 
-export const mockedSubscribedActivityDetail: ActivityDetailsDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
+export const mockedSubscribedActivityDetail: ActivityPresentationDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
 
 export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   ...mockedDeclaredActivityDetails,

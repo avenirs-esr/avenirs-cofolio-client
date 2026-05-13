@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityDetailsDTO, PageInfoDTO } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import { EActivityThematic } from '@/api/avenir-esr'
@@ -18,7 +18,7 @@ const pageSizeRef = ref<PageSizes>(PageSizes.TWELVE)
 
 const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
-const placeholderActivities = computed<ActivityDetailsDTO[]>(() => [
+const placeholderActivities = computed<ActivityPresentationDTO[]>(() => [
   {
     id: '1',
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',

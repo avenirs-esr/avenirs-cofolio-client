@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type ActivityDetailsDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { type ActivityPresentationDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ICONS } from '@/common/constants'
@@ -10,7 +10,7 @@ import { AvButton, AvCard, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityPreviewProps {
-  activity: ActivityDetailsDTO
+  activity: ActivityPresentationDTO
 }
 
 defineProps<ActivityPreviewProps>()

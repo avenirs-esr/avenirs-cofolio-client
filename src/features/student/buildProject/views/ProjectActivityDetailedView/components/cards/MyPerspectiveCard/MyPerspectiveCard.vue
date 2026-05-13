@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { invalidateGetActivityDetail, useUpdateReflection } from '@/api/avenir-esr'
+import { EActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
@@ -41,7 +41,7 @@ function updateActivityReflection (reflection: string) {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activityId))
+      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId))
       addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.success'))
       readonly.value = true
     }
@@ -59,7 +59,7 @@ function updateActivityReflectionOnAutoSave (reflection: string) {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, activityId))
+      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId))
       addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.success'))
     }
   })

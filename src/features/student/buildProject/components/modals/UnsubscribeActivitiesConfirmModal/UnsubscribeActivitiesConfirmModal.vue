@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
-import { invalidateGetActivitiesView, invalidateGetActivityDetail, invalidateGetDeclaredActivitiesView, invalidateGetDeclaredActivityDetails, useUnsubscribeActivitiesProgresses } from '@/api/avenir-esr'
+import {
+  EActivityStatus,
+  invalidateGetActivitiesView,
+  invalidateGetActivityPresentation,
+  invalidateGetDeclaredActivitiesView,
+  invalidateGetDeclaredActivityDetails,
+  useUnsubscribeActivitiesProgresses
+} from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
@@ -38,7 +45,7 @@ function unsubscribeActivities () {
             invalidateGetDeclaredActivityDetails(queryClient, activityId),
           ),
           ...activitiesIds.value.map(activityId =>
-            invalidateGetActivityDetail(queryClient, activityId),
+            invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId),
           ),
           invalidateGetDeclaredActivitiesView(queryClient),
           invalidateGetActivitiesView(queryClient)

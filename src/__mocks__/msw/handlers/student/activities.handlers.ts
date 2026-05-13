@@ -13,8 +13,8 @@ import {
 import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
-  type ActivityDetailsDTO,
   type ActivityNavigationDTO,
+  type ActivityPresentationDTO,
   type AssociationsCreationRequest,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
@@ -24,8 +24,8 @@ import {
   getDeleteDeclaredActivityAssociationsUrl,
   getFinishUrl,
   getGetActivitiesViewUrl,
-  getGetActivityDetailUrl,
   getGetActivityNavigationUrl,
+  getGetActivityPresentationUrl,
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
@@ -46,7 +46,7 @@ import { delay, http, HttpResponse, type PathParams } from 'msw'
 const subscribedActivities = new Set<string>()
 const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()
 
-export const activityDetailsErrorHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, () => {
+export const activityDetailsErrorHandler = http.get(`*${getGetActivityPresentationUrl('PUBLISHED', ':activityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error' },
     {
@@ -134,7 +134,7 @@ export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActiviti
   })
 })
 
-export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':activityId')}`, async ({ params }) => {
+export const activityDetailHandler = http.get(`*${getGetActivityPresentationUrl('PUBLISHED', ':activityId')}`, async ({ params }) => {
   const { activityId } = params
   if (activityId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
@@ -143,7 +143,7 @@ export const activityDetailHandler = http.get(`*${getGetActivityDetailUrl(':acti
     )
   }
 
-  return HttpResponse.json<ActivityDetailsDTO>({ ...mockedActivityDetail, id: activityId as string }, {
+  return HttpResponse.json<ActivityPresentationDTO>({ ...mockedActivityDetail, id: activityId as string }, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })

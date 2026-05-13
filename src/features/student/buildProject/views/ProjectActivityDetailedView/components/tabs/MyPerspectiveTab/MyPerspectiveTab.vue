@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { type DeclaredActivityDetailsDTO, invalidateGetActivityDetail, useFinish } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EActivityStatus, invalidateGetActivityPresentation, useFinish } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import FinishDeclaredActivity
@@ -31,7 +31,7 @@ function finishDeclaredActivity () {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityDetail(queryClient, declaredActivityDetails.id))
+      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, declaredActivityDetails.id))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success'),

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { EActivityThematic, useGetActivityDetail, useGetActivityNavigation } from '@/api/avenir-esr'
+import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useNavigation } from '@/common/composables'
@@ -27,7 +27,7 @@ const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
-const { data: activityDetail, isLoading, error } = useGetActivityDetail(computed(() => id), { query: {
+const { data: activityDetail, isLoading, error } = useGetActivityPresentation(EActivityStatus.PUBLISHED, computed(() => id), { query: {
   enabled: computed(() => !!id),
   staleTime: TanstackStaleTimeConfig.DETAILS,
 } })

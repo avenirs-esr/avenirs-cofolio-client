@@ -1,10 +1,10 @@
-import type { ActivityDetailsDTO } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@/api/avenir-esr'
 
 export const ActivityPreviewStub = defineComponent({
   name: 'ActivityPreviewStub',
   props: {
     activity: {
-      type: Object as () => ActivityDetailsDTO,
+      type: Object as () => ActivityPresentationDTO,
       required: true
     }
   },

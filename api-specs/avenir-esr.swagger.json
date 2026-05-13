@@ -2802,13 +2802,27 @@
         }
       }
     },
-    "/me/activities/{activityId}": {
+    "/me/activities/{activityStatus}/{activityId}/presentation": {
       "get": {
         "tags": [
           "activity-controller"
         ],
-        "operationId": "getActivityDetail",
+        "operationId": "getActivityPresentation",
         "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "$ref": "#/components/schemas/EActivityStatus",
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/EActivityStatus",
+              "enum": [
+                "PUBLISHED",
+                "DRAFT"
+              ]
+            }
+          },
           {
             "name": "activityId",
             "in": "path",
@@ -2825,7 +2839,52 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActivityDetailsDTO"
+                  "$ref": "#/components/schemas/ActivityPresentationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/{activityStatus}/{activityId}/content": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getActivityContent",
+        "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "$ref": "#/components/schemas/EActivityStatus",
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/EActivityStatus",
+              "enum": [
+                "PUBLISHED",
+                "DRAFT"
+              ]
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityContentDTO"
                 }
               }
             }
@@ -4007,7 +4066,7 @@
           "id"
         ]
       },
-      "ActivityDTO": {
+      "ActivityContentDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -4039,6 +4098,17 @@
           "executionPeriodInfo": {
             "type": "string"
           },
+          "enableReflection": {
+            "type": "boolean"
+          },
+          "traceAllowedAssociations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "feedbackAllowedIterations": {
+            "type": "integer",
+            "format": "int32"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -4067,7 +4137,7 @@
             "format": "uuid"
           },
           "activity": {
-            "$ref": "#/components/schemas/ActivityDTO"
+            "$ref": "#/components/schemas/ActivityContentDTO"
           },
           "status": {
             "type": "string",
@@ -5566,7 +5636,7 @@
           "page"
         ]
       },
-      "ActivityDetailsDTO": {
+      "ActivityPresentationDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -5684,6 +5754,14 @@
           "TRAJECTORIES",
           "RESUMES",
           "TRANSVERSAL"
+        ]
+      },
+      "EActivityStatus": {
+        "type": "string",
+        "description": "Enum for activity status",
+        "enum": [
+          "PUBLISHED",
+          "DRAFT"
         ]
       },
       "EAssociationContextType": {

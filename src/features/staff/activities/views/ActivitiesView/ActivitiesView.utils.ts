@@ -1,7 +1,7 @@
-import type { ActivityDetailsDTO } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@/api/avenir-esr'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 
-export function mapActivityToActivityTableRow (activity: ActivityDetailsDTO): ActivityTableRow {
+export function mapActivityToActivityTableRow (activity: ActivityPresentationDTO): ActivityTableRow {
   return {
     id: activity.id,
     owner: '',
