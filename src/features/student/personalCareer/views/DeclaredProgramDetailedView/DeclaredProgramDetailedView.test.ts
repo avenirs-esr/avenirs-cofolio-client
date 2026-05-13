@@ -154,11 +154,15 @@ BddTest().given('a declared program detailed view component', () => {
       expect(sideMenu.props('selectedProgramId')).toBe('declared-program-1')
       expect(sideMenu.props('countPrograms')).toBe(60)
 
-      expect(programs).toHaveLength(4)
+      expect(programs).toHaveLength(8)
       expect(programs[0].title).toBe('Formation déclarée 1')
       expect(programs[1].title).toBe('Formation déclarée 2')
       expect(programs[2].title).toBe('Formation déclarée 3')
       expect(programs[3].title).toBe('Formation déclarée 4')
+      expect(programs[4].title).toBe('Formation déclarée 5')
+      expect(programs[5].title).toBe('Formation déclarée 6')
+      expect(programs[6].title).toBe('Formation déclarée 7')
+      expect(programs[7].title).toBe('Formation déclarée 8')
     })
 
     BddTest().then('it should render program details when a program is selected', async () => {

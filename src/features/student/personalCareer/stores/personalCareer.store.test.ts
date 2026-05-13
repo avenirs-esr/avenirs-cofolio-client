@@ -34,7 +34,7 @@ BddTest().given('a personal career store', () => {
 
     BddTest().then('it should have default declared programs pagination values', () => {
       expect(store.declaredProgramsCurrentPage).toBe(0)
-      expect(store.declaredProgramsPageSizeSelected).toBe(PageSizes.FOUR)
+      expect(store.declaredProgramsPageSizeSelected).toBe(PageSizes.EIGHT)
     })
 
     BddTest().then('it should provide declared experiences pagination state', () => {

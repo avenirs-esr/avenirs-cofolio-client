@@ -101,7 +101,7 @@ BddTest().given('the usePaginatedDeclaredProgram composable', () => {
     BddTest().then('it should load the first page into elements with default page size', () => {
       const elements = composableResult.declaredPrograms.value
 
-      expect(elements.length).toBe(4)
+      expect(elements.length).toBe(8)
       expect(elements[0]).toHaveProperty('id')
       expect(elements[0]).toHaveProperty('title')
       expect(composableResult.page.value).toBe(0)
@@ -111,7 +111,7 @@ BddTest().given('the usePaginatedDeclaredProgram composable', () => {
       const pageInfo = composableResult.pageInfo.value
 
       expect(pageInfo.page).toBe(0)
-      expect(pageInfo.pageSize).toBe(4)
+      expect(pageInfo.pageSize).toBe(8)
       expect(pageInfo.totalElements).toBeGreaterThan(0)
       expect(pageInfo.totalPages).toBeGreaterThan(0)
     })
