@@ -2,8 +2,6 @@ import { useDrawer } from '@/common/composables'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
 
-const DEFAULT_PAGE_SIZE = PageSizes.FOUR
-
 export const usePersonalCareerStore = defineStore('personalCareer', () => {
   const {
     showDrawer: showAddDeclaredProgramDrawer,
@@ -17,10 +15,10 @@ export const usePersonalCareerStore = defineStore('personalCareer', () => {
     hideDrawer: hideAddDeclaredExperienceDrawer
   } = useDrawer()
 
-  const declaredProgramsPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+  const declaredProgramsPageSizeSelected = ref<PageSizes>(PageSizes.EIGHT)
   const declaredProgramsCurrentPage = ref(0)
 
-  const declaredExperiencesPageSizeSelected = ref<PageSizes>(DEFAULT_PAGE_SIZE)
+  const declaredExperiencesPageSizeSelected = ref<PageSizes>(PageSizes.FOUR)
   const declaredExperiencesCurrentPage = ref(0)
 
   return {
