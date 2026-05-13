@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import { ICONS } from '@/common/constants'
 import { AvCard, AvIconText, AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
-import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailsProps {
@@ -26,10 +26,6 @@ const executionPeriodList = computed(() => {
 })
 
 const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
-
-const sanitizedDescription = computed(() =>
-  DOMPurify.sanitize(declaredActivityDetails.activity.description ?? '')
-)
 </script>
 
 <template>
@@ -65,10 +61,8 @@ const sanitizedDescription = computed(() =>
             gap="var(--spacing-md)"
             inline
           />
-          <div
-            data-testid="activity-description"
-            data-user-content
-            v-html="sanitizedDescription"
+          <ActivityDescriptionContent
+            :description="declaredActivityDetails.activity.description"
           />
         </div>
         <div class="av-col av-gap-sm">
