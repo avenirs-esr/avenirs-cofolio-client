@@ -55,7 +55,7 @@ function onConfirm () {
 <template>
   <AvModal
     :opened="show"
-    :close-button-label="t('global.buttons.close')"
+    :close-button-label="t('global.buttons.cancel')"
     :confirm-button-disabled="selectedExperienceIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeleteDeclaredExperiencesModal.confirm', { count: selectedExperienceIds.length })"
     @close="onCancel"
