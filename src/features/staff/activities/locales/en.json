@@ -26,6 +26,22 @@
             "createActivity": "Create an activity",
             "title": "All published activities in my institution ({count})"
           }
+        },
+        "EditNationalActivityView": {
+          "ActivityContentTab": {
+            "nextStepLabel": "Next step"
+          },
+          "EditNationalActivityViewTabActions": {
+            "cancelLabel": "Cancel",
+            "saveLabel": "Save for later"
+          },
+          "errors": {
+            "fetchActivityContent": "Unable to load activity",
+            "saveActivityContent": "An error occurred while saving the activity"
+          },
+          "success": {
+            "saveActivityContent": "Activity saved successfully"
+          }
         }
       }
     }

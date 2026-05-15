@@ -26,6 +26,22 @@
             "createActivity": "Créer une activité",
             "title": "Toutes les activités publiées dans mon établissement ({count})"
           }
+        },
+        "EditNationalActivityView": {
+          "ActivityContentTab": {
+            "nextStepLabel": "Étape suivante"
+          },
+          "EditNationalActivityViewTabActions": {
+            "cancelLabel": "Annuler",
+            "saveLabel": "Enregistrer pour plus tard"
+          },
+          "errors": {
+            "fetchActivityContent": "Impossible de charger l'activité",
+            "saveActivityContent": "Une erreur est survenue lors de l'enregistrement de l'activité"
+          },
+          "success": {
+            "saveActivityContent": "Activité enregistrée avec succès"
+          }
         }
       }
     }

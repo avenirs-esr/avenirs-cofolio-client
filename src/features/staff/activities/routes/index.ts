@@ -9,6 +9,9 @@ export const staffActivitiesRoute: AvRoute = {
 
 export const staffActivitiesEditNationalActivityRoute: AvRoute = {
   ...ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY,
+  props: route => ({
+    id: route.params.id,
+  }),
   component: () =>
     import('@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'),
 }
