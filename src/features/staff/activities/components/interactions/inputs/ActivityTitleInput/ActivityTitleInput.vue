@@ -22,10 +22,11 @@ const attr = useAttrs()
 const inputProps = computed(() => ({
   ...attr,
   isTextarea,
-  labelVisible,
   required,
   errorMessage,
   class: isTextarea ? 'n4' : undefined,
+  labelClass: isTextarea ? 's1-regular' : 'b2-light',
+  labelVisible: isTextarea ? false : labelVisible,
   maxlength: ACTIVITY_TITLE_MAX_LENGTH,
   id: id ?? `activity-title-input-${crypto.randomUUID()}`,
   label: label ?? t('staff.activities.interactions.inputs.ActivityTitleInput.label'),

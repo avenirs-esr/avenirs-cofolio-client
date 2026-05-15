@@ -10,7 +10,7 @@ import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } f
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
-import { type Component, createApp, h, type Plugin } from 'vue'
+import { type Component, type ComponentInternalInstance, createApp, h, type Plugin } from 'vue'
 
 /**
  * Options to configure the mounting of a component under test.
@@ -455,4 +455,10 @@ export function createFormFieldTestWrapper<
       ])
     }
   })
+}
+
+export interface ExposedComponentInstance {
+  $: ComponentInternalInstance & {
+    provides: Record<string | symbol, unknown>
+  }
 }
