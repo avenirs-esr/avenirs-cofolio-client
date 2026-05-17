@@ -2,7 +2,13 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import type { Ref } from 'vue'
-import { EActivityStatus, invalidateGetActivityContent, useGetActivityContent, useUpdateActivity } from '@/api/avenir-esr'
+import {
+  type ActivityDraftUpdateRequest,
+  EActivityStatus,
+  invalidateGetActivityContent,
+  useGetActivityContent,
+  useUpdateActivity
+} from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
@@ -63,7 +69,15 @@ const form = useForm({
   },
 })
 
-function save () {
+function save (data?: ActivityDraftUpdateRequest) {
+  if (data) {
+    updateActivity({
+      activityStatus: EActivityStatus.DRAFT,
+      activityId: id,
+      data,
+    })
+    return
+  }
   form.handleSubmit()
 }
 
