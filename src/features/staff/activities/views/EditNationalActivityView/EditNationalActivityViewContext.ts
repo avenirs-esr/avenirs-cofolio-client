@@ -1,9 +1,19 @@
+import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import type { InjectionKey } from 'vue'
 
 export interface EditNationalActivityViewContext {
+  /**
+   * The form instance used for editing the activity draft, providing access to form state and methods.
+   */
   form: EditActivityForm
-  save: () => void
+  /**
+   * Saves the activity draft with the provided data. If no data is provided, it submits the form.
+   */
+  save: (data?: ActivityDraftUpdateRequest) => void
+  /**
+   * Cancels the editing of the activity draft, discarding any unsaved changes.
+   */
   cancel: () => void
 }
 
