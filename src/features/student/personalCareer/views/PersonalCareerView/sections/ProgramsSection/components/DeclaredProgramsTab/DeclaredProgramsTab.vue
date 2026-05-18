@@ -86,7 +86,9 @@ useBaseApiExceptionToast(error)
     </QuerySuspense>
     <AddDeclaredProgramDrawer />
     <DeleteDeclaredProgramsModal
+      v-if="pageInfo"
       :show="showModal"
+      :total-count="pageInfo.totalElements"
       @close="hideModal"
       @confirm="hideModal"
     />

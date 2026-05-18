@@ -10,14 +10,17 @@ import { useI18n } from 'vue-i18n'
 
 export interface UnsubscribeActivitiesModalProps {
   show: boolean
+  totalCount: number
 }
 
-const { show } = defineProps<UnsubscribeActivitiesModalProps>()
+const props = defineProps<UnsubscribeActivitiesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'unsubscribed'): void
 }>()
+
+const { show, totalCount } = toRefs(props)
 
 const { t } = useI18n()
 const {
@@ -31,7 +34,7 @@ const {
   isFetching,
   hasMoreActivities,
   loadMoreActivities,
-} = usePaginatedLibraryActivities(computed(() => show))
+} = usePaginatedLibraryActivities({ enabled: computed(() => show.value), pageSize: totalCount })
 
 const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
 

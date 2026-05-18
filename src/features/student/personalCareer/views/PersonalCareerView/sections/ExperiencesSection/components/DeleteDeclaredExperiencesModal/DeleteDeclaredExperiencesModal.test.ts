@@ -37,7 +37,7 @@ BddTest().given('a delete declared experiences modal', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially', () => {
@@ -60,7 +60,7 @@ BddTest().given('a delete declared experiences modal', () => {
   BddTest().when('the component is mounted and the query returns no declared experiences', () => {
     beforeEach(() => {
       server.use(declaredExperiencesQueryEmptyHandler)
-      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show no experiences', async () => {
@@ -77,7 +77,7 @@ BddTest().given('a delete declared experiences modal', () => {
   BddTest().when('the component is mounted and the query returns an error', () => {
     beforeEach(() => {
       server.use(declaredExperiencesQueryErrorHandler)
-      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show no experiences', async () => {
@@ -94,7 +94,7 @@ BddTest().given('a delete declared experiences modal', () => {
   BddTest().when('the component is mounted and the query returns declared experiences', () => {
     beforeEach(() => {
       server.use(declaredExperiencesQueryHandler)
-      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredExperiencesModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show the declared experience selector', async () => {

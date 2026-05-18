@@ -5,6 +5,7 @@ import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { DeclaredExperienceCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.stub'
+import { AddDeclaredExperienceDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.stub'
 import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
 import DeclaredExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesTab/DeclaredExperiencesTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -45,10 +46,7 @@ BddTest().given('a declared experiences tab', () => {
     DeclaredExperienceCard: DeclaredExperienceCardStub,
     Pagination: PaginationStub,
     Loader: LoaderStub,
-    AddDeclaredExperienceDrawer: defineComponent({
-      name: 'AddDeclaredExperienceDrawer',
-      template: '<div data-testid="add-declared-experience-drawer-stub"></div>'
-    }),
+    AddDeclaredExperienceDrawer: AddDeclaredExperienceDrawerStub,
     DeclaredExperiencesMoreActionsDropdown: DeclaredExperiencesMoreActionsDropdownStub,
     AvIconText: AvIconTextStub,
     QuerySuspense: QuerySuspenseStub

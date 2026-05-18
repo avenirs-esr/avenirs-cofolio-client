@@ -5,6 +5,8 @@ import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { DeclaredProgramCardStub } from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.stub'
+import { AddDeclaredProgramDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.stub'
+import { DeclaredProgramsMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.stub'
 import DeclaredProgramsTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsTab/DeclaredProgramsTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -40,15 +42,8 @@ BddTest().given('a declared programs tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramsTab>>
 
   const stubs = {
-    DeclaredProgramsMoreActionsDropdown: defineComponent({
-      name: 'DeclaredProgramsMoreActionsDropdown',
-      emits: ['addSelected'],
-      template: '<div data-testid="declared-programs-more-actions-dropdown-stub"></div>'
-    }),
-    AddDeclaredProgramDrawer: defineComponent({
-      name: 'AddDeclaredProgramDrawer',
-      template: '<div data-testid="add-declared-program-drawer-stub"></div>'
-    }),
+    DeclaredProgramsMoreActionsDropdown: DeclaredProgramsMoreActionsDropdownStub,
+    AddDeclaredProgramDrawer: AddDeclaredProgramDrawerStub,
     DeclaredProgramCard: DeclaredProgramCardStub,
     Pagination: PaginationStub,
     Loader: LoaderStub,

@@ -11,22 +11,24 @@ import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredProgramsModalProps {
   show: boolean
+  totalCount: number
 }
 
-defineProps<DeleteDeclaredProgramsModalProps>()
+const props = defineProps<DeleteDeclaredProgramsModalProps>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
   (e: 'close'): void
 }>()
 
+const { totalCount } = toRefs(props)
+
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
 
-const pageSize = ref(9)
 const declaredProgramsContainer = ref<HTMLElement | null>(null)
 
-const { declaredPrograms: apiDeclaredPrograms, loadMoreDeclaredPrograms, isFetching } = usePaginatedDeclaredPrograms({ pageSize })
+const { declaredPrograms: apiDeclaredPrograms, loadMoreDeclaredPrograms, isFetching } = usePaginatedDeclaredPrograms({ pageSize: totalCount })
 
 const selectedProgramIds = ref<string[]>([])
 

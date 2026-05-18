@@ -37,7 +37,7 @@ BddTest().given('a delete declared programs modal', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially', () => {
@@ -60,7 +60,7 @@ BddTest().given('a delete declared programs modal', () => {
   BddTest().when('the component is mounted and the query returns no declared programs', () => {
     beforeEach(() => {
       server.use(declaredProgramsQueryEmptyHandler)
-      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show no programs', async () => {
@@ -77,7 +77,7 @@ BddTest().given('a delete declared programs modal', () => {
   BddTest().when('the component is mounted and the query returns an error', () => {
     beforeEach(() => {
       server.use(declaredProgramsQueryErrorHandler)
-      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show no programs', async () => {
@@ -94,7 +94,7 @@ BddTest().given('a delete declared programs modal', () => {
   BddTest().when('the component is mounted and the query returns declared programs', () => {
     beforeEach(() => {
       server.use(declaredProgramsQueryHandler)
-      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true }, global: { stubs } })
+      wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 
     BddTest().then('it should render the loader initially and then show the declared program selector', async () => {
