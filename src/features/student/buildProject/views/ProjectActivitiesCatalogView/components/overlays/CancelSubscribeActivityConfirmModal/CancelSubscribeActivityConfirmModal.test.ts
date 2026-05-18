@@ -24,7 +24,7 @@ BddTest().given('a cancel subscribe activity confirmation modal', () => {
     BddTest().then('it should render the title', () => {
       const title = wrapper.find('[data-testid="cancel-subscribe-activity-confirm-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir abandonner l’inscription à l’activité ?')
+      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir abandonner l\'inscription à l\'activité ?')
     })
 
     BddTest().and('the user cancels the action', () => {

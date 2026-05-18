@@ -8,7 +8,7 @@ BddTest().given('an ErrorMessage component', () => {
 
   const props = {
     title: '404 - Page introuvable',
-    description: 'La page que vous recherchez n’existe pas.',
+    description: 'La page que vous recherchez n\'existe pas.',
   }
 
   BddTest().when('the component is mounted', () => {

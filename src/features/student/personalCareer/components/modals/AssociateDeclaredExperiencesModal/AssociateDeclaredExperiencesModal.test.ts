@@ -32,7 +32,7 @@ BddTest().given('an associate declared experiences modal', () => {
     },
     {
       id: 'experience-search-2',
-      title: 'Explorer ses pistes d’orientation',
+      title: 'Explorer ses pistes d\'orientation',
       experienceType: EExperienceType.PROFESSIONAL,
       disabled: false
     },
@@ -57,7 +57,7 @@ BddTest().given('an associate declared experiences modal', () => {
       value: 'experience-search-1'
     },
     {
-      label: 'Explorer ses pistes d’orientation',
+      label: 'Explorer ses pistes d\'orientation',
       value: 'experience-search-2'
     }
   ]
@@ -71,7 +71,7 @@ BddTest().given('an associate declared experiences modal', () => {
     },
     {
       id: 'experience-search-2',
-      title: 'Explorer ses pistes d’orientation',
+      title: 'Explorer ses pistes d\'orientation',
       experienceType: EExperienceType.PROFESSIONAL,
       disabled: false
     }
@@ -120,7 +120,7 @@ BddTest().given('an associate declared experiences modal', () => {
           disabled: false
         },
         {
-          label: 'Explorer ses pistes d’orientation',
+          label: 'Explorer ses pistes d\'orientation',
           value: 'experience-search-2',
           description: 'Expérience professionnelle',
           disabled: false

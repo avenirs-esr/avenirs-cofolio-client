@@ -118,7 +118,7 @@ BddTest().given('given an update profile drawer', () => {
       fileName: undefined,
       url: profile_banner_placeholder
     },
-    bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+    bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'
   }
 
   const mockOnClose = vi.fn()

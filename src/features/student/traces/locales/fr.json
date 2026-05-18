@@ -227,7 +227,7 @@
             }
           },
           "TracesInformation": {
-            "description": "Vous pouvez associer vos traces à des compétences et activités de mise en situations mais également à votre projet de vie. Les traces non associées sont automatiquement supprimées sous trois mois si aucune action n’est faite dessus.",
+            "description": "Vous pouvez associer vos traces à des compétences et activités de mise en situations mais également à votre projet de vie. Les traces non associées sont automatiquement supprimées sous trois mois si aucune action n'est faite dessus.",
             "title": "Mes traces"
           },
           "warningMessage": {
