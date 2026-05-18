@@ -1,6 +1,7 @@
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import type { SlotsType } from 'vue'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
+import { EActivityThematic } from '@/api/avenir-esr'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useForm } from '@tanstack/vue-form'
 import { vi } from 'vitest'
@@ -19,6 +20,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
   setup () {
     const defaultValues: EditActivityFormData = {
       title: 'Test activity',
+      thematic: EActivityThematic.TRANSVERSAL as EActivityThematic,
       description: '',
       enableReflection: true,
       executionPeriodInfo: '',
@@ -42,6 +44,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
   setup () {
     const defaultValues: EditActivityFormData = {
       title: '',
+      thematic: EActivityThematic.TRANSVERSAL as EActivityThematic,
       description: '',
       enableReflection: true,
       executionPeriodInfo: '',

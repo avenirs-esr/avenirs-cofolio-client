@@ -39,7 +39,7 @@ const activities = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 
 const filterOptions: AvTagPickerOption[] = Object.values(EActivityThematic).map(thematic => ({
-  label: t(`student.buildProject.activities.thematics.${thematic}`),
+  label: t(`global.activities.badges.thematics.${thematic}`),
   value: thematic
 }))
 const allThematicsOption = { label: t('student.buildProject.activities.AllActivitiesSection.buttons.all'), value: 'all' }

@@ -1,3 +1,4 @@
+import type { EActivityThematic } from '@/api/avenir-esr'
 import type { AnyVueFormApi } from '@/common/types'
 
 export interface ActivityDraftCreationFormData {
@@ -5,6 +6,7 @@ export interface ActivityDraftCreationFormData {
 }
 
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
+  thematic: EActivityThematic
   description: string
   enableReflection?: boolean
   executionPeriodInfo: string

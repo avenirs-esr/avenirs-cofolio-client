@@ -13,7 +13,7 @@ const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
 function getThematicLabel (title: string) {
-  return isEnumMember(EActivityThematic, title) ? t(`student.buildProject.activities.thematics.${title}`) : title
+  return isEnumMember(EActivityThematic, title) ? t(`global.activities.badges.thematics.${title}`) : title
 }
 
 const selectOptions = computed<AvSelectOption[]>(() => {
