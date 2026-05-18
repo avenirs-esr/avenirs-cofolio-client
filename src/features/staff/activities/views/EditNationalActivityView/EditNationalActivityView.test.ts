@@ -5,6 +5,8 @@ import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
+import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
 import { type EditNationalActivityViewContext, editNationalActivityViewContextKey } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -37,6 +39,17 @@ vi.mock('@/store', async () => {
   }
 })
 
+export const mockIsMobile = ref(false)
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
+
 function getContext (wrapper: VueWrapper<InstanceType<typeof EditNationalActivityView>>): EditNationalActivityViewContext {
   const internalInstance = wrapper.vm as unknown as ExposedComponentInstance
   return internalInstance.$.provides[editNationalActivityViewContextKey] as EditNationalActivityViewContext
@@ -49,6 +62,7 @@ BddTest().given('a national activity view', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityContentTab: ActivityContentTabStub,
+    AddNationalActivitySideNavigation: AddNationalActivitySideNavigationStub,
   }
 
   const mountView = () => mountComponent(EditNationalActivityView, {
@@ -58,6 +72,7 @@ BddTest().given('a national activity view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockIsMobile.value = false
   })
 
   BddTest().when('the view is mounted in add mode', () => {
@@ -143,6 +158,35 @@ BddTest().given('a national activity view', () => {
           )
         })
       })
+    })
+  })
+
+  BddTest().when('the view is mounted on desktop', () => {
+    beforeEach(async () => {
+      mockMode.value = 'edit'
+      wrapper = mountView()
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+      })
+    })
+
+    BddTest().then('it should render AddNationalActivitySideNavigation', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the correct activeTab prop', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).props('activeTab')).toBe(EditActivityTabIndex.CONTENT)
+    })
+  })
+
+  BddTest().when('the view is mounted on mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+      wrapper = mountView()
+    })
+
+    BddTest().then('it should not render AddNationalActivitySideNavigation', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).exists()).toBe(false)
     })
   })
 })

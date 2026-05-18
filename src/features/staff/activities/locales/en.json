@@ -33,6 +33,28 @@
             "title": "All published activities in my institution ({count})"
           }
         },
+        "AddNationalActivityView": {
+          "sideNavigation": {
+            "content": {
+              "CONTEXT": "Recommended completion context(s)",
+              "DOCUMENTS": "Documents and useful links",
+              "INSTRUCTIONS": "Instructions",
+              "MODALITIES": "Modalities",
+              "SCHEDULE": "Schedule",
+              "THEMATIC": "Theme",
+              "TITLE": "Title"
+            },
+            "contentHeader": "Activity content",
+            "publication": {
+              "ACTIVITY_TITLE": "Activity title",
+              "CONTEXT": "Recommended completion context(s)",
+              "EXCERPT": "Excerpt",
+              "IMAGE": "Add an image",
+              "TARGET_GROUPS": "Target group(s)"
+            },
+            "publicationHeader": "Prepare publication"
+          }
+        },
         "EditNationalActivityView": {
           "ActivityContentTab": {
             "nextStepLabel": "Next step"
