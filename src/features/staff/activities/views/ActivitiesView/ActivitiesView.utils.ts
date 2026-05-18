@@ -1,14 +1,13 @@
-import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import type { ActivityStaffOverviewDTO } from '@/api/avenir-esr'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 
-export function mapActivityToActivityTableRow (activity: ActivityPresentationDTO): ActivityTableRow {
+export function mapActivityToActivityTableRow (activity: ActivityStaffOverviewDTO): ActivityTableRow {
   return {
-    id: activity.id,
-    owner: '',
-    // TODO: #1618 map status when its added to the dto
-    status: 'draft',
+    id: activity.activityId,
+    owner: `${activity.author.firstName} ${activity.author.lastName}`,
+    status: activity.activityStatus,
     thematic: activity.thematic,
     title: activity.title,
-    updatedAt: activity.updatedAt ?? '',
+    updatedAt: activity.updatedAt,
   }
 }

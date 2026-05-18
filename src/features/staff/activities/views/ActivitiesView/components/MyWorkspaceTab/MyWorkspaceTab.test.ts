@@ -1,9 +1,12 @@
+import type { mount, VueWrapper } from '@vue/test-utils'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
 import { AvButtonStub, AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a MyWorkspaceTab component', () => {
@@ -15,15 +18,15 @@ BddTest().given('a MyWorkspaceTab component', () => {
     AvButton: AvButtonStub,
     AvTable: AvTableStub,
     Pagination: PaginationStub,
+    QuerySuspense: QuerySuspenseStub,
   }
 
   const getModal = () => wrapper.findComponent(ActivityDraftCreationModalStub) as VueWrapper<InstanceType<typeof ActivityDraftCreationModalStub>>
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = mount(MyWorkspaceTab, {
-      global: { stubs },
-    })
+    wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
+    await flushPromises()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -39,8 +42,8 @@ BddTest().given('a MyWorkspaceTab component', () => {
       expect(wrapper.find('[data-testid="my-workspace-tab"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should display the title with the placeholder count', () => {
-      expect(wrapper.find('[data-testid="my-workspace-tab-title"]').text()).toContain('Toutes les activités publiées dans mon établissement (3)')
+    BddTest().then('it should display the title with the correct count', () => {
+      expect(wrapper.find('[data-testid="my-workspace-tab-title"]').text()).toContain('(6)')
     })
 
     BddTest().then('it should render the AvTable', () => {
@@ -51,8 +54,8 @@ BddTest().given('a MyWorkspaceTab component', () => {
       expect(avTable.props('columns')).toHaveLength(4)
     })
 
-    BddTest().then('it should pass the placeholder rows to the table', () => {
-      expect(avTable.props('rows')).toHaveLength(3)
+    BddTest().then('it should pass the rows to the table', () => {
+      expect(avTable.props('rows')).toHaveLength(6)
     })
 
     BddTest().then('it should render the Pagination', () => {
@@ -60,7 +63,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
     })
 
     BddTest().then('it should pass the correct totalElements to Pagination', () => {
-      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 3 })
+      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 6 })
     })
 
     BddTest().then('it should render the modal closed', () => {
@@ -94,7 +97,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
     BddTest().and('the title column slot is rendered', () => {
       BddTest().then('it should render one ActivityTableTitle per row', () => {
         const titles = wrapper.findAllComponents({ name: 'ActivityTableTitle' })
-        expect(titles).toHaveLength(3)
+        expect(titles).toHaveLength(6)
       })
     })
   })

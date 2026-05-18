@@ -1490,6 +1490,37 @@
         }
       }
     },
+    "/me/activities/publish/{activityDraftId}": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "publishActivityDraft",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/draft": {
       "post": {
         "tags": [
@@ -2959,6 +2990,46 @@
         }
       }
     },
+    "/me/activities/staff/working-space": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getStaffActivityWorkingSpace",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseActivityStaffOverviewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/navigation": {
       "get": {
         "tags": [
@@ -4187,8 +4258,6 @@
         },
         "required": [
           "createdAt",
-          "description",
-          "executionPeriodInfo",
           "id",
           "summary",
           "thematic",
@@ -4780,6 +4849,18 @@
             "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
           }
         }
+      },
+      "CreationResponse": {
+        "type": "object",
+        "properties": {
+          "createdItemId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "createdItemId"
+        ]
       },
       "ActivityDraftCreationRequest": {
         "type": "object",
@@ -5760,6 +5841,7 @@
           }
         },
         "required": [
+          "author",
           "id",
           "isNew",
           "summary",
@@ -5855,12 +5937,76 @@
         },
         "required": [
           "banner",
-          "description",
-          "executionPeriodInfo",
           "id",
           "summary",
           "thematic",
           "title"
+        ]
+      },
+      "ActivityStaffOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "activityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "author": {
+            "$ref": "#/components/schemas/AuthorDTO"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "activityStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityStatus",
+            "enum": [
+              "PUBLISHED",
+              "DRAFT"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "activityId",
+          "activityStatus",
+          "author",
+          "thematic",
+          "title",
+          "updatedAt"
+        ]
+      },
+      "PagedResponseActivityStaffOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityStaffOverviewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "ActivityItemNavigationDTO": {

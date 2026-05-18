@@ -24,6 +24,7 @@
               "status": "Statut"
             },
             "createActivity": "Créer une activité",
+            "emptyState": "Aucune activité pour le moment. Commencez par en créer une.",
             "title": "Toutes les activités publiées dans mon établissement ({count})"
           }
         },
