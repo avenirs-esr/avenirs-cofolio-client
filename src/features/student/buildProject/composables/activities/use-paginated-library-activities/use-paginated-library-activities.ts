@@ -12,13 +12,14 @@ export interface UsePaginatedLibraryActivitiesResult {
   hasMoreActivities: ComputedRef<boolean>
 }
 
-export function usePaginatedLibraryActivities (enabled?: ComputedRef<boolean>): UsePaginatedLibraryActivitiesResult {
+export function usePaginatedLibraryActivities (
+  { enabled, pageSize }: { enabled?: ComputedRef<boolean>, pageSize?: Ref<number> } = {}
+): UsePaginatedLibraryActivitiesResult {
   const page = ref(0)
-  const pageSize = ref(10)
 
   const queryParams = computed(() => ({
     page: toValue(page),
-    pageSize: toValue(pageSize),
+    pageSize: toValue(pageSize) ?? 10,
   }))
 
   const {

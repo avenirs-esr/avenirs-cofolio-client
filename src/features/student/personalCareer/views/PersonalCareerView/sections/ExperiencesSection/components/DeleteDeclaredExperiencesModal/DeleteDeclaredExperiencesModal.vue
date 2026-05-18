@@ -1,37 +1,35 @@
 <script setup lang="ts">
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal } from '@/common/composables'
-import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import DeclaredExperienceSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperienceSelector/DeclaredExperienceSelector.vue'
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
-import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredExperiencesModalProps {
   show: boolean
+  totalCount: number
 }
 
-defineProps<DeleteDeclaredExperiencesModalProps>()
+const props = defineProps<DeleteDeclaredExperiencesModalProps>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
   (e: 'close'): void
 }>()
 
+const { totalCount } = toRefs(props)
+
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
 
-const declaredExperiencesContainer = ref<HTMLElement | null>(null)
-
-const { declaredExperiences: apiDeclaredExperiences, loadMoreDeclaredExperiences, isFetching } = usePaginatedDeclaredExperiences()
+const {
+  declaredExperiences: apiDeclaredExperiences,
+  isFetching
+} = usePaginatedDeclaredExperiences({ pageSize: totalCount })
 
 const selectedExperienceIds = ref<string[]>([])
-
-useInfiniteScroll(declaredExperiencesContainer, () => {
-  loadMoreDeclaredExperiences()
-}, { distance: INFINITE_SCROLL_BOTTOM_DISTANCE })
 
 const declaredExperiences = computed(() => {
   return apiDeclaredExperiences.value.map(experience => ({
@@ -75,10 +73,9 @@ function onConfirm () {
     </span>
     <div
       v-else
-      ref="declaredExperiencesContainer"
       class="av-col av-gap-sm"
       style="max-height: 400px; overflow-y: auto;"
-      data-testid="scroll-to-load-more"
+      data-testid="declared-experiences-list"
     >
       <DeclaredExperienceSelector
         v-model="selectedExperienceIds"

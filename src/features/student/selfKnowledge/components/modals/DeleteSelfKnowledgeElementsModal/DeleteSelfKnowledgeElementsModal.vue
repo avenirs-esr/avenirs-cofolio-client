@@ -20,14 +20,17 @@ import { useI18n } from 'vue-i18n'
 export interface DeleteSelfKnowledgeElementsModalProps {
   show: boolean
   categoryId: string
+  totalCount: number
 }
 
-const { categoryId } = defineProps<DeleteSelfKnowledgeElementsModalProps>()
+const props = defineProps<DeleteSelfKnowledgeElementsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'confirm'): void
 }>()
+
+const { totalCount, categoryId } = toRefs(props)
 
 const { t } = useI18n()
 const {
@@ -48,7 +51,8 @@ const {
   hasMoreElements,
   loadMoreElements,
 } = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategoryId: computed(() => categoryId),
+  selfKnowledgeCategoryId: computed(() => categoryId.value),
+  pageSize: totalCount
 })
 
 function onDeleteSuccess (deletedCount: number) {

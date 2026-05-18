@@ -4,7 +4,11 @@ import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { SelfKnowledgeElementCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.stub'
+import { SelfKnowledgeElementsDropdownStub } from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.stub'
+import { DeleteSelfKnowledgeCategoryModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.stub'
+import { DeleteSelfKnowledgeElementsModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.stub'
+import { AvCardStub, AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper, } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -16,65 +20,6 @@ vi.mock('@/features/student/selfKnowledge/stores/self-knowledge.store', () => ({
     openAddElementDrawer: mockOpenAddElementDrawer
   }))
 }))
-
-const SelfKnowledgeElementCardStub = defineComponent({
-  name: 'SelfKnowledgeElementCard',
-  props: {
-    element: {
-      type: Object,
-      required: true
-    },
-    categoryId: {
-      type: String,
-      required: true
-    }
-  },
-  template: '<div data-testid="self-knowledge-element-card" />'
-})
-
-const SelfKnowledgeElementsDropdownStub = defineComponent({
-  name: 'SelfKnowledgeElementsDropdown',
-  props: {
-    categoryType: {
-      type: String,
-      required: true
-    }
-  },
-  template: '<div data-testid="self-knowledge-elements-dropdown" />'
-})
-
-const DeleteSelfKnowledgeCategoryModalStub = defineComponent({
-  name: 'DeleteSelfKnowledgeCategoryModal',
-  props: {
-    show: Boolean,
-    categoryId: String,
-    categoryTitle: String,
-    elementsCount: Number
-  },
-  emits: ['cancel', 'confirm'],
-  template: '<div data-testid="delete-self-knowledge-category-modal" />'
-})
-
-const DeleteSelfKnowledgeElementModalStub = defineComponent({
-  name: 'DeleteSelfKnowledgeElementModal',
-  props: {
-    show: Boolean,
-    categoryId: String,
-  },
-  emits: ['cancel', 'confirm'],
-  template: '<div data-testid="delete-self-knowledge-element-modal" />'
-})
-
-const AvCardStub = defineComponent({
-  name: 'AvCard',
-  props: {
-    backgroundColor: String,
-    titleBackground: String,
-    borderColor: String,
-    collapsible: Boolean
-  },
-  template: '<div data-testid="av-card"><slot name="title" /><slot /></div>'
-})
 
 const AvIconTextStub = defineComponent({
   name: 'AvIconText',
@@ -89,20 +34,6 @@ const AvIconTextStub = defineComponent({
   template: '<div data-testid="av-icon-text">{{ text }}</div>'
 })
 
-const AvPaginationStub = defineComponent({
-  name: 'AvPagination',
-  props: {
-    currentPage: Number,
-    pages: Array,
-    compact: Boolean,
-    prevPageLabel: String,
-    nextPageLabel: String,
-    compactCurrentPageLabel: String
-  },
-  emits: ['update:currentPage'],
-  template: '<div data-testid="av-pagination" />'
-})
-
 const stubs = {
   SelfKnowledgeElementCard: SelfKnowledgeElementCardStub,
   SelfKnowledgeElementsDropdown: SelfKnowledgeElementsDropdownStub,
@@ -110,7 +41,7 @@ const stubs = {
   AvIconText: AvIconTextStub,
   AvPagination: AvPaginationStub,
   DeleteSelfKnowledgeCategoryModal: DeleteSelfKnowledgeCategoryModalStub,
-  DeleteSelfKnowledgeElementModal: DeleteSelfKnowledgeElementModalStub,
+  DeleteSelfKnowledgeElementsModal: DeleteSelfKnowledgeElementsModalStub,
   QuerySuspense: QuerySuspenseStub
 }
 
@@ -216,7 +147,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           })
 
           BddTest().then('it should display the delete elements confirmation modal', async () => {
-            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+            const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
             expect(deleteModal.exists()).toBe(true)
             expect(deleteModal.props('show')).toBe(true)
             expect(deleteModal.props('categoryId')).toBeDefined()
@@ -236,7 +167,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
 
           BddTest().then('it should update the current page', async () => {
             const pagination = wrapper.findComponent(AvPaginationStub)
-            await pagination.vm.$emit('update:currentPage', 1)
+            await pagination.vm.$emit('update:current-page', 1)
 
             await vi.waitFor(() => {
               expect(pagination.props('currentPage')).toBe(1)
@@ -478,13 +409,13 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         dropdown.vm.$emit('delete-selected')
         await wrapper.vm.$nextTick()
 
-        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
         deleteModal.vm.$emit('confirm')
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should hide the delete elements modal', () => {
-        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
         expect(deleteModal.props('show')).toBe(false)
       })
     })
@@ -507,13 +438,13 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         dropdown.vm.$emit('delete-selected')
         await wrapper.vm.$nextTick()
 
-        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
         deleteModal.vm.$emit('cancel')
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should hide the delete elements modal', () => {
-        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementModalStub)
+        const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
         expect(deleteModal.props('show')).toBe(false)
       })
     })

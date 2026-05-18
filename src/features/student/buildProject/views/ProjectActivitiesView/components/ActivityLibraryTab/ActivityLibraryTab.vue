@@ -89,7 +89,9 @@ const pageInfo = computed(() => data.value?.page)
   </div>
 
   <UnsubscribeActivitiesModal
+    v-if="pageInfo"
     :show="showModal"
+    :total-count="pageInfo.totalElements"
     @cancel="hideModal"
     @unsubscribed="hideModal"
   />

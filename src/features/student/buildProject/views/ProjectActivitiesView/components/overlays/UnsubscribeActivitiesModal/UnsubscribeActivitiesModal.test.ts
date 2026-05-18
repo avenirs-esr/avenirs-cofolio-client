@@ -32,6 +32,7 @@ BddTest().given('an unsubscribe activities modal', () => {
   BddTest().and('no activities to delete are provided', () => {
     const props: UnsubscribeActivitiesModalProps = {
       show: true,
+      totalCount: 0
     }
 
     BddTest().when('the modal is rendered', () => {
@@ -56,6 +57,7 @@ BddTest().given('an unsubscribe activities modal', () => {
   BddTest().and('many activities to delete are provided', () => {
     const props: UnsubscribeActivitiesModalProps = {
       show: true,
+      totalCount: 10
     }
 
     BddTest().when('the modal is rendered with the provided elements', () => {

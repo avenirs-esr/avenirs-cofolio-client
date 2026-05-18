@@ -81,7 +81,9 @@ useBaseApiExceptionToast(error)
       </Pagination>
     </QuerySuspense>
     <DeleteDeclaredExperiencesModal
+      v-if="pageInfo"
       :show="showModal"
+      :total-count="pageInfo.totalElements"
       @close="hideModal"
       @confirm="hideModal"
     />

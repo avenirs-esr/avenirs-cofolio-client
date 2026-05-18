@@ -56,7 +56,8 @@ BddTest().given('a delete self knowledge element modal', () => {
     const nonExistentCategoryId = 'non-existent-category-id'
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: nonExistentCategoryId
+      categoryId: nonExistentCategoryId,
+      totalCount: 0
     }
 
     BddTest().when('the modal is rendered with no elements', () => {
@@ -80,7 +81,8 @@ BddTest().given('a delete self knowledge element modal', () => {
     const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: strengthsCategoryId
+      categoryId: strengthsCategoryId,
+      totalCount: 1
     }
 
     BddTest().when('the modal is rendered with the provided element', () => {
@@ -192,7 +194,8 @@ BddTest().given('a delete self knowledge element modal', () => {
     const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: strengthsCategoryId
+      categoryId: strengthsCategoryId,
+      totalCount: 10
     }
 
     BddTest().when('the modal is rendered with the provided elements', () => {
