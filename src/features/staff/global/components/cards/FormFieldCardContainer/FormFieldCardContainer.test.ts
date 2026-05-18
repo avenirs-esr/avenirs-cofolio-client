@@ -1,4 +1,5 @@
 import type { FormFieldCardContainerProps } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
 import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -9,7 +10,8 @@ BddTest().given('a form field card container', () => {
 
   const stubs = {
     AvCard: AvCardStub,
-    AvIconText: AvIconTextStub
+    AvIconText: AvIconTextStub,
+    Toggle: ToggleStub
   }
 
   const props: FormFieldCardContainerProps = {
@@ -33,9 +35,11 @@ BddTest().given('a form field card container', () => {
       expect(title.props('text')).toBe(props.title)
     })
 
-    BddTest().then('it should render the icon', () => {
-      const title = wrapper.findComponent(AvIconTextStub)
-      expect(title.props('icon')).toBe(props.titleIcon)
+    BddTest().then('it should render the toggle enabled by default', () => {
+      const toggle = wrapper.findComponent(ToggleStub)
+
+      expect(toggle.exists()).toBe(true)
+      expect(toggle.props('modelValue')).toBe(true)
     })
 
     BddTest().then('it should render the card with collapsible false by default', () => {

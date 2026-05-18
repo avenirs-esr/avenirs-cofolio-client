@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { AvCard, type AvCardProps, AvIconText } from '@avenirs-esr/avenirs-dsav'
 
 export interface FormFieldCardContainerProps extends Pick<AvCardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
@@ -19,6 +20,10 @@ defineSlots<{
   title?: Slot
   default?: Slot
 }>()
+
+const model = defineModel<boolean>({
+  default: true
+})
 </script>
 
 <template>
@@ -39,6 +44,10 @@ defineSlots<{
           text-color="var(--text1)"
           typography-class="s1-regular"
           gap="var(--spacing-xs)"
+        />
+        <Toggle
+          v-model="model"
+          description=""
         />
         <slot name="title" />
       </div>
