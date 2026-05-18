@@ -305,10 +305,10 @@ BddTest().given('a student trace associations component', () => {
         declaredActivity: {
           id: 'c1c9f6d2-6c2b-4a5e-9c4f-8e2a6b1d3f01',
           activityId: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
-          title: 'Renforcer sa capacité d’adaptation',
+          title: 'Renforcer sa capacité d\'adaptation',
           thematic: EActivityThematic.RESUMES,
-          summary: 'Activité visant à analyser sa capacité à s’adapter à des contextes variés et à gérer les changements. L’étudiant.e identifie des situations concrètes illustrant sa flexibilité et sa résilience.',
-          description: '<h3>Objectifs</h3><ul><li>Analyser sa capacité à s’adapter à des contextes variés et à gérer les changements</li><li>Identifier des situations concrètes illustrant sa flexibilité et sa résilience</li><li>Utiliser cette analyse pour renforcer sa capacité d’adaptation dans son projet professionnel</li></ul>',
+          summary: 'Activité visant à analyser sa capacité à s\'adapter à des contextes variés et à gérer les changements. L\'étudiant.e identifie des situations concrètes illustrant sa flexibilité et sa résilience.',
+          description: '<h3>Objectifs</h3><ul><li>Analyser sa capacité à s\'adapter à des contextes variés et à gérer les changements</li><li>Identifier des situations concrètes illustrant sa flexibilité et sa résilience</li><li>Utiliser cette analyse pour renforcer sa capacité d\'adaptation dans son projet professionnel</li></ul>',
           executionPeriodInfoSummary: 'Avant entretien professionnel',
           status: EDeclaredActivityStatus.COMPLETED,
           startDate: '2027-01-10',

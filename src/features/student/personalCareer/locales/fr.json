@@ -103,7 +103,7 @@
       "overlays": {
         "AddDeclaredExperienceDrawer": {
           "confirmationModal": {
-            "description": "Souhaitez-vous abandonner l’ajout de votre expérience ?"
+            "description": "Souhaitez-vous abandonner l'ajout de votre expérience ?"
           },
           "errors": {
             "createDeclaredExperience": "Erreur lors de la création de l'expérience déclarée"

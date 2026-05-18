@@ -30,7 +30,7 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
       },
       {
         id: '1a7f3b29-6c55-4d82-9a33-7e2d1c4f8b90',
-        title: 'Identifier ses centres d’intérêt'
+        title: 'Identifier ses centres d\'intérêt'
       }
     ]
   },
@@ -39,7 +39,7 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
     items: [
       {
         id: 'c1e8b9a7-2d55-4f1a-8b5f-3c7e4a9d6f20',
-        title: 'Explorer ses pistes d’orientation'
+        title: 'Explorer ses pistes d\'orientation'
       },
       {
         id: '7b3d4e91-6f2a-4c88-9a1e-5d3f7b2c8e44',
@@ -47,7 +47,7 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
       },
       {
         id: '5e2c9f41-8b7d-4a10-9c6a-3f1e7b2d4c55',
-        title: 'Explorer les métiers d’un secteur'
+        title: 'Explorer les métiers d\'un secteur'
       },
       {
         id: '8b4f2d77-3c1a-4e66-9f2b-6d8c3a5e1f22',
@@ -148,11 +148,11 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
       },
       {
         id: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
-        title: 'Renforcer sa capacité d’adaptation'
+        title: 'Renforcer sa capacité d\'adaptation'
       },
       {
         id: '5f2a7c91-8d4e-4b22-9a6c-3e1f7d2b4c99',
-        title: 'Développer son esprit d’équipe'
+        title: 'Développer son esprit d\'équipe'
       },
       {
         id: '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22',
@@ -167,9 +167,9 @@ const commonMockedDeclaredActivityProps = {
   activity: {
     id: 'activity-1',
     title: 'Activité “Connaissance de soi” : Définir ses valeurs',
-    summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
-    description: '<h3>Objectifs de l’activité</h3><ul><li><p>Permettre à l’étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l’étudiant.e à réfléchir à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l’activité</h3><p>L’activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s’incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
-    executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
+    summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
+    executionPeriodInfo: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
   },
   reflection: `<h1>Mes valeurs</h1><p>Je me rends compte que mes valeurs sont :</p><ul><li><p><strong>autonomie</strong></p></li><li><p><strong>créativité</strong></p></li><li><p><strong>impact social</strong></p></li></ul><p>Je vois que je les incarne dans</p><ol><li><p><em>engagement associatif</em></p></li><li><p><em>projets personnels</em></p></li><li><p><em>choix de stage l'été dernier</em></p></li></ol><p></p>`,
   startDate: '2024-01-01',
@@ -314,12 +314,12 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
   banner: {
     fileId: 'activity-1-banner',
     url: 'https://cdn.welcometothejungle.co/uploads/article/social_image/3009/159196/large_jaredd-craig-HH4WBGNyltc-unsplash.jpg',
-    fileName: 'Image de l’activité Connaissance de soi - Définir ses valeurs'
+    fileName: 'Image de l\'activité Connaissance de soi - Définir ses valeurs'
   },
   thematic: EActivityThematic.SELF_KNOWLEDGE,
-  summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l’étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
-  description: '<h3>Objectifs de l’activité</h3><ul><li><p>Permettre à l’étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l’étudiant.e à réfléchir à la façon dont ces valeurs s’incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l’activité</h3><p>L’activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s’incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
-  executionPeriodInfo: '- À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle\n- avant une autre activité si parcours d’activités Cofolio',
+  summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
+  description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
+  executionPeriodInfo: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
@@ -380,7 +380,7 @@ export function createMockedTraceAssociations (
       associationId: `association-${i}`,
       trace: {
         traceId: idsToAssociate?.[i - 1] ?? `trace-${i}`,
-        title: `Trace #${i} associée à l’activité`,
+        title: `Trace #${i} associée à l\'activité`,
         programName: `Programme de la trace #${i} associée`,
         isGroup: i % 2 === 0,
         createdAt: '2024-01-01T00:00:00Z',

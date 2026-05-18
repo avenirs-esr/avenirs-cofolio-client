@@ -1,6 +1,6 @@
-<p><span class="to-update">[Nom de l’entité]</span> is committed to making its websites, intranet, extranet, and software accessible (as well as its mobile applications and digital urban furniture) in accordance with Article 47 of Law No. 2005-102 of February 11, 2005.</p>
+<p><span class="to-update">[Nom de l'entité]</span> is committed to making its websites, intranet, extranet, and software accessible (as well as its mobile applications and digital urban furniture) in accordance with Article 47 of Law No. 2005-102 of February 11, 2005.</p>
 
-<p>To this end, <span class="to-update">[Nom de l’entité]</span> implements the following strategy and actions:</p>
+<p>To this end, <span class="to-update">[Nom de l'entité]</span> implements the following strategy and actions:</p>
 <ul class="av-col av-gap-sm">
   <li>Multi-year accessibility plan 2027-2029 <span class="to-update">[url]</span> ;</li>
   <li>Actions carried out in 2025-2026 <span class="to-update">[url]</span> ;</li>
@@ -13,7 +13,7 @@
 <p><span class="to-update">[Nom du site (url du site)]</span> is <strong class="to-update">non/partially/totally</strong> compliant with the General Accessibility Improvement Framework (RGAA), version 4.1 due to the non-compliances and exemptions listed below.</p>
 
 <h3 id="resultats-des-tests">Test results</h3>
-<p>The compliance audit conducted by <span class="to-update">[nom de l’entité qui a réalisé l’audit]</span> reveals that :</p>
+<p>The compliance audit conducted by <span class="to-update">[nom de l'entité qui a réalisé l'audit]</span> reveals that :</p>
 <ul class="av-col av-gap-sm">
   <li><span class="to-update">[nn]</span>% of the RGAA version 4.1 criteria are met ;</li>
   <li>(Optional) The average compliance rate of the site is <span class="to-update">[nn]</span>% ;</li>

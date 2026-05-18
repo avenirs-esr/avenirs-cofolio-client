@@ -48,7 +48,7 @@ interface UseTraceFileValidationReturn {
  *
  * @param {boolean} [isRequired] - Whether a file is mandatory for validation.
  * @returns {UseTraceFileValidationReturn} Object containing:
- *  - `validateFile`: function to validate a given file’s type and size.
+ *  - `validateFile`: function to validate a given file's type and size.
  */
 export function useTraceFileValidation (isRequired: boolean = true): UseTraceFileValidationReturn {
   const { validateFile } = useFileValidation({
@@ -97,7 +97,7 @@ interface UseTraceAttachmentFileReturn {
  * Vue composable to handle the transformation and display of attachment data.
  *
  * This composable converts an `AttachmentUploadDTO` into a `File` object and formats
- * the upload date/time using the localized date utilities. It’s typically used to
+ * the upload date/time using the localized date utilities. It's typically used to
  * display uploaded files in a student trace view or to rehydrate DTOs as `File` objects
  * for further manipulation.
  *

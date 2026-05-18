@@ -22,7 +22,7 @@ export const mockedProfileOverview: ProfileOverviewDTO = {
     fileName: undefined,
     url: profile_banner_placeholder,
   },
-  bio: 'Je suis étudiante en chimie et écologie. Passionnée par l’innovation durable, je souhaite utiliser la science pour protéger l’environnement et bâtir un avenir plus respectueux de la planète.'
+  bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'
 }
 
 export const createUpdatedProfileMock = (profile: string) => `${profile}-updated`
@@ -34,26 +34,26 @@ export const mockedDeliverablesOverview: DeliverableOverviewDTO[] = [
   {
     id: 'deliverable1',
     skill: '(Placeholder) Prévenir la pollution à la source',
-    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d\'un plan d\'action',
     deliverableUntil: '2025-06-13T08:42:17',
   },
   {
     id: 'deliverable2',
-    skill: '(Placeholder) Mettre en place des filières d’économies circulaires',
-    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+    skill: '(Placeholder) Mettre en place des filières d\'économies circulaires',
+    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d\'un plan d\'action',
     deliverableUntil: '2025-07-29T19:15:03'
   },
   {
     id: 'deliverable3',
-    skill: '(Placeholder) Évaluer l’impact environnemental et économique',
-    activity: 'SAE 1.1 Séquence 4 - Un nom de séquence méga long pour tester les ellipses validation des recommandations et élaboration d’un plan d’action',
+    skill: '(Placeholder) Évaluer l\'impact environnemental et économique',
+    activity: 'SAE 1.1 Séquence 4 - Un nom de séquence méga long pour tester les ellipses validation des recommandations et élaboration d\'un plan d\'action',
     deliverableUntil: '2025-08-07T23:08:51',
 
   },
   {
     id: 'deliverable4',
     skill: '(Placeholder) Concevoir des synthèses chimiques durables',
-    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d’un plan d’action',
+    activity: 'SAE 1.1 Séquence 4 - Validation des recommandations et élaboration d\'un plan d\'action',
     deliverableUntil: '2025-09-21T04:26:39'
   },
 ]
@@ -61,7 +61,7 @@ export const mockedDeliverablesOverview: DeliverableOverviewDTO[] = [
 export const mockedEventsOverview: EventOverviewDTO[] = [
   {
     id: 'event1',
-    name: '(Placeholder) Forum de l’écologie et la chimie',
+    name: '(Placeholder) Forum de l\'écologie et la chimie',
     startDate: '2025-05-19T08:00',
     endDate: '2025-05-19T18:00',
     location: 'Paris'

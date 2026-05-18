@@ -34,7 +34,7 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
       },
       {
         id: 'skill2',
-        name: 'Mettre en place des filières d’économies circulaires',
+        name: 'Mettre en place des filières d\'économies circulaires',
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',
@@ -43,7 +43,7 @@ BddTest().given('a studentSkillsWidgetContainer', () => {
       },
       {
         id: 'skill3',
-        name: 'Évaluer l’impact environnemental et économique',
+        name: 'Évaluer l\'impact environnemental et économique',
         currentSkillLevel: {
           id: 'Niv1',
           name: 'Niv.1',

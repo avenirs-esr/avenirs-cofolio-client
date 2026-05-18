@@ -29,4 +29,4 @@ Feature: Student Project Activities Catalog Page
       Then the first thematic in select navigation is "SELF_KNOWLEDGE"
       And the first thematic in select navigation has at least 1 activity
       And the first thematic in select navigation first activity is "Définir ses valeurs"
-      And the first thematic in select navigation last activity is "Identifier ses centres d’intérêt"
+      And the first thematic in select navigation last activity is "Identifier ses centres d'intérêt"

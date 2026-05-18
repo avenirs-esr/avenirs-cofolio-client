@@ -52,7 +52,7 @@ BddTest().given('a subscribe activity modal', () => {
     BddTest().then('it should render the title', () => {
       const title = wrapper.find('[data-testid="subscribe-activity-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe(`Inscription à l’activité ${props.activity.title}`)
+      expect(title.text()).toBe(`Inscription à l\'activité ${props.activity.title}`)
     })
 
     BddTest().then('it should render the cancel subscribe activity confirm modal', () => {
@@ -203,7 +203,7 @@ BddTest().given('a subscribe activity modal', () => {
 
       BddTest().then('it should add a success message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d’activités.')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d\'activités.')
         })
       })
 

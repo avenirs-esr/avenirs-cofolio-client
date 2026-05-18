@@ -84,11 +84,11 @@
             "overlays": {
               "ActivitySubscribeModal": {
                 "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
-                "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d’activités.",
-                "title": "Inscription à l’activité {title}"
+                "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
+                "title": "Inscription à l'activité {title}"
               },
               "CancelSubscribeActivityModal": {
-                "title": "Êtes-vous certain(e) de vouloir abandonner l’inscription à l’activité ?"
+                "title": "Êtes-vous certain(e) de vouloir abandonner l'inscription à l'activité ?"
               }
             },
             "periodTitle": "Période de réalisation",
@@ -241,14 +241,14 @@
             "pagination": {
               "ariaLabel": "Pagination des activités de la bibliothèque"
             },
-            "tabTitle": "Ma bibliothèque d’activités | Ma bibliothèque d’activités ({count}) | Ma bibliothèque d’activités ({count})"
+            "tabTitle": "Ma bibliothèque d'activités | Ma bibliothèque d'activités ({count}) | Ma bibliothèque d'activités ({count})"
           },
           "allActivitiesTab": {
             "allActivitiesSection": {
               "title": "Toutes les activités | Toutes les activités ({count}) | Toutes les activités ({count})"
             },
             "header": {
-              "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d’activités complémentaires, veuillez-vous rapprocher de votre conseiller d’orientation.",
+              "description": "Activités proposées par votre SUIO et votre établissement. Pour toute demande d'activités complémentaires, veuillez-vous rapprocher de votre conseiller d'orientation.",
               "seeAll": "Voir toutes les activités"
             },
             "newActivitiesPaginatorCard": {

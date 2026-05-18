@@ -33,7 +33,7 @@ BddTest().given('an activity card', () => {
   const baseActivity: ActivityOverviewDTO = {
     id: '1',
     title: 'Atelier CV',
-    summary: 'Résumé de l’activité',
+    summary: 'Résumé de l\'activité',
     executionPeriodInfoSummary: 'À faire cette année',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     isNew: false

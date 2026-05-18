@@ -64,9 +64,9 @@ BddTest().given('a project activity details component', () => {
       expect(items.length).toBe(2)
 
       expect(items[0].text()).toBe(
-        'À réaliser en amont d’un entretien avec un.e conseiller/conseillère ou chargé.e d’orientation et/ou d’insertion professionnelle',
+        'À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle',
       )
-      expect(items[1].text()).toBe('avant une autre activité si parcours d’activités Cofolio')
+      expect(items[1].text()).toBe('avant une autre activité si parcours d\'activités Cofolio')
     })
   })
 

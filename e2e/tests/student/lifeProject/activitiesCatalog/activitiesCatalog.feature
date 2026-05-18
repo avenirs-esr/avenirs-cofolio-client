@@ -38,7 +38,7 @@ Feature: Student Project Activities Catalog Page
       Then the first thematic in side navigation is "SELF_KNOWLEDGE"
       And the first thematic in side navigation has at least 1 activity
       And the first thematic in side navigation first activity is "Définir ses valeurs"
-      And the first thematic in side navigation last activity is "Identifier ses centres d’intérêt"
+      And the first thematic in side navigation last activity is "Identifier ses centres d'intérêt"
 
   Rule: Activity preview - Desktop
 

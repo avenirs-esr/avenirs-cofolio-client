@@ -75,7 +75,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
       },
       {
         id: 'skill-1-3',
-        name: 'Évaluer l’impact environnemental et économique',
+        name: 'Évaluer l\'impact environnemental et économique',
         currentSkillLevel: {
           id: 'lvl-1-3-2',
           name: 'Niveau 2',
@@ -84,7 +84,7 @@ export const mockedProgramsProgressOverview: StudentProgressOverviewDTO[] = [
       },
       {
         id: 'skill-1-2',
-        name: 'Mettre en place des filières d’économies circulaires',
+        name: 'Mettre en place des filières d\'économies circulaires',
         currentSkillLevel: {
           id: 'lvl-1-2-1',
           name: 'Niveau 1',
@@ -146,8 +146,8 @@ export const mockedProgramsProgressView: StudentProgressViewDTO[] = mockedProgra
     const shortDescription = {
       'skill-1-1': 'Analyser et optimiser les procédés pour prévenir la pollution à la source',
       'skill-1-2': 'Structurer et déployer des boucles de réutilisation et de valorisation des ressources',
-      'skill-1-3': 'Mesurer les effets écologiques et économiques d’un procédé ou d’un produit',
-      'skill-1-4': 'Développer des voies de synthèse respectueuses de l’environnement et efficaces',
+      'skill-1-3': 'Mesurer les effets écologiques et économiques d\'un procédé ou d\'un produit',
+      'skill-1-4': 'Développer des voies de synthèse respectueuses de l\'environnement et efficaces',
       'skill-2-1': 'Concevoir et assembler un circuit en respectant les contraintes techniques et de sécurité',
       'skill-2-2': 'Identifier les dangers électriques spécifiques et appliquer les procédures de consignation',
       'skill-2-3': 'Analyser les besoins clients et la concurrence pour orienter une offre technique',

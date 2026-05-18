@@ -30,7 +30,7 @@ BddTest().given('an associate activities modal', () => {
     },
     {
       id: 'activity-search-2',
-      title: 'Explorer ses pistes d’orientation',
+      title: 'Explorer ses pistes d\'orientation',
       thematic: EActivityThematic.FUTURE_PLANS,
       disabled: false
     },
@@ -54,7 +54,7 @@ BddTest().given('an associate activities modal', () => {
       value: 'activity-search-1'
     },
     {
-      label: 'Explorer ses pistes d’orientation',
+      label: 'Explorer ses pistes d\'orientation',
       value: 'activity-search-2'
     }
   ]
@@ -68,7 +68,7 @@ BddTest().given('an associate activities modal', () => {
     },
     {
       id: 'activity-search-2',
-      title: 'Explorer ses pistes d’orientation',
+      title: 'Explorer ses pistes d\'orientation',
       thematic: EActivityThematic.FUTURE_PLANS,
       disabled: false
     }
@@ -117,7 +117,7 @@ BddTest().given('an associate activities modal', () => {
           disabled: false
         },
         {
-          label: 'Explorer ses pistes d’orientation',
+          label: 'Explorer ses pistes d\'orientation',
           value: 'activity-search-2',
           description: 'Explorer mes futures',
           disabled: false
