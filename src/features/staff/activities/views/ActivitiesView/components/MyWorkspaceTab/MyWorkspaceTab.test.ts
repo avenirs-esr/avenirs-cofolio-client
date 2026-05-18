@@ -1,4 +1,5 @@
 import type { mount, VueWrapper } from '@vue/test-utils'
+import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
@@ -15,6 +16,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
   const stubs = {
     ActivityDraftCreationModal: ActivityDraftCreationModalStub,
     ActivityTableTitle: ActivityTableTitleStub,
+    ActivityStatusBadge: ActivityStatusBadgeStub,
     AvButton: AvButtonStub,
     AvTable: AvTableStub,
     Pagination: PaginationStub,
@@ -97,6 +99,13 @@ BddTest().given('a MyWorkspaceTab component', () => {
     BddTest().and('the title column slot is rendered', () => {
       BddTest().then('it should render one ActivityTableTitle per row', () => {
         const titles = wrapper.findAllComponents({ name: 'ActivityTableTitle' })
+        expect(titles).toHaveLength(6)
+      })
+    })
+
+    BddTest().and('the status column slot is rendered', () => {
+      BddTest().then('it should render one ActivityStatusBadge per row', () => {
+        const titles = wrapper.findAllComponents(ActivityStatusBadgeStub)
         expect(titles).toHaveLength(6)
       })
     })

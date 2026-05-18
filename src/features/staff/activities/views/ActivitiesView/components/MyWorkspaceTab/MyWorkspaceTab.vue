@@ -2,6 +2,7 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
+import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { useDateUtils, usePagination } from '@/common/composables'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
@@ -106,6 +107,10 @@ const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
 
           <template #cell(updatedAt)="{ row }">
             {{ row.updatedAt ? formatLastModified(row.updatedAt) : '' }}
+          </template>
+
+          <template #cell(status)="{ row }">
+            <ActivityStatusBadge :status="row.status" />
           </template>
         </AvTable>
       </Pagination>
