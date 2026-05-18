@@ -3,6 +3,7 @@ import type { ActivityContentDTO } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
+import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
@@ -25,24 +26,27 @@ const { t } = useI18n()
 
 <template>
   <div class="av-col av-gap-xl">
-    <FormFieldCardContainer
-      :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label')"
-      :title-icon="ICONS.ACTIVITY"
-    >
-      <ActivityTitleFormField
-        :form="form"
-        is-textarea
-      />
-    </FormFieldCardContainer>
-    <FormFieldCardContainer
-      :title="t('staff.activities.interactions.formFields.ActivityConsignFormField.label')"
-      :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
-    >
-      <ActivityConsignFormField
-        :form="form"
-        @autosave="save"
-      />
-    </FormFieldCardContainer>
+    <div :id="ContentSectionId.TITLE">
+      <FormFieldCardContainer
+        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.TITLE')"
+        :title-icon="ICONS.ACTIVITY"
+      >
+        <ActivityTitleFormField :form="form" />
+      </FormFieldCardContainer>
+    </div>
+
+    <div :id="ContentSectionId.INSTRUCTIONS">
+      <FormFieldCardContainer
+        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.INSTRUCTIONS')"
+        :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+      >
+        <ActivityConsignFormField
+          :form="form"
+          @autosave="save"
+        />
+      </FormFieldCardContainer>
+    </div>
+
     <div class="av-row av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton

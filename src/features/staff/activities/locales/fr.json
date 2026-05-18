@@ -33,6 +33,28 @@
             "title": "Toutes les activités publiées dans mon établissement ({count})"
           }
         },
+        "AddNationalActivityView": {
+          "sideNavigation": {
+            "content": {
+              "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
+              "DOCUMENTS": "Documents et liens utiles",
+              "INSTRUCTIONS": "Consigne",
+              "MODALITIES": "Modalités",
+              "SCHEDULE": "Déroulé",
+              "THEMATIC": "Thématique",
+              "TITLE": "Titre"
+            },
+            "contentHeader": "Contenu de l'activité",
+            "publication": {
+              "ACTIVITY_TITLE": "Titre de l'activité",
+              "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
+              "EXCERPT": "Extrait",
+              "IMAGE": "Ajouter une image",
+              "TARGET_GROUPS": "Groupe(s) Cible(s)"
+            },
+            "publicationHeader": "Publication de l'activité"
+          }
+        },
         "EditNationalActivityView": {
           "ActivityContentTab": {
             "nextStepLabel": "Étape suivante"

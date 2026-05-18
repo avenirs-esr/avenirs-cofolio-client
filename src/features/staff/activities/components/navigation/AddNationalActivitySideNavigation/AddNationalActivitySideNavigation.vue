@@ -1,0 +1,84 @@
+<script setup lang="ts">
+import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
+import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
+import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
+import { AvSideNavigation, type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+
+const { activeTab } = defineProps<AddNationalActivitySideNavigationProps>()
+
+const { t } = useI18n()
+
+interface AddNationalActivitySideNavigationProps {
+  activeTab: EditActivityTabIndex
+}
+const { activeElementId } = useScrollSpy([
+  ContentSectionId.TITLE,
+  ContentSectionId.THEMATIC,
+  ContentSectionId.INSTRUCTIONS,
+  ContentSectionId.CONTEXT,
+  ContentSectionId.DOCUMENTS,
+  ContentSectionId.SCHEDULE,
+  ContentSectionId.MODALITIES
+])
+
+const isManualNavigation = ref(false)
+const isSideMenuCollapsed = ref<boolean>(false)
+const selectedItem = ref<AvSideNavigationSelectedItem>({ itemId: '' })
+
+const contentItems = computed<AvSideNavigationMenuItem[]>(() => [
+  {
+    id: 'CONTENT',
+    label: t('staff.activities.views.AddNationalActivityView.sideNavigation.contentHeader'),
+    icon: MDI_ICONS.PENCIL_OUTLINE,
+    expanded: true,
+    children: Object.values(ContentSectionId).map(id => ({
+      id,
+      label: t(`staff.activities.views.AddNationalActivityView.sideNavigation.content.${id}`),
+    })),
+  },
+])
+
+const publicationItems = computed<AvSideNavigationMenuItem[]>(() => [
+  {
+    id: 'PUBLICATION',
+    label: t('staff.activities.views.AddNationalActivityView.sideNavigation.publicationHeader'),
+    icon: MDI_ICONS.PENCIL_OUTLINE,
+    expanded: true,
+    children: Object.values(PublicationSectionId).map(id => ({
+      id,
+      label: t(`staff.activities.views.AddNationalActivityView.sideNavigation.publication.${id}`),
+    })),
+  },
+])
+
+const items = computed<AvSideNavigationMenuItem[]>(() => {
+  return activeTab === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
+})
+
+function navigateToSelectedItem (item: AvSideNavigationSelectedItem) {
+  isManualNavigation.value = true
+  selectedItem.value = item
+  scrollToElement(item.itemId)
+  window.setTimeout(() => {
+    isManualNavigation.value = false
+  }, 500)
+}
+
+watch(activeElementId, () => {
+  if (!isManualNavigation.value) {
+    selectedItem.value = { itemId: activeElementId.value ?? '' }
+  }
+})
+</script>
+
+<template>
+  <AvSideNavigation
+    v-model:selected-item="selectedItem"
+    v-model:is-side-menu-collapsed="isSideMenuCollapsed"
+    hide-content-when-collapsed
+    :items="items"
+    sticky
+    @update:selected-item="navigateToSelectedItem"
+  />
+</template>

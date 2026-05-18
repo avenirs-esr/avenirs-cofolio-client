@@ -1,0 +1,22 @@
+export enum ContentSectionId {
+  TITLE = 'TITLE',
+  THEMATIC = 'THEMATIC',
+  INSTRUCTIONS = 'INSTRUCTIONS',
+  CONTEXT = 'CONTEXT',
+  DOCUMENTS = 'DOCUMENTS',
+  SCHEDULE = 'SCHEDULE',
+  MODALITIES = 'MODALITIES',
+}
+
+export enum PublicationSectionId {
+  ACTIVITY_TITLE = 'ACTIVITY_TITLE',
+  TARGET_GROUPS = 'TARGET_GROUPS',
+  IMAGE = 'IMAGE',
+  EXCERPT = 'EXCERPT',
+  CONTEXT = 'CONTEXT',
+}
+
+export enum EditActivityTabIndex {
+  CONTENT = 0,
+  PUBLICATION = 1,
+}

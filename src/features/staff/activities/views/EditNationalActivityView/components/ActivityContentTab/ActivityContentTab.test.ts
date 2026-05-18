@@ -1,6 +1,7 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
+import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { EditNationalActivityViewFormWrapper } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
@@ -40,8 +41,12 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.findComponent({ name: 'ActivityTitleFormField' }).exists()).toBe(true)
     })
 
-    BddTest().then('it should render ActivityConsignFormField', () => {
-      expect(tab.findComponent({ name: 'ActivityConsignFormField' }).exists()).toBe(true)
+    BddTest().then('it should render the TITLE section anchor', () => {
+      expect(tab.find(`#${ContentSectionId.TITLE}`).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the INSTRUCTIONS section anchor', () => {
+      expect(tab.find(`#${ContentSectionId.INSTRUCTIONS}`).exists()).toBe(true)
     })
 
     BddTest().then('it should render EditNationalActivityViewTabActions', () => {

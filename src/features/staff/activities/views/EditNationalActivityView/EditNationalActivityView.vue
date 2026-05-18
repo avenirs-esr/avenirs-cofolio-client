@@ -11,10 +11,14 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
+import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
+import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
@@ -26,7 +30,10 @@ interface EditNationalActivityViewProps {
 
 const { id } = defineProps<EditNationalActivityViewProps>()
 
+const { isMobile } = useAvBreakpoints()
+
 const { t } = useI18n()
+const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
@@ -104,6 +111,17 @@ provideEditNationalActivityViewContext({ form, save, cancel })
     :error="error"
     :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
   >
-    <ActivityContentTab :activity="activity!" />
+    <div class="av-row av-w-full av-gap-xl">
+      <AddNationalActivitySideNavigation
+        v-if="!isMobile"
+        :active-tab="activeTab"
+      />
+      <div class="av-col av-flex-fill">
+        <ActivityContentTab
+          v-if="activeTab === EditActivityTabIndex.CONTENT"
+          :activity="activity!"
+        />
+      </div>
+    </div>
   </QuerySuspense>
 </template>
