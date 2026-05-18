@@ -46,7 +46,7 @@ const activityAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
     .map(activity => ({
       label: activity.title,
       value: activity.id,
-      description: t(`student.buildProject.activities.thematics.${activity.thematic}`),
+      description: t(`global.activities.badges.thematics.${activity.thematic}`),
       disabled: activity.disabled
     }))
 )

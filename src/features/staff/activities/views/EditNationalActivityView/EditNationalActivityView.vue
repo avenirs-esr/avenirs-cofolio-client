@@ -5,6 +5,7 @@ import type { Ref } from 'vue'
 import {
   type ActivityDraftUpdateRequest,
   EActivityStatus,
+  EActivityThematic,
   invalidateGetActivityContent,
   useGetActivityContent,
   useUpdateActivity
@@ -53,6 +54,7 @@ const { data: activity, isLoading, error } = useGetActivityContent(EActivityStat
 
 const defaultValues: EditActivityFormData = reactive({
   title: computed(() => activity.value?.title ?? ''),
+  thematic: computed(() => activity.value?.thematic ?? EActivityThematic.TRANSVERSAL),
   description: computed(() => activity.value?.description ?? ''),
   executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
   summary: computed(() => activity.value?.summary ?? ''),
@@ -81,6 +83,7 @@ const form = useForm({
       activityId: id,
       data: {
         title: value.title,
+        thematic: value.thematic,
         description: value.description,
         executionPeriodInfo: value.executionPeriodInfo,
         summary: value.summary,

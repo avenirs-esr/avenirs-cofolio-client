@@ -23,7 +23,7 @@ const DEFAULT_PARENT_ICON = MDI_ICONS.BOOK_OPEN_VARIANT
 const CHILD_ICON = ICONS.ACTIVITY
 
 function getThematicLabel (title: string) {
-  return isEnumMember(EActivityThematic, title) ? t(`student.buildProject.activities.thematics.${title}`) : title
+  return isEnumMember(EActivityThematic, title) ? t(`global.activities.badges.thematics.${title}`) : title
 }
 
 function getThematicIcon (title: string) {

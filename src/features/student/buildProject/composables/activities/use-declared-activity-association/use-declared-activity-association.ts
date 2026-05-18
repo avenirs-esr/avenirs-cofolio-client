@@ -10,7 +10,7 @@ export function useDeclaredActivityAssociation () {
     title: declaredActivity.title,
     disabled: declaredActivity.disabled,
     description: declaredActivity.thematic
-      ? t(`student.buildProject.activities.thematics.${declaredActivity.thematic}`)
+      ? t(`global.activities.badges.thematics.${declaredActivity.thematic}`)
       : undefined
   })
 

@@ -9,6 +9,7 @@ import ActivityReflectionFormField from '@/features/staff/activities/components/
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
+import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
@@ -37,6 +38,17 @@ const { t } = useI18n()
         :title-icon="ICONS.ACTIVITY"
       >
         <ActivityTitleFormField :form="form" />
+      </FormFieldCardContainer>
+    </div>
+
+    <div :id="ContentSectionId.THEMATIC">
+      <FormFieldCardContainer
+        :title="t('staff.activities.interactions.inputs.ThematicSelect.label')"
+        :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+      >
+        <ThematicSelectFormField
+          :form="form"
+        />
       </FormFieldCardContainer>
     </div>
 
