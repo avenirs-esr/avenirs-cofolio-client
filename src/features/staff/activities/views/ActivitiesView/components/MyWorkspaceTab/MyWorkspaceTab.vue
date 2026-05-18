@@ -1,63 +1,41 @@
 <script lang="ts" setup>
-import type { ActivityPresentationDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
-import { EActivityThematic } from '@/api/avenir-esr'
+import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
-import { useDateUtils, useModal, usePagination } from '@/common/composables'
+import { useDateUtils, usePagination } from '@/common/composables'
+import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
-import { AvButton, AvTable, MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTable, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
-const { showModal: showAddActivityModal, displayModal: displayAddActivityModal, hideModal: hideAddActivityModal } = useModal()
 
-const currentPageRef = ref<number>(0)
-const pageSizeRef = ref<PageSizes>(PageSizes.TWELVE)
+const staffActivitiesStore = useStaffActivitiesStore()
 
-const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
+const {
+  currentPage,
+  pageSizeSelected,
+  onUpdateCurrentPage,
+  onUpdatePageSize
+} = usePagination(
+  toRef(staffActivitiesStore, 'workingSpaceCurrentPage'),
+  toRef(staffActivitiesStore, 'workingSpacePageSizeSelected')
+)
 
-const placeholderActivities = computed<ActivityPresentationDTO[]>(() => [
-  {
-    id: '1',
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
-    thematic: EActivityThematic.SELF_KNOWLEDGE,
-    banner: { id: 'banner-1', name: 'banner.jpg', url: '' },
-    summary: '',
-    description: '',
-    executionPeriodInfo: '',
-    updatedAt: '2025-03-10T14:00:00.000Z',
-  },
-  {
-    id: '2',
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
-    thematic: EActivityThematic.SELF_KNOWLEDGE,
-    banner: { id: 'banner-2', name: 'banner.jpg', url: '' },
-    summary: '',
-    description: '',
-    executionPeriodInfo: '',
-    updatedAt: '2025-03-10T14:00:00.000Z',
-  },
-  {
-    id: '3',
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
-    thematic: EActivityThematic.SELF_KNOWLEDGE,
-    banner: { id: 'banner-3', name: 'banner.jpg', url: '' },
-    summary: '',
-    description: '',
-    executionPeriodInfo: '',
-    updatedAt: new Date().toISOString(),
-  },
-])
+const params = computed(() => ({
+  page: currentPage.value,
+  pageSize: pageSizeSelected.value
+}))
+const { data, error, isFetching } = useGetStaffActivityWorkingSpace(params, { query: { placeholderData: keepPreviousData } })
+const activities = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
 
-// TODO: #1618 fetch activities from  the api
-const rows = computed<ActivityTableRow[]>(() => placeholderActivities.value.map(mapActivityToActivityTableRow))
-
-// TODO: #1618 compute total elements from api
-const totalElements = computed(() => rows.value.length)
+const rows = computed<ActivityTableRow[]>(() => activities.value.map(mapActivityToActivityTableRow))
 
 const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
   {
@@ -78,14 +56,6 @@ const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
     label: t('staff.activities.views.ActivitiesView.MyWorkspaceTab.columns.status'),
   },
 ])
-
-// TODO: #1618 forward pageInfo from query result
-const pageInfo = computed<PageInfoDTO>(() => ({
-  page: currentPage.value,
-  pageSize: pageSizeSelected.value,
-  totalElements: totalElements.value,
-  totalPages: Math.ceil(totalElements.value / pageSizeSelected.value),
-}))
 </script>
 
 <template>
@@ -97,7 +67,7 @@ const pageInfo = computed<PageInfoDTO>(() => ({
       class="n4"
       data-testid="my-workspace-tab-title"
     >
-      {{ t('staff.activities.views.ActivitiesView.MyWorkspaceTab.title', { count: totalElements }) }}
+      {{ t('staff.activities.views.ActivitiesView.MyWorkspaceTab.title', { count: pageInfo?.totalElements ?? 0 }) }}
     </h2>
 
     <div class="av-row av-justify-end av-py-md">
@@ -107,35 +77,43 @@ const pageInfo = computed<PageInfoDTO>(() => ({
         variant="FLAT"
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         theme="PRIMARY"
-        @click="displayAddActivityModal"
+        @click="staffActivitiesStore.displayAddActivityModal"
       />
     </div>
 
-    <Pagination
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+    <QuerySuspense
+      :error="error"
+      :is-empty="rows.length === 0"
+      :is-loading="isFetching"
+      :empty-state-message="t('staff.activities.views.ActivitiesView.MyWorkspaceTab.emptyState')"
     >
-      <AvTable
-        :columns="columns"
-        :rows="rows"
-        row-key="id"
-        data-testid="my-workspace-table"
+      <Pagination
+        v-if="pageInfo"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
       >
-        <template #cell(title)="{ row }">
-          <ActivityTableTitle :activity="row" />
-        </template>
+        <AvTable
+          :columns="columns"
+          :rows="rows"
+          row-key="id"
+          data-testid="my-workspace-table"
+        >
+          <template #cell(title)="{ row }">
+            <ActivityTableTitle :activity="row" />
+          </template>
 
-        <template #cell(updatedAt)="{ row }">
-          {{ row.updatedAt ? formatLastModified(row.updatedAt) : '' }}
-        </template>
-      </AvTable>
-    </Pagination>
+          <template #cell(updatedAt)="{ row }">
+            {{ row.updatedAt ? formatLastModified(row.updatedAt) : '' }}
+          </template>
+        </AvTable>
+      </Pagination>
+    </QuerySuspense>
   </div>
 
   <ActivityDraftCreationModal
-    :opened="showAddActivityModal"
-    @close="hideAddActivityModal"
+    :opened="staffActivitiesStore.showAddActivityModal"
+    @close="staffActivitiesStore.hideAddActivityModal"
   />
 </template>

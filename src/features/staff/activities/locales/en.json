@@ -24,6 +24,7 @@
               "status": "Status"
             },
             "createActivity": "Create an activity",
+            "emptyState": "No activities available. Get started by creating one.",
             "title": "All published activities in my institution ({count})"
           }
         },

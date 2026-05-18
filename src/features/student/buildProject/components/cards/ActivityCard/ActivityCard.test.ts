@@ -32,6 +32,7 @@ BddTest().given('an activity card', () => {
 
   const baseActivity: ActivityOverviewDTO = {
     id: '1',
+    author: { userId: 'user-1', firstName: 'Jean', lastName: 'Dupont' },
     title: 'Atelier CV',
     summary: 'Résumé de l’activité',
     executionPeriodInfoSummary: 'À faire cette année',
