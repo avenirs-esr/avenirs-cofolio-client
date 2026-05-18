@@ -10,6 +10,10 @@
           "SELF_KNOWLEDGE": "Self-knowledge",
           "TRAJECTORIES": "My trajectories",
           "TRANSVERSAL": "Transversal"
+        },
+        "statuses": {
+          "DRAFT": "unpublished",
+          "PUBLISHED": "published"
         }
       }
     },

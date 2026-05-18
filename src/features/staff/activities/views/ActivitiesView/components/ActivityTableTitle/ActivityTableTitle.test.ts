@@ -1,5 +1,5 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
-import { EActivityThematic } from '@/api/avenir-esr'
+import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ROUTES } from '@/common/constants'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
@@ -18,7 +18,7 @@ BddTest().given('an ActivityTableTitle component', () => {
   const baseActivity: ActivityTableRow = {
     id: 'activity-1',
     owner: '',
-    status: 'published',
+    status: EActivityStatus.PUBLISHED,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',
     updatedAt: '2025-03-10T14:00:00.000Z',
@@ -85,7 +85,7 @@ BddTest().given('an ActivityTableTitle component', () => {
           activity: {
             ...baseActivity,
             id: 'activity-42',
-            status: 'draft',
+            status: EActivityStatus.DRAFT,
           },
         },
         global: { stubs },
@@ -96,7 +96,7 @@ BddTest().given('an ActivityTableTitle component', () => {
     BddTest().then('it should update the route params accordingly', () => {
       expect(link.props('to')).toEqual({
         name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
-        params: { id: 'activity-42', status: 'draft' },
+        params: { id: 'activity-42', status: EActivityStatus.DRAFT },
       })
     })
   })
