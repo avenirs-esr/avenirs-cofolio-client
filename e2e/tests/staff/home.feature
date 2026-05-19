@@ -35,3 +35,9 @@ Feature: Staff Home Page
     Scenario: Main navigation is fully visible on desktop
       Then the staff main navigation menu is visible
       And the staff HOME link is visible
+      And the staff ACTIVITIES link is visible
+
+    @high @navigation @desktop
+    Scenario: Staff can navigate to activities pages
+      When the user click on the ACTIVITIES link
+      Then the page navigates to activities page

@@ -14,4 +14,8 @@ export class StaffLayout extends BaseObject {
   getHomeNavLink () {
     return this.getMainNavigation().locator(`[data-testid="nav-router-link"][href="${STAFF_ROUTES.HOME}"]`)
   }
+
+  getActivitiesNavLink () {
+    return this.getMainNavigation().locator(`[data-testid="nav-router-link"][href="${STAFF_ROUTES.ACTIVITIES}"]`)
+  }
 }
