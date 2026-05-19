@@ -11,6 +11,12 @@ Feature: Staff Activities Page
       Then the staff activities page is displayed
       And the URL contains "/cofolio/staff/activities"
 
+  Rule: Display activities table
+
+    @high @dataset-full @activities-table
+    Scenario: Staff can see the activities table
+      Then the my workspace table is visible and contains data
+
   Rule: Activity creation
 
     Background:

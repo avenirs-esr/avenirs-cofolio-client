@@ -16,7 +16,10 @@ const to = computed(() => ({
 </script>
 
 <template>
-  <div class="activity-table-title av-col av-gap-xs">
+  <div
+    class="activity-table-title av-col av-gap-xs"
+    data-testid="activity-table-title"
+  >
     <RouterLink
       :to
       class="name b1-bold av-text-text1"

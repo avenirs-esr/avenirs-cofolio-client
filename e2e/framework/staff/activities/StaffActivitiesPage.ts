@@ -20,6 +20,10 @@ export class StaffActivitiesPage extends BasePage {
     return this.page.getByTestId('activity-draft-creation-modal')
   }
 
+  getMyWorkspaceTable () {
+    return this.page.getByTestId('my-workspace-table')
+  }
+
   @Given('the staff opens the activities page')
   async goToActivitiesPage () {
     await this.page.goto(STAFF_ROUTES.ACTIVITIES)
@@ -34,6 +38,14 @@ export class StaffActivitiesPage extends BasePage {
   @Given('the create activity button is visible')
   async verifyCreateActivityButtonVisible () {
     await expect(this.getCreateActivityButton()).toBeVisible()
+  }
+
+  @Then('the my workspace table is visible and contains data')
+  async verifyMyWorkspaceTableVisible () {
+    await expect(this.getMyWorkspaceTable()).toBeVisible()
+    await expect(this.getMyWorkspaceTable().locator('th')).toHaveCount(4)
+    const rowCount = await this.getMyWorkspaceTable().locator('tr').count()
+    expect(rowCount).toBeGreaterThanOrEqual(2)
   }
 
   @When('the user clicks on the create activity button')
