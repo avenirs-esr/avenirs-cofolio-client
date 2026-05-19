@@ -57,6 +57,7 @@ function onClose () {
     :confirm-button-disabled="!isFormValid"
     :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
     :is-loading="isPending"
+    data-testid="activity-draft-creation-modal"
     @close="onClose"
     @confirm="form.handleSubmit()"
   >
@@ -70,7 +71,10 @@ function onClose () {
       novalidate
       @submit.prevent="form.handleSubmit()"
     >
-      <ActivityTitleFormField :form="form" />
+      <ActivityTitleFormField
+        :form="form"
+        data-testid="activity-title-form-field"
+      />
     </form>
   </AvModal>
 </template>

@@ -104,7 +104,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
 
   BddTest().when('the create activity button is clicked', () => {
     beforeEach(async () => {
-      await wrapper.find('#create-activity-button').trigger('click')
+      await wrapper.find('[data-testid="create-activity-button"]').trigger('click')
     })
 
     BddTest().then('it should open the modal', () => {

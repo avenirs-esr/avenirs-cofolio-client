@@ -72,11 +72,11 @@ const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
 
     <div class="av-row av-justify-end av-py-md">
       <AvButton
-        id="create-activity-button"
         :label="t('staff.activities.views.ActivitiesView.MyWorkspaceTab.createActivity')"
         variant="FLAT"
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         theme="PRIMARY"
+        data-testid="create-activity-button"
         @click="staffActivitiesStore.displayAddActivityModal"
       />
     </div>
