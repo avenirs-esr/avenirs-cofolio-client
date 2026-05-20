@@ -8,6 +8,17 @@ import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-u
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const routeQueryValue = ref<string>('ALL_ACTIVITIES')
+
+vi.mock('@vueuse/router', () => ({
+  useRouteQuery: (_queryName: string, defaultValue: string) => {
+    if (routeQueryValue.value === undefined) {
+      routeQueryValue.value = defaultValue
+    }
+    return routeQueryValue
+  },
+}))
+
 BddTest().given('a project activities view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivitiesView>>
 
@@ -21,6 +32,7 @@ BddTest().given('a project activities view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    routeQueryValue.value = 'ALL_ACTIVITIES'
     wrapper = mountComponent(ProjectActivitiesView, {
       global: { stubs }
     })
