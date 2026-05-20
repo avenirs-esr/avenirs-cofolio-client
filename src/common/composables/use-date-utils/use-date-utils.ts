@@ -10,10 +10,10 @@ interface UseDateUtilsReturn {
   /**
    * Formats a given ISO date string into a human-readable "last modified" string.
    * Example for French locale
-   * - If the date is **today** and modified **≥ 1 hour ago**: returns `"Il y a X heure(s) - DD/MM/YYYY"`
-   * - If the date is **today** and modified **≥ 1 minute ago**: returns `"Il y a X minute(s) - DD/MM/YYYY"`
+   * - If the date is **today** and modified **≥ 1 hour ago**: returns `"Il y a X heure(s)"`
+   * - If the date is **today** and modified **≥ 1 minute ago**: returns `"Il y a X minute(s)"`
    * - If the date is **today** and modified **< 1 minute ago**: returns `"À l'instant"`
-   * - If the date is **not today**: delegates to `formatTranslatedDateTime`
+   * - If the date is **not today**: returns `"JJ/MM/YYYY"`
    *
    * @param date - ISO 8601 date string (e.g. `"2025-10-15T14:32:00Z"`)
    * @returns Formatted string according to the rules above.
@@ -23,16 +23,16 @@ interface UseDateUtilsReturn {
    * const { formatLastModified } = useDateUtils()
    *
    * formatLastModified(subHours(new Date(), 2).toISOString())
-   * // → "Il y a 2 heures - 11/05/2026"
+   * // → "Il y a 2 heures"
    *
    * formatLastModified(subMinutes(new Date(), 30).toISOString())
-   * // → "Il y a 30 minutes - 11/05/2026"
+   * // → "Il y a 30 minutes"
    *
    * formatLastModified(subSeconds(new Date(), 30).toISOString())
    * // → "À l'instant"
    *
    * formatLastModified('2024-01-15T14:30:00Z')
-   * // → "15 janvier 2024 à 15:30" (for French locale)
+   * // → "15/01/2024"
    * ```
    */
   formatLastModified: (date: string) => string
@@ -94,19 +94,18 @@ export function useDateUtils (): UseDateUtilsReturn {
 
     if (isToday(parsedDate)) {
       const now = new Date()
-      const formattedDate = format(parsedDate, 'dd/MM/yyyy')
       const hours = differenceInHours(now, parsedDate)
       if (hours >= 1) {
-        return `${t('global.dates.hoursAgo', { count: hours }, hours)} - ${formattedDate}`
+        return t('global.dates.hoursAgo', { count: hours }, hours)
       }
       const minutes = differenceInMinutes(now, parsedDate)
       if (minutes >= 1) {
-        return `${t('global.dates.minutesAgo', { count: minutes }, minutes)} - ${formattedDate}`
+        return t('global.dates.minutesAgo', { count: minutes }, minutes)
       }
       return t('global.dates.justNow')
     }
 
-    return formatTranslatedDateTime(date)
+    return format(parsedDate, 'dd/MM/yyyy')
   }
 
   return {
