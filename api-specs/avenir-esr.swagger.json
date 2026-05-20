@@ -2885,16 +2885,7 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "SELF_KNOWLEDGE",
-                "FUTURE_PLANS",
-                "PROGRAMS",
-                "EXPERIENCES",
-                "TRAJECTORIES",
-                "RESUMES",
-                "TRANSVERSAL"
-              ]
+              "$ref": "#/components/schemas/EActivityThematic"
             }
           }
         ],
@@ -3013,6 +3004,54 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseActivityStaffOverviewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/staff/library": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getStaffActivityLibrary",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "thematic",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityThematic"
             }
           }
         ],
@@ -3209,6 +3248,37 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}": {
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "deleteActivityDraft",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -6242,6 +6312,7 @@
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
           "MAXIMUM_ALLOWED_ASSOCIATIONS_REACHED",
+          "UNAUTHENTICATED_SESSION",
           "USER_ALREADY_EXISTS",
           "STUDENT_DECLARED_ALREADY_EXIST",
           "DECLARED_ACTIVITY_ALREADY_EXIST",

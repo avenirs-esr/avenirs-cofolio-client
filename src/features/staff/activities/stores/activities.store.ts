@@ -11,18 +11,25 @@ export const useStaffActivitiesStore = defineStore('staffActivities', () => {
   const workingSpaceCurrentPage = ref<number>(0)
   const workingSpacePageSizeSelected = ref<PageSizes>(PageSizes.TWELVE)
 
+  const allActivitiesCurrentPage = ref<number>(0)
+  const allActivitiesPageSizeSelected = ref<PageSizes>(PageSizes.TWELVE)
+
   return {
     showAddActivityModal,
     displayAddActivityModal,
     hideAddActivityModal,
     workingSpaceCurrentPage,
     workingSpacePageSizeSelected,
+    allActivitiesCurrentPage,
+    allActivitiesPageSizeSelected,
   }
 }, {
   persist: {
     pick: [
       'workingSpaceCurrentPage',
       'workingSpacePageSizeSelected',
+      'allActivitiesCurrentPage',
+      'allActivitiesPageSizeSelected',
     ]
   }
 })

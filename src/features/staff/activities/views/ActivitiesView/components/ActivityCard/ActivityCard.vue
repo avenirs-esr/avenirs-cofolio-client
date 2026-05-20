@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface ActivityCardProps {
   activity: ActivityTableRow
+  withStatus?: boolean
 }
 
 const { activity } = defineProps<ActivityCardProps>()
@@ -17,7 +18,7 @@ const { t } = useI18n()
 
 const { formatLastModified } = useDateUtils()
 
-const ownerLabel = computed(() => `${t('global.colon', { before: t('staff.activities.views.ActivitiesView.MyWorkspaceTab.columns.owner') })} ${activity.owner}`)
+const ownerLabel = computed(() => `${t('global.colon', { before: t('staff.activities.views.ActivitiesView.columns.owner') })} ${activity.owner}`)
 const updatedAtLabel = computed(() => `${t('global.colon', { before: t('global.updated') })} ${formatLastModified(activity.updatedAt)}`)
 const to = computed(() => ({
   name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
@@ -56,7 +57,10 @@ const to = computed(() => ({
       <div class="details av-col av-gap-sm av-pb-xs av--mt-sm">
         <div class="av-row av-w-full av-gap-xs av-wrap av-align-center">
           <ActivityThematicBadge :thematic="activity.thematic" />
-          <ActivityStatusBadge :status="activity.status" />
+          <ActivityStatusBadge
+            v-if="withStatus"
+            :status="activity.status"
+          />
         </div>
 
         <AvIconText

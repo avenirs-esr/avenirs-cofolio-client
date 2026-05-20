@@ -1,181 +1,94 @@
-import type { mount, VueWrapper } from '@vue/test-utils'
-import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
-import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
-import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
+import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
+import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
 import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
-import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
-import { AvButtonStub, AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
+import { MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockIsMobile = ref(false)
+const displayAddActivityModal = vi.fn()
+const hideAddActivityModal = vi.fn()
 
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-  return {
-    ...actual,
-    useAvBreakpoints: () => ({
-      isMobile: mockIsMobile,
-    }),
-  }
-})
+vi.mock('@/features/staff/activities/stores/activities.store', () => ({
+  useStaffActivitiesStore: () => ({
+    showAddActivityModal: false,
+    displayAddActivityModal,
+    hideAddActivityModal,
+    workingSpaceCurrentPage: ref(0),
+    workingSpacePageSizeSelected: ref(PageSizes.TWELVE),
+  }),
+}))
 
 BddTest().given('a MyWorkspaceTab component', () => {
-  let wrapper: ReturnType<typeof mount<typeof MyWorkspaceTab>>
+  let wrapper: VueWrapper<InstanceType<typeof MyWorkspaceTab>>
 
   const stubs = {
-    ActivityCard: ActivityCardStub,
+    ActivitiesTab: ActivitiesTabStub,
     ActivityDraftCreationModal: ActivityDraftCreationModalStub,
-    ActivityTableTitle: ActivityTableTitleStub,
-    ActivityStatusBadge: ActivityStatusBadgeStub,
     AvButton: AvButtonStub,
-    AvTable: AvTableStub,
-    Pagination: PaginationStub,
-    QuerySuspense: QuerySuspenseStub,
   }
 
-  const getModal = () => wrapper.findComponent(ActivityDraftCreationModalStub) as VueWrapper<InstanceType<typeof ActivityDraftCreationModalStub>>
-
-  beforeEach(async () => {
+  const mountDefault = async () => {
     vi.clearAllMocks()
-    mockIsMobile.value = false
     wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
     await flushPromises()
+  }
+
+  beforeEach(async () => {
+    await mountDefault()
   })
 
   BddTest().when('the component is mounted', () => {
-    let avTable: VueWrapper<InstanceType<typeof AvTableStub>>
-    let pagination: VueWrapper<InstanceType<typeof PaginationStub>>
+    BddTest().then('it renders the activities tab with the correct props', () => {
+      const activitiesTab = wrapper.findComponent(ActivitiesTabStub)
+      const params = activitiesTab.props('usePaginatedStaffActivitesParams')
 
-    beforeEach(() => {
-      avTable = wrapper.findComponent({ name: 'AvTable' }) as VueWrapper<InstanceType<typeof AvTableStub>>
-      pagination = wrapper.findComponent(PaginationStub) as VueWrapper<InstanceType<typeof PaginationStub>>
+      expect(activitiesTab.exists()).toBe(true)
+      expect(activitiesTab.props('title')).toBe('Mon espace de travail (0)')
+      expect(activitiesTab.props('emptyStateMessage')).toBe('Aucune activité pour le moment. Commencez par en créer une.')
+      expect(activitiesTab.props('withStatus')).toBe(true)
+
+      expect(params.currentPageRef.value).toBe(0)
+      expect(params.pageSizeRef.value).toBe(PageSizes.TWELVE)
+      expect(params.fetchFn).toBe(useGetStaffActivityWorkingSpace)
     })
 
-    BddTest().then('it should render the component', () => {
-      expect(wrapper.find('[data-testid="my-workspace-tab"]').exists()).toBe(true)
+    BddTest().then('it renders the create activity button with correct props', () => {
+      const button = wrapper.findComponent(AvButtonStub)
+
+      expect(button.exists()).toBe(true)
+      expect(button.props('label')).toBe('Créer une activité')
+      expect(button.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
     })
 
-    BddTest().then('it should display the title with the correct count', () => {
-      expect(wrapper.find('[data-testid="my-workspace-tab-title"]').text()).toContain('(6)')
-    })
+    BddTest().then('it renders the activity draft creation modal closed by default', () => {
+      const modal = wrapper.findComponent(ActivityDraftCreationModalStub)
 
-    BddTest().then('it should render the AvTable', () => {
-      expect(avTable.exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass 4 columns to the table', () => {
-      expect(avTable.props('columns')).toHaveLength(4)
-    })
-
-    BddTest().then('it should pass the rows to the table', () => {
-      expect(avTable.props('rows')).toHaveLength(6)
-    })
-
-    BddTest().then('it should render the Pagination', () => {
-      expect(pagination.exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass the correct totalElements to Pagination', () => {
-      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 6 })
-    })
-
-    BddTest().then('it should render the modal closed', () => {
-      expect(getModal().props('opened')).toBe(false)
-    })
-
-    BddTest().and('the column labels are correct', () => {
-      let columns: { key: string, label: string }[]
-
-      beforeEach(() => {
-        columns = avTable.props('columns') as { key: string, label: string }[]
-      })
-
-      BddTest().then('it should have the activity name column label', () => {
-        expect(columns.find(c => c.key === 'title')?.label).toBe('Nom de l\'activité')
-      })
-
-      BddTest().then('it should have the last modification column label', () => {
-        expect(columns.find(c => c.key === 'updatedAt')?.label).toBe('Dernière modification')
-      })
-
-      BddTest().then('it should have the owner column label', () => {
-        expect(columns.find(c => c.key === 'owner')?.label).toBe('Propriétaire')
-      })
-
-      BddTest().then('it should have the status column label', () => {
-        expect(columns.find(c => c.key === 'status')?.label).toBe('Statut')
-      })
-    })
-
-    BddTest().and('the title column slot is rendered', () => {
-      BddTest().then('it should render one ActivityTableTitle per row', () => {
-        const titles = wrapper.findAllComponents({ name: 'ActivityTableTitle' })
-        expect(titles).toHaveLength(6)
-      })
-    })
-
-    BddTest().and('the status column slot is rendered', () => {
-      BddTest().then('it should render one ActivityStatusBadge per row', () => {
-        const titles = wrapper.findAllComponents(ActivityStatusBadgeStub)
-        expect(titles).toHaveLength(6)
-      })
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('opened')).toBe(false)
     })
   })
 
   BddTest().when('the create activity button is clicked', () => {
     beforeEach(async () => {
-      await wrapper.find('[data-testid="create-activity-button"]').trigger('click')
+      await mountDefault()
+      await wrapper.findComponent(AvButtonStub).trigger('click')
     })
 
-    BddTest().then('it should open the modal', () => {
-      expect(getModal().props('opened')).toBe(true)
+    BddTest().then('it should call displayAddActivityModal', () => {
+      expect(displayAddActivityModal).toHaveBeenCalled()
     })
 
     BddTest().and('the modal emits close', () => {
       beforeEach(() => {
-        getModal().vm.$emit('close')
+        wrapper.findComponent(ActivityDraftCreationModalStub).vm.$emit('close')
       })
 
-      BddTest().then('it should close the modal', () => {
-        expect(getModal().props('opened')).toBe(false)
+      BddTest().then('it should call hideAddActivityModal', () => {
+        expect(hideAddActivityModal).toHaveBeenCalled()
       })
-    })
-  })
-
-  BddTest().when('the component is mounted in mobile view', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = true
-      wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
-      await flushPromises()
-    })
-
-    BddTest().then('it should render one ActivityCard per row', () => {
-      const cards = wrapper.findAllComponents(ActivityCardStub)
-      expect(cards).toHaveLength(6)
-    })
-
-    BddTest().then('it should not render the AvTable', () => {
-      expect(wrapper.findComponent(AvTableStub).exists()).toBe(false)
-    })
-  })
-
-  BddTest().when('the component is mounted in desktop view', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = false
-      wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
-      await flushPromises()
-    })
-
-    BddTest().then('it should render the AvTable', () => {
-      expect(wrapper.findComponent(AvTableStub).exists()).toBe(true)
-    })
-
-    BddTest().then('it should not render ActivityCard', () => {
-      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(0)
     })
   })
 })
