@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
@@ -10,7 +11,12 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const activeTab = ref(0)
+enum ProjectActivitiesTab {
+  ALL_ACTIVITIES = 0,
+  ACTIVITY_LIBRARY = 1,
+}
+
+const activeTab = useEnumRouteQuery('tab', ProjectActivitiesTab, 'ALL_ACTIVITIES')
 
 const activitiesStore = useProjectActivitiesStore()
 
