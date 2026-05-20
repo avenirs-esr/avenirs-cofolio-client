@@ -43,6 +43,7 @@ const breadcrumbLinks = computed(() => [
 const { data: activity, isLoading, error } = useGetActivityContent(EActivityStatus.DRAFT, id)
 
 const defaultValues: EditActivityFormData = reactive({
+  description: computed(() => activity.value?.description ?? ''),
   title: computed(() => activity.value?.title ?? ''),
 })
 
@@ -64,7 +65,7 @@ const form = useForm({
     updateActivity({
       activityStatus: EActivityStatus.DRAFT,
       activityId: id,
-      data: { title: value.title },
+      data: { title: value.title, description: value.description },
     })
   },
 })

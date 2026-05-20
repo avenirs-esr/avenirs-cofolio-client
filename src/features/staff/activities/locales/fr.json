@@ -2,6 +2,11 @@
   "staff": {
     "activities": {
       "interactions": {
+        "formFields": {
+          "ActivityConsignFormField": {
+            "label": "Consigne"
+          }
+        },
         "inputs": {
           "ActivityTitleInput": {
             "label": "Titre de l'activité"

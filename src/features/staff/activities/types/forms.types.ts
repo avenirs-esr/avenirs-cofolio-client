@@ -5,7 +5,7 @@ export interface ActivityDraftCreationFormData {
 }
 
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
-
+  description: string
 }
 
 export type ActivityDraftCreationForm = AnyVueFormApi<ActivityDraftCreationFormData>
