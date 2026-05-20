@@ -72,14 +72,15 @@ BddTest().given('an ActivityCard component', () => {
       })
     })
 
-    BddTest().then('it should render thematic and status badges with the activity values', () => {
+    BddTest().then('it should render the thematic badge with the activity value', () => {
       const thematic = wrapper.findComponent(ActivityThematicBadgeStub)
-      const status = wrapper.findComponent(ActivityStatusBadgeStub)
-
       expect(thematic.exists()).toBe(true)
       expect(thematic.props('thematic')).toBe(baseActivity.thematic)
-      expect(status.exists()).toBe(true)
-      expect(status.props('status')).toBe(baseActivity.status)
+    })
+
+    BddTest().then('it should not render the status badge', () => {
+      const status = wrapper.findComponent(ActivityStatusBadgeStub)
+      expect(status.exists()).toBe(false)
     })
 
     BddTest().then('it should render owner and updated labels', () => {
@@ -91,6 +92,21 @@ BddTest().given('an ActivityCard component', () => {
       expect(iconTexts[1].props('icon')).toBe(MDI_ICONS.CLOCK_ARROW)
       expect(iconTexts[1].props('text')).toContain(`formatted-${baseActivity.updatedAt}`)
       expect(mockFormatLastModified).toHaveBeenCalledWith(baseActivity.updatedAt)
+    })
+  })
+
+  BddTest().when('the component is mounted with withStatus=true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityCard, {
+        props: { activity: baseActivity, withStatus: true },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the status badge with the activity value', () => {
+      const status = wrapper.findComponent(ActivityStatusBadgeStub)
+      expect(status.exists()).toBe(true)
+      expect(status.props('status')).toBe(baseActivity.status)
     })
   })
 
@@ -114,14 +130,12 @@ BddTest().given('an ActivityCard component', () => {
     BddTest().then('it should update route and badges accordingly', () => {
       const link = wrapper.findComponent(RouterLinkStub)
       const thematic = wrapper.findComponent(ActivityThematicBadgeStub)
-      const status = wrapper.findComponent(ActivityStatusBadgeStub)
 
       expect(link.props('to')).toEqual({
         name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
         params: { id: otherActivity.id, status: otherActivity.status },
       })
       expect(thematic.props('thematic')).toBe(otherActivity.thematic)
-      expect(status.props('status')).toBe(otherActivity.status)
     })
 
     BddTest().then('it should use the updated date for formatting', () => {

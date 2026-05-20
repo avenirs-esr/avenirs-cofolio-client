@@ -28,16 +28,24 @@
             "error": "Une erreur est survenue lors de la création de l'activité",
             "title": "Créer une activité"
           },
+          "columns": {
+            "activityName": "Nom de l'activité",
+            "lastModification": "Dernière modification",
+            "owner": "Propriétaire",
+            "status": "Statut"
+          },
           "MyWorkspaceTab": {
-            "columns": {
-              "activityName": "Nom de l'activité",
-              "lastModification": "Dernière modification",
-              "owner": "Propriétaire",
-              "status": "Statut"
-            },
             "createActivity": "Créer une activité",
             "emptyState": "Aucune activité pour le moment. Commencez par en créer une.",
+            "title": "Mon espace de travail ({count})"
+          },
+          "StaffAllActivitiesTab": {
+            "emptyState": "Aucune activité pour le moment.",
             "title": "Toutes les activités publiées dans mon établissement ({count})"
+          },
+          "tabs": {
+            "MyWorkspaceTab": "Mon espace de travail",
+            "StaffAllActivitiesTab": "Toutes les activités publiées"
           }
         },
         "AddNationalActivityView": {

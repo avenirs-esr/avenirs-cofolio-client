@@ -21,7 +21,7 @@ export class StaffActivitiesPage extends BasePage {
   }
 
   getMyWorkspaceTable () {
-    return this.page.getByTestId('my-workspace-table')
+    return this.page.getByTestId('activities-tab-table')
   }
 
   @Given('the staff opens the activities page')

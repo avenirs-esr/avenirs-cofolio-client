@@ -9,5 +9,6 @@ export const ActivityCardStub = defineComponent({
       type: Object as PropType<ActivityTableRow>,
       required: true,
     },
+    withStatus: Boolean,
   },
 })
