@@ -2,6 +2,7 @@ import type { mount, VueWrapper } from '@vue/test-utils'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
@@ -10,10 +11,23 @@ import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    }),
+  }
+})
+
 BddTest().given('a MyWorkspaceTab component', () => {
   let wrapper: ReturnType<typeof mount<typeof MyWorkspaceTab>>
 
   const stubs = {
+    ActivityCard: ActivityCardStub,
     ActivityDraftCreationModal: ActivityDraftCreationModalStub,
     ActivityTableTitle: ActivityTableTitleStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
@@ -27,6 +41,7 @@ BddTest().given('a MyWorkspaceTab component', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
+    mockIsMobile.value = false
     wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
     await flushPromises()
   })
@@ -128,6 +143,39 @@ BddTest().given('a MyWorkspaceTab component', () => {
       BddTest().then('it should close the modal', () => {
         expect(getModal().props('opened')).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('the component is mounted in mobile view', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
+      await flushPromises()
+    })
+
+    BddTest().then('it should render one ActivityCard per row', () => {
+      const cards = wrapper.findAllComponents(ActivityCardStub)
+      expect(cards).toHaveLength(6)
+    })
+
+    BddTest().then('it should not render the AvTable', () => {
+      expect(wrapper.findComponent(AvTableStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted in desktop view', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = false
+      wrapper = mountComponent(MyWorkspaceTab, { global: { stubs } })
+      await flushPromises()
+    })
+
+    BddTest().then('it should render the AvTable', () => {
+      expect(wrapper.findComponent(AvTableStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render ActivityCard', () => {
+      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(0)
     })
   })
 })

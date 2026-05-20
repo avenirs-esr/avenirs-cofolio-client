@@ -7,14 +7,16 @@ import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { useDateUtils, usePagination } from '@/common/composables'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
+import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
-import { AvButton, AvTable, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
+const { isMobile } = useAvBreakpoints()
 
 const staffActivitiesStore = useStaffActivitiesStore()
 
@@ -95,7 +97,18 @@ const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
         :on-update-current-page="onUpdateCurrentPage"
         :on-update-page-size="onUpdatePageSize"
       >
+        <div
+          v-if="isMobile"
+          class="av-col av-gap-sm"
+        >
+          <ActivityCard
+            v-for="activity in rows"
+            :key="activity.id"
+            :activity="activity"
+          />
+        </div>
         <AvTable
+          v-else
           :columns="columns"
           :rows="rows"
           row-key="id"
