@@ -16,7 +16,7 @@ enum ProjectActivitiesTab {
   ACTIVITY_LIBRARY = 1,
 }
 
-const activeTab = useEnumRouteQuery('tab', ProjectActivitiesTab, 'ALL_ACTIVITIES')
+const activeTab = useEnumRouteQuery('tab', ProjectActivitiesTab, ProjectActivitiesTab.ALL_ACTIVITIES)
 
 const activitiesStore = useProjectActivitiesStore()
 

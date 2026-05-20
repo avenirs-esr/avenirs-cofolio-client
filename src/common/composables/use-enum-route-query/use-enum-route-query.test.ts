@@ -36,7 +36,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
 
   BddTest().when('the composable is initialized with the default key', () => {
     beforeEach(() => {
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
     })
 
     BddTest().then('it should return the enum value corresponding to the default key', () => {
@@ -47,7 +47,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
   BddTest().when('the query param holds a valid enum key', () => {
     beforeEach(() => {
       routeQueryValue.value = 'TEST_2'
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
     })
 
     BddTest().then('it should return the enum value corresponding to that key', () => {
@@ -58,7 +58,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
   BddTest().when('the query param holds an invalid / unknown key', () => {
     beforeEach(() => {
       routeQueryValue.value = 'UNKNOWN'
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
     })
 
     BddTest().then('it should fall back to the default enum value', () => {
@@ -68,7 +68,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
 
   BddTest().when('the query param changes to another valid key', () => {
     beforeEach(async () => {
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
       expect(result.value).toBe(TestEnum.TEST_1)
 
       routeQueryValue.value = 'TEST_3'
@@ -83,7 +83,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
   BddTest().when('the query param changes to an invalid key', () => {
     beforeEach(async () => {
       routeQueryValue.value = 'TEST_2'
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
       expect(result.value).toBe(TestEnum.TEST_2)
 
       routeQueryValue.value = 'INVALID'
@@ -97,7 +97,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
 
   BddTest().when('the setter is called with a valid enum value', () => {
     beforeEach(() => {
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
       result.value = TestEnum.TEST_3
     })
 
@@ -109,7 +109,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
   BddTest().when('the setter is called with the default enum value', () => {
     beforeEach(() => {
       routeQueryValue.value = 'TEST_2'
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
       result.value = TestEnum.TEST_1
     })
 
@@ -120,7 +120,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
 
   BddTest().when('the setter is called with a value that has no matching key', () => {
     beforeEach(() => {
-      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'TEST_1'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, TestEnum.TEST_1), {}).result
       result.value = 'not-a-valid-enum-value' as unknown as TestEnum
     })
 
@@ -132,7 +132,7 @@ BddTest().given('a useEnumRouteQuery composable', () => {
   BddTest().when('the composable is used with a numeric enum', () => {
     beforeEach(() => {
       routeQueryValue.value = 'SECOND'
-      result = mountComposable(() => useEnumRouteQuery('tab', TestNumericEnum, 'FIRST'), {}).result
+      result = mountComposable(() => useEnumRouteQuery('tab', TestNumericEnum, TestNumericEnum.FIRST), {}).result
     })
 
     BddTest().then('it should resolve a query key to a numeric enum value', () => {
@@ -147,6 +147,16 @@ BddTest().given('a useEnumRouteQuery composable', () => {
       BddTest().then('it should update the query key', () => {
         expect(routeQueryValue.value).toBe('FIRST')
       })
+    })
+  })
+
+  BddTest().when('initialized with a defaultValue that does not exist in the enum', () => {
+    beforeEach(() => {
+      result = mountComposable(() => useEnumRouteQuery('tab', TestEnum, 'invalid-value' as unknown as TestEnum), {}).result
+    })
+
+    BddTest().then('it should fall back to the first enum key', () => {
+      expect(result.value).toBe(TestEnum.TEST_1)
     })
   })
 })
