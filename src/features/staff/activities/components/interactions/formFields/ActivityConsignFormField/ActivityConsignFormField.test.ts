@@ -1,21 +1,22 @@
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import { ACTIVITY_CONSIGN_MAX_LENGTH } from '@/features/staff/activities/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = defineComponent({
-  components: { ActivityConsignFormField },
-  setup () {
-    const form = useForm({
-      defaultValues: { title: '', description: '' } satisfies EditActivityFormData,
-    })
-    return { form }
-  },
-  template: '<form @submit.prevent="form.handleSubmit()"><ActivityConsignFormField :form="form" /></form>',
+const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivityFormData, 'description'>({
+  formFieldComponent: ActivityConsignFormField,
+  fieldName: 'description',
+  defaultValue: '',
+  useValidator: () =>
+    (value: string) => {
+      return useFormValidators().validateMaxLength(value, ACTIVITY_CONSIGN_MAX_LENGTH)
+    }
+
 })
 
 BddTest().given('an ActivityConsignFormField component', () => {
