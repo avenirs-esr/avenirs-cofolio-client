@@ -22,7 +22,8 @@ const to = computed(() => ({
   >
     <RouterLink
       :to
-      class="name b1-bold av-text-text1"
+      :title="activity.title"
+      class="name av-max-lines b1-bold av-text-text1"
     >
       {{ activity.title }}
     </RouterLink>
@@ -32,6 +33,8 @@ const to = computed(() => ({
 
 <style lang="scss" scoped>
 .activity-table-title {
+  --max-lines: 2;
+
   > .name:hover {
     color: var(--light-foreground-primary2);
     text-decoration: underline;
