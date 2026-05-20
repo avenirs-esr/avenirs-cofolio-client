@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
+import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -18,7 +19,7 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form } = useEditNationalActivityViewContext()
+const { form, save } = useEditNationalActivityViewContext()
 const { t } = useI18n()
 </script>
 
@@ -31,6 +32,15 @@ const { t } = useI18n()
       <ActivityTitleFormField
         :form="form"
         is-textarea
+      />
+    </FormFieldCardContainer>
+    <FormFieldCardContainer
+      :title="t('staff.activities.interactions.formFields.ActivityConsignFormField.label')"
+      :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+    >
+      <ActivityConsignFormField
+        :form="form"
+        @autosave="save"
       />
     </FormFieldCardContainer>
     <div class="av-row av-gap-sm av-justify-end">

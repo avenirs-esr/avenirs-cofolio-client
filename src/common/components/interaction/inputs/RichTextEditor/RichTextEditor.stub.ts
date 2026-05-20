@@ -1,3 +1,5 @@
+import type { PropType } from 'vue'
+
 export const RichTextEditorStub = defineComponent({
   name: 'RichTextEditor',
   props: {
@@ -11,6 +13,10 @@ export const RichTextEditorStub = defineComponent({
     },
     maxlength: {
       type: Number,
+      default: undefined,
+    },
+    errorMessage: {
+      type: [String, Array] as PropType<string | string[]>,
       default: undefined,
     },
   },

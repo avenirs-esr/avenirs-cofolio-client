@@ -1,4 +1,5 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
@@ -14,10 +15,11 @@ BddTest().given('an ActivityContentTab component', () => {
   let tab: VueWrapper<InstanceType<typeof ActivityContentTab>>
 
   const stubs = {
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    ActivityConsignFormField: ActivityConsignFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
+    FormFieldCardContainer: FormFieldCardContainerStub,
   }
 
   beforeEach(() => {
@@ -36,6 +38,10 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should render ActivityTitleFormField', () => {
       expect(tab.findComponent({ name: 'ActivityTitleFormField' }).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityConsignFormField', () => {
+      expect(tab.findComponent({ name: 'ActivityConsignFormField' }).exists()).toBe(true)
     })
 
     BddTest().then('it should render EditNationalActivityViewTabActions', () => {
