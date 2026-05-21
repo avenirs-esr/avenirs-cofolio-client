@@ -53,6 +53,7 @@ const { data: activity, isLoading, error } = useGetActivityContent(EActivityStat
 const defaultValues: EditActivityFormData = reactive({
   description: computed(() => activity.value?.description ?? ''),
   title: computed(() => activity.value?.title ?? ''),
+  summary: computed(() => activity.value?.summary ?? ''),
 })
 
 const { mutate: updateActivity } = useUpdateActivity({

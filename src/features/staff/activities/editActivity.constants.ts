@@ -12,7 +12,7 @@ export enum PublicationSectionId {
   ACTIVITY_TITLE = 'ACTIVITY_TITLE',
   TARGET_GROUPS = 'TARGET_GROUPS',
   IMAGE = 'IMAGE',
-  EXCERPT = 'EXCERPT',
+  SUMMARY = 'SUMMARY',
   CONTEXT = 'CONTEXT',
 }
 

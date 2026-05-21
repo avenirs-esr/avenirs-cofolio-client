@@ -24,8 +24,10 @@ const descriptionValidators = {
   onChange: ({ value }: { value: string }) => validateMaxLength(value, ACTIVITY_CONSIGN_MAX_LENGTH),
 }
 
-const debouncedAutosave = debounce((value: string) => {
-  emit('autosave', { description: value })
+const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
+  if (!hasErrors) {
+    emit('autosave', { description: value })
+  }
 }, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 </script>
 
@@ -39,7 +41,10 @@ const debouncedAutosave = debounce((value: string) => {
         :model-value="field.state.value"
         :maxlength="ACTIVITY_CONSIGN_MAX_LENGTH"
         :error-message="field.state.meta.errors?.join(', ')"
-        @update:model-value="(value) => { field.handleChange(value ?? ''); debouncedAutosave(value ?? '') }"
+        @update:model-value="(value) => {
+          field.handleChange(value ?? '');
+          debouncedAutosave(value ?? '', field.state.meta.errors.length > 0)
+        }"
       />
     </template>
   </FormField>

@@ -9,6 +9,8 @@ const props = defineProps<InputProps>()
 const { t } = useI18n()
 const attrs = useAttrs()
 
+const content = defineModel<string | number | null>()
+
 const avInputProps: ComputedRef<AvInputProps> = computed(() => ({
   ...attrs,
   ...props,
@@ -16,7 +18,10 @@ const avInputProps: ComputedRef<AvInputProps> = computed(() => ({
 </script>
 
 <template>
-  <AvInput v-bind="avInputProps">
+  <AvInput
+    v-model="content"
+    v-bind="avInputProps"
+  >
     <template
       v-if="avInputProps.maxlength"
       #maxLengthCaption="{ currentValue }"
