@@ -12,11 +12,12 @@ import { markRaw } from 'vue'
 
 interface ActivityConsignFormFieldProps {
   form: EditActivityForm
+  minHeight?: string
 }
 
 defineOptions({ inheritAttrs: false })
 
-const { form } = defineProps<ActivityConsignFormFieldProps>()
+const { form, minHeight = '17.3125rem' } = defineProps<ActivityConsignFormFieldProps>()
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
 }>()
@@ -48,7 +49,7 @@ const debouncedAutosave = debounce((value: string) => {
       <Input
         v-bind="$attrs"
         is-textarea
-        textarea-min-height="15rem"
+        :textarea-min-height="minHeight"
         :model-value="field.state.value"
         :maxlength="ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH"
         :error-message="field.state.meta.errors?.join(', ')"

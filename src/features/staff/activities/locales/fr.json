@@ -50,9 +50,8 @@
             "contentHeader": "Contenu de l'activité",
             "publication": {
               "ACTIVITY_TITLE": "Titre de l'activité",
-              "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
-              "SUMMARY": "Extrait",
               "IMAGE": "Ajouter une image",
+              "SUMMARY_CONTEXT": "Extrait et contexte(s) de réalisation conseillé(s)",
               "TARGET_GROUPS": "Groupe(s) Cible(s)"
             },
             "publicationHeader": "Publication de l'activité"
@@ -76,6 +75,7 @@
             "title": "Prise de recul"
           },
           "ActivitySummaryFormField": {
+            "label": "Extrait",
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
           "ActivityTraceFormField": {

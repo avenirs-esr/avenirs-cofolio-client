@@ -1,4 +1,5 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { ActivityExecutionPeriodFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.stub'
 import { ActivitySummaryFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.stub'
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
@@ -15,6 +16,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   const stubs = {
     ActivitySummaryFormField: ActivitySummaryFormFieldStub,
+    ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
     FormFieldCardContainer: FormFieldCardContainerStub,
   }
 
@@ -40,13 +42,18 @@ BddTest().given('an ActivityPublicationTab component', () => {
       expect(tab.findComponent({ name: 'ActivitySummaryFormField' }).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the SUMMARY section anchor', () => {
-      expect(tab.find(`#${PublicationSectionId.SUMMARY}`).exists()).toBe(true)
+    BddTest().then('it should render the SUMMARY_CONTEXT section anchor', () => {
+      expect(tab.find(`#${PublicationSectionId.SUMMARY_CONTEXT}`).exists()).toBe(true)
     })
 
     BddTest().then('it should pass the form to ActivitySummaryFormField', () => {
       const summaryField = tab.findComponent(ActivitySummaryFormFieldStub)
       expect(summaryField.props('form')).toBeTruthy()
+    })
+
+    BddTest().then('it should pass the form to ActivityExecutionPeriodFormField', () => {
+      const executionPeriodField = tab.findComponent(ActivityExecutionPeriodFormFieldStub)
+      expect(executionPeriodField.props('form')).toBeTruthy()
     })
   })
 
@@ -57,6 +64,16 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should call save from the view context', () => {
       expect(mockSave).toHaveBeenCalledWith({ summary: 'Resume MAJ' })
+    })
+  })
+
+  BddTest().when('ActivityExecutionPeriodFormField emits autosave', () => {
+    beforeEach(() => {
+      tab.findComponent(ActivityExecutionPeriodFormFieldStub).vm.$emit('autosave', { executionPeriod: 'Période MAJ' })
+    })
+
+    BddTest().then('it should call save from the view context', () => {
+      expect(mockSave).toHaveBeenCalledWith({ executionPeriod: 'Période MAJ' })
     })
   })
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
+import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivitySummaryFormField from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.vue'
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -20,13 +21,13 @@ const { form, save } = useEditNationalActivityViewContext()
 
 <template>
   <div class="av-col av-gap-xl">
-    <div class="av-row av-w-full av-gap-sm">
-      <div
-        :id="PublicationSectionId.SUMMARY"
-        class="av-flex-fill"
-      >
+    <div
+      :id="PublicationSectionId.SUMMARY_CONTEXT"
+      class="av-row av-w-full av-gap-sm"
+    >
+      <div class="av-flex-fill">
         <FormFieldCardContainer
-          :title="`${t('staff.activities.views.AddNationalActivityView.sideNavigation.publication.SUMMARY')} *`"
+          :title="`${t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.label')} *`"
           :title-icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
         >
           <ActivitySummaryFormField
@@ -35,6 +36,23 @@ const { form, save } = useEditNationalActivityViewContext()
           />
         </FormFieldCardContainer>
       </div>
+      <div class="av-flex-fill">
+        <FormFieldCardContainer
+          :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
+          :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+        >
+          <ActivityExecutionPeriodFormField
+            :form="form"
+            @autosave="save"
+          />
+        </FormFieldCardContainer>
+      </div>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+:deep(textarea) {
+  resize: none !important;
+}
+</style>

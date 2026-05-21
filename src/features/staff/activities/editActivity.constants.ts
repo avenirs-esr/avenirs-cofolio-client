@@ -12,8 +12,7 @@ export enum PublicationSectionId {
   ACTIVITY_TITLE = 'ACTIVITY_TITLE',
   TARGET_GROUPS = 'TARGET_GROUPS',
   IMAGE = 'IMAGE',
-  SUMMARY = 'SUMMARY',
-  CONTEXT = 'CONTEXT',
+  SUMMARY_CONTEXT = 'SUMMARY_CONTEXT',
 }
 
 export enum EditActivityTabIndex {
