@@ -50,9 +50,8 @@
             "contentHeader": "Activity content",
             "publication": {
               "ACTIVITY_TITLE": "Activity title",
-              "CONTEXT": "Recommended completion context(s)",
               "IMAGE": "Add an image",
-              "SUMMARY": "Summary",
+              "SUMMARY_CONTEXT": "Summary and recommended completion context(s)",
               "TARGET_GROUPS": "Target group(s)"
             },
             "publicationHeader": "Prepare publication"
@@ -67,6 +66,7 @@
             "title": "Prepare publication"
           },
           "ActivitySummaryFormField": {
+            "label": "Summary",
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
           },
           "EditNationalActivityViewTabActions": {

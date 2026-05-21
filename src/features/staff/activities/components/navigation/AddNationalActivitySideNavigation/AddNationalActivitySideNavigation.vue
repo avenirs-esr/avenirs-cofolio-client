@@ -6,7 +6,8 @@ import { AvSideNavigation, type AvSideNavigationMenuItem, type AvSideNavigationS
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
-const { activeTab } = defineProps<AddNationalActivitySideNavigationProps>()
+const props = defineProps<AddNationalActivitySideNavigationProps>()
+const { activeTab } = toRefs(props)
 
 const { t } = useI18n()
 const router = useRouter()
@@ -56,17 +57,20 @@ const publicationItems = computed<AvSideNavigationMenuItem[]>(() => [
 ])
 
 const items = computed<AvSideNavigationMenuItem[]>(() => {
-  return activeTab === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
+  return activeTab.value === EditActivityTabIndex.PUBLICATION ? publicationItems.value : contentItems.value
 })
 
 function navigateToSelectedItem (item: AvSideNavigationSelectedItem) {
   isManualNavigation.value = true
   selectedItem.value = item
+
   router.replace({
     query: route.query,
     hash: `#${item.itemId}`,
   })
+
   scrollToElement(item.itemId)
+
   window.setTimeout(() => {
     isManualNavigation.value = false
   }, 500)
@@ -78,17 +82,17 @@ watch(activeElementId, () => {
   }
 })
 
-watch(() => activeTab, (newValue) => {
-  const itemId = newValue === EditActivityTabIndex.PUBLICATION ? publicationItems.value[0].id : contentItems.value[0].id
-  selectedItem.value = { itemId }
-
+watch(activeTab, (newValue) => {
   requestAnimationFrame(() => {
+    const itemId = newValue === EditActivityTabIndex.PUBLICATION ? publicationItems.value[0].id : contentItems.value[0].id
+    selectedItem.value = { itemId }
+
     router.replace({
       query: route.query,
       path: route.path,
     })
   })
-})
+}, { immediate: true })
 </script>
 
 <template>
@@ -101,3 +105,9 @@ watch(() => activeTab, (newValue) => {
     @update:selected-item="navigateToSelectedItem"
   />
 </template>
+
+<style lang="scss" scoped>
+:deep(.av-side-menu__content) {
+  max-width: var(--dimension-7xl) !important;
+}
+</style>

@@ -55,6 +55,7 @@ const { t } = useI18n()
       >
         <ActivityExecutionPeriodFormField
           :form="form"
+          min-height="15rem"
           @autosave="save"
         />
       </FormFieldCardContainer>

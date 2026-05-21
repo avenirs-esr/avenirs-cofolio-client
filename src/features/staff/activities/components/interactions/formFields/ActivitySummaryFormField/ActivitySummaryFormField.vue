@@ -46,6 +46,7 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
         :maxlength="ACTIVITY_SUMMARY_MAX_LENGTH"
         :placeholder="t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.placeholder')"
         :error-message="field.state.meta.errors?.join(', ')"
+        textarea-min-height="17.3125rem"
         is-textarea
         @update:model-value="(value) => {
           field.handleChange(value?.toString() ?? '');
@@ -55,9 +56,3 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
     </template>
   </FormField>
 </template>
-
-<style lang="scss" scoped>
-:deep(textarea) {
-  min-height: 17.3125rem !important;
-}
-</style>

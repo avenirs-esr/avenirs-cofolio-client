@@ -5,6 +5,10 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
 const replaceMock = vi.fn()
+const requestAnimationFrameMock = vi.spyOn(window, 'requestAnimationFrame').mockImplementation((callback: FrameRequestCallback) => {
+  callback(0)
+  return 0
+})
 
 const routeQuery = { tab: 'CONTENT', mode: 'edit' }
 
@@ -69,6 +73,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
   BddTest().when('an item is clicked', () => {
     beforeEach(() => {
       replaceMock.mockClear()
+      requestAnimationFrameMock.mockClear()
       wrapper = mount(AddNationalActivitySideNavigation, {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         attachTo: document.body,
@@ -92,7 +97,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         parentId: 'CONTENT',
       })
 
-      expect(replaceMock).toHaveBeenCalledWith({
+      expect(replaceMock).toHaveBeenLastCalledWith({
         query: routeQuery,
         hash: `#${ContentSectionId.TITLE}`,
       })
@@ -123,6 +128,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
 
   BddTest().when('mounted', () => {
     beforeEach(() => {
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
       wrapper = mount(AddNationalActivitySideNavigation, {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         global: {
