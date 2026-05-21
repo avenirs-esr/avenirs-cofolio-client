@@ -1,5 +1,5 @@
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
-import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
+import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import { ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH } from '@/features/staff/activities/config'
@@ -22,9 +22,9 @@ const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivit
 BddTest().given('an ActivityExecutionPeriodFormField component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
-  const stubs = { RichTextEditor: RichTextEditorStub }
+  const stubs = { Input: InputStub }
 
-  const getEditor = () => wrapper.findComponent(RichTextEditorStub) as VueWrapper<InstanceType<typeof RichTextEditorStub>>
+  const getEditor = () => wrapper.findComponent(InputStub) as VueWrapper<InstanceType<typeof InputStub>>
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -32,7 +32,7 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the RichTextEditor', () => {
+    BddTest().then('it should render the Input', () => {
       expect(getEditor().exists()).toBe(true)
     })
 

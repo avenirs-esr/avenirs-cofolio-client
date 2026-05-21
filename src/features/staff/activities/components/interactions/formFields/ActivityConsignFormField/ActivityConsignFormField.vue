@@ -26,7 +26,6 @@ const descriptionValidators = {
 
 const isFormDirty = form.useStore(state => state.isDirty)
 
-
 const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
   if (isFormDirty.value && !hasErrors) {
     emit('autosave', { description: value })
