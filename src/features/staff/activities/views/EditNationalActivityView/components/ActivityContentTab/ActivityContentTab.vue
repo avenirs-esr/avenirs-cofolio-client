@@ -2,6 +2,8 @@
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
+import ActivityExecutionPeriodFormField
+  from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
@@ -46,10 +48,21 @@ const { t } = useI18n()
         />
       </FormFieldCardContainer>
     </div>
-
+    <div :id="ContentSectionId.CONTEXT">
+      <FormFieldCardContainer
+        :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
+        :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+      >
+        <ActivityExecutionPeriodFormField
+          :form="form"
+          @autosave="save"
+        />
+      </FormFieldCardContainer>
+    </div>
     <div class="av-row av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton
+        data-testid="activity-content-tab-next-step-button"
         variant="FLAT"
         :icon="MDI_ICONS.ARROW_RIGHT"
         :label="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.nextStepLabel')"

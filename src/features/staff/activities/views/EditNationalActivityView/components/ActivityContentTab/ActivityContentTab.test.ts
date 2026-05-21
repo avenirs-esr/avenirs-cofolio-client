@@ -23,6 +23,8 @@ BddTest().given('an ActivityContentTab component', () => {
     FormFieldCardContainer: FormFieldCardContainerStub,
   }
 
+  const getNextStepButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
+
   beforeEach(() => {
     vi.clearAllMocks()
     wrapper = mount(EditNationalActivityViewFormWrapper, {
@@ -49,22 +51,26 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.find(`#${ContentSectionId.INSTRUCTIONS}`).exists()).toBe(true)
     })
 
+    BddTest().then('it should render ActivityExecutionPeriodFormField', () => {
+      expect(tab.findComponent({ name: 'ActivityExecutionPeriodFormField' }).exists()).toBe(true)
+    })
+
     BddTest().then('it should render EditNationalActivityViewTabActions', () => {
       expect(tab.findComponent({ name: 'EditNationalActivityViewTabActions' }).exists()).toBe(true)
     })
 
     BddTest().then('it should render the next step AvButton', () => {
-      expect(tab.findComponent({ name: 'AvButton' }).exists()).toBe(true)
+      expect(getNextStepButton().exists()).toBe(true)
     })
 
     BddTest().then('it should render the next step button with correct label', () => {
-      expect(tab.findComponent({ name: 'AvButton' }).props('label')).toBe('Étape suivante')
+      expect(getNextStepButton().props('label')).toBe('Étape suivante')
     })
   })
 
   BddTest().when('the next step button is clicked', () => {
     beforeEach(async () => {
-      await tab.findComponent({ name: 'AvButton' }).trigger('click')
+      await getNextStepButton().trigger('click')
     })
 
     BddTest().then('it should emit nextStep', () => {
