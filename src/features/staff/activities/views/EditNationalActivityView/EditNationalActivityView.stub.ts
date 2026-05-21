@@ -30,7 +30,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
   slots,
   setup () {
     const form = useForm({
-      defaultValues: { title: '', description: '', summary: '',  executionPeriodInfo: '' } satisfies EditActivityFormData,
+      defaultValues: { title: '', description: '', summary: '', executionPeriodInfo: '' } satisfies EditActivityFormData,
     })
 
     provideEditNationalActivityViewContext({ form, save: mockSave, cancel: mockCancel })

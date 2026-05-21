@@ -79,6 +79,7 @@ const form = useForm({
         title: value.title,
         description: value.description,
         executionPeriodInfo: value.executionPeriodInfo,
+        summary: value.summary,
       },
     })
   },
