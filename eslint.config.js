@@ -1,4 +1,4 @@
-import antfu from '@antfu/eslint-config'
+import antfu from '@antfu/eslint-config';
 import autoImportConfig from "./auto-import-config.json" with { type: 'json' };
 
 export default antfu({
@@ -9,7 +9,7 @@ export default antfu({
     '.vscode/',
     'eslint.config.js',
     'public/**/*',
-    'e2e/.features-gen/**/*'
+    'e2e/.features-gen/**/*',
   ],
 }, {
   rules: {
@@ -65,6 +65,18 @@ export default antfu({
     'import/no-relative-packages': 'error',
     'import/no-relative-parent-imports': 'error',
 
+  },
+}, {
+  files: ['**/*.vue'],
+  rules: {
+    'vue/no-undef-components': ['error', {
+      ignorePatterns: ['RouterLink', 'RouterView'],
+    }],
+  },
+}, {
+  files: ['**/*.md', '**/*.md/**'],
+  rules: {
+    'vue/no-undef-components': 'off',
   },
 }, {
   files: ['**/index.ts', '**/index.js'],
