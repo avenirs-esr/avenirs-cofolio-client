@@ -48,7 +48,7 @@
             "publication": {
               "ACTIVITY_TITLE": "Titre de l'activité",
               "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
-              "EXCERPT": "Extrait",
+              "SUMMARY": "Extrait",
               "IMAGE": "Ajouter une image",
               "TARGET_GROUPS": "Groupe(s) Cible(s)"
             },
@@ -62,6 +62,9 @@
           },
           "ActivityPublicationTab": {
             "title": "Préparer la publication"
+          },
+          "ActivitySummaryFormField": {
+            "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
           "EditNationalActivityViewTabActions": {
             "cancelLabel": "Annuler",
