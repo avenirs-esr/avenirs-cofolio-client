@@ -57,7 +57,11 @@
         },
         "EditNationalActivityView": {
           "ActivityContentTab": {
-            "nextStepLabel": "Étape suivante"
+            "nextStepLabel": "Étape suivante",
+            "title": "Renseigner le contenu"
+          },
+          "ActivityPublicationTab": {
+            "title": "Préparer la publication"
           },
           "EditNationalActivityViewTabActions": {
             "cancelLabel": "Annuler",

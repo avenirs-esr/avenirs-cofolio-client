@@ -16,9 +16,10 @@ import { ROUTES } from '@/common/constants'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
+import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
@@ -117,10 +118,20 @@ provideEditNationalActivityViewContext({ form, save, cancel })
         :active-tab="activeTab"
       />
       <div class="av-col av-flex-fill">
-        <ActivityContentTab
-          v-if="activeTab === EditActivityTabIndex.CONTENT"
-          :activity="activity!"
-        />
+        <AvTabs v-model="activeTab">
+          <AvTab
+            :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
+            :icon="MDI_ICONS.PENCIL_OUTLINE"
+          >
+            <ActivityContentTab :activity="activity!" />
+          </AvTab>
+          <AvTab
+            :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
+            :icon="RI_ICONS.SEND_PLANE_LINE"
+          >
+            <ActivityPublicationTab :activity="activity!" />
+          </AvTab>
+        </AvTabs>
       </div>
     </div>
   </QuerySuspense>

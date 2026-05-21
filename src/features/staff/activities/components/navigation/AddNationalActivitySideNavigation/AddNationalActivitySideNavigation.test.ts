@@ -4,6 +4,19 @@ import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-ut
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
+const replaceMock = vi.fn()
+
+const routeQuery = { tab: 'CONTENT', mode: 'edit' }
+
+vi.mock('vue-router', () => ({
+  useRouter: () => ({
+    replace: replaceMock,
+  }),
+  useRoute: () => ({
+    query: routeQuery,
+  }),
+}))
+
 BddTest().given('AddNationalActivitySideNavigation component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AddNationalActivitySideNavigation>>
 
@@ -55,6 +68,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
 
   BddTest().when('an item is clicked', () => {
     beforeEach(() => {
+      replaceMock.mockClear()
       wrapper = mount(AddNationalActivitySideNavigation, {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         attachTo: document.body,
@@ -78,6 +92,10 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         parentId: 'CONTENT',
       })
 
+      expect(replaceMock).toHaveBeenCalledWith({
+        query: routeQuery,
+        hash: `#${ContentSectionId.TITLE}`,
+      })
       expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
       document.body.removeChild(el)
     })
@@ -85,6 +103,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
 
   BddTest().when('activeTab changes to publication', () => {
     beforeEach(async () => {
+      replaceMock.mockClear()
       wrapper = mount(AddNationalActivitySideNavigation, {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         global: {

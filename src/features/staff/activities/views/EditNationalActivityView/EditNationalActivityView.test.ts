@@ -8,9 +8,10 @@ import { ROUTES } from '@/common/constants'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.stub'
+import { ActivityPublicationTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
 import { type EditNationalActivityViewContext, editNationalActivityViewContextKey } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type ExposedComponentInstance, mountComponent } from 'tests/utils'
 import { vi } from 'vitest'
 
@@ -62,7 +63,10 @@ BddTest().given('a national activity view', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityContentTab: ActivityContentTabStub,
+    ActivityPublicationTab: ActivityPublicationTabStub,
     AddNationalActivitySideNavigation: AddNationalActivitySideNavigationStub,
+    AvTabs: AvTabsStub,
+    AvTab: AvTabStub,
   }
 
   const mountView = () => mountComponent(EditNationalActivityView, {
@@ -187,6 +191,22 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should not render AddNationalActivitySideNavigation', () => {
       expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the publication tab is selected', () => {
+    beforeEach(async () => {
+      mockMode.value = 'edit'
+      wrapper = mountView()
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+      })
+      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should render the publication tab component', () => {
+      expect(wrapper.findComponent(ActivityPublicationTabStub).exists()).toBe(true)
     })
   })
 })

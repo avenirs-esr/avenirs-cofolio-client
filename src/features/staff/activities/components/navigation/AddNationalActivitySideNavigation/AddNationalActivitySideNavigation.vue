@@ -2,12 +2,15 @@
 import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
-import { AvSideNavigation, type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvSideNavigation, type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 
 const { activeTab } = defineProps<AddNationalActivitySideNavigationProps>()
 
 const { t } = useI18n()
+const router = useRouter()
+const route = useRoute()
 
 interface AddNationalActivitySideNavigationProps {
   activeTab: EditActivityTabIndex
@@ -43,7 +46,7 @@ const publicationItems = computed<AvSideNavigationMenuItem[]>(() => [
   {
     id: 'PUBLICATION',
     label: t('staff.activities.views.AddNationalActivityView.sideNavigation.publicationHeader'),
-    icon: MDI_ICONS.PENCIL_OUTLINE,
+    icon: RI_ICONS.SEND_PLANE_LINE,
     expanded: true,
     children: Object.values(PublicationSectionId).map(id => ({
       id,
@@ -59,6 +62,10 @@ const items = computed<AvSideNavigationMenuItem[]>(() => {
 function navigateToSelectedItem (item: AvSideNavigationSelectedItem) {
   isManualNavigation.value = true
   selectedItem.value = item
+  router.replace({
+    query: route.query,
+    hash: `#${item.itemId}`,
+  })
   scrollToElement(item.itemId)
   window.setTimeout(() => {
     isManualNavigation.value = false
@@ -69,6 +76,18 @@ watch(activeElementId, () => {
   if (!isManualNavigation.value) {
     selectedItem.value = { itemId: activeElementId.value ?? '' }
   }
+})
+
+watch(() => activeTab, (newValue) => {
+  const itemId = newValue === EditActivityTabIndex.PUBLICATION ? publicationItems.value[0].id : contentItems.value[0].id
+  selectedItem.value = { itemId }
+
+  requestAnimationFrame(() => {
+    router.replace({
+      query: route.query,
+      path: route.path,
+    })
+  })
 })
 </script>
 
