@@ -19,7 +19,10 @@ const { form, save } = useEditNationalActivityViewContext()
 </script>
 
 <template>
-  <div class="av-col av-gap-xl">
+  <div
+    class="av-col av-gap-xl"
+    data-testid="activity-publication-tab-content"
+  >
     <div class="av-row av-w-full av-gap-sm">
       <div
         :id="PublicationSectionId.SUMMARY"

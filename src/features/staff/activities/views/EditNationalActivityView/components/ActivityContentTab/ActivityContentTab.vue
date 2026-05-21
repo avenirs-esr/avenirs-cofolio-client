@@ -27,7 +27,10 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="av-col av-gap-xl">
+  <div
+    class="av-col av-gap-xl"
+    data-testid="activity-content-tab"
+  >
     <div :id="ContentSectionId.TITLE">
       <FormFieldCardContainer
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.TITLE')"

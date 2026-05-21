@@ -19,6 +19,7 @@ const to = computed(() => ({
   <div
     class="activity-table-title av-col av-gap-xs"
     data-testid="activity-table-title"
+    :data-activity-id="activity.id"
   >
     <RouterLink
       :to

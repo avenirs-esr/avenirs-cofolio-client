@@ -35,6 +35,8 @@ const to = computed(() => ({
       background-color="var(--card)"
       title-background="var(--card)"
       class="activity-card"
+      data-testid="activity-card-title"
+      :data-activity-id="activity.id"
     >
       <template #title>
         <div class="av-row av-w-full av-gap-sm av-align-center">

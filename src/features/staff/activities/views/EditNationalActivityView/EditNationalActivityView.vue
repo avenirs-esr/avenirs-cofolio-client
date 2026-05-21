@@ -129,12 +129,14 @@ provideEditNationalActivityViewContext({ form, save, cancel })
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
+            data-testid="activity-content-tab"
           >
             <ActivityContentTab :activity="activity!" />
           </AvTab>
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
             :icon="RI_ICONS.SEND_PLANE_LINE"
+            data-testid="activity-publication-tab"
           >
             <ActivityPublicationTab :activity="activity!" />
           </AvTab>

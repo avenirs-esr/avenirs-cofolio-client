@@ -31,6 +31,7 @@ const titleValidators = {
     <template #default="{ field }">
       <ActivityTitleInput
         v-bind="$attrs"
+        data-testid="activity-title-form-field"
         :model-value="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"
