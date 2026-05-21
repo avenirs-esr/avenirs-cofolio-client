@@ -5,6 +5,9 @@
         "formFields": {
           "ActivityConsignFormField": {
             "label": "Consign"
+          },
+          "ActivityExecutionPeriodFormField": {
+            "label": "Recommended execution context(s)"
           }
         },
         "inputs": {
