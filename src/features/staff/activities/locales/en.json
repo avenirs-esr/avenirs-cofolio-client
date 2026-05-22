@@ -14,6 +14,10 @@
           "ActivityTitleInput": {
             "label": "Activity title"
           }
+        },
+        "ThematicSelect": {
+          "label": "Thematic",
+          "placeholder": "Choose a thematic"
         }
       },
       "views": {
