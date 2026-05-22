@@ -7,8 +7,9 @@ export interface ActivityDraftCreationFormData {
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
   description: string
   executionPeriodInfo: string
-  summary: string
   feedbackAllowedIterations?: number
+  summary: string
+  traceAllowedAssociations?: number
 }
 
 export type ActivityDraftCreationForm = AnyVueFormApi<ActivityDraftCreationFormData>
