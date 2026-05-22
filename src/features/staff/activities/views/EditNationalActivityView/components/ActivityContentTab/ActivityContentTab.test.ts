@@ -2,6 +2,7 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
+import { ActivityTraceFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.stub'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
@@ -20,6 +21,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityConsignFormField: ActivityConsignFormFieldStub,
     ActivityFeedbackFormField: ActivityFeedbackFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
+    ActivityTraceFormField: ActivityTraceFormFieldStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
     FormFieldCardContainer: FormFieldCardContainerStub,
@@ -59,6 +61,10 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should render ActivityFeedbackFormField', () => {
       expect(tab.findComponent({ name: 'ActivityFeedbackFormField' }).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityTraceFormField', () => {
+      expect(tab.findComponent({ name: 'ActivityTraceFormField' }).exists()).toBe(true)
     })
 
     BddTest().then('it should render EditNationalActivityViewTabActions', () => {

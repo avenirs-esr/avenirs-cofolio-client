@@ -14,6 +14,7 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
+import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
@@ -52,10 +53,11 @@ const { data: activity, isLoading, error } = useGetActivityContent(EActivityStat
 
 const defaultValues: EditActivityFormData = reactive({
   description: computed(() => activity.value?.description ?? ''),
-  title: computed(() => activity.value?.title ?? ''),
-  summary: computed(() => activity.value?.summary ?? ''),
   executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
   feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
+  summary: computed(() => activity.value?.summary ?? ''),
+  title: computed(() => activity.value?.title ?? ''),
+  traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
 })
 
 const { mutate: updateActivity } = useUpdateActivity({
@@ -80,8 +82,9 @@ const form = useForm({
         title: value.title,
         description: value.description,
         executionPeriodInfo: value.executionPeriodInfo,
-        summary: value.summary,
         feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
+        summary: value.summary,
+        traceAllowedAssociations: value.traceAllowedAssociations,
       },
     })
   },

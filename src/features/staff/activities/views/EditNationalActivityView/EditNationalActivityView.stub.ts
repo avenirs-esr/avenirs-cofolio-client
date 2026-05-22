@@ -1,5 +1,6 @@
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import type { SlotsType } from 'vue'
+import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useForm } from '@tanstack/vue-form'
 import { vi } from 'vitest'
@@ -19,9 +20,10 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
     const defaultValues: EditActivityFormData = {
       title: 'Test activity',
       description: '',
-      summary: '',
       executionPeriodInfo: '',
       feedbackAllowedIterations: undefined,
+      summary: '',
+      traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     }
 
     const form = useForm({
@@ -40,9 +42,10 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
     const defaultValues: EditActivityFormData = {
       title: '',
       description: '',
-      summary: '',
       executionPeriodInfo: '',
       feedbackAllowedIterations: undefined,
+      summary: '',
+      traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     }
 
     const form = useForm({

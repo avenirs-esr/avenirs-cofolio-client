@@ -6,6 +6,7 @@ import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
+import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -65,6 +66,10 @@ const { t } = useI18n()
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
         :title-icon="MDI_ICONS.SETTINGS"
       >
+        <ActivityTraceFormField
+          :form="form"
+          @autosave="save"
+        />
         <ActivityFeedbackFormField
           :form="form"
           @autosave="save"
