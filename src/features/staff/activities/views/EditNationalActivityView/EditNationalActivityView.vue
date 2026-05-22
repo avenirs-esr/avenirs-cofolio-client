@@ -55,6 +55,7 @@ const defaultValues: EditActivityFormData = reactive({
   title: computed(() => activity.value?.title ?? ''),
   summary: computed(() => activity.value?.summary ?? ''),
   executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
+  feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
 })
 
 const { mutate: updateActivity } = useUpdateActivity({
@@ -80,6 +81,7 @@ const form = useForm({
         description: value.description,
         executionPeriodInfo: value.executionPeriodInfo,
         summary: value.summary,
+        feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       },
     })
   },

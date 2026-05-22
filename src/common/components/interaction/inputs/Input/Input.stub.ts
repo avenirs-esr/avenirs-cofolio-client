@@ -1,6 +1,6 @@
 export const InputStub = defineComponent({
   name: 'Input',
-  props: ['modelValue', 'label', 'placeholder', 'maxlength', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
+  props: ['modelValue', 'label', 'placeholder', 'maxlength', 'min', 'max', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
   emits: ['update:modelValue'],
   template: `
     <div>
@@ -9,6 +9,8 @@ export const InputStub = defineComponent({
         :value="modelValue"
         :placeholder="placeholder"
         :maxlength="maxlength"
+        :min="min"
+        :max="max"
         :disabled="disabled"
         :required="required"
         @input="$emit('update:modelValue', $event.target.value)"

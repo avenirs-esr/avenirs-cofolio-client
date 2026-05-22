@@ -16,8 +16,16 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
   template,
   slots,
   setup () {
+    const defaultValues: EditActivityFormData = {
+      title: 'Test activity',
+      description: '',
+      summary: '',
+      executionPeriodInfo: '',
+      feedbackAllowedIterations: undefined,
+    }
+
     const form = useForm({
-      defaultValues: { title: 'Test activity', description: '', summary: '', executionPeriodInfo: '' } satisfies EditActivityFormData,
+      defaultValues,
     })
 
     provideEditNationalActivityViewContext({ form, save: mockSave, cancel: mockCancel })
@@ -29,8 +37,16 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
   template,
   slots,
   setup () {
+    const defaultValues: EditActivityFormData = {
+      title: '',
+      description: '',
+      summary: '',
+      executionPeriodInfo: '',
+      feedbackAllowedIterations: undefined,
+    }
+
     const form = useForm({
-      defaultValues: { title: '', description: '', summary: '', executionPeriodInfo: '' } satisfies EditActivityFormData,
+      defaultValues,
     })
 
     provideEditNationalActivityViewContext({ form, save: mockSave, cancel: mockCancel })
