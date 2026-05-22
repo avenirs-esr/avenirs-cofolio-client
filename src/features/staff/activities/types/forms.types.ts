@@ -6,6 +6,7 @@ export interface ActivityDraftCreationFormData {
 
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
   description: string
+  enableReflection?: boolean
   executionPeriodInfo: string
   feedbackAllowedIterations?: number
   summary: string

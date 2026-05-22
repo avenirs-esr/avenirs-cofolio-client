@@ -1,6 +1,7 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
+import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import { ActivityTraceFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.stub'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
@@ -20,6 +21,7 @@ BddTest().given('an ActivityContentTab component', () => {
   const stubs = {
     ActivityConsignFormField: ActivityConsignFormFieldStub,
     ActivityFeedbackFormField: ActivityFeedbackFormFieldStub,
+    ActivityReflectionFormField: ActivityReflectionFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
@@ -61,6 +63,10 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should render ActivityFeedbackFormField', () => {
       expect(tab.findComponent({ name: 'ActivityFeedbackFormField' }).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityReflectionFormField', () => {
+      expect(tab.findComponent({ name: 'ActivityReflectionFormField' }).exists()).toBe(true)
     })
 
     BddTest().then('it should render ActivityTraceFormField', () => {

@@ -5,6 +5,7 @@ import ActivityConsignFormField from '@/features/staff/activities/components/int
 import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
+import ActivityReflectionFormField from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
@@ -66,6 +67,10 @@ const { t } = useI18n()
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
         :title-icon="MDI_ICONS.SETTINGS"
       >
+        <ActivityReflectionFormField
+          :form="form"
+          @autosave="save"
+        />
         <ActivityTraceFormField
           :form="form"
           @autosave="save"

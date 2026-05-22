@@ -26,7 +26,10 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const traceField = form.useField({ name: 'traceAllowedAssociations' })
+const reflectionField = form.useField({ name: 'enableReflection' })
 const isFormDirty = form.useStore(state => state.isDirty)
+
+const isDisabled = computed(() => reflectionField.state.value.value === false)
 
 const debouncedAutosave = debounce((value: number | undefined) => {
   if (isFormDirty.value) {
@@ -49,6 +52,7 @@ const inputEnabled = computed({
     v-model="inputEnabled"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.title')"
     :icon="MDI_ICONS.ATTACH_FILE"
+    :disabled="isDisabled"
   >
     <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.description') }}</span>
   </ToggleParameterCard>

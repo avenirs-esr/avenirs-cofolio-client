@@ -71,6 +71,10 @@
           "ActivityPublicationTab": {
             "title": "Préparer la publication"
           },
+          "ActivityReflectionFormField": {
+            "description": "Lorsque le paramètre est activé, les apprenants peuvent rédiger une prise de recul et associer des éléments dans le cadre de leur activité. En conservant le paramètre de demande de feedback, vous pourrez visualiser les prise de recul lorsqu'ils enverront leurs activités pour feedback.",
+            "title": "Prise de recul"
+          },
           "ActivitySummaryFormField": {
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
