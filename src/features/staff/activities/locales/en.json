@@ -63,6 +63,11 @@
             "nextStepLabel": "Next step",
             "title": "Fill in the content"
           },
+          "ActivityFeedbackFormField": {
+            "description": "When this setting is disabled, students cannot request feedback on their activity through COFOLIO.",
+            "label": "Maximum number of iterations?",
+            "title": "Feedback request"
+          },
           "ActivityPublicationTab": {
             "title": "Prepare publication"
           },

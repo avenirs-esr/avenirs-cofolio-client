@@ -4,6 +4,7 @@ import { ICONS } from '@/common/constants'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
+import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
@@ -54,6 +55,17 @@ const { t } = useI18n()
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
       >
         <ActivityExecutionPeriodFormField
+          :form="form"
+          @autosave="save"
+        />
+      </FormFieldCardContainer>
+    </div>
+    <div :id="ContentSectionId.MODALITIES">
+      <FormFieldCardContainer
+        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
+        :title-icon="MDI_ICONS.SETTINGS"
+      >
+        <ActivityFeedbackFormField
           :form="form"
           @autosave="save"
         />

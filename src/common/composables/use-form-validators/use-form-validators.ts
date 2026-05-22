@@ -19,6 +19,10 @@ export interface validateDateIntervalArgs {
 export interface UseFormValidatorsReturn {
   /** Validates that a value is not empty */
   validateRequired: (value: string | undefined | null) => string | undefined
+  /** Validates that a value is greater than or equal to a minimum */
+  validateMin: (value: number | null | undefined, min: number) => string | undefined
+  /** Validates that a value is less than or equal to a maximum */
+  validateMax: (value: number | null | undefined, max: number) => string | undefined
   /** Validates that a value does not exceed the maximum length */
   validateMaxLength: (value: string | undefined | null, maxLength: number) => string | undefined
   /** Validates an interval where endDate can be null (ongoing). If endDate provided, it must be after startDate. */
@@ -42,6 +46,8 @@ export interface ValidationOptions {
  *
  * @returns {UseFormValidatorsReturn} Object containing :
  *  - `validateRequired` (function) : returns an error message if the value is empty, undefined otherwise,
+ *  - `validateMin` (function) : returns an error message if the value is less than the minimum, undefined otherwise,
+ *  - `validateMax` (function) : returns an error message if the value is greater than the maximum, undefined otherwise,
  *  - `validateMaxLength` (function) : returns an error message if the value exceeds the max length, undefined otherwise.
  *  - `validateDateInterval` (function) : returns an error message if the end date is before the start date in an ongoing interval, undefined otherwise.
  *  - `validateLink` (function) : returns an error message if the link is not in a valid format, undefined otherwise ; it also returns an error if the link is required and undefined or empty.
@@ -52,6 +58,18 @@ export function useFormValidators (): UseFormValidatorsReturn {
   function validateRequired (value: string | undefined | null): string | undefined {
     if (isEmpty(value)) {
       return t('global.error.form.requiredField')
+    }
+  }
+
+  function validateMin (value: number | null | undefined, min: number): string | undefined {
+    if (value !== null && value !== undefined && value < min) {
+      return t('global.error.form.min', { min })
+    }
+  }
+
+  function validateMax (value: number | null | undefined, max: number): string | undefined {
+    if (value !== null && value !== undefined && value > max) {
+      return t('global.error.form.max', { max })
     }
   }
 
@@ -108,6 +126,8 @@ export function useFormValidators (): UseFormValidatorsReturn {
   return {
     validateMaxLength,
     validateRequired,
+    validateMin,
+    validateMax,
     validateDateInterval,
     validateLink,
     hasFieldErrors

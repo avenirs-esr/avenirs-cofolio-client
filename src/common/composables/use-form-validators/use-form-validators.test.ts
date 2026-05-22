@@ -16,10 +16,86 @@ BddTest().given('a form validators composable', () => {
   BddTest().when('the composable is initialized', () => {
     BddTest().then('it should return validation functions', () => {
       expect(composableResult.validateRequired).toBeDefined()
+      expect(composableResult.validateMin).toBeDefined()
+      expect(composableResult.validateMax).toBeDefined()
       expect(composableResult.validateMaxLength).toBeDefined()
       expect(composableResult.validateDateInterval).toBeDefined()
       expect(composableResult.validateLink).toBeDefined()
       expect(composableResult.hasFieldErrors).toBeDefined()
+    })
+  })
+
+  BddTest().when('validating minimum value', () => {
+    BddTest().and('the value is undefined', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMin(undefined, 5)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is null', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMin(null, 5)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is less than minimum', () => {
+      BddTest().then('it should return min error', () => {
+        const error = composableResult.validateMin(4, 5)
+        expect(error).toBe('Veuillez renseigner une valeur supérieure ou égale à 5')
+      })
+    })
+
+    BddTest().and('the value equals minimum', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMin(5, 5)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is greater than minimum', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMin(6, 5)
+        expect(error).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('validating maximum value', () => {
+    BddTest().and('the value is undefined', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMax(undefined, 10)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is null', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMax(null, 10)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is greater than maximum', () => {
+      BddTest().then('it should return max error', () => {
+        const error = composableResult.validateMax(11, 10)
+        expect(error).toBe('Veuillez renseigner une valeur inférieure ou égale à 10')
+      })
+    })
+
+    BddTest().and('the value equals maximum', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMax(10, 10)
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is less than maximum', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateMax(9, 10)
+        expect(error).toBeUndefined()
+      })
     })
   })
 

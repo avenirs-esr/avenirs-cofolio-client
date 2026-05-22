@@ -20,6 +20,7 @@ const model = defineModel<boolean>({ default: true })
   <FormFieldCardContainer
     :title="title"
     :title-icon="icon"
+    background-color="var(--other-background-base)"
     data-testid="toggle-parameter-card"
   >
     <template #title>

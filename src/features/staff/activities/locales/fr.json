@@ -63,6 +63,11 @@
             "nextStepLabel": "Étape suivante",
             "title": "Renseigner le contenu"
           },
+          "ActivityFeedbackFormField": {
+            "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.",
+            "label": "Combien d'itérations maximum ?",
+            "title": "Demande de feedback"
+          },
           "ActivityPublicationTab": {
             "title": "Préparer la publication"
           },

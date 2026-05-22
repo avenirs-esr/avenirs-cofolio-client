@@ -1,0 +1,83 @@
+<script setup lang="ts">
+import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { debounce } from 'lodash-es'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+interface ActivityFeedbackFormFieldProps {
+  form: EditActivityForm
+}
+
+defineOptions({ inheritAttrs: false })
+
+const { form } = defineProps<ActivityFeedbackFormFieldProps>()
+
+const emit = defineEmits<{
+  autosave: [value: ActivityDraftUpdateRequest]
+}>()
+
+const FormField = markRaw(form.Field)
+
+const { validateMin } = useFormValidators()
+
+const feedbackAllowedIterationsValidators = {
+  onChange: ({ value }: { value: number | null | undefined }) => validateMin(value, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN),
+}
+
+const isFormDirty = form.useStore(state => state.isDirty)
+const feedbackAllowedIterations = form.useField({ name: 'feedbackAllowedIterations' })
+const { t } = useI18n()
+
+const inputEnabled = ref(true)
+
+const debouncedAutosave = debounce((value: number | null | undefined) => {
+  const hasErrors = feedbackAllowedIterations.state.value.meta.errors.length > 0
+  if (isFormDirty.value && !hasErrors) {
+    emit('autosave', { feedbackAllowedIterations: value ?? 0 })
+  }
+}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
+
+watch(inputEnabled, (newValue) => {
+  if (!newValue) {
+    form.setFieldValue('feedbackAllowedIterations', undefined)
+    debouncedAutosave(undefined)
+  }
+})
+</script>
+
+<template>
+  <FormField
+    name="feedbackAllowedIterations"
+    :validators="feedbackAllowedIterationsValidators"
+  >
+    <template #default="{ field }">
+      <ToggleParameterCard
+        v-model="inputEnabled"
+        :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
+        :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
+      >
+        <div class="av-col av-gap-sm">
+          <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description') }}</span>
+          <Input
+            v-bind="$attrs"
+            type="number"
+            :label="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.label')"
+            label-visible
+            :min="ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN"
+            width="fit-content"
+            :model-value="field.state.value"
+            :disabled="!inputEnabled"
+            :error-message="field.state.meta.errors?.join(', ')"
+            @update:model-value="(value) => { field.handleChange(Number(value) ?? 0); debouncedAutosave(Number(value) ?? 0) }"
+          />
+        </div>
+      </ToggleParameterCard>
+    </template>
+  </FormField>
+</template>
