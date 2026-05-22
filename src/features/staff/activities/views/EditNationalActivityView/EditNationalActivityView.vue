@@ -55,6 +55,7 @@ const defaultValues: EditActivityFormData = reactive({
   description: computed(() => activity.value?.description ?? ''),
   executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
   feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
+  traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
   summary: computed(() => activity.value?.summary ?? ''),
   title: computed(() => activity.value?.title ?? ''),
   traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
