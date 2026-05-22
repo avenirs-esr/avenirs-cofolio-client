@@ -8,36 +8,12 @@ type ThematicSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'pref
 const { label, ...restProps } = defineProps<ThematicSelectProps>()
 const selectedItem = defineModel<{ itemId: EActivityThematic }>()
 const { t } = useI18n()
-const options = computed(() => [
-  {
-    id: EActivityThematic.SELF_KNOWLEDGE,
-    label: t('global.activities.badges.thematics.SELF_KNOWLEDGE'),
-  },
-  {
-    id: EActivityThematic.FUTURE_PLANS,
-    label: t('global.activities.badges.thematics.FUTURE_PLANS'),
-  },
-  {
-    id: EActivityThematic.PROGRAMS,
-    label: t('global.activities.badges.thematics.PROGRAMS'),
-  },
-  {
-    id: EActivityThematic.EXPERIENCES,
-    label: t('global.activities.badges.thematics.EXPERIENCES'),
-  },
-  {
-    id: EActivityThematic.TRAJECTORIES,
-    label: t('global.activities.badges.thematics.TRAJECTORIES'),
-  },
-  {
-    id: EActivityThematic.RESUMES,
-    label: t('global.activities.badges.thematics.RESUMES'),
-  },
-  {
-    id: EActivityThematic.TRANSVERSAL,
-    label: t('global.activities.badges.thematics.TRANSVERSAL'),
-  },
-])
+const options = computed(() =>
+  Object.values(EActivityThematic).map(thematic => ({
+    id: thematic,
+    label: t(`global.activities.badges.thematics.${thematic}`),
+  })),
+)
 
 const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
