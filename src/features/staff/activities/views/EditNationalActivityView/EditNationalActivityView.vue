@@ -52,12 +52,12 @@ const breadcrumbLinks = computed(() => [
 const { data: activity, isLoading, error } = useGetActivityContent(EActivityStatus.DRAFT, id)
 
 const defaultValues: EditActivityFormData = reactive({
+  title: computed(() => activity.value?.title ?? ''),
   description: computed(() => activity.value?.description ?? ''),
   executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
-  feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
-  traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
   summary: computed(() => activity.value?.summary ?? ''),
-  title: computed(() => activity.value?.title ?? ''),
+  enableReflection: computed(() => activity.value?.enableReflection ?? true),
+  feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
   traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
 })
 
@@ -83,8 +83,9 @@ const form = useForm({
         title: value.title,
         description: value.description,
         executionPeriodInfo: value.executionPeriodInfo,
-        feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
         summary: value.summary,
+        enableReflection: value.enableReflection ?? true,
+        feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
         traceAllowedAssociations: value.traceAllowedAssociations,
       },
     })

@@ -6,9 +6,10 @@ import FormFieldCardContainer from '@/features/staff/global/components/cards/For
 export interface ToggleParameterCardProps {
   title: string
   icon: string
+  disabled?: boolean
 }
 
-defineProps<ToggleParameterCardProps>()
+const { title, icon, disabled = false } = defineProps<ToggleParameterCardProps>()
 defineSlots<{
   default?: Slot
 }>()
@@ -27,6 +28,7 @@ const model = defineModel<boolean>({ default: true })
       <Toggle
         v-model="model"
         description=""
+        :disabled="disabled"
       />
     </template>
 

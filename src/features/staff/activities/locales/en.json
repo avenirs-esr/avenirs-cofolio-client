@@ -71,6 +71,10 @@
           "ActivityPublicationTab": {
             "title": "Prepare publication"
           },
+          "ActivityReflectionFormField": {
+            "description": "When this setting is enabled, learners can write a reflection and associate elements as part of their activity. By keeping the feedback request setting enabled, you will be able to view their reflections when they submit their activities for feedback.",
+            "title": "Reflection"
+          },
           "ActivitySummaryFormField": {
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
           },

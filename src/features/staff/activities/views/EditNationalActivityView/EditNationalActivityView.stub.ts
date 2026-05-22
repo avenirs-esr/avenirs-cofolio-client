@@ -20,6 +20,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
     const defaultValues: EditActivityFormData = {
       title: 'Test activity',
       description: '',
+      enableReflection: true,
       executionPeriodInfo: '',
       feedbackAllowedIterations: undefined,
       summary: '',
@@ -42,6 +43,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
     const defaultValues: EditActivityFormData = {
       title: '',
       description: '',
+      enableReflection: true,
       executionPeriodInfo: '',
       feedbackAllowedIterations: undefined,
       summary: '',
