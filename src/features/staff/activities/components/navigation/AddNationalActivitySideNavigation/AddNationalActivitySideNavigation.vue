@@ -102,6 +102,7 @@ watch(activeTab, (newValue) => {
     hide-content-when-collapsed
     :items="items"
     sticky
+    data-testid="add-national-activity-side-navigation"
     @update:selected-item="navigateToSelectedItem"
   />
 </template>

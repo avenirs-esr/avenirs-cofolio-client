@@ -40,6 +40,7 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
   >
     <template #default="{ field }">
       <RichTextEditor
+        data-testid="activity-consign-form-field"
         :model-value="field.state.value"
         :maxlength="ACTIVITY_CONSIGN_MAX_LENGTH"
         :error-message="field.state.meta.errors?.join(', ')"
