@@ -1,6 +1,7 @@
 export const STAFF_ROUTES = {
   HOME: '/cofolio/staff',
   ACTIVITIES: '/cofolio/staff/activities',
+  ACTIVITIES_EDIT_NATIONAL_ACTIVITY: '/cofolio/staff/activities/:id/edit',
 }
 
 export const STUDENT_ROUTES = {
