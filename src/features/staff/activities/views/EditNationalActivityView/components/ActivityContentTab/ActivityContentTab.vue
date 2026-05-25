@@ -79,6 +79,7 @@ const { t } = useI18n()
       <FormFieldCardContainer
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
         :title-icon="MDI_ICONS.SETTINGS"
+        collapsible
       >
         <ActivityReflectionFormField
           :form="form"

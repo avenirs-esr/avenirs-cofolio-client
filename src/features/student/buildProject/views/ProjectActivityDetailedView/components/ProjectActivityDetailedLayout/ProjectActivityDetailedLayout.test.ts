@@ -1,4 +1,7 @@
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type {
+  SectionNavigationItem,
+} from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
 import {
   EActivityThematic,
   EDeclaredActivityStatus,
@@ -49,6 +52,7 @@ BddTest().given('a project activity detailed layout component', () => {
       executionPeriodInfo: '- Première période\n- Deuxième période',
       createdAt: '2025-01-01T10:00:00Z',
       updatedAt: '2025-01-02T10:00:00Z',
+      enableReflection: true,
     },
   }
 
@@ -123,7 +127,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
     BddTest().then('it should pass the declared activity details in props by section', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
-      const propsBySection = sectionNavigationLayout.props('propsBySection') as Record<string, Record<string, unknown>>
+      const propsBySection = sectionNavigationLayout.props('propsBySection')
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(propsBySection).toEqual({
@@ -159,7 +163,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
     BddTest().then('it should use the global detail label for the activity detailed item', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
-      const items = sectionNavigationLayout.props('items') as Array<Record<string, string>>
+      const items = sectionNavigationLayout.props('items') as SectionNavigationItem[]
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(items[0]).toEqual({
@@ -167,6 +171,37 @@ BddTest().given('a project activity detailed layout component', () => {
         label: 'Détail',
         icon: ICONS.ACTIVITY,
       })
+    })
+  })
+
+  BddTest().when('reflection is disabled', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(ProjectActivityDetailedLayout, {
+        props: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            activity: {
+              ...declaredActivityDetails.activity,
+              enableReflection: false,
+            },
+          },
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should not include the my perspective section in navigation items', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const items = sectionNavigationLayout.props('items')
+
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(items).toHaveLength(1)
+      expect(items[0].id).toBe(ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED)
+      expect(items.some(item => item.id === ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE)).toBe(false)
     })
   })
 })
