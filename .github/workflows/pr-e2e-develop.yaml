@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr-e2e-with-msw:
-    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@feat/e2e-sharding
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@main
     secrets: inherit
     with:
       run_local_preview: true
