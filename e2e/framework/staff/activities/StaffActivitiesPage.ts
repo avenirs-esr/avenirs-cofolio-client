@@ -13,7 +13,7 @@ export class StaffActivitiesPage extends BasePage {
   }
 
   getCreateActivityButton () {
-    return this.page.getByTestId('create-activity-button')
+    return this.page.getByTestId('create-activity-button-X')
   }
 
   getActivityDraftCreationModal () {
