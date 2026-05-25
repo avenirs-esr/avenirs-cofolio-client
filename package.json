@@ -16,7 +16,7 @@
     "preview:development": "vite preview -m development",
     "test": "npm run test:unit",
     "test:coverage": "vitest run --pool.threads.maxThreads=6 --coverage",
-    "test:coverage:shard": "vitest run --reporter=blob --coverage.enabled=true --coverage.provider=v8 --coverage.reporter=json --coverage.thresholds.lines=0 --coverage.thresholds.branches=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0",
+    "test:coverage:shard": "vitest run --reporter=verbose --reporter=blob --coverage.enabled=true --coverage.provider=v8 --coverage.reporter=json --coverage.thresholds.lines=0 --coverage.thresholds.branches=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0",
     "test:unit": "vitest run --pool.threads.maxThreads=6",
     "test:a11y": "run-s -c test:a11y:run test:a11y:cleanup",
     "test:a11y:run": "playwright test --config=a11y/playwright.a11y.config.ts",
