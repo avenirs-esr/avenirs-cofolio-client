@@ -21,17 +21,23 @@ const { declaredActivityDetails } = defineProps<ProjectActivityDetailedLayoutPro
 
 const { t } = useI18n()
 
+const reflectionEnabled = computed(() => declaredActivityDetails.activity.enableReflection)
+
 const items = computed(() => [
   {
     id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
     label: declaredActivityDetails.activity.title || t('global.detail'),
     icon: ICONS.ACTIVITY,
   },
-  {
-    id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
-    icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
-  },
+  ...(reflectionEnabled.value
+    ? [
+        {
+          id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
+          label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
+          icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
+        }
+      ]
+    : [])
 ])
 
 const componentBySection = {

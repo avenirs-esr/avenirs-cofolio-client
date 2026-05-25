@@ -355,6 +355,7 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       id: activity.id ?? mockedDeclaredActivityDetails.activity.id,
       title: activity.title ?? mockedDeclaredActivityDetails.activity.title,
       summary: activity.summary ?? mockedDeclaredActivityDetails.activity.summary,
+      enableReflection: true,
       executionPeriodInfo: activity.executionPeriodInfo ?? mockedDeclaredActivityDetails.activity.executionPeriodInfo,
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
