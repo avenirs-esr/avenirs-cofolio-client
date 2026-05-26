@@ -24,6 +24,19 @@ export class StaffActivitiesPage extends BasePage {
     return this.page.getByTestId('activities-tab-table')
   }
 
+  getMyWorkspaceTab () {
+    return this.page.getByTestId('my-workspace-tab')
+  }
+
+  getAllPublishedActivitiesTab () {
+    return this.page.getByTestId('all-published-activities-tab')
+  }
+
+  getAllPublishedActivitiesTable () {
+    return this.page.getByTestId('all-published-activities-tab-content')
+      .getByTestId('activities-tab-table')
+  }
+
   @Given('the staff opens the activities page')
   async goToActivitiesPage () {
     await this.page.goto(STAFF_ROUTES.ACTIVITIES)
@@ -71,5 +84,37 @@ export class StaffActivitiesPage extends BasePage {
   @Then('the activity draft creation modal is hidden')
   async verifyActivityDraftCreationModalHidden () {
     await expect(this.getActivityDraftCreationModal()).toBeHidden()
+  }
+
+  @When('the user clicks on the my workspace tab')
+  async clickMyWorkspaceTab () {
+    await clickOnElement(this.getMyWorkspaceTab())
+  }
+
+  @Then('the my workspace tab is visible')
+  async verifyMyWorkspaceTabVisible () {
+    await expect(this.getMyWorkspaceTab()).toBeVisible()
+  }
+
+  @Then('the all published activities tab is visible')
+  async verifyAllPublishedActivitiesTabVisible () {
+    await expect(this.getAllPublishedActivitiesTab()).toBeVisible()
+  }
+
+  @When('the user clicks on the all published activities tab')
+  async clickAllPublishedActivitiesTab () {
+    await clickOnElement(this.getAllPublishedActivitiesTab())
+  }
+
+  @Then('the all published activities title is visible')
+  async verifyAllPublishedActivitiesTitleVisible () {
+    await expect(this.page.getByTestId('all-published-activities-tab-content').getByTestId('activities-tab-title')).toBeVisible()
+  }
+
+  @Then('the all published activities table is visible and contains data')
+  async verifyAllPublishedActivitiesTableVisible () {
+    await expect(this.getAllPublishedActivitiesTable()).toBeVisible()
+    const rowCount = await this.getAllPublishedActivitiesTable().locator('tr').count()
+    expect(rowCount).toBeGreaterThanOrEqual(2)
   }
 }

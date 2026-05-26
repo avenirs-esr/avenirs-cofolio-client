@@ -18,6 +18,7 @@ const usePaginatedStaffActivitesParams = {
 
 <template>
   <ActivitiesTab
+    data-testid="all-published-activities-tab-content"
     :title="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.title', { count: totalActivities })"
     :empty-state-message="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.emptyState')"
     :use-paginated-staff-activites-params="usePaginatedStaffActivitesParams"
