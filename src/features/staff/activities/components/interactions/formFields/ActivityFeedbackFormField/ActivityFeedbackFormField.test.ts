@@ -1,7 +1,7 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -116,8 +116,8 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
       await nextTick()
     })
 
-    BddTest().then('it should reset the value to undefined', () => {
-      expect(mockForm.setFieldValue).toHaveBeenCalledWith('feedbackAllowedIterations', undefined)
+    BddTest().then('it should reset the value to the disabled value', () => {
+      expect(mockForm.setFieldValue).toHaveBeenCalledWith('feedbackAllowedIterations', ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED)
     })
 
     BddTest().then('it should autosave zero after the debounce delay', async () => {
