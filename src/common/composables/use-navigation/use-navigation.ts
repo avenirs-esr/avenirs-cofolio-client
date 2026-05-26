@@ -145,11 +145,6 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
   }
 
-  const navigateToStaffHome = (
-  ): Promise<NavigationFailure | void | undefined> => {
-    return router.push(ROUTES.STAFF.HOME)
-  }
-
   const navigateToActivityDetailed = ({ id, thematic }: { id?: string, thematic?: string }) => {
     const to = {
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
@@ -158,7 +153,16 @@ export function useNavigation () {
     return router.push(to)
   }
 
-  const navigateToStaffActivities = () => {
+  const navigateToStaffHome = (
+  ): Promise<NavigationFailure | void | undefined> => {
+    return router.push(ROUTES.STAFF.HOME)
+  }
+
+  const navigateToStaffActivities = (replace?: boolean) => {
+    if (replace) {
+      return router.replace(ROUTES.STAFF.ACTIVITIES)
+    }
+
     return router.push(ROUTES.STAFF.ACTIVITIES)
   }
 

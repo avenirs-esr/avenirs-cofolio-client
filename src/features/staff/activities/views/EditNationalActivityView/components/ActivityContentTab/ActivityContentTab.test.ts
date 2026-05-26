@@ -7,7 +7,7 @@ import { ActivityTraceFormFieldStub } from '@/features/staff/activities/componen
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
-import { EditNationalActivityViewFormWrapper } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -29,15 +29,19 @@ BddTest().given('an ActivityContentTab component', () => {
     FormFieldCardContainer: FormFieldCardContainerStub,
   }
 
-  const getNextStepButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-    wrapper = mount(EditNationalActivityViewFormWrapper, {
+  function mountTab (FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty) {
+    wrapper = mount(FormWrapper, {
       slots: { default: h(ActivityContentTab, { activity: mockedActivityContent }) },
       global: { stubs },
     })
     tab = wrapper.findComponent(ActivityContentTab)
+  }
+
+  const getNextStepButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mountTab(EditNationalActivityViewFormWrapper)
   })
 
   BddTest().when('the component is mounted', () => {
@@ -83,6 +87,21 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should render the next step button with correct label', () => {
       expect(getNextStepButton().props('label')).toBe('Étape suivante')
+    })
+
+    BddTest().then('it should not set loading on the next step button when form is pristine', () => {
+      expect(getNextStepButton().props('isLoading')).toBe(false)
+    })
+  })
+
+  BddTest().when('the form is dirty', () => {
+    beforeEach(async () => {
+      mountTab(EditNationalActivityViewFormWrapperDirty)
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should set loading on the next step button', () => {
+      expect(getNextStepButton().props('isLoading')).toBe(true)
     })
   })
 

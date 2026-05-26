@@ -26,8 +26,10 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form, save } = useEditNationalActivityViewContext()
+const { form, save, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
+
+const isFormDirty = form.useStore(state => state.isDirty)
 </script>
 
 <template>
@@ -106,6 +108,7 @@ const { t } = useI18n()
         :icon="MDI_ICONS.ARROW_RIGHT"
         :label="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.nextStepLabel')"
         small
+        :is-loading="isFormDirty || isUpdating"
         @click="emit('nextStep')"
       />
     </div>

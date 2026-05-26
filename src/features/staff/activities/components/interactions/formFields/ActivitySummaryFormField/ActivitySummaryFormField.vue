@@ -19,11 +19,14 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { validateMaxLength } = useFormValidators()
+const { validateRequired, validateMaxLength } = useFormValidators()
 const FormField = markRaw(form.Field)
 
+const validateSummary = (value: string) => validateRequired(value) || validateMaxLength(value, ACTIVITY_SUMMARY_MAX_LENGTH)
+
 const summaryValidators = {
-  onChange: ({ value }: { value: string }) => validateMaxLength(value, ACTIVITY_SUMMARY_MAX_LENGTH),
+  onChange: ({ value }: { value: string }) => validateSummary(value),
+  onSubmit: ({ value }: { value: string }) => validateSummary(value),
 }
 
 const isFormDirty = form.useStore(state => state.isDirty)

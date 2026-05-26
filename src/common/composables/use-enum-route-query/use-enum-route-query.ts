@@ -59,7 +59,7 @@ export function useEnumRouteQuery<
   queryName: string,
   enumObject: TEnum,
   defaultValue: TDefaultValue,
-): WritableComputedRef<TDefaultValue> {
+): WritableComputedRef<TEnum[EnumKeys<TEnum>]> {
   const enumKeys = Object.keys(enumObject)
     .filter(key => Number.isNaN(Number(key))) as EnumKeys<TEnum>[]
 
@@ -67,15 +67,15 @@ export function useEnumRouteQuery<
 
   const routeQuery = useRouteQuery<string>(queryName, defaultKey)
 
-  return computed<TDefaultValue>({
+  return computed<TEnum[EnumKeys<TEnum>]>({
     get () {
       const key = enumKeys.includes(routeQuery.value as EnumKeys<TEnum>)
         ? routeQuery.value as EnumKeys<TEnum>
         : defaultKey
 
-      return enumObject[key] as unknown as TDefaultValue
+      return enumObject[key] as unknown as TEnum[EnumKeys<TEnum>]
     },
-    set (enumValue) {
+    set (enumValue: TEnum[EnumKeys<TEnum>]) {
       const key = enumKeys.find(key => enumObject[key] === enumValue) || defaultKey
       routeQuery.value = key
     }

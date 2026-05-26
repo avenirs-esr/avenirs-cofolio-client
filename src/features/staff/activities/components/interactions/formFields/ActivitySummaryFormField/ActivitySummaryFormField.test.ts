@@ -14,7 +14,8 @@ const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivit
   defaultValue: '',
   useValidator: () =>
     (value: string) => {
-      return useFormValidators().validateMaxLength(value, ACTIVITY_SUMMARY_MAX_LENGTH)
+      const { validateRequired, validateMaxLength } = useFormValidators()
+      return validateRequired(value) || validateMaxLength(value, ACTIVITY_SUMMARY_MAX_LENGTH)
     },
 })
 
@@ -74,6 +75,21 @@ BddTest().given('an ActivitySummaryFormField component', () => {
 
     BddTest().then('it should not show an error message', async () => {
       await vi.waitFor(() => expect(getInput().props('errorMessage')).toBeFalsy())
+    })
+  })
+
+  BddTest().when('the input emits an empty value', () => {
+    beforeEach(async () => {
+      getInput().vm.$emit('update:modelValue', '')
+      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
+    })
+
+    BddTest().then('it should show a required error message', async () => {
+      await vi.waitFor(() => expect(getInput().props('errorMessage')).toBe('Ce champ est requis.'))
+    })
+
+    BddTest().then('it should not emit autosave', () => {
+      expect(getSummaryFormField().emitted('autosave')).toBeFalsy()
     })
   })
 

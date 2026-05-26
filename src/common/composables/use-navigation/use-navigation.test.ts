@@ -352,6 +352,14 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to staff activities with replace', () => {
+    BddTest().then('it should navigate to staff activities with replace', () => {
+      const { navigateToStaffActivities } = navigation
+      navigateToStaffActivities(true)
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES)
+    })
+  })
+
   BddTest().when('trying to navigate to staff activities edit national activity', () => {
     BddTest().then('it should navigate to staff activities edit national activity', () => {
       const { navigateToStaffActivitiesEditNationalActivity } = navigation

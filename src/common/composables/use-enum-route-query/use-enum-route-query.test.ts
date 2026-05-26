@@ -148,6 +148,16 @@ BddTest().given('a useEnumRouteQuery composable', () => {
         expect(routeQueryValue.value).toBe('FIRST')
       })
     })
+
+    BddTest().and('the non-default numeric value is set', () => {
+      beforeEach(() => {
+        result.value = TestNumericEnum.SECOND
+      })
+
+      BddTest().then('it should update the query key to the non-default enum key', () => {
+        expect(routeQueryValue.value).toBe('SECOND')
+      })
+    })
   })
 
   BddTest().when('initialized with a defaultValue that does not exist in the enum', () => {

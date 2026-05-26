@@ -28,6 +28,17 @@ vi.mock('@vueuse/router', () => ({
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
+const mockNavigateToStaffActivities = vi.fn()
+
+vi.mock('@/common/composables', async () => {
+  const actual = await vi.importActual<typeof import('@/common/composables')>('@/common/composables')
+  return {
+    ...actual,
+    useNavigation: vi.fn(() => ({
+      navigateToStaffActivities: mockNavigateToStaffActivities,
+    })),
+  }
+})
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
@@ -207,6 +218,42 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should render the publication tab component', () => {
       expect(wrapper.findComponent(ActivityPublicationTabStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the content tab emits nextStep', () => {
+    beforeEach(async () => {
+      mockMode.value = 'edit'
+      wrapper = mountView()
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+      })
+      wrapper.findComponent(ActivityContentTabStub).vm.$emit('nextStep')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should switch the active tab to publication', () => {
+      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).props('activeTab')).toBe(EditActivityTabIndex.PUBLICATION)
+    })
+  })
+
+  BddTest().when('the publication tab emits published', () => {
+    beforeEach(async () => {
+      mockMode.value = 'edit'
+      wrapper = mountView()
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+      })
+
+      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
+      await wrapper.vm.$nextTick()
+
+      wrapper.findComponent(ActivityPublicationTabStub).vm.$emit('published')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should navigate back to staff activities', () => {
+      expect(mockNavigateToStaffActivities).toHaveBeenCalledWith(true)
     })
   })
 })
