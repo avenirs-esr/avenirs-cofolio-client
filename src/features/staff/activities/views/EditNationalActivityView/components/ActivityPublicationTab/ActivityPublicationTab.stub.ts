@@ -8,5 +8,6 @@ export const ActivityPublicationTabStub = defineComponent({
       type: Object as PropType<ActivityContentDTO>,
     },
   },
+  emits: ['published'],
   template: '<div data-testid="activity-publication-tab-stub"></div>',
 })

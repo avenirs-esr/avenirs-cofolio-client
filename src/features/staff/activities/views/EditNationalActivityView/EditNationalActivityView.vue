@@ -12,9 +12,11 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useNavigation } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
+import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
@@ -36,8 +38,16 @@ const { id } = defineProps<EditNationalActivityViewProps>()
 const { isMobile } = useAvBreakpoints()
 
 const { t } = useI18n()
+const {
+  validateTitle,
+  validateSummary,
+  validateDescription,
+  validateExecutionPeriodInfo,
+  validateFeedbackAllowedIterations
+} = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const { navigateToStaffActivities } = useNavigation()
 
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
@@ -63,7 +73,7 @@ const defaultValues: EditActivityFormData = reactive({
   traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
 })
 
-const { mutate: updateActivity } = useUpdateActivity({
+const { mutate: updateActivity, isPending } = useUpdateActivity({
   mutation: {
     onSuccess: () => {
       invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
@@ -77,6 +87,19 @@ const { mutate: updateActivity } = useUpdateActivity({
 
 const form = useForm({
   defaultValues,
+  validators: {
+    onSubmit ({ value }: { value: EditActivityFormData }) {
+      return {
+        fields: {
+          title: validateTitle(value.title),
+          summary: validateSummary(value.summary),
+          description: validateDescription(value.description),
+          executionPeriodInfo: validateExecutionPeriodInfo(value.executionPeriodInfo),
+          feedbackAllowedIterations: validateFeedbackAllowedIterations(value.feedbackAllowedIterations),
+        }
+      }
+    }
+  },
   onSubmit: ({ value }) => {
     updateActivity({
       activityStatus: EActivityStatus.DRAFT,
@@ -111,11 +134,19 @@ function cancel () {
   form.reset(defaultValues)
 }
 
+function onNextStep () {
+  activeTab.value = EditActivityTabIndex.PUBLICATION
+}
+
+function onPublished () {
+  navigateToStaffActivities(true)
+}
+
 watch(activity, () => {
   form.reset(defaultValues)
 })
 
-provideEditNationalActivityViewContext({ form, save, cancel })
+provideEditNationalActivityViewContext({ form, isUpdating: isPending, save, cancel })
 </script>
 
 <template>
@@ -144,14 +175,20 @@ provideEditNationalActivityViewContext({ form, save, cancel })
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             data-testid="activity-content-tab-item"
           >
-            <ActivityContentTab :activity="activity!" />
+            <ActivityContentTab
+              :activity="activity!"
+              @next-step="onNextStep"
+            />
           </AvTab>
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
             :icon="RI_ICONS.SEND_PLANE_LINE"
             data-testid="activity-publication-tab-item"
           >
-            <ActivityPublicationTab :activity="activity!" />
+            <ActivityPublicationTab
+              :activity="activity!"
+              @published="onPublished"
+            />
           </AvTab>
         </AvTabs>
       </div>

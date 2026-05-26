@@ -2,8 +2,9 @@
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
@@ -41,6 +42,15 @@ const debouncedAutosave = debounce((value: number | null | undefined) => {
   }
 }, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
+const infinityAllowed = computed({
+  get: () => feedbackAllowedIterations.state.value.value === ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
+  set: (newValue: boolean) => {
+    const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT
+    form.setFieldValue('feedbackAllowedIterations', value)
+    debouncedAutosave(value)
+  },
+})
+
 const inputEnabled = computed({
   get: () => feedbackAllowedIterations.state.value.value !== ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   set: (newValue: boolean) => {
@@ -64,7 +74,13 @@ const inputEnabled = computed({
       >
         <div class="av-col av-gap-sm">
           <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description') }}</span>
+          <Toggle
+            v-if="inputEnabled"
+            v-model="infinityAllowed"
+            :description="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.infinityToggleLabel')"
+          />
           <Input
+            v-if="!infinityAllowed && inputEnabled"
             v-bind="$attrs"
             type="number"
             :label="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.label')"
@@ -72,7 +88,6 @@ const inputEnabled = computed({
             :min="ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN"
             width="fit-content"
             :model-value="field.state.value"
-            :disabled="!inputEnabled"
             :error-message="field.state.meta.errors?.join(', ')"
             @update:model-value="(value) => { field.handleChange(Number(value) ?? 0); debouncedAutosave(Number(value) ?? 0) }"
           />

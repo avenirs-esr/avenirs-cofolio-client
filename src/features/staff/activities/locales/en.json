@@ -85,10 +85,16 @@
           },
           "ActivityFeedbackFormField": {
             "description": "When this setting is disabled, students cannot request feedback on their activity through COFOLIO.",
+            "infinityToggleLabel": "Allow unlimited feedback iterations",
             "label": "Maximum number of iterations?",
             "title": "Feedback request"
           },
           "ActivityPublicationTab": {
+            "confirmDescription": "This action will make the activity accessible to all students in the institution and allow them to register immediately.",
+            "confirmTitle": "Are you sure you want to publish your activity?",
+            "publishError": "An error occurred while publishing the activity",
+            "publishLabel": "Publish",
+            "publishSuccess": "Activity published successfully",
             "title": "Prepare publication"
           },
           "ActivityReflectionFormField": {

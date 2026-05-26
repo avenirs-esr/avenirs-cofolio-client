@@ -12,6 +12,7 @@ const template = '<div><slot /></div>'
 
 export const mockSave = vi.fn()
 export const mockCancel = vi.fn()
+const mockIsUpdating = ref(false)
 
 export const EditNationalActivityViewFormWrapper = defineComponent({
   name,
@@ -33,7 +34,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       defaultValues,
     })
 
-    provideEditNationalActivityViewContext({ form, save: mockSave, cancel: mockCancel })
+    provideEditNationalActivityViewContext({ form, isUpdating: mockIsUpdating, save: mockSave, cancel: mockCancel })
   },
 })
 
@@ -57,7 +58,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       defaultValues,
     })
 
-    provideEditNationalActivityViewContext({ form, save: mockSave, cancel: mockCancel })
+    provideEditNationalActivityViewContext({ form, isUpdating: mockIsUpdating, save: mockSave, cancel: mockCancel })
 
     onMounted(() => {
       form.setFieldValue('title', 'Modified title')

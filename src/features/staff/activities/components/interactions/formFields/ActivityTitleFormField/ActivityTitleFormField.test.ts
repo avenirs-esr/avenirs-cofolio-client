@@ -1,11 +1,11 @@
 import type { ActivityDraftCreationForm } from '@/features/staff/activities/types/forms.types'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { ActivityTitleInputStub } from '@/features/staff/activities/components/interactions/inputs/ActivityTitleInput/ActivityTitleInput.stub'
-import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = defineComponent({
   components: { ActivityTitleFormField },
@@ -20,6 +20,7 @@ const TestWrapper = defineComponent({
 
 BddTest().given('an ActivityTitleFormField component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
+  let titleFormField: VueWrapper<InstanceType<typeof ActivityTitleFormField>>
 
   const stubs = { ActivityTitleInput: ActivityTitleInputStub }
 
@@ -27,7 +28,13 @@ BddTest().given('an ActivityTitleFormField component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.useFakeTimers()
     wrapper = mount(TestWrapper, { global: { stubs } })
+    titleFormField = wrapper.findComponent(ActivityTitleFormField)
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -47,6 +54,7 @@ BddTest().given('an ActivityTitleFormField component', () => {
   BddTest().when('the input emits a valid title', () => {
     beforeEach(async () => {
       await getInput().vm.$emit('update:modelValue', 'Mon activité nationale')
+      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should update the model value', async () => {
@@ -56,15 +64,24 @@ BddTest().given('an ActivityTitleFormField component', () => {
     BddTest().then('it should not show an error message', async () => {
       await vi.waitFor(() => expect(getInput().props('errorMessage')).toBeFalsy())
     })
+
+    BddTest().then('it should emit autosave with title payload', () => {
+      expect(titleFormField.emitted('autosave')).toEqual([[{ title: 'Mon activité nationale' }]])
+    })
   })
 
   BddTest().when('the input emits an empty value', () => {
     beforeEach(async () => {
       await getInput().vm.$emit('update:modelValue', '')
+      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should show a required error message', async () => {
       await vi.waitFor(() => expect(getInput().props('errorMessage')).toBe('Ce champ est requis.'))
+    })
+
+    BddTest().then('it should not emit autosave', () => {
+      expect(titleFormField.emitted('autosave')).toBeFalsy()
     })
   })
 
