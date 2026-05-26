@@ -11,16 +11,19 @@ Feature: Staff Activities Page
       Then the staff activities page is displayed
       And the URL contains "/cofolio/staff/activities"
 
-  Rule: Display activities table
+    @high @dataset-full
+    Scenario: Staff can see the two tabs
+      Then the my workspace tab is visible
+      And the all published activities tab is visible
 
-    @high @dataset-full @activities-table
-    Scenario: Staff can see the activities table
-      Then the my workspace table is visible and contains data
-
-  Rule: Activity creation
+  Rule: My workspace tab
 
     Background:
-    Given the create activity button is visible
+      When the user clicks on the my workspace tab
+
+    @high @dataset-full
+    Scenario: Staff can see the my workspace table
+      Then the my workspace table is visible and contains data
     
     @high @creation
     Scenario: Staff can open and close the activity draft creation modal
@@ -34,3 +37,14 @@ Feature: Staff Activities Page
       When the user clicks on the create activity button
       Then the activity draft creation modal is visible
       And the title form field is visible
+  
+  Rule: All published activities tab
+
+    Background:
+      When the user clicks on the all published activities tab
+
+    @high @dataset-full
+    Scenario: Staff can see the all published activities tab content
+      Then the all published activities title is visible
+      And the all published activities table is visible and contains data
+      

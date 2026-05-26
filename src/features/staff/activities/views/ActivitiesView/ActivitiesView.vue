@@ -30,12 +30,14 @@ const activeTab = useEnumRouteQuery('tab', ActivitiesViewTab, ActivitiesViewTab.
   />
   <AvTabs v-model="activeTab">
     <AvTab
+      data-testid="my-workspace-tab"
       :title="t('staff.activities.views.ActivitiesView.tabs.MyWorkspaceTab')"
       :icon="RI_ICONS.BOOK_SHELF_LINE"
     >
       <MyWorkspaceTab />
     </AvTab>
     <AvTab
+      data-testid="all-published-activities-tab"
       :title="t('staff.activities.views.ActivitiesView.tabs.StaffAllActivitiesTab')"
       :icon="MDI_ICONS.STOREFRONT_OUTLINE"
     >
