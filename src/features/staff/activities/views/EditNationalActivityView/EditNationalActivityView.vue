@@ -135,18 +135,21 @@ provideEditNationalActivityViewContext({ form, save, cancel })
         :active-tab="activeTab"
       />
       <div class="av-col av-flex-fill">
-        <AvTabs v-model="activeTab">
+        <AvTabs
+          v-model="activeTab"
+          data-testid="add-national-activity-tabs"
+        >
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
-            data-testid="activity-content-tab"
+            data-testid="activity-content-tab-item"
           >
             <ActivityContentTab :activity="activity!" />
           </AvTab>
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
             :icon="RI_ICONS.SEND_PLANE_LINE"
-            data-testid="activity-publication-tab"
+            data-testid="activity-publication-tab-item"
           >
             <ActivityPublicationTab :activity="activity!" />
           </AvTab>

@@ -11,4 +11,3 @@ Feature: Staff Edit National Activity Page - Mobile
     @medium @responsive @side-navigation
     Scenario: Staff cannot see the side navigation on mobile
       Then the side navigation menu is not visible
-      
