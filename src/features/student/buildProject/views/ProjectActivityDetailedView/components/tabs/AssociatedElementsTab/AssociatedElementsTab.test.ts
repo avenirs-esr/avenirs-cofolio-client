@@ -32,7 +32,7 @@ BddTest().given('an associated elements tab', () => {
     AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub
   }
 
-  BddTest().when('the component is mounted with associations', () => {
+  BddTest().when('the component is mounted with associations and traceAssociationsEnabled not set', () => {
     const props: AssociatedElementsTabProps = {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
@@ -51,6 +51,11 @@ BddTest().given('an associated elements tab', () => {
     BddTest().then('it should render the associate elements dropdown', () => {
       const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
       expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass tracesDisabled as false to the associate elements dropdown when traceAssociationsDisabled is not set', () => {
+      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+      expect(dropdown.props('tracesDisabled')).toBe(false)
     })
 
     BddTest().then('it should render the associated declared skills card', () => {
@@ -259,6 +264,42 @@ BddTest().given('an associated elements tab', () => {
           expect(associateSkillsModal.props('show')).toBe(false)
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted with traceAssociationsDisabled set to false', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: mockedDeclaredActivityAssociations,
+      declaredActivityId: 'declared-activity-1',
+      countAssociations: 9,
+      traceAssociationsDisabled: false
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass tracesDisabled as false to the associate elements dropdown', () => {
+      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+      expect(dropdown.props('tracesDisabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with traceAssociationsDisabled set to false', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: mockedDeclaredActivityAssociations,
+      declaredActivityId: 'declared-activity-1',
+      countAssociations: 9,
+      traceAssociationsDisabled: true
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass tracesDisabled as true to the associate elements dropdown', () => {
+      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+      expect(dropdown.props('tracesDisabled')).toBe(true)
     })
   })
 })

@@ -3,6 +3,12 @@ import { ICONS } from '@/common/constants'
 import { AvDropdown } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface ActivityAssociateElementsDropdownProps {
+  tracesDisabled?: boolean
+}
+
+const { tracesDisabled = false } = defineProps<ActivityAssociateElementsDropdownProps>()
+
 const emit = defineEmits<{
   (e: 'tracesSelected'): void
   (e: 'skillsSelected'): void
@@ -19,7 +25,8 @@ const menuItems = computed(() => [
   {
     name: ActivityAssociateElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityAssociateElementsDropdown.traces')
+    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityAssociateElementsDropdown.traces'),
+    disabled: tracesDisabled
   },
   {
     name: ActivityAssociateElementsDropdownEvents.SKILLS,

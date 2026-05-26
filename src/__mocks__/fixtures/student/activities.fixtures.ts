@@ -11,6 +11,7 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
   type TraceAssociationDTO
 } from '@/api/avenir-esr'
+import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   {
@@ -183,6 +184,9 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   activity: {
     ...commonMockedDeclaredActivityProps.activity,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
+    enableReflection: true,
+    traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+    feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z'
   },
@@ -357,6 +361,7 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       summary: activity.summary ?? mockedDeclaredActivityDetails.activity.summary,
       enableReflection: true,
       executionPeriodInfo: activity.executionPeriodInfo ?? mockedDeclaredActivityDetails.activity.executionPeriodInfo,
+      traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },

@@ -25,9 +25,10 @@ export interface AssociatedElementsTabProps {
   countAssociations: number
   error?: BaseApiException | null
   isLoading?: boolean
+  traceAssociationsDisabled?: boolean
 }
 
-const { associations } = defineProps<AssociatedElementsTabProps>()
+const { associations, traceAssociationsDisabled = false } = defineProps<AssociatedElementsTabProps>()
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
 const { showModal: showTracesModal, displayModal: displayTracesModal, hideModal: hideTracesModal } = useModal()
@@ -46,11 +47,12 @@ const tracesAssociations = computed(() => {
   <div class="av-col av-gap-xl av-pt-xl">
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteActivityAssociatedElementsDropdown
-        :traces-disabled="tracesAssociations.length === 0"
+        :traces-disabled="traceAssociationsDisabled || tracesAssociations.length === 0"
         @skills-selected="displaySkillsModal"
         @traces-selected="displayTracesModal"
       />
       <ActivityAssociateElementsDropdown
+        :traces-disabled="traceAssociationsDisabled"
         @traces-selected="displayAssociateTracesModal"
         @skills-selected="displayAssociateSkillsModal"
       />
