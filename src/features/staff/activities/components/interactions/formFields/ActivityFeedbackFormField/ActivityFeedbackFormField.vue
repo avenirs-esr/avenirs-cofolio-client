@@ -3,7 +3,7 @@ import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
@@ -34,8 +34,6 @@ const isFormDirty = form.useStore(state => state.isDirty)
 const feedbackAllowedIterations = form.useField({ name: 'feedbackAllowedIterations' })
 const { t } = useI18n()
 
-const inputEnabled = ref(true)
-
 const debouncedAutosave = debounce((value: number | null | undefined) => {
   const hasErrors = feedbackAllowedIterations.state.value.meta.errors.length > 0
   if (isFormDirty.value && !hasErrors) {
@@ -43,11 +41,13 @@ const debouncedAutosave = debounce((value: number | null | undefined) => {
   }
 }, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
-watch(inputEnabled, (newValue) => {
-  if (!newValue) {
-    form.setFieldValue('feedbackAllowedIterations', undefined)
-    debouncedAutosave(undefined)
-  }
+const inputEnabled = computed({
+  get: () => feedbackAllowedIterations.state.value.value !== ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
+  set: (newValue: boolean) => {
+    const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED
+    form.setFieldValue('feedbackAllowedIterations', value)
+    debouncedAutosave(value)
+  },
 })
 </script>
 
