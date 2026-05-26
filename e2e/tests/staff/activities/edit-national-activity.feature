@@ -13,92 +13,87 @@ Feature: Staff Edit National Activity Page
       And the URL contains "/cofolio/staff/activities"
       And the URL contains "/edit"
 
-  Rule: Side Navigation - Content tab
+    @high
+    Scenario: The edit activity page is displayed
+      Then the edit national activity page is displayed
+      And the URL contains "/cofolio/staff/activities"
+      And the URL contains "/edit"
+
+    @high @tab-navigation
+    Scenario: The content tab is active by default
+      Then the content tab is active by default
 
     @high @side-navigation
-    Scenario: Staff can see the side navigation menu with content sections
+    Scenario: The side navigation is visible and expanded by default
       Then the side navigation menu is visible
-      And the side navigation has "TITLE" content section
-      And the side navigation has "INSTRUCTIONS" content section
-      And the side navigation has "CONTEXT" content section
-      And the side navigation has "DOCUMENTS" content section
-      And the side navigation has "SCHEDULE" content section
-      And the side navigation has "MODALITIES" content section
-      And the side navigation has "THEMATIC" content section
+      And the side navigation menu is expanded by default
+      And the side navigation menu has content header
+      And the side navigation menu has "TITLE" content section
+      And the side navigation menu has "THEMATIC" content section
+      And the side navigation menu has "INSTRUCTIONS" content section
+      And the side navigation menu has "CONTEXT" content section
+      And the side navigation menu has "DOCUMENTS" content section
+      And the side navigation menu has "SCHEDULE" content section
+      And the side navigation menu has "MODALITIES" content section
+
+  Rule: Navigation to the publication tab
+
+    @high @tab-navigation
+    Scenario: The staff can switch to the publication tab
+      When the staff navigates to the publication tab
+      Then the publication tab is active
 
     @high @side-navigation
-    Scenario: Staff can navigate to TITLE section via side navigation
-      When the user clicks on the side navigation "TITLE" content item
+    Scenario: The side navigation updates when switching to the publication tab
+      When the staff navigates to the publication tab
+      Then the side navigation menu has publication header
+      And the side navigation menu has "ACTIVITY_TITLE" publication section
+      And the side navigation menu has "TARGET_GROUPS" publication section
+      And the side navigation menu has "IMAGE" publication section
+      And the side navigation menu has "SUMMARY_CONTEXT" publication section
+
+  Rule: Side navigation sub-section interaction
+
+    @high @side-navigation
+    Scenario: Clicking a content sub-section highlights it in the side navigation
+      When the staff clicks on the content "TITLE" section in the side navigation menu
+      Then the content "TITLE" section is active in the side navigation menu
+
+    @high @side-navigation
+    Scenario: Clicking a content sub-section updates the URL anchor
+      When the staff clicks on the content "TITLE" section in the side navigation menu
       Then the URL contains "#TITLE"
 
     @high @side-navigation
-    Scenario: Staff can navigate to INSTRUCTIONS section via side navigation
-      When the user clicks on the side navigation "INSTRUCTIONS" content item
-      Then the URL contains "#INSTRUCTIONS"
+    Scenario: Clicking another content sub-section updates the active state in the side navigation
+      When the staff clicks on the content "TITLE" section in the side navigation menu
+      And the staff clicks on the content "THEMATIC" section in the side navigation menu
+      Then the content "THEMATIC" section is active in the side navigation menu
+      And the content "TITLE" section is not active in the side navigation menu
 
     @high @side-navigation
-    Scenario: Staff can navigate to CONTEXT section via side navigation
-      When the user clicks on the side navigation "CONTEXT" content item
-      Then the URL contains "#CONTEXT"
+    Scenario: Clicking a publication sub-section highlights it in the side navigation
+      When the staff navigates to the publication tab
+      And the staff clicks on the publication "SUMMARY_CONTEXT" section in the side navigation menu
+      Then the publication "SUMMARY_CONTEXT" section is active in the side navigation menu
 
     @high @side-navigation
-    Scenario: Staff can navigate to DOCUMENTS section via side navigation
-      When the user clicks on the side navigation "DOCUMENTS" content item
-      Then the URL contains "#DOCUMENTS"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to SCHEDULE section via side navigation
-      When the user clicks on the side navigation "SCHEDULE" content item
-      Then the URL contains "#SCHEDULE"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to MODALITIES section via side navigation
-      When the user clicks on the side navigation "MODALITIES" content item
-      Then the URL contains "#MODALITIES"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to THEMATIC section via side navigation
-      When the user clicks on the side navigation "THEMATIC" content item
-      Then the URL contains "#THEMATIC"
-
-  Rule: Side Navigation - Publication tab
-
-    Background:
-      Given the staff navigates to the publication tab
-
-    @high @side-navigation
-    Scenario: Staff can see the side navigation menu with publication sections
-      Then the side navigation has "ACTIVITY_TITLE" publication section
-      And the side navigation has "TARGET_GROUPS" publication section
-      And the side navigation has "IMAGE" publication section
-      And the side navigation has "SUMMARY_CONTEXT" publication section
-
-
-    @high @side-navigation
-    Scenario: Staff can navigate to ACTIVITY_TITLE section via side navigation
-      When the user clicks on the side navigation "ACTIVITY_TITLE" publication item
-      Then the URL contains "#ACTIVITY_TITLE"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to TARGET_GROUPS section via side navigation
-      When the user clicks on the side navigation "TARGET_GROUPS" publication item
-      Then the URL contains "#TARGET_GROUPS"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to IMAGE section via side navigation
-      When the user clicks on the side navigation "IMAGE" publication item
-      Then the URL contains "#IMAGE"
-
-    @high @side-navigation
-    Scenario: Staff can navigate to SUMMARY_CONTEXT section via side navigation
-      When the user clicks on the side navigation "SUMMARY_CONTEXT" publication item
+    Scenario: Clicking a publication sub-section updates the URL anchor
+      When the staff navigates to the publication tab
+      And the staff clicks on the publication "SUMMARY_CONTEXT" section in the side navigation menu
       Then the URL contains "#SUMMARY_CONTEXT"
 
-  Rule: Side Navigation - Content tab sections visibility
+    @high @side-navigation
+    Scenario: Clicking another publication sub-section updates the active state in the side navigation
+      When the staff navigates to the publication tab
+      And the staff clicks on the publication "ACTIVITY_TITLE" section in the side navigation menu
+      And the staff clicks on the publication "IMAGE" section in the side navigation menu
+      Then the publication "IMAGE" section is active in the side navigation menu
+      And the publication "ACTIVITY_TITLE" section is not active in the side navigation menu
+
+  Rule: Side navigation collapse
 
     @high @side-navigation
-    Scenario: Staff can see the title form field after clicking TITLE content section
-      When the user clicks on the side navigation "TITLE" content item
-      Then the URL contains "#TITLE"
-      And the activity title form field is visible
-      
+    Scenario: The staff can collapse the side navigation
+      When the staff collapses the side navigation menu
+      Then the side navigation menu is collapsed

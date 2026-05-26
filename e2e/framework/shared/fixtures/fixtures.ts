@@ -2,8 +2,8 @@ import { FooterSteps } from '@e2e/framework/shared/steps/FooterSteps'
 import { PageTitleSteps } from '@e2e/framework/shared/steps/PageTitleSteps'
 import { PaginationSteps } from '@e2e/framework/shared/steps/PaginationSteps'
 import { setLocaleFromPage } from '@e2e/framework/shared/utils/i18n'
-import { EditNationalActivityPage } from '@e2e/framework/staff/activities/EditNationalActivityPage'
 import { StaffActivitiesPage } from '@e2e/framework/staff/activities/StaffActivitiesPage'
+import { StaffEditNationalActivityPage } from '@e2e/framework/staff/activities/StaffEditNationalActivityPage'
 import { StaffHomePage } from '@e2e/framework/staff/home/StaffHomePage'
 import { StaffGlobalSteps } from '@e2e/framework/staff/shared/steps/StaffGlobalSteps'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
@@ -24,7 +24,7 @@ interface Fixtures {
   staffGlobalSteps: StaffGlobalSteps
   staffHomePage: StaffHomePage
   staffActivitiesPage: StaffActivitiesPage
-  editNationalActivityPage: EditNationalActivityPage
+  staffEditNationalActivityPage: StaffEditNationalActivityPage
   studentGlobalSteps: StudentGlobalSteps
   studentHomePage: StudentHomePage
   studentDeclaredSkillDetailPage: StudentDeclaredSkillDetailPage
@@ -60,9 +60,9 @@ export const test = base.extend<Fixtures>({
     await setLocaleFromPage(page)
     await use(new StaffActivitiesPage(page))
   },
-  editNationalActivityPage: async ({ page }, use) => {
+  staffEditNationalActivityPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
-    await use(new EditNationalActivityPage(page))
+    await use(new StaffEditNationalActivityPage(page))
   },
   studentGlobalSteps: async ({ page }, use) => {
     await setLocaleFromPage(page)
