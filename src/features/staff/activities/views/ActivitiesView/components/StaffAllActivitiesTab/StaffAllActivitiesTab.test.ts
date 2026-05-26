@@ -36,7 +36,6 @@ BddTest().given('a StaffAllActivitiesTab component', () => {
       expect(activitiesTab.exists()).toBe(true)
       expect(activitiesTab.props('title')).toBe('Toutes les activités publiées dans mon établissement (0)')
       expect(activitiesTab.props('emptyStateMessage')).toBe('Aucune activité pour le moment.')
-      expect(activitiesTab.props('withStatus')).toBe(true)
 
       expect(params.currentPageRef.value).toBe(0)
       expect(params.pageSizeRef.value).toBe(PageSizes.TWELVE)

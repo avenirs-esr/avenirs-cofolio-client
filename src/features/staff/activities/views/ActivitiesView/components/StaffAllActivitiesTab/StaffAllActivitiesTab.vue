@@ -21,7 +21,6 @@ const usePaginatedStaffActivitesParams = {
     :title="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.title', { count: totalActivities })"
     :empty-state-message="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.emptyState')"
     :use-paginated-staff-activites-params="usePaginatedStaffActivitesParams"
-    with-status
     @update-activities-count="totalActivities = $event"
   />
 </template>
