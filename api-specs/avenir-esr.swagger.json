@@ -4332,7 +4332,10 @@
           "summary",
           "thematic",
           "title",
-          "updatedAt"
+          "updatedAt",
+          "traceAllowedAssociations",
+          "feedbackAllowedIterations",
+          "enableReflection"
         ]
       },
       "DeclaredActivityDetailsDTO": {

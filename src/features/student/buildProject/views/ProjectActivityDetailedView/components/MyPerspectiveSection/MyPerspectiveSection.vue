@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { type DeclaredActivityDetailsDTO, useGetDeclaredActivityAssociations } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
+import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE } from '@/features/staff/activities'
 import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import MyPerspectiveTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
@@ -20,6 +21,8 @@ const associationsCount = computed(() =>
   (declaredActivityAssociations.value?.traceAssociations.length ?? 0)
   + (declaredActivityAssociations.value?.declaredSkillAssociations.length ?? 0)
 )
+
+const traceAssociationsDisabled = computed(() => declaredActivityDetails.activity.traceAllowedAssociations === ACTIVITY_TRACE_SETTING_DISABLED_VALUE)
 </script>
 
 <template>
@@ -46,6 +49,7 @@ const associationsCount = computed(() =>
         :count-associations="associationsCount"
         :error="error"
         :is-loading="isPending"
+        :trace-associations-disabled="traceAssociationsDisabled"
       />
     </AvTab>
   </AvTabs>

@@ -10,12 +10,12 @@ BddTest().given('an activity associate elements dropdown', () => {
     AvDropdown: AvDropdownStub
   }
 
-  BddTest().when('the component is mounted', () => {
+  BddTest().when('the component is mounted without props', () => {
     beforeEach(() => {
       wrapper = mount(ActivityAssociateElementsDropdown, { global: { stubs } })
     })
 
-    BddTest().then('it should render the dropdown with one menu item', () => {
+    BddTest().then('it should render the dropdown with two menu items', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
 
       expect(dropdown.exists()).toBe(true)
@@ -29,6 +29,39 @@ BddTest().given('an activity associate elements dropdown', () => {
       expect(dropdown.props('triggerAriaLabel')).toBe('Associer...')
       expect(dropdown.props('triggerLabel')).toBe('Associer...')
       expect(dropdown.props('triggerVariant')).toBe('FLAT')
+    })
+
+    BddTest().then('it should render the traces item as enabled by default', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string, disabled?: boolean }[]
+      const tracesItem = items.find(item => item.name === 'traces')
+
+      expect(tracesItem?.disabled).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with tracesDisabled set to true', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityAssociateElementsDropdown, {
+        props: { tracesDisabled: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the traces item as disabled', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string, disabled?: boolean }[]
+      const tracesItem = items.find(item => item.name === 'traces')
+
+      expect(tracesItem?.disabled).toBe(true)
+    })
+
+    BddTest().then('it should render the skills item as enabled', () => {
+      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
+      const items = dropdown.props('items') as { name: string, disabled?: boolean }[]
+      const skillsItem = items.find(item => item.name === 'skills')
+
+      expect(skillsItem?.disabled).toBeUndefined()
     })
   })
 

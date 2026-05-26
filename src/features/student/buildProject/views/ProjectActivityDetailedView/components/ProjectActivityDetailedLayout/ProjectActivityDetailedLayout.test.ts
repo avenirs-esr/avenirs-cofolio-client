@@ -10,6 +10,7 @@ import {
   SectionNavigationLayoutStub,
 } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
 import { ICONS } from '@/common/constants'
+import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import {
   MyPerspectiveSectionStub,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/MyPerspectiveSection/MyPerspectiveSection.stub'
@@ -53,6 +54,8 @@ BddTest().given('a project activity detailed layout component', () => {
       createdAt: '2025-01-01T10:00:00Z',
       updatedAt: '2025-01-02T10:00:00Z',
       enableReflection: true,
+      traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
     },
   }
 
