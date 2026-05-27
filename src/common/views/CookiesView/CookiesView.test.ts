@@ -1,72 +1,58 @@
-import type { RouteLocationNormalized } from 'vue-router'
+import type { RoutePageProps } from '@/common/types'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTES } from '@/common/constants'
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: vi.fn(),
-  }
-})
 
 BddTest().given('a cookies view', () => {
   let wrapper: VueWrapper<InstanceType<typeof CookiesView>>
 
   const stubs = { PageTitle: PageTitleStub }
 
-  BddTest().when('the view is mounted in a student route', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      vi.mocked(useRoute).mockReturnValue({
-        path: '/student/home'
-      } as unknown as RouteLocationNormalized)
+  const mountDefault = (props: RoutePageProps = {}) => {
+    wrapper = mount(CookiesView, { global: { stubs }, props })
+  }
 
-      wrapper = mount(CookiesView, { global: { stubs } })
-    })
+  const title = 'Gestion des cookies'
+  const defaultBreadcrumbLinks = [{ text: title }]
 
-    const title = 'Gestion des cookies'
-    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
-    const currentBreadcrumbLink = { text: title }
+  BddTest().when('the view is mounted without props', () => {
+    beforeEach(() => mountDefault())
 
     BddTest().then('it should render PageTitle with correct props', () => {
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        homeBreadcrumbLink,
-        currentBreadcrumbLink
-      ])
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.HOME)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual(defaultBreadcrumbLinks)
+      expect(pageTitle.props('back')).toBe(undefined)
     })
   })
 
-  BddTest().when('the view is mounted in a staff route', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      vi.mocked(useRoute).mockReturnValue({
-        path: '/staff/home'
-      } as unknown as RouteLocationNormalized)
+  BddTest().when('the view is mounted with back route', () => {
+    const backRoute = '/back-route'
 
-      wrapper = mount(CookiesView, { global: { stubs } })
-    })
-
-    const title = 'Gestion des cookies'
-    const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STAFF.HOME }
-    const currentBreadcrumbLink = { text: title }
+    beforeEach(() => mountDefault({ backRoute }))
 
     BddTest().then('it should render PageTitle with correct props', () => {
       const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        homeBreadcrumbLink,
-        currentBreadcrumbLink
-      ])
-      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.HOME)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual(defaultBreadcrumbLinks)
+      expect(pageTitle.props('back')).toBe('/back-route')
+    })
+  })
+
+  BddTest().when('the view is mounted with breadcrumbs', () => {
+    const breadcrumbLinksRaw = [{ textKey: 'global.views.cookiesView.title' }]
+
+    beforeEach(() => mountDefault({ breadcrumbLinksRaw }))
+
+    BddTest().then('it should render PageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+
+      expect(pageTitle.props('title')).toBe(title)
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([{ text: title }, ...defaultBreadcrumbLinks])
+      expect(pageTitle.props('back')).toBe(undefined)
     })
   })
 })

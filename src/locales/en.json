@@ -222,23 +222,39 @@
       "generic": "An error has occurred. Please try again later."
     },
     "footer": {
-      "anr": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
+      "anr": {
+        "description": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
+        "link": "National Research Agency - AVENIR(S) Program"
+      },
+      "copyright": {
+        "aria": "{'@'}ESUP-Portail. All rights reserved. - Home",
+        "link": "{'@'}ESUP-Portail. All rights reserved."
+      },
+      "france2030": "France 2030 - Information",
       "instituteInfo": "An ePortfolio for Higher Education and Research",
-      "links": {
-        "accessibility": {
-          "compliant": "compliant",
-          "nonCompliant": "non-compliant",
-          "partiallyCompliant": "partially compliant"
+      "sections": {
+        "legalInformation": {
+          "links": {
+            "accessibility": "Accessibility : partially compliant",
+            "cookies": "Cookie management",
+            "data": "Personal data",
+            "legal": "Legal notice"
+          },
+          "title": "Legal"
         },
-        "anr": "National Research Agency - AVENIR(S) Program",
-        "avenirs": "ESR component of the AVENIR(s) program - Home",
-        "cookies": "Cookie management",
-        "copyright": "{'@'}ESUP-Portail. All rights reserved.",
-        "copyrightAria": "{'@'}ESUP-Portail. All rights reserved. - Home",
-        "data": "Personal data",
-        "esup": "Community of French higher education establishments for digital innovation - Home",
-        "france2030": "France 2030 - Information",
-        "legal": "Legal notices"
+        "otherSites": {
+          "links": {
+            "avenirs": "ESR component of the AVENIR(s) program - Home"
+          },
+          "title": "Other sites"
+        },
+        "partners": {
+          "links": {
+            "avenirs": "ESR component of the AVENIR(s) program - Home",
+            "esup": "Community of French higher education establishments for digital innovation - Home"
+          },
+          "title": "Partners"
+        }
       }
     },
     "header": {

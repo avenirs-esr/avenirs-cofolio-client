@@ -5,6 +5,10 @@ import { type NavigationFailure, useRouter } from 'vue-router'
 export function useNavigation () {
   const router = useRouter()
 
+  const navigateToAuthLogin = () => {
+    return router.push(ROUTES.AUTH.LOGIN)
+  }
+
   const navigateToStudentDeclaredSkill = () => {
     return router.push(ROUTES.STUDENT.DECLARED_SKILL)
   }
@@ -186,6 +190,7 @@ export function useNavigation () {
   }
 
   return {
+    navigateToAuthLogin,
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
     navigateToStudentUpdateDeclaredExperience,

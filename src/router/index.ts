@@ -1,4 +1,5 @@
 import { ROUTES } from '@/common/constants'
+import authRoutes from '@/features/auth/global/routes'
 import staffRoutes from '@/features/staff/global/routes'
 import studentRoutes from '@/features/student/global/routes'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -6,6 +7,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const MAIN_TITLE = 'Cofolio'
 
 const routes = [
+  ...authRoutes,
   ...studentRoutes,
   ...staffRoutes,
   {

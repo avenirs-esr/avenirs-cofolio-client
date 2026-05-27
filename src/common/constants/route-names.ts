@@ -1,4 +1,11 @@
 export const ROUTES = {
+  AUTH: {
+    ACCESSIBILITY: { name: 'auth-accessibility', path: 'accessibility' },
+    COOKIES: { name: 'auth-cookies', path: 'cookies' },
+    LEGAL: { name: 'auth-legal', path: 'legal' },
+    LOGIN: { name: 'auth-login', path: 'login' },
+    PERSONAL_DATA: { name: 'auth-personal-data', path: 'personal-data' },
+  },
   STAFF: {
     ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },

@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
+import { ROUTES } from '@/common/constants'
 import { StaffNavigationStub } from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.stub'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -41,8 +42,14 @@ BddTest().given('a staff layout component', () => {
       expect(wrapper.findComponent(AvHeaderStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the Footer component', () => {
-      expect(wrapper.findComponent(FooterStub).exists()).toBe(true)
+    BddTest().then('it should render the Footer component with correct props', () => {
+      const footer = wrapper.findComponent(FooterStub)
+
+      expect(footer.exists()).toBe(true)
+      expect(footer.props('accessibilityLink')).toBe(ROUTES.STAFF.ACCESSIBILITY)
+      expect(footer.props('cookiesLink')).toBe(ROUTES.STAFF.COOKIES)
+      expect(footer.props('legalLink')).toBe(ROUTES.STAFF.LEGAL)
+      expect(footer.props('personalDataLink')).toBe(ROUTES.STAFF.PERSONAL_DATA)
     })
 
     BddTest().then('it should render the StaffNavigation component', () => {
