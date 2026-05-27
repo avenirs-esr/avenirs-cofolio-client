@@ -61,6 +61,8 @@ const isFormDirty = form.useStore(state => state.isDirty)
       <FormFieldCardContainer
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.INSTRUCTIONS')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+        collapsible
+        collapsed
       >
         <ActivityConsignFormField
           :form="form"

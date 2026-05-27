@@ -61,6 +61,13 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.find(`#${ContentSectionId.INSTRUCTIONS}`).exists()).toBe(true)
     })
 
+    BddTest().then('it should render the INSTRUCTIONS FormFieldCardContainer as collapsible and collapsed', () => {
+      const instructionsSection = tab.find(`#${ContentSectionId.INSTRUCTIONS}`)
+      const cardContainer = instructionsSection.findComponent({ name: 'FormFieldCardContainer' })
+      expect(cardContainer.props('collapsible')).toBeDefined()
+      expect(cardContainer.props('collapsed')).toBeDefined()
+    })
+
     BddTest().then('it should render ActivityExecutionPeriodFormField', () => {
       expect(tab.findComponent({ name: 'ActivityExecutionPeriodFormField' }).exists()).toBe(true)
     })
