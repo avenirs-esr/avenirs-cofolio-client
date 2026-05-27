@@ -137,4 +137,9 @@ class StaffEditNationalActivityPage extends BasePage {
   async verifySideNavigationMenuIsNotVisible () {
     await this.sideNav().verifyHidden()
   }
+
+  @Then('the trace association parameter is visible')
+  async verifyTraceAssociationParameterVisible () {
+    await this.tabs().verifyToggleVisible()
+  }
 }

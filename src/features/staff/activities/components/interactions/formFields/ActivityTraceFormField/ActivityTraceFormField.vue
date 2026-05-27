@@ -50,6 +50,7 @@ const inputEnabled = computed({
 <template>
   <ToggleParameterCard
     v-model="inputEnabled"
+    data-testid="trace-allowed-associations-toggle"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.title')"
     :icon="MDI_ICONS.ATTACH_FILE"
     :disabled="isDisabled"

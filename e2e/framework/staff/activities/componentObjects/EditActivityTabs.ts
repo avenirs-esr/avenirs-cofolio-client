@@ -8,6 +8,10 @@ export class EditActivityTabs {
     return this.page.getByTestId('add-national-activity-tabs')
   }
 
+  private getToggle () {
+    return this.page.getByTestId('trace-allowed-associations-toggle')
+  }
+
   private getContentTab () {
     return this.getTabs().getByTestId('activity-content-tab-item')
   }
@@ -36,5 +40,9 @@ export class EditActivityTabs {
   async verifyPublicationTabActive () {
     await expect(this.getPublicationTab()).toHaveAttribute('aria-selected', 'true')
     await expect(this.getPublicationTabPanel()).toBeVisible()
+  }
+
+  async verifyToggleVisible () {
+    await expect(this.getToggle()).toBeVisible()
   }
 }
