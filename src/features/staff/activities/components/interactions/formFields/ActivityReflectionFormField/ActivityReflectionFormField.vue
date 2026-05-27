@@ -47,6 +47,7 @@ const inputEnabled = computed({
 <template>
   <ToggleParameterCard
     v-model="inputEnabled"
+    data-testid="reflection-parameter-toggle"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
     :icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
   >

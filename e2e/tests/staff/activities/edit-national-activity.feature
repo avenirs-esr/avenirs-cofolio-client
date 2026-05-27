@@ -97,10 +97,13 @@ Feature: Staff Edit National Activity Page
     Scenario: The staff can collapse the side navigation
       When the staff collapses the side navigation menu
       Then the side navigation menu is collapsed
-  
+
   Rule: Content tab elements
   
     @high
+    Scenario: The reflection parameter is visible in the content tab
+      Then the reflection parameter is visible
+      
+    @high
     Scenario: The trace association parameter is visible in the content tab
       Then the trace association parameter is visible
-      
