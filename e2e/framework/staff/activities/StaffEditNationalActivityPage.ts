@@ -138,6 +138,11 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.sideNav().verifyHidden()
   }
 
+  @Then('the reflection parameter is visible')
+  async verifyReflectionParameterVisible () {
+    await this.tabs().verifyReflectionToggleVisible()
+  }
+
   @Then('the trace association parameter is visible')
   async verifyTraceAssociationParameterVisible () {
     await this.tabs().verifyToggleVisible()
