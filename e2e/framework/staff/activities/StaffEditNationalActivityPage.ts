@@ -17,6 +17,10 @@ class StaffEditNationalActivityPage extends BasePage {
   private tabs () { return new EditActivityTabs(this.page) }
   private sideNav () { return new EditActivitySideNavigation(this.page) }
 
+  getActivityConsignFormField () {
+    return this.page.getByTestId('activity-consign-form-field').first()
+  }
+
   @Given('the staff navigates to the first activity edit page')
   async navigateToEditNationalActivity () {
     const activityLocator = await this.page
@@ -138,8 +142,18 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.sideNav().verifyHidden()
   }
 
+  @Then('the reflection parameter is visible')
+  async verifyReflectionParameterVisible () {
+    await this.tabs().verifyReflectionToggleVisible()
+  }
+
   @Then('the trace association parameter is visible')
   async verifyTraceAssociationParameterVisible () {
     await this.tabs().verifyToggleVisible()
+  }
+
+  @Then('the consign form field is visible')
+  async verifyConsignFormFieldVisible () {
+    await expect(this.getActivityConsignFormField()).toBeVisible()
   }
 }

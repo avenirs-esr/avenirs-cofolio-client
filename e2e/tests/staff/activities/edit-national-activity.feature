@@ -63,7 +63,13 @@ Feature: Staff Edit National Activity Page
     Scenario: Clicking a content sub-section updates the URL anchor
       When the staff clicks on the content "TITLE" section in the side navigation menu
       Then the URL contains "#TITLE"
-
+      
+    @high @side-navigation @consign
+    Scenario: Clicking the consign content sub-section displays the consign form field
+      When the staff clicks on the content "INSTRUCTIONS" section in the side navigation menu
+      Then the URL contains "#INSTRUCTIONS"
+      
+      
     @high @side-navigation
     Scenario: Clicking another content sub-section updates the active state in the side navigation
       When the staff clicks on the content "TITLE" section in the side navigation menu
@@ -90,6 +96,7 @@ Feature: Staff Edit National Activity Page
       And the staff clicks on the publication "IMAGE" section in the side navigation menu
       Then the publication "IMAGE" section is active in the side navigation menu
       And the publication "ACTIVITY_TITLE" section is not active in the side navigation menu
+      
 
   Rule: Side navigation collapse
 
@@ -100,6 +107,10 @@ Feature: Staff Edit National Activity Page
   
   Rule: Content tab elements
   
+    @high
+    Scenario: The reflection parameter is visible in the content tab
+      Then the reflection parameter is visible
+      
     @high
     Scenario: The trace association parameter is visible in the content tab
       Then the trace association parameter is visible
