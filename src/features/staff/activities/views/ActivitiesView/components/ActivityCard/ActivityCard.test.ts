@@ -67,7 +67,7 @@ BddTest().given('an ActivityCard component', () => {
       expect(link.exists()).toBe(true)
       expect(link.text()).toContain(baseActivity.title)
       expect(link.props('to')).toEqual({
-        name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+        name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { id: baseActivity.id, status: baseActivity.status },
       })
     })
@@ -132,7 +132,7 @@ BddTest().given('an ActivityCard component', () => {
       const thematic = wrapper.findComponent(ActivityThematicBadgeStub)
 
       expect(link.props('to')).toEqual({
-        name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+        name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { id: otherActivity.id, status: otherActivity.status },
       })
       expect(thematic.props('thematic')).toBe(otherActivity.thematic)

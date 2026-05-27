@@ -3,7 +3,7 @@ export const ROUTES = {
     ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
-    ACTIVITY_DETAILS: { name: 'staff-activity-details', path: 'activities/:status/:id' },
+    ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     HOME: { name: 'staff-home', path: '' },
     LEGAL: { name: 'staff-legal', path: 'legal' },

@@ -69,6 +69,15 @@
             "publicationHeader": "Publication de l'activité"
           }
         },
+        "NationalActivityCatalogView": {
+          "errors": {
+            "fetchActivityContent": "Impossible de charger l'activité"
+          },
+          "NationalActivityContentTab": {
+            "title": "Contenu de l'activité"
+          },
+          "title": "Toutes les activités disponibles dans mon établissement"
+        },
         "EditNationalActivityView": {
           "ActivityContentTab": {
             "nextStepLabel": "Étape suivante",

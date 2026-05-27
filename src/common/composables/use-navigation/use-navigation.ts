@@ -174,6 +174,13 @@ export function useNavigation () {
     return router.push(to)
   }
 
+  const navigateToStaffActivityCatalog = ({ status, id }: { status: string, id: string }) => {
+    return router.push({
+      name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
+      params: { status, id },
+    })
+  }
+
   return {
     navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
@@ -201,5 +208,6 @@ export function useNavigation () {
     navigateToActivityDetailed,
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
+    navigateToStaffActivityCatalog,
   }
 }

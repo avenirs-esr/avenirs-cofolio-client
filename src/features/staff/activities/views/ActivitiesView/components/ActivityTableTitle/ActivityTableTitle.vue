@@ -10,7 +10,7 @@ export interface ActivityTableTitleProps {
 const { activity } = defineProps<ActivityTableTitleProps>()
 
 const to = computed(() => ({
-  name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+  name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
   params: { status: activity.status, id: activity.id }
 }))
 </script>

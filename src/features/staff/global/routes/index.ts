@@ -1,5 +1,5 @@
 import { ROUTES } from '@/common/constants'
-import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityDetailsRoute } from '@/features/staff/activities/routes'
+import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute } from '@/features/staff/activities/routes'
 
 export default [
   {
@@ -33,7 +33,7 @@ export default [
       },
       staffActivitiesRoute,
       staffActivitiesEditNationalActivityRoute,
-      staffActivityDetailsRoute
+      staffActivityCatalogRoute
     ]
   }
 ]

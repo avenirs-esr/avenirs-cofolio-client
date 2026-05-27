@@ -82,14 +82,14 @@ BddTest().given('a project activity detailed view', () => {
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
       expect(breadcrumbLinks).toHaveLength(3)
-      expect(breadcrumbLinks[0]).toEqual({
+      expect(breadcrumbLinks?.[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME
       })
-      expect(breadcrumbLinks[1]).toEqual({
+      expect(breadcrumbLinks?.[1]).toEqual({
         text: 'Construire mon projet de vie'
       })
-      expect(breadcrumbLinks[2]).toEqual({
+      expect(breadcrumbLinks?.[2]).toEqual({
         text: 'Mes activités'
       })
     })

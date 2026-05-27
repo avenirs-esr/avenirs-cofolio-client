@@ -21,7 +21,7 @@ const { formatLastModified } = useDateUtils()
 const ownerLabel = computed(() => `${t('global.colon', { before: t('staff.activities.views.ActivitiesView.columns.owner') })} ${activity.owner}`)
 const updatedAtLabel = computed(() => `${t('global.colon', { before: t('global.updated') })} ${formatLastModified(activity.updatedAt)}`)
 const to = computed(() => ({
-  name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+  name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
   params: { status: activity.status, id: activity.id }
 }))
 </script>
