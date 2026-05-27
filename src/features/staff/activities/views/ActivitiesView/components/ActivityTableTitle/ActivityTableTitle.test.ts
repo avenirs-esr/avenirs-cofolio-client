@@ -46,7 +46,7 @@ BddTest().given('an ActivityTableTitle component', () => {
 
     BddTest().then('it should link to the activity details route with correct params', () => {
       expect(link.props('to')).toEqual({
-        name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+        name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { id: baseActivity.id, status: baseActivity.status },
       })
     })
@@ -95,7 +95,7 @@ BddTest().given('an ActivityTableTitle component', () => {
 
     BddTest().then('it should update the route params accordingly', () => {
       expect(link.props('to')).toEqual({
-        name: ROUTES.STAFF.ACTIVITY_DETAILS.name,
+        name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { id: 'activity-42', status: EActivityStatus.DRAFT },
       })
     })

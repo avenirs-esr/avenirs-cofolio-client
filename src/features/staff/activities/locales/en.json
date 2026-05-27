@@ -69,6 +69,15 @@
             "publicationHeader": "Prepare publication"
           }
         },
+        "NationalActivityCatalogView": {
+          "errors": {
+            "fetchActivityContent": "Unable to load activity"
+          },
+          "NationalActivityContentTab": {
+            "title": "Activity content"
+          },
+          "title": "All activities available in my institution"
+        },
         "EditNationalActivityView": {
           "ActivityContentTab": {
             "nextStepLabel": "Next step",

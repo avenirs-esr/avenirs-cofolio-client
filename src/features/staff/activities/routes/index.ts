@@ -1,3 +1,4 @@
+import type { EActivityStatus } from '@/api/avenir-esr'
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 
@@ -16,9 +17,12 @@ export const staffActivitiesEditNationalActivityRoute: AvRoute = {
     import('@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'),
 }
 
-export const staffActivityDetailsRoute: AvRoute = {
-  ...ROUTES.STAFF.ACTIVITY_DETAILS,
-  // TODO: us #1493 update component to load when #1493 is merged
+export const staffActivityCatalogRoute: AvRoute = {
+  ...ROUTES.STAFF.ACTIVITY_CATALOG,
+  props: route => ({
+    status: route.params.status as EActivityStatus,
+    id: route.params.id,
+  }),
   component: () =>
-    import('@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'),
+    import('@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'),
 }

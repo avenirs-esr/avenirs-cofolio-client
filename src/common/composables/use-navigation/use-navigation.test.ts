@@ -375,4 +375,16 @@ BddTest().given('a useNavigation composable', () => {
       })
     })
   })
+
+  BddTest().when('trying to navigate to staff activity catalog', () => {
+    BddTest().then('it should navigate to staff activity catalog with status and id', () => {
+      const { navigateToStaffActivityCatalog } = navigation
+      navigateToStaffActivityCatalog({ status: 'DRAFT', id: 'act-123' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
+        params: { status: 'DRAFT', id: 'act-123' },
+      })
+    })
+  })
 })
