@@ -6,9 +6,6 @@ import {
   createBaseApiExceptionFromUnknownError,
 } from '@/common/exceptions'
 
-const AUTH_LOGIN_PATH = '/auth/login'
-const AUTH_CALLBACK_PATH = '/auth/callback'
-
 function buildUrl (url: string, baseUrl: string): string {
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url
@@ -79,33 +76,6 @@ function mergeHeaders (defaultHeaders: HeadersInit = {}, requestHeaders: Headers
   return headers
 }
 
-function shouldRedirectToLogin (response: Response, authLoginUrl: string): boolean {
-  if (response.status !== 401) {
-    return false
-  }
-
-  if (typeof window === 'undefined') {
-    return false
-  }
-
-  const currentUrl = window.location.href
-  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
-
-  return !currentUrl.startsWith(authLoginUrl)
-    && !currentPath.startsWith(AUTH_CALLBACK_PATH)
-    && !currentPath.startsWith('/cas/')
-}
-
-function redirectToLogin (authLoginUrl: string): never {
-  const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
-
-  window.location.assign(
-    `${authLoginUrl}?redirect=${encodeURIComponent(currentPath)}`
-  )
-
-  throw new Error('Redirecting to login')
-}
-
 function createCustomFetch (
   config: FetchConfig = {},
   interceptorManager: FetchInterceptorManager = new FetchInterceptorManager(),
@@ -137,12 +107,6 @@ function createCustomFetch (
       const response = await fetch(requestUrl, requestInit)
 
       const interceptedResponse = await interceptorManager.applyResponseInterceptors(response)
-
-      const authLoginUrl = buildUrl(AUTH_LOGIN_PATH, baseUrl)
-
-      if (shouldRedirectToLogin(interceptedResponse, authLoginUrl)) {
-        redirectToLogin(authLoginUrl)
-      }
 
       if (!interceptedResponse.ok) {
         const errorData: unknown = await getBody(interceptedResponse.clone())

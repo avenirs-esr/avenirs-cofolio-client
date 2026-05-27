@@ -30,6 +30,14 @@ BddTest().given('a useNavigation composable', () => {
     navigation = result
   })
 
+  BddTest().when('trying to navigate to auth login', () => {
+    BddTest().then('it should navigate to auth login', () => {
+      const { navigateToAuthLogin } = navigation
+      navigateToAuthLogin()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.AUTH.LOGIN)
+    })
+  })
+
   BddTest().when('trying to navigate to student deliverables', () => {
     BddTest().then('it should navigate to student delivarables', () => {
       const { navigateToStudentDeliverables } = navigation

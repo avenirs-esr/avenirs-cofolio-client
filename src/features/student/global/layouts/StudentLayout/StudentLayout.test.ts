@@ -1,5 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
+import { ROUTES } from '@/common/constants'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -42,10 +44,7 @@ BddTest().given('a student layout', () => {
       name: 'StudentNavigation',
       template: '<nav data-testid="navigation">Navigation</nav>'
     },
-    Footer: {
-      name: 'Footer',
-      template: '<footer data-testid="footer" />'
-    },
+    Footer: FooterStub,
     RouterView: {
       name: 'RouterView',
       template: '<div data-testid="router-view" />'
@@ -70,6 +69,16 @@ BddTest().given('a student layout', () => {
         expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="notifications-popover"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="profile-popover"]').exists()).toBe(true)
+      })
+
+      BddTest().then('it should render the Footer component with correct props', () => {
+        const footer = wrapper.findComponent(FooterStub)
+
+        expect(footer.exists()).toBe(true)
+        expect(footer.props('accessibilityLink')).toBe(ROUTES.STUDENT.ACCESSIBILITY)
+        expect(footer.props('cookiesLink')).toBe(ROUTES.STUDENT.COOKIES)
+        expect(footer.props('legalLink')).toBe(ROUTES.STUDENT.LEGAL)
+        expect(footer.props('personalDataLink')).toBe(ROUTES.STUDENT.PERSONAL_DATA)
       })
 
       BddTest().then('it should pass correct props to profile popover', async () => {

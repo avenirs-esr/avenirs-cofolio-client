@@ -1,4 +1,5 @@
 import type {
+  RouteLocationRaw,
   RouteRecordMultipleViews,
   RouteRecordMultipleViewsWithChildren,
   RouteRecordSingleView,
@@ -10,3 +11,13 @@ export type AvRoute =
   | (Omit<RouteRecordSingleViewWithChildren, 'name'> & { name: string })
   | (Omit<RouteRecordMultipleViews, 'name'> & { name: string })
   | (Omit<RouteRecordMultipleViewsWithChildren, 'name'> & { name: string })
+
+export interface BreadcrumbLinkRaw {
+  to?: RouteLocationRaw
+  textKey: string
+}
+
+export interface RoutePageProps {
+  backRoute?: RouteLocationRaw
+  breadcrumbLinksRaw?: BreadcrumbLinkRaw[]
+}

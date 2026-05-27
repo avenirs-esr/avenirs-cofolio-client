@@ -12,13 +12,13 @@ const [feature, subFeatureName] = process.argv.slice(2)
 if (!feature || !subFeatureName) {
   console.error('❌ Error: Missing required arguments')
   console.log('Usage: npm run generate:feature <feature> <subFeatureName>')
-  console.log('  feature: student or staff')
+  console.log('  feature: auth, student or staff')
   console.log('  subFeatureName: name of the sub-feature (camelCase)')
   process.exit(1)
 }
 
-if (!['student', 'staff'].includes(feature)) {
-  console.error('❌ Error: feature must be either "student" or "staff"')
+if (!['auth', 'student', 'staff'].includes(feature)) {
+  console.error('❌ Error: feature must be either "auth", "student" or "staff"')
   process.exit(1)
 }
 

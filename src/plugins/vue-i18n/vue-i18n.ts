@@ -79,6 +79,7 @@ async function registerFeatureLocales (feature: string) {
 }
 
 async function initializeI18n () {
+  await registerFeatureLocales('auth')
   await registerFeatureLocales('student')
   await registerFeatureLocales('staff')
 }

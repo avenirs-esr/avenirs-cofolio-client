@@ -1,27 +1,27 @@
 <script setup lang="ts">
+import type { RoutePageProps } from '@/common/types'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { ROUTES } from '@/common/constants'
 import { useI18n } from 'vue-i18n'
 
+const {
+  backRoute,
+  breadcrumbLinksRaw = []
+} = defineProps<RoutePageProps>()
+
 const { t } = useI18n()
-const route = useRoute()
 
-const isStudentRoute = computed(() => route.path.startsWith('/student'))
+const title = computed(() => t('global.views.cookiesView.title'))
 
-const homeRoute = computed(() => isStudentRoute.value
-  ? ROUTES.STUDENT.HOME
-  : ROUTES.STAFF.HOME)
-
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: homeRoute.value },
-  { text: t('global.views.cookiesView.title') },
+const allBreadcrumbLinks = computed(() => [
+  ...breadcrumbLinksRaw.map(link => ({ text: t(link.textKey), to: link.to })),
+  { text: title.value },
 ])
 </script>
 
 <template>
   <PageTitle
-    :title="t('global.views.cookiesView.title')"
-    :breadcrumb-links="breadcrumbLinks"
-    :back="homeRoute"
+    :title="title"
+    :breadcrumb-links="allBreadcrumbLinks"
+    :back="backRoute"
   />
 </template>

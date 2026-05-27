@@ -26,12 +26,12 @@ export class FooterObject extends BaseObject {
     return this.root.getByTestId('cofolio-description')
   }
 
-  getMandatoryLinks () {
-    return this.root.getByTestId('mandatory-link')
+  getLegalInformationLinks () {
+    return this.root.getByTestId('legal-information-link')
   }
 
-  getEcosystemLinks () {
-    return this.root.getByTestId('ecosystem-link')
+  getOtherSitesLinks () {
+    return this.root.getByTestId('other-sites-link')
   }
 
   getAvenirsLink () {
@@ -46,12 +46,12 @@ export class FooterObject extends BaseObject {
     return this.root.getByTestId('copyright-link')
   }
 
-  async getMandatoryLinksCount () {
-    return await this.getMandatoryLinks().count()
+  async getLegalInformationLinksCount () {
+    return await this.getLegalInformationLinks().count()
   }
 
-  async getEcosystemLinksCount () {
-    return await this.getEcosystemLinks().count()
+  async getOtherSitesLinksCount () {
+    return await this.getOtherSitesLinks().count()
   }
 
   async verifyVisible () {
@@ -62,11 +62,11 @@ export class FooterObject extends BaseObject {
     await expect(this.getCofolioLogo()).toBeVisible()
     await expect(this.getCofolioDescription()).toBeVisible()
 
-    const countMandatoryLinks = await this.getMandatoryLinksCount()
-    expect(countMandatoryLinks).toBeGreaterThan(0)
+    const countLegalInformationLinks = await this.getLegalInformationLinksCount()
+    expect(countLegalInformationLinks).toBeGreaterThan(0)
 
-    const countEcosystemLinks = await this.getEcosystemLinksCount()
-    expect(countEcosystemLinks).toBeGreaterThan(0)
+    const countOtherSitesLinks = await this.getOtherSitesLinksCount()
+    expect(countOtherSitesLinks).toBeGreaterThan(0)
 
     await expect(this.getAvenirsLink()).toBeVisible()
     await expect(this.getEsupLink()).toBeVisible()

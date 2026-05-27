@@ -1,3 +1,4 @@
+import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
 import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
@@ -6,6 +7,13 @@ import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgram
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
+
+const footerLegalProps: RoutePageProps = {
+  backRoute: ROUTES.STUDENT.HOME,
+  breadcrumbLinksRaw: [
+    { textKey: 'student.global.navigation.tabs.home', to: ROUTES.STUDENT.HOME },
+  ]
+}
 
 export default [
   {
@@ -18,11 +26,13 @@ export default [
       },
       {
         ...ROUTES.STUDENT.ACCESSIBILITY,
+        props: () => footerLegalProps,
         component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
       },
       studentDeclaredSkillRoute,
       {
         ...ROUTES.STUDENT.COOKIES,
+        props: () => footerLegalProps,
         component: () => import('@/common/views/CookiesView/CookiesView.vue'),
       },
       {
@@ -36,10 +46,12 @@ export default [
       },
       {
         ...ROUTES.STUDENT.LEGAL,
+        props: () => footerLegalProps,
         component: () => import('@/common/views/LegalView/LegalView.vue'),
       },
       {
         ...ROUTES.STUDENT.PERSONAL_DATA,
+        props: () => footerLegalProps,
         component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
       studentProjectSkillsRoute,

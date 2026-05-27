@@ -55,6 +55,7 @@ if (__ENABLE_MSW__) {
 beforeAll(async () => {
   vi.stubGlobal('__DEMO_MODE__', false)
   i18n.global.locale.value = 'fr'
+  await registerFeatureLocales('auth')
   await registerFeatureLocales('student')
   await registerFeatureLocales('staff')
   config.global.plugins = config.global.plugins || []
