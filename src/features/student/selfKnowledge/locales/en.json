@@ -3,10 +3,10 @@
     "selfKnowledge": {
       "categoryType": {
         "ASPIRATIONS": "aspiration | aspirations",
-        "IMPROVEMENT_AREAS": "area for improvement | areas for improvement",
+        "IMPROVEMENT": "area for improvement | areas for improvement",
         "INSPIRATIONS": "inspiration | inspirations",
         "INTERESTS": "interest | interests",
-        "MOTIVATIONS": "professional motivation | professional motivations",
+        "MOTIVATION": "professional motivation | professional motivations",
         "OBLIGATIONS": "obligation | obligations",
         "STRENGTHS": "strength | strengths",
         "TESTIMONIALS": "testimonial | testimonials",

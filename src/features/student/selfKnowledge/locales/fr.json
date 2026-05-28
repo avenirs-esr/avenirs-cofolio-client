@@ -3,10 +3,10 @@
     "selfKnowledge": {
       "categoryType": {
         "ASPIRATIONS": "envie | envies",
-        "IMPROVEMENT_AREAS": "axe d'amélioration | axes d'amélioration",
+        "IMPROVEMENT": "axe d'amélioration | axes d'amélioration",
         "INSPIRATIONS": "inspiration | inspirations",
         "INTERESTS": "centre d'intérêt | centres d'intérêt",
-        "MOTIVATIONS": "motivation professionnelle | motivations professionnelles",
+        "MOTIVATION": "motivation professionnelle | motivations professionnelles",
         "OBLIGATIONS": "obligation | obligations",
         "STRENGTHS": "point fort | points forts",
         "TESTIMONIALS": "témoignage | témoignages",
