@@ -73,7 +73,7 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.sideNav().verifyHasSection('CONTENT', sectionId)
   }
 
-  @When('the staff navigates to the publication tab')
+  @Given('the staff navigates to the publication tab')
   async navigateToPublicationTab () {
     await this.tabs().clickPublicationTab()
   }
@@ -136,6 +136,16 @@ class StaffEditNationalActivityPage extends BasePage {
   @Then('the side navigation menu is not visible')
   async verifySideNavigationMenuIsNotVisible () {
     await this.sideNav().verifyHidden()
+  }
+
+  @Then('the context of realization section is collapsed by default')
+  async verifyContextSectionCollapsedByDefault () {
+    await this.tabs().verifyContextSectionCollapsed()
+  }
+
+  @Then('the context of realization section is visible')
+  async verifyContextSectionVisible () {
+    await this.tabs().verifyContextSectionVisible()
   }
 
   @Then('the reflection parameter is visible')

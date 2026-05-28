@@ -20,6 +20,10 @@ export class EditActivityTabs {
     return this.page.getByTestId('trace-allowed-associations-toggle')
   }
 
+  private getContextSection () {
+    return this.page.getByTestId('activity-execution-period-form-field')
+  }
+
   private getContentTab () {
     return this.getTabs().getByTestId('activity-content-tab-item')
   }
@@ -60,5 +64,13 @@ export class EditActivityTabs {
 
   async verifyActivityConsignFormFieldCollapsed () {
     await expect(this.getActivityConsignFormField()).not.toBeVisible()
+  }
+
+  async verifyContextSectionCollapsed () {
+    await expect(this.getContextSection()).not.toBeVisible()
+  }
+
+  async verifyContextSectionVisible () {
+    await expect(this.getContextSection()).toBeVisible()
   }
 }

@@ -48,6 +48,7 @@ const debouncedAutosave = debounce((value: string) => {
     <template #default="{ field }">
       <Input
         v-bind="$attrs"
+        data-testid="activity-execution-period-form-field"
         is-textarea
         :textarea-min-height="minHeight"
         :model-value="field.state.value"
