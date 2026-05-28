@@ -2,47 +2,48 @@ import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUp
 import { createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import { EActivityStatus, getCreateActivityDraftUrl, getGetActivityContentUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
 export const getActivityContentErrorHandler = http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
 export const getStaffActivityWorkingSpaceErrorHandler = http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
 export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActivityLibraryUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
 export const updateActivityErrorHandler = http.patch(`*${getUpdateActivityUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
 export const publishActivityDraftErrorHandler = http.post(`*${getPublishActivityDraftUrl(':activityDraftId')}`, () => {
   return HttpResponse.json(
-    { message: 'Erreur interne du serveur' },
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
@@ -50,7 +51,7 @@ export const publishActivityDraftErrorHandler = http.post(`*${getPublishActivity
 export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
   if (params.activityDraftId === 'INVALID_ACTIVITY_DRAFT_ID') {
     return HttpResponse.json(
-      { message: 'Activité non trouvée' },
+      { message: 'Activité non trouvée', code: ErrorCodes.ACTIVITY_NOT_FOUND },
       { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
     )
   }

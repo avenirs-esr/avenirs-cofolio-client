@@ -9,6 +9,7 @@ import {
   useUpdateProfile as useUpdateProfileFromApi,
   useUpdateProfilePhoto as useUpdateProfilePhotoFromApi,
 } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -16,6 +17,7 @@ import { useI18n } from 'vue-i18n'
 
 export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -23,7 +25,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
   function onUpdateProfileError (error: BaseApiException) {
     addErrorMessage({
       title: t('global.overlay.drawers.UpdateProfileDrawer.onUpdate.error'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 
@@ -51,6 +53,7 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
 
 export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data: string) => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -58,7 +61,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
   function onUpdateProfileCoverError (error: BaseApiException) {
     addErrorMessage({
       title: t('global.overlay.drawers.UpdateProfileDrawer.onUpdate.error'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 
@@ -86,6 +89,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
 
 export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpdated: (data: string) => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -93,7 +97,7 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
   function onUpdateProfilePhotoError (error: BaseApiException) {
     addErrorMessage({
       title: t('global.overlay.drawers.UpdateProfileDrawer.onUpdate.error'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { invalidateGetDeclaredPrograms, useDeleteDeclaredProgram } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -19,6 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -35,7 +37,7 @@ function deletePrograms () {
     onError: (error) => {
       addErrorMessage({
         title: t('student.personalCareer.overlays.DeleteDeclaredProgramConfirmModal.error', { count: declaredProgramIds.length }),
-        description: error.message
+        description: getErrorMessage(error)
       })
     }
   })

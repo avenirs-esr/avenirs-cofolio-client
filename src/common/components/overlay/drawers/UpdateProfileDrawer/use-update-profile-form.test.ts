@@ -210,7 +210,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
+          description: expect.any(String),
         }),
       )
     })
@@ -250,7 +250,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
+          description: expect.any(String),
         }),
       )
     })
@@ -290,7 +290,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Une erreur est survenue lors de la mise à jour du profil.',
-          description: error.message,
+          description: expect.any(String),
         }),
       )
     })

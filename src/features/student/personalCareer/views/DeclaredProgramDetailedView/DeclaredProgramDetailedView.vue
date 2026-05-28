@@ -22,7 +22,7 @@ const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDecla
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 
-const { originalErrorCode, isNotFound } = useApiErrors(error)
+const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
@@ -68,7 +68,7 @@ function handleConfirmDelete () {
       :error="error"
       :is-loading="isLoading && !isError"
       :error-title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
-      :error-description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : error?.message"
+      :error-description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : getErrorMessage(error)"
     >
       <div
         v-if="declaredProgramDetailed"

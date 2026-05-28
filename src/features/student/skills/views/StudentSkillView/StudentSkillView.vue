@@ -18,7 +18,7 @@ const { t } = useI18n()
 
 const { data: skillDetailed, error } = useGetDetailedSkill(skillId)
 
-const { originalErrorCode, isNotFound } = useApiErrors(error)
+const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.SKILL_NOT_FOUND || isNotFound.value)
 
 const breadcrumbLinks = computed(() => [
@@ -37,7 +37,7 @@ const breadcrumbLinks = computed(() => [
   <ErrorMessage
     v-if="error"
     :title="isSkillNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.title') : t('global.error.generic')"
-    :description="isSkillNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.description') : error.message"
+    :description="isSkillNotFound ? t('student.skills.views.StudentSkillView.errors.notFound.description') : getErrorMessage(error)"
   />
   <StudentSkillViewContainer
     v-else

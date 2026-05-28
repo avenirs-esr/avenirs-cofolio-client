@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
 import { invalidateGetSelfKnowledgeElementDetails, type SelfKnowledgeElementDetailsDTO, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/selfKnowledge/config'
@@ -16,6 +17,7 @@ export function useUpdateSelfKnowledgeElementForm (
   onElementUpdated?: () => void
 ) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { validateRequired, validateMaxLength } = useFormValidators()
   const queryClient = useQueryClient()
@@ -24,7 +26,7 @@ export function useUpdateSelfKnowledgeElementForm (
   const onUpdateElementError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.updateForm.errors.updateElement'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

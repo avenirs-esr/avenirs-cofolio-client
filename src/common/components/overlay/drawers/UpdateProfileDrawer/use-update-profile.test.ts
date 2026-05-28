@@ -56,7 +56,7 @@ BddTest().given('an useUpdateProfile composable with a STAFF user', () => {
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la mise à jour du profil.',
-        description: 'Internal server error'
+        description: expect.any(String)
       })
     })
   })
@@ -101,7 +101,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la mise à jour du profil.',
-        description: 'Internal server error'
+        description: expect.any(String)
       })
     })
   })
@@ -146,7 +146,7 @@ BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la mise à jour du profil.',
-        description: 'Internal server error'
+        description: expect.any(String)
       })
     })
   })

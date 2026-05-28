@@ -16,6 +16,7 @@ import {
   type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { delay, http, HttpResponse } from 'msw'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
@@ -34,7 +35,7 @@ export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperi
 
 export const declaredExperiencesQueryErrorHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -44,7 +45,7 @@ export const declaredExperiencesQueryErrorHandler = http.get(`*${getGetDeclaredE
 
 export const createDeclaredExperienceErrorHandler = http.post(`*${getCreateDeclaredExperienceUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -68,7 +69,7 @@ export const declaredExperiencesQueryEmptyHandler = http.get(`*${getGetDeclaredE
 
 export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDeclaredExperienceUrl(':experienceId')}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -78,7 +79,7 @@ export const declaredExperienceDetailedQueryErrorHandler = http.get(`*${getGetDe
 
 export const declaredExperienceDetailedNotFoundHandler = http.get(`*${getGetDeclaredExperienceUrl(':experienceId')}`, () => {
   return HttpResponse.json(
-    { code: 'DECLARED_EXPERIENCE_NOT_FOUND', message: 'Internal server error' },
+    { code: ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Internal server error' },
     { status: 404 }
   )
 })
@@ -102,7 +103,7 @@ export const declaredExperienceAssociationsQueryHandler = http.get(
 
     if (experienceId === 'INVALID_SKILL_ID') {
       return HttpResponse.json(
-        { code: 'DECLARED_EXPERIENCE_NOT_FOUND', message: 'Internal server error' },
+        { code: ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Internal server error' },
         { status: 404 }
       )
     }
@@ -120,7 +121,7 @@ export const declaredExperienceAssociationsQueryErrorHandler = http.get(
   `*${getGetDeclaredExperienceAssociationsUrl(':experienceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
@@ -177,11 +178,11 @@ export const declaredExperiencesHandlers = [
     const declaredProgramIds = await request.json() as string[]
 
     if (declaredProgramIds.includes('INVALID_PROGRAM_ID')) {
-      return HttpResponse.json({ error: 'Invalid program ID' }, { status: 400 })
+      return HttpResponse.json({ error: 'Invalid program ID', code: ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND }, { status: 404 })
     }
 
     if (declaredProgramIds.length === 0) {
-      return HttpResponse.json({ error: 'No program IDs provided' }, { status: 400 })
+      return HttpResponse.json({ error: 'No program IDs provided', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     const response = `${declaredProgramIds.length} program${declaredProgramIds.length > 1 ? 's' : ''} deleted successfully`
@@ -209,7 +210,7 @@ export const searchDeclaredExperiencesForAssociationErrorHandler = http.get(
   `*${getSearchDeclaredExperiencesForAssociationUrl()}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }

@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useToasterStore } from '@/store'
 import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
@@ -14,6 +15,7 @@ interface UseUpdateProfileFormData extends Omit<ProfileOverviewDTO, 'bio'> {
 
 export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, profile: EUserCategory, onSuccess: () => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { onUpdateProfile, isUpdateProfilePending } = useUpdateProfile(profile, onSuccess)
   const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(profile, onUpdateProfileCoverSuccess)
@@ -75,7 +77,7 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
       catch (error) {
         addErrorMessage({
           title: t('global.overlay.drawers.UpdateProfileDrawer.onUpdate.error'),
-          description: (error as BaseApiException)?.message ?? t('global.error.generic')
+          description: getErrorMessage(error as BaseApiException)
         })
       }
     },

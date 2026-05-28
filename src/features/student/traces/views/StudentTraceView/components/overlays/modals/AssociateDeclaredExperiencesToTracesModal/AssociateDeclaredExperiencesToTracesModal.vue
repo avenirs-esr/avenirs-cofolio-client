@@ -4,6 +4,7 @@ import {
   useAssociateTraceWithDeclaredExperiences,
   useSearchDeclaredExperiencesForAssociation,
 } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useAssociationModal } from '@/features/student/global'
 import AssociateDeclaredExperiencesModal
   from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
@@ -23,6 +24,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const {
@@ -60,7 +62,7 @@ function onAssociate (ids: string[]) {
     onError: (error) => {
       addErrorMessage({
         title: t('global.error.generic'),
-        description: error.message,
+        description: getErrorMessage(error),
       })
     },
     onSuccess: (_, variables) => {

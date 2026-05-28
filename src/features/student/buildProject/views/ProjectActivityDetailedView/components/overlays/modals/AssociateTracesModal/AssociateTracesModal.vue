@@ -6,6 +6,7 @@ import {
   useAssociateActivityWithTraces,
   useSearchTracesForAssociation,
 } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import TraceCompactCard
@@ -33,6 +34,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -95,7 +97,7 @@ function associateActivityWithTraces () {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('global.error.generic'),
-        description: error.message,
+        description: getErrorMessage(error),
       })
     },
     onSuccess: async (_, variables) => {

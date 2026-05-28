@@ -30,7 +30,7 @@ const experienceId = computed(() => String(route.params.id ?? ''))
 
 const { data: declaredExperienceDetailed, isLoading, error } = useGetDeclaredExperience(experienceId, { query: { placeholderData: keepPreviousData } })
 
-const { originalErrorCode, isNotFound } = useApiErrors(error)
+const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredExperienceNotFound = computed(() =>
   originalErrorCode.value === ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND || isNotFound.value
 )
@@ -104,7 +104,7 @@ function handleConfirmDelete () {
         <ErrorMessage
           v-if="error"
           :title="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.title') : t('global.error.generic')"
-          :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : error.message"
+          :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : getErrorMessage(error)"
         />
       </template>
 

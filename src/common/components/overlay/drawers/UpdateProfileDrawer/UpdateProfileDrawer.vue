@@ -5,6 +5,7 @@ import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { useToasterStore } from '@/store'
@@ -47,6 +48,7 @@ const { t } = useI18n()
 const route = useRoute()
 const { showModal, displayModal, hideModal } = useModal()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const { getErrorMessage } = useApiErrors()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
 
@@ -87,7 +89,10 @@ const { mutate: deleteCoverPictureMutation } = useDeleteUserPhoto()
 
 function deleteCoverPicture ({ fileId }: { fileId: string }) {
   deleteCoverPictureMutation({ fileId }, {
-    onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+    onError: (error: BaseApiException) => addErrorMessage({
+      title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'),
+      description: getErrorMessage(error),
+    }),
     onSuccess: async () => {
       await withTaskLoading(() => invalidateGetProfile(queryClient, userCategory.value))
       addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))
@@ -99,7 +104,10 @@ const { mutate: deleteProfilePictureMutation } = useDeleteUserPhoto()
 
 function deleteProfilePicture ({ fileId }: { fileId: string }) {
   deleteProfilePictureMutation({ fileId }, {
-    onError: (error: BaseApiException) => addErrorMessage({ title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'), description: error.message, type: 'error', }),
+    onError: (error: BaseApiException) => addErrorMessage({
+      title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'),
+      description: getErrorMessage(error),
+    }),
     onSuccess: async () => {
       await withTaskLoading(() => invalidateGetProfile(queryClient, userCategory.value))
       addSuccessMessage(t('global.overlay.drawers.UpdateProfileDrawer.onDelete.success'))

@@ -37,7 +37,7 @@ const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivi
 const traceAssociations = computed(() => data.value?.traceAssociations ?? [])
 const declaredActivityAssociations = computed(() => data.value?.declaredActivityAssociations ?? [])
 
-const { originalErrorCode, isNotFound } = useApiErrors(error)
+const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() => (traceAssociations.value?.length ?? 0) + (declaredActivityAssociations.value?.length ?? 0))
@@ -106,7 +106,7 @@ function handleSkillDeleted () {
   <ErrorMessage
     v-if="error"
     :title="isDeclaredSkillNotFound ? t('student.declaredSkills.views.StudentDeclaredSkillView.errors.notFound.title') : t('global.error.generic')"
-    :description="isDeclaredSkillNotFound ? t('student.declaredSkills.views.StudentDeclaredSkillView.errors.notFound.description') : error.message"
+    :description="isDeclaredSkillNotFound ? t('student.declaredSkills.views.StudentDeclaredSkillView.errors.notFound.description') : getErrorMessage(error)"
   />
 
   <DeleteDeclaredSkillConfirmModal

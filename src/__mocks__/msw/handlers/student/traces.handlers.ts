@@ -47,6 +47,7 @@ import {
   type TracesViewParams,
   type UpdateTraceDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -96,7 +97,7 @@ export function createTraceOverviewHandler () {
 
 export const traceOverviewErrorHandler = http.get(`*${getGetTraceOverviewUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal server error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
@@ -133,11 +134,11 @@ export const tracesHandlers = [
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<string>(createDeletedTraceIdMock(traceId), {
@@ -193,12 +194,12 @@ export const tracesHandlers = [
     const createTraceDTO = await request.json() as CreateTraceDTO
 
     if (!createTraceDTO.title || createTraceDTO.title.trim() === '') {
-      return HttpResponse.json({ error: 'Title is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Title is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (createTraceDTO.title === 'ERROR_TRACE') {
       return HttpResponse.json(
-        { error: 'Internal server error', message: 'Failed to create trace' },
+        { error: 'Internal server error', code: ErrorCodes.SERVER },
         { status: 500 }
       )
     }
@@ -216,14 +217,14 @@ export const tracesHandlers = [
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     const formData = await request.formData()
     const file = formData.get('file') as File
 
     if (!file) {
-      return HttpResponse.json({ error: 'File is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'File is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     const response = createMockedAttachmentUploadResponse(traceId, file)
@@ -239,11 +240,11 @@ export const tracesHandlers = [
     const attachmentId: string | undefined = params.attachmentId as string | undefined
 
     if (!attachmentId) {
-      return HttpResponse.json({ error: 'Attachment ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Attachment ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (attachmentId === 'INVALID_ATTACHMENT_ID') {
-      return HttpResponse.json({ error: 'Attachment not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Attachment not found', code: ErrorCodes.ATTACHMENT_NOT_FOUND }, { status: 404 })
     }
 
     return new HttpResponse('trace attachment content', {
@@ -269,22 +270,22 @@ export const tracesHandlers = [
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
 
     const updateTraceDTO = await request.json() as UpdateTraceDTO
 
     if (!updateTraceDTO.title || updateTraceDTO.title.trim() === '') {
-      return HttpResponse.json({ error: 'Title is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Title is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (updateTraceDTO.title === 'ERROR_TRACE') {
       return HttpResponse.json(
-        { error: 'Internal server error', message: 'Failed to update trace' },
+        { error: 'Internal server error', code: ErrorCodes.SERVER },
         { status: 500 }
       )
     }
@@ -344,11 +345,11 @@ export const tracesHandlers = [
       const traceId = params.traceId as string
 
       if (!traceId) {
-        return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+        return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
       }
 
       if (traceId === invalidTraceId) {
-        return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+        return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
       }
 
       return HttpResponse.json<string>(createDeletedTraceIdMock(traceId), {
@@ -362,7 +363,7 @@ export const tracesHandlers = [
     const traceId = params.traceId as string
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     const url = new URL(request.url)
@@ -382,11 +383,11 @@ export const tracesHandlers = [
     const traceId = params.traceId as string
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations, {
@@ -399,11 +400,11 @@ export const tracesHandlers = [
     const traceId = params.traceId as string
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
 
     const url = new URL(request.url)
@@ -423,11 +424,11 @@ export const tracesHandlers = [
     const traceId = params.traceId as string
 
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations, {
@@ -439,10 +440,10 @@ export const tracesHandlers = [
   http.post(`*${getAssociateTraceWithDeclaredExperiencesUrl(':traceId')}`, ({ params }) => {
     const traceId = params.traceId as string
     if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
     if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
     }
     return HttpResponse.json<TraceAssociationsDTO>(mockedTraceAssociations, {
       status: 200,
@@ -455,7 +456,7 @@ export const deleteTraceAssociationsErrorHandler = http.delete(
   `*${getDeleteTraceAssociationsUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -465,7 +466,7 @@ export const downloadTraceAttachmentErrorHandler = http.get(
   `*${getDownloadAttachmentUrl(':attachmentId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -475,7 +476,7 @@ export const searchActivitiesForAssociationErrorHandler = http.get(
   `*${getSearchDeclaredActivityForAssociationUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -485,7 +486,7 @@ export const associateTraceWithActivitiesErrorHandler = http.post(
   `*${getAssociateTraceWithActivitiesUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -495,7 +496,7 @@ export const searchSkillsForAssociationErrorHandler = http.get(
   `*${getSearchDeclaredSkillForAssociationUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -505,7 +506,7 @@ export const associateTraceWithDeclaredSkillsErrorHandler = http.post(
   `*${getAssociateTraceWithDeclaredSkillUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -515,7 +516,7 @@ export const associateTraceWithDeclaredExperiencesErrorHandler = http.post(
   `*${getAssociateTraceWithDeclaredExperiencesUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }

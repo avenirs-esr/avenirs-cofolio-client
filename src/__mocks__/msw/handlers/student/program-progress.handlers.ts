@@ -7,6 +7,7 @@ import {
   type StudentProgressOverviewDTO,
   type StudentProgressViewDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { SortDirection } from '@/common/types'
 import { formatSortParam } from '@/common/utils'
 import { StudentProgressViewSortableFields } from '@/features/student/skills'
@@ -25,7 +26,7 @@ export function createProgramProgressViewHandler (payload: StudentProgressViewDT
 
 export const programProgressViewErrorHandler = http.get(`*${getGetStudentProgressViewUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal server error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })

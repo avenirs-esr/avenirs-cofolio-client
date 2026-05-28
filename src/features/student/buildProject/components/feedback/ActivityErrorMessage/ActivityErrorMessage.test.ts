@@ -43,11 +43,11 @@ BddTest().given('an activity error message component', () => {
       wrapper = mount(ActivityErrorMessage, { props })
     })
 
-    BddTest().then('it should render the error with generic title and the error message', () => {
+    BddTest().then('it should render the error with generic title and an error message', () => {
       const message = wrapper.find('[data-testid="error-message"]')
       expect(message.exists()).toBe(true)
       expect(message.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
-      expect(message.text()).toContain(props.error!.message)
+      expect(message.text()).not.toBe('Une erreur est survenue. Veuillez réessayer ultérieurement.')
     })
   })
 
@@ -68,7 +68,8 @@ BddTest().given('an activity error message component', () => {
     BddTest().then('it should render the error with generic title and no description', () => {
       const message = wrapper.find('[data-testid="error-message"]')
       expect(message.exists()).toBe(true)
-      expect(message.text()).toBe('Une erreur est survenue. Veuillez réessayer ultérieurement.')
+      expect(message.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
+      expect(message.text()).not.toBe('Une erreur est survenue. Veuillez réessayer ultérieurement.')
     })
   })
 

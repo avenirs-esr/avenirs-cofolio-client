@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -18,6 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { data: fetchedCategoriesAvailable } = useGetSelfKnowledgeCategoriesAvailable()
 const queryClient = useQueryClient()
@@ -38,7 +40,7 @@ function addSelfKnowledgeCategories () {
       resetSelected()
     },
     onError: (error) => {
-      addErrorMessage(error.message)
+      addErrorMessage(getErrorMessage(error))
     }
   })
 }

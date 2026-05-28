@@ -38,6 +38,7 @@ import {
   type SkillDetailedDTO,
   type SkillListItemDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -89,14 +90,14 @@ export function createDetailedSkillHandler (payload: SkillDetailedDTO) {
 
 export const detailedSkillNotFoundErrorHandler = http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
   return HttpResponse.json(
-    { code: 'SKILL_NOT_FOUND', message: 'Internal server error' },
+    { code: ErrorCodes.SKILL_NOT_FOUND, message: 'Internal server error' },
     { status: 404 }
   )
 })
 
 export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, () => {
   return HttpResponse.json(
-    { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
+    { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
     { status: 404 }
   )
 })
@@ -105,7 +106,7 @@ export const searchDeclaredSkillsForAssociationErrorHandler = http.get(
   `*${getSearchDeclaredSkillsForAssociationUrl()}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal server error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -139,7 +140,7 @@ export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
   `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal server error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -157,7 +158,7 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
 
     if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
       return HttpResponse.json(
-        { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
+        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
         { status: 404 }
       )
     }
@@ -291,12 +292,12 @@ export const skillsHandlers = [
     const { id } = params
 
     if (!id) {
-      return HttpResponse.json({ error: 'Declared skill progress ID is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Declared skill progress ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (id === INVALID_DECLARED_SKILL_ID) {
       return HttpResponse.json(
-        { code: 'DECLARED_SKILL_PROGRESS_NOT_FOUND', message: 'Internal server error' },
+        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
         { status: 404 }
       )
     }
@@ -314,7 +315,7 @@ export const skillsHandlers = [
     const { declaredSkillProgressId } = params
 
     if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
-      return HttpResponse.json({ error: 'Invalid skill ID' }, { status: 400 })
+      return HttpResponse.json({ error: 'Invalid skill ID', code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND }, { status: 404 })
     }
 
     const response = `Skill progress with id ${declaredSkillProgressId} deleted successfully`
@@ -332,7 +333,7 @@ export const skillsHandlers = [
 
     if (body.id === 'EXISTING_SKILL_ID') {
       return HttpResponse.json(
-        { code: 'DECLARED_SKILL_PROGRESS_ALREADY_EXISTS', message: 'Internal server error' },
+        { code: ErrorCodes.SERVER, message: 'Internal server error' },
         { status: 400 }
       )
     }
@@ -368,7 +369,7 @@ export const skillsHandlers = [
     `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
     ({ params }) => {
       if (params.declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
-        return HttpResponse.json({ error: 'Invalid declared skill ID' }, { status: 400 })
+        return HttpResponse.json({ error: 'Invalid declared skill ID', code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND }, { status: 404 })
       }
 
       if (params.declaredSkillProgressId === 'SKILL_WITHOUT_ASSOCIATIONS') {

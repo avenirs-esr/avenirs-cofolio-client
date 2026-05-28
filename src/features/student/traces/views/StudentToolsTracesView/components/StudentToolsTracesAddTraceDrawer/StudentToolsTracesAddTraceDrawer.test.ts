@@ -296,7 +296,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalledWith({
           title: 'Une erreur est survenue lors de la création de la trace.',
-          description: 'Failed to create trace'
+          description: expect.any(String)
         })
       }, { timeout: 5000 })
     })

@@ -3,6 +3,7 @@ import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/v
 import { EErrorCode, invalidateGetSelfKnowledgeElementDetails, invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import TitleDescriptionNodeTemplate from '@/common/components/VueFlow/TitleDescriptionNodeTemplate/TitleDescriptionNodeTemplate.vue'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { useToasterStore } from '@/store'
@@ -14,6 +15,7 @@ const { id, data } = defineProps<MindMapNodeTemplateProps>()
 const { updateNodeId } = useNodes(MIND_MAP_FLOW_ID)
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
 
@@ -35,7 +37,7 @@ function addSelfKnowledgeCategoryElement () {
     },
     onError: error => addErrorMessage({
       title: t('student.buildProject.mindMap.selfKnowledge.element.error'),
-      description: error.message,
+      description: getErrorMessage(error),
     })
   })
 }
@@ -62,7 +64,7 @@ function updateSelfKnowledgeElement () {
       else {
         addErrorMessage({
           title: t('student.buildProject.mindMap.selfKnowledge.element.error'),
-          description: error.message,
+          description: getErrorMessage(error),
         })
       }
     }

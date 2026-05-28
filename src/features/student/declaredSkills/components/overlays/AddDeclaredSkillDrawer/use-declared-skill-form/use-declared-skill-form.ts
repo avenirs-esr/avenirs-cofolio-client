@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { EDeclaredSkillLevel, EErrorCode, invalidateGetDeclaredSkillsProgresses, useCreateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
@@ -11,6 +12,7 @@ import { useI18n } from 'vue-i18n'
 
 export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -19,7 +21,9 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const onCreateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.createDeclaredSkill'),
-      description: error.code === EErrorCode.STUDENT_DECLARED_ALREADY_EXIST ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.declaredSkillAlreadyExist') : error.message
+      description: error.code === EErrorCode.STUDENT_DECLARED_ALREADY_EXIST
+        ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.declaredSkillAlreadyExist')
+        : getErrorMessage(error)
     })
   }
 

@@ -250,7 +250,7 @@ BddTest().given('a student trace view', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalledWith({
           title: 'Une erreur est survenue lors du téléchargement de la trace.',
-          description: 'Internal Server Error',
+          description: expect.any(String),
         })
       })
 

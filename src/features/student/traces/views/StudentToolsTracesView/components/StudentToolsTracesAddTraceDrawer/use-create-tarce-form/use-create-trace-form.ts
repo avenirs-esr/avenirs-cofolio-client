@@ -2,6 +2,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { ComputedRef } from 'vue'
 import { ELanguage, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
@@ -23,13 +24,14 @@ function getIdsForType (associationSelections: Record<string, Association[]>, ty
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
 
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { validateLink, validateMaxLength, hasFieldErrors } = useFormValidators()
 
   function onCreateTraceError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 
@@ -38,7 +40,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   function onUploadAttachmentError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.fileUpload'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@/common/exceptions'
 import { type TraceOverviewDTO, useUnassociateTraces } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import TracesSelector from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 import { useToasterStore } from '@/store'
 import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -12,6 +14,7 @@ interface UpdateDeclaredSkillAssociationsProps {
 
 const { traceAssociations, declaredSkillId } = defineProps<UpdateDeclaredSkillAssociationsProps>()
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 
 const selectedTraceIds = ref<string[]>([])
@@ -23,8 +26,11 @@ function onSuccess () {
   selectedTraceIds.value = []
 }
 
-function onError () {
-  addErrorMessage(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateAssociations.errors.unassociateTraces'))
+function onError (error: BaseApiException) {
+  addErrorMessage({
+    title: t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateAssociations.errors.unassociateTraces'),
+    description: getErrorMessage(error)
+  })
 }
 
 const { mutate: mutateUnassociateTraces, isPending } = useUnassociateTraces()

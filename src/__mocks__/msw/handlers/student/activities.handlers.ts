@@ -41,6 +41,7 @@ import {
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -49,7 +50,7 @@ const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivit
 
 export const activityDetailsErrorHandler = http.get(`*${getGetActivityPresentationUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: {
@@ -61,7 +62,7 @@ export const activityDetailsErrorHandler = http.get(`*${getGetActivityPresentati
 
 export const activityNavigationQueryError = http.get(`*${getGetActivityNavigationUrl()}`, async () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -81,7 +82,7 @@ export const activityNavigationQuery = http.get(`*${getGetActivityNavigationUrl(
 const subscribeActivityProgressHandler = http.post(`*${getSubscribeActivityUrl(':activityId')}`, async ({ params }) => {
   const { activityId } = params
   if (activityId === 'INVALID_ACTIVITY_ID') {
-    return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
+    return HttpResponse.json({ error: 'Invalid activity ID', code: ErrorCodes.ACTIVITY_NOT_FOUND }, { status: 404 })
   }
   subscribedActivities.add(activityId as string)
   return HttpResponse.json<DeclaredActivityDetailsDTO>(mockedDeclaredActivityDetails, {
@@ -93,10 +94,10 @@ const subscribeActivityProgressHandler = http.post(`*${getSubscribeActivityUrl('
 const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivitiesProgressesUrl()}`, async ({ request }) => {
   const activitiesIds = await request.json() as string[]
   if (activitiesIds.length === 0) {
-    return HttpResponse.json({ error: 'No activity IDs provided' }, { status: 400 })
+    return HttpResponse.json({ error: 'No activity IDs provided', code: ErrorCodes.NOT_BLANK }, { status: 400 })
   }
   if (activitiesIds.find(id => id === 'INVALID_ACTIVITY_ID')) {
-    return HttpResponse.json({ error: 'Invalid activity ID' }, { status: 400 })
+    return HttpResponse.json({ error: 'Invalid activity ID', code: ErrorCodes.ACTIVITY_NOT_FOUND }, { status: 404 })
   }
 
   activitiesIds.forEach(id => subscribedActivities.delete(id))
@@ -110,7 +111,7 @@ const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivit
 
 export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: {
@@ -207,7 +208,7 @@ export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredAc
 
 export const declaredActivityDetailsErrorHandler = http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: {
@@ -245,7 +246,7 @@ export const activitiesViewErrorHandler = http.get(
   `*${getGetActivitiesViewUrl()}`,
   async () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
@@ -282,7 +283,7 @@ export const latestActivitiesErrorHandler = http.get(
   `*${getGetLatestActivitiesViewUrl()}`,
   async () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: { 'Content-Type': 'application/json' }
@@ -336,7 +337,7 @@ export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declare
 
 export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: {
@@ -364,7 +365,7 @@ export const updateActivityHandler = http.put(`*${getUpdatePeriodUrl(':declaredA
 
 export const updateActivityPeriodHandler = http.put(`*${getUpdatePeriodUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500, headers: { 'Content-Type': 'application/json' } }
   )
 })
@@ -434,7 +435,7 @@ export const associateActivityWithTracesErrorHandler = http.post(
   `*${getAssociateActivityWithTracesUrl(':declaredActivityId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: {
@@ -479,7 +480,7 @@ export const associateActivityWithDeclaredSkillsErrorHandler = http.post(
   `*${getAssociateActivityWithDeclaredSkillsUrl(':declaredActivityId')}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: {
@@ -501,7 +502,7 @@ export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
   `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
   async () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }
@@ -556,7 +557,7 @@ export const searchTracesForAssociationErrorHandler = http.get(
   `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
   async () => {
     return HttpResponse.json(
-      { message: 'Internal Server Error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       {
         status: 500,
         headers: {
@@ -571,7 +572,7 @@ export const searchDeclaredActivitiesForAssociationErrorHandler = http.get(
   `*${getSearchDeclaredActivitiesForAssociationUrl()}`,
   () => {
     return HttpResponse.json(
-      { message: 'Internal server error' },
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
       { status: 500 }
     )
   }

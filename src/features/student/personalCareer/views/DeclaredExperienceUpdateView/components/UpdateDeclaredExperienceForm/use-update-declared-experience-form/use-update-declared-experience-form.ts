@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { type DeclaredExperienceRequest, type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperience, invalidateGetDeclaredExperienceView, useUpdateDeclaredExperience } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
@@ -47,6 +48,7 @@ export function useUpdateDeclaredExperienceForm (
   onExperienceUpdated?: () => void
 ) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -54,7 +56,7 @@ export function useUpdateDeclaredExperienceForm (
   const onUpdateDeclaredExperienceError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.personalCareer.views.DeclaredExperienceUpdateView.updateForm.errors.updateDeclaredExperience'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 
