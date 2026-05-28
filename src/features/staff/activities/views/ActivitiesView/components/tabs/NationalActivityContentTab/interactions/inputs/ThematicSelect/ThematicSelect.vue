@@ -19,8 +19,8 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
   label:
     label
-    ?? t('staff.activities.interactions.inputs.ThematicSelect.label',),
-  placeholder: t('staff.activities.interactions.inputs.ThematicSelect.placeholder',),
+    ?? t('staff.activities.interactions.ThematicSelect.label',),
+  placeholder: t('staff.activities.interactions.ThematicSelect.placeholder',),
   prefixIcon: MDI_ICONS.BOOK_OPEN_VARIANT,
   options: options.value,
   required: true,

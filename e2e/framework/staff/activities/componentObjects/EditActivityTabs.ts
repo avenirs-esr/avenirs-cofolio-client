@@ -8,6 +8,10 @@ export class EditActivityTabs {
     return this.page.getByTestId('add-national-activity-tabs')
   }
 
+  private getThematicSelect () {
+    return this.page.getByTestId('thematic-select-form-field')
+  }
+
   private getActivityConsignFormField () {
     return this.page.getByTestId('activity-consign-form-field')
   }
@@ -72,6 +76,10 @@ export class EditActivityTabs {
   async verifyPublicationTabActive () {
     await expect(this.getPublicationTab()).toHaveAttribute('aria-selected', 'true')
     await expect(this.getPublicationTabPanel()).toBeVisible()
+  }
+
+  async verifyThematicSelectVisible () {
+    await expect(this.getThematicSelect()).toBeVisible()
   }
 
   async verifyReflectionToggleVisible () {

@@ -48,6 +48,7 @@ function onUpdateThematic (
     <template #default="{ field }">
       <ThematicSelect
         v-bind="$attrs"
+        data-testid="thematic-select-form-field"
         :model-value="{
           itemId: field.state.value as EActivityThematic,
         }"

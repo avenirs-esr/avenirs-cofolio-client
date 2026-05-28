@@ -138,6 +138,11 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.sideNav().verifyHidden()
   }
 
+  @Then('the thematic select field is visible')
+  async verifyThematicSelectVisible () {
+    await this.tabs().verifyThematicSelectVisible()
+  }
+
   @Then('the context of realization section is collapsed by default')
   async verifyContextSectionCollapsedByDefault () {
     await this.tabs().verifyContextSectionCollapsed()
