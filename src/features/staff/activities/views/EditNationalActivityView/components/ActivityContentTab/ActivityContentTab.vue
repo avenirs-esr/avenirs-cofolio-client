@@ -51,7 +51,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
 
     <div :id="ContentSectionId.THEMATIC">
       <FormFieldCardContainer
-        :title="`${t('staff.activities.interactions.inputs.ThematicSelect.label')} *`"
+        :title="`${t('staff.activities.interactions.ThematicSelect.label')} *`"
         :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
       >
         <ThematicSelectFormField

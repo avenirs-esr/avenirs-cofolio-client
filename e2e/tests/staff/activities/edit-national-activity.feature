@@ -102,6 +102,10 @@ Feature: Staff Edit National Activity Page
   Rule: Content tab elements
 
     @high
+    Scenario: The thematic select field is visible in the content tab
+      Then the thematic select field is visible
+
+    @high
     Scenario: The context of realization section is collapsed by default in the content tab
       Then the context of realization section is collapsed by default
   
