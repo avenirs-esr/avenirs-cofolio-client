@@ -1,3 +1,4 @@
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { type AddElementFormData, useAddElementForm } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-add-element-form/use-add-element-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -16,6 +17,12 @@ BddTest().given('the useAddElementForm composable', () => {
 
   const getOnSubmitValidator = () => {
     const validator = composableResult.form.options.validators?.onSubmit
+    expect(validator).toBeDefined()
+    return validator!
+  }
+
+  const getOnChangeValidator = () => {
+    const validator = composableResult.form.options.validators?.onChange
     expect(validator).toBeDefined()
     return validator!
   }
@@ -110,6 +117,54 @@ BddTest().given('the useAddElementForm composable', () => {
       BddTest().then('it should not return any validation errors', () => {
         expect(validationResult.fields.title).toBeUndefined()
         expect(validationResult.fields.description).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the form is validated on change', () => {
+      BddTest().then('it should return validation errors for title and description fields', () => {
+        const validator = getOnChangeValidator()
+        const result = validator({ value: invalidData })
+
+        expect(result.fields.title).toBe('Ce champ est requis.')
+        expect(result.fields.description).toBe('Ce champ est requis.')
+      })
+
+      BddTest().then('it should return max length errors for title and description', () => {
+        const validator = getOnChangeValidator()
+        const result = validator({
+          value: {
+            ...validData,
+            title: 'a'.repeat(SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH + 1),
+            description: 'a'.repeat(SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH + 1)
+          }
+        })
+
+        expect(result.fields.title).toBe('Veuillez limiter votre saisie à 80 caractères')
+        expect(result.fields.description).toBe('Veuillez limiter votre saisie à 400 caractères')
+      })
+
+      BddTest().then('it should not return validation errors for valid data', () => {
+        const validator = getOnChangeValidator()
+        const result = validator({ value: validData })
+
+        expect(result.fields.title).toBeUndefined()
+        expect(result.fields.description).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the form is validated with data exceeding max length on submit', () => {
+      BddTest().then('it should return max length errors for title and description', () => {
+        const validator = getOnSubmitValidator()
+        const result = validator({
+          value: {
+            ...validData,
+            title: 'a'.repeat(SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH + 1),
+            description: 'a'.repeat(SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH + 1)
+          }
+        })
+
+        expect(result.fields.title).toBe('Veuillez limiter votre saisie à 80 caractères')
+        expect(result.fields.description).toBe('Veuillez limiter votre saisie à 400 caractères')
       })
     })
 

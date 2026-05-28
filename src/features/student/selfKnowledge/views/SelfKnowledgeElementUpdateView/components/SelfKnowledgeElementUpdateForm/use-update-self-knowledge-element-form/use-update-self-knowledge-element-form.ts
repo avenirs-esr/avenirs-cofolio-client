@@ -2,7 +2,9 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
 import { invalidateGetSelfKnowledgeElementDetails, type SelfKnowledgeElementDetailsDTO, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/selfKnowledge/config'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -15,6 +17,7 @@ export function useUpdateSelfKnowledgeElementForm (
 ) {
   const { t } = useI18n()
   const { addErrorMessage } = useToasterStore()
+  const { validateRequired, validateMaxLength } = useFormValidators()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
 
@@ -53,11 +56,19 @@ export function useUpdateSelfKnowledgeElementForm (
       rating: currentElement?.rating ?? null
     },
     validators: {
+      onChange: ({ value }: { value: SelfKnowledgeCategoryElementFormData }) => {
+        return {
+          fields: {
+            title: validateRequired(value.title) || validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
+            description: validateRequired(value.description) || validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH)
+          }
+        }
+      },
       onSubmit ({ value }: { value: SelfKnowledgeCategoryElementFormData }) {
         return {
           fields: {
-            title: !value.title.trim() ? t('global.error.form.requiredField') : undefined,
-            description: !value.description.trim() ? t('global.error.form.requiredField') : undefined
+            title: validateRequired(value.title) || validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
+            description: validateRequired(value.description) || validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH)
           }
         }
       }

@@ -41,6 +41,12 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
     return validator!
   }
 
+  const getOnChangeValidator = () => {
+    const validator = composableResult.form.options.validators?.onChange
+    expect(validator).toBeDefined()
+    return validator!
+  }
+
   const setFormValues = (data: SelfKnowledgeCategoryElementFormData) => {
     composableResult.form.setFieldValue('title', data.title)
     composableResult.form.setFieldValue('description', data.description)
@@ -107,20 +113,47 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
       expect(validationResult?.fields?.description).toBe('Ce champ est requis.')
     })
 
-    BddTest().then('it should return validation errors for title with only whitespace', () => {
+    BddTest().then('it should not treat title with only whitespace as empty', () => {
       const invalidData = createValidFormData({ title: '   ' })
       const validator = getOnSubmitValidator()
+      const validationResult = validator({ value: invalidData })
+
+      expect(validationResult?.fields?.title).toBeUndefined()
+    })
+
+    BddTest().then('it should not treat description with only whitespace as empty', () => {
+      const invalidData = createValidFormData({ description: '   ' })
+      const validator = getOnSubmitValidator()
+      const validationResult = validator({ value: invalidData })
+
+      expect(validationResult?.fields?.description).toBeUndefined()
+    })
+  })
+
+  BddTest().when('form changes are validated', () => {
+    BddTest().then('it should return validation error for empty title on change', () => {
+      const invalidData = createInvalidFormData()
+      const validator = getOnChangeValidator()
       const validationResult = validator({ value: invalidData })
 
       expect(validationResult?.fields?.title).toBe('Ce champ est requis.')
     })
 
-    BddTest().then('it should return validation errors for description with only whitespace', () => {
-      const invalidData = createValidFormData({ description: '   ' })
-      const validator = getOnSubmitValidator()
+    BddTest().then('it should return validation error for empty description on change', () => {
+      const invalidData = createInvalidFormData()
+      const validator = getOnChangeValidator()
       const validationResult = validator({ value: invalidData })
 
       expect(validationResult?.fields?.description).toBe('Ce champ est requis.')
+    })
+
+    BddTest().then('it should not return validation errors for valid data on change', () => {
+      const validData = createValidFormData()
+      const validator = getOnChangeValidator()
+      const validationResult = validator({ value: validData })
+
+      expect(validationResult?.fields?.title).toBeUndefined()
+      expect(validationResult?.fields?.description).toBeUndefined()
     })
   })
 
