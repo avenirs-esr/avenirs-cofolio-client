@@ -74,6 +74,8 @@ const isFormDirty = form.useStore(state => state.isDirty)
       <FormFieldCardContainer
         :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+        collapsible
+        collapsed
       >
         <ActivityExecutionPeriodFormField
           :form="form"

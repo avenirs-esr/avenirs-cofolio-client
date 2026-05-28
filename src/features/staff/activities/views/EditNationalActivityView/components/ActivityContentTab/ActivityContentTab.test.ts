@@ -68,6 +68,14 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(cardContainer.props('collapsed')).toBeDefined()
     })
 
+    BddTest().then('it should render the CONTEXT section anchor with a collapsible and collapsed FormFieldCardContainer', () => {
+      const contextSection = tab.find(`#${ContentSectionId.CONTEXT}`)
+      expect(contextSection.exists()).toBe(true)
+      const cardContainer = contextSection.findComponent({ name: 'FormFieldCardContainer' })
+      expect(cardContainer.props('collapsible')).toBeDefined()
+      expect(cardContainer.props('collapsed')).toBeDefined()
+    })
+
     BddTest().then('it should render ActivityExecutionPeriodFormField', () => {
       expect(tab.findComponent({ name: 'ActivityExecutionPeriodFormField' }).exists()).toBe(true)
     })

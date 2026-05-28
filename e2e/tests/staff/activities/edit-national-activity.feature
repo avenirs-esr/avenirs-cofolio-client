@@ -38,14 +38,15 @@ Feature: Staff Edit National Activity Page
 
   Rule: Navigation to the publication tab
 
+    Background:
+      Given the staff navigates to the publication tab
+
     @high @tab-navigation
     Scenario: The staff can switch to the publication tab
-      When the staff navigates to the publication tab
       Then the publication tab is active
 
     @high @side-navigation
     Scenario: The side navigation updates when switching to the publication tab
-      When the staff navigates to the publication tab
       Then the side navigation menu has publication header
       And the side navigation menu has "ACTIVITY_TITLE" publication section
       And the side navigation menu has "TARGET_GROUPS" publication section
@@ -73,19 +74,19 @@ Feature: Staff Edit National Activity Page
 
     @high @side-navigation
     Scenario: Clicking a publication sub-section highlights it in the side navigation
-      When the staff navigates to the publication tab
+      Given the staff navigates to the publication tab
       And the staff clicks on the publication "SUMMARY_CONTEXT" section in the side navigation menu
       Then the publication "SUMMARY_CONTEXT" section is active in the side navigation menu
 
     @high @side-navigation
     Scenario: Clicking a publication sub-section updates the URL anchor
-      When the staff navigates to the publication tab
+      Given the staff navigates to the publication tab
       And the staff clicks on the publication "SUMMARY_CONTEXT" section in the side navigation menu
       Then the URL contains "#SUMMARY_CONTEXT"
 
     @high @side-navigation
     Scenario: Clicking another publication sub-section updates the active state in the side navigation
-      When the staff navigates to the publication tab
+      Given the staff navigates to the publication tab
       And the staff clicks on the publication "ACTIVITY_TITLE" section in the side navigation menu
       And the staff clicks on the publication "IMAGE" section in the side navigation menu
       Then the publication "IMAGE" section is active in the side navigation menu
@@ -99,6 +100,10 @@ Feature: Staff Edit National Activity Page
       Then the side navigation menu is collapsed
 
   Rule: Content tab elements
+
+    @high
+    Scenario: The context of realization section is collapsed by default in the content tab
+      Then the context of realization section is collapsed by default
   
     @high
     Scenario: The reflection parameter is visible in the content tab
@@ -112,3 +117,11 @@ Feature: Staff Edit National Activity Page
     Scenario: the consign section is collapsed by default in the content tab
       Then the consign section is collapsed by default
     
+
+  Rule: Publication tab elements
+    Background:
+      Given the staff navigates to the publication tab
+
+    @high
+    Scenario: The context of realization section is visible in the publication tab
+      Then the context of realization section is visible
