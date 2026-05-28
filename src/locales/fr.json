@@ -127,9 +127,11 @@
       "updatedAt": "Modifié le {date}"
     },
     "detail": "Détail",
+    "disabled": "Désactivé | Désactivée",
     "emptyState": {
       "defaultTitle": "Aucun élément à afficher"
     },
+    "enabled": "Activé | Activée",
     "end": "Fin",
     "error": {
       "api": {

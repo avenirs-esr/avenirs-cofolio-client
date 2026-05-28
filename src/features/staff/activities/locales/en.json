@@ -74,7 +74,14 @@
             "fetchActivityContent": "Unable to load activity"
           },
           "NationalActivityContentTab": {
+            "scheduleTitle": "Activity schedule",
             "title": "Activity content"
+          },
+          "NationalActivitySettingDetails": {
+            "badges": {
+              "feedbackIterations": "0 iterations | {count} iteration | {count} iterations",
+              "unlimitedIterations": "Unlimited iterations"
+            }
           },
           "title": "All activities available in my institution"
         },

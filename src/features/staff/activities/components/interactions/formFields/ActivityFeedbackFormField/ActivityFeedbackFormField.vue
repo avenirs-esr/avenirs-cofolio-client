@@ -4,9 +4,9 @@ import type { EditActivityForm } from '@/features/staff/activities/types/forms.t
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { ICONS } from '@/common/constants'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -72,7 +72,7 @@ const inputEnabled = computed({
         data-testid="feedback-parameter-toggle"
         toggle-id="feedback-main-toggle"
         :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
-        :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
+        :icon="ICONS.FEEDBACK"
       >
         <div class="av-col av-gap-sm">
           <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description') }}</span>
