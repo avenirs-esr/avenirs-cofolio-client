@@ -8,6 +8,10 @@ export class EditActivityTabs {
     return this.page.getByTestId('add-national-activity-tabs')
   }
 
+  private getActivityConsignFormField () {
+    return this.page.getByTestId('activity-consign-form-field')
+  }
+
   private getReflectionToggle () {
     return this.page.getByTestId('reflection-parameter-toggle')
   }
@@ -52,5 +56,9 @@ export class EditActivityTabs {
 
   async verifyToggleVisible () {
     await expect(this.getToggle()).toBeVisible()
+  }
+
+  async verifyActivityConsignFormFieldCollapsed () {
+    await expect(this.getActivityConsignFormField()).not.toBeVisible()
   }
 }

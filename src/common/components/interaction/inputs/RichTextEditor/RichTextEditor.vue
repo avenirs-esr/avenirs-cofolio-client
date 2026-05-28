@@ -8,6 +8,10 @@ export interface RichTextEditorProps {
   errorMessage?: string | string[]
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<RichTextEditorProps>()
 
 const { t } = useI18n()

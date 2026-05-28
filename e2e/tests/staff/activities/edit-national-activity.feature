@@ -107,3 +107,8 @@ Feature: Staff Edit National Activity Page
     @high
     Scenario: The trace association parameter is visible in the content tab
       Then the trace association parameter is visible
+      
+    @high
+    Scenario: the consign section is collapsed by default in the content tab
+      Then the consign section is collapsed by default
+    
