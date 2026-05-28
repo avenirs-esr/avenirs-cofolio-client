@@ -1,7 +1,6 @@
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { useForm } from '@tanstack/vue-form'
-import { useI18n } from 'vue-i18n'
 
 export interface AddElementFormData {
   title: string
@@ -10,8 +9,7 @@ export interface AddElementFormData {
 }
 
 export function useAddElementForm (onConfirm: (data: AddElementFormData) => void) {
-  const { t } = useI18n()
-  const { validateMaxLength } = useFormValidators()
+  const { validateRequired, validateMaxLength } = useFormValidators()
 
   const initialData: AddElementFormData = {
     title: '',
@@ -24,16 +22,16 @@ export function useAddElementForm (onConfirm: (data: AddElementFormData) => void
       onChange ({ value }: { value: AddElementFormData }) {
         return {
           fields: {
-            title: validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
-            description: validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH),
+            title: validateRequired(value.title) ?? validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
+            description: validateRequired(value.description) ?? validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH),
           }
         }
       },
       onSubmit ({ value }: { value: AddElementFormData }) {
         return {
           fields: {
-            title: !value.title.trim() ? t('global.error.form.requiredField') : undefined,
-            description: !value.description.trim() ? t('global.error.form.requiredField') : undefined,
+            title: validateRequired(value.title) ?? validateMaxLength(value.title, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH),
+            description: validateRequired(value.description) ?? validateMaxLength(value.description, SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH),
           }
         }
       },
