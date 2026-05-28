@@ -41,7 +41,7 @@
           - button "Retour" [ref=e54] [cursor=pointer]
           - heading "Créer mon activité" [level=1] [ref=e57]
       - generic [ref=e58]:
-        - navigation "8ad5244f-aabd-4a0e-bde2-99ff9df7dd09 navigation" [ref=e59]:
+        - navigation "ef22ab27-3350-4243-866d-9c3e524643bb navigation" [ref=e59]:
           - button "Collapse button" [expanded] [ref=e61] [cursor=pointer]
           - menu [ref=e65]:
             - menuitem "Contenu de l'activité" [ref=e66]:
