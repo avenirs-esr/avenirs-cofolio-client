@@ -13,6 +13,7 @@ import {
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
@@ -46,6 +47,7 @@ const {
   validateFeedbackAllowedIterations
 } = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
+const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { navigateToStaffActivities } = useNavigation()
 
@@ -80,7 +82,7 @@ const { mutate: updateActivity, isPending } = useUpdateActivity({
       addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
     },
     onError: (error: BaseApiException) => {
-      addErrorMessage({ title: t('staff.activities.views.EditNationalActivityView.errors.saveActivityContent'), description: error.message })
+      addErrorMessage({ title: t('staff.activities.views.EditNationalActivityView.errors.saveActivityContent'), description: getErrorMessage(error) })
     },
   },
 })

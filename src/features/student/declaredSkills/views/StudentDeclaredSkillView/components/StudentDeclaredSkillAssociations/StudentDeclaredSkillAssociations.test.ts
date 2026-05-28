@@ -2,7 +2,7 @@ import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
-import { BaseApiErrorCode } from '@/common/exceptions'
+import { ErrorCodes } from '@/common/constants'
 import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
@@ -210,7 +210,7 @@ BddTest().given('a student declared skill associations component', () => {
           associatedDeclaredActivities: [],
           associationsError: {
             status: 404,
-            code: BaseApiErrorCode.NOT_FOUND,
+            code: ErrorCodes.ASSOCIATION_NOT_FOUND,
             name: 'Not Found',
             message: 'Boom'
           },
@@ -225,7 +225,7 @@ BddTest().given('a student declared skill associations component', () => {
       expect(querySuspense.exists()).toBe(true)
       expect(querySuspense.props('error')).toEqual({
         status: 404,
-        code: BaseApiErrorCode.NOT_FOUND,
+        code: ErrorCodes.ASSOCIATION_NOT_FOUND,
         name: 'Not Found',
         message: 'Boom'
       })

@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import { type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
@@ -11,6 +12,7 @@ import { useI18n } from 'vue-i18n'
 
 export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -18,7 +20,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const onCreateDeclaredExperienceError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.errors.createDeclaredExperience'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

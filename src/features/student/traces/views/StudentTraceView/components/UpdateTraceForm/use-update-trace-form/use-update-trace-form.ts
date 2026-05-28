@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
@@ -15,6 +16,7 @@ import { useI18n } from 'vue-i18n'
 export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () => void) {
   const { t } = useI18n()
 
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { setUpdateTraceForm, setUpdateTraceFormModified } = useTracesStore()
   const { validateMaxLength } = useFormValidators()
@@ -24,7 +26,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const onUpdateTraceError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.updateTrace'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 
@@ -35,7 +37,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const onUploadAttachmentError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.fileUpload'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

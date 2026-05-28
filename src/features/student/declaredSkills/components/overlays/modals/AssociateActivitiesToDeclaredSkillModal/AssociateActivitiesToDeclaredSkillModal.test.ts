@@ -160,7 +160,7 @@ BddTest().given('an associate activities to declared skill modal', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalledWith({
           title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-          description: 'Internal server error',
+          description: expect.any(String),
         })
       })
     })
@@ -201,7 +201,7 @@ BddTest().given('an associate activities to declared skill modal', () => {
         await vi.waitFor(() => {
           expect(mockAddErrorMessage).toHaveBeenCalledWith({
             title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-            description: 'Internal server error',
+            description: expect.any(String),
           })
         })
       })

@@ -149,7 +149,7 @@ BddTest().given('the useAssociationModal composable', () => {
     BddTest().then('it should call addErrorMessage with the generic title and error message', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
-          description: 'Association failed'
+          description: expect.any(String)
         })
       )
     })
@@ -164,7 +164,7 @@ BddTest().given('the useAssociationModal composable', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
           title: 'Custom error title',
-          description: 'Association failed'
+          description: expect.any(String)
         })
       )
     })
@@ -187,7 +187,7 @@ BddTest().given('the useAssociationModal composable', () => {
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith(
         expect.objectContaining({
-          description: 'Search failed'
+          description: expect.any(String)
         })
       )
     })

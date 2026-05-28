@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
@@ -40,7 +41,7 @@ const {
 } = useModal()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
-
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const { categoryType } = useSelfKnowledgeCategory(categoryId)
@@ -76,7 +77,7 @@ function deleteSelfKnowledgeElements () {
     },
     onError: error => addErrorMessage({
       title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   })
 }

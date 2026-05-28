@@ -54,7 +54,7 @@ BddTest().given('a useBaseApiExceptionToast composable', () => {
     })
 
     BddTest().then('it should add the error message', () => {
-      expect(mockAddErrorMessage).toHaveBeenCalledWith(errorRef.value.message)
+      expect(mockAddErrorMessage).toHaveBeenCalledWith('Requête invalide')
     })
   })
 

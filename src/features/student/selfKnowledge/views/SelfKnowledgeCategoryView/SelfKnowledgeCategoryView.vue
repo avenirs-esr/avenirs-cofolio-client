@@ -54,6 +54,7 @@ const {
 
 const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId)
 const { isLoading, withTaskLoading } = useTaskLoading()
+const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 
 const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
 
@@ -63,7 +64,7 @@ function deleteSelfKnowledgeElement () {
   }, {
     onError: error => addErrorMessage({
       title: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.error'),
-      description: error.message
+      description: getErrorMessage(error)
     }),
     onSuccess: async () => {
       await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, props.categoryId))
@@ -75,7 +76,6 @@ function deleteSelfKnowledgeElement () {
   })
 }
 
-const { originalErrorCode, isNotFound } = useApiErrors(error)
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
 
 function onSelectElement (elementId: string) {
@@ -101,7 +101,7 @@ function onUpdateSelected () {
       <ErrorMessage
         v-if="error"
         :title="isSelfKnowledgeNotFound ? t('student.selfKnowledge.views.SelfKnowledgeCategoryView.errors.notFound.title') : t('global.error.generic')"
-        :description="isSelfKnowledgeNotFound ? t('student.selfKnowledge.views.SelfKnowledgeCategoryView.errors.notFound.description') : error.message"
+        :description="isSelfKnowledgeNotFound ? t('student.selfKnowledge.views.SelfKnowledgeCategoryView.errors.notFound.description') : getErrorMessage(error)"
       />
     </template>
 

@@ -2,6 +2,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal } from '@/common/components'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -15,6 +16,7 @@ const { trace, show, onConfirmDelete, onClose } = defineProps<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 const { onConfirmDeleteTrace, isDeleteTracePending } = useDeleteTrace()
 
@@ -22,7 +24,7 @@ function useDeleteTrace () {
   function onDeleteTraceError (error: BaseApiException) {
     addErrorMessage({
       title: t('student.traces.views.StudentTraceView.errors.delete'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

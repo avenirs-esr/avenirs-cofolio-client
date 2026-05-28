@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { type DeclaredProgramDetailedDTO, type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useUpdateDeclaredProgram } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
@@ -39,6 +40,7 @@ export function useUpdateDeclaredProgramForm (
   onProgramUpdated?: () => void
 ) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -46,7 +48,7 @@ export function useUpdateDeclaredProgramForm (
   const onUpdateDeclaredProgramError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.personalCareer.views.DeclaredProgramUpdateView.updateForm.errors.updateDeclaredProgram'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

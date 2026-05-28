@@ -12,6 +12,7 @@ import {
   getUpdateDeclaredProgramUrl,
   type PagedResponseDeclaredProgramViewDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { delay, http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
@@ -30,7 +31,7 @@ export const createDeclaredProgramErrorHandler = http.post(
 
 export const declaredProgramsQueryErrorHandler = http.get(`*${getGetDeclaredProgramsUrl()}`, () => {
   return HttpResponse.json(
-    { message: 'Internal Server Error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
@@ -98,7 +99,7 @@ export const declaredProgramDetailedErrorHandler = http.get(`*${getGetDeclaredPr
 
 export const declaredProgramDetailedNotFoundHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, () => {
   return HttpResponse.json(
-    { code: 'DECLARED_PROGRAM_NOT_FOUND', message: 'Internal server error' },
+    { code: ErrorCodes.DECLARED_PROGRAM_NOT_FOUND, message: 'Internal server error' },
     { status: 404 }
   )
 })
@@ -122,11 +123,11 @@ export const declaredProgramsHandlers = [
     const declaredProgramIds = await request.json() as string[]
 
     if (declaredProgramIds.includes('INVALID_PROGRAM_ID')) {
-      return HttpResponse.json({ error: 'Invalid program ID' }, { status: 400 })
+      return HttpResponse.json({ error: 'Invalid program ID', code: ErrorCodes.DECLARED_PROGRAM_NOT_FOUND }, { status: 404 })
     }
 
     if (declaredProgramIds.length === 0) {
-      return HttpResponse.json({ error: 'No program IDs provided' }, { status: 400 })
+      return HttpResponse.json({ error: 'No program IDs provided', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     const response = `${declaredProgramIds.length} program${declaredProgramIds.length > 1 ? 's' : ''} deleted successfully`

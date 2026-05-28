@@ -2,11 +2,13 @@ import type { BaseApiException } from '@/common/exceptions/base-api-exception/ba
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { Ref } from 'vue'
 import { useModal } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompleteOption> () {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const {
     showModal: showConfirmModal,
@@ -41,7 +43,7 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
 
       addErrorMessage({
         title: t('global.error.generic'),
-        description: searchError.value.message,
+        description: getErrorMessage(searchError.value),
       })
     })
   }
@@ -49,7 +51,7 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
   function onAssociateMutationError (error: BaseApiException, title?: string) {
     addErrorMessage({
       title: title ?? t('global.error.generic'),
-      description: error.message,
+      description: getErrorMessage(error),
     })
   }
 

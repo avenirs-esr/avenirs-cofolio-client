@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdatePeriod } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
@@ -18,6 +19,7 @@ export function useUpdateActivityForm (
   onUpdated?: () => void
 ) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { validateRequired, validateDateInterval } = useFormValidators()
   const queryClient = useQueryClient()
@@ -33,7 +35,7 @@ export function useUpdateActivityForm (
       onError: (error: BaseApiException) => {
         addErrorMessage({
           title: t('student.buildProject.activities.overlays.UpdateActivityDrawer.errors.updatePeriod'),
-          description: error.message
+          description: getErrorMessage(error)
         })
       },
       onSuccess: async () => {

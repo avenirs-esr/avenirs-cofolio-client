@@ -6,6 +6,7 @@ import {
   getGetProfileUrl,
   type ProfileOverviewDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export function createPutUpdateProfileHandler (payload: string) {
@@ -43,7 +44,7 @@ export function createPutUpdateProfilePhotoHandler (payload: string) {
 
 export const putUpdateProfileErrorHandler = http.put(`*/me/users/:profile/update`, () => {
   return HttpResponse.json(
-    { message: 'Internal server error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
@@ -51,21 +52,21 @@ export const putUpdateProfileErrorHandler = http.put(`*/me/users/:profile/update
 // `/me/storage/users/${userCategory}/${photoType}`
 export const putUpdateProfileCoverErrorHandler = http.put(`*/me/storage/users/:profile/${EUserPhotoType.COVER}`, () => {
   return HttpResponse.json(
-    { message: 'Internal server error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
 
 export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/storage/users/:profile/${EUserPhotoType.PROFILE}`, () => {
   return HttpResponse.json(
-    { message: 'Internal server error' },
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
 
 export const getProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
   return HttpResponse.json(
-    { message: 'Student summary not found' },
+    { message: 'Student summary not found', code: ErrorCodes.NOT_FOUND },
     { status: 404 }
   )
 })
@@ -93,11 +94,11 @@ export const overviewsHandlers = [
     const profile: string | undefined = params.profile as string | undefined
 
     if (!profile) {
-      return HttpResponse.json({ error: 'Profile is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Profile is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (profile === invalidProfile) {
-      return HttpResponse.json({ error: 'Profile not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Profile not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<string>(createUpdatedProfileMock(profile), {
@@ -112,11 +113,11 @@ export const overviewsHandlers = [
     const profile: string | undefined = params.profile as string | undefined
 
     if (!profile) {
-      return HttpResponse.json({ error: 'Profile is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Profile is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (profile === invalidProfile) {
-      return HttpResponse.json({ error: 'Profile not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Profile not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<string>(createUpdatedCoverMock(), {
@@ -131,11 +132,11 @@ export const overviewsHandlers = [
     const profile: string | undefined = params.profile as string | undefined
 
     if (!profile) {
-      return HttpResponse.json({ error: 'Profile is required' }, { status: 400 })
+      return HttpResponse.json({ error: 'Profile is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
     if (profile === invalidProfile) {
-      return HttpResponse.json({ error: 'Profile not found' }, { status: 404 })
+      return HttpResponse.json({ error: 'Profile not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
     }
 
     return HttpResponse.json<string>(createUpdatedPhotoMock(), {

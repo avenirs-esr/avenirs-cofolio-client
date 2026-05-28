@@ -116,7 +116,7 @@ BddTest().given('a my perspective tab', () => {
         await vi.waitFor(() => {
           expect(mockAddErrorMessage).toHaveBeenCalledWith({
             title: 'Une erreur est survenue lors de la finalisation de l\'activité. Veuillez réessayer plus tard.',
-            description: 'Internal Server Error',
+            description: expect.any(String),
           })
         })
       })

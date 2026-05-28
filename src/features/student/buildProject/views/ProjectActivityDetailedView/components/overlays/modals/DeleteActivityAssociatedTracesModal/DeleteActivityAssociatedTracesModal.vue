@@ -2,6 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { IdTitleList } from '@/types'
 import { invalidateGetDeclaredActivityAssociations, useDeleteDeclaredActivityAssociations } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
@@ -24,6 +25,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -42,7 +44,7 @@ function deleteDeclaredActivityAssociations () {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('global.error.generic'),
-        description: error.message,
+        description: getErrorMessage(error),
       })
     },
     onSuccess: async () => {

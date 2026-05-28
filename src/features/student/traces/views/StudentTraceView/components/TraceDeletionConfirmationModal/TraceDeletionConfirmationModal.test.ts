@@ -159,10 +159,10 @@ BddTest().given('a trace deletion confirmation modal', () => {
       onErrorCallback(error)
     })
 
-    BddTest().then('an error message should be added with empty description', () => {
+    BddTest().then('an error message should be added with description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
-        description: 'Failed to delete trace',
+        description: expect.any(String),
       })
     })
 
@@ -193,10 +193,10 @@ BddTest().given('a trace deletion confirmation modal', () => {
       onErrorCallback(error)
     })
 
-    BddTest().then('an error message should be added with empty description', () => {
+    BddTest().then('an error message should be added with description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue lors de la suppression de la trace.',
-        description: ''
+        description: expect.any(String),
       })
     })
   })

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS } from '@/common/constants'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
@@ -22,6 +23,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const selectedIds = ref<string[]>([])
@@ -35,7 +37,7 @@ const { mutate: deleteTraceAssociations } = useDeleteTraceAssociationsMutation({
   onError: (error: BaseApiException) => {
     addErrorMessage({
       title: t('global.error.generic'),
-      description: error.message,
+      description: getErrorMessage(error),
     })
   },
   onSuccess: () => {

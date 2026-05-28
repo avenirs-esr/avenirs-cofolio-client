@@ -4,6 +4,7 @@ import type { BaseApiException } from '@/common/exceptions/base-api-exception/ba
 import type {
   AssociationActivity
 } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useAssociationModal } from '@/features/student/global'
 import {
   useAssociateTraceWithActivitiesMutation,
@@ -27,6 +28,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const {
@@ -64,7 +66,7 @@ const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWit
   onError: (error: BaseApiException) => {
     addErrorMessage({
       title: t('global.error.generic'),
-      description: error.message,
+      description: getErrorMessage(error),
     })
   },
   onSuccess: (_, variables) => {

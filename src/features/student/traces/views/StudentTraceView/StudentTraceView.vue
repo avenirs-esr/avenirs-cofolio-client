@@ -5,6 +5,7 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
@@ -25,6 +26,7 @@ export interface StudentTraceDetailedProps {
 
 const props = defineProps<StudentTraceDetailedProps>()
 const { traceId } = toRefs(props)
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
@@ -48,7 +50,7 @@ function downloadAttachment (attachmentId: string) {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('student.traces.views.StudentTraceView.errors.download'),
-        description: error.message ?? t('global.error.generic')
+        description: getErrorMessage(error)
       })
     },
     onSuccess: data => downloadBlob(data, traceDetailed.value?.attachment?.fileName)
@@ -118,7 +120,7 @@ const breadcrumbLinks = computed(() => [
           >
             <ErrorMessage
               :title="t('student.traces.views.StudentTraceView.errors.fetchTrace')"
-              :description="traceDetailsError.message"
+              :description="getErrorMessage(traceDetailsError)"
             />
           </div>
 

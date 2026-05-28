@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { EActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
@@ -22,6 +23,7 @@ const { activityId, perspective } = defineProps<MyPerspectiveCardProps>()
 const RichTextEditor = defineAsyncComponent(() => import('@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'))
 
 const { t } = useI18n()
+const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -37,7 +39,7 @@ function updateActivityReflection (reflection: string) {
     onError: (error) => {
       addErrorMessage({
         title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.error'),
-        description: error.message
+        description: getErrorMessage(error)
       })
     },
     onSuccess: async () => {
@@ -55,7 +57,7 @@ function updateActivityReflectionOnAutoSave (reflection: string) {
     onError: (error) => {
       addErrorMessage({
         title: t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.autoSave.error'),
-        description: error.message
+        description: getErrorMessage(error)
       })
     },
     onSuccess: async () => {

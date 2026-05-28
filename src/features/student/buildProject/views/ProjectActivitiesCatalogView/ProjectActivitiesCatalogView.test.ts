@@ -219,7 +219,7 @@ BddTest().given('a project activities catalog view', () => {
         const errorMessage = wrapper.find('[data-testid="error-message"]')
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
-        expect(errorMessage.text()).toContain('Internal Server Error')
+        expect(errorMessage.text()).toContain('Erreur serveur interne')
       })
     })
   })

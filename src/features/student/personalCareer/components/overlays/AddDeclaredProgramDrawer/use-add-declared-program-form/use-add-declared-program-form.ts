@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import { type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useCreateDeclaredProgram } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
@@ -13,6 +14,7 @@ import { useI18n } from 'vue-i18n'
 export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
   const { t } = useI18n()
 
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { hasFieldErrors } = useFormValidators()
 
@@ -21,7 +23,7 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
   const onCreateDeclaredProgramError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.personalCareer.overlays.AddDeclaredProgramDrawer.errors.createDeclaredProgram'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

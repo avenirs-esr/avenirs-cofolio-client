@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { type DeclaredSkillProgressDetailsDTO, type DeclaredSkillProgressRequest, invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
@@ -19,6 +20,7 @@ export function useUpdateDeclaredSkillForm (
   onSkillUpdated?: () => void
 ) {
   const { t } = useI18n()
+  const { getErrorMessage } = useApiErrors()
   const { addErrorMessage, addSuccessMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -26,7 +28,7 @@ export function useUpdateDeclaredSkillForm (
   const onUpdateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.errors.updateDeclaredSkill'),
-      description: error.message
+      description: getErrorMessage(error)
     })
   }
 

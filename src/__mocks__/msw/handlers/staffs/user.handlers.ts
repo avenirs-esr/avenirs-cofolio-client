@@ -4,11 +4,12 @@ import {
   getGetProfileUrl,
   type ProfileOverviewDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes } from '@/common/constants'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export const getStaffProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategory.STAFF)}`, () => {
   return HttpResponse.json(
-    { message: 'Staff summary not found' },
+    { message: 'Staff summary not found', code: ErrorCodes.NOT_FOUND },
     { status: 404 }
   )
 })

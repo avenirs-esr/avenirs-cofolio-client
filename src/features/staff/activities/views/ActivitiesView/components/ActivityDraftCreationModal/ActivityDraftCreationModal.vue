@@ -3,6 +3,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityDraftCreationFormData } from '@/features/staff/activities/types/forms.types'
 import { useCreateActivityDraft } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { useToasterStore } from '@/store'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -22,6 +23,7 @@ const CREATE_ACTIVITY_FORM_DEFAULT_VALUES = { title: '' }
 const { t } = useI18n()
 const { navigateToStaffActivitiesEditNationalActivity } = useNavigation()
 const { mutate, isPending } = useCreateActivityDraft()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
 const form = useForm({
@@ -35,7 +37,7 @@ const form = useForm({
         navigateToStaffActivitiesEditNationalActivity({ id: response.draftId, mode: 'add' })
       },
       onError: (error: BaseApiException) => {
-        addErrorMessage({ title: t('staff.activities.views.ActivitiesView.ActivityDraftCreationModal.error'), description: error.message })
+        addErrorMessage({ title: t('staff.activities.views.ActivitiesView.ActivityDraftCreationModal.error'), description: getErrorMessage(error) })
       },
     })
   },

@@ -11,7 +11,7 @@ BddTest().given('a useApiErrors composable', () => {
 
   beforeEach(() => {
     errorRef = ref(null)
-    const { result: res } = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: false })
+    const { result: res } = mountComposable(() => useApiErrors(errorRef), { usePinia: false, useI18n: true })
     result = res
   })
 
@@ -112,6 +112,36 @@ BddTest().given('a useApiErrors composable', () => {
       errorRef.value = null
       await Promise.resolve()
       expect(result.originalErrorCode.value).toBeUndefined()
+    })
+  })
+
+  BddTest().when('getting an API error message', () => {
+    BddTest().then('it should return the mapped i18n value when key exists', () => {
+      const message = result.getErrorMessage({
+        message: 'User not found',
+        name: 'Error',
+        status: 400,
+        code: 'USER_NOT_FOUND' as BaseApiErrorCode,
+      })
+
+      expect(message).toBe('Utilisateur introuvable')
+    })
+
+    BddTest().then('it should return the generic message when key does not exist', () => {
+      const message = result.getErrorMessage({
+        message: 'Unknown',
+        name: 'Error',
+        status: 500,
+        code: 'SOME_UNKNOWN_ERROR_CODE' as BaseApiErrorCode,
+      })
+
+      expect(message).toBe('Une erreur est survenue. Veuillez réessayer ultérieurement.')
+    })
+
+    BddTest().then('it should return the generic message when error is null', () => {
+      const message = result.getErrorMessage(null)
+
+      expect(message).toBe('Une erreur est survenue. Veuillez réessayer ultérieurement.')
     })
   })
 })

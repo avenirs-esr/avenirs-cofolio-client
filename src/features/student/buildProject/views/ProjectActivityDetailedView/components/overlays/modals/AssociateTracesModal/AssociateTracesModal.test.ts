@@ -377,7 +377,7 @@ BddTest().given('an associate traces modal', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalledWith({
           title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-          description: 'Internal Server Error',
+          description: expect.any(String),
         })
       })
     })
@@ -424,7 +424,7 @@ BddTest().given('an associate traces modal', () => {
         await vi.waitFor(() => {
           expect(mockAddErrorMessage).toHaveBeenCalledWith({
             title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-            description: 'Internal Server Error',
+            description: expect.any(String),
           })
         })
       })

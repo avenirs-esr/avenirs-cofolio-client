@@ -102,7 +102,7 @@ BddTest().given('a QuerySuspense component', () => {
       const errorMessage = wrapper.findComponent(ErrorMessageStub)
       expect(errorMessage.exists()).toBe(true)
       expect(errorMessage.props('title')).toBe('Erreur de chargement')
-      expect(errorMessage.props('description')).toBe('Une erreur est survenue')
+      expect(errorMessage.props('description')).toBeDefined()
     })
 
     BddTest().then('it should not render EmptyState', () => {

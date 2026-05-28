@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { EActivityStatus, invalidateGetActivityPresentation, useSubscribeActivity } from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
@@ -18,6 +19,7 @@ export function useSubscribeActivityForm (
 ) {
   const { t } = useI18n()
   const { validateRequired, validateDateInterval } = useFormValidators()
+  const { getErrorMessage } = useApiErrors()
   const { addSuccessMessage, addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
@@ -38,7 +40,7 @@ export function useSubscribeActivityForm (
       onError: (error: BaseApiException) => {
         addErrorMessage({
           title: t('student.buildProject.activities.views.ProjectActivitiesCatalogView.overlays.ActivitySubscribeModal.error'),
-          description: error.message
+          description: getErrorMessage(error)
         })
       }
     })

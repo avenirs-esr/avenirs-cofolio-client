@@ -2,6 +2,7 @@
 import { type ActivityContentDTO, invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, usePublishActivityDraft } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
@@ -31,6 +32,7 @@ const { t } = useI18n()
 
 const { form, isUpdating, save } = useEditNationalActivityViewContext()
 const { showModal, displayModal, hideModal } = useModal()
+const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const { isLoading, withTaskLoading } = useTaskLoading()
 const queryClient = useQueryClient()
@@ -68,7 +70,7 @@ async function publishActivityDraft () {
     onError: (error) => {
       addErrorMessage({
         title: t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishError'),
-        description: error.message
+        description: getErrorMessage(error)
       })
     }
   })
