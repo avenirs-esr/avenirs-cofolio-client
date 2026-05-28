@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteUserPhoto } from '@/api/avenir-esr'
+import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteFile } from '@/api/avenir-esr'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
@@ -85,7 +85,7 @@ const {
   closeModal: hideModal
 })
 
-const { mutate: deleteCoverPictureMutation } = useDeleteUserPhoto()
+const { mutate: deleteCoverPictureMutation } = useDeleteFile()
 
 function deleteCoverPicture ({ fileId }: { fileId: string }) {
   deleteCoverPictureMutation({ fileId }, {
@@ -100,7 +100,7 @@ function deleteCoverPicture ({ fileId }: { fileId: string }) {
   })
 }
 
-const { mutate: deleteProfilePictureMutation } = useDeleteUserPhoto()
+const { mutate: deleteProfilePictureMutation } = useDeleteFile()
 
 function deleteProfilePicture ({ fileId }: { fileId: string }) {
   deleteProfilePictureMutation({ fileId }, {
@@ -116,11 +116,11 @@ function deleteProfilePicture ({ fileId }: { fileId: string }) {
 }
 
 function onDeleteCoverPicture () {
-  deleteCoverPicture({ fileId: coverPicture.fileId! })
+  deleteCoverPicture({ fileId: coverPicture.id! })
 }
 
 function onDeleteProfilePicture () {
-  deleteProfilePicture({ fileId: profilePicture.fileId! })
+  deleteProfilePicture({ fileId: profilePicture.id! })
 }
 
 function onSubmitForm (event: Event) {

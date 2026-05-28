@@ -1,9 +1,17 @@
-import { createUpdatedCoverMock, createUpdatedPhotoMock, createUpdatedProfileMock, invalidProfile, mockedProfileOverview } from '@/__mocks__/fixtures/student'
+import {
+  createUpdatedCoverMock,
+  createUpdatedPhotoMock,
+  createUpdatedProfileMock,
+  invalidProfile,
+  mockedProfileOverview
+} from '@/__mocks__/fixtures/student'
 import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
+  EFileCategory,
   EUserCategory,
-  EUserPhotoType,
   getGetProfileUrl,
+  getUpdateProfileUrl,
+  getUploadFileUrl,
   type ProfileOverviewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
@@ -21,7 +29,7 @@ export function createPutUpdateProfileHandler (payload: string) {
 }
 
 export function createPutUpdateProfileCoverHandler (payload: string) {
-  return http.put(`*/me/storage/users/:profile/${EUserPhotoType.COVER}`, () => {
+  return http.post(`*/me/storage/${EFileCategory.STAFF_COVER_PICTURE}/:elementId`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -32,7 +40,7 @@ export function createPutUpdateProfileCoverHandler (payload: string) {
 }
 
 export function createPutUpdateProfilePhotoHandler (payload: string) {
-  return http.put(`*/me/storage/users/:profile/${EUserPhotoType.PROFILE}`, () => {
+  return http.post(`*${getUploadFileUrl(EFileCategory.STAFF_PROFILE_PICTURE, ':elementId')}`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -50,14 +58,14 @@ export const putUpdateProfileErrorHandler = http.put(`*/me/users/:profile/update
 })
 
 // `/me/storage/users/${userCategory}/${photoType}`
-export const putUpdateProfileCoverErrorHandler = http.put(`*/me/storage/users/:profile/${EUserPhotoType.COVER}`, () => {
+export const putUpdateProfileCoverErrorHandler = http.post(`*${getUploadFileUrl(EFileCategory.STAFF_COVER_PICTURE, ':elementId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
 
-export const putUpdateProfilePhotoErrorHandler = http.put(`*/me/storage/users/:profile/${EUserPhotoType.PROFILE}`, () => {
+export const putUpdateProfilePhotoErrorHandler = http.post(`*${getUploadFileUrl(EFileCategory.STAFF_PROFILE_PICTURE, ':elementId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
@@ -90,7 +98,7 @@ export const overviewsHandlers = [
     })
   }),
 
-  http.put(`*/me/user/:profile/update`, ({ params }) => {
+  http.put(`*${getUpdateProfileUrl(':profile' as EUserCategory)}`, ({ params }) => {
     const profile: string | undefined = params.profile as string | undefined
 
     if (!profile) {
@@ -109,8 +117,9 @@ export const overviewsHandlers = [
     })
   }),
 
-  http.put(`*/me/user/:profile/update/cover`, ({ params }) => {
+  http.post(`*${getUploadFileUrl(':fileCatefory' as EFileCategory, ':elementId')}`, ({ params }) => {
     const profile: string | undefined = params.profile as string | undefined
+    const fileCategory: string | undefined = params.fileCategory as string | undefined
 
     if (!profile) {
       return HttpResponse.json({ error: 'Profile is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
@@ -120,30 +129,29 @@ export const overviewsHandlers = [
       return HttpResponse.json({ error: 'Profile not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
     }
 
-    return HttpResponse.json<string>(createUpdatedCoverMock(), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
-  http.put(`*/me/user/:profile/update/photo`, ({ params }) => {
-    const profile: string | undefined = params.profile as string | undefined
-
-    if (!profile) {
-      return HttpResponse.json({ error: 'Profile is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
+    if (!fileCategory) {
+      return HttpResponse.json({ error: 'fileCategory is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
-    if (profile === invalidProfile) {
-      return HttpResponse.json({ error: 'Profile not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
+    if (fileCategory === EFileCategory.STAFF_COVER_PICTURE || fileCategory === EFileCategory.STUDENT_COVER_PICTURE) {
+      return HttpResponse.json<string>(createUpdatedCoverMock(), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
     }
 
-    return HttpResponse.json<string>(createUpdatedPhotoMock(), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
+    if (fileCategory === EFileCategory.STAFF_PROFILE_PICTURE || fileCategory === EFileCategory.STUDENT_PROFILE_PICTURE) {
+      return HttpResponse.json<string>(createUpdatedPhotoMock(), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+    }
+
+    return HttpResponse.json({ error: 'fileCategory is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
   }),
+
 ]

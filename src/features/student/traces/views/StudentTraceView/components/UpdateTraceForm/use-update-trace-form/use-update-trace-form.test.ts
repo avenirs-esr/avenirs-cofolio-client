@@ -15,11 +15,11 @@ const mockTrace: TraceDetailDTO = {
 BddTest().given('the useUpdateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateTraceForm>
   let updateTraceSpy: MockInstance<typeof avenirEsrApi.updateTrace>
-  let uploadAttachmentSpy: MockInstance<typeof avenirEsrApi.uploadAttachment>
+  let uploadAttachmentSpy: MockInstance<typeof avenirEsrApi.uploadFile>
 
   beforeEach(() => {
     updateTraceSpy = vi.spyOn(avenirEsrApi, 'updateTrace')
-    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadAttachment')
+    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile')
 
     const result = mountComposable(() => useUpdateTraceForm(mockTrace), {
       useI18n: true,

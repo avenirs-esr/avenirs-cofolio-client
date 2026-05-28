@@ -121,62 +121,6 @@
         }
       }
     },
-    "/me/storage/users/{userCategory}/{photoType}": {
-      "put": {
-        "tags": [
-          "user-resource-controller"
-        ],
-        "operationId": "updateProfilePhoto",
-        "parameters": [
-          {
-            "name": "userCategory",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EUserCategory"
-            }
-          },
-          {
-            "name": "photoType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EUserPhotoType"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "file"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserPhotoUploadDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/self-knowledge/element/{selfKnowledgeElementId}": {
       "get": {
         "tags": [
@@ -828,20 +772,28 @@
         }
       }
     },
-    "/me/storage/traces/{traceId}": {
+    "/me/storage/{fileCategory}/{elementId}": {
       "post": {
         "tags": [
-          "trace-attachment-controller"
+          "file-controller"
         ],
-        "operationId": "uploadAttachment",
+        "operationId": "uploadFile",
         "parameters": [
           {
-            "name": "traceId",
+            "name": "elementId",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "fileCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EFileCategory"
             }
           }
         ],
@@ -869,7 +821,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AttachmentUploadDTO"
+                  "$ref": "#/components/schemas/FileDTO"
                 }
               }
             }
@@ -1630,12 +1582,12 @@
         }
       }
     },
-    "/storage/users/{fileId}": {
+    "/storage/{fileId}": {
       "get": {
         "tags": [
           "storage-controller"
         ],
-        "operationId": "getUserResourceByFileId",
+        "operationId": "getResourceByFileId",
         "parameters": [
           {
             "name": "fileId",
@@ -1662,22 +1614,12 @@
         }
       }
     },
-    "/storage/users/default/{photoType}": {
+    "/storage/default/profile-picture": {
       "get": {
         "tags": [
           "storage-controller"
         ],
-        "operationId": "getDefaultResource",
-        "parameters": [
-          {
-            "name": "photoType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EUserPhotoType"
-            }
-          }
-        ],
+        "operationId": "getDefaultProfilePicture",
         "responses": {
           "200": {
             "description": "OK",
@@ -1693,23 +1635,12 @@
         }
       }
     },
-    "/storage/activities/{fileId}": {
+    "/storage/default/cover-picture": {
       "get": {
         "tags": [
           "storage-controller"
         ],
-        "operationId": "getActivityResourceByFileId",
-        "parameters": [
-          {
-            "name": "fileId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
+        "operationId": "getDefaultCoverPicture",
         "responses": {
           "200": {
             "description": "OK",
@@ -2162,17 +2093,17 @@
         }
       }
     },
-    "/me/storage/traces/attachments/{attachmentId}": {
+    "/me/storage/{fileId}/download": {
       "get": {
         "tags": [
-          "trace-attachment-controller"
+          "file-controller"
         ],
-        "summary": "Download an attachment",
-        "description": "Retrieves the binary content of a specific attachment associated with a trace.",
-        "operationId": "downloadAttachment",
+        "summary": "Download a file",
+        "description": "Retrieves the binary content of a specific file.",
+        "operationId": "downloadFile",
         "parameters": [
           {
-            "name": "attachmentId",
+            "name": "fileId",
             "in": "path",
             "required": true,
             "schema": {
@@ -2194,7 +2125,7 @@
             }
           },
           "404": {
-            "description": "Attachment not found",
+            "description": "File not found",
             "content": {
               "*/*": {
                 "schema": {
@@ -3132,12 +3063,35 @@
         }
       }
     },
-    "/me/storage/users/{fileId}": {
+    "/health/seeding": {
+      "get": {
+        "tags": [
+          "seeding-health-indicator"
+        ],
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/storage/{fileId}": {
       "delete": {
         "tags": [
-          "user-resource-controller"
+          "file-controller"
         ],
-        "operationId": "deleteUserPhoto",
+        "operationId": "deleteFile",
         "parameters": [
           {
             "name": "fileId",
@@ -3663,7 +3617,7 @@
           "title"
         ]
       },
-      "AttachmentUploadDTO": {
+      "FileDTO": {
         "type": "object",
         "properties": {
           "id": {
@@ -3738,6 +3692,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "url": {
+            "type": "string"
+          },
           "uploadedAt": {
             "type": "string",
             "format": "date-time"
@@ -3749,6 +3706,7 @@
           "fileType",
           "id",
           "uploadedAt",
+          "url",
           "version"
         ]
       },
@@ -3781,7 +3739,7 @@
             "type": "string"
           },
           "attachment": {
-            "$ref": "#/components/schemas/AttachmentUploadDTO"
+            "$ref": "#/components/schemas/FileDTO"
           },
           "createdAt": {
             "type": "string",
@@ -3802,86 +3760,6 @@
           "status",
           "title",
           "updatedAt"
-        ]
-      },
-      "UserPhotoUploadDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "fileType": {
-            "type": "string",
-            "$ref": "#/components/schemas/EFileType",
-            "enum": [
-              "PNG",
-              "JPEG",
-              "PJPEG",
-              "GIF",
-              "WEBP",
-              "OGG_APP",
-              "OGG",
-              "WEBM_AUDIO",
-              "_3GPP_AUDIO",
-              "MP4_AUDIO",
-              "MP3",
-              "MPEG4_GENERIC",
-              "MPEG3",
-              "X_MPEG3",
-              "VORBIS",
-              "AVI",
-              "OGG_VIDEO",
-              "MSVIDEO",
-              "X_MSVIDEO",
-              "MP4",
-              "MPEG",
-              "MPEG3_VIDEO",
-              "X_MPEG_VIDEO",
-              "WEBM_VIDEO",
-              "_3GPP_VIDEO",
-              "_3GPP2_VIDEO",
-              "TXT",
-              "CSV",
-              "ICS",
-              "RICHTEXT",
-              "PDF",
-              "POSTSCRIPT",
-              "DOC",
-              "MSPPT",
-              "PPT",
-              "X_PPT",
-              "XLS",
-              "X_XLS",
-              "X_MSEXCEL",
-              "XLS_VND",
-              "PPT_VND",
-              "ODT",
-              "VSD",
-              "RTF",
-              "X_RTF",
-              "PPTX_SLIDESHOW",
-              "PPTX",
-              "ODP",
-              "XLSX",
-              "ODS",
-              "DOCX"
-            ]
-          },
-          "fileSize": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "version": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "fileSize",
-          "fileType",
-          "id",
-          "version"
         ]
       },
       "SelfKnowledgeElementRequest": {
@@ -5012,24 +4890,6 @@
         },
         "required": [
           "draftId"
-        ]
-      },
-      "FileDTO": {
-        "type": "object",
-        "properties": {
-          "fileId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "fileName": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "url"
         ]
       },
       "ProfileOverviewDTO": {
@@ -6250,12 +6110,16 @@
           "DOCX"
         ]
       },
-      "EUserPhotoType": {
+      "EFileCategory": {
         "type": "string",
-        "description": "Enum for user photo type",
+        "description": "Enum for file category",
         "enum": [
-          "PROFILE",
-          "COVER"
+          "TRACE_ATTACHEMENT",
+          "STUDENT_COVER_PICTURE",
+          "STUDENT_PROFILE_PICTURE",
+          "STAFF_COVER_PICTURE",
+          "STAFF_PROFILE_PICTURE",
+          "ACTIVITY_BANNER"
         ]
       },
       "ESkillLevelStatus": {

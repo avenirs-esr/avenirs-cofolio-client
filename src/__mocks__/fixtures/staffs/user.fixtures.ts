@@ -1,4 +1,4 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import { EFileType, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/staff_profile_banner_placeholder.jpg'
 import profile_picture_placeholder from '@/assets/staff_profile_picture_placeholder.jpg'
 
@@ -7,13 +7,21 @@ export const mockedStaffProfileOverview: ProfileOverviewDTO = {
   lastname: 'Dupont',
   email: 'm.dupont@example.com',
   profilePicture: {
-    fileId: undefined,
+    id: crypto.randomUUID(),
+    fileSize: 1000,
+    fileType: EFileType.PNG,
+    version: 1,
+    uploadedAt: '2025-06-13T08:42:17',
     fileName: profile_picture_placeholder,
     url: profile_picture_placeholder,
   },
   coverPicture: {
-    fileId: undefined,
-    fileName: undefined,
+    id: crypto.randomUUID(),
+    fileSize: 1000,
+    fileType: EFileType.PNG,
+    version: 1,
+    uploadedAt: '2025-06-13T08:42:17',
+    fileName: profile_banner_placeholder,
     url: profile_banner_placeholder,
   },
   bio: 'Je suis enseignante en chimie et écologie.'

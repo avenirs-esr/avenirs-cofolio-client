@@ -7,6 +7,7 @@ import {
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
+  EFileType,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredActivityViewDTO,
   type TraceAssociationDTO
@@ -316,9 +317,13 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
   id: 'activity-1',
   title: 'Activité “Connaissance de soi” : Définir ses valeurs',
   banner: {
-    fileId: 'activity-1-banner',
+    id: 'activity-1-banner',
     url: 'https://cdn.welcometothejungle.co/uploads/article/social_image/3009/159196/large_jaredd-craig-HH4WBGNyltc-unsplash.jpg',
-    fileName: 'Image de l\'activité Connaissance de soi - Définir ses valeurs'
+    fileName: 'Image de l\'activité Connaissance de soi - Définir ses valeurs',
+    fileSize: 1000,
+    fileType: EFileType.PNG,
+    version: 1,
+    uploadedAt: '2025-06-13T08:42:17',
   },
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',

@@ -2,7 +2,6 @@ import {
   type AssociationSearchResultDeclaredActivityDTO,
   type AssociationSearchResultDeclaredSkillIDTO,
   type AssociationSearchResultTraceDTO,
-  type AttachmentUploadDTO,
   type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationDTO,
   EActivityThematic,
@@ -10,6 +9,7 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
+  type FileDTO,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseAssociationSearchResultTraceDTO,
@@ -151,13 +151,14 @@ function getFileTypeFromFileName (fileName: string): EFileType {
   }
 }
 
-export function createMockedAttachmentUploadResponse (traceId: string, file: File): AttachmentUploadDTO {
+export function createMockedAttachmentUploadResponse (traceId: string, file: File): FileDTO {
   return {
     id: `attachment-${Date.now()}`,
     fileName: traceId,
     fileType: getFileTypeFromFileName(file.name),
     fileSize: file.size,
     version: 1,
+    url: 'exemple.com/image',
     uploadedAt: '2024-01-15T10:30:00'
   }
 }
@@ -251,6 +252,7 @@ export const mockedTraceDetailed = {
     fileType: EFileType.TXT,
     fileSize: 1,
     version: 1,
+    url: 'exemple.com/image',
     uploadedAt: '2025-06-02T11:42:00.000Z',
   },
   traceAssociations: mockedTraceAssociations

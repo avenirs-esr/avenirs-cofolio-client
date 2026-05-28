@@ -1,7 +1,11 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { EFileCategory, EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
+import {
+  useUpdateProfile,
+  useUpdateProfileCover,
+  useUpdateProfilePhoto
+} from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useToasterStore } from '@/store'
@@ -55,8 +59,8 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
         const { email, bio } = value
 
         const [coverResult, photoResult] = await Promise.allSettled([
-          coverPictureFile.value ? onUpdateProfileCoverAsync(profile, { file: coverPictureFile.value }) : Promise.resolve(),
-          profilePictureFile.value ? onUpdateProfilePhotoAsync(profile, { file: profilePictureFile.value }) : Promise.resolve()
+          coverPictureFile.value ? onUpdateProfileCoverAsync(profile === EUserCategory.STAFF ? EFileCategory.STAFF_COVER_PICTURE : EFileCategory.STUDENT_COVER_PICTURE, profile, { file: coverPictureFile.value }) : Promise.resolve(),
+          profilePictureFile.value ? onUpdateProfilePhotoAsync(profile === EUserCategory.STAFF ? EFileCategory.STAFF_PROFILE_PICTURE : EFileCategory.STUDENT_PROFILE_PICTURE, profile, { file: profilePictureFile.value }) : Promise.resolve()
         ])
 
         if (coverResult.status === 'rejected') {

@@ -1,4 +1,4 @@
-import { EUserCategory } from '@/api/avenir-esr'
+import { EFileType, EUserCategory } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
@@ -80,11 +80,21 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       id: 'random-id',
       name: 'initialCover.jpg',
       url: 'initialCover.jpg',
+      fileSize: 1000,
+      fileType: EFileType.PNG,
+      version: 1,
+      uploadedAt: '2025-06-13T08:42:17',
+      fileName: 'profile-picture.png'
     },
     profilePicture: {
       id: 'random-id-2',
       name: 'initialProfile.jpg',
       url: 'initialProfile.jpg',
+      fileSize: 1000,
+      fileType: EFileType.PNG,
+      version: 1,
+      uploadedAt: '2025-06-13T08:42:17',
+      fileName: 'profile-picture.png'
     }
   }
 
@@ -120,7 +130,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       const newCoverUrl = 'https://example.com/new-cover.jpg'
       result.onUpdateProfileCoverSuccess(newCoverUrl)
-      expect(result.form.state.values.coverPicture).toStrictEqual({ id: 'random-id', name: 'initialCover.jpg', url: newCoverUrl })
+      expect(result.form.state.values.coverPicture).toStrictEqual({ id: 'random-id', name: 'initialCover.jpg', url: newCoverUrl, fileName: 'profile-picture.png', fileSize: 1000, fileType: 'PNG', uploadedAt: '2025-06-13T08:42:17', version: 1 })
     })
   })
 
@@ -135,7 +145,12 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       expect(result.form.state.values.profilePicture).toStrictEqual({
         id: 'random-id-2',
         name: 'initialProfile.jpg',
-        url: newPhotoUrl
+        url: newPhotoUrl,
+        fileName: 'profile-picture.png',
+        fileSize: 1000,
+        fileType: 'PNG',
+        uploadedAt: '2025-06-13T08:42:17',
+        version: 1,
       })
     })
   })

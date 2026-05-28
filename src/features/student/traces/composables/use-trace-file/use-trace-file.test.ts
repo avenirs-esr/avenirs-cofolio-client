@@ -1,4 +1,4 @@
-import { type AttachmentUploadDTO, EFileType } from '@/api/avenir-esr'
+import { EFileType, type FileDTO } from '@/api/avenir-esr'
 import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -39,12 +39,13 @@ BddTest().given('a use-trace-file-validation composable', () => {
 })
 
 BddTest().given('a use-trace-attachment-file composable', () => {
-  const mockAttachment: AttachmentUploadDTO = {
+  const mockAttachment: FileDTO = {
     id: 'mock-attachment-1',
     fileName: 'test-file.pdf',
     fileType: EFileType.PDF,
     fileSize: 1024,
     version: 1,
+    url: 'exemple.com/image',
     uploadedAt: '2024-01-15T14:30:00'
   }
 
@@ -79,12 +80,13 @@ BddTest().given('a use-trace-attachment-file composable', () => {
 
   BddTest().when('processing different file types', () => {
     BddTest().then('it should handle image file type', () => {
-      const imageAttachment: AttachmentUploadDTO = {
+      const imageAttachment: FileDTO = {
         id: 'mock-attachment-2',
         fileName: 'image.jpg',
         fileType: EFileType.JPEG,
         fileSize: 2048,
         version: 1,
+        url: 'exemple.com/image',
         uploadedAt: '2023-06-10T10:00:00'
       }
 

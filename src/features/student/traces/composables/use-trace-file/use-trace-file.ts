@@ -1,4 +1,4 @@
-import { type AttachmentUploadDTO, EFileType } from '@/api/avenir-esr'
+import { EFileType, type FileDTO } from '@/api/avenir-esr'
 import { useDateUtils, useFileValidation } from '@/common/composables'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { type ComputedRef, type MaybeRef, toValue } from 'vue'
@@ -6,7 +6,7 @@ import { type ComputedRef, type MaybeRef, toValue } from 'vue'
 const FIVE_MB = 5 * 1024 * 1024
 const TEN_MB = 10 * 1024 * 1024
 
-function dtoToFile (dto: AttachmentUploadDTO): File {
+function dtoToFile (dto: FileDTO): File {
   const blob = new Blob([], { type: dto.fileType })
   return new File([blob], dto.fileName, {
     type: dto.fileType,
@@ -120,12 +120,12 @@ interface UseTraceAttachmentFileReturn {
  * console.log(uploadDate.value) // "15 octobre 2025 à 16:32"
  * ```
  *
- * @param {MaybeRef<AttachmentUploadDTO | undefined>} attachment - Reactive or static reference to an attachment DTO.
+ * @param {MaybeRef<FileDTO | undefined>} attachment - Reactive or static reference to an attachment DTO.
  * @returns {UseTraceAttachmentFileReturn} Object containing:
  *  - `attachmentFile`: computed reactive file object.
  *  - `uploadDate`: computed localized upload date string.
  */
-export function useTraceAttachmentFile (attachment: MaybeRef<AttachmentUploadDTO | undefined>): UseTraceAttachmentFileReturn {
+export function useTraceAttachmentFile (attachment: MaybeRef<FileDTO | undefined>): UseTraceAttachmentFileReturn {
   const { formatTranslatedDateTime } = useDateUtils()
 
   const attachmentFile = computed(() => {

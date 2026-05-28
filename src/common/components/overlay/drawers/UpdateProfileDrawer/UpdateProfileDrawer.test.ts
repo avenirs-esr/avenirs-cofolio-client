@@ -1,6 +1,6 @@
-import type { EUserCategory, FileDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SetupContext } from 'vue'
+import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
@@ -109,14 +109,22 @@ BddTest().given('given an update profile drawer', () => {
     lastname: 'Moulin',
     email: 'j.moulin@example.com',
     profilePicture: {
-      fileId: undefined,
-      fileName: undefined,
-      url: profile_picture_placeholder
+      id: 'profile-picture-id',
+      fileName: 'profile-picture.png',
+      url: profile_picture_placeholder,
+      fileSize: 1000,
+      fileType: EFileType.PNG,
+      version: 1,
+      uploadedAt: '2025-06-13T08:42:17',
     },
     coverPicture: {
-      fileId: undefined,
-      fileName: undefined,
-      url: profile_banner_placeholder
+      id: 'cover-picture-id',
+      fileName: 'cover-picture.png',
+      url: profile_banner_placeholder,
+      fileSize: 1000,
+      fileType: EFileType.PNG,
+      version: 1,
+      uploadedAt: '2025-06-13T08:42:17',
     },
     bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'
   }
@@ -226,8 +234,8 @@ BddTest().given('given an update profile drawer', () => {
     lastname: '',
     email: '',
     bio: '',
-    profilePicture: { fileId: undefined, fileName: undefined, url: '' },
-    coverPicture: { fileId: undefined, fileName: undefined, url: '' }
+    profilePicture: { id: '', fileName: '', url: '', fileSize: 1000, fileType: EFileType.PNG, version: 1, uploadedAt: '2025-06-13T08:42:17' },
+    coverPicture: { id: '', fileName: '', url: '', fileSize: 1000, fileType: EFileType.PNG, version: 1, uploadedAt: '2025-06-13T08:42:17' }
   }
 
   const storeWithMissingFields: Record<string, { value: string | FileDTO }> = {
@@ -539,9 +547,13 @@ BddTest().given('given an update profile drawer', () => {
       const userSummaryWithCoverPhotoFileId = {
         ...userSummary,
         coverPicture: {
-          fileId: 'cover-file-id',
+          id: 'cover-file-id',
           fileName: 'cover.jpg',
-          url: 'https://example.com/cover.jpg'
+          url: 'https://example.com/cover.jpg',
+          fileSize: 1000,
+          fileType: EFileType.PNG,
+          version: 1,
+          uploadedAt: '2025-06-13T08:42:17',
         }
       }
 
@@ -567,9 +579,13 @@ BddTest().given('given an update profile drawer', () => {
       const userSummaryWithProfilePhotoFileId = {
         ...userSummary,
         profilePicture: {
-          fileId: 'profile-file-id',
+          id: 'profile-file-id',
           fileName: 'profile.jpg',
-          url: 'https://example.com/profile.jpg'
+          url: 'https://example.com/profile.jpg',
+          fileSize: 1000,
+          fileType: EFileType.PNG,
+          version: 1,
+          uploadedAt: '2025-06-13T08:42:17'
         }
       }
 

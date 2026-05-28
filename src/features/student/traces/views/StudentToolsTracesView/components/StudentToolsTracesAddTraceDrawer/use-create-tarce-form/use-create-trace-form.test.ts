@@ -1,9 +1,11 @@
 import {
-  type AttachmentUploadDTO,
   type CreateTraceDTO,
+  EFileCategory,
   ELanguage,
+  type FileDTO,
   type TracesCreationResponse,
-  type UploadAttachmentBody
+  type UploadFileBody
+
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
@@ -16,13 +18,13 @@ import { type MockInstance, vi } from 'vitest'
 BddTest().given('the useCreateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useCreateTraceForm>
   let createTraceSpy: MockInstance<(createTraceDTO: CreateTraceDTO, options?: RequestInit | undefined) => Promise<TracesCreationResponse>>
-  let uploadAttachmentSpy: MockInstance<(traceId: string, uploadAttachmentBody: UploadAttachmentBody, options?: RequestInit | undefined) => Promise<AttachmentUploadDTO>>
+  let uploadAttachmentSpy: MockInstance<(fileCategory: EFileCategory, traceId: string, uploadAttachmentBody: UploadFileBody, options?: RequestInit | undefined) => Promise<FileDTO>>
   let associateTraceWithActivitiesSpy: MockInstance
   let associateTraceWithDeclaredSkillSpy: MockInstance
 
   beforeEach(() => {
     createTraceSpy = vi.spyOn(avenirEsrApi, 'createTrace')
-    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadAttachment')
+    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile')
     associateTraceWithActivitiesSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithActivities').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
     associateTraceWithDeclaredSkillSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithDeclaredSkill').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
 
@@ -170,6 +172,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         })
       })
       expect(uploadAttachmentSpy).toHaveBeenCalledWith(
+        EFileCategory.TRACE_ATTACHEMENT,
         expect.stringContaining('trace-my-trace-name'),
         { file: mockFile }
       )

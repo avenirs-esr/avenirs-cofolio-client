@@ -30,6 +30,7 @@ BddTest().given('an update trace modal', () => {
       fileType: EFileType.TXT,
       fileSize: 1,
       version: 1,
+      url: 'exemple.com/image',
       uploadedAt: '2025-06-02T11:42:00.000Z',
     },
   }

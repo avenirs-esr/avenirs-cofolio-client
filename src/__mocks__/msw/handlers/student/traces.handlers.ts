@@ -14,16 +14,17 @@ import {
 } from '@/__mocks__/fixtures/student'
 import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
-  type AttachmentUploadDTO,
   type CreateTraceDTO,
   EErrorCode,
+  EFileCategory,
+  type FileDTO,
   getAssociateTraceWithActivitiesUrl,
   getAssociateTraceWithDeclaredExperiencesUrl,
   getAssociateTraceWithDeclaredSkillUrl,
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
   getDeleteTraceUrl,
-  getDownloadAttachmentUrl,
+  getDownloadFileUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTraceDetailUrl,
@@ -33,7 +34,7 @@ import {
   getSearchDeclaredSkillForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
-  getUploadAttachmentUrl,
+  getUploadFileUrl,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseTraceViewDTO,
@@ -213,7 +214,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.post(`*${getUploadAttachmentUrl(':traceId')}`, async ({ params, request }) => {
+  http.post(`*${getUploadFileUrl(EFileCategory.TRACE_ATTACHEMENT, ':traceId')}`, async ({ params, request }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
@@ -228,7 +229,7 @@ export const tracesHandlers = [
     }
 
     const response = createMockedAttachmentUploadResponse(traceId, file)
-    return HttpResponse.json<AttachmentUploadDTO>(response, {
+    return HttpResponse.json<FileDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -236,7 +237,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get(`*${getDownloadAttachmentUrl(':attachmentId')}`, ({ params }) => {
+  http.get(`*${getDownloadFileUrl(':attachmentId')}`, ({ params }) => {
     const attachmentId: string | undefined = params.attachmentId as string | undefined
 
     if (!attachmentId) {
@@ -463,7 +464,7 @@ export const deleteTraceAssociationsErrorHandler = http.delete(
 )
 
 export const downloadTraceAttachmentErrorHandler = http.get(
-  `*${getDownloadAttachmentUrl(':attachmentId')}`,
+  `*${getDownloadFileUrl(':attachmentId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

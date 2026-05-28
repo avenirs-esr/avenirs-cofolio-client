@@ -1,13 +1,13 @@
 import type { BaseApiException } from '@/common/exceptions'
 import {
-  type EUserCategory,
-  EUserPhotoType,
+  EFileCategory,
+  EUserCategory,
+  type FileDTO,
   invalidateGetProfile,
   type ProfileUpdateRequest,
-  type UpdateProfilePhotoBody,
-  type UserPhotoUploadDTO,
+  type UploadFileBody,
   useUpdateProfile as useUpdateProfileFromApi,
-  useUpdateProfilePhoto as useUpdateProfilePhotoFromApi,
+  useUploadFile as useUpdateProfilePhotoFromApi,
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -51,6 +51,16 @@ export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () =
   }
 }
 
+function getUserCategoryFromFileCategory (fileCategory: EFileCategory) {
+  if ([EFileCategory.STUDENT_PROFILE_PICTURE, EFileCategory.STUDENT_COVER_PICTURE].includes(fileCategory)) {
+    return EUserCategory.STUDENT
+  }
+  if ([EFileCategory.STAFF_PROFILE_PICTURE, EFileCategory.STAFF_COVER_PICTURE].includes(fileCategory)) {
+    return EUserCategory.STAFF
+  }
+  throw new Error(`Unexcepted file category: ${fileCategory}`)
+}
+
 export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data: string) => void) {
   const { t } = useI18n()
   const { getErrorMessage } = useApiErrors()
@@ -65,17 +75,17 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
     })
   }
 
-  function onUpdateProfileCoverSuccess (data: UserPhotoUploadDTO) {
+  function onUpdateProfileCoverSuccess (data: FileDTO) {
     onSuccess(data.id)
   }
 
   const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfileCoverPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfileCoverAsync (userCategory: EUserCategory, updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.COVER, data: updateProfilePhotoBody }, {
+  async function onUpdateProfileCoverAsync (fileCategory: EFileCategory, elementId: string, updateProfilePhotoBody: UploadFileBody) {
+    return await updateProfilePhotoMutation({ fileCategory, elementId, data: updateProfilePhotoBody }, {
       onError: onUpdateProfileCoverError,
       onSuccess: async (data, variables) => {
-        await withTaskLoading(() => invalidateGetProfile(queryClient, variables.userCategory))
+        await withTaskLoading(() => invalidateGetProfile(queryClient, getUserCategoryFromFileCategory(variables.fileCategory)))
         onUpdateProfileCoverSuccess(data)
       }
     })
@@ -103,11 +113,11 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
 
   const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfilePhotoPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfilePhotoAsync (userCategory: EUserCategory, updateProfilePhotoBody: UpdateProfilePhotoBody) {
-    return await updateProfilePhotoMutation({ userCategory, photoType: EUserPhotoType.PROFILE, data: updateProfilePhotoBody }, {
+  async function onUpdateProfilePhotoAsync (fileCategory: EFileCategory, elementId: string, updateProfilePhotoBody: UploadFileBody) {
+    return await updateProfilePhotoMutation({ fileCategory, elementId, data: updateProfilePhotoBody }, {
       onError: onUpdateProfilePhotoError,
       onSuccess: async (data, variables) => {
-        await withTaskLoading(() => invalidateGetProfile(queryClient, variables.userCategory))
+        await withTaskLoading(() => invalidateGetProfile(queryClient, getUserCategoryFromFileCategory(variables.fileCategory)))
         onProfilePhotoUpdated(data.id)
       }
     })

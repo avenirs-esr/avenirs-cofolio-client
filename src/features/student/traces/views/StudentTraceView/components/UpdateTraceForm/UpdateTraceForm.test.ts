@@ -40,6 +40,7 @@ BddTest().given('an update trace form component', () => {
       fileType: EFileType.PDF,
       fileSize: 1024,
       version: 1,
+      url: 'exemple.com/image',
       uploadedAt: '2025-01-15T10:00:00Z'
     },
   }

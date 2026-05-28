@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadAttachment } from '@/api/avenir-esr'
+import { useDownloadFile } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -43,10 +43,10 @@ const {
 } = useModal()
 
 const { displayUpdateTraceModal } = useTracesStore()
-const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
+const { mutate: mutateDownloadAttachment } = useDownloadFile()
 
-function downloadAttachment (attachmentId: string) {
-  mutateDownloadAttachment({ attachmentId }, {
+function downloadAttachment (fileId: string) {
+  mutateDownloadAttachment({ fileId }, {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('student.traces.views.StudentTraceView.errors.download'),

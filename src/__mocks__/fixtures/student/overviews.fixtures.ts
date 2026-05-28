@@ -1,10 +1,5 @@
-import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import type {
-  DeliverableOverviewDTO,
-  EventOverviewDTO,
-  PageOverviewDTO,
-  ResumeOverviewDTO,
-} from '@/types'
+import type { DeliverableOverviewDTO, EventOverviewDTO, PageOverviewDTO, ResumeOverviewDTO, } from '@/types'
+import { EFileType, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 
@@ -13,13 +8,21 @@ export const mockedProfileOverview: ProfileOverviewDTO = {
   lastname: 'Moulin',
   email: 'j.moulin@example.com',
   profilePicture: {
-    fileId: undefined,
-    fileName: undefined,
+    id: crypto.randomUUID(),
+    fileSize: 1000,
+    fileType: EFileType.PNG,
+    version: 1,
+    uploadedAt: '2025-06-13T08:42:17',
+    fileName: 'profile-picture.png',
     url: profile_picture_placeholder,
   },
   coverPicture: {
-    fileId: undefined,
-    fileName: undefined,
+    id: crypto.randomUUID(),
+    fileSize: 1000,
+    fileType: EFileType.PNG,
+    version: 1,
+    uploadedAt: '2025-06-13T08:42:17',
+    fileName: 'cover-picture.png',
     url: profile_banner_placeholder,
   },
   bio: 'Je suis étudiante en chimie et écologie. Passionnée par l\'innovation durable, je souhaite utiliser la science pour protéger l\'environnement et bâtir un avenir plus respectueux de la planète.'

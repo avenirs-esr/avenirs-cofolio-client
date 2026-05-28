@@ -62,7 +62,8 @@ BddTest().given('a student detailed trace information component', () => {
       fileType: EFileType.PDF,
       fileSize: 1024000,
       uploadedAt: '2024-01-15T10:30:00',
-      version: 1
+      version: 1,
+      url: 'exemple.com/image'
     }
   }
 

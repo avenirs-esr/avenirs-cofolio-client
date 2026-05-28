@@ -10,6 +10,7 @@ import {
   type CreateTraceDTO,
   deleteTrace,
   deleteTraceAssociations,
+  EFileCategory,
   getTraceAssociations,
   getTraceConfig,
   getTraceDetail,
@@ -34,8 +35,8 @@ import {
   type TraceViewDTO,
   updateTrace,
   type UpdateTraceDTO,
-  uploadAttachment,
-  type UploadAttachmentBody
+  uploadFile,
+  type UploadFileBody
 } from '@/api/avenir-esr'
 import { useInvalidateQuery } from '@/common/composables'
 import { removeEmpty } from '@/common/utils'
@@ -150,8 +151,8 @@ export function useUploadAttachmentMutation ({ onError, onSuccess }: MutationArg
   const invalidateTraceDetailQuery = useInvalidateTraceDetailQuery()
   return useMutation<void, BaseApiException, UploadAttachmentVariables>({
     mutationFn: async ({ traceId, file }: UploadAttachmentVariables): Promise<void> => {
-      const uploadAttachmentBody: UploadAttachmentBody = { file }
-      await uploadAttachment(traceId, uploadAttachmentBody)
+      const uploadAttachmentBody: UploadFileBody = { file }
+      await uploadFile(EFileCategory.TRACE_ATTACHEMENT, traceId, uploadAttachmentBody)
     },
     onSuccess: async (data, variables) => {
       await invalidateTraceDetailQuery(variables.traceId)
