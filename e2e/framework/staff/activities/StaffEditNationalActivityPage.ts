@@ -147,4 +147,9 @@ class StaffEditNationalActivityPage extends BasePage {
   async verifyTraceAssociationParameterVisible () {
     await this.tabs().verifyToggleVisible()
   }
+
+  @Then('the consign section is collapsed by default')
+  async verifyConsignFormFieldCollapsed () {
+    await this.tabs().verifyActivityConsignFormFieldCollapsed()
+  }
 }
