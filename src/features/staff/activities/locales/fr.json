@@ -74,7 +74,14 @@
             "fetchActivityContent": "Impossible de charger l'activité"
           },
           "NationalActivityContentTab": {
+            "scheduleTitle": "Déroulé de l'activité",
             "title": "Contenu de l'activité"
+          },
+          "NationalActivitySettingDetails": {
+            "badges": {
+              "feedbackIterations": "{count} itération | {count} itérations",
+              "unlimitedIterations": "Itérations illimitées"
+            }
           },
           "title": "Toutes les activités disponibles dans mon établissement"
         },

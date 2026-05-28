@@ -129,10 +129,12 @@
       "updatedAt": "Updated on {date}"
     },
     "detail": "Detail",
+    "disabled": "Disabled | Disabled",
     "end": "End",
     "emptyState": {
       "defaultTitle": "No elements to display"
     },
+    "enabled": "Enabled | Enabled",
     "error": {
       "api": {
         "ACTIVITY_DRAFT_NOT_FOUND": "Activity draft not found",
