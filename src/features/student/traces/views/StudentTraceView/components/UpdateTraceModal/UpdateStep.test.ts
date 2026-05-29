@@ -1,3 +1,4 @@
+import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
@@ -19,6 +20,7 @@ vi.mock('@/store', async () => {
 
 BddTest().given('an update step', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateStep>>
+  const mockForm = {} as UpdateTraceFormApi
 
   const mockedTrace: TraceDetailDTO = {
     id: 'mock-trace',
@@ -55,7 +57,7 @@ BddTest().given('an update step', () => {
     },
     UpdateTraceForm: {
       name: 'UpdateTraceForm',
-      props: ['trace'],
+      props: ['trace', 'form'],
       template: '<div class="update-trace-form">Update Trace Form</div>'
     },
     TraceAssociations: {
@@ -67,7 +69,7 @@ BddTest().given('an update step', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedTraceAssociations }, global: { stubs } })
+    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedTraceAssociations, form: mockForm }, global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -87,6 +89,11 @@ BddTest().given('an update step', () => {
     BddTest().then('it should pass trace prop to UpdateTraceForm', () => {
       const updateTraceForm = wrapper.findComponent({ name: 'UpdateTraceForm' })
       expect(updateTraceForm.props('trace')).toEqual(mockedTrace)
+    })
+
+    BddTest().then('it should pass form prop to UpdateTraceForm', () => {
+      const updateTraceForm = wrapper.findComponent({ name: 'UpdateTraceForm' })
+      expect(updateTraceForm.props('form')).toEqual(mockForm)
     })
 
     BddTest().then('it should initialize activeTab to 0', () => {

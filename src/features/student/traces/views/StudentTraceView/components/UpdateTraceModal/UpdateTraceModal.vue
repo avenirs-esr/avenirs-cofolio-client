@@ -3,8 +3,10 @@ import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
+import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import TermsStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
 import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
+import { useToasterStore } from '@/store'
 import { AvModal, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -23,6 +25,17 @@ enum UpdateTraceModalSteps {
 const { t } = useI18n()
 const tracesStore = useTracesStore()
 const { showUpdateTraceModal, updateTraceFormModified } = toRefs(tracesStore)
+const { addSuccessMessage } = useToasterStore()
+
+function onTraceUpdated () {
+  addSuccessMessage({
+    timeout: 2000,
+    description: t('student.traces.views.StudentTraceView.updateTraceModal.success')
+  })
+  closeModal()
+}
+
+const { form, hasErrors } = useUpdateTraceForm(trace, onTraceUpdated)
 
 const {
   showModal: showConfirmationModal,
@@ -36,6 +49,8 @@ const steps = computed(() => [
   t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.title'),
   t('student.traces.views.StudentTraceView.updateTraceModal.steps.update.title')
 ])
+
+const confirmDisabled = computed(() => currentStep.value === UpdateTraceModalSteps.Update && hasErrors.value)
 
 function goToNextStep () {
   currentStep.value++
@@ -84,6 +99,7 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
     :close-button-label="t('student.traces.views.StudentTraceView.updateTraceModal.buttons.close')"
     :confirm-button-label="confirmLabel"
     :confirm-button-icon="confirmIcon"
+    :confirm-button-disabled="confirmDisabled"
     @close="handleClose"
     @confirm="handleConfirm"
   >
@@ -106,6 +122,7 @@ const confirmIcon = computed(() => currentStep.value === UpdateTraceModalSteps.T
         :is="displayedStep"
         :trace="trace"
         :associations="associations"
+        :form="form"
       />
     </div>
   </AvModal>

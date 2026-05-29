@@ -1,5 +1,6 @@
 import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
+import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
 import StudentTraceDetails
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
@@ -25,12 +26,6 @@ const TracePersonalNoteTextareaStub = {
   template: '<div class="trace-personal-note-textarea-stub"></div>'
 }
 
-const TraceIaJustificationTextareaStub = {
-  name: 'TraceIaJustificationTextarea',
-  props: ['modelValue', 'labelVisible', 'disabled'],
-  template: '<div class="trace-ia-justification-textarea-stub"></div>'
-}
-
 const AvIconTextStub = {
   name: 'AvIconText',
   props: ['typographyClass', 'iconColor', 'icon', 'text'],
@@ -41,7 +36,7 @@ const stubs = {
   TraceNameInput: TraceNameInputStub,
   TraceFileUpload: TraceFileUploadStub,
   TracePersonalNoteTextarea: TracePersonalNoteTextareaStub,
-  TraceIaJustificationTextarea: TraceIaJustificationTextareaStub,
+  TraceAiJustificationTextarea: TraceAiJustificationTextareaStub,
   AvIconText: AvIconTextStub,
   TraceAiUsageToggle: TraceAiUsageToggleStub,
   CreationUpdateDateDetails: CreationUpdateDateDetailsStub
@@ -152,7 +147,7 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should not render the IA justification textarea when aiUseJustification is empty', () => {
-      const iaJustificationTextarea = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationTextarea = wrapper.findComponent({ name: 'TraceAiJustificationTextarea' })
 
       expect(iaJustificationTextarea.exists()).toBe(false)
     })
@@ -200,7 +195,7 @@ BddTest().given('a student detailed trace information component', () => {
     })
 
     BddTest().then('it should render the IA justification textarea', () => {
-      const iaJustificationTextarea = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationTextarea = wrapper.findComponent({ name: 'TraceAiJustificationTextarea' })
 
       expect(iaJustificationTextarea.exists()).toBe(true)
       expect(iaJustificationTextarea.props('modelValue')).toBe('Test AI justification text')

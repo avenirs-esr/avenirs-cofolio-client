@@ -4,8 +4,7 @@ import type { ComputedRef } from 'vue'
 import { ELanguage, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
-import { TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
+import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
 import {
   useAssociateTraceWithActivitiesMutation,
   useAssociateTraceWithDeclaredSkillsMutation,
@@ -26,7 +25,8 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
-  const { validateLink, validateMaxLength, hasFieldErrors } = useFormValidators()
+  const { buildValidators } = useTraceFormValidators()
+  const { hasFieldErrors } = useFormValidators()
 
   function onCreateTraceError (error: BaseApiException) {
     addErrorMessage({
@@ -57,8 +57,6 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { mutateAsync: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkillsMutation()
 
   const isFileUploading = ref(false)
-
-  const { validateFile } = useTraceFileValidation(true)
 
   function associateElements (traceId: string, associationSelections: Record<string, Association[]>) {
     const pendingAssociations = []
@@ -133,25 +131,10 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
-        return {
-          fields: {
-            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
-            link: isTraceLinkType(value) ? validateLink(value.link, true) : undefined,
-            traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
-            isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
-            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
-          }
-        }
+        return buildValidators(value)
       },
       onChange ({ value }: { value: TraceFormData }) {
-        return {
-          fields: {
-            link: isTraceLinkType(value) ? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
-            traceName: validateMaxLength(value.traceName, TRACE_NAME_MAX_LENGTH),
-            personalNote: validateMaxLength(value.personalNote, TRACE_PERSONAL_NOTE_MAX_LENGTH),
-            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
-          }
-        }
+        return buildValidators(value)
       }
     },
     onSubmit: ({ value }: { value: TraceFormData }) => {

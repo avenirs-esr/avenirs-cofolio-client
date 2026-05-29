@@ -1,5 +1,6 @@
 import type { TraceFormData } from '@/features/student/traces'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
+import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { isTraceFileType } from '@/features/student/traces/utils/trace.types-guard'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -47,14 +48,11 @@ const TestWrapper = {
 BddTest().given('a create trace form declaration items component', () => {
   let wrapper: VueWrapper
 
+  const getIaJustificationInput = () => wrapper.findComponent(TraceAiJustificationTextareaStub)
+
   const stubs = {
     Toggle: ToggleStub,
-    TraceIaJustificationTextarea: {
-      name: 'TraceIaJustificationTextarea',
-      props: ['id', 'modelValue', 'errorMessage', 'required'],
-      emits: ['blur', 'update:modelValue'],
-      template: '<div><textarea :id="id" :value="modelValue" @input="$emit(\'update:modelValue\', $event.target.value)" @blur="$emit(\'blur\')"></textarea></div>'
-    }
+    TraceAiJustificationTextarea: TraceAiJustificationTextareaStub
   }
 
   beforeEach(() => {
@@ -120,7 +118,7 @@ BddTest().given('a create trace form declaration items component', () => {
     })
 
     BddTest().then('it should not render IA justification textarea initially', () => {
-      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationInput = getIaJustificationInput()
       expect(iaJustificationInput.exists()).toBe(false)
     })
   })
@@ -163,7 +161,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationInput = getIaJustificationInput()
       expect(iaJustificationInput.exists()).toBe(true)
       expect(iaJustificationInput.props('id')).toBe('ia-justification')
       expect(iaJustificationInput.props('required')).toBe(true)
@@ -192,7 +190,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationInput = getIaJustificationInput()
       await iaJustificationInput.vm.$emit('update:modelValue', 'Some justification')
       await wrapper.vm.$nextTick()
 
@@ -213,7 +211,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await iaToggle?.vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationInput = getIaJustificationInput()
       const textarea = iaJustificationInput.find('textarea')
 
       textarea.element.value = 'My IA justification'
@@ -221,7 +219,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
-        const updatedInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+        const updatedInput = getIaJustificationInput()
         expect(updatedInput.props('modelValue')).toBe('My IA justification')
       })
     })
@@ -252,7 +250,7 @@ BddTest().given('a create trace form declaration items component', () => {
       await wrapper.find('form').trigger('submit')
       await wrapper.vm.$nextTick()
 
-      const iaJustificationInput = wrapper.findComponent({ name: 'TraceIaJustificationTextarea' })
+      const iaJustificationInput = getIaJustificationInput()
       await vi.waitFor(() => {
         expect(iaJustificationInput.props('errorMessage')).toBe('Required field')
       })

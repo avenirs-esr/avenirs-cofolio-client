@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
+import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -8,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 interface UpdateStepProps {
   trace: TraceDetailDTO
   associations: TraceAssociationsDTO
+  form: UpdateTraceFormApi
 }
 
 defineProps<UpdateStepProps>()
@@ -29,6 +31,7 @@ const activeTab = ref(0)
       >
         <UpdateTraceForm
           :trace="trace"
+          :form="form"
         />
       </AvTab>
       <AvTab

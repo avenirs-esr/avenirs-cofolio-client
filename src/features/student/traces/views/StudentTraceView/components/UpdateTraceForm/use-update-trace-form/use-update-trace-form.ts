@@ -3,8 +3,8 @@ import type { TraceFormData } from '@/features/student/traces/types/traces.types
 import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { useTraceAttachmentFile, useTraceFileValidation } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
-import { TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
+import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
+import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
 import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
@@ -19,8 +19,8 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { setUpdateTraceForm, setUpdateTraceFormModified } = useTracesStore()
-  const { validateMaxLength } = useFormValidators()
-  const { validateFile } = useTraceFileValidation()
+  const { buildValidators } = useTraceFormValidators()
+  const { hasFieldErrors } = useFormValidators()
   const { attachmentFile } = useTraceAttachmentFile(trace.attachment)
 
   const onUpdateTraceError = (error: BaseApiException) => {
@@ -59,25 +59,10 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
-        return {
-          fields: {
-            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
-            link: isTraceLinkType(value) ? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
-            isAuthentic: !value.isAuthentic ? t('student.traces.interactions.toggles.TraceAuthenticDeclarationToggle.requiredMessage') : undefined,
-            traceName: !value.traceName.trim() ? t('global.error.form.requiredField') : undefined,
-            iaJustification: value.useIA && (!value.iaJustification || !value.iaJustification.trim()) ? t('global.error.form.requiredField') : undefined,
-          }
-        }
+        return buildValidators(value)
       },
       onChange ({ value }: { value: TraceFormData }) {
-        return {
-          fields: {
-            traceName: validateMaxLength(value.traceName, TRACE_NAME_MAX_LENGTH),
-            personalNote: validateMaxLength(value.personalNote, TRACE_PERSONAL_NOTE_MAX_LENGTH),
-            link: isTraceLinkType(value) ? validateMaxLength(value.link, TRACE_LINK_MAX_LENGTH) : undefined,
-            file: isTraceFileType(value) ? validateFile(value.file) : undefined,
-          }
-        }
+        return buildValidators(value)
       }
     },
     onSubmit: async ({ value }: { value: TraceFormData }) => {
@@ -133,6 +118,8 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
     return state.value.isDirty && state.value.isValid && !state.value.isValidating
   })
 
+  const hasErrors = hasFieldErrors(form, ['file', 'link', 'traceName', 'personalNote', 'iaJustification', 'isAuthentic'])
+
   watch(() => form, () => {
     setUpdateTraceForm(form)
   }, { immediate: true })
@@ -143,6 +130,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
 
   return {
     form,
-    isFormValid
+    isFormValid,
+    hasErrors
   }
 }
