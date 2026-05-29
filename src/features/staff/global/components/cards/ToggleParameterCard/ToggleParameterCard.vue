@@ -7,9 +7,10 @@ export interface ToggleParameterCardProps {
   title: string
   icon: string
   disabled?: boolean
+  toggleId?: string
 }
 
-const { title, icon, disabled = false } = defineProps<ToggleParameterCardProps>()
+const { title, icon, disabled = false, toggleId } = defineProps<ToggleParameterCardProps>()
 defineSlots<{
   default?: Slot
 }>()
@@ -26,6 +27,7 @@ const model = defineModel<boolean>({ default: true })
   >
     <template #title>
       <Toggle
+        :id="toggleId"
         v-model="model"
         description=""
         :disabled="disabled"

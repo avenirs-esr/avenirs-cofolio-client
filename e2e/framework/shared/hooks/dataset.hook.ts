@@ -1,13 +1,21 @@
 import type { Page } from '@playwright/test'
+import process from 'node:process'
 import { BeforeScenario } from '@e2e/framework/shared/fixtures/fixtures'
 import { DatasetType, type UserDataset, users } from '@e2e/framework/shared/test-data/users'
 
 async function setupTokenInterception (page: Page, userDataset: UserDataset, type: DatasetType): Promise<void> {
   if (userDataset.shouldIntercept && userDataset.token) {
-    await page.setExtraHTTPHeaders({
-      [type.replace('@', 'x-')]: 'true',
-      Authorization: `Bearer ${userDataset.token}`,
-    })
+    const headers = {
+      Authorization: `Bearer ${userDataset.token}`
+    }
+
+    if (process.env.MSW_MODE_ON === 'true') {
+      Object.assign(headers, {
+        [type.replace('@', 'x-')]: 'true'
+      })
+    }
+
+    await page.setExtraHTTPHeaders(headers)
   }
 }
 
