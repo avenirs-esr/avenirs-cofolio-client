@@ -155,3 +155,19 @@ Feature: Staff Edit National Activity Page
     @high
     Scenario: The summary section is visible in the publication tab
       Then the summary section is visible
+
+    @high
+    Scenario: The publish button is visible and enabled by default
+      Then the publish button is visible and enabled
+
+    @high
+    Scenario: The staff can see the confirmation modal when clicking publish
+      When the staff clicks on the publish button
+      Then the publish confirmation modal is visible
+      And the confirm and cancel buttons are visible
+
+    @high
+    Scenario: The staff can cancel the publication
+      When the staff clicks on the publish button
+      And the staff clicks on the cancel button in the confirmation modal
+      Then the confirmation modal is closed
