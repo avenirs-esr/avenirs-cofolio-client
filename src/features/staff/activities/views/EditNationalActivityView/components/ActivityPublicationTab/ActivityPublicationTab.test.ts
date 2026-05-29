@@ -54,7 +54,7 @@ const ConfirmationModalStub = defineComponent({
   },
   emits: ['confirm', 'close'],
   template: `
-    <div data-testid="confirmation-modal" :data-show="show ? 'true' : 'false'">
+    <div data-testid="publish-confirmation-modal" :data-show="show ? 'true' : 'false'">
       <button data-testid="confirm-publication" @click="$emit('confirm')">confirm</button>
       <button data-testid="close-publication" @click="$emit('close')">close</button>
     </div>
@@ -231,7 +231,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
 
     BddTest().then('it should keep confirmation modal closed', async () => {
-      await vi.waitFor(() => expect(tab.find('[data-testid="confirmation-modal"]').attributes('data-show')).toBe('false'))
+      await vi.waitFor(() => expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show')).toBe('false'))
     })
   })
 
@@ -247,7 +247,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
 
     BddTest().then('it should open confirmation modal', async () => {
-      await vi.waitFor(() => expect(tab.find('[data-testid="confirmation-modal"]').attributes('data-show')).toBe('true'))
+      await vi.waitFor(() => expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show')).toBe('true'))
     })
   })
 
@@ -261,7 +261,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
       tab = wrapper.findComponent(ActivityPublicationTab)
 
       await tab.find('[data-testid="publish-button"]').trigger('click')
-      await vi.waitFor(() => expect(tab.find('[data-testid="confirmation-modal"]').attributes('data-show')).toBe('true'))
+      await vi.waitFor(() => expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show')).toBe('true'))
       await tab.find('[data-testid="confirm-publication"]').trigger('click')
     })
 
@@ -290,7 +290,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
       tab = wrapper.findComponent(ActivityPublicationTab)
 
       await tab.find('[data-testid="publish-button"]').trigger('click')
-      await vi.waitFor(() => expect(tab.find('[data-testid="confirmation-modal"]').attributes('data-show')).toBe('true'))
+      await vi.waitFor(() => expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show')).toBe('true'))
       await tab.find('[data-testid="confirm-publication"]').trigger('click')
     })
 

@@ -134,6 +134,7 @@ async function publishActivityDraft () {
     </div>
   </div>
   <ConfirmationModal
+    data-testid="publish-confirmation-modal"
     :show="showModal"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmTitle')"
     :description="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmDescription')"

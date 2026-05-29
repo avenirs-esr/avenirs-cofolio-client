@@ -207,4 +207,36 @@ class StaffEditNationalActivityPage extends BasePage {
   async verifyConsignFormFieldCollapsed () {
     await this.tabs().verifyActivityConsignFormFieldCollapsed()
   }
+
+  @Then('the publish button is visible and enabled')
+  async verifyPublishButtonVisibleAndEnabled () {
+    await this.tabs().verifyPublishButtonVisible()
+    await this.tabs().verifyPublishButtonEnabled()
+  }
+
+  @When('the staff clicks on the publish button')
+  async clickPublishButton () {
+    await this.tabs().clickPublishButton()
+  }
+
+  @Then('the publish confirmation modal is visible')
+  async verifyPublishConfirmationModalVisible () {
+    await this.tabs().verifyPublishConfirmationModalVisible()
+  }
+
+  @Then('the confirm and cancel buttons are visible')
+  async verifyConfirmAndCancelButtonsVisible () {
+    await this.tabs().verifyPublishConfirmButtonVisible()
+    await this.tabs().verifyPublishCancelButtonVisible()
+  }
+
+  @When('the staff clicks on the cancel button in the confirmation modal')
+  async clickPublishCancelButton () {
+    await this.tabs().clickPublishCancelButton()
+  }
+
+  @Then('the confirmation modal is closed')
+  async verifyPublishConfirmationModalClosed () {
+    await this.tabs().verifyPublishConfirmationModalNotVisible()
+  }
 }

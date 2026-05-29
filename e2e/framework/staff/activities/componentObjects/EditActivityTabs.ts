@@ -28,6 +28,22 @@ export class EditActivityTabs {
     return this.page.getByTestId('activity-summary-input')
   }
 
+  private getPublishButton () {
+    return this.page.getByTestId('publish-button')
+  }
+
+  private getPublishConfirmationModal () {
+    return this.page.getByTestId('publish-confirmation-modal')
+  }
+
+  private getPublishCancelButton () {
+    return this.page.getByTestId('publish-confirmation-modal').getByTestId('cancel-button')
+  }
+
+  private getPublishConfirmButton () {
+    return this.page.getByTestId('publish-confirmation-modal').getByTestId('confirm-button')
+  }
+
   private getContentTab () {
     return this.getTabs().getByTestId('activity-content-tab-item')
   }
@@ -152,5 +168,37 @@ export class EditActivityTabs {
 
   async verifyFeedbackMaxInputHidden () {
     await expect(this.getFeedbackMaxInputContainer()).toBeHidden()
+  }
+
+  async verifyPublishButtonVisible () {
+    await expect(this.getPublishButton()).toBeVisible()
+  }
+
+  async verifyPublishButtonEnabled () {
+    await expect(this.getPublishButton()).toBeEnabled()
+  }
+
+  async clickPublishButton () {
+    await clickOnElement(this.getPublishButton())
+  }
+
+  async verifyPublishConfirmationModalVisible () {
+    await expect(this.getPublishConfirmationModal()).toBeVisible()
+  }
+
+  async verifyPublishConfirmationModalNotVisible () {
+    await expect(this.getPublishConfirmationModal()).not.toBeVisible()
+  }
+
+  async verifyPublishConfirmButtonVisible () {
+    await expect(this.getPublishConfirmButton()).toBeVisible()
+  }
+
+  async verifyPublishCancelButtonVisible () {
+    await expect(this.getPublishCancelButton()).toBeVisible()
+  }
+
+  async clickPublishCancelButton () {
+    await clickOnElement(this.getPublishCancelButton())
   }
 }
