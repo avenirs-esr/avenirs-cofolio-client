@@ -81,4 +81,76 @@ export class EditActivityTabs {
   async verifySummarySectionVisible () {
     await expect(this.getSummarySection()).toBeVisible()
   }
+
+  private getFeedbackCard () {
+    return this.page.getByTestId('feedback-parameter-toggle')
+  }
+
+  private getFeedbackMainToggle () {
+    return this.page.getByTestId('feedback-main-toggle')
+  }
+
+  private getFeedbackMainToggleLabel () {
+    return this.page.getByTestId('feedback-main-toggle-label')
+  }
+
+  private getFeedbackInfinityToggle () {
+    return this.page.getByTestId('feedback-infinity-toggle-input')
+  }
+
+  private getFeedbackInfinityToggleLabel () {
+    return this.page.getByTestId('feedback-infinity-toggle-input-label')
+  }
+
+  private getFeedbackMaxInputContainer () {
+    return this.page.getByTestId('feedback-allowed-iterations-input')
+  }
+
+  async verifyFeedbackCardVisible () {
+    await expect(this.getFeedbackCard()).toBeVisible()
+  }
+
+  async isFeedbackEnabled (): Promise<boolean> {
+    return this.getFeedbackMainToggle().isChecked()
+  }
+
+  async ensureFeedbackEnabled () {
+    const enabled = await this.isFeedbackEnabled()
+    if (!enabled) {
+      await clickOnElement(this.getFeedbackMainToggleLabel())
+    }
+  }
+
+  async disableFeedback () {
+    const enabled = await this.isFeedbackEnabled()
+    if (enabled) {
+      await clickOnElement(this.getFeedbackMainToggleLabel())
+    }
+  }
+
+  async isInfinityFeedbackEnabled (): Promise<boolean> {
+    return this.getFeedbackInfinityToggle().isChecked()
+  }
+
+  async enableInfinityFeedback () {
+    const enabled = await this.isInfinityFeedbackEnabled()
+    if (!enabled) {
+      await clickOnElement(this.getFeedbackInfinityToggleLabel())
+    }
+  }
+
+  async disableInfinityFeedback () {
+    const enabled = await this.isInfinityFeedbackEnabled()
+    if (enabled) {
+      await clickOnElement(this.getFeedbackInfinityToggleLabel())
+    }
+  }
+
+  async verifyFeedbackMaxInputVisible () {
+    await expect(this.getFeedbackMaxInputContainer()).toBeVisible()
+  }
+
+  async verifyFeedbackMaxInputHidden () {
+    await expect(this.getFeedbackMaxInputContainer()).toBeHidden()
+  }
 }

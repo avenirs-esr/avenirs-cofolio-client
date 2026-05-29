@@ -163,6 +163,46 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyToggleVisible()
   }
 
+  @Then('the feedback request parameter is visible')
+  async verifyFeedbackRequestParameterVisible () {
+    await this.tabs().verifyFeedbackCardVisible()
+  }
+
+  @When('the staff ensures the feedback request is enabled')
+  async ensureFeedbackRequestEnabled () {
+    await this.tabs().ensureFeedbackEnabled()
+  }
+
+  @When('the staff disables the feedback request')
+  async disableFeedbackRequest () {
+    await this.tabs().disableFeedback()
+  }
+
+  @When('the staff ensures unlimited feedback interactions is disabled')
+  async ensureUnlimitedFeedbackInteractionsDisabled () {
+    await this.tabs().disableInfinityFeedback()
+  }
+
+  @When('the staff enables unlimited feedback interactions')
+  async enableUnlimitedFeedbackInteractions () {
+    await this.tabs().enableInfinityFeedback()
+  }
+
+  @When('the staff disables unlimited feedback interactions')
+  async disableUnlimitedFeedbackInteractions () {
+    await this.tabs().disableInfinityFeedback()
+  }
+
+  @Then('the feedback max iterations input is visible')
+  async verifyFeedbackMaxIterationsInputVisible () {
+    await this.tabs().verifyFeedbackMaxInputVisible()
+  }
+
+  @Then('the feedback max iterations input is hidden')
+  async verifyFeedbackMaxIterationsInputHidden () {
+    await this.tabs().verifyFeedbackMaxInputHidden()
+  }
+
   @Then('the consign section is collapsed by default')
   async verifyConsignFormFieldCollapsed () {
     await this.tabs().verifyActivityConsignFormFieldCollapsed()

@@ -69,6 +69,8 @@ const inputEnabled = computed({
     <template #default="{ field }">
       <ToggleParameterCard
         v-model="inputEnabled"
+        data-testid="feedback-parameter-toggle"
+        toggle-id="feedback-main-toggle"
         :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
         :icon="MDI_ICONS.CHAT_BUBBLE_OUTLINE"
       >
@@ -76,12 +78,14 @@ const inputEnabled = computed({
           <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description') }}</span>
           <Toggle
             v-if="inputEnabled"
+            id="feedback-infinity-toggle-input"
             v-model="infinityAllowed"
             :description="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.infinityToggleLabel')"
           />
           <Input
             v-if="!infinityAllowed && inputEnabled"
             v-bind="$attrs"
+            data-testid="feedback-allowed-iterations-input"
             type="number"
             :label="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.label')"
             label-visible

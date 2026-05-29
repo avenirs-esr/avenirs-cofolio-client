@@ -116,7 +116,33 @@ Feature: Staff Edit National Activity Page
     @high
     Scenario: the consign section is collapsed by default in the content tab
       Then the consign section is collapsed by default
-    
+
+  Rule: Content tab feedback interactions
+
+    Background:
+      Given the staff ensures the feedback request is enabled
+
+    @high
+    Scenario: The feedback max iterations input is visible when feedback is enabled
+      And the staff ensures unlimited feedback interactions is disabled
+      Then the feedback max iterations input is visible
+
+    @high
+    Scenario: Disabling feedback request hides the max iterations input
+      When the staff disables the feedback request
+      Then the feedback max iterations input is hidden
+
+    @high
+    Scenario: Allowing unlimited feedback interactions hides the max iterations input
+      And the staff ensures unlimited feedback interactions is disabled
+      And the staff enables unlimited feedback interactions
+      Then the feedback max iterations input is hidden
+
+    @high
+    Scenario: Disabling unlimited feedback interactions shows the max iterations input
+      And the staff enables unlimited feedback interactions
+      And the staff disables unlimited feedback interactions
+      Then the feedback max iterations input is visible
 
   Rule: Publication tab elements
     Background:
