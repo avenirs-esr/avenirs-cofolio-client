@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
-import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
@@ -101,7 +101,7 @@ const traceFileUploadLabel = computed(() => {
           :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
           disabled
         />
-        <TraceIaJustificationTextarea
+        <TraceAiJustificationTextarea
           v-if="trace.aiUseJustification"
           :model-value="trace.aiUseJustification"
           :label-visible="false"

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
+import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
 import { markRaw } from 'vue'
 
-interface TraceIaJustificationTextareaFormFieldProps {
+interface TraceAiJustificationTextareaFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm
   showAiJustification: boolean
   labelVisible?: boolean
 }
 
-const { form } = defineProps<TraceIaJustificationTextareaFormFieldProps>()
+const { form } = defineProps<TraceAiJustificationTextareaFormFieldProps>()
 const FormField = markRaw(form.Field)
 </script>
 
@@ -19,7 +19,7 @@ const FormField = markRaw(form.Field)
     name="iaJustification"
   >
     <template #default="{ field }">
-      <TraceIaJustificationTextarea
+      <TraceAiJustificationTextarea
         id="ia-justification"
         v-model="field.state.value"
         :error-message="field.state.meta.errors.join(', ')"

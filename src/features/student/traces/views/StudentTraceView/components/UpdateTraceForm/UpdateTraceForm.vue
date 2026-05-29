@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import { useDateUtils } from '@/common/composables'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
@@ -15,10 +16,12 @@ import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTrace
 import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
-const { trace } = defineProps<UpdateTraceFormProps>()
 interface UpdateTraceFormProps {
   trace: TraceDetailDTO
+  form?: UpdateTraceFormType
 }
+
+const { trace, form: injectedForm } = defineProps<UpdateTraceFormProps>()
 
 const { addSuccessMessage } = useToasterStore()
 const { hideUpdateTraceModal } = useTracesStore()
@@ -33,7 +36,7 @@ function onTraceUpdated () {
   hideUpdateTraceModal()
 }
 
-const { form } = useUpdateTraceForm(trace, onTraceUpdated)
+const form = injectedForm ?? useUpdateTraceForm(trace, onTraceUpdated).form
 const { formatTranslatedDateTime } = useDateUtils()
 
 const useIAField = form.useField({ name: 'useIA' })

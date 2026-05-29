@@ -4,7 +4,7 @@ import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface TraceIaJustificationTextareaProps extends Omit<AvInputProps, 'label' | 'placeholder' | 'modelValue' | 'maxlength' | 'isTextarea'> {
+interface TraceAiJustificationTextareaProps extends Omit<AvInputProps, 'label' | 'placeholder' | 'modelValue' | 'maxlength' | 'isTextarea'> {
   label?: string
   placeholder?: string
   maxlength?: number
@@ -21,7 +21,7 @@ const {
   label,
   placeholder,
   errorMessage,
-} = defineProps<TraceIaJustificationTextareaProps>()
+} = defineProps<TraceAiJustificationTextareaProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
@@ -36,13 +36,13 @@ const avInputProps = computed(() => ({
   required,
   maxlength,
   errorMessage,
-  label: label ?? t('student.traces.interactions.inputs.TraceIaJustificationTextarea.label'),
-  placeholder: placeholder ?? t('student.traces.interactions.inputs.TraceIaJustificationTextarea.placeholder')
+  label: label ?? t('student.traces.interactions.inputs.TraceAiJustificationTextarea.label'),
+  placeholder: placeholder ?? t('student.traces.interactions.inputs.TraceAiJustificationTextarea.placeholder')
 }))
 </script>
 
 <template>
-  <div class="trace-ia-justification-textarea">
+  <div class="trace-ai-justification-textarea">
     <AvInput
       v-bind="avInputProps"
       v-model="modelValue"

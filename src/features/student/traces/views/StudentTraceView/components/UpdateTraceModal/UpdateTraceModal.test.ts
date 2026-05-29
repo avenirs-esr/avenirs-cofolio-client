@@ -55,7 +55,7 @@ BddTest().given('an update trace modal', () => {
     },
     UpdateStep: {
       name: 'UpdateStep',
-      props: ['trace', 'associations'],
+      props: ['trace', 'associations', 'form'],
       template: '<div class="update-step" />'
     },
     ConfirmationModal: ConfirmationModalStub

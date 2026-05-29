@@ -32,7 +32,7 @@
             "addedOn": "Ajouté le {date}",
             "documentLabel": "Mon document chargé"
           },
-          "TraceIaJustificationTextarea": {
+          "TraceAiJustificationTextarea": {
             "label": "Justification de l'usage de l'IA",
             "placeholder": "Décrivez comment et pourquoi vous avez utilisé l'IA..."
           },

@@ -1,4 +1,4 @@
-import TraceIaJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceIaJustificationTextarea/TraceIaJustificationTextarea.vue'
+import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH } from '@/features/student/traces/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -39,10 +39,10 @@ const stubs = {
 }
 
 BddTest().given('a trace ia justification textarea component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof TraceIaJustificationTextarea>>
+  let wrapper: VueWrapper<InstanceType<typeof TraceAiJustificationTextarea>>
 
   beforeEach(() => {
-    wrapper = mount(TraceIaJustificationTextarea, {
+    wrapper = mount(TraceAiJustificationTextarea, {
       global: {
         stubs
       }
@@ -73,7 +73,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('custom label is provided', () => {
     BddTest().then('it should use the custom label', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           label: 'Custom Label'
         },
@@ -90,7 +90,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('custom placeholder is provided', () => {
     BddTest().then('it should use the custom placeholder', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           placeholder: 'Custom placeholder text'
         },
@@ -107,7 +107,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('custom maxlength is provided', () => {
     BddTest().then('it should use the custom maxlength', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           maxlength: 500
         },
@@ -124,7 +124,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('the component is disabled', () => {
     BddTest().then('it should pass disabled state to AvInput', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           disabled: true
         },
@@ -141,7 +141,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('the component is required', () => {
     BddTest().then('it should pass required state to AvInput', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           required: true
         },
@@ -158,7 +158,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('labelVisible is false', () => {
     BddTest().then('it should hide the label', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           labelVisible: false
         },
@@ -175,7 +175,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('isValid is true', () => {
     BddTest().then('it should pass valid state to AvInput', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           isValid: true
         },
@@ -200,7 +200,7 @@ BddTest().given('a trace ia justification textarea component', () => {
     })
 
     BddTest().then('it should update the character count hint', async () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           modelValue: 'Some text here'
         },
@@ -219,7 +219,7 @@ BddTest().given('a trace ia justification textarea component', () => {
     BddTest().then('it should pass the value to AvInput', () => {
       const testValue = 'This is a test justification for AI usage'
 
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           modelValue: testValue
         },
@@ -236,7 +236,7 @@ BddTest().given('a trace ia justification textarea component', () => {
 
   BddTest().when('errorMessage is provided', () => {
     BddTest().then('it should pass the error message to AvInput', () => {
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           errorMessage: 'Ce champ est requis'
         },
@@ -255,7 +255,7 @@ BddTest().given('a trace ia justification textarea component', () => {
     BddTest().then('it should display the correct count in hint', () => {
       const maxText = 'a'.repeat(TRACE_IA_JUSTIFICATION_MAX_LENGTH)
 
-      wrapper = mount(TraceIaJustificationTextarea, {
+      wrapper = mount(TraceAiJustificationTextarea, {
         props: {
           modelValue: maxText
         },
