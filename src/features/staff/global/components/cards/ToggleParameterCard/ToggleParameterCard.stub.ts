@@ -1,18 +1,16 @@
-import type { PropType } from 'vue'
-
 export const ToggleParameterCardStub = defineComponent({
   name: 'ToggleParameterCard',
   props: {
     title: {
-      type: String as PropType<string>,
+      type: String,
       required: true,
     },
     icon: {
-      type: String as PropType<string>,
+      type: String,
       required: true,
     },
     disabled: {
-      type: Boolean as PropType<boolean>,
+      type: Boolean,
       default: false,
     },
   },

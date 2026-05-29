@@ -44,19 +44,13 @@ const { t } = useI18n()
     >
       <div class="av-row--md av-justify-between--md av-gap-xl">
         <div class="av-col av-gap-sm">
-          <h4
-            class="n4"
-            data-testid="national-activity-content-tab-consign-title"
-          >
+          <h4 data-testid="national-activity-content-tab-consign-title">
             {{ t('staff.activities.interactions.formFields.ActivityConsignFormField.label') }}
           </h4>
           <ActivityDescriptionContent :description="activity.description" />
         </div>
         <div class="av-col av-gap-sm">
-          <h4
-            class="n4"
-            data-testid="national-activity-content-tab-context-title"
-          >
+          <h4 data-testid="national-activity-content-tab-context-title">
             {{ t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label') }}
           </h4>
           <ActivityExecutionPeriodList :execution-period-info="activity.executionPeriodInfo" />

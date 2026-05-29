@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { EnabledDisabledStatusBadgeStub } from '@/common/components/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.stub'
 import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
@@ -19,6 +20,7 @@ BddTest().given('a national activity setting details component', () => {
   const stubs = {
     FormFieldCardContainer: FormFieldCardContainerStub,
     AvBadge: AvBadgeStub,
+    EnabledDisabledStatusBadge: EnabledDisabledStatusBadgeStub,
   }
 
   const mountWith = (activity = mockedActivityContent) => {
@@ -28,11 +30,11 @@ BddTest().given('a national activity setting details component', () => {
     })
   }
 
-  const findBadgeIn = (testid: string) =>
-    wrapper.find(`[data-testid="${testid}"]`).findComponent(AvBadgeStub)
+  const findEnabledDisabledStatusBadgeIn = (testid: string) =>
+    wrapper.find(`[data-testid="${testid}"]`).findComponent(EnabledDisabledStatusBadgeStub)
 
-  const findBadgesIn = (testid: string) =>
-    wrapper.find(`[data-testid="${testid}"]`).findAllComponents(AvBadgeStub)
+  const findIterationsBadgeIn = (testid: string) =>
+    wrapper.find(`[data-testid="${testid}"]`).findComponent(AvBadgeStub)
 
   const findCardIn = (testid: string) =>
     wrapper.find(`[data-testid="${testid}"]`).findComponent(FormFieldCardContainerStub)
@@ -80,12 +82,10 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, enableReflection: false })
     })
 
-    BddTest().then('it should display a disabled badge for reflection', () => {
-      const badge = findBadgeIn('national-activity-setting-details-reflection')
-      expect(badge.props('label')).toBe('Désactivée')
-      expect(badge.props('color')).toBe('var(--light-foreground-error)')
-      expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
-      expect(badge.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE)
+    BddTest().then('it should display a disabled enabled status badge for reflection', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-reflection')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(false)
     })
   })
 
@@ -94,12 +94,10 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, enableReflection: true })
     })
 
-    BddTest().then('it should display an enabled badge for reflection', () => {
-      const badge = findBadgeIn('national-activity-setting-details-reflection')
-      expect(badge.props('label')).toBe('Activée')
-      expect(badge.props('color')).toBe('var(--light-foreground-success)')
-      expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
-      expect(badge.props('icon')).toBe(MDI_ICONS.CHECK_CIRCLE)
+    BddTest().then('it should display an enabled status badge for reflection', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-reflection')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(true)
     })
   })
 
@@ -108,11 +106,10 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, traceAllowedAssociations: ACTIVITY_TRACE_SETTING_DISABLED_VALUE })
     })
 
-    BddTest().then('it should display a disabled badge for trace association', () => {
-      const badge = findBadgeIn('national-activity-setting-details-trace')
-      expect(badge.props('label')).toBe('Désactivée')
-      expect(badge.props('color')).toBe('var(--light-foreground-error)')
-      expect(badge.props('backgroundColor')).toBe('var(--light-background-error)')
+    BddTest().then('it should display a disabled enabled status badge for trace association', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-trace')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(false)
     })
   })
 
@@ -121,11 +118,10 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, traceAllowedAssociations: 5 })
     })
 
-    BddTest().then('it should display an enabled badge for trace association', () => {
-      const badge = findBadgeIn('national-activity-setting-details-trace')
-      expect(badge.props('label')).toBe('Activée')
-      expect(badge.props('color')).toBe('var(--light-foreground-success)')
-      expect(badge.props('backgroundColor')).toBe('var(--light-background-success)')
+    BddTest().then('it should display an enabled status badge for trace association', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-trace')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(true)
     })
   })
 
@@ -134,12 +130,15 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED })
     })
 
-    BddTest().then('it should display only a disabled badge for feedback', () => {
-      const badges = findBadgesIn('national-activity-setting-details-feedback')
-      expect(badges).toHaveLength(1)
-      expect(badges[0].props('label')).toBe('Désactivée')
-      expect(badges[0].props('color')).toBe('var(--light-foreground-error)')
-      expect(badges[0].props('backgroundColor')).toBe('var(--light-background-error)')
+    BddTest().then('it should display a disabled enabled status badge for feedback', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-feedback')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(false)
+    })
+
+    BddTest().then('it should not display an iterations badge', () => {
+      const iterationsBadge = findIterationsBadgeIn('national-activity-setting-details-feedback')
+      expect(iterationsBadge.exists()).toBe(false)
     })
   })
 
@@ -148,20 +147,19 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, feedbackAllowedIterations: 3 })
     })
 
-    BddTest().then('it should display an enabled badge for feedback', () => {
-      const badges = findBadgesIn('national-activity-setting-details-feedback')
-      expect(badges).toHaveLength(2)
-      expect(badges[0].props('label')).toBe('Activée')
-      expect(badges[0].props('color')).toBe('var(--light-foreground-success)')
-      expect(badges[0].props('backgroundColor')).toBe('var(--light-background-success)')
+    BddTest().then('it should display an enabled status badge for feedback', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-feedback')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(true)
     })
 
     BddTest().then('it should display the iterations count badge', () => {
-      const badges = findBadgesIn('national-activity-setting-details-feedback')
-      expect(badges[1].props('label')).toBe('3 itérations')
-      expect(badges[1].props('color')).toBe('var(--light-foreground-neutral)')
-      expect(badges[1].props('backgroundColor')).toBe('var(--light-background-neutral)')
-      expect(badges[1].props('icon')).toBe(MDI_ICONS.CHAT_BUBBLE_OUTLINE)
+      const iterationsBadge = findIterationsBadgeIn('national-activity-setting-details-feedback')
+      expect(iterationsBadge.exists()).toBe(true)
+      expect(iterationsBadge.props('label')).toBe('3 itérations')
+      expect(iterationsBadge.props('color')).toBe('var(--light-foreground-neutral)')
+      expect(iterationsBadge.props('backgroundColor')).toBe('var(--light-background-neutral)')
+      expect(iterationsBadge.props('icon')).toBe(MDI_ICONS.CHAT_BUBBLE_OUTLINE)
     })
   })
 
@@ -170,17 +168,18 @@ BddTest().given('a national activity setting details component', () => {
       mountWith({ ...mockedActivityContent, feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY })
     })
 
-    BddTest().then('it should display an enabled badge for feedback', () => {
-      const badges = findBadgesIn('national-activity-setting-details-feedback')
-      expect(badges).toHaveLength(2)
-      expect(badges[0].props('label')).toBe('Activée')
+    BddTest().then('it should display an enabled status badge for feedback', () => {
+      const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-feedback')
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('enabled')).toBe(true)
     })
 
     BddTest().then('it should display the unlimited iterations badge', () => {
-      const badges = findBadgesIn('national-activity-setting-details-feedback')
-      expect(badges[1].props('label')).toBe('Itérations illimitées')
-      expect(badges[1].props('color')).toBe('var(--light-foreground-neutral)')
-      expect(badges[1].props('backgroundColor')).toBe('var(--light-background-neutral)')
+      const iterationsBadge = findIterationsBadgeIn('national-activity-setting-details-feedback')
+      expect(iterationsBadge.exists()).toBe(true)
+      expect(iterationsBadge.props('label')).toBe('Itérations illimitées')
+      expect(iterationsBadge.props('color')).toBe('var(--light-foreground-neutral)')
+      expect(iterationsBadge.props('backgroundColor')).toBe('var(--light-background-neutral)')
     })
   })
 })
