@@ -148,6 +148,11 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyContextSectionVisible()
   }
 
+  @Then('the summary section is visible')
+  async verifySummarySectionVisible () {
+    await this.tabs().verifySummarySectionVisible()
+  }
+
   @Then('the reflection parameter is visible')
   async verifyReflectionParameterVisible () {
     await this.tabs().verifyReflectionToggleVisible()

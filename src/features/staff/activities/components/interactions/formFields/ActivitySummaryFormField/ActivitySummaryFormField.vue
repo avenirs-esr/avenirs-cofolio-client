@@ -45,6 +45,7 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
   >
     <template #default="{ field }">
       <Input
+        data-testid="activity-summary-input"
         :model-value="field.state.value"
         :maxlength="ACTIVITY_SUMMARY_MAX_LENGTH"
         :placeholder="t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.placeholder')"

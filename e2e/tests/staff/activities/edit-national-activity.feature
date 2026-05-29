@@ -125,3 +125,7 @@ Feature: Staff Edit National Activity Page
     @high
     Scenario: The context of realization section is visible in the publication tab
       Then the context of realization section is visible
+
+    @high
+    Scenario: The summary section is visible in the publication tab
+      Then the summary section is visible
