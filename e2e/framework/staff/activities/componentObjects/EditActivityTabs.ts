@@ -21,7 +21,11 @@ export class EditActivityTabs {
   }
 
   private getContextSection () {
-    return this.page.getByTestId('activity-execution-period-form-field')
+    return this.page.getByTestId('activity-execution-period-input')
+  }
+
+  private getSummarySection () {
+    return this.page.getByTestId('activity-summary-input')
   }
 
   private getContentTab () {
@@ -72,5 +76,9 @@ export class EditActivityTabs {
 
   async verifyContextSectionVisible () {
     await expect(this.getContextSection()).toBeVisible()
+  }
+
+  async verifySummarySectionVisible () {
+    await expect(this.getSummarySection()).toBeVisible()
   }
 }
