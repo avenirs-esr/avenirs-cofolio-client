@@ -38,8 +38,8 @@ BddTest().given('ActivityTitleInput component', () => {
       expect(inputStub.props('label')).toBe('Titre de l\'activité')
     })
 
-    BddTest().then('it should set labelVisible to true', () => {
-      expect(inputStub.props('labelVisible')).toBe(true)
+    BddTest().then('it should set labelVisible to false', () => {
+      expect(inputStub.props('labelVisible')).toBe(false)
     })
 
     BddTest().then('it should set required to true', () => {
@@ -121,16 +121,16 @@ BddTest().given('ActivityTitleInput component', () => {
     })
   })
 
-  BddTest().when('mounted with labelVisible set to false', () => {
+  BddTest().when('mounted with labelVisible set to true', () => {
     beforeEach(() => {
       wrapper = mount(ActivityTitleInput, {
-        props: { labelVisible: false },
+        props: { labelVisible: true },
         global: { stubs },
       })
     })
 
-    BddTest().then('it should pass labelVisible false to Input', () => {
-      expect(wrapper.findComponent(InputStub).props('labelVisible')).toBe(false)
+    BddTest().then('it should pass labelVisible true to Input', () => {
+      expect(wrapper.findComponent(InputStub).props('labelVisible')).toBe(true)
     })
   })
 
