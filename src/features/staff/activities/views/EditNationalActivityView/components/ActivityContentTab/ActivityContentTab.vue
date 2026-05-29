@@ -39,20 +39,24 @@ const isFormDirty = form.useStore(state => state.isDirty)
   >
     <div :id="ContentSectionId.TITLE">
       <FormFieldCardContainer
-        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.TITLE')"
+        :title="`${t('staff.activities.interactions.inputs.ActivityTitleInput.label')} *`"
         :title-icon="ICONS.ACTIVITY"
       >
-        <ActivityTitleFormField :form="form" />
+        <ActivityTitleFormField
+          :form="form"
+          @autosave="save"
+        />
       </FormFieldCardContainer>
     </div>
 
     <div :id="ContentSectionId.THEMATIC">
       <FormFieldCardContainer
-        :title="t('staff.activities.interactions.inputs.ThematicSelect.label')"
+        :title="`${t('staff.activities.interactions.inputs.ThematicSelect.label')} *`"
         :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
       >
         <ThematicSelectFormField
           :form="form"
+          @autosave="save"
         />
       </FormFieldCardContainer>
     </div>

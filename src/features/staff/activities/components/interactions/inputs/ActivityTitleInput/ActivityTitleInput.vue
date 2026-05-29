@@ -8,7 +8,7 @@ type ActivityTitleInputProps = Omit<InputProps, 'maxlength'>
 
 const {
   isTextarea = false,
-  labelVisible = true,
+  labelVisible = false,
   required = true,
   id,
   label,
@@ -26,7 +26,7 @@ const inputProps = computed(() => ({
   errorMessage,
   class: isTextarea ? 'n4' : undefined,
   labelClass: isTextarea ? 's1-regular' : 'b2-light',
-  labelVisible: isTextarea ? false : labelVisible,
+  labelVisible,
   maxlength: ACTIVITY_TITLE_MAX_LENGTH,
   id: id ?? `activity-title-input-${crypto.randomUUID()}`,
   label: label ?? t('staff.activities.interactions.inputs.ActivityTitleInput.label'),

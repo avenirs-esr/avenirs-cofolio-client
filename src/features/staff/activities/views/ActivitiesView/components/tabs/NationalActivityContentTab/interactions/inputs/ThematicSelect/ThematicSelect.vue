@@ -23,6 +23,7 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   placeholder: t('staff.activities.interactions.inputs.ThematicSelect.placeholder',),
   prefixIcon: MDI_ICONS.BOOK_OPEN_VARIANT,
   options: options.value,
+  required: true,
 }))
 </script>
 

@@ -84,7 +84,7 @@ async function publishActivityDraft () {
   >
     <div :id="PublicationSectionId.ACTIVITY_TITLE">
       <FormFieldCardContainer
-        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.TITLE')"
+        :title="`${t('staff.activities.interactions.inputs.ActivityTitleInput.label')} *`"
         :title-icon="ICONS.ACTIVITY"
       >
         <ActivityTitleFormField
