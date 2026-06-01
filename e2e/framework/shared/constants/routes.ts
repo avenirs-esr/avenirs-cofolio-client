@@ -2,6 +2,7 @@ export const STAFF_ROUTES = {
   HOME: '/cofolio/staff',
   ACTIVITIES: '/cofolio/staff/activities',
   ACTIVITIES_EDIT_NATIONAL_ACTIVITY: '/cofolio/staff/activities/:id/edit',
+  ACTIVITY_CATALOG: '/cofolio/staff/activities/:status/:id',
 }
 
 export const STUDENT_ROUTES = {
