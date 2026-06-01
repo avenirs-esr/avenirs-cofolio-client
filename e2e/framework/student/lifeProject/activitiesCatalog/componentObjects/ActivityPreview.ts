@@ -61,7 +61,7 @@ export class ActivityPreview extends BaseObject {
 
   async verifyBanner () {
     await expect(this.getBanner()).toBeVisible()
-    await expect(this.getBanner()).toHaveAttribute('alt', /./)
+    await expect(this.getBanner()).toHaveAttribute('src', /./)
   }
 
   async verifyTitle () {
