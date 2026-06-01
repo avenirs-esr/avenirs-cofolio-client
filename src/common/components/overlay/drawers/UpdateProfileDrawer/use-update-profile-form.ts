@@ -15,6 +15,7 @@ import { useI18n } from 'vue-i18n'
 
 interface UseUpdateProfileFormData extends Omit<ProfileOverviewDTO, 'bio'> {
   bio?: string
+  hasPicturesChanged?: boolean
 }
 
 export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, profile: EUserCategory, onSuccess: () => void) {
@@ -28,6 +29,10 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
 
   const coverPictureFile = ref<File | null>(null)
   const profilePictureFile = ref<File | null>(null)
+  const defaultValues: UseUpdateProfileFormData = {
+    ...initialData,
+    hasPicturesChanged: false
+  }
 
   const validateBiography = (value?: string) => {
     if (!value) {
@@ -36,7 +41,7 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
     return value.trim().length > BIOGRAPHY_MAX_LENGTH ? t('global.overlay.drawers.UpdateProfileDrawer.identity.biography.errors.tooLong', { maxLength: BIOGRAPHY_MAX_LENGTH }) : undefined
   }
   const form = useForm({
-    defaultValues: { ...initialData },
+    defaultValues,
     validators: {
       onChange ({ value }: { value: UseUpdateProfileFormData }) {
         return {
@@ -97,10 +102,12 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
 
   function onCoverPictureUpdate (file: File | null) {
     coverPictureFile.value = file
+    form.setFieldValue('hasPicturesChanged', !!coverPictureFile.value || !!profilePictureFile.value)
   }
 
   function onProfilePictureUpdate (file: File | null) {
     profilePictureFile.value = file
+    form.setFieldValue('hasPicturesChanged', !!coverPictureFile.value || !!profilePictureFile.value)
   }
 
   const isPending = computed(() =>
@@ -129,7 +136,7 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
   })
 
   function resetForm () {
-    form.reset(initialData)
+    form.reset(defaultValues)
     coverPictureFile.value = null
     profilePictureFile.value = null
   }

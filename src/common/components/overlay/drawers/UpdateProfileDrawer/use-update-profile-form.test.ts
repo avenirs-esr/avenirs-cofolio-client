@@ -114,7 +114,10 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
   BddTest().when('the composable is mounted', () => {
     BddTest().then('it should expose initial form values', () => {
-      expect(result.form.state.values).toEqual(initialData)
+      expect(result.form.state.values).toEqual({
+        ...initialData,
+        hasPicturesChanged: false,
+      })
     })
 
     BddTest().then('isModified should be false', () => {
@@ -127,6 +130,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       const file = new File(['cover'], 'cover.jpg', { type: 'image/jpeg' })
       result.onCoverPictureUpdate(file)
       expect(result.isModified.value).toBe(true)
+      expect(result.form.state.values.hasPicturesChanged).toBe(true)
 
       const newCoverUrl = 'https://example.com/new-cover.jpg'
       result.onUpdateProfileCoverSuccess(newCoverUrl)
@@ -139,6 +143,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       const file = new File(['profile'], 'profile.jpg', { type: 'image/jpeg' })
       result.onProfilePictureUpdate(file)
       expect(result.isModified.value).toBe(true)
+      expect(result.form.state.values.hasPicturesChanged).toBe(true)
 
       const newPhotoUrl = 'https://example.com/new-photo.jpg'
       result.onUpdateProfilePhotoSuccess(newPhotoUrl)
@@ -160,7 +165,10 @@ BddTest().given('a useUpdateProfileForm composable', () => {
       result.onCoverPictureUpdate(new File(['a'], 'a.jpg'))
       result.onProfilePictureUpdate(new File(['b'], 'b.jpg'))
       result.resetForm()
-      expect(result.form.state.values).toEqual(initialData)
+      expect(result.form.state.values).toEqual({
+        ...initialData,
+        hasPicturesChanged: false,
+      })
       expect(result.isModified.value).toBe(false)
     })
   })
