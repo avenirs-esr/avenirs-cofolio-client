@@ -2098,8 +2098,6 @@
         "tags": [
           "file-controller"
         ],
-        "summary": "Download a file",
-        "description": "Retrieves the binary content of a specific file.",
         "operationId": "downloadFile",
         "parameters": [
           {
@@ -2114,20 +2112,9 @@
         ],
         "responses": {
           "200": {
-            "description": "File downloaded successfully",
+            "description": "OK",
             "content": {
               "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "File not found",
-            "content": {
-              "*/*": {
                 "schema": {
                   "type": "string",
                   "format": "byte"
@@ -3056,29 +3043,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseActivityOverviewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/health/seeding": {
-      "get": {
-        "tags": [
-          "seeding-health-indicator"
-        ],
-        "operationId": "health",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "object"
-                  }
                 }
               }
             }
@@ -4206,14 +4170,14 @@
         },
         "required": [
           "createdAt",
+          "enableReflection",
+          "feedbackAllowedIterations",
           "id",
           "summary",
           "thematic",
           "title",
-          "updatedAt",
           "traceAllowedAssociations",
-          "feedbackAllowedIterations",
-          "enableReflection"
+          "updatedAt"
         ]
       },
       "DeclaredActivityDetailsDTO": {
@@ -6306,13 +6270,6 @@
           "PROFILE"
         ]
       },
-      "EExternalSource": {
-        "type": "string",
-        "description": "Enum for external source",
-        "enum": [
-          "PEGASE"
-        ]
-      },
       "EUserCategory": {
         "type": "string",
         "description": "Enum for user category",
@@ -6513,6 +6470,23 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "EExternalSource": {
+        "type": "string",
+        "description": "Enum for external source",
+        "enum": [
+          "PEGASE"
+        ]
+      },
+      "EUserCategory1": {
+        "type": "string",
+        "description": "Enum for external user status",
+        "enum": [
+          "ACTIVE",
+          "INACTIVE",
+          "REMOVED",
+          "BLOCKED"
         ]
       }
     }
