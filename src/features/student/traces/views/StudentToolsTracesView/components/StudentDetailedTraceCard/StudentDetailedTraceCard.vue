@@ -30,7 +30,7 @@ const iconOptions = {
   <RouterLink
     v-bind="$attrs"
     class="student-detailed-trace-card"
-    :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id } }"
+    :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id } }"
   >
     <FloatingIconCard
       :title="title"

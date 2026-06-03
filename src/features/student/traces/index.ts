@@ -10,7 +10,7 @@ export { default as TracesSelector } from '@/features/student/traces/components/
 
 export type { UseTracesViewQueryParams } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 
-export { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
+export { studentToolsTraceRoute, studentToolsTracesRoute } from '@/features/student/traces/routes'
 
 export { useTracesStore } from '@/features/student/traces/stores/traces.store'
 

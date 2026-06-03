@@ -46,10 +46,10 @@ BddTest().given('a student detailed skill card with valid props', () => {
       expect(floatingIconCard.exists()).toBe(true)
     })
 
-    BddTest().then('it should use the default student-skill route when to prop is not provided', () => {
+    BddTest().then('it should use the default student-education-skill route when to prop is not provided', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
       expect(routerLink.props('to')).toEqual({
-        name: 'student-skill',
+        name: 'student-education-skill',
         params: { id: props.id }
       })
     })

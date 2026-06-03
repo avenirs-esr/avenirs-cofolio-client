@@ -6,6 +6,6 @@ export { default as StudentSkillCard } from '@/features/student/skills/component
 
 export { default as StudentSkillsWidget } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.vue'
 
-export { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
+export { studentEducationSkillRoute, studentEducationSkillsRoute, studentProjectSkillsRoute } from '@/features/student/skills/routes'
 
 export { StudentProgressViewSortableFields } from '@/features/student/skills/types/student-progress.types'

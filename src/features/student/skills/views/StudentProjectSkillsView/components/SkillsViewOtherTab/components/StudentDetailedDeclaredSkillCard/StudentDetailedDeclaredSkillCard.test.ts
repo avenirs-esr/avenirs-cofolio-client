@@ -39,7 +39,7 @@ BddTest().given('a student detailed declared skill card', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should pass the correct props to StudentDetailedSkillCard', () => {
+    BddTest().then('it should pass the correct props to StudentDetailedSkillCard including project declared skill route', () => {
       const card = wrapper.findComponent({ name: 'StudentDetailedSkillCard' })
       expect(card.exists()).toBe(true)
       expect(card.props('id')).toBe(mockSkill.id)
@@ -47,7 +47,7 @@ BddTest().given('a student detailed declared skill card', () => {
       expect(card.props('icon')).toBe('mdi:stars')
       expect(card.props('skillColor')).toBe('var(--dark-background-primary1)')
       expect(card.props('color')).toBe('var(--card2)')
-      expect(card.props('to')).toBe('student-declared-skill')
+      expect(card.props('to')).toBe('student-project-declared-skill')
     })
 
     BddTest().then('it should render the type badge with correct label', () => {

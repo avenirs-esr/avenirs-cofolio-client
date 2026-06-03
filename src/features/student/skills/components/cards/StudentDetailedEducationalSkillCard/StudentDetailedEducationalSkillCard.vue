@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ComputedRef } from 'vue'
 import { ESkillLevelStatus, type SkillDTO, type SkillLevelViewDTO } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
 import StudentLastCompletedLevelBadge from '@/features/student/skills/components/badges/StudentLastCompletedLevelBadge/StudentLastCompletedLevelBadge.vue'
 import StudentSkillLevelStatusBadge from '@/features/student/skills/components/badges/StudentSkillLevelStatusBadge/StudentSkillLevelStatusBadge.vue'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
@@ -13,6 +14,10 @@ export interface StudentDetailedEducationalSkillCardProps {
 
 const { skill, skillColor } = defineProps<StudentDetailedEducationalSkillCardProps>()
 const { levelCount, currentSkillLevel } = skill
+
+const route = useRoute()
+const isEducationSkillsRoute = computed(() => route.name === ROUTES.STUDENT.EDUCATION_SKILLS.name)
+const to = computed(() => isEducationSkillsRoute.value ? ROUTES.STUDENT.EDUCATION_SKILL.name : ROUTES.STUDENT.PROJECT_SKILL.name)
 
 const showLevelBadge = computed((): boolean => {
   const badgeVisibleStatuses: ESkillLevelStatus[] = [
@@ -31,6 +36,7 @@ const lastAchievedSkillLevel: ComputedRef< SkillLevelViewDTO | undefined> = comp
     :name="skill.name"
     :skill-color="skillColor"
     :icon="MDI_ICONS.STAR_SHOOTING_OUTLINE"
+    :to="to"
     color="var(--card2)"
   >
     <div class="av-col av-gap-xxs av--mt-xs">

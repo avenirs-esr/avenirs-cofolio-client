@@ -20,14 +20,14 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const navigateToStudentSkills = vi.fn()
+const navigateToStudentEducationSkills = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentSkills,
+      navigateToStudentEducationSkills,
     }),
   }
 })
@@ -85,7 +85,7 @@ BddTest().given('a student skills widget', () => {
       })
 
       BddTest().then('it should call navigation', async () => {
-        expect(navigateToStudentSkills).toHaveBeenCalled()
+        expect(navigateToStudentEducationSkills).toHaveBeenCalled()
       })
     })
   })

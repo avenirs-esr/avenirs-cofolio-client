@@ -23,7 +23,7 @@ enum StudentUpdateDeclaredSkillViewTabs {
 }
 
 const { t } = useI18n()
-const { navigateToStudentDeclaredSkill } = useNavigation()
+const { navigateToStudentProjectDeclaredSkill } = useNavigation()
 const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
 
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
@@ -37,7 +37,7 @@ const breadcrumbLinks = computed(() => [
 ])
 
 function backToStudentDeclaredSkillViewTabs () {
-  navigateToStudentDeclaredSkill()
+  navigateToStudentProjectDeclaredSkill()
 }
 
 const isDirty = computed(() => updateInProgress.value)

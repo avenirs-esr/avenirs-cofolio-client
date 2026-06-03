@@ -77,6 +77,11 @@
       },
       "views": {
         "StudentDeclaredSkillView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Declared skill {skill}"
+            }
+          },
           "DeclaredSkillAssociateElementsDropdown": {
             "activities": "one/many activity(ies)"
           },

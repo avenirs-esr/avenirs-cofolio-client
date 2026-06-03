@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n'
 
 const { data: apiCourses, error } = useGetStudentProgressOverview()
 useBaseApiExceptionToast(error)
-const { navigateToStudentSkills } = useNavigation()
+const { navigateToStudentEducationSkills } = useNavigation()
 const { t } = useI18n()
 
 const courses = computed(() => apiCourses.value ?? [])
@@ -23,7 +23,7 @@ const maxSkillsDisplayed = computed(() => courses.value.length > 1 ? 3 : 6)
     :display-widget="courses.length > 0"
     type="main"
     data-testid="student-skills-widget"
-    @see-all-click="navigateToStudentSkills"
+    @see-all-click="navigateToStudentEducationSkills"
   >
     <div class="av-col av-gap-md">
       <StudentSkillsWidgetContainer

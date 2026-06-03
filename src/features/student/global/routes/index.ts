@@ -1,12 +1,12 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
-import { studentDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
+import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
-import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
-import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
+import { studentEducationSkillRoute, studentEducationSkillsRoute, studentProjectSkillRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
+import { studentToolsTraceRoute, studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
 const footerLegalProps: RoutePageProps = {
   breadcrumbLinksRaw: [
@@ -28,7 +28,6 @@ export default [
         props: () => footerLegalProps,
         component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
       },
-      studentDeclaredSkillRoute,
       {
         ...ROUTES.STUDENT.COOKIES,
         props: () => footerLegalProps,
@@ -38,6 +37,7 @@ export default [
         ...ROUTES.STUDENT.DELIVERABLES,
         component: () => import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
       },
+      studentEducationSkillRoute,
       studentEducationSkillsRoute,
       {
         ...ROUTES.STUDENT.EVENTS,
@@ -53,6 +53,8 @@ export default [
         props: () => footerLegalProps,
         component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
+      studentProjectDeclaredSkillRoute,
+      studentProjectSkillRoute,
       studentProjectSkillsRoute,
       declaredProgramRoute,
       declaredProgramUpdateRoute,
@@ -69,16 +71,17 @@ export default [
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentSkillRoute,
-      studentToolsTracesRoute,
       {
         ...ROUTES.STUDENT.TOOLS_PAGES,
         component: () => import('@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'),
       },
+      studentToolsTracesRoute,
+      studentToolsTraceRoute,
+      studentTraceRoute,
       {
         ...ROUTES.STUDENT.TOOLS_RESUMES,
         component: () => import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
       },
-      studentTraceRoute,
       studentUpdateDeclaredSkillRoute,
       {
         ...ROUTES.STUDENT.ABOUT,

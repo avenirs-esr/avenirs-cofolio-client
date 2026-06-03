@@ -1,6 +1,15 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 
+export const studentToolsTraceRoute: AvRoute = {
+  ...ROUTES.STUDENT.TOOLS_TRACE,
+  props: route => ({
+    traceId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
+}
+
 export const studentToolsTracesRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACES,
   component: () =>
