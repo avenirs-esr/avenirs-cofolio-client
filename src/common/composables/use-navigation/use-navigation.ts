@@ -9,10 +9,6 @@ export function useNavigation () {
     return router.push(ROUTES.AUTH.LOGIN)
   }
 
-  const navigateToStudentDeclaredSkill = () => {
-    return router.push(ROUTES.STUDENT.DECLARED_SKILL)
-  }
-
   const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
     const to = {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
@@ -22,6 +18,10 @@ export function useNavigation () {
       return router.replace(to)
     }
     return router.push(to)
+  }
+
+  const navigateToStudentEducationSkills = () => {
+    return router.push(ROUTES.STUDENT.EDUCATION_SKILLS)
   }
 
   const navigateToStudentUpdateDeclaredExperience = ({ replace }: { replace?: boolean }) => {
@@ -85,8 +85,8 @@ export function useNavigation () {
     return router.push(to)
   }
 
-  const navigateToStudentSkills = () => {
-    return router.push(ROUTES.STUDENT.EDUCATION_SKILLS)
+  const navigateToStudentProjectDeclaredSkill = () => {
+    return router.push(ROUTES.STUDENT.PROJECT_DECLARED_SKILL)
   }
 
   const navigateToStudentProjectSkills = ({ replace }: { replace?: boolean }) => {
@@ -191,8 +191,8 @@ export function useNavigation () {
 
   return {
     navigateToAuthLogin,
-    navigateToStudentDeclaredSkill,
     navigateToStudentDeclaredExperience,
+    navigateToStudentEducationSkills,
     navigateToStudentUpdateDeclaredExperience,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
@@ -204,7 +204,7 @@ export function useNavigation () {
     navigateToStudentTrajectories,
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
-    navigateToStudentSkills,
+    navigateToStudentProjectDeclaredSkill,
     navigateToStudentProjectSkills,
     navigateToStudentProjectActivitiesCatalog,
     navigateToStudentProjectActivities,

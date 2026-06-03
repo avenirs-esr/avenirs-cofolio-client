@@ -77,6 +77,11 @@
       },
       "views": {
         "StudentDeclaredSkillView": {
+          "breadcrumb": {
+            "current": {
+              "title": "Compétence déclarée {skill}"
+            }
+          },
           "DeclaredSkillAssociateElementsDropdown": {
             "activities": "une/des activité(s)"
           },

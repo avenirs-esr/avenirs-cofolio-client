@@ -28,6 +28,7 @@ useBaseApiExceptionToast(error)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.education.header') },
   { text: t('student.global.navigation.tabs.education.items.skills') }
 ])
 </script>

@@ -15,17 +15,45 @@ export interface StudentSkillDetailedProps {
 const props = defineProps<StudentSkillDetailedProps>()
 const { skillId } = toRefs(props)
 const { t } = useI18n()
+const route = useRoute()
 
 const { data: skillDetailed, error } = useGetDetailedSkill(skillId)
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.SKILL_NOT_FOUND || isNotFound.value)
 
-const breadcrumbLinks = computed(() => [
+const isEducationSkillRoute = computed(() => route.name === ROUTES.STUDENT.EDUCATION_SKILL.name)
+const isProjectSkillRoute = computed(() => route.name === ROUTES.STUDENT.PROJECT_SKILL.name)
+
+const projectSkillBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
+  { text: t('student.skills.views.StudentSkillView.breadcrumb.current.title', { skill: skillDetailed.value?.name || '' }) }
+])
+
+const educationSkillBreadcrumbLinks = computed(() => [
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.education.header') },
   { text: t('student.global.navigation.tabs.education.items.skills'), to: ROUTES.STUDENT.EDUCATION_SKILLS },
   { text: skillDetailed.value?.name || '' }
 ])
+
+const homeSkillBreadcrumbLinks = computed(() => [
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.skills.views.StudentSkillView.breadcrumb.current.title', { skill: skillDetailed.value?.name || '' }) }
+])
+
+const breadcrumbLinks = computed(() => {
+  if (isEducationSkillRoute.value) {
+    return educationSkillBreadcrumbLinks.value
+  }
+  if (isProjectSkillRoute.value) {
+    return projectSkillBreadcrumbLinks.value
+  }
+
+  return homeSkillBreadcrumbLinks.value
+})
 </script>
 
 <template>

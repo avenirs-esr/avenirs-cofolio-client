@@ -4,7 +4,7 @@ import {
   downloadTraceAttachmentErrorHandler
 } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
@@ -13,6 +13,17 @@ import StudentTraceView from '@/features/student/traces/views/StudentTraceView/S
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
+import { useRoute } from 'vue-router'
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: vi.fn(),
+  }
+})
+
+const mockedUseRoute = vi.mocked(useRoute)
 
 vi.mock('@/common/utils/download/download', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/utils/download/download')>()
@@ -46,9 +57,10 @@ vi.mock('@/common/composables', async (importOriginal) => {
 
 BddTest().given('a student trace view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentTraceView>>
+  let routeName: string
 
   const stubs = {
-    PageTitle: PageTitleStub,
+    DetailedPageTitle: DetailedPageTitleStub,
     AvTabs: {
       name: 'AvTabs',
       props: ['modelValue'],
@@ -89,6 +101,12 @@ BddTest().given('a student trace view', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
+    routeName = ROUTES.STUDENT.TOOLS_TRACE.name
+    mockedUseRoute.mockReturnValue({
+      get name () {
+        return routeName
+      }
+    } as ReturnType<typeof useRoute>)
 
     const handler = createTraceDetailedHandler(mockedTraceDetailed)
     server.use(handler)
@@ -102,7 +120,7 @@ BddTest().given('a student trace view', () => {
     await flushPromises()
   })
 
-  const title = `Trace ${mockedTraceDetailed.title}`
+  const title = mockedTraceDetailed.title
   const breadcrumbLinks = [
     { text: 'Accueil', to: ROUTES.STUDENT.HOME },
     { text: 'Mes outils' },
@@ -111,8 +129,8 @@ BddTest().given('a student trace view', () => {
   ]
 
   BddTest().when('the view is mounted', () => {
-    BddTest().then('it should render PageTitle with correct props', async () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render DetailedPageTitle with correct props', async () => {
+      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
 
       expect(pageTitle.props('title')).toBe(title)
       expect(pageTitle.props('breadcrumbLinks')).toEqual(breadcrumbLinks)
@@ -177,6 +195,32 @@ BddTest().given('a student trace view', () => {
       const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
+    })
+  })
+
+  BddTest().when('the view is mounted on default trace route', () => {
+    beforeEach(async () => {
+      routeName = ROUTES.STUDENT.TRACE.name
+
+      const handler = createTraceDetailedHandler(mockedTraceDetailed)
+      server.use(handler)
+      wrapper = mountComponent(StudentTraceView, {
+        props: { traceId: mockedTraceDetailed.id },
+        global: { stubs },
+        useTanstack: true,
+        usePinia: true
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should render home breadcrumb links', () => {
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
+        { text: `Trace ${mockedTraceDetailed.title}` },
+      ])
     })
   })
 

@@ -9,9 +9,21 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useRoute } from 'vue-router'
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: vi.fn(),
+  }
+})
+
+const mockedUseRoute = vi.mocked(useRoute)
 
 BddTest().given('a student skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentSkillView>>
+  let routeName: string
 
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
@@ -25,6 +37,12 @@ BddTest().given('a student skill view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    routeName = ROUTES.STUDENT.EDUCATION_SKILL.name
+    mockedUseRoute.mockReturnValue({
+      get name () {
+        return routeName
+      }
+    } as ReturnType<typeof useRoute>)
   })
 
   BddTest().when('the query succeeds', () => {
@@ -46,6 +64,7 @@ BddTest().given('a student skill view', () => {
       expect(pageTitle.props('title')).toBe('Réaliser un cahier des charges fonctionnels')
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STUDENT.HOME },
+        { text: 'Réussir ma formation' },
         { text: 'Mes compétences', to: ROUTES.STUDENT.EDUCATION_SKILLS },
         { text: 'Réaliser un cahier des charges fonctionnels' },
       ])
@@ -59,6 +78,56 @@ BddTest().given('a student skill view', () => {
 
       const container = wrapper.findComponent({ name: 'StudentSkillViewContainer' })
       expect(container.props('skillDetailed')).toStrictEqual(mockedSkillDetailed)
+    })
+  })
+
+  BddTest().when('the query succeeds on project skill route', () => {
+    beforeEach(() => {
+      routeName = ROUTES.STUDENT.PROJECT_SKILL.name
+      server.use(createDetailedSkillHandler(mockedSkillDetailed))
+
+      wrapper = mountComponent(StudentSkillView, {
+        props: { skillId: '1' },
+        global: { stubs },
+        useI18n: true,
+      })
+    })
+
+    BddTest().then('it should render project breadcrumb links', async () => {
+      await flushPromises()
+
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
+        { text: 'Construire mon projet de vie' },
+        { text: 'Toutes mes compétences', to: ROUTES.STUDENT.PROJECT_SKILLS },
+        { text: 'Compétence Réaliser un cahier des charges fonctionnels' },
+      ])
+    })
+  })
+
+  BddTest().when('the query succeeds on default skill route', () => {
+    beforeEach(() => {
+      routeName = ROUTES.STUDENT.SKILL.name
+      server.use(createDetailedSkillHandler(mockedSkillDetailed))
+
+      wrapper = mountComponent(StudentSkillView, {
+        props: { skillId: '1' },
+        global: { stubs },
+        useI18n: true,
+      })
+    })
+
+    BddTest().then('it should render home breadcrumb links', async () => {
+      await flushPromises()
+
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+
+      expect(pageTitle.props('breadcrumbLinks')).toEqual([
+        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
+        { text: 'Compétence Réaliser un cahier des charges fonctionnels' },
+      ])
     })
   })
 

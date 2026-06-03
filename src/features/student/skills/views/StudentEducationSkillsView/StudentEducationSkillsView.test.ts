@@ -58,6 +58,7 @@ BddTest().given('a student education skills view', () => {
   const title = 'Mes compétences visées par ma formation'
   const title_plural = 'Mes compétences visées par mes formations'
   const homeBreadcrumbLink = { text: 'Accueil', to: ROUTES.STUDENT.HOME }
+  const educationBreadcrumbLink = { text: 'Réussir ma formation' }
   const currentBreadcrumbLink = { text: 'Mes compétences' }
 
   BddTest().when('the view is mounted', () => {
@@ -74,6 +75,7 @@ BddTest().given('a student education skills view', () => {
         expect(pageTitle.props('title')).toBe(title)
         expect(pageTitle.props('breadcrumbLinks')).toEqual([
           homeBreadcrumbLink,
+          educationBreadcrumbLink,
           currentBreadcrumbLink
         ])
       })

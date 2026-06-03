@@ -46,7 +46,7 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
-  { text: t('student.global.navigation.tabs.project.items.declaredSkills') }
+  { text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: skillTitle.value }) }
 ])
 
 function handleUpdateSelected () {

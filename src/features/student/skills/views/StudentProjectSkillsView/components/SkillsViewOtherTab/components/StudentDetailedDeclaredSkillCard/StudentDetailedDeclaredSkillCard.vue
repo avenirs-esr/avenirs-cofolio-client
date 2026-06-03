@@ -34,7 +34,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     :name="declaredSkill.title"
     :skill-color="declaredSkillColor"
     :icon="MDI_ICONS.STARS"
-    :to="ROUTES.STUDENT.DECLARED_SKILL.name"
+    :to="ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name"
     color="var(--card2)"
   >
     <div class="av-col av-justify-between av--mt-xs av-gap-xxs">

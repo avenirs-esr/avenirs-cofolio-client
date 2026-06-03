@@ -248,6 +248,11 @@
             "success": "You have associated {count} activity. Find it in the \"My associated activities\" category. | You have associated {count} activities. Find them in the \"My associated activities\" category.",
             "title": "Which activity(ies) would you like to associate?"
           },
+          "breadcrumb": {
+            "current": {
+              "title": "Trace {trace}"
+            }
+          },
           "ConfirmAssociateActivitiesModal": {
             "title": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?"
           },
@@ -270,7 +275,6 @@
             "download": "Download my trace",
             "update": "Update my trace"
           },
-          "subtitle": "Detail of my trace",
           "tabs": {
             "associations": "My associated elements ({count})",
             "details": "My trace"

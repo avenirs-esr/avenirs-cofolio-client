@@ -10,14 +10,14 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const navigateToStudentDeclaredSkill = vi.fn()
+const navigateToStudentProjectDeclaredSkill = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentDeclaredSkill,
+      navigateToStudentProjectDeclaredSkill,
     }),
   }
 })
@@ -104,7 +104,7 @@ BddTest().given('a student update declared skill view component', () => {
         to: ROUTES.STUDENT.PROJECT_SKILLS
       })
       expect(breadcrumbLinks[3]).toEqual({
-        text: 'Mes autres compétences et certifications déclarées'
+        text: 'Mes autres compétences déclarées'
       })
     })
 
@@ -147,14 +147,14 @@ BddTest().given('a student update declared skill view component', () => {
   })
 
   BddTest().when('the form triggers onSkillUpdated', () => {
-    BddTest().then('it should navigate using useNavigation.navigateToStudentDeclaredSkill', async () => {
+    BddTest().then('it should navigate using useNavigation.navigateToStudentProjectDeclaredSkill', async () => {
       await vi.waitFor(() => {
         const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
       })
       const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
       await form.vm.$props.onSkillUpdated()
-      expect(navigateToStudentDeclaredSkill).toHaveBeenCalledTimes(1)
+      expect(navigateToStudentProjectDeclaredSkill).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -205,7 +205,7 @@ BddTest().given('a student update declared skill view component', () => {
       })
 
       BddTest().then('it should navigate to declared skill view', () => {
-        expect(navigateToStudentDeclaredSkill).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentProjectDeclaredSkill).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -222,7 +222,7 @@ BddTest().given('a student update declared skill view component', () => {
       })
 
       BddTest().then('it should not navigate', () => {
-        expect(navigateToStudentDeclaredSkill).not.toHaveBeenCalled()
+        expect(navigateToStudentProjectDeclaredSkill).not.toHaveBeenCalled()
       })
 
       BddTest().and('confirming the modal', () => {

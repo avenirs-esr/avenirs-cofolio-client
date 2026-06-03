@@ -77,7 +77,7 @@ BddTest().given('a student declared skill view', () => {
         to: ROUTES.STUDENT.PROJECT_SKILLS
       })
       expect(breadcrumbLinks[3]).toEqual({
-        text: 'Mes autres compétences et certifications déclarées'
+        text: 'Compétence déclarée Conduire un projet de bout en bout'
       })
     })
 

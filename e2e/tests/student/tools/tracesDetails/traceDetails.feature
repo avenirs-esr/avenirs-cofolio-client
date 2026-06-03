@@ -11,7 +11,7 @@ Feature: Student Tools Trace Detail Page
 
     @high @trace-details
     Scenario: Student can load trace detail page
-      Then the URL contains "/cofolio/student/trace/"
+      Then the URL contains "/cofolio/student/tools/trace/"
 
   Rule: Trace Detail
 

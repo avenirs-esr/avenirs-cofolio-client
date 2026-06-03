@@ -247,6 +247,11 @@
             "success": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
             "title": "Quelle(s) activité(s) souhaitez-vous associer ?"
           },
+          "breadcrumb": {
+            "current": {
+              "title": "Trace {trace}"
+            }
+          },
           "ConfirmAssociateActivitiesModal": {
             "title": "Êtes-vous certain(e) de vouloir associer cette activité ? | Êtes-vous certain(e) de vouloir associer ces activités ?"
           },
@@ -269,7 +274,6 @@
             "download": "Télécharger ma trace",
             "update": "Modifier ma trace"
           },
-          "subtitle": "Détail de ma trace",
           "tabs": {
             "associations": "Mes éléments associés ({count})",
             "details": "Ma trace"

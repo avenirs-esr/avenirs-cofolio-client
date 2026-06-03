@@ -1,8 +1,20 @@
 import { ESkillLevelStatus, type SkillDTO } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
 import StudentDetailedEducationalSkillCard from '@/features/student/skills/components/cards/StudentDetailedEducationalSkillCard/StudentDetailedEducationalSkillCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+import { useRoute } from 'vue-router'
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: vi.fn(),
+  }
+})
+
+const mockedUseRoute = vi.mocked(useRoute)
 
 const baseSkill: SkillDTO = {
   id: 'skill-1',
@@ -35,7 +47,7 @@ function createWrapper (skill: SkillDTO = baseSkill) {
       stubs: {
         StudentDetailedSkillCard: {
           name: 'StudentDetailedSkillCard',
-          props: ['skill', 'skillColor', 'icon', 'color'],
+          props: ['id', 'name', 'skillColor', 'icon', 'to', 'color'],
           template: `<div class="student-detailed-skill-card"><slot /></div>`
         },
         StudentSkillLevelStatusBadge: {
@@ -60,6 +72,17 @@ function createWrapper (skill: SkillDTO = baseSkill) {
 
 BddTest().given('a student detailed educationnal skill card with valid props', () => {
   let wrapper: VueWrapper
+  let routeName: string
+
+  beforeEach(() => {
+    routeName = ROUTES.STUDENT.EDUCATION_SKILLS.name
+    mockedUseRoute.mockReturnValue({
+      get name () {
+        return routeName
+      }
+    } as ReturnType<typeof useRoute>)
+  })
+
   BddTest().when('the card is mounted', () => {
     beforeEach(() => {
       wrapper = createWrapper()
@@ -110,6 +133,19 @@ BddTest().given('a student detailed educationnal skill card with valid props', (
       wrapper = createWrapper(skill)
       const badge = wrapper.find('.last-completed-badge')
       expect(badge.exists()).toBe(false)
+    })
+
+    BddTest().then('it should navigate to the education skill route when rendered from education skills', () => {
+      const card = wrapper.findComponent({ name: 'StudentDetailedSkillCard' })
+      expect(card.props('to')).toBe(ROUTES.STUDENT.EDUCATION_SKILL.name)
+    })
+
+    BddTest().then('it should navigate to the project skill route when rendered outside education skills', () => {
+      routeName = ROUTES.STUDENT.PROJECT_SKILLS.name
+      wrapper = createWrapper()
+
+      const card = wrapper.findComponent({ name: 'StudentDetailedSkillCard' })
+      expect(card.props('to')).toBe(ROUTES.STUDENT.PROJECT_SKILL.name)
     })
   })
 })
