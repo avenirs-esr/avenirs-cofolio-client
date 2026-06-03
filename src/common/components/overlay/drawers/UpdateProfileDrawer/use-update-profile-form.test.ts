@@ -74,6 +74,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
   const initialData = {
     lastname: 'Moulin',
     firstname: 'Jeanne',
+    id: 'user-id',
     email: 'j.moulin@example.com',
     bio: 'Bio',
     coverPicture: {

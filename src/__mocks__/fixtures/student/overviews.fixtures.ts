@@ -6,6 +6,7 @@ import profile_picture_placeholder from '@/assets/profile_picture_placeholder.pn
 export const mockedProfileOverview: ProfileOverviewDTO = {
   firstname: 'Jeanne',
   lastname: 'Moulin',
+  id: crypto.randomUUID(),
   email: 'j.moulin@example.com',
   profilePicture: {
     id: crypto.randomUUID(),

@@ -107,6 +107,7 @@ BddTest().given('given an update profile drawer', () => {
   const userSummary = {
     firstname: 'Jeanne',
     lastname: 'Moulin',
+    id: 'user-id',
     email: 'j.moulin@example.com',
     profilePicture: {
       id: 'profile-picture-id',
@@ -230,6 +231,7 @@ BddTest().given('given an update profile drawer', () => {
   }
 
   const userSummaryWithMissingFields = {
+    id: 'user-id',
     firstname: '',
     lastname: '',
     email: '',
