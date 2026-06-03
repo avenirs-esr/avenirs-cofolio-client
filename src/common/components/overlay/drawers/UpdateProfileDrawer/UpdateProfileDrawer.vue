@@ -25,6 +25,7 @@ import { useI18n } from 'vue-i18n'
 interface UpdateProfileDrawerProps {
   firstname: string
   lastname: string
+  id: string
   bio?: string
   email: string
   profilePicture: FileDTO
@@ -36,6 +37,7 @@ interface UpdateProfileDrawerProps {
 const {
   firstname,
   lastname,
+  id,
   bio,
   email,
   profilePicture,
@@ -67,7 +69,7 @@ const {
   profilePictureFile,
   onProfilePictureUpdate,
   resetForm
-} = useUpdateProfileForm({ firstname, lastname, bio, email, profilePicture, coverPicture }, userCategory.value, onUpdateProfileSuccess)
+} = useUpdateProfileForm({ firstname, lastname, id, bio, email, profilePicture, coverPicture }, userCategory.value, onUpdateProfileSuccess)
 const FormField = markRaw(form.Field)
 
 function onUpdateProfileSuccess () {

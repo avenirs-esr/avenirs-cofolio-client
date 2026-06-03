@@ -23,8 +23,8 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const { onUpdateProfile, isUpdateProfilePending } = useUpdateProfile(profile, onSuccess)
-  const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(profile, onUpdateProfileCoverSuccess)
-  const { onUpdateProfilePhotoAsync, isUpdateProfilePhotoPending } = useUpdateProfilePhoto(profile, onUpdateProfilePhotoSuccess)
+  const { onUpdateProfileCoverAsync, isUpdateProfileCoverPending } = useUpdateProfileCover(onUpdateProfileCoverSuccess)
+  const { onUpdateProfilePhotoAsync, isUpdateProfilePhotoPending } = useUpdateProfilePhoto(onUpdateProfilePhotoSuccess)
   const { validateMaxLength, hasFieldErrors } = useFormValidators()
 
   const coverPictureFile = ref<File | null>(null)
@@ -64,8 +64,20 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
         const { email, bio } = value
 
         const [coverResult, photoResult] = await Promise.allSettled([
-          coverPictureFile.value ? onUpdateProfileCoverAsync(profile === EUserCategory.STAFF ? EFileCategory.STAFF_COVER_PICTURE : EFileCategory.STUDENT_COVER_PICTURE, profile, { file: coverPictureFile.value }) : Promise.resolve(),
-          profilePictureFile.value ? onUpdateProfilePhotoAsync(profile === EUserCategory.STAFF ? EFileCategory.STAFF_PROFILE_PICTURE : EFileCategory.STUDENT_PROFILE_PICTURE, profile, { file: profilePictureFile.value }) : Promise.resolve()
+          coverPictureFile.value
+            ? onUpdateProfileCoverAsync(
+                profile === EUserCategory.STAFF ? EFileCategory.STAFF_COVER_PICTURE : EFileCategory.STUDENT_COVER_PICTURE,
+                initialData.id,
+                { file: coverPictureFile.value }
+              )
+            : Promise.resolve(),
+          profilePictureFile.value
+            ? onUpdateProfilePhotoAsync(
+                profile === EUserCategory.STAFF ? EFileCategory.STAFF_PROFILE_PICTURE : EFileCategory.STUDENT_PROFILE_PICTURE,
+                initialData.id,
+                { file: profilePictureFile.value }
+              )
+            : Promise.resolve()
         ])
 
         if (coverResult.status === 'rejected') {

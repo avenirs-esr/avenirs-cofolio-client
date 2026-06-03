@@ -80,7 +80,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    result = mountComposable(() => useUpdateProfileCover(EUserCategory.STAFF, onSuccessSpy), {
+    result = mountComposable(() => useUpdateProfileCover(onSuccessSpy), {
       useI18n: true,
       usePinia: true,
       useTanstack: true
@@ -125,7 +125,7 @@ BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    result = mountComposable(() => useUpdateProfilePhoto(EUserCategory.STAFF, onSuccessSpy), {
+    result = mountComposable(() => useUpdateProfilePhoto(onSuccessSpy), {
       useI18n: true,
       usePinia: true,
       useTanstack: true

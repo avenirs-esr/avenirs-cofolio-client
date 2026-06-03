@@ -4859,6 +4859,10 @@
       "ProfileOverviewDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "firstname": {
             "type": "string"
           },
@@ -4883,6 +4887,7 @@
           "coverPicture",
           "email",
           "firstname",
+          "id",
           "lastname",
           "profilePicture"
         ]

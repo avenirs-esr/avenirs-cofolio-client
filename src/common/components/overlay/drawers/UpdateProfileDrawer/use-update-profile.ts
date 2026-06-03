@@ -61,7 +61,7 @@ function getUserCategoryFromFileCategory (fileCategory: EFileCategory) {
   throw new Error(`Unexcepted file category: ${fileCategory}`)
 }
 
-export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data: string) => void) {
+export function useUpdateProfileCover (onSuccess: (data: string) => void) {
   const { t } = useI18n()
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
@@ -81,8 +81,8 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
 
   const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfileCoverPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfileCoverAsync (fileCategory: EFileCategory, elementId: string, updateProfilePhotoBody: UploadFileBody) {
-    return await updateProfilePhotoMutation({ fileCategory, elementId, data: updateProfilePhotoBody }, {
+  async function onUpdateProfileCoverAsync (fileCategory: EFileCategory, userId: string, updateProfilePhotoBody: UploadFileBody) {
+    return await updateProfilePhotoMutation({ fileCategory, elementId: userId, data: updateProfilePhotoBody }, {
       onError: onUpdateProfileCoverError,
       onSuccess: async (data, variables) => {
         await withTaskLoading(() => invalidateGetProfile(queryClient, getUserCategoryFromFileCategory(variables.fileCategory)))
@@ -97,7 +97,7 @@ export function useUpdateProfileCover (profile: EUserCategory, onSuccess: (data:
   }
 }
 
-export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpdated: (data: string) => void) {
+export function useUpdateProfilePhoto (onProfilePhotoUpdated: (data: string) => void) {
   const { t } = useI18n()
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
@@ -113,8 +113,8 @@ export function useUpdateProfilePhoto (profile: EUserCategory, onProfilePhotoUpd
 
   const { mutateAsync: updateProfilePhotoMutation, isPending: isUpdateProfilePhotoPending } = useUpdateProfilePhotoFromApi()
 
-  async function onUpdateProfilePhotoAsync (fileCategory: EFileCategory, elementId: string, updateProfilePhotoBody: UploadFileBody) {
-    return await updateProfilePhotoMutation({ fileCategory, elementId, data: updateProfilePhotoBody }, {
+  async function onUpdateProfilePhotoAsync (fileCategory: EFileCategory, userId: string, updateProfilePhotoBody: UploadFileBody) {
+    return await updateProfilePhotoMutation({ fileCategory, elementId: userId, data: updateProfilePhotoBody }, {
       onError: onUpdateProfilePhotoError,
       onSuccess: async (data, variables) => {
         await withTaskLoading(() => invalidateGetProfile(queryClient, getUserCategoryFromFileCategory(variables.fileCategory)))
