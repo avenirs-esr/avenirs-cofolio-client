@@ -12,7 +12,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 function createTestWrapper (initialValue = ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT) {
-  return createFormFieldTestWrapper<EditActivityFormData, EditActivityFormData, 'feedbackAllowedIterations'>({
+  return createFormFieldTestWrapper<EditActivityFormData, 'feedbackAllowedIterations'>({
     formFieldComponent: ActivityFeedbackFormField,
     fieldName: 'feedbackAllowedIterations',
     defaultValue: initialValue,

@@ -6,10 +6,12 @@ import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 export interface FormFieldCardContainerProps extends Pick<CardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
   title: string
   titleIcon: string
+  required?: boolean
   backgroundColor?: 'var(--card2)' | 'var(--other-background-base)'
 }
 
 const {
+  required = false,
   backgroundColor = 'var(--card2)',
   collapsible = false,
   collapsed = false,
@@ -35,7 +37,7 @@ defineSlots<{
       <div class="av-row av-w-full av-gap-md av-align-center av-justify-between">
         <AvIconText
           :icon="titleIcon"
-          :text="title"
+          :text="required ? `${title} *` : title"
           icon-color="var(--dark-background-primary1)"
           text-color="var(--text1)"
           typography-class="s1-regular"

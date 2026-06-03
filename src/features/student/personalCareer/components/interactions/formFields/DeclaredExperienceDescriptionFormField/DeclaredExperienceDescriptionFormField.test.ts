@@ -1,4 +1,4 @@
-import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import { DeclaredExperienceDescriptionTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.stub'
@@ -11,7 +11,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'description'>({
+const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'description'>({
   formFieldComponent: DeclaredExperienceDescriptionFormField,
   fieldName: 'description',
   defaultValue: '',

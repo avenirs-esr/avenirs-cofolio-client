@@ -1,7 +1,7 @@
-import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import type { SlotsType } from 'vue'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
+import { type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useForm } from '@tanstack/vue-form'
 import { vi } from 'vitest'
@@ -10,9 +10,10 @@ const slots = Object as SlotsType<{ default?: () => unknown }>
 const name = 'EditNationalActivityViewFormWrapper'
 const template = '<div><slot /></div>'
 
+export const mockHandleSubmit = vi.fn()
+export const mockIsUpdating = ref(false)
 export const mockSave = vi.fn()
 export const mockCancel = vi.fn()
-const mockIsUpdating = ref(false)
 
 export const EditNationalActivityViewFormWrapper = defineComponent({
   name,
@@ -28,13 +29,20 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       feedbackAllowedIterations: undefined,
       summary: '',
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      bannerAction: EditActivityFormDataBannerAction.NONE,
     }
 
     const form = useForm({
       defaultValues,
     })
+    form.handleSubmit = mockHandleSubmit
 
-    provideEditNationalActivityViewContext({ form, isUpdating: mockIsUpdating, save: mockSave, cancel: mockCancel })
+    provideEditNationalActivityViewContext({
+      form,
+      isUpdating: mockIsUpdating,
+      save: mockSave,
+      cancel: mockCancel
+    })
   },
 })
 
@@ -52,13 +60,20 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       feedbackAllowedIterations: undefined,
       summary: '',
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      bannerAction: EditActivityFormDataBannerAction.NONE,
     }
 
     const form = useForm({
       defaultValues,
     })
+    form.handleSubmit = mockHandleSubmit
 
-    provideEditNationalActivityViewContext({ form, isUpdating: mockIsUpdating, save: mockSave, cancel: mockCancel })
+    provideEditNationalActivityViewContext({
+      form,
+      isUpdating: mockIsUpdating,
+      save: mockSave,
+      cancel: mockCancel
+    })
 
     onMounted(() => {
       form.setFieldValue('title', 'Modified title')

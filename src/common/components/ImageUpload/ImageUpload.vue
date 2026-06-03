@@ -80,8 +80,8 @@ function onConfirmDeleteImage () {
   <AvFileUpload
     v-model:error="imageUpload.error.value"
     v-model:valid-message="imageUpload.valid.value"
-    :title="t('global.information.fileUpload.title')"
-    :description="t('global.information.fileUpload.dragAndDrop')"
+    :title="t('global.information.imageUpload.title')"
+    :description="t('global.information.imageUpload.dragAndDrop')"
     :delete-button-label="t('global.buttons.delete')"
     :model-value="modelValue"
     :file-name="defaultImageName"
@@ -104,13 +104,13 @@ function onConfirmDeleteImage () {
     </template>
   </AvFileUpload>
   <span class="caption-light av-text-text2">
-    {{ t('global.information.fileUpload.filesIndication') }}
+    {{ t('global.information.imageUpload.filesIndication') }}
     <span class="caption-bold av-text-text2">
-      {{ t('global.information.fileUpload.filesTypes') }}
+      {{ t('global.information.imageUpload.filesTypes') }}
     </span>
-    {{ t('global.information.fileUpload.sizeIndication') }}
+    {{ t('global.information.imageUpload.sizeIndication') }}
     <span class="caption-bold av-text-text2">
-      {{ t('global.information.fileUpload.size') }}
+      {{ t('global.information.imageUpload.size') }}
     </span>
   </span>
   <template v-if="imageUpload.error.value">
@@ -124,7 +124,7 @@ function onConfirmDeleteImage () {
 
   <ConfirmationModal
     :show="showModal"
-    :title="t('global.information.fileUpload.deleteConfirmation')"
+    :title="t('global.information.imageUpload.deleteConfirmation')"
     description=""
     @confirm="onConfirmDeleteImage"
     @close="hideModal"

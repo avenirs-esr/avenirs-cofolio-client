@@ -1,5 +1,5 @@
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
-import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockCancel, mockSave } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockCancel, mockHandleSubmit } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -78,8 +78,8 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
         await actions.find('[data-testid="save-button"]').trigger('click')
       })
 
-      BddTest().then('it should call save', () => {
-        expect(mockSave).toHaveBeenCalledTimes(1)
+      BddTest().then('it should call handleSubmit', () => {
+        expect(mockHandleSubmit).toHaveBeenCalledTimes(1)
       })
     })
   })
@@ -92,8 +92,8 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
       await actions.find('[data-testid="save-button"]').trigger('click')
     })
 
-    BddTest().then('it should not call save', () => {
-      expect(mockSave).not.toHaveBeenCalled()
+    BddTest().then('it should not handleSubmit save', () => {
+      expect(mockHandleSubmit).not.toHaveBeenCalled()
     })
   })
 })

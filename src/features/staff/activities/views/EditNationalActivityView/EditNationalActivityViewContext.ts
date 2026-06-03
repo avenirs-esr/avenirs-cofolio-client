@@ -12,7 +12,8 @@ export interface EditNationalActivityViewContext {
    */
   isUpdating: Ref<boolean>
   /**
-   * Saves the activity draft with the provided data. If no data is provided, it submits the form.
+   * Updates the activity without submitting the form (supports partial updates).
+   * A full update requires calling form.handleSubmit().
    */
   save: (data?: ActivityDraftUpdateRequest) => void
   /**

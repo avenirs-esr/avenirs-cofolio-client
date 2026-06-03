@@ -110,6 +110,9 @@
           "title": "All activities available in my institution"
         },
         "EditNationalActivityView": {
+          "ActivityBannerFormField": {
+            "bannerAlt": "Banner"
+          },
           "ActivityContentTab": {
             "nextStepLabel": "Next step",
             "title": "Fill in the content"
@@ -146,10 +149,11 @@
           },
           "errors": {
             "fetchActivityContent": "Unable to load activity",
-            "saveActivityContent": "An error occurred while saving the activity"
+            "saveActivityContent": "An error occurred while saving the activity | Errors occurred while saving the activity"
           },
           "success": {
-            "saveActivityContent": "Activity saved successfully"
+            "saveActivityContent": "Activity saved successfully",
+            "saveActivityContentWithErrors": "Activity saved with an error | Activity saved with errors"
           }
         }
       }

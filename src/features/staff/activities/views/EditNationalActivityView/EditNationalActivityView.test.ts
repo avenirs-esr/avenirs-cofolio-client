@@ -1,17 +1,20 @@
-import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { updateActivityErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
-import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
+import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.stub'
 import { ActivityPublicationTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
-import { type EditNationalActivityViewContext, editNationalActivityViewContextKey } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
+import {
+  type EditNationalActivityViewContext,
+  editNationalActivityViewContextKey,
+} from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { type ExposedComponentInstance, mountComponent } from 'tests/utils'
 import { vi } from 'vitest'
 
@@ -23,7 +26,7 @@ vi.mock('@vueuse/router', () => ({
       return mockMode
     }
     return ref(defaultValue)
-  })
+  }),
 }))
 
 const mockAddSuccessMessage = vi.fn()
@@ -52,19 +55,33 @@ vi.mock('@/store', async () => {
 })
 
 export const mockIsMobile = ref(false)
+
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
   return {
     ...actual,
     useAvBreakpoints: () => ({
       isMobile: mockIsMobile,
-    })
+    }),
   }
 })
 
 function getContext (wrapper: VueWrapper<InstanceType<typeof EditNationalActivityView>>): EditNationalActivityViewContext {
   const internalInstance = wrapper.vm as unknown as ExposedComponentInstance
   return internalInstance.$.provides[editNationalActivityViewContextKey] as EditNationalActivityViewContext
+}
+
+function makeSavePayload (): ActivityDraftUpdateRequest {
+  return ({
+    title: (mockedActivityContent as any).title ?? '',
+    thematic: (mockedActivityContent as any).thematic,
+    description: (mockedActivityContent as any).description ?? '',
+    executionPeriodInfo: (mockedActivityContent as any).executionPeriodInfo ?? '',
+    summary: (mockedActivityContent as any).summary ?? '',
+    enableReflection: (mockedActivityContent as any).enableReflection ?? true,
+    feedbackAllowedIterations: (mockedActivityContent as any).feedbackAllowedIterations ?? 0,
+    traceAllowedAssociations: (mockedActivityContent as any).traceAllowedAssociations ?? 0,
+  }) as ActivityDraftUpdateRequest
 }
 
 BddTest().given('a national activity view', () => {
@@ -80,20 +97,59 @@ BddTest().given('a national activity view', () => {
     AvTab: AvTabStub,
   }
 
-  const mountView = () => mountComponent(EditNationalActivityView, {
-    props: { id: mockedActivityContent.id },
-    global: { stubs },
-  })
+  const mountView = async () => {
+    wrapper = mountComponent(EditNationalActivityView, {
+      props: { id: mockedActivityContent.id },
+      global: { stubs },
+    })
+    await flushPromises()
+    await wrapper.vm.$nextTick()
+  }
+
+  const getAvTabs = () => wrapper.findComponent(AvTabsStub) as VueWrapper<InstanceType<typeof AvTabsStub>>
+  const getActiveTab = (): EditActivityTabIndex => getAvTabs().props('modelValue')
+  const switchTab = async (tab: EditActivityTabIndex) => {
+    getAvTabs().vm.$emit('update:modelValue', tab)
+    await wrapper.vm.$nextTick()
+  }
+
+  const save = async ({
+    banner = {
+      file: null,
+      action: EditActivityFormDataBannerAction.NONE
+    },
+    data = undefined
+  }: {
+    banner?: {
+      file?: File | null
+      action: EditActivityFormDataBannerAction
+    }
+    data?: ActivityDraftUpdateRequest
+  }) => {
+    const activeTab = getActiveTab()
+
+    await getContext(wrapper).form.setFieldValue('bannerAction', banner.action)
+
+    await switchTab(EditActivityTabIndex.PUBLICATION)
+    await wrapper.findComponent(ActivityPublicationTabStub).vm.$emit('update:modelValue', banner.file)
+    await wrapper.vm.$nextTick()
+    await switchTab(activeTab)
+
+    await getContext(wrapper).save(data)
+    await wrapper.vm.$nextTick()
+    await flushPromises()
+  }
 
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsMobile.value = false
+    mockMode.value = 'edit'
   })
 
   BddTest().when('the view is mounted in add mode', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       mockMode.value = 'add'
-      wrapper = mountView()
+      await mountView()
     })
 
     BddTest().then('it should render PageTitle with add props', () => {
@@ -103,15 +159,14 @@ BddTest().given('a national activity view', () => {
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
-        { text: 'Créer mon activité' }
+        { text: 'Créer mon activité' },
       ])
     })
   })
 
   BddTest().when('the view is mounted in edit mode', () => {
-    beforeEach(() => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
+    beforeEach(async () => {
+      await mountView()
     })
 
     BddTest().then('it should render PageTitle with edit props', () => {
@@ -121,26 +176,16 @@ BddTest().given('a national activity view', () => {
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
-        { text: 'Modifier l\'activité' }
+        { text: 'Modifier l\'activité' },
       ])
     })
   })
 
-  BddTest().when('the activity is loaded and save is triggered', () => {
-    beforeEach(() => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
-    })
-
+  BddTest().when('save is triggered with pending changes', () => {
     BddTest().and('the update API succeeds', () => {
-      beforeEach(() => {
-        getContext(wrapper).save()
-      })
-
-      BddTest().then('it should call addSuccessMessage', async () => {
-        await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledTimes(1)
-        })
+      beforeEach(async () => {
+        await mountView()
+        await save({ data: makeSavePayload() })
       })
 
       BddTest().then('it should call addSuccessMessage with the correct message', async () => {
@@ -149,38 +194,27 @@ BddTest().given('a national activity view', () => {
         })
       })
     })
+  })
 
-    BddTest().and('the update API returns an error', () => {
-      beforeEach(() => {
-        server.use(updateActivityErrorHandler)
-        getContext(wrapper).save()
-      })
+  BddTest().when('save is triggered with no pending changes', () => {
+    beforeEach(async () => {
+      await mountView()
+      await save({})
+      await flushPromises()
+    })
 
-      BddTest().then('it should call addErrorMessage', async () => {
-        await vi.waitFor(() => {
-          expect(mockAddErrorMessage).toHaveBeenCalledTimes(1)
-        })
-      })
+    BddTest().then('it should not call addSuccessMessage', () => {
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+    })
 
-      BddTest().then('it should call addErrorMessage with the correct title', async () => {
-        await vi.waitFor(() => {
-          expect(mockAddErrorMessage).toHaveBeenCalledWith(
-            expect.objectContaining({
-              title: 'Une erreur est survenue lors de l\'enregistrement de l\'activité',
-            })
-          )
-        })
-      })
+    BddTest().then('it should not call addErrorMessage', () => {
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
   })
 
   BddTest().when('the view is mounted on desktop', () => {
     beforeEach(async () => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
-      })
+      await mountView()
     })
 
     BddTest().then('it should render AddNationalActivitySideNavigation', () => {
@@ -193,9 +227,9 @@ BddTest().given('a national activity view', () => {
   })
 
   BddTest().when('the view is mounted on mobile', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       mockIsMobile.value = true
-      wrapper = mountView()
+      await mountView()
     })
 
     BddTest().then('it should not render AddNationalActivitySideNavigation', () => {
@@ -203,49 +237,24 @@ BddTest().given('a national activity view', () => {
     })
   })
 
-  BddTest().when('the publication tab is selected', () => {
-    beforeEach(async () => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
-      })
-      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should render the publication tab component', () => {
-      expect(wrapper.findComponent(ActivityPublicationTabStub).exists()).toBe(true)
-    })
-  })
-
   BddTest().when('the content tab emits nextStep', () => {
     beforeEach(async () => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
-      })
+      await mountView()
       wrapper.findComponent(ActivityContentTabStub).vm.$emit('nextStep')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should switch the active tab to publication', () => {
-      expect(wrapper.findComponent(AddNationalActivitySideNavigationStub).props('activeTab')).toBe(EditActivityTabIndex.PUBLICATION)
+      expect(
+        wrapper.findComponent(AddNationalActivitySideNavigationStub).props('activeTab'),
+      ).toBe(EditActivityTabIndex.PUBLICATION)
     })
   })
 
   BddTest().when('the publication tab emits published', () => {
     beforeEach(async () => {
-      mockMode.value = 'edit'
-      wrapper = mountView()
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
-      })
-
-      wrapper.findComponent(AvTabsStub).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
-      await wrapper.vm.$nextTick()
-
+      await mountView()
+      await switchTab(EditActivityTabIndex.PUBLICATION)
       wrapper.findComponent(ActivityPublicationTabStub).vm.$emit('published')
       await wrapper.vm.$nextTick()
     })

@@ -5,6 +5,12 @@ export interface ActivityDraftCreationFormData {
   title: string
 }
 
+export enum EditActivityFormDataBannerAction {
+  DELETE = 'DELETE',
+  NONE = 'NONE',
+  UPDATE = 'UPDATE',
+}
+
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
   thematic: EActivityThematic
   description: string
@@ -13,6 +19,7 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   feedbackAllowedIterations?: number
   summary: string
   traceAllowedAssociations?: number
+  bannerAction: EditActivityFormDataBannerAction
 }
 
 export type ActivityDraftCreationForm = AnyVueFormApi<ActivityDraftCreationFormData>

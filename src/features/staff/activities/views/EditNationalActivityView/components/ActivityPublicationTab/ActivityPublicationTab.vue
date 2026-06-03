@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { type ActivityContentDTO, invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, usePublishActivityDraft } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import { invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, usePublishActivityDraft } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
+import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
 import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivitySummaryFormField from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
@@ -18,37 +20,37 @@ import { AvButton, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-interface ActivityContentTabProps {
-  activity: ActivityContentDTO
+interface ActivityPublicationTabProps {
+  activity: ActivityPresentationDTO
 }
 
-const { activity } = defineProps<ActivityContentTabProps>()
+const { activity } = defineProps<ActivityPublicationTabProps>()
 
 const emit = defineEmits<{
   (e: 'published'): void
 }>()
 
-const { t } = useI18n()
+const bannerFile = defineModel<File | null>()
 
+const { t } = useI18n()
 const { form, isUpdating, save } = useEditNationalActivityViewContext()
 const { showModal, displayModal, hideModal } = useModal()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const { isLoading, withTaskLoading } = useTaskLoading()
-const queryClient = useQueryClient()
-const isFormDirty = form.useStore(state => state.isDirty)
 const { hasFieldErrors } = useFormValidators()
-const hasPublishFieldErrors = hasFieldErrors(form, ['title', 'summary'])
+const queryClient = useQueryClient()
 
 const { mutate: mutatePublishActivityDraft, isPending } = usePublishActivityDraft()
 
+const isFormDirty = form.useStore(state => state.isDirty)
+const hasPublishFieldErrors = hasFieldErrors(form, ['title', 'summary', 'executionPeriodInfo'])
+
 async function openPublishConfirmation () {
   await form.validate('submit')
-
   if (hasPublishFieldErrors.value) {
     return
   }
-
   displayModal()
 }
 
@@ -59,18 +61,14 @@ async function publishActivityDraft () {
         invalidateGetStaffActivityWorkingSpace(queryClient),
         invalidateGetStaffActivityLibrary(queryClient),
       ]))
-
       addSuccessMessage(t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishSuccess'))
       hideModal()
-
-      setTimeout(() => {
-        emit('published')
-      }, 10)
+      setTimeout(() => emit('published'), 10)
     },
     onError: (error) => {
       addErrorMessage({
         title: t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishError'),
-        description: getErrorMessage(error)
+        description: getErrorMessage(error),
       })
     }
   })
@@ -84,8 +82,9 @@ async function publishActivityDraft () {
   >
     <div :id="PublicationSectionId.ACTIVITY_TITLE">
       <FormFieldCardContainer
-        :title="`${t('staff.activities.interactions.inputs.ActivityTitleInput.label')} *`"
+        :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label')"
         :title-icon="ICONS.ACTIVITY"
+        required
       >
         <ActivityTitleFormField
           :form="form"
@@ -93,14 +92,30 @@ async function publishActivityDraft () {
         />
       </FormFieldCardContainer>
     </div>
+
+    <div :id="PublicationSectionId.IMAGE">
+      <FormFieldCardContainer
+        :title="t('global.information.imageUpload.title')"
+        :title-icon="ICONS.ACTIVITY"
+      >
+        <ActivityBannerFormField
+          v-model="bannerFile"
+          :form="form"
+          :remote-banner="activity.banner"
+          @autosave="save"
+        />
+      </FormFieldCardContainer>
+    </div>
+
     <div
       :id="PublicationSectionId.SUMMARY_CONTEXT"
       class="av-col av-row--md av-w-full--md av-gap-sm"
     >
       <div class="av-flex-fill--md">
         <FormFieldCardContainer
-          :title="`${t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.label')} *`"
+          :title="t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.label')"
           :title-icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
+          required
         >
           <ActivitySummaryFormField
             :form="form"
@@ -112,6 +127,7 @@ async function publishActivityDraft () {
         <FormFieldCardContainer
           :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
           :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+          required
         >
           <ActivityExecutionPeriodFormField
             :form="form"
@@ -133,6 +149,7 @@ async function publishActivityDraft () {
       />
     </div>
   </div>
+
   <ConfirmationModal
     data-testid="publish-confirmation-modal"
     :show="showModal"
