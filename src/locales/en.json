@@ -281,13 +281,17 @@
     "images": "Images",
     "information": {
       "fileUpload": {
+        "dragAndDrop": "or drag and drop here",
+        "title": "Add a file"
+      },
+      "imageUpload": {
         "deleteConfirmation": "Confirm deletion?",
         "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
         "filesTypes": "JPG, JPEG, PNG •",
         "size": "10 Mo max",
         "sizeIndication": "Size : ",
-        "title": "Add a file"
+        "title": "Add an image"
       }
     },
     "inputs": {

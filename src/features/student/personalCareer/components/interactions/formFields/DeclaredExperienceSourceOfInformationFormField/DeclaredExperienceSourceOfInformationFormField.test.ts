@@ -1,4 +1,4 @@
-import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceSourceOfInformationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.vue'
 import { DeclaredExperienceSourceOfInformationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.stub'
@@ -11,7 +11,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'sourceOfInformation'>({
+const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'sourceOfInformation'>({
   formFieldComponent: DeclaredExperienceSourceOfInformationFormField,
   fieldName: 'sourceOfInformation',
   defaultValue: '',

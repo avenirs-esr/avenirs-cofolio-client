@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const { form, save, cancel } = useEditNationalActivityViewContext()
+const { form, isUpdating, cancel } = useEditNationalActivityViewContext()
 const isFormDirty = form.useStore(s => s.isDirty)
 const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty)
 </script>
@@ -17,7 +17,7 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       data-testid="cancel-button"
       :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.cancelLabel')"
-      :disabled="!isFormDirty"
+      :disabled="isUpdating || !isFormDirty"
       @click="cancel()"
     />
     <AvButton
@@ -26,7 +26,8 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
       :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveLabel')"
       :disabled="!isFormValid"
-      @click="save()"
+      :is-loading="isUpdating"
+      @click="form.handleSubmit()"
     />
   </div>
 </template>

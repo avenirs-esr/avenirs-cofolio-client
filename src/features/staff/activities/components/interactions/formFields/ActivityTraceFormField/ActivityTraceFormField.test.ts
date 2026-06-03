@@ -7,7 +7,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivityFormData, 'traceAllowedAssociations'>({
+const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'traceAllowedAssociations'>({
   formFieldComponent: ActivityTraceFormField,
   fieldName: 'traceAllowedAssociations',
   defaultValue: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,

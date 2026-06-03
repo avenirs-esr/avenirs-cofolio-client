@@ -8,7 +8,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivityFormData, 'executionPeriodInfo'>({
+const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'executionPeriodInfo'>({
   formFieldComponent: ActivityExecutionPeriodFormField,
   fieldName: 'executionPeriodInfo',
   defaultValue: '',

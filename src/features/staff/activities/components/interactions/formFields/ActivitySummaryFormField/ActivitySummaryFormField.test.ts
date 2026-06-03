@@ -8,7 +8,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, EditActivityFormData, 'summary'>({
+const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'summary'>({
   formFieldComponent: ActivitySummaryFormField,
   fieldName: 'summary',
   defaultValue: '',

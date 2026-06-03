@@ -1,4 +1,4 @@
-import type { EditActivityForm, EditActivityFormData, } from '@/features/staff/activities/types/forms.types'
+import type { EditActivityFormData, } from '@/features/staff/activities/types/forms.types'
 import { EActivityThematic } from '@/api/avenir-esr'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import { ThematicSelectStub, } from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.stub'
@@ -7,7 +7,7 @@ import { mount, type VueWrapper, } from '@vue/test-utils'
 import { createFormFieldTestWrapper, } from 'tests/utils'
 import { beforeEach, expect, vi, } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<EditActivityForm, EditActivityFormData, 'thematic'>({
+const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'thematic'>({
   formFieldComponent: ThematicSelectFormField,
   fieldName: 'thematic',
   defaultValue: EActivityThematic.TRANSVERSAL,

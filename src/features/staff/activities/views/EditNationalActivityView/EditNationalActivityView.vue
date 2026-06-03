@@ -1,25 +1,31 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
-import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import type { Ref } from 'vue'
 import {
   type ActivityDraftUpdateRequest,
   EActivityStatus,
   EActivityThematic,
+  EFileCategory,
   invalidateGetActivityContent,
+  invalidateGetActivityPresentation,
+  useDeleteFile,
   useGetActivityContent,
-  useUpdateActivity
+  useGetActivityPresentation,
+  useUpdateActivity,
+  useUploadFile
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ROUTES } from '@/common/constants'
+import { BaseApiException } from '@/common/exceptions'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
+import { type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -50,6 +56,7 @@ const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTab
 const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { navigateToStaffActivities } = useNavigation()
+const { isLoading, withTaskLoading } = useTaskLoading()
 
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
@@ -62,30 +69,32 @@ const breadcrumbLinks = computed(() => [
   { text: title.value }
 ])
 
-const { data: activity, isLoading, error } = useGetActivityContent(EActivityStatus.DRAFT, id)
+const {
+  data: content,
+  isLoading: contentIsLoading,
+  error: contentError
+} = useGetActivityContent(EActivityStatus.DRAFT, id)
+const {
+  data: presentation,
+  isLoading: presentationIsLoading,
+  error: presentationError
+} = useGetActivityPresentation(EActivityStatus.DRAFT, id)
 
 const defaultValues: EditActivityFormData = reactive({
-  title: computed(() => activity.value?.title ?? ''),
-  thematic: computed(() => activity.value?.thematic ?? EActivityThematic.TRANSVERSAL),
-  description: computed(() => activity.value?.description ?? ''),
-  executionPeriodInfo: computed(() => activity.value?.executionPeriodInfo ?? ''),
-  summary: computed(() => activity.value?.summary ?? ''),
-  enableReflection: computed(() => activity.value?.enableReflection ?? true),
-  feedbackAllowedIterations: computed(() => activity.value?.feedbackAllowedIterations ?? undefined),
-  traceAllowedAssociations: computed(() => activity.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
+  title: computed(() => content.value?.title ?? ''),
+  thematic: computed(() => content.value?.thematic ?? EActivityThematic.TRANSVERSAL),
+  description: computed(() => content.value?.description ?? ''),
+  executionPeriodInfo: computed(() => content.value?.executionPeriodInfo ?? ''),
+  summary: computed(() => content.value?.summary ?? ''),
+  enableReflection: computed(() => content.value?.enableReflection ?? true),
+  feedbackAllowedIterations: computed(() => content.value?.feedbackAllowedIterations ?? undefined),
+  traceAllowedAssociations: computed(() => content.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
+  bannerAction: EditActivityFormDataBannerAction.NONE,
 })
 
-const { mutate: updateActivity, isPending } = useUpdateActivity({
-  mutation: {
-    onSuccess: () => {
-      invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
-      addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
-    },
-    onError: (error: BaseApiException) => {
-      addErrorMessage({ title: t('staff.activities.views.EditNationalActivityView.errors.saveActivityContent'), description: getErrorMessage(error) })
-    },
-  },
-})
+const { mutateAsync: uploadBannerMutation } = useUploadFile()
+const { mutateAsync: deleteBannerMutation } = useDeleteFile()
+const { mutateAsync: updateActivity } = useUpdateActivity()
 
 const form = useForm({
   defaultValues,
@@ -102,37 +111,114 @@ const form = useForm({
       }
     }
   },
-  onSubmit: ({ value }) => {
-    updateActivity({
-      activityStatus: EActivityStatus.DRAFT,
-      activityId: id,
-      data: {
-        title: value.title,
-        thematic: value.thematic,
-        description: value.description,
-        executionPeriodInfo: value.executionPeriodInfo,
-        summary: value.summary,
-        enableReflection: value.enableReflection ?? true,
-        feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
-        traceAllowedAssociations: value.traceAllowedAssociations,
-      },
+  onSubmit: async ({ value }: { value: EditActivityFormData }) => {
+    await save({
+      title: value.title,
+      thematic: value.thematic,
+      description: value.description,
+      executionPeriodInfo: value.executionPeriodInfo,
+      summary: value.summary,
+      enableReflection: value.enableReflection ?? true,
+      feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
+      traceAllowedAssociations: value.traceAllowedAssociations,
     })
   },
 })
 
-function save (data?: ActivityDraftUpdateRequest) {
+const isFormDirty = form.useStore(s => s.isDirty)
+const isUpdating = computed(() => contentIsLoading.value || presentationIsLoading.value || isLoading.value)
+const savePending = computed(() => isFormDirty.value || isUpdating.value)
+
+function normalizeError (error: unknown): string {
+  if (error instanceof BaseApiException) {
+    return getErrorMessage(error)
+  }
+  if (error instanceof Error) {
+    return error.message
+  }
+  if (typeof error === 'string') {
+    return error
+  }
+  return 'Unknown'
+}
+
+const bannerFile = ref<File | null>(null)
+
+async function saveBanner (action: EditActivityFormDataBannerAction) {
+  switch (action) {
+    case EditActivityFormDataBannerAction.DELETE:
+      await deleteBannerMutation({ fileId: presentation.value!.id })
+      break
+    case EditActivityFormDataBannerAction.UPDATE:
+      await uploadBannerMutation({
+        fileCategory: EFileCategory.ACTIVITY_BANNER,
+        elementId: presentation.value!.id,
+        data: { file: bannerFile.value! }
+      })
+      bannerFile.value = null
+      break
+  }
+}
+
+async function saveActivity (data: ActivityDraftUpdateRequest) {
+  await updateActivity({
+    activityStatus: EActivityStatus.DRAFT,
+    activityId: id,
+    data,
+  })
+}
+
+async function save (data?: ActivityDraftUpdateRequest) {
+  const promises: Promise<void>[] = []
+  const bannerAction = form.getFieldValue('bannerAction')
+
+  if (bannerAction !== EditActivityFormDataBannerAction.NONE) {
+    promises.push(saveBanner(bannerAction))
+    form.setFieldValue('bannerAction', EditActivityFormDataBannerAction.NONE)
+  }
+
   if (data) {
-    updateActivity({
-      activityStatus: EActivityStatus.DRAFT,
-      activityId: id,
-      data,
-    })
+    promises.push(saveActivity(data))
+  }
+
+  if (promises.length === 0) {
     return
   }
-  form.handleSubmit()
+
+  const results = await withTaskLoading(() => Promise.allSettled(promises))
+  const someFulfilled = results.some(r => r.status === 'fulfilled')
+
+  if (someFulfilled) {
+    invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
+    invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
+  }
+
+  if (results.every(r => r.status === 'fulfilled')) {
+    addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
+  }
+  else {
+    const errorMessages = results
+      .filter((r): r is PromiseRejectedResult => r.status === 'rejected')
+      .map(r => normalizeError(r.reason))
+    const description = errorMessages.join(', ')
+
+    if (someFulfilled) {
+      addSuccessMessage({
+        title: t('staff.activities.views.EditNationalActivityView.success.saveActivityContentWithErrors', { count: errorMessages.length }),
+        description,
+      })
+    }
+    else {
+      addErrorMessage({
+        title: t('staff.activities.views.EditNationalActivityView.errors.saveActivityContent', { count: errorMessages.length }),
+        description,
+      })
+    }
+  }
 }
 
 function cancel () {
+  bannerFile.value = null
   form.reset(defaultValues)
 }
 
@@ -144,11 +230,9 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-watch(activity, () => {
-  form.reset(defaultValues)
-})
+watch([content, presentation], () => cancel())
 
-provideEditNationalActivityViewContext({ form, isUpdating: isPending, save, cancel })
+provideEditNationalActivityViewContext({ form, isUpdating, save, cancel })
 </script>
 
 <template>
@@ -157,8 +241,8 @@ provideEditNationalActivityViewContext({ form, isUpdating: isPending, save, canc
     :breadcrumb-links="breadcrumbLinks"
   />
   <QuerySuspense
-    :is-loading="isLoading"
-    :error="error"
+    :is-loading="contentIsLoading || presentationIsLoading"
+    :error="contentError ?? presentationError"
     :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
   >
     <div class="av-row av-w-full av-gap-xl">
@@ -174,20 +258,25 @@ provideEditNationalActivityViewContext({ form, isUpdating: isPending, save, canc
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
+            :disabled="activeTab !== EditActivityTabIndex.CONTENT && savePending"
+            :is-loading="activeTab === EditActivityTabIndex.CONTENT && savePending"
             data-testid="activity-content-tab-item"
           >
             <ActivityContentTab
-              :activity="activity!"
+              :activity="content!"
               @next-step="onNextStep"
             />
           </AvTab>
           <AvTab
             :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
             :icon="RI_ICONS.SEND_PLANE_LINE"
+            :disabled="activeTab !== EditActivityTabIndex.PUBLICATION && savePending"
+            :is-loading="activeTab === EditActivityTabIndex.PUBLICATION && savePending"
             data-testid="activity-publication-tab-item"
           >
             <ActivityPublicationTab
-              :activity="activity!"
+              v-model="bannerFile"
+              :activity="presentation!"
               @published="onPublished"
             />
           </AvTab>

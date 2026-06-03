@@ -1,5 +1,5 @@
 import type { EExperienceType } from '@/api/avenir-esr'
-import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
@@ -8,7 +8,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'type'>({
+const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'type'>({
   formFieldComponent: DeclaredExperienceTypeFormField,
   fieldName: 'type',
   defaultValue: '',

@@ -1,7 +1,8 @@
-import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, CreationResponse, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
-import { createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, ActivityPresentationDTO, CreationResponse, FileDTO, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import { createMockedBannerUploadResponse, createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
-import { EActivityStatus, getCreateActivityDraftUrl, getGetActivityContentUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl } from '@/api/avenir-esr'
+import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl, getUploadFileUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
@@ -34,13 +35,6 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
   )
 })
 
-export const updateActivityErrorHandler = http.patch(`*${getUpdateActivityUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
-  return HttpResponse.json(
-    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
-    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
-  )
-})
-
 export const publishActivityDraftErrorHandler = http.post(`*${getPublishActivityDraftUrl(':activityDraftId')}`, () => {
   return HttpResponse.json(
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
@@ -65,6 +59,21 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
 export const staffsActivitiesHandlers = [
   http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
     return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }),
+  http.get(`*${getGetActivityPresentationUrl(EActivityStatus.DRAFT, ':activityId')}`, ({ params }) => {
+    const { activityId } = params
+
+    if (activityId === 'INVALID_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    return HttpResponse.json<ActivityPresentationDTO>({ ...mockedActivityDetail, id: activityId as string }, {
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },
     })
@@ -103,7 +112,20 @@ export const staffsActivitiesHandlers = [
       headers: { 'Content-Type': 'application/json' },
     })
   }),
-  http.patch(`*${getUpdateActivityUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
+  http.patch(`*${getUpdateActivityUrl(EActivityStatus.DRAFT, ':activityId')}`, ({ params }) => {
+    const activityId: string | undefined = params.activityId as string | undefined
+
+    if (!activityId) {
+      return HttpResponse.json({ error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
+    }
+
+    if (activityId === 'INVALID_ACTIVITY_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+        { status: 404, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
     return HttpResponse.json<ActivityDraftUpdateResponse>(mockedActivityDraftUpdateResponse, {
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },
@@ -116,4 +138,33 @@ export const staffsActivitiesHandlers = [
     })
   }),
   publishActivityDraftHandler,
+  http.post(`*${getUploadFileUrl(EFileCategory.ACTIVITY_BANNER, ':activityId')}`, async ({ params, request }) => {
+    const activityId: string | undefined = params.activityId as string | undefined
+
+    if (!activityId) {
+      return HttpResponse.json({ error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
+    }
+
+    const formData = await request.formData()
+    const file = formData.get('file') as File
+
+    if (!file) {
+      return HttpResponse.json({ error: 'File is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
+    }
+
+    if (file.name === 'INVALID_FILE_NAME') {
+      return HttpResponse.json(
+        { code: EErrorCode.UNKNOWN_FILE_TYPE, message: 'Unknown file type' },
+        { status: 415, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const response = createMockedBannerUploadResponse(activityId, file)
+    return HttpResponse.json<FileDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  })
 ]

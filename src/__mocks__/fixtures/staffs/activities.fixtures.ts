@@ -1,5 +1,6 @@
-import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, ActivityStaffOverviewDTO, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, ActivityStaffOverviewDTO, FileDTO, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
 import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import { getFileTypeFromFileName } from '@/common/utils/filetype/filetype'
 
 export const mockedActivityDraftCreationResponse: ActivityDraftCreationResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',
@@ -88,5 +89,17 @@ export function createMockedPagedResponseActivityStaffOverviewDTO (
   return {
     data: paginatedActivities,
     page: { pageSize, totalElements: actualTotalElements, totalPages, page },
+  }
+}
+
+export function createMockedBannerUploadResponse (activityId: string, file: File): FileDTO {
+  return {
+    id: `banner-${Date.now()}`,
+    fileName: activityId,
+    fileType: getFileTypeFromFileName(file.name),
+    fileSize: file.size,
+    version: 1,
+    url: 'exemple.com/image',
+    uploadedAt: '2024-01-15T10:30:00'
   }
 }

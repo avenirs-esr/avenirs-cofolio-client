@@ -104,8 +104,8 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(getNextStepButton().props('label')).toBe('Étape suivante')
     })
 
-    BddTest().then('it should not set loading on the next step button when form is pristine', () => {
-      expect(getNextStepButton().props('isLoading')).toBe(false)
+    BddTest().then('it should not set disabled on the next step button when form is pristine', () => {
+      expect(getNextStepButton().props('disabled')).toBe(false)
     })
   })
 
@@ -115,7 +115,7 @@ BddTest().given('an ActivityContentTab component', () => {
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should set loading on the next step button', () => {
+    BddTest().then('it should show the next step button as loading', () => {
       expect(getNextStepButton().props('isLoading')).toBe(true)
     })
   })

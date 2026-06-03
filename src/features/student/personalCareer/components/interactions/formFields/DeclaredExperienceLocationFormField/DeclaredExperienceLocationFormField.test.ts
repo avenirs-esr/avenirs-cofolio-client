@@ -1,4 +1,4 @@
-import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import DeclaredExperienceLocationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.vue'
 import { DeclaredExperienceLocationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.stub'
@@ -11,7 +11,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'location'>({
+const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'location'>({
   formFieldComponent: DeclaredExperienceLocationFormField,
   fieldName: 'location',
   defaultValue: '',

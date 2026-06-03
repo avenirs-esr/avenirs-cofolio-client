@@ -384,17 +384,20 @@ export async function mountWithRouter<T> (component: Component, options?: Compon
   return wrapper
 }
 
-export interface CreateFormFieldTestWrapperOptions<TFormData, TFieldName extends keyof TFormData> {
+export interface CreateFormFieldTestWrapperOptions<
+  TFormData,
+  TFieldName extends keyof TFormData,
+> {
   formFieldComponent: Component
   fieldName: TFieldName
   defaultValue: TFormData[TFieldName]
-  useValidator: () => (value: TFormData[TFieldName]) => string | undefined
+  useValidator?: () => (value: TFormData[TFieldName]) => string | undefined
+  extraProps?: Record<string, unknown>
 }
 
 /**
  * Creates a test wrapper component for form field testing with TanStack Form.
  *
- * @template TForm - The form type (e.g., AddDeclaredExperienceForm)
  * @template TFormData - The form data type (e.g., DeclaredExperienceFormData)
  * @template TFieldName - The field name key from TFormData
  * @param {CreateFormFieldTestWrapperOptions} options - Configuration options for the wrapper
@@ -402,10 +405,11 @@ export interface CreateFormFieldTestWrapperOptions<TFormData, TFieldName extends
  * @param {TFieldName} options.fieldName - The name of the field in the form
  * @param {TFormData[TFieldName]} options.defaultValue - The default value for the field
  * @param {() => (value: TFormData[TFieldName]) => string | undefined} options.useValidator - A factory function that returns the validator (called inside setup to support composables using useI18n)
+ * @param {Record<string, unknown>} options.extraProps - Extra props forwarded to the tested component
  * @returns {Component} A test wrapper component with form handling
  *
  * @example
- * const TestWrapper = createFormFieldTestWrapper<AddDeclaredExperienceForm, DeclaredExperienceFormData, 'location'>({
+ * const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'location'>({
  *   formFieldComponent: DeclaredExperienceLocationFormField,
  *   fieldName: 'location',
  *   defaultValue: '',
@@ -417,41 +421,54 @@ export interface CreateFormFieldTestWrapperOptions<TFormData, TFieldName extends
  * await wrapper.find('form').trigger('submit')
  */
 export function createFormFieldTestWrapper<
-  TForm,
   TFormData,
-  TFieldName extends keyof TFormData
+  TFieldName extends keyof TFormData,
 > ({
   formFieldComponent,
   fieldName,
   defaultValue,
-  useValidator
+  useValidator,
+  extraProps
 }: CreateFormFieldTestWrapperOptions<TFormData, TFieldName>) {
+  type FieldFormData = Pick<TFormData, TFieldName>
+
   return defineComponent({
-    components: {
-      FormFieldComponent: formFieldComponent
-    },
     setup () {
-      const validate = useValidator()
+      const validate = useValidator?.() ?? (() => undefined)
+
       const form = useForm({
         defaultValues: {
           [fieldName]: defaultValue
-        } as TFormData,
+        } as FieldFormData,
         validators: {
-          onSubmit ({ value }: { value: TFormData }) {
-            return { fields: { [fieldName]: validate(value[fieldName]) } }
+          onSubmit ({ value }: { value: FieldFormData }) {
+            return {
+              fields: {
+                [fieldName]: validate(value[fieldName])
+              }
+            }
           }
         }
-      }) as unknown as TForm
+      })
 
-      return { form }
-    },
-    render () {
       const handleSubmit = (e: Event) => {
         e.preventDefault()
-        ;(this.form as { handleSubmit: () => void }).handleSubmit()
+        ;(form as { handleSubmit: () => void }).handleSubmit()
       }
-      return h('form', { onSubmit: handleSubmit }, [
-        h(formFieldComponent, { form: this.form })
+
+      return {
+        form,
+        handleSubmit,
+        extraProps: extraProps ?? {}
+      }
+    },
+
+    render () {
+      return h('form', { onSubmit: this.handleSubmit }, [
+        h(formFieldComponent, {
+          form: this.form,
+          ...this.extraProps
+        })
       ])
     }
   })

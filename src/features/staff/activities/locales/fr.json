@@ -96,6 +96,9 @@
           "title": "Toutes les activités disponibles dans mon établissement"
         },
         "EditNationalActivityView": {
+          "ActivityBannerFormField": {
+            "bannerAlt": "Bannière"
+          },
           "ActivityContentTab": {
             "nextStepLabel": "Étape suivante",
             "title": "Renseigner le contenu"
@@ -132,10 +135,11 @@
           },
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité",
-            "saveActivityContent": "Une erreur est survenue lors de l'enregistrement de l'activité"
+            "saveActivityContent": "Une erreur est survenue lors de l'enregistrement de l'activité | Des erreurs sont survenues lors de l'enregistrement de l'activité"
           },
           "success": {
-            "saveActivityContent": "Activité enregistrée avec succès"
+            "saveActivityContent": "Activité enregistrée avec succès",
+            "saveActivityContentWithErrors": "Activité enregistrée avec une erreur | Activité enregistrée avec des erreurs"
           }
         }
       }

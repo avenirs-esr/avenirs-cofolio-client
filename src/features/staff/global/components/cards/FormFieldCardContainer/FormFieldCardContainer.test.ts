@@ -54,6 +54,26 @@ BddTest().given('a form field card container', () => {
       expect(card.props('titleOnly')).toBe(false)
     })
 
+    BddTest().then('it should not append an asterisk when required is false', () => {
+      wrapper = mount(FormFieldCardContainer, {
+        props: { ...props, required: false },
+        global: { stubs },
+      })
+
+      const title = wrapper.findComponent(AvIconTextStub)
+      expect(title.props('text')).toBe(props.title)
+    })
+
+    BddTest().then('it should append an asterisk when required is true', () => {
+      wrapper = mount(FormFieldCardContainer, {
+        props: { ...props, required: true },
+        global: { stubs },
+      })
+
+      const title = wrapper.findComponent(AvIconTextStub)
+      expect(title.props('text')).toBe(`${props.title} *`)
+    })
+
     BddTest().then('it should render the slot content', () => {
       wrapper = mount(FormFieldCardContainer, {
         props,
