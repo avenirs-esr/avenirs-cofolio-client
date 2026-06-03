@@ -29,7 +29,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('staff.activities.views.NationalActivityCatalogView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STAFF.ACTIVITIES"
   />
   <QuerySuspense
     :is-loading="isLoading"

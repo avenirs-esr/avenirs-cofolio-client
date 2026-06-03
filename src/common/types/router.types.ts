@@ -18,6 +18,5 @@ export interface BreadcrumbLinkRaw {
 }
 
 export interface RoutePageProps {
-  backRoute?: RouteLocationRaw
   breadcrumbLinksRaw?: BreadcrumbLinkRaw[]
 }

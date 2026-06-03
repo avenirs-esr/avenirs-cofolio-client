@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
-import { ConfirmationModal, PageTitle } from '@/common/components'
+import { ConfirmationModal } from '@/common/components'
+import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
@@ -57,24 +58,10 @@ async function handleCancel () {
 </script>
 
 <template>
-  <ConfirmationModal
-    :show="showModal"
-    @confirm="confirm"
-    @close="cancel"
-  />
-
-  <PageTitle
-    :title="t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.title')"
+  <UpdatePageTitle
+    :title="declaredSkillDetailed?.title ?? ''"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
-
-  <div
-    class="av-row av-py-md"
-    data-testid="update-declared-skill-view__title"
-  >
-    <span class="n4 av-text-text2">{{ declaredSkillDetailed?.title ?? '' }}</span>
-  </div>
 
   <UpdateInProgressBadge :show="updateInProgress" />
 
@@ -102,4 +89,10 @@ async function handleCancel () {
       />
     </AvTab>
   </AvTabs>
+
+  <ConfirmationModal
+    :show="showModal"
+    @confirm="confirm"
+    @close="cancel"
+  />
 </template>

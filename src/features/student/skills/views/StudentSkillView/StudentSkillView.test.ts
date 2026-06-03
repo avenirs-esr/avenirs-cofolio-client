@@ -1,8 +1,8 @@
 import { mockedSkillDetailed } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDetailedSkillHandler, detailedSkillNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import StudentSkillView from '@/features/student/skills/views/StudentSkillView/StudentSkillView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -14,7 +14,7 @@ BddTest().given('a student skill view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentSkillView>>
 
   const stubs = {
-    PageTitle: PageTitleStub,
+    DetailedPageTitle: DetailedPageTitleStub,
     ErrorMessage: ErrorMessageStub,
     StudentSkillViewContainer: {
       name: 'StudentSkillViewContainer',
@@ -38,12 +38,12 @@ BddTest().given('a student skill view', () => {
       })
     })
 
-    BddTest().then('it should render PageTitle with correct props', async () => {
+    BddTest().then('it should render DetailedPageTitle with correct props', async () => {
       await flushPromises()
 
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
 
-      expect(pageTitle.props('title')).toBe('Compétence Réaliser un cahier des charges fonctionnels')
+      expect(pageTitle.props('title')).toBe('Réaliser un cahier des charges fonctionnels')
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STUDENT.HOME },
         { text: 'Mes compétences', to: ROUTES.STUDENT.EDUCATION_SKILLS },
@@ -84,10 +84,10 @@ BddTest().given('a student skill view', () => {
       expect(notFound.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
     })
 
-    BddTest().then('it should render PageTitle with empty title', async () => {
+    BddTest().then('it should render DetailedPageTitle with empty title', async () => {
       await flushPromises()
 
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
       expect(pageTitle.props('title')).toBe('')
     })
   })

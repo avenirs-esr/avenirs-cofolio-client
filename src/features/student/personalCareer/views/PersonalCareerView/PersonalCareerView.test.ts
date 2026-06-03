@@ -26,7 +26,7 @@ BddTest().given('a student project experiences view component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('title')).toBe('Mon parcours')

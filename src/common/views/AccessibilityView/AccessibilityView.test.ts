@@ -20,25 +20,10 @@ BddTest().given('a accessibility view', () => {
     beforeEach(() => mountDefault())
 
     BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
       expect(pageTitle.props('breadcrumbLinks')).toEqual(defaultBreadcrumbLinks)
-      expect(pageTitle.props('back')).toBe(undefined)
-    })
-  })
-
-  BddTest().when('the view is mounted with back route', () => {
-    const backRoute = '/back-route'
-
-    beforeEach(() => mountDefault({ backRoute }))
-
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-
-      expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual(defaultBreadcrumbLinks)
-      expect(pageTitle.props('back')).toBe('/back-route')
     })
   })
 
@@ -48,11 +33,10 @@ BddTest().given('a accessibility view', () => {
     beforeEach(() => mountDefault({ breadcrumbLinksRaw }))
 
     BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
       expect(pageTitle.props('breadcrumbLinks')).toEqual([{ text: title }, ...defaultBreadcrumbLinks])
-      expect(pageTitle.props('back')).toBe(undefined)
     })
   })
 })

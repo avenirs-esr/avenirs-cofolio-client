@@ -150,7 +150,6 @@
               "title": "Update my {categoryType}"
             }
           },
-          "title": "Update my {categoryType}",
           "updateForm": {
             "errors": {
               "updateElement": "Error updating item"

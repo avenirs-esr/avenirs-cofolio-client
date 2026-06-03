@@ -123,11 +123,11 @@ BddTest().given('a self knowledge category view component', () => {
     })
 
     BddTest().then('it should render DetailedPageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
       expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({

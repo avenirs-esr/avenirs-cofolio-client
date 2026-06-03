@@ -27,10 +27,6 @@ export class PageTitle extends BaseObject {
     return this.getBreadcrumb().getByRole('link', { name: text })
   }
 
-  getBackButton () {
-    return this.root.getByRole('button', { name: t('global.buttons.goBack') })
-  }
-
   getShowBreadcrumbButton () {
     return this.getBreadcrumb().getByRole('button', { name: t('global.breadcrumb.expandButtonLabel') })
   }
@@ -70,10 +66,6 @@ export class PageTitle extends BaseObject {
     await this.getBreadcrumbLinkByIndex(index).click()
   }
 
-  async verifyBackButtonVisible () {
-    await expect(this.getBackButton()).toBeVisible()
-  }
-
   async verifyTitleVisible () {
     await expect(this.getTitle()).toBeVisible()
   }
@@ -81,21 +73,11 @@ export class PageTitle extends BaseObject {
   async verifyVisible () {
     await this.isVisible()
     await this.verifyBreadcrumbVisible()
-    await this.verifyBackButtonVisible()
     await this.verifyTitleVisible()
   }
 
   async verifyTitle (expectedTitle: string) {
     await expect(this.getTitle()).toHaveText(expectedTitle)
-  }
-
-  async verifyBackButton () {
-    await expect(this.getBackButton()).toBeVisible()
-    await expect(this.getBackButton()).toHaveAttribute('title', t('global.buttons.goBack'))
-  }
-
-  async clickBackButton () {
-    await this.getBackButton().click()
   }
 
   async verifyBreadcrumbItemsHidden () {

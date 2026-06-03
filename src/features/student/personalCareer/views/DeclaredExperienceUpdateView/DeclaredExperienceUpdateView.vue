@@ -2,7 +2,7 @@
 import { useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants/route-names'
@@ -78,18 +78,10 @@ function onExperienceUpdated () {
 </script>
 
 <template>
-  <PageTitle
-    title=""
+  <UpdatePageTitle
+    :title="declaredExperienceTitle"
     :breadcrumb-links="breadcrumbLinks"
-    :back="{ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId } }"
-  >
-    <template #title>
-      <h1 class="av-text-title">
-        {{ t('global.buttons.update') }}
-        <span class="n4">{{ declaredExperienceTitle }}</span>
-      </h1>
-    </template>
-  </PageTitle>
+  />
 
   <div class="av-row av-gap-sm">
     <DeclaredExperienceSideMenu

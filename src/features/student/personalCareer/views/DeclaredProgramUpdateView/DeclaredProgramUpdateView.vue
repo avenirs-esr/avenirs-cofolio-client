@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
@@ -66,10 +66,9 @@ function onProgramUpdated () {
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.personalCareer.views.DeclaredProgramUpdateView.title', { programTitle })"
+  <UpdatePageTitle
+    :title="programTitle"
     :breadcrumb-links="breadcrumbLinks"
-    :back="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } }"
   />
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu

@@ -22,14 +22,8 @@ Feature: Student Project Activities Page
       And the show breadcrumb button is hidden
       And the breadcrumb items are visible
       And the breadcrumb is correct
-      And the back button is correct
       And the all activities tab new activities paginator card is correct
       And the all activities tab all activities section is correct
-
-    @high @page-title
-    Scenario: Student can interact with the page title back button
-      When the user clicks the back button
-      Then the page navigates to home page
 
     @high @page-title
     Scenario: Student can interact with the page title first breadcrumb link

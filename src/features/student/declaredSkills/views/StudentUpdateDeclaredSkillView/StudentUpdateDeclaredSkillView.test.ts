@@ -1,6 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { UpdateDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.stub'
+import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -50,27 +53,8 @@ const AvTabStub = {
   template: '<div class="av-tab-stub"><slot /></div>'
 }
 
-const PageTitleStubWithBack = {
-  name: 'PageTitle',
-  template: '<div />',
-  props: ['title', 'breadcrumbLinks', 'back']
-}
-
-const UpdateDeclaredSkillFormStub = {
-  name: 'UpdateDeclaredSkillForm',
-  props: ['declaredSkillProgressDetails', 'onSkillUpdated', 'onCancel'],
-  emits: ['dirty-change'],
-  template: '<div class="update-form-stub" />',
-}
-
-const UpdateDeclaredSkillAssociationsStub = {
-  name: 'UpdateDeclaredSkillAssociations',
-  props: ['traceAssociations', 'declaredSkillId'],
-  template: '<div class="update-associations-stub" />'
-}
-
 const stubs = {
-  PageTitle: PageTitleStubWithBack,
+  UpdatePageTitle: UpdatePageTitleStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
@@ -97,12 +81,14 @@ BddTest().given('a student update declared skill view component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render UpdatePageTitle with correct props', async () => {
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('title')).toBe('Modifier ma compétence déclarée')
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.PROJECT_SKILLS)
+
+      await vi.waitFor(() => {
+        expect(pageTitle.props('title')).toBe('Conduire un projet de bout en bout')
+      })
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbLinks).toHaveLength(4)
@@ -122,16 +108,8 @@ BddTest().given('a student update declared skill view component', () => {
       })
     })
 
-    BddTest().then('it should render the skill title', async () => {
-      await vi.waitFor(() => {
-        const title = wrapper.find('[data-testid="update-declared-skill-view__title"] .n4')
-        expect(title.exists()).toBe(true)
-        expect(title.text()).toBe('Conduire un projet de bout en bout')
-      })
-    })
-
     BddTest().then('it should render AvTabs', () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       expect(tabs.exists()).toBe(true)
     })
 
@@ -171,10 +149,10 @@ BddTest().given('a student update declared skill view component', () => {
   BddTest().when('the form triggers onSkillUpdated', () => {
     BddTest().then('it should navigate using useNavigation.navigateToStudentDeclaredSkill', async () => {
       await vi.waitFor(() => {
-        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
       })
-      const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+      const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
       await form.vm.$props.onSkillUpdated()
       expect(navigateToStudentDeclaredSkill).toHaveBeenCalledTimes(1)
     })
@@ -183,10 +161,10 @@ BddTest().given('a student update declared skill view component', () => {
   BddTest().when('the form emits dirty-change event', () => {
     BddTest().then('it should show the update in progress badge when dirty is true', async () => {
       await vi.waitFor(() => {
-        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
       })
-      const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+      const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
@@ -196,10 +174,10 @@ BddTest().given('a student update declared skill view component', () => {
 
     BddTest().then('it should hide the update in progress badge when dirty is false', async () => {
       await vi.waitFor(() => {
-        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
       })
-      const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+      const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
       await form.vm.$emit('dirty-change', true)
       await wrapper.vm.$nextTick()
 
@@ -218,10 +196,10 @@ BddTest().given('a student update declared skill view component', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
         await vi.waitFor(() => {
-          const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+          const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
           expect(form.exists()).toBe(true)
         })
-        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         await form.vm.$props.onCancel()
         await wrapper.vm.$nextTick()
       })
@@ -235,10 +213,10 @@ BddTest().given('a student update declared skill view component', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
         await vi.waitFor(() => {
-          const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+          const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
           expect(form.exists()).toBe(true)
         })
-        const form = wrapper.findComponent({ name: 'UpdateDeclaredSkillForm' })
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         await form.vm.$props.onCancel()
         await wrapper.vm.$nextTick()
       })
@@ -249,7 +227,7 @@ BddTest().given('a student update declared skill view component', () => {
 
       BddTest().and('confirming the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
           await confirmationModal.vm.$emit('confirm')
           await wrapper.vm.$nextTick()
         })
@@ -261,7 +239,7 @@ BddTest().given('a student update declared skill view component', () => {
 
       BddTest().and('closing the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
           await confirmationModal.vm.$emit('close')
           await wrapper.vm.$nextTick()
         })

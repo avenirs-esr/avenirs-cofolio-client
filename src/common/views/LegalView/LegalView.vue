@@ -3,10 +3,7 @@ import type { RoutePageProps } from '@/common/types'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useI18n } from 'vue-i18n'
 
-const {
-  backRoute,
-  breadcrumbLinksRaw = []
-} = defineProps<RoutePageProps>()
+const { breadcrumbLinksRaw = [] } = defineProps<RoutePageProps>()
 
 const { t } = useI18n()
 
@@ -22,6 +19,5 @@ const allBreadcrumbLinks = computed(() => [
   <PageTitle
     :title="title"
     :breadcrumb-links="allBreadcrumbLinks"
-    :back="backRoute"
   />
 </template>

@@ -26,7 +26,6 @@ const activeTab = useEnumRouteQuery('tab', ActivitiesViewTab, ActivitiesViewTab.
   <PageTitle
     :title="t('staff.global.views.ActivitiesView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STAFF.HOME"
   />
   <AvTabs v-model="activeTab">
     <AvTab

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -10,6 +10,7 @@ import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/component
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
+import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateViewProps {
@@ -44,7 +45,8 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
-  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
+  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') },
+  { text: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.breadcrumb.current.title', { categoryType: categoryTypeLabel.value }) }
 ])
 
 function onSelectElement (selectedElementId: string) {
@@ -64,8 +66,8 @@ function backToElementDetails () {
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.title', { categoryType: categoryTypeLabel })"
+  <UpdatePageTitle
+    :title="`${toSentenceCase(categoryTypeLabel)} - ${element?.title}`"
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="self-knowledge-element-update-view av-row av-gap-sm">

@@ -9,7 +9,6 @@ import { studentEducationSkillsRoute, studentProjectSkillsRoute, studentSkillRou
 import { studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
 
 const footerLegalProps: RoutePageProps = {
-  backRoute: ROUTES.STUDENT.HOME,
   breadcrumbLinksRaw: [
     { textKey: 'student.global.navigation.tabs.home', to: ROUTES.STUDENT.HOME },
   ]

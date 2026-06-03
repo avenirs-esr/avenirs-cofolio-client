@@ -52,7 +52,6 @@ function handleConfirmDelete () {
   <DetailedPageTitle
     :title="programTitle"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
   <div class="av-row av-gap-2xl">
     <div class="av-col">

@@ -97,7 +97,7 @@ BddTest().given('a national activity view', () => {
     })
 
     BddTest().then('it should render PageTitle with add props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe('Créer mon activité')
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
@@ -105,7 +105,6 @@ BddTest().given('a national activity view', () => {
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
         { text: 'Créer mon activité' }
       ])
-      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.ACTIVITIES)
     })
   })
 
@@ -116,7 +115,7 @@ BddTest().given('a national activity view', () => {
     })
 
     BddTest().then('it should render PageTitle with edit props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe('Modifier l\'activité')
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
@@ -124,7 +123,6 @@ BddTest().given('a national activity view', () => {
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
         { text: 'Modifier l\'activité' }
       ])
-      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.ACTIVITIES)
     })
   })
 
@@ -181,7 +179,7 @@ BddTest().given('a national activity view', () => {
       mockMode.value = 'edit'
       wrapper = mountView()
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
       })
     })
 
@@ -210,7 +208,7 @@ BddTest().given('a national activity view', () => {
       mockMode.value = 'edit'
       wrapper = mountView()
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
       })
       wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
       await wrapper.vm.$nextTick()
@@ -226,7 +224,7 @@ BddTest().given('a national activity view', () => {
       mockMode.value = 'edit'
       wrapper = mountView()
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
       })
       wrapper.findComponent(ActivityContentTabStub).vm.$emit('nextStep')
       await wrapper.vm.$nextTick()
@@ -242,10 +240,10 @@ BddTest().given('a national activity view', () => {
       mockMode.value = 'edit'
       wrapper = mountView()
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
       })
 
-      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
+      wrapper.findComponent(AvTabsStub).vm.$emit('update:modelValue', EditActivityTabIndex.PUBLICATION)
       await wrapper.vm.$nextTick()
 
       wrapper.findComponent(ActivityPublicationTabStub).vm.$emit('published')

@@ -2,7 +2,7 @@ import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
@@ -81,7 +81,7 @@ const DeclaredProgramUpdateFormStub = {
 }
 
 const stubs = {
-  PageTitle: PageTitleStub,
+  UpdatePageTitle: UpdatePageTitleStub,
   DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   DeclaredProgramUpdateForm: DeclaredProgramUpdateFormStub,
   ConfirmationModal: ConfirmationModalStub,
@@ -133,16 +133,12 @@ BddTest().given('a declared program update view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render UpdatePageTitle with correct props', () => {
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('back')).toStrictEqual({
-        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-        params: { id: 'declared-program-1' }
-      })
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbLinks).toHaveLength(5)
       expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
       expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
@@ -153,8 +149,8 @@ BddTest().given('a declared program update view component', () => {
 
     BddTest().then('it should build the title using the selected program title', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-        expect(String(pageTitle.props('title'))).toContain('Modifier Formation déclarée 1')
+        const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
+        expect(String(pageTitle.props('title'))).toContain('Formation déclarée 1')
       })
     })
 
@@ -331,17 +327,8 @@ BddTest().given('a declared program update view component', () => {
 
     BddTest().then('it should render title for that program', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-        expect(String(pageTitle.props('title'))).toContain('Modifier Formation déclarée 2')
-      })
-    })
-
-    BddTest().then('it should render PageTitle back props with the route param id', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-
-      expect(pageTitle.props('back')).toStrictEqual({
-        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-        params: { id: 'declared-program-2' }
+        const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
+        expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
       })
     })
   })
