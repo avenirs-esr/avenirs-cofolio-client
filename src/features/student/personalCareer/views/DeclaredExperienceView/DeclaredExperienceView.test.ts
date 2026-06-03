@@ -105,10 +105,10 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().then('it should render DetailedPageTitle with correct breadcrumb links', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
-        const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+        const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
         expect(breadcrumbLinks).toHaveLength(5)
         expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
         expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })

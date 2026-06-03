@@ -55,7 +55,6 @@ function onUnsubscribed () {
       <PageTitle
         :title="t('global.detail')"
         :breadcrumb-links="breadcrumbLinks"
-        :back="ROUTES.STUDENT.HOME"
       >
         <template #title>
           <h1

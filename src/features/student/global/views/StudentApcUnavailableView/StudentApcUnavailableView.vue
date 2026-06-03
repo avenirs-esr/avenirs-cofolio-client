@@ -25,7 +25,6 @@ watch(showApcGenericInfoPage, (value) => {
   <PageTitle
     :title="t('student.global.navigation.tabs.apcUnavailable.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
 </template>
 

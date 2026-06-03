@@ -109,8 +109,7 @@
             "details": {
               "title": "My declared skill"
             }
-          },
-          "title": "Declared skill details"
+          }
         },
         "StudentUpdateDeclaredSkillView": {
           "tabs": {
@@ -118,7 +117,6 @@
               "title": "My declared skill"
             }
           },
-          "title": "Update my declared skill",
           "updateAssociations": {
             "addTraceButton": "Add a trace",
             "errors": {

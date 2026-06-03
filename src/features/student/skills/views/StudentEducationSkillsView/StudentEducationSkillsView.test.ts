@@ -69,7 +69,7 @@ BddTest().given('a student education skills view', () => {
 
       BddTest().then('it should render PageTitle with singular title', () => {
         wrapper = createWrapper()
-        const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+        const pageTitle = wrapper.findComponent(PageTitleStub)
 
         expect(pageTitle.props('title')).toBe(title)
         expect(pageTitle.props('breadcrumbLinks')).toEqual([
@@ -80,14 +80,14 @@ BddTest().given('a student education skills view', () => {
 
       BddTest().then('it should not render any StudentEducationSkillsViewContainer', () => {
         wrapper = createWrapper()
-        const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
+        const containers = wrapper.findAllComponents(StudentEducationSkillsViewContainerStub)
 
         expect(containers).toHaveLength(0)
       })
 
       BddTest().then('it should render SkillsSortContainer', () => {
         wrapper = createWrapper()
-        const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
+        const filtersContainer = wrapper.findComponent(SkillsSortContainerStub)
 
         expect(filtersContainer.exists()).toBe(true)
       })
@@ -103,7 +103,7 @@ BddTest().given('a student education skills view', () => {
         wrapper = createWrapper()
 
         await vi.waitFor(() => {
-          const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
+          const containers = wrapper.findAllComponents(StudentEducationSkillsViewContainerStub)
           expect(containers).toHaveLength(1)
         })
       })
@@ -119,7 +119,7 @@ BddTest().given('a student education skills view', () => {
         wrapper = createWrapper()
 
         await vi.waitFor(() => {
-          const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+          const pageTitle = wrapper.findComponent(PageTitleStub)
           expect(pageTitle.props('title')).toBe(title_plural)
         })
       })
@@ -128,7 +128,7 @@ BddTest().given('a student education skills view', () => {
         wrapper = createWrapper()
 
         await vi.waitFor(() => {
-          const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
+          const containers = wrapper.findAllComponents(StudentEducationSkillsViewContainerStub)
           expect(containers).toHaveLength(mockedProgramsProgressView.length)
         })
       })
@@ -142,7 +142,7 @@ BddTest().given('a student education skills view', () => {
 
       wrapper = createWrapper()
 
-      const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
+      const filtersContainer = wrapper.findComponent(SkillsSortContainerStub)
 
       const defaultSort = formatSortParam(StudentProgressViewSortableFields.NAME, SortDirection.ASC)
       expect(filtersContainer.props('sort')).toEqual({ itemId: defaultSort })
@@ -167,10 +167,10 @@ BddTest().given('a student education skills view', () => {
         expect(mockAddErrorMessage).toHaveBeenCalled()
       })
 
-      const containers = wrapper.findAllComponents({ name: 'StudentEducationSkillsViewContainer' })
+      const containers = wrapper.findAllComponents(StudentEducationSkillsViewContainerStub)
       expect(containers).toHaveLength(0)
 
-      const filtersContainer = wrapper.findComponent({ name: 'SkillsSortContainer' })
+      const filtersContainer = wrapper.findComponent(SkillsSortContainerStub)
       expect(filtersContainer.exists()).toBe(true)
     })
   })

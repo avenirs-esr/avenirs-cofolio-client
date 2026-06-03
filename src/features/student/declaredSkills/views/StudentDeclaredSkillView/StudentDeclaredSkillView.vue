@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredSkillProgressDetails, useGetDeclaredSkillWithDeclaredActivities } from '@/api/avenir-esr'
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
@@ -60,17 +60,15 @@ function handleSkillDeleted () {
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.declaredSkills.views.StudentDeclaredSkillView.title')"
+  <DetailedPageTitle
+    :title="skillTitle"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.PROJECT_SKILLS"
   />
 
   <div
-    class="av-gap-sm av-pb-md av-row--lg av-align-baseline--lg av-justify-between--lg"
+    class="av-pb-md av-row av-justify-end"
     data-testid="student-declared-skill-view__title"
   >
-    <span class="n4 av-text-text2">{{ skillTitle }}</span>
     <DeclaredSkillSettingDropdown
       @delete-selected="displayModal"
       @update-selected="handleUpdateSelected"

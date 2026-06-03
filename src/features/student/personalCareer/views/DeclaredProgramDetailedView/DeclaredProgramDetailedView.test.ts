@@ -120,11 +120,10 @@ BddTest().given('a declared program detailed view component', () => {
     })
 
     BddTest().then('it should render DetailedPageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.PROJECT_SKILLS)
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks') as Array<{ text: string, to?: string }>
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbLinks).toHaveLength(5)
       expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
       expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
@@ -135,7 +134,7 @@ BddTest().given('a declared program detailed view component', () => {
 
     BddTest().then('it should build the title using the selected program title', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(String(pageTitle.props('title'))).toContain('Formation déclarée 1')
       })
     })

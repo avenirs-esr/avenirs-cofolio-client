@@ -155,7 +155,6 @@ provideEditNationalActivityViewContext({ form, isUpdating: isPending, save, canc
   <PageTitle
     :title="title"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STAFF.ACTIVITIES"
   />
   <QuerySuspense
     :is-loading="isLoading"

@@ -53,24 +53,20 @@ BddTest().given('a national activity catalog view', () => {
       ])
     })
 
-    BddTest().then('it should render PageTitle with the correct back route', () => {
-      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.ACTIVITIES)
-    })
-
     BddTest().then('it should render QuerySuspense with the correct error title', () => {
-      expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('errorTitle')).toBe('Impossible de charger l\'activité')
+      expect(wrapper.findComponent(QuerySuspenseStub).props('errorTitle')).toBe('Impossible de charger l\'activité')
     })
   })
 
   BddTest().when('the activity is loaded', () => {
     beforeEach(async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('isLoading')).toBe(false)
+        expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
       })
     })
 
     BddTest().then('it should render NationalActivityContentTab with the correct activity', () => {
-      expect(wrapper.findComponent({ name: 'NationalActivityContentTab' }).props('activity')).toEqual(mockedActivityContent)
+      expect(wrapper.findComponent(NationalActivityContentTabStub).props('activity')).toEqual(mockedActivityContent)
     })
   })
 
@@ -82,7 +78,7 @@ BddTest().given('a national activity catalog view', () => {
 
     BddTest().then('it should render QuerySuspense with an error', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'QuerySuspense' }).props('error')).toBeTruthy()
+        expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toBeTruthy()
       })
     })
   })

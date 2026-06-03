@@ -72,24 +72,19 @@ BddTest().given('a project activity detailed view', () => {
       expect(title.text()).toContain('Détail Activité "Connaissance de soi" : Définir ses valeurs')
     })
 
-    BddTest().then('it should pass the correct back route', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.HOME)
-    })
-
     BddTest().then('it should pass the correct breadcrumb links', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
       expect(breadcrumbLinks).toHaveLength(3)
-      expect(breadcrumbLinks?.[0]).toEqual({
+      expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME
       })
-      expect(breadcrumbLinks?.[1]).toEqual({
+      expect(breadcrumbLinks[1]).toEqual({
         text: 'Construire mon projet de vie'
       })
-      expect(breadcrumbLinks?.[2]).toEqual({
+      expect(breadcrumbLinks[2]).toEqual({
         text: 'Mes activités'
       })
     })

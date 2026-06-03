@@ -76,7 +76,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
   <div
     class="av-py-md av-gap-sm"

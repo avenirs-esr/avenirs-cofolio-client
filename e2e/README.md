@@ -321,7 +321,7 @@ There is no `ProfileCardSteps` fixture because: it appears in one place, has no 
 
 **`PageTitle` — ComponentObject + Steps fixture (`PageTitleSteps`)**
 
-`PageTitle` is interactive (back button, expandable breadcrumb) and appears on every content page with page-specific title and breadcrumb items. These rules need to be verified in Gherkin, and they are the same steps regardless of which page they run on.
+`PageTitle` is interactive (expandable breadcrumb) and appears on every content page with page-specific title and breadcrumb items. These rules need to be verified in Gherkin, and they are the same steps regardless of which page they run on.
 
 ```typescript
 // PageTitleSteps.ts — wraps PageTitle, resolves page-specific data at runtime
@@ -337,9 +337,6 @@ async verifyPageTitleCorrect () {
 async verifyBreadcrumbCorrect () {
   await this.getPageTitle().verifyBreadcrumbItems(this.getCurrentPageConfig().breadcrumbItems)
 }
-
-@When('the user clicks the back button')
-async clickBackButton () { await this.getPageTitle().clickBackButton() }
 ```
 
 A Steps fixture is needed when: the component appears on multiple pages, has user interactions (`click*`), or carries functional rules (correct title, correct breadcrumb structure) that belong in Gherkin scenarios.

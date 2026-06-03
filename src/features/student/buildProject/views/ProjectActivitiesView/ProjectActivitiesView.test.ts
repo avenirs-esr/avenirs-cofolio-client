@@ -40,22 +40,17 @@ BddTest().given('a project activities view', () => {
 
   BddTest().when('the view is mounted', () => {
     BddTest().then('it should render the page title component', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
       expect(pageTitle.exists()).toBe(true)
     })
 
     BddTest().then('it should pass the correct title', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
       expect(pageTitle.props('title')).toBe('Mes activités')
     })
 
-    BddTest().then('it should pass the correct back route', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.HOME)
-    })
-
     BddTest().then('it should pass the correct breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
       expect(breadcrumbLinks).toHaveLength(3)
@@ -78,7 +73,7 @@ BddTest().given('a project activities view', () => {
 
   BddTest().when('the library tab is selected', () => {
     beforeEach(async () => {
-      wrapper.findComponent({ name: 'AvTabs' }).vm.$emit('update:modelValue', 1)
+      wrapper.findComponent(AvTabsStub).vm.$emit('update:modelValue', 1)
       await wrapper.vm.$nextTick()
     })
 

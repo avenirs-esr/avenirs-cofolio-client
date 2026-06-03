@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDetailedSkill } from '@/api/avenir-esr'
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import StudentSkillViewContainer
@@ -29,10 +29,9 @@ const breadcrumbLinks = computed(() => [
 </script>
 
 <template>
-  <PageTitle
-    :title="skillDetailed ? t('student.skills.views.StudentSkillView.title', { skill: skillDetailed?.name ?? '' }) : ''"
+  <DetailedPageTitle
+    :title="skillDetailed?.name ?? ''"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
   <ErrorMessage
     v-if="error"

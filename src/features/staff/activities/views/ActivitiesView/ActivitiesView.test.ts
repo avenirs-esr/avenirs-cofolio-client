@@ -46,7 +46,6 @@ BddTest().given('a staff activities view', () => {
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
         { text: 'Bibliothèque des activités' },
       ])
-      expect(pageTitle.props('back')).toBe(ROUTES.STAFF.HOME)
     })
 
     BddTest().then('it should render AvTabs component', () => {

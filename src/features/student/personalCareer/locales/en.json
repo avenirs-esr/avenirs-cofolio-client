@@ -211,8 +211,7 @@
             "details": {
               "title": "My declared program"
             }
-          },
-          "title": "Detail {programTitle}"
+          }
         },
         "DeclaredProgramUpdateView": {
           "confirmationModal": {
@@ -223,8 +222,7 @@
               "updateDeclaredProgram": "An error occurred while updating the declared program"
             },
             "success": "Declared program updated successfully"
-          },
-          "title": "Update {programTitle}"
+          }
         },
         "PersonalCareerView": {
           "ExperiencesSection": {

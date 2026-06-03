@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import DeclaredExperienceUpdateView, { type DeclaredExperienceUpdateViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
@@ -38,7 +38,7 @@ const UpdateDeclaredExperienceFormStub = {
 }
 const stubs = {
   AvIconText: AvIconTextStub,
-  PageTitle: PageTitleStub,
+  UpdatePageTitle: UpdatePageTitleStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
   AvTabs: { template: '<div><slot /></div>' },
@@ -64,8 +64,8 @@ BddTest().given('a declared experience update view', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render PageTitle', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render UpdatePageTitle', () => {
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
       expect(pageTitle.exists()).toBe(true)
     })
 

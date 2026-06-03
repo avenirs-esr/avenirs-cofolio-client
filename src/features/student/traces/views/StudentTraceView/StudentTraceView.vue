@@ -82,7 +82,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.traces.views.StudentTraceView.title', { trace: traceDetailed?.title ?? '' })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
 
   <Loader :is-loading>

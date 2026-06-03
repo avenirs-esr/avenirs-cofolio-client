@@ -64,17 +64,6 @@ class PageTitleSteps {
     await this.getPageTitle().verifyBreadcrumbItems(config.breadcrumbItems)
   }
 
-  @Then('the back button is correct')
-  async verifyBackButtonCorrect () {
-    await this.getPageTitle().verifyBackButton()
-  }
-
-  @When('the user clicks the back button')
-  async clickBackButton () {
-    await this.getPageTitle().clickBackButton()
-    await waitForPageLoad(this.page)
-  }
-
   @When('the user clicks the first breadcrumb link')
   async clickFirstBreadcrumbLink () {
     await this.getPageTitle().clickBreadcrumbLink(0)

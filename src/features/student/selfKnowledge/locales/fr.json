@@ -149,7 +149,6 @@
               "title": "Modifier mes {categoryType}"
             }
           },
-          "title": "Modifier mes {categoryType}",
           "updateForm": {
             "errors": {
               "updateElement": "Erreur lors de la mise à jour de l'élément"

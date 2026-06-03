@@ -36,7 +36,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.skills.views.StudentEducationSkillsView.title', { count: courses?.length ?? 1 })"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
   <SkillsSortContainer v-model:sort="selectedSortOption" />
   <div class="av-col av-gap-4xl">

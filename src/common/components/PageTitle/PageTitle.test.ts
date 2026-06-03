@@ -1,16 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { ROUTES } from '@/common/constants'
 import { AvBreadcrumbStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
-import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
-import { type Router, useRouter } from 'vue-router'
-
-vi.mock('vue-router', () => ({
-  useRouter: vi.fn(),
-}))
-
-const mockedUseRouter: MockedFunction<typeof useRouter> = vi.mocked(useRouter)
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a page title', () => {
   let wrapper: VueWrapper
@@ -20,7 +12,6 @@ BddTest().given('a page title', () => {
     { text: 'Page name' }
   ]
   const title = 'Page title'
-  const back = ROUTES.STUDENT.PROJECT_SKILLS
   const props = {
     breadcrumbLinks,
     title
@@ -67,46 +58,6 @@ BddTest().given('a page title', () => {
       const pageTitle = wrapper.find('.page-title')
       const slotTitleElement = pageTitle.find('.slot-title')
       expect(slotTitleElement.text()).toBe(slotTitle)
-    })
-  })
-
-  BddTest().when('clicking on the back button without back provided', () => {
-    let mockRouter: Partial<Router>
-
-    beforeEach(async () => {
-      mockRouter = { push: vi.fn() }
-      mockedUseRouter.mockReturnValue(mockRouter as Router)
-
-      wrapper = await mountWithRouter(PageTitle, {
-        props,
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should call router.push with default "back" path', async () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      await button.trigger('click')
-      expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.STUDENT.HOME)
-    })
-  })
-
-  BddTest().when('clicking on the back button with back provided', () => {
-    let mockRouter: Partial<Router>
-
-    beforeEach(async () => {
-      mockRouter = { push: vi.fn() }
-      mockedUseRouter.mockReturnValue(mockRouter as Router)
-
-      wrapper = await mountWithRouter(PageTitle, {
-        props: { ...props, back },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should call router.push with provided "back" path', async () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      await button.trigger('click')
-      expect(mockRouter.push).toHaveBeenCalledWith(back)
     })
   })
 })

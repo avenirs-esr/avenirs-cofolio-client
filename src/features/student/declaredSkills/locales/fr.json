@@ -109,8 +109,7 @@
             "details": {
               "title": "Ma compétence déclarée"
             }
-          },
-          "title": "Détail de ma compétence déclarée"
+          }
         },
         "StudentUpdateDeclaredSkillView": {
           "tabs": {
@@ -118,7 +117,6 @@
               "title": "Ma compétence déclarée"
             }
           },
-          "title": "Modifier ma compétence déclarée",
           "updateAssociations": {
             "addTraceButton": "Ajouter une trace",
             "errors": {

@@ -3,9 +3,11 @@ import {
   detailedSkillProgressNotFoundErrorHandler
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
+import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
 import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
@@ -28,21 +30,14 @@ vi.mock('@/common/composables', async () => {
 })
 
 const stubs = {
-  PageTitle: PageTitleStub,
+  DetailedPageTitle: DetailedPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
   StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
-  DeclaredSkillDetails: {
-    name: 'DeclaredSkillDetails',
-    props: ['declaredSkillProgressDetails'],
-    template: '<div class="declared-skill-details-stub" />'
-  },
-  DeclaredSkillSettingDropdown: {
-    name: 'DeclaredSkillSettingDropdown',
-    template: '<div class="declared-skill-setting-dropdown-stub" />'
-  }
+  DeclaredSkillDetails: DeclaredSkillDetailsStub,
+  DeclaredSkillSettingDropdown: DeclaredSkillSettingDropdownStub
 }
 
 BddTest().given('a student declared skill view', () => {
@@ -59,12 +54,14 @@ BddTest().given('a student declared skill view', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+    BddTest().then('it should render DetailedPageTitle with correct props', async () => {
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('title')).toBe('Détail de ma compétence déclarée')
-      expect(pageTitle.props('back')).toBe(ROUTES.STUDENT.PROJECT_SKILLS)
+
+      await vi.waitFor(() => {
+        expect(pageTitle.props('title')).toBe('Conduire un projet de bout en bout')
+      })
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
       expect(breadcrumbLinks).toHaveLength(4)
@@ -84,21 +81,13 @@ BddTest().given('a student declared skill view', () => {
       })
     })
 
-    BddTest().then('it should render the skill title from query data', async () => {
-      await vi.waitFor(() => {
-        const title = wrapper.find('[data-testid="student-declared-skill-view__title"] .n4')
-        expect(title.exists()).toBe(true)
-        expect(title.text()).toBe('Conduire un projet de bout en bout')
-      })
-    })
-
     BddTest().then('it should render DeclaredSkillSettingDropdown', () => {
-      const settingDropdown = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
+      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
       expect(settingDropdown.exists()).toBe(true)
     })
 
     BddTest().then('it should render AvTabs', () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       expect(tabs.exists()).toBe(true)
     })
 
@@ -112,7 +101,7 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().then('it should render DeclaredSkillDetails component with correct props', async () => {
       await vi.waitFor(() => {
-        const detailsComponent = wrapper.findComponent({ name: 'DeclaredSkillDetails' })
+        const detailsComponent = wrapper.findComponent(DeclaredSkillDetailsStub)
         expect(detailsComponent.exists()).toBe(true)
         expect(detailsComponent.props('declaredSkillProgressDetails')).toBeDefined()
         expect(detailsComponent.props('declaredSkillProgressDetails').title).toBe('Conduire un projet de bout en bout')
@@ -120,7 +109,7 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should render StudentDeclaredSkillAssociations component with correct props when associations tab is active', async () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
@@ -139,7 +128,7 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should display the correct count of associations in associations tab title when associations tab is active', async () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
@@ -151,7 +140,7 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().then('it should not render ErrorMessage', async () => {
       await vi.waitFor(() => {
-        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        const errorMessage = wrapper.findComponent(ErrorMessageStub)
         expect(errorMessage.exists()).toBe(false)
       })
     })
@@ -159,7 +148,7 @@ BddTest().given('a student declared skill view', () => {
 
   BddTest().when('the update selected event is emitted', () => {
     BddTest().then('it should handle the event', async () => {
-      const settingDropdown = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
+      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
       await settingDropdown.vm.$emit('updateSelected')
       expect(navigateToStudentUpdateDeclaredSkill).toHaveBeenCalled()
     })
@@ -167,13 +156,13 @@ BddTest().given('a student declared skill view', () => {
 
   BddTest().when('the delete selected event is emitted', () => {
     beforeEach(async () => {
-      const settingDropdown = wrapper.findComponent({ name: 'DeclaredSkillSettingDropdown' })
+      const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
       await settingDropdown.vm.$emit('deleteSelected')
     })
 
     BddTest().then('it should show the delete confirmation modal', async () => {
       await vi.waitFor(() => {
-        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
         expect(deleteModal.exists()).toBe(true)
         expect(deleteModal.props('show')).toBe(true)
       })
@@ -181,13 +170,13 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().and('the modal emits the close event', () => {
       beforeEach(async () => {
-        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
         await deleteModal.vm.$emit('close')
       })
 
       BddTest().then('it should hide the delete confirmation modal', async () => {
         await vi.waitFor(() => {
-          const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+          const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
           expect(deleteModal.exists()).toBe(true)
           expect(deleteModal.props('show')).toBe(false)
         })
@@ -196,13 +185,13 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().and('the modal emits the skill deleted event', () => {
       beforeEach(async () => {
-        const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+        const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
         await deleteModal.vm.$emit('skillDeleted')
       })
 
       BddTest().then('it should hide the delete confirmation modal', async () => {
         await vi.waitFor(() => {
-          const deleteModal = wrapper.findComponent({ name: 'DeleteDeclaredSkillConfirmModal' })
+          const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
           expect(deleteModal.exists()).toBe(true)
           expect(deleteModal.props('show')).toBe(false)
         })
@@ -228,7 +217,7 @@ BddTest().given('a student declared skill view', () => {
 
     BddTest().then('it should render ErrorMessage with not found title and description', async () => {
       await vi.waitFor(() => {
-        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        const errorMessage = wrapper.findComponent(ErrorMessageStub)
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.props('title')).toBe('Compétence déclarée introuvable')
         expect(errorMessage.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
@@ -245,7 +234,7 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should render StudentDeclaredSkillAssociations with empty associations', async () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
@@ -268,7 +257,7 @@ BddTest().given('a student declared skill view', () => {
     })
 
     BddTest().then('it should pass the associations error to StudentDeclaredSkillAssociations', async () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+      const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {

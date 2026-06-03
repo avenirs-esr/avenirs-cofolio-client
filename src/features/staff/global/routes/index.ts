@@ -3,7 +3,6 @@ import { ROUTES } from '@/common/constants'
 import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute } from '@/features/staff/activities/routes'
 
 const footerLegalProps: RoutePageProps = {
-  backRoute: ROUTES.STAFF.HOME,
   breadcrumbLinksRaw: [
     { textKey: 'staff.global.navigation.tabs.home', to: ROUTES.STAFF.HOME },
   ]

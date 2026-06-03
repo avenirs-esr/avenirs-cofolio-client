@@ -46,7 +46,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.buildProject.views.projectActivitiesView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
   <AvTabs
     v-model="activeTab"

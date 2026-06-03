@@ -18,7 +18,6 @@ const breadcrumbLinks = computed(() => [
   <PageTitle
     :title="t('student.global.views.studentProjectTrajectoriesView.title')"
     :breadcrumb-links="breadcrumbLinks"
-    :back="ROUTES.STUDENT.HOME"
   />
   <StudentProjectTrajectoriesContainer />
 </template>
