@@ -90,9 +90,9 @@ const breadcrumbLinks = computed(() => [
     </div>
     <ActivitiesSideNavigation v-else />
 
-    <div class="av-col av-gap-sm">
+    <div class="av-col av-gap-sm av-w-full">
       <ActivitiesPreviousNextNavigation />
-      <div class="av-row av-flex-fill av-justify-center">
+      <div class="av-row">
         <QuerySuspense
           :error="error"
           :is-loading="isLoading"

@@ -63,7 +63,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
       <template #title>
         <div class="floating-icon-card__title-container av-w-full av-h-full">
           <span
-            class="floating-icon-card__title av-mr-4xl"
+            class="title av-max-lines av-mr-4xl"
             :class="titleTypographyClasses"
             :title="title"
             data-testid="floating-icon-card-title"
@@ -119,12 +119,8 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     display: block;
   }
 
-  &__title {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-clamp: v-bind('headerRows');
-    -webkit-line-clamp: v-bind('headerRows');
+  .title {
+    --max-lines: v-bind('headerRows');
     color: v-bind('titleColor');
   }
 

@@ -39,24 +39,26 @@ const computedEmptyStateMessage = computed(() => emptyStateMessage ?? t('global.
 </script>
 
 <template>
-  <Loader :is-loading>
-    <div
-      v-if="error"
-      class="av-row av-px-2xl av-py-md av-justify-center"
-    >
-      <slot name="error">
-        <ErrorMessage
-          :title="computedErrorTitle"
-          :description="computedErrorDescription"
-        />
+  <div class="av-w-full">
+    <Loader :is-loading>
+      <div
+        v-if="error"
+        class="av-row av-px-2xl av-py-md av-justify-center"
+      >
+        <slot name="error">
+          <ErrorMessage
+            :title="computedErrorTitle"
+            :description="computedErrorDescription"
+          />
+        </slot>
+      </div>
+      <slot
+        v-else-if="isEmpty"
+        name="empty"
+      >
+        <EmptyState :title="computedEmptyStateMessage" />
       </slot>
-    </div>
-    <slot
-      v-else-if="isEmpty"
-      name="empty"
-    >
-      <EmptyState :title="computedEmptyStateMessage" />
-    </slot>
-    <slot v-else />
-  </Loader>
+      <slot v-else />
+    </Loader>
+  </div>
 </template>
