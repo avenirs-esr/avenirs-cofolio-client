@@ -42,9 +42,10 @@ const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'), to: ROUTES.STUDENT.PERSONAL_CAREER },
-  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb') },
-  { text: declaredExperienceTitle.value }
+  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title') },
+  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES },
+  { text: `${t('global.detail')} ${declaredExperienceTitle.value}`, to: { name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId.value } } },
+  { text: `${t('global.buttons.update')} ${declaredExperienceTitle.value}` }
 ])
 
 const {

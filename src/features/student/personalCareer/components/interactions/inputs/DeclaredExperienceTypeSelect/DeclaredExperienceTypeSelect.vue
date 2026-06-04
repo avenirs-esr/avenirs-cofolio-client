@@ -29,7 +29,8 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceTypeSelect.label'),
   placeholder: t('student.personalCareer.interactions.inputs.DeclaredExperienceTypeSelect.placeholder'),
   prefixIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
-  options: options.value
+  options: options.value,
+  labelVisible: true
 }))
 </script>
 

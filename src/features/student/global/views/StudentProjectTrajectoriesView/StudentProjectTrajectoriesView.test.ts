@@ -20,7 +20,8 @@ BddTest().given('a student project trajectories view component', () => {
   const breadcrumbLinks = [
     { text: 'Accueil', to: ROUTES.STUDENT.HOME },
     { text: 'Construire mon projet de vie' },
-    { text: 'Bâtir mon projet' }
+    { text: 'Bâtir mon projet' },
+    { text: expect.any(String) }
   ]
 
   beforeEach(() => {

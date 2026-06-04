@@ -6,6 +6,17 @@ import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const routeQueryValue = ref<string>('UNASSOCIATED_TRACES')
+
+vi.mock('@vueuse/router', () => ({
+  useRouteQuery: (_queryName: string, defaultValue: string) => {
+    if (routeQueryValue.value === undefined) {
+      routeQueryValue.value = defaultValue
+    }
+    return routeQueryValue
+  },
+}))
+
 BddTest().given('a studentToolsTracesViewTabs', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewTabs>>
 

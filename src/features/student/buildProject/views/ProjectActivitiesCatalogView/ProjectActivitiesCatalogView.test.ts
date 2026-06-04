@@ -78,11 +78,11 @@ BddTest().given('a project activities catalog view', () => {
       expect(pageTitle.props('title')).toBe('Toutes les activités disponibles')
     })
 
-    BddTest().then('it should pass the correct breadcrumb links', () => {
+    BddTest().then('it should pass the correct breadcrumb links', async () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
-      expect(breadcrumbLinks).toHaveLength(3)
+      expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME

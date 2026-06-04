@@ -3,6 +3,10 @@ import { ROUTES } from '@/common/constants'
 import { AvSideNavigation, type AvSideNavigationItem, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const emit = defineEmits<{
+  selectedItem: [itemLabel: string]
+}>()
+
 const { t } = useI18n()
 const isSideMenuCollapsed = ref<boolean>(false)
 const route = useRoute()
@@ -36,6 +40,15 @@ const items = computed<AvSideNavigationItem[]>(() => {
 function navigateToSelectedItem (item: { itemId: string }) {
   router.replace({ name: item.itemId })
 }
+
+watch(() => route.name, (newRouteName) => {
+  if (newRouteName) {
+    const matchingItem = items.value.find(item => item.id === newRouteName)
+    if (matchingItem) {
+      emit('selectedItem', matchingItem.label)
+    }
+  }
+}, { immediate: true })
 </script>
 
 <template>

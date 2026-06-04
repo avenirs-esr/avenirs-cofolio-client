@@ -44,9 +44,9 @@ const { showModal, displayModal, hideModal } = useModal()
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'), to: ROUTES.STUDENT.PERSONAL_CAREER },
+  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title') },
   { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES },
-  { text: experienceTitle.value }
+  { text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }
 ])
 
 const {
