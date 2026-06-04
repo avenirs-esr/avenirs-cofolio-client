@@ -47,6 +47,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
       typography-class="n2"
       gap="var(--spacing-md)"
       inline
+      wrap-anywhere
       data-testid="activity-title"
     />
     <div class="av-row av-wrap av-gap-xs av-pl-5xl">

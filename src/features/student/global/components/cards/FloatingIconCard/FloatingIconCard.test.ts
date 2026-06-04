@@ -42,7 +42,7 @@ BddTest().given('a floating icon card', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const title = wrapper.find('.floating-icon-card__title')
+      const title = wrapper.find('[data-testid="floating-icon-card-title"]')
       expect(title.exists()).toBe(true)
       expect(title.text()).toBe('Test Card Title')
     })

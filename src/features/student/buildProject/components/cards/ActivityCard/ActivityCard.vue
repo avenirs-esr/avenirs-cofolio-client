@@ -87,7 +87,7 @@ const iconOptions = {
 
 .floating-icon-card {
   @include dsav.min-width(md) {
-    min-width: 18.4375rem !important;
+    min-width: 27rem !important;
     max-width: 27rem !important;
   }
 }

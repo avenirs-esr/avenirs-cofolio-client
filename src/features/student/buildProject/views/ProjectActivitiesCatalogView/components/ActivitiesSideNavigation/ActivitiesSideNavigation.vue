@@ -98,6 +98,7 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
       data-testid="activities-side-navigation"
       :selected-item="selectedSideNavItem"
       :items="items"
+      width="15rem"
       @update:selected-item="navigateToSelectedItem"
     />
   </Loader>
