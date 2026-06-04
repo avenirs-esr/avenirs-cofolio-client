@@ -1,5 +1,7 @@
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import { createCustomFetch, FetchInterceptorManager, type ResponseInterceptorContext } from '@/api/fetch'
+import { HttpStatusCode } from '@/common/utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 const mockAddRequestInterceptor = vi.fn()
@@ -15,6 +17,14 @@ vi.mock('@/api/fetch', () => ({
     removeRequestInterceptor: mockRemoveRequestInterceptor,
     removeResponseInterceptor: mockRemoveResponseInterceptor,
   })),
+}))
+
+const mockEnsureAuthenticated = vi.fn()
+
+vi.mock('@/features/auth/global/stores/auth.store', () => ({
+  useAuthStore: vi.fn(() => ({
+    ensureAuthenticated: mockEnsureAuthenticated,
+  }))
 }))
 
 BddTest().given('avenir-esr customFetch', () => {
@@ -55,6 +65,7 @@ BddTest().given('avenir-esr customFetch', () => {
       BddTest().then('should create FetchInterceptorManager instance', () => {
         expect(mockedFetchInterceptorManager).toHaveBeenCalledTimes(1)
         expect(mockAddRequestInterceptor).toHaveBeenCalledTimes(1)
+        expect(mockAddResponseInterceptor).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('should call createCustomFetch with correct parameters', () => {
@@ -107,6 +118,45 @@ BddTest().given('avenir-esr customFetch', () => {
       BddTest().then('should return the mocked response', () => {
         expect(mockFetcher).toHaveBeenCalledWith('/test', { method: 'GET' })
         expect(result).toEqual(mockResponse)
+      })
+    })
+  })
+
+  BddTest().and('a 401 response is returned', () => {
+    const mockUnauthorizedResponse = new Response(null, { status: HttpStatusCode.UNAUTHORIZED })
+    const mockContext: ResponseInterceptorContext = {
+      url: '/me/navigation-access',
+      options: {},
+      config: {},
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      vi.resetModules()
+    })
+
+    BddTest().when('response interceptor is executed with 401', () => {
+      let interceptor: (response: Response, context: ResponseInterceptorContext) => Promise<unknown>
+
+      beforeEach(async () => {
+        await import('./fetch-instance')
+        interceptor = mockAddResponseInterceptor.mock.calls[0][0]
+      })
+
+      BddTest().then('should call ensureAuthenticated and return a never-resolving promise', async () => {
+        const result = interceptor(mockUnauthorizedResponse, mockContext)
+
+        await flushPromises()
+
+        expect(mockEnsureAuthenticated).toHaveBeenCalledTimes(1)
+        expect(result).toBeInstanceOf(Promise)
+
+        let resolved = false
+        result.then(() => resolved = true)
+
+        await flushPromises()
+
+        expect(resolved).toBe(false)
       })
     })
   })

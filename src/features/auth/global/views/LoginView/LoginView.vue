@@ -4,13 +4,23 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
+
+function getRedirectUrl (): string {
+  const redirectQuery = route.query.redirect
+
+  if (typeof redirectQuery === 'string') {
+    const resolved = router.resolve(redirectQuery)
+    if (resolved.matched.length > 0) {
+      return resolved.href
+    }
+  }
+  return import.meta.env.BASE_URL
+}
 
 function onLoginClick () {
-  const intendedPath = typeof route.query.redirect === 'string'
-    ? `/cofolio${route.query.redirect}`
-    : `${import.meta.env.BASE_URL}/student/home`
-  const redirect = encodeURIComponent(intendedPath)
-  window.location.assign(`${__AUTH_LOGIN_URL__}?redirect=${redirect}`)
+  const redirect = encodeURIComponent(getRedirectUrl())
+  window.location.replace(`${__AUTH_LOGIN_URL__}?redirect=${redirect}`)
 }
 </script>
 

@@ -34,8 +34,6 @@ export default defineConfig({
         },
         enumGenerationType: 'enum',
         query: {
-          useQuery: true,
-          useMutation: true,
           useInfinite: false,
           usePrefetch: false,
           useInvalidate: true,

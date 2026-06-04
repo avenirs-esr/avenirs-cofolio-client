@@ -1,4 +1,4 @@
-import type { FetchConfig, RequestInterceptor, ResponseInterceptor } from '@/api/fetch/types'
+import type { FetchConfig, RequestInterceptor, ResponseInterceptor, ResponseInterceptorContext } from '@/api/fetch/types'
 
 export class FetchInterceptorManager {
   private requestInterceptors: RequestInterceptor[] = []
@@ -22,11 +22,11 @@ export class FetchInterceptorManager {
     return finalOptions
   }
 
-  async applyResponseInterceptors (response: Response): Promise<Response> {
+  async applyResponseInterceptors (response: Response, context: ResponseInterceptorContext): Promise<Response> {
     let finalResponse = response
 
     for (const interceptor of this.responseInterceptors) {
-      finalResponse = await interceptor(finalResponse)
+      finalResponse = await interceptor(finalResponse, context)
     }
 
     return finalResponse

@@ -10,12 +10,20 @@ vi.mock('vue-router', () => ({
       return mockQuery.value
     },
   }),
+  useRouter: () => ({
+    resolve: (path: string) => ({
+      matched: [{}],
+      href: path,
+    }),
+  }),
 }))
 
-const mockWindowLocationAssign = vi.fn()
+const mockWindowLocationReplace = vi.fn()
 
 Object.defineProperty(window, 'location', {
-  value: { assign: mockWindowLocationAssign },
+  value: {
+    replace: mockWindowLocationReplace,
+  },
   writable: true,
   configurable: true,
 })
@@ -51,9 +59,7 @@ BddTest().given('a login view', () => {
     BddTest().then('it should redirect to auth login url with the encoded default redirect path', async () => {
       const loginButton = wrapper.find('[data-testid="login-btn"]')
       await loginButton.trigger('click')
-
-      expect(mockWindowLocationAssign).toHaveBeenCalledOnce()
-      expect(mockWindowLocationAssign).toHaveBeenCalledWith(expect.stringContaining(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent(`${import.meta.env.BASE_URL}/student/home`)}`))
+      expect(mockWindowLocationReplace).toHaveBeenCalledWith(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent(import.meta.env.BASE_URL)}`)
     })
   })
 
@@ -63,9 +69,7 @@ BddTest().given('a login view', () => {
     BddTest().then('it should redirect to auth login url with encoded redirect query param', async () => {
       const loginButton = wrapper.find('[data-testid="login-btn"]')
       await loginButton.trigger('click')
-
-      expect(mockWindowLocationAssign).toHaveBeenCalledOnce()
-      expect(mockWindowLocationAssign).toHaveBeenCalledWith(expect.stringContaining(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent(`/cofolio/current-route`)}`))
+      expect(mockWindowLocationReplace).toHaveBeenCalledWith(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent('/current-route')}`)
     })
   })
 })

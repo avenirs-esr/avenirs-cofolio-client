@@ -14,16 +14,17 @@ import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
   // const isMSWEnabled = mode !== 'production' && env.VITE_ENABLE_MSW === 'true'
+  const baseUrl = env.VITE_API_URL || 'http://localhost:3000'
   const basePath = env.VITE_BASE_PATH || '/cofolio/'
 
   return defineConfig({
     define: {
-      __BASE_URL__: JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
+      __BASE_URL__: JSON.stringify(baseUrl),
       __ENABLE_MSW__: JSON.stringify(env.VITE_ENABLE_MSW === 'true'),
       __BEARER_TOKEN__: JSON.stringify(env.VITE_AVENIR_ESR_ACCESS_TOKEN ? `Bearer ${env.VITE_AVENIR_ESR_ACCESS_TOKEN}` : 'Bearer token'),
       __DEMO_MODE__: JSON.stringify(env.VITE_DEMO_MODE === 'true'),
-      __AUTH_LOGIN_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}/auth/login`),
-      __AUTH_LOGOUT_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}/auth/logout`),
+      __AUTH_LOGIN_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${baseUrl}/auth/login`),
+      __AUTH_LOGOUT_URL__: JSON.stringify(env.VITE_AUTH_LOGOUT_URL || `${baseUrl}/auth/logout`),
     },
     plugins: [
       vue(),
