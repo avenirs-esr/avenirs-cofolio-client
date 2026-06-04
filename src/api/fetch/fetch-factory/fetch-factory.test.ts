@@ -154,7 +154,7 @@ BddTest().given('a custom fetch creator', () => {
   BddTest().when('creating a custom fetch and passing an interceptor manager', () => {
     BddTest().then('it should apply request and response interceptors', async () => {
       const reqSpy = vi.fn((url, options) => ({ ...options, headers: { ...options.headers, 'X-Test': 'yes' } }))
-      const resSpy = vi.fn(async r => r)
+      const resSpy = vi.fn(async (response, _context) => response)
       interceptorManager.addRequestInterceptor(reqSpy)
       interceptorManager.addResponseInterceptor(resSpy)
       vi.mocked(mockFetch).mockResolvedValueOnce(
@@ -170,7 +170,7 @@ BddTest().given('a custom fetch creator', () => {
   BddTest().when('creating a custom fetch and passing an interceptor manager', () => {
     BddTest().then('it should apply request and response interceptors', async () => {
       const reqSpy = vi.fn((url, options) => ({ ...options, headers: { ...options.headers, 'X-Test': 'yes' } }))
-      const resSpy = vi.fn(async r => r)
+      const resSpy = vi.fn(async (response, _context) => response)
       interceptorManager.addRequestInterceptor(reqSpy)
       interceptorManager.addResponseInterceptor(resSpy)
       vi.mocked(mockFetch).mockResolvedValueOnce(

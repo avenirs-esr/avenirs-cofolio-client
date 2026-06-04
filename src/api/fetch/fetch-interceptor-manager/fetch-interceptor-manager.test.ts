@@ -1,3 +1,4 @@
+import type { ResponseInterceptorContext } from '@/api/fetch/types'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -29,12 +30,17 @@ BddTest().given('a fetch interceptor manager', () => {
     BddTest().then('it should apply response interceptors in order', async () => {
       const manager = new FetchInterceptorManager()
       const response = new Response('{"ok":true}', { status: 200, headers: { 'content-type': 'application/json' } })
+      const context: ResponseInterceptorContext = {
+        url: '/me/navigation-access',
+        options: {},
+        config: dummyConfig,
+      }
       const interceptor1 = vi.fn(async (res: Response) => res)
       const interceptor2 = vi.fn(async (res: Response) => res)
       manager.addResponseInterceptor(interceptor1)
       manager.addResponseInterceptor(interceptor2)
 
-      const result = await manager.applyResponseInterceptors(response)
+      const result = await manager.applyResponseInterceptors(response, context)
       expect(interceptor1).toHaveBeenCalled()
       expect(interceptor2).toHaveBeenCalled()
       expect(result).toBe(response)

@@ -50,7 +50,16 @@ const router = createRouter({
   }
 })
 
-router.beforeEach((to) => { // Cf. https://github.com/vueuse/head pour des transformations avancées de Head
+router.beforeEach(async (to) => { // Cf. https://github.com/vueuse/head pour des transformations avancées de Head
+  if (to.meta.public !== true) {
+    const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
+    const authStore = useAuthStore()
+    const toAuth = await authStore.ensureAuthenticated({ to, delegated: true })
+    if (toAuth !== undefined) {
+      return toAuth
+    }
+  }
+
   const specificTitle = to.meta.title ? `${to.meta.title} - ` : ''
   document.title = `${specificTitle}${MAIN_TITLE}`
 })

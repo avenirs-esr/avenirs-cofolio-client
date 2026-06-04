@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { ROUTES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import router from '@/router'
 import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 vi.mock('@/features/student/global/composables/use-student-apc-access/use-student-apc-access', () => ({
@@ -19,8 +20,8 @@ BddTest().given('a student navigation', () => {
   const mockUseStudentApcAccess = vi.mocked(useStudentApcAccess)
   const succeedMyEducationMenuTitle = 'RÉUSSIR MA FORMATION'
 
-  const mountComponent = async () => {
-    const wrapper = mount(StudentNavigation, {
+  const mountDefault = async () => {
+    const wrapper = mountComponent(StudentNavigation, {
       global: {
         stubs,
         plugins: [router],
@@ -46,7 +47,7 @@ BddTest().given('a student navigation', () => {
         showApcSubmenus: computed(() => false),
       })
 
-      wrapper = await mountComponent()
+      wrapper = await mountDefault()
     })
 
     BddTest().then('it should render AvNavigation component', () => {
@@ -85,7 +86,7 @@ BddTest().given('a student navigation', () => {
         showApcSubmenus: computed(() => false),
       })
 
-      wrapper = await mountComponent()
+      wrapper = await mountDefault()
     })
 
     BddTest().then('it should include education menu in navigation items', () => {
@@ -115,7 +116,7 @@ BddTest().given('a student navigation', () => {
         showApcSubmenus: computed(() => true),
       })
 
-      wrapper = await mountComponent()
+      wrapper = await mountDefault()
     })
 
     BddTest().then('it should include education menu with submenus', () => {
@@ -154,7 +155,7 @@ BddTest().given('a student navigation', () => {
       })
 
       await router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name })
-      wrapper = await mountComponent()
+      wrapper = await mountDefault()
     })
 
     BddTest().then('it should keep the experiences link on the current route full path', () => {

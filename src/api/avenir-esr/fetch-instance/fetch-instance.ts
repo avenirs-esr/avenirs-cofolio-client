@@ -1,5 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import { createCustomFetch, FetchInterceptorManager, type FetchOptions, type ResponseInterceptorContext } from '@/api/fetch'
+import { HttpStatusCode } from '@/common/utils'
 import { i18n } from '@/plugins/vue-i18n'
 import { AvIsoLocaleMap } from '@/types'
 
@@ -17,6 +18,21 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
     'Authorization': __BEARER_TOKEN__
   }
   return options
+})
+
+interceptorManager.addResponseInterceptor(async (response: Response, context: ResponseInterceptorContext): Promise<Response> => {
+  const skip = (context.options as FetchOptions).skipUnauthorizedHandling
+
+  if (response.status === HttpStatusCode.UNAUTHORIZED && !skip) {
+    const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
+    const authStore = useAuthStore()
+
+    await authStore.ensureAuthenticated({ force: true })
+
+    return new Promise<Response>(() => {})
+  }
+
+  return response
 })
 
 const fetcher = createCustomFetch({

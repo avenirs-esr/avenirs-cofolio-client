@@ -1,4 +1,4 @@
-import type { FetchConfig } from '@/api/fetch/types'
+import type { FetchConfig, ResponseInterceptorContext } from '@/api/fetch/types'
 import { FetchInterceptorManager } from '@/api/fetch/fetch-interceptor-manager/fetch-interceptor-manager'
 import {
   BaseApiException,
@@ -106,7 +106,12 @@ function createCustomFetch (
 
       const response = await fetch(requestUrl, requestInit)
 
-      const interceptedResponse = await interceptorManager.applyResponseInterceptors(response)
+      const responseContext: ResponseInterceptorContext = {
+        url: requestUrl,
+        options: requestInit,
+        config,
+      }
+      const interceptedResponse = await interceptorManager.applyResponseInterceptors(response, responseContext)
 
       if (!interceptedResponse.ok) {
         const errorData: unknown = await getBody(interceptedResponse.clone())
