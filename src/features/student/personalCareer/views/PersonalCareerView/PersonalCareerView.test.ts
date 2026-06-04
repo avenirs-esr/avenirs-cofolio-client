@@ -32,7 +32,7 @@ BddTest().given('a student project experiences view component', () => {
       expect(pageTitle.props('title')).toBe('Mon parcours')
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(3)
+      expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME

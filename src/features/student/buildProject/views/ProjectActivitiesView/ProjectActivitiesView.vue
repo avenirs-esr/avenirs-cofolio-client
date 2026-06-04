@@ -4,17 +4,13 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
+import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import ActivityLibraryTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
 import AllActivitiesTab from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-
-enum ProjectActivitiesTab {
-  ALL_ACTIVITIES = 0,
-  ACTIVITY_LIBRARY = 1,
-}
 
 const activeTab = useEnumRouteQuery('tab', ProjectActivitiesTab, ProjectActivitiesTab.ALL_ACTIVITIES)
 

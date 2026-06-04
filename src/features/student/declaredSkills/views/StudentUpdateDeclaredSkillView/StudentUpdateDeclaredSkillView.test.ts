@@ -91,7 +91,7 @@ BddTest().given('a student update declared skill view component', () => {
       })
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(4)
+      expect(breadcrumbLinks).toHaveLength(5)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME
@@ -104,7 +104,8 @@ BddTest().given('a student update declared skill view component', () => {
         to: ROUTES.STUDENT.PROJECT_SKILLS
       })
       expect(breadcrumbLinks[3]).toEqual({
-        text: 'Mes autres compétences déclarées'
+        text: 'Compétence déclarée Conduire un projet de bout en bout',
+        to: { name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: '123' } }
       })
     })
 

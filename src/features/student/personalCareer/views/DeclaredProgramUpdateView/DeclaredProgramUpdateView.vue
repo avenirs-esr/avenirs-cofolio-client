@@ -32,7 +32,11 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.header') },
   { text: t('student.global.navigation.tabs.project.items.experiences') },
   { text: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS },
-  { text: programTitle.value }
+  {
+    text: programTitle.value,
+    to: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId.value } }
+  },
+  { text: `${t('global.buttons.update')} ${programTitle.value}` }
 ])
 
 const {

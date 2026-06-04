@@ -44,6 +44,10 @@ const {
   isLoading = false,
 } = defineProps<SectionNavigationLayoutProps<T>>()
 
+const emit = defineEmits<{
+  (e: 'selectedSection', section: string): void
+}>()
+
 const resolvedPropsBySection = computed<SectionPropsBySection<T>>(() => propsBySection ?? {})
 const resolvedSelectLabel = computed(() => selectLabel ?? selectPlaceholder)
 
@@ -101,6 +105,11 @@ function onSideNavigationChange (value: AvSideNavigationSelectedItem) {
     parentId: value.parentId,
   }
 }
+
+watch(selectedSection, (newSection) => {
+  const sectionLabel = items.find(item => item.id === newSection)?.label ?? ''
+  emit('selectedSection', sectionLabel)
+}, { immediate: true })
 </script>
 
 <template>

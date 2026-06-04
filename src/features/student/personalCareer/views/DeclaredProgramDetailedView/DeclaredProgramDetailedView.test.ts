@@ -127,7 +127,7 @@ BddTest().given('a declared program detailed view component', () => {
       expect(breadcrumbLinks).toHaveLength(5)
       expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
       expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
-      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours', to: ROUTES.STUDENT.PERSONAL_CAREER })
+      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours' })
       expect(breadcrumbLinks[3]).toEqual({ text: 'Mes formations', to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS })
       expect(breadcrumbLinks[4]).toEqual({ text: 'Formation déclarée 1' })
     })

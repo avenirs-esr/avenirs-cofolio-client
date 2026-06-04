@@ -9,6 +9,7 @@ import ActivityErrorMessage from '@/features/student/buildProject/components/fee
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
   from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
+import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import ActivityDetailedDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import ProjectActivityDetailedLayout
@@ -34,7 +35,11 @@ const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDr
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.activities') }
+  {
+    text: t('student.global.navigation.tabs.project.items.activities'),
+    to: { name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name, query: { tab: ProjectActivitiesTab[ProjectActivitiesTab.ACTIVITY_LIBRARY] } }
+  },
+  { text: declaredActivityDetail.value?.activity.title ?? '' }
 ])
 
 function onUnsubscribed () {

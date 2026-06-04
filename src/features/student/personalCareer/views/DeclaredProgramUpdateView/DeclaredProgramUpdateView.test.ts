@@ -139,12 +139,16 @@ BddTest().given('a declared program update view component', () => {
       expect(pageTitle.exists()).toBe(true)
 
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(5)
+      expect(breadcrumbLinks).toHaveLength(6)
       expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
       expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
       expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours' })
       expect(breadcrumbLinks[3]).toEqual({ text: 'Mes formations', to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS })
-      expect(breadcrumbLinks[4]).toEqual({ text: 'Formation déclarée 1' })
+      expect(breadcrumbLinks[4]).toEqual({
+        text: 'Formation déclarée 1',
+        to: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: 'declared-program-1' } }
+      })
+      expect(breadcrumbLinks[5]).toEqual({ text: 'Modifier Formation déclarée 1' })
     })
 
     BddTest().then('it should build the title using the selected program title', async () => {

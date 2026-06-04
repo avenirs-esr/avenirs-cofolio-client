@@ -7,6 +7,7 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
+import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
 import {
   ProjectActivityDetailedLayoutStub
@@ -76,7 +77,7 @@ BddTest().given('a project activity detailed view', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
-      expect(breadcrumbLinks).toHaveLength(3)
+      expect(breadcrumbLinks).toHaveLength(4)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME
@@ -85,7 +86,8 @@ BddTest().given('a project activity detailed view', () => {
         text: 'Construire mon projet de vie'
       })
       expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes activités'
+        text: 'Mes activités',
+        to: { name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name, query: { tab: ProjectActivitiesTab[ProjectActivitiesTab.ACTIVITY_LIBRARY] } }
       })
     })
 

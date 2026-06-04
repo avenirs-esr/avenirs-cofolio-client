@@ -14,6 +14,10 @@ import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+defineEmits<{
+  (e: 'selectedSection', section: string): void
+}>()
+
 const { t } = useI18n()
 
 const allItems = computed<SectionNavigationItem[]>(() => [
@@ -75,6 +79,7 @@ const defaultSection = computed<ProjectTrajectoryItems>(() => {
       :select-label="t('student.global.navigation.selects.label')"
       side-navigation-width="11rem"
       data-testid="project-trajectories-layout"
+      @selected-section="$emit('selectedSection', $event)"
     />
   </div>
 </template>

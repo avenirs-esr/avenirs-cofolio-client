@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentToolsTracesViewAssociatedTab
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
@@ -10,7 +11,12 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const { data: tracesSummary } = useTracesSummaryQuery()
 
-const activeTab = ref(0)
+enum StudentToolsTracesViewTabs {
+  UNASSOCIATED_TRACES = 0,
+  ASSOCIATED_TRACES = 1,
+}
+
+const activeTab = useEnumRouteQuery('tab', StudentToolsTracesViewTabs, StudentToolsTracesViewTabs.UNASSOCIATED_TRACES)
 </script>
 
 <template>
@@ -31,7 +37,3 @@ const activeTab = ref(0)
     </AvTab>
   </AvTabs>
 </template>
-
-<style lang="scss" scoped>
-
-</style>

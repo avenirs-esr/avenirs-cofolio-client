@@ -7,10 +7,13 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
+const currentSection = ref<string>('')
+
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.trajectories') }
+  { text: t('student.global.navigation.tabs.project.items.trajectories') },
+  { text: currentSection.value }
 ])
 </script>
 
@@ -19,5 +22,5 @@ const breadcrumbLinks = computed(() => [
     :title="t('student.global.views.studentProjectTrajectoriesView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
-  <StudentProjectTrajectoriesContainer />
+  <StudentProjectTrajectoriesContainer @selected-section="currentSection = $event" />
 </template>
