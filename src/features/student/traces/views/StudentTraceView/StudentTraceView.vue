@@ -10,12 +10,10 @@ import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import AssociateDeclaredSkillsToTracesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
-import UpdateTraceModal from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateTraceModal.vue'
 import { useToasterStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -31,7 +29,7 @@ const { addErrorMessage } = useToasterStore()
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
 const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
-const { navigateToStudentTraces } = useNavigation()
+const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
 const route = useRoute()
 
 const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
@@ -43,7 +41,6 @@ const {
   hideModal: hideDeleteModal
 } = useModal()
 
-const { displayUpdateTraceModal } = useTracesStore()
 const { mutate: mutateDownloadAttachment } = useDownloadFile()
 
 function downloadAttachment (fileId: string) {
@@ -73,6 +70,19 @@ function onDeleteTraceSuccess () {
 
 const isToolsTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_TRACE.name)
 
+function handleUpdateTrace () {
+  if (isToolsTraceRoute.value) {
+    navigateToStudentToolsUpdateTrace({
+      id: traceDetailed.value!.id,
+    })
+  }
+  else {
+    navigateToStudentUpdateTrace({
+      id: traceDetailed.value!.id,
+    })
+  }
+}
+
 const toolsBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.tools.header') },
@@ -82,7 +92,7 @@ const toolsBreadcrumbLinks = computed(() => [
 
 const homeBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.traces.views.StudentTraceView.breadcrumb.current.title', { trace: traceDetailed.value?.title || '' }) }
+  { text: t('global.buttons.update') }
 ])
 
 const breadcrumbLinks = computed(() => isToolsTraceRoute.value
@@ -107,7 +117,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
           :download-disabled="!traceDetailed.attachment"
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
-          @update-selected="displayUpdateTraceModal"
+          @update-selected="handleUpdateTrace"
           @download-selected="downloadAttachment(traceDetailed.attachment?.id ?? '')"
         />
       </div>
@@ -162,12 +172,6 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
         :show="showDeleteModal"
         :on-confirm-delete="() => onDeleteTraceSuccess()"
         :on-close="() => hideDeleteModal()"
-      />
-
-      <UpdateTraceModal
-        v-if="traceAssociations"
-        :trace="traceDetailed"
-        :associations="traceAssociations"
       />
     </div>
   </Loader>

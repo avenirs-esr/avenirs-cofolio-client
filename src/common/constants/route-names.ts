@@ -51,9 +51,11 @@ export const ROUTES = {
     TOOLS_RESUMES: { name: 'student-tools-resumes', path: 'tools/resumes' },
     TOOLS_TRACES: { name: 'student-tools-traces', path: 'tools/traces' },
     TOOLS_TRACE: { name: 'student-tools-trace', path: 'tools/trace/:id' },
+    TOOLS_UPDATE_TRACE: { name: 'student-tools-update-trace', path: 'tools/update-trace/:id' },
     TRACE: { name: 'student-trace', path: 'trace/:id' },
     UPDATE_DECLARED_EXPERIENCE: { name: 'student-update-declared-experience', path: 'update-declared-experience/:id' },
     UPDATE_DECLARED_SKILL: { name: 'student-update-declared-skill', path: 'update-declared-skill/:id' },
+    UPDATE_TRACE: { name: 'student-update-trace', path: 'update-trace/:id' },
   },
 } as const
 

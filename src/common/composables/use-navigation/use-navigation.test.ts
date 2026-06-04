@@ -266,6 +266,30 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student update trace', () => {
+    BddTest().then('it should navigate to student update trace', () => {
+      const { navigateToStudentUpdateTrace } = navigation
+      navigateToStudentUpdateTrace({ id: 'trace-123' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.UPDATE_TRACE.name,
+        params: { id: 'trace-123' }
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools update trace', () => {
+    BddTest().then('it should navigate to student tools update trace', () => {
+      const { navigateToStudentToolsUpdateTrace } = navigation
+      navigateToStudentToolsUpdateTrace({ id: 'trace-123' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
+        params: { id: 'trace-123' }
+      })
+    })
+  })
+
   BddTest().when('trying to navigate to student update declared program', () => {
     BddTest().then('it should navigate to student update declared program', () => {
       const { navigateToStudentUpdateDeclaredProgram } = navigation

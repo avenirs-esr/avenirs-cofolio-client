@@ -148,8 +148,7 @@
                   "description": "Votre trace a été créée, vous pouvez réessayer d'associer votre trace dans la page de détails de votre trace.",
                   "title": "Une erreur est survenue lors de l'association"
                 },
-                "createTrace": "Une erreur est survenue lors de la création de la trace.",
-                "fileUpload": "Une erreur est survenue lors du téléchargement du fichier."
+                "createTrace": "Une erreur est survenue lors de la création de la trace."
               },
               "fileUpload": {
                 "subtitle": "ou glisser et déposer ici",
@@ -287,46 +286,43 @@
           "traceDeletionConfirmationModal": {
             "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
             "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
+          }
+        },
+        "StudentUpdateTraceView": {
+          "buttons": {
+            "validate": "Valider la sélection"
           },
-          "updateTraceModal": {
-            "buttons": {
-              "close": "Fermer la fenêtre",
-              "save": "Enregistrer les modifications",
-              "validate": "Valider la sélection"
+          "errors": {
+            "updateTrace": "Une erreur est survenue lors de la modification de la trace."
+          },
+          "steps": {
+            "terms": {
+              "alertMessage": "Attention, message d'information",
+              "impactMessage": "Vos modifications affecteront la trace dans les associations suivantes :",
+              "title": "Modalités de modifications"
             },
-            "errors": {
-              "fileUpload": "Une erreur est survenue lors du téléchargement du fichier.",
-              "updateTrace": "Une erreur est survenue lors de la modification de la trace."
-            },
-            "steps": {
-              "terms": {
-                "alertMessage": "Attention, message d'information",
-                "impactMessage": "Vos modifications affecteront la trace dans les associations suivantes :",
-                "title": "Modalités de modifications"
-              },
-              "update": {
-                "tabs": {
-                  "associations": {
-                    "caption": "Emplacement(s) de ma trace en cours de modification",
-                    "title": "Mes associations"
-                  },
-                  "update": {
-                    "title": "Modifier ma trace"
-                  }
+            "update": {
+              "tabs": {
+                "associations": {
+                  "caption": "Emplacement(s) de ma trace en cours de modification",
+                  "title": "Mes associations"
                 },
-                "title": "Modifier ma trace"
-              }
-            },
-            "success": "Votre trace a été modifiée avec succès.",
-            "title": "Modifier ma trace",
-            "updateTraceForm": {
-              "declaration": {
-                "iaUsage": {
-                  "title": "Déclarer si c'est une production réalisée avec IA"
-                },
-                "productionNature": {
-                  "title": "Déclarer la nature de ma production"
+                "update": {
+                  "title": "Modifier ma trace"
                 }
+              },
+              "title": "Modifier ma trace"
+            }
+          },
+          "success": "Votre trace a été modifiée avec succès.",
+          "title": "Modifier ma trace",
+          "updateTraceForm": {
+            "declaration": {
+              "iaUsage": {
+                "title": "Déclarer si c'est une production réalisée avec IA"
+              },
+              "productionNature": {
+                "title": "Déclarer la nature de ma production"
               }
             }
           }

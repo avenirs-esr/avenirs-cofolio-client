@@ -31,7 +31,7 @@ const { t } = useI18n()
 function onTraceUpdated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.traces.views.StudentTraceView.updateTraceModal.success')
+    description: t('student.traces.views.StudentUpdateTraceView.success')
   })
   hideUpdateTraceModal()
 }
@@ -89,7 +89,7 @@ const traceFileUploadLabel = computed(() => {
       <div class="av-col av-gap-lg av-flex-fill">
         <div class="av-col av-gap-xs">
           <span class="caption-regular">
-            {{ t('student.traces.views.StudentTraceView.updateTraceModal.updateTraceForm.declaration.productionNature.title') }}
+            {{ t('student.traces.views.StudentUpdateTraceView.updateTraceForm.declaration.productionNature.title') }}
           </span>
 
           <div class="av-col av-gap-xs">
@@ -103,7 +103,7 @@ const traceFileUploadLabel = computed(() => {
       <div class="av-col av-gap-lg av-flex-fill">
         <div class="av-col av-gap-xs">
           <span class="caption-regular">
-            {{ t('student.traces.views.StudentTraceView.updateTraceModal.updateTraceForm.declaration.iaUsage.title') }}
+            {{ t('student.traces.views.StudentUpdateTraceView.updateTraceForm.declaration.iaUsage.title') }}
           </span>
 
           <TraceAiUsageToggleFormField
