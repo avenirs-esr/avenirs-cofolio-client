@@ -24,3 +24,21 @@ export const studentTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
 }
+
+export const studentUpdateTraceRoute: AvRoute = {
+  ...ROUTES.STUDENT.UPDATE_TRACE,
+  props: route => ({
+    traceId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+}
+
+export const studentToolsUpdateTraceRoute: AvRoute = {
+  ...ROUTES.STUDENT.TOOLS_UPDATE_TRACE,
+  props: route => ({
+    traceId: route.params.id,
+  }),
+  component: () =>
+    import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+}

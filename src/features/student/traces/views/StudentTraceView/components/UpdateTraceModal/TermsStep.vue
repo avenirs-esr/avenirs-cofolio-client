@@ -12,7 +12,7 @@ const declaredActivityAssociations = computed(() => associations && associations
 
 <template>
   <div class="av-col av-gap-md av-p-md">
-    <span class="caption-regular">{{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.impactMessage') }}</span>
+    <span class="caption-regular">{{ t('student.traces.views.StudentUpdateTraceView.steps.terms.impactMessage') }}</span>
     <div v-if="declaredSkillAssociations.length > 0">
       <span class="caption-light">{{ `${t('student.global.myDeclaredSkillCount', { count: declaredSkillAssociations.length })}: ` }}</span>
       <AvList size="small">
@@ -38,7 +38,7 @@ const declaredActivityAssociations = computed(() => associations && associations
       </AvList>
     </div>
 
-    <span class="b2-regular alert-message">{{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.terms.alertMessage') }}</span>
+    <span class="b2-regular alert-message">{{ t('student.traces.views.StudentUpdateTraceView.steps.terms.alertMessage') }}</span>
   </div>
 </template>
 

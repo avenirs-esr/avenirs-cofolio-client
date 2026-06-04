@@ -219,7 +219,8 @@
         "min": "Veuillez renseigner une valeur supérieure ou égale à {min}",
         "requiredField": "Ce champ est requis."
       },
-      "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement."
+      "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement.",
+      "fileUpload": "Une erreur est survenue lors du téléchargement du fichier."
     },
     "footer": {
       "anr": {

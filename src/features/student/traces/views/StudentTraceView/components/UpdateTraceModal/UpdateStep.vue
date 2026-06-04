@@ -26,7 +26,7 @@ const activeTab = ref(0)
       compact
     >
       <AvTab
-        :title="t('student.traces.views.StudentTraceView.updateTraceModal.steps.update.tabs.update.title')"
+        :title="t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.update.title')"
         :icon="MDI_ICONS.PENCIL_OUTLINE"
       >
         <UpdateTraceForm
@@ -35,7 +35,7 @@ const activeTab = ref(0)
         />
       </AvTab>
       <AvTab
-        :title="t('student.traces.views.StudentTraceView.updateTraceModal.steps.update.tabs.associations.title')"
+        :title="t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.associations.title')"
         :icon="MDI_ICONS.LINK"
       >
         <TraceAssociations
@@ -44,7 +44,7 @@ const activeTab = ref(0)
         >
           <template #caption>
             <span class="caption-regular">
-              {{ t('student.traces.views.StudentTraceView.updateTraceModal.steps.update.tabs.associations.caption') }}
+              {{ t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.associations.caption') }}
             </span>
           </template>
         </TraceAssociations>

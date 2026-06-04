@@ -6,7 +6,7 @@ import { declaredProgramRoute, personalCareerRoute } from '@/features/student/pe
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentEducationSkillRoute, studentEducationSkillsRoute, studentProjectSkillRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
-import { studentToolsTraceRoute, studentToolsTracesRoute, studentTraceRoute } from '@/features/student/traces/routes'
+import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 
 const footerLegalProps: RoutePageProps = {
   breadcrumbLinksRaw: [
@@ -72,12 +72,14 @@ export default [
       },
       studentToolsTracesRoute,
       studentToolsTraceRoute,
+      studentToolsUpdateTraceRoute,
       studentTraceRoute,
       {
         ...ROUTES.STUDENT.TOOLS_RESUMES,
         component: () => import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
       },
       studentUpdateDeclaredSkillRoute,
+      studentUpdateTraceRoute,
       {
         ...ROUTES.STUDENT.ABOUT,
         component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),

@@ -25,7 +25,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
 
   const onUpdateTraceError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.updateTrace'),
+      title: t('student.traces.views.StudentUpdateTraceView.errors.updateTrace'),
       description: getErrorMessage(error)
     })
   }
@@ -36,7 +36,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
 
   const onUploadAttachmentError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('student.traces.views.StudentTraceView.updateTraceModal.errors.fileUpload'),
+      title: t('global.error.fileUpload'),
       description: getErrorMessage(error)
     })
   }

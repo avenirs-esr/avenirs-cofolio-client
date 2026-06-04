@@ -45,12 +45,17 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
+const mockNavigateToStudentUpdateTrace = vi.fn()
+const mockNavigateToStudentToolsUpdateTrace = vi.fn()
+
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useNavigation: () => ({
       navigateToStudentTraces: vi.fn(),
+      navigateToStudentUpdateTrace: mockNavigateToStudentUpdateTrace,
+      navigateToStudentToolsUpdateTrace: mockNavigateToStudentToolsUpdateTrace,
     }),
   }
 })
@@ -79,11 +84,6 @@ BddTest().given('a student trace view', () => {
       name: 'TraceDeletionConfirmationModal',
       props: ['trace', 'show'],
       template: '<div class="trace-deletion-confirmation-modal" />'
-    },
-    UpdateTraceModal: {
-      name: 'UpdateTraceModal',
-      props: ['trace'],
-      template: '<div class="update-trace-modal" />'
     },
     AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
     StudentTraceDetails: {
@@ -145,12 +145,6 @@ BddTest().given('a student trace view', () => {
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
-    })
-
-    BddTest().then('it should render the UpdateTraceModal', async () => {
-      const modal = wrapper.findComponent({ name: 'UpdateTraceModal' })
-      expect(modal.exists()).toBe(true)
-      expect(modal.props('trace')).toEqual(mockedTraceDetailed)
     })
 
     BddTest().then('it should render AvTabs component', () => {
@@ -219,7 +213,7 @@ BddTest().given('a student trace view', () => {
 
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-        { text: `Trace ${mockedTraceDetailed.title}` },
+        { text: 'Modifier' },
       ])
     })
   })
@@ -248,17 +242,17 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('the update modal is triggered', () => {
+  BddTest().when('the update trace action is triggered', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       await popover.vm.$emit('update-selected')
       await flushPromises()
     })
 
-    BddTest().then('it should call displayUpdateTraceModal from store', async () => {
-      const { useTracesStore } = await import('@/features/student/traces')
-      const tracesStore = useTracesStore()
-      expect(tracesStore.showUpdateTraceModal).toBe(true)
+    BddTest().then('it should navigate to update trace page', () => {
+      expect(mockNavigateToStudentToolsUpdateTrace).toHaveBeenCalledWith({
+        id: mockedTraceDetailed.id,
+      })
     })
   })
 

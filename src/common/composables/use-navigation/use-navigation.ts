@@ -189,6 +189,20 @@ export function useNavigation () {
     })
   }
 
+  const navigateToStudentUpdateTrace = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.UPDATE_TRACE.name,
+      params: { id },
+    })
+  }
+
+  const navigateToStudentToolsUpdateTrace = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
+      params: { id },
+    })
+  }
+
   return {
     navigateToAuthLogin,
     navigateToStudentDeclaredExperience,
@@ -218,5 +232,7 @@ export function useNavigation () {
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,
+    navigateToStudentUpdateTrace,
+    navigateToStudentToolsUpdateTrace,
   }
 }

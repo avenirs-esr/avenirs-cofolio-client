@@ -219,7 +219,8 @@
         "maxLength": "Please limit your input to {maxLength} characters",
         "requiredField": "This field is required."
       },
-      "generic": "An error has occurred. Please try again later."
+      "generic": "An error has occurred. Please try again later.",
+      "fileUpload": "An error occurred while uploading the file."
     },
     "footer": {
       "anr": {
