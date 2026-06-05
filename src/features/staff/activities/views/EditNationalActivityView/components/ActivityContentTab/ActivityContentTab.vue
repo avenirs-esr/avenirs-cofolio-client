@@ -108,7 +108,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
         />
       </FormFieldCardContainer>
     </div>
-    <div class="av-row av-gap-sm av-justify-end">
+    <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton
         data-testid="activity-content-tab-next-step-button"

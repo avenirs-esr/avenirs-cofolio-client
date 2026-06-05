@@ -39,6 +39,7 @@ defineSlots<{
           text-color="var(--text1)"
           typography-class="s1-regular"
           gap="var(--spacing-xs)"
+          inline
         />
         <slot name="title" />
       </div>

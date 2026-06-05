@@ -95,9 +95,9 @@ async function publishActivityDraft () {
     </div>
     <div
       :id="PublicationSectionId.SUMMARY_CONTEXT"
-      class="av-row av-w-full av-gap-sm"
+      class="av-col av-row--md av-w-full--md av-gap-sm"
     >
-      <div class="av-flex-fill">
+      <div class="av-flex-fill--md">
         <FormFieldCardContainer
           :title="`${t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.label')} *`"
           :title-icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
@@ -108,7 +108,7 @@ async function publishActivityDraft () {
           />
         </FormFieldCardContainer>
       </div>
-      <div class="av-flex-fill">
+      <div class="av-flex-fill--md">
         <FormFieldCardContainer
           :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
           :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
@@ -120,7 +120,7 @@ async function publishActivityDraft () {
         </FormFieldCardContainer>
       </div>
     </div>
-    <div class="av-row av-gap-sm av-justify-end">
+    <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton
         data-testid="publish-button"
