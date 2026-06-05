@@ -1,6 +1,6 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
+import { projectActivitiesRoutes, projectTrajectoriesRoutes } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
@@ -61,13 +61,8 @@ export default [
       personalCareerRoute,
       declaredExperienceRoute,
       declaredExperienceUpdateRoute,
-      projectActivitiesRoute,
-      projectActivitiesCatalogRoute,
-      projectActivitiesDetailedRoute,
-      {
-        ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-        component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
-      },
+      ...projectActivitiesRoutes,
+      ...projectTrajectoriesRoutes,
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentSkillRoute,

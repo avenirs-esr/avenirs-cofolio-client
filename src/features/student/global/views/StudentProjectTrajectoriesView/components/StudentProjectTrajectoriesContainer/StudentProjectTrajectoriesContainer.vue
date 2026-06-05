@@ -3,6 +3,7 @@ import type { SectionNavigationItem } from '@/common/components/SectionNavigatio
 import type { Component } from 'vue'
 import SectionNavigationLayout
   from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
+import { useSectionNavigationLayout } from '@/common/composables'
 import StudentProjectTrajectoriesBuildProjectSection
   from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
 import StudentProjectTrajectoriesExploreFuturesSection
@@ -14,7 +15,7 @@ import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'selectedSection', section: string): void
 }>()
 
@@ -58,14 +59,12 @@ const componentBySection = {
   [ProjectTrajectoryItems.EXPLORE_FUTURES]: StudentProjectTrajectoriesExploreFuturesSection,
 } satisfies Record<ProjectTrajectoryItems, Component>
 
-const defaultSection = computed<ProjectTrajectoryItems>(() => {
-  const firstItem = items.value[0]?.id
-
-  if (firstItem && Object.values(ProjectTrajectoryItems).includes(firstItem as ProjectTrajectoryItems)) {
-    return firstItem as ProjectTrajectoryItems
-  }
-
-  return ProjectTrajectoryItems.BUILD_PROJECT
+const {
+  defaultSection,
+  navigateToSelectedSection,
+} = useSectionNavigationLayout<ProjectTrajectoryItems>({
+  items,
+  fallbackSection: ProjectTrajectoryItems.BUILD_PROJECT,
 })
 </script>
 
@@ -79,7 +78,8 @@ const defaultSection = computed<ProjectTrajectoryItems>(() => {
       :select-label="t('student.global.navigation.selects.label')"
       side-navigation-width="11rem"
       data-testid="project-trajectories-layout"
-      @selected-section="$emit('selectedSection', $event)"
+      @selected-item-label="(label) => emit('selectedSection', label)"
+      @selected-item="(item) => navigateToSelectedSection(item.itemId)"
     />
   </div>
 </template>

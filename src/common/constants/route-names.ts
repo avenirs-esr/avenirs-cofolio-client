@@ -39,7 +39,7 @@ export const ROUTES = {
     PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
     PROJECT_ACTIVITIES: { name: 'student-project-activities', path: 'project/activities' },
     PROJECT_ACTIVITIES_CATALOG: { name: 'student-project-activities-catalog', path: 'project/activities/catalog/:thematic?/:id?' },
-    PROJECT_ACTIVITIES_DETAILED: { name: 'student-project-activities-detailed', path: 'project/activities/:id' },
+    PROJECT_ACTIVITIES_DETAILED: { name: 'student-project-activities-detailed', path: 'project/activities/:id/details' },
     PROJECT_DECLARED_SKILL: { name: 'student-project-declared-skill', path: 'project/declared-skill/:id' },
     PROJECT_SKILL: { name: 'student-project-skill', path: 'project/skill/:id' },
     PROJECT_SKILLS: { name: 'student-project-skills', path: 'project/skills' },
@@ -56,3 +56,22 @@ export const ROUTES = {
     UPDATE_DECLARED_SKILL: { name: 'student-update-declared-skill', path: 'update-declared-skill/:id' },
   },
 } as const
+
+export const studentPersonalCareerRoutes = [
+  ROUTES.STUDENT.PERSONAL_CAREER,
+  ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER,
+  ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
+  ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
+  ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED,
+  ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM,
+]
+
+export const studentProjectActivtiesRoutes = [
+  ROUTES.STUDENT.PROJECT_ACTIVITIES,
+  ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG,
+  ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED,
+]
+
+export const studentProjectTrajectoriesRoutes = [
+  ROUTES.STUDENT.PROJECT_TRAJECTORIES,
+]

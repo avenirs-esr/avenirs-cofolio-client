@@ -214,6 +214,25 @@ BddTest().given('a section navigation layout component', () => {
         expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(false)
       })
     })
+
+    BddTest().and('the default section prop changes externally', () => {
+      beforeEach(async () => {
+        await wrapper.setProps({ defaultSection: 'second-section' })
+      })
+
+      BddTest().then('it should resync the selected item with the new default section', () => {
+        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+
+        expect(sideNavigation.props('selectedItem')).toEqual({
+          itemId: 'second-section',
+        })
+      })
+
+      BddTest().then('it should render the new default section component', () => {
+        expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(true)
+        expect(wrapper.find('[data-testid="first-section"]').exists()).toBe(false)
+      })
+    })
   })
 
   BddTest().when('the component is mounted on mobile', () => {

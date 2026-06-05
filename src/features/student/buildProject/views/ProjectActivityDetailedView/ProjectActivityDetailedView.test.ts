@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
@@ -33,7 +33,7 @@ BddTest().given('a project activity detailed view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedView>>
 
   const stubs = {
-    PageTitle: PageTitleStub,
+    DetailedPageTitle: DetailedPageTitleStub,
     Loader: LoaderStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
@@ -57,27 +57,20 @@ BddTest().given('a project activity detailed view', () => {
     })
 
     BddTest().then('it should render the page title component', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
       expect(pageTitle.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass an empty title', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
-      expect(pageTitle.props('title')).toBe('Détail')
-    })
-
-    BddTest().then('it should pass the correct title in PageTitle slot', () => {
-      const title = wrapper.find('[data-testid="activity-detail-title"]')
-      expect(title.exists()).toBe(true)
-      expect(title.text()).toContain('Détail')
-      expect(title.text()).toContain('Détail Activité "Connaissance de soi" : Définir ses valeurs')
+    BddTest().then('it should pass the correct title', () => {
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      expect(pageTitle.props('title')).toBe('Activité "Connaissance de soi" : Définir ses valeurs')
     })
 
     BddTest().then('it should pass the correct breadcrumb links', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
       const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
 
-      expect(breadcrumbLinks).toHaveLength(4)
+      expect(breadcrumbLinks).toHaveLength(5)
       expect(breadcrumbLinks[0]).toEqual({
         text: 'Accueil',
         to: ROUTES.STUDENT.HOME
@@ -172,7 +165,7 @@ BddTest().given('a project activity detailed view', () => {
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
+      expect(wrapper.findComponent(DetailedPageTitleStub).exists()).toBe(false)
     })
 
     BddTest().then('it should not render the layout', () => {
@@ -205,7 +198,7 @@ BddTest().given('a project activity detailed view', () => {
     })
 
     BddTest().then('it should not render the page title', () => {
-      expect(wrapper.findComponent(PageTitleStub).exists()).toBe(false)
+      expect(wrapper.findComponent(DetailedPageTitleStub).exists()).toBe(false)
     })
 
     BddTest().then('it should not render the layout', () => {
