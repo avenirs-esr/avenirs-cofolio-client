@@ -11,6 +11,7 @@ interface TraceFileUploadFormFieldProps {
 const { form } = defineProps<TraceFileUploadFormFieldProps>()
 const emit = defineEmits<{
   fileSelected: [file: File]
+  fileDeleted: [fileName: string]
 }>()
 
 const FormField = markRaw(form.Field)
@@ -29,6 +30,16 @@ function handleFilesChange (files: FileList) {
     emit('fileSelected', files[0])
   }
 }
+
+function handleFileValueChange (file: File | null) {
+  const previousFile = fileField.state.value.value
+
+  fileField.api.handleChange(file)
+
+  if (!file && previousFile) {
+    emit('fileDeleted', previousFile.name)
+  }
+}
 </script>
 
 <template>
@@ -42,7 +53,7 @@ function handleFilesChange (files: FileList) {
         :valid-message="getFileInputSuccessMessage(field.state.value)"
         @blur="field.handleBlur"
         @change="handleFilesChange"
-        @update:model-value="(value: File | null) => field.handleChange(value)"
+        @update:model-value="handleFileValueChange"
       />
     </template>
   </FormField>

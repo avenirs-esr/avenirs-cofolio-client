@@ -57,6 +57,18 @@ const traceFileUploadLabel = computed(() => {
   const uploadDate = formatTranslatedDateTime(trace.attachment?.uploadedAt ?? '')
   return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate })}`
 })
+
+function handleFileSelected (file: File) {
+  if (file && form.getFieldValue('traceName') === '') {
+    form.setFieldValue('traceName', file.name)
+  }
+}
+
+function handleFileDeleted (fileName: string) {
+  if (form.getFieldValue('traceName') === fileName) {
+    form.setFieldValue('traceName', '')
+  }
+}
 </script>
 
 <template>
@@ -73,6 +85,8 @@ const traceFileUploadLabel = computed(() => {
           v-if="form.getFieldValue('traceType') === TraceType.FILE"
           :form="form"
           :label="traceFileUploadLabel"
+          @file-selected="handleFileSelected"
+          @file-deleted="handleFileDeleted"
         />
         <TraceLinkInputFormField
           v-else
