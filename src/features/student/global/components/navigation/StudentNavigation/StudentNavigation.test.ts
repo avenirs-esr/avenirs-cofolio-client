@@ -144,4 +144,30 @@ BddTest().given('a student navigation', () => {
       expect(educationItem.to).toBeUndefined()
     })
   })
+
+  BddTest().when('current route is inside personal career', () => {
+    beforeEach(async () => {
+      mockUseStudentApcAccess.mockReturnValue({
+        isApcVisible: computed(() => false),
+        showApcGenericInfoPage: computed(() => false),
+        showApcSubmenus: computed(() => false),
+      })
+
+      await router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name })
+      wrapper = await mountComponent()
+    })
+
+    BddTest().then('it should keep the experiences link on the current route full path', () => {
+      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
+      const navItems = avNavigation.props('navItems')
+
+      const projectMenu = navItems.find((item: any) =>
+        item.links?.some((link: any) => link.to?.name === ROUTES.STUDENT.PROJECT_SKILLS.name)
+      )
+
+      const experiencesLink = projectMenu.links[1]
+
+      expect(experiencesLink.to).toBe(router.currentRoute.value.fullPath)
+    })
+  })
 })

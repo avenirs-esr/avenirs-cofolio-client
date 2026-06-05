@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ICONS, ROUTES } from '@/common/constants'
+import { ICONS, ROUTES, studentPersonalCareerRoutes, studentProjectActivtiesRoutes, studentProjectTrajectoriesRoutes } from '@/common/constants'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
@@ -15,8 +15,35 @@ const {
 } = useStudentApcAccess()
 
 function isRouteActive (routes: Array<{ name: string }>): boolean {
-  return routes.some(avRoute => avRoute.name === route.name)
+  const routeNames = new Set(routes.map(avRoute => avRoute.name))
+
+  if (typeof route.name === 'string' && routeNames.has(route.name)) {
+    return true
+  }
+
+  return route.matched
+    .map(matchedRoute => matchedRoute.name)
+    .filter((name): name is string => typeof name === 'string')
+    .some(name => routeNames.has(name))
 }
+
+const personalCareerNavigationTarget = computed(() => {
+  if (isRouteActive(studentPersonalCareerRoutes)) {
+    return route.fullPath
+  }
+
+  return ROUTES.STUDENT.PERSONAL_CAREER
+})
+
+const projectActivitiesLink = computed(() => ({
+  to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
+  highlight: isRouteActive(studentProjectActivtiesRoutes),
+}))
+
+const projectTrajectoriesLink = computed(() => ({
+  to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
+  highlight: isRouteActive(studentProjectTrajectoriesRoutes),
+}))
 
 const educationMenu = computed(() => {
   const menu: Record<string, any> = {
@@ -109,14 +136,9 @@ const buildLifeProjectMenu = computed(() => ({
   get active () {
     return isRouteActive([
       ROUTES.STUDENT.PROJECT_SKILLS,
-      ROUTES.STUDENT.PERSONAL_CAREER,
-      ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER,
-      ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
-      ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
-      ROUTES.STUDENT.PROJECT_ACTIVITIES,
-      ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG,
-      ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED,
-      ROUTES.STUDENT.PROJECT_TRAJECTORIES
+      ...studentPersonalCareerRoutes,
+      ...studentProjectActivtiesRoutes,
+      ...studentProjectTrajectoriesRoutes
     ])
   },
   links: [
@@ -126,17 +148,17 @@ const buildLifeProjectMenu = computed(() => ({
       icon: MDI_ICONS.STARS,
     },
     {
-      to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : ROUTES.STUDENT.PERSONAL_CAREER,
+      to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : personalCareerNavigationTarget.value,
       text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },
     {
-      to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
+      ...projectTrajectoriesLink.value,
       text: t('student.global.navigation.tabs.project.items.trajectories'),
-      icon: RI_ICONS.DRAW_LINE
+      icon: RI_ICONS.DRAW_LINE,
     },
     {
-      to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
+      ...projectActivitiesLink.value,
       text: t('student.global.navigation.tabs.project.items.activities'),
       icon: ICONS.ACTIVITY,
     },

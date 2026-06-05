@@ -42,4 +42,5 @@ export const SectionNavigationLayoutStub = defineComponent({
   template: `
     <div data-testid="section-navigation-layout" />
   `,
+  emits: ['selectedItem', 'selectedItemLabel'],
 })

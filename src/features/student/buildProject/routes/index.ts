@@ -26,3 +26,18 @@ export const projectActivitiesCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
 }
+
+export const projectTrajectoriesRoute: AvRoute = {
+  ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
+  component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
+}
+
+export const projectActivitiesRoutes = [
+  projectActivitiesRoute,
+  projectActivitiesCatalogRoute,
+  projectActivitiesDetailedRoute,
+]
+
+export const projectTrajectoriesRoutes = [
+  projectTrajectoriesRoute,
+]

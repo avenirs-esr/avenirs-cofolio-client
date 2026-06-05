@@ -23,14 +23,30 @@ import {
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.stub'
 import ProjectActivityDetails
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
-import {
-  ACTIVITY_DETAILED_SECTIONS,
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.constants'
+import { ProjectActivityDetailedSections } from '@/features/student/buildProject/views/ProjectActivityDetailedView/types'
 import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const { routeMock, replaceMock } = vi.hoisted(() => ({
+  routeMock: {
+    name: '',
+    fullPath: '',
+    query: {},
+    matched: [],
+  },
+  replaceMock: vi.fn(),
+}))
+
+vi.mock('vue-router', () => ({
+  useRoute: () => routeMock,
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: replaceMock,
+  }),
+}))
 
 BddTest().given('a project activity detailed layout component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetailedLayout>>
@@ -67,6 +83,11 @@ BddTest().given('a project activity detailed layout component', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
+      routeMock.name = 'student-project-activities-detailed'
+      routeMock.fullPath = '/student/project/activities/detail'
+      routeMock.query = {}
+      replaceMock.mockReset()
+
       wrapper = mountComponent(ProjectActivityDetailedLayout, {
         props: {
           declaredActivityDetails,
@@ -88,7 +109,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(sectionNavigationLayout.props('defaultSection')).toBe(
-        ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+        ProjectActivityDetailedSections.DETAIL,
       )
     })
 
@@ -107,12 +128,12 @@ BddTest().given('a project activity detailed layout component', () => {
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(sectionNavigationLayout.props('items')).toEqual([
         {
-          id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
-          label: 'Mon activité',
+          id: ProjectActivityDetailedSections.DETAIL,
+          label: 'Détail',
           icon: ICONS.ACTIVITY,
         },
         {
-          id: ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE,
+          id: ProjectActivityDetailedSections.MY_PERSPECTIVE,
           label: 'Ma prise de recul',
           icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
         },
@@ -124,8 +145,8 @@ BddTest().given('a project activity detailed layout component', () => {
       const componentBySection = sectionNavigationLayout.props('componentBySection') as Record<string, unknown>
 
       expect(sectionNavigationLayout.exists()).toBe(true)
-      expect(componentBySection[ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]).toBe(ProjectActivityDetails)
-      expect(componentBySection[ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]).toBe(MyPerspectiveSection)
+      expect(componentBySection[ProjectActivityDetailedSections.DETAIL]).toBe(ProjectActivityDetails)
+      expect(componentBySection[ProjectActivityDetailedSections.MY_PERSPECTIVE]).toBe(MyPerspectiveSection)
     })
 
     BddTest().then('it should pass the declared activity details in props by section', () => {
@@ -134,13 +155,60 @@ BddTest().given('a project activity detailed layout component', () => {
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(propsBySection).toEqual({
-        [ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED]: {
+        [ProjectActivityDetailedSections.DETAIL]: {
           declaredActivityDetails,
         },
-        [ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE]: {
+        [ProjectActivityDetailedSections.MY_PERSPECTIVE]: {
           declaredActivityDetails,
         },
       })
+    })
+  })
+
+  BddTest().when('the section query param targets my perspective', () => {
+    beforeEach(async () => {
+      routeMock.query = { section: ProjectActivityDetailedSections.MY_PERSPECTIVE }
+
+      wrapper = mountComponent(ProjectActivityDetailedLayout, {
+        props: {
+          declaredActivityDetails,
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should use my perspective as default section', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+
+      expect(sectionNavigationLayout.props('defaultSection')).toBe(ProjectActivityDetailedSections.MY_PERSPECTIVE)
+    })
+  })
+
+  BddTest().when('a section is selected from navigation', () => {
+    beforeEach(async () => {
+      routeMock.query = {}
+
+      wrapper = mountComponent(ProjectActivityDetailedLayout, {
+        props: {
+          declaredActivityDetails,
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      sectionNavigationLayout.vm.$emit('selectedItem', { itemId: ProjectActivityDetailedSections.MY_PERSPECTIVE })
+    })
+
+    BddTest().then('it should navigate using the section query param', () => {
+      expect(replaceMock).toHaveBeenCalledWith({ query: { section: ProjectActivityDetailedSections.MY_PERSPECTIVE } })
     })
   })
 
@@ -170,7 +238,7 @@ BddTest().given('a project activity detailed layout component', () => {
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(items[0]).toEqual({
-        id: ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED,
+        id: ProjectActivityDetailedSections.DETAIL,
         label: 'Détail',
         icon: ICONS.ACTIVITY,
       })
@@ -203,8 +271,8 @@ BddTest().given('a project activity detailed layout component', () => {
 
       expect(sectionNavigationLayout.exists()).toBe(true)
       expect(items).toHaveLength(1)
-      expect(items[0].id).toBe(ACTIVITY_DETAILED_SECTIONS.ACTIVITY_DETAILED)
-      expect(items.some(item => item.id === ACTIVITY_DETAILED_SECTIONS.MY_PERSPECTIVE)).toBe(false)
+      expect(items[0].id).toBe(ProjectActivityDetailedSections.DETAIL)
+      expect(items.some(item => item.id === ProjectActivityDetailedSections.MY_PERSPECTIVE)).toBe(false)
     })
   })
 })

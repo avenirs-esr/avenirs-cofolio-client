@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
+import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
@@ -32,6 +32,8 @@ const { navigateToStudentProjectActivities } = useNavigation()
 const { showModal, displayModal, hideModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
+const lastBreadcrumbLink = ref(t('global.detail'))
+
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
   { text: t('student.global.navigation.tabs.project.header') },
@@ -39,7 +41,8 @@ const breadcrumbLinks = computed(() => [
     text: t('student.global.navigation.tabs.project.items.activities'),
     to: { name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name, query: { tab: ProjectActivitiesTab[ProjectActivitiesTab.ACTIVITY_LIBRARY] } }
   },
-  { text: declaredActivityDetail.value?.activity.title ?? '' }
+  { text: declaredActivityDetail.value?.activity.title ?? '' },
+  { text: lastBreadcrumbLink.value }
 ])
 
 function onUnsubscribed () {
@@ -57,20 +60,11 @@ function onUnsubscribed () {
       v-if="declaredActivityDetail"
       class="av-col av-gap-sm"
     >
-      <PageTitle
-        :title="t('global.detail')"
+      <DetailedPageTitle
+        :title="declaredActivityDetail!.activity.title"
         :breadcrumb-links="breadcrumbLinks"
-      >
-        <template #title>
-          <h1
-            class="av-text-title"
-            data-testid="activity-detail-title"
-          >
-            {{ t('global.detail') }}
-            <span class="n4 av-text-text2">{{ declaredActivityDetail?.activity.title }}</span>
-          </h1>
-        </template>
-      </PageTitle>
+        data-testid="activity-detail-title"
+      />
 
       <div
         class="av-row av-justify-end"
@@ -90,6 +84,7 @@ function onUnsubscribed () {
 
       <ProjectActivityDetailedLayout
         :declared-activity-details="declaredActivityDetail"
+        @selected-section="lastBreadcrumbLink = $event"
       />
 
       <UnsubscribeActivitiesConfirmModal
