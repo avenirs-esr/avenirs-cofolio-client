@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { EActivityThematic, type GetActivitiesViewParams, useGetActivitiesView } from '@/api/avenir-esr'
+import Loader from '@/common/components/Loader/Loader.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { usePagination } from '@/common/composables'
@@ -7,6 +8,7 @@ import ActivityCard from '@/features/student/buildProject/components/cards/Activ
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import { AvIconText, AvTagPicker, type AvTagPickerOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -34,7 +36,7 @@ const params = computed<GetActivitiesViewParams>(() => ({
   pageSize: pageSizeSelected.value
 }))
 
-const { data, error, isFetching } = useGetActivitiesView(params)
+const { data, error, isLoading, isFetching } = useGetActivitiesView(params, { query: { placeholderData: keepPreviousData } })
 const activities = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 
@@ -71,7 +73,7 @@ filterOptions.push(allThematicsOption)
     </div>
     <QuerySuspense
       :error="error"
-      :is-loading="isFetching"
+      :is-loading="isLoading"
       :is-empty="activities.length === 0"
     >
       <template #error>
@@ -106,5 +108,14 @@ filterOptions.push(allThematicsOption)
         </div>
       </Pagination>
     </QuerySuspense>
+  </div>
+  <div
+    v-if="isFetching"
+    class="av-floating-right"
+  >
+    <Loader
+      :is-loading="isFetching"
+      size="4xl"
+    />
   </div>
 </template>

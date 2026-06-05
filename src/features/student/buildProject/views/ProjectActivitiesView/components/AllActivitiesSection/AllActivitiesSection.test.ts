@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { activitiesViewErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { ActivityCardStub } from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.stub'
 import AllActivitiesSection from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesSection/AllActivitiesSection.vue'
@@ -16,6 +17,7 @@ BddTest().given('an all activities section', () => {
     Pagination: PaginationStub,
     ActivityCard: ActivityCardStub,
     AvTagPicker: AvTagPickerStub,
+    Loader: LoaderStub,
   }
 
   beforeEach(() => {
