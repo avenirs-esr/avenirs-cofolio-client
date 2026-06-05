@@ -24,6 +24,12 @@ function handleFileSelected (file: File) {
     form.setFieldValue('traceName', file.name)
   }
 }
+
+function handleFileDeleted (fileName: string) {
+  if (form.getFieldValue('traceName') === fileName) {
+    form.setFieldValue('traceName', '')
+  }
+}
 </script>
 
 <template>
@@ -41,6 +47,7 @@ function handleFileSelected (file: File) {
         <TraceFileUploadFormField
           :form="form"
           @file-selected="handleFileSelected"
+          @file-deleted="handleFileDeleted"
         />
       </div>
 

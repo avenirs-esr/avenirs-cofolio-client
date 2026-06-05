@@ -182,6 +182,20 @@ BddTest().given('a trace file upload form field component', () => {
       })
     })
 
+    BddTest().then('it should emit the deleted file name', async () => {
+      const formField = wrapper.findComponent(TraceFileUploadFormField)
+      const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
+      const file = new File(['content'], 'test.pdf', { type: 'application/pdf' })
+
+      await fileUpload.vm.$emit('update:modelValue', file)
+      await wrapper.vm.$nextTick()
+
+      await fileUpload.vm.$emit('update:modelValue', null)
+      await wrapper.vm.$nextTick()
+
+      expect(formField.emitted('fileDeleted')?.[0]).toEqual(['test.pdf'])
+    })
+
     BddTest().then('it should not show valid message', async () => {
       const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
       const file = new File(['content'], 'test.pdf', { type: 'application/pdf' })

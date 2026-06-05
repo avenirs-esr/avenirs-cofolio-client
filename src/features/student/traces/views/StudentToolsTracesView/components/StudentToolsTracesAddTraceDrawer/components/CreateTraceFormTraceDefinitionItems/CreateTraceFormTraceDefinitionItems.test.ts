@@ -150,6 +150,30 @@ BddTest().given('a create trace form trace definition items component', () => {
       const TraceFileUploadComponent = wrapper.findComponent({ name: 'TraceFileUpload' })
       expect(TraceFileUploadComponent.props('validMessage')).toBe(`Document chargé.`)
     })
+
+    BddTest().then('it should clear trace name when the file is deleted', async () => {
+      const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' })
+      const fileInput = wrapper.find('#trace-file-upload')
+
+      Object.defineProperty(fileInput.element, 'files', {
+        value: [mockFile],
+        writable: false,
+      })
+
+      await fileInput.trigger('change')
+      await wrapper.vm.$nextTick()
+
+      const fileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
+
+      const traceNameInputBeforeDelete = wrapper.findComponent({ name: 'TraceNameInput' })
+      expect(traceNameInputBeforeDelete.props('modelValue')).toBe('test.pdf')
+
+      await fileUpload.vm.$emit('update:modelValue', null)
+      await wrapper.vm.$nextTick()
+
+      const traceNameInputAfterDelete = wrapper.findComponent({ name: 'TraceNameInput' })
+      expect(traceNameInputAfterDelete.props('modelValue')).toBe('')
+    })
   })
 
   BddTest().when('trace name is changed', () => {
