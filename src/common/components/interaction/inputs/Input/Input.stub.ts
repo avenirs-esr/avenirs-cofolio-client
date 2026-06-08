@@ -1,6 +1,22 @@
 export const InputStub = defineComponent({
   name: 'Input',
-  props: ['modelValue', 'label', 'placeholder', 'maxlength', 'min', 'max', 'prefixIcon', 'isValid', 'isTextarea', 'labelVisible', 'disabled', 'required', 'errorMessage'],
+  props: [
+    'modelValue',
+    'label',
+    'placeholder',
+    'maxlength',
+    'min',
+    'max',
+    'hint',
+    'prefixIcon',
+    'textareaMinHeight',
+    'isValid',
+    'isTextarea',
+    'labelVisible',
+    'disabled',
+    'required',
+    'errorMessage'
+  ],
   emits: ['update:modelValue'],
   template: `
     <div>
