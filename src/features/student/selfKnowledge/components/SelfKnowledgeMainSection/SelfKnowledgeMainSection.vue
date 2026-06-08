@@ -44,7 +44,7 @@ const categories = computed(() => fetchedCategories.value ?? [])
     >
       <AvButton
         :icon="MDI_ICONS.PENCIL_OUTLINE"
-        :label="t('global.buttons.update')"
+        :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.updateBio')"
         variant="OUTLINED"
         small
         data-testid="display-update-profile-drawer-button"

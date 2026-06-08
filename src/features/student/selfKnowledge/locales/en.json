@@ -55,7 +55,8 @@
       },
       "SelfKnowledgeMainSection": {
         "buttons": {
-          "addCategory": "Add category"
+          "addCategory": "Add category",
+          "updateBio": "Update my bio"
         },
         "categoryElementsPaginator": {
           "buttons": {

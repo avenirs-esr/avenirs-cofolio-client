@@ -74,7 +74,7 @@ function onElementDeleted () {
     collapsible
   >
     <template #title>
-      <div class="av-row av-align-center av-justify-between av-w-full av-gap-md av-px-md">
+      <div class="av-col av-row--md av-align-center--md av-justify-between av-w-full av-gap-md av-px-md">
         <AvIconText
           typography-class="n5"
           :icon="categoryIcon"
@@ -82,6 +82,7 @@ function onElementDeleted () {
           :text="categoryTitle"
           text-color="var(--title)"
           gap="var(--spacing-sm)"
+          inline
         />
         <div class="av-row av-align-center av-gap-sm">
           <SelfKnowledgeElementsDropdown

@@ -93,6 +93,3 @@ function handleItemSelected (itemName: string) {
     @item-selected="handleItemSelected"
   />
 </template>
-
-<style lang="scss" scoped>
-</style>
