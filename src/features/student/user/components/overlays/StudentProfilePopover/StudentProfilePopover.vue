@@ -1,12 +1,23 @@
 <script setup lang="ts">
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useModal } from '@/common/composables/use-modal/use-modal'
 import { AvButton, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { username } = defineProps<{ username: string }>()
 
 const { t } = useI18n()
+const { showModal, displayModal, hideModal } = useModal()
 
 const isDemo = __DEMO_MODE__
+
+function askLogoutConfirmation () {
+  displayModal()
+}
+
+function logOut () {
+  window.location.assign(__AUTH_LOGOUT_URL__)
+}
 </script>
 
 <template>
@@ -18,13 +29,12 @@ const isDemo = __DEMO_MODE__
         :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
         small
         no-sentence-case
-        :disabled="isDemo"
         @click="toggle"
       />
     </template>
     <template #popover>
       <ul class="av-list-reset">
-        <li>
+        <li v-if="!isDemo">
           <AvButton
             :label="t('student.user.overlays.StudentProfilePopover.buttons.manageProfile')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
@@ -34,7 +44,7 @@ const isDemo = __DEMO_MODE__
             no-radius
           />
         </li>
-        <li>
+        <li v-if="!isDemo">
           <AvButton
             :label="t('student.user.overlays.StudentProfilePopover.buttons.seeCalendar')"
             :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
@@ -44,7 +54,7 @@ const isDemo = __DEMO_MODE__
             no-radius
           />
         </li>
-        <li>
+        <li v-if="!isDemo">
           <AvButton
             :label="t('student.user.overlays.StudentProfilePopover.buttons.goToDw')"
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
@@ -54,7 +64,7 @@ const isDemo = __DEMO_MODE__
             no-radius
           />
         </li>
-        <li>
+        <li v-if="!isDemo">
           <AvButton
             :label="t('student.user.overlays.StudentProfilePopover.buttons.goToSkills')"
             :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
@@ -72,11 +82,22 @@ const isDemo = __DEMO_MODE__
             theme="SECONDARY"
             small
             no-radius
+            @click="askLogoutConfirmation"
           />
         </li>
       </ul>
     </template>
   </AvPopover>
+
+  <ConfirmationModal
+    :show="showModal"
+    :title="t('global.logoutModal.title')"
+    :description="t('global.logoutModal.description')"
+    :confirm-button-label="t('global.buttons.confirm')"
+    :close-button-label="t('global.buttons.cancel')"
+    @confirm="logOut"
+    @close="hideModal"
+  />
 </template>
 
 <style lang="scss" scoped>

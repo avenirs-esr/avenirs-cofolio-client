@@ -22,8 +22,8 @@ export default ({ mode }: { mode: string }) => {
       __ENABLE_MSW__: JSON.stringify(env.VITE_ENABLE_MSW === 'true'),
       __BEARER_TOKEN__: JSON.stringify(env.VITE_AVENIR_ESR_ACCESS_TOKEN ? `Bearer ${env.VITE_AVENIR_ESR_ACCESS_TOKEN}` : 'Bearer token'),
       __DEMO_MODE__: JSON.stringify(env.VITE_DEMO_MODE === 'true'),
-      __AUTH_LOGIN_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}v1/auth/login`),
-      __AUTH_LOGOUT_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}v1/auth/logout`),
+      __AUTH_LOGIN_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}/auth/login`),
+      __AUTH_LOGOUT_URL__: JSON.stringify(env.VITE_AUTH_LOGIN_URL || `${env.VITE_API_URL || 'http://localhost:3000/'}/auth/logout`),
     },
     plugins: [
       vue(),

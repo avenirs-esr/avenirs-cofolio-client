@@ -65,7 +65,7 @@ BddTest().given('a login view', () => {
       await loginButton.trigger('click')
 
       expect(mockWindowLocationAssign).toHaveBeenCalledOnce()
-      expect(mockWindowLocationAssign).toHaveBeenCalledWith(expect.stringContaining(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent(`/current-route`)}`))
+      expect(mockWindowLocationAssign).toHaveBeenCalledWith(expect.stringContaining(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent(`/cofolio/current-route`)}`))
     })
   })
 })
