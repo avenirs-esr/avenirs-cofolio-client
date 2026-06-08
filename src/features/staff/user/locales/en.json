@@ -1,0 +1,13 @@
+{
+  "staff": {
+    "user": {
+      "overlays": {
+        "StaffProfilePopover": {
+          "buttons": {
+            "logout": "Logout"
+          }
+        }
+      }
+    }
+  }
+}
