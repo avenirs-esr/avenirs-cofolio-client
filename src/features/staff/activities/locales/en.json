@@ -1,6 +1,11 @@
 {
   "staff": {
     "activities": {
+      "badges": {
+        "feedbackIteration": {
+          "label": "Request {iteration}"
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
