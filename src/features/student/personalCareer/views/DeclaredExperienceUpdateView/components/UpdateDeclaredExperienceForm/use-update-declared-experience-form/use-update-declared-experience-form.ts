@@ -95,7 +95,7 @@ export function useUpdateDeclaredExperienceForm (
             sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
             description: validators.validateDescription(value.description),
             summary: validators.validateSummary(value.summary),
-            externalLink: validators.validateExternalLinkMaxLength(value.externalLink)
+            externalLink: validators.validateExternalLink(value.externalLink)
           }
         }
       },
