@@ -1,12 +1,23 @@
 import { ROUTES } from '@/common/constants'
 import PersonalCareerLayout
   from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.vue'
-import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockReplace = vi.fn()
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 vi.mock('vue-router', async () => {
   const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
@@ -26,6 +37,7 @@ BddTest().given('a student academic career layout component', () => {
 
   const stubs = {
     AvSideNavigation: AvSideNavigationStub,
+    AvSelect: AvSelectStub,
     RouterView: { template: '<div class="router-view-stub">RouterView Content</div>' }
   }
 
@@ -126,6 +138,40 @@ BddTest().given('a student academic career layout component', () => {
       BddTest().then('it should navigate to the selected route', () => {
         expect(mockReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
+        })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted on mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+      vi.clearAllMocks()
+      wrapper = mountComponent(PersonalCareerLayout, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render an AvSelect component for navigation', () => {
+      const selectNavigation = wrapper.findComponent({ name: 'AvSelect' })
+      expect(selectNavigation.exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the AvSideNavigation component', () => {
+      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+      expect(sideNavigation.exists()).toBe(false)
+    })
+
+    BddTest().and('a navigation option is selected from the dropdown', () => {
+      beforeEach(async () => {
+        const selectNavigation = wrapper.findComponent({ name: 'AvSelect' })
+        await selectNavigation.vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name })
+        await flushPromises()
+      })
+
+      BddTest().then('it should navigate to the selected route', () => {
+        expect(mockReplace).toHaveBeenCalledWith({
+          name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name
         })
       })
     })

@@ -10,11 +10,13 @@ import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer
 import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const { isMobile } = useAvBreakpoints()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
@@ -54,7 +56,10 @@ function handleConfirmDelete () {
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="av-row av-gap-2xl">
-    <div class="av-col">
+    <div
+      v-if="!isMobile"
+      class="av-col"
+    >
       <DeclaredProgramSideMenu
         :selected-program-id="selectedProgramId"
         :programs="declaredPrograms"

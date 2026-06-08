@@ -30,6 +30,17 @@ const mockHideModal = vi.fn(() => {
 })
 const navigateToStudentUpdateDeclaredProgram = vi.fn()
 const navigateToStudentDeclaredPrograms = vi.fn()
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -422,6 +433,22 @@ BddTest().given('a declared program detailed view component', () => {
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
         expect(dropdown.exists()).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('the comoonent is mounted on mobile', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+
+      server.use(declaredProgramDetailedHandler)
+
+      wrapper = mountComponent(DeclaredProgramDetailedView, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the side menu', () => {
+      expect(wrapper.findComponent({ name: 'DeclaredProgramSideMenu' }).exists()).toBe(false)
     })
   })
 })

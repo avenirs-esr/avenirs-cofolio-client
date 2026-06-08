@@ -13,11 +13,13 @@ import {
 } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramUpdateForm
   from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const { isMobile } = useAvBreakpoints()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
 
@@ -76,6 +78,7 @@ function onProgramUpdated () {
   />
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu
+      v-if="!isMobile"
       :selected-program-id="selectedProgramId"
       :programs="declaredPrograms"
       :count-programs="pageInfo.totalElements"

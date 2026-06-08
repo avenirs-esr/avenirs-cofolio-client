@@ -12,7 +12,7 @@ import { usePaginatedDeclaredExperiences } from '@/features/student/personalCare
 import DeclaredExperienceAssociations from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -24,6 +24,7 @@ enum DeclaredExperienceViewTabs {
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const { isMobile } = useAvBreakpoints()
 const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const experienceId = computed(() => String(route.params.id ?? ''))
@@ -87,7 +88,10 @@ function handleConfirmDelete () {
     :breadcrumb-links="breadcrumbLinks"
   />
   <div class="declared-experience-update-view av-row av-gap-sm">
-    <div class="av-col">
+    <div
+      v-if="!isMobile"
+      class="av-col"
+    >
       <DeclaredExperienceSideMenu
         :experience-count="pageInfo.totalElements"
         :experiences="declaredExperiences"

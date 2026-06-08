@@ -72,7 +72,7 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
         class="av-col av-gap-md av-flex-fill"
         data-testid="update-declared-experience-form__main"
       >
-        <div class="av-row av-gap-md av-align-baseline">
+        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
           <div class="av-flex-fill">
             <DeclaredExperienceTitleFormField :form="form" />
           </div>
@@ -83,7 +83,7 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 
         <DeclaredExperienceOrganizationFormField :form="form" />
 
-        <div class="av-row av-gap-md av-align-baseline">
+        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
           <div class="av-flex-fill">
             <DeclaredExperienceActivitySectorFormField :form="form" />
           </div>
@@ -118,7 +118,7 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
     </div>
   </form>
   <div
-    class="av-row av-justify-end"
+    class="av-row av-justify-end av-pt-md"
     data-testid="update-declared-experience-form__actions"
   >
     <FormCancelConfirmButtons

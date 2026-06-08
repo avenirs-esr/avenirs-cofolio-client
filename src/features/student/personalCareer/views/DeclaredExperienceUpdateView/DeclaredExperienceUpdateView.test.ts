@@ -9,6 +9,17 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const mockRouteId = ref<string>('exp123')
 const routerPush = vi.fn()
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -85,6 +96,18 @@ BddTest().given('a declared experience update view', () => {
           params: { id: mockRouteId.value }
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted on mobile', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should not render the side menu', () => {
+      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+      expect(sideMenu.exists()).toBe(false)
     })
   })
 })
