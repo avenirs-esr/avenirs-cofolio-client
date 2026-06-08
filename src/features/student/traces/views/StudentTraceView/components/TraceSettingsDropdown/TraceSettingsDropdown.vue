@@ -30,11 +30,15 @@ const menuItems = computed(() => [
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('student.traces.views.StudentTraceView.settings.delete')
   },
-  {
-    name: TraceSettingsPopoverEvents.ASSOCIATE,
-    icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.associate')
-  },
+  ...(
+    __DEMO_MODE__
+      ? []
+      : [{
+          name: TraceSettingsPopoverEvents.ASSOCIATE,
+          icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
+          label: t('student.traces.views.StudentTraceView.settings.associate')
+        }]
+  ),
   {
     name: TraceSettingsPopoverEvents.UPDATE,
     icon: MDI_ICONS.PENCIL_OUTLINE,
