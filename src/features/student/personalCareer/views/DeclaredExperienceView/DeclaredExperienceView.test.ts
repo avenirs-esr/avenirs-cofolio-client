@@ -25,6 +25,17 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredExperience = vi.fn()
 const navigateToStudentDeclaredExperiences = vi.fn()
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -231,6 +242,18 @@ BddTest().given('a declared experience view component', () => {
           state: { preserveScroll: true }
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted on mobile', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should not render the side menu', () => {
+      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+      expect(sideMenu.exists()).toBe(false)
     })
   })
 

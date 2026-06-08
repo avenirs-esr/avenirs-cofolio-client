@@ -12,7 +12,7 @@ import DeclaredExperienceSideMenu
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredExperienceUpdateViewProps {
@@ -30,6 +30,7 @@ const route = useRoute()
 const router = useRouter()
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
+const { isMobile } = useAvBreakpoints()
 
 const { showModal, displayModal, hideModal } = useModal()
 
@@ -86,6 +87,7 @@ function onExperienceUpdated () {
 
   <div class="av-row av-gap-sm">
     <DeclaredExperienceSideMenu
+      v-if="!isMobile"
       :selected-experience-id="experienceId"
       :experiences="declaredExperiences"
       :experience-count="pageInfo.totalElements"

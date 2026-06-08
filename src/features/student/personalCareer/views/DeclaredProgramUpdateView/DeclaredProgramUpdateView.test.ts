@@ -23,6 +23,17 @@ const displayConfirmationModal = vi.fn(() => {
 const hideConfirmationModal = vi.fn(() => {
   showConfirmationModal.value = false
 })
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables/use-modal/use-modal')>()
@@ -334,6 +345,22 @@ BddTest().given('a declared program update view component', () => {
         const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
         expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
       })
+    })
+  })
+
+  BddTest().when('the component is mounted on mobile', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      server.use(declaredProgramDetailedHandler)
+
+      wrapper = mountComponent(DeclaredProgramUpdateView, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the side menu', () => {
+      const sideMenu = wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
+      expect(sideMenu.exists()).toBe(false)
     })
   })
 })

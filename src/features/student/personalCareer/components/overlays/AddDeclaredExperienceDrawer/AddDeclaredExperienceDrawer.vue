@@ -84,7 +84,7 @@ const activeAccordion = ref(0)
                 <DeclaredExperienceTitleFormField :form="form" />
                 <DeclaredExperienceTypeFormField :form="form" />
                 <DeclaredExperienceOrganizationFormField :form="form" />
-                <div class="av-row av-gap-md">
+                <div class="av-col av-row--md av-gap-md">
                   <div class="av-flex-fill">
                     <DeclaredExperienceActivitySectorFormField :form="form" />
                   </div>

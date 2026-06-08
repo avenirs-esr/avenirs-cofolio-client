@@ -64,7 +64,7 @@ const createdAtPrefixed = computed(() =>
       class="layout-declared-experience-detailed__main av-col av-gap-md av-flex-fill av-justify-between"
       data-testid="layout-declared-experience-detailed__main"
     >
-      <div class="av-row av-gap-md av-align-baseline">
+      <div class="av-col av-row--md av-gap-md av-align-baseline--md">
         <div class="av-flex-fill">
           <DeclaredExperienceTitleInput
             :model-value="title"
@@ -84,7 +84,7 @@ const createdAtPrefixed = computed(() =>
         disabled
       />
 
-      <div class="av-row av-gap-md av-align-baseline">
+      <div class="av-col av-row--md av-gap-md av-align-baseline--md">
         <div class="av-flex-fill">
           <DeclaredExperienceActivitySectorInput
             :model-value="activitySector"
