@@ -282,6 +282,10 @@
         "limit": "{count} / {maxlength} caractères (espaces compris)"
       }
     },
+    "logoutModal": {
+      "description": "Êtes-vous sûr de vouloir vous déconnecter ?",
+      "title": "Déconnexion"
+    },
     "modals": {
       "confirmation": {
         "description": "Toutes les modifications non enregistrées seront perdues.",

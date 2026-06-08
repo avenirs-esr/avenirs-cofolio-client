@@ -7,7 +7,7 @@ const route = useRoute()
 
 function onLoginClick () {
   const intendedPath = typeof route.query.redirect === 'string'
-    ? route.query.redirect
+    ? `/cofolio${route.query.redirect}`
     : `${import.meta.env.BASE_URL}/student/home`
   const redirect = encodeURIComponent(intendedPath)
   window.location.assign(`${__AUTH_LOGIN_URL__}?redirect=${redirect}`)

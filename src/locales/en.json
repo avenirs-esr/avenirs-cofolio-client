@@ -282,6 +282,10 @@
         "limit": "{count} / {maxlength} characters (including spaces)"
       }
     },
+    "logoutModal": {
+      "description": "Are you sure you want to log out?",
+      "title": "Log out"
+    },
     "modals": {
       "confirmation": {
         "description": "Any unsaved changes will be lost.",
