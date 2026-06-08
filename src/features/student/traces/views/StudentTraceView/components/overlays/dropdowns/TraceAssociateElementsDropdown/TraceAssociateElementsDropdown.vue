@@ -23,11 +23,15 @@ const menuItems = computed(() => [
     icon: ICONS.ACTIVITY,
     label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities')
   },
-  {
-    name: TraceAssociateElementsDropdownEvents.EXPERIENCES,
-    icon: ICONS.EXPERIENCES,
-    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.experiences')
-  },
+  ...(
+    __DEMO_MODE__
+      ? []
+      : [{
+          name: TraceAssociateElementsDropdownEvents.EXPERIENCES,
+          icon: ICONS.EXPERIENCES,
+          label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.experiences')
+        }]
+  ),
   {
     name: TraceAssociateElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,
