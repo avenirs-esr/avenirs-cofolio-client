@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-type DeclaredExperienceOrganizationInputProps = Omit<AvInputProps, 'maxlength'>
+type DeclaredExperienceOrganizationInputProps = Omit<InputProps, 'maxlength'>
 
 const {
   label,
@@ -15,7 +16,7 @@ const {
 const modelValue = defineModel<string>()
 const { t } = useI18n()
 
-const avInputProps = computed(() => ({
+const inputProps = computed(() => ({
   ...restProps,
   labelVisible: true,
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceOrganizationInput.label'),
@@ -26,8 +27,8 @@ const avInputProps = computed(() => ({
 </script>
 
 <template>
-  <AvInput
-    v-bind="avInputProps"
+  <Input
+    v-bind="inputProps"
     v-model="modelValue"
   />
 </template>
