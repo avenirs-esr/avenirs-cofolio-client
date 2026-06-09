@@ -4,6 +4,11 @@
       "badges": {
         "feedbackIteration": {
           "label": "Request {iteration}"
+        },
+        "feedbackStatus": {
+          "IN_PROCESS": "unprocessed",
+          "NEW": "New",
+          "SUBMITTED": "Sent"
         }
       },
       "interactions": {
