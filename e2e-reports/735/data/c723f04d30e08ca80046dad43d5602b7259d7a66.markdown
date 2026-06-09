@@ -1,0 +1,206 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Staff" [ref=e10] [cursor=pointer]:
+          - /url: /cofolio/staff
+          - img [ref=e11]
+        - button "Changer d'univers" [ref=e13] [cursor=pointer]:
+          - generic [ref=e16]: Changer d'univers
+      - generic [ref=e18]:
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - button "M. Dupont" [ref=e24] [cursor=pointer]:
+              - generic [ref=e27]: M. Dupont
+        - navigation [ref=e28]:
+          - generic "Sélectionner une langue" [ref=e29]:
+            - button "FR" [ref=e31] [cursor=pointer]:
+              - generic [ref=e34]: FR
+    - navigation "Menu principal" [ref=e38]:
+      - list [ref=e39]:
+        - listitem [ref=e40]:
+          - link "ACCUEIL" [ref=e41] [cursor=pointer]:
+            - /url: /cofolio/staff
+            - generic [ref=e44]: ACCUEIL
+        - listitem [ref=e45]:
+          - link "BIBLIOTHÈQUE DES ACTIVITÉS" [ref=e46] [cursor=pointer]:
+            - /url: /cofolio/staff/activities
+            - generic [ref=e49]: BIBLIOTHÈQUE DES ACTIVITÉS
+  - main [ref=e50]:
+    - generic [ref=e51]:
+      - generic [ref=e53]:
+        - navigation "Fil d'Ariane" [ref=e54]:
+          - list [ref=e56]:
+            - listitem [ref=e57]:
+              - link "Accueil" [ref=e58] [cursor=pointer]:
+                - /url: /cofolio/staff
+            - listitem [ref=e59]:
+              - link "Bibliothèque des activités" [ref=e60] [cursor=pointer]:
+                - /url: /cofolio/staff/activities
+            - listitem [ref=e61]:
+              - generic: Créer mon activité
+        - heading "Créer mon activité" [level=1] [ref=e62]
+      - generic [ref=e64]:
+        - navigation "17b9faa4-c4d6-4119-851d-25c05a377ee4 navigation" [ref=e65]:
+          - button "Collapse button" [expanded] [ref=e67] [cursor=pointer]
+          - menu [ref=e71]:
+            - menuitem "Contenu de l'activité" [ref=e72]:
+              - button "Contenu de l'activité" [ref=e73] [cursor=pointer]:
+                - generic [ref=e78]: Contenu de l'activité
+            - menu [ref=e80]:
+              - menuitem "Titre" [ref=e81]:
+                - button "Titre" [active] [ref=e82] [cursor=pointer]:
+                  - generic [ref=e84]: Titre
+              - menuitem "Thématique" [ref=e85]:
+                - button "Thématique" [ref=e86] [cursor=pointer]:
+                  - generic [ref=e88]: Thématique
+              - menuitem "Consigne" [ref=e89]:
+                - button "Consigne" [ref=e90] [cursor=pointer]:
+                  - generic [ref=e92]: Consigne
+              - menuitem "Contexte(s) de réalisation conseillé(s)" [ref=e93]:
+                - button "Contexte(s) de réalisation conseillé(s)" [ref=e94] [cursor=pointer]:
+                  - generic [ref=e96]: Contexte(s) de réalisation conseillé(s)
+              - menuitem "Documents et liens utiles" [ref=e97]:
+                - button "Documents et liens utiles" [ref=e98] [cursor=pointer]:
+                  - generic [ref=e100]: Documents et liens utiles
+              - menuitem "Déroulé" [ref=e101]:
+                - button "Déroulé" [ref=e102] [cursor=pointer]:
+                  - generic [ref=e104]: Déroulé
+              - menuitem "Modalités" [ref=e105]:
+                - button "Modalités" [ref=e106] [cursor=pointer]:
+                  - generic [ref=e108]: Modalités
+        - generic [ref=e110]:
+          - tablist "Liste d’onglets" [ref=e111]:
+            - tab "Renseigner le contenu" [selected] [ref=e112] [cursor=pointer]:
+              - generic [ref=e115]: Renseigner le contenu
+            - tab "Préparer la publication" [ref=e116] [cursor=pointer]:
+              - generic [ref=e119]: Préparer la publication
+          - tabpanel "Renseigner le contenu" [ref=e120]:
+            - generic [ref=e121]:
+              - generic [ref=e123]:
+                - generic [ref=e129]: Titre de l'activité *
+                - generic [ref=e132]:
+                  - generic [ref=e133]:
+                    - generic [ref=e135]: Titre de l'activité *
+                    - textbox "Titre de l'activité" [ref=e136]: Activité nationale de test
+                  - generic [ref=e137]: 26 / 80 caractères (espaces compris)
+              - generic [ref=e139]:
+                - generic [ref=e145]: Thématique *
+                - generic [ref=e148]:
+                  - generic [ref=e149]:
+                    - generic [ref=e150]: Thématique *
+                    - combobox "Thématique *" [ref=e151] [cursor=pointer]:
+                      - option "Me connaître"
+                      - option "Explorer mes futures"
+                      - option "Mes formations"
+                      - option "Mes expériences"
+                      - option "Mes trajectoires"
+                      - option "CV"
+                      - option "Transverse" [selected]
+                  - status
+              - generic [ref=e154]:
+                - generic [ref=e159]: Consigne
+                - button "Details" [ref=e160] [cursor=pointer]
+              - generic [ref=e165]:
+                - generic [ref=e170]: Contexte(s) de réalisation conseillé(s)
+                - button "Details" [ref=e171] [cursor=pointer]
+              - generic [ref=e175]:
+                - generic [ref=e176]:
+                  - generic [ref=e181]: Modalités
+                  - button "Details" [expanded] [ref=e182] [cursor=pointer]
+                - generic [ref=e185]:
+                  - generic [ref=e186]:
+                    - generic [ref=e188]:
+                      - generic [ref=e192]: Prise de recul
+                      - checkbox "Non" [ref=e193] [cursor=pointer]
+                      - generic [ref=e195] [cursor=pointer]:
+                        - img [ref=e196]
+                        - generic [ref=e198]: Non
+                    - generic [ref=e200]: Lorsque le paramètre est activé, les apprenants peuvent rédiger une prise de recul et associer des éléments dans le cadre de leur activité. En conservant le paramètre de demande de feedback, vous pourrez visualiser les prise de recul lorsqu'ils enverront leurs activités pour feedback.
+                  - generic [ref=e201]:
+                    - generic [ref=e203]:
+                      - generic [ref=e207]: Association de traces
+                      - checkbox "Oui" [checked] [disabled] [ref=e208] [cursor=pointer]
+                      - generic [ref=e210]:
+                        - img [ref=e211]
+                        - generic [ref=e213]: Oui
+                    - generic [ref=e215]: Lorsque le paramètre est activé, les apprenants peuvent associer des traces dans le cadre de leur activité. En limitant le nombre de traces associées vous obligez les apprenants à sélectionner consciencieusement les traces pertinentes dans le contexte de leur activité.
+                  - generic [ref=e216]:
+                    - generic [ref=e218]:
+                      - generic [ref=e222]: Demande de feedback
+                      - checkbox "Oui" [checked] [ref=e223] [cursor=pointer]
+                      - generic [ref=e225] [cursor=pointer]:
+                        - img [ref=e226]
+                        - generic [ref=e228]: Oui
+                    - generic [ref=e230]:
+                      - generic [ref=e231]: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.
+                      - checkbox "Non Autoriser un nombre illimité d'itérations de feedback" [ref=e232] [cursor=pointer]
+                      - generic [ref=e233] [cursor=pointer]:
+                        - generic [ref=e234]:
+                          - img [ref=e235]
+                          - generic [ref=e237]: Non
+                        - generic [ref=e238]: Autoriser un nombre illimité d'itérations de feedback
+                      - generic [ref=e241]:
+                        - generic [ref=e243]: Combien d'itérations maximum ?
+                        - spinbutton "Combien d'itérations maximum ?" [ref=e244]: "2"
+              - generic [ref=e245]:
+                - generic [ref=e246]:
+                  - button "Annuler" [disabled] [ref=e247]:
+                    - generic [ref=e250]: Annuler
+                  - button "Enregistrer pour plus tard" [disabled] [ref=e251]:
+                    - generic [ref=e254]: Enregistrer pour plus tard
+                - button "Étape suivante" [ref=e255] [cursor=pointer]:
+                  - generic [ref=e258]: Étape suivante
+  - contentinfo [ref=e259]:
+    - generic [ref=e261]:
+      - generic [ref=e262]:
+        - link "Logo ANR" [ref=e263] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e264]
+        - link "Logo France 2030" [ref=e265] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e266]
+      - generic [ref=e267]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e268]:
+      - generic [ref=e269]:
+        - img "Logo Cofolio" [ref=e270]
+        - generic [ref=e281]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e282]:
+        - generic [ref=e283]:
+          - generic [ref=e284]: Informations légales
+          - list [ref=e285]:
+            - listitem [ref=e286]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e287] [cursor=pointer]':
+                - /url: /cofolio/staff/accessibility
+            - listitem [ref=e288]:
+              - link "Mentions légales" [ref=e289] [cursor=pointer]:
+                - /url: /cofolio/staff/legal
+            - listitem [ref=e290]:
+              - link "Données personnelles" [ref=e291] [cursor=pointer]:
+                - /url: /cofolio/staff/personal-data
+            - listitem [ref=e292]:
+              - link "Gestion des cookies" [ref=e293] [cursor=pointer]:
+                - /url: /cofolio/staff/cookies
+        - generic [ref=e294]:
+          - generic [ref=e295]: Autres sites
+          - list [ref=e296]:
+            - listitem [ref=e297]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e298] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e299]:
+          - generic [ref=e300]: Partenaires
+          - generic [ref=e301]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e302] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e303]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e304] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e306]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e310] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
