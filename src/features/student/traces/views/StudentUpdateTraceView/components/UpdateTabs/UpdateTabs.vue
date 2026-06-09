@@ -1,32 +1,47 @@
 <script setup lang="ts">
 import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-interface UpdateStepProps {
+interface UpdateTabsProps {
   trace: TraceDetailDTO
-  associations: TraceAssociationsDTO
+  associations?: TraceAssociationsDTO
   form: UpdateTraceFormApi
 }
 
-defineProps<UpdateStepProps>()
+const { trace, associations, form } = defineProps<UpdateTabsProps>()
 
 const { t } = useI18n()
 
-const activeTab = ref(0)
+enum UpdateTabsIndexes {
+  DETAILS = 0,
+  ASSOCIATIONS = 1
+}
+
+const activeTab = useEnumRouteQuery(
+  'tab',
+  UpdateTabsIndexes,
+  UpdateTabsIndexes.DETAILS
+)
+
+const associationCount = computed(() =>
+  (associations?.declaredSkillAssociations?.length ?? 0)
+  + (associations?.declaredActivityAssociations?.length ?? 0)
+)
 </script>
 
 <template>
   <div class="av-col">
     <AvTabs
       v-model="activeTab"
-      compact
+      :lazy-render="false"
     >
       <AvTab
-        :title="t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.update.title')"
+        :title="t('student.traces.views.StudentUpdateTraceView.update.tabs.details')"
         :icon="MDI_ICONS.PENCIL_OUTLINE"
       >
         <UpdateTraceForm
@@ -35,7 +50,7 @@ const activeTab = ref(0)
         />
       </AvTab>
       <AvTab
-        :title="t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.associations.title')"
+        :title="t('student.traces.views.StudentUpdateTraceView.associations', { count: associationCount })"
         :icon="MDI_ICONS.LINK"
       >
         <TraceAssociations
@@ -44,7 +59,7 @@ const activeTab = ref(0)
         >
           <template #caption>
             <span class="caption-regular">
-              {{ t('student.traces.views.StudentUpdateTraceView.steps.update.tabs.associations.caption') }}
+              {{ t('student.traces.views.StudentUpdateTraceView.update.tabs.associations.caption') }}
             </span>
           </template>
         </TraceAssociations>

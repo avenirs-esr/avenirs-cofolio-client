@@ -2,6 +2,7 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import { useDateUtils } from '@/common/composables'
+import { bytesToMegabytes } from '@/common/utils/filesize/filesize'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
@@ -53,8 +54,11 @@ const traceFileUploadLabel = computed(() => {
     return ''
   }
 
-  const uploadDate = formatTranslatedDateTime(trace.attachment?.uploadedAt ?? '')
-  return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate })}`
+  const uploadDate = formatTranslatedDateTime(trace.attachment.uploadedAt)
+
+  const fileSizeInMo = bytesToMegabytes(trace.attachment.fileSize)
+
+  return `${t('global.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate })} - ${fileSizeInMo} ${t('global.megabyteUnit')}`
 })
 
 function handleFileSelected (file: File) {
